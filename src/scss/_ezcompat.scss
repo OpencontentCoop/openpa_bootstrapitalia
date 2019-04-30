@@ -1,0 +1,165 @@
+div.embed {
+  margin: 20px 0;
+}
+
+.block .element, .block .halfelement {
+  float: left;
+  padding-right: 10px;
+}
+
+.block .element input {
+  display: inline-block;
+}
+
+
+.float-break:after {
+  content: "-";
+  height: 0;
+  visibility: hidden;
+  display: block;
+  clear: both;
+}
+
+.float-break {
+  height: 1%;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.break {
+  clear: both;
+}
+
+
+.yui-calcontainer {
+  z-index: 200;
+}
+
+.jsonSuggestResults iframe {
+  height: auto !important;
+  width: auto !important;
+}
+
+.button {
+  @extend .btn;
+  @extend .btn-info;
+  @extend .btn-sm;
+}
+
+li.button a{
+  color: #fff !important;
+}
+
+.defaultbutton {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-sm;
+}
+
+table.list {
+  @extend .table;
+  @extend .table-sm;
+}
+
+.object-left {
+  @extend .float-left;
+  margin: 0 .5em 0 0;
+}
+
+.object-right {
+  @extend .float-right;
+  margin: 0 0 0 0.5em
+}
+
+.object-center {
+  margin: 0 auto;
+}
+
+p.text-left, td.text-left, th.text-left, *.text-left {
+  text-align: left;
+}
+
+p.text-right, td.text-right, th.text-right, *.text-right {
+  text-align: right;
+}
+
+p.text-center, td.text-center, th.text-center, *.text-center {
+  text-align: center;
+}
+
+p.text-justify, td.text-justify, th.text-justify, *.text-justify {
+  text-align: justify;
+}
+
+.message-confirmation,
+.message-feedback,
+.feedback {
+  @extend .alert;
+  @extend .alert-success;
+}
+
+.message-warning,
+.warning {
+  @extend .alert;
+  @extend .alert-warning;
+}
+
+.message-error {
+  @extend .alert;
+  @extend .alert-danger;
+}
+
+.message-confirmation h2,
+.message-feedback h2,
+.feedback h2,
+.message-warning h2,
+.warning h2,
+.message-error h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+/* SPLIT THREE */
+
+div.split {
+  @extend .row;
+}
+
+div.split div.three-left,
+div.split div.three-right,
+div.split div.three-center {
+  @extend .col-md-3;
+}
+
+.spamfilter {
+  display: none
+}
+
+#ezwt{
+  select{width: auto;}
+  a img{vertical-align: top;}
+  *, *:before, *:after{
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
+  }
+}
+
+#ezwt_create_chosen {
+  text-align: left;
+  a.chosen-single{
+    line-height: 28px;
+    height: 28px;
+    margin-top: -10px;
+  }
+}
+
+.btn-xs{
+  @extend .btn-sm;
+}

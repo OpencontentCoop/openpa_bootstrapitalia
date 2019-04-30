@@ -1,5 +1,7 @@
 @import "override-variables";
 @import "bootstrap-italia";
+@import 'font-awesome.scss';
+@import "ezcompat";
 
 .it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper {
   padding-top: 10px;

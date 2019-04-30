@@ -12,12 +12,16 @@ var bootstrapItaliaSrc = {
     in: './node_modules/bootstrap-italia/src/'
 };
 
+var fontAwesomeSrc = {
+    in: './node_modules/font-awesome/'
+};
+
 var bootstrapItaliaDist = {
     in: './node_modules/bootstrap-italia/dist/'
 };
 
 var fonts = {
-    in: [source + 'fonts/*.*', bootstrapItaliaSrc.in + 'fonts/**/*'],
+    in: [source + 'fonts/*.*', bootstrapItaliaSrc.in + 'fonts/**/*', fontAwesomeSrc.in + 'fonts/*.*'],
     out: dest + 'fonts/'
 };
 
@@ -44,7 +48,7 @@ var css = {
         outputStyle: 'nested',
         precision: 8,
         errLogToConsole: true,
-        includePaths: [bootstrapItaliaSrc.in + 'scss']
+        includePaths: [bootstrapItaliaSrc.in + 'scss', fontAwesomeSrc.in + 'scss']
     }
 };
 
