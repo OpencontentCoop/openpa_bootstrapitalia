@@ -1,0 +1,1 @@
+<a target="_blank" href="{'openpa/roles'|ezurl(no)}">Vai a Gestione Ruoli</a>

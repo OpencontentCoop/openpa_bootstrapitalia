@@ -1,0 +1,21 @@
+{
+    "name": "opencontent/openpa_bootstrapitalia-ls",
+    "description": "Opencontent OpenPA Bootstrap Italia",
+    "type": "ezpublish-legacy-extension",
+    "authors": [        
+        {
+            "name": "OpenContent",
+            "homepage": "http://www.opencontent.it"
+        }
+    ],
+    "license": "GPL-2.0",    
+    "minimum-stability": "dev",
+    "require": {
+        "ezsystems/ezpublish-legacy-installer": "*",
+        "opencontent/ocbootstrap-ls": "*",
+        "opencontent/openpa-ls": "*"        
+    },
+    "extra": {
+        "ezpublish-legacy-extension-name": "openpa_bootstrapitalia"
+    }
+}

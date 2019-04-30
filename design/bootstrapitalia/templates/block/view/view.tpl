@@ -1,0 +1,1 @@
+{developer_warning($block.view)}
