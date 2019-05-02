@@ -48,8 +48,8 @@ div.embed {
 
 .button {
   @extend .btn;
-  @extend .btn-info;
-  @extend .btn-sm;
+  @extend .btn-secondary;
+  @extend .btn-xs;
 }
 
 li.button a{
@@ -59,7 +59,7 @@ li.button a{
 .defaultbutton {
   @extend .btn;
   @extend .btn-primary;
-  @extend .btn-sm;
+  @extend .btn-xs;
 }
 
 table.list {
@@ -160,6 +160,6 @@ div.split div.three-center {
   }
 }
 
-.btn-xs{
-  @extend .btn-sm;
+body.floating-wt{
+  padding-top: 55px;
 }

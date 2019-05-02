@@ -1,0 +1,670 @@
+#searchModal {
+  z-index: 1100;
+  padding: 0!important;
+}
+
+#searchModal .modal-dialog{
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  height: 100%;
+}
+
+#searchModal .modal-dialog .modal-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+#searchModal .modal-header {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+
+.modal-header-fullsrc {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.modal-header-fullsrc h1 {
+  font-size: 2.667em;
+  color: #555;
+  font-weight: bold;
+  letter-spacing: 0;
+}
+
+.center-v {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-header-fullsrc .close,
+.modal-header-fullsrc .back {
+  color: $color-primary;
+  opacity: 1;
+  font-size: 1.111em;
+  text-shadow: none;
+  line-height: 0;
+  float: left;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  margin-top: 24px;
+}
+
+.modal-header-fullsrc .close svg.icon,
+.modal-header-fullsrc .back svg.icon {
+  width: 32px;
+  height: 32px;
+  fill: $color-primary;
+}
+
+.modal-header-fullsrc .close:hover, .modal-header-fullsrc .close:focus ,
+.modal-header-fullsrc .back:hover, .modal-header-fullsrc .back:focus,
+.modal-header-fullsrc .close:not(:disabled):not(.disabled):focus,
+.modal-header-fullsrc .close:not(:disabled):not(.disabled):hover {
+  color: $color-primary;
+  opacity: 1;
+}
+
+
+#searchModal .modal-body-search {
+  margin-bottom: 56px;
+}
+
+
+#searchModal .search-filter-dategroup .form-group label {
+  padding: 0;
+  font-size: 1em;
+  font-weight: 300;
+  top: -12px;
+}
+
+#searchModal .modal-body-search .form-group {
+  border-bottom: 1px solid rgba(85,85,85,0.7);
+  height: 56px;
+}
+
+#searchModal #cerca-txt {
+  background: transparent;
+  color: #555555;
+  font-size: 2.222em;
+  padding-left: 48px;
+  font-weight: 300;
+  height: 56px;
+}
+
+#searchModal input::placeholder {color: rgba(85,85,85,0.4);}
+#searchModal input:-ms-input-placeholder {color: rgba(85,85,85,0.4);}
+#searchModal input::-ms-input-placeholder {color: rgba(85,85,85,0.4);}
+
+#searchModal .modal-body-search .form-group .md-whiteframe-1dp,
+#searchModal .modal-body-search .form-group .md-whiteframe-z1 {
+  border:0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+
+#searchModal .modal-body-search .form-group .ico-prefix {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  fill: $color-primary;
+  width: 40px;
+  height: 40px;
+}
+
+#searchModal .modal-body-search .search-start {
+  background: none;
+  color: $color-primary;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.889em;
+  font-weight: 600;
+  border: 0;
+  margin-top:48px;
+  padding: 0;
+}
+
+#searchModal .modal-body-search .search-start:hover {
+  text-decoration: underline;
+}
+
+#searchModal .modal-body-search .search-start svg {
+  fill: $color-primary;
+  width: 22px;
+  height: 22px;
+  margin-right: 8px;
+}
+
+#searchModal .search-filter-dategroup .form-group input {
+  font-weight: 300;
+  color: #9B9B9B;
+  height:56px;
+  border: 0;
+  border-radius: 4px;
+  background-color: #F2F2F2;
+  padding: 16px 24px;
+  font-size: 0.889em;
+}
+
+#searchModal input::placeholder,
+#searchModal input:-ms-input-placeholder,
+#searchModal input::-ms-input-placeholder {
+  color: #9B9B9B;
+  font-size: 0.889em;
+  line-height: 21px;
+}
+
+#searchModal .box-servizi i {
+  color: #D1CFCF;
+  width: 21px;
+  height: 21px;
+  margin: 13px;
+}
+
+#searchModal .form-group {
+  padding: 0;
+}
+
+#searchModal .form-group .ico-sufix {
+  position: absolute;
+  width: 56px;
+  text-align: center;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  vertical-align: middle;
+  background-color: #4E7E5B;
+  color: #fff;
+  border-radius: 0 4px 4px 0;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+#searchModal #opzioniTab .form-check.form-check-group {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#searchModal #opzioniTab .search-filter-dategroup .form-group input {
+  height:40px;
+}
+
+#searchModal #opzioniTab .form-group .ico-sufix {
+  width: 40px;
+}
+
+#searchModal .form-group .ico-sufix svg.icon {
+  width: 26px;
+  height: 26px;
+  fill: #fff;
+}
+
+#searchModal #searchclear {
+  position: absolute;
+  top: 12px;
+  background: transparent;
+  right: 64px;
+  -webkit-appearance: none;
+  border: 0;
+  color: $color-primary;
+  padding: 0;
+  line-height: 0;
+  outline: none;
+}
+
+#searchModal #searchclear svg.icon {
+  width: 32px;
+  height: 32px;
+  fill: $color-primary;
+}
+
+#searchModal .modal-body-search h2 {
+  font-size: 0.889em;
+  color: #796C31;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0;
+
+}
+
+#searchModal .modal-body-search .form-filtro {
+  margin-top: 32px;
+  margin-bottom: 64px;
+}
+
+.form-filtro .btn-trasparente {
+  margin: 0 8px 8px 0;
+  cursor: pointer;
+}
+
+.form-filtro .btn-trasparente:hover,
+.form-filtro .btn-trasparente.active {
+  background-color: #EAF2EC;
+  color: #555 !important;
+  border: 1px solid #EAF2EC;
+}
+
+.form-filtro .btn-trasparente:hover svg.icon,
+.form-filtro .btn-trasparente.active svg.icon {
+  fill: #555 !important;
+}
+
+#searchModal .modal-body-search .form-filtro .btn-trasparente:first-of-type {
+  margin-left: 0;
+}
+
+#searchModal .modal-body-search .btn-badge:hover,
+#searchModal .modal-body-search .btn-badge.active {
+  color:#555;
+}
+
+#searchModal .modal-body-search .badge-argomenti {
+  color: $color-primary;
+  border: 1px solid $color-primary;
+  margin-right: 8px;
+  margin-bottom: 12px;
+  font-size: 0.889em;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+#searchModal .modal-body-search .badge-argomenti:hover,
+#searchModal .modal-body-search .badge-argomenti.active {
+  background-color: #EAF2EC;
+  color:#555;
+  text-decoration: none;
+  border: 1px solid #EAF2EC;
+}
+
+#searchModal .modal-body-search .badge-argomenti.puntini {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+#searchModal .modal-body-search .form-blockopz {
+  margin-bottom: 32px;
+}
+
+#searchModal .modal-body-search .form-blockopz:last-child {
+  margin-bottom: 0;
+}
+
+#searchModal .modal-body-search .form-blockopz ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#searchModal .modal-body-search .form-blockopz ul li {
+  margin: 12px 0;
+}
+
+#searchModal .modal-body-search .form-blockopz ul li a {
+  color: $color-primary;
+  vertical-align: middle;
+  line-height: 1;
+  font-size: 1.111em;
+}
+
+#searchModal .modal-body-search .form-blockopz ul li a svg.icon {
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  fill: $color-primary;
+}
+
+.modal-header-fullsrc .confirm {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  font-size: 0.778em;
+  min-width: 152px;
+}
+
+.modal-header-fullsrc .search-filter-type {
+  max-width: 1184px!important;
+  margin: 24px auto 0;
+}
+
+@media (min-width: 1200px) {
+  .modal-header-fullsrc .search-filter-type {max-width: 1140px;}
+}
+@media (min-width: 992px) {
+  .modal-header-fullsrc .search-filter-type {max-width: 960px;}
+}
+@media (min-width: 768px) {
+  .modal-header-fullsrc .search-filter-type {max-width: 720px;}
+}
+
+.modal-header-fullsrc .nav-tabs {
+  overflow-x: hidden;
+}
+
+.modal-header-fullsrc .nav-tabs li {
+  width: 33.333%;
+  text-align: center;
+}
+
+.modal-header-fullsrc .nav-tabs li a {
+  color: $color-primary;
+  font-size: 1.111em;
+  font-weight: 600;
+  letter-spacing: 1px;
+  display: block;
+  border-bottom: 2px solid transparent;
+  padding: 16px 0;
+}
+
+.modal-header-fullsrc .nav-tabs li a:hover,
+.modal-header-fullsrc .nav-tabs li a.active {
+  color: #796C31;
+  border-bottom: 2px solid #796C31;
+  text-decoration: none;
+}
+
+.search-filter-ckgroup {
+  margin-top: 24px;
+  margin-bottom: 36px;
+  color: $color-primary;
+}
+
+.search-filter-ckgroup .search-filter-ckgroup-title {
+  font-weight: 700;
+}
+
+.search-filter-ckgroup label {
+  margin-bottom: 0;
+}
+
+
+#searchModal #opzioniTab {
+  padding-top: 24px;
+}
+
+#searchModal #opzioniTab p.small {
+  font-weight: 300;
+  font-size: 0.875em;
+  width: 100%;
+  display: block;
+}
+
+#searchModal .toggles label {
+  margin: 0;
+  font-size: 1.125em;
+  font-weight: 600;
+}
+
+#searchModal .toggles label input[type=checkbox]+.lever {
+  margin: 8px 0 16px 0;
+}
+
+#searchModal .toggles label input[type=checkbox]+.lever:after {
+  background-color: #8E8C8C;
+}
+
+#searchModal .toggles label input[type=checkbox]:checked+.lever:after {
+  background-color: #4E7E5B;
+}
+
+#searchModal .search-filter-dategroup {
+  margin-top: 48px;
+}
+
+#searchModal .search-filter-dategroup .form-group {
+  padding: 0;
+}
+
+#searchModal .search-filter-dategroup input {
+  background-color: rgba(242,242,242,1);
+  border-radius: 4px;
+}
+
+#ui-datepicker-div.ui-datepicker {
+  border-radius: 4px;
+  -webkit-box-shadow: 5px 5px 20px 0 rgba(0,0,0,0.1);
+  box-shadow: 5px 5px 20px 0 rgba(0,0,0,0.1);
+  width: auto;
+}
+
+#ui-datepicker-div.ui-widget {
+  font-family: "Titillium Web",Geneva,Tahoma,sans-serif;
+}
+
+
+#ui-datepicker-div.ui-widget.ui-widget-content {
+  border: 0;
+}
+
+#ui-datepicker-div .ui-widget-header {
+  background: none;
+  color: #555555;
+  border: 0;
+  font-size: 1.111em;
+}
+
+#ui-datepicker-div.ui-datepicker table {
+  font-size: 0.889em;
+}
+
+#ui-datepicker-div.ui-datepicker th {
+  color: #796C31;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1em;
+}
+
+#ui-datepicker-div.ui-datepicker td span,
+#ui-datepicker-div.ui-datepicker td a {
+  text-align: center;
+  color: #555555;
+  font-weight: 600;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: transparent;
+  border:1px solid transparent;
+  width: 40px;
+  height: 40px;
+}
+
+#ui-datepicker-div.ui-state-default,
+#ui-datepicker-div .ui-widget-content .ui-state-default,
+#ui-datepicker-div .ui-widget-header .ui-state-default,
+#ui-datepicker-div .ui-button, html .ui-button.ui-state-disabled:hover,
+html #ui-datepicker-div .ui-button.ui-state-disabled:active {
+  border: 0;
+  background: transparent;
+  font-weight: 600;
+  color: #555555;
+  border:1px solid transparent;
+}
+
+#ui-datepicker-div.ui-datepicker td a.ui-state-active,
+#ui-datepicker-div.ui-datepicker .ui-widget-content .ui-state-active,
+#ui-datepicker-div.ui-datepicker .ui-widget-header .ui-state-active,
+#ui-datepicker-div.ui-datepicker a.ui-button:active,
+#ui-datepicker-div.ui-datepicker .ui-button:active,
+#ui-datepicker-div.ui-datepicker .ui-button.ui-state-active:hover,
+#ui-datepicker-div.ui-datepicker .ui-datepicker-calendar .ui-datepicker-today a.ui-state-active {
+  background-color: #4E7E5B;
+  -webkit-box-shadow: 5px 5px 20px 0 rgba(0,0,0,0.1);
+  box-shadow: 5px 5px 20px 0 rgba(0,0,0,0.1);
+  color: #fff;
+}
+
+#ui-datepicker-div .ui-state-hover,
+#ui-datepicker-div .ui-widget-content .ui-state-hover,
+#ui-datepicker-div .ui-widget-header .ui-state-hover,
+#ui-datepicker-div .ui-state-focus,
+#ui-datepicker-div .ui-widget-content .ui-state-focus,
+#ui-datepicker-div .ui-widget-header .ui-state-focus,
+#ui-datepicker-div .ui-button:hover,
+#ui-datepicker-div .ui-button:focus {
+  color: #555555;
+  font-weight: 600;
+  border:1px solid #4E7E5B;
+  border-radius: 50%;
+}
+
+#ui-datepicker-div .ui-widget-header .ui-icon {
+  background: none;
+}
+
+#ui-datepicker-div.ui-datepicker .ui-datepicker-prev,
+#ui-datepicker-div.ui-datepicker .ui-datepicker-next {
+  color: $color-primary !important;
+  font-size: 0.6em;
+  text-align: center;
+  position: absolute;
+  top: 12px;
+  border:1px solid transparent;
+  border-radius: 50%;
+  background: transparent;
+}
+
+#ui-datepicker-div.ui-datepicker .ui-datepicker-prev {
+}
+
+#ui-datepicker-div.ui-datepicker .ui-datepicker-next {
+}
+
+#ui-datepicker-div .ui-datepicker-calendar td.ui-state-disabled {
+  opacity: 1;
+}
+
+#ui-datepicker-div .ui-datepicker-calendar td.ui-state-disabled:before {
+  background: #F5A623;
+  content: "";
+  position: absolute;
+  transform: rotate(45deg);
+  width: 1px;
+  height: 40px;
+  margin-left: 20px;
+}
+
+#ui-datepicker-div .ui-datepicker-calendar td.ui-datepicker-other-month:before {
+  background: none;
+  content: none;
+}
+
+#ui-datepicker-div .ui-datepicker-calendar .ui-datepicker-today a {
+  border:1px solid #4E7E5B;
+  background: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #555;
+}
+
+@media (max-width: 767px) {
+  #searchModal .container{
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .modal-header-fullsrc {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    -webkit-box-shadow: 0 12px 40px 0 rgba(0,0,0,0.06);
+    box-shadow: 0 12px 40px 0 rgba(0,0,0,0.06);
+    margin: 0 0 24px 0;
+  }
+
+  .modal-header-fullsrc h1 {
+    font-size: 1.125em;
+    text-align: center;
+    display: inline-block;
+  }
+
+  .modal-header-fullsrc .confirm {
+    top: 0px;
+    right: 0;
+    left: auto;
+    min-width: 0;
+  }
+  .modal-header-fullsrc .close,
+  .modal-header-fullsrc .back {
+    margin-top: 0;
+    position: absolute;
+    left: 0;
+  }
+
+  .modal-header-fullsrc .close svg.icon,
+  .modal-header-fullsrc .back svg.icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  #searchModal #cerca-txt,
+  #searchModal .search-filter-dategroup .form-group input {
+    height: 40px;
+    font-size: 1em;
+  }
+
+  #searchModal .modal-body-search .form-filtro {
+    margin-top: 24px;
+    margin-bottom: 48px;
+  }
+
+  #searchModal .form-group .ico-sufix {
+    width: 40px;
+  }
+
+  #searchModal .modal-body-search .form-group{
+    height: 40px;
+  }
+
+  #searchModal .modal-body-search .form-group .ico-prefix {
+    width: 24px;
+    height: 24px;
+  }
+
+  #searchModal .modal-body-search .search-start {
+    margin-top: 32px;
+  }
+
+  #searchModal #cerca-txt {
+    padding-left: 40px;
+  }
+
+  #searchModal .modal-body-search .form-blockopz ul li a {
+    font-size: 1em;
+  }
+
+}
+
+@media (max-width: 576px) {
+  .modal-header-fullsrc .pb12 {
+    padding: 0!important;
+  }
+
+  .modal-header-fullsrc h1 {
+    margin-left: 40px;
+  }
+
+  #searchModal .modal-body-search .search-start {
+    margin-top: 24px;
+  }
+
+  #searchModal #cerca-txt {
+    padding-left: 32px;
+  }
+}
+
+#searchModal .form-filtro {
+  .btn-filtro{
+    padding: 5px 10px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+  .icon{
+    vertical-align: middle;
+    fill: $color-primary;
+    width: 20px;
+    height: 20px;
+  }
+}

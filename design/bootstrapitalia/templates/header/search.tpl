@@ -1,0 +1,6 @@
+<div class="it-search-wrapper">
+    <span class="d-none d-md-block">Cerca</span>
+    <a class="search-link rounded-icon" href="#" aria-label="Cerca" data-toggle="modal" data-target="#searchModal">
+        <svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-search"></use></svg>
+    </a>
+</div>

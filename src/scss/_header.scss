@@ -1,0 +1,120 @@
+$header-slim-brand-text-size: 0.9em;
+$header-center-h2-weight: 700;
+
+.it-header-wrapper.it-header-sticky.is-sticky {
+  z-index: 100;
+
+  .it-header-navbar-wrapper {
+    padding-top: 10px;
+
+    .menu-wrapper {
+      .it-brand-wrapper.cloned {
+        a .icon {
+          width: 41px;
+          height: 41px;
+        }
+      }
+
+      .it-search-wrapper a.rounded-icon {
+        width: 24px;
+        height: 24px;
+
+        svg {
+          width: 14px;
+          height: 14px;
+        }
+      }
+    }
+  }
+}
+
+.it-header-slim-wrapper .it-header-slim-wrapper-content {
+  .navbar-brand {
+    font-size: $header-slim-brand-text-size;
+  }
+
+  .nav-mobile ul.link-list {
+    border: none;
+
+    a {
+      font-size: $header-slim-brand-text-size;
+    }
+  }
+
+  .header-slim-right-zone .access-button {
+    background: $header-slim-button-color;
+    padding-top: $header-slim-button-v-padding;
+    padding-bottom: $header-slim-button-v-padding;
+    font-size: $header-slim-brand-text-size;
+
+    &:hover {
+      background: $header-slim-button-hover-color;
+      text-decoration: none;
+    }
+  }
+
+  .dropdown-menu.dropdown-user {
+    top: 0 !important;
+  }
+  a.it-opener {
+    font-size: $header-slim-brand-text-size;
+  }
+}
+
+@media (max-width: #{map-get($grid-breakpoints, lg)}) {
+  .it-header-slim-wrapper .it-header-slim-wrapper-content .nav-mobile ul.link-list a{
+    padding: 0;
+  }
+}
+
+.it-access-top-wrapper {
+  svg.icon {
+    fill: #fff;
+    height: 15px;
+    width: 15px;
+    transform: scale(1.5);
+    margin-right: 5px;
+  }
+
+  span {
+    vertical-align: middle;
+  }
+}
+
+.it-brand-wrapper{
+  .icon.colorize{
+    filter: brightness(100);
+    fill: #fff;
+  }
+  a h2{
+    font-weight: $header-center-h2-weight;
+  }
+}
+
+.navbar-collapsable.expanded{
+  .it-brand-wrapper.cloned {
+    padding-top: 15px;
+    padding-left: 15px;
+    a{
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      h2{
+        font-size: 1.25em;
+        line-height: 1.1;
+        color: $color-primary;
+        letter-spacing: unset;
+      }
+    }
+    .icon {
+      margin-right: 10px;
+      &.colorize {
+        filter: none;
+        fill: $color-primary;
+      }
+    }
+  }
+  .it-search-wrapper.cloned{
+    display: none;
+  }
+}

@@ -26,7 +26,14 @@ var fonts = {
 };
 
 var js = {
-    in: [source + 'js/*.*', bootstrapItaliaDist.in + 'js/*.*'],
+    in: [
+        source + 'js/*.*',
+        bootstrapItaliaDist.in + 'js/*.*',
+        './node_modules/jquery/dist/jquery.js',
+        './node_modules/popper.js/dist/umd/popper.js',
+        './node_modules/owl.carousel/dist/owl.carousel.js',
+
+    ],
     out: dest + 'javascript/'
 };
 
@@ -41,7 +48,7 @@ var assets = {
 };
 
 var css = {
-    in: source + 'scss/main.scss',
+    in: source + 'scss/**/*',
     out: dest + 'stylesheets/',
     watch: source + 'scss/**/*',
     sassOpts: {

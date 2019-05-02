@@ -1,0 +1,19 @@
+.navbar .close-div{
+  left: auto;
+  background: transparent;
+  padding: 15px;
+  .icon{
+    fill: $color-primary;
+  }
+}
+
+.menu-wrapper .dropdown-menu .link-list-wrapper ul li a{
+  white-space: nowrap;
+}
+
+.navbar .navbar-collapsable:not(.expanded) {
+  .navbar-nav li a.nav-link {
+    padding-left: 0;
+    font-weight: 600;
+  }
+}
