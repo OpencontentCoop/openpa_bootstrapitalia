@@ -19927,6 +19927,12 @@ p.text-justify, td.text-justify, th.text-justify, *.text-justify {
 .spamfilter {
   display: none; }
 
+.hide {
+  display: none !important; }
+
+.show {
+  display: block !important; }
+
 .it-header-wrapper.it-header-sticky.is-sticky {
   z-index: 100; }
   .it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper {
