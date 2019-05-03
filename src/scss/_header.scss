@@ -49,7 +49,7 @@ $header-center-h2-weight: 700;
       padding-top: $header-slim-button-v-padding;
       padding-bottom: $header-slim-button-v-padding;
       font-size: $header-slim-brand-text-size;
-
+      -webkit-appearance: none;
       &:hover {
         background: $header-slim-button-hover-color;
         text-decoration: none;

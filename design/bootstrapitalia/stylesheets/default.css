@@ -19973,7 +19973,8 @@ body.floating-wt {
   background: #004080;
   padding-top: 7.5px;
   padding-bottom: 7.5px;
-  font-size: 0.9em; }
+  font-size: 0.9em;
+  -webkit-appearance: none; }
   .it-header-slim-wrapper .it-header-slim-wrapper-content .header-slim-right-zone .access-button:hover {
     background: #004d99;
     text-decoration: none; }
