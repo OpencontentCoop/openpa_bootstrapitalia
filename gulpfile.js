@@ -1,3 +1,5 @@
+// @see https://github.com/andydkcat/customize-bootstrap-sass
+
 var
     gulp = require('gulp'),
     sass = require('gulp-sass'),
@@ -106,3 +108,7 @@ gulp.task(
         'assets'
     )
 );
+
+gulp.task('watch', function() {
+    gulp.watch(css.in, gulp.series('sass'));
+});

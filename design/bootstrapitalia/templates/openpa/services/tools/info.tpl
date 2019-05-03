@@ -129,7 +129,7 @@
         </div>
     {/if}
 
-    {if $openpa.content_globalinfo.has_content}
+    {*if $openpa.content_globalinfo.has_content}
         <div class="col-md-2 text-right text-primary">Global info</div>
         <div class="col-md-10">
             {if $openpa.content_globalinfo.object.parent_node_id|ne( $node.node_id )}
@@ -187,7 +187,7 @@
                 <input type="submit" class="btn btn-xs btn-info" value="Crea un box dedicato" name="NewButton"/>
             </form>
         </div>
-    {/if}
+    {/if*}
 
     {* NEWSLETTER *}
     {if ezmodule('newsletter','subscribe')}

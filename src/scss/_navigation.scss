@@ -1,19 +1,72 @@
-.navbar .close-div{
+.navbar .close-div {
   left: auto;
   background: transparent;
   padding: 15px;
-  .icon{
+
+  .icon {
     fill: $color-primary;
   }
 }
 
-.menu-wrapper .dropdown-menu .link-list-wrapper ul li a{
+.menu-wrapper .dropdown-menu .link-list-wrapper ul li a {
   white-space: nowrap;
 }
 
-.navbar .navbar-collapsable:not(.expanded) {
-  .navbar-nav li a.nav-link {
-    padding-left: 0;
-    font-weight: 600;
+.navbar .navbar-collapsable {
+
+  &.expanded {
+    .it-brand-wrapper.cloned {
+      padding-top: 15px;
+      padding-left: 15px;
+
+      a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+
+        h2 {
+          font-size: 1.25em;
+          line-height: 1.1;
+          color: $color-primary;
+          letter-spacing: unset;
+        }
+      }
+
+      .icon {
+        margin-right: 10px;
+
+        &.colorize {
+          filter: none;
+          fill: $color-primary;
+        }
+      }
+    }
+
+    .it-search-wrapper.cloned {
+      display: none;
+    }
+    .navbar-nav li a.main-nav-link {
+      font-size: 20px;
+      font-weight: 700;
+    }
   }
+
+  &:not(.expanded) {
+    .navbar-nav li a.main-nav-link {
+      padding-left: 0;
+      font-weight: 600;
+    }
+    .icon.colorize {
+      filter: brightness(100);
+      fill: #fff;
+    }
+  }
+}
+
+.theme-light .custom-navbar-toggler svg{
+  fill: $color-primary;
+}
+
+.breadcrumb-container .breadcrumb {
+  padding: 24px 1px;
 }

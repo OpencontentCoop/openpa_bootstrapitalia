@@ -19949,9 +19949,11 @@ body.floating-wt {
   z-index: 100; }
   .it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper {
     padding-top: 10px; }
-    .it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper .menu-wrapper .it-brand-wrapper.cloned a .icon {
-      width: 41px;
-      height: 41px; }
+    .it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper .menu-wrapper .it-brand-wrapper.cloned {
+      align-self: auto; }
+      .it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper .menu-wrapper .it-brand-wrapper.cloned a .icon {
+        width: 30px;
+        height: 30px; }
     .it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper .menu-wrapper .it-search-wrapper a.rounded-icon {
       width: 24px;
       height: 24px; }
@@ -19982,6 +19984,10 @@ body.floating-wt {
 .it-header-slim-wrapper .it-header-slim-wrapper-content a.it-opener {
   font-size: 0.9em; }
 
+.it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content .header-slim-right-zone .access-button, .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content a .icon {
+  color: white;
+  fill: white; }
+
 @media (max-width: 992px) {
   .it-header-slim-wrapper .it-header-slim-wrapper-content .nav-mobile ul.link-list a {
     padding: 0; } }
@@ -19996,33 +20002,16 @@ body.floating-wt {
 .it-access-top-wrapper span {
   vertical-align: middle; }
 
-.it-brand-wrapper .icon.colorize {
+.it-header-center-wrapper .it-header-center-content-wrapper .it-brand-wrapper .icon.colorize {
   filter: brightness(100);
   fill: #fff; }
 
-.it-brand-wrapper a h2 {
+.it-header-center-wrapper .it-header-center-content-wrapper .it-brand-wrapper a h2 {
   font-weight: 700; }
 
-.navbar-collapsable.expanded .it-brand-wrapper.cloned {
-  padding-top: 15px;
-  padding-left: 15px; }
-  .navbar-collapsable.expanded .it-brand-wrapper.cloned a {
-    display: flex;
-    align-items: center;
-    text-decoration: none; }
-    .navbar-collapsable.expanded .it-brand-wrapper.cloned a h2 {
-      font-size: 1.25em;
-      line-height: 1.1;
-      color: #0066cc;
-      letter-spacing: unset; }
-  .navbar-collapsable.expanded .it-brand-wrapper.cloned .icon {
-    margin-right: 10px; }
-    .navbar-collapsable.expanded .it-brand-wrapper.cloned .icon.colorize {
-      filter: none;
-      fill: #0066cc; }
-
-.navbar-collapsable.expanded .it-search-wrapper.cloned {
-  display: none; }
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-brand-wrapper .icon.colorize {
+  filter: none;
+  fill: #0066cc; }
 
 #searchModal {
   z-index: 1100;
@@ -20580,6 +20569,50 @@ html #ui-datepicker-div .ui-button.ui-state-disabled:active {
 .menu-wrapper .dropdown-menu .link-list-wrapper ul li a {
   white-space: nowrap; }
 
-.navbar .navbar-collapsable:not(.expanded) .navbar-nav li a.nav-link {
+.navbar .navbar-collapsable.expanded .it-brand-wrapper.cloned {
+  padding-top: 15px;
+  padding-left: 15px; }
+  .navbar .navbar-collapsable.expanded .it-brand-wrapper.cloned a {
+    display: flex;
+    align-items: center;
+    text-decoration: none; }
+    .navbar .navbar-collapsable.expanded .it-brand-wrapper.cloned a h2 {
+      font-size: 1.25em;
+      line-height: 1.1;
+      color: #0066cc;
+      letter-spacing: unset; }
+  .navbar .navbar-collapsable.expanded .it-brand-wrapper.cloned .icon {
+    margin-right: 10px; }
+    .navbar .navbar-collapsable.expanded .it-brand-wrapper.cloned .icon.colorize {
+      filter: none;
+      fill: #0066cc; }
+
+.navbar .navbar-collapsable.expanded .it-search-wrapper.cloned {
+  display: none; }
+
+.navbar .navbar-collapsable.expanded .navbar-nav li a.main-nav-link {
+  font-size: 20px;
+  font-weight: 700; }
+
+.navbar .navbar-collapsable:not(.expanded) .navbar-nav li a.main-nav-link {
   padding-left: 0;
   font-weight: 600; }
+
+.navbar .navbar-collapsable:not(.expanded) .icon.colorize {
+  filter: brightness(100);
+  fill: #fff; }
+
+.theme-light .custom-navbar-toggler svg {
+  fill: #0066cc; }
+
+.breadcrumb-container .breadcrumb {
+  padding: 24px 1px; }
+
+.it-footer-main h4 span {
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 16px; }
+
+.it-footer-main a {
+  color: white !important; }

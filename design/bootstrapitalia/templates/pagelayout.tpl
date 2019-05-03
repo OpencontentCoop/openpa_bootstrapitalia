@@ -39,7 +39,7 @@
 
     {no_index_if_needed()}
 
-    {def $theme = openpaini('GeneralSettings','theme', 'pac')
+    {def $theme = openpaini('GeneralSettings','theme', 'default')
          $main_content_class = ''
          $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
          $has_sidemenu = cond(and(is_set($module_result.content_info.persistent_variable.has_sidemenu), $module_result.content_info.persistent_variable.has_sidemenu), true(), false())}
@@ -60,7 +60,10 @@ var ModuleResultUri = "{$module_result.uri|wash()}";
 //]]>
 </script>
 
-    {* @todo skiplinks*}
+    <div class="skiplinks">
+        <a class="sr-only sr-only-focusable" href="#main-content">Vai al contenuto principale</a>
+        <a class="sr-only sr-only-focusable" href="#footer">Vai al footer</a>
+    </div>
 
     {include uri='design:page_notifications.tpl'}
 
@@ -77,7 +80,10 @@ var ModuleResultUri = "{$module_result.uri|wash()}";
     {/cache-block}
 
 
-    <div class="{$main_content_class}">
+    <div id="main-content" class="{$main_content_class}">
+        {if and($has_container|not(), $ui_context|eq('navigation'))}
+        <div class="offset-lg-1 col-lg-9 col-md-12">
+        {/if}
 
         {if openpacontext().show_breadcrumb}
         {debug-accumulator id=breadcrumb name=breadcrumb}
@@ -86,6 +92,10 @@ var ModuleResultUri = "{$module_result.uri|wash()}";
         {/if}
 
         {include uri='design:page_mainarea.tpl'}
+
+        {if and($has_container|not(), $ui_context|eq('navigation'))}
+        </div>
+        {/if}
 
     </div>
 

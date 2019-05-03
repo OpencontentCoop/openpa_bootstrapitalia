@@ -54,7 +54,7 @@
   {/foreach}
 {/if}
 
-<div class="it-header-slim-wrapper">
+<div class="it-header-slim-wrapper{* theme-light*}">
     <div class="container">
         <div class="row">
             <div class="col-12">

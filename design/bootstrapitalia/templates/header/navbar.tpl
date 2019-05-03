@@ -13,7 +13,7 @@
     {undef $is_area_tematica}
 {/if}
 
-<div class="it-header-navbar-wrapper">
+<div class="it-header-navbar-wrapper{* theme-light*}">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -52,3 +52,4 @@
     </div>
 </div>
 
+{undef $top_menu_node_ids}

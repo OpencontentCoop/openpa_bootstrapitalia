@@ -6,14 +6,16 @@
 
 {def $is_dropdown = $menu_item.has_children}
 {def $count_children = count($menu_item.children)}
+{def $megamenu_min_items = 12}
+{def $megamenu_max_items = 18}
 
 <li class="nav-item{if $is_dropdown} dropdown{if $count_children|gt(10)} megamenu{/if}{/if}">
-    <a class="nav-link{if $is_dropdown} dropdown-toggle{/if}"
+    <a class="main-nav-link nav-link{if $is_dropdown} dropdown-toggle{/if}"
        data-node="{$menu_item.item.node_id}"
        {if $is_dropdown}data-toggle="dropdown" aria-expanded="false"{/if}
        href="{$href}"
        {if $menu_item.item.target}target="{$menu_item.item.target}"{/if}
-       title="Vai a {$menu_item.item.name|wash()}">
+       title="Vai alla pagina: {$menu_item.item.name|wash()}">
         <span>{$menu_item.item.name|wash()}</span>
         {if $is_dropdown}
             <svg class="icon icon-xs"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-expand"></use></svg>
@@ -21,9 +23,9 @@
     </a>
     {if $is_dropdown}
         <div class="dropdown-menu">
-        {if $count_children|gt(10)}
-            {if $count_children|gt(30)}
-                {set $count_children = 30}
+        {if $count_children|gt($megamenu_min_items)}
+            {if $count_children|gt($megamenu_max_items)}
+                {set $count_children = $megamenu_max_items}
             {/if}
             {def $split = $count_children|div(3)|ceil()}
             <div class="row">
@@ -47,6 +49,16 @@
                                 </li>
                                 {undef $child_href}
                             {/foreach}
+                            {if and($counter|eq(2), count($menu_item.children)|gt($megamenu_max_items))}
+                                <li class="it-more">
+                                    <a class="list-item medium" href="{$href}">
+                                        <span>Vedi tutto</span>
+                                        <svg class="icon icon-sm icon-primary right" aria-hidden="true">
+                                            <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-arrow-right"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                            {/if}
                         </ul>
                     </div>
                 </div>

@@ -11,6 +11,7 @@
         body.className += ' floating-wt';
     else
         body.className = 'floating-wt';
+    $('.it-header-wrapper').removeClass('it-header-sticky is-sticky');
 })();
 //-->
 </script>

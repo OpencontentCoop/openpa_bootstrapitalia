@@ -15,15 +15,6 @@
                     e.preventDefault();
                 });
             }
-            //floating toolbar
-            var body = document.body, ezwt = document.getElementById( 'ezwt-content' );
-            if ( !ezwt ) return;
-            if ( body.className.indexOf('ie6') !== -1 ) return;
-            if ( body.className )
-                body.className += ' floating-wt';
-            else
-                body.className = 'floating-wt';
-            //body.style.paddingTop = ezwt.offsetHeight + 'px';
         });
     });
     {/literal}</script>
