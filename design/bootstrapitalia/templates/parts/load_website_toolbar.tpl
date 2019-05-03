@@ -9,7 +9,11 @@
             var $editorTools = $(".editor_tools");
             if ( $editorTools.length > 0 ){
                 var help = $("#ezwt-help");
-                if ( help.data('show-editor') == 0 ) $editorTools.hide();
+                if ( help.data('show-editor') == 0 ){
+                    $editorTools.hide();
+                }else{
+                    $editorTools.show();
+                }
                 help.removeClass('hide').on( 'click', function(e){
                     $editorTools.toggle();
                     $.ez.setPreference( 'show_editor', $editorTools.is(':hidden') === false ? 1 : 0 );

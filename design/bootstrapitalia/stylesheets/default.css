@@ -20658,3 +20658,18 @@ body.floating-wt {
 
 body.fixed-wt .it-header-wrapper {
   margin-top: 64px; }
+
+#editor_tools .col-md-3, #editor_tools div.split div.three-left, div.split #editor_tools div.three-left,
+#editor_tools div.split div.three-right, div.split #editor_tools div.three-right,
+#editor_tools div.split div.three-center, div.split #editor_tools div.three-center {
+  font-size: .9em;
+  font-weight: bold; }
+
+#editor_tools .col-md-9 {
+  font-size: .9em; }
+
+#editor_tools .btn-secondary, #editor_tools .button {
+  padding: 3px 8px; }
+
+#editor_tools .card::after {
+  margin: 0; }

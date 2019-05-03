@@ -1,7 +1,7 @@
 <div class="row">
 
-    <div class="col-md-2 text-right text-primary">Ultima modifica di:</div>
-    <div class="col-md-10">
+    <div class="col-md-3 text-right text-primary">Ultima modifica di:</div>
+    <div class="col-md-9">
         {if is_set($node.creator.main_node)}
             <a href={$node.creator.main_node.url_alias|ezurl}>{$node.creator.name}</a>
             il {$node.object.modified|l10n(shortdatetime)}
@@ -10,8 +10,8 @@
         {/if}
     </div>
 
-    <div class="col-md-2 text-right text-primary">Creato da:</div>
-    <div class="col-md-10">
+    <div class="col-md-3 text-right text-primary">Creato da:</div>
+    <div class="col-md-9">
         {if and( $node.object.owner, $node.object.owner.main_node )}
             <a href={$node.object.owner.main_node.url_alias|ezurl}>{$node.object.owner.name}</a>
             il {$node.object.published|l10n(shortdatetime)}
@@ -20,14 +20,14 @@
         {/if}
     </div>
 
-    <div class="col-md-2 text-right text-primary">Nodo:</div>
-    <div class="col-md-10">{$node.node_id}</div>
+    <div class="col-md-3 text-right text-primary">Nodo:</div>
+    <div class="col-md-9">{$node.node_id}</div>
 
-    <div class="col-md-2 text-right text-primary">Oggetto</div>
-    <div class="col-md-10">{$node.contentobject_id} ({$node.object.remote_id})</div>
+    <div class="col-md-3 text-right text-primary">Oggetto</div>
+    <div class="col-md-9">{$node.contentobject_id} ({$node.object.remote_id})</div>
 
-    <div class="col-md-2 text-right text-primary">Collocazioni:</div>
-    <div class="col-md-10">
+    <div class="col-md-3 text-right text-primary">Collocazioni:</div>
+    <div class="col-md-9">
         <ul class="list-unstyled">
             {foreach $node.object.assigned_nodes as $item}
                 <li>
@@ -38,19 +38,19 @@
     </div>
 
     {def $sezione = fetch( 'section', 'object', hash( 'section_id', $node.object.section_id ))}
-    <div class="col-md-2 text-right text-primary">Sezione:</div>
-    <div class="col-md-10">
+    <div class="col-md-3 text-right text-primary">Sezione:</div>
+    <div class="col-md-9">
         {$sezione.name|wash}
     </div>
 
-    <div class="col-md-2 text-right text-primary">Tipo:</div>
-    <div class="col-md-10"><a target="_blank"
+    <div class="col-md-3 text-right text-primary">Tipo:</div>
+    <div class="col-md-9"><a target="_blank"
                              href="{concat('openpa/classes/', $node.class_identifier)|ezurl(no)}">{$node.class_name}
             ({$node.class_identifier} {$node.object.contentclass_id})</a></div>
 
     {if $openpa.content_virtual.folder}
-        <div class="col-md-2 text-right text-primary">Folder virtuale:</div>
-        <div class="col-md-10">
+        <div class="col-md-3 text-right text-primary">Folder virtuale:</div>
+        <div class="col-md-9">
             {$openpa.content_virtual.folder.classes|implode(', ')}
             ({foreach $openpa.content_virtual.folder.subtree as $node_id}<a
             href="{concat( 'content/view/full/', $node_id)|ezurl(no)}">{$node_id}</a>{delimiter}, {/delimiter}{/foreach}
@@ -59,15 +59,15 @@
     {/if}
 
     {if and( is_set( $openpa.content_albotelematico ), $openpa.content_albotelematico.is_container )}
-        <div class="col-md-2 text-right text-primary">Albo telematico:</div>
-        <div class="col-md-10">Pagina configurata come contenitore di documenti Albo telematico
+        <div class="col-md-3 text-right text-primary">Albo telematico:</div>
+        <div class="col-md-9">Pagina configurata come contenitore di documenti Albo telematico
             <small>(vengono visualizzati i contenuti figli della collocazione principale)</small>
         </div>
     {/if}
 
     {if $openpa.content_virtual.calendar}
-        <div class="col-md-2 text-right text-primary">Calendario virtuale:</div>
-        <div class="col-md-10">
+        <div class="col-md-3 text-right text-primary">Calendario virtuale:</div>
+        <div class="col-md-9">
             ({foreach $openpa.content_virtual.calendar.subtree as $node_id}<a
             href="{concat( 'content/view/full/', $node_id)|ezurl(no)}">{$node_id}</a>{delimiter}, {/delimiter}{/foreach}
             )
@@ -75,32 +75,32 @@
     {/if}
 
     {if and( is_set( $node.data_map.data_iniziopubblicazione ), $node.data_map.data_iniziopubblicazione.has_content, $node.data_map.data_iniziopubblicazione.content.timestamp|gt(0) )}
-        <div class="col-md-2 text-right text-primary">{$node.data_map.data_iniziopubblicazione.contentclass_attribute_name}</div>
-        <div class="col-md-10">{attribute_view_gui attribute=$node.data_map.data_iniziopubblicazione}</div>
+        <div class="col-md-3 text-right text-primary">{$node.data_map.data_iniziopubblicazione.contentclass_attribute_name}</div>
+        <div class="col-md-9">{attribute_view_gui attribute=$node.data_map.data_iniziopubblicazione}</div>
     {/if}
 
     {if and( is_set( $node.data_map.data_finepubblicazione ), $node.data_map.data_finepubblicazione.has_content, $node.data_map.data_finepubblicazione.content.timestamp|gt(0) )}
-        <div class="col-md-2 text-right text-primary">{$node.data_map.data_finepubblicazione.contentclass_attribute_name}</div>
-        <div class="col-md-10">{attribute_view_gui attribute=$node.data_map.data_finepubblicazione}</div>
+        <div class="col-md-3 text-right text-primary">{$node.data_map.data_finepubblicazione.contentclass_attribute_name}</div>
+        <div class="col-md-9">{attribute_view_gui attribute=$node.data_map.data_finepubblicazione}</div>
     {/if}
 
     {if and( is_set( $node.data_map.data_archiviazione ), $node.data_map.data_archiviazione.has_content, $node.data_map.data_archiviazione.content.timestamp|gt(0) )}
-        <div class="col-md-2 text-right text-primary">{$node.data_map.data_archiviazione.contentclass_attribute_name}</div>
-        <div class="col-md-10">{attribute_view_gui attribute=$node.data_map.data_archiviazione}</div>
+        <div class="col-md-3 text-right text-primary">{$node.data_map.data_archiviazione.contentclass_attribute_name}</div>
+        <div class="col-md-9">{attribute_view_gui attribute=$node.data_map.data_archiviazione}</div>
     {/if}
 
     {def $states = $node.object.allowed_assign_state_list}
     {if $states|count}
-        <div class="col-md-2 text-right text-primary">Stati:</div>
-        <div class="col-md-10">
+        <div class="col-md-3 text-right text-primary">Stati:</div>
+        <div class="col-md-9">
 
             {foreach $states as $allowed_assign_state_info}{foreach $allowed_assign_state_info.states as $state}{if $node.object.state_id_array|contains($state.id)}{$allowed_assign_state_info.group.current_translation.name|wash()}/{$state.current_translation.name|wash}{/if}{/foreach}{delimiter}, {/delimiter}{/foreach}
         </div>
     {/if}
 
     {if $node.object.can_translate}
-        <div class="col-md-2 text-right text-primary">Traduzioni:</div>
-        <div class="col-md-10">
+        <div class="col-md-3 text-right text-primary">Traduzioni:</div>
+        <div class="col-md-9">
             <ul class="list-inline">
                 {foreach $node.object.languages as $language}
                     {if $node.object.available_languages|contains($language.locale)}
@@ -122,7 +122,7 @@
                         <input type="hidden" name="NodeID" value="{$node.node_id}"/>
                         <input type="hidden" name="ContentNodeID" value="{$node.node_id}"/>
                         <input type="hidden" name="ContentObjectLanguageCode" value=""/>
-                        <input type="submit" name="EditButton" class="btn btn-xs btn-info" value="Modifica/inserisci traduzione"/>
+                        <input type="submit" name="EditButton" class="btn btn-xs btn-secondary" value="Modifica/inserisci traduzione"/>
                     </form>
                 </li>
             </ul>
@@ -130,8 +130,8 @@
     {/if}
 
     {*if $openpa.content_globalinfo.has_content}
-        <div class="col-md-2 text-right text-primary">Global info</div>
-        <div class="col-md-10">
+        <div class="col-md-3 text-right text-primary">Global info</div>
+        <div class="col-md-9">
             {if $openpa.content_globalinfo.object.parent_node_id|ne( $node.node_id )}
                 <small>
                     Ereditato da <a
@@ -174,8 +174,8 @@
             </form>
         </div>
     {elseif and( $openpa.content_globalinfo.has_content|not(), $node.can_create)}
-        <div class="col-md-2 text-right text-primary">Global info</div>
-        <div class="col-md-10">
+        <div class="col-md-3 text-right text-primary">Global info</div>
+        <div class="col-md-9">
             <form method="post" action="{"content/action"|ezurl(no)}" class="form inline" style="display:inline">
                 <input type="hidden" name="HasMainAssignment" value="1"/>
                 <input type="hidden" name="ContentObjectID" value="{$node.object.id}"/>
@@ -184,7 +184,7 @@
                 <input type="hidden" name="ContentLanguageCode" value="ita-IT"/>
                 <input type="hidden" name="ContentObjectLanguageCode" value="ita-IT"/>
                 <input type="hidden" value="global_layout" name="ClassIdentifier"/>
-                <input type="submit" class="btn btn-xs btn-info" value="Crea un box dedicato" name="NewButton"/>
+                <input type="submit" class="btn btn-xs btn-secondary" value="Crea un box dedicato" name="NewButton"/>
             </form>
         </div>
     {/if*}
@@ -193,8 +193,8 @@
     {if ezmodule('newsletter','subscribe')}
         {def $newsletter_edition_hash = newsletter_edition_hash()}
         {if and( $node|can_add_to_newsletter(), $newsletter_edition_hash|count()|gt(0) )}
-            <div class="col-md-2 text-right text-primary">Newsletter</div>
-            <div class="col-md-10">
+            <div class="col-md-3 text-right text-primary">Newsletter</div>
+            <div class="col-md-9">
             <form action={concat("/openpa/addlocationto/",$node.contentobject_id)|ezurl} method="post"
                   class="form-inline" style="display:inline">
 
@@ -204,24 +204,24 @@
                             <option value="{$edition_id}">{$edition_name|wash()}</option>
                         {/foreach}
                     </select>
-                    <input class="btn btn-xs btn-default" type="submit" name="AddLocation" value="Aggiungi"/>
+                    <input class="btn btn-xs btn-secondary" type="submit" name="AddLocation" value="Aggiungi"/>
             </form>
             </div>
         {/if}        
         {undef $newsletter_edition_hash}
     {/if}
 
-    <div class="col-md-12 mt-4">
-        <a class="btn btn-xs btn-info" href="{concat('index/object/',$node.contentobject_id)|ezurl(no)}">Controlla
+    <div class="col-md-12 mt-1 text-center">
+        <a class="btn btn-xs btn-secondary" href="{concat('index/object/',$node.contentobject_id)|ezurl(no)}">Controlla
             indicizzazione contenuto</a>
-        <a class="btn btn-xs btn-info" href="{concat('content/history/',$node.contentobject_id)|ezurl(no)}">Gestisci
+        <a class="btn btn-xs btn-secondary" href="{concat('content/history/',$node.contentobject_id)|ezurl(no)}">Gestisci
             versioni</a>
         {if $node.class_identifier|eq('organigramma')}
             <a class="btn btn-xs btn-danger"
                href="{concat('openpa/refreshorganigramma/',$node.contentobject_id)|ezurl(no)}">Aggiorna {$node.class_name}</a>
         {/if}
         {if fetch( 'user', 'has_access_to', hash( 'module', 'classtools', 'function', 'class' ) )}
-            <a class="btn btn-xs btn-info" href="{concat('classtools/extra/',$node.class_identifier)|ezurl(no)}">Impostazioni
+            <a class="btn btn-xs btn-secondary" href="{concat('classtools/extra/',$node.class_identifier)|ezurl(no)}">Impostazioni
                 visualizzazione oggetti {$node.class_name}</a>
         {/if}
     </div>

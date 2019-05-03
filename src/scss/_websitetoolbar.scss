@@ -86,3 +86,19 @@ body.fixed-wt {
     margin-top: 64px;
   }
 }
+
+#editor_tools {
+  .col-md-3{
+    font-size: .9em;
+    font-weight: bold;
+  }
+  .col-md-9{
+    font-size: .9em;
+  }
+  .btn-secondary{
+    padding: 3px 8px;
+  }
+  .card::after {
+    margin: 0;
+  }
+}
