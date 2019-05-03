@@ -4,7 +4,7 @@
         $('#toolbar').load($.ez.url+'call/openpaajax::loadWebsiteToolbar::{/literal}{$node.node_id}{literal}', null, function(response){
             //load chosen in class list
             $("#ezwt-create").chosen({width:"250px"});
-            //load editor tootl button
+            //load editor tools button
             var $editorTools = $(".editor_tools");
             if ( $editorTools.length > 0 ){
                 var help = $("#ezwt-help");

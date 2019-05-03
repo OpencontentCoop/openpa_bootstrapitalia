@@ -146,6 +146,7 @@
 <script>{literal}
     $(document).ready(function(){
         var trimmedPrefix = UriPrefix.replace(/~+$/g,"");
+        if(trimmedPrefix === '/') trimmedPrefix = '';
         var spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
         var login = $('[data-login-top-button]');
         login.find('a').attr('href', login.find('a').attr('href') + '?url='+ ModuleResultUri);

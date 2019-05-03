@@ -206,8 +206,8 @@
                     </select>
                     <input class="btn btn-xs btn-default" type="submit" name="AddLocation" value="Aggiungi"/>
             </form>
-        {/if}
-        </div>
+            </div>
+        {/if}        
         {undef $newsletter_edition_hash}
     {/if}
 
