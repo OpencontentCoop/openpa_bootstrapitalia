@@ -71,6 +71,7 @@ var ModuleResultUri = "{$module_result.uri|wash()}";
     {include uri='design:page_toolbar.tpl'}
     {/debug-accumulator}
 
+    {if and(openpacontext().is_edit|not(),openpacontext().is_browse|not())}
     {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $extra_cache_key )}
     {debug-accumulator id=page_header_and_offcanvas_menu name=page_header_and_offcanvas_menu}
         {def $pagedata = openpapagedata()}
@@ -78,6 +79,7 @@ var ModuleResultUri = "{$module_result.uri|wash()}";
         {undef $pagedata}
     {/debug-accumulator}
     {/cache-block}
+    {/if}
 
 
     <div id="main-content" class="{$main_content_class}">

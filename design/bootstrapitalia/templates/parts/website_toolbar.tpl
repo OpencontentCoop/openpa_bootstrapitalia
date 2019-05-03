@@ -17,170 +17,178 @@
      $node_hint = ': '|append( $current_node.name|wash(), ' [', $content_object.content_class.name|wash(), ']' ) }
 
      {foreach $policies as $policy}
-        {if and( eq( $policy.moduleName, 'websitetoolbar' ),
-                    eq( $policy.functionName, 'use' ),
-                        is_array( $policy.limitation ) )}
+        {if and( eq( $policy.moduleName, 'websitetoolbar' ),eq( $policy.functionName, 'use' ),is_array( $policy.limitation ) )}
             {if $policy.limitation[0].values_as_array|contains( $content_object.content_class.id )}
                 {set $available_for_current_class = true()}
             {/if}
-        {elseif or( and( eq( $policy.moduleName, '*' ),
-                             eq( $policy.functionName, '*' ),
-                                 eq( $policy.limitation, '*' ) ),
-                    and( eq( $policy.moduleName, 'websitetoolbar' ),
-                             eq( $policy.functionName, '*' ),
-                                 eq( $policy.limitation, '*' ) ),
-                    and( eq( $policy.moduleName, 'websitetoolbar' ),
-                             eq( $policy.functionName, 'use' ),
-                                 eq( $policy.limitation, '*' ) ) )}
+        {elseif or( and( eq( $policy.moduleName, '*' ),eq( $policy.functionName, '*' ),eq( $policy.limitation, '*' ) ),
+                    and( eq( $policy.moduleName, 'websitetoolbar' ),eq( $policy.functionName, '*' ),eq( $policy.limitation, '*' ) ),
+                    and( eq( $policy.moduleName, 'websitetoolbar' ),eq( $policy.functionName, 'use' ),eq( $policy.limitation, '*' ) ) )}
             {set $available_for_current_class = true()}
         {/if}
      {/foreach}
 
 {if and( $website_toolbar_access, $available_for_current_class )}
-<!-- eZ website toolbar: START -->
 
-<div id="ezwt">
-<div id="ezwt-content" class="float-break">
+<form method="post" action="{"content/action"|ezurl(no)}">
+    <nav class="toolbar" id="ezwt">
+        <ul class="d-flex flex-nowrap">
 
-<!-- eZ website toolbar content: START -->
+            {if and( $content_object.can_create, $is_container )}
+                {def $can_create_class_list = $content_object.can_create_class_list}
+                {if $can_create_class_list|count()}
+                <li>
+                    <div class="input-group">
+                        <select name="ClassID" id="ezwt-create" class="custom-select" data-placeholder="{"Create here"||i18n('design/admin/node/view/full')}">
+                            <option></option>
+                            {foreach $can_create_class_list as $class}
+                                <option value="{$class.id}">{$class.name|wash}</option>
+                            {/foreach}
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-create" type="submit" name="NewButton" title="{'Create here'|i18n('design/standard/parts/website_toolbar')}">
+                                <i class="fa fa-plus-circle"></i>
+                                <span class="toolbar-label">Crea</span>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                <li class="toolbar-divider" aria-hidden="true"></li>
+                {/if}
+                <input type="hidden" name="ContentLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
+            {/if}
 
-{include uri='design:parts/websitetoolbar/logo.tpl'}
+            {if $content_object.can_edit}
+                <input type="hidden" name="ContentObjectLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
+                <li>
+                    <button class="btn" type="submit" name="EditButton" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
+                        <i class="fa fa-pencil"></i>
+                        <span class="toolbar-label">Modifica</span>
+                    </button>
+                </li>
+            {/if}
 
-<form method="post" action={"content/action"|ezurl}>
+            {if $content_object.can_move}
+                <li>
+                    <button class="btn" type="submit" name="MoveNodeButton" title="{'Move'|i18n('design/standard/parts/website_toolbar')}{$node_hint}">
+                        <i class="fa fa-arrows"></i>
+                        <span class="toolbar-label">Sposta</span>
+                    </button>
+                </li>
+            {/if}
 
-{if and( $content_object.can_create, $is_container )}
-<div id="ezwt-creataction" class="ezwt-actiongroup">
-<label for="ezwt-create" class="hide">Create:</label>
-    {def $can_create_class_list = $content_object.can_create_class_list}
-    {if $can_create_class_list|count()}
-        <select name="ClassID" id="ezwt-create" data-placeholder="{"Create here"||i18n('design/admin/node/view/full')}">
-            <option></option>
-            {foreach $can_create_class_list as $class}
-                <option value="{$class.id}">{$class.name|wash}</option>
-            {/foreach}
-        </select>
-    {/if}
-  <input type="hidden" name="ContentLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
-  <input class="ezwt-input-image" type="image" src={"websitetoolbar/ezwt-icon-create.png"|ezimage} name="NewButton" title="{'Create here'|i18n('design/standard/parts/website_toolbar')}" />
-</div>
-{/if}
+            {if $content_object.can_remove}
+                <li>
+                    <button class="btn" type="submit" name="ActionRemove" title="{'Remove'|i18n('design/standard/parts/website_toolbar')}{$node_hint}">
+                        <i class="fa fa-trash"></i>
+                        <span class="toolbar-label">Elimina</span>
+                    </button>
+                </li>
+            {/if}
 
-<div id="ezwt-currentpageaction" class="ezwt-actiongroup">
+            {if $can_manage_location}
+                {if and( $can_manage_location, ne( $current_node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), ne( $current_node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), ne( $current_node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}
+                    <li>
+                        <button class="btn" type="submit" name="AddAssignmentButton" title="{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}">
+                            <i class="fa fa-map-marker"></i>
+                            <span class="toolbar-label">Colloca</span>
+                        </button>
+                    </li>
+                {/if}
+            {/if}
 
-{if $content_object.can_edit}
-    <input type="hidden" name="ContentObjectLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
-    <input class="ezwt-input-image" type="image" src={"websitetoolbar/ezwt-icon-edit.png"|ezimage} name="EditButton" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}" />
-{/if}
+            <li>
+                <a href="{concat( "websitetoolbar/sort/", $current_node.node_id )|ezurl(no)}" title="{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}">
+                    <i class="fa fa-sort-alpha-asc"></i>
+                    <span class="toolbar-label">Ordina</span>
+                </a>
+            </li>
 
-{if $content_object.can_move}
-    <input class="ezwt-input-image" type="image" src={"websitetoolbar/ezwt-icon-move.png"|ezimage} name="MoveNodeButton" title="{'Move'|i18n('design/standard/parts/website_toolbar')}{$node_hint}" />
-{/if}
+            <li class="toolbar-divider" aria-hidden="true"></li>
 
-{if $content_object.can_remove}
-    <input class="ezwt-input-image" type="image" src={"websitetoolbar/ezwt-icon-remove.png"|ezimage} name="ActionRemove" title="{'Remove'|i18n('design/standard/parts/website_toolbar')}{$node_hint}" />
-{/if}
+            {* Custom templates inclusion *}
+            <li>
+                <div class="dropdown">
+                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-h"></i>
+                        <span class="toolbar-label">Altro</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
+                        <div class="link-list-wrapper">
+                            <ul class="link-list">
+                            {def $avoid_replication = array()}
+                            {foreach $custom_templates as $custom_template}
+                                {if $avoid_replication|contains($custom_template)}
+                                    {skip}
+                                {/if}
+                                {set $avoid_replication = $avoid_replication|append($custom_template)}
+                                {if is_set( $include_in_view[$custom_template] )}
+                                    {def $views = $include_in_view[$custom_template]|explode( ';' )}
+                                    {if $views|contains( 'full' )}
+                                        {include uri=concat( 'design:parts/websitetoolbar/', $custom_template, '.tpl' )}
+                                    {/if}
+                                    {undef $views}
+                                {/if}
+                            {/foreach}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
 
-{if $can_manage_location}
-    {if and( $can_manage_location, ne( $current_node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), ne( $current_node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), ne( $current_node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}
-        <input class="ezwt-input-image" type="image" src={"websitetoolbar/ezwt-icon-locations.png"|ezimage} name="AddAssignmentButton" title="{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}" />
-    {else}
-        <input class="ezwt-input-image disabled" type="image" src={"websitetoolbar/ezwt-icon-locations-disabled.png"|ezimage} name="AddAssignmentButton" title="{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}" disabled="disabled" />
-    {/if}
-{/if}
+            <input type="hidden" name="HasMainAssignment" value="1" />
+            <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+            <input type="hidden" name="NodeID" value="{$current_node.node_id}" />
+            <input type="hidden" name="ContentNodeID" value="{$current_node.node_id}" />
+            {* If a translation exists in the siteaccess' sitelanguagelist use default_language, otherwise let user select language to base translation on. *}
+            {def $avail_languages = $content_object.available_languages
+               $default_language = $content_object.default_language}
+            {if and( $avail_languages|count|ge( 1 ), $avail_languages|contains( $default_language ) )}
+            {set $content_object_language_code = $default_language}
+            {else}
+            {set $content_object_language_code = ''}
+            {/if}
+            <input type="hidden" name="ContentObjectLanguageCode" value="{$content_object_language_code}" />
 
-<a href={concat( "websitetoolbar/sort/", $current_node.node_id )|ezurl()} title="{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}"><img src={"websitetoolbar/ezwt-icon-sort.png"|ezimage} alt="{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}" /></a>
-</div>
+            <li class="toolbar-divider" aria-hidden="true"></li>
 
-<div id="ezwt-miscaction" class="ezwt-actiongroup">
-{* Custom templates inclusion *}
-{def $avoid_replication = array()}
-{foreach $custom_templates as $custom_template}
-    {if $avoid_replication|contains($custom_template)}
-        {skip}
-    {/if}
-    {set $avoid_replication = $avoid_replication|append($custom_template)}
-    {if is_set( $include_in_view[$custom_template] )}
-        {def $views = $include_in_view[$custom_template]|explode( ';' )}
-        {if $views|contains( 'full' )}
-            {include uri=concat( 'design:parts/websitetoolbar/', $custom_template, '.tpl' )}
-        {/if}
-        {undef $views}
-    {/if}
-{/foreach}
+            {if ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )}{* has_access_to_limitation('user', 'login', hash('SiteAccess', '<!-- SiteAccessName -->')) *}
+                <li>
+                    <a class="btn" href="{ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )|explode('user/login')[0]}{$current_node.url_alias}" target="_blank" title="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}">
+                        <i class="fa fa-wrench"></i>
+                        <span class="toolbar-label">Admin</span>
+                    </a>
+                </li>
+            {/if}
 
-  <input type="hidden" name="HasMainAssignment" value="1" />
-  <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-  <input type="hidden" name="NodeID" value="{$current_node.node_id}" />
-  <input type="hidden" name="ContentNodeID" value="{$current_node.node_id}" />
-  {* If a translation exists in the siteaccess' sitelanguagelist use default_language, otherwise let user select language to base translation on. *}
-  {def $avail_languages = $content_object.available_languages
-       $default_language = $content_object.default_language}
-  {if and( $avail_languages|count|ge( 1 ), $avail_languages|contains( $default_language ) )}
-    {set $content_object_language_code = $default_language}
-  {else}
-    {set $content_object_language_code = ''}
-  {/if}
-  <input type="hidden" name="ContentObjectLanguageCode" value="{$content_object_language_code}" />
+            {if openpaini( 'WebsiteToolbar', 'ShowMediaRoot', 'enabled' )|eq('enabled')}
+            <li>
+                <a class="btn" href="{concat('content/view/full/',ezini('NodeSettings', 'MediaRootNode', 'content.ini'))|ezurl(no)}">
+                    <i class="fa fa-image"></i>
+                    <span class="toolbar-label">Media</span>
+                </a>
+            </li>
+            {/if}
+            {if openpaini( 'WebsiteToolbar', 'ShowUsersRoot', 'enabled' )|eq('enabled')}
+            <li>
+                <a class="btn" href="{concat('content/view/full/',ezini('NodeSettings', 'UserRootNode', 'content.ini'))|ezurl(no)}">
+                    <i class="fa fa-users"></i>
+                    <span class="toolbar-label">Utenti</span>
+                </a>
+            </li>
+            {/if}
 
-{if ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )}{* has_access_to_limitation('user', 'login', hash('SiteAccess', '<!-- SiteAccessName -->')) *}
-    <a href="{ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )|explode('user/login')[0]}{$current_node.url_alias}" target="_blank" title="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}"><img src={"websitetoolbar/ezwt-icon-admin.png"|ezimage} alt="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}" /></a>
-{/if}
+            <li class="toolbar-divider" aria-hidden="true"></li>
 
-{if openpaini( 'WebsiteToolbar', 'ShowMediaRoot', 'enabled' )|eq('enabled')}
-  <a href="{concat('content/view/full/',ezini('NodeSettings', 'MediaRootNode', 'content.ini'))|ezurl(no)}" class="btn btn-default btn-xs" style="vertical-align: super;">Media</a>
-{/if}
-{if openpaini( 'WebsiteToolbar', 'ShowUsersRoot', 'enabled' )|eq('enabled')}
-  <a href="{concat('content/view/full/',ezini('NodeSettings', 'UserRootNode', 'content.ini'))|ezurl(no)}" class="btn btn-default btn-xs" style="vertical-align: super;">Utenti</a>
-{/if}
+            <li>
+                <a class="btn hide" href="#" id="ezwt-help" data-show-editor="{if is_set($show_editor)}{$show_editor}{else}1{/if}">
+                    <i class="fa fa-info-circle"></i>
+                    <span class="toolbar-label">Info</span>
+                </a>
+            </li>
 
-</div>
+        </ul>
+    </nav>
 </form>
-
-{def $disable_oo=true()}
-{if $odf_display_classes|contains( $content_object.content_class.identifier )}
-    {set $disable_oo=false()}
-{/if}
-
-{if $disable_oo|not}
-<div id="ezwt-ooaction" class="ezwt-actiongroup">
-
-{if $odf_import_access}
-<form method="post" action={"/ezodf/import/"|ezurl} class="right">
-  <input type="hidden" name="ImportType" value="replace" />
-  <input type="hidden" name="NodeID" value="{$current_node.node_id}" />
-  <input type="hidden" name="ObjectID" value="{$content_object.id}" />
-  <input type="image" class="ezwt-input-image" src={"websitetoolbar/ezwt-icon-replace.png"|ezimage} name="ReplaceAction" title="{'Replace'|i18n('design/standard/parts/website_toolbar')}" />
-</form>
-{/if}
-{if $odf_export_access}
-<form method="post" action={"/ezodf/export/"|ezurl} class="right">
-  <input type="hidden" name="NodeID" value="{$current_node.node_id}" />
-  <input type="hidden" name="ObjectID" value="{$content_object.id}" />
-  <input type="image" class="ezwt-input-image" src={"websitetoolbar/ezwt-icon-export.png"|ezimage} name="ExportAction" title="{'Export'|i18n('design/standard/parts/website_toolbar')}" />
-</form>
-{/if}
-
-{if and( $content_object.content_class.is_container,
-            $odf_hide_container_classes|contains( $content_object.content_class.identifier )|not(),
-                $odf_import_access )}
-<form method="post" action={"/ezodf/import/"|ezurl} class="right">
-  <input type="hidden" name="NodeID" value="{$current_node.node_id}" />
-  <input type="hidden" name="ObjectID" value="{$content_object.id}" />
-  <input type="image" class="ezwt-input-image" src={"websitetoolbar/ezwt-icon-import.png"|ezimage} name="ImportAction" title="{'Import'|i18n('design/standard/parts/website_toolbar')}" />
-</form>
-{/if}
-
-</div>
-{/if}
-
-
-{include uri='design:parts/websitetoolbar/help.tpl'}
-
-<!-- eZ website toolbar content: END -->
-
-</div>
-</div>
-
-<!-- eZ website toolbar: END -->
 
 {/if}

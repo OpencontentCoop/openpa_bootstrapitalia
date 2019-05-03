@@ -140,26 +140,3 @@ div.split div.three-center {
 .spamfilter {
   display: none
 }
-
-#ezwt{
-  select{width: auto;}
-  a img{vertical-align: top;}
-  *, *:before, *:after{
-    box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    -webkit-box-sizing: content-box;
-  }
-}
-
-#ezwt_create_chosen {
-  text-align: left;
-  a.chosen-single{
-    line-height: 28px;
-    height: 28px;
-    margin-top: -10px;
-  }
-}
-
-body.floating-wt{
-  padding-top: 55px;
-}

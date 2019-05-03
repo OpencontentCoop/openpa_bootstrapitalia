@@ -4,13 +4,7 @@
 <!--
 (function()
 {
-    var body = document.body, ezwt = document.getElementById( 'ezwt' );
-    if ( !ezwt ) return;
-
-    if ( body.className )
-        body.className += ' floating-wt';
-    else
-        body.className = 'floating-wt';
+    $('body').addClass('floating-wt');
     $('.it-header-wrapper').removeClass('it-header-sticky is-sticky');
 })();
 //-->

@@ -2819,7 +2819,8 @@ hr {
   border-top: 1px solid rgba(0, 0, 0, 0.1); }
 
 small,
-.small {
+.small,
+.toolbar#ezwt .list-item.left-icon {
   font-size: 0.777rem;
   font-weight: 400; }
 
@@ -7870,7 +7871,7 @@ button.bg-900:focus {
 .flex-shrink-1 {
   flex-shrink: 1 !important; }
 
-.justify-content-start {
+.justify-content-start, .toolbar#ezwt > ul {
   justify-content: flex-start !important; }
 
 .justify-content-end {
@@ -8035,7 +8036,7 @@ button.bg-900:focus {
     justify-content: flex-start !important; }
   .justify-content-md-end {
     justify-content: flex-end !important; }
-  .justify-content-md-center {
+  .justify-content-md-center, .toolbar#ezwt > ul {
     justify-content: center !important; }
   .justify-content-md-between {
     justify-content: space-between !important; }
@@ -10114,12 +10115,14 @@ strong {
   font-weight: 600; }
 
 small,
-.small {
+.small,
+.toolbar#ezwt .list-item.left-icon {
   font-size: 0.9375rem;
   font-weight: 400; }
   @media (min-width: 576px) {
     small,
-    .small {
+    .small,
+    .toolbar#ezwt .list-item.left-icon {
       font-size: 0.8888rem; } }
 
 .x-small {
@@ -19924,27 +19927,6 @@ p.text-justify, td.text-justify, th.text-justify, *.text-justify {
 .spamfilter {
   display: none; }
 
-#ezwt select {
-  width: auto; }
-
-#ezwt a img {
-  vertical-align: top; }
-
-#ezwt *, #ezwt *:before, #ezwt *:after {
-  box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box; }
-
-#ezwt_create_chosen {
-  text-align: left; }
-  #ezwt_create_chosen a.chosen-single {
-    line-height: 28px;
-    height: 28px;
-    margin-top: -10px; }
-
-body.floating-wt {
-  padding-top: 55px; }
-
 .it-header-wrapper.it-header-sticky.is-sticky {
   z-index: 100; }
   .it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper {
@@ -20348,7 +20330,7 @@ body.floating-wt {
 #searchModal #opzioniTab {
   padding-top: 24px; }
 
-#searchModal #opzioniTab p.small {
+#searchModal #opzioniTab p.small, #searchModal #opzioniTab .toolbar#ezwt p.list-item.left-icon, .toolbar#ezwt #searchModal #opzioniTab p.list-item.left-icon {
   font-weight: 300;
   font-size: 0.875em;
   width: 100%;
@@ -20617,3 +20599,55 @@ html #ui-datepicker-div .ui-button.ui-state-disabled:active {
 
 .it-footer-main a {
   color: white !important; }
+
+.toolbar#ezwt {
+  height: auto; }
+  .toolbar#ezwt > ul {
+    height: auto;
+    min-height: 64px;
+    position: fixed; }
+  .toolbar#ezwt > ul > li {
+    flex: none;
+    padding-bottom: 5px;
+    margin: 0 10px; }
+    .toolbar#ezwt > ul > li.toolbar-divider {
+      height: 30px; }
+  .toolbar#ezwt li:not(.publish-buttons) .btn, .toolbar#ezwt li:not(.publish-buttons) .button, .toolbar#ezwt li:not(.publish-buttons) .defaultbutton {
+    padding: 0 4px !important; }
+  .toolbar#ezwt .btn-create {
+    border-bottom: none;
+    padding-left: 5px; }
+  .toolbar#ezwt .chosen-container {
+    align-self: center;
+    text-align: left; }
+  .toolbar#ezwt #ezwt_create_chosen a.chosen-single {
+    margin-top: 0;
+    border-radius: 0;
+    background: none;
+    line-height: 40px;
+    height: 40px; }
+  .toolbar#ezwt select#ezwt-create {
+    max-width: 200px; }
+  .toolbar#ezwt .chosen-container-single .chosen-single div b {
+    background-position-y: 10px; }
+  .toolbar#ezwt .btn i.fa, .toolbar#ezwt .button i.fa, .toolbar#ezwt .defaultbutton i.fa {
+    font-size: 26px;
+    margin-bottom: 0; }
+  .toolbar#ezwt .left-icon i.fa {
+    margin-right: 5px; }
+  .toolbar#ezwt .toolbar-label {
+    margin-top: 0; }
+  .toolbar#ezwt .list-item.left-icon {
+    white-space: nowrap;
+    padding: 0 24px !important; }
+  .toolbar#ezwt.edit-toolbar {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0; }
+
+body.floating-wt {
+  padding-top: 64px; }
+
+body.fixed-wt .it-header-wrapper {
+  margin-top: 64px; }

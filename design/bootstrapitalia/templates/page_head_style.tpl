@@ -6,6 +6,5 @@
     'controls-audio.css',
     'dataTables.bootstrap.css',
     'plugins/chosen.css',
-    'debug.css',
-    'websitetoolbar.css'
+    'debug.css'
 ) )}

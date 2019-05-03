@@ -1,1 +1,1 @@
-<div id="toolbar" class="hidden-xs"></div>
+<div id="toolbar"></div>
