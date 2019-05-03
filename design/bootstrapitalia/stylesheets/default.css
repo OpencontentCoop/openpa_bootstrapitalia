@@ -20601,7 +20601,8 @@ html #ui-datepicker-div .ui-button.ui-state-disabled:active {
   color: white !important; }
 
 .toolbar#ezwt {
-  height: auto; }
+  height: auto;
+  overflow: hidden; }
   .toolbar#ezwt > ul {
     height: auto;
     min-height: 64px;

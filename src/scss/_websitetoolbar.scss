@@ -1,5 +1,6 @@
 .toolbar#ezwt {
   height: auto;
+  overflow: hidden;
 
   > ul {
     @extend .justify-content-start;
