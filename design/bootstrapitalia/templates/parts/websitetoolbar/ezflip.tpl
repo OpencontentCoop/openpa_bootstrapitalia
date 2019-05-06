@@ -1,4 +1,4 @@
-{if ezini('FlipConvertAll','Classes','ezflip.ini')|contains($content_object.class_identifier)}
+{if and(ezmodule('flip','enqueue'), ezini('FlipConvertAll','Classes','ezflip.ini')|contains($content_object.class_identifier))}
 {foreach $content_object.data_map as $identifier => $attribute}
     {if and( ezini('FlipConvertAll','Attributes','ezflip.ini')|contains($identifier),
              $attribute.data_type_string|eq( 'ezbinaryfile' ),

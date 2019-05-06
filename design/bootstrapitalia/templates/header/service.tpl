@@ -141,7 +141,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <script>{literal}
     $(document).ready(function(){
@@ -191,4 +191,5 @@
     {/literal}
 </script>
 
+</div>
 {undef $header_service $header_service_list $is_area_tematica $header_links $current_language $available_languages $lang_selector $avail_translation}

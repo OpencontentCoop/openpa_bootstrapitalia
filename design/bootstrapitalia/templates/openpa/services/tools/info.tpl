@@ -211,20 +211,6 @@
         {undef $newsletter_edition_hash}
     {/if}
 
-    <div class="col-md-12 mt-1 text-center">
-        <a class="btn btn-xs btn-secondary" href="{concat('index/object/',$node.contentobject_id)|ezurl(no)}">Controlla
-            indicizzazione contenuto</a>
-        <a class="btn btn-xs btn-secondary" href="{concat('content/history/',$node.contentobject_id)|ezurl(no)}">Gestisci
-            versioni</a>
-        {if $node.class_identifier|eq('organigramma')}
-            <a class="btn btn-xs btn-danger"
-               href="{concat('openpa/refreshorganigramma/',$node.contentobject_id)|ezurl(no)}">Aggiorna {$node.class_name}</a>
-        {/if}
-        {if fetch( 'user', 'has_access_to', hash( 'module', 'classtools', 'function', 'class' ) )}
-            <a class="btn btn-xs btn-secondary" href="{concat('classtools/extra/',$node.class_identifier)|ezurl(no)}">Impostazioni
-                visualizzazione oggetti {$node.class_name}</a>
-        {/if}
-    </div>
 
 </div>
 

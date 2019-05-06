@@ -13,7 +13,7 @@
 
         <li>
             <button class="btn" type="submit" name="VersionsButton" title="{'Manage versions'|i18n('design/standard/content/edit')}">
-                <svg class="icon icon-sm"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-copy"></use></svg>
+                <i class="fa fa-history"></i>
                 <span class="toolbar-label">{'Manage versions'|i18n('design/standard/content/edit')}</span>
             </button>
         </li>

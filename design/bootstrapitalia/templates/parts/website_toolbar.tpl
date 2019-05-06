@@ -97,12 +97,14 @@
                 {/if}
             {/if}
 
+            {if $is_container}
             <li>
                 <a href="{concat( "websitetoolbar/sort/", $current_node.node_id )|ezurl(no)}" title="{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}">
                     <i class="fa fa-sort-alpha-asc"></i>
                     <span class="toolbar-label">Ordina</span>
                 </a>
             </li>
+            {/if}
 
             <li class="toolbar-divider" aria-hidden="true"></li>
 
@@ -116,25 +118,79 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
                         <div class="link-list-wrapper">
                             <ul class="link-list">
-                            {def $avoid_replication = array()}
-                            {foreach $custom_templates as $custom_template}
-                                {if $avoid_replication|contains($custom_template)}
-                                    {skip}
-                                {/if}
-                                {set $avoid_replication = $avoid_replication|append($custom_template)}
-                                {if is_set( $include_in_view[$custom_template] )}
-                                    {def $views = $include_in_view[$custom_template]|explode( ';' )}
-                                    {if $views|contains( 'full' )}
-                                        {include uri=concat( 'design:parts/websitetoolbar/', $custom_template, '.tpl' )}
-                                    {/if}
-                                    {undef $views}
-                                {/if}
-                            {/foreach}
+                                {include uri='design:parts/websitetoolbar/openpa_copy_object.tpl'}
+                                {include uri='design:parts/websitetoolbar/versions.tpl'}
+                                {include uri='design:parts/websitetoolbar/object_states.tpl'}
+                                {include uri='design:parts/websitetoolbar/reindex.tpl'}
+                                {include uri='design:parts/websitetoolbar/classtools.tpl'}
+                                {include uri='design:parts/websitetoolbar/refreshorgnigramma.tpl'}
+                                {include uri='design:parts/websitetoolbar/ckan_push.tpl'}
+                                {include uri='design:parts/websitetoolbar/ezflip.tpl'}
+                                {include uri='design:parts/websitetoolbar/ngpush.tpl'}
+                                <li><span class="divider"></span></li>
+                                {include uri='design:parts/websitetoolbar/openpa_menu.tpl'}
                             </ul>
                         </div>
                     </div>
                 </div>
             </li>
+
+            <li class="toolbar-divider" aria-hidden="true"></li>
+
+            <li>
+                <a class="btn" href="#" id="ezwt-help" data-toggle="modal" data-target="#editor_tools">
+                    <i class="fa fa-info-circle"></i>
+                    <span class="toolbar-label">Info</span>
+                </a>
+            </li>
+
+            {if or(
+                ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' ),
+                openpaini( 'WebsiteToolbar', 'ShowMediaRoot', 'enabled' )|eq('enabled'),
+                openpaini( 'WebsiteToolbar', 'ShowUsersRoot', 'enabled' )|eq('enabled'),
+                and(fetch( 'user', 'has_access_to', hash( 'module', 'newsletter', 'function', 'index' ) ), ezmodule('newsletter','subscribe'))
+            )}
+            <li class="toolbar-divider" aria-hidden="true"></li>
+            <li>
+                <div class="dropdown">
+                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-link"></i>
+                        <span class="toolbar-label">Amministra</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
+                        <div class="link-list-wrapper">
+                            <ul class="link-list">
+                                {if ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )}{* has_access_to_limitation('user', 'login', hash('SiteAccess', '<!-- SiteAccessName -->')) *}
+                                    <li>
+                                        <a class="list-item left-icon" href="{ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )|explode('user/login')[0]}{$current_node.url_alias}" target="_blank" title="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}">
+                                            <i class="fa fa-wrench"></i>
+                                            Backend
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if openpaini( 'WebsiteToolbar', 'ShowMediaRoot', 'enabled' )|eq('enabled')}
+                                    <li>
+                                        <a class="list-item left-icon" href="{concat('content/view/full/',ezini('NodeSettings', 'MediaRootNode', 'content.ini'))|ezurl(no)}">
+                                            <i class="fa fa-image"></i>
+                                            Media
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if openpaini( 'WebsiteToolbar', 'ShowUsersRoot', 'enabled' )|eq('enabled')}
+                                    <li>
+                                        <a class="list-item left-icon" href="{concat('content/view/full/',ezini('NodeSettings', 'UserRootNode', 'content.ini'))|ezurl(no)}">
+                                            <i class="fa fa-users"></i>
+                                            Utenti
+                                        </a>
+                                    </li>
+                                {/if}
+                                {include uri='design:parts/websitetoolbar/cjw_newsletter.tpl'}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            {/if}
 
             <input type="hidden" name="HasMainAssignment" value="1" />
             <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
@@ -149,43 +205,6 @@
             {set $content_object_language_code = ''}
             {/if}
             <input type="hidden" name="ContentObjectLanguageCode" value="{$content_object_language_code}" />
-
-            <li class="toolbar-divider" aria-hidden="true"></li>
-
-            {if ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )}{* has_access_to_limitation('user', 'login', hash('SiteAccess', '<!-- SiteAccessName -->')) *}
-                <li>
-                    <a class="btn" href="{ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )|explode('user/login')[0]}{$current_node.url_alias}" target="_blank" title="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}">
-                        <i class="fa fa-wrench"></i>
-                        <span class="toolbar-label">Admin</span>
-                    </a>
-                </li>
-            {/if}
-
-            {if openpaini( 'WebsiteToolbar', 'ShowMediaRoot', 'enabled' )|eq('enabled')}
-            <li>
-                <a class="btn" href="{concat('content/view/full/',ezini('NodeSettings', 'MediaRootNode', 'content.ini'))|ezurl(no)}">
-                    <i class="fa fa-image"></i>
-                    <span class="toolbar-label">Media</span>
-                </a>
-            </li>
-            {/if}
-            {if openpaini( 'WebsiteToolbar', 'ShowUsersRoot', 'enabled' )|eq('enabled')}
-            <li>
-                <a class="btn" href="{concat('content/view/full/',ezini('NodeSettings', 'UserRootNode', 'content.ini'))|ezurl(no)}">
-                    <i class="fa fa-users"></i>
-                    <span class="toolbar-label">Utenti</span>
-                </a>
-            </li>
-            {/if}
-
-            <li class="toolbar-divider" aria-hidden="true"></li>
-
-            <li>
-                <a class="btn hide" href="#" id="ezwt-help" data-show-editor="{if is_set($show_editor)}{$show_editor}{else}1{/if}">
-                    <i class="fa fa-info-circle"></i>
-                    <span class="toolbar-label">Info</span>
-                </a>
-            </li>
 
         </ul>
     </nav>
