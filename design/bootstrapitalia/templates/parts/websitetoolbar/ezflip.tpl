@@ -8,7 +8,7 @@
                href="{concat("/flip/enqueue/", $attribute.id, '/', $attribute.version, '/', cond( flip_exists( $attribute.id, $attribute.version  ), 1, 0 ))|ezurl(no)}"
                title='Flip file "{$attribute.content.original_filename}"'>
                 <i class="fa fa-book"></i>
-                Sfogliabile
+                Rendi sfogliabile il file
             </a>
         </li>
     {/if}
