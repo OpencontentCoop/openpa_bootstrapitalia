@@ -42,6 +42,8 @@
     {def $theme = openpaini('GeneralSettings','theme', 'default')
          $main_content_class = ''
          $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
+         $has_section_menu = cond(is_set($module_result.content_info.persistent_variable.has_section_menu), true(), false())
+         $wide_container = cond(is_set($module_result.content_info.persistent_variable.wide_container), true(), false())
          $has_sidemenu = cond(and(is_set($module_result.content_info.persistent_variable.has_sidemenu), $module_result.content_info.persistent_variable.has_sidemenu), true(), false())}
 
     {if $has_container|not()}
@@ -62,6 +64,9 @@ var ModuleResultUri = "{$module_result.uri|wash()}";
 
     <div class="skiplinks">
         <a class="sr-only sr-only-focusable" href="#main-content">Vai al contenuto principale</a>
+        {if $has_section_menu}
+            <a class="sr-only sr-only-focusable" href="#section-menu">Vai al menu di sezione</a>
+        {/if}
         <a class="sr-only sr-only-focusable" href="#footer">Vai al footer</a>
     </div>
 
@@ -81,29 +86,19 @@ var ModuleResultUri = "{$module_result.uri|wash()}";
     {/cache-block}
     {/if}
 
-
-    <div id="main-content" class="{$main_content_class}">
-        {if and($has_container|not(), $ui_context|eq('navigation'))}
-        <div class="offset-lg-1 col-lg-9 col-md-12">
-        {/if}
-
-        {if openpacontext().show_breadcrumb}
+    {if openpacontext().show_breadcrumb}
+    <section class="breadcrumb-container container my-4">
+    {if $wide_container|not()}<div class="offset-lg-1 col-lg-9 col-md-12">{/if}
         {debug-accumulator id=breadcrumb name=breadcrumb}
-            {include uri='design:breadcrumb.tpl' path_array=openpacontext().path_array}
+        {include uri='design:breadcrumb.tpl' path_array=openpacontext().path_array}
         {/debug-accumulator}
-        {/if}
-
-        {include uri='design:page_mainarea.tpl'}
-
-        {if and($has_container|not(), $ui_context|eq('navigation'))}
-        </div>
-        {/if}
-
-    </div>
-
-    {if is_set($module_result.content_info.persistent_variable.valuation)}
-        {* @todo valuation *}
+    {if $wide_container|not()}</div>{/if}
+    </section>
     {/if}
+
+    <main id="main-content"{if $main_content_class|ne('')} class="{$main_content_class}"{/if}>
+        {include uri='design:page_mainarea.tpl'}
+    </main>
 
     {if and(openpacontext().is_login_page|not(), openpacontext().is_edit|not())}
     {debug-accumulator id=page_footer name=page_footer}

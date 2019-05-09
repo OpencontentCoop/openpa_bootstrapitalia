@@ -82,6 +82,9 @@ body.floating-wt{
   padding-top: 64px;
 }
 body.fixed-wt {
+  .it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper{
+    top: 64px;
+  }
   .it-header-wrapper {
     margin-top: 64px;
   }

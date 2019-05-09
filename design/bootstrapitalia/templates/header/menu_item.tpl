@@ -4,13 +4,13 @@
     {def $href = $menu_item.item.url}
 {/if}
 
-{def $is_dropdown = $menu_item.has_children}
+{def $is_dropdown = cond(and($show_children, $menu_item.has_children), true(), false())}
 {def $count_children = count($menu_item.children)}
 {def $megamenu_min_items = 12}
 {def $megamenu_max_items = 18}
 
 <li class="nav-item{if $is_dropdown} dropdown{if $count_children|gt(10)} megamenu{/if}{/if}">
-    <a class="main-nav-link nav-link{if $is_dropdown} dropdown-toggle{/if}"
+    <a class="main-nav-link nav-link{if $is_dropdown} dropdown-toggle{/if} text-truncate"
        data-node="{$menu_item.item.node_id}"
        {if $is_dropdown}data-toggle="dropdown" aria-expanded="false"{/if}
        href="{$href}"

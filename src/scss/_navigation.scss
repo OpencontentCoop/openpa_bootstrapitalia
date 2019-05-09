@@ -52,10 +52,6 @@
   }
 
   &:not(.expanded) {
-    .navbar-nav li a.main-nav-link {
-      padding-left: 0;
-      font-weight: 600;
-    }
     .icon.colorize {
       filter: brightness(100);
       fill: #fff;

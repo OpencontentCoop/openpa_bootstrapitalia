@@ -1,3 +1,6 @@
+
+$image-path: "../images/" !default;
+
 @import "override-variables";
 @import "bootstrap-italia";
 @import 'font-awesome.scss';
@@ -7,3 +10,5 @@
 @import "navigation";
 @import "footer";
 @import "websitetoolbar";
+@import "scheda";
+@import "sections";

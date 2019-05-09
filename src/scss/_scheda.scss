@@ -1,0 +1,273 @@
+$scheda-border-radius: 4px !default;
+$scheda-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
+$scheda-border-color: #ECEFF1;
+
+.scheda {
+  border: 1px solid $scheda-border-color;
+  position: relative;
+  margin-bottom: 16px;
+
+  &.scheda-round {
+    border-radius: $scheda-border-radius;
+  }
+
+  &.scheda-shadow {
+    box-shadow: $scheda-shadow;
+  }
+
+  &:not(.scheda-sm) {
+    .scheda-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #EAF2EC;
+      margin: 16px 24px 10px 24px;
+      text-align: center;
+      vertical-align: middle;
+      line-height: 43px;
+
+      svg.icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      span {
+        display: none;
+      }
+
+      &:hover {
+        span {
+          display: block;
+          position: absolute;
+          margin-top: -40px;
+          left: 82px;
+          letter-spacing: 1px;
+          font-size: 0.778em;
+          text-transform: uppercase;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .scheda-image {
+      position: relative;
+    }
+
+    .scheda-text {
+      padding: 16px 24px 16px 24px;
+      font-size: 0.889em;
+
+      h4 {
+        font-weight: bold;
+        margin: 0 0 8px 0;
+        line-height: 1.1;
+      }
+
+      p {
+        line-height: 24px;
+      }
+    }
+  }
+
+  &.scheda-sm {
+    .scheda-icon {
+      letter-spacing: 1px;
+      font-size: 0.778em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 16px 24px 0 24px;
+      margin-bottom: 10px;
+
+      svg.icon {
+        width: 22px;
+        height: 22px;
+        margin-right: 4px;
+      }
+
+      span {
+        display: inline;
+      }
+    }
+
+    .scheda-image {
+      position: relative;
+    }
+
+    .scheda-text {
+      padding: 10px 24px 16px 24px;
+      font-size: 0.889em;
+
+      h4 {
+        font-size: 1.111em;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      p {
+        font-size: 0.889em;
+      }
+    }
+
+  }
+
+  .scheda-footer {
+    padding: 10px 24px 16px 24px;
+  }
+
+
+  h5 {
+    font-size: 0.778em;
+    font-weight: 600;
+  }
+
+  &.scheda-banner {
+    display: flex;
+    flex-flow: row;
+    align-items: stretch;
+    padding: 0;
+    font-size: 0.889em;
+    text-decoration: none;
+
+    .scheda-text {
+      order: 1;
+      flex: 1 1 auto;
+      font-size: 1em;
+      padding: 10px;
+
+      h4 {
+        font-size: 1em;
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+
+    .scheda-icon {
+      order: 0;
+      margin: 0;
+      background: none;
+      flex: 1 1 auto;
+      align-self: center;
+      text-align: center;
+      padding: 10px 0 10px 10px;
+      width: 74px;
+      height: auto;
+      max-width: 74px;
+
+      svg.icon {
+        width: 64px;
+        height: 64px;
+      }
+
+      span {
+        display: none !important;
+      }
+    }
+
+    .scheda-image {
+      order: 2;
+      flex: 1 1 33%;
+      margin: 0;
+      min-width: 130px;
+      position: relative;
+
+      img, figure {
+        height: 100%;
+        position: relative;
+        object-fit: cover;
+      }
+    }
+
+    .scheda-footer {
+      order: 4;
+      padding: 5px;
+      flex: 3 1 100%;
+      border-top: 1px solid $scheda-border-color;
+    }
+  }
+
+  &.scheda-banner.scheda-sm {
+    .scheda-icon {
+      flex: 0 1 auto;
+      align-self: start;
+      text-align: center;
+      margin-top: 2px;
+      width: 32px;
+
+      svg.icon {
+        width: 22px;
+        height: 22px;
+        margin-right: 4px;
+      }
+    }
+  }
+
+  .scheda-date {
+    height: 80px;
+    width: 80px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1), 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    color: $dark;
+    text-align: center;
+    font-size: .889em;
+    font-weight: 600;
+    line-height: 1.3;
+    padding: 12px 0;
+    text-transform: capitalize;
+
+    strong {
+      font-size: 1.667em;
+      font-weight: 700;
+      display: block;
+    }
+  }
+
+  .read-more {
+    color: $secondary;
+    font-size: 0.778em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    display: inline-block;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+
+  .read-more:not([href]):not([tabindex]),
+  .read-more:not([href]):not([tabindex]):focus,
+  .read-more:not([href]):not([tabindex]):hover {
+    color: $secondary;
+  }
+
+  .read-more svg.icon {
+    vertical-align: bottom;
+    width: 18px;
+    height: 20px;
+    fill: $secondary;
+  }
+
+  @each $color, $value in $theme-colors {
+      &.scheda-hover-background-#{$color}:hover {
+        background-color: #{$value};
+      }
+  }
+  &.scheda-hover-background-white:hover {
+    background-color: white;
+  }
+
+  @each $color, $value in $theme-colors {
+    &.scheda-hover-color-#{$color}:hover *{
+      color: #{$value};
+      fill: #{$value};
+    }
+  }
+  &.scheda-hover-color-white:hover {
+    color: white;
+    fill: white;
+  }
+
+}

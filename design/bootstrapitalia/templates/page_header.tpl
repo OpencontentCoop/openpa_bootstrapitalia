@@ -1,4 +1,4 @@
-<div class="it-header-wrapper it-header-sticky">
+<header class="it-header-wrapper it-header-sticky">
 
     {include uri='design:header/service.tpl'}
 
@@ -20,4 +20,4 @@
         </div>
         {include uri='design:header/navbar.tpl'}
     </div>
-</div>
+</header>

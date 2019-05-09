@@ -10,7 +10,7 @@
                         {if $index|lt(count(openpacontext().path_array))}<span class="separator">/</span>{/if}
                     </li>
                 {else}
-                    <li class="breadcrumb-item active text-truncate" aria-current="page">
+                    <li class="breadcrumb-item active text-truncate" aria-current="page" style="max-width: 200px">
                         <a href="#">{$path.text|wash}</a>
                         {if $index|lt(count(openpacontext().path_array))}<span class="separator">/</span>{/if}
                     </li>

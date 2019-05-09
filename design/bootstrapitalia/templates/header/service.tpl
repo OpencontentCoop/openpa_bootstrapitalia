@@ -61,7 +61,7 @@
                 <div class="it-header-slim-wrapper-content">
                     {if $header_service_list|count()|gt(0)}
                         {foreach $header_service_list as $item}
-                            <a class="d-none d-lg-block navbar-brand" href="{$item.url}"><strong>{$item.name|wash()}</strong></a>
+                            <a class="d-none d-lg-block navbar-brand" href="{$item.url}">{$item.name|wash()}</a>
                         {/foreach}
                         <div class="nav-mobile">
                             <nav>
@@ -130,10 +130,9 @@
                             </div>
                         </div>
                         {/if}
-                        <div class="it-access-top-wrapper d-none d-sm-flex">
+                        <div class="it-access-top-wrapper">
                             <a data-login-top-button class="access-button btn btn-primary btn-sm" href="{"/user/login"|ezurl(no)}" type="button" title="Esegui il login al sito" style="display: none;">
-                                <svg class="icon d-none d-md-inline-block"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-user"></use></svg>
-                                <span>Accedi con il tuo account</span>
+                                <span>Accedi</span>
                             </a>
                         </div>
                     </div>

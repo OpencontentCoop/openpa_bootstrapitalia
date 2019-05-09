@@ -127,6 +127,7 @@
                                 {include uri='design:parts/websitetoolbar/ckan_push.tpl'}
                                 {include uri='design:parts/websitetoolbar/ezflip.tpl'}
                                 {include uri='design:parts/websitetoolbar/ngpush.tpl'}
+                                {include uri='design:parts/websitetoolbar/ezmultiupload.tpl'}
                                 <li><span class="divider"></span></li>
                                 {include uri='design:parts/websitetoolbar/openpa_menu.tpl'}
                             </ul>

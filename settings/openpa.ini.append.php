@@ -1,0 +1,6 @@
+<?php /*
+
+[ViewSettings]
+AvailableView[]=card
+
+*/ ?>
