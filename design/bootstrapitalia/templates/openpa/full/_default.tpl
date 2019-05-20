@@ -1,4 +1,6 @@
 {ezpagedata_set( 'has_container', true() )}
+{ezpagedata_set( 'narrow_container', true() )}
+
 <div class="class-{$node.class_identifier} container my-4">
     <div class="offset-lg-1 col-lg-9 col-md-12">
 

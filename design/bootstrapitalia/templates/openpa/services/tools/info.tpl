@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row mb-3">
 
     <div class="col-md-3 text-right text-primary">Ultima modifica di:</div>
     <div class="col-md-9">
@@ -31,7 +31,7 @@
         <ul class="list-unstyled">
             {foreach $node.object.assigned_nodes as $item}
                 <li>
-                    <a href={$item.url_alias|ezurl()}>{$item.path_with_names}</a> {if $item.node_id|eq($node.object.main_node_id)}(principale){/if}
+                    <a href={$item.url_alias|ezurl()}><small>{$item.path_with_names} {if $item.node_id|eq($node.object.main_node_id)}(principale){/if}</small></a>
                 </li>
             {/foreach}
         </ul>
@@ -195,16 +195,19 @@
         {if and( $node|can_add_to_newsletter(), $newsletter_edition_hash|count()|gt(0) )}
             <div class="col-md-3 text-right text-primary">Newsletter</div>
             <div class="col-md-9">
-            <form action={concat("/openpa/addlocationto/",$node.contentobject_id)|ezurl} method="post"
-                  class="form-inline" style="display:inline">
+            <form action={concat("/openpa/addlocationto/",$node.contentobject_id)|ezurl} method="post">
 
-                <label for="add_to_newsletter">Aggiungi alla prossima newsletter:</legend>
-                    <select name="SelectedNodeIDArray[]" id="add_to_newsletter" class="form-control">
+                <label for="add_to_newsletter">Aggiungi alla prossima newsletter:</label>
+                <div class="input-group">
+                    <select name="SelectedNodeIDArray[]" id="add_to_newsletter" class="custom-select">
                         {foreach $newsletter_edition_hash as $edition_id => $edition_name}
                             <option value="{$edition_id}">{$edition_name|wash()}</option>
                         {/foreach}
                     </select>
-                    <input class="btn btn-xs btn-secondary" type="submit" name="AddLocation" value="Aggiungi"/>
+                    <div class="input-group-append">
+                        <input class="btn btn-xs btn-secondary" type="submit" name="AddLocation" value="Aggiungi"/>
+                    </div>
+                </div>
             </form>
             </div>
         {/if}        

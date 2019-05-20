@@ -1,4 +1,5 @@
 {ezpagedata_set( 'has_container', true() )}
+{ezpagedata_set( 'narrow_container', true() )}
 
 {def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.control_menu.side_menu.root_node.node_id, 'user_hash', $openpa.control_menu.side_menu.user_hash, 'scope', 'side_menu' ))
      $show_left = cond(count( $tree_menu.children )|gt(0), true(), false())}
@@ -18,7 +19,13 @@
                         {attribute_view_gui attribute=$node|attribute('abstract')}
                     {/if}
 
+                    {if $node.children_count|gt(0)}
                     {include uri='design:openpa/full/parts/search_form.tpl' current_node=$node}
+                    {/if}
+
+                    {if $node|has_attribute('description')}
+                        {attribute_view_gui attribute=$node|attribute('description')}
+                    {/if}
 
                 </div>
             </div>

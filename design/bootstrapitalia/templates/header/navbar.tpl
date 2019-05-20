@@ -44,6 +44,7 @@
                                 {undef $tree_menu}
                             {/foreach}
                             </ul>
+                            {if count($top_menu_node_ids)|gt(0)}
                             <ul class="navbar-nav navbar-secondary">
                                 <li class="nav-item">
                                     <a class="nav-link text-truncate" href="#">
@@ -61,6 +62,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            {/if}
                         </div>
                     </div>
                 </nav>

@@ -10,7 +10,7 @@
         {$menu_item.item.name|wash()}
     </a>
 
-    {if and($max_recursion|lt($recursion), $menu_item.has_children)}
+    {if and($max_recursion|gt($recursion), $menu_item.has_children)}
         {set $recursion = $recursion|inc()}
         <ul>
             {foreach $menu_item.children as $child}

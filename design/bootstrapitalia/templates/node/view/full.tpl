@@ -16,3 +16,4 @@
 {if and( openpaini('GeneralSettings','valutation', 1), $homepage.node_id|ne($node.node_id), $node.class_identifier|ne('frontpage'), $node.class_identifier|ne('homepage') ) }
     {include name=valuation node_id=$node.node_id uri='design:openpa/valuation.tpl'}
 {/if}
+{undef $openpa}
