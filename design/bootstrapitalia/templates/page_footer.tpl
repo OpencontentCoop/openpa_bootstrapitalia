@@ -28,27 +28,25 @@
 
             <section class="py-4 border-white border-top">
                 <div class="row">
-                    <div class="col-lg-4 col-md-4 pb-2">
-                        <h4><span>{'Contacts'|i18n('openpa/footer')}</span></h4>
-                        {include uri='design:footer/contacts.tpl'}
-                    </div>
-                    <div class="col-lg-4 col-md-4 pb-2">
+                    <div class="col-lg-3 col-md-3 pb-2">
                         {def $footer_notes = fetch( 'openpa', 'footer_notes' )}
                         <h4><span>{'Informations'|i18n('openpa/footer')}</span></h4>
                         {attribute_view_gui attribute=$footer_notes}
                         {undef $footer_notes}
                     </div>
-                    <div class="col-lg-4 col-md-4 pb-2">
-                        <div class="pb-2">
-                            <h4><span>{'Follow us'|i18n('openpa/footer')}</span></h4>
-                            {include uri='design:footer/social.tpl'}
-                        </div>
-                        {if ezmodule('newsletter','subscribe')}
-                        <div class="pb-2">
-                            <h4><span>Newsletter</span></h4>
-                            {include uri='design:footer/newsletter_subscribe.tpl'}
-                        </div>
-                        {/if}
+                    <div class="{if ezmodule('newsletter','subscribe')}col-lg-3 col-md-3{else}col-lg-6 col-md-6{/if} pb-2">
+                        <h4><span>{'Contacts'|i18n('openpa/footer')}</span></h4>
+                        {include uri='design:footer/contacts.tpl'}
+                    </div>
+                    {if ezmodule('newsletter','subscribe')}
+                    <div class="col-lg-3 col-md-3 pb-2">
+                        <h4><span>Newsletter</span></h4>
+                        {include uri='design:footer/newsletter_subscribe.tpl'}
+                    </div>
+                    {/if}
+                    <div class="col-lg-3 col-md-3 pb-2">
+                        <h4><span>{'Follow us'|i18n('openpa/footer')}</span></h4>
+                        {include uri='design:footer/social.tpl'}
                     </div>
                 </div>
             </section>
