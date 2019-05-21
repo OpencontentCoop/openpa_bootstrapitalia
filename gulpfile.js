@@ -17,7 +17,8 @@ const
 // source and distribution folder
 const
     source = 'src/',
-    dest = 'design/bootstrapitalia/';
+    dest = 'design/bootstrapitalia/',
+    standardDest = 'design/standard/';
 
 const bootstrapItaliaSrc = {
     in: './node_modules/bootstrap-italia/'
@@ -83,7 +84,7 @@ const js = {
 
 const svg = {
     in: [source + 'svg/*.*', bootstrapItaliaSrc.in + 'dist/svg/*.*'],
-    out: dest + 'images/svg/'
+    out: standardDest + 'images/svg/'
 };
 
 const assets = {

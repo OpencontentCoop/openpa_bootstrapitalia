@@ -1,3 +1,15 @@
+{def $top_menu_node_ids = array()}
+{def $is_area_tematica = is_area_tematica()}
+{if and($is_area_tematica, $is_area_tematica|has_attribute('link_al_menu_orizzontale'))}
+    {set $top_menu_node_ids = array()}
+    {foreach $is_area_tematica|attribute('link_al_menu_orizzontale').content.relation_list as $item}
+        {set $top_menu_node_ids = $top_menu_node_ids|append($item.node_id)}
+    {/foreach}
+{else}
+    {set $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )}
+{/if}
+{undef $is_area_tematica}
+
 <div class="modal fade" tabindex="-1" role="dialog" id="searchModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -31,10 +43,16 @@
                                 </div>
                                 <div class="form-filtro">
                                     <a href="#" class="btn btn-primary btn-sm btn-filtro" >Tutto</a>
-                                    <a href="#" class="btn btn-outline-primary btn-sm btn-filtro"><svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-pa"></use></svg> Amministrazione</a>
-                                    <a href="#" class="btn btn-outline-primary btn-sm btn-filtro"><svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-settings"></use></svg> Servizi</a>
-                                    <a href="#" class="btn btn-outline-primary btn-sm btn-filtro"><svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-calendar"></use></svg> Novità</a>
-                                    <a href="#" class="btn btn-outline-primary btn-sm btn-filtro"><svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-file"></use></svg> Documenti</a>
+                                    {foreach $top_menu_node_ids as $id}
+                                        {def $top_menu_node = fetch(content, node, hash(node_id, $id))}
+                                        <a href="#" class="btn btn-outline-primary btn-sm btn-filtro">
+                                            {if $top_menu_node|has_attribute('icon')}
+                                                <svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$top_menu_node|attribute('icon').content|wash()}"></use></svg>
+                                            {/if}
+                                            {$top_menu_node.name|wash()}
+                                        </a>
+                                        {undef $top_menu_node}
+                                    {/foreach}
                                     <a href="#" class="btn btn-outline-primary btn-sm btn-filtro" aria-label="Filtra per categorie">...</a>
                                 </div>
                             </div>
@@ -45,3 +63,5 @@
         </div>
     </div>
 </div>
+
+{undef $top_menu_node_ids}

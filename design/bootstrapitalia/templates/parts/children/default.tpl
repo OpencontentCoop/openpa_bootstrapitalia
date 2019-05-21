@@ -24,6 +24,7 @@
              items_per_row=$items_per_row
              i_view=card
              image_class=widemedium
+             show_icon = false()
              items=$children}
 
     {include name=navigator

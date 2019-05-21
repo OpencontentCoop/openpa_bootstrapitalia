@@ -1,6 +1,6 @@
 <?php
 
-class OpenPABootstrapItraliaOperators
+class OpenPABootstrapItaliaOperators
 {
     function operatorList()
     {
@@ -27,7 +27,6 @@ class OpenPABootstrapItraliaOperators
         $namedParameters
     )
     {
-
     }
 
 }

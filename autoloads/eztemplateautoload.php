@@ -1,7 +1,7 @@
 <?php
 $eZTemplateOperatorArray = array(
     array(
-        'class' => 'OpenPABootstrapItraliaOperators',
+        'class' => 'OpenPABootstrapItaliaOperators',
         'operator_names' => array()
     )
 );

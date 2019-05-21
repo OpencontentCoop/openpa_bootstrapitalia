@@ -105,13 +105,11 @@ var ModuleResultUri = "{$module_result.uri|wash()}";
     {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name )}
         {def $pagedata = openpapagedata()}
         {include uri='design:page_footer.tpl'}
+        {include uri='design:page_extra.tpl'}
         {undef $pagedata}
     {/cache-block}
     {/debug-accumulator}
     {/if}
-
-
-    {include uri='design:page_extra.tpl'}
 
     {include uri='design:page_footer_script.tpl'}
 
