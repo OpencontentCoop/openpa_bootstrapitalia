@@ -131,7 +131,7 @@
                         </div>
                         {/if}
                         <div class="it-access-top-wrapper">
-                            <a data-login-top-button class="btn btn-primary btn-icon btn-full" href="{"/user/login"|ezurl(no)}" type="button" title="Esegui il login al sito" style="display: none;">
+                            <a data-login-top-button class="btn btn-primary btn-icon btn-full" href="{"/user/login"|ezurl(no)}" title="Esegui il login al sito" style="display: none;">
                                  <span class="rounded-icon">
                                   <svg class="icon icon-primary">
                                     <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-user"></use>
