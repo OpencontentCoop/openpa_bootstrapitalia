@@ -65,13 +65,13 @@
 
   @each $color, $value in $theme-colors {
     .card-icon-color-#{$color} *, .card-icon-color-hover-#{$color}:hover *{
-      color: #{$value} !important;;
-      fill: #{$value} !important;;
+      color: #{$value} !important;
+      fill: #{$value} !important;
     }
   }
   .card-icon-color-white *, .card-icon-color-hover-white:hover {
     color: white !important;
-    fill: white !important;;
+    fill: white !important;
   }
 
   .card-body-alt {
@@ -106,6 +106,15 @@
           margin-right: 0;
           min-height: 24px;
         }
+      }
+    }
+  }
+
+  @each $color, $value in $theme-colors {
+    a.read-more-color-#{$color}{
+      color: #{$value} !important;
+      .icon {
+        fill: #{$value} !important;
       }
     }
   }

@@ -64,6 +64,16 @@
                 {$node|abstract()}
 
             {/if}
+
+            {if $node|has_attribute('menu_name')}
+            <a class="read-more read-more-color-500" href="{$openpa.content_link.full_link}">
+                <span class="text">{$node|attribute('menu_name').content|wash()}</span>
+                <svg class="icon">
+                    <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-arrow-right"></use>
+                </svg>
+            </a>
+            {/if}
+
         </div>
     </div>
 </div>
