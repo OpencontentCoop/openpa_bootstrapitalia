@@ -1,46 +1,3 @@
-
-.it-header-slim-wrapper {
-  .it-header-slim-wrapper-content {
-    .header-slim-right-zone .access-button {
-      background: $header-slim-button-color;
-      padding-top: $header-slim-button-v-padding;
-      padding-bottom: $header-slim-button-v-padding;
-      -webkit-appearance: none;
-      &:hover {
-        background: $header-slim-button-hover-color;
-        text-decoration: none;
-      }
-    }
-
-    .dropdown-menu.dropdown-user {
-      top: 0 !important;
-    }
-  }
-
-  &.theme-light {
-    .it-header-slim-wrapper-content {
-      .header-slim-right-zone .access-button, a .icon {
-        color: $white;
-        fill: $white;
-      }
-    }
-  }
-}
-
-.it-access-top-wrapper {
-  svg.icon {
-    fill: #fff;
-    height: 15px;
-    width: 15px;
-    transform: scale(1.5);
-    margin-right: 5px;
-  }
-
-  span {
-    vertical-align: middle;
-  }
-}
-
 .it-header-center-wrapper {
   .it-header-center-content-wrapper .it-brand-wrapper {
     .icon.colorize {
@@ -60,4 +17,9 @@
       }
     }
   }
+}
+
+#dropdown-user svg.icon-primary{
+  fill: $color-primary;
+  margin-left: 0;
 }

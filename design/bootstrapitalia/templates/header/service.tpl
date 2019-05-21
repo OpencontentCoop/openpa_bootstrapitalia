@@ -66,14 +66,14 @@
                         <div class="nav-mobile">
                             <nav>
                                 {if $header_links|count()}
-                                <a class="it-opener d-lg-none"
+                                <a class="d-lg-none navbar-brand"
                                    data-toggle="collapse"
                                    href="#service-menu"
                                    role="button"
                                    aria-expanded="false"
                                    aria-controls="service-menu">
                                     <span>{$header_service_list[0].name|wash()}</span>
-                                    <svg class="icon">
+                                    <svg class="icon icon-white">
                                         <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-expand"></use>
                                     </svg>
                                 </a>
@@ -85,7 +85,7 @@
                                     </ul>
                                 </div>
                                 {else}
-                                    <a class="it-opener d-lg-none" href="{$header_service_list[0].url}"><span>{$header_service_list[0].name|wash()}</span></a>
+                                    <a class="d-lg-none navbar-brand" href="{$header_service_list[0].url}"><span>{$header_service_list[0].name|wash()}</span></a>
                                 {/if}
                             </nav>
                         </div>
@@ -131,8 +131,13 @@
                         </div>
                         {/if}
                         <div class="it-access-top-wrapper">
-                            <a data-login-top-button class="access-button btn btn-primary btn-sm" href="{"/user/login"|ezurl(no)}" type="button" title="Esegui il login al sito" style="display: none;">
-                                <span>Accedi</span>
+                            <a data-login-top-button class="btn btn-primary btn-icon btn-full" href="{"/user/login"|ezurl(no)}" type="button" title="Esegui il login al sito" style="display: none;">
+                                 <span class="rounded-icon">
+                                  <svg class="icon icon-primary">
+                                    <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-user"></use>
+                                  </svg>
+                                </span>
+                                <span class="d-none d-lg-block">Accedi all'area personale</span>
                             </a>
                         </div>
                     </div>
@@ -158,7 +163,7 @@
                 var dropdownListWrapper = $('<div class="link-list-wrapper"></div>');
                 var dropdownList = $('<ul class="link-list"></ul>');
 
-                $('<button class="access-button btn btn-primary btn-sm dropdown-toggle" id="dropdown-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+data.content.name+' <svg class="icon-expand icon"><use xlink:href="'+spritePath+'#it-expand"></use></svg></button>')
+                $('<a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="rounded-icon"><svg class="icon icon-primary"><use xlink:href="'+spritePath+'#it-user"></use></svg></span><span class="d-none d-lg-block">'+data.content.name+' </span><svg class="icon-expand icon icon-white"><use xlink:href="'+spritePath+'#it-expand"></use></svg></a>')
                     .appendTo(dropdownWrapper);
 
                 $('<li><a class="list-item" href="'+trimmedPrefix+'/user/edit/" title="Visualizza il profilo utente"><span>Profilo utente</span></a></li>')
