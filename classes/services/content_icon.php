@@ -55,11 +55,12 @@ class ObjectHandlerServiceContentIcon extends ObjectHandlerServiceBase
             if ($node instanceof eZContentObjectTreeNode) {
                 $iconList = OpenPABootstrapItaliaIcon::fetchByNode($node);
                 if (!empty($iconList)) {
-                    $pathArray = $node->pathArray();
+                    $pathArray = array_reverse($node->pathArray());
                     foreach ($pathArray as $nodeId) {
                         foreach ($iconList as $icon) {
                             if ($icon->attribute('node_id') == $nodeId) {
                                 $this->contextIcon = $icon;
+                                break(2);
                             }
                         }
                     }
