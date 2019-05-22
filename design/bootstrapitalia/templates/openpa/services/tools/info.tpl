@@ -21,17 +21,29 @@
     </div>
 
     <div class="col-md-3 text-right text-primary">Nodo:</div>
-    <div class="col-md-9">{$node.node_id}</div>
+    <div class="col-md-9">
+        {if $openpa.content_icon.context_icon}
+            <svg class="icon icon-sm"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.context_icon.icon_text}"></use></svg>
+        {/if}
+        {$node.node_id}
+    </div>
 
     <div class="col-md-3 text-right text-primary">Oggetto</div>
-    <div class="col-md-9">{$node.contentobject_id} ({$node.object.remote_id})</div>
+    <div class="col-md-9">
+        {if $openpa.content_icon.object_icon}
+            <svg class="icon icon-sm"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.object_icon.icon_text}"></use></svg>
+        {/if}
+        {$node.contentobject_id} ({$node.object.remote_id})
+    </div>
 
     <div class="col-md-3 text-right text-primary">Collocazioni:</div>
     <div class="col-md-9">
         <ul class="list-unstyled">
             {foreach $node.object.assigned_nodes as $item}
                 <li>
-                    <a href={$item.url_alias|ezurl()}><small>{$item.path_with_names} {if $item.node_id|eq($node.object.main_node_id)}(principale){/if}</small></a>
+                    <a href={$item.url_alias|ezurl()}>
+                        <small>{$item.path_with_names} {if $item.node_id|eq($node.object.main_node_id)}(principale){/if}</small>
+                    </a>
                 </li>
             {/foreach}
         </ul>
@@ -44,9 +56,15 @@
     </div>
 
     <div class="col-md-3 text-right text-primary">Tipo:</div>
-    <div class="col-md-9"><a target="_blank"
-                             href="{concat('openpa/classes/', $node.class_identifier)|ezurl(no)}">{$node.class_name}
-            ({$node.class_identifier} {$node.object.contentclass_id})</a></div>
+    <div class="col-md-9">
+        <a target="_blank"
+           href="{concat('openpa/classes/', $node.class_identifier)|ezurl(no)}">
+            {if $openpa.content_icon.class_icon}
+                <svg class="icon icon-sm"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.class_icon.icon_text}"></use></svg>
+            {/if}
+            {$node.class_name} ({$node.class_identifier} {$node.object.contentclass_id})
+        </a>
+    </div>
 
     {if $openpa.content_virtual.folder}
         <div class="col-md-3 text-right text-primary">Folder virtuale:</div>

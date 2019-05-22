@@ -1,7 +1,7 @@
 {set_defaults(hash('show_icon', true()))}
 {def $show_children = cond(and(is_set($body_content), $body_content|eq('last_children'), $node.children_count|gt(0)), true(), false())}
 
-<div class="card-wrapper card-space">
+<div class="card-wrapper card-space {$node|access_style}">
     <div class="card card-bg{if $node|has_attribute('image')} card-img{/if}">
 
         {if and($node|has_attribute('image'), $show_children|not())}

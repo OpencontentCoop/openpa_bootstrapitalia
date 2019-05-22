@@ -62,27 +62,16 @@
 {if count($block_wrappers)|gt(0)}
 {foreach $block_wrappers as $index => $block_wrapper}
   {def $next_index = $index|inc()}
-  {if $block_wrapper.is_wide}
-    <section class="{if $block_wrapper.has_style}bg-shadow bg-gray{/if}" id="{$block_wrapper.slug}">
-      {block_view_gui block=$block_wrapper.block items_per_row=$block_wrapper.items_per_row link_top_title=false()}
-      {if and($block_wrapper.show_next_link, $block_wrappers[$next_index])}
-      <a href="#{$block_wrappers[$next_index].slug}" class="Forward Forward--floating js-scrollTo u-color{if $block_wrapper.has_style|not()}-grey{/if}-30" aria-hidden="true">
-          <span class="Icon Icon-expand"></span>
-      </a>
-      {/if}
-    </section>
-  {else}
-    <section class="{if $block_wrapper.has_style}bg-shadow bg-gray{/if}" id="{$block_wrapper.slug}">
-        <div class="container">
-            {block_view_gui block=$block_wrapper.block items_per_row=$block_wrapper.items_per_row link_top_title=false()}
-        </div>
-      {if and($block_wrapper.show_next_link, $block_wrappers[$next_index])}
-      <a href="#{$block_wrappers[$next_index].slug}" class="Forward Forward--floating js-scrollTo u-color{if $block_wrapper.has_style|not()}-grey{/if}-30" aria-hidden="true">
-          <span class="Icon Icon-expand"></span>
-      </a>
-      {/if}
-    </section>
-  {/if}
+  <section class="{if $block_wrapper.has_style}bg-shadow bg-gray{/if}" id="{$block_wrapper.slug}">
+    {if $block_wrapper.is_wide|not()}<div class="container">{/if}
+    {block_view_gui block=$block_wrapper.block items_per_row=$block_wrapper.items_per_row link_top_title=false()}
+    {if $block_wrapper.is_wide|not()}</div>{/if}
+    {if and($block_wrapper.show_next_link, is_set($block_wrappers[$next_index]))}
+    <a href="#{$block_wrappers[$next_index].slug}" class="Forward Forward--floating js-scrollTo u-color{if $block_wrapper.has_style|not()}-grey{/if}-30" aria-hidden="true">
+        <span class="Icon Icon-expand"></span>
+    </a>
+    {/if}
+  </section>
   {undef $next_index}
 {/foreach}
 {/if}

@@ -14,29 +14,47 @@
     {def $params = hash( 'class_filter_type', 'include', 'class_filter_array', $include_classes )}
 {/if}
 
-{def $children_count = fetch( openpa, concat( $fetch_type, '_count' ), hash( 'parent_node_id', $parent_node.node_id )|merge( $params ) )
-	 $children = fetch( openpa, $fetch_type, hash( 'parent_node_id', $parent_node.node_id,
-												   'offset', $view_parameters.offset,
-                                                   'sort_by', $parent_node.sort_array,
-                                                   'limit', $page_limit )|merge( $params ) ) }
-{if $children_count}
-    {include uri='design:atoms/cards.tpl'
-             items_per_row=$items_per_row
-             i_view=card
-             image_class=widemedium
-             show_icon = false()
-             items=$children}
+{def $children_count = fetch( openpa, concat( $fetch_type, '_count' ), hash( 'parent_node_id', $parent_node.node_id )|merge( $params ) )}
 
-    {include name=navigator
-           uri='design:navigator/google.tpl'
-           page_uri=$node.url_alias
-           item_count=$children_count
-           view_parameters=$view_parameters
-           item_limit=$page_limit}
+{if $children_count}
+    {def $children = fetch( openpa, $fetch_type, hash( 'parent_node_id', $parent_node.node_id,
+                                                       'offset', $view_parameters.offset,
+                                                       'sort_by', $parent_node.sort_array,
+                                                       'limit', $page_limit )|merge( $params ) )}
+    <section>
+        <div class="container">
+            {if $node|has_attribute('menu_name')}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="section-title">
+                            <h3>{$node|attribute('menu_name').content|wash()}</h3>
+                        </div>
+                    </div>
+                </div>
+            {/if}
+
+            {include uri='design:atoms/cards.tpl'
+                     items_per_row=$items_per_row
+                     i_view=card
+                     image_class=widemedium
+                     show_icon = false()
+                     items=$children}
+
+            {include name=navigator
+                   uri='design:navigator/google.tpl'
+                   page_uri=$node.url_alias
+                   item_count=$children_count
+                   view_parameters=$view_parameters
+                   item_limit=$page_limit}
+
+        </div>
+    </section>
+
+    {undef $children}
 {/if}
 
 
-{undef $params $children_count $children}
+{undef $params $children_count}
 
 {unset_defaults( array(
     'page_limit',

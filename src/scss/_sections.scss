@@ -14,7 +14,7 @@
       fill: $color-primary;
     }
 
-    h3{
+    h3 {
       @extend .complementary-1-color-b1;
       font-size: 1.778em;
       margin: 0 0 36px 0;
@@ -29,7 +29,7 @@
     background-size: contain;
   }
 
-  section.bg-gray{
+  section.bg-gray {
     @extend .lightgrey-bg-c2;
   }
 
@@ -93,5 +93,58 @@
         height: 24px;
       }
     }
+  }
+
+  section#image figure {
+    img {
+      height: 450px;
+      width: 100%;
+    }
+
+    figcaption {
+      font-size: .778em;
+      text-align: center;
+      margin: 24px 0 16px 0;
+    }
+  }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+  @include media-breakpoint-up($breakpoint) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+    .of#{$infix}-contain {
+      object-fit: contain;
+    }
+
+    .of#{$infix}-cover {
+      object-fit: cover;
+    }
+
+    .op#{$infix}-t {
+      object-position: top;
+    }
+
+    .op-#{$infix}r {
+      object-position: right;
+    }
+
+    .op#{$infix}-b {
+      object-position: bottom;
+    }
+
+    .op#{$infix}-l {
+      object-position: left;
+    }
+  }
+}
+
+.info-date{
+  span{
+    font-size: .778em;
+  }
+  strong {
+    font-size: .889em;
+    font-family: $font-family-monospace;
+    font-weight: bold;
   }
 }

@@ -88,7 +88,7 @@ var ModuleResultUri = "{$module_result.uri|wash()}";
 
     {if openpacontext().show_breadcrumb}
     <section class="breadcrumb-container container my-4">
-    {if $narrow_container}<div class="offset-lg-1 col-lg-9 col-md-12">{/if}
+    {if $narrow_container}<div class="offset-lg-1 col-md-12">{/if}
         {debug-accumulator id=breadcrumb name=breadcrumb}
         {include uri='design:breadcrumb.tpl' path_array=openpacontext().path_array}
         {/debug-accumulator}

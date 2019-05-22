@@ -40,18 +40,5 @@
 {if $node|has_attribute('page')}
     {attribute_view_gui attribute=$node|attribute('page')}
 {else}
-    <section>
-        <div class="container">
-            {if $node|has_attribute('menu_name')}
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="section-title">
-                            <h3>{$node|attribute('menu_name').content|wash()}</h3>
-                    </div>
-                </div>
-            </div>
-            {/if}
-            {node_view_gui content_node=$node view=children view_parameters=$view_parameters}
-        </div>
-    </section>
+    {node_view_gui content_node=$node view=children view_parameters=$view_parameters}
 {/if}

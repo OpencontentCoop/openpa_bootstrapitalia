@@ -3,6 +3,7 @@
     @var eZContentClass $class
 *}
 
+{if $handler.enabled}
 <div class="row icon-select-preview ">
     <div class="col-sm-8">
         <select class="icon-select form-control"
@@ -34,3 +35,4 @@
         displayIconSelect();
     });
 {/literal}</script>
+{/if}

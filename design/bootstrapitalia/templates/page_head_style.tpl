@@ -1,7 +1,5 @@
 {def $css = array(
-    'default.css',
-    'dataTables.bootstrap.css',
-    'plugins/chosen.css'
+    'default.css'
 )}
 {if ezini('DebugSettings', 'DebugOutput')|eq('enabled')}
     {set $css = $css|append('debug.css')}

@@ -1,0 +1,131 @@
+$gray-border: hsb(0, 0, 90) !default;
+
+.row {
+  &.row-top-border {
+    border-top: 1px solid $gray-border;
+
+    & > * {
+      padding: 2vw 2vw;
+      border-top: 1px solid $gray-border;
+
+      &:first-child {
+        border: none;
+      }
+
+      .navbar {
+        padding: 0;
+
+        .navbar-collapsable {
+          width: 100%;
+        }
+
+        .menu-wrapper {
+          .nav-item {
+            margin: 1em 0;
+          }
+
+          .nav-link {
+            padding: 0.5em 0.2em 0.5em 1em;
+            font-weight: normal;
+
+            &:hover {
+              font-weight: 600;
+            }
+
+            &.active {
+              background: $lightgrey-b1;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+    }
+
+    // Desktop
+    @media (min-width: #{map-get($grid-breakpoints, lg)}) {
+      margin-top: 1rem;
+
+      &.row-top-border > * {
+        padding: 2vw 2vw;
+        border-top: none;
+
+        .navbar {
+          .menu-wrapper {
+            padding: 0;
+          }
+        }
+      }
+
+      &.row-column-border > * {
+        border-left: 1px solid $gray-border;
+
+        &:first-child {
+          border: none;
+          padding-left: 0;
+        }
+      }
+    }
+
+    // Large Desktop
+    @media (min-width: #{map-get($grid-breakpoints, xl)}) {
+      margin-top: 2rem;
+    }
+  }
+}
+
+// Sticky wrapper feature
+.sticky-wrapper {
+  &.is-sticky {
+    position: fixed;
+
+    &.navbar-wrapper {
+      z-index: 1;
+      left: 0;
+      right: 0;
+      width: auto !important;
+
+      .navbar {
+        padding-top: 2vw;
+        padding-bottom: 2vw;
+        border-bottom: 1px solid $gray-border;
+      }
+
+      // Desktop
+      @media (min-width: #{map-get($grid-breakpoints, lg)}) {
+        &.navbar-wrapper {
+          z-index: auto;
+          left: auto;
+          right: auto;
+          width: auto;
+
+          .navbar {
+            border: none;
+            background-color: transparent;
+            padding: 0;
+
+            .menu-wrapper {
+              padding: 0;
+
+              .nav-link {
+                padding-right: 0;
+              }
+            }
+          }
+
+          &.at-bottom {
+            position: absolute;
+            top: auto !important;
+            bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.navbar.it-navscroll-wrapper{
+  z-index: 0;
+}
+.navbar .navbar-collapsable{
+  z-index: 1;
+}

@@ -45,6 +45,7 @@
     .it-search-wrapper.cloned {
       display: none;
     }
+
     .navbar-nav li a.main-nav-link {
       font-size: 20px;
       font-weight: 700;
@@ -59,7 +60,7 @@
   }
 }
 
-.theme-light .custom-navbar-toggler svg{
+.theme-light .custom-navbar-toggler svg {
   fill: $color-primary;
 }
 
