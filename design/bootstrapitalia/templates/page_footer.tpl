@@ -70,5 +70,5 @@
 
 
 <a href="#" aria-hidden="true" data-attribute="back-to-top" class="back-to-top back-to-top-small shadow">
-    <svg class="icon icon-light"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-arrow-up"></use></svg>
+    {display_icon('it-arrow-up', 'svg', 'icon icon-light')}
 </a>

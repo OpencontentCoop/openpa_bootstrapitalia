@@ -18,7 +18,7 @@
        title="Vai alla pagina: {$menu_item.item.name|wash()}">
         <span>{$menu_item.item.name|wash()}</span>
         {if $is_dropdown}
-            <svg class="icon icon-xs"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-expand"></use></svg>
+            {display_icon('it-expand', 'svg', 'icon icon-xs')}
         {/if}
     </a>
     {if $is_dropdown}
@@ -53,9 +53,7 @@
                                 <li class="it-more">
                                     <a class="list-item medium" href="{$href}">
                                         <span>Vedi tutto</span>
-                                        <svg class="icon icon-sm icon-primary right" aria-hidden="true">
-                                            <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-arrow-right"></use>
-                                        </svg>
+                                        {display_icon('it-arrow-right', 'svg', 'icon icon-sm icon-primary right')}
                                     </a>
                                 </li>
                             {/if}

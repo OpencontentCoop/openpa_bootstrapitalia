@@ -8,9 +8,9 @@
     <div class="banner-icon">
         <svg class="icon">
             {if $openpa.content_icon.object_icon}
-            <svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.object_icon.icon_text}"></use></svg>
+                {display_icon($openpa.content_icon.object_icon.icon_text, 'svg', 'icon')}
             {else}
-            <svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.context_icon.icon_text}"></use></svg>
+                {display_icon($openpa.content_icon.context_icon.icon_text, 'svg', 'icon')}
             {/if}
         </svg>
         <span>Aenean ipsum ante</span>

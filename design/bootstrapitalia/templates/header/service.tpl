@@ -73,9 +73,7 @@
                                    aria-expanded="false"
                                    aria-controls="service-menu">
                                     <span>{$header_service_list[0].name|wash()}</span>
-                                    <svg class="icon icon-white">
-                                        <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-expand"></use>
-                                    </svg>
+                                    {display_icon('it-expand', 'svg', 'icon icon-white')}
                                 </a>
                                 <div class="link-list-wrapper collapse" id="service-menu">
                                     <ul class="link-list">
@@ -99,9 +97,7 @@
                                data-toggle="dropdown"
                                aria-expanded="false">
                                 <span>{$current_language.text|wash|upcase}</span>
-                                <svg class="icon d-none d-lg-block">
-                                    <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-expand"></use>
-                                </svg>
+                                {display_icon('it-expand', 'svg', 'icon d-none d-lg-block')}
                             </a>
                             <div class="dropdown-menu">
                                 <div class="row">
@@ -133,9 +129,7 @@
                         <div class="it-access-top-wrapper">
                             <a data-login-top-button class="btn btn-primary btn-icon btn-full" href="{"/user/login"|ezurl(no)}" title="Esegui il login al sito" style="display: none;">
                                  <span class="rounded-icon">
-                                  <svg class="icon icon-primary">
-                                    <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-user"></use>
-                                  </svg>
+                                     {display_icon('it-user', 'svg', 'icon icon-primary')}
                                 </span>
                                 <span class="d-none d-lg-block">Accedi all'area personale</span>
                             </a>

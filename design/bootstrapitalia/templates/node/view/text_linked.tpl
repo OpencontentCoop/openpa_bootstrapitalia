@@ -11,7 +11,7 @@
    {if $a_class|ne('')}class="{$a_class}"{/if}
    {if $openpa.content_link.target}target="_blank" rel="noopener noreferrer"{/if}>
     {if and($show_icon, $openpa.content_icon.icon)}
-        <svg class="icon icon-sm"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.icon.icon_text|wash()}"></use></svg>
+        {display_icon($openpa.content_icon.icon.icon_text|wash(), 'svg', 'icon icon-sm')}
     {/if}
     {$text_wrap_start}
     {if and( is_set( $text ), $text|ne('') )}

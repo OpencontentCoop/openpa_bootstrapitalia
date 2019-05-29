@@ -19,7 +19,7 @@
                         <div class="row">
                             <div class="col-sm-1">
                                 <button type="button" class="close h1" aria-label="Chiudi filtri di ricerca" aria-hidden="true" data-dismiss="modal">
-                                    <svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-arrow-left"></use></svg>
+                                    {display_icon('it-arrow-left', 'svg', 'icon')}
                                 </button>
                             </div>
                             <div class="col-sm-11">
@@ -39,7 +39,7 @@
                                            name="cercatxt"
                                            placeholder="Cerca informazioni, persone, servizi"
                                            aria-label="Cerca informazioni, persone, servizi" />
-                                    <svg class="icon ico-prefix"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-search"></use></svg>
+                                    {display_icon('it-search', 'svg', 'icon ico-prefix')}
                                 </div>
                                 <div class="form-filtro">
                                     <a href="#" class="btn btn-primary btn-sm btn-filtro" >Tutto</a>
@@ -47,7 +47,7 @@
                                         {def $top_menu_node = fetch(content, node, hash(node_id, $id))}
                                         <a href="#" class="btn btn-outline-primary btn-sm btn-filtro">
                                             {if $top_menu_node|has_attribute('icon')}
-                                                <svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$top_menu_node|attribute('icon').content|wash()}"></use></svg>
+                                                {display_icon($top_menu_node|attribute('icon').content|wash(), 'svg', 'icon')}
                                             {/if}
                                             {$top_menu_node.name|wash()}
                                         </a>

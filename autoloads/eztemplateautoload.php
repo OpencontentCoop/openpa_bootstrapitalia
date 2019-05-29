@@ -2,6 +2,8 @@
 $eZTemplateOperatorArray = array(
     array(
         'class' => 'OpenPABootstrapItaliaOperators',
-        'operator_names' => array()
+        'operator_names' => array(
+            'display_icon'
+        )
     )
 );

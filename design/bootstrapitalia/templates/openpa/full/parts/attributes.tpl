@@ -49,9 +49,7 @@
                             </button>
                         </div>
                         <a class="it-back-button" href="#">
-                            <svg class="icon icon-sm icon-primary align-top">
-                                <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-chevron-left"></use>
-                            </svg>
+                            {display_icon('it-chevron-left', 'svg', 'icon icon-sm icon-primary align-top')}
                             <span>{$close_text|wash()}</span>
                         </a>
                         <div class="menu-wrapper">
@@ -79,7 +77,7 @@
                         {if $openpa_attribute.full.highlight}
                         <div class="callout important">
                             <div class="callout-title">
-                                <svg class="icon icon-primary"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-info-circle"></use></svg>
+                                {display_icon('it-info-circle', 'svg', 'icon icon-primary')}
                                 {if and($openpa_attribute.full.show_label, $openpa_attribute.full.collapse_label|not(), $item.is_grouped)}
                                     {$openpa_attribute.label|wash()}
                                 {/if}

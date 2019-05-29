@@ -23,7 +23,7 @@
     <div class="col-md-3 text-right text-primary">Nodo:</div>
     <div class="col-md-9">
         {if $openpa.content_icon.context_icon}
-            <svg class="icon icon-sm"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.context_icon.icon_text}"></use></svg>
+            {display_icon($openpa.content_icon.context_icon.icon_text, 'svg', 'icon icon-sm')}
         {/if}
         {$node.node_id}
     </div>
@@ -31,7 +31,7 @@
     <div class="col-md-3 text-right text-primary">Oggetto</div>
     <div class="col-md-9">
         {if $openpa.content_icon.object_icon}
-            <svg class="icon icon-sm"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.object_icon.icon_text}"></use></svg>
+            {display_icon($openpa.content_icon.object_icon.icon_text, 'svg', 'icon icon-sm')}
         {/if}
         {$node.contentobject_id} ({$node.object.remote_id})
     </div>
@@ -60,7 +60,7 @@
         <a target="_blank"
            href="{concat('openpa/classes/', $node.class_identifier)|ezurl(no)}">
             {if $openpa.content_icon.class_icon}
-                <svg class="icon icon-sm"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.class_icon.icon_text}"></use></svg>
+                {display_icon($openpa.content_icon.class_icon.icon_text, 'svg', 'icon icon-sm')}
             {/if}
             {$node.class_name} ({$node.class_identifier} {$node.object.contentclass_id})
         </a>

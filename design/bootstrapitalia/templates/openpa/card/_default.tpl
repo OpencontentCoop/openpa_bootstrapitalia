@@ -18,12 +18,12 @@
             {if $show_icon}
                 {if $openpa.content_icon.object_icon}
                     <div class="card-icon">
-                        <svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.object_icon.icon_text}"></use></svg>
+                        {display_icon($openpa.content_icon.object_icon.icon_text, 'svg', 'icon')}
                     </div>
                 {elseif $openpa.content_icon.context_icon}
                     <div class="card-icon-sm">
                         <a href="{$openpa.content_icon.context_icon.node.url_alias|ezurl(no)}" title="Vai alla pagina: {$openpa.content_icon.context_icon.node.name|wash()}" >
-                            <svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#{$openpa.content_icon.context_icon.icon_text}"></use></svg>
+                            {display_icon($openpa.content_icon.context_icon.icon_text, 'svg', 'icon')}
                             <span>{$openpa.content_icon.context_icon.node.name|wash()}</span>
                         </a>
                     </div>
@@ -43,9 +43,7 @@
             {if $node|has_attribute('menu_name')}
             <a class="read-more read-more-color-500" href="{$openpa.content_link.full_link}">
                 <span class="text">{$node|attribute('menu_name').content|wash()}</span>
-                <svg class="icon">
-                    <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-arrow-right"></use>
-                </svg>
+                {display_icon('it-arrow-right', 'svg', 'icon')}
             </a>
             {/if}
 

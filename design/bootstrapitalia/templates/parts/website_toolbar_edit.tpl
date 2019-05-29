@@ -20,7 +20,7 @@
 
         <li>
             <button class="btn" type="submit" name="PreviewButton" title="{'Preview'|i18n('design/standard/content/edit')}">
-                <svg class="icon icon-sm"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-presentation"></use></svg>
+                {display_icon('it-presentation', 'svg', 'icon icon-sm')}
                 <span class="toolbar-label">{'Preview'|i18n('design/standard/content/edit')}</span>
             </button>
         </li>

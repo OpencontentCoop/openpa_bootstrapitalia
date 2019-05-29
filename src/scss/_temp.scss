@@ -150,3 +150,9 @@ $gray-border: hsb(0, 0, 90) !default;
     top: 130px !important;
   }
 }
+
+.form-group input[type=file]{
+  position: absolute;
+  top: 31px;
+  font-size: .8em;
+}

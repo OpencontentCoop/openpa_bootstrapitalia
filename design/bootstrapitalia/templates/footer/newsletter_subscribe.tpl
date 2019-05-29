@@ -3,7 +3,7 @@
     <input type="email" class="form-control" id="input-newsletter" name="email" placeholder="mail@example.com" required>
     <button class="btn btn-primary btn-icon" type="submit">
         <svg class="icon icon-white">
-            <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-mail"></use>
+            {display_icon('it-mail', 'svg', 'icon icon-white')}
         </svg>
         <span>Iscriviti</span>
     </button>

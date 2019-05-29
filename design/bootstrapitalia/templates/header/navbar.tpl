@@ -24,14 +24,14 @@
                             aria-expanded="false"
                             aria-label="Toggle navigation"
                             data-target="#main-menu">
-                        <svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-burger"></use></svg>
+                        {display_icon('it-burger', 'svg', 'icon')}
                     </button>
                     <div class="navbar-collapsable" id="main-menu">
                         <div class="overlay"></div>
                         <div class="menu-wrapper">
                             <div class="close-div">
                                 <button class="btn close-menu" type="button">
-                                    <svg class="icon"><use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-close-circle"></use></svg>
+                                    {display_icon('it-close-circle', 'svg', 'icon')}
                                 </button>
                             </div>
                             <ul class="navbar-nav">

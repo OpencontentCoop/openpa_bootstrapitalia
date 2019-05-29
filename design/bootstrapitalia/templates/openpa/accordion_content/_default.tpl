@@ -16,9 +16,7 @@
         {$node|abstract()}
         <a class="read-more" href="{$openpa.content_link.full_link}">
             <span class="text">Leggi di più</span>
-            <svg class="icon">
-                <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-arrow-right"></use>
-            </svg>
+            {display_icon('it-arrow-right', 'svg', 'icon')}
         </a>
     </div>
 </div>

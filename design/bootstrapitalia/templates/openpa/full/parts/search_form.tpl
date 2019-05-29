@@ -10,9 +10,7 @@
                placeholder="Cerca in {$current_node.name|wash()}"
                aria-invalid="false"/>
         <a class="input-icon-suffix" data-toggle="modal" data-target="#searchModal">
-            <svg class="icon">
-                <use xlink:href="{'images/svg/sprite.svg'|ezdesign(no)}#it-search"></use>
-            </svg>
+            {display_icon('it-search', 'svg', 'icon')}
         </a>
     </div>
 </form>
