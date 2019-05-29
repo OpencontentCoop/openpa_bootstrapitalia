@@ -1,6 +1,22 @@
 <?php /* #?ini charset="utf-8"?
 
 ############################################
+############################################ EMBED
+############################################
+
+[embed_file]
+Source=content/view/embed.tpl
+MatchFile=embed/file.tpl
+Subdir=templates
+Match[class_identifier]=file
+
+[embed_image]
+Source=content/view/embed.tpl
+MatchFile=embed/image.tpl
+Subdir=templates
+Match[class_identifier]=image
+
+############################################
 ############################################ DATATYPE
 ############################################
 

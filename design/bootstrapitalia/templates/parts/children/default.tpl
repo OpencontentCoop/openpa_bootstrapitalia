@@ -33,7 +33,7 @@
                 </div>
             {/if}
 
-            {include uri='design:atoms/cards.tpl'
+            {include uri='design:atoms/grid.tpl'
                      items_per_row=$items_per_row
                      i_view=card
                      image_class=widemedium

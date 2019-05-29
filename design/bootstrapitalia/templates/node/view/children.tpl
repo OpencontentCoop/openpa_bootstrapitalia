@@ -1,3 +1,5 @@
+{set_defaults(hash('view_variation', null()))}
 {def $openpa = object_handler($node)}
-{include uri=$openpa.control_children.template}
+{include uri=$openpa.control_children.template view_variation=$view_variation}
 {undef $openpa}
+{unset_defaults(array('view_variation'))}

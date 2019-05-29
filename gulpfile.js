@@ -51,7 +51,8 @@ const js = {
         bootstrapItaliaSrc.in + 'src/js/plugins/datepicker/locales/it.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/datepicker/datepicker.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/i-sticky/i-sticky.js',
-        bootstrapItaliaSrc.in + 'src/js/plugins/sticky-header.js',
+        //bootstrapItaliaSrc.in + 'src/js/plugins/sticky-header.js',
+source + 'js/plugins/sticky-header.js', //commit 370d4dcbf74bef3e191651a57819bfe7dd3b9928
         bootstrapItaliaSrc.in + 'src/js/plugins/ie.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/fonts-loader.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/autocomplete.js',
@@ -63,7 +64,9 @@ const js = {
         bootstrapItaliaSrc.in + 'src/js/plugins/track-focus.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/forward.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/navbar.js',
-        bootstrapItaliaSrc.in + 'src/js/plugins/navscroll.js',
+        //bootstrapItaliaSrc.in + 'src/js/plugins/navscroll.js',
+source + 'js/plugins/navscroll.js', //commit 370d4dcbf74bef3e191651a57819bfe7dd3b9928
+source + 'js/plugins/sticky-wrapper.js',  //commit 370d4dcbf74bef3e191651a57819bfe7dd3b9928
         bootstrapItaliaSrc.in + 'src/js/plugins/history-back.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/notifications.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/upload.js',
@@ -97,7 +100,8 @@ const css = {
     out: dest + 'stylesheets/',
     watch: source + 'scss/**/*',
     sassOpts: {
-        outputStyle: 'compressed',
+        sourceComments: true,
+        outputStyle: 'nested',
         precision: 8,
         errLogToConsole: true,
         includePaths: [bootstrapItaliaSrc.in + 'src/scss', fontAwesomeSrc.in + 'scss']

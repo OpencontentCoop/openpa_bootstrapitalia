@@ -6,13 +6,13 @@
             {if $index|ge($root_node_depth)}
                 {if $path.url}
                     <li class="breadcrumb-item">
-                        <a class="text-truncate" href={cond( is_set( $path.url_alias ), $path.url_alias, $path.url )|ezurl}>{$path.text|wash}</a>
-                        {if $index|lt(count(openpacontext().path_array))}<span class="separator">/</span>{/if}
+                        <a href={cond( is_set( $path.url_alias ), $path.url_alias, $path.url )|ezurl}>{$path.text|wash}</a>
+                        {*if $index|lt(count(openpacontext().path_array))}<span class="separator">/</span>{/if*}
                     </li>
                 {else}
                     <li class="breadcrumb-item active" aria-current="page" style="max-width: 200px">
-                        <a class="text-truncate" href="#">{$path.text|wash}</a>
-                        {if $index|lt(count(openpacontext().path_array))}<span class="separator">/</span>{/if}
+                        <a href="#">{$path.text|wash}</a>
+                        {*if $index|lt(count(openpacontext().path_array))}<span class="separator">/</span>{/if*}
                     </li>
                 {/if}
             {/if}

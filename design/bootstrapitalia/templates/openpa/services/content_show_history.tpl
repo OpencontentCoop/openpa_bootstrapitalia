@@ -1,0 +1,1 @@
+<p><a href="{concat('content/history/',$node.contentobject_id)|ezurl(no)}" title="Vai alla storia di questo contenuto"><small>Consulta versioni precedenti</small></a></p>

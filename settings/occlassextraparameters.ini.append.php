@@ -3,5 +3,7 @@
 [AvailableHandlers]
 Handlers[bootstrapitalia_icon]=OpenPABootstrapItaliaIconExtraParameter
 Handlers[attribute_group]=OpenPABootstrapItaliaAttributeGroupExtraParameter
-
+Handlers[table_view]=OpenPABootstrapItaliaTableViewClassExtraParameters
+Handlers[line_view]=OpenPABootstrapItaliaLineViewClassExtraParameters
+ 
 */ ?>

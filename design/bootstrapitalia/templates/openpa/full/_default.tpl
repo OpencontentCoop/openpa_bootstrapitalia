@@ -28,6 +28,6 @@
 
 {include uri='design:openpa/full/parts/main_image.tpl'}
 
-{include uri='design:openpa/full/parts/attributes.tpl'}
+{include uri='design:openpa/full/parts/attributes.tpl' object=$node.object}
 
 {node_view_gui content_node=$node view=children view_parameters=$view_parameters}

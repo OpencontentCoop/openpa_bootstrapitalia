@@ -2,10 +2,10 @@
 
 {set_defaults(hash('items_per_row', 3))}
 
-<div class="container">
-    {include uri='design:parts/block_name.tpl'}
+{include uri='design:parts/block_name.tpl'}
 
-    {include uri='design:atoms/cards.tpl'
+<div class="container">
+    {include uri='design:atoms/grid.tpl'
              items_per_row=$items_per_row
              i_view=card
              image_class=medium

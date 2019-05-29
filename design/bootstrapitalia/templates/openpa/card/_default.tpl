@@ -1,10 +1,9 @@
-{set_defaults(hash('show_icon', true()))}
-{def $show_children = cond(and(is_set($body_content), $body_content|eq('last_children'), $node.children_count|gt(0)), true(), false())}
+{set_defaults(hash('show_icon', true(), 'image_class', 'medium'))}
 
 <div class="card-wrapper card-space {$node|access_style}">
     <div class="card card-bg{if $node|has_attribute('image')} card-img{/if}">
 
-        {if and($node|has_attribute('image'), $show_children|not())}
+        {if $node|has_attribute('image')}
             <div class="img-responsive-wrapper">
                 <div class="img-responsive">
                     <div class="img-wrapper">
@@ -15,7 +14,6 @@
         {/if}
 
         <div class="card-body card-body-alt">
-
 
             {if $show_icon}
                 {if $openpa.content_icon.object_icon}
@@ -38,32 +36,9 @@
                 </a>
             </h5>
 
-            {if $show_children}
 
-                <div class="link-list-wrapper">
-                    <ul class="link-list">
-                    {foreach fetch(openpa, list, hash('parent_node_id', $node.node_id,
-                                                      'class_filter_type', 'exclude',
-                                                      'class_filter_array',openpaini( 'ExcludedClassesAsChild', 'FromFolder', array( 'image', 'infobox', 'global_layout' ) ),
-                                                      'sort_by', $node.sort_array,
-                                                      'limit', 4)) as $child}
-                        <li>
-                            {node_view_gui content_node=$child
-                                           view=text_linked
-                                           show_icon=true()
-                                           a_class='list-item'
-                                           text_wrap_start='<span>'
-                                           text_wrap_end='</span>'}
-                        </li>
-                    {/foreach}
-                    </ul>
-                </div>
+            {$node|abstract()}
 
-            {else}
-
-                {$node|abstract()}
-
-            {/if}
 
             {if $node|has_attribute('menu_name')}
             <a class="read-more read-more-color-500" href="{$openpa.content_link.full_link}">
@@ -77,5 +52,4 @@
         </div>
     </div>
 </div>
-{undef $show_children}
-{unset_defaults(array('show_icon'))}
+{unset_defaults(array('show_icon', 'image_class'))}

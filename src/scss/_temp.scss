@@ -2,6 +2,16 @@ $gray-border: hsb(0, 0, 90) !default;
 
 .row {
   &.row-top-border {
+    > aside {
+      position: relative;
+      z-index: 10;
+    }
+
+    > section {
+      z-index: 0;
+      position: relative;
+    }
+
     border-top: 1px solid $gray-border;
 
     & > * {
@@ -123,9 +133,20 @@ $gray-border: hsb(0, 0, 90) !default;
   }
 }
 
-.navbar.it-navscroll-wrapper{
+.navbar.it-navscroll-wrapper {
   z-index: 0;
 }
-.navbar .navbar-collapsable{
+
+.navbar .navbar-collapsable {
   z-index: 1;
+
+  &.expanded {
+    z-index: 100;
+  }
+}
+
+@media (min-width: #{map-get($grid-breakpoints, lg)}) {
+  body.fixed-wt .sticky-wrapper.is-sticky {
+    top: 130px !important;
+  }
 }

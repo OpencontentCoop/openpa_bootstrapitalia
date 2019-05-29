@@ -42,9 +42,23 @@
         <a id="collapse" class="btn btn-default u-text-xxs"><i class="fa fa-compress"></i></a>
       </p>
 
+      {def $current_items_per_row = 3}
+      {if and( is_set($block.custom_attributes.elementi_per_riga),
+               $block.custom_attributes.elementi_per_riga|is_numeric,
+               $block.custom_attributes.elementi_per_riga|gt(0),
+               $block.custom_attributes.elementi_per_riga|le(6) ) }
+        {set $current_items_per_row = $block.custom_attributes.elementi_per_riga}
+      {elseif ezini_hasvariable( $block.type, 'ItemsPerRow', 'block.ini' )}
+        {def $current_items_per_row_settings = ezini( $block.type, 'ItemsPerRow', 'block.ini' )}
+        {if is_set($current_items_per_row_settings[$block.view])}
+          {set $current_items_per_row = $current_items_per_row_settings[$block.view]}
+        {/if}
+        {undef $current_items_per_row_settings}
+      {/if}
+
       <div class="row frontpage" style="margin-top:20px;">
         <div id="demo" data-width="12" class="col-md-12" style="background: #fff">
-          {block_view_gui block=$block}
+          {block_view_gui block=$block items_per_row=$current_items_per_row}
         </div>
       </div>
     </div>

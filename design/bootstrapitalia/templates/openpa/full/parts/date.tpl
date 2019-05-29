@@ -4,9 +4,9 @@
         {if $node.object.published|gt(0)}
         <p class="info-date"><span>Data:</span><br><strong>{$node.object.published|datetime( 'custom', '%j %F %Y' )}</strong></p>
         {/if}
-        {if $node.object.modified|gt(sum($node.object.published,86400))}
+        {*if $node.object.modified|gt(sum($node.object.published,86400))}
             <p class="info-date"><span>Ultima modifica:</span><br><strong>{$node.object.modified|datetime( 'custom', '%j %F %Y' )}</strong></p>
-        {/if}
+        {/if*}
     </div>
 </div>
 {/if}

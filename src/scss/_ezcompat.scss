@@ -81,16 +81,17 @@ table.list {
 
 .object-left {
   @extend .float-left;
-  margin: 0 .5em 0 0;
+  margin-right: 20px !important;
 }
 
 .object-right {
   @extend .float-right;
-  margin: 0 0 0 0.5em
+  margin-left: 20px !important;
 }
 
 .object-center {
   margin: 0 auto;
+  text-align: center;
 }
 
 p.text-left, td.text-left, th.text-left, *.text-left {

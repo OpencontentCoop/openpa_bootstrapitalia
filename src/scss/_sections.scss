@@ -97,7 +97,6 @@
 
   section#image figure {
     img {
-      height: 450px;
       width: 100%;
     }
 
@@ -106,6 +105,12 @@
       text-align: center;
       margin: 24px 0 16px 0;
     }
+  }
+}
+
+@media (min-width: #{map-get($grid-breakpoints, lg)}) {
+  section#image figure img{
+    height: 450px;
   }
 }
 

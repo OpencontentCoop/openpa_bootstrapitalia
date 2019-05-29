@@ -37,6 +37,7 @@ class ObjectHandlerServiceContentIcon extends ObjectHandlerServiceBase
     {
         if ($this->objectIcon === null) {
             $this->objectIcon = false;
+            //@todo cercare per data_type_string
             if (isset($this->container->attributesHandlers['icon']) && $this->container->attributesHandlers['icon']->attribute('has_content')) {
                 $this->objectIcon = [
                     'icon_text' => $this->container->attributesHandlers['icon']->attribute('contentobject_attribute')->content()
