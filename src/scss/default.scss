@@ -1,0 +1,27 @@
+
+$image-path: "../images/" !default;
+$icon-font-path: "../fonts/";
+$icon-font-name: "glyphicons-halflings-regular";
+$icon-font-svg-id: "glyphicons_halflingsregular";
+
+//http://colorizer.org/
+
+@import "bootstrap-italia";
+@import 'font-awesome.scss';
+@import 'glyphicons';
+@import "ezcompat";
+@import "header";
+@import "search";
+@import "navigation";
+@import "footer";
+@import "websitetoolbar";
+@import "card-utilities";
+@import "leaflet";
+@import "audio";
+@import "datatable";
+@import "chosen";
+@import "banner";
+@import "sections";
+@import "custom";
+@import "gallery";
+

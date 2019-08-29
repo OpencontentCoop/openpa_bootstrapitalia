@@ -1,0 +1,1 @@
+<p class="info-date"><span>Ultima modifica:</span><br><strong>{$node.object.modified|datetime( 'custom', '%j %F %Y' )}</strong></p>

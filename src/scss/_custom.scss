@@ -1,0 +1,67 @@
+
+.form-group input[type=file] {
+  position: absolute;
+  top: 31px;
+  font-size: .8em;
+}
+
+.card.card-img .img-responsive-wrapper .img-responsive {
+  padding-bottom: 55%;
+}
+
+.pagination .page-item .page-link:hover {
+  background: #51825f;
+  color: #fff;
+
+  svg {
+    fill: #fff !important;
+  }
+}
+
+.pagination .page-item.active .page-link {
+  border: 2px solid #51825f;
+}
+
+form .form-group label {
+  background-color: transparent;
+  position: static;
+  font-weight: 600;
+  line-height: auto;
+  transition: none !important;
+  transform: none !important;
+  font-size: 1rem !important;
+  cursor: auto;
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  overflow: visible;
+  text-overflow: ellipsis;
+  white-space: normal;
+  padding: 0;
+}
+
+form .form-group label.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.alpaca-array-actionbar-action.btn-sm{
+  padding: 8px 8px !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+td.alpaca-container-item{
+  padding: 1px;
+}
+
+.alpaca-array-actionbar{
+  display: inline-flex !important;
+  max-width: 150px;
+}

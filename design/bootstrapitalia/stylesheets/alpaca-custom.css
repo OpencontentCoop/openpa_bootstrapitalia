@@ -1,0 +1,91 @@
+/*custom luca*/
+.radio + .radio, .checkbox + .checkbox {
+    margin-top: 10px;
+}
+
+.alpaca-container .alpaca-container-label,
+.alpaca-container-item legend.alpaca-container-label {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.alpaca-field-openstreetmap {
+    border: 1px #eee solid;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.alpaca-control.radio {
+    min-height: inherit;
+    height: inherit;
+    margin-left: 10px;
+    padding: 0
+}
+
+.alpaca-form .form-group label {
+    position: static !important;
+    line-height: 1;
+    font-size: 1rem;
+    padding: 0;
+    z-index: 6;
+    color: #000;
+    width: auto !important;
+}
+
+.alpaca-form .form-group label.active{
+    transform: none !important;
+}
+
+.alpaca-form label.form-check-label {
+    padding-left: 36px !important;
+    cursor: pointer;
+    display: inline-block;
+    height: 32px !important;
+    line-height: 32px !important;
+    font-size: 1rem;
+    user-select: none;
+}
+
+.card .card-body .alpaca-form p {
+    font-family: "Titillium Web", Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
+}
+
+.alpaca-form .form-group {
+    margin-bottom: 1em;
+}
+
+.alpaca-display .alpaca-field-table > legend{
+    display: block;
+}
+
+.form-group small.form-text {
+    position: static !important;
+}
+
+.alpaca-form .form-group .fileinput-button input{
+    top:0;
+    height: 50px;
+}
+
+.alpaca-field.alpaca-field-upload .fileupload-active-zone{
+    margin: 0;
+}
+
+.alpaca-fileupload-well{
+    font-size: .8em;
+    margin: 0
+}
+
+
+/*spostare in custom*/
+.alpaca-form .btn-dropdown .icon.icon-xs, 
+.alpaca-form .dropdown-toggle .icon.icon-xs{
+    width: 16px !important;
+    height: 16px !important;;
+}
+
+.alpaca-form .link-list-wrapper ul li a {
+    line-height: 1em;
+    padding: 8px 24px;
+}
