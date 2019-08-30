@@ -33,6 +33,8 @@ class OpenPABootstrapItaliaDataEnvironmentSettings extends DefaultEnvironmentSet
 
         foreach ($content->data[$locale] as $identifier => $value) {
             
+            if (empty($value['content'])) continue;
+
             if ($value['datatype'] == 'ezobjectrelationlist' || $value['datatype'] == 'ezobjectrelation') {
                 $valueContent = array();
                 if (is_array($value['content'])) {
@@ -88,7 +90,6 @@ class OpenPABootstrapItaliaDataEnvironmentSettings extends DefaultEnvironmentSet
             unset($value['content']);
             $data['contentobject_id'] = $content->metadata->id;
             $data['language_code'] = $locale;
-
             $attribute = new eZContentObjectAttribute($data);
             $tags = eZTags::createFromAttribute($attribute, 'ita-PA');
     
