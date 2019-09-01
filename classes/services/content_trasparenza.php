@@ -409,24 +409,40 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         );
     }
 
+    // [parent:$nodeId|][filters:$queryFilters][group_by:$identifier|]$class|$attribute[,$attribute,...]|$depth
     protected function getTableFieldsParameter($string)
     {
         $index = 0;
         $fieldsParts = explode('|', $string);
+        
+        $parentNodeId = null;
+        if (strpos($fieldsParts[$index], 'parent:') === 0) {
+            $parameters = array_shift($fieldsParts);
+            $nodeParts = explode(':', $parameters);
+            $parentNodeId = $nodeParts[1];
+        }
+
+        $filters = null;
+        if (strpos($fieldsParts[$index], 'filters:') === 0) {
+            $parameters = array_shift($fieldsParts);
+            $filtersParts = explode(':', $parameters);
+            $filters = $filtersParts[1];
+        }
+        
         $facetField = null;
-        if (strpos($fieldsParts[0], 'group_by') === 0) {
-            $index = 1;
-            $groupParts = explode(':', $fieldsParts[0]);
+        if (strpos($fieldsParts[$index], 'group_by:') === 0) {
+            $parameters = array_shift($fieldsParts);
+            $groupParts = explode(':', $parameters);
             $facetField = $groupParts[1];
         }
 
-        $classIdentifier = $fieldsParts[$index];
+        $classIdentifier = array_shift($fieldsParts);
         $index++;
 
-        $identifiers = explode(',', $fieldsParts[$index]);
+        $identifiers = explode(',', array_shift($fieldsParts));
         $index++;
 
-        $depth = isset($fieldsParts[$index]) ? $fieldsParts[$index] : false;
+        $depth = array_shift($fieldsParts);
 
         $facets = array();
 
@@ -447,7 +463,14 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 }
             }
 
-            $node = $this->container->getContentNode();
+            $node = null;
+            if ($parentNodeId){
+                $node = eZContentObjectTreeNode::fetch((int)$parentNodeId);
+            }
+            if (!$node instanceof eZContentObjectTreeNode){
+                $node = $this->container->getContentNode();
+            }
+
             $nodeId = $node->attribute('node_id');
 
             $depthQueryPart = '';
@@ -458,6 +481,12 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             }
 
             $query = "{$depthQueryPart} classes [{$classIdentifier}] subtree [{$nodeId}]";
+            if ($filters){
+                $query .= ' and ' . $filters;
+            }
+            
+            //eZDebug::writeDebug($query, __METHOD__);
+            
             $facetQuery = null;
             if ($facetField) {
                 $contentSearch = new ContentSearch();
@@ -478,8 +507,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                     }
                 }
             }
-
-            return array(
+            $result = array(
                 'query' => $query,
                 'facet_query' => $facetQuery,
                 'class_fields' => $classFields,
@@ -487,6 +515,10 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 'class_identifier' => $classIdentifier,
                 'facets' => $facets,
             );
+
+            //eZDebug::writeDebug($result, __METHOD__);
+            
+            return $result;
 
 
         } catch (Exception $e) {

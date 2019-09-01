@@ -10,7 +10,25 @@
 {def $tag_tree = cond($block.custom_attributes.root_tag, api_tagtree($block.custom_attributes.root_tag), false())}
 
 <div data-block_place_subtree="{$block.custom_attributes.node_id}" data-limit="10" data-hide_empty_facets="{$block.custom_attributes.hide_empty_facets}">
-	<div class="row border-top row-column-border row-column-menu-left attribute-list">
+	<form class="row form p-3 analogue-1-bg-a1 border-top">
+		<div class="col-md-4">
+	      	<label for="search-{$block.id}" class="m-0"><small>Ricerca libera</small></label>
+	      	<input type="text" class="form-control" id="search-{$block.id}" data-search="q">
+      	</div>
+      	<div class="col-md-2">
+			<button type="submit" class="btn btn-link mt-4">
+				{display_icon('it-search', 'svg', 'icon startSearch')}							
+			</button>
+			<button type="reset" class="btn btn-link mt-4 hide">
+				{display_icon('it-close-big', 'svg', 'icon resetSearch')}
+			</button>						
+		</div>	
+		<div class="col-md-6 text-center">
+			<a href="#" class="show-list btn btn-secondary mt-4">Visualizza come lista</a>		
+			<a href="#" class="show-map btn btn-outline-secondary mt-4">Visualizza come mappa</a>
+		</div>
+	</form>
+	<div class="row border-top row-column-border row-column-menu-left attribute-list mt-0">
 	    {if $tag_tree}
 		    <aside class="col-lg-3 col-md-3">
 		    {if is_set($tag_tree.children)}
@@ -47,11 +65,7 @@
 		    </aside>
 	    {/if}
 
-	    <section class="{if $tag_tree}col-lg-9 col-md-9{else}col{/if} p-0">		    
-			<div class="p-3 bg-light border-bottom">
-				<a href="#" class="show-list btn btn-secondary">Visualizza come lista</a>
-				<a href="#" class="show-map btn btn-outline-secondary">Visualizza come mappa</a>
-			</div>
+	    <section class="{if $tag_tree}col-lg-9 col-md-9{else}col{/if} p-0">		    			
 			<div class="results p-3"></div>
 	    </section>
 	</div>
@@ -136,6 +150,10 @@ $(document).ready(function () {
 		
 	    var buildQuery = function(){
 			var query = 'classes [place] subtree [' + subtree + '] facets [raw[subattr_type___tag_ids____si]]';
+			var searchText = container.find('[data-search="q"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
+			if (searchText.length > 0){
+				query += " and q = '\"" + searchText + "\"'";
+			}
 			var tagFilters = [];
 			container.find('a[data-tag_id].active').each(function(){
 				tagFilters.push($(this).data('tag_id'));
@@ -233,6 +251,7 @@ $(document).ready(function () {
             $.opendataTools.loadMarkersInMap(baseQuery, function(){mapContainer.removeClass('invisible'), map.fitBounds(map.getBounds().pad(0.5))});
 		};
 
+		container.find('form')[0].reset();
 		loadContents();
 
 		container.find('a[data-tag_id]').on('click', function(e){
@@ -270,6 +289,25 @@ $(document).ready(function () {
 				showList.addClass('btn-outline-secondary');
 				loadMap();
 			}
+			e.preventDefault();
+		});
+		container.find('button[type="submit"]').on('click', function(e){
+			container.find('button[type="reset"]').removeClass('hide');
+			currentPage = 0;
+	        if (showList.hasClass('btn-secondary'))
+	        	loadContents();
+        	else
+        		loadMap();
+			e.preventDefault();
+		});
+		container.find('button[type="reset"]').on('click', function(e){			
+			container.find('form')[0].reset();			
+			container.find('button[type="reset"]').addClass('hide');
+			currentPage = 0;
+	        if (showList.hasClass('btn-secondary'))
+	        	loadContents();
+        	else
+        		loadMap();
 			e.preventDefault();
 		});
 	});

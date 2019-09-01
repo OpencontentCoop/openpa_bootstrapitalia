@@ -100,6 +100,18 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                         $valueContent = $this->flatDefaultRelation($value, $language);
                     }
                 }
+
+                if ( $value['datatype'] == 'ezbinaryfile' && !empty( $valueContent['filename'] ))
+                {
+                    $valueContent['filename'] = OpenPABootstrapItaliaOperators::cleanFileName($valueContent['filename']);
+                }
+                
+                if ($value['datatype'] == 'ocmultibinary' && !empty( $valueContent ) )
+                {
+                    foreach ($valueContent as $key => $value) {
+                        $valueContent[$key]['filename'] = OpenPABootstrapItaliaOperators::cleanFileName($valueContent[$key]['filename']);
+                    }
+                }
                 
                 $flatData[$language][$identifier] = $valueContent;
             }

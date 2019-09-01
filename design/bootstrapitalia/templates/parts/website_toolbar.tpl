@@ -42,7 +42,7 @@
                         <select name="ClassID" id="ezwt-create" class="custom-select" data-placeholder="{"Create here"||i18n('design/admin/node/view/full')}">
                             <option></option>
                             {foreach $can_create_class_list as $class}
-                                <option value="{$class.id}">{$class.name|wash}</option>
+                                <option value="{$class.id}" data-class="{$class.id|class_identifier_by_id()}">{$class.name|wash}</option>
                             {/foreach}
                         </select>
                         <div class="input-group-append">

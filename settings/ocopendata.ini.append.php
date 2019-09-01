@@ -17,6 +17,9 @@ PHPClass=OpenPABootstrapItaliaDataEnvironmentSettings
 [EnvironmentSettingsPresets_content]
 PHPClass=OpenPABootstrapItaliaContentEnvironmentSettings
 
+[EnvironmentSettingsPresets_datatable]
+PHPClass=OpenPABootstrapItaliaDatatableEnvironmentSettings
+
 [AttributeConverters]
 Converters[has_temporal_coverage]=FullRelationsAttributeConverter
 Converters[opening_hours_specification]=FullRelationsAttributeConverter

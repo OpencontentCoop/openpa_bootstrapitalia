@@ -106,6 +106,14 @@
                         <div class="text-serif small neutral-1-color-a7 mb-3">{attribute_view_gui attribute=$attribute}</div>
                     {/if}
                 {/foreach}
+                {if $trasparenza.has_table_fields}                
+                    <h6>Regole rappresentazione impostate</h6>
+                    <div class="text-serif small neutral-1-color-a7 mb-3">
+                    {foreach $trasparenza.table_fields as $table_index => $fields}
+                        <code>{$fields.query|wash()}</code>
+                    {/foreach}
+                    </div>
+                {/if}
             </div>            
             {/if}  
 
@@ -250,14 +258,14 @@
                 {/if}
 
                 {if $trasparenza.count_children_extra|gt(0)}
-                    {if $node.object.can_create}
+                    {*if $node.object.can_create}
                         {editor_warning('Vengono visualizzazi qui i contenuti presenti che non corrispondono alle classi di contenuto consigliate in "Guida per il redattore"')}
-                    {/if}  
+                    {/if*}  
                     
                     {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table.tpl'
                              nodes = fetch( 'content', 'list', $trasparenza.children_extra_fetch_parameters )
                              nodes_count = $trasparenza.count_children_extra
-                             title=cond($trasparenza.count_children|gt(0), "Ulteriori documenti", false())
+                             title=false()
                              class=array()
                              hide_date=true()}    
                     
