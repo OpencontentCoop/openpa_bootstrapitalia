@@ -44,7 +44,7 @@ IgnoraVirtualizzazione=enabled
 IdentificatoriMenu[]=topic
 
 [Trasparenza]
-MostraAvvisoPaginaVuota=enabled
+MostraAvvisoPaginaVuota=disabled
 
 [MotoreRicerca]
 IncludiClassi[]=administrative_area

@@ -15,7 +15,7 @@
     'leaflet/leaflet.activearea.js',
     'leaflet/leaflet.markercluster.js',
     'jquery.dataTables.js',
-    'dataTables.bootstrap.js',
+    'dataTables.bootstrap4.min.js',
     'jquery.opendataDataTable.js',
     'jquery.blueimp-gallery.min.js'
 ))}

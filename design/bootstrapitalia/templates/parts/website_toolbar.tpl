@@ -42,7 +42,7 @@
                         <select name="ClassID" id="ezwt-create" class="custom-select" data-placeholder="{"Create here"||i18n('design/admin/node/view/full')}">
                             <option></option>
                             {foreach $can_create_class_list as $class}
-                                <option value="{$class.id}">{$class.name|wash}</option>
+                                <option value="{$class.id}" data-class="{$class.id|class_identifier_by_id()}">{$class.name|wash}</option>
                             {/foreach}
                         </select>
                         <div class="input-group-append">
@@ -131,7 +131,7 @@
                                 <li><span class="divider"></span></li>
                                 {include uri='design:parts/websitetoolbar/openpa_menu.tpl'}
                                 <li><span class="divider"></span></li>
-                                <li><a class="list-item left-icon" href="/api/opendata/v2/content/read/{$content_object.id}" title="Visualizza in JSON"><i class="fa fa-code"></i> Visualizza in JSON</a></li>
+                                <li><a class="list-item left-icon" href="/api/opendata/v2/data/read/{$content_object.id}" title="Visualizza in JSON"><i class="fa fa-code"></i> Visualizza in JSON</a></li>
                             </ul>
                         </div>
                     </div>

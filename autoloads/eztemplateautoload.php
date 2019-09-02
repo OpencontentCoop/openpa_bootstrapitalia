@@ -8,6 +8,7 @@ $eZTemplateOperatorArray = array(
             'filtered_search_params_query_string',
             'openpa_roles_parent_node_id',
             'clean_filename',
+            'class_identifier_by_id',
         )
     )
 );

@@ -579,18 +579,18 @@ div.split .bootstrap-select[class*="col-"].dropdown-menu-right {
 /***************************** NEUTRAL 2 / 3 ****************************************/
 /* line 2, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg {
-  background-color: #0066cc; }
+  background-color: #003882; }
 
 /* line 5, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color {
-  color: #0066cc; }
+  color: #003882; }
 
 /* line 8, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color {
-  border-color: #0066cc !important; }
+  border-color: #003882 !important; }
   /* line 10, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color.border {
-    border-color: #0066cc !important; }
+    border-color: #003882 !important; }
 
 /* line 16, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .white-bg {
@@ -609,483 +609,483 @@ div.split .bootstrap-select[class*="col-"].dropdown-menu-right {
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a1 {
-  background-color: #bfdfff; }
+  background-color: #bfdbff; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a1 {
-  color: #bfdfff; }
+  color: #bfdbff; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a1 {
-  border-color: #bfdfff !important; }
+  border-color: #bfdbff !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a1.border {
-    border-color: #bfdfff !important; }
+    border-color: #bfdbff !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a2 {
-  background-color: #93c4f5; }
+  background-color: #93bdf5; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a2 {
-  color: #93c4f5; }
+  color: #93bdf5; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a2 {
-  border-color: #93c4f5 !important; }
+  border-color: #93bdf5 !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a2.border {
-    border-color: #93c4f5 !important; }
+    border-color: #93bdf5 !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a3 {
-  background-color: #6aaaeb; }
+  background-color: #6aa1eb; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a3 {
-  color: #6aaaeb; }
+  color: #6aa1eb; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a3 {
-  border-color: #6aaaeb !important; }
+  border-color: #6aa1eb !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a3.border {
-    border-color: #6aaaeb !important; }
+    border-color: #6aa1eb !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a4 {
-  background-color: #4392e0; }
+  background-color: #4387e0; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a4 {
-  color: #4392e0; }
+  color: #4387e0; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a4 {
-  border-color: #4392e0 !important; }
+  border-color: #4387e0 !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a4.border {
-    border-color: #4392e0 !important; }
+    border-color: #4387e0 !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a5 {
-  background-color: #207bd6; }
+  background-color: #206fd6; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a5 {
-  color: #207bd6; }
+  color: #206fd6; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a5 {
-  border-color: #207bd6 !important; }
+  border-color: #206fd6 !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a5.border {
-    border-color: #207bd6 !important; }
+    border-color: #206fd6 !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a6 {
-  background-color: #0066cc; }
+  background-color: #003882; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a6 {
-  color: #0066cc; }
+  color: #003882; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a6 {
-  border-color: #0066cc !important; }
+  border-color: #003882 !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a6.border {
-    border-color: #0066cc !important; }
+    border-color: #003882 !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a7 {
-  background-color: #0059b3; }
+  background-color: #003274; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a7 {
-  color: #0059b3; }
+  color: #003274; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a7 {
-  border-color: #0059b3 !important; }
+  border-color: #003274 !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a7.border {
-    border-color: #0059b3 !important; }
+    border-color: #003274 !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a8 {
-  background-color: #004d99; }
+  background-color: #004299; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a8 {
-  color: #004d99; }
+  color: #004299; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a8 {
-  border-color: #004d99 !important; }
+  border-color: #004299 !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a8.border {
-    border-color: #004d99 !important; }
+    border-color: #004299 !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a9 {
-  background-color: #004080; }
+  background-color: #003780; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a9 {
-  color: #004080; }
+  color: #003780; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a9 {
-  border-color: #004080 !important; }
+  border-color: #003780 !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a9.border {
-    border-color: #004080 !important; }
+    border-color: #003780 !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a10 {
-  background-color: #003366; }
+  background-color: #002c66; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a10 {
-  color: #003366; }
+  color: #002c66; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a10 {
-  border-color: #003366 !important; }
+  border-color: #002c66 !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a10.border {
-    border-color: #003366 !important; }
+    border-color: #002c66 !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a11 {
-  background-color: #00264d; }
+  background-color: #00214d; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a11 {
-  color: #00264d; }
+  color: #00214d; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a11 {
-  border-color: #00264d !important; }
+  border-color: #00214d !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a11.border {
-    border-color: #00264d !important; }
+    border-color: #00214d !important; }
 
 /* line 37, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-a12 {
-  background-color: #001a33; }
+  background-color: #001633; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-a12 {
-  color: #001a33; }
+  color: #001633; }
 
 /* line 43, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-a12 {
-  border-color: #001a33 !important; }
+  border-color: #001633 !important; }
   /* line 45, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-a12.border {
-    border-color: #001a33 !important; }
+    border-color: #001633 !important; }
 
 /* line 56, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-b1 {
-  background-color: #0066cc; }
+  background-color: #003882; }
 
 /* line 59, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-b1 {
-  color: #0066cc; }
+  color: #003882; }
 
 /* line 62, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-b1 {
-  border-color: #0066cc !important; }
+  border-color: #003882 !important; }
   /* line 64, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-b1.border {
-    border-color: #0066cc !important; }
+    border-color: #003882 !important; }
 
 /* line 56, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-b2 {
-  background-color: #1262b3; }
+  background-color: #0a3368; }
 
 /* line 59, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-b2 {
-  color: #1262b3; }
+  color: #0a3368; }
 
 /* line 62, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-b2 {
-  border-color: #1262b3 !important; }
+  border-color: #0a3368 !important; }
   /* line 64, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-b2.border {
-    border-color: #1262b3 !important; }
+    border-color: #0a3368 !important; }
 
 /* line 56, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-b3 {
-  background-color: #1f5c99; }
+  background-color: #102b4f; }
 
 /* line 59, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-b3 {
-  color: #1f5c99; }
+  color: #102b4f; }
 
 /* line 62, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-b3 {
-  border-color: #1f5c99 !important; }
+  border-color: #102b4f !important; }
   /* line 64, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-b3.border {
-    border-color: #1f5c99 !important; }
+    border-color: #102b4f !important; }
 
 /* line 56, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-b4 {
-  background-color: #265380; }
+  background-color: #102035; }
 
 /* line 59, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-b4 {
-  color: #265380; }
+  color: #102035; }
 
 /* line 62, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-b4 {
-  border-color: #265380 !important; }
+  border-color: #102035 !important; }
   /* line 64, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-b4.border {
-    border-color: #265380 !important; }
+    border-color: #102035 !important; }
 
 /* line 56, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-b5 {
-  background-color: #294766; }
+  background-color: #0b121c; }
 
 /* line 59, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-b5 {
-  color: #294766; }
+  color: #0b121c; }
 
 /* line 62, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-b5 {
-  border-color: #294766 !important; }
+  border-color: #0b121c !important; }
   /* line 64, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-b5.border {
-    border-color: #294766 !important; }
+    border-color: #0b121c !important; }
 
 /* line 56, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-b6 {
-  background-color: #26394d; }
+  background-color: #010203; }
 
 /* line 59, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-b6 {
-  color: #26394d; }
+  color: #010203; }
 
 /* line 62, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-b6 {
-  border-color: #26394d !important; }
+  border-color: #010203 !important; }
   /* line 64, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-b6.border {
-    border-color: #26394d !important; }
+    border-color: #010203 !important; }
 
 /* line 56, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-b7 {
-  background-color: #1f2933; }
+  background-color: #020203; }
 
 /* line 59, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-b7 {
-  color: #1f2933; }
+  color: #020203; }
 
 /* line 62, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-b7 {
-  border-color: #1f2933 !important; }
+  border-color: #020203 !important; }
   /* line 64, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-b7.border {
-    border-color: #1f2933 !important; }
+    border-color: #020203 !important; }
 
 /* line 56, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-b8 {
-  background-color: #12161a; }
+  background-color: #020203; }
 
 /* line 59, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-b8 {
-  color: #12161a; }
+  color: #020203; }
 
 /* line 62, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-b8 {
-  border-color: #12161a !important; }
+  border-color: #020203 !important; }
   /* line 64, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-b8.border {
-    border-color: #12161a !important; }
+    border-color: #020203 !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c1 {
-  background-color: #dce9f5; }
+  background-color: #8c939c; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c1 {
-  color: #dce9f5; }
+  color: #8c939c; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c1 {
-  border-color: #dce9f5 !important; }
+  border-color: #8c939c !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c1.border {
-    border-color: #dce9f5 !important; }
+    border-color: #8c939c !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c2 {
-  background-color: #c4dcf5; }
+  background-color: #7d8a9c; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c2 {
-  color: #c4dcf5; }
+  color: #7d8a9c; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c2 {
-  border-color: #c4dcf5 !important; }
+  border-color: #7d8a9c !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c2.border {
-    border-color: #c4dcf5 !important; }
+    border-color: #7d8a9c !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c3 {
-  background-color: #abd0f5; }
+  background-color: #6d819c; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c3 {
-  color: #abd0f5; }
+  color: #6d819c; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c3 {
-  border-color: #abd0f5 !important; }
+  border-color: #6d819c !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c3.border {
-    border-color: #abd0f5 !important; }
+    border-color: #6d819c !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c4 {
-  background-color: #93c4f5; }
+  background-color: #5e789c; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c4 {
-  color: #93c4f5; }
+  color: #5e789c; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c4 {
-  border-color: #93c4f5 !important; }
+  border-color: #5e789c !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c4.border {
-    border-color: #93c4f5 !important; }
+    border-color: #5e789c !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c5 {
-  background-color: #7ab8f5; }
+  background-color: #4e709c; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c5 {
-  color: #7ab8f5; }
+  color: #4e709c; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c5 {
-  border-color: #7ab8f5 !important; }
+  border-color: #4e709c !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c5.border {
-    border-color: #7ab8f5 !important; }
+    border-color: #4e709c !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c6 {
-  background-color: #62abf5; }
+  background-color: #3e679c; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c6 {
-  color: #62abf5; }
+  color: #3e679c; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c6 {
-  border-color: #62abf5 !important; }
+  border-color: #3e679c !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c6.border {
-    border-color: #62abf5 !important; }
+    border-color: #3e679c !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c7 {
-  background-color: #499ff5; }
+  background-color: #2f5e9c; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c7 {
-  color: #499ff5; }
+  color: #2f5e9c; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c7 {
-  border-color: #499ff5 !important; }
+  border-color: #2f5e9c !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c7.border {
-    border-color: #499ff5 !important; }
+    border-color: #2f5e9c !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c8 {
-  background-color: #3193f5; }
+  background-color: #1f559c; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c8 {
-  color: #3193f5; }
+  color: #1f559c; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c8 {
-  border-color: #3193f5 !important; }
+  border-color: #1f559c !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c8.border {
-    border-color: #3193f5 !important; }
+    border-color: #1f559c !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c9 {
-  background-color: #1887f5; }
+  background-color: #104c9c; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c9 {
-  color: #1887f5; }
+  color: #104c9c; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c9 {
-  border-color: #1887f5 !important; }
+  border-color: #104c9c !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c9.border {
-    border-color: #1887f5 !important; }
+    border-color: #104c9c !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c10 {
-  background-color: #007af5; }
+  background-color: #00439c; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c10 {
-  color: #007af5; }
+  color: #00439c; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c10 {
-  border-color: #007af5 !important; }
+  border-color: #00439c !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c10.border {
-    border-color: #007af5 !important; }
+    border-color: #00439c !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c11 {
-  background-color: #0070e0; }
+  background-color: #003e8f; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c11 {
-  color: #0070e0; }
+  color: #003e8f; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c11 {
-  border-color: #0070e0 !important; }
+  border-color: #003e8f !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c11.border {
-    border-color: #0070e0 !important; }
+    border-color: #003e8f !important; }
 
 /* line 76, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-bg-c12 {
-  background-color: #0066cc; }
+  background-color: #003882; }
 
 /* line 79, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-color-c12 {
-  color: #0066cc; }
+  color: #003882; }
 
 /* line 82, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .primary-border-color-c12 {
-  border-color: #0066cc !important; }
+  border-color: #003882 !important; }
   /* line 84, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
   .primary-border-color-c12.border {
-    border-color: #0066cc !important; }
+    border-color: #003882 !important; }
 
 /* line 90, node_modules/bootstrap-italia/src/scss/utilities/colors.scss */
 .analogue-1-bg {
@@ -3248,7 +3248,7 @@ div.split .bootstrap-select[class*="col-"].dropdown-menu-right {
   --gray-secondary: #5c6f82;
   --gray-tertiary: #5a768a;
   --gray-quaternary: #fcfdff;
-  --primary: #0073e6;
+  --primary: #003882;
   --secondary: #5c6f82;
   --success: #008758;
   --info: #979899;
@@ -3470,12 +3470,12 @@ sup {
 
 /* line 182, node_modules/bootstrap/scss/_reboot.scss */
 a {
-  color: #0073e6;
+  color: #003882;
   text-decoration: underline;
   background-color: transparent; }
   /* line 13, node_modules/bootstrap/scss/mixins/_hover.scss */
   a:hover {
-    color: #004d99;
+    color: #001736;
     text-decoration: underline; }
 
 /* line 199, node_modules/bootstrap/scss/_reboot.scss */
@@ -4720,22 +4720,22 @@ table.list td {
 .table-primary,
 .table-primary > th,
 .table-primary > td {
-  background-color: #b8d8f8; }
+  background-color: #b8c7dc; }
 
 /* line 14, node_modules/bootstrap/scss/mixins/_table-row.scss */
 .table-primary th,
 .table-primary td,
 .table-primary thead th,
 .table-primary tbody + tbody {
-  border-color: #7ab6f2; }
+  border-color: #7a98be; }
 
 /* line 13, node_modules/bootstrap/scss/mixins/_hover.scss */
 .table-hover .table-primary:hover {
-  background-color: #a1cbf6; }
+  background-color: #a7bad4; }
   /* line 32, node_modules/bootstrap/scss/mixins/_table-row.scss */
   .table-hover .table-primary:hover > td,
   .table-hover .table-primary:hover > th {
-    background-color: #a1cbf6; }
+    background-color: #a7bad4; }
 
 /* line 7, node_modules/bootstrap/scss/mixins/_table-row.scss */
 .table-secondary,
@@ -5245,7 +5245,7 @@ table.list td {
     background-color: white;
     border-color: #5c6f82;
     outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(0, 115, 230, 0.25); }
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(0, 56, 130, 0.25); }
   /* line 37, node_modules/bootstrap/scss/_forms.scss */
   .form-control::placeholder {
     color: #656566;
@@ -5700,7 +5700,7 @@ textarea.form-control {
   /* line 25, node_modules/bootstrap/scss/_buttons.scss */
   .btn:focus, .button:focus, .defaultbutton:focus, .btn.focus, .focus.button, .focus.defaultbutton {
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 115, 230, 0.25); }
+    box-shadow: 0 0 0 0.2rem rgba(0, 56, 130, 0.25); }
   /* line 32, node_modules/bootstrap/scss/_buttons.scss */
   .btn.disabled, .disabled.button, .disabled.defaultbutton, .btn:disabled, .button:disabled, .defaultbutton:disabled {
     opacity: 0.65;
@@ -5710,7 +5710,7 @@ textarea.form-control {
     box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125); }
     /* line 42, node_modules/bootstrap/scss/_buttons.scss */
     .btn:not(:disabled):not(.disabled):active:focus, .button:not(:disabled):not(.disabled):active:focus, .defaultbutton:not(:disabled):not(.disabled):active:focus, .btn:not(:disabled):not(.disabled).active:focus, .button:not(:disabled):not(.disabled).active:focus, .defaultbutton:not(:disabled):not(.disabled).active:focus {
-      box-shadow: 0 0 0 0.2rem rgba(0, 115, 230, 0.25), inset 0 3px 5px rgba(0, 0, 0, 0.125); }
+      box-shadow: 0 0 0 0.2rem rgba(0, 56, 130, 0.25), inset 0 3px 5px rgba(0, 0, 0, 0.125); }
 
 /* line 49, node_modules/bootstrap/scss/_buttons.scss */
 a.btn.disabled, a.disabled.button, a.disabled.defaultbutton,
@@ -5723,27 +5723,27 @@ fieldset:disabled a.defaultbutton {
 .btn-primary, .defaultbutton, a.btn-outline-primary.selected,
 a.btn-outline-primary:hover {
   color: white;
-  background-color: #0073e6;
-  border-color: #0073e6;
+  background-color: #003882;
+  border-color: #003882;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075); }
   /* line 13, node_modules/bootstrap/scss/mixins/_hover.scss */
   .btn-primary:hover, .defaultbutton:hover,
   a.btn-outline-primary:hover {
     color: white;
-    background-color: #0060bf;
-    border-color: #0059b3; }
+    background-color: #00285c;
+    border-color: #00224f; }
   /* line 20, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .btn-primary:focus, .defaultbutton:focus, a.btn-outline-primary.selected:focus,
   a.btn-outline-primary:focus:hover, .btn-primary.focus, .focus.defaultbutton, a.focus.btn-outline-primary.selected,
   a.focus.btn-outline-primary:hover {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(0, 115, 230, 0.5); }
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(0, 56, 130, 0.5); }
   /* line 31, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .btn-primary.disabled, .disabled.defaultbutton, a.disabled.btn-outline-primary.selected,
   a.disabled.btn-outline-primary:hover, .btn-primary:disabled, .defaultbutton:disabled, a.btn-outline-primary.selected:disabled,
   a.btn-outline-primary:disabled:hover {
     color: white;
-    background-color: #0073e6;
-    border-color: #0073e6; }
+    background-color: #003882;
+    border-color: #003882; }
   /* line 38, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .btn-primary:not(:disabled):not(.disabled):active, .defaultbutton:not(:disabled):not(.disabled):active, a.btn-outline-primary.selected:not(:disabled):not(.disabled):active,
   a.btn-outline-primary:not(:disabled):not(.disabled):active:hover, .btn-primary:not(:disabled):not(.disabled).active, .defaultbutton:not(:disabled):not(.disabled).active, a.btn-outline-primary.selected:not(:disabled):not(.disabled).active,
@@ -5753,8 +5753,8 @@ a.btn-outline-primary:hover {
   .show > a.dropdown-toggle.btn-outline-primary.selected,
   .show > a.dropdown-toggle.btn-outline-primary:hover {
     color: white;
-    background-color: #0059b3;
-    border-color: #0053a6; }
+    background-color: #00224f;
+    border-color: #001d42; }
     /* line 48, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
     .btn-primary:not(:disabled):not(.disabled):active:focus, .defaultbutton:not(:disabled):not(.disabled):active:focus, a.btn-outline-primary.selected:not(:disabled):not(.disabled):active:focus,
     a.btn-outline-primary:not(:disabled):not(.disabled):active:focus:hover, .btn-primary:not(:disabled):not(.disabled).active:focus, .defaultbutton:not(:disabled):not(.disabled).active:focus, a.btn-outline-primary.selected:not(:disabled):not(.disabled).active:focus,
@@ -5763,7 +5763,7 @@ a.btn-outline-primary:hover {
     .show > .dropdown-toggle.defaultbutton:focus,
     .show > a.dropdown-toggle.btn-outline-primary.selected:focus,
     .show > a.dropdown-toggle.btn-outline-primary:focus:hover {
-      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125), 0 0 0 0.2rem rgba(0, 115, 230, 0.5); }
+      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125), 0 0 0 0.2rem rgba(0, 56, 130, 0.5); }
 
 /* line 60, node_modules/bootstrap/scss/_buttons.scss */
 .btn-secondary, .button {
@@ -6309,32 +6309,32 @@ a.btn-outline-primary:hover {
 
 /* line 66, node_modules/bootstrap/scss/_buttons.scss */
 .btn-outline-primary {
-  color: #0073e6;
+  color: #003882;
   background-color: transparent;
   background-image: none;
-  box-shadow: inset 0 0 0 1px #0073e6; }
+  box-shadow: inset 0 0 0 1px #003882; }
   /* line 71, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .btn-outline-primary:hover {
-    color: #0959aa;
-    box-shadow: inset 0 0 0 1px #0959aa; }
+    color: #04234b;
+    box-shadow: inset 0 0 0 1px #04234b; }
   /* line 76, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .btn-outline-primary:focus, .btn-outline-primary.focus {
-    box-shadow: inset 0 0 0 1px #0073e6, 0 0 0 0.2rem rgba(0, 115, 230, 0.5); }
+    box-shadow: inset 0 0 0 1px #003882, 0 0 0 0.2rem rgba(0, 56, 130, 0.5); }
   /* line 82, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .btn-outline-primary.disabled, .btn-outline-primary:disabled {
-    color: #0073e6;
+    color: #003882;
     background-color: transparent; }
   /* line 88, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active,
   .show > .btn-outline-primary.dropdown-toggle {
-    color: #0073e6;
+    color: #003882;
     background-color: transparent;
     background-image: none;
-    box-shadow: inset 0 0 0 1px #0073e6; }
+    box-shadow: inset 0 0 0 1px #003882; }
     /* line 96, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
     .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus,
     .show > .btn-outline-primary.dropdown-toggle:focus {
-      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125), 0 0 0 0.2rem rgba(0, 115, 230, 0.5); }
+      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125), 0 0 0 0.2rem rgba(0, 56, 130, 0.5); }
 
 /* line 66, node_modules/bootstrap/scss/_buttons.scss */
 .btn-outline-secondary {
@@ -6861,11 +6861,11 @@ a.btn-outline-primary:hover {
 /* line 77, node_modules/bootstrap/scss/_buttons.scss */
 .btn-link {
   font-weight: 400;
-  color: #0073e6;
+  color: #003882;
   text-decoration: underline; }
   /* line 13, node_modules/bootstrap/scss/mixins/_hover.scss */
   .btn-link:hover {
-    color: #004d99;
+    color: #001736;
     text-decoration: underline; }
   /* line 87, node_modules/bootstrap/scss/_buttons.scss */
   .btn-link:focus, .btn-link.focus {
@@ -7144,7 +7144,7 @@ input[type="button"].btn-block {
   .dropdown-item.active, .dropdown-item:active {
     color: white;
     text-decoration: none;
-    background-color: #0073e6; }
+    background-color: #003882; }
   /* line 160, node_modules/bootstrap/scss/_dropdown.scss */
   .dropdown-item.disabled, .dropdown-item:disabled {
     color: #656566;
@@ -7583,7 +7583,7 @@ input[type="button"].btn-block {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: white;
-  background-color: #0073e6; }
+  background-color: #003882; }
 
 /* line 94, node_modules/bootstrap/scss/_nav.scss */
 .nav-fill .nav-item {
@@ -8197,13 +8197,13 @@ input[type="button"].btn-block {
   padding: 0.5rem 0.75rem;
   margin-left: -1px;
   line-height: 1.25;
-  color: #0073e6;
+  color: #003882;
   background-color: white;
   border: 1px solid #b1b1b3; }
   /* line 17, node_modules/bootstrap/scss/_pagination.scss */
   .page-link:hover {
     z-index: 2;
-    color: #004d99;
+    color: #001736;
     text-decoration: none;
     background-color: #cacacc;
     border-color: #b1b1b3; }
@@ -8211,7 +8211,7 @@ input[type="button"].btn-block {
   .page-link:focus {
     z-index: 2;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 115, 230, 0.25); }
+    box-shadow: 0 0 0 0.2rem rgba(0, 56, 130, 0.25); }
 
 /* line 34, node_modules/bootstrap/scss/_pagination.scss */
 .page-item:first-child .page-link {
@@ -8228,8 +8228,8 @@ input[type="button"].btn-block {
 .page-item.active .page-link {
   z-index: 1;
   color: white;
-  background-color: #0073e6;
-  border-color: #0073e6; }
+  background-color: #003882;
+  border-color: #003882; }
 
 /* line 52, node_modules/bootstrap/scss/_pagination.scss */
 .page-item.disabled .page-link {
@@ -8308,15 +8308,15 @@ input[type="button"].btn-block {
 /* line 51, node_modules/bootstrap/scss/_badge.scss */
 .badge-primary {
   color: white;
-  background-color: #0073e6; }
+  background-color: #003882; }
   /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
   a.badge-primary:hover, a.badge-primary:focus {
     color: white;
-    background-color: #0059b3; }
+    background-color: #00224f; }
   /* line 11, node_modules/bootstrap/scss/mixins/_badge.scss */
   a.badge-primary:focus, a.badge-primary.focus {
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 115, 230, 0.5); }
+    box-shadow: 0 0 0 0.2rem rgba(0, 56, 130, 0.5); }
 
 /* line 51, node_modules/bootstrap/scss/_badge.scss */
 .badge-secondary {
@@ -8576,7 +8576,7 @@ input[type="button"].btn-block {
   color: white;
   text-align: center;
   white-space: nowrap;
-  background-color: #0073e6;
+  background-color: #003882;
   transition: width 0.6s ease; }
   @media (prefers-reduced-motion: reduce) {
     /* line 19, node_modules/bootstrap/scss/_progress.scss */
@@ -8615,12 +8615,12 @@ input[type="button"].btn-block {
 /* line 20, node_modules/bootstrap/scss/_list-group.scss */
 .list-group-item-action {
   width: 100%;
-  color: #0073e6;
+  color: #003882;
   text-align: inherit; }
   /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
   .list-group-item-action:hover, .list-group-item-action:focus {
     z-index: 1;
-    color: #0073e6;
+    color: #003882;
     text-decoration: none;
     background-color: #e3e4e6; }
   /* line 33, node_modules/bootstrap/scss/_list-group.scss */
@@ -8654,8 +8654,8 @@ input[type="button"].btn-block {
   .list-group-item.active {
     z-index: 2;
     color: white;
-    background-color: #0073e6;
-    border-color: #0073e6; }
+    background-color: #003882;
+    border-color: #003882; }
 
 /* line 88, node_modules/bootstrap/scss/_list-group.scss */
 .list-group-horizontal {
@@ -8776,17 +8776,17 @@ input[type="button"].btn-block {
 
 /* line 4, node_modules/bootstrap/scss/mixins/_list-group.scss */
 .list-group-item-primary {
-  color: #003c77;
-  background-color: #b8d8f8; }
+  color: #001d44;
+  background-color: #b8c7dc; }
   /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
   .list-group-item-primary.list-group-item-action:hover, .list-group-item-primary.list-group-item-action:focus {
-    color: #003c77;
-    background-color: #a1cbf6; }
+    color: #001d44;
+    background-color: #a7bad4; }
   /* line 14, node_modules/bootstrap/scss/mixins/_list-group.scss */
   .list-group-item-primary.list-group-item-action.active {
     color: white;
-    background-color: #003c77;
-    border-color: #003c77; }
+    background-color: #001d44;
+    border-color: #001d44; }
 
 /* line 4, node_modules/bootstrap/scss/mixins/_list-group.scss */
 .list-group-item-secondary {
@@ -9706,13 +9706,13 @@ a.close.disabled {
 
 /* line 6, node_modules/bootstrap/scss/mixins/_background-variant.scss */
 .bg-primary {
-  background-color: #0073e6 !important; }
+  background-color: #003882 !important; }
 
 /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
 a.bg-primary:hover, a.bg-primary:focus,
 button.bg-primary:hover,
 button.bg-primary:focus {
-  background-color: #0059b3 !important; }
+  background-color: #00224f !important; }
 
 /* line 6, node_modules/bootstrap/scss/mixins/_background-variant.scss */
 .bg-secondary {
@@ -9944,7 +9944,7 @@ button.bg-900:focus {
 
 /* line 20, node_modules/bootstrap/scss/utilities/_borders.scss */
 .border-primary {
-  border-color: #0073e6 !important; }
+  border-color: #003882 !important; }
 
 /* line 20, node_modules/bootstrap/scss/utilities/_borders.scss */
 .border-secondary {
@@ -12993,11 +12993,11 @@ button.bg-900:focus {
 
 /* line 2, node_modules/bootstrap-italia/src/scss/custom/mixins/_text-emphasis.scss */
 .text-primary {
-  color: #004d99 !important; }
+  color: #001736 !important; }
 
 /* line 17, node_modules/bootstrap/scss/mixins/_hover.scss */
 a.text-primary:hover, a.text-primary:focus {
-  color: #004080 !important; }
+  color: #000c1c !important; }
 
 /* line 2, node_modules/bootstrap-italia/src/scss/custom/mixins/_text-emphasis.scss */
 .text-secondary {
@@ -13750,17 +13750,17 @@ table.list th, .table td, table.list td {
     border-top: 0; }
   /* line 34, node_modules/bootstrap-italia/src/scss/custom/_collapse.scss */
   .collapse-div.collapse-background-active .collapse-header *[data-toggle='collapse'][aria-expanded='true'] {
-    background-color: #0073e6;
+    background-color: #003882;
     color: white;
-    border-color: #0073e6; }
+    border-color: #003882; }
     /* line 38, node_modules/bootstrap-italia/src/scss/custom/_collapse.scss */
     .collapse-div.collapse-background-active .collapse-header *[data-toggle='collapse'][aria-expanded='true']:before {
       color: white; }
   /* line 48, node_modules/bootstrap-italia/src/scss/custom/_collapse.scss */
   .collapse-div.collapse-background-hover .collapse-header *[data-toggle='collapse']:hover {
-    background-color: #0073e6;
+    background-color: #003882;
     color: white;
-    border-color: #0073e6; }
+    border-color: #003882; }
     /* line 52, node_modules/bootstrap-italia/src/scss/custom/_collapse.scss */
     .collapse-div.collapse-background-hover .collapse-header *[data-toggle='collapse']:hover:before {
       color: white; }
@@ -13793,7 +13793,7 @@ table.list th, .table td, table.list td {
     font-weight: 600; }
     /* line 97, node_modules/bootstrap-italia/src/scss/custom/_collapse.scss */
     .collapse-header *[data-toggle='collapse'][aria-expanded='false'] {
-      color: #0073e6; }
+      color: #003882; }
       /* line 99, node_modules/bootstrap-italia/src/scss/custom/_collapse.scss */
       .collapse-header *[data-toggle='collapse'][aria-expanded='false']:before {
         transform: scaleY(-1); }
@@ -13806,7 +13806,7 @@ table.list th, .table td, table.list td {
       float: right;
       width: 1.5rem;
       line-height: 0.1rem;
-      color: #7ab8f5;
+      color: #4e709c;
       transition: transform 0.3s; }
     /* line 115, node_modules/bootstrap-italia/src/scss/custom/_collapse.scss */
     .collapse-header *[data-toggle='collapse']:hover {
@@ -13925,7 +13925,7 @@ table.list th, .table td, table.list td {
     .it-carousel-wrapper .owl-dots .owl-dot {
       width: 8px;
       height: 8px;
-      background: #0059b3;
+      background: #003274;
       display: inline-block;
       opacity: 0.3;
       transition: all 0.3s;
@@ -14048,7 +14048,7 @@ table.list th, .table td, table.list td {
 
 /* line 2, node_modules/bootstrap-italia/src/scss/custom/_calendar.scss */
 .it-calendar-wrapper .it-header-block-title {
-  background-color: #0073e6;
+  background-color: #003882;
   color: white;
   padding: 0.5em 0;
   border-radius: 4px 4px 0 0; }
@@ -14103,7 +14103,7 @@ table.list th, .table td, table.list td {
   /* line 68, node_modules/bootstrap-italia/src/scss/custom/_calendar.scss */
   .it-calendar-wrapper .card .card-text a:hover {
     text-decoration: underline;
-    color: #0073e6; }
+    color: #003882; }
 
 /* line 5, node_modules/bootstrap-italia/src/scss/custom/_alert.scss */
 .alert, .message-confirmation,
@@ -14245,7 +14245,7 @@ table.list th, .table td, table.list td {
       margin-right: 0; }
     /* line 63, node_modules/bootstrap-italia/src/scss/custom/_buttons.scss */
     .btn-icon .rounded-icon.rounded-primary {
-      background-color: #0073e6; }
+      background-color: #003882; }
     /* line 63, node_modules/bootstrap-italia/src/scss/custom/_buttons.scss */
     .btn-icon .rounded-icon.rounded-secondary {
       background-color: #5c6f82; }
@@ -14354,8 +14354,8 @@ a.disabled.btn-outline-primary:hover {
   .btn-primary:disabled.btn-progress, .defaultbutton:disabled.btn-progress, a.btn-outline-primary.selected:disabled.btn-progress,
   a.btn-outline-primary:disabled.btn-progress:hover, .btn-primary.disabled.btn-progress, .disabled.btn-progress.defaultbutton, a.disabled.btn-progress.btn-outline-primary.selected,
   a.disabled.btn-progress.btn-outline-primary:hover {
-    background-color: #6aaaeb;
-    border-color: #6aaaeb;
+    background-color: #6aa1eb;
+    border-color: #6aa1eb;
     color: white;
     opacity: 1; }
 
@@ -14382,27 +14382,27 @@ a.disabled.btn-outline-primary:hover {
 .bg-dark a.btn-outline-primary:hover {
   color: #19191a;
   background-color: white;
-  border-color: #0073e6;
+  border-color: #003882;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
-  color: #0073e6; }
+  color: #003882; }
   /* line 13, node_modules/bootstrap/scss/mixins/_hover.scss */
   .bg-dark .btn-primary:hover, .bg-dark .defaultbutton:hover,
   .bg-dark a.btn-outline-primary:hover {
     color: #19191a;
     background-color: white;
-    border-color: #0059b3; }
+    border-color: #00224f; }
   /* line 20, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .bg-dark .btn-primary:focus, .bg-dark .defaultbutton:focus, .bg-dark a.btn-outline-primary.selected:focus,
   .bg-dark a.btn-outline-primary:focus:hover, .bg-dark .btn-primary.focus, .bg-dark .focus.defaultbutton, .bg-dark a.focus.btn-outline-primary.selected,
   .bg-dark a.focus.btn-outline-primary:hover {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(0, 115, 230, 0.5); }
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 0.2rem rgba(0, 56, 130, 0.5); }
   /* line 31, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .bg-dark .btn-primary.disabled, .bg-dark .disabled.defaultbutton, .bg-dark a.disabled.btn-outline-primary.selected,
   .bg-dark a.disabled.btn-outline-primary:hover, .bg-dark .btn-primary:disabled, .bg-dark .defaultbutton:disabled, .bg-dark a.btn-outline-primary.selected:disabled,
   .bg-dark a.btn-outline-primary:disabled:hover {
     color: #19191a;
     background-color: white;
-    border-color: #0073e6; }
+    border-color: #003882; }
   /* line 38, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .bg-dark .btn-primary:not(:disabled):not(.disabled):active, .bg-dark .defaultbutton:not(:disabled):not(.disabled):active, .bg-dark a.btn-outline-primary.selected:not(:disabled):not(.disabled):active,
   .bg-dark a.btn-outline-primary:not(:disabled):not(.disabled):active:hover, .bg-dark .btn-primary:not(:disabled):not(.disabled).active, .bg-dark .defaultbutton:not(:disabled):not(.disabled).active, .bg-dark a.btn-outline-primary.selected:not(:disabled):not(.disabled).active,
@@ -14413,7 +14413,7 @@ a.disabled.btn-outline-primary:hover {
   .show > .bg-dark a.dropdown-toggle.btn-outline-primary:hover {
     color: #19191a;
     background-color: white;
-    border-color: #0053a6; }
+    border-color: #001d42; }
     /* line 48, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
     .bg-dark .btn-primary:not(:disabled):not(.disabled):active:focus, .bg-dark .defaultbutton:not(:disabled):not(.disabled):active:focus, .bg-dark a.btn-outline-primary.selected:not(:disabled):not(.disabled):active:focus,
     .bg-dark a.btn-outline-primary:not(:disabled):not(.disabled):active:focus:hover, .bg-dark .btn-primary:not(:disabled):not(.disabled).active:focus, .bg-dark .defaultbutton:not(:disabled):not(.disabled).active:focus, .bg-dark a.btn-outline-primary.selected:not(:disabled):not(.disabled).active:focus,
@@ -14422,16 +14422,16 @@ a.disabled.btn-outline-primary:hover {
     .show > .bg-dark .dropdown-toggle.defaultbutton:focus,
     .show > .bg-dark a.dropdown-toggle.btn-outline-primary.selected:focus,
     .show > .bg-dark a.dropdown-toggle.btn-outline-primary:focus:hover {
-      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125), 0 0 0 0.2rem rgba(0, 115, 230, 0.5); }
+      box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125), 0 0 0 0.2rem rgba(0, 56, 130, 0.5); }
   /* line 13, node_modules/bootstrap/scss/mixins/_hover.scss */
   .bg-dark .btn-primary:hover, .bg-dark .defaultbutton:hover,
   .bg-dark a.btn-outline-primary:hover {
-    color: #0059b3; }
+    color: #00224f; }
   /* line 176, node_modules/bootstrap-italia/src/scss/custom/_buttons.scss */
   .bg-dark .btn-primary.disabled, .bg-dark .disabled.defaultbutton, .bg-dark a.disabled.btn-outline-primary.selected,
   .bg-dark a.disabled.btn-outline-primary:hover, .bg-dark .btn-primary:disabled, .bg-dark .defaultbutton:disabled, .bg-dark a.btn-outline-primary.selected:disabled,
   .bg-dark a.btn-outline-primary:disabled:hover {
-    color: #0059b3; }
+    color: #00224f; }
 
 /* line 181, node_modules/bootstrap-italia/src/scss/custom/_buttons.scss */
 .bg-dark .btn-outline-primary {
@@ -14476,14 +14476,14 @@ a.disabled.btn-outline-primary:hover {
 /* line 203, node_modules/bootstrap-italia/src/scss/custom/_buttons.scss */
 .bg-dark .btn-secondary, .bg-dark .button {
   color: white;
-  background-color: #0073e6;
+  background-color: #003882;
   border-color: white;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
   color: white; }
   /* line 13, node_modules/bootstrap/scss/mixins/_hover.scss */
   .bg-dark .btn-secondary:hover, .bg-dark .button:hover {
     color: white;
-    background-color: #0d86ff;
+    background-color: #0048a8;
     border-color: #e6e5e5; }
   /* line 20, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .bg-dark .btn-secondary:focus, .bg-dark .button:focus, .bg-dark .btn-secondary.focus, .bg-dark .focus.button {
@@ -14491,14 +14491,14 @@ a.disabled.btn-outline-primary:hover {
   /* line 31, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .bg-dark .btn-secondary.disabled, .bg-dark .disabled.button, .bg-dark .btn-secondary:disabled, .bg-dark .button:disabled {
     color: white;
-    background-color: #0073e6;
+    background-color: #003882;
     border-color: white; }
   /* line 38, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
   .bg-dark .btn-secondary:not(:disabled):not(.disabled):active, .bg-dark .button:not(:disabled):not(.disabled):active, .bg-dark .btn-secondary:not(:disabled):not(.disabled).active, .bg-dark .button:not(:disabled):not(.disabled).active,
   .show > .bg-dark .btn-secondary.dropdown-toggle,
   .show > .bg-dark .dropdown-toggle.button {
     color: white;
-    background-color: #1a8cff;
+    background-color: #004eb5;
     border-color: #dfdfdf; }
     /* line 48, node_modules/bootstrap-italia/src/scss/custom/mixins/_buttons.scss */
     .bg-dark .btn-secondary:not(:disabled):not(.disabled):active:focus, .bg-dark .button:not(:disabled):not(.disabled):active:focus, .bg-dark .btn-secondary:not(:disabled):not(.disabled).active:focus, .bg-dark .button:not(:disabled):not(.disabled).active:focus,
@@ -14788,8 +14788,8 @@ textarea {
     opacity: 0.8; }
   /* line 263, node_modules/bootstrap-italia/src/scss/custom/_forms.scss */
   .form-check [type='checkbox']:checked + label::after {
-    border-color: #0073e6;
-    background-color: #0073e6;
+    border-color: #003882;
+    background-color: #003882;
     z-index: 0; }
   /* line 269, node_modules/bootstrap-italia/src/scss/custom/_forms.scss */
   .form-check [type='checkbox']:not(:checked) + label::after {
@@ -14840,13 +14840,13 @@ textarea {
     transform: scale(0); }
   /* line 341, node_modules/bootstrap-italia/src/scss/custom/_forms.scss */
   .form-check [type='radio']:checked + label::after {
-    border-color: #0073e6;
-    background-color: #0073e6;
+    border-color: #003882;
+    background-color: #003882;
     z-index: 0;
     transform: scale(0.64); }
   /* line 348, node_modules/bootstrap-italia/src/scss/custom/_forms.scss */
   .form-check [type='radio']:checked + label::before {
-    border-color: #0073e6; }
+    border-color: #003882; }
   /* line 354, node_modules/bootstrap-italia/src/scss/custom/_forms.scss */
   .form-check [type='radio']:disabled + label {
     cursor: not-allowed; }
@@ -14922,15 +14922,15 @@ input[type='file'] + label {
   /* line 29, node_modules/bootstrap-italia/src/scss/custom/_form-input-file.scss */
   .form-file .form-file-name::before {
     background-color: white;
-    border-color: #0073e6;
+    border-color: #003882;
     bottom: -1px;
-    color: #0073e6;
+    color: #003882;
     content: 'Sfoglia';
     display: block;
     height: 2.5rem;
     line-height: 1.7;
     padding: 0.4rem 1rem 1.5rem;
-    border: 1px solid #0073e6;
+    border: 1px solid #003882;
     position: absolute;
     right: 0;
     top: 0;
@@ -15091,11 +15091,11 @@ label.input-number-label {
   padding: 7px 24px;
   border-radius: 4px;
   color: white;
-  background-color: #0073e6;
+  background-color: #003882;
   transition: background-color 0.15s; }
   /* line 30, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
   .upload[type='file'] + label:hover {
-    background-color: #0059b3; }
+    background-color: #00224f; }
   /* line 35, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
   .upload[type='file'] + label svg {
     fill: white;
@@ -15103,7 +15103,7 @@ label.input-number-label {
 
 /* line 43, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
 .upload:focus + label {
-  background-color: #0059b3;
+  background-color: #00224f;
   outline: auto 5px -webkit-focus-ring-color; }
 
 /* line 51, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
@@ -15125,9 +15125,9 @@ label.input-number-label {
     width: 128px;
     border-radius: 0;
     padding: 0;
-    border: 2px dashed #bfdfff;
-    background-color: #f2f9ff;
-    color: #0066cc;
+    border: 2px dashed #bfdbff;
+    background-color: #f2f8ff;
+    color: #003882;
     text-align: center;
     display: table-cell;
     vertical-align: middle;
@@ -15135,17 +15135,17 @@ label.input-number-label {
     /* line 82, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
     .upload-pictures-wall .upload[type='file'] + label .icon {
       display: block;
-      fill: #0066cc;
+      fill: #003882;
       margin: 0 auto;
       width: 48px;
       height: 48px;
       flex-shrink: 0; }
     /* line 91, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
     .upload-pictures-wall .upload[type='file'] + label:hover {
-      border: 2px dashed #0066cc; }
+      border: 2px dashed #003882; }
   /* line 98, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
   .upload-pictures-wall .upload:focus[type='file'] + label, .upload-pictures-wall .upload:active[type='file'] + label {
-    border: 2px dashed #6aaaeb; }
+    border: 2px dashed #6aa1eb; }
   /* line 105, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
   .upload-pictures-wall .upload-image {
     flex-shrink: 0;
@@ -15180,10 +15180,10 @@ label.input-number-label {
       color: #5b6f82; }
     /* line 148, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
     .upload-file-list .upload-file.success svg {
-      fill: #0073e6; }
+      fill: #003882; }
     /* line 152, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
     .upload-file-list .upload-file.success p {
-      color: #0073e6; }
+      color: #003882; }
       /* line 155, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
       .upload-file-list .upload-file.success p .upload-file-weight {
         display: inline-block; }
@@ -15231,7 +15231,7 @@ label.input-number-label {
         cursor: pointer; }
         /* line 216, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
         .upload-file-list .upload-file button:hover svg {
-          fill: #0073e6; }
+          fill: #003882; }
   /* line 224, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
   .upload-file-list .progress {
     position: absolute;
@@ -15359,7 +15359,7 @@ label.input-number-label {
   /* line 393, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
   .upload-dragdrop-input[type='file'] + label {
     text-decoration: underline;
-    color: #0073e6;
+    color: #003882;
     cursor: pointer; }
   /* line 400, node_modules/bootstrap-italia/src/scss/custom/_form-input-upload.scss */
   .upload-dragdrop-input:focus[type='file'] + label {
@@ -15415,7 +15415,7 @@ label.input-number-label {
     position: absolute;
     top: calc(50% - 18px);
     left: 20px;
-    background: #0073e6;
+    background: #003882;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -15547,7 +15547,7 @@ label.input-number-label {
         transition: left 0.3s ease, background 0.1s ease, transform 0.1s ease; }
       /* line 53, node_modules/bootstrap-italia/src/scss/custom/_form-toggles.scss */
       .toggles label input[type='checkbox'] + .lever:before {
-        background-color: rgba(0, 115, 230, 0.15); }
+        background-color: rgba(0, 56, 130, 0.15); }
       /* line 57, node_modules/bootstrap-italia/src/scss/custom/_form-toggles.scss */
       .toggles label input[type='checkbox'] + .lever:after {
         background-color: #5c6f82;
@@ -15564,7 +15564,7 @@ label.input-number-label {
         left: 23px; }
       /* line 75, node_modules/bootstrap-italia/src/scss/custom/_form-toggles.scss */
       .toggles label input[type='checkbox']:checked + .lever:after {
-        background-color: #0073e6;
+        background-color: #003882;
         background-size: 14px 14px;
         background-repeat: no-repeat;
         background-position: center;
@@ -15790,7 +15790,7 @@ label.input-number-label {
         padding: 0;
         display: inline-block;
         font-size: 0.88888889rem;
-        color: #0073e6;
+        color: #003882;
         font-weight: normal;
         width: auto;
         margin-right: 24px; }
@@ -15863,7 +15863,7 @@ label.input-number-label {
     .bootstrap-select-wrapper .dropdown.bootstrap-select .dropdown-menu li a {
       font-size: 0.88888889rem;
       padding: 8px 24px;
-      color: #0073e6;
+      color: #003882;
       white-space: inherit; }
       /* line 357, node_modules/bootstrap-italia/src/scss/custom/_form-select.scss */
       .bootstrap-select-wrapper .dropdown.bootstrap-select .dropdown-menu li a.icon-options-li span.text {
@@ -15877,7 +15877,7 @@ label.input-number-label {
           text-decoration: underline; }
         /* line 370, node_modules/bootstrap-italia/src/scss/custom/_form-select.scss */
         .bootstrap-select-wrapper .dropdown.bootstrap-select .dropdown-menu li a.selected span.check-mark {
-          color: #0073e6; }
+          color: #003882; }
       /* line 375, node_modules/bootstrap-italia/src/scss/custom/_form-select.scss */
       .bootstrap-select-wrapper .dropdown.bootstrap-select .dropdown-menu li a:focus, .bootstrap-select-wrapper .dropdown.bootstrap-select .dropdown-menu li a:active {
         background: transparent;
@@ -15903,7 +15903,7 @@ label.input-number-label {
           display: none; }
         /* line 405, node_modules/bootstrap-italia/src/scss/custom/_form-select.scss */
         .bootstrap-select-wrapper .dropdown.bootstrap-select .dropdown-menu li a span.text .icon {
-          fill: #0073e6;
+          fill: #003882;
           margin-right: 8px;
           width: 24px;
           height: 24px;
@@ -15996,8 +15996,8 @@ fieldset.disabled .bootstrap-select-wrapper {
     background: #fff; }
   /* line 63, node_modules/bootstrap-italia/src/scss/custom/_form-transfer.scss */
   .it-transfer-wrapper .form-check input.semi-checked:not(:checked) + label::after {
-    border-color: #207bd6;
-    background-color: #207bd6;
+    border-color: #206fd6;
+    background-color: #206fd6;
     z-index: 0; }
 
 /* line 72, node_modules/bootstrap-italia/src/scss/custom/_form-transfer.scss */
@@ -16026,12 +16026,12 @@ fieldset.disabled .bootstrap-select-wrapper {
       transform: rotate(90deg); }
     /* line 99, node_modules/bootstrap-italia/src/scss/custom/_form-transfer.scss */
     .it-transfer-buttons a.active {
-      border-color: #207bd6;
+      border-color: #206fd6;
       cursor: pointer;
       pointer-events: all; }
       /* line 104, node_modules/bootstrap-italia/src/scss/custom/_form-transfer.scss */
       .it-transfer-buttons a.active svg {
-        fill: #207bd6; }
+        fill: #206fd6; }
 
 @media (min-width: 768px) {
   /* line 117, node_modules/bootstrap-italia/src/scss/custom/_form-transfer.scss */
@@ -16235,7 +16235,7 @@ nav.pagination-wrapper {
     width: 100%; }
     /* line 55, node_modules/bootstrap-italia/src/scss/custom/_pager.scss */
     nav.pagination-wrapper .btn.dropdown-toggle:after, nav.pagination-wrapper .dropdown-toggle.button:after, nav.pagination-wrapper .dropdown-toggle.defaultbutton:after {
-      color: #0073e6;
+      color: #003882;
       margin-left: 0.5rem; }
 
 /* line 62, node_modules/bootstrap-italia/src/scss/custom/_pager.scss */
@@ -16273,7 +16273,7 @@ nav.pagination-wrapper {
         pointer-events: none; }
       /* line 107, node_modules/bootstrap-italia/src/scss/custom/_pager.scss */
       .pagination .page-item .page-link.text {
-        color: #0073e6; }
+        color: #003882; }
       /* line 111, node_modules/bootstrap-italia/src/scss/custom/_pager.scss */
       .pagination .page-item .page-link span.d-inline-block {
         margin-right: 0.5rem; }
@@ -16398,7 +16398,7 @@ nav.pagination-wrapper {
       fill: #5c6f82; }
     /* line 131, node_modules/bootstrap-italia/src/scss/custom/_tab.scss */
     .nav-tabs .nav-link.active .icon {
-      fill: #0073e6; }
+      fill: #003882; }
   /* line 136, node_modules/bootstrap-italia/src/scss/custom/_tab.scss */
   .nav-tabs .nav-link.active,
   .nav-tabs .nav-item.show .nav-link {
@@ -16523,10 +16523,10 @@ nav.pagination-wrapper {
         fill: #b1b1b3; }
     /* line 277, node_modules/bootstrap-italia/src/scss/custom/_tab.scss */
     .nav-tabs.nav-tabs-editable .nav-link-close:hover {
-      color: #0059b3; }
+      color: #00224f; }
       /* line 279, node_modules/bootstrap-italia/src/scss/custom/_tab.scss */
       .nav-tabs.nav-tabs-editable .nav-link-close:hover .icon {
-        fill: #0059b3; }
+        fill: #00224f; }
     /* line 283, node_modules/bootstrap-italia/src/scss/custom/_tab.scss */
     .nav-tabs.nav-tabs-editable .nav-link-close .it-ico {
       font-size: 0.6rem; }
@@ -16536,11 +16536,11 @@ nav.pagination-wrapper {
   /* line 292, node_modules/bootstrap-italia/src/scss/custom/_tab.scss */
   .nav-tabs.nav-tabs-editable .nav-link.active .nav-link-close,
   .nav-tabs.nav-tabs-editable .nav-item.show .nav-link .nav-link-close {
-    color: #0073e6; }
+    color: #003882; }
     /* line 294, node_modules/bootstrap-italia/src/scss/custom/_tab.scss */
     .nav-tabs.nav-tabs-editable .nav-link.active .nav-link-close .icon,
     .nav-tabs.nav-tabs-editable .nav-item.show .nav-link .nav-link-close .icon {
-      fill: #0073e6; }
+      fill: #003882; }
 
 /* line 306, node_modules/bootstrap-italia/src/scss/custom/_tab.scss */
 .flex-column-reverse .nav-tabs {
@@ -16717,7 +16717,7 @@ nav.pagination-wrapper {
 .it-hero-wrapper {
   min-height: 380px;
   position: relative;
-  background-color: #0066cc;
+  background-color: #003882;
   display: flex;
   align-items: flex-end; }
   /* line 9, node_modules/bootstrap-italia/src/scss/custom/_hero.scss */
@@ -16782,7 +16782,7 @@ nav.pagination-wrapper {
     background: rgba(23, 50, 77, 0.54); }
   /* line 90, node_modules/bootstrap-italia/src/scss/custom/_hero.scss */
   .it-hero-wrapper.it-overlay.it-primary .img-responsive-wrapper:after {
-    background: rgba(0, 102, 204, 0.85); }
+    background: rgba(0, 56, 130, 0.85); }
   /* line 98, node_modules/bootstrap-italia/src/scss/custom/_hero.scss */
   .it-hero-wrapper.it-overlay.it-filter .img-responsive-wrapper img {
     mix-blend-mode: screen; }
@@ -16918,7 +16918,7 @@ nav.pagination-wrapper {
   position: fixed;
   bottom: 16px;
   right: 16px;
-  background: #0073e6;
+  background: #003882;
   width: 40px;
   height: 40px;
   text-decoration: none;
@@ -16939,7 +16939,7 @@ nav.pagination-wrapper {
     transform: scale(1); }
   /* line 29, node_modules/bootstrap-italia/src/scss/custom/_back-to-top.scss */
   .back-to-top:hover {
-    background: #0059b3;
+    background: #00224f;
     text-decoration: none; }
   /* line 34, node_modules/bootstrap-italia/src/scss/custom/_back-to-top.scss */
   .back-to-top .icon {
@@ -17045,20 +17045,20 @@ nav.pagination-wrapper {
     font-size: 1rem; }
     /* line 66, node_modules/bootstrap-italia/src/scss/custom/_autocomplete.scss */
     .autocomplete-list a:hover {
-      color: #0073e6;
+      color: #003882;
       text-decoration: none; }
       /* line 70, node_modules/bootstrap-italia/src/scss/custom/_autocomplete.scss */
       .autocomplete-list a:hover .icon {
-        fill: #0073e6; }
+        fill: #003882; }
       /* line 76, node_modules/bootstrap-italia/src/scss/custom/_autocomplete.scss */
       .autocomplete-list a:hover .autocomplete-list-text span {
         text-decoration: underline; }
       /* line 81, node_modules/bootstrap-italia/src/scss/custom/_autocomplete.scss */
       .autocomplete-list a:hover .autocomplete-list-text em {
-        color: #0073e6; }
+        color: #003882; }
       /* line 87, node_modules/bootstrap-italia/src/scss/custom/_autocomplete.scss */
       .autocomplete-list a:hover mark {
-        color: #0073e6; }
+        color: #003882; }
     /* line 93, node_modules/bootstrap-italia/src/scss/custom/_autocomplete.scss */
     .autocomplete-list a .icon,
     .autocomplete-list a .avatar {
@@ -17102,7 +17102,7 @@ nav.pagination-wrapper {
   top: 1rem; }
   /* line 146, node_modules/bootstrap-italia/src/scss/custom/_autocomplete.scss */
   .autocomplete-wrapper-big .autocomplete-icon .icon {
-    fill: #0073e6;
+    fill: #003882;
     width: 24px;
     height: 24px; }
 
@@ -17162,15 +17162,15 @@ nav.pagination-wrapper {
       text-decoration: none; }
       /* line 21, node_modules/bootstrap-italia/src/scss/custom/_linklist.scss */
       .link-list-wrapper ul li a:hover:not(.disabled) span {
-        color: #0066cc;
+        color: #003882;
         text-decoration: underline; }
       /* line 25, node_modules/bootstrap-italia/src/scss/custom/_linklist.scss */
       .link-list-wrapper ul li a:hover:not(.disabled) p {
-        color: #0066cc;
+        color: #003882;
         text-decoration: none; }
       /* line 29, node_modules/bootstrap-italia/src/scss/custom/_linklist.scss */
       .link-list-wrapper ul li a:hover:not(.disabled) .icon {
-        fill: #0066cc; }
+        fill: #003882; }
     /* line 33, node_modules/bootstrap-italia/src/scss/custom/_linklist.scss */
     .link-list-wrapper ul li a.disabled:hover {
       text-decoration: none; }
@@ -17179,7 +17179,7 @@ nav.pagination-wrapper {
       font-weight: 600; }
     /* line 40, node_modules/bootstrap-italia/src/scss/custom/_linklist.scss */
     .link-list-wrapper ul li a span {
-      color: #0066cc;
+      color: #003882;
       display: inline-block;
       margin-right: 24px; }
     /* line 45, node_modules/bootstrap-italia/src/scss/custom/_linklist.scss */
@@ -17257,11 +17257,11 @@ nav.pagination-wrapper {
         margin-left: 8px; }
     /* line 134, node_modules/bootstrap-italia/src/scss/custom/_linklist.scss */
     .link-list-wrapper ul li a.list-item.active {
-      color: #1f5c99;
+      color: #102b4f;
       text-decoration: underline; }
       /* line 138, node_modules/bootstrap-italia/src/scss/custom/_linklist.scss */
       .link-list-wrapper ul li a.list-item.active span {
-        color: #1f5c99; }
+        color: #102b4f; }
   /* line 144, node_modules/bootstrap-italia/src/scss/custom/_linklist.scss */
   .link-list-wrapper ul li h3 {
     font-size: 1em;
@@ -17354,7 +17354,7 @@ nav.pagination-wrapper {
 
 /* line 14, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
 .navbar {
-  background: #0066cc; }
+  background: #003882; }
   /* line 17, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
   .navbar .overlay {
     position: fixed;
@@ -17399,20 +17399,20 @@ nav.pagination-wrapper {
       padding: 24px 0; }
       /* line 72, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
       .navbar .navbar-collapsable .navbar-nav li a.nav-link {
-        color: #0066cc;
+        color: #003882;
         font-weight: 600;
         padding: 13px 24px;
         position: relative; }
         /* line 79, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
         .navbar .navbar-collapsable .navbar-nav li a.nav-link.dropdown-toggle svg {
-          fill: #0066cc;
+          fill: #003882;
           transition: all 0.3s; }
         /* line 85, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
         .navbar .navbar-collapsable .navbar-nav li a.nav-link.dropdown-toggle[aria-expanded='true'] .icon {
           transform: scaleY(-1); }
         /* line 91, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
         .navbar .navbar-collapsable .navbar-nav li a.nav-link.active {
-          border-left: 3px solid #0066cc; }
+          border-left: 3px solid #003882; }
         /* line 96, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
         .navbar .navbar-collapsable .navbar-nav li a.nav-link:hover:not(.active) {
           text-decoration: underline; }
@@ -17439,7 +17439,7 @@ nav.pagination-wrapper {
     .navbar .close-div .close-menu {
       background: transparent;
       pointer-events: all;
-      color: #0066cc;
+      color: #003882;
       text-align: center;
       font-size: 0.75em;
       text-transform: uppercase;
@@ -17468,17 +17468,17 @@ nav.pagination-wrapper {
       margin-bottom: 24px; }
       /* line 169, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
       .navbar .dropdown-menu .link-list-wrapper ul li a.list-item.active {
-        color: #1f5c99;
+        color: #102b4f;
         text-decoration: underline; }
         /* line 173, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
         .navbar .dropdown-menu .link-list-wrapper ul li a.list-item.active span {
-          color: #1f5c99; }
+          color: #102b4f; }
       /* line 178, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
       .navbar .dropdown-menu .link-list-wrapper ul li a span {
-        color: #0066cc; }
+        color: #003882; }
       /* line 182, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
       .navbar .dropdown-menu .link-list-wrapper ul li a i {
-        color: #0066cc; }
+        color: #003882; }
       /* line 191, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
       .navbar .dropdown-menu .link-list-wrapper ul li h3 {
         text-transform: uppercase;
@@ -17519,13 +17519,13 @@ nav.pagination-wrapper {
     position: relative; }
     /* line 243, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
     .inline-menu .link-list-wrapper .link-list li a i {
-      color: #6aaaeb; }
+      color: #6aa1eb; }
     /* line 247, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
     .inline-menu .link-list-wrapper .link-list li a:after {
       content: '';
       display: block;
       width: 2px;
-      background: #0066cc;
+      background: #003882;
       position: absolute;
       right: 0;
       top: 0;
@@ -17536,7 +17536,7 @@ nav.pagination-wrapper {
       z-index: 1; }
     /* line 263, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
     .inline-menu .link-list-wrapper .link-list li a.active span {
-      color: #0066cc;
+      color: #003882;
       text-decoration: none; }
     /* line 270, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
     .inline-menu .link-list-wrapper .link-list li a[aria-expanded='true']:after {
@@ -17555,7 +17555,7 @@ nav.pagination-wrapper {
 @media (min-width: 992px) {
   /* line 305, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
   .navbar {
-    background: #0066cc;
+    background: #003882;
     padding: 0; }
     /* line 309, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
     .navbar .navbar-collapsable {
@@ -17582,7 +17582,7 @@ nav.pagination-wrapper {
         overflow-y: visible;
         transform: none;
         transition: none;
-        background: #0066cc; }
+        background: #003882; }
         /* line 336, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
         .navbar .navbar-collapsable .menu-wrapper .navbar-nav {
           margin-top: 0;
@@ -17663,10 +17663,10 @@ nav.pagination-wrapper {
         /* line 440, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
         .navbar .dropdown-menu .link-list-wrapper ul li a span,
         .navbar .dropdown-menu .link-list-wrapper ul li a i {
-          color: #0066cc; }
+          color: #003882; }
         /* line 445, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
         .navbar .dropdown-menu .link-list-wrapper ul li a h3 {
-          color: #0066cc; }
+          color: #003882; }
         /* line 450, node_modules/bootstrap-italia/src/scss/custom/_navigation.scss */
         .navbar .dropdown-menu .link-list-wrapper ul li h3 {
           color: #19191a; }
@@ -17781,11 +17781,11 @@ nav.pagination-wrapper {
       transform: translateY(-50%) scaleY(-1); }
     /* line 42, node_modules/bootstrap-italia/src/scss/custom/_sidebar.scss */
     .sidebar-wrapper .sidebar-linklist-wrapper .link-list-wrapper ul li a[data-toggle='collapse'].active {
-      border-left: 2px solid #0073e6; }
+      border-left: 2px solid #003882; }
       /* line 45, node_modules/bootstrap-italia/src/scss/custom/_sidebar.scss */
       .sidebar-wrapper .sidebar-linklist-wrapper .link-list-wrapper ul li a[data-toggle='collapse'].active span,
       .sidebar-wrapper .sidebar-linklist-wrapper .link-list-wrapper ul li a[data-toggle='collapse'].active i {
-        color: #0073e6;
+        color: #003882;
         text-decoration: none; }
   /* line 56, node_modules/bootstrap-italia/src/scss/custom/_sidebar.scss */
   .sidebar-wrapper .sidebar-linklist-wrapper .link-list-wrapper ul.link-sublist li a {
@@ -17806,7 +17806,7 @@ nav.pagination-wrapper {
     border-right: 1px solid #d9dadb; }
     /* line 88, node_modules/bootstrap-italia/src/scss/custom/_sidebar.scss */
     .sidebar-wrapper.it-line-right-side .sidebar-linklist-wrapper .link-list-wrapper ul li a[data-toggle='collapse'].active {
-      border-right: 2px solid #0073e6;
+      border-right: 2px solid #003882;
       border-left: none; }
   /* line 101, node_modules/bootstrap-italia/src/scss/custom/_sidebar.scss */
   .sidebar-wrapper.it-line-left-side {
@@ -18204,17 +18204,17 @@ nav.pagination-wrapper {
       fill: #5b6f82; }
     /* line 54, node_modules/bootstrap-italia/src/scss/custom/_bottomnav.scss */
     .bottom-nav a.active {
-      color: #0073e6; }
+      color: #003882; }
       /* line 56, node_modules/bootstrap-italia/src/scss/custom/_bottomnav.scss */
       .bottom-nav a.active .icon {
-        fill: #0073e6; }
+        fill: #003882; }
     /* line 60, node_modules/bootstrap-italia/src/scss/custom/_bottomnav.scss */
     .bottom-nav a:hover {
       text-decoration: none;
-      color: #0073e6; }
+      color: #003882; }
       /* line 63, node_modules/bootstrap-italia/src/scss/custom/_bottomnav.scss */
       .bottom-nav a:hover .icon {
-        fill: #0073e6; }
+        fill: #003882; }
   /* line 70, node_modules/bootstrap-italia/src/scss/custom/_bottomnav.scss */
   .bottom-nav .it-ico {
     position: relative;
@@ -18232,7 +18232,7 @@ nav.pagination-wrapper {
   .bottom-nav .bottom-nav-alert {
     display: block;
     position: absolute;
-    background-color: #0073e6;
+    background-color: #003882;
     border: 1px solid white; }
   /* line 94, node_modules/bootstrap-italia/src/scss/custom/_bottomnav.scss */
   .bottom-nav .bottom-nav-badge {
@@ -18292,10 +18292,10 @@ nav.pagination-wrapper {
     padding-bottom: 0.8em; }
     /* line 34, node_modules/bootstrap-italia/src/scss/custom/_navscroll.scss */
     .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active {
-      border-left: 2px solid #0073e6; }
+      border-left: 2px solid #003882; }
       /* line 36, node_modules/bootstrap-italia/src/scss/custom/_navscroll.scss */
       .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active span {
-        color: #0073e6;
+        color: #003882;
         text-decoration: none; }
   /* line 43, node_modules/bootstrap-italia/src/scss/custom/_navscroll.scss */
   .navbar.it-navscroll-wrapper .link-list-wrapper ul li ul li {
@@ -18325,13 +18325,13 @@ nav.pagination-wrapper {
   /* line 72, node_modules/bootstrap-italia/src/scss/custom/_navscroll.scss */
   .navbar.it-navscroll-wrapper .custom-navbar-toggler {
     display: flex;
-    color: #0073e6;
+    color: #003882;
     align-items: center;
     font-weight: 600;
     cursor: pointer; }
     /* line 78, node_modules/bootstrap-italia/src/scss/custom/_navscroll.scss */
     .navbar.it-navscroll-wrapper .custom-navbar-toggler span.it-list {
-      color: #0073e6;
+      color: #003882;
       margin-right: 8px; }
   /* line 85, node_modules/bootstrap-italia/src/scss/custom/_navscroll.scss */
   .navbar.it-navscroll-wrapper .menu-wrapper {
@@ -18372,10 +18372,10 @@ nav.pagination-wrapper {
       padding-bottom: 0.8em; }
       /* line 135, node_modules/bootstrap-italia/src/scss/custom/_navscroll.scss */
       .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active {
-        border-left: 2px solid #0073e6; }
+        border-left: 2px solid #003882; }
         /* line 137, node_modules/bootstrap-italia/src/scss/custom/_navscroll.scss */
         .navbar.it-navscroll-wrapper .link-list-wrapper ul li a.active span {
-          color: #0073e6;
+          color: #003882;
           text-decoration: none; }
     /* line 144, node_modules/bootstrap-italia/src/scss/custom/_navscroll.scss */
     .navbar.it-navscroll-wrapper .link-list-wrapper ul li ul li {
@@ -18546,7 +18546,7 @@ nav.pagination-wrapper {
       border-color: rgba(0, 128, 83, 0.2); }
     /* line 31, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
     .callout.callout-highlight.note {
-      border-color: rgba(0, 64, 128, 0.2); }
+      border-color: rgba(0, 55, 128, 0.2); }
   /* line 37, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
   .callout.callout-more {
     background: #fafaf7;
@@ -18645,34 +18645,34 @@ nav.pagination-wrapper {
         border-color: #008053; }
   /* line 138, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
   .callout.note {
-    border-color: #004080; }
+    border-color: #003780; }
     /* line 140, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
     .callout.note .callout-title {
-      color: #004080; }
+      color: #003780; }
       /* line 142, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
       .callout.note .callout-title .icon {
-        fill: #004080; }
+        fill: #003780; }
       /* line 145, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
       .callout.note .callout-title span {
-        border-color: #004080; }
+        border-color: #003780; }
     /* line 149, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
     .callout.note .collapse-div .collapse-header .callout-more-toggle {
-      color: #004080; }
+      color: #003780; }
       /* line 151, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
       .callout.note .collapse-div .collapse-header .callout-more-toggle:active, .callout.note .collapse-div .collapse-header .callout-more-toggle:hover {
-        color: #004080; }
+        color: #003780; }
       /* line 155, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
       .callout.note .collapse-div .collapse-header .callout-more-toggle span {
-        border-color: #004080; }
+        border-color: #003780; }
         /* line 157, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
         .callout.note .collapse-div .collapse-header .callout-more-toggle span:before, .callout.note .collapse-div .collapse-header .callout-more-toggle span:after {
-          background: #004080; }
+          background: #003780; }
     /* line 163, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
     .callout.note a {
-      color: #004080; }
+      color: #003780; }
     /* line 166, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
     .callout.note .icon {
-      fill: #004080; }
+      fill: #003780; }
   /* line 172, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
   .callout .callout-title {
     font-weight: bold;
@@ -18725,22 +18725,22 @@ nav.pagination-wrapper {
         font-weight: normal;
         display: flex;
         align-items: center;
-        color: #0073e6; }
+        color: #003882; }
         /* line 231, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
         .callout .collapse-div .collapse-header .callout-more-toggle:hover, .callout .collapse-div .collapse-header .callout-more-toggle:focus, .callout .collapse-div .collapse-header .callout-more-toggle:active {
           background: none; }
         /* line 236, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
         .callout .collapse-div .collapse-header .callout-more-toggle:hover {
-          color: #004d99; }
+          color: #001736; }
           /* line 239, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
           .callout .collapse-div .collapse-header .callout-more-toggle:hover span {
-            border-color: #004d99; }
+            border-color: #001736; }
             /* line 241, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
             .callout .collapse-div .collapse-header .callout-more-toggle:hover span:before, .callout .collapse-div .collapse-header .callout-more-toggle:hover span:after {
-              background: #004d99; }
+              background: #001736; }
         /* line 247, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
         .callout .collapse-div .collapse-header .callout-more-toggle:active {
-          color: #0073e6; }
+          color: #003882; }
         /* line 250, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
         .callout .collapse-div .collapse-header .callout-more-toggle:before, .callout .collapse-div .collapse-header .callout-more-toggle:after {
           display: none; }
@@ -18751,14 +18751,14 @@ nav.pagination-wrapper {
           width: 15px;
           margin-left: 0.444rem;
           margin-top: 0.111rem;
-          border: 1px solid #0073e6;
+          border: 1px solid #003882;
           border-radius: 50%;
           display: inline-block; }
           /* line 264, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
           .callout .collapse-div .collapse-header .callout-more-toggle span:before, .callout .collapse-div .collapse-header .callout-more-toggle span:after {
             content: '';
             position: absolute;
-            background: #0073e6; }
+            background: #003882; }
           /* line 271, node_modules/bootstrap-italia/src/scss/custom/_callout.scss */
           .callout .collapse-div .collapse-header .callout-more-toggle span:before {
             width: 9px;
@@ -19012,11 +19012,11 @@ _:-ms-fullscreen,
     /* line 270, node_modules/bootstrap-italia/src/scss/custom/_toolbar.scss */
     .toolbar a.active,
     .toolbar .btn-dropdown.active {
-      color: #0073e6; }
+      color: #003882; }
       /* line 272, node_modules/bootstrap-italia/src/scss/custom/_toolbar.scss */
       .toolbar a.active .icon,
       .toolbar .btn-dropdown.active .icon {
-        fill: #0073e6; }
+        fill: #003882; }
     /* line 277, node_modules/bootstrap-italia/src/scss/custom/_toolbar.scss */
     .toolbar a.disabled,
     .toolbar .btn-dropdown.disabled {
@@ -19047,11 +19047,11 @@ _:-ms-fullscreen,
     .toolbar a:not(.disabled):hover,
     .toolbar .btn-dropdown:not(.disabled):hover {
       text-decoration: underline;
-      color: #0073e6; }
+      color: #003882; }
       /* line 301, node_modules/bootstrap-italia/src/scss/custom/_toolbar.scss */
       .toolbar a:not(.disabled):hover .icon,
       .toolbar .btn-dropdown:not(.disabled):hover .icon {
-        fill: #0073e6; }
+        fill: #003882; }
     /* line 306, node_modules/bootstrap-italia/src/scss/custom/_toolbar.scss */
     .toolbar a _:-ms-fullscreen, .toolbar a:not(.disabled):hover,
     .toolbar .btn-dropdown _:-ms-fullscreen,
@@ -19070,10 +19070,10 @@ _:-ms-fullscreen,
       box-shadow: none; }
       /* line 325, node_modules/bootstrap-italia/src/scss/custom/_toolbar.scss */
       .toolbar .btn-dropdown:not(.disabled).active:focus {
-        box-shadow: 0 0 0 0.2rem rgba(0, 115, 230, 0.25); }
+        box-shadow: 0 0 0 0.2rem rgba(0, 56, 130, 0.25); }
     /* line 331, node_modules/bootstrap-italia/src/scss/custom/_toolbar.scss */
     .toolbar .btn-dropdown:focus {
-      box-shadow: 0 0 0 0.2rem rgba(0, 115, 230, 0.25); }
+      box-shadow: 0 0 0 0.2rem rgba(0, 56, 130, 0.25); }
     /* line 336, node_modules/bootstrap-italia/src/scss/custom/_toolbar.scss */
     .toolbar .btn-dropdown:after {
       content: '';
@@ -19110,7 +19110,7 @@ _:-ms-fullscreen,
   .toolbar .toolbar-alert {
     display: block;
     position: absolute;
-    background-color: #0073e6;
+    background-color: #003882;
     border: 1px solid white; }
   /* line 383, node_modules/bootstrap-italia/src/scss/custom/_toolbar.scss */
   .toolbar .toolbar-badge {
@@ -19142,7 +19142,7 @@ _:-ms-fullscreen,
     background: #f2f7fc; }
   /* line 17, node_modules/bootstrap-italia/src/scss/custom/_sections.scss */
   .section.section-primary {
-    background: #0073e6; }
+    background: #003882; }
   /* line 20, node_modules/bootstrap-italia/src/scss/custom/_sections.scss */
   .section.section-neutral {
     background: #17324d; }
@@ -19168,7 +19168,7 @@ _:-ms-fullscreen,
       z-index: -1;
       background-repeat: no-repeat;
       background-position: top center;
-      background-color: #0059b3; }
+      background-color: #003274; }
 
 @media (min-width: 768px) {
   /* line 57, node_modules/bootstrap-italia/src/scss/custom/_sections.scss */
@@ -19227,7 +19227,7 @@ _:-ms-fullscreen,
     align-items: top; }
     /* line 43, node_modules/bootstrap-italia/src/scss/custom/_dialog.scss */
     .modal.alert-modal .modal-dialog .modal-content .modal-header .icon {
-      fill: #0066cc;
+      fill: #003882;
       margin-right: 16px;
       flex-shrink: 0; }
   /* line 61, node_modules/bootstrap-italia/src/scss/custom/_dialog.scss */
@@ -19241,7 +19241,7 @@ _:-ms-fullscreen,
       letter-spacing: inherit; }
       /* line 69, node_modules/bootstrap-italia/src/scss/custom/_dialog.scss */
       .modal.it-dialog-link-list .modal-dialog .modal-content .modal-header h5 span {
-        color: #0066cc;
+        color: #003882;
         margin-right: 4px; }
   /* line 77, node_modules/bootstrap-italia/src/scss/custom/_dialog.scss */
   .modal.it-dialog-link-list .modal-dialog .modal-content .modal-body .link-list-wrapper .link-list {
@@ -19422,10 +19422,10 @@ _:-ms-fullscreen,
         fill: #d9364f; }
     /* line 59, node_modules/bootstrap-italia/src/scss/custom/_notifications.scss */
     .notification.with-icon.info {
-      border-color: #0073e6; }
+      border-color: #003882; }
       /* line 61, node_modules/bootstrap-italia/src/scss/custom/_notifications.scss */
       .notification.with-icon.info .icon {
-        fill: #0073e6; }
+        fill: #003882; }
     /* line 65, node_modules/bootstrap-italia/src/scss/custom/_notifications.scss */
     .notification.with-icon.warning {
       border-color: #a66300; }
@@ -19447,7 +19447,7 @@ _:-ms-fullscreen,
       fill: #17324d; }
     /* line 88, node_modules/bootstrap-italia/src/scss/custom/_notifications.scss */
     .notification.dismissable .notification-close:hover .icon {
-      fill: #0073e6; }
+      fill: #003882; }
     /* line 92, node_modules/bootstrap-italia/src/scss/custom/_notifications.scss */
     .notification.dismissable .notification-close:active {
       box-shadow: none; }
@@ -19557,7 +19557,7 @@ _:-ms-fullscreen,
     width: 16px; }
   /* line 41, node_modules/bootstrap-italia/src/scss/custom/_avatar.scss */
   .avatar.avatar-primary {
-    background: #0073e6; }
+    background: #003882; }
   /* line 44, node_modules/bootstrap-italia/src/scss/custom/_avatar.scss */
   .avatar.avatar-secondary {
     background: #5c6f82; }
@@ -19751,7 +19751,7 @@ a.avatar {
       filter: brightness(90%); }
     /* line 247, node_modules/bootstrap-italia/src/scss/custom/_avatar.scss */
     a.avatar:hover.avatar-primary {
-      background: #0066cc; }
+      background: #002d69; }
     /* line 250, node_modules/bootstrap-italia/src/scss/custom/_avatar.scss */
     a.avatar:hover.avatar-secondary {
       background: #526273; }
@@ -19826,7 +19826,7 @@ a.avatar {
       background: #f73e5a; }
     /* line 332, node_modules/bootstrap-italia/src/scss/custom/_avatar.scss */
     .avatar-wrapper .avatar-status.notify {
-      background: #0066cc; }
+      background: #003882; }
   /* line 338, node_modules/bootstrap-italia/src/scss/custom/_avatar.scss */
   .avatar-wrapper.avatar-extra-text {
     display: inline-flex;
@@ -19953,7 +19953,7 @@ a.avatar {
     background: rgba(0, 0, 0, 0.8); }
   /* line 85, node_modules/bootstrap-italia/src/scss/custom/_thumbnav.scss */
   .thumb-nav.thumb-nav-primary a:after {
-    background: rgba(0, 115, 230, 0.8); }
+    background: rgba(0, 56, 130, 0.8); }
   /* line 91, node_modules/bootstrap-italia/src/scss/custom/_thumbnav.scss */
   .thumb-nav.thumb-nav-bottom, .thumb-nav.thumb-nav-top {
     position: absolute;
@@ -20022,7 +20022,7 @@ a.avatar {
       /* line 166, node_modules/bootstrap-italia/src/scss/custom/_thumbnav.scss */
       .thumb-nav a.active:after {
         opacity: 1;
-        background: rgba(0, 115, 230, 0.6); }
+        background: rgba(0, 56, 130, 0.6); }
     /* line 173, node_modules/bootstrap-italia/src/scss/custom/_thumbnav.scss */
     .thumb-nav a:hover img {
       transform: scale(1.05);
@@ -20056,11 +20056,11 @@ a.avatar {
       fill: #5c6f82; }
     /* line 19, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
     .steppers .steppers-header li.active, .steppers .steppers-header li.confirmed {
-      color: #0073e6;
+      color: #003882;
       font-weight: 600; }
       /* line 23, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
       .steppers .steppers-header li.active .icon, .steppers .steppers-header li.confirmed .icon {
-        fill: #0073e6; }
+        fill: #003882; }
     /* line 27, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
     .steppers .steppers-header li.active, .steppers .steppers-header li.steppers-index {
       display: block; }
@@ -20074,7 +20074,7 @@ a.avatar {
         margin-left: 0.25rem; }
         /* line 38, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
         .steppers .steppers-header li.steppers-index span.active {
-          color: #0073e6;
+          color: #003882;
           text-decoration: underline; }
     /* line 46, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
     .steppers .steppers-header li .icon {
@@ -20164,7 +20164,7 @@ a.avatar {
       border-radius: 50%; }
       /* line 147, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
       .steppers .steppers-nav .steppers-dots li.done {
-        background: #0073e6; }
+        background: #003882; }
 
 @media (min-width: 576px) {
   /* line 159, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
@@ -20206,14 +20206,14 @@ a.avatar {
         bottom: 0;
         width: calc(100% - 2.222rem);
         height: 2px;
-        background: #0073e6;
+        background: #003882;
         left: 50%;
         transform: translateX(-50%); }
       /* line 214, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
       .steppers .steppers-header li.active .steppers-number {
         color: white;
-        background: #0073e6;
-        border-color: #0073e6; }
+        background: #003882;
+        border-color: #003882; }
       /* line 220, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
       .steppers .steppers-header li.active.no-line:after {
         display: none; }
@@ -20276,15 +20276,15 @@ a.avatar {
   .steppers .steppers-nav button:not(.steppers-btn-save):not(.steppers-btn-confirm) {
     font-size: 1rem;
     background: transparent;
-    color: #0073e6;
+    color: #003882;
     box-shadow: none;
     padding-left: 0;
     padding-right: 0; }
     /* line 319, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
     .steppers .steppers-nav button:not(.steppers-btn-save):not(.steppers-btn-confirm):hover, .steppers .steppers-nav button:not(.steppers-btn-save):not(.steppers-btn-confirm):focus, .steppers .steppers-nav button:not(.steppers-btn-save):not(.steppers-btn-confirm):active {
       background: transparent !important;
-      color: #0073e6 !important;
-      box-shadow: 0 0 0 0.2rem rgba(0, 115, 230, 0.25) !important; }
+      color: #003882 !important;
+      box-shadow: 0 0 0 0.2rem rgba(0, 56, 130, 0.25) !important; }
     /* line 326, node_modules/bootstrap-italia/src/scss/custom/_steppers.scss */
     .steppers .steppers-nav button:not(.steppers-btn-save):not(.steppers-btn-confirm) .icon {
       margin: 0 0.333rem;
@@ -20432,7 +20432,7 @@ a.avatar {
   width: 100%; }
   /* line 170, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
   .card.card-bg-primary {
-    background-color: #0073e6; }
+    background-color: #003882; }
     /* line 174, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
     .card.card-bg-primary .card-body .card-title,
     .card.card-bg-primary .card-body .card-text {
@@ -20597,7 +20597,7 @@ a.avatar {
       margin-top: -16px; }
     /* line 224, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
     .card .card-body a h5.card-title {
-      color: #0066cc; }
+      color: #003882; }
     /* line 228, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
     .card .card-body .card-text {
       font-family: Lora, Georgia, serif;
@@ -20663,7 +20663,7 @@ a.avatar {
     .card .categoryicon-top .icon {
       width: 40px;
       height: 40px;
-      fill: #0066cc;
+      fill: #003882;
       margin-right: 8px;
       flex-shrink: 0; }
   /* line 306, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
@@ -20752,14 +20752,14 @@ a.avatar {
       display: block; }
     /* line 407, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
     .card.special-card .img-responsive-wrapper:before {
-      background: #6aaaeb;
+      background: #6aa1eb;
       left: 24px;
       top: 24px;
       opacity: 0.3;
       transition: all 0.3s; }
     /* line 414, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
     .card.special-card .img-responsive-wrapper:after {
-      background: #6aaaeb;
+      background: #6aa1eb;
       left: 12px;
       top: 12px;
       transition: all 0.3s; }
@@ -20780,14 +20780,14 @@ a.avatar {
     /* line 433, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
     .card.special-card:hover h5 {
       text-decoration: underline;
-      color: #0066cc; }
+      color: #003882; }
     /* line 438, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
     .card.special-card:hover .img-responsive-wrapper:before {
-      background: #0066cc;
+      background: #003882;
       opacity: 0.3; }
     /* line 442, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
     .card.special-card:hover .img-responsive-wrapper:after {
-      background: #0066cc; }
+      background: #003882; }
   /* line 450, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
   .card.card-big .card-body {
     padding: 48px; }
@@ -20798,7 +20798,7 @@ a.avatar {
       .card.card-big .card-body .top-icon .icon {
         width: 80px;
         height: 80px;
-        fill: #0066cc; }
+        fill: #003882; }
     /* line 461, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
     .card.card-big .card-body h5.card-title {
       font-size: 1.33333333rem;
@@ -20825,7 +20825,7 @@ a.avatar {
     right: 0;
     height: 4px;
     bottom: 0;
-    background: #0066cc; }
+    background: #003882; }
   /* line 494, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
   .card .head-tags {
     justify-content: space-between;
@@ -20838,13 +20838,13 @@ a.avatar {
       color: #435a70; }
   /* line 504, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
   .card .card-tag {
-    color: #0066cc;
+    color: #003882;
     font-size: 0.77777778rem;
     font-weight: bold;
     letter-spacing: 0.9px;
     padding: 0 32px;
     border-radius: 50px;
-    border: 1px solid #0066cc; }
+    border: 1px solid #003882; }
   /* line 514, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
   .card .it-card-footer {
     display: flex;
@@ -20950,7 +20950,7 @@ a.avatar {
       flex: 1; }
   /* line 622, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
   .card.card-teaser-primary {
-    border-left: 8px solid #0073e6; }
+    border-left: 8px solid #003882; }
   /* line 622, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
   .card.card-teaser-secondary {
     border-left: 8px solid #5c6f82; }
@@ -21012,7 +21012,7 @@ a.avatar {
   height: 48px;
   box-sizing: content-box;
   position: relative;
-  background: #0066cc;
+  background: #003882;
   color: #fff;
   text-align: center;
   text-transform: uppercase; }
@@ -21033,7 +21033,7 @@ a.avatar {
 a.read-more {
   display: flex;
   align-items: center;
-  color: #0066cc;
+  color: #003882;
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 0.9px;
@@ -21041,7 +21041,7 @@ a.read-more {
   /* line 659, node_modules/bootstrap-italia/src/scss/custom/_card.scss */
   a.read-more .icon {
     margin-left: 8px;
-    fill: #0066cc;
+    fill: #003882;
     width: 16px;
     height: 16px;
     flex-shrink: 0; }
@@ -21147,7 +21147,7 @@ a.read-more {
   right: 0;
   width: 100%;
   padding: 16px 24px;
-  background-color: rgba(0, 115, 230, 0.85);
+  background-color: rgba(0, 56, 130, 0.85);
   color: white;
   font-weight: 600;
   font-size: 1rem;
@@ -21200,7 +21200,7 @@ a.read-more {
     width: 100%;
     height: 100%;
     transform: scale(0.85);
-    background: #d4e9ff;
+    background: #d4e6ff;
     border-radius: 50%; }
 
 /* line 22, node_modules/bootstrap-italia/src/scss/custom/_progress-donuts.scss */
@@ -21237,7 +21237,7 @@ a.read-more {
 .progress {
   height: 4px;
   box-shadow: none;
-  background-color: #d4e9ff; }
+  background-color: #d4e6ff; }
   /* line 22, node_modules/bootstrap-italia/src/scss/custom/_progress-bars.scss */
   .progress.progress-color {
     background-color: #e6ecf2; }
@@ -21254,7 +21254,7 @@ a.read-more {
 
 /* line 39, node_modules/bootstrap-italia/src/scss/custom/_progress-bars.scss */
 .progress-bar {
-  background-color: #0073e6; }
+  background-color: #003882; }
 
 /* line 44, node_modules/bootstrap-italia/src/scss/custom/_progress-bars.scss */
 .progress-bar-label {
@@ -21305,14 +21305,14 @@ a.read-more {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 4px solid #d4e9ff; }
+  border: 4px solid #d4e6ff; }
   /* line 39, node_modules/bootstrap-italia/src/scss/custom/_progress-spinners.scss */
   .progress-spinner.progress-spinner-active {
     animation: spinnerAnim 0.75s linear infinite; }
   /* line 43, node_modules/bootstrap-italia/src/scss/custom/_progress-spinners.scss */
   .progress-spinner.progress-spinner-active:not(.progress-spinner-double) {
-    border-color: #0073e6;
-    border-bottom-color: #d4e9ff; }
+    border-color: #003882;
+    border-bottom-color: #d4e6ff; }
   /* line 48, node_modules/bootstrap-italia/src/scss/custom/_progress-spinners.scss */
   .progress-spinner.size-sm {
     width: 32px;
@@ -21354,7 +21354,7 @@ a.read-more {
         display: inline-block;
         transform: rotate(45deg);
         border-radius: 50%;
-        border: 4px solid #0073e6;
+        border: 4px solid #003882;
         border-right: 4px solid transparent;
         border-bottom: 4px solid transparent;
         width: 100%;
@@ -21386,7 +21386,7 @@ a.read-more {
       flex-shrink: 0;
       position: relative;
       right: -8px;
-      fill: #0066cc;
+      fill: #003882;
       width: 24px;
       height: 24px; }
   /* line 35, node_modules/bootstrap-italia/src/scss/custom/_gridlist.scss */
@@ -21528,7 +21528,7 @@ a.read-more {
     letter-spacing: 0.05em; }
     /* line 54, node_modules/bootstrap-italia/src/scss/custom/_popover.scss */
     .popover .popover-header .icon {
-      fill: #0073e6;
+      fill: #003882;
       margin-right: 8px;
       height: 24px;
       width: 24px; }
@@ -21549,10 +21549,10 @@ a.read-more {
       font-weight: 600; }
       /* line 76, node_modules/bootstrap-italia/src/scss/custom/_popover.scss */
       .popover .popover-body a.popover-inner-link:hover {
-        color: #0073e6; }
+        color: #003882; }
       /* line 80, node_modules/bootstrap-italia/src/scss/custom/_popover.scss */
       .popover .popover-body a.popover-inner-link .icon {
-        fill: #0073e6;
+        fill: #003882;
         height: 16px;
         width: 16px;
         margin-left: 4px;
@@ -21625,7 +21625,7 @@ a.read-more {
       width: 40px; }
       /* line 23, node_modules/bootstrap-italia/src/scss/custom/_list.scss */
       .it-list-wrapper .it-list a .it-rounded-icon svg {
-        fill: #207bd6; }
+        fill: #206fd6; }
     /* line 27, node_modules/bootstrap-italia/src/scss/custom/_list.scss */
     .it-list-wrapper .it-list a .form-check {
       margin: 0;
@@ -21656,7 +21656,7 @@ a.read-more {
       align-items: center; }
       /* line 54, node_modules/bootstrap-italia/src/scss/custom/_list.scss */
       .it-list-wrapper .it-list a .it-right-zone svg {
-        fill: #207bd6;
+        fill: #206fd6;
         margin-right: 24px;
         width: 24px;
         height: 24px; }
@@ -21708,7 +21708,7 @@ a.read-more {
   /* line 134, node_modules/bootstrap-italia/src/scss/custom/_list.scss */
   .it-list-wrapper .it-list a:hover {
     box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.1);
-    color: #207bd6;
+    color: #206fd6;
     text-decoration: none;
     background: #fff;
     position: relative;
@@ -21773,7 +21773,7 @@ a.read-more {
       transition: fill 0.05s; }
   /* line 54, node_modules/bootstrap-italia/src/scss/custom/_chips.scss */
   .chip > .icon {
-    fill: #0073e6;
+    fill: #003882;
     transform: translateX(-5px) translateY(1px);
     transition: fill 0.05s; }
   /* line 60, node_modules/bootstrap-italia/src/scss/custom/_chips.scss */
@@ -21802,7 +21802,7 @@ a.read-more {
       height: 24px;
       width: 24px;
       margin-right: -8px;
-      fill: #0073e6;
+      fill: #003882;
       transform: translateX(-13px) translateY(-1px); }
     /* line 95, node_modules/bootstrap-italia/src/scss/custom/_chips.scss */
     .chip.chip-lg .avatar {
@@ -21855,15 +21855,15 @@ a.read-more {
   /* line 165, node_modules/bootstrap-italia/src/scss/custom/_chips.scss */
   .chip.chip-primary {
     background-color: transparent;
-    border-color: #0073e6;
-    color: #0073e6; }
+    border-color: #003882;
+    color: #003882; }
     /* line 170, node_modules/bootstrap-italia/src/scss/custom/_chips.scss */
     .chip.chip-primary > .chip-label {
-      color: #0073e6; }
+      color: #003882; }
     /* line 174, node_modules/bootstrap-italia/src/scss/custom/_chips.scss */
     .chip.chip-primary:hover, a.chip-primary.chip.chip-lg.selected {
-      background-color: #0073e6;
-      border-color: #0073e6; }
+      background-color: #003882;
+      border-color: #003882; }
       /* line 178, node_modules/bootstrap-italia/src/scss/custom/_chips.scss */
       .chip.chip-primary:hover > .chip-label, a.chip-primary.chip.chip-lg.selected > .chip-label {
         color: white; }
@@ -21871,7 +21871,7 @@ a.read-more {
   .chip.chip-secondary {
     background-color: transparent;
     border-color: #5c6f82;
-    color: #0073e6; }
+    color: #003882; }
     /* line 189, node_modules/bootstrap-italia/src/scss/custom/_chips.scss */
     .chip.chip-secondary > .chip-label {
       color: #5c6f82; }
@@ -21997,14 +21997,14 @@ a.read-more {
 .rating > input:checked ~ label svg,
 .rating:not(:checked) > label:hover svg,
 .rating:not(:checked) > label:hover ~ label svg {
-  fill: #0073e6; }
+  fill: #003882; }
 
 /* line 65, node_modules/bootstrap-italia/src/scss/custom/_rating.scss */
 .rating > input:checked + label:hover + svg,
 .rating > input:checked ~ label:hover + svg,
 .rating > label:hover ~ input:checked ~ label + svg,
 .rating > input:checked ~ label:hover ~ label + svg {
-  fill: #0073e6; }
+  fill: #003882; }
 
 @media (min-width: 576px) {
   /* line 74, node_modules/bootstrap-italia/src/scss/custom/_rating.scss */
@@ -22032,7 +22032,7 @@ a.read-more {
   align-items: flex-start; }
   /* line 19, node_modules/bootstrap-italia/src/scss/custom/_dimmer.scss */
   .dimmer.dimmer-primary {
-    background-color: #0073e6;
+    background-color: #003882;
     opacity: 0.95; }
   /* line 27, node_modules/bootstrap-italia/src/scss/custom/_dimmer.scss */
   .dimmer h1,
@@ -22116,7 +22116,7 @@ a.read-more {
   z-index: 10;
   font-size: 1rem;
   font-family: "Roboto Mono", monospace;
-  color: #0066cc;
+  color: #003882;
   font-weight: 600; }
 
 /* line 12, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
@@ -22127,7 +22127,7 @@ a.read-more {
   .it-timeline-wrapper .row:after, .it-timeline-wrapper div.split:after {
     content: '';
     width: 4px;
-    background: linear-gradient(0deg, #0073e6 0%, #004080 100%);
+    background: linear-gradient(0deg, #003882 0%, #004080 100%);
     position: absolute;
     left: 40px;
     top: -16px;
@@ -22163,13 +22163,13 @@ a.read-more {
   .it-timeline-wrapper .it-pin-wrapper svg {
     width: 24px;
     height: 24px;
-    fill: #0066cc; }
+    fill: #003882; }
   /* line 55, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
   .it-timeline-wrapper .it-pin-wrapper .pin-text {
     color: #435a70;
     font-weight: 600;
     text-transform: uppercase;
-    background: #dce9f5;
+    background: #8c939c;
     border-radius: 4px;
     font-family: "Roboto Mono", monospace; }
     /* line 63, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
@@ -22182,7 +22182,7 @@ a.read-more {
         content: '';
         width: 10px;
         height: 10px;
-        background: #dce9f5;
+        background: #8c939c;
         border-radius: 3px;
         position: absolute;
         left: -4px;
@@ -22190,30 +22190,30 @@ a.read-more {
         transform: translateY(-50%) rotate(45deg); }
   /* line 81, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
   .it-timeline-wrapper .it-pin-wrapper.it-now .pin-icon {
-    background: #0066cc; }
+    background: #003882; }
   /* line 84, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
   .it-timeline-wrapper .it-pin-wrapper.it-now svg {
     fill: #fff; }
   /* line 87, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
   .it-timeline-wrapper .it-pin-wrapper.it-now .pin-text {
     color: #fff;
-    background: #0066cc; }
+    background: #003882; }
     /* line 91, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
     .it-timeline-wrapper .it-pin-wrapper.it-now .pin-text span:after {
-      background: #0066cc; }
+      background: #003882; }
   /* line 98, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
   .it-timeline-wrapper .it-pin-wrapper.it-evidence .pin-icon {
-    background: #003366; }
+    background: #002c66; }
   /* line 101, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
   .it-timeline-wrapper .it-pin-wrapper.it-evidence svg {
     fill: #fff; }
   /* line 104, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
   .it-timeline-wrapper .it-pin-wrapper.it-evidence .pin-text {
     color: #fff;
-    background: #003366; }
+    background: #002c66; }
     /* line 108, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
     .it-timeline-wrapper .it-pin-wrapper.it-evidence .pin-text span:after {
-      background: #003366; }
+      background: #002c66; }
 
 @media (min-width: 992px) {
   /* line 121, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
@@ -22239,7 +22239,7 @@ a.read-more {
       display: inline-block;
       height: 1px;
       width: 16px;
-      background: #0066cc;
+      background: #003882;
       margin-right: 16px; }
   /* line 153, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
   .it-timeline-wrapper .col-12:nth-child(odd) .timeline-element {
@@ -22270,7 +22270,7 @@ a.read-more {
       right: -4px; }
     /* line 188, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
     .it-timeline-wrapper .col-12:nth-child(odd) .it-pin-wrapper.it-evidence .pin-text span:after {
-      border-color: transparent transparent transparent #0066cc; }
+      border-color: transparent transparent transparent #003882; }
   /* line 197, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
   .it-timeline-wrapper .col-12:nth-child(even) .it-now-label {
     left: 0;
@@ -22283,7 +22283,7 @@ a.read-more {
       display: inline-block;
       height: 1px;
       width: 16px;
-      background: #0066cc;
+      background: #003882;
       margin-left: 16px; }
   /* line 211, node_modules/bootstrap-italia/src/scss/custom/_timeline.scss */
   .it-timeline-wrapper .col-12:nth-child(even) .timeline-element {
@@ -22336,8 +22336,8 @@ a.read-more {
     justify-content: center;
     align-items: center;
     padding: 0.5rem 1rem;
-    color: #0073e6;
-    border-right: 1px solid #0073e6; }
+    color: #003882;
+    border-right: 1px solid #003882; }
     /* line 15, node_modules/bootstrap-italia/src/scss/custom/_point-list.scss */
     .point-list-wrapper .point-list .point-list-aside:after {
       content: '';
@@ -22348,7 +22348,7 @@ a.read-more {
       right: -5px;
       transform: translateY(-5px);
       border-radius: 50%;
-      background-color: #0073e6; }
+      background-color: #003882; }
     /* line 31, node_modules/bootstrap-italia/src/scss/custom/_point-list.scss */
     .point-list-wrapper .point-list .point-list-aside .point-date {
       flex: 1;
@@ -22361,11 +22361,11 @@ a.read-more {
       text-transform: uppercase; }
     /* line 44, node_modules/bootstrap-italia/src/scss/custom/_point-list.scss */
     .point-list-wrapper .point-list .point-list-aside.point-list-primary {
-      color: #0073e6;
-      border-right: 1px solid #0073e6; }
+      color: #003882;
+      border-right: 1px solid #003882; }
       /* line 48, node_modules/bootstrap-italia/src/scss/custom/_point-list.scss */
       .point-list-wrapper .point-list .point-list-aside.point-list-primary:after {
-        background-color: #0073e6; }
+        background-color: #003882; }
     /* line 44, node_modules/bootstrap-italia/src/scss/custom/_point-list.scss */
     .point-list-wrapper .point-list .point-list-aside.point-list-secondary {
       color: #5c6f82;
@@ -22514,8 +22514,8 @@ a.read-more {
     justify-content: flex-end;
     align-items: center;
     padding: 0.5rem 1rem;
-    color: #0073e6;
-    border-right: 1px solid #0073e6; }
+    color: #003882;
+    border-right: 1px solid #003882; }
     /* line 18, node_modules/bootstrap-italia/src/scss/custom/_rating-list.scss */
     .rating-list-wrapper .rating-list .rating-list-aside .rating-value {
       display: flex;
@@ -22533,8 +22533,8 @@ a.read-more {
       align-items: flex-start; }
     /* line 36, node_modules/bootstrap-italia/src/scss/custom/_rating-list.scss */
     .rating-list-wrapper .rating-list .rating-list-aside.rating-list-primary {
-      color: #0073e6;
-      border-right: 1px solid #0073e6; }
+      color: #003882;
+      border-right: 1px solid #003882; }
     /* line 36, node_modules/bootstrap-italia/src/scss/custom/_rating-list.scss */
     .rating-list-wrapper .rating-list .rating-list-aside.rating-list-secondary {
       color: #5c6f82;
@@ -22669,8 +22669,8 @@ a.read-more {
 
 /* line 3, node_modules/bootstrap-italia/src/scss/custom/_badge.scss */
 .badge.badge-outline-primary {
-  color: #0073e6;
-  border: 1px solid #0073e6;
+  color: #003882;
+  border: 1px solid #003882;
   background-color: transparent !important; }
 
 /* line 3, node_modules/bootstrap-italia/src/scss/custom/_badge.scss */
@@ -23004,14 +23004,14 @@ a.datepicker-button {
             background: transparent; }
             /* line 266, node_modules/bootstrap-italia/src/scss/custom/_form-datepicker.scss */
             .datepicker-calendar.default table.datepicker-grid td.empty:hover span {
-              background: #0066cc;
+              background: #003882;
               color: #fff; }
         /* line 273, node_modules/bootstrap-italia/src/scss/custom/_form-datepicker.scss */
         .datepicker-calendar.default table.datepicker-grid td.selectable:hover, .datepicker-calendar.default table.datepicker-grid td.selectable.focus {
           background-color: transparent; }
         /* line 279, node_modules/bootstrap-italia/src/scss/custom/_form-datepicker.scss */
         .datepicker-calendar.default table.datepicker-grid td.selectable.focus span {
-          background: #0066cc;
+          background: #003882;
           color: #fff; }
     /* line 287, node_modules/bootstrap-italia/src/scss/custom/_form-datepicker.scss */
     .datepicker-calendar.default tr.datepicker-weekdays {
@@ -23173,7 +23173,7 @@ abbr[title] {
         height: 40px; }
         /* line 478, node_modules/bootstrap-italia/src/scss/custom/_form-datepicker.scss */
         .it-datepicker-wrapper .input-group .datepicker-button:hover .icon {
-          fill: #0066cc; }
+          fill: #003882; }
       /* line 483, node_modules/bootstrap-italia/src/scss/custom/_form-datepicker.scss */
       .it-datepicker-wrapper .input-group .datepicker-button .icon {
         fill: #435a70;
@@ -23224,7 +23224,7 @@ abbr[title] {
     /* line 542, node_modules/bootstrap-italia/src/scss/custom/_form-datepicker.scss */
     .it-datepicker-wrapper.theme-dark .datepicker-calendar.default table.datepicker-grid td.selectable.focus span {
       background: #fff;
-      color: #0066cc; }
+      color: #003882; }
   /* line 548, node_modules/bootstrap-italia/src/scss/custom/_form-datepicker.scss */
   .it-datepicker-wrapper.theme-dark .datepicker-calendar.default table.datepicker-grid td.curDay, .it-datepicker-wrapper.theme-dark .datepicker-calendar.default table.datepicker-grid td.curMonth, .it-datepicker-wrapper.theme-dark .datepicker-calendar.default table.datepicker-grid td.curYear {
     background: transparent; }
@@ -23244,7 +23244,7 @@ abbr[title] {
 .it-datepicker-wrapper.theme-dark .datepicker-calendar {
   border-top: 2px solid #435a70;
   color: #fff;
-  background-color: #0066cc; }
+  background-color: #003882; }
   /* line 575, node_modules/bootstrap-italia/src/scss/custom/_form-datepicker.scss */
   .it-datepicker-wrapper.theme-dark .datepicker-calendar .datepicker-month-wrap {
     color: #fff; }
@@ -23274,7 +23274,7 @@ abbr[title] {
 
 /* line 2, node_modules/bootstrap-italia/src/scss/custom/_headerslim.scss */
 .it-header-slim-wrapper {
-  background: #0059b3;
+  background: #003274;
   padding: 6.5px 18px; }
   /* line 6, node_modules/bootstrap-italia/src/scss/custom/_headerslim.scss */
   .it-header-slim-wrapper .it-header-slim-wrapper-content {
@@ -23329,12 +23329,12 @@ abbr[title] {
       align-self: flex-start; }
       /* line 60, node_modules/bootstrap-italia/src/scss/custom/_headerslim.scss */
       .it-header-slim-wrapper .it-header-slim-wrapper-content .header-slim-right-zone button {
-        background: #004080;
+        background: #003780;
         padding-top: 7.5px;
         padding-bottom: 7.5px; }
         /* line 64, node_modules/bootstrap-italia/src/scss/custom/_headerslim.scss */
         .it-header-slim-wrapper .it-header-slim-wrapper-content .header-slim-right-zone button:hover {
-          background: #004d99; }
+          background: #004299; }
     /* line 71, node_modules/bootstrap-italia/src/scss/custom/_headerslim.scss */
     .it-header-slim-wrapper .it-header-slim-wrapper-content .nav-mobile ul.link-list {
       margin-top: 16px;
@@ -23412,35 +23412,35 @@ abbr[title] {
 /* line 12, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
 .it-header-slim-wrapper.theme-light {
   background: #fff;
-  border-bottom: 1px solid rgba(0, 89, 179, 0.2); }
+  border-bottom: 1px solid rgba(0, 50, 116, 0.2); }
   /* line 17, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
   .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content .header-slim-right-zone .dropdown-menu:before {
-    background: #0059b3; }
+    background: #003274; }
   /* line 20, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
   .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content .header-slim-right-zone .dropdown-menu {
-    background-color: #0059b3; }
+    background-color: #003274; }
     /* line 22, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
     .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content .header-slim-right-zone .dropdown-menu a,
     .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content .header-slim-right-zone .dropdown-menu a span {
       color: #fff; }
   /* line 30, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
   .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content a {
-    color: #0059b3; }
+    color: #003274; }
     /* line 32, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
     .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content a .icon {
-      fill: #0059b3; }
+      fill: #003274; }
     /* line 39, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
     .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content a.it-opener[aria-expanded='true'] .icon {
-      fill: #0059b3; }
+      fill: #003274; }
   /* line 45, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
   .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content .navbar-brand {
-    color: #0059b3; }
+    color: #003274; }
   /* line 49, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
   .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content .header-slim-right-zone button {
-    background: #0073e6; }
+    background: #003882; }
     /* line 51, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
     .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content .header-slim-right-zone button:hover {
-      background: #0066cc; }
+      background: #003882; }
   /* line 58, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
   .it-header-slim-wrapper.theme-light .btn-full.btn-info, .it-header-slim-wrapper.theme-light .btn-full.btn-danger, .it-header-slim-wrapper.theme-light .btn-full.btn-success, .it-header-slim-wrapper.theme-light .btn-full.btn-warning, .it-header-slim-wrapper.theme-light .btn-full.btn-secondary, .it-header-slim-wrapper.theme-light .btn-full.button, .it-header-slim-wrapper.theme-light .btn-full.btn-primary, .it-header-slim-wrapper.theme-light .btn-full.defaultbutton, .it-header-slim-wrapper.theme-light a.btn-full.btn-outline-primary.selected,
   .it-header-slim-wrapper.theme-light a.btn-full.btn-outline-primary:hover {
@@ -23449,15 +23449,15 @@ abbr[title] {
 @media (min-width: 992px) {
   /* line 74, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
   .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content .nav-mobile ul.link-list {
-    border-left: 1px solid rgba(0, 89, 179, 0.2);
-    border-right: 1px solid rgba(0, 89, 179, 0.2); }
+    border-left: 1px solid rgba(0, 50, 116, 0.2);
+    border-right: 1px solid rgba(0, 50, 116, 0.2); }
     /* line 78, node_modules/bootstrap-italia/src/scss/custom/_headerslimtheme.scss */
     .it-header-slim-wrapper.theme-light .it-header-slim-wrapper-content .nav-mobile ul.link-list a.active {
-      border-bottom: 2px solid #0059b3; } }
+      border-bottom: 2px solid #003274; } }
 
 /* line 2, node_modules/bootstrap-italia/src/scss/custom/_headercenter.scss */
 .it-header-center-wrapper {
-  background: #0066cc;
+  background: #003882;
   height: 80px;
   display: flex;
   align-items: center;
@@ -23646,7 +23646,7 @@ abbr[title] {
             background: #f2f2f2; }
           /* line 218, node_modules/bootstrap-italia/src/scss/custom/_headercenter.scss */
           .it-header-center-wrapper .it-header-center-content-wrapper .it-search-wrapper a.rounded-icon svg {
-            fill: #0066cc;
+            fill: #003882;
             width: 24px;
             height: 24px; } }
 
@@ -23655,33 +23655,33 @@ abbr[title] {
   background: #fff; }
   /* line 7, node_modules/bootstrap-italia/src/scss/custom/_headercentertheme.scss */
   .it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-brand-wrapper a {
-    color: #0066cc; }
+    color: #003882; }
     /* line 15, node_modules/bootstrap-italia/src/scss/custom/_headercentertheme.scss */
     .it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-brand-wrapper a .icon {
-      fill: #0066cc; }
+      fill: #003882; }
   /* line 22, node_modules/bootstrap-italia/src/scss/custom/_headercentertheme.scss */
   .it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone {
-    color: #0066cc; }
+    color: #003882; }
     /* line 26, node_modules/bootstrap-italia/src/scss/custom/_headercentertheme.scss */
     .it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone .it-socials ul .icon {
-      fill: #0066cc; }
+      fill: #003882; }
   /* line 36, node_modules/bootstrap-italia/src/scss/custom/_headercentertheme.scss */
   .it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-search-wrapper a.rounded-icon svg {
-    fill: #0066cc; }
+    fill: #003882; }
 
 @media (min-width: 992px) {
   /* line 79, node_modules/bootstrap-italia/src/scss/custom/_headercentertheme.scss */
   .it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone .it-socials ul a:hover svg {
-    fill: #0059b3; }
+    fill: #002d69; }
   /* line 89, node_modules/bootstrap-italia/src/scss/custom/_headercentertheme.scss */
   .it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-search-wrapper a {
-    background: #0066cc; }
+    background: #003882; }
     /* line 92, node_modules/bootstrap-italia/src/scss/custom/_headercentertheme.scss */
     .it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-search-wrapper a.rounded-icon svg {
       fill: #fff; }
     /* line 95, node_modules/bootstrap-italia/src/scss/custom/_headercentertheme.scss */
     .it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-search-wrapper a.rounded-icon:hover {
-      background: #0059b3; } }
+      background: #002d69; } }
 
 /* line 3, node_modules/bootstrap-italia/src/scss/custom/_headernavbar.scss */
 .it-header-navbar-wrapper nav {
@@ -23690,7 +23690,7 @@ abbr[title] {
 @media (min-width: 992px) {
   /* line 19, node_modules/bootstrap-italia/src/scss/custom/_headernavbar.scss */
   .it-header-navbar-wrapper {
-    background: #0066cc; }
+    background: #003882; }
     /* line 21, node_modules/bootstrap-italia/src/scss/custom/_headernavbar.scss */
     .it-header-navbar-wrapper .nav-item.megamenu > a.dropdown-toggle:before {
       bottom: -14px; }
@@ -23726,40 +23726,40 @@ abbr[title] {
 @media (max-width: 992px) {
   /* line 13, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
   .it-header-navbar-wrapper.theme-light-desk .custom-navbar-toggler .icon {
-    fill: #0066cc; }
+    fill: #003882; }
   /* line 20, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
   .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable {
     /*lista menu*/ }
     /* line 22, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
     .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .menu-wrapper {
-      background: #0066cc; }
+      background: #003882; }
       /* line 28, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
       .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .menu-wrapper .nav-item.megamenu .dropdown-menu .col-12:not(:first-child) .it-heading-megacolumn:before {
-        background: #7ab8f5; }
+        background: #4e709c; }
       /* line 37, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
       .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .menu-wrapper .navbar-nav .dropdown-menu .link-list h3 {
         color: #fff; }
       /* line 45, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
       .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .menu-wrapper .navbar-nav .dropdown-menu .col-12:not(:first-child) .link-list-wrapper h3:before {
-        background: #7ab8f5; }
+        background: #4e709c; }
     /* line 62, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
     .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .navbar-nav .it-external .link-list-wrapper .link-list li.it-more a:before {
-      background: #7ab8f5; }
+      background: #4e709c; }
     /* line 73, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
     .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .navbar-nav li.megamenu .it-megamenu-footer {
-      background: #0059b3; }
+      background: #003274; }
     /* line 78, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
     .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical {
-      background: #0059b3; }
+      background: #003274; }
       /* line 83, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
       .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical .link-list-wrapper .link-list li .divider {
-        background: #7ab8f5; }
+        background: #4e709c; }
       /* line 91, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
       .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical.it-description p {
         color: #fff; }
       /* line 95, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
       .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical.it-description .description-content:before {
-        background: #7ab8f5; }
+        background: #4e709c; }
     /* line 103, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
     .it-header-navbar-wrapper.theme-dark-mobile .navbar .navbar-collapsable .navbar-nav li a.nav-link {
       color: #fff; }
@@ -23795,7 +23795,7 @@ abbr[title] {
     color: #fff; }
   /* line 162, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
   .it-header-navbar-wrapper.theme-dark-mobile .navbar .dropdown-menu .link-list-wrapper ul li .divider {
-    background: #7ab8f5; } }
+    background: #4e709c; } }
 
 /*
 ++++++++++++++++++++++++++++++Desktop light Theme+++++++++++++++++++++++++++++++++++++++++++++++++
@@ -23807,7 +23807,7 @@ abbr[title] {
     box-shadow: 0 20px 30px 5px rgba(0, 0, 0, 0.05); }
     /* line 182, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
     .it-header-navbar-wrapper.theme-light-desk .navbar .navbar-collapsable .navbar-nav li a.nav-link.dropdown-toggle svg {
-      fill: #0066cc; }
+      fill: #003882; }
     /* line 191, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
     .it-header-navbar-wrapper.theme-light-desk .navbar {
       background: transparent; }
@@ -23822,31 +23822,31 @@ abbr[title] {
             color: #fff; }
         /* line 219, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
         .it-header-navbar-wrapper.theme-light-desk .navbar .navbar-collapsable .navbar-nav li.megamenu .it-external .link-list-wrapper .link-list li.it-more a:before {
-          background: #7ab8f5; }
+          background: #4e709c; }
         /* line 228, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
         .it-header-navbar-wrapper.theme-light-desk .navbar .navbar-collapsable .navbar-nav li.megamenu a.nav-link:before {
-          background-color: #0066cc; }
+          background-color: #003882; }
         /* line 233, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
         .it-header-navbar-wrapper.theme-light-desk .navbar .navbar-collapsable .navbar-nav li.megamenu .it-megamenu-footer {
-          background: #0059b3; }
+          background: #003274; }
         /* line 238, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
         .it-header-navbar-wrapper.theme-light-desk .navbar .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical {
-          background: #0059b3; }
+          background: #003274; }
           /* line 243, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
           .it-header-navbar-wrapper.theme-light-desk .navbar .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical .link-list-wrapper .link-list li .divider {
-            background: #7ab8f5; }
+            background: #4e709c; }
         /* line 253, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
         .it-header-navbar-wrapper.theme-light-desk .navbar .navbar-collapsable .navbar-nav li.megamenu .it-description p {
           color: #fff; }
         /* line 259, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
         .it-header-navbar-wrapper.theme-light-desk .navbar .navbar-collapsable .navbar-nav li a.nav-link {
-          color: #0066cc; }
+          color: #003882; }
           /* line 261, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
           .it-header-navbar-wrapper.theme-light-desk .navbar .navbar-collapsable .navbar-nav li a.nav-link.active {
-            border-bottom-color: #0066cc; }
+            border-bottom-color: #003882; }
       /* line 275, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
       .it-header-navbar-wrapper.theme-light-desk .navbar .dropdown-menu {
-        background: #0066cc; }
+        background: #003882; }
         /* line 277, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
         .it-header-navbar-wrapper.theme-light-desk .navbar .dropdown-menu h3 {
           font-weight: 600; }
@@ -23855,7 +23855,7 @@ abbr[title] {
             color: #fff; }
         /* line 283, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
         .it-header-navbar-wrapper.theme-light-desk .navbar .dropdown-menu:before {
-          background: #0066cc; }
+          background: #003882; }
         /* line 290, node_modules/bootstrap-italia/src/scss/custom/_headernavbartheme.scss */
         .it-header-navbar-wrapper.theme-light-desk .navbar .dropdown-menu .link-list-wrapper ul li a.list-item.active {
           color: #fff; }
@@ -23968,7 +23968,7 @@ abbr[title] {
             background: #f2f2f2; }
           /* line 100, node_modules/bootstrap-italia/src/scss/custom/_header.scss */
           .it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper .menu-wrapper .it-search-wrapper a.rounded-icon svg {
-            fill: #0066cc;
+            fill: #003882;
             width: 24px;
             height: 24px; }
         /* line 109, node_modules/bootstrap-italia/src/scss/custom/_header.scss */
@@ -24014,7 +24014,7 @@ abbr[title] {
 
 /* line 4, node_modules/bootstrap-italia/src/scss/custom/_footer.scss */
 .it-footer-main {
-  background-color: #004080;
+  background-color: #003274;
   color: white;
   font-size: 16px; }
   /* line 9, node_modules/bootstrap-italia/src/scss/custom/_footer.scss */
@@ -24075,7 +24075,7 @@ abbr[title] {
 
 /* line 79, node_modules/bootstrap-italia/src/scss/custom/_footer.scss */
 .it-footer-small-prints {
-  background-color: #00264d; }
+  background-color: #001c41; }
   /* line 82, node_modules/bootstrap-italia/src/scss/custom/_footer.scss */
   .it-footer-small-prints ul.it-footer-small-prints-list {
     padding: 1.5rem 1rem; }
@@ -24138,34 +24138,34 @@ abbr[title] {
     /*lista menu*/ }
     /* line 16, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
     .navbar.theme-dark-mobile .navbar-collapsable .menu-wrapper {
-      background: #0066cc; }
+      background: #003882; }
       /* line 22, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-dark-mobile .navbar-collapsable .menu-wrapper .nav-item.megamenu .dropdown-menu .col-12:not(:first-child) .it-heading-megacolumn:before {
-        background: #7ab8f5; }
+        background: #4e709c; }
       /* line 31, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-dark-mobile .navbar-collapsable .menu-wrapper .navbar-nav .dropdown-menu .link-list h3 {
         color: #fff; }
       /* line 39, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-dark-mobile .navbar-collapsable .menu-wrapper .navbar-nav .dropdown-menu .col-12:not(:first-child) .link-list-wrapper h3:before {
-        background: #7ab8f5; }
+        background: #4e709c; }
     /* line 56, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
     .navbar.theme-dark-mobile .navbar-collapsable .navbar-nav .it-external .link-list-wrapper .link-list li.it-more a:before {
-      background: #7ab8f5; }
+      background: #4e709c; }
     /* line 67, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
     .navbar.theme-dark-mobile .navbar-collapsable .navbar-nav li.megamenu .it-megamenu-footer {
-      background: #0059b3; }
+      background: #003274; }
     /* line 72, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
     .navbar.theme-dark-mobile .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical {
-      background: #0059b3; }
+      background: #003274; }
       /* line 77, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-dark-mobile .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical .link-list-wrapper .link-list li .divider {
-        background: #7ab8f5; }
+        background: #4e709c; }
       /* line 85, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-dark-mobile .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical.it-description p {
         color: #fff; }
       /* line 89, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-dark-mobile .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical.it-description .description-content:before {
-        background: #7ab8f5; }
+        background: #4e709c; }
     /* line 97, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
     .navbar.theme-dark-mobile .navbar-collapsable .navbar-nav li a.nav-link {
       color: #fff; }
@@ -24201,7 +24201,7 @@ abbr[title] {
     color: #fff; }
   /* line 156, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
   .navbar.theme-dark-mobile .dropdown-menu .link-list-wrapper ul li .divider {
-    background: #7ab8f5; } }
+    background: #4e709c; } }
 
 /*
 ++++++++++++++++++++++++++++++Desktop light Theme+++++++++++++++++++++++++++++++++++++++++++++++++
@@ -24222,31 +24222,31 @@ abbr[title] {
           color: #fff; }
       /* line 200, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-light-desk .navbar-collapsable .navbar-nav li.megamenu .it-external .link-list-wrapper .link-list li.it-more a:before {
-        background: #7ab8f5; }
+        background: #4e709c; }
       /* line 209, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-light-desk .navbar-collapsable .navbar-nav li.megamenu a.nav-link:before {
-        background-color: #0066cc; }
+        background-color: #003882; }
       /* line 214, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-light-desk .navbar-collapsable .navbar-nav li.megamenu .it-megamenu-footer {
-        background: #0059b3; }
+        background: #003274; }
       /* line 219, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-light-desk .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical {
-        background: #0059b3; }
+        background: #003274; }
         /* line 224, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
         .navbar.theme-light-desk .navbar-collapsable .navbar-nav li.megamenu .dropdown-menu .it-vertical .link-list-wrapper .link-list li .divider {
-          background: #7ab8f5; }
+          background: #4e709c; }
       /* line 234, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-light-desk .navbar-collapsable .navbar-nav li.megamenu .it-description p {
         color: #fff; }
       /* line 240, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-light-desk .navbar-collapsable .navbar-nav li a.nav-link {
-        color: #0066cc; }
+        color: #003882; }
         /* line 242, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
         .navbar.theme-light-desk .navbar-collapsable .navbar-nav li a.nav-link.active {
-          border-bottom-color: #0066cc; }
+          border-bottom-color: #003882; }
     /* line 256, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
     .navbar.theme-light-desk .dropdown-menu {
-      background: #0066cc; }
+      background: #003882; }
       /* line 258, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-light-desk .dropdown-menu h3 {
         font-weight: 600; }
@@ -24255,7 +24255,7 @@ abbr[title] {
           color: #fff; }
       /* line 264, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-light-desk .dropdown-menu:before {
-        background: #0066cc; }
+        background: #003882; }
       /* line 271, node_modules/bootstrap-italia/src/scss/custom/_navigationtheme.scss */
       .navbar.theme-light-desk .dropdown-menu .link-list-wrapper ul li a.list-item.active {
         color: #fff; }
@@ -24280,7 +24280,7 @@ abbr[title] {
 
 /* line 1, node_modules/bootstrap-italia/src/scss/custom/_componente-base.scss */
 .componente-base {
-  background-color: #0073e6;
+  background-color: #003882;
   color: white;
   cursor: pointer;
   padding: 8px 8px; }
@@ -24336,7 +24336,7 @@ abbr[title] {
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/icons.scss */
 .icon-primary {
-  fill: #0073e6 !important; }
+  fill: #003882 !important; }
 
 /* line 40, node_modules/bootstrap-italia/src/scss/utilities/icons.scss */
 .icon-secondary {
@@ -28671,11 +28671,11 @@ p.text-justify, td.text-justify, th.text-justify, *.text-justify {
 /* line 14, src/scss/_header.scss */
 .it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-brand-wrapper .icon.colorize {
   filter: none;
-  fill: #0066cc; }
+  fill: #003882; }
 
 /* line 22, src/scss/_header.scss */
 #dropdown-user svg.icon-primary {
-  fill: #0066cc;
+  fill: #003882;
   margin-left: 0; }
 
 /* line 1, src/scss/_search.scss */
@@ -28847,7 +28847,7 @@ a.chip.chip-lg {
   padding: 15px; }
   /* line 6, src/scss/_navigation.scss */
   .navbar .close-div .icon {
-    fill: #0066cc; }
+    fill: #003882; }
 
 /* line 11, src/scss/_navigation.scss */
 .menu-wrapper .dropdown-menu .link-list-wrapper ul li a {
@@ -28856,7 +28856,7 @@ a.chip.chip-lg {
 /* line 21, src/scss/_navigation.scss */
 .navbar .navbar-collapsable.expanded .it-brand-wrapper.cloned .icon.colorize {
   filter: none;
-  fill: #0066cc; }
+  fill: #003882; }
 
 /* line 28, src/scss/_navigation.scss */
 .navbar .navbar-collapsable.expanded .navbar-nav li a.main-nav-link {
@@ -28870,7 +28870,7 @@ a.chip.chip-lg {
 
 /* line 42, src/scss/_navigation.scss */
 .theme-light .custom-navbar-toggler svg {
-  fill: #0066cc; }
+  fill: #003882; }
 
 /* line 46, src/scss/_navigation.scss */
 .breadcrumb-container .breadcrumb {
@@ -29052,8 +29052,8 @@ body.fixed-wt .it-header-wrapper {
 
 /* line 68, src/scss/_card-utilities.scss */
 .card .card-icon-color-primary *, .card .card-icon-color-hover-primary:hover * {
-  color: #0073e6 !important;
-  fill: #0073e6 !important; }
+  color: #003882 !important;
+  fill: #003882 !important; }
 
 /* line 68, src/scss/_card-utilities.scss */
 .card .card-icon-color-secondary *, .card .card-icon-color-hover-secondary:hover * {
@@ -29176,7 +29176,7 @@ body.fixed-wt .it-header-wrapper {
       padding: 0;
       font-size: 0.875rem;
       line-height: normal;
-      fill: #0066cc;
+      fill: #003882;
       display: flex;
       align-items: start; }
       /* line 106, src/scss/_card-utilities.scss */
@@ -29194,10 +29194,10 @@ body.fixed-wt .it-header-wrapper {
 
 /* line 123, src/scss/_card-utilities.scss */
 .card a.read-more-color-primary {
-  color: #0073e6 !important; }
+  color: #003882 !important; }
   /* line 125, src/scss/_card-utilities.scss */
   .card a.read-more-color-primary .icon {
-    fill: #0073e6 !important; }
+    fill: #003882 !important; }
 
 /* line 123, src/scss/_card-utilities.scss */
 .card a.read-more-color-secondary {
@@ -30813,7 +30813,7 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
     /* line 39, src/scss/_banner.scss */
     .banner .banner-text h4 {
       font-size: 1.1em;
-      color: #0066cc; }
+      color: #003882; }
     /* line 44, src/scss/_banner.scss */
     .banner .banner-text p {
       margin-bottom: 0;
@@ -30834,7 +30834,7 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
     .banner:not(.banner-sm) .banner-icon svg.icon {
       width: 64px;
       height: 64px;
-      fill: #0066cc; }
+      fill: #003882; }
     /* line 69, src/scss/_banner.scss */
     .banner:not(.banner-sm) .banner-icon span {
       display: none !important; }
@@ -30850,7 +30850,7 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
       width: 22px;
       height: 22px;
       margin-right: 4px;
-      fill: #0066cc; }
+      fill: #003882; }
   /* line 92, src/scss/_banner.scss */
   .banner .banner-image {
     order: 2;
@@ -30880,10 +30880,10 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
     border-left: 8px solid #ECEFF1 !important; }
   /* line 127, src/scss/_banner.scss */
   .banner.banner-hover-background-primary:hover {
-    background-color: #0073e6 !important; }
+    background-color: #003882 !important; }
   /* line 130, src/scss/_banner.scss */
   .banner.banner-background-primary {
-    background-color: #0073e6 !important; }
+    background-color: #003882 !important; }
   /* line 127, src/scss/_banner.scss */
   .banner.banner-hover-background-secondary:hover {
     background-color: #5c6f82 !important; }
@@ -30997,12 +30997,12 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
     background-color: white !important; }
   /* line 140, src/scss/_banner.scss */
   .banner.banner-hover-color-primary:hover * {
-    color: #0073e6 !important;
-    fill: #0073e6 !important; }
+    color: #003882 !important;
+    fill: #003882 !important; }
   /* line 144, src/scss/_banner.scss */
   .banner.banner-color-primary * {
-    color: #0073e6 !important;
-    fill: #0073e6 !important; }
+    color: #003882 !important;
+    fill: #003882 !important; }
   /* line 140, src/scss/_banner.scss */
   .banner.banner-hover-color-secondary:hover * {
     color: #5c6f82 !important;
@@ -31155,7 +31155,7 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
 
 /* line 160, src/scss/_banner.scss */
 .embed.primary .banner {
-  background-color: #0073e6 !important; }
+  background-color: #003882 !important; }
   /* line 162, src/scss/_banner.scss */
   .embed.primary .banner .banner-icon *, .embed.primary .banner .banner-text * {
     color: white !important;

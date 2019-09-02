@@ -2,14 +2,23 @@
 
 [EnvironmentSettingsPresets]
 AvailablePresets[]=calendar
+AvailablePresets[]=data
 
 [EnvironmentSettingsPresets_calendar]
 CheckAccess=false
 Debug=enabled
 PHPClass=OpenPABootstrapItaliaCalendarEnvironmentSettings
 
+[EnvironmentSettingsPresets_data]
+CheckAccess=false
+Debug=disabled
+PHPClass=OpenPABootstrapItaliaDataEnvironmentSettings
+
 [EnvironmentSettingsPresets_content]
 PHPClass=OpenPABootstrapItaliaContentEnvironmentSettings
+
+[EnvironmentSettingsPresets_datatable]
+PHPClass=OpenPABootstrapItaliaDatatableEnvironmentSettings
 
 [AttributeConverters]
 Converters[has_temporal_coverage]=FullRelationsAttributeConverter

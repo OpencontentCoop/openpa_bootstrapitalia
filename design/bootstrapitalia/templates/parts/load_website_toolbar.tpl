@@ -5,6 +5,7 @@
             $('body').addClass('fixed-wt');
             //load chosen in class list
             $("#ezwt-create").chosen({width:"200px"});
+            $('#toolbar').trigger('ezwt-loaded');
         });
     });
     {/literal}</script>

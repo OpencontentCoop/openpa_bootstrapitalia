@@ -6,17 +6,17 @@
 *}
 
 {if count( $nodes )}
-    
+
     {if $class|is_array()}
         
         {* tabella generica di oggetti di classi di vario tipo *}
-        <div class="table-responsive">
+        <div style="font-size:.8em">  
             {if is_set($title)}
                 <h6>{$title}</h6>
             {/if}
             <table class="table table-striped">
                 {if is_set($title)|not}<caption>Elenco di {$node.name|wash()}</caption>{/if}
-                <thead>
+                {*<thead>
                     <tr>
                         <th>Link al dettaglio</th>
                         <th>Tipologia</th>
@@ -24,7 +24,7 @@
                             <th>Data di pubblicazione</th>
                         {/if}
                     </tr>
-                </thead>
+                </thead>*}
                 <tbody>
                     {foreach $nodes as $item}
                     <tr>
@@ -61,7 +61,7 @@
             
             {* dipendente *}
             {case match='dipendente'}
-            <div class="table-responsive">
+            <div style="font-size:.8em">  
                 <table class="table table-striped">
                     <caption>Elenco di {$node.name|wash()}</caption>
                     <thead>
@@ -87,7 +87,7 @@
             
             {* generica mostra gli attributi principali *}
             {case}
-            <div class="table-responsive">
+            <div style="font-size:.8em">  
                 <table class="table table-striped">
                     <caption>Elenco di {$node.name|wash()}</caption>
                     <thead>
@@ -113,7 +113,7 @@
             
         {/switch}
     {/if}
-    
+
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=$node.url_alias

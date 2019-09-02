@@ -22,6 +22,15 @@
         {set $extra_cache_key = concat($extra_cache_key, 'areatematica_', openpacontext().is_area_tematica)}
     {/if}
 
+    {def $theme = openpaini('GeneralSettings','theme', 'default')
+         $main_content_class = ''
+         $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
+         $has_section_menu = cond(is_set($module_result.content_info.persistent_variable.has_section_menu), true(), false())
+         $has_sidemenu = cond(and(is_set($module_result.content_info.persistent_variable.has_sidemenu), $module_result.content_info.persistent_variable.has_sidemenu), true(), false())}
+    {if $has_container|not()}
+        {set $main_content_class = 'container px-4 my-4'}
+    {/if}
+
     {debug-accumulator id=page_head name=page_head}
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -38,18 +47,6 @@
     {include uri='design:page_head_google_tag_manager.tpl'}
     {include uri='design:page_head_google-site-verification.tpl'}
     {/debug-accumulator}
-
-    {no_index_if_needed()}
-
-    {def $theme = openpaini('GeneralSettings','theme', 'default')
-         $main_content_class = ''
-         $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
-         $has_section_menu = cond(is_set($module_result.content_info.persistent_variable.has_section_menu), true(), false())
-         $has_sidemenu = cond(and(is_set($module_result.content_info.persistent_variable.has_sidemenu), $module_result.content_info.persistent_variable.has_sidemenu), true(), false())}
-
-    {if $has_container|not()}
-        {set $main_content_class = 'container px-4 my-4'}
-    {/if}
 
 </head>
 <body class="{$theme}" style="overflow-x: hidden;"> {* todo style *}

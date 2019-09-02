@@ -2,10 +2,10 @@
     'show_icon', true(),
     'image_class', 'medium',
     'view_variation', '',
-    'limit', 4
+    'limit', 7
 ))}
 
-{def $related_items = api_search(concat("class != 'homepage' and topics.id in [", $node.contentobject_id, '] sort [modified=>desc]'))}
+{def $related_items = api_search(concat("class != 'homepage' and topics.id in [", $node.contentobject_id, '] sort [modified=>desc] limit ', $limit))}
 {def $language = ezini('RegionalSettings', 'Locale')}
 
 <div data-object_id="{$node.contentobject_id}" class="card-wrapper {if $view_variation|eq('big')}card-space{/if} {$node|access_style}">

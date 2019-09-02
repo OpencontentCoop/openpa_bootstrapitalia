@@ -11,6 +11,7 @@ class OpenPABootstrapItaliaOperators
             'filtered_search_params_query_string',
             'openpa_roles_parent_node_id',
             'clean_filename',
+            'class_identifier_by_id',
         );
     }
 
@@ -48,7 +49,12 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
-            
+                        
+            case 'class_identifier_by_id':
+
+                $operatorValue = eZContentClass::classIdentifierByID($operatorValue);                
+
+                break;
             case 'clean_filename':
 
                 $operatorValue = self::cleanFileName($operatorValue);                
@@ -258,8 +264,12 @@ class OpenPABootstrapItaliaOperators
         $parts = explode('.', $filename);
         array_pop($parts);
         $filename = implode('.', $parts);                
-        $filename = str_replace(array('_','-'), ' ', $filename);
+        $filename = str_replace(array('_','-','+'), ' ', $filename);
         $filename = str_replace(':', '/', $filename);
+        $filename = str_replace('(1)', '', $filename);
+        $filename = str_replace('(2)', '', $filename);
+
+        $filename = trim($filename);
 
         return ucfirst($filename);
     }
