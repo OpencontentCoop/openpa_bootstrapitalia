@@ -131,7 +131,7 @@
                                 <li><span class="divider"></span></li>
                                 {include uri='design:parts/websitetoolbar/openpa_menu.tpl'}
                                 <li><span class="divider"></span></li>
-                                <li><a class="list-item left-icon" href="/api/opendata/v2/data/read/{$content_object.id}" title="Visualizza in JSON"><i class="fa fa-code"></i> Visualizza in JSON</a></li>
+                                <li><a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="Visualizza in JSON"><i class="fa fa-code"></i> Visualizza in JSON</a></li>
                             </ul>
                         </div>
                     </div>
