@@ -3,4 +3,7 @@
 [IndexPlugins]
 Class[document]=ezfIndexHasCodeNormalized
 
+[SolrFieldMapSettings]
+DatatypeMap[openparestrictedarea]=lckeyword
+
 */ ?>
