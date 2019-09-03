@@ -60,7 +60,7 @@
     <div class="dropdown-menu shadow-lg" aria-labelledby="viewActions">
         <div class="link-list-wrapper">
             <ul class="link-list">
-                <li>
+                {*<li>
                     <a class="list-item" href="#">
                         {display_icon('it-download', 'svg', 'icon')}
                         <span>Scarica</span>
@@ -71,7 +71,7 @@
                         {display_icon('it-print', 'svg', 'icon')}
                         <span>Stampa</span>
                     </a>
-                </li>
+                </li>*}
                 {*<li>
                     <a class="list-item" href="#">
                         {display_icon('it-hearing', 'svg', 'icon')}
