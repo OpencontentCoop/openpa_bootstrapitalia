@@ -42,7 +42,8 @@
     "popper.js": "1.14.7",
     "prettier": "1.16.1",
     "replace-in-file": "^3.4.0",
-    "svgxuse": "1.2.6"
+    "svgxuse": "1.2.6",
+    "lodash.template": ">=4.5.0"
   },
   "dependencies": {}
 }
