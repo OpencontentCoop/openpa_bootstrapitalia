@@ -53,7 +53,7 @@
       	</div>
 	</form>
 	<div class="row border-top row-column-border row-column-menu-left attribute-list mt-0">
-	    {if $root_tags|count()}
+	    {if and($root_tags|count(), $root_tags[0]|ne(''))}
 		    <aside class="col-lg-4">
 		    <div class="link-list-wrapper menu-link-list">
 		        <ul class="link-list">
