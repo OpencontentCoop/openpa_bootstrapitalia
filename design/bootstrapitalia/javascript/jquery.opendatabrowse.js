@@ -20,12 +20,16 @@
                 'options': {}
             },
             initOnCreate: true,
-            useTooltip: false
+            useTooltip: false,
+            baseUrl: '/'
         };
 
     function Plugin(element, options) {
         this.element = element;
         this.settings = $.extend({}, defaults, options);
+        if (typeof(UriPrefix) !== "undefined" && UriPrefix !== '/'){
+            this.settings.baseUrl = UriPrefix+'/';
+        }
         this._defaults = defaults;
         this._name = pluginName;
         this.iconStyle = 'line-height: 1.5;display:table-cell;padding-right:5px;';
@@ -284,7 +288,7 @@
                         cb.call(context, self.subtreeRootList[subtree]);
                     }
                 }else {
-                    $.getJSON('/ezjscore/call/ezjscnode::load::' + subtree, function (data) {
+                    $.getJSON(self.settings.baseUrl + 'ezjscore/call/ezjscnode::load::' + subtree, function (data) {
                         if (data.error_text === '') {
                             self.subtreeRootList[subtree] = data.content;
                             if ($.isFunction(cb)) {
@@ -334,7 +338,7 @@
             var panelFooter = $('<div class="card-footer clearfix"></div>');
 
             self.showSpinner();
-            $.getJSON('/ezjscore/call/ezjscnode::subtree::'+self.browseParameters.subtree+'::'+self.browseParameters.limit+'::'+self.browseParameters.offset+'::'+self.browseParameters.sort+'::'+self.browseParameters.order, function(data){                
+            $.getJSON(self.settings.baseUrl + 'ezjscore/call/ezjscnode::subtree::'+self.browseParameters.subtree+'::'+self.browseParameters.limit+'::'+self.browseParameters.offset+'::'+self.browseParameters.sort+'::'+self.browseParameters.order, function(data){
                 if (data.error_text === ''){
                     if (data.content.list.length > 0){
                         var list = $('<ul class="list-group" style="margin-bottom:0"></ul>');
