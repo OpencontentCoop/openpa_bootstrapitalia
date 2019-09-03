@@ -27,8 +27,8 @@
     function Plugin(element, options) {
         this.element = element;
         this.settings = $.extend({}, defaults, options);
-        if (typeof(UriPrefix) !== "undefined" && UriPrefix !== '/'){
-            this.settings.baseUrl = UriPrefix+'/';
+        if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
+            this.settings.baseUrl = UriPrefix + '/';
         }
         this._defaults = defaults;
         this._name = pluginName;
@@ -216,7 +216,7 @@
                     var listItem = $('<li></li>');
                     $.ajax({
                         type: "GET",
-                        url: '/opendata/api/classes/'+classIdentifier,
+                        url: this.settings.baseUrl + 'opendata/api/classes/'+classIdentifier,
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response,textStatus,jqXHR) {
@@ -574,7 +574,7 @@
             self.showSpinner();
             $.ajax({
                 type: "GET",
-                url: '/opendata/api/content/search/',
+                url: this.settings.baseUrl + 'opendata/api/content/search/',
                 data: {q: encodeURIComponent(query)},
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

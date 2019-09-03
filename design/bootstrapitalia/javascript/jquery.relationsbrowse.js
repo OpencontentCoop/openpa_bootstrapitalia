@@ -22,8 +22,8 @@
     function Plugin(element, options) {
         this.element = element;
         this.settings = $.extend({}, defaults, options);
-        if (typeof(UriPrefix) !== "undefined" && UriPrefix !== '/'){
-            this.settings.baseUrl = UriPrefix+'/';
+        if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
+            this.settings.baseUrl = UriPrefix + '/';
         }
         this._defaults = defaults;
         this._name = pluginName;
@@ -389,7 +389,7 @@
             self.showSpinner();
             $.ajax({
                 type: "GET",
-                url: '/opendata/api/content/search/',
+                url: this.settings.baseUrl + 'opendata/api/content/search/',
                 data: {q: encodeURIComponent(query)},
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
