@@ -135,7 +135,7 @@
 			</div>			
 			<div class="col-md-8">
 				<strong class="d-block d-sm-none">Oggetto</strong>				
-				<a href="/content/view/full/{{:metadata.mainNodeId}}">{{:~i18n(metadata.name)}}</a>
+				<a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}">{{:~i18n(metadata.name)}}</a>
 				<ul class="list-inline m-0"><li class="list-inline-item"><strong>{{:~i18n(data, 'document_type')}}</strong>{{if ~i18n(data, 'has_code')}} ({{:~i18n(data, 'has_code')}}){{/if}}</li></ul>
 				{{if ~i18n(data, 'area') || ~i18n(data, 'has_organization')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>Area/Ufficio:</strong></li>{{if ~i18n(data, 'area')}}{{for ~i18n(data,'area')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}{{if ~i18n(data, 'has_organization')}}{{for ~i18n(data,'has_organization')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}</ul>{{/if}}
 			</div>		
@@ -181,7 +181,11 @@
 $.views.helpers($.opendataTools.helpers);
 $(document).ready(function () {
 	$('[data-block_document_subtree]').each(function(){
-		var container = $(this);
+        var baseUrl = '/';
+        if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
+            baseUrl = UriPrefix + '/';
+        }
+	    var container = $(this);
 		var resultsContainer = container.find('.results');		
 		var limitPagination = container.data('limit');
 		var subtree = container.data('block_document_subtree');		
@@ -282,9 +286,12 @@ $(document).ready(function () {
 	            response.pages = pages;
 	            response.pageCount = pagination;
 
-	            response.prevPageQuery = jQuery.type(queryPerPage[response.prevPage]) === "undefined" ? null : queryPerPage[response.prevPage];	            
-	            
-				var renderData = $(template.render(response));
+	            response.prevPageQuery = jQuery.type(queryPerPage[response.prevPage]) === "undefined" ? null : queryPerPage[response.prevPage];
+
+                $.each(response.searchHits, function(){
+                    this.baseUrl = baseUrl;
+                });
+	            var renderData = $(template.render(response));
 				resultsContainer.html(renderData);
 
 	            resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {

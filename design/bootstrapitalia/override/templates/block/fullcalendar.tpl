@@ -56,6 +56,10 @@ $classes = array()}
 
 {run-once}
 <script>
+    var baseUrl = '/';
+    if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
+        baseUrl = UriPrefix + '/';
+    }
     var BlockCalendarEndpoint = '{'/opendata/api/calendar/search/'|ezurl(no)}/';
     {literal}
     var BlockCalendarBaseOptions = {
@@ -75,7 +79,7 @@ $classes = array()}
             omitCommas: true
         },
         eventClick: function(info) {
-            window.location.href = "/openpa/object/"+info.event.id;
+            window.location.href = baseUrl + "openpa/object/"+info.event.id;
         },
         displayEventTime: false        
     };

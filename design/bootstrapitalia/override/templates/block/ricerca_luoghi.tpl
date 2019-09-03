@@ -90,7 +90,7 @@
 		<div class="row mb-3 pb-3 border-bottom">				
 			<div class="col-md-12">				
 				{{if ~i18n(data, 'type')}}<small class="d-block text-truncate">{{:~i18n(data, 'type')}}</small>{{/if}}
-				<h5><a href="/content/view/full/{{:metadata.mainNodeId}}">{{:~i18n(metadata.name)}}</a></h5>
+				<h5><a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}">{{:~i18n(metadata.name)}}</a></h5>
 				{{if ~i18n(data, 'abstract')}}{{:~i18n(data, 'abstract')}}{{/if}}
 			</div>		
 		</div>
@@ -135,7 +135,11 @@
 $.views.helpers($.opendataTools.helpers);
 $(document).ready(function () {
 	$('[data-block_place_subtree]').each(function(){
-		var container = $(this);
+        var baseUrl = '/';
+        if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
+            baseUrl = UriPrefix + '/';
+        }
+	    var container = $(this);
 		var resultsContainer = container.find('.results');		
 		var limitPagination = container.data('limit');
 		var subtree = container.data('block_place_subtree');		
@@ -203,9 +207,12 @@ $(document).ready(function () {
 	            response.pages = pages;
 	            response.pageCount = pagination;
 
-	            response.prevPageQuery = jQuery.type(queryPerPage[response.prevPage]) === "undefined" ? null : queryPerPage[response.prevPage];	            
-	            
-				var renderData = $(template.render(response));
+	            response.prevPageQuery = jQuery.type(queryPerPage[response.prevPage]) === "undefined" ? null : queryPerPage[response.prevPage];
+
+                $.each(response.searchHits, function(){
+                    this.baseUrl = baseUrl;
+                });
+	            var renderData = $(template.render(response));
 				resultsContainer.html(renderData);
 
 	            resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {
@@ -230,7 +237,7 @@ $(document).ready(function () {
                             return L.marker(latlng, {icon: customIcon});
                         },
                         onEachFeature: function (feature, layer) {
-                            var popupDefault = '<p class="text-center"><i class="fa fa-circle-o-notch fa-spin"></i></p><p><a href="' + $.opendataTools.settings('accessPath') + '/content/view/full/' + feature.properties.mainNodeId + '" target="_blank">';
+                            var popupDefault = '<p class="text-center"><i class="fa fa-circle-o-notch fa-spin"></i></p><p><a href="' + baseUrl + 'content/view/full/' + feature.properties.mainNodeId + '" target="_blank">';
                             popupDefault += feature.properties.name;
                             popupDefault += '</a></p>';
                             var popup = new L.Popup({maxHeight: 450, maxWidth: 500, minWidth: 350});

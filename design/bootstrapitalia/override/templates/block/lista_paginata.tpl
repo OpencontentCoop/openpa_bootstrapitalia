@@ -40,7 +40,7 @@
 <script id="tpl-results" type="text/x-jsrender">    	
 	<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-3">	
 	{{for searchHits ~contentIcon=icon}}		
-		<a href="/content/view/full/{{:metadata.mainNodeId}}" class="card card-teaser rounded shadow" style="text-decoration:none !important">
+		<a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}" class="card card-teaser rounded shadow" style="text-decoration:none !important">
 		    <div class="card-body">
 		        {{if ~contentIcon && subtree}}
 		        <div class="category-top">
@@ -102,7 +102,11 @@
 $.views.helpers($.opendataTools.helpers);
 $(document).ready(function () {
 	$('[data-block_subtree_query]').each(function(){
-		var container = $(this);
+        var baseUrl = '/';
+	    if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
+            baseUrl = UriPrefix + '/';
+        }
+	    var container = $(this);
 		var resultsContainer = container.find('.results');
 		var subTreeFilter = container.data('subtree_filter');
 		var limitPagination = container.data('limit');
@@ -152,7 +156,7 @@ $(document).ready(function () {
 							if(current > 0){
 								var button = container.find('[data-block_subtree_filter="'+current+'"]');								
 								if (button.length > 0){
-									subtree = {text: button.text(), url: '/content/view/full/'+current};
+									subtree = {text: button.text(), url: baseUrl + 'content/view/full/'+current};
 								}
 							}
 						}
@@ -196,7 +200,8 @@ $(document).ready(function () {
 
 	            $.each(response.searchHits, function(){
 	            	this.subtree = findSubtree(this);
-	            	this.mainAttributes = findMainAttributes(this);	            	
+	            	this.mainAttributes = findMainAttributes(this);
+	            	this.baseUrl = baseUrl;
 	            });
 				var renderData = $(template.render(response));
 				resultsContainer.html(renderData);

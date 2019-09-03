@@ -91,7 +91,11 @@
                         {rdelim});
                         return result.join('<br />');
                       {else}
-                        return opendataDataTableRenderField( '{$field.dataType}', '{$field.template.type}', '{$currentLanguage}', data, type, row, meta {if $index|eq(0)},'/content/view/full/'+row.metadata.mainNodeId{/if});
+                        return opendataDataTableRenderField(
+                            '{$field.dataType}',
+                            '{$field.template.type}',
+                            '{$currentLanguage}',
+                            data, type, row, meta {if $index|eq(0)},{'/content/view/full/'|ezurl()}+'/'+row.metadata.mainNodeId{/if});
                       {/if}
                   {rdelim}
                   return '';

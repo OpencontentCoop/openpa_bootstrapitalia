@@ -95,13 +95,13 @@
 		{{if ~i18n(data,'role')}}{{:~i18n(data,'role')}}{{/if}}
 	</td>
 	<td>
-		{{if ~i18n(data,'person')}}
-            {{for ~i18n(data,'person')}}<a href="/content/view/full/{{:mainNodeId}}">{{:~i18n(name)}}</a>{{/for}}
+		{{if ~i18n(data,'person') ~baseUrl=baseUrl}}
+            {{for ~i18n(data,'person')}}<a href="{{:~baseUrl}}content/view/full/{{:mainNodeId}}">{{:~i18n(name)}}</a>{{/for}}
         {{/if}}
 	</td>
     <td>
-        {{if ~i18n(data,'for_entity')}}
-            {{for ~i18n(data,'for_entity')}}<a href="/content/view/full/{{:mainNodeId}}">{{:~i18n(name)}}</a>{{/for}}
+        {{if ~i18n(data,'for_entity') ~baseUrl=baseUrl}}
+            {{for ~i18n(data,'for_entity')}}<a href="{{:~baseUrl}}content/view/full/{{:mainNodeId}}">{{:~i18n(name)}}</a>{{/for}}
         {{/if}}
 	</td>	
     
@@ -136,7 +136,12 @@
 
 	$(document).ready(function () {
 
-		var tools = $.opendataTools;
+        var baseUrl = '/';
+        if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
+            baseUrl = UriPrefix + '/';
+        }
+
+	    var tools = $.opendataTools;
 		$.views.helpers(tools.helpers);
 
 	    var pageLimit = 50;
@@ -157,6 +162,9 @@
 	            response.currentPage = currentPage;
 	            response.prevPageQuery = jQuery.type(queryPerPage[currentPage - 1]) === "undefined" ? null : queryPerPage[currentPage - 1];
 
+                $.each(response.searchHits, function(){
+                    this.baseUrl = baseUrl;
+                });
 	            var renderData = $(template.render(response));
 
 	            renderData.find('.edit-object').on('click', function (e) {
