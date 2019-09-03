@@ -13,6 +13,10 @@ Services[content_tree_related]=ObjectHandlerServiceContentTreeRelated
 Services[content_show_published]=ObjectHandlerServiceContentShowPublished
 Services[content_trasparenza]=ObjectHandlerServiceContentTrasparenza
 
+[AttributeHandlers]
+#Handlers[datatype/classIdentifier/attributeIdentifier]=PhpClassname
+Handlers[ezinteger/*/*]=OpenPAAttributeIntegerHandler
+
 [ViewSettings]
 AvailableView[]=card
 AvailableView[]=card_children
