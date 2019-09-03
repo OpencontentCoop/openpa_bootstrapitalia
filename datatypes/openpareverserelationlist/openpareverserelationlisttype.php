@@ -302,6 +302,9 @@ class OpenPAReverseRelationListType extends eZDataType
             $this->relationsListClassAttributes = array();
             $relationsListClassAttributes = eZContentClassAttribute::fetchFilteredList(array('data_type_string' => 'ezobjectrelationlist'));
             foreach ($relationsListClassAttributes as $relationsListClassAttribute) {
+                if (!$relationsListClassAttribute instanceof eZContentClassAttribute){
+                    continue;
+                }
                 $className = eZContentClass::fetch($relationsListClassAttribute->attribute('contentclass_id'))->attribute('name');
                 $this->relationsListClassAttributes[$className][] = $relationsListClassAttribute;
                 ksort($this->relationsListClassAttributes);
