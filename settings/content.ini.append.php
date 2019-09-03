@@ -5,6 +5,7 @@ ExtensionDirectories[]=openpa_bootstrapitalia
 AvailableDataTypes[]=openpabootstrapitaliaicon
 AvailableDataTypes[]=openparole
 AvailableDataTypes[]=openpareverserelationlist
+AvailableDataTypes[]=openparestrictedarea
 
 #[EditSettings]
 #AdditionalTemplates[]=load_ocopendata_forms.tpl

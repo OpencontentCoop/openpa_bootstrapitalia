@@ -57,9 +57,9 @@ $classes = array()}
 {run-once}
 <script>
     var baseUrl = '/';
-    if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
+    if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){ldelim}
         baseUrl = UriPrefix + '/';
-    }
+    {rdelim}
     var BlockCalendarEndpoint = '{'/opendata/api/calendar/search/'|ezurl(no)}/';
     {literal}
     var BlockCalendarBaseOptions = {
