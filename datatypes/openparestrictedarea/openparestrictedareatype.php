@@ -21,7 +21,7 @@ class OpenPARestrictedAreaType extends eZDataType
      */
     function customObjectAttributeHTTPAction($http, $action, $contentObjectAttribute, $parameters)
     {
-        $content = $contentObjectAttribute->content();
+        $content = (array)$contentObjectAttribute->content();
 
         switch ($action) {
             case 'browse_user':
@@ -79,9 +79,12 @@ class OpenPARestrictedAreaType extends eZDataType
         }
     }
 
+    /**
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     */
     function storeObjectAttribute($contentObjectAttribute)
     {
-        $content = $contentObjectAttribute->content();
+        $content = (array)$contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute('data_text', implode('-', array_unique($content)));
     }
 
@@ -101,18 +104,24 @@ class OpenPARestrictedAreaType extends eZDataType
     /**
      * Returns the content.
      * @param eZContentObjectAttribute $contentObjectAttribute
-     * @return string
+     * @return array
      */
     public function objectAttributeContent($contentObjectAttribute)
     {
-        if ($contentObjectAttribute->attribute('data_text') != '')
+        if ($contentObjectAttribute->attribute('data_text') != '') {
             return explode('-', $contentObjectAttribute->attribute('data_text'));
+        }
         return array();
     }
 
+    /**
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param eZContentObject $contentObject
+     * @param $publishedNodes
+     */
     public function onPublish($contentObjectAttribute, $contentObject, $publishedNodes)
     {
-        $userIdList = $contentObjectAttribute->content();
+        $userIdList = (array)$contentObjectAttribute->content();
         $section = $this->createSection($contentObject);
         if ($section instanceof eZSection) {
             $this->assignRole($section, $userIdList);
@@ -142,11 +151,19 @@ class OpenPARestrictedAreaType extends eZDataType
         return true;
     }
 
+    /**
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @return string
+     */
     function metaData($contentObjectAttribute)
     {
-        return implode(', ', $contentObjectAttribute->content());
+        return implode(', ', (array)$contentObjectAttribute->content());
     }
 
+    /**
+     * @param eZContentObject $contentObject
+     * @return eZSection
+     */
     private function createSection($contentObject)
     {
         try {
@@ -184,7 +201,9 @@ class OpenPARestrictedAreaType extends eZDataType
         $query = "DELETE FROM ezuser_role WHERE role_id='{$role->ID}' AND limit_identifier='$limitIdent' AND limit_value='$limitValue'";
         eZDB::instance()->arrayQuery($query);
         foreach ($userIdList as $userId) {
-            $role->assignToUser($userId, 'section', $section->attribute('id'));
+            if ((int)$userId > 0) {
+                $role->assignToUser($userId, 'section', $section->attribute('id'));
+            }
         }
         eZRole::expireCache();
     }
