@@ -29,7 +29,7 @@ class OpenPARestrictedAreaType extends eZDataType
                     $module = $parameters['module'];
                     $redirectionURI = $parameters['current-redirection-uri'];
 
-                    $userClasses = [];
+                    $userClasses = ['user_group'];
                     $userClassIdList = eZUser::contentClassIDs();
                     foreach ($userClassIdList as $userClassId) {
                         $userClasses[] = eZContentClass::classIdentifierByID($userClassId);
@@ -167,7 +167,7 @@ class OpenPARestrictedAreaType extends eZDataType
     private function createSection($contentObject)
     {
         try {
-            $name = '_' . $contentObject->attribute('name');
+            $name = '_' . $contentObject->attribute('name') . ' (autogenerato)';
             $identifier = 'restricted_area_' . $contentObject->attribute('id');
             $section = OpenPABase::initSection($name, $identifier);
             if ($section->attribute('name') != $name) {
@@ -186,7 +186,7 @@ class OpenPARestrictedAreaType extends eZDataType
     private function assignRole(eZSection $section, array $userIdList)
     {
         $role = OpenPABase::initRole(
-            '_Accesso area riservata',
+            '_Accesso area riservata (autogenerato)',
             array(
                 array(
                     'ModuleName' => 'content',
