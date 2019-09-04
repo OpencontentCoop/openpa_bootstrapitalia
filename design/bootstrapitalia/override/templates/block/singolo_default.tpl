@@ -5,9 +5,8 @@
 
     <div class="singolo-image-container d-lg-flex align-items-stretch flex-nowrap">
         <div class="singolo-placeholder d-none d-lg-block flex-lg-fill"></div>
-        <div class="singolo-image flex-lg-fill bg-dark">
-            {include uri='design:atoms/image.tpl' node=$valid_node figure_wrapper=false() image_css_class='of-md-cover' fluid=true()}
-        </div>
+        <div class="singolo-image flex-lg-fill bg-dark"
+             style="background-image:url('{include uri='design:atoms/image_url.tpl' node=$valid_node}'); background-position: center center;background-repeat: no-repeat;background-size: cover;"></div>
     </div>
 
     <div class="singolo-text p-2 pr-4">
@@ -22,7 +21,7 @@
             </a>
         </h2>
         <div class="card-text mb-5">
-            {include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node}            
+            {include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node}
         </div>
 
         {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false()}
