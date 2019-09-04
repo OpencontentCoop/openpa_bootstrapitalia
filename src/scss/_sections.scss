@@ -136,27 +136,27 @@ section#image figure {
   @include media-breakpoint-up($breakpoint) {
     $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
     .of#{$infix}-contain {
-      object-fit: contain;
+      object-fit: contain !important;
     }
 
     .of#{$infix}-cover {
-      object-fit: cover;
+      object-fit: cover !important;;
     }
 
     .op#{$infix}-t {
-      object-position: top;
+      object-position: top !important;;
     }
 
     .op-#{$infix}r {
-      object-position: right;
+      object-position: right !important;;
     }
 
     .op#{$infix}-b {
-      object-position: bottom;
+      object-position: bottom !important;;
     }
 
     .op#{$infix}-l {
-      object-position: left;
+      object-position: left !important;;
     }
   }
 }

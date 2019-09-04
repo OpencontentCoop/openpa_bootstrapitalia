@@ -31410,107 +31410,107 @@ section#image figure figcaption {
 
 /* line 138, src/scss/_sections.scss */
 .of-contain {
-  object-fit: contain; }
+  object-fit: contain !important; }
 
 /* line 142, src/scss/_sections.scss */
 .of-cover {
-  object-fit: cover; }
+  object-fit: cover !important; }
 
 /* line 146, src/scss/_sections.scss */
 .op-t {
-  object-position: top; }
+  object-position: top !important; }
 
 /* line 150, src/scss/_sections.scss */
 .op-r {
-  object-position: right; }
+  object-position: right !important; }
 
 /* line 154, src/scss/_sections.scss */
 .op-b {
-  object-position: bottom; }
+  object-position: bottom !important; }
 
 /* line 158, src/scss/_sections.scss */
 .op-l {
-  object-position: left; }
+  object-position: left !important; }
 
 @media (min-width: 576px) {
   /* line 138, src/scss/_sections.scss */
   .of-sm-contain {
-    object-fit: contain; }
+    object-fit: contain !important; }
   /* line 142, src/scss/_sections.scss */
   .of-sm-cover {
-    object-fit: cover; }
+    object-fit: cover !important; }
   /* line 146, src/scss/_sections.scss */
   .op-sm-t {
-    object-position: top; }
+    object-position: top !important; }
   /* line 150, src/scss/_sections.scss */
   .op--smr {
-    object-position: right; }
+    object-position: right !important; }
   /* line 154, src/scss/_sections.scss */
   .op-sm-b {
-    object-position: bottom; }
+    object-position: bottom !important; }
   /* line 158, src/scss/_sections.scss */
   .op-sm-l {
-    object-position: left; } }
+    object-position: left !important; } }
 
 @media (min-width: 768px) {
   /* line 138, src/scss/_sections.scss */
   .of-md-contain {
-    object-fit: contain; }
+    object-fit: contain !important; }
   /* line 142, src/scss/_sections.scss */
   .of-md-cover {
-    object-fit: cover; }
+    object-fit: cover !important; }
   /* line 146, src/scss/_sections.scss */
   .op-md-t {
-    object-position: top; }
+    object-position: top !important; }
   /* line 150, src/scss/_sections.scss */
   .op--mdr {
-    object-position: right; }
+    object-position: right !important; }
   /* line 154, src/scss/_sections.scss */
   .op-md-b {
-    object-position: bottom; }
+    object-position: bottom !important; }
   /* line 158, src/scss/_sections.scss */
   .op-md-l {
-    object-position: left; } }
+    object-position: left !important; } }
 
 @media (min-width: 992px) {
   /* line 138, src/scss/_sections.scss */
   .of-lg-contain {
-    object-fit: contain; }
+    object-fit: contain !important; }
   /* line 142, src/scss/_sections.scss */
   .of-lg-cover {
-    object-fit: cover; }
+    object-fit: cover !important; }
   /* line 146, src/scss/_sections.scss */
   .op-lg-t {
-    object-position: top; }
+    object-position: top !important; }
   /* line 150, src/scss/_sections.scss */
   .op--lgr {
-    object-position: right; }
+    object-position: right !important; }
   /* line 154, src/scss/_sections.scss */
   .op-lg-b {
-    object-position: bottom; }
+    object-position: bottom !important; }
   /* line 158, src/scss/_sections.scss */
   .op-lg-l {
-    object-position: left; } }
+    object-position: left !important; } }
 
 @media (min-width: 1200px) {
   /* line 138, src/scss/_sections.scss */
   .of-xl-contain {
-    object-fit: contain; }
+    object-fit: contain !important; }
   /* line 142, src/scss/_sections.scss */
   .of-xl-cover {
-    object-fit: cover; }
+    object-fit: cover !important; }
   /* line 146, src/scss/_sections.scss */
   .op-xl-t {
-    object-position: top; }
+    object-position: top !important; }
   /* line 150, src/scss/_sections.scss */
   .op--xlr {
-    object-position: right; }
+    object-position: right !important; }
   /* line 154, src/scss/_sections.scss */
   .op-xl-b {
-    object-position: bottom; }
+    object-position: bottom !important; }
   /* line 158, src/scss/_sections.scss */
   .op-xl-l {
-    object-position: left; } }
+    object-position: left !important; } }
 
 /* line 165, src/scss/_sections.scss */
 .info-date span {
