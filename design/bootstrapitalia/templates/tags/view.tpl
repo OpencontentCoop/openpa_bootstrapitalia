@@ -19,7 +19,7 @@
              items_per_row='auto'
              i_view=card
              view_variation='big'
-             image_class=medium
+             image_class=large
              items=$nodes}
 
     {undef $nodes}

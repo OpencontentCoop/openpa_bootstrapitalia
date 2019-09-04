@@ -10,7 +10,7 @@
              i_view=card
              view_variation='alt'
              show_icon=true()
-             image_class=medium
+             image_class=large
              items=$openpa.content}
 </div>
 

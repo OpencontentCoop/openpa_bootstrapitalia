@@ -16,7 +16,7 @@
 		             items_per_row=3
 		             i_view=card_children
 		             view_variation='big'
-		             image_class=medium
+		             image_class=large
 		             items=$block.valid_nodes|extract_left( 3 )}
 
 			{def $others_count = count($block.valid_nodes)|sub(3)}
