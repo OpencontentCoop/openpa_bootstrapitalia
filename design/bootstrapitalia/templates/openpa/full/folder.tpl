@@ -26,7 +26,7 @@
                 {include uri='design:atoms/grid.tpl'
                          items_per_row=4
                          i_view=banner
-                         image_class=medium
+                         image_class=large
                          show_icon = false()
                          items=$children}
 
