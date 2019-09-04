@@ -21,7 +21,7 @@
                                                        'offset', $view_parameters.offset,
                                                        'sort_by', $parent_node.sort_array,
                                                        'limit', $page_limit )|merge( $params ) )}
-    <section>
+    <section id="{if $node|has_attribute('menu_name')}{$node|attribute('menu_name').content|slugize}{else}{$parent_node.name|slugize}{/if}">
       <div class="py-5">
         <div class="container">
             {if $node|has_attribute('menu_name')}
