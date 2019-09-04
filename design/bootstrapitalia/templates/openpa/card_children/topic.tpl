@@ -33,7 +33,7 @@
                                 {if $icon}
                                     {display_icon($icon, 'svg', 'icon icon-sm mr-2')}
                                 {/if}
-                                {$item.metadata.name[$language]|wash()}
+                                <span style="flex:1">{$item.metadata.name[$language]|wash()}</span>
                                 
                             </a>                        
                             {undef $icon}
