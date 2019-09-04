@@ -1,9 +1,249 @@
 {def $params = parse_search_get_params()
      $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )}
 
+{set $page_limit = 20}
+{def $filters = array()
+     $search_hash = $params._search_hash|merge(hash('offset', $view_parameters.offset,'limit', $page_limit ))
+     $search = fetch( ezfind, search, $search_hash )}
+
+{def $classes = array()}
+{if openpaini('MotoreRicerca', 'IncludiClassi', array())|count()}
+    {set $classes = fetch(class, list, hash(class_filter, openpaini('MotoreRicerca', 'IncludiClassi'), sort_by, array( 'name', true() )))}
+{/if}
+
+<div class="row">
+    <div class="col-12 mt-5 pb-4 border-bottom">        
+        <h2>Risultati della ricerca{if $params.text|ne('')} di <em>{$params.text|wash()}</em>{/if}</h2>
+    </div>
+</div>
+
+
+{def $subtree_facets = $search.SearchExtras.facet_fields[0].countList
+     $topic_facets = $search.SearchExtras.facet_fields[1].countList
+     $class_facets = $search.SearchExtras.facet_fields[2].countList}
+
+<form class="mt-3 mb-5" action="{'content/search'|ezurl(no)}" method="get">
+    
+    <div class="d-block d-lg-none d-xl-none text-center">
+        <a href="#categoryCollapse" role="button" class="btn btn-primary btn-lg text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="categoryCollapse">Filtri</a>          
+    </div>
+
+    <div class="row">
+        <aside class="col-lg-3">
+            <div class="d-lg-block d-xl-block collapse mt-5" id="categoryCollapse">
+                
+                <div class="form-group floating-labels">
+                    <div class="form-label-group pr-2">
+                        <input type="text"
+                               class="form-control pl-0"
+                               id="search-text"
+                               name="SearchText"
+                               value="{$params.text|wash()}"
+                               placeholder="Cerca"
+                               aria-invalid="false"/>
+                        <label class="pl-0" for="search-text">Cerca</label>
+                        <button type="submit" class="autocomplete-icon btn btn-link">
+                            {display_icon('it-search', 'svg', 'icon')}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pt-4 pt-lg-0">
+                    <h6 class="text-uppercase">Sezioni</h6>
+                    <div class="mt-4">
+                    {foreach $top_menu_node_ids as $id}
+                        {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'side_menu'))}
+
+                        {def $display = false()}
+                        {if $params.subtree_boundary|eq($id)}
+                            {set $display = true()}
+                        {else}
+                            {foreach $tree_menu.children as $child}
+                                {if $params.subtree|contains($child.item.node_id)}
+                                    {set $display = true()}
+                                    {break}
+                                {/if}
+                            {/foreach}
+                        {/if}
+                        
+                        <div class="form-check custom-control custom-checkbox">
+                            <input name="Subtree[]" id="subtree-{$tree_menu.item.node_id}" value={$tree_menu.item.node_id} {if $params.subtree|contains($id)}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
+                            <label class="custom-control-label" for="subtree-{$tree_menu.item.node_id}">{$tree_menu.item.name|wash()} {if is_set($subtree_facets[$id])}<small>({$subtree_facets[$id]})</small>{/if}</label>
+                            <a class="float-right" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
+                                {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
+                            </a>
+                        </div>
+                        <div class="pl-4 collapse{*if $display} show{/if*}" id="more-subtree-{$tree_menu.item.node_id}">
+                            {foreach $tree_menu.children as $child}
+                                <div class="form-check custom-control custom-checkbox">
+                                    <input name="Subtree[]" id="subtree-{$child.item.node_id}" value={$child.item.node_id} {if $params.subtree|contains($child.item.node_id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
+                                    <label class="class="custom-control-label" for="subtree-{$child.item.node_id}">{$child.item.name|wash()} {if is_set($subtree_facets[$child.item.node_id])}<small>({$subtree_facets[$child.item.node_id]})</small>{/if}</label>
+                                </div>
+                            {/foreach}                    
+                        </div>
+
+                        {undef $tree_menu $display}
+
+                    {/foreach}
+                    </div>
+                </div>
+                
+                
+                <div class="pt-4 pt-lg-5">
+                        <h6 class="text-uppercase">Argomenti</h6>
+                        </li>
+                        {def $topics = fetch(content, object, hash(remote_id, 'topics'))
+                             $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu'))
+                             $topic_list_children = $topic_list.children
+                             $already_displayed = array()
+                             $count = 0 
+                             $max = 6 
+                             $total = count($topic_list_children)
+                             $sub_count = 0}
+
+                        {foreach $topic_list_children as $child}                    
+                            {if $params.topic|contains($child.item.node_id)}
+                                <div class="form-check custom-control custom-checkbox">
+                                    <input name="Topic[]" id="topic-{$child.item.node_id}" value={$child.item.node_id} checked="checked" class="custom-control-input" type="checkbox">
+                                    <label class="class="custom-control-label" for="topic-{$child.item.node_id}">{$child.item.name|wash()}  {if is_set($topic_facets[$child.item.node_id])}<small>({$topic_facets[$child.item.node_id]})</small>{/if}                                
+                                </div>
+                                {set $count = $count|inc()}
+                                {set $already_displayed = $already_displayed|append($child.item.node_id)}
+                            {/if}
+                        {/foreach}
+
+                        {if $count|lt($max)}                            
+                            {foreach $topic_list_children as $child} 
+                                {if and($already_displayed|contains($child.item.node_id)|not(), is_set($topic_facets[$child.item.node_id]))}
+                                    <div class="form-check custom-control custom-checkbox">
+                                        <input name="Topic[]" id="topic-{$child.item.node_id}" value={$child.item.node_id} class="custom-control-input" type="checkbox">
+                                        <label class="class="custom-control-label" for="topic-{$child.item.node_id}">{$child.item.name|wash()}  {if is_set($topic_facets[$child.item.node_id])}<small>({$topic_facets[$child.item.node_id]})</small>{/if}                                
+                                    </div>
+                                    {set $count = $count|inc()}
+                                    {set $already_displayed = $already_displayed|append($child.item.node_id)}
+                                    {if $count|eq($max)}{break}{/if}
+                                {/if}
+                            {/foreach}
+                        {/if}
+
+                        {if $count|lt($max)}
+                            {set $sub_count = $max|sub($count)}
+                            {foreach $topic_list_children as $child max $sub_count} 
+                                {if $already_displayed|contains($child.item.node_id)|not()}
+                                    <div class="form-check custom-control custom-checkbox">
+                                        <input name="Topic[]" id="topic-{$child.item.node_id}" value={$child.item.node_id} class="custom-control-input" type="checkbox">
+                                        <label class="class="custom-control-label" for="topic-{$child.item.node_id}">{$child.item.name|wash()}  {if is_set($topic_facets[$child.item.node_id])}<small>({$topic_facets[$child.item.node_id]})</small>{/if}                                
+                                    </div>
+                                    {set $count = $count|inc()}
+                                    {set $already_displayed = $already_displayed|append($child.item.node_id)}
+                                {/if}
+                            {/foreach}
+                        {/if}
+
+                        {if $count|lt($total)}
+                            <a href="#more-topics" data-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
+                                {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
+                            </a>
+                            <div class="collapse" id="more-topics">
+                            {foreach $topic_list_children as $child} 
+                                {if $already_displayed|contains($child.item.node_id)|not()}
+                                    <div class="form-check custom-control custom-checkbox">
+                                        <input name="Topic[]" id="topic-{$child.item.node_id}" value={$child.item.node_id} class="custom-control-input" type="checkbox">
+                                        <label class="class="custom-control-label" for="topic-{$child.item.node_id}">{$child.item.name|wash()}  {if is_set($topic_facets[$child.item.node_id])}<small>({$topic_facets[$child.item.node_id]})</small>{/if}                                
+                                    </div>                                
+                                {/if}
+                            {/foreach}
+                            </div>
+                        {/if}
+
+                        
+                        {undef $topics $topic_list $count $max $total $already_displayed $sub_count}
+                </div>
+
+                {if count($classes)}
+                    <div class="pt-4 pt-lg-5">
+                        <h6 class="text-uppercase">Tipo di contenuto</h3>                            
+                        {foreach $classes as $class}
+                            <div class="form-check custom-control custom-checkbox">
+                                <input name="Class[]" id="class-{$class.id}" value={$class.id|wash()} {if $params.class|contains($class.id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
+                                <label class="class="custom-control-label" for="class-{$class.id}">{$class.name|wash()} {if is_set($class_facets[$class.id])}<small>({$class_facets[$class.id]})</small>{/if}</label>                                
+                            </div>
+                        {/foreach}
+                    </div>
+                {/if}
+                
+                {if or($params.from,$params.to,$params.only_active)}
+                <div class="pt-4 pt-lg-5">
+                    <h6 class="text-uppercase">Opzioni</h6>
+                    {if $params.only_active}
+                        <div class="form-check custom-control custom-checkbox">
+                            <input name="OnlyActive" id="onlyactive" value=1 checked="checked" class="custom-control-input" type="checkbox">
+                            <label class="class="custom-control-label" for="onlyactive">Contenuti attivi
+                        </div>                            
+                    {/if}
+                    {if $params.from}
+                        <div class="form-check custom-control custom-checkbox">
+                            <input name="From" id="from" checked="checked" class="custom-control-input" type="checkbox" value="{$params.from|datetime( 'custom', '%j/%m/%Y' )}">
+                            <label class="class="custom-control-label" for="from">Da {$params.from|datetime( 'custom', '%j/%m/%Y' )}
+                        </div>                            
+                    {/if}
+                    {if $params.to}                                
+                        <div class="form-check custom-control custom-checkbox">
+                            <input name="To" id="to" checked="checked" class="custom-control-input" type="checkbox" value="{$params.to|datetime( 'custom', '%j/%m/%Y' )}">
+                            <label class="class="custom-control-label" for="to">Fino a {$params.to|datetime( 'custom', '%j/%m/%Y' )}
+                        </div>
+                    {/if}
+                </div>
+                {/if}
+
+                <div class="pt-4 pt-lg-5">
+                    <button type="submit" class="btn btn-primary">
+                        Applica filtri
+                    </button>
+                </div>
+
+            </div>
+        </aside>
+        
+        <section class="col-lg-9">
+            <div class="search-results mb-4 pl-lg-5 mt-3 mt-lg-5">
+                {if $search.SearchCount|gt(0)}                
+                
+                    {if $search.SearchCount|eq(1)}
+                        <p><small>Trovato un risultato</small></p>
+                    {else}
+                        <p><small>Trovati {$search.SearchCount} risultati</small></p>
+                    {/if}                    
+
+                    <div class="card-wrapper card-teaser-wrapper card-teaser-embed mb-4">
+                        {foreach $search.SearchResult as $child}
+                            {node_view_gui content_node=$child view=card_teaser show_icon=true() image_class=widemedium}
+                        {/foreach}
+                    </div>
+
+                    {include name=Navigator
+                             uri='design:navigator/google.tpl'
+                             page_uri='content/search'
+                             page_uri_suffix=$params._uri_suffix
+                             item_count=$search.SearchCount
+                             view_parameters=$view_parameters
+                             item_limit=$page_limit}                 
+                {else}
+                    <p><small>Nessun risultato ottenuto</small></p>
+                    {if $search.SearchExtras.hasError}<div class="alert alert-danger">{$search.SearchExtras.error|wash}</div>{/if}
+                {/if}
+            </div>
+        </section>
+
+    </div>
+</form>
+
+{literal}
 <script>
-$(document).ready(function () {ldelim}
-    $('#searchModal').on('search_gui_initialized', function (event, searchGui) {ldelim}
+$(document).ready(function () {
+   $('[data-indeterminate]').prop('indeterminate', true);
+{/literal}
+   $('#searchModal').on('search_gui_initialized', function (event, searchGui) {ldelim}
         {if $params.subtree|count()}
         {foreach $params.subtree as $subtree}
             searchGui.activateSubtree({$subtree});
@@ -29,191 +269,15 @@ $(document).ready(function () {ldelim}
         $('#search-gui-text').val('{$params.text|wash()}');
         {/if}
     {rdelim});
-{rdelim});
+{literal}
+});    
 </script>
-
-{set $page_limit = 20}
-{def $filters = array()
-     $search_hash = $params._search_hash|merge(hash('offset', $view_parameters.offset,'limit', $page_limit ))
-     $search = fetch( ezfind, search, $search_hash )}
-
-{def $classes = array()}
-{if $params.class|count()}
-    {set $classes = fetch(class, list, hash(class_filter, $params.class))}
-{/if}
-
-<div class="row">
-    <div class="col-12 px-lg-4 py-lg-2">
-        <form class="mt-3 mb-5" action="{'content/search'|ezurl(no)}" method="get">
-            <div class="form-group floating-labels">
-                <div class="form-label-group">
-                    <input type="text"
-                           class="form-control"
-                           id="search-text"
-                           name="SearchText"
-                           value="{$params.text|wash()}"
-                           placeholder="Cerca"
-                           aria-invalid="false"/>
-                    <label class="" for="search-text">
-                        Cerca
-                    </label>
-                    <button type="submit" class="autocomplete-icon btn btn-link">
-                        {display_icon('it-search', 'svg', 'icon')}
-                    </button>
-                </div>
-            </div>
-
-            <div class="section-search-form-filters">
-                <h6 class="small">Filtri</h6>
-                <a href="#" class="chip chip-lg selected selected no-minwith"
-                   data-section_subtree_group="all">
-                    <span class="chip-label">Tutto</span>
-                </a>
-                <a href="#"
-                   class="btn btn-outline-primary btn-icon btn-xs align-top ml-1 mt-1"
-                   id="toggleSearch">
-                    {display_icon('it-plus', 'svg', 'icon icon-primary mr-1')} Aggiungi filtro
-                </a>
-            </div>
-            {foreach $classes as $class}
-                <input type="hidden" name="Class[]" value="{$class.id}" />
-            {/foreach}
-        </form>
-        <h2>Risultati della ricerca</h2>
-    </div>
-</div>
-
-{def $subtree_facets = $search.SearchExtras.facet_fields[0].countList
-     $topic_facets = $search.SearchExtras.facet_fields[1].countList}
-
-<div class="row border-top row-column-border row-column-menu-left attribute-list">
-    <aside class="col-lg-3 col-md-4">
-        {if count($classes)}
-            <div class="link-list-wrapper pt-4">
-                <ul class="link-list">
-                    <li>
-                        <h3 class="text-uppercase">Tipo di contenuto</h3>
-                    </li>                    
-                    {foreach $classes as $class}
-                        <li>
-                            <a style="line-height: 1.5em;padding: 5px 24px;" {*TODO*} class="list-item" href="{concat('content/search?', filtered_search_params_query_string($params, hash('class', $class.id)))|ezurl(no)}">
-                                {display_icon('it-close', 'svg', 'icon icon-primary icon-sm mr-1')}
-                                {$class.name|wash()}
-                            </a>
-                        </li>
-                    {/foreach}
-                </ul>
-            </div>
-        {/if}
-        {if or($params.subtree|count(), $params.subtree_boundary)}
-        <div class="link-list-wrapper pt-4">
-            <ul class="link-list">
-                <li>
-                    <h3 class="text-uppercase">Sezioni</h3>
-                </li>
-                {foreach $top_menu_node_ids as $id}
-                    {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'side_menu'))
-                         $display = false()}
-                    {if or($params.subtree_boundary|eq($id), $params.subtree|contains($id))}
-                        {set $display = true()}
-                    {else}
-                        {foreach $tree_menu.children as $child}
-                            {if $params.subtree|contains($child.item.node_id)}
-                                {set $display = true()}
-                                {break}
-                            {/if}
-                        {/foreach}
-                    {/if}
-                    {if $display}
-                        {def $top_menu_node = fetch(content, node, hash(node_id, $id))}
-                        <li>
-                            <a style="line-height: 1.5em;padding: 5px 24px;" {*TODO*} class="list-item right-icon" href="#dropdown-search-{$top_menu_node.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="dropdown-search-{$top_menu_node.node_id}">
-                                {*display_icon($top_menu_node|attribute('icon').content|wash(), 'svg', 'icon icon-primary icon-sm mr-1')*}
-                                <span>{$top_menu_node.name|wash()} {if is_set($subtree_facets[$id])}({$subtree_facets[$id]}){/if}</span>
-                                {display_icon('it-expand', 'svg', 'icon icon-primary right m-0')}
-                            </a>
-                            <ul class="link-sublist collapse" id="dropdown-search-{$top_menu_node.node_id}">
-                                {foreach $tree_menu.children as $child}
-                                    {if or($params.subtree|contains($child.item.node_id), count($params.subtree)|eq(0))}
-                                        <li><a style="line-height: 1.5em;padding: 5px 24px;" {*TODO*} class="list-item" href="#">{$child.item.name|wash()} {if is_set($subtree_facets[$child.item.node_id])}({$subtree_facets[$child.item.node_id]}){/if}</a></li>
-                                    {/if}
-                                {/foreach}
-                            </ul>
-                        </li>
-                        {undef $top_menu_node}
-                    {/if}
-                    {undef $tree_menu $display}
-                {/foreach}
-            </ul>
-        </div>
-        {/if}
-        {if $params.topic|count()}
-        <div class="link-list-wrapper pt-4">
-            <ul class="link-list">
-                <li>
-                    <h3 class="text-uppercase">Argomenti</h3>
-                </li>
-                {def $topics = fetch(content, object, hash(remote_id, 'topics'))
-                     $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu'))}
-                {foreach $topic_list.children as $child}
-                    {if $params.topic|contains($child.item.node_id)}
-                        <li><a style="line-height: 1.5em;padding: 5px 24px;" {*TODO*} class="list-item" href="#">{$child.item.name|wash()} {if is_set($topic_facets[$child.item.node_id])}({$topic_facets[$child.item.node_id]}){/if}</a></li>
-                    {/if}
-                {/foreach}
-                {undef $topics $topic_list}
-            </ul>
-        </div>
-        {/if}
-        {if or($params.from,$params.to,$params.only_active)}
-        <div class="link-list-wrapper pt-4">
-            <ul class="link-list">
-                <li>
-                    <h3 class="text-uppercase">Opzioni</h3>
-                </li>
-                {if $params.only_active}
-                    <li><a style="line-height: 1.5em;padding: 5px 24px;" {*TODO*} class="list-item" href="#">{display_icon('it-settings', 'svg', 'icon icon-primary icon-sm mr-1')} Contenuti attivi</a></li>
-                {/if}
-                {if $params.from}
-                    <li>
-                        <a style="line-height: 1.5em;padding: 5px 24px;" {*TODO*} class="list-item" href="#">
-                            {display_icon('it-calendar', 'svg', 'icon icon-primary icon-sm mr-1')}
-                            Da {$params.from|datetime( 'custom', '%j/%m/%Y' )}
-                        </a>
-                    </li>
-                {/if}
-                {if $params.to}
-                    <li>
-                        <a style="line-height: 1.5em;padding: 5px 24px;" {*TODO*} class="list-item" href="#">
-                            {display_icon('it-calendar', 'svg', 'icon icon-primary icon-sm mr-1')}
-                            Fino a {$params.to|datetime( 'custom', '%j/%m/%Y' )}
-                        </a>
-                    </li>
-                {/if}
-            </ul>
-        {/if}
-    </aside>
-    <section class="col-lg-9 col-md-8">
-        {if $search.SearchCount|gt(0)}
-            {if $search.SearchCount|eq(1)}
-                <p><small>Trovato un risultato</small></p>
-            {else}
-                <p><small>Trovati {$search.SearchCount} risultati</small></p>
-            {/if}
-            {foreach $search.SearchResult as $result}
-                {node_view_gui view=search_result content_node=$result}
-            {/foreach}
-
-            {include name=Navigator
-                     uri='design:navigator/google.tpl'
-                     page_uri='content/search'
-                     page_uri_suffix=$params._uri_suffix
-                     item_count=$search.SearchCount
-                     view_parameters=$view_parameters
-                     item_limit=$page_limit}
-        {else}
-            <p><small>Nessun risultato ottenuto</small></p>
-            {if $search.SearchExtras.hasError}<div class="alert alert-danger">{$search.SearchExtras.error|wash}</div>{/if}
-        {/if}
-
-    </section>
-</div>
+<style>
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3e%3cpath stroke='%23fff' d='M0 2h4'/%3e%3c/svg%3e");
+    border-color: #bbb;
+    background-color: #bbb;
+    z-index: 0;
+}
+</style>
+{/literal}

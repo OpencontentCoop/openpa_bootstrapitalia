@@ -62,11 +62,11 @@ IncludiClassi[]=place
 IncludiClassi[]=private_organization
 IncludiClassi[]=public_organization
 IncludiClassi[]=pagina_sito
-IncludiClassi[]=pagina_trasparenza
+#IncludiClassi[]=pagina_trasparenza
 IncludiClassi[]=politico
 IncludiClassi[]=online_contact_point
 IncludiClassi[]=public_service
-IncludiClassi[]=trasparenza
+#IncludiClassi[]=trasparenza
 IncludiClassi[]=political_body
 IncludiClassi[]=office
 

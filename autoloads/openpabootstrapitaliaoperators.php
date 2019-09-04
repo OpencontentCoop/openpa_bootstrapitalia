@@ -186,7 +186,8 @@ class OpenPABootstrapItaliaOperators
         $filters = array();
         $facets = array(
             array('field' => ezfSolrDocumentFieldBase::generateMetaFieldName('path', 'filter'), 'limit' => 100),
-            array('field' => OpenPASolr::generateSolrSubMetaField('topics', 'main_node_id', 'sint'), 'limit' => 100)
+            array('field' => OpenPASolr::generateSolrSubMetaField('topics', 'main_node_id', 'sint'), 'limit' => 100),
+            array('field' => ezfSolrDocumentFieldBase::generateMetaFieldName('contentclass_id', 'filter'), 'limit' => 100),
         );
 
         if (!empty($data['topic'])) {
@@ -227,7 +228,8 @@ class OpenPABootstrapItaliaOperators
         }
 
         $data['_search_hash'] = $searchHash;
-        eZDebug::writeDebug(print_r($data, 1), __METHOD__);
+        
+        //eZDebug::writeDebug(print_r($data, 1), __METHOD__);
 
         return $data;
     }
