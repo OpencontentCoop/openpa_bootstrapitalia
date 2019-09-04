@@ -51,7 +51,7 @@
             {foreach $summary_items as $index => $item}
                 <article id="{$item.slug|wash()}" class="it-page-section mb-2 anchor-offset" {*if $index|eq(0)} class="anchor-offset"{/if*}>
                     {if $item.wrap}                    
-                    <div class="card-wrapper card-teaser-wrapper" style="display:block;column-count: 2;column-gap: 1.25rem;orphans: 1;widows: 1;">
+                    <div class="card-wrapper card-teaser-wrapper card-teaser-embed">
                     {/if}
 
                     {foreach $item.attributes as $openpa_attribute}

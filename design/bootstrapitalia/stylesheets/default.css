@@ -29038,140 +29038,140 @@ body.fixed-wt .it-header-wrapper {
   .card .card-icon-sm a {
     color: #19191a;
     text-decoration: none; }
-  /* line 53, src/scss/_card-utilities.scss */
+  /* line 54, src/scss/_card-utilities.scss */
   .card .card-icon-sm a:hover {
     text-decoration: none;
     color: #4c4c4d; }
-    /* line 56, src/scss/_card-utilities.scss */
+    /* line 58, src/scss/_card-utilities.scss */
     .card .card-icon-sm a:hover svg.icon {
       fill: #4c4c4d !important; }
-  /* line 61, src/scss/_card-utilities.scss */
+  /* line 63, src/scss/_card-utilities.scss */
   .card .card-icon-sm span {
     display: inline;
     vertical-align: middle; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-primary *, .card .card-icon-color-hover-primary:hover * {
   color: #0073e6 !important;
   fill: #0073e6 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-secondary *, .card .card-icon-color-hover-secondary:hover * {
   color: #5c6f82 !important;
   fill: #5c6f82 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-success *, .card .card-icon-color-hover-success:hover * {
   color: #008758 !important;
   fill: #008758 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-info *, .card .card-icon-color-hover-info:hover * {
   color: #979899 !important;
   fill: #979899 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-warning *, .card .card-icon-color-hover-warning:hover * {
   color: #a66300 !important;
   fill: #a66300 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-danger *, .card .card-icon-color-hover-danger:hover * {
   color: #d9364f !important;
   fill: #d9364f !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-light *, .card .card-icon-color-hover-light:hover * {
   color: #e9e6f2 !important;
   fill: #e9e6f2 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-dark *, .card .card-icon-color-hover-dark:hover * {
   color: #17324d !important;
   fill: #17324d !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-black *, .card .card-icon-color-hover-black:hover * {
   color: black !important;
   fill: black !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-white *, .card .card-icon-color-hover-white:hover * {
   color: white !important;
   fill: white !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-100 *, .card .card-icon-color-hover-100:hover * {
   color: #e3e4e6 !important;
   fill: #e3e4e6 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-200 *, .card .card-icon-color-hover-200:hover * {
   color: #cacacc !important;
   fill: #cacacc !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-300 *, .card .card-icon-color-hover-300:hover * {
   color: #b1b1b3 !important;
   fill: #b1b1b3 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-400 *, .card .card-icon-color-hover-400:hover * {
   color: #979899 !important;
   fill: #979899 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-500 *, .card .card-icon-color-hover-500:hover * {
   color: #7e7f80 !important;
   fill: #7e7f80 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-600 *, .card .card-icon-color-hover-600:hover * {
   color: #656566 !important;
   fill: #656566 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-700 *, .card .card-icon-color-hover-700:hover * {
   color: #4c4c4d !important;
   fill: #4c4c4d !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-800 *, .card .card-icon-color-hover-800:hover * {
   color: #323333 !important;
   fill: #323333 !important; }
 
-/* line 68, src/scss/_card-utilities.scss */
+/* line 70, src/scss/_card-utilities.scss */
 .card .card-icon-color-900 *, .card .card-icon-color-hover-900:hover * {
   color: #19191a !important;
   fill: #19191a !important; }
 
-/* line 73, src/scss/_card-utilities.scss */
+/* line 76, src/scss/_card-utilities.scss */
 .card .card-icon-color-white *, .card .card-icon-color-hover-white:hover {
   color: white !important;
   fill: white !important; }
 
-/* line 78, src/scss/_card-utilities.scss */
+/* line 81, src/scss/_card-utilities.scss */
 .card .card-body-alt {
   font-family: "Titillium Web", Geneva, Tahoma, sans-serif;
   font-size: 0.875rem;
   line-height: normal;
   color: #19191a; }
-  /* line 79, src/scss/_card-utilities.scss */
+  /* line 82, src/scss/_card-utilities.scss */
   .card .card-body-alt h5.card-title {
     font-size: 1.125rem; }
-    /* line 81, src/scss/_card-utilities.scss */
+    /* line 85, src/scss/_card-utilities.scss */
     .card .card-body-alt h5.card-title a {
       text-decoration: none; }
-  /* line 90, src/scss/_card-utilities.scss */
+  /* line 95, src/scss/_card-utilities.scss */
   .card .card-body-alt p {
     font-family: "Titillium Web", Geneva, Tahoma, sans-serif;
     font-size: 0.875rem;
     line-height: normal;
     color: #19191a; }
-  /* line 97, src/scss/_card-utilities.scss */
+  /* line 102, src/scss/_card-utilities.scss */
   .card .card-body-alt .link-list-wrapper ul li {
     padding: 5px 0; }
-    /* line 99, src/scss/_card-utilities.scss */
+    /* line 105, src/scss/_card-utilities.scss */
     .card .card-body-alt .link-list-wrapper ul li a {
       padding: 0;
       font-size: 0.875rem;
@@ -29179,164 +29179,176 @@ body.fixed-wt .it-header-wrapper {
       fill: #0066cc;
       display: flex;
       align-items: start; }
-      /* line 106, src/scss/_card-utilities.scss */
+      /* line 113, src/scss/_card-utilities.scss */
       .card .card-body-alt .link-list-wrapper ul li a svg.icon {
         margin: 0 10px 0 0; }
-      /* line 109, src/scss/_card-utilities.scss */
+      /* line 117, src/scss/_card-utilities.scss */
       .card .card-body-alt .link-list-wrapper ul li a span {
         margin-right: 0;
         min-height: 24px; }
 
-/* line 117, src/scss/_card-utilities.scss */
+/* line 125, src/scss/_card-utilities.scss */
 .card .card-text .embed {
   font-family: "Titillium Web", Geneva, Tahoma, sans-serif;
   font-size: 1.2em; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-primary {
   color: #0073e6 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-primary .icon {
     fill: #0073e6 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-secondary {
   color: #5c6f82 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-secondary .icon {
     fill: #5c6f82 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-success {
   color: #008758 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-success .icon {
     fill: #008758 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-info {
   color: #979899 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-info .icon {
     fill: #979899 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-warning {
   color: #a66300 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-warning .icon {
     fill: #a66300 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-danger {
   color: #d9364f !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-danger .icon {
     fill: #d9364f !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-light {
   color: #e9e6f2 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-light .icon {
     fill: #e9e6f2 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-dark {
   color: #17324d !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-dark .icon {
     fill: #17324d !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-black {
   color: black !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-black .icon {
     fill: black !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-white {
   color: white !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-white .icon {
     fill: white !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-100 {
   color: #e3e4e6 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-100 .icon {
     fill: #e3e4e6 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-200 {
   color: #cacacc !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-200 .icon {
     fill: #cacacc !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-300 {
   color: #b1b1b3 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-300 .icon {
     fill: #b1b1b3 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-400 {
   color: #979899 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-400 .icon {
     fill: #979899 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-500 {
   color: #7e7f80 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-500 .icon {
     fill: #7e7f80 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-600 {
   color: #656566 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-600 .icon {
     fill: #656566 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-700 {
   color: #4c4c4d !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-700 .icon {
     fill: #4c4c4d !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-800 {
   color: #323333 !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-800 .icon {
     fill: #323333 !important; }
 
-/* line 123, src/scss/_card-utilities.scss */
+/* line 131, src/scss/_card-utilities.scss */
 .card a.read-more-color-900 {
   color: #19191a !important; }
-  /* line 125, src/scss/_card-utilities.scss */
+  /* line 134, src/scss/_card-utilities.scss */
   .card a.read-more-color-900 .icon {
     fill: #19191a !important; }
 
-/* line 131, src/scss/_card-utilities.scss */
+/* line 140, src/scss/_card-utilities.scss */
 .card .link-list-wrapper ul li a {
   padding: 0; }
 
-/* line 137, src/scss/_card-utilities.scss */
+/* line 146, src/scss/_card-utilities.scss */
 .card-columns .card-wrapper {
   display: block; }
 
-/* line 141, src/scss/_card-utilities.scss */
-.card-wrapper.card-teaser-wrapper > .card-teaser {
-  flex-wrap: nowrap !important;
-  display: inline-flex !important; }
+/* line 150, src/scss/_card-utilities.scss */
+.card-wrapper.card-teaser-wrapper.card-teaser-embed {
+  display: block;
+  column-count: 1;
+  column-gap: 1.25rem;
+  orphans: 1;
+  widows: 1; }
+  /* line 156, src/scss/_card-utilities.scss */
+  .card-wrapper.card-teaser-wrapper.card-teaser-embed > .card-teaser {
+    flex-wrap: nowrap !important;
+    display: inline-flex !important; }
+
+@media (min-width: 768px) {
+  /* line 163, src/scss/_card-utilities.scss */
+  .card-wrapper.card-teaser-wrapper.card-teaser-embed {
+    column-count: 2; } }
 
 /* required styles */
 /* line 3, src/scss/_leaflet.scss */

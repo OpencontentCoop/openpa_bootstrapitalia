@@ -76,7 +76,7 @@
                     <h4>{$item.title|wash()}</h4>
 
                     {if $item.wrap}                    
-                    <div class="card-wrapper card-teaser-wrapper" style="display:block;column-count: 2;column-gap: 1.25rem;orphans: 1;widows: 1;">
+                    <div class="card-wrapper card-teaser-wrapper card-teaser-embed">
                     {/if}
 
                     {foreach $item.attributes as $openpa_attribute}

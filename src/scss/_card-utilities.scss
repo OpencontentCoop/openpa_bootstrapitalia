@@ -46,13 +46,15 @@
       margin-right: 4px;
     }
 
-    a{
+    a {
       color: $body-color;
       text-decoration: none;
     }
+
     a:hover {
       text-decoration: none;
       color: $gray-700;
+
       svg.icon {
         fill: $gray-700 !important;
       }
@@ -65,29 +67,32 @@
   }
 
   @each $color, $value in $theme-colors {
-    .card-icon-color-#{$color} *, .card-icon-color-hover-#{$color}:hover *{
+    .card-icon-color-#{$color} *, .card-icon-color-hover-#{$color}:hover * {
       color: #{$value} !important;
       fill: #{$value} !important;
     }
   }
+
   .card-icon-color-white *, .card-icon-color-hover-white:hover {
     color: white !important;
     fill: white !important;
   }
 
   .card-body-alt {
-    h5.card-title{
+    h5.card-title {
       font-size: $card-h5-size;
-      a{
+
+      a {
         text-decoration: none;
       }
     }
+
     font-family: $font-family-sans-serif;
     font-size: $card-p-size;
     line-height: normal;
     color: $body-color;
 
-    p{
+    p {
       font-family: $font-family-sans-serif;
       font-size: $card-p-size;
       line-height: normal;
@@ -96,6 +101,7 @@
 
     .link-list-wrapper ul li {
       padding: 5px 0;
+
       a {
         padding: 0;
         font-size: $card-p-size;
@@ -103,10 +109,12 @@
         fill: $color-primary;
         display: flex;
         align-items: start;
-        svg.icon{
+
+        svg.icon {
           margin: 0 10px 0 0;
         }
-        span{
+
+        span {
           margin-right: 0;
           min-height: 24px;
         }
@@ -114,31 +122,45 @@
     }
   }
 
-  .card-text .embed{
+  .card-text .embed {
     font-family: $font-family-sans-serif;
     font-size: 1.2em;
   }
 
   @each $color, $value in $theme-colors {
-    a.read-more-color-#{$color}{
+    a.read-more-color-#{$color} {
       color: #{$value} !important;
+
       .icon {
         fill: #{$value} !important;
       }
     }
   }
 
-  .link-list-wrapper ul li a{
+  .link-list-wrapper ul li a {
     padding: 0
   }
 
 }
 
-.card-columns .card-wrapper{
+.card-columns .card-wrapper {
   display: block;
 }
 
-.card-wrapper.card-teaser-wrapper > .card-teaser{
-  flex-wrap: nowrap !important;
-  display: inline-flex !important;
+.card-wrapper.card-teaser-wrapper.card-teaser-embed {
+  display: block;
+  column-count: 1;
+  column-gap: 1.25rem;
+  orphans: 1;
+  widows: 1;
+  > .card-teaser {
+    flex-wrap: nowrap !important;
+    display: inline-flex !important;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .card-wrapper.card-teaser-wrapper.card-teaser-embed {
+    column-count: 2;
+  }
 }
