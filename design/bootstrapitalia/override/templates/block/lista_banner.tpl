@@ -8,7 +8,7 @@
     {include uri='design:atoms/grid.tpl'
              items_per_row=$items_per_row
              i_view=banner
-             image_class=large
+             image_class=medium
              view_variation='banner-round banner-shadow'
              items=$openpa.content}
 </div>

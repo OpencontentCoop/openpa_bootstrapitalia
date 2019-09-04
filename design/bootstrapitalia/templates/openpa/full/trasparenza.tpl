@@ -74,7 +74,7 @@
 
                         {if is_set($openpa_attribute.contentobject_attribute)}
                             {attribute_view_gui attribute=$openpa_attribute.contentobject_attribute
-                                                image_class=large
+                                                image_class=medium
                                                 relation_view=cond($openpa_attribute.full.show_link|not, 'list', 'banner')
                                                 relation_has_wrapper=$item.wrap}
                         {else}

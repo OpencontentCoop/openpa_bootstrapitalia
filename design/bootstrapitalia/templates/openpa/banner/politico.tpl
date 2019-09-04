@@ -1,6 +1,6 @@
 {set_defaults(hash(
     'show_icon', true(),
-    'image_class', 'large',
+    'image_class', 'medium',
     'view_variation', ''
 ))}
 <div data-object_id="{$node.contentobject_id}" class="banner {$view_variation} {$node|access_style}">
