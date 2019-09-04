@@ -31,7 +31,7 @@
                     {/foreach}
                   </ul>
                 </li>
-                {if $menu_title}
+                {if and($menu_title, $openpa.control_menu.side_menu.root_node.node_id|eq($node.node_id))}
                 <li>
                     <a class="list-item medium" href="#{$menu_title|slugize}">{$menu_title}</a>
                 </li>
