@@ -3,7 +3,8 @@
     'figure_class', 'figure',
     'image_class', 'reference',
     'fluid', true(),
-    'image_css_class', 'figure-img img-fluid'
+    'image_css_class', 'figure-img img-fluid',
+    'is_main_image', false()
 ))}
 
 {def $main_attributes = class_extra_parameters($node.object.class_identifier, 'table_view').main_image}
@@ -15,6 +16,12 @@
 
                 {if $figure_wrapper}
                 <figure class="figure">
+                {/if}
+
+                {if $is_main_image}
+                    {if or( $image.content.original.width|lt(600), div($image.content.original.width, $image.content.original.height)|lt(0.7))}
+                        {set $image_css_class = concat($image_css_class, ' of-contain')}
+                    {/if}
                 {/if}
 
                     {attribute_view_gui attribute=$image
