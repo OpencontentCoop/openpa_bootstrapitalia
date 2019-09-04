@@ -1,7 +1,7 @@
 {set_defaults( hash(
     'figure_wrapper', true(),
     'figure_class', 'figure',
-    'image_class', 'imagefullwide',
+    'image_class', 'reference',
     'fluid', true(),
     'image_css_class', 'figure-img img-fluid'
 ))}
@@ -27,16 +27,31 @@
                         {def $object = $image.object}
                         {if $object|has_attribute('caption')}
                             {$object|attribute('caption').content.output.output_text|oc_shorten(200,'...')}
-                        {elseif $image.content.alternative_text}
-                            {$image.content.alternative_text}
+                        {*elseif $image.content.alternative_text}
+                            {$image.content.alternative_text*}
                         {/if}
 
-                        <small class="d-block" style="font-size:.8em">
+                        <small class="d-block" style="font-size:.8em" data-image-node="{$object.main_node_id}">
                             {if $object|has_attribute('author')}
                                 &copy; {attribute_view_gui attribute=$object|attribute('author')} - 
                             {/if}
                             {if $object|has_attribute('proprietary_license')}
-                                {attribute_view_gui attribute=$object|attribute('proprietary_license')}
+                                {def $proprietary_license_source = false()}
+                                {if $object|has_attribute('proprietary_license_source')}
+                                    {set $proprietary_license_source = $object|attribute('proprietary_license_source').content}
+                                {/if}
+                                {if $proprietary_license_source|begins_with('http')}
+                                    <a href="{$proprietary_license_source}">
+                                {else}
+                                    <span title="{$proprietary_license_source}">
+                                {/if}
+                                    {attribute_view_gui attribute=$object|attribute('proprietary_license')}
+                                {if $proprietary_license_source|begins_with('http')}
+                                    </a>
+                                {else}
+                                    </span>
+                                {/if}
+                                {undef $proprietary_license_source}
                             {elseif $object|has_attribute('license')}
                                 {$object|attribute('license').content.keyword_string|wash()}
                             {/if}

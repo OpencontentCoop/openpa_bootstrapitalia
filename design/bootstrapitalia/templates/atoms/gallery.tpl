@@ -1,6 +1,6 @@
 {set_defaults( hash(
     'thumbnail_class', 'squarethumb',
-    'wide_class', 'imagefullwide',
+    'wide_class', 'reference',
     'items', array()
 ))}
 

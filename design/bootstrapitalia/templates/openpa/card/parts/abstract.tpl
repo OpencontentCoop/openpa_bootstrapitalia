@@ -4,7 +4,7 @@
 {foreach $main_attributes as $identifier}
 	{if is_set($openpa[$identifier].contentobject_attribute)}
 		{if $openpa[$identifier].contentobject_attribute.data_type_string|ne('ezimage')}
-			{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute}
+			<div>{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute}</div>
 		{/if}
 	{else}
 	    {include uri=$openpa[$identifier].template}
