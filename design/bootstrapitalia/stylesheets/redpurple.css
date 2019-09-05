@@ -29333,20 +29333,21 @@ body.fixed-wt .it-header-wrapper {
 .card-columns .card-wrapper {
   display: block; }
 
-/* line 150, src/scss/_card-utilities.scss */
+/* line 151, src/scss/_card-utilities.scss */
 .card-wrapper.card-teaser-wrapper.card-teaser-embed {
   display: block;
   column-count: 1;
   column-gap: 1.25rem;
   orphans: 1;
   widows: 1; }
-  /* line 156, src/scss/_card-utilities.scss */
-  .card-wrapper.card-teaser-wrapper.card-teaser-embed > .card-teaser {
-    flex-wrap: nowrap !important;
-    display: inline-flex !important; }
+
+/* line 158, src/scss/_card-utilities.scss */
+.card-wrapper.card-teaser-wrapper > .card-teaser {
+  flex-wrap: nowrap !important;
+  display: inline-flex !important; }
 
 @media (min-width: 768px) {
-  /* line 163, src/scss/_card-utilities.scss */
+  /* line 165, src/scss/_card-utilities.scss */
   .card-wrapper.card-teaser-wrapper.card-teaser-embed {
     column-count: 2; } }
 

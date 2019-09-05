@@ -147,12 +147,14 @@
   display: block;
 }
 
-.card-wrapper.card-teaser-wrapper.card-teaser-embed {
-  display: block;
-  column-count: 1;
-  column-gap: 1.25rem;
-  orphans: 1;
-  widows: 1;
+.card-wrapper.card-teaser-wrapper {
+  &.card-teaser-embed {
+    display: block;
+    column-count: 1;
+    column-gap: 1.25rem;
+    orphans: 1;
+    widows: 1;
+  }
   > .card-teaser {
     flex-wrap: nowrap !important;
     display: inline-flex !important;
