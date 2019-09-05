@@ -16,7 +16,7 @@
                 </li>
             {/if}
             {def $tree_menu_children = $tree_menu.children}
-            {if $tree_menu_children|gt(8)}
+            {if count($tree_menu_children)|gt(8)}
                 
                 {foreach $tree_menu_children as $menu_item max 6}
                     {include name=side_menu uri='design:openpa/full/parts/side_menu_item.tpl' menu_item=$menu_item current_node=$node max_recursion=1 recursion=1}
