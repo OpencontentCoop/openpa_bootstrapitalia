@@ -100,8 +100,8 @@ const css = {
     out: dest + 'stylesheets/',
     watch: source + 'scss/**/*',
     sassOpts: {
-        sourceComments: true,
-        outputStyle: 'nested',
+        sourceComments: false,
+        outputStyle: 'compressed',
         precision: 8,
         errLogToConsole: true,
         includePaths: [bootstrapItaliaSrc.in + 'src/scss', fontAwesomeSrc.in + 'scss']
