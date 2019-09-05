@@ -217,7 +217,7 @@
 
                     <div class="card-wrapper card-teaser-wrapper card-teaser-embed mb-4">
                         {foreach $search.SearchResult as $child}
-                            {node_view_gui content_node=$child view=card_teaser show_icon=true() image_class=widemedium}
+                            {node_view_gui content_node=$child view=search_result show_icon=true() image_class=widemedium}
                         {/foreach}
                     </div>
 

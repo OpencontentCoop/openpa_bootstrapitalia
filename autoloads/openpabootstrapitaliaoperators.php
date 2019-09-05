@@ -159,7 +159,7 @@ class OpenPABootstrapItaliaOperators
             }
         }
 
-        $data['_uri_suffix'] = http_build_query($queryData);
+        $data['_uri_suffix'] = '?' . http_build_query($queryData);
 
         $data['class'] = array_map('intval', $data['class']);
         $data['subtree'] = array_map('intval', $data['subtree']);
