@@ -67,7 +67,7 @@
                         {/if}
                         
                         <div class="form-check custom-control custom-checkbox">
-                            <input name="Subtree[]" id="subtree-{$tree_menu.item.node_id}" value={$tree_menu.item.node_id} {if $params.subtree|contains($id)}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
+                            <input name="Subtree[]" data-checkbox-container id="subtree-{$tree_menu.item.node_id}" value={$tree_menu.item.node_id} {if $params.subtree|contains($id)}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
                             <label class="custom-control-label" for="subtree-{$tree_menu.item.node_id}">{$tree_menu.item.name|wash()} {if is_set($subtree_facets[$id])}<small>({$subtree_facets[$id]})</small>{/if}</label>
                             <a class="float-right" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
                                 {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
@@ -76,7 +76,7 @@
                         <div class="pl-4 collapse{*if $display} show{/if*}" id="more-subtree-{$tree_menu.item.node_id}">
                             {foreach $tree_menu.children as $child}
                                 <div class="form-check custom-control custom-checkbox">
-                                    <input name="Subtree[]" id="subtree-{$child.item.node_id}" value={$child.item.node_id} {if $params.subtree|contains($child.item.node_id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
+                                    <input data-checkbox-child name="Subtree[]" id="subtree-{$child.item.node_id}" value={$child.item.node_id} {if $params.subtree|contains($child.item.node_id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
                                     <label class="class="custom-control-label" for="subtree-{$child.item.node_id}">{$child.item.name|wash()} {if is_set($subtree_facets[$child.item.node_id])}<small>({$subtree_facets[$child.item.node_id]})</small>{/if}</label>
                                 </div>
                             {/foreach}                    
@@ -241,7 +241,23 @@
 {literal}
 <script>
 $(document).ready(function () {
-   $('[data-indeterminate]').prop('indeterminate', true);
+    $('[data-indeterminate]').prop('indeterminate', true);
+    $('[data-checkbox-container]').on('click', function(){
+        var isChecked = $(this).is(':checked');
+        $(this).parent().next().find('input').prop('checked', isChecked);
+    });
+    $('[data-checkbox-child]').on('click', function(){        
+        var length = $(this).parents('div').find('input').length;
+        var checked = $(this).parents('div').find('input:checked').length;
+        var container = $(this).parents('div').prev().find('input');
+        if (checked === length){ 
+            container.prop('checked', true);
+        } else if (checked > 0) {
+            container.prop('indeterminate', true);
+        } else {
+            container.prop('checked', false);
+        }
+    });
 {/literal}
    $('#searchModal').on('search_gui_initialized', function (event, searchGui) {ldelim}
         {if $params.subtree|count()}
