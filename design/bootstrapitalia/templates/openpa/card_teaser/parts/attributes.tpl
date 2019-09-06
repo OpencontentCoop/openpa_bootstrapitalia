@@ -8,11 +8,18 @@
             {if $node|attribute($identifier).data_type_string|eq('ezobjectrelationlist')}
                 {foreach $node|attribute($identifier).content.relation_list as $item}
                     {def $item_object = fetch(content, object, hash(object_id, $item.contentobject_id))}                    
-                    <div>{content_view_gui content_object=$item_object view=embed-inline count=count($node|attribute($identifier).content.relation_list) show_icon=false() show_link=cond($attributes.show_link|contains($identifier), true(), false())}</div>
+                    <div>{content_view_gui content_object=$item_object 
+                                           view=embed-inline 
+                                           count=count($node|attribute($identifier).content.relation_list) 
+                                           container_has_image=cond(and($attributes.show|contains('image'), $node|has_attribute('image')), true(), false())
+                                           show_icon=false() 
+                                           show_link=cond($attributes.show_link|contains($identifier), true(), false())}</div>
                     {undef $item_object}
                 {/foreach}
             {elseif $node|attribute($identifier).data_type_string|ne('ezimage')}
-                {attribute_view_gui attribute=$node|attribute($identifier) image_class=small show_link=false() only_address=true()}
+                {attribute_view_gui attribute=$node|attribute($identifier) 
+                                    image_class=small show_link=false() 
+                                    only_address=true()}
             {/if}
             </div>
         {/if}
