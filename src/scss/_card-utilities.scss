@@ -166,3 +166,7 @@
     column-count: 2;
   }
 }
+
+.card.card-teaser .icon + .card-body{
+  max-width: 80%;
+}
