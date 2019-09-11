@@ -5,7 +5,7 @@
             {foreach $matrix.rows.sequential as $row}
                 <li>
                     <span>{$row.columns[0]|wash()} {if $row.columns[0]|ne('')}({$row.columns[1]|wash()}){/if}</span>
-                    <span style="font-size: 1em" class="badge badge-primary color-white ml-2">{$row.columns[2]|wash()} {$row.columns[3]|wash()}</span>
+                    <span style="font-size: 1em" class="badge badge-primary color-white ml-2">{if or($row.columns[2]|eq(''), $row.columns[2]|eq(0))}GRATUITO{else}{$row.columns[2]|wash()} {$row.columns[3]|wash()}{/if}</span>
                 </li>
             {/foreach}
         </ul>
