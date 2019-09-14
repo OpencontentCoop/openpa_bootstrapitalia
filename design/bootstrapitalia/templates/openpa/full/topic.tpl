@@ -64,11 +64,12 @@
                 "includi_classi", "event,public_service",
                 "escludi_classi", "",
                 "ordinamento", "priority",
-                "livello_profondita", "3",
+                "livello_profondita", "",
                 "state_id", "3",
                 "color_style", "section section-muted section-inset-shadow pb-5",
                 "container_style", "",
-                "topic_node_id", $node.node_id
+                "topic_node_id", $node.node_id,
+                "node_id", "2"
             )
         ),
         page_block(
@@ -78,7 +79,7 @@
             hash(
                 "limite", "3",
                 "elementi_per_riga", "auto",
-                "includi_classi", "employee,private_organization,public_organization,public_service,office",
+                "includi_classi", "employee,private_organization,public_organization,office",
                 "escludi_classi", "",
                 "ordinamento", "modificato",
                 "state_id", "",
@@ -123,7 +124,7 @@
             )
         ),
         page_block(
-            "Novità", 
+            "Documenti", 
             "ListaPaginata", 
             "lista_paginata",
             hash(
