@@ -1,0 +1,59 @@
+<?php
+// This array contains the database schema
+$schema = array (
+  'openpabootstrapitaliaicon' =>
+  array (
+    'name' => 'openpabootstrapitaliaicon',
+    'fields' =>
+    array (
+      'contentobject_attribute_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'icon_text' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'node_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' =>
+    array (
+      'PRIMARY' =>
+      array (
+        'type' => 'primary',
+        'fields' =>
+        array (
+          0 => 'node_id',
+          1 => 'icon_text',
+        ),
+      ),
+      'openpabootstrapitaliaicon_key' =>
+      array (
+        'type' => 'non-unique',
+        'fields' =>
+        array (
+          0 => 'node_id',
+          1 => 'icon_text',
+        ),
+      ),
+    ),
+  ),
+  '_info' =>
+  array (
+    'format' => 'generic',
+  ),
+);
+
+?>
