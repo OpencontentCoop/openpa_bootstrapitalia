@@ -14,10 +14,22 @@
     {def $params = hash( 'class_filter_type', 'include', 'class_filter_array', $include_classes )}
 {/if}
 
-{def $children_count = fetch( openpa, concat( $fetch_type, '_count' ), hash( 'parent_node_id', $parent_node.node_id )|merge( $params ) )}
+{if and(is_set($current_view_tag),$current_view_tag)}
+    {set $params = $params|merge(hash(
+      'extended_attribute_filter', hash(
+          'id', TagsAttributeFilter,
+          'params', hash(
+              'tag_id', $current_view_tag.id,
+              'include_synonyms', true()
+          )
+      )
+    ))}
+{/if}
+
+{def $children_count = fetch( content, concat( $fetch_type, '_count' ), hash( 'parent_node_id', $parent_node.node_id )|merge( $params ) )}
 
 {if $children_count}
-    {def $children = fetch( openpa, $fetch_type, hash( 'parent_node_id', $parent_node.node_id,
+    {def $children = fetch( content, $fetch_type, hash( 'parent_node_id', $parent_node.node_id,
                                                        'offset', $view_parameters.offset,
                                                        'sort_by', $parent_node.sort_array,
                                                        'limit', $page_limit )|merge( $params ) )}

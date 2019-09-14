@@ -389,7 +389,7 @@
             self.showSpinner();
             $.ajax({
                 type: "GET",
-                url: this.settings.baseUrl + 'opendata/api/content/search/',
+                url: self.settings.baseUrl + 'opendata/api/content/search/',
                 data: {q: encodeURIComponent(query)},
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

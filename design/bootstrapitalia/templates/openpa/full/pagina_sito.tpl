@@ -1,11 +1,32 @@
 {ezpagedata_set( 'has_container', true() )}
 
 {def $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )
-     $show_left = false()}
-    {if $top_menu_node_ids|contains($openpa.control_menu.side_menu.root_node.node_id)}
-        {def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.control_menu.side_menu.root_node.node_id, 'user_hash', $openpa.control_menu.side_menu.user_hash, 'scope', 'side_menu' ))}
+     $show_left = false()
+     $side_menu_root_node = $openpa.control_menu.side_menu.root_node
+     $current_view_tag = false()     
+     $has_tag_menu = cond($side_menu_root_node|has_attribute('tag_menu'), true(), false())
+     $tag_menu_root = false()}
+
+{if and($has_tag_menu, $side_menu_root_node|attribute('tag_menu').content.tags[0].children_count|gt(0))}
+    {set $show_left = true()}
+    {set $tag_menu_root = $side_menu_root_node|attribute('tag_menu').content.tags[0]}
+    {if is_set($view_parameters.view)}
+    {foreach $side_menu_root_node|attribute('tag_menu').content.tags[0].children as $tag_child}
+        {if $tag_child.keyword|eq($view_parameters.view)}
+            {set $current_view_tag = $tag_child}
+            {ezpagedata_set( 'current_view_tag_keyword', $current_view_tag.keyword )}
+            {ezpagedata_set( 'view_tag_root_node_url', $side_menu_root_node.url_alias )}
+            {break}
+        {/if}
+    {/foreach}
+    {/if}
+{else}
+    {if $top_menu_node_ids|contains($side_menu_root_node.node_id)}
+        {def $tree_menu = tree_menu( hash( 'root_node_id', $side_menu_root_node.node_id, 'user_hash', $openpa.control_menu.side_menu.user_hash, 'scope', 'side_menu' ))}
         {set $show_left = cond(count( $tree_menu.children )|gt(0), true(), false())}
     {/if}
+{/if}
+
 {if $show_left}
     {ezpagedata_set( 'has_section_menu', true() )}
 {/if}
@@ -13,12 +34,16 @@
 <section class="container">
     <div class="row">
         <div class="col-lg-8 px-lg-4 py-lg-2">
-            <h1>{$node.name|wash()}</h1>
-
-            {include uri='design:openpa/full/parts/main_attributes.tpl'}
+            
+            {if $current_view_tag}
+                <h1>{$current_view_tag.keyword|wash()}</h1>
+            {else}
+                <h1>{$node.name|wash()}</h1>
+                {include uri='design:openpa/full/parts/main_attributes.tpl'}
+            {/if}
 
             {if $node|has_attribute('show_search_form')}
-                {if $top_menu_node_ids|contains($openpa.control_menu.side_menu.root_node.node_id)}
+                {if $top_menu_node_ids|contains($side_menu_root_node.node_id)}
                     {if $node.depth|lt(3)}
                         {include uri='design:openpa/full/parts/search_form.tpl' current_node=$node}
                     {else}
@@ -27,25 +52,29 @@
                 {/if} 
             {/if}    
 
-            {if $node|has_attribute('description')}
+            {if and($current_view_tag|not(), $node|has_attribute('description'))}
                 {attribute_view_gui attribute=$node|attribute('description')}
             {/if}
         </div>
         <div class="col-lg-3 offset-lg-1">
-            {if $show_left}                
-                {include uri='design:openpa/full/parts/side_menu.tpl'}                
+            {if $show_left}  
+                {if $has_tag_menu|not()}                
+                    {include uri='design:openpa/full/parts/side_menu.tpl' }
+                {else}
+                    {include uri='design:openpa/full/parts/tag_side_menu.tpl' tag_menu_root=$tag_menu_root current_view_tag=$current_view_tag}
+                {/if}
             {/if}
             {include uri='design:openpa/full/parts/taxonomy.tpl'}                
         </div>
     </div>
 </section>
 
-{if $node|has_attribute('layout')}
+{if and($current_view_tag|not(), $node|has_attribute('layout'))}
     {attribute_view_gui attribute=$node|attribute('layout')}
 {/if}
 
-{node_view_gui content_node=$node view=children view_parameters=$view_parameters}
+{node_view_gui content_node=$node view=children view_parameters=$view_parameters current_view_tag=$current_view_tag}
 
 {if $node|has_attribute('show_topics')}
-    {include uri='design:openpa/full/parts/topic_facets.tpl' current_node=$node}   
+    {include uri='design:openpa/full/parts/topic_facets.tpl' current_node=$node current_view_tag=$current_view_tag}   
 {/if}

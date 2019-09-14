@@ -4,6 +4,25 @@
 <nav class="toolbar edit-toolbar" id="ezwt">
     <ul class="d-flex flex-nowrap">
 
+        <li>
+            <div class="input-group">
+            {def $attribute_categorys        = ezini( 'ClassAttributeSettings', 'CategoryList', 'content.ini' )
+                 $attribute_default_category = ezini( 'ClassAttributeSettings', 'DefaultCategory', 'content.ini' )}
+            <select id="ezwt-create" class="custom-select" style="max-width: 200px">
+            {foreach $content_attributes_grouped_data_map as $attribute_group => $content_attributes_grouped}
+                <option>Vai al campo</option>
+                {if $attribute_group|eq('hidden')}{skip}{/if}
+                <optgroup label="{$attribute_categorys[$attribute_group]}">
+                    {foreach $content_attributes_grouped as $attribute_identifier => $attribute}
+                        <option data-group="{$attribute_group}" data-identifier="{$attribute_identifier}">{$attribute.contentclass_attribute.name|wash()}</option>
+                    {/foreach}
+                </optgroup>
+            {/foreach}
+            </select>
+            </div>
+            {undef $attribute_categorys $attribute_default_category}
+        </li>
+
         <li class="publish-buttons">
             <input class="btn btn-xs btn-success" type="submit" name="PublishButton" value="{'Send for publishing'|i18n( 'design/standard/content/edit' )}" title="{'Publish the contents of the draft that is being edited. The draft will become the published version of the object.'|i18n( 'design/standard/content/edit' )}" />
             <input class="btn btn-xs btn-warning" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/standard/content/edit' )}" title="{'Store the contents of the draft that is being edited and continue editing. Use this button to periodically save your work while editing.'|i18n( 'design/standard/content/edit' )}" />
@@ -81,4 +100,14 @@
 </nav>
 
 {include uri='design:parts/websitetoolbar/floating_toolbar.tpl'}
+<script>{literal}
+$(document).ready(function(){
+    $('select#ezwt-create').chosen({width:"200px"}).change(function(e){
+        var values = $(e.currentTarget).find('option:selected').data();    
+        $('a[href="#attribute-group-'+values.group+'"]').trigger('click');    
+        var x = $('#edit-'+values.identifier).offset().top - 100;
+        $('html,body').animate({scrollTop: x}, 400);
+    }); 
+});
+{/literal}</script>
 

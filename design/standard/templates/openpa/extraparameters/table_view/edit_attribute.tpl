@@ -32,10 +32,10 @@
 </div>
 </td>
 <td>
-{if and( is_set($attribute.data_type_string), array('ezobjectrelation', 'ezobjectrelationlist')|contains($attribute.data_type_string))}
+{if and( is_set($attribute.data_type_string), array('ezobjectrelation', 'ezobjectrelationlist', 'eztags')|contains($attribute.data_type_string))}
 <div class="checkbox">
     <label>
-        <input type="checkbox" name="extra_handler_{$handler.identifier}[class_attribute][{$class.identifier}][{$attribute.identifier}][show_link]" value="1" {if $handler.show_link|contains($attribute.identifier)}checked="checked"{/if} /> <small>Vista embed</small>
+        <input type="checkbox" name="extra_handler_{$handler.identifier}[class_attribute][{$class.identifier}][{$attribute.identifier}][show_link]" value="1" {if $handler.show_link|contains($attribute.identifier)}checked="checked"{/if} /> <small>{if and( is_set($attribute.data_type_string), array('ezobjectrelation', 'ezobjectrelationlist')|contains($attribute.data_type_string))}Vista embed{else}Mostra link{/if}</small>
     </label>
 </div>
 {/if}

@@ -6,6 +6,7 @@
 ClassConnectors[image]=ImageClassConnector
 
 [FieldSettings]
+FieldConnectors[ezurl]=UrlFieldConnector
 FieldConnectors[eztags]=TreeTagsFieldConnector
 FieldConnectors[has_street_toponym]=SelectTagsFieldConnector
 FieldConnectors[city]=SelectTagsFieldConnector

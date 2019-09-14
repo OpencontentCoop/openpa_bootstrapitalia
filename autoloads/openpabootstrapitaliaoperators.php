@@ -12,6 +12,7 @@ class OpenPABootstrapItaliaOperators
             'openpa_roles_parent_node_id',
             'clean_filename',
             'class_identifier_by_id',
+            'page_block',
         );
     }
 
@@ -29,12 +30,19 @@ class OpenPABootstrapItaliaOperators
                 'icon_class' => array('type' => 'string', 'required' => false, 'default' => null),
             ),
             'decode_search_params' => array(
-                'data' => array('type' => 'array', 'required' => true),                
+                'data' => array('type' => 'array', 'required' => true),
             ),
             'filtered_search_params_query_string' => array(
                 'data' => array('type' => 'array', 'required' => true),
-                'filter' => array('type' => 'array', 'required' => true),                
+                'filter' => array('type' => 'array', 'required' => true),
             ),
+            'page_block' => array(
+                'name' => array("type" => "string", "required" => true, "default" => false),
+                'type' => array("type" => "string", "required" => true, "default" => false),
+                'view' => array("type" => "string", "required" => true, "default" => false),
+                'custom_attributes' => array("type" => "array", "required" => false, "default" => array()),
+                'valid_nodes' => array("type" => "array", "required" => false, "default" => array())                
+            )
         );
     }
 
@@ -49,19 +57,29 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
-                        
+
+            case 'page_block':
+
+                $block = new eZPageBlock($namedParameters['name'], $namedParameters);
+                $block->setAttribute('id', md5(mt_rand() . microtime()));
+                
+                $operatorValue = $block;
+
+                break;
+
             case 'class_identifier_by_id':
 
-                $operatorValue = eZContentClass::classIdentifierByID($operatorValue);                
+                $operatorValue = eZContentClass::classIdentifierByID($operatorValue);
 
                 break;
+
             case 'clean_filename':
 
-                $operatorValue = self::cleanFileName($operatorValue);                
+                $operatorValue = self::cleanFileName($operatorValue);
 
                 break;
 
-            case 'openpa_roles_parent_node_id':                
+            case 'openpa_roles_parent_node_id':
 
                 $operatorValue = self::getOpenpaRolesParentNodeId();
 
@@ -95,17 +113,17 @@ class OpenPABootstrapItaliaOperators
 
             case 'filtered_search_params_query_string':
                 $data = $namedParameters['data'];
-                array_walk($data, function(&$item, $key) use ($namedParameters){
+                array_walk($data, function (&$item, $key) use ($namedParameters) {
                     $filter = $namedParameters['filter'];
-                    if (isset($filter[$key])){
-                        if(is_array($item)){
+                    if (isset($filter[$key])) {
+                        if (is_array($item)) {
                             $item = array_diff($item, array($filter[$key]));
-                        }else{
+                        } else {
                             $item = false;
                         }
                     }
 
-                });  
+                });
                 $decodeData = $this->decodeSearchParams($data);
                 $operatorValue = $decodeData['_uri_suffix'];
                 break;
@@ -221,14 +239,14 @@ class OpenPABootstrapItaliaOperators
 
         $searchHash['filter'] = $filters;
         $searchHash['facet'] = $facets;
-        if (!empty($data['class'])){
+        if (!empty($data['class'])) {
             $searchHash['class_id'] = $data['class'];
-        }else{
+        } else {
             $searchHash['class_id'] = OpenPAINI::variable('MotoreRicerca', 'IncludiClassi', null);
         }
 
         $data['_search_hash'] = $searchHash;
-        
+
         //eZDebug::writeDebug(print_r($data, 1), __METHOD__);
 
         return $data;
@@ -255,7 +273,7 @@ class OpenPABootstrapItaliaOperators
     public static function getOpenpaRolesParentNodeId()
     {
         $parentObject = eZContentObject::fetchByRemoteID(OpenPaFunctionCollection::$remoteRoles);
-        if($parentObject instanceof eZContentObject){
+        if ($parentObject instanceof eZContentObject) {
             return $parentObject->attribute('main_node_id');
         }
         return 0;
@@ -265,8 +283,8 @@ class OpenPABootstrapItaliaOperators
     {
         $parts = explode('.', $filename);
         array_pop($parts);
-        $filename = implode('.', $parts);                
-        $filename = str_replace(array('_','-','+'), ' ', $filename);
+        $filename = implode('.', $parts);
+        $filename = str_replace(array('_', '-', '+'), ' ', $filename);
         $filename = str_replace(':', '/', $filename);
         $filename = str_replace('(1)', '', $filename);
         $filename = str_replace('(2)', '', $filename);

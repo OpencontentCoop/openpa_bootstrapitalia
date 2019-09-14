@@ -57,6 +57,7 @@ CustomAttributes[]=ordinamento
 CustomAttributes[]=livello_profondita
 CustomAttributes[]=state_id
 CustomAttributes[]=topic_node_id
+CustomAttributes[]=tags
 CustomAttributeNames[]
 CustomAttributeNames[livello_profondita]=Livello di profondità nell'alberatura
 CustomAttributeNames[limite]=Numero di elementi
@@ -66,6 +67,7 @@ CustomAttributeNames[escludi_classi]=Tipologie di contenuto da escludere (altern
 CustomAttributeNames[ordinamento]=Ordina per
 CustomAttributeNames[state_id]=Stato
 CustomAttributeNames[topic_node_id]=Argomenti
+CustomAttributeNames[tags]=Percorsi tag
 CustomAttributeTypes[elementi_per_riga]=select
 CustomAttributeSelection_elementi_per_riga[]
 CustomAttributeSelection_elementi_per_riga[unset]=Non specificato
@@ -283,6 +285,7 @@ CustomAttributes[]=includi_classi
 CustomAttributes[]=ordinamento
 CustomAttributes[]=state_id
 CustomAttributes[]=topic_node_id
+CustomAttributes[]=tags
 CustomAttributeNames[]
 CustomAttributeNames[limite]=Numero di elementi per pagina
 CustomAttributeNames[includi_classi]=Tipologie di contenuto da includere
@@ -291,12 +294,18 @@ CustomAttributeNames[state_id]=Stato
 CustomAttributeNames[topic_node_id]=Argomenti
 CustomAttributeTypes[ordinamento]=select
 CustomAttributeTypes[includi_classi]=class_select
+CustomAttributeTypes[limite]=select
 CustomAttributeSelection_ordinamento[]
 CustomAttributeSelection_ordinamento[name]=Titolo
 CustomAttributeSelection_ordinamento[pubblicato]=Data di pubblicazione
 CustomAttributeSelection_ordinamento[modificato]=Data di ultima modifica
+CustomAttributeSelection_limite[]
+CustomAttributeSelection_limite[3]=3
+CustomAttributeSelection_limite[6]=6
+CustomAttributeSelection_limite[9]=9
 CustomAttributeTypes[state_id]=state_select
 CustomAttributeTypes[topic_node_id]=topic_select
+CustomAttributeNames[tags]=Percorsi tag
 ManualAddingOfItems=disabled
 ViewList[]
 ViewList[]=lista_paginata

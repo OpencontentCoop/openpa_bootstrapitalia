@@ -9,6 +9,7 @@ $eZTemplateOperatorArray = array(
             'openpa_roles_parent_node_id',
             'clean_filename',
             'class_identifier_by_id',
+            'page_block',
         )
     )
 );

@@ -53,6 +53,9 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
                     }elseif ($key == 'escludi_classi'){
                         $query['classes'] = 'class !in [' . $value . ']';
 
+                    }elseif ($key == 'tags'){
+                        $query['tags'] = $this->getTagQuery($value);
+
                     }elseif ($key == 'ordinamento'){
                         if ($value == 'name'){
                             $query['sort'] = 'sort [name=>asc]';
@@ -124,5 +127,24 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
         }
 
         return $results;
+    }
+
+    protected function getTagQuery($value)
+    {
+        if (!empty($value)){
+            $tagUrls = explode(',', $value);
+            $tagIdList = [];
+            foreach ($tagUrls as $tagUrl) {
+                $tag = eZTagsObject::fetchByUrl($tagUrl);
+                if ($tag instanceof eZTagsObject){
+                    $tagIdList[] = $tag->attribute('id');
+                }
+            }
+            if (count($tagIdList) > 0){
+                return 'raw[ezf_df_tag_ids] in [' . implode(',', $tagIdList) . ']';
+            }
+        }
+
+        return '';
     }
 }

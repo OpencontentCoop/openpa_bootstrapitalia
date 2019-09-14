@@ -216,7 +216,7 @@
                     var listItem = $('<li></li>');
                     $.ajax({
                         type: "GET",
-                        url: this.settings.baseUrl + 'opendata/api/classes/'+classIdentifier,
+                        url: self.settings.baseUrl + 'opendata/api/classes/'+classIdentifier,
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (response,textStatus,jqXHR) {
@@ -574,7 +574,7 @@
             self.showSpinner();
             $.ajax({
                 type: "GET",
-                url: this.settings.baseUrl + 'opendata/api/content/search/',
+                url: self.settings.baseUrl + 'opendata/api/content/search/',
                 data: {q: encodeURIComponent(query)},
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",

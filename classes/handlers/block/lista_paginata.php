@@ -3,7 +3,7 @@
 use Opencontent\Opendata\Api\EnvironmentLoader;
 use Opencontent\Opendata\Api\ContentSearch;
 
-class OpenPABootstrapItaliaBlockHandlerListaPaginata extends OpenPABlockHandler
+class OpenPABootstrapItaliaBlockHandlerListaPaginata extends OpenPABootstrapItaliaBlockHandlerLista
 {
     /**
      * @var string
@@ -58,6 +58,9 @@ class OpenPABootstrapItaliaBlockHandlerListaPaginata extends OpenPABlockHandler
 
 				    }elseif ($key == 'includi_classi'){
 						$query['classes'] = 'classes [' . $value . ']';	
+
+					}elseif ($key == 'tags'){
+                        $query['tags'] = $this->getTagQuery($value);
 
 				    }elseif ($key == 'ordinamento'){
 						if ($value == 'name'){

@@ -38,22 +38,6 @@
     {foreach $content_attributes_grouped_data_map as $attribute_group => $content_attributes_grouped}
         <div class="position-relative clearfix attribute-edit tab-pane{if and($has_active|not(),$attribute_group|eq($attribute_default_category))} active{set $has_active = true()}{/if} p-2 mt-2" id="attribute-group-{$attribute_group}"{if $attribute_group|eq('hidden')} style="display: none !important;"{/if}>
             {set $count = $count|inc()}
-
-            <div class="dropdown position-absolute" style="right: 0; top:-48px;">
-                <button class="btn btn-dropdown dropdown-toggle" type="button" id="jumpToMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Vai al campo {display_icon('it-expand', 'svg', 'icon-expand icon icon-sm icon-primary')}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="jumpToMenuButton" style="left: -30px">
-                    <div class="link-list-wrapper" style="max-height: 200px;overflow-y: auto;">
-                        <ul class="link-list">
-                            {foreach $content_attributes_grouped as $attribute_identifier => $attribute}
-                            <li><a style="line-height:1em;padding:5px 24px;" class="list-item" href="#edit-{$attribute_identifier}"><span>{$attribute.contentclass_attribute_name|wash()}</span></a></li>
-                            {/foreach}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
             {set $attribute_style = 'bg-light'}
             {foreach $content_attributes_grouped as $attribute_identifier => $attribute}
                 {if $attribute_style|eq('bg-light')}{set $attribute_style = ''}{else}{set $attribute_style = 'bg-light'}{/if}

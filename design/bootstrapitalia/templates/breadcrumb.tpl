@@ -9,14 +9,21 @@
                         {if $path.url}
                             {if $path.text|eq('Classificazioni')}{skip}{/if}
                             <li class="breadcrumb-item">
-                                <a href={cond( is_set( $path.url_alias ), $path.url_alias, $path.url )|ezurl}>{$path.text|wash}</a>
-                                {*if $index|lt(count(openpacontext().path_array))}<span class="separator">/</span>{/if*}
+                                <a href={cond( is_set( $path.url_alias ), $path.url_alias, $path.url )|ezurl}>{$path.text|wash}</a>                                
                             </li>
                         {else}
-                            <li class="breadcrumb-item active" aria-current="page" style="max-width: 200px">
-                                {$path.text|wash}
-                                {*if $index|lt(count(openpacontext().path_array))}<span class="separator">/</span>{/if*}
-                            </li>
+                            {if is_set($module_result.content_info.persistent_variable.current_view_tag_keyword)}
+                                <li class="breadcrumb-item">
+                                    <a href={$module_result.content_info.persistent_variable.view_tag_root_node_url|ezurl}>{$path.text|wash}</a>                                
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page" style="max-width: 200px">
+                                    {$module_result.content_info.persistent_variable.current_view_tag_keyword|wash}
+                                </li>
+                            {else}
+                                <li class="breadcrumb-item active" aria-current="page" style="max-width: 200px">
+                                    {$path.text|wash}
+                                </li>
+                            {/if}
                         {/if}
                     {/if}
                     {set $index = $index|inc()}

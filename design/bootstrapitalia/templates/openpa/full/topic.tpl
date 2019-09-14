@@ -53,5 +53,94 @@
 {if $node|has_attribute('layout')}
     {attribute_view_gui attribute=$node|attribute('layout')}
 {else}
-    <div style="min-height:100px"></div>
+    {def $blocks = array(
+        page_block(
+            "In evidenza", 
+            "ListaAutomatica", 
+            "lista_card_alt",
+            hash(
+                "limite", "3",
+                "elementi_per_riga", "3",
+                "includi_classi", "event,public_service",
+                "escludi_classi", "",
+                "ordinamento", "priority",
+                "livello_profondita", "3",
+                "state_id", "3",
+                "color_style", "section section-muted section-inset-shadow pb-5",
+                "container_style", "",
+                "topic_node_id", $node.node_id
+            )
+        ),
+        page_block(
+            "Amministrazione", 
+            "ListaPaginata", 
+            "lista_paginata",
+            hash(
+                "limite", "3",
+                "elementi_per_riga", "auto",
+                "includi_classi", "employee,private_organization,public_organization,public_service,office",
+                "escludi_classi", "",
+                "ordinamento", "modificato",
+                "state_id", "",
+                "topic_node_id", $node.node_id,
+                "color_style", "",
+                "container_style", "",
+                "node_id", "2"
+            )
+        ),
+        page_block(
+            "Servizi", 
+            "ListaPaginata", 
+            "lista_paginata",
+            hash(
+                "limite", "3",
+                "elementi_per_riga", "auto",
+                "includi_classi", "public_service",
+                "escludi_classi", "",
+                "ordinamento", "modificato",
+                "state_id", "",
+                "topic_node_id", $node.node_id,
+                "color_style", "",
+                "container_style", "",
+                "node_id", "2"
+            )
+        ),
+        page_block(
+            "Novità", 
+            "ListaPaginata", 
+            "lista_paginata",
+            hash(
+                "limite", "3",
+                "elementi_per_riga", "auto",
+                "includi_classi", "event,article",
+                "escludi_classi", "",
+                "ordinamento", "modificato",
+                "state_id", "",
+                "topic_node_id", $node.node_id,
+                "color_style", "",
+                "container_style", "",
+                "node_id", "2"
+            )
+        ),
+        page_block(
+            "Novità", 
+            "ListaPaginata", 
+            "lista_paginata",
+            hash(
+                "limite", "3",
+                "elementi_per_riga", "auto",
+                "includi_classi", "document",
+                "escludi_classi", "",
+                "ordinamento", "modificato",
+                "state_id", "",
+                "topic_node_id", $node.node_id,
+                "color_style", "",
+                "container_style", "",
+                "node_id", "2"
+            )
+        )          
+    )}
+
+    {include uri='design:zone/default.tpl' zones=array(hash('blocks', $blocks))}
+    
 {/if}

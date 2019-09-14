@@ -16,7 +16,7 @@
                 treeSearchInput.appendTo(container); 
 
                 var tree = $('<div></div>').jstree(self.options.tree).on("changed.jstree", function (e, data) {
-                  self.setValue([data.node.text]);
+                  if (data.action === 'select_node') self.setValue([data.node.text]);
                 });
                 tree.appendTo(container);
 

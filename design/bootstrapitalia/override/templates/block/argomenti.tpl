@@ -28,7 +28,7 @@
 					</div>
 					<div class="col-sm-12 col-md-7 text-left">
 						{foreach $line_topics as $topic}    	
-					    	<a href="{$topic.url_alias|ezurl(no)}"><span class="chip chip-simple chip-primary"><span class="chip-label">{$topic.name|wash()}</span></span></a>    	
+					    	<a class="text-decoration-none" href="{$topic.url_alias|ezurl(no)}"><span class="chip chip-simple chip-primary"><span class="chip-label">{$topic.name|wash()}</span></span></a>    	
 					    {/foreach}
 					</div>
 				</div>
