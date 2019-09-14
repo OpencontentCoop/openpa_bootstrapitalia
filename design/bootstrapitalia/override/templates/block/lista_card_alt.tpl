@@ -1,7 +1,7 @@
 {def $openpa = object_handler($block)}
 
 {set_defaults(hash('items_per_row', 3))}
-
+{if $openpa.has_content}
 {include uri='design:parts/block_name.tpl'}
 
 <div class="container">
@@ -13,7 +13,7 @@
              image_class=large
              items=$openpa.content}
 </div>
-
+{/if}
 {unset_defaults(array('items_per_row'))}
 
 {undef $openpa}

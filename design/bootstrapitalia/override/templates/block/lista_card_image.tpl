@@ -1,5 +1,5 @@
 {def $openpa = object_handler($block)}
-
+{if $openpa.has_content}
 {include uri='design:parts/block_name.tpl'}
 
 <div class="container">
@@ -30,5 +30,5 @@
 	{/if}
 
 </div>
-
+{/if}
 {undef $openpa}
