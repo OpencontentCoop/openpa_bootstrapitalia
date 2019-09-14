@@ -1,7 +1,7 @@
 <?php /* #?ini charset="utf-8"?
 
 [BlockHandlers]
-Handlers[ListaManuale/*]=BlockHandlerListaManuale
+Handlers[ListaManuale/*]=OpenPABootstrapItaliaBlockHandlerListaManuale
 Handlers[ListaAutomatica/*]=OpenPABootstrapItaliaBlockHandlerLista
 Handlers[ListaPaginata/*]=OpenPABootstrapItaliaBlockHandlerListaPaginata
 
