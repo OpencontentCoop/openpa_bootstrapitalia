@@ -48,7 +48,6 @@ const js = {
         './node_modules/svgxuse/svgxuse.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/polyfills/array.from.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/circular-loader/CircularLoader-v1.3.js',
-        bootstrapItaliaSrc.in + 'src/js/plugins/password-strength-meter/password-strength-meter.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/datepicker/locales/it.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/datepicker/datepicker.js',
         bootstrapItaliaSrc.in + 'src/js/plugins/i-sticky/i-sticky.js',
