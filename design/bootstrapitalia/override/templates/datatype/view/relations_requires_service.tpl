@@ -20,9 +20,9 @@
             {def $processing_time = false()}
             {if $child|has_attribute('has_temporal_coverage')}
                 {def $temporal_coverage = fetch(content, object, hash('object_id', $child|attribute('has_temporal_coverage').content.relation_list[0].contentobject_id))}
-                {if $temporal_coverage|has_attribute('valid_to')}
-                    {set $day = $temporal_coverage|attribute('valid_to').content.timestamp|datetime( 'custom', '%d' )}
-                    {set $month = $temporal_coverage|attribute('valid_to').content.timestamp|datetime( 'custom', '%M' )}
+                {if $temporal_coverage|has_attribute('valid_through')}
+                    {set $day = $temporal_coverage|attribute('valid_through').content.timestamp|datetime( 'custom', '%d' )}
+                    {set $month = $temporal_coverage|attribute('valid_through').content.timestamp|datetime( 'custom', '%M' )}
                 {/if}
                 {undef $temporal_coverage}
             {/if}
@@ -44,7 +44,7 @@
                     {/if}
                 </div>
                 
-                <div class="point-list-content">
+                <div class="point-list-content mb-2">
                     <div class="card card-teaser shadow p-4 rounded border">
                         <div class="card-body">
                             <h5 class="card-title">
@@ -55,7 +55,7 @@
                                     <ul class="list-unstyled m-0">
                                     {foreach $child|attribute('has_temporal_coverage').content.relation_list as $item}
                                         {def $temporal_coverage = fetch(content, object, hash('object_id', $item.contentobject_id))}
-                                        <li><small>Dal {$temporal_coverage|attribute('valid_from').content.timestamp|l10n( shortdatetime )} al {$temporal_coverage|attribute('valid_to').content.timestamp|l10n( shortdatetime )}</small></li>
+                                        <li><small>Dal {$temporal_coverage|attribute('valid_from').content.timestamp|l10n( shortdate )} al {$temporal_coverage|attribute('valid_through').content.timestamp|l10n( shortdate )}</small></li>
                                         {undef $temporal_coverage}
                                     {/foreach}
                                     </ul>
@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            {undef $day $month}
+            {undef $day $month $processing_time}
         {/if}
     {/foreach}
 </div>      
