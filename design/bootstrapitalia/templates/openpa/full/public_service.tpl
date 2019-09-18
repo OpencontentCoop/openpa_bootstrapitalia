@@ -16,7 +16,7 @@
 
             {if $status_tags|contains('Attivo')|not()}
                 <div class="alert alert-warning my-md-4 my-lg-4">
-                    Servizio {$status_tags|implode(', ')|wash()}
+                    <strong>Servizio {$status_tags|implode(', ')|wash()}{if $node|has_attribute('status_note')}:{/if}</strong>
                     {if $node|has_attribute('status_note')}
                         {attribute_view_gui attribute=$node|attribute('status_note')}
                     {/if}
