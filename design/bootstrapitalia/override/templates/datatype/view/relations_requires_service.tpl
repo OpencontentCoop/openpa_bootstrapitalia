@@ -20,9 +20,9 @@
             {def $processing_time = false()}
             {if $child|has_attribute('has_temporal_coverage')}
                 {def $temporal_coverage = fetch(content, object, hash('object_id', $child|attribute('has_temporal_coverage').content.relation_list[0].contentobject_id))}
-                {if $temporal_coverage|has_attribute('valid_from')}    
-                    {set $day = $temporal_coverage|attribute('valid_from').content.timestamp|datetime( 'custom', '%d' )}
-                    {set $month = $temporal_coverage|attribute('valid_from').content.timestamp|datetime( 'custom', '%M' )}
+                {if $temporal_coverage|has_attribute('valid_to')}
+                    {set $day = $temporal_coverage|attribute('valid_to').content.timestamp|datetime( 'custom', '%d' )}
+                    {set $month = $temporal_coverage|attribute('valid_to').content.timestamp|datetime( 'custom', '%M' )}
                 {/if}
                 {undef $temporal_coverage}
             {/if}
@@ -37,10 +37,10 @@
                         <div class="point-month text-monospace">{$month}</div>
                     {elseif $processing_time}
                         <div class="point-date text-monospace">{$processing_time}</div>            
-                        <div class="point-month text-monospace">giorni</div>
+                        <div class="point-month text-monospace"><small>giorni</small></div>
                     {else}
-                        <div class="point-date text-monospace invisible">0;</div>            
-                        <div class="point-month text-monospace invisible">giorni</div>
+                        <div class="point-date text-monospace invisible">0</div>
+                        <div class="point-month text-monospace invisible">000</div>
                     {/if}
                 </div>
                 
@@ -50,7 +50,16 @@
                             <h5 class="card-title">
                                 <a href="{$child.url_alias|ezurl(no)}">
                                     {$child.name|wash()}
-                                </a>                                
+                                </a>
+                                {if $child|has_attribute('has_temporal_coverage')}
+                                    <ul class="list-unstyled m-0">
+                                    {foreach $child|attribute('has_temporal_coverage').content.relation_list as $item}
+                                        {def $temporal_coverage = fetch(content, object, hash('object_id', $item.contentobject_id))}
+                                        <li><small>Dal {$temporal_coverage|attribute('valid_from').content.timestamp|l10n( shortdatetime )} al {$temporal_coverage|attribute('valid_to').content.timestamp|l10n( shortdatetime )}</small></li>
+                                        {undef $temporal_coverage}
+                                    {/foreach}
+                                    </ul>
+                                {/if}
                             </h5>
                         </div>
                     </div>
