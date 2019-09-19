@@ -91,11 +91,15 @@
                         {rdelim});
                         return result.join('<br />');
                       {else}
-                        return opendataDataTableRenderField(
-                            '{$field.dataType}',
-                            '{$field.template.type}',
-                            '{$currentLanguage}',
-                            data, type, row, meta {if $index|eq(0)},{'/content/view/full/'|ezurl()}+'/'+row.metadata.mainNodeId{/if});
+                          var link = null;
+                          {if $index|eq(0)}
+                              {if $fields.class_identifier|eq('time_indexed_role')}
+                                link = "{'/content/view/full/'|ezurl(no)}/"+row.data['{$currentLanguage}'].person[0].mainNodeId;
+                              {else}
+                                link = "{'/content/view/full/'|ezurl(no)}/"+row.metadata.mainNodeId;
+                              {/if}
+                          {/if}
+                          return opendataDataTableRenderField('{$field.dataType}', '{$field.template.type}', '{$currentLanguage}', data, type, row, meta, link);
                       {/if}
                   {rdelim}
                   return '';
