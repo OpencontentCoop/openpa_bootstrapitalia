@@ -13,10 +13,6 @@ Services[content_tree_related]=ObjectHandlerServiceContentTreeRelated
 Services[content_show_published]=ObjectHandlerServiceContentShowPublished
 Services[content_trasparenza]=ObjectHandlerServiceContentTrasparenza
 
-[AttributeHandlers]
-#Handlers[datatype/classIdentifier/attributeIdentifier]=PhpClassname
-Handlers[ezinteger/*/*]=OpenPAAttributeIntegerHandler
-
 [ViewSettings]
 AvailableView[]=card
 AvailableView[]=card_children
@@ -46,6 +42,8 @@ IgnoraVirtualizzazione=enabled
 
 [SideMenu]
 IdentificatoriMenu[]=topic
+IdentificatoriMenu_trasparenza[]
+IdentificatoriMenu_trasparenza[]=pagina_trasparenza
 
 [Trasparenza]
 MostraAvvisoPaginaVuota=disabled
@@ -69,5 +67,9 @@ IncludiClassi[]=public_service
 #IncludiClassi[]=trasparenza
 IncludiClassi[]=political_body
 IncludiClassi[]=office
+
+[AttributeHandlers]
+#Handlers[datatype/classIdentifier/attributeIdentifier]=PhpClassname
+Handlers[ezinteger/*/*]=OpenPAAttributeIntegerHandler
 
 */ ?>
