@@ -274,23 +274,24 @@ class OpenPAReverseRelationListType extends eZDataType
     {
         $data = $contentObjectAttribute->attribute('class_content');
         if (count($data['attribute_id_list']) > 0) {
-            
-            $queryParts = array();
-            $attributeQueryParts = array();
-            foreach ($data['attribute_list'] as $className => $attributes) {
-                foreach ($attributes as $attribute) {
-                    $attributeQueryParts[] = "(raw[meta_contentclass_id_si] = " . $attribute->attribute('contentclass_id') . " and " . $attribute->attribute('identifier') . ".id = " . $contentObjectAttribute->attribute('contentobject_id') . ")";
+            if (count($data['attribute_list']) > 0) {
+                $queryParts = array();
+                $attributeQueryParts = array();
+                foreach ($data['attribute_list'] as $className => $attributes) {
+                    foreach ($attributes as $attribute) {
+                        $attributeQueryParts[] = "(raw[meta_contentclass_id_si] = " . $attribute->attribute('contentclass_id') . " and " . $attribute->attribute('identifier') . ".id = " . $contentObjectAttribute->attribute('contentobject_id') . ")";
+                    }
                 }
+                $queryParts[] = '(' . implode(' or ', $attributeQueryParts) . ')';
+
+                $sort = $data['sort'];
+                $order = $data['order'] == 'desc' ? 'desc' : 'asc';
+                $queryParts[] = "sort [{$sort}=>{$order}]";
+                $queryParts[] = 'limit ' . $limit;
+                $queryParts[] = 'offset ' . $offset;
+
+                return implode(' and ', $queryParts);
             }
-            $queryParts[] = '(' . implode(' or ', $attributeQueryParts) . ')';
-
-            $sort = $data['sort'];
-            $order = $data['order'] == 'desc' ? 'desc' : 'asc';
-            $queryParts[] = "sort [{$sort}=>{$order}]";
-            $queryParts[] = 'limit ' . $limit;
-            $queryParts[] = 'offset ' . $offset;
-
-            return implode(' and ', $queryParts);
         }
 
         return false;

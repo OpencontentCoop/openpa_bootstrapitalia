@@ -18,7 +18,7 @@
                                           count=count($node|attribute($identifier).content.relation_list)                                           
                                           show_icon=false() 
                                           show_link=cond($attributes.show_link|contains($identifier), true(), false())
-                                          container_has_image=cond(is_set($container_has_image)), $container_has_image, false())}
+                                          container_has_image=cond(is_set($container_has_image), $container_has_image, false())}
                     </p>
                     {undef $item_object}
                 {/foreach}
@@ -27,7 +27,7 @@
                                     image_class=small 
                                     show_link=false() 
                                     only_address=true() 
-                                    container_has_image=cond(is_set($container_has_image)), $container_has_image, false())}
+                                    container_has_image=cond(is_set($container_has_image), $container_has_image, false())}
             {/if}
             </div>
         {/if}        
