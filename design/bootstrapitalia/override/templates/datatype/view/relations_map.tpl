@@ -35,7 +35,6 @@
         <div id="relations-map-{$attribute.id}" style="width: 100%; height: 400px;"></div>
     </div>
 
-    {ezscript_require(array('jquery.ocdrawmap.js'))}
     <script type="text/javascript">
         {run-once}
         {literal}
