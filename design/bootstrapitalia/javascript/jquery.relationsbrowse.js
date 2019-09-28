@@ -16,7 +16,30 @@
             openInSearchMode: false,
             addCloseButton: false,
             initOnCreate: false,
-            baseUrl: '/'
+            baseUrl: '/',
+            i18n:{
+                clickToClose: "Clicca per chiudere la finestra",
+                clickToOpenSearch: "Clicca per aprire il motore di ricerca",
+                search: "Cerca",
+                clickToBrowse: "Clicca per navigare nell'alberatura dei contenuti",
+                browse: "Naviga",
+                createNew: "Crea nuovo",
+                create: "Crea",
+                allContents: "Tutti i contenuti",
+                clickToBrowseParent: "Clicca per accedere al ramo superiore dell'alberatura",
+                noContents: "Nessun contenuto",
+                back: "Torna indietro",
+                goToPreviousPage: "Vai alla pagina precedente",
+                goToNextPage: "Vai alla pagina successiva",
+                clickToBrowseChildren: "Clicca per accedere agli elementi contenuti",
+                clickToPreview: "Visualizza l'anteprima contenuto",
+                preview: "Anteprima",
+                closePreview: "Chiudi anteprima",
+                addItem: "Aggiungi",
+                selectedItems: "Elementi selezionati",
+                removeFromSelection: "Rimuovi dalla selezione",
+                addToSelection: "Aggiungi alla selezione"
+            }
         };
 
     function Plugin(element, options) {
@@ -145,7 +168,7 @@
             var panelHeading = $('<div class="card-header clearfix" style="padding:15px"></div>').appendTo(panel);
 
             if (self.settings.addCloseButton) {
-                var closeButton = $('<a class="btn btn-xs btn-link pull-right" href="#" title="Clicca per chiudere la finestra"><span class="glyphicon glyphicon-remove"></span></a>');
+                var closeButton = $('<a class="btn btn-xs btn-link pull-right" href="#" title="'+self.settings.i18n.clickToClose+'"><span class="glyphicon glyphicon-remove"></span></a>');
                 closeButton.bind('click', function (e) {
                     $(self.element).trigger('relationsbrowse.close', self);
                     e.preventDefault();
@@ -154,7 +177,7 @@
             }
 
             if (isTree) {
-                var searchButton = $('<a class="btn btn-xs btn-primary pull-right" href="#" title="Clicca per aprire il motore di ricerca"><span class="glyphicon glyphicon-search"></span> Cerca</a>');
+                var searchButton = $('<a class="btn btn-xs btn-primary pull-right" href="#" title="'+self.settings.i18n.clickToOpenSearch+'"><span class="glyphicon glyphicon-search"></span> '+self.settings.i18n.search+'</a>');
                 searchButton.bind('click', function (e) {
                     self.resetBrowseParameters();
                     self.buildSearchSelect();
@@ -164,7 +187,7 @@
             }
 
             if (isSearch){
-                var treeButton = $('<a class="btn btn-xs btn-primary pull-right" href="#" title="Clicca per navigare nell\'alberatura dei contenuti"><span class="glyphicon glyphicon-th-list"></span> Naviga</a>');
+                var treeButton = $('<a class="btn btn-xs btn-primary pull-right" href="#" title="'+self.settings.i18n.clickToBrowse+'"><span class="glyphicon glyphicon-th-list"></span> '+self.settings.i18n.browse+'</a>');
                 treeButton.bind('click', function(e){
                     self.resetBrowseParameters();
                     self.buildTreeSelect();
@@ -220,7 +243,7 @@
                 }
             }else{
                 if ($.isFunction(cb)) {
-                    cb.call(context, 'Tutti i contenuti');
+                    cb.call(context, self.settings.i18n.allContents);
                 }
             }
         },
@@ -241,7 +264,7 @@
                         self.rootNode = rootNode;
                     }
                     if (self.allowUpBrowse(rootNode)) {
-                        var back = $('<a class="browse-back" href="#" data-node_id="' + rootNode.parent_node_id + '" title="Clicca per accedere al ramo superiore dell\'alberatura">' + itemName + '</a>').prependTo(name);
+                        var back = $('<a class="browse-back" href="#" data-node_id="' + rootNode.parent_node_id + '" title="'+self.settings.i18n.clickToBrowseParent+'">' + itemName + '</a>').prependTo(name);
                         back.bind('click', function (e) {
                             self.browseParameters.subtree = $(this).data('node_id');
                             self.buildTreeSelect();
@@ -279,8 +302,8 @@
                         list.appendTo(panelContent);
 
                     }else{
-                        var nullContent = $('<div class="card-body">Nessun contenuto. </div>');
-                        var goBack = $('<a href="#"><small>Torna indietro</small></a>');
+                        var nullContent = $('<div class="card-body">'+self.settings.i18n.noContents+' </div>');
+                        var goBack = $('<a href="#"><small>'+self.settings.i18n.back+'</small></a>');
                         goBack.bind('click', function(e){
                             panelHeading.find('.browse-back').trigger('click');
                             e.preventDefault();
@@ -290,7 +313,7 @@
 
                     if(data.content.offset > 0){
                         var prevPaginationOffset = self.browseParameters.offset - self.browseParameters.limit;
-                        var prevButton = $('<a href="#" class="pull-left" title="Vai alla pagina precedente"><span class="glyphicon glyphicon-chevron-left"></span></a>')
+                        var prevButton = $('<a href="#" class="pull-left" title="'+self.settings.i18n.goToPreviousPage+'"><span class="glyphicon glyphicon-chevron-left"></span></a>')
                             .bind('click', function(e){
                                 self.browseParameters.offset = prevPaginationOffset;
                                 self.buildTreeSelect();
@@ -302,7 +325,7 @@
 
                     if(data.content.total_count > data.content.list.length + self.browseParameters.offset){
                         var nextPaginationOffset = self.browseParameters.offset + self.browseParameters.limit;
-                        var nextButton = $('<a href="#" class="pull-right" title="Vai alla pagina successiva"><span class="glyphicon glyphicon-chevron-right"></span></a>')
+                        var nextButton = $('<a href="#" class="pull-right" title="'+self.settings.i18n.goToNextPage+'"><span class="glyphicon glyphicon-chevron-right"></span></a>')
                             .bind('click', function(e){
                                 self.browseParameters.offset = nextPaginationOffset;
                                 self.buildTreeSelect();
@@ -324,7 +347,7 @@
             $(this.browserContainer).html('');
             var panel = $('<div class="card card-bg no-after"></div>').appendTo($(this.browserContainer));
             var panelHeading = self.buildPanelHeader(panel, false, true, false);
-            panelHeading.append('<h5>Cerca</h5>');
+            panelHeading.append('<h5>'+self.settings.i18n.search+'</h5>');
             self.fetchBrowseSubtreeRoot(self.browseParameters.subtree, function (rootNode) {
                 if (typeof rootNode === 'string'){
                     panelHeading.find('h5').append(' in ' + rootNode);
@@ -337,7 +360,7 @@
             var inputGroup = $('<div class="input-group"></div>');
             this.searchInput = $('<input class="form-control" type="text" placeholder="" value=""/>').appendTo(inputGroup);
             var inputGroupButtonContainer = $('<div class="input-group-append"></div>');
-            var searchButton = $('<button type="button" class="btn btn-info">Cerca</button>').appendTo(inputGroupButtonContainer);
+            var searchButton = $('<button type="button" class="btn btn-info">'+self.settings.i18n.search+'</button>').appendTo(inputGroupButtonContainer);
             inputGroupButtonContainer.appendTo(inputGroup);
             inputGroup.appendTo(panel);
 
@@ -421,7 +444,7 @@
 
                         if(self.browseParameters.offset > 0){
                             var prevPaginationOffset = self.browseParameters.offset - self.browseParameters.limit;
-                            var prevButton = $('<a href="#" class="pull-left" title="Vai alla pagina precedente"><span class="glyphicon glyphicon-chevron-left"></span></a>')
+                            var prevButton = $('<a href="#" class="pull-left" title="'+self.settings.i18n.goToPreviousPage+'"><span class="glyphicon glyphicon-chevron-left"></span></a>')
                                 .bind('click', function(e){                                    
                                     self.browseParameters.offset = prevPaginationOffset;
                                     var query = self.buildQuery();
@@ -433,7 +456,7 @@
                         }
 
                         if(data.nextPageQuery){                            
-                            var nextButton = $('<a href="#" class="pull-right" title="Vai alla pagina successiva"><span class="glyphicon glyphicon-chevron-right"></span></a>')
+                            var nextButton = $('<a href="#" class="pull-right" title="'+self.settings.i18n.goToNextPage+'"><span class="glyphicon glyphicon-chevron-right"></span></a>')
                                 .bind('click', function(e){                                    
                                     self.browseParameters.offset += self.browseParameters.limit;
                                     self.doSearch(data.nextPageQuery, panelContent, panelFooter);
@@ -460,7 +483,7 @@
 
             var name;
             if (item.is_container){
-                name = $('<a title="Clicca per accedere agli elementi contenuti" href="#" data-node_id="'+item.node_id+'"> '+item.name+ ' <small>' +item.class_name + '</small></a>');
+                name = $('<a title="'+self.settings.i18n.clickToBrowseParent+'" href="#" data-node_id="'+item.node_id+'"> '+item.name+ ' <small>' +item.class_name + '</small></a>');
                 name.bind('click', function(e){
                     self.browseParameters.subtree = $(this).data('node_id');
                     self.browseParameters.offset = 0;
@@ -473,14 +496,14 @@
 
             var listItem = $('<li class="list-group-item"></li>');
             if (typeof $.fn.alpaca != 'undefined') {
-                var detail = $('<a href="#" data-object_id="' + item.contentobject_id + '" class="btn btn-xs btn-info pull-right" title="Visualizza l\'anteprima contenuto"><small>Anteprima</small></a>');
+                var detail = $('<a href="#" data-object_id="' + item.contentobject_id + '" class="btn btn-xs btn-info pull-right" title="'+self.settings.i18n.clickToPreview+'"><small>'+self.settings.i18n.preview+'</small></a>');
                 detail.bind('click', function (e) {
                     var objectId = $(this).data('object_id');
                     var previewOuter = $('<div class="card-wrapper card-space"></div>');
                     var previewWrapper = $('<div class="card card-bg no-after"></div>').appendTo(previewOuter);
                     var previewContainer = $('<div class="card-body"></div>').appendTo(previewWrapper);
 
-                    var closePreviewButton = $('<a class="btn btn-xs btn-info pull-right" href="#">CHIUDI ANTEPRIMA</a>');
+                    var closePreviewButton = $('<a class="btn btn-xs btn-info pull-right" href="#">'+self.settings.i18n.closePreview+'</a>');
                     closePreviewButton.bind('click', function (e) {
                         self.browserContainer.show();
                         previewOuter.remove();
@@ -511,7 +534,7 @@
             var input = '';
             if (self.isSelectable(item)){
                 if (!self.isInSelection(item)){
-                    input = $('<a href="#"  title="Aggiungi alla selezione" class="btn btn-xs btn-success pull-right mr-2" data-selection="'+item.contentobject_id+'"><small>Aggiungi</small></a>');
+                    input = $('<a href="#"  title="'+self.settings.i18n.addToSelection+'" class="btn btn-xs btn-success pull-right mr-2" data-selection="'+item.contentobject_id+'"><small>'+self.settings.i18n.addItem+'</small></a>');
                     input.data('item', item);
                     input.bind('click', function(e){
                         e.preventDefault();

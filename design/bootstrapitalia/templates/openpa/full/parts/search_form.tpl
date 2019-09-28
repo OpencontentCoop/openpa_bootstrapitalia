@@ -5,10 +5,10 @@
                    class="form-control"
                    id="search-text"
                    name="SearchText"
-                   placeholder="Cerca in {$current_node.name|wash()}"
+                   placeholder="{'Search in'|i18n('bootstrapitalia')} {$current_node.name|wash()}"
                    aria-invalid="false"/>
             <label class="" for="search-text">
-                Cerca in {$current_node.name|wash()}
+                {'Search in'|i18n('bootstrapitalia')} {$current_node.name|wash()}
             </label>
             <button type="submit" class="autocomplete-icon btn btn-link">
                 {display_icon('it-search', 'svg', 'icon')}
@@ -17,10 +17,10 @@
     </div>
 
     <div class="section-search-form-filters">
-        <h6 class="small">Filtri</h6>
+        <h6 class="small">{'Filters'|i18n('bootstrapitalia')}</h6>
         <a href="#" class="chip chip-lg selected selected no-minwith"
            data-section_subtree_group="all">
-            <span class="chip-label">Tutto</span>
+            <span class="chip-label">{'All'|i18n('bootstrapitalia')}</span>
         </a>
         <a href="#"
            class="btn btn-outline-primary btn-icon btn-xs align-top ml-1 mt-1"

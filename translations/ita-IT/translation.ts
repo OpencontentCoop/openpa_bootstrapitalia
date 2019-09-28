@@ -2,6 +2,149 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>bootstrapitalia</name>
+    <message>
+        <source>Jump to main content</source>
+        <translation>Vai al contenuto principale</translation>
+    </message>
+    <message>
+        <source>Jump to section menu</source>
+        <translation>Vai al menu di sezione</translation>
+    </message>
+    <message>
+        <source>Jump to footer</source>
+        <translation>Vai al footer</translation>
+    </message>
+    <message>
+        <source>Table of contents</source>
+        <translation>Indice della pagina</translation>
+    </message>
+    <message>
+        <source>Close</source>
+        <translation>Chiudi</translation>
+    </message>
+    <message>
+        <source>FREE</source>
+        <translation>GRATUITO</translation>
+    </message>
+    <message>        
+        <source>Free admission for all attendees</source>
+        <translation>Ingresso gratuito per tutti i partecipanti</translation>
+    </message>
+    <message>        
+        <source>Download</source>
+        <translation>Download</translation>
+    </message>
+    <message>        
+        <source>Download file</source>
+        <translation>Scarica il file</translation>
+    </message>
+    <message>        
+        <source>File type</source>
+        <translation>Tipo di file</translation>
+    </message>
+    <message>        
+        <source>days</source>
+        <translation>giorni</translation>
+    </message>
+    <message>        
+        <source>Share</source>
+        <translation>Condividi</translation>
+    </message>
+    <message>        
+        <source>Actions</source>
+        <translation>Vedi azioni</translation>
+    </message>
+    <message>        
+        <source>Send</source>
+        <translation>Invia</translation>
+    </message>
+    <message>        
+        <source>Related contents</source>
+        <translation>Contenuti correlati</translation>
+    </message>
+    <message>        
+        <source>Search in</source>
+        <translation>Cerca in</translation>
+    </message>
+    <message>        
+        <source>Filters</source>
+        <translation>Filtri</translation>
+    </message>
+    <message>        
+        <source>All</source>
+        <translation>Tutti</translation>
+    </message>
+    <message>        
+        <source>Read more</source>
+        <translation>Leggi di più</translation>
+    </message>
+    <message>        
+        <source>Go to page</source>
+        <translation>Vai alla pagina</translation>
+    </message>
+    <message>        
+        <source>Explore topic</source>
+        <translation>Esplora argomento</translation>
+    </message>
+    <message>        
+        <source>Go to event calendar</source>
+        <translation>Vai al calendario</translation>
+    </message>
+    <message>        
+        <source>Event start</source>
+        <translation>Inizio evento</translation>
+    </message>
+    <message>        
+        <source>Event end</source>
+        <translation>Fine evento</translation>
+    </message>
+    <message>        
+        <source>Jump to field</source>
+        <translation>Vai al campo</translation>
+    </message>
+    <message>        
+        <source>Upload file</source>
+        <translation>Carica file</translation>
+    </message>
+    <message>        
+        <source>Select from library</source>
+        <translation>Seleziona dalla libreria</translation>
+    </message>   
+    <message>        
+        <source>Create</source>
+        <translation>Crea</translation>
+    </message>
+    <message>        
+        <source>Create new</source>
+        <translation>Crea nuovo</translation>
+    </message>
+    <message>        
+        <source>Reading time</source>
+        <translation>Tempo di lettura</translation>
+    </message>
+    <message>        
+        <source>Topics</source>
+        <translation>Argomenti</translation>
+    </message> 
+    <message>        
+        <source>Last modified</source>
+        <translation>Ultima modifica</translation>
+    </message>  
+    <message>        
+        <source>Editor tools</source>
+        <translation>Informazioni per l'editor</translation>
+    </message> 
+    <message>        
+        <source>See previous versions</source>
+        <translation>Consulta versioni precedenti</translation>
+    </message> 
+    <message>        
+        <source>Go to the history of this content</source>
+        <translation>Vai alla storia di questo contenuto</translation>
+    </message>     
+</context>
+<context>
     <name>kernel/navigationpart</name>    
     <message>        
         <source>eZ Tags</source>

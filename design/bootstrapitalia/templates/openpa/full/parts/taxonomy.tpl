@@ -5,7 +5,7 @@
 {if or($node|has_attribute('topics'), $node|has_attribute('has_public_event_typology'))}
 <div class="mt-4 mb-4">
     {if $show_title}
-    <h6 class="mb-0"><small>Argomenti</small></h6>
+    <h6 class="mb-0"><small>{'Topics'|i18n('bootstrapitalia')}</small></h6>
     {/if}
 
     {if $node|has_attribute('topics')}

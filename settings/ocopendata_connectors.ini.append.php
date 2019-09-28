@@ -6,6 +6,7 @@
 ClassConnectors[image]=ImageClassConnector
 
 [FieldSettings]
+FieldConnectors[ezxmltext]=\Opencontent\Ocopendata\Forms\Connectors\OpendataConnector\FieldConnector\EzOnlineEditorXmlField
 FieldConnectors[ezurl]=UrlFieldConnector
 FieldConnectors[eztags]=TreeTagsFieldConnector
 FieldConnectors[has_street_toponym]=SelectTagsFieldConnector

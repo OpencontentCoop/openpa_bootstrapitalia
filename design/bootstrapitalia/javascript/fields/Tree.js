@@ -12,7 +12,7 @@
             this.base(model, function() {
                 var container = self.getFieldEl();  
                 
-                var treeSearchInput = $('<input type="text" value="" class="form-control" placeholder="Cerca" />')
+                var treeSearchInput = $('<input type="text" value="" class="form-control" placeholder="'+self.options.tree.i18n.search+'" />')
                 treeSearchInput.appendTo(container); 
 
                 var tree = $('<div></div>').jstree(self.options.tree).on("changed.jstree", function (e, data) {

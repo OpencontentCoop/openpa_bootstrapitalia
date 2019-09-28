@@ -19,7 +19,7 @@
 <div class="dropdown d-inline">
     <button class="btn btn-dropdown dropdown-toggle" type="button" id="shareActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {display_icon('it-share', 'svg', 'icon')}
-        <small>Condividi</small>
+        <small>{'Share'|i18n('bootstrapitalia')}</small>
     </button>
     <div class="dropdown-menu shadow-lg" aria-labelledby="shareActions">
         <div class="link-list-wrapper">
@@ -55,7 +55,7 @@
 <div class="dropdown d-inline">
     <button class="btn btn-dropdown dropdown-toggle" type="button" id="viewActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {display_icon('it-more-items', 'svg', 'icon')}
-        <small>Vedi azioni</small>
+        <small>{'Actions'|i18n('bootstrapitalia')}</small>
     </button>
     <div class="dropdown-menu shadow-lg" aria-labelledby="viewActions">
         <div class="link-list-wrapper">
@@ -81,7 +81,7 @@
                 <li>
                     <a class="list-item" href="mailto:?subject={$node.name|wash()}&body={$node.url_alias|ezurl(no,full)}">
                         {display_icon('it-mail', 'svg', 'icon')}
-                        <span>Invia</span>
+                        <span>{'Send'|i18n('bootstrapitalia')}</span>
                     </a>
                 </li>
             </ul>

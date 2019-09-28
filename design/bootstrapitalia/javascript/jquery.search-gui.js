@@ -14,7 +14,13 @@
 
     var pluginName = 'searchGui',
         defaults = {
-            'spritePath': '/'
+            'spritePath': '/',
+            'i18n': {
+                search: 'Cerca',
+                filters: 'Filtri',
+                sections: 'Sezioni',
+                remove: 'Elimina'
+            }
         };
 
     function Plugin(element, options) {
@@ -206,7 +212,7 @@
         showSearchGui: function () {
             this.searchGui.removeClass('hide');
             this.filtersGui.addClass('hide');
-            this.searchHeader.find('h1').text('Cerca');
+            this.searchHeader.find('h1').text(plugin.settings.i18n.search);
             this.searchHeader.find('button.close').removeClass('hide');
             this.searchHeader.find('button.back-to-search').addClass('hide');
         },
@@ -216,18 +222,20 @@
         },
 
         showFilterGui: function (activeTab) {
+            var plugin = this;
             this.filtersGui.find('a.nav-link[href="#' + activeTab + '"]').tab('show');
             this.searchGui.addClass('hide');
             this.filtersGui.removeClass('hide');
-            this.searchHeader.find('h1').text('Filtri');
+            this.searchHeader.find('h1').text(plugin.settings.i18n.filters);
             this.searchHeader.find('button.close').addClass('hide');
             this.searchHeader.find('button.back-to-search').removeClass('hide');
         },
 
         setGlobalFilterGui: function () {
+            var plugin = this;
             $('[data-subtree_group]').removeClass('hide');
             $('input[data-subtree]').parent().removeClass('hide');
-            $('a[href="#filter-by-section"]').text('Sezioni');
+            $('a[href="#filter-by-section"]').text(plugin.settings.i18n.sections);
             this.filtersGui.find('.do-search').removeClass('hide');
         },
 
@@ -405,8 +413,8 @@
                     sectionChip.find('span:first').text(text);
                 }
             } else if (text.length > 0) {
-                chip = $('<a href="#" data-datarange="1" class="chip chip-simple chip-lg selected"><span class="chip-label">' + text + '</span><svg class="icon filter-remove"><use xlink:href="' + plugin.spritePath + '#it-close"></use></svg><span class="sr-only">Elimina</span></a>');
-                sectionChip = $('<a href="#" data-datarange="1" class="section-chip chip chip-lg selected"><span class="chip-label">' + text + '</span><svg class="icon filter-remove"><use xlink:href="' + plugin.spritePath + '#it-close"></use></svg><span class="sr-only">Elimina</span></a>');
+                chip = $('<a href="#" data-datarange="1" class="chip chip-simple chip-lg selected"><span class="chip-label">' + text + '</span><svg class="icon filter-remove"><use xlink:href="' + plugin.spritePath + '#it-close"></use></svg><span class="sr-only">'+plugin.settings.i18n.remove+'</span></a>');
+                sectionChip = $('<a href="#" data-datarange="1" class="section-chip chip chip-lg selected"><span class="chip-label">' + text + '</span><svg class="icon filter-remove"><use xlink:href="' + plugin.spritePath + '#it-close"></use></svg><span class="sr-only">'+plugin.settings.i18n.remove+'</span></a>');
                 if (from.length > 0) {
                     $('<input type="hidden" name="From" value="' + from + '" />').appendTo(sectionChip);
                 }
@@ -429,7 +437,7 @@
 
         addActiveContentChip: function () {
             var plugin = this;
-            var chip = $('<a href="#" data-only_active="1" class="chip chip-simple chip-lg selected"><span class="chip-label">Contenuti attivi</span><svg class="icon filter-remove"><use xlink:href="' + plugin.spritePath + '#it-close"></use></svg><span class="sr-only">Elimina</span></a>');
+            var chip = $('<a href="#" data-only_active="1" class="chip chip-simple chip-lg selected"><span class="chip-label">Contenuti attivi</span><svg class="icon filter-remove"><use xlink:href="' + plugin.spritePath + '#it-close"></use></svg><span class="sr-only">'+plugin.settings.i18n.remove+'</span></a>');
             var sectionChip = $('<a href="#" data-only_active="1" class="section-chip chip chip-lg selected"><span class="chip-label">Contenuti attivi</span><svg class="icon filter-remove"><use xlink:href="' + plugin.spritePath + '#it-close"></use></svg><span class="sr-only">Elimina</span><input type="hidden" name="OnlyActive" value="1" /></a>');
             chip.on('click', function (e) {
                 plugin.activeContentCheck.trigger('click');

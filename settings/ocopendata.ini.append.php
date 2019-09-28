@@ -23,6 +23,9 @@ PHPClass=OpenPABootstrapItaliaExtrageoEnvironmentSettings
 [EnvironmentSettingsPresets_content]
 PHPClass=OpenPABootstrapItaliaContentEnvironmentSettings
 
+[EnvironmentSettingsPresets_useraware]
+PHPClass=OpenPABootstrapItaliaUserAwareEnvironmentSettings
+
 [EnvironmentSettingsPresets_datatable]
 PHPClass=OpenPABootstrapItaliaDatatableEnvironmentSettings
 

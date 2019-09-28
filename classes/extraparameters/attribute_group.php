@@ -4,6 +4,12 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
 {
     use OpenPABootstrapItaliaCustomAttributeTrait;
 
+    private $groupList;
+
+    private $sortList;
+
+    private $translationList;
+
     public function getIdentifier()
     {
         return 'attribute_group';
@@ -20,6 +26,8 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
 
         $attributes[] = 'group_list';
         $attributes[] = 'sort_list';
+        $attributes[] = 'translations';
+        $attributes[] = 'current_translation';
 
         $groupList = $this->getGroupList();
         foreach ($groupList as $identifier => $name) {
@@ -32,50 +40,95 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
 
     private function getGroupList()
     {
-        $groupList = array();
-        $sortList = array();
-        foreach ($this->parameters as $parameter) {
-            if ($parameter->attribute('attribute_identifier') == '*' && $parameter->attribute('key') != 'enabled') {
-                $key = $parameter->attribute('key');
-                if (strpos($key, 'sort:') === false) {
-                    $groupList[$key] = $parameter->attribute('value');
-                } else {
-                    $key = str_replace('sort::', '', $key);
-                    $sortList[$key] = $parameter->attribute('value');
+        if ($this->groupList === null) {
+            $groupList = array();
+            $sortList = array();
+            foreach ($this->parameters as $parameter) {
+                if ($parameter->attribute('attribute_identifier') == '*' && $parameter->attribute('key') != 'enabled') {
+                    $key = $parameter->attribute('key');
+                    if (strpos($key, 'sort:') === false) {
+                        $groupList[$key] = $parameter->attribute('value');
+                    } else {
+                        $key = str_replace('sort::', '', $key);
+                        $sortList[$key] = $parameter->attribute('value');
+                    }
                 }
             }
-        }
 
-        $sortList = $this->getSortList();
-        if (empty($sortList)){
-            return $groupList;
-        }
-        $sortedGroupList = array();
-
-        foreach ($sortList as $identifier => $sort) {
-            if (isset($groupList[$identifier])) {
-                $sortedGroupList[$identifier] = $groupList[$identifier];
+            $sortList = $this->getSortList();
+            if (empty($sortList)) {
+                return $groupList;
             }
+            $sortedGroupList = array();
+
+            foreach ($sortList as $identifier => $sort) {
+                if (isset($groupList[$identifier])) {
+                    $sortedGroupList[$identifier] = $groupList[$identifier];
+                }
+            }
+
+            $this->groupList = $sortedGroupList;
         }
 
-        return $sortedGroupList;
+        return $this->groupList;
     }
 
     private function getSortList()
     {
-        $sortList = array();
-        foreach ($this->parameters as $parameter) {
-            if ($parameter->attribute('attribute_identifier') == '*' && $parameter->attribute('key') != 'enabled') {
-                $key = $parameter->attribute('key');
-                if (strpos($key, 'sort:') !== false) {
-                    $key = str_replace('sort::', '', $key);
-                    $sortList[$key] = $parameter->attribute('value');
+        if ($this->sortList === null) {
+            $sortList = array();
+            foreach ($this->parameters as $parameter) {
+                if ($parameter->attribute('attribute_identifier') == '*' && $parameter->attribute('key') != 'enabled') {
+                    $key = $parameter->attribute('key');
+                    if (strpos($key, 'sort:') !== false) {
+                        $key = str_replace('sort::', '', $key);
+                        $sortList[$key] = $parameter->attribute('value');
+                    }
+                }
+            }
+            asort($sortList);
+            $this->sortList = $sortList;
+        }
+
+        return $this->sortList;
+    }
+
+    private function getTranslations()
+    {
+        if ($this->translationList === null) {
+            $this->translationList = array();
+            foreach ($this->parameters as $parameter) {
+                if ($parameter->attribute('attribute_identifier') == '*' && $parameter->attribute('key') != 'enabled') {
+                    $key = $parameter->attribute('key');
+                    if (strpos($key, '::') !== false) {
+                        list ($language, $identifier) = explode('::', $key);
+                        if (in_array($language, eZINI::instance()->variable('RegionalSettings', 'SiteLanguageList'))) {
+                            $this->translationList[$identifier][$language] = $parameter->attribute('value');
+                        }
+                    }
                 }
             }
         }
-        asort($sortList);
 
-        return $sortList;
+        return $this->translationList;
+    }
+
+    private function getCurrentTranslation()
+    {
+        $currentTranslations = [];
+        $translationList = $this->getTranslations();
+        $groupList = $this->getGroupList();
+        $locale = eZLocale::currentLocaleCode();
+
+        foreach ($translationList as $slug => $translations){
+            if (isset($translations[$locale])){
+                $currentTranslations[$slug] = $translations[$locale];
+            }else{
+                $currentTranslations[$slug] = $groupList[$locale];
+            }
+        }
+
+        return $currentTranslations;
     }
 
     public function attribute($key)
@@ -88,6 +141,14 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
 
         if ($key == 'sort_list') {
             return $this->getSortList();
+        }
+
+        if ($key == 'translations') {
+            return $this->getTranslations();
+        }
+
+        if ($key == 'current_translation') {
+            return $this->getCurrentTranslation();
         }
 
         foreach ($groupList as $identifier => $name) {

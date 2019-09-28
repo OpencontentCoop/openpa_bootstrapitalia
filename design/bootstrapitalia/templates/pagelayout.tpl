@@ -71,11 +71,11 @@ $.opendataTools.settings('endpoint',{ldelim}
 </script>
 
     <div class="skiplinks">
-        <a class="sr-only sr-only-focusable" href="#main-content">Vai al contenuto principale</a>
+        <a class="sr-only sr-only-focusable" href="#main-content">{'Jump to main content'|i18n('bootstrapitalia')}</a>
         {if $has_section_menu}
-            <a class="sr-only sr-only-focusable" href="#section-menu">Vai al menu di sezione</a>
+            <a class="sr-only sr-only-focusable" href="#section-menu">{'Jump to section menu'|i18n('bootstrapitalia')}</a>
         {/if}
-        <a class="sr-only sr-only-focusable" href="#footer">Vai al footer</a>
+        <a class="sr-only sr-only-focusable" href="#footer">{'Jump to footer'|i18n('bootstrapitalia')}</a>
     </div>
 
     {include uri='design:page_notifications.tpl'}

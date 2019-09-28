@@ -40,7 +40,7 @@
                     <div class="card card-teaser shadow p-4 rounded border">
                         <div class="card-body">
                             <h5 class="card-title">
-                                {"Fine evento"|i18n('bootstrapitalia')} {recurrences_strtotime($event.end)|datetime( 'custom', '%H:%i' )}
+                                {"Event end"|i18n('bootstrapitalia')} {recurrences_strtotime($event.end)|datetime( 'custom', '%H:%i' )}
                             </h5>
                         </div>
                     </div>
@@ -58,9 +58,9 @@
                     <div class="card card-teaser shadow p-4 rounded border">
                         <div class="card-body">
                             <h5 class="card-title">
-                                {"Inizio evento"|i18n('bootstrapitalia')} {recurrences_strtotime($event.start)|datetime( 'custom', '%H:%i' )}
+                                {"Event start"|i18n('bootstrapitalia')} {recurrences_strtotime($event.start)|datetime( 'custom', '%H:%i' )}
                                 {if recurrences_strtotime($event.start)|datetime( 'custom', '%H:%i' )|ne(recurrences_strtotime($event.end)|datetime( 'custom', '%H:%i' ))}
-                                     - {"Fine evento"|i18n('bootstrapitalia')} {recurrences_strtotime($event.end)|datetime( 'custom', '%H:%i' )}
+                                     - {"Event end"|i18n('bootstrapitalia')} {recurrences_strtotime($event.end)|datetime( 'custom', '%H:%i' )}
                                 {/if}
                             </h5>
                         </div>

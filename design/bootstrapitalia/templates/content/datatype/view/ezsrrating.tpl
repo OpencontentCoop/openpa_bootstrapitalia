@@ -31,7 +31,7 @@
     <div class="rating-list">
         <div class="rating-list-aside rating-list-warning">
             <div class="rating-value font-weight-semibold">{$rating.rating|wash}</div>
-            <div class="rating-total font-weight-semibold">su 5</div>
+            <div class="rating-total font-weight-semibold">{'out of'|i18n('bootstrapitalia')} 5</div>
         </div>
         <div class="rating-list-content">
             <div class="rating-list-row">

@@ -116,7 +116,8 @@ class FullRelationsField extends FieldConnector
             $options["browse"] = array(
                 "subtree" => $this->defaultPlacement,
                 "classes" => $this->classConstraintList,
-                "selectionType" => 'multiple'
+                "selectionType" => 'multiple',
+                "i18n" => FieldConnector\RelationField::i18n()
             );
         }
 

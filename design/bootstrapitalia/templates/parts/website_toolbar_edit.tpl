@@ -9,15 +9,15 @@
             {def $attribute_categorys        = ezini( 'ClassAttributeSettings', 'CategoryList', 'content.ini' )
                  $attribute_default_category = ezini( 'ClassAttributeSettings', 'DefaultCategory', 'content.ini' )}
             <select id="ezwt-create" class="custom-select" style="max-width: 200px">
-            {foreach $content_attributes_grouped_data_map as $attribute_group => $content_attributes_grouped}
-                <option>Vai al campo</option>
-                {if $attribute_group|eq('hidden')}{skip}{/if}
-                <optgroup label="{$attribute_categorys[$attribute_group]}">
-                    {foreach $content_attributes_grouped as $attribute_identifier => $attribute}
-                        <option data-group="{$attribute_group}" data-identifier="{$attribute_identifier}">{$attribute.contentclass_attribute.name|wash()}</option>
-                    {/foreach}
-                </optgroup>
-            {/foreach}
+                <option>{'Jump to field'|i18n('bootstrapitalia')}</option>
+                {foreach $content_attributes_grouped_data_map as $attribute_group => $content_attributes_grouped}
+                    {if $attribute_group|eq('hidden')}{skip}{/if}
+                    <optgroup label="{$attribute_categorys[$attribute_group]}">
+                        {foreach $content_attributes_grouped as $attribute_identifier => $attribute}
+                            <option data-group="{$attribute_group}" data-identifier="{$attribute_identifier}">{$attribute.contentclass_attribute.name|wash()}</option>
+                        {/foreach}
+                    </optgroup>
+                {/foreach}
             </select>
             </div>
             {undef $attribute_categorys $attribute_default_category}

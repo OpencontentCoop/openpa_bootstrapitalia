@@ -88,6 +88,7 @@ var select_to_string = function(element) {
     $input.val('');
   }
 }
+
 </script>
 {/literal}
 {/run-once}

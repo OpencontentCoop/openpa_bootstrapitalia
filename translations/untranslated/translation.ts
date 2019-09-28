@@ -2,6 +2,149 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>bootstrapitalia</name>
+    <message>
+        <source>Jump to main content</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Jump to section menu</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Jump to footer</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Table of contents</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>Close</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <source>FREE</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Free admission for all attendees</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Download</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Download file</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>File type</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>days</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Share</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Actions Vedi azioni</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Send Invia</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Related contents</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Search in</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Filters</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>All</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Read more</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Go to page</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Explore topic</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Go to event calendar</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Event start</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Event end</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Jump to field</source>
+        <translation type="unfinished" />
+    </message>
+    <message>        
+        <source>Upload file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>        
+        <source>Select from library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>        
+        <source>Create</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>        
+        <source>Create new</source>
+        <translation type="unfinished"></translation>
+    </message>    
+    <message>        
+        <source>Reading time</source>
+        <translation type="unfinished"></translation>
+    </message>       
+    <message>        
+        <source>Topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>        
+        <source>Last modified</source>
+        <translation type="unfinished"></translation>
+    </message>   
+    <message>        
+        <source>Editor tools</source>
+        <translation type="unfinished"></translation>
+    </message>       
+    <message>        
+        <source>See previous versions</source>
+        <translation type="unfinished"></translation>
+    </message> 
+    <message>        
+        <source>Go to the history of this content</source>
+        <translation type="unfinished"></translation>
+    </message>   
+</context>
+<context>
     <name>openpa/widget</name>    
     <message>        
         <source>Position in the organization chart</source>

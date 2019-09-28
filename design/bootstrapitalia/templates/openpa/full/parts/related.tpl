@@ -30,7 +30,7 @@
 		            <div class="container">
 		                <div class="row">
 		                    <div class="col">
-		                        <h3 class="text-center">Contenuti correlati</h3>
+		                        <h3 class="text-center">{'Related contents'|i18n('bootstrapitalia')}</h3>
 		                    </div>
 		                </div>
 		                <div class="row mt-lg-4">		                    

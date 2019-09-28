@@ -2,7 +2,7 @@
 	<div class="point-list">
         <div class="point-list-aside point-list-success">
             <div class="point-date text-monospace">{$attribute.data_int}</div>      
-            <div class="point-month text-monospace">giorni</div>      
+            <div class="point-month text-monospace">{'days'|i18n('bootstrapitalia')}</div>
         </div>
         <div class="point-list-content">
             <div class="card card-teaser shadow p-4 rounded border">

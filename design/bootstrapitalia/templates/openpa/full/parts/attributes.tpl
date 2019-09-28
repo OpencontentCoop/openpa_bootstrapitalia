@@ -1,9 +1,20 @@
-{def $summary_text = "Indice della pagina"
-     $close_text = "Chiudi"}
-
+{def $summary_text = 'Table of contents'|i18n('bootstrapitalia')
+     $close_text = 'Close'|i18n('bootstrapitalia')}
+{if is_set($show_all_attributes)|not()}
+    {def $show_all_attributes = false()}
+{/if}
 {def $summary_items = array()}
 {def $attribute_groups = class_extra_parameters($object.class_identifier, 'attribute_group')}
-{if $attribute_groups.enabled}
+
+{if $show_all_attributes}
+    {foreach $object.data_map as $attribute_identifier => $attribute}
+        {if and($openpa[$attribute_identifier].has_content, $attribute.contentclass_attribute.category|ne('hidden'))}
+            {set $summary_items = $summary_items|append(
+                hash( 'slug', $attribute_identifier, 'title', $openpa[$attribute_identifier].label, 'attributes', array($openpa[$attribute_identifier]), 'is_grouped', false(), 'wrap', false() )
+            )}
+        {/if}
+    {/foreach}
+{elseif $attribute_groups.enabled}
     {foreach $attribute_groups.group_list as $slug => $name}
         {if count($attribute_groups[$slug])|gt(0)}
             {def $openpa_attributes = array()
@@ -17,7 +28,7 @@
             {/foreach}
             {if count($openpa_attributes)|gt(0)}
                 {set $summary_items = $summary_items|append(
-                    hash( 'slug', $slug, 'title', $name, 'attributes', $openpa_attributes, 'is_grouped', true(), 'wrap', cond($wrapped, count($openpa_attributes)|gt(1),true(),false()) )
+                    hash( 'slug', $slug, 'title', $attribute_groups.current_translation[$slug], 'attributes', $openpa_attributes, 'is_grouped', true(), 'wrap', cond($wrapped, count($openpa_attributes)|gt(1),true(),false()) )
                 )}
             {/if}
             {undef $openpa_attributes $wrapped}

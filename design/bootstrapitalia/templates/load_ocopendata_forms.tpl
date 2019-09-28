@@ -40,6 +40,16 @@
 ))}
 <script>{literal}
 $(document).ready(function(){
+    $.opendataFormSetup({
+        i18n: {{/literal}
+            'store': "{'Store'|i18n('opendata_forms')}",
+            'cancel': "{'Cancel'|i18n('opendata_forms')}",
+            'storeLoading': "{'Loading...'|i18n('opendata_forms')}",
+            'cancelDelete': "{'Cancel deletion'|i18n('opendata_forms')}",
+            'confirmDelete': "{'Confirm deletion'|i18n('opendata_forms')}"
+        {literal}}
+    });
+
     $(document).on('click', "[data-edit]", function(e){
         var object = $(this).data('edit');
         var attribute = $(this).data('attribute');

@@ -37,7 +37,7 @@
                         <div class="point-month text-monospace">{$month}</div>
                     {elseif $processing_time}
                         <div class="point-date text-monospace">{$processing_time}</div>            
-                        <div class="point-month text-monospace"><small>giorni</small></div>
+                        <div class="point-month text-monospace"><small>{'days'|i18n('bootstrapitalia')}</small></div>
                     {else}
                         <div class="point-date text-monospace invisible">00</div>
                         <div class="point-month text-monospace invisible">000</div>

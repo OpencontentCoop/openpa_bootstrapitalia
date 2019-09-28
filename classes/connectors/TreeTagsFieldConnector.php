@@ -29,6 +29,9 @@ class TreeTagsFieldConnector extends TagsField
                 'data' => $this->getTagTree($this->attribute->attribute(self::SUBTREE_LIMIT_FIELD))
             ),
             'plugins' => array('search'),
+            'i18n' => [
+                'search' => \ezpI18n::tr('opendata_forms', "Search"),
+            ]
         );
 
         return $options;

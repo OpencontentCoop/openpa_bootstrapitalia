@@ -1,17 +1,25 @@
 {if and( is_set( $attribute.class_content.class_constraint_list ), $attribute.class_content.class_constraint_list|count|ne( 0 ), $browse_object_start_node )}
     {def $classes = array()}
+    {def $parent_node = fetch(content, node, hash(node_id, $browse_object_start_node))
+         $can_instantiate_class_list = fetch(content, can_instantiate_class_list, hash(parent_node, $parent_node))
+         $can_instantiate_classes = array()}
+    {foreach $can_instantiate_class_list as $class}
+        {set $can_instantiate_classes = $can_instantiate_classes|append($class.identifier)}
+    {/foreach}
     {foreach $attribute.class_content.class_constraint_list as $class_identifier}
-        {def $_class = fetch( 'content', 'class', hash( 'class_id', $class_identifier) )}
-        {if $_class}
-            {set $classes = $classes|append($_class)}
+        {if $can_instantiate_classes|contains($class_identifier)}
+            {def $_class = fetch( 'content', 'class', hash( 'class_id', $class_identifier) )}
+            {if $_class}
+                {set $classes = $classes|append($_class)}
+            {/if}
+            {undef $_class}
         {/if}
-        {undef $_class}
     {/foreach}
     {if count($classes)}
     <div class="btn-group create-relation-buttons">
         {if count($classes)|gt(1)}
         <button type="button" class="btn btn-sm btn-info ml-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Crea nuovo
+            {'Create new'|i18n('bootstrapitalia')}
             {display_icon('it-expand', 'svg', 'icon-expand icon icon-xs')}
         </button>
         <div class="dropdown-menu">
@@ -29,12 +37,12 @@
         </div>
         {else}
             <a class="btn btn-sm btn-info ml-1" href="#" data-create-relation data-attribute="{$attribute.id}" data-class="{$classes[0].identifier}" data-parent="{$browse_object_start_node}">
-                Crea {$classes[0].name|wash()}
+                {'Create'|i18n('bootstrapitalia')} {$classes[0].name|downcase|wash()}
             </a>
         {/if}
     </div>
     {/if}
-    {undef $classes}
+    {undef $classes $parent_node $can_instantiate_class_list $can_instantiate_classes}
 {/if}
 
 {run-once}
@@ -69,6 +77,13 @@ $(document).ready(function(){
                     self.show();
                 });
             },
+            i18n: {{/literal}
+                'store': "{'Store'|i18n('opendata_forms')}",
+                'cancel': "{'Cancel'|i18n('opendata_forms')}",
+                'storeLoading': "{'Loading...'|i18n('opendata_forms')}",
+                'cancelDelete': "{'Cancel deletion'|i18n('opendata_forms')}",
+                'confirmDelete': "{'Confirm deletion'|i18n('opendata_forms')}"
+            {literal}},
             alpaca:{
                 "options": {
                     "form": {
@@ -82,7 +97,7 @@ $(document).ready(function(){
                                     self.show();
                                 },
                                 'id': "reset-" + self.data('attribute') + "button",
-                                "value": "Annulla",
+                                "value": "{/literal}{'Cancel'|i18n('opendata_forms')}{literal}",
                                 "styles": "btn btn-sm btn-dark pull-left"
                             }
                         }
