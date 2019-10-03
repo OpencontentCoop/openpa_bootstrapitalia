@@ -1,12 +1,10 @@
 <div class="cookiebar">
     <p>
-        Questo sito utilizza cookie tecnici, analytics e di terze parti.
-        <br />Proseguendo nella navigazione accetti l’utilizzo dei cookie.
+        {'This site uses technical, analytics and third-party cookies.'|i18n('bootstrapitalia')}
+        <br />{'By continuing to browse, you accept the use of cookies.'|i18n('bootstrapitalia')}
     </p>
     <div class="cookiebar-buttons">
-        <a href="{'openpa/cookie'|ezurl(no)}" class="cookiebar-btn">Informazioni<span class="sr-only">cookies</span></a>
-        <button data-accept="cookiebar" class="cookiebar-btn cookiebar-confirm">
-            Accetto<span class="sr-only"> i cookies</span>
-        </button>
+        <a href="{'openpa/cookie'|ezurl(no)}" class="cookiebar-btn">{'Informations'|i18n('bootstrapitalia')}</a>
+        <button data-accept="cookiebar" class="cookiebar-btn cookiebar-confirm">{'Accept'|i18n('bootstrapitalia')}</button>
     </div>
 </div>

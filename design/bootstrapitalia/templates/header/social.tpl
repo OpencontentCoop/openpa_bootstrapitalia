@@ -1,6 +1,6 @@
 {if or(is_set($pagedata.contacts.facebook), is_set($pagedata.contacts.twitter), is_set($pagedata.contacts.linkedin), is_set($pagedata.contacts.instagram), is_set($pagedata.contacts.youtube))}
 <div class="it-socials d-none d-md-flex">
-    <span>Seguici su</span>
+    <span>{'Follow us'|i18n('openpa/footer')}</span>
     <ul>
         {if is_set($pagedata.contacts.facebook)}
         <li>
