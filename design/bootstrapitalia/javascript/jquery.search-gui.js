@@ -212,7 +212,7 @@
         showSearchGui: function () {
             this.searchGui.removeClass('hide');
             this.filtersGui.addClass('hide');
-            this.searchHeader.find('h1').text(plugin.settings.i18n.search);
+            this.searchHeader.find('h1').text(this.settings.i18n.search);
             this.searchHeader.find('button.close').removeClass('hide');
             this.searchHeader.find('button.back-to-search').addClass('hide');
         },
