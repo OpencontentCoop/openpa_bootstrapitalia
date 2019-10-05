@@ -1,5 +1,7 @@
 {def $_redirect = false()}
-{if ezhttp_hasvariable( 'RedirectURIAfterPublish', 'session' )}
+{if $object.id|eq(fetch(user, current_user).contentobject_id)
+    {set $_redirect = 'user/edit'}
+{elseif ezhttp_hasvariable( 'RedirectURIAfterPublish', 'session' )}
     {set $_redirect = ezhttp( 'RedirectURIAfterPublish', 'session' )}
 {elseif $object.main_node_id}
     {set $_redirect = concat( 'content/view/full/', $object.main_node_id )}
