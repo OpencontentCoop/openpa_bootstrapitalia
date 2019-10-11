@@ -24,6 +24,7 @@
           )
       )
     ))}
+    {set $fetch_type = 'tree'}
 {/if}
 
 {def $children_count = fetch( content, concat( $fetch_type, '_count' ), hash( 'parent_node_id', $parent_node.node_id )|merge( $params ) )}
