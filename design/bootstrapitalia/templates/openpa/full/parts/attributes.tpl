@@ -20,7 +20,7 @@
             {def $openpa_attributes = array()
                  $wrapped = true()}
             {foreach $attribute_groups[$slug] as $attribute_identifier}
-                {if and( $openpa[$attribute_identifier].full.exclude|not(), or($openpa[$attribute_identifier].has_content, $openpa[$attribute_identifier].full.show_empty))}
+                {if and( is_set($openpa[$attribute_identifier]), $openpa[$attribute_identifier].full.exclude|not(), or($openpa[$attribute_identifier].has_content, $openpa[$attribute_identifier].full.show_empty))}
                     {set $openpa_attributes = $openpa_attributes|append($openpa[$attribute_identifier])}
                     {if and($wrapped, $openpa[$attribute_identifier].full.show_link|not())}{set $wrapped = false()}{/if}
                     {if and($wrapped, $openpa[$attribute_identifier].full.show_label)}{set $wrapped = false()}{/if}

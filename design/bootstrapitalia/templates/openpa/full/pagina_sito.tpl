@@ -3,22 +3,13 @@
 {def $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )
      $show_left = false()
      $side_menu_root_node = $openpa.control_menu.side_menu.root_node
-     $current_view_tag = false()     
-     $has_tag_menu = cond($side_menu_root_node|has_attribute('tag_menu'), true(), false())
-     $tag_menu_root = false()}
+     $current_view_tag = $openpa.content_tag_menu.current_view_tag}
 
-{if and($has_tag_menu, $side_menu_root_node|attribute('tag_menu').content.tags[0].children_count|gt(0))}
-    {set $show_left = true()}
-    {set $tag_menu_root = $side_menu_root_node|attribute('tag_menu').content.tags[0]}
-    {if is_set($view_parameters.view)}
-    {foreach $side_menu_root_node|attribute('tag_menu').content.tags[0].children as $tag_child}
-        {if $tag_child.keyword|eq($view_parameters.view)}
-            {set $current_view_tag = $tag_child}
-            {ezpagedata_set( 'current_view_tag_keyword', $current_view_tag.keyword )}
-            {ezpagedata_set( 'view_tag_root_node_url', $side_menu_root_node.url_alias )}
-            {break}
-        {/if}
-    {/foreach}
+{if $openpa.content_tag_menu.has_tag_menu}
+    {set $show_left = true()}    
+    {if $openpa.content_tag_menu.current_view_tag}    
+        {ezpagedata_set( 'current_view_tag_keyword', $openpa.content_tag_menu.current_view_tag.keyword )}
+        {ezpagedata_set( 'view_tag_root_node_url', $side_menu_root_node.url_alias )}
     {/if}
 {else}
     {if $top_menu_node_ids|contains($side_menu_root_node.node_id)}
@@ -58,10 +49,10 @@
         </div>
         <div class="col-lg-3 offset-lg-1">
             {if $show_left}  
-                {if $has_tag_menu|not()}                
+                {if $openpa.content_tag_menu.has_tag_menu|not()}                
                     {include uri='design:openpa/full/parts/side_menu.tpl' }
                 {else}
-                    {include uri='design:openpa/full/parts/tag_side_menu.tpl' tag_menu_root=$tag_menu_root current_view_tag=$current_view_tag}
+                    {include uri='design:openpa/full/parts/tag_side_menu.tpl'}
                 {/if}
             {/if}
             {include uri='design:openpa/full/parts/taxonomy.tpl'}                
@@ -73,8 +64,8 @@
     {attribute_view_gui attribute=$node|attribute('layout')}
 {/if}
 
-{node_view_gui content_node=$node view=children view_parameters=$view_parameters current_view_tag=$current_view_tag}
+{node_view_gui content_node=$node view=children view_parameters=$view_parameters}
 
 {if $node|has_attribute('show_topics')}
-    {include uri='design:openpa/full/parts/topic_facets.tpl' current_node=$node current_view_tag=$current_view_tag}   
+    {include uri='design:openpa/full/parts/topic_facets.tpl' current_node=$node}   
 {/if}

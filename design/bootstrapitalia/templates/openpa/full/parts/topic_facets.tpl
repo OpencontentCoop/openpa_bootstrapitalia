@@ -1,6 +1,6 @@
 {def $tag_query = ''}
-{if and(is_set($current_view_tag),$current_view_tag)}
-    {set $tag_query = concat('raw[ezf_df_tag_ids] in [', $current_view_tag.id, '] and ')}
+{if $openpa.content_tag_menu.current_view_tag}
+    {set $tag_query = concat('raw[ezf_df_tag_ids] in [', $openpa.content_tag_menu.current_view_tag.id, '] and ')}
 {/if}
 {def $current_node_topic_node_id_list = api_search(concat($tag_query,'subtree [', $current_node.node_id, '] facets [raw[submeta_topics___main_node_id____si]|alpha|100] limit 1')).facets[0].data}
 {if $current_node_topic_node_id_list|count()}

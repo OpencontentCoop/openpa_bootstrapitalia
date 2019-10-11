@@ -15,10 +15,10 @@
                     <h3>{$menu_title}</h3>
                 </li>
             {/if}
-            {def $tag_menu_children = $tag_menu_root.children}
-            {if $tag_menu_root.children_count|gt(8)}
+            {def $tag_menu_children = $openpa.content_tag_menu.tag_menu_root.children}
+            {if $openpa.content_tag_menu.tag_menu_root.children_count|gt(8)}
                 {foreach $tag_menu_children as $menu_item max 6}
-                    {include name=side_menu uri='design:openpa/full/parts/tag_side_menu_item.tpl' menu_item=$menu_item root_node=$openpa.control_menu.side_menu.root_node current_view_tag=$current_view_tag max_recursion=1 recursion=1}
+                    {include name=side_menu uri='design:openpa/full/parts/tag_side_menu_item.tpl' menu_item=$menu_item root_node=$openpa.control_menu.side_menu.root_node current_view_tag=$openpa.content_tag_menu.current_view_tag max_recursion=1 recursion=1}
                 {/foreach}
                 <li>
                   <a class="list-item large medium left-icon collapsed" href="#more-menu" data-toggle="collapse" aria-expanded="false" aria-controls="more-menu">
@@ -26,18 +26,18 @@
                   </a>
                   <ul class="link-sublist px-0 collapse" id="more-menu">
                     {foreach $tag_menu_children as $menu_item offset 6}
-                        {include name=side_menu uri='design:openpa/full/parts/tag_side_menu_item.tpl' menu_item=$menu_item root_node=$openpa.control_menu.side_menu.root_node current_view_tag=$current_view_tag max_recursion=1 recursion=1}
+                        {include name=side_menu uri='design:openpa/full/parts/tag_side_menu_item.tpl' menu_item=$menu_item root_node=$openpa.control_menu.side_menu.root_node current_view_tag=$openpa.content_tag_menu.current_view_tag max_recursion=1 recursion=1}
                     {/foreach}
                   </ul>
                 </li>
-                {if and($menu_title, $current_view_tag)}
+                {if and($menu_title, $openpa.content_tag_menu.current_view_tag)}
                 <li>
                     <a class="list-item medium" href="{$openpa.control_menu.side_menu.root_node.url_alias|ezurl(no)}">{$menu_title}</a>
                 </li>
                 {/if}
             {else}
                 {foreach $tag_menu_children as $menu_item}
-                    {include name=side_menu uri='design:openpa/full/parts/tag_side_menu_item.tpl' menu_item=$menu_item root_node=$openpa.control_menu.side_menu.root_node current_view_tag=$current_view_tag max_recursion=1 recursion=1}
+                    {include name=side_menu uri='design:openpa/full/parts/tag_side_menu_item.tpl' menu_item=$menu_item root_node=$openpa.control_menu.side_menu.root_node current_view_tag=$openpa.content_tag_menu.current_view_tag max_recursion=1 recursion=1}
                 {/foreach}
             {/if}
             {undef $tag_menu_children}

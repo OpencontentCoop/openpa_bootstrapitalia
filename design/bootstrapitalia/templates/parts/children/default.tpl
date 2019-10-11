@@ -14,12 +14,12 @@
     {def $params = hash( 'class_filter_type', 'include', 'class_filter_array', $include_classes )}
 {/if}
 
-{if and(is_set($current_view_tag),$current_view_tag)}
+{if $openpa.content_tag_menu.current_view_tag}
     {set $params = $params|merge(hash(
       'extended_attribute_filter', hash(
           'id', TagsAttributeFilter,
           'params', hash(
-              'tag_id', $current_view_tag.id,
+              'tag_id', $openpa.content_tag_menu.current_view_tag.id,
               'include_synonyms', true()
           )
       )

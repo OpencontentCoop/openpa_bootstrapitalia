@@ -12,6 +12,7 @@ Services[content_show_modified]=ObjectHandlerServiceContentShowModified
 Services[content_tree_related]=ObjectHandlerServiceContentTreeRelated
 Services[content_show_published]=ObjectHandlerServiceContentShowPublished
 Services[content_trasparenza]=ObjectHandlerServiceContentTrasparenza
+Services[content_tag_menu]=ObjectHandlerServiceContentTagMenu
 
 [ViewSettings]
 AvailableView[]=card

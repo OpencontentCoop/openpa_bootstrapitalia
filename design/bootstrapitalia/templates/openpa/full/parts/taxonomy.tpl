@@ -22,13 +22,17 @@
 </div>        
 {/if}
 
-{if and($node|has_attribute('type'), $node|attribute('type').data_type_string|eq('eztags'))}
+{if and($node|has_attribute('type'), $node|attribute('type').data_type_string|eq('eztags'), $openpa.content_tag_menu.has_tag_menu)}
 <div class="mt-4 mb-4">
     {if $show_title}
         <h6 class="mb-0"><small>{$node|attribute('type').contentclass_attribute_name|wash()}</small></h6>
     {/if}
+
     {foreach $node|attribute('type').content.tags as $tag}
-        <a class="text-decoration-none text-sans-serif mr-1" href={concat( $node.parent.url_alias, '/(view)/', $tag.keyword )|ezurl()}><div class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></div></a>
+        <a class="text-decoration-none text-sans-serif mr-1" 
+           href="{if $openpa.content_tag_menu.has_tag_menu}{concat( $openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
+           <div class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></div>
+       </a>
     {/foreach}
 </div>
 {/if}

@@ -1,8 +1,8 @@
 {if and( $attribute.content.latitude, $attribute.content.longitude )}
 {if and(is_set($only_address), $only_address)}
   {if $attribute.content.address|ne('')}
-  <a href="https://www.google.com/maps/dir//'{$attribute.content.latitude},{$attribute.content.longitude}'/@{$attribute.content.latitude},{$attribute.content.longitude},15z?hl=it">
-    {$attribute.content.address}
+  <a href="https://www.google.com/maps/dir//'{$attribute.content.latitude},{$attribute.content.longitude}'/@{$attribute.content.latitude},{$attribute.content.longitude},15z?hl=it" target="_blank" class="text-decoration-none">
+    <i class="fa fa-map"></i> {$attribute.content.address}
   </a>
   {/if}
 {else}
@@ -12,7 +12,7 @@
         {display_icon('it-pin', 'svg', 'icon')}        
         <div class="card-body pr-3">            
             <div class="card-text">
-              <a href="https://www.google.com/maps/dir//'{$attribute.content.latitude},{$attribute.content.longitude}'/@{$attribute.content.latitude},{$attribute.content.longitude},15z?hl=it">
+              <a href="https://www.google.com/maps/dir//'{$attribute.content.latitude},{$attribute.content.longitude}'/@{$attribute.content.latitude},{$attribute.content.longitude},15z?hl=it" target="_blank">
                 {$attribute.content.address}
               </a>
             </div>

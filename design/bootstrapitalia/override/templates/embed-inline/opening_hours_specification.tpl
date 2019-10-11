@@ -1,8 +1,15 @@
-{def $attributes = class_extra_parameters($object.class_identifier, 'card_small_view')}
-{if $count|gt(1)}
-    <strong>{$object.name|wash()}</strong>
+{def $attributes = class_extra_parameters($object.class_identifier, 'card_small_view')
+     $min_view_accordion = 0}
+
+{if $count|gt($min_view_accordion)}
+    <div id="opening-hours-title-{$object.id}" class="mt-1 py-1">
+        <a href="#opening-hours-{$object.id}" class="text-decoration-none opening-hours-accordion" data-toggle="collapse" data-target="#opening-hours-{$object.id}" aria-controls="opening-hours-{$object.id}">            
+            <i class="fa fa-clock-o"></i> {$object.name|wash()} <i class="fa fa-caret-down"></i>
+        </a>
+    </div>
 {/if}
 {if $attributes.show|count()|gt(0)}
+    {if $count|gt($min_view_accordion)}<div class="collapse p-2 lightgrey-bg-c1 mb-1" id="opening-hours-{$object.id}" aria-labelledby="opening-hours-title-{$object.id}" data-parent="#{$container_parent_id}">{/if}
     {foreach $attributes.show as $identifier}
         {if $object|has_attribute($identifier)}
             <div>
@@ -32,5 +39,9 @@
             </div>
         {/if}        
     {/foreach}
+    {if $count|gt($min_view_accordion)}</div>{/if}
 {/if}
-{undef $attributes}
+{undef $attributes $min_view_accordion}
+{run-once}{literal}
+<style>a.opening-hours-accordion[aria-expanded='true'] .fa-caret-down {transform: scaleY(-1);}</style>
+{/literal}{/run-once}

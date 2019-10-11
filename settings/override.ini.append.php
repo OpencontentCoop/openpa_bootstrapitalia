@@ -150,6 +150,12 @@ MatchFile=datatype/view/bool_is_accessible_for_free.tpl
 Subdir=templates
 Match[attribute_identifier]=is_accessible_for_free
 
+[datatype_view_integer_average_processing_time]
+Source=content/datatype/view/ezinteger.tpl
+MatchFile=datatype/view/integer_average_processing_time.tpl
+Subdir=templates
+Match[attribute_identifier]=average_processing_time
+
 [datatype_view_integer_has_processing_time]
 Source=content/datatype/view/ezinteger.tpl
 MatchFile=datatype/view/integer_has_processing_time.tpl

@@ -29,7 +29,7 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
         $attributes[] = 'translations';
         $attributes[] = 'current_translation';
 
-        $groupList = $this->getGroupList();
+        $groupList = $this->getGroupList();        
         foreach ($groupList as $identifier => $name) {
             $attributes[] = 'enable_' . $identifier;
             $attributes[] = $identifier;
@@ -120,11 +120,15 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
         $groupList = $this->getGroupList();
         $locale = eZLocale::currentLocaleCode();
 
+        if (empty($translationList)){
+            return $groupList;
+        }
+        
         foreach ($translationList as $slug => $translations){
             if (isset($translations[$locale])){
                 $currentTranslations[$slug] = $translations[$locale];
             }else{
-                $currentTranslations[$slug] = $groupList[$locale];
+                $currentTranslations[$slug] = $groupList[$slug];
             }
         }
 
@@ -152,7 +156,7 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
         }
 
         foreach ($groupList as $identifier => $name) {
-            if ($key == $identifier) {
+            if ($key == $identifier) {                
                 return $this->getAttributeIdentifierListByParameter($identifier, 1, false);
             }
         }
