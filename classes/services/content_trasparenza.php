@@ -409,7 +409,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         );
     }
 
-    // [parent:$nodeId|][filters:$queryFilters][group_by:$identifier|]$class|$attribute[,$attribute,...]|$depth
+    // [parent:$nodeId|][filters:$queryFilters|][group_by:$identifier|][order_by:+$attribute|]$class|$attribute[,$attribute,...]|$depth
     protected function getTableFieldsParameter($string)
     {
         $index = 0;
@@ -434,6 +434,13 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $parameters = array_shift($fieldsParts);
             $groupParts = explode(':', $parameters);
             $facetField = $groupParts[1];
+        }
+        
+        $orderFields = null;
+        if (strpos($fieldsParts[$index], 'order_by:') === 0) {
+            $parameters = array_shift($fieldsParts);
+            $ordersParts = explode(':', $parameters);
+            $orderFields = explode(',', $ordersParts[1]);
         }
 
         $classIdentifier = array_shift($fieldsParts);
@@ -461,6 +468,24 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                         $classFields[] = $field;
                     }
                 }
+            }
+
+            // To indicate sorting direction, fields may be prefixed with + (ascending) or - (descending),
+            $orders = array();
+            if (is_array($orderFields)){
+                foreach ($orderFields as $orderField) {
+                    $sort = substr($orderField, 0, 1);
+                    $field = substr($orderField, 1);                      
+                    foreach ($classFields as $index => $classField) {
+                        if ($classField['identifier'] == $field){
+                            $direction = $sort == '+' ? 'asc' : 'desc';
+                            $orders[] = [$index, $direction];
+                        }
+                    }
+                }
+            }
+            if (empty($orders)){
+                $orders = [[0,'asc']]; //default
             }
 
             $node = null;
@@ -511,6 +536,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 'query' => $query,
                 'facet_query' => $facetQuery,
                 'class_fields' => $classFields,
+                'order' => json_encode($orders),
                 'group_by' => $facetField,
                 'class_identifier' => $classIdentifier,
                 'facets' => $facets,

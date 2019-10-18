@@ -26,6 +26,7 @@
         {rdelim},
         "datatable":{ldelim}          
           "responsive": true,
+          "order": {$fields.order},
           "language":{ldelim}
               "decimal":        "",
               "emptyTable":     "Nessun dato presente nella tabella",
