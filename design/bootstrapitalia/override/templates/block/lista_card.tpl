@@ -9,7 +9,7 @@
              items_per_row=$items_per_row
              i_view=card
              view_variation='big'
-             image_class=large
+             image_class=imagelargeoverlay
              items=$openpa.content}
 </div>
 {/if}

@@ -9,7 +9,7 @@
 		<div class="card-columns">
 		{foreach $openpa.content as $item}
 			<div class="col-12">
-				{node_view_gui content_node=$item view=card_image image_class=large show_icon=false()}
+				{node_view_gui content_node=$item view=card_image image_class=imagelargeoverlay show_icon=false()}
 			</div>
 		{/foreach}
 		</div>
@@ -21,7 +21,7 @@
 	<div class="row mx-lg-n3">
 		{foreach $openpa.content as $item}
 			<div class="col-md-6 col-lg-{$col} px-lg-3 pb-lg-3 mb-3">
-				{node_view_gui content_node=$item view=card_image image_class=large show_icon=false()}
+				{node_view_gui content_node=$item view=card_image image_class=imagelargeoverlay show_icon=false()}
 			</div>
 		{/foreach}
 	</div>
