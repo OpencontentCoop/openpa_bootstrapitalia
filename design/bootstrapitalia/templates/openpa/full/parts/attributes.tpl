@@ -116,7 +116,7 @@
                                                 relation_has_wrapper=$item.wrap
                                                 show_link=$openpa_attribute.full.show_link
                                                 tag_view="chip-lg mr-2"}
-                        {else}
+                        {elseif and(is_set($openpa_attribute.template), $openpa_attribute.template)}
                             {include uri=$openpa_attribute.template}
                         {/if}
 
