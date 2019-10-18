@@ -236,7 +236,7 @@
             $('[data-subtree_group]').removeClass('hide');
             $('input[data-subtree]').parent().removeClass('hide');
             $('a[href="#filter-by-section"]').text(plugin.settings.i18n.sections);
-            this.filtersGui.find('.do-search').removeClass('hide');
+            this.filtersGui.find('.do-search').off();
         },
 
         setSectionFilterGui: function (currentSubtree) {
@@ -256,7 +256,10 @@
 
             this.searchHeader.find('button.close').removeClass('hide');
             this.searchHeader.find('button.back-to-search').addClass('hide');
-            this.filtersGui.find('.do-search').addClass('hide');
+            this.filtersGui.find('.do-search').on('click', function(e){
+                plugin.toggleSectionSearch.parents('form').trigger('submit');
+                e.preventDefault();
+            });
         },
 
         onChangeSubtree: function (self) {
