@@ -37,4 +37,19 @@ Converters[opening_hours_specification]=FullRelationsAttributeConverter
 Class[event]=ezfIndexSubAttributeGeo
 Class[private_organization]=ezfIndexSubAttributeGeo
 
+[GeneralSettings]
+DatasetClassIdentifier=dataset
+
+[DatiTrentinoItTest]
+OrganizationBuilder=OpenPABootstrapItaliaCkanOrganizationBuilder
+Client=OpenPABootstrapItaliaCkanClient
+Converter=OpenPABootstrapItaliaCkanConverter
+DatasetGenerator=OpenPABootstrapItaliaCkanDatasetGenerator
+
+[DatiTrentinoIt]
+OrganizationBuilder=OpenPABootstrapItaliaCkanOrganizationBuilder
+Client=OpenPABootstrapItaliaCkanClient
+Converter=OpenPABootstrapItaliaCkanConverter
+DatasetGenerator=OpenPABootstrapItaliaCkanDatasetGenerator
+
 */ ?>

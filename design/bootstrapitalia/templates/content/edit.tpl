@@ -1,5 +1,5 @@
 {def $_redirect = false()}
-{if $object.id|eq(fetch(user, current_user).contentobject_id)
+{if $object.id|eq(fetch(user, current_user).contentobject_id)}
     {set $_redirect = 'user/edit'}
 {elseif ezhttp_hasvariable( 'RedirectURIAfterPublish', 'session' )}
     {set $_redirect = ezhttp( 'RedirectURIAfterPublish', 'session' )}

@@ -282,7 +282,9 @@ class OpenPABootstrapItaliaOperators
     public static function cleanFileName($filename)
     {
         $parts = explode('.', $filename);
-        array_pop($parts);
+        if (count($parts) > 1){
+            array_pop($parts);
+        }
         $filename = implode('.', $parts);
         $filename = str_replace(array('_', '-', '+'), ' ', $filename);
         $filename = str_replace(':', '/', $filename);
