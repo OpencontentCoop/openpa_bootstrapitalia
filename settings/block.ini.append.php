@@ -19,6 +19,7 @@ AllowedTypes[]=Argomenti
 AllowedTypes[]=ListaPaginata
 AllowedTypes[]=RicercaDocumenti
 AllowedTypes[]=RicercaLuoghi
+AllowedTypes[]=HTML
 
 [Singolo]
 Name=Oggetto singolo
@@ -361,5 +362,20 @@ ViewName[default]=Default
 ItemsPerRow[]
 ContainerStyle[]
 ContainerStyle[default]=section py-5
+
+[HTML]
+Name=HTML
+ManualAddingOfItems=disabled
+CustomAttributes[]
+CustomAttributes[]=html
+CustomAttributeNames[html]=HTML code (With great power comes great responsibility)
+ViewList[]=default
+ViewList[]=wide
+ViewName[]
+ViewName[default]=Default
+ViewName[wide]=Wide
+ItemsPerRow[]
+Wide[]
+Wide[]=wide
 
 */ ?>

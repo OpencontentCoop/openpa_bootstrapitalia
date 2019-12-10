@@ -1,1 +1,1 @@
-{developer_warning(concat($block.type, '/', $block.view))}
+{$block.custom_attributes.html}

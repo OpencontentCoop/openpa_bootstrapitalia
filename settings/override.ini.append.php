@@ -382,3 +382,19 @@ Subdir=templates
 Match[type]=RicercaLuoghi
 Match[view]=default
 
+
+#### HTML
+
+[block_HTML_default]
+Source=block/view/view.tpl
+MatchFile=block/html.tpl
+Subdir=templates
+Match[type]=HTML
+Match[view]=default
+
+[block_HTML_wide]
+Source=block/view/view.tpl
+MatchFile=block/html.tpl
+Subdir=templates
+Match[type]=HTML
+Match[view]=wide
