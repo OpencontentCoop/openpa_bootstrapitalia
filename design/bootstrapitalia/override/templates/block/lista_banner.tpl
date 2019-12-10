@@ -9,7 +9,7 @@
              items_per_row=$items_per_row
              i_view=banner
              image_class=large
-             view_variation='banner-round banner-shadow'
+             view_variation='banner-round banner-shadow h-100'
              items=$openpa.content}
 </div>
 {/if}
