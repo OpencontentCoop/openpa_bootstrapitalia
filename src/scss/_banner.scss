@@ -38,7 +38,7 @@ $banner-border-width: 8px;
 
     h4 {
       font-size: 1.1em;
-      color: $color-primary;
+      color: $primary;
     }
 
     p {
@@ -63,7 +63,7 @@ $banner-border-width: 8px;
       svg.icon {
         width: 64px;
         height: 64px;
-        fill: $color-primary;
+        fill: $primary;
       }
 
       span {
@@ -84,7 +84,7 @@ $banner-border-width: 8px;
         width: 22px;
         height: 22px;
         margin-right: 4px;
-        fill: $color-primary;
+        fill: $primary;
       }
     }
   }

@@ -78,7 +78,7 @@
                                 <div class="link-list-wrapper collapse" id="service-menu">
                                     <ul class="link-list">
                                         {foreach $header_links as $header_link max 3}
-                                            <li>{node_view_gui content_node=$header_link view=text_linked}</li>
+                                            <li class="list-item">{node_view_gui content_node=$header_link view=text_linked}</li>
                                         {/foreach}
                                     </ul>
                                 </div>
