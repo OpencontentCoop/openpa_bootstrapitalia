@@ -69,6 +69,11 @@ IncludiClassi[]=public_service
 IncludiClassi[]=political_body
 IncludiClassi[]=office
 
+[ExcludedClassesAsChild]
+FromFolder[]
+FromFolder[]=global_layout
+FromFolder[]=infobox
+
 [AttributeHandlers]
 #Handlers[datatype/classIdentifier/attributeIdentifier]=PhpClassname
 Handlers[ezinteger/*/*]=OpenPAAttributeIntegerHandler

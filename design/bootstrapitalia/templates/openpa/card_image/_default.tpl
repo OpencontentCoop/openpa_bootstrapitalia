@@ -1,6 +1,6 @@
 {set_defaults(hash('image_class', 'large', 'view_variation', ''))}
 <div class="it-grid-item-wrapper it-grid-item-overlay {$node|access_style}">
-    <a href="{$openpa.content_link.full_link}" class="">
+    <a class="" title="{$node.name|wash()}" {if $view_variation|eq('gallery')}data-gallery href={$node|attribute('image').content.reference.url|ezroot}{else}href="{$openpa.content_link.full_link}"{/if}>
         <div class="img-responsive-wrapper bg-dark">
             <div class="img-responsive">
                 <div class="img-wrapper">
