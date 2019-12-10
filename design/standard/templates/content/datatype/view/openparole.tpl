@@ -31,10 +31,23 @@
 		            {if $view_node} presso
 		            {def $openpa_view_node = object_handler($view_node)}
 		            <a href="{$openpa_view_node.content_link.full_link}"
-					   title="Link a {$view_node.name|wash()}">
-					    	{$view_node.name|wash()}
-				    	</span>			    	
+					   title="Link a {$view_node.name|wash()}">					    	
+					    	{$view_node.name|wash()}					    	
 					</a>				
+					{if and(is_set($view_context), $view_context|eq('full_attributes'))}
+				    	{if $role|has_attribute('competences')}
+				    	<ul class="list-unstyled mb-2">
+					    	<li><small class="font-weight-bold">{$role|attribute('competences').contentclass_attribute_name}:</small></li>					    	
+				    		<li><small>{$role|attribute('competences').content.cells|implode('</small></li><li><small>')}</small></li>					    	
+				    	</ul>
+				    	{/if}
+				    	{if $role|has_attribute('delegations')}
+				    	<ul class="list-unstyled mb-2">
+					    	<li><small class="font-weight-bold">{$role|attribute('delegations').contentclass_attribute_name}:</small></li>					    	
+				    		<li><small>{$role|attribute('delegations').content.cells|implode('</small></li><li><small>')}</small></li>					    	
+				    	</ul>
+				    	{/if}				    	
+			    	{/if}
 					{undef $openpa_view_node}
 					{/if}	
 	        	</li>

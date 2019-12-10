@@ -111,6 +111,7 @@
 
                         {if is_set($openpa_attribute.contentobject_attribute)}
                             {attribute_view_gui attribute=$openpa_attribute.contentobject_attribute
+                                                view_context=full_attributes
                                                 image_class=medium
                                                 relation_view=cond($openpa_attribute.full.show_link|not, 'list', 'banner')
                                                 relation_has_wrapper=$item.wrap
