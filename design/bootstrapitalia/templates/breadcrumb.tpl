@@ -8,6 +8,7 @@
                     {if $index|ge($root_node_depth)}
                         {if $path.url}
                             {if $path.text|eq('Classificazioni')}{skip}{/if}
+                            {if $path.text|eq('Applicazioni')}{skip}{/if}
                             <li class="breadcrumb-item">
                                 <a href={cond( is_set( $path.url_alias ), $path.url_alias, $path.url )|ezurl}>{$path.text|wash}</a>                                
                             </li>

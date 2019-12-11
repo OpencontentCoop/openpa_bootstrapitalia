@@ -2,6 +2,8 @@
 
 class OpenPABootstrapItaliaOperators
 {
+    private static $primaryColor;
+
     function operatorList()
     {
         return array(
@@ -13,6 +15,7 @@ class OpenPABootstrapItaliaOperators
             'clean_filename',
             'class_identifier_by_id',
             'page_block',
+            'primary_color',
         );
     }
 
@@ -57,6 +60,53 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'primary_color':
+
+                if (self::$primaryColor === null) {
+
+                    $theme = OpenPAINI::variable('GeneralSettings', 'theme', 'default');
+                    $path = ltrim(eZURLOperator::eZDesign($tpl, "stylesheets/{$theme}.css", 'ezdesign'), '/');
+                    if (!file_exists($path)) {
+                        $path = "extension/openpa_bootstrapitalia/design/bootstrapitalia/stylesheets/default.css";
+                    }
+
+                    function parseCss($file)
+                    {
+                        $css = file_get_contents($file);
+                        preg_match_all('/(?ims)([a-z0-9\s\.\:#_\-@,]+)\{([^\}]*)\}/', $css, $arr);
+                        $result = array();
+                        foreach ($arr[0] as $i => $x) {
+                            $selector = trim($arr[1][$i]);
+                            $rules = explode(';', trim($arr[2][$i]));
+                            $rules_arr = array();
+                            foreach ($rules as $strRule) {
+                                if (!empty($strRule)) {
+                                    $rule = explode(":", $strRule);
+                                    $rules_arr[trim($rule[0])] = trim($rule[1]);
+                                }
+                            }
+
+                            $selectors = explode(',', trim($selector));
+                            foreach ($selectors as $strSel) {
+                                $result[$strSel] = $rules_arr;
+                            }
+                        }
+                        return $result;
+                    }
+
+                    $data = parseCss($path);
+
+                    if (isset($data['.primary-bg']['background-color'])) {
+                        self::$primaryColor = $data['.primary-bg']['background-color'];
+                    } else {
+                        self::$primaryColor = '#222222';
+                    }
+                }
+
+                $operatorValue = self::$primaryColor;
+
+                break;
 
             case 'page_block':
 
@@ -290,6 +340,9 @@ class OpenPABootstrapItaliaOperators
         $filename = str_replace(':', '/', $filename);
         $filename = str_replace('(1)', '', $filename);
         $filename = str_replace('(2)', '', $filename);
+        $filename = str_replace('(3)', '', $filename);
+        $filename = str_replace('(4)', '', $filename);
+        $filename = str_replace('(5)', '', $filename);
 
         $filename = trim($filename);
 

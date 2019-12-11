@@ -9,7 +9,7 @@
 		  	<a class="stretched-link" href={concat( 'ocmultibinary/download/', $attribute.contentobject_id, '/', $attribute.id,'/', $attribute.version , '/', $file.filename ,'/file/', $file.original_filename|urlencode )|ezurl}>			    
 		    	{$file.original_filename|clean_filename()|wash( xhtml )} 		    	
 		    </a>
-		    <small class="d-block">(File {$file.mime_type|explode('application/')|implode('')} {$file.filesize|si( byte )})</small>
+		    <small class="d-block">(File {$file.mime_type|explode('application/')|implode('')} <em>{$file.original_filename|wash()}</em> {$file.filesize|si( byte )})</small>
 		  </h5>
 		</div>
 	</div>

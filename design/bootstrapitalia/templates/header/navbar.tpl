@@ -93,15 +93,15 @@ $(document).ready(function() {
         var node = $(this).data('node');
         if (node) {
             var href = $(this).attr('href');
-            if (UiContext == 'browse') {
+            if (UiContext === 'browse') {
                 href = '/content/browse/' + node;
             }
             $(this).attr('href', href);
             var self = $(this);
             $.each(PathArray, function (i, v) {
-                if (v == node) {
+                if (v === node) {
                     self.addClass('active').parents('li').addClass('active');
-                    if (i == 0)
+                    if (i === 0)
                         self.addClass('active').parents('li').addClass('active');
                 }
             });
