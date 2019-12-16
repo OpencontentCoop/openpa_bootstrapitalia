@@ -2,10 +2,17 @@
      $header_service_list = array()
      $is_area_tematica = is_area_tematica()}
 {if $header_service|eq(1)}
-    {set $header_service_list = $header_service_list|append(hash(
-        'url', openpaini('InstanceSettings','UrlAmministrazioneAfferente', '#'),
-        'name', openpaini('InstanceSettings','NomeAmministrazioneAfferente', 'OpenContent')
-    ))}
+    {if $pagedata.homepage|has_attribute('service_url')}
+        {set $header_service_list = $header_service_list|append(hash(
+            'url', $pagedata.homepage|attribute('service_url').content|wash(xhtml),
+            'name', $pagedata.homepage|attribute('service_url').data_text|wash(xhtml)
+        ))}
+    {else}
+        {set $header_service_list = $header_service_list|append(hash(
+            'url', openpaini('InstanceSettings','UrlAmministrazioneAfferente', '#'),
+            'name', openpaini('InstanceSettings','NomeAmministrazioneAfferente', 'OpenContent')
+        ))}
+    {/if}
 {/if}
 {if and($is_area_tematica, $is_area_tematica|has_attribute('logo'))}
     {set $header_service_list = $header_service_list|append(hash(
