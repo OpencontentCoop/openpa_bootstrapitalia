@@ -113,7 +113,7 @@
     </message>
     <message>
       <source>Event end</source>
-      <translation>τέλος Event</translation>
+      <translation>τέλος του γεγονότος</translation>
     </message>
     <message>
       <source>Jump to field</source>
