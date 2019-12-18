@@ -11,6 +11,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
 {
     protected static $classDefinition = array();
 
+    protected $maxSearchLimit = 300;
 
     protected function filterMetaData( Content $content )
     {
