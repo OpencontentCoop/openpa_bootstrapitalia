@@ -22,13 +22,15 @@ class ezfIndexSubAttributeGeo implements ezfIndexPlugin, ExtraDataProviderInterf
         $subGeoValues = self::getSubAttributeGeo($contentObject);
         if (!empty($subGeoValues)) {
             foreach ($subGeoValues as $subGeoValue) {
-                foreach ($availableLanguages as $languageCode) {
-                    if ($docList[$languageCode] instanceof eZSolrDoc) {
-                        if ($docList[$languageCode]->Doc instanceof DOMDocument) {
-                            $xpath = new DomXpath($docList[$languageCode]->Doc);
-                            $docList[$languageCode]->addField(self::FIELD, implode(',', $subGeoValue));
-                        } elseif (is_array($docList[$languageCode]->Doc)) {
-                            $docList[$languageCode]->addField(self::FIELD, implode(',', $subGeoValue));
+                if (!empty($subGeoValue) && !empty($subGeoValue[0]) && !empty($subGeoValue[1])) {
+                    foreach ($availableLanguages as $languageCode) {
+                        if ($docList[$languageCode] instanceof eZSolrDoc) {
+                            if ($docList[$languageCode]->Doc instanceof DOMDocument) {
+                                $xpath = new DomXpath($docList[$languageCode]->Doc);
+                                $docList[$languageCode]->addField(self::FIELD, implode(',', $subGeoValue));
+                            } elseif (is_array($docList[$languageCode]->Doc)) {
+                                $docList[$languageCode]->addField(self::FIELD, implode(',', $subGeoValue));
+                            }
                         }
                     }
                 }
