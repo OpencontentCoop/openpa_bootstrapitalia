@@ -1,16 +1,17 @@
 //modificando
 // - html/extension/openpa_bootstrapitalia/node_modules/bootstrap-italia/src/scss/utilities/colors_vars.scss#202-2014
 //usando http://colorizer.org/
-// colore amaranto: #E52B50, modificato in CF2C51 per accessibilità
+// colore mocheni: #560906
 
-$primary-a7: #A61F3A;
-$primary-a6: #CF2C51;
+$colore-header: #560906;
+
+$primary-a7: darken($colore-header, 3);
+$primary-a6: darken($colore-header, 0);
 $primary-a10: #30373d;
 $primary-a12: #661324;
 
 $primary-h: 2.25;
 $primary-s: 86.96;
 $primary-b: 18.04;
-
 
 @import "default";
