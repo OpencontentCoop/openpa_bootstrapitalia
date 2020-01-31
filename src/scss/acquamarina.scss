@@ -1,0 +1,17 @@
+//modificando
+// - html/extension/openpa_bootstrapitalia/node_modules/bootstrap-italia/src/scss/utilities/colors_vars.scss#202-2014
+//usando http://colorizer.org/
+// colore verde: #007777
+
+$colore-header: #007777;
+
+$primary-a7: darken($colore-header, 3);
+$primary-a6: darken($colore-header, 0);
+$primary-a10: darken($colore-header, 5);
+$primary-a12: darken($colore-header, 10);
+
+$primary-h: 28.64;
+$primary-s: 92.56;
+$primary-b: 57.84;
+
+@import "default";
