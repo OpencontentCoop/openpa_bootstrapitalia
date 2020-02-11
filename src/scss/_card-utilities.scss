@@ -138,7 +138,11 @@
   }
 
   .link-list-wrapper ul li a {
-    padding: 0
+    padding: 0;
+
+    svg.icon{
+      min-width:24px;
+    }
   }
 
 }

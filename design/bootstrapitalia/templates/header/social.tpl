@@ -1,4 +1,12 @@
-{if or(is_set($pagedata.contacts.facebook), is_set($pagedata.contacts.twitter), is_set($pagedata.contacts.linkedin), is_set($pagedata.contacts.instagram), is_set($pagedata.contacts.youtube))}
+{if or(
+    is_set($pagedata.contacts.facebook),
+    is_set($pagedata.contacts.twitter),
+    is_set($pagedata.contacts.linkedin),
+    is_set($pagedata.contacts.instagram),
+    is_set($pagedata.contacts.youtube),
+    is_set($pagedata.contacts.whatsapp),
+    is_set($pagedata.contacts.telegram)
+)}
 <div class="it-socials d-none d-md-flex">
     <span>{'Follow us'|i18n('openpa/footer')}</span>
     <ul>
@@ -38,6 +46,22 @@
             <li>
                 <a href="{$pagedata.contacts.youtube}" aria-label="YouTube" target="_blank">
                     {display_icon('it-youtube', 'svg', 'icon')}
+                </a>
+            </li>
+        {/if}
+
+        {if is_set($pagedata.contacts.whatsapp)}
+            <li>
+                <a href="{$pagedata.contacts.whatsapp}" aria-label="WhatsApp" target="_blank">
+                    {display_icon('it-whatsapp', 'svg', 'icon')}
+                </a>
+            </li>
+        {/if}
+
+        {if is_set($pagedata.contacts.telegram)}
+            <li>
+                <a href="{$pagedata.contacts.whatsapp}" aria-label="Telegram" target="_blank">
+                    <i class="fa fa-telegram" style="color:white;font-size: 21px;vertical-align: bottom;margin-left: 16px;"></i>
                 </a>
             </li>
         {/if}

@@ -1,6 +1,6 @@
 {if and($view_variation|eq('big'), $show_icon, $node|has_attribute('image')|not())}
 
-    <div class="flag-icon invisible"></div>    
+    <div class="flag-icon invisible"></div>
 
     {if $openpa.content_icon.object_icon}
         <div class="etichetta">

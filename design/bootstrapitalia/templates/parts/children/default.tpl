@@ -30,6 +30,7 @@
 {def $children_count = fetch( content, concat( $fetch_type, '_count' ), hash( 'parent_node_id', $parent_node.node_id )|merge( $params ) )}
 
 {if $children_count}
+    {if $children_count|eq(2)}{set $items_per_row = 2}{/if}
     {def $children = fetch( content, $fetch_type, hash( 'parent_node_id', $parent_node.node_id,
                                                        'offset', $view_parameters.offset,
                                                        'sort_by', $parent_node.sort_array,

@@ -1,4 +1,4 @@
-{if and($view_variation|eq('alt'), $show_icon)}
+{if and($view_variation|ne('big'), $show_icon)}
 
     {if $openpa.content_icon.context_icon}
         <div class="category-top">

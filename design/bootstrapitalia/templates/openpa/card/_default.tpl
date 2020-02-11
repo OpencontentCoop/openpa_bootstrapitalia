@@ -1,5 +1,9 @@
 {set_defaults(hash('show_icon', true(), 'image_class', 'large', 'view_variation', ''))}
 
+{if class_extra_parameters($node.object.class_identifier, 'line_view').show|contains('show_icon')}
+    {set $show_icon = true()}
+{/if}
+
 {include uri='design:openpa/card/parts/card_wrapper_open.tpl'}
 
     {include uri='design:openpa/card/parts/image.tpl'}
