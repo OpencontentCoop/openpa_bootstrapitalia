@@ -1,18 +1,70 @@
 //modificando
 // - html/extension/openpa_bootstrapitalia/node_modules/bootstrap-italia/src/scss/utilities/colors_vars.scss#202-2014
+// - html/extension/openpa_bootstrapitalia/node_modules/bootstrap-italia/src/scss/_variables.scss
 //usando http://colorizer.org/
 // colore arancione: #FF6600
-// l'arancione ha un contrasto basso relativamente al bianco, questo tema NON può essere utilizzato su siti pubblici
 
-$colore-header: #FF6600;
+$colore-header: #F78F30;
 
-$primary-a7: darken($colore-header, 3);
-$primary-a6: darken($colore-header, 0);
-$primary-a10: darken($colore-header, 5);
-$primary-a12: darken($colore-header, 10);
+$primary-a7: #F9C837;
+$primary-a6: #F78E2E;
+$primary-a10: #C15709;
+$primary-a12: darken(#C15709, 10);
 
 $primary-h: 24;
 $primary-s: 100;
 $primary-b: 100;
 
+$primary: #C15709;
+
+$header-center-text-color: #000;
+$header-slim-text-color: #000;
+$navigation-dark-text-color: #000;
+$navigation-link-active-bar-color-desk: #000;
+$navigation-link-color-desk: #000;
+
 @import "default";
+
+.custom-navbar-toggler svg,
+.it-header-slim-wrapper .it-header-slim-wrapper-content a .icon {
+  fill: #000 !important;
+}
+
+.navbar .navbar-collapsable .navbar-nav li.active a.nav-link {
+  border-bottom-color: #000;
+}
+
+.dropdown-user .link-list-wrapper ul li a span {
+  color: #000;
+}
+
+.it-footer-main {
+  box-shadow: inset 0 10px 9px rgba(0, 0, 0, 0.1);
+}
+
+.chip.chip-primary {
+  border-color: $primary !important;
+}
+
+.chip.chip-primary > .chip-label,
+a.read-more {
+  color: $primary !important;
+}
+
+.chip.chip-primary:hover,
+a.chip-primary.chip.chip-lg.selected {
+  background-color: $primary !important;
+  border-color: $primary !important;
+
+  .chip-label {
+    color: #fff !important;
+  }
+}
+
+.it-access-top-wrapper .btn-primary {
+  background: #F78E2E !important;
+}
+
+.it-header-navbar-wrapper .nav-link{
+  font-weight: 600 !important;
+}
