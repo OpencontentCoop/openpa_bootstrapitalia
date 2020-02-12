@@ -60,7 +60,7 @@
 
         {if is_set($pagedata.contacts.telegram)}
             <li>
-                <a href="{$pagedata.contacts.whatsapp}" aria-label="Telegram" target="_blank">
+                <a href="{$pagedata.contacts.telegram}" aria-label="Telegram" target="_blank">
                     <i class="fa fa-telegram" style="color:white;font-size: 21px;vertical-align: bottom;margin-left: 16px;"></i>
                 </a>
             </li>
