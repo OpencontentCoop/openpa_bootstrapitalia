@@ -131,7 +131,30 @@
                                 <li><span class="divider"></span></li>
                                 {include uri='design:parts/websitetoolbar/openpa_menu.tpl'}
                                 <li><span class="divider"></span></li>
-                                <li><a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="Visualizza in JSON"><i class="fa fa-code"></i> Visualizza in JSON</a></li>
+
+                                {def $onto_links = array()}
+                                {if ezmodule('onto')}
+                                    {set $onto_links = easyontology_links($content_object.class_identifier, $content_object.id)}
+                                {/if}
+
+                                {if count($onto_links)}
+                                    <li>
+                                        <div class="list-item left-icon">
+                                            <i class="fa fa-code"></i> Linked Data
+                                            {foreach $onto_links as $slug => $link}
+                                                <a href="{$link}" target="_blank" title="{$slug|wash()}" class="badge badge-dark text-white d-inline px-1">{$slug|wash()}</a>
+                                            {/foreach}
+                                        </div>
+                                    </li>
+                                {else}
+                                    <li>
+                                        <a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="Visualizza in JSON">
+                                            <i class="fa fa-code"></i> Visualizza in JSON
+                                        </a>
+                                    </li>
+                                {/if}
+                                {undef $onto_links}
+
                             </ul>
                         </div>
                     </div>
@@ -176,7 +199,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{concat('content/view/full/',ezini('NodeSettings', 'MediaRootNode', 'content.ini'))|ezurl(no)}">
                                             <i class="fa fa-image"></i>
-                                            Media
+                                            Libreria Media
                                         </a>
                                     </li>
                                 {/if}
@@ -184,7 +207,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{concat('content/view/full/',ezini('NodeSettings', 'UserRootNode', 'content.ini'))|ezurl(no)}">
                                             <i class="fa fa-users"></i>
-                                            Utenti
+                                            Account utenti
                                         </a>
                                     </li>
                                 {/if}
@@ -202,6 +225,30 @@
                                         Gestione ruoli
                                     </a>
                                 </li>
+                                {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'theme' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'bootstrapitalia/theme'|ezurl(no)}">
+                                            <i class="fa fa-television"></i>
+                                            Gestione tema
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'seo' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'openpa/seo'|ezurl(no)}">
+                                            <i class="fa fa-google"></i>
+                                            Gestione S.E.O.
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'recaptcha' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'openpa/recaptcha'|ezurl(no)}">
+                                            <i class="fa fa-key"></i>
+                                            Gestione chiavi recaptcha
+                                        </a>
+                                    </li>
                                 {/if}
                             </ul>
                         </div>
