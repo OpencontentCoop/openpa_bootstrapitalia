@@ -5,11 +5,11 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>Αυτό το site χρησιμοποιεί την τεχνική, analytics και cookie τρίτου μέρους.</translation>
+      <translation>Αυτός ο ιστότοπος χρησιμοποιεί cookies για να διασφαλίσει την καλύτερη δυνατή εμπειρία πλοήγησ, χρησιμοποιούμε την τεχνική analytics και cookie τρίτου μέρους.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
-      <translation>Με τη συνέχιση της περιήγησης, αποδέχεστε τη χρήση των cookies.</translation>
+      <translation>Εάν συνεχίσετε να χρησιμοποιείτε τη σελίδα μας, αποδέχεστε τη χρήση των cookies.</translation>
     </message>
     <message>
       <source>Informations</source>
@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>FREE</source>
-      <translation>ΕΛΕΥΘΕΡΟΣ</translation>
+      <translation>Δωρεάν</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -65,7 +65,7 @@
     </message>
     <message>
       <source>Share</source>
-      <translation>Μερίδιο</translation>
+      <translation>Κοινοποίηση</translation>
     </message>
     <message>
       <source>Actions</source>
@@ -73,11 +73,11 @@
     </message>
     <message>
       <source>Send</source>
-      <translation>Στείλετε</translation>
+      <translation>Στείλτε</translation>
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Σχετικά περιεχόμενο</translation>
+      <translation>Σχετικό περιεχόμενο</translation>
     </message>
     <message>
       <source>Search in</source>
@@ -101,19 +101,19 @@
     </message>
     <message>
       <source>Explore topic</source>
-      <translation>Εξερευνήστε θέμα</translation>
+      <translation>Εξερευνήστε το θέμα</translation>
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Πηγαίνετε στο συμβάν ημερολογίου</translation>
+      <translation>Πηγαίνετε στο ημερολόγιο εκδηλώσεων</translation>
     </message>
     <message>
       <source>Event start</source>
-      <translation>έναρξης συμβάντος</translation>
+      <translation>έναρξη εκδήλωσης</translation>
     </message>
     <message>
       <source>Event end</source>
-      <translation>τέλος του γεγονότος</translation>
+      <translation>τέλος εκδήλωσης</translation>
     </message>
     <message>
       <source>Jump to field</source>
@@ -129,7 +129,7 @@
     </message>
     <message>
       <source>Create</source>
-      <translation>Δημιουργώ</translation>
+      <translation>Δημιουργήστε</translation>
     </message>
     <message>
       <source>Create new</source>
@@ -137,7 +137,7 @@
     </message>
     <message>
       <source>Reading time</source>
-      <translation>Χρόνος διαβασματός</translation>
+      <translation>Χρόνος διαβάσματος</translation>
     </message>
     <message>
       <source>Topics</source>
@@ -149,11 +149,11 @@
     </message>
     <message>
       <source>Editor tools</source>
-      <translation>εργαλεία Επεξεργαστής</translation>
+      <translation>Εργαλεία Επεξεργασίας</translation>
     </message>
     <message>
       <source>See previous versions</source>
-      <translation>Δείτε τις προηγούμενες εκδόσεις</translation>
+      <translation>Δείτε τις προηγούμενες εκδοχές</translation>
     </message>
     <message>
       <source>Go to the history of this content</source>
@@ -172,7 +172,7 @@
     </message>
     <message>
       <source>Amministrazione Trasparente</source>
-      <translation>Amministrazione Trasparente</translation>
+      <translation>Διαφανής Διαχείριση</translation>
     </message>
     <message>
       <source>Lists by class</source>
@@ -180,18 +180,18 @@
     </message>
     <message>
       <source>Import management</source>
-      <translation>διαχείρισης των εισαγωγών</translation>
+      <translation>Εισαγωγή Διαχείρισης</translation>
     </message>
   </context>
   <context>
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Θέση στο οργανόγραμμα</translation>
+      <translation>Θέση στον Οργανισμό</translation>
     </message>
     <message>
       <source>Add objects</source>
-      <translation>αντικείμενα Add</translation>
+      <translation>Προσθήκη στοιχείων</translation>
     </message>
   </context>
   <context>
@@ -205,11 +205,11 @@
     <name>openpa/sidebar</name>
     <message>
       <source>Related information</source>
-      <translation>Σχετική πληροφορία</translation>
+      <translation>Σχετικές πληροφορίες</translation>
     </message>
     <message>
       <source>Referable to</source>
-      <translation>να αναχθεί σε</translation>
+      <translation>Αναφέρεται στο</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -217,26 +217,26 @@
     </message>
     <message>
       <source>References</source>
-      <translation>βιβλιογραφικές αναφορές</translation>
+      <translation>Βιβλιογραφια</translation>
     </message>
   </context>
   <context>
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>πληροφορίες</translation>
+      <translation>Πληροφορίες</translation>
     </message>
     <message>
       <source>Contacts</source>
-      <translation>Επαφές</translation>
+      <translation>Επικοινωνία</translation>
     </message>
     <message>
       <source>Links</source>
-      <translation>Συνδέσεις</translation>
+      <translation>Συνδέσμος</translation>
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Ακολουθησε μας</translation>
+      <translation>Ακολουθήστε μας</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -247,46 +247,46 @@
     <name>openpa/valuation</name>
     <message>
       <source>Valuta questo sito</source>
-      <translation>Valuta questo Sito</translation>
+      <translation>Αξιολόγηση ιστοτόπου</translation>
     </message>
     <message>
       <source>per nulla</source>
-      <translation>ανά nulla</translation>
+      <translation>Καθόλου</translation>
     </message>
     <message>
       <source>poco</source>
-      <translation>Poco</translation>
+      <translation>Λίγο</translation>
     </message>
     <message>
       <source>abbastanza</source>
-      <translation>abbastanza</translation>
+      <translation>Αρκετά</translation>
     </message>
     <message>
       <source>molto</source>
-      <translation>molto</translation>
+      <translation>Πολύ</translation>
     </message>
     <message>
       <source>Invia la valutazione</source>
-      <translation>Invia la VALUTAZIONE</translation>
+      <translation>Υποβολή Αξιολόγησης</translation>
     </message>
   </context>
   <context>
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Μετάβαση στην αναζήτηση των φίλτρων</translation>
+      <translation>Πηγαίνετε στα φίλτρα αναζήτησης</translation>
     </message>
     <message>
       <source>Link to</source>
-      <translation>Συνδέω με</translation>
+      <translation>Σύνδεση με</translation>
     </message>
     <message>
       <source>Search</source>
-      <translation>Ψάξιμο</translation>
+      <translation>Αναζήτηση</translation>
     </message>
     <message>
       <source>Advanced search</source>
-      <translation>Προχωρημένη Αναζήτηση</translation>
+      <translation>Σύνθετη Αναζήτηση</translation>
     </message>
     <message>
       <source>in</source>
@@ -294,11 +294,11 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>όλα ιστοσελίδα</translation>
+      <translation>Σε όλη την  ιστοσελίδα</translation>
     </message>
     <message>
       <source>only information of type</source>
-      <translation>μόνο πληροφορίες του τύπου</translation>
+      <translation>πληροφορίες τύπου</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -310,7 +310,7 @@
     </message>
     <message>
       <source>Descending</source>
-      <translation>Φθίνων</translation>
+      <translation>Φθίνουσα</translation>
     </message>
     <message>
       <source>Ascending</source>
@@ -318,11 +318,11 @@
     </message>
     <message>
       <source>Score</source>
-      <translation>Σκορ</translation>
+      <translation>Αποτέλεσμα</translation>
     </message>
     <message>
       <source>Publication date</source>
-      <translation>Ημερομηνία έκδοσης</translation>
+      <translation>Ημερομηνία δημοσίευσης</translation>
     </message>
     <message>
       <source>Content type</source>
@@ -338,7 +338,7 @@
     </message>
     <message>
       <source>to</source>
-      <translation>προς το</translation>
+      <translation>προς</translation>
     </message>
     <message>
       <source>Year</source>
@@ -350,15 +350,15 @@
     </message>
     <message>
       <source>Logical conditions</source>
-      <translation>Λογική συνθήκες</translation>
+      <translation>Λογικές συνθήκες</translation>
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Ίσως ως στόχο να αναζητήσετε</translation>
+      <translation>Ίσως ψάχνετε</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
-      <translation>Οι ακόλουθες λέξεις αποκλείστηκαν από την έρευνα:</translation>
+      <translation>Οι ακόλουθες λέξεις αποκλείστηκαν από την αναζήτηση:</translation>
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
@@ -378,23 +378,23 @@
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
-      <translation>Δοκιμάστε να κάνετε αναζήτηση με λιγότερο συγκεκριμένες λέξεις-κλειδιά.</translation>
+      <translation>Δοκιμάστε να κάνετε αναζήτηση με λιγότερες λέξεις-κλειδιά.</translation>
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
-      <translation>Μειώστε τον αριθμό των λέξεων-κλειδιών για να πάρετε περισσότερα αποτελέσματα.</translation>
+      <translation>Μειώστε τον αριθμό των λέξεων-κλειδιών για να έχετε περισσότερα αποτελέσματα.</translation>
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Αναζήτηση για «% 1» δεν επέστρεψε αγώνες% 2</translation>
+      <translation>Η Αναζήτηση για «% 1»  επέστρεψε % 2</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Αναζήτηση επέστρεψε αγώνες% 2</translation>
+      <translation>Η αναζήτηση έδωσε αποτελέσματα% 2</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Για περισσότερες επιλογές δοκιμάστε το% 1Advanced ψάξετε% 2</translation>
+      <translation>Για περισσότερα αποτελέσματα, δοκιμάστε την% 1 σύνθετη αναζήτηση% 2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -410,7 +410,7 @@
     </message>
     <message>
       <source>You are filtering for</source>
-      <translation>Είστε φιλτράρισμα για</translation>
+      <translation>Φιλτράρετε με:</translation>
     </message>
   </context>
 </TS>
