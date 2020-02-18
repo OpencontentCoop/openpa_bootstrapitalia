@@ -1,6 +1,5 @@
 {set_defaults( hash(    
-    'icon',true(),
-    'show_flip', true()
+    'icon',true()
 ))}
 
 {if $attribute.has_content}
@@ -26,8 +25,4 @@
 		{editor_warning('The file could not be found.'|i18n( 'design/ezwebin/view/ezbinaryfile' ) )}
 	{/if}
 	
-{/if}
-
-{if and($show_flip, flip_exists($attribute.id, $attribute.version))}
-    {include uri=flip_template( $attribute.id, $attribute.version ) id=$attribute.id version=$attribute.version view='small'}
 {/if}

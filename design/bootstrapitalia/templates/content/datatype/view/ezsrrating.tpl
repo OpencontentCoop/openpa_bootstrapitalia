@@ -30,8 +30,7 @@
 <div class="rating-list-wrapper my-4">
     <div class="rating-list">
         <div class="rating-list-aside rating-list-warning">
-            <div class="rating-value font-weight-semibold">{$rating.rating|wash}</div>
-            <div class="rating-total font-weight-semibold">{'out of'|i18n('bootstrapitalia')} 5</div>
+            <div class="rating-value font-weight-semibold mb-2">{$rating.rating|wash}/5</div>
         </div>
         <div class="rating-list-content">
             <div class="rating-list-row">

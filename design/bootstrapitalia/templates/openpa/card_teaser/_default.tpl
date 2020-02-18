@@ -19,7 +19,7 @@
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
 
             {if $attributes.show|contains('content_show_read_more')}
-            <p class="mt-3"><a href="{$openpa.content_link.full_link}" title="Vai al contenuto {$node.name|wash()}">Ulteriori dettagli</a></p>
+            <p class="mt-3"><a href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">{'Further details'|i18n('bootstrapitalia')}</a></p>
             {/if}
         </div>
     </div>

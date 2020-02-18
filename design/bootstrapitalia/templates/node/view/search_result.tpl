@@ -19,7 +19,7 @@
             
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
             
-            <p class="mt-3"><a href="{$openpa.content_link.full_link}" title="Vai al contenuto {$node.name|wash()}">Vai al contenuto</a></p>
+            <p class="mt-3"><a href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">{'Go to content'|i18n('bootstrapitalia')}</a></p>
 
         </div>
     </div>

@@ -159,6 +159,14 @@
       <source>Go to the history of this content</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Further details</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Go to content</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

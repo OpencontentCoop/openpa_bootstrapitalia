@@ -159,6 +159,14 @@
       <source>Go to the history of this content</source>
       <translation>Πηγαίνετε στην ιστορία αυτού του περιεχομένου</translation>
     </message>
+    <message>
+      <source>Further details</source>
+      <translation>Περαιτέρω λεπτομέρειες</translation>
+    </message>
+    <message>
+      <source>Go to content</source>
+      <translation>Μετάβαση στο περιεχόμενο</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
