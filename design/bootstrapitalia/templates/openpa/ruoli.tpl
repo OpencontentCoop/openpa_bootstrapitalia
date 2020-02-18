@@ -111,7 +111,7 @@
 	</td>
 </tr>	
 {{/for}}
-{{if prevPageQuery && nextPageQuery }}
+{{if prevPageQuery || nextPageQuery }}
 <tr>
 	<td colspan="4">
 		{{if prevPageQuery}}
