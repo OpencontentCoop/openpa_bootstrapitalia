@@ -421,4 +421,35 @@
       <translation>Stai filtrando per:</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/opening_hours_matrix</name>
+    <message>
+      <source>monday</source>
+      <translation>Lunedì</translation>
+    </message>
+    <message>
+      <source>tuesday</source>
+      <translation>Martedì</translation>
+    </message>
+    <message>
+      <source>wednesday</source>
+      <translation>Mercoledì</translation>
+    </message>
+    <message>
+      <source>thursday</source>
+      <translation>Giovedì</translation>
+    </message>
+    <message>
+      <source>friday</source>
+      <translation>Venerdì</translation>
+    </message>
+    <message>
+      <source>saturday</source>
+      <translation>Sabato</translation>
+    </message>
+    <message>
+      <source>sunday</source>
+      <translation>Domenica</translation>
+    </message>
+  </context>
 </TS>

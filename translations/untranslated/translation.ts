@@ -421,4 +421,35 @@
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/opening_hours_matrix</name>
+    <message>
+      <source>monday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>tuesday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>wednesday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>thursday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>friday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>saturday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>sunday</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
 </TS>

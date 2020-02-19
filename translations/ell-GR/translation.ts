@@ -421,4 +421,35 @@
       <translation>Φιλτράρετε με:</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/opening_hours_matrix</name>
+    <message>
+      <source>monday</source>
+      <translation>Δευτέρα</translation>
+    </message>
+    <message>
+      <source>tuesday</source>
+      <translation>Τρίτη</translation>
+    </message>
+    <message>
+      <source>wednesday</source>
+      <translation>Τετάρτη</translation>
+    </message>
+    <message>
+      <source>thursday</source>
+      <translation>Πέμπτη</translation>
+    </message>
+    <message>
+      <source>friday</source>
+      <translation>Παρασκευή</translation>
+    </message>
+    <message>
+      <source>saturday</source>
+      <translation>Σάββατο</translation>
+    </message>
+    <message>
+      <source>sunday</source>
+      <translation>Κυριακή</translation>
+    </message>
+  </context>
 </TS>
