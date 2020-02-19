@@ -15,7 +15,7 @@ class OpenPABootstrapItaliaImageUploadHandler extends eZContentUploadHandler
      * @param array $mimeData
      * @param string $location
      * @param eZContentObjectTreeNode|false $existingNode
-     * @return bool
+     * @return array
      */
     function handleFile(&$upload, &$result,
                         $filePath, $originalFilename, $mimeData,
@@ -39,8 +39,7 @@ class OpenPABootstrapItaliaImageUploadHandler extends eZContentUploadHandler
         );
         unlink($tmpFile);
 
-        return true;
-
+        return $result;
     }
 
     /**
