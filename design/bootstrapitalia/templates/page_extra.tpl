@@ -134,6 +134,7 @@
                                             </div>
                                             {if $tree_menu.has_children}
                                                 {foreach $tree_menu.children as $child}
+                                                    {if $child.item.node_id|eq($tree_menu.item.node_id)}{skip}{/if} {*tag menu*}
                                                     <div class="form-check">
                                                         <input id="subtree-filter-{$child.item.node_id}"
                                                                type="checkbox"

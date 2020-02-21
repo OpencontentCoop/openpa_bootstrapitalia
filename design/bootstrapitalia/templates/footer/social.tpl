@@ -38,4 +38,20 @@
             </a>
         </li>
     {/if}
+
+    {if is_set($pagedata.contacts.whatsapp)}
+        <li class="list-inline-item">
+            <a class="p-2 text-white" href="{$pagedata.contacts.whatsapp}" aria-label="WhatsApp" target="_blank">
+                {display_icon('it-whatsapp', 'svg', 'icon icon-sm icon-white align-top')}
+            </a>
+        </li>
+    {/if}
+
+    {if is_set($pagedata.contacts.telegram)}
+        <li class="list-inline-item">
+            <a class="py-3 px-2 text-white" href="{$pagedata.contacts.telegram}" aria-label="Telegram" target="_blank">
+                <i class="fa fa-telegram" style="color:white;font-size: 21px;"></i>
+            </a>
+        </li>
+    {/if}
 </ul>

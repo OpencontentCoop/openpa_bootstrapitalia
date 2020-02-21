@@ -53,36 +53,44 @@
                     <div class="mt-4">
                     {foreach $top_menu_node_ids as $id}
                         {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'side_menu'))}
-
+                        {def $has_children = false()}
                         {def $display = false()}
+
+                        {foreach $tree_menu.children as $child}
+                            {if $child.item.node_id|eq($tree_menu.item.node_id)}{skip}{/if} {*tag menu*}
+                            {set $has_children = true()}
+                            {if $params.subtree|contains($child.item.node_id)}
+                                {set $display = true()}
+                                {break}
+                            {/if}
+                        {/foreach}
+
                         {if $params.subtree_boundary|eq($id)}
                             {set $display = true()}
-                        {else}
-                            {foreach $tree_menu.children as $child}
-                                {if $params.subtree|contains($child.item.node_id)}
-                                    {set $display = true()}
-                                    {break}
-                                {/if}
-                            {/foreach}
                         {/if}
                         
                         <div class="form-check custom-control custom-checkbox">
-                            <input name="Subtree[]" data-checkbox-container id="subtree-{$tree_menu.item.node_id}" value={$tree_menu.item.node_id} {if $params.subtree|contains($id)}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
+                            <input name="Subtree[]" data-checkbox-container id="subtree-{$tree_menu.item.node_id}" value={$tree_menu.item.node_id} {if or($params.subtree|contains($id), and($display, $has_children|not()))}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
                             <label class="custom-control-label" for="subtree-{$tree_menu.item.node_id}">{$tree_menu.item.name|wash()} {if is_set($subtree_facets[$id])}<small>({$subtree_facets[$id]})</small>{/if}</label>
+                            {if $has_children}
                             <a class="float-right" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
                                 {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
                             </a>
+                            {/if}
                         </div>
+                        {if $has_children}
                         <div class="pl-4 collapse{*if $display} show{/if*}" id="more-subtree-{$tree_menu.item.node_id}">
                             {foreach $tree_menu.children as $child}
+                                {if $child.item.node_id|eq($tree_menu.item.node_id)}{skip}{/if} {*tag menu*}
                                 <div class="form-check custom-control custom-checkbox">
                                     <input data-checkbox-child name="Subtree[]" id="subtree-{$child.item.node_id}" value={$child.item.node_id} {if $params.subtree|contains($child.item.node_id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
                                     <label class="class="custom-control-label" for="subtree-{$child.item.node_id}">{$child.item.name|wash()} {if is_set($subtree_facets[$child.item.node_id])}<small>({$subtree_facets[$child.item.node_id]})</small>{/if}</label>
                                 </div>
                             {/foreach}                    
                         </div>
+                        {/if}
 
-                        {undef $tree_menu $display}
+                        {undef $tree_menu $display $has_children}
 
                     {/foreach}
                     </div>

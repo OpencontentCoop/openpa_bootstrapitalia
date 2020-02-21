@@ -37,13 +37,15 @@
 
             <section class="py-4 border-white border-top">
                 <div class="row">
-                    
+
+                    {def $footer_notes = fetch( 'openpa', 'footer_notes' )}
+                    {if $footer_notes}
                     <div class="col pb-2">
-                        {def $footer_notes = fetch( 'openpa', 'footer_notes' )}
                         <h4><span>{'Informations'|i18n('openpa/footer')}</span></h4>
                         {attribute_view_gui attribute=$footer_notes}
                         {undef $footer_notes}
                     </div>
+                    {/if}
                     
                     <div class="col pb-2">
                         <h4><span>{'Contacts'|i18n('openpa/footer')}</span></h4>

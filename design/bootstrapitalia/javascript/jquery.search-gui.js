@@ -242,7 +242,8 @@
         setSectionFilterGui: function (currentSubtree) {
             var plugin = this;
             var title = $('input[data-subtree="' + currentSubtree + '"]').next().text();
-            $('a[href="#filter-by-section"]').text(title);
+            var sectionNavItem = $('a[href="#filter-by-section"]');
+            sectionNavItem.text(title);
             $('#filter-by-section').find('[data-subtree_group]').each(function () {
                 var self = $(this);
                 var subtree = self.data('subtree_group');
@@ -253,6 +254,10 @@
                     });
                 }
             }).find('input[data-subtree="' + currentSubtree + '"]').parent().addClass('hide');
+
+            if($('div[data-subtree_group="' + currentSubtree + '"]').find('.form-check-input').length === 0){
+                sectionNavItem.parent().hide().next().find('a').trigger('click');
+            }
 
             this.searchHeader.find('button.close').removeClass('hide');
             this.searchHeader.find('button.back-to-search').addClass('hide');
