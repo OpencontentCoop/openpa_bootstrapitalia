@@ -82,8 +82,10 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
                 eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode');
 
             $this->rootNode = eZContentObjectTreeNode::fetch((int)$rootNodeId);
-            if ($this->rootNode instanceof eZContentObjectTreeNode && isset($query['depth'])){
-                $query['depth'] = 'raw[' . ezfSolrDocumentFieldBase::generateMetaFieldName('depth', 'filter') . '] range [' . ( $this->rootNode->attribute('depth') + $query['depth'] ) . ',*]';
+            if ($this->rootNode instanceof eZContentObjectTreeNode && isset($query['depth']) && (int)$query['depth'] > 0){
+                $startDepth = (int)$this->rootNode->attribute('depth');
+                $depth = $startDepth + (int) $query['depth'];
+                $query['depth'] = 'raw[' . ezfSolrDocumentFieldBase::generateMetaFieldName('depth', 'filter') . '] range [' . $startDepth . ',' . $depth . ']';
             }
 
             $this->queryArray = $query;
