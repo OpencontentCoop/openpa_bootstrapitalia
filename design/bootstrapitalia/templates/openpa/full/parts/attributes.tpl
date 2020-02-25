@@ -83,7 +83,7 @@
         </aside>
         <section class="col-lg-8">
             {foreach $summary_items as $index => $item}
-                <article id="{$item.slug|wash()}" class="it-page-section mb-2 anchor-offset" {*if $index|eq(0)} class="anchor-offset"{/if*}>
+                <article id="{$item.slug|wash()}" class="it-page-section mb-2 anchor-offset clearfix" {*if $index|eq(0)} class="anchor-offset"{/if*}>
                     <h4>{$item.title|wash()}</h4>
 
                     {if $item.wrap}                    
