@@ -33,7 +33,7 @@
     </message>
     <message>
       <source>Table of contents</source>
-      <translation>Πίνακας περιεχομένων</translation>
+      <translation>Πινακας περιεχομενων</translation>
     </message>
     <message>
       <source>Close</source>
@@ -73,7 +73,7 @@
     </message>
     <message>
       <source>Send</source>
-      <translation>Στείλτε</translation>
+      <translation>Προώθηση</translation>
     </message>
     <message>
       <source>Related contents</source>
@@ -93,7 +93,7 @@
     </message>
     <message>
       <source>Read more</source>
-      <translation>Διαβάστε περισσότερα</translation>
+      <translation>Διαβαστε περισσοτερα</translation>
     </message>
     <message>
       <source>Go to page</source>
@@ -232,11 +232,11 @@
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>Πληροφορίες</translation>
+      <translation>Πληροφοριες</translation>
     </message>
     <message>
       <source>Contacts</source>
-      <translation>Επικοινωνία</translation>
+      <translation>Επικοινωνια</translation>
     </message>
     <message>
       <source>Links</source>
@@ -244,7 +244,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Ακολουθήστε μας</translation>
+      <translation>Ακολουθηστε μας</translation>
     </message>
     <message>
       <source>back to top</source>
