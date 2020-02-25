@@ -27,5 +27,8 @@
             <h3>{$node.name|wash()}</h3>
       </span>
     </a>
+    {if and($view_variation|eq('gallery'), $node.can_edit)}
+    <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute white-color p-1" href="{$node.url_alias|ezurl(no)}"><i class="fa fa-link"></i></a>
+    {/if}
 </div>
 {unset_defaults(array('image_class', 'view_variation'))}
