@@ -16,6 +16,7 @@ class OpenPABootstrapItaliaOperators
             'class_identifier_by_id',
             'page_block',
             'primary_color',
+            'privacy_states',
         );
     }
 
@@ -60,6 +61,18 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'privacy_states':
+                try {
+                    $operatorValue = OpenPABase::initStateGroup('privacy', ['public', 'private']);
+                }catch (Exception $e){
+                    eZDebug::writeError($e->getMessage(), __METHOD__);
+                    $operatorValue = [
+                        'privacy.public' => 0,
+                        'privacy.private' => 0
+                    ];
+                }
+                break;
 
             case 'primary_color':
 

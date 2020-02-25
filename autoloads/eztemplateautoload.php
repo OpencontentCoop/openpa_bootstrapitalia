@@ -11,6 +11,7 @@ $eZTemplateOperatorArray = array(
             'class_identifier_by_id',
             'page_block',
             'primary_color',
+            'privacy_states',
         )
     )
 );
