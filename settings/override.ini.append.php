@@ -234,6 +234,13 @@ MatchFile=datatype/edit/matrix_compensi.tpl
 Subdir=templates
 Match[attribute_identifier]=compensi
 
+[datatype_takes_place_in_event]
+Source=content/datatype/edit/ezobjectrelationlist.tpl
+MatchFile=datatype/edit/ezobjectrelationlist_takes_place_in_event.tpl
+Subdir=templates
+Match[class_identifier]=event
+Match[attribute_identifier]=takes_place_in
+
 ############################################
 ############################################ BLOCK
 ############################################

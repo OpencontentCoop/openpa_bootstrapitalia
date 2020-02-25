@@ -13,7 +13,8 @@ $eZTemplateOperatorArray = array(
             'primary_color',
             'header_color',
             'footer_color',
-            'is_bookmark'
+            'is_bookmark',
+            'privacy_states',
         )
     )
 );
