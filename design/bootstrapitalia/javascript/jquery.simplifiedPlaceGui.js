@@ -267,6 +267,7 @@
                         );
                         plugin.nearestLayer.clearLayers();
                         plugin.selectWindow.hide();
+                        e.preventDefault();
                     });
                     list.append(item);
                     return L.marker(center, {
@@ -281,6 +282,7 @@
             var continueButton = $('<a href="#" class="list-group-item list-group-item-action btn btn-xs p-2 text-decoration-none">' + plugin.helperTexts.find('[data-continue]').html() + '</a>').on('click', function (e) {
                 plugin.map.removeLayer(plugin.marker);
                 plugin.openCreateWindow(latLng, data);
+                e.preventDefault();
             });
             list.append(continueButton);
             plugin.selectWindow.append(list).show();
