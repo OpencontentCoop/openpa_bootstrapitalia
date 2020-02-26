@@ -64,6 +64,10 @@
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(plugin.map);
 
+            $('[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                plugin.map.invalidateSize(false);
+            });
+
             plugin.markers.addTo(plugin.map);
             plugin.displaySelectedMarkers();
             plugin.selectorWrapper.chosen({width: '100%'}).on('change', function (e) {
@@ -150,11 +154,11 @@
             if (plugin.settings.multiSelect === false) {
                 plugin.selectorWrapper.find('option').removeAttr('selected');
             }
-            var exists = plugin.selectorWrapper.find('option[value="'+id+'"]');
+            var exists = plugin.selectorWrapper.find('option[value="' + id + '"]');
             console.log(exists);
-            if (exists.length > 0){
+            if (exists.length > 0) {
                 exists.prop('selected', true);
-            }else {
+            } else {
                 plugin.selectorWrapper.find('[data-shared_place_select]').show().append('<option data-lng="' + latLng.lng + '" data-lat="' + latLng.lat + '" value="' + id + '" selected="selected">' + name + '</option>');
             }
             plugin.selectorWrapper.trigger("chosen:updated").trigger('change');
@@ -254,11 +258,11 @@
             var searchLayer = L.geoJson(places, {
                 pointToLayer: function (feature, center) {
                     var item = $('<a href="#" class="list-group-item list-group-item-action p-2 text-decoration-none" ' +
-                        'data-id="'+feature.id+'" ' +
-                        'data-name="'+feature.properties.name+'" ' +
-                        'data-lat="'+center.lat+'" ' +
-                        'data-lng="'+center.lng+'">' +
-                        '<h6 class="mb-0"><span class="badge badge-secondary">'+feature.id+'</span> '+feature.properties.name+'</h6></a>'
+                        'data-id="' + feature.id + '" ' +
+                        'data-name="' + feature.properties.name + '" ' +
+                        'data-lat="' + center.lat + '" ' +
+                        'data-lng="' + center.lng + '">' +
+                        '<h6 class="mb-0"><span class="badge badge-secondary">' + feature.id + '</span> ' + feature.properties.name + '</h6></a>'
                     ).on('click', function (e) {
                         plugin.selectPlace(
                             $(this).data('id'),
@@ -323,7 +327,7 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    if(response.error_message || response.error_code){
+                    if (response.error_message || response.error_code) {
                         console.log(response.error_message);
                         response = {'features': []};
                     }
