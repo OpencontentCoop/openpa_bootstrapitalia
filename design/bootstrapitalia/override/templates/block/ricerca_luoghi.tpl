@@ -71,7 +71,6 @@
 	</div>
 </div>
 
-
 {run-once}
 {literal}
 <script id="tpl-place-spinner" type="text/x-jsrender">
@@ -143,7 +142,7 @@ $(document).ready(function () {
 		var resultsContainer = container.find('.results');		
 		var limitPagination = container.data('limit');
 		var subtree = container.data('block_place_subtree');		
-		var hideEmptyFacets = container.data('hide_empty_facets') == 1;
+		var hideEmptyFacets = container.data('hide_empty_facets') === 1;
 		var currentPage = 0;
 		var queryPerPage = [];
 		var template = $.templates('#tpl-place-results');
@@ -166,7 +165,7 @@ $(document).ready(function () {
 				query += " and raw[subattr_type___tag_ids____si] in [" + tagFilters.join(',') + "]";
 			}
 
-			query += ' sort [name=>asc]'
+			query += ' and state in ['+{/literal}{privacy_states()['privacy.public'].id}{literal}+'] sort [name=>asc]'
 			
 			return query;
 		};

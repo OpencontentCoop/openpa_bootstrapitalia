@@ -4,6 +4,7 @@
         defaults = {
             'placeClassIdentifier': 'place',
             'placeGeoIdentifier': 'has_address',
+            'multiSelect': false,
             'i18n': {
                 search: 'search',
                 noResults: 'noResults',
@@ -32,9 +33,12 @@
         this.selectorWrapper = this.container.find('select[data-place_selection_wrapper]');
         this.helperTexts = this.container.find('[data-helper-texts]');
         this.editWindow = this.container.find('[data-window]');
+        this.selectWindow = this.container.find('[data-selectplace]');
 
         this.markers = L.featureGroup();
         this.init();
+
+        this.nearestLayer = L.featureGroup().addTo(this.map);
     }
 
     $.extend(Plugin.prototype, {
@@ -42,7 +46,10 @@
             var plugin = this;
 
             plugin.container.find('input').val('');
-            plugin.map = new L.Map(this.mapId, {loadingControl: true, closePopupOnClick: false}).setView(new L.LatLng(0, 0), 1);
+            plugin.map = new L.Map(this.mapId, {
+                loadingControl: true,
+                closePopupOnClick: false
+            }).setView(new L.LatLng(0, 0), 1);
             L.Control.geocoder({
                 collapsed: false,
                 placeholder: plugin.settings.i18n.search,
@@ -123,22 +130,43 @@
                     );
                 }
             });
+            var noRelationInput = plugin.container.find('[data-norelation]');
             if (plugin.markers.getLayers().length > 0) {
                 plugin.map.fitBounds(plugin.markers.getBounds());
             }
         },
 
-        selectPlace: function (data, latLng) {
+        addAndSelectPlace: function (data, latLng) {
             var plugin = this;
-            plugin.selectorWrapper.find('[data-new_place_select]').append('<option data-lng="'+latLng.lng+'" data-lat="'+latLng.lat+'" value="' + data.metadata.id + '" selected="selected">' + data.metadata.name['ita-IT'] + '</option>');
+            if (plugin.settings.multiSelect === false) {
+                plugin.selectorWrapper.find('option').removeAttr('selected');
+            }
+            plugin.selectorWrapper.find('[data-new_place_select]').append('<option data-lng="' + latLng.lng + '" data-lat="' + latLng.lat + '" value="' + data.metadata.id + '" selected="selected">' + data.metadata.name['ita-IT'] + '</option>');
+            plugin.selectorWrapper.trigger("chosen:updated").trigger('change');
+        },
+
+        selectPlace: function (id, name, latLng) {
+            var plugin = this;
+            if (plugin.settings.multiSelect === false) {
+                plugin.selectorWrapper.find('option').removeAttr('selected');
+            }
+            var exists = plugin.selectorWrapper.find('option[value="'+id+'"]');
+            console.log(exists);
+            if (exists.length > 0){
+                exists.prop('selected', true);
+            }else {
+                plugin.selectorWrapper.find('[data-shared_place_select]').show().append('<option data-lng="' + latLng.lng + '" data-lat="' + latLng.lat + '" value="' + id + '" selected="selected">' + name + '</option>');
+            }
             plugin.selectorWrapper.trigger("chosen:updated").trigger('change');
         },
 
         setMarker: function (latLng, data) {
             var plugin = this;
+            plugin.nearestLayer.clearLayers();
+            plugin.selectWindow.hide();
+            plugin.editWindow.hide();
 
             plugin.markers.clearLayers();
-            plugin.selectorWrapper.val('').trigger("chosen:updated");
 
             var helperText = '<p>' + plugin.helperTexts.find('[data-candrag]').html() + '</p>';
             var confirmButton = '<p class="text-center"><a data-lat="' + latLng.lat + '" data-lng="' + latLng.lng + '" id="add-place-' + plugin.mapId + '" href="#" class="btn btn-info btn-xs text-white text-center">' + plugin.helperTexts.find('[data-confirm]').html() + '</a></p>';
@@ -154,10 +182,11 @@
                 self.html('<i class="fa fa-circle-o-notch fa-spin"></i>');
                 var latLng = new L.LatLng(self.data('lat'), self.data('lng'));
                 plugin.findNearPlaces(latLng, function (places, latLng) {
-                    plugin.map.removeLayer(plugin.marker);
-                    if (places.length === 0) {
+                    if (places.features.length === 0) {
+                        plugin.map.removeLayer(plugin.marker);
                         plugin.openCreateWindow(latLng, data);
                     } else {
+                        plugin.marker.closePopup();
                         plugin.openSelectWidow(latLng, data, places);
                     }
                     $('#add-place-' + plugin.mapId).off('click');
@@ -170,6 +199,8 @@
 
         openCreateWindow: function (latLng, data) {
             var plugin = this;
+            plugin.nearestLayer.clearLayers();
+            plugin.selectWindow.hide();
             plugin.editWindow.html('');
 
             var container = $('<form class="p-2"></form>').appendTo(plugin.editWindow);
@@ -185,7 +216,7 @@
                         container.parent().show();
                     },
                     onSuccess: function (data) {
-                        plugin.selectPlace(data.content, latLng);
+                        plugin.addAndSelectPlace(data.content, latLng);
                         plugin.editWindow.hide();
                     },
                     i18n: plugin.settings.i18n,
@@ -214,14 +245,101 @@
         },
 
         openSelectWidow: function (latLng, data, places) {
-            console.log(latLng, data, places);
+            var plugin = this;
+            plugin.editWindow.hide();
+            plugin.selectWindow.html('');
+            var list = $('<div class="list-group overflow-auto"></div>');
+            list.append($('<div class="list-group-item list-group-item-action p-2"><small>' + plugin.helperTexts.find('[data-maybe]').html() + '</small></div>'));
+
+            var searchLayer = L.geoJson(places, {
+                pointToLayer: function (feature, center) {
+                    var item = $('<a href="#" class="list-group-item list-group-item-action p-2 text-decoration-none" ' +
+                        'data-id="'+feature.id+'" ' +
+                        'data-name="'+feature.properties.name+'" ' +
+                        'data-lat="'+center.lat+'" ' +
+                        'data-lng="'+center.lng+'">' +
+                        '<h6 class="mb-0"><span class="badge badge-secondary">'+feature.id+'</span> '+feature.properties.name+'</h6></a>'
+                    ).on('click', function (e) {
+                        plugin.selectPlace(
+                            $(this).data('id'),
+                            $(this).data('name'),
+                            new L.LatLng($(this).data('lat'), $(this).data('lng'))
+                        );
+                        plugin.nearestLayer.clearLayers();
+                        plugin.selectWindow.hide();
+                    });
+                    list.append(item);
+                    return L.marker(center, {
+                        icon: L.divIcon({
+                            className: 'badge badge-secondary',
+                            html: feature.id
+                        })
+                    });
+                }
+            });
+            plugin.nearestLayer.addLayer(searchLayer);
+            var continueButton = $('<a href="#" class="list-group-item list-group-item-action btn btn-xs p-2 text-decoration-none">' + plugin.helperTexts.find('[data-continue]').html() + '</a>').on('click', function (e) {
+                plugin.map.removeLayer(plugin.marker);
+                plugin.openCreateWindow(latLng, data);
+            });
+            list.append(continueButton);
+            plugin.selectWindow.append(list).show();
         },
 
         findNearPlaces: function (latLng, cb, context) {
-            var places = [];
-            if ($.isFunction(cb)) {
-                cb.call(context, places, latLng);
+            var plugin = this;
+
+            var circle = L.circle(latLng, 100);
+            var circleBounds = circle.getBounds();
+            var rectangle = L.rectangle(circleBounds, {
+                color: 'red',
+                weight: 2,
+                fillOpacity: 0
+            });
+
+            if (plugin.nearestLayer) {
+                //plugin.nearestLayer.addLayer(rectangle);
+                plugin.map.fitBounds(rectangle.getBounds());
             }
+
+            var lng, lat, coords = [], polygonWkt;
+            var latLngs = rectangle.getLatLngs();
+            for (var i = 0; i < latLngs.length; i++) {
+                coords.push(latLngs[i].lng + ' ' + latLngs[i].lat);
+                if (i === 0) {
+                    lng = latLngs[i].lng;
+                    lat = latLngs[i].lat;
+                }
+            }
+            polygonWkt = coords.join(',') + ',' + lng + ' ' + lat;
+            var query = 'classes [' + plugin.settings.placeClassIdentifier + '] and raw[extra_geo_rpt] = "IsWithin\\(POLYGON\\(\\(' + polygonWkt + '\\)\\)\\) distErrPct=0"';
+
+            $.ajax({
+                type: "GET",
+                url: $.opendataTools.settings('endpoint').geo,
+                data: {q: query},
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if(response.error_message || response.error_code){
+                        console.log(response.error_message);
+                        response = {'features': []};
+                    }
+                    if ($.isFunction(cb)) {
+                        cb.call(context, response, latLng);
+                    }
+                },
+                error: function (jqXHR) {
+                    var error = {
+                        error_code: jqXHR.status,
+                        error_message: jqXHR.statusText
+                    };
+                    console.log(error);
+                    if ($.isFunction(cb)) {
+                        cb.call(context, {'features': []}, latLng);
+                    }
+                }
+            });
         }
     });
     $.fn[pluginName] = function (options) {

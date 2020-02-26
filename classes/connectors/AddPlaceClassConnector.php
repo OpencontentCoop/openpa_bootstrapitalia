@@ -113,5 +113,19 @@ class AddPlaceClassConnector extends ClassConnector
         return $payload;
     }
 
+    public function submit()
+    {
+        $result = parent::submit();
+
+        $states = OpenPABase::initStateGroup('privacy', ['public', 'private']);
+        $object = eZContentObject::fetch((int)$result['content']['metadata']['id']);
+        if ($object instanceof eZContentObject){
+            $object->assignState($states['privacy.private']);
+            eZSearch::addObject($object);
+        }
+
+        return $result;
+    }
+
 
 }
