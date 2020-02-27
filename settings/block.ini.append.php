@@ -20,6 +20,7 @@ AllowedTypes[]=ListaPaginata
 AllowedTypes[]=RicercaDocumenti
 AllowedTypes[]=RicercaLuoghi
 AllowedTypes[]=HTML
+AllowedTypes[]=EventiRemoti
 
 [Singolo]
 Name=Oggetto singolo
@@ -179,6 +180,34 @@ CustomAttributeTypes[]
 CustomAttributeTypes[includi_classi]=class_select
 CustomAttributeTypes[show_facets]=checkbox
 CustomAttributeTypes[topic_node_id]=topic_select
+CustomAttributeTypes[size]=select
+CustomAttributeSelection_size[small]=Piccolo
+CustomAttributeSelection_size[medium]=Medio
+CustomAttributeSelection_size[big]=Grande
+CustomAttributeTypes[calendar_view]=select
+CustomAttributeSelection_calendar_view[day_grid_4]=4 giorni
+CustomAttributeSelection_calendar_view[day_grid]=Settimana
+CustomAttributeSelection_calendar_view[month]=Mese
+ViewList[]
+ViewList[]=default
+ViewName[default]=Default
+ItemsPerRow[]
+ContainerStyle[default]=py-5
+
+[EventiRemoti]
+Name=Eventi (sorgente esterna)
+ManualAddingOfItems=disabled
+CustomAttributes[]
+CustomAttributes[]=remote_url
+CustomAttributes[]=api_url
+CustomAttributes[]=size
+CustomAttributes[]=calendar_view
+CustomAttributeNames[]
+CustomAttributeNames[remote_url]=Url del sito remoto 
+CustomAttributeNames[api_url]=Url api sorgente (in formato JSON Fullcalendar https://fullcalendar.io/docs/events-json-feed)
+CustomAttributeNames[size]=Ingombro
+CustomAttributeNames[calendar_view]=Visualizzazione
+CustomAttributeTypes[]
 CustomAttributeTypes[size]=select
 CustomAttributeSelection_size[small]=Piccolo
 CustomAttributeSelection_size[medium]=Medio

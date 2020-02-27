@@ -1,5 +1,8 @@
 <?php /* #?ini charset="utf-8"?
 
+[DataHandlers]
+Handlers[remote_calendar]=DataHandlerRemoteCalendar
+
 [BlockHandlers]
 Handlers[ListaManuale/*]=OpenPABootstrapItaliaBlockHandlerListaManuale
 Handlers[ListaAutomatica/*]=OpenPABootstrapItaliaBlockHandlerLista

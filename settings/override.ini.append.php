@@ -345,6 +345,13 @@ Subdir=templates
 Match[type]=Eventi
 Match[view]=default
 
+[block_eventiremoti_default]
+Source=block/view/view.tpl
+MatchFile=block/fullcalendar_remote.tpl
+Subdir=templates
+Match[type]=EventiRemoti
+Match[view]=default
+
 
 #### Argomenti
 
