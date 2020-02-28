@@ -29,7 +29,7 @@
     {/if}
 
     {foreach $node|attribute('type').content.tags as $tag}
-        <a class="text-decoration-none text-sans-serif mr-1" 
+        <a class="text-decoration-none text-sans-serif mr-1 text-nowrap"
            href="{if $openpa.content_tag_menu.has_tag_menu}{concat( $openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
            <div class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></div>
        </a>
