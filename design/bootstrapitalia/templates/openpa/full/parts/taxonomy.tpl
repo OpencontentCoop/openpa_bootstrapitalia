@@ -11,7 +11,7 @@
     {if $node|has_attribute('topics')}
     {foreach $node|attribute('topics').content.relation_list as $item}
         {def $object = fetch(content, object, hash(object_id, $item.contentobject_id))}
-        <a class="text-decoration-none" href="{$object.main_node.url_alias|ezurl(no)}"><div class="chip chip-simple chip-primary"><span class="chip-label">{$object.name|wash()}</span></div></a>
+        <a class="text-decoration-none text-nowrap d-inline-block " href="{$object.main_node.url_alias|ezurl(no)}"><div class="chip chip-simple chip-primary"><span class="chip-label">{$object.name|wash()}</span></div></a>
         {undef $object}
     {/foreach}
     {/if}
@@ -29,7 +29,7 @@
     {/if}
 
     {foreach $node|attribute('type').content.tags as $tag}
-        <a class="text-decoration-none text-sans-serif mr-1 text-nowrap"
+        <a class="text-decoration-none text-sans-serif mr-1 text-nowrap d-inline-block"
            href="{if $openpa.content_tag_menu.has_tag_menu}{concat( $openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
            <div class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></div>
        </a>
