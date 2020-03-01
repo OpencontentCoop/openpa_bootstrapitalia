@@ -71,7 +71,7 @@
                 </optgroup>
             {/if}
 
-            <optgroup data-shared_place_select label="{'Shared'|i18n('add_place_gui')}" {if $shared_places.totalCount|eq(0)}class="hide"{/if}>
+            <optgroup data-shared_place_select label="{'Shared with other editors'|i18n('add_place_gui')}" {if $shared_places.totalCount|eq(0)}class="hide"{/if}>
                 {if $shared_places.totalCount|gt(0)}
                 {foreach $shared_places.searchHits as $shared_place}
                     {foreach $languages as $language}
@@ -115,10 +115,11 @@
             <div id="map-{$attribute.id}" style="width: 100%; height: 400px; margin: 10px 0;"></div>
 
             <div data-helper-texts style="display: none;">
-                <div data-candrag>{'Puoi trascinare il marker sulla mappa per selezionare la posizione in maniera più precisa.'|i18n('add_place_gui')}</div>
-                <div data-confirm>{'Aggiungi questa posizione ai tuoi luoghi'|i18n('add_place_gui')}</div>
-                <div data-maybe>{'Ci sono dei luoghi simili a quello selezionato. Vuoi usare uno di questi?'|i18n('add_place_gui')}</div>
-                <div data-continue>{'No, aggiungi la posizione selezionata ai miei luoghi'|i18n('add_place_gui')}</div>
+                <div data-candrag>{'You can drag the marker on the map to select the location more precisely'|i18n('add_place_gui')}</div>
+                <div data-confirm>{'Add this location to your places'|i18n('add_place_gui')}</div>
+                <div data-maybe>{'There are places near the selected location registered in the system. Do you want to use one of these?'|i18n('add_place_gui')}</div>
+                <div data-continue>{'Continue with my location'|i18n('add_place_gui')}</div>
+                <div data-cancel>{'Cancel'|i18n('add_place_gui')}</div>
             </div>
 
             <div data-window class="bg-white position-absolute h-100 w-100 overflow-auto" style="top: 0;z-index: 1000;display: none"></div>
@@ -132,15 +133,14 @@
 
     <script>
     $.opendataTools.settings('accessPath', "{''|ezurl(no,full)}");
-    {literal}
-
+{literal}
     $(document).ready(function () {
         $('[data-simplified_place_gui="{/literal}{$attribute.id}{literal}"]').simplifiedPlaceGui({
             class: 'place',
             parent: {/literal}{$attribute.class_content.default_placement.node_id|int()}{literal},
             multiSelect: {/literal}{cond(and($class_content.selection_type|ne(1),$class_content.selection_type|ne(2)), 'true', 'false')}{literal},
             i18n:{{/literal}
-                'search': '{'Search'|i18n('agenda')}',
+                'search': '{'Search'|i18n('opendata_forms')}',
                 'noResults': '{'No contents'|i18n('opendata_forms')}',
                 'myLocation': '{'Detect position'|i18n('add_place_gui')}',
                 'store': "{'Store'|i18n('opendata_forms')}",
@@ -151,9 +151,61 @@
             {literal}}
         });
     });
-    {/literal}
     </script>
-    <style>.leaflet-marker-icon.badge{ldelim}width: auto !important;height: auto !important;;{rdelim}</style>
+    <style>
+        .leaflet-marker-icon.badge{
+            width: auto !important;
+            height: auto !important;
+        }
+        [data-simplified_place_gui] a.chosen-single {
+            margin-top: 0;
+            border-radius: 0;
+            background: white;
+            line-height: 40px;
+            height: 40px;
+        }
+        [data-simplified_place_gui] .chosen-container-single .chosen-single div b {
+            background-position-y: 10px;
+        }
+        .map-label {
+            position: absolute;
+            bottom: 0;left: -50%;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        /*Wrap the content of the divicon (text) in this class*/
+        .map-label-content {
+            order: 1;
+            position: relative; left: -50%;
+            background-color: #5c6f82;
+            border-radius: 5px;
+            border-width: 2px;
+            border-style: solid;
+            border-color: #5c6f82;
+            padding: 3px;
+            white-space: nowrap;
+            color: #fff;
+            font-weight: bold;
+        }
+        /*Add this arrow*/
+        .map-label-arrow {
+            order: 2;
+            width: 0;
+            height: 0;
+            left: 50%;
+            border-style: solid;
+            border-color: #5c6f82 transparent transparent transparent;
+            border-width: 10px 6px 0 6px; /*[first number is height, second/fourth are rigth/left width]*/
+            margin-left: -6px;
+        }
+
+        /*Instance classes*/
+        .map-label.inactive {
+            opacity: 0.5;
+        }
+    </style>
+{/literal}
 
 {/if}
 {undef}

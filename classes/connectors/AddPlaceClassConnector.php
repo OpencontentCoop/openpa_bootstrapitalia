@@ -75,7 +75,7 @@ class AddPlaceClassConnector extends ClassConnector
     {
         $this->loadOsmData();
         $schema = parent::getSchema();
-        $schema['title'] = \ezpI18n::tr('add_place_gui', "Completa le informazioni sul luogo");
+        $schema['title'] = \ezpI18n::tr('add_place_gui', "Fill some information about your place");
 
         if (isset($this->osmData['details']['names']['name'])){
             $schema['properties']['name']['default'] = $this->osmData['details']['names']['name'];

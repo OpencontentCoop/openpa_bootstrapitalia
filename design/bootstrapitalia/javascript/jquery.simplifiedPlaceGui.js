@@ -134,7 +134,6 @@
                     );
                 }
             });
-            var noRelationInput = plugin.container.find('[data-norelation]');
             if (plugin.markers.getLayers().length > 0) {
                 plugin.map.fitBounds(plugin.markers.getBounds());
             }
@@ -173,7 +172,7 @@
             plugin.markers.clearLayers();
 
             var helperText = '<p>' + plugin.helperTexts.find('[data-candrag]').html() + '</p>';
-            var confirmButton = '<p class="text-center"><a data-lat="' + latLng.lat + '" data-lng="' + latLng.lng + '" id="add-place-' + plugin.mapId + '" href="#" class="btn btn-info btn-xs text-white text-center">' + plugin.helperTexts.find('[data-confirm]').html() + '</a></p>';
+            var confirmButton = '<p class="text-center"><a data-lat="' + latLng.lat + '" data-lng="' + latLng.lng + '" id="add-place-' + plugin.mapId + '" href="#" class="btn btn-secondary btn-xs text-white text-center">' + plugin.helperTexts.find('[data-confirm]').html() + '</a></p>';
             plugin.map.setView(latLng, 18);
             plugin.marker
                 .setLatLng(latLng)
@@ -186,11 +185,10 @@
                 self.html('<i class="fa fa-circle-o-notch fa-spin"></i>');
                 var latLng = new L.LatLng(self.data('lat'), self.data('lng'));
                 plugin.findNearPlaces(latLng, function (places, latLng) {
+                    plugin.marker.closePopup();
                     if (places.features.length === 0) {
-                        plugin.map.removeLayer(plugin.marker);
                         plugin.openCreateWindow(latLng, data);
                     } else {
-                        plugin.marker.closePopup();
                         plugin.openSelectWidow(latLng, data, places);
                     }
                     $('#add-place-' + plugin.mapId).off('click');
@@ -220,6 +218,7 @@
                         container.parent().show();
                     },
                     onSuccess: function (data) {
+                        plugin.map.removeLayer(plugin.marker);
                         plugin.addAndSelectPlace(data.content, latLng);
                         plugin.editWindow.hide();
                     },
@@ -235,6 +234,7 @@
                                         'click': function () {
                                             container.parent().hide();
                                             container.remove();
+                                            plugin.displaySelectedMarkers();
                                         },
                                         'id': 'reset-button',
                                         'value': plugin.settings.i18n.cancel,
@@ -253,6 +253,13 @@
             plugin.editWindow.hide();
             plugin.selectWindow.html('');
             var list = $('<div class="list-group overflow-auto"></div>');
+            var cancelButton = $('<a href="#" style="z-index: 2;right: 5px;position: absolute"><i class="fa fa-times"></i></a>').on('click', function (e) {
+                plugin.nearestLayer.clearLayers();
+                plugin.selectWindow.hide();
+                plugin.displaySelectedMarkers();
+                e.preventDefault();
+            });
+            list.append(cancelButton);
             list.append($('<div class="list-group-item list-group-item-action p-2"><small>' + plugin.helperTexts.find('[data-maybe]').html() + '</small></div>'));
 
             var searchLayer = L.geoJson(places, {
@@ -262,7 +269,7 @@
                         'data-name="' + feature.properties.name + '" ' +
                         'data-lat="' + center.lat + '" ' +
                         'data-lng="' + center.lng + '">' +
-                        '<h6 class="mb-0"><span class="badge badge-secondary">' + feature.id + '</span> ' + feature.properties.name + '</h6></a>'
+                        '<h6 class="mb-0"><span class="badge badge-secondary"><i class="fa fa-map-marker"></i> ' + feature.id + '</span> ' + feature.properties.name + '</h6></a>'
                     ).on('click', function (e) {
                         plugin.selectPlace(
                             $(this).data('id'),
@@ -276,14 +283,14 @@
                     list.append(item);
                     return L.marker(center, {
                         icon: L.divIcon({
-                            className: 'badge badge-secondary',
-                            html: feature.id
+                            iconSize:null,
+                            html:'<div class="map-label"><div class="map-label-content">'+feature.id+'</div><div class="map-label-arrow"></div></div>'
                         })
                     });
                 }
             });
             plugin.nearestLayer.addLayer(searchLayer);
-            var continueButton = $('<a href="#" class="list-group-item list-group-item-action btn btn-xs p-2 text-decoration-none">' + plugin.helperTexts.find('[data-continue]').html() + '</a>').on('click', function (e) {
+            var continueButton = $('<a href="#" class="list-group-item list-group-item-action p-2 text-decoration-none"><h6 class="mb-0"><span class="badge badge-danger"><i class="fa fa-map-marker"></i></span> ' + plugin.helperTexts.find('[data-continue]').html() + '</h6></a>').on('click', function (e) {
                 plugin.map.removeLayer(plugin.marker);
                 plugin.openCreateWindow(latLng, data);
                 e.preventDefault();
