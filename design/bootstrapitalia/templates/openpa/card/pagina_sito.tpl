@@ -1,4 +1,4 @@
-{set_defaults(hash('show_icon', true(), 'image_class', 'medium', 'view_variation', ''))}
+{set_defaults(hash('show_icon', true(), 'image_class', 'large', 'view_variation', ''))}
 
 {include uri='design:openpa/card/parts/card_wrapper_open.tpl'}
 
