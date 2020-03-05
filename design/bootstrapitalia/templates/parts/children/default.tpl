@@ -49,7 +49,7 @@
             {include uri='design:atoms/grid.tpl'
                      items_per_row=$items_per_row
                      i_view=card
-                     image_class=cond($children_count|eq(2), 'reference', 'large'))
+                     image_class=cond($children_count|eq(2), 'reference', 'large')
                      show_icon = false()
                      items=$children}
 
