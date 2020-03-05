@@ -51,9 +51,9 @@
 <![endif]-->
 
 
-<div style="background:{$base_bg_color};background-color:{$base_bg_color};Margin:0px auto;max-width:600px;">
+<div style="background:{$footer_bg_color};background-color:{$footer_bg_color};Margin:0px auto;max-width:600px;">
 
-    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:{$base_bg_color};background-color:{$base_bg_color};width:100%;">
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:{$footer_bg_color};background-color:{$footer_bg_color};width:100%;">
         <tbody>
             <tr>
                 <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;vertical-align:top;">
