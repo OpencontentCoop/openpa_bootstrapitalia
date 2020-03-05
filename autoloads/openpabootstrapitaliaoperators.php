@@ -2,7 +2,7 @@
 
 class OpenPABootstrapItaliaOperators
 {
-    private static $primaryColor;
+    private static $cssData;
 
     function operatorList()
     {
@@ -17,6 +17,8 @@ class OpenPABootstrapItaliaOperators
             'page_block',
             'primary_color',
             'privacy_states',
+            'header_color',
+            'footer_color',
         );
     }
 
@@ -45,7 +47,7 @@ class OpenPABootstrapItaliaOperators
                 'type' => array("type" => "string", "required" => true, "default" => false),
                 'view' => array("type" => "string", "required" => true, "default" => false),
                 'custom_attributes' => array("type" => "array", "required" => false, "default" => array()),
-                'valid_nodes' => array("type" => "array", "required" => false, "default" => array())                
+                'valid_nodes' => array("type" => "array", "required" => false, "default" => array())
             )
         );
     }
@@ -65,7 +67,7 @@ class OpenPABootstrapItaliaOperators
             case 'privacy_states':
                 try {
                     $operatorValue = OpenPABase::initStateGroup('privacy', ['public', 'private']);
-                }catch (Exception $e){
+                } catch (Exception $e) {
                     eZDebug::writeError($e->getMessage(), __METHOD__);
                     $operatorValue = [
                         'privacy.public' => 0,
@@ -75,49 +77,23 @@ class OpenPABootstrapItaliaOperators
                 break;
 
             case 'primary_color':
+            case 'header_color':
+            case 'footer_color':
 
-                if (self::$primaryColor === null) {
+                $cssData = self::getCss();
 
-                    $theme = OpenPAINI::variable('GeneralSettings', 'theme', 'default');
-                    $path = ltrim(eZURLOperator::eZDesign($tpl, "stylesheets/{$theme}.css", 'ezdesign'), '/');
-                    if (!file_exists($path)) {
-                        $path = "extension/openpa_bootstrapitalia/design/bootstrapitalia/stylesheets/default.css";
-                    }
+                $value = '#222';
+                if ($operatorName == 'primary_color' && isset($cssData['.primary-bg']['background-color'])) {
+                    $value = $cssData['.primary-bg']['background-color'];
 
-                    function parseCss($file)
-                    {
-                        $css = file_get_contents($file);
-                        preg_match_all('/(?ims)([a-z0-9\s\.\:#_\-@,]+)\{([^\}]*)\}/', $css, $arr);
-                        $result = array();
-                        foreach ($arr[0] as $i => $x) {
-                            $selector = trim($arr[1][$i]);
-                            $rules = explode(';', trim($arr[2][$i]));
-                            $rules_arr = array();
-                            foreach ($rules as $strRule) {
-                                if (!empty($strRule)) {
-                                    $rule = explode(":", $strRule);
-                                    $rules_arr[trim($rule[0])] = trim($rule[1]);
-                                }
-                            }
+                } elseif ($operatorName == 'header_color' && isset($cssData['.it-header-navbar-wrapper']['background'])) {
+                    $value = $cssData['.it-header-navbar-wrapper']['background'];
 
-                            $selectors = explode(',', trim($selector));
-                            foreach ($selectors as $strSel) {
-                                $result[$strSel] = $rules_arr;
-                            }
-                        }
-                        return $result;
-                    }
-
-                    $data = parseCss($path);
-
-                    if (isset($data['.primary-bg']['background-color'])) {
-                        self::$primaryColor = $data['.primary-bg']['background-color'];
-                    } else {
-                        self::$primaryColor = '#222222';
-                    }
+                } elseif ($operatorName == 'footer_color' && isset($cssData['.it-footer-small-prints']['background-color'])) {
+                    $value = $cssData['.it-footer-small-prints']['background-color'];
                 }
 
-                $operatorValue = self::$primaryColor;
+                $operatorValue = $value;
 
                 break;
 
@@ -125,7 +101,7 @@ class OpenPABootstrapItaliaOperators
 
                 $block = new eZPageBlock($namedParameters['name'], $namedParameters);
                 $block->setAttribute('id', md5(mt_rand() . microtime()));
-                
+
                 $operatorValue = $block;
 
                 break;
@@ -345,7 +321,7 @@ class OpenPABootstrapItaliaOperators
     public static function cleanFileName($filename)
     {
         $parts = explode('.', $filename);
-        if (count($parts) > 1){
+        if (count($parts) > 1) {
             array_pop($parts);
         }
         $filename = implode('.', $parts);
@@ -362,4 +338,43 @@ class OpenPABootstrapItaliaOperators
         return ucfirst($filename);
     }
 
+    public static function getCss()
+    {
+        if (self::$cssData === null) {
+
+            $theme = OpenPAINI::variable('GeneralSettings', 'theme', 'default');
+            $path = ltrim(eZURLOperator::eZDesign($tpl, "stylesheets/{$theme}.css", 'ezdesign'), '/');
+            if (!file_exists($path)) {
+                $path = "extension/openpa_bootstrapitalia/design/bootstrapitalia/stylesheets/default.css";
+            }
+
+            function parseCss($file)
+            {
+                $css = file_get_contents($file);
+                preg_match_all('/(?ims)([a-z0-9\s\.\:#_\-@,]+)\{([^\}]*)\}/', $css, $arr);
+                $result = array();
+                foreach ($arr[0] as $i => $x) {
+                    $selector = trim($arr[1][$i]);
+                    $rules = explode(';', trim($arr[2][$i]));
+                    $rules_arr = array();
+                    foreach ($rules as $strRule) {
+                        if (!empty($strRule)) {
+                            $rule = explode(":", $strRule);
+                            $rules_arr[trim($rule[0])] = trim($rule[1]);
+                        }
+                    }
+
+                    $selectors = explode(',', trim($selector));
+                    foreach ($selectors as $strSel) {
+                        $result[$strSel] = $rules_arr;
+                    }
+                }
+                return $result;
+            }
+
+            self::$cssData = parseCss($path);
+        }
+
+        return self::$cssData;
+    }
 }

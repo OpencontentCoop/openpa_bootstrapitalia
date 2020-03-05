@@ -1,7 +1,7 @@
 {set_defaults(hash(
     'items_per_row', 3,
     'i_view', 'card',
-    'image_class', 'widemedium',
+    'image_class', 'large',
     'show_icon', true(),
     'view_variation', false(),
     'grid_wrapper', true()

@@ -12,6 +12,8 @@ $eZTemplateOperatorArray = array(
             'page_block',
             'primary_color',
             'privacy_states',
+            'header_color',
+            'footer_color',
         )
     )
 );

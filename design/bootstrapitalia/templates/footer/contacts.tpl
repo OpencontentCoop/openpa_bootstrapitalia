@@ -68,6 +68,14 @@
                 </a>
             </li>
         {/if}
+        {if is_set($contacts.codice_sdi)}
+            <li>
+                <a class="list-item" href="#">
+                    {display_icon('it-card', 'svg', 'icon icon-sm icon-white')}
+                    SDI {$contacts.codice_sdi}
+                </a>
+            </li>
+        {/if}
     </ul>
 </div>
 {undef $contacts}
