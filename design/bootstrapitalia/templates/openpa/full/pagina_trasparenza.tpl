@@ -75,7 +75,7 @@
         </aside>
         <section class="col-lg-8 col-md-8 p-4">
             
-            <h4 class="mb-4">{$node.name|wash()}</h4>
+            <h4 class="mb-4">{$node.data_map.titolo.content|wash()}</h4>
 
             {if $trasparenza.show_alert}                    
                 <div class="alert alert-warning">
