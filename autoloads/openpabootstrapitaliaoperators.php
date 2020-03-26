@@ -67,7 +67,7 @@ class OpenPABootstrapItaliaOperators
             case 'header_color':
             case 'footer_color':
 
-                $cssData = self::getCss();
+                $cssData = self::getCss($tpl);
 
                 $value = '#222';
                 if ($operatorName == 'primary_color' && isset($cssData['.primary-bg']['background-color'])) {
@@ -325,7 +325,7 @@ class OpenPABootstrapItaliaOperators
         return ucfirst($filename);
     }
 
-    public static function getCss()
+    public static function getCss(eZTemplate $tpl)
     {
         if (self::$cssData === null) {
 
@@ -347,7 +347,9 @@ class OpenPABootstrapItaliaOperators
                     foreach ($rules as $strRule) {
                         if (!empty($strRule)) {
                             $rule = explode(":", $strRule);
-                            $rules_arr[trim($rule[0])] = trim($rule[1]);
+                            if (isset($rule[1])) {
+                                $rules_arr[trim($rule[0])] = trim($rule[1]);
+                            }
                         }
                     }
 
