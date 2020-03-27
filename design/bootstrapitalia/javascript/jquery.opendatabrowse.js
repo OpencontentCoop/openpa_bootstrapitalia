@@ -376,7 +376,8 @@
                                 name: this.name,
                                 class_name: this.class_name,
                                 class_identifier: this.class_identifier,
-                                is_container: this.is_container
+                                is_container: this.is_container,
+                                thumbnail_url: this.thumbnail_url
                             };
 
                             var listItem = self.makeListItem(item);
@@ -611,14 +612,24 @@
                                 var name = typeof this.metadata.name[self.settings.language] != 'undefined' ? 
                                     this.metadata.name[self.settings.language] : 
                                     this.metadata.name[Object.keys(this.metadata.name)[0]];
-                                
+                                var thumbnail = false;
+                                var data = typeof this.data[self.settings.language] != 'undefined' ?
+                                    this.data[self.settings.language] :
+                                    this.data[Object.keys(this.data)[0]];
+
+                                if (data.hasOwnProperty('image')) {
+                                    if (typeof(data.image) == "object" && data.image.hasOwnProperty('url')) {
+                                        thumbnail = data.image.url;
+                                    }
+                                }
                                 var item = {
                                     contentobject_id: this.metadata.id,
                                     node_id: this.metadata.mainNodeId,
                                     name: name,
                                     class_name: this.metadata.classIdentifier, //@todo
                                     class_identifier: this.metadata.classIdentifier,
-                                    is_container: false
+                                    is_container: false,
+                                    thumbnail_url: thumbnail
                                 };
 
                                 var listItem = self.makeListItem(item);
@@ -669,7 +680,6 @@
 
         makeListItem: function(item){        
             var self = this;
-
             var name;
             if (item.is_container){
                 name = $('<a data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" style="display:table-cell;"> '+item.name+ ' <small>' +item.class_name + '</small></a>');
@@ -737,6 +747,9 @@
             }
             if (self.settings.useTooltip) input.tooltip();
             listItem.append(input);
+            if (item.thumbnail_url){
+                listItem.append('<img src="'+item.thumbnail_url+'" style="object-fit: contain;width: 80px;height: 80px;margin-right: 10px;" />');
+            }
             listItem.append(name);
 
 
