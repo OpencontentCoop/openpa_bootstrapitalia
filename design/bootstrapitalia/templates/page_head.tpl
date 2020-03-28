@@ -47,10 +47,10 @@
         {foreach $module_result.content_info.persistent_variable.opengraph as $key => $value}
             {if is_array($value)}
                 {foreach $value as $v}
-                    <meta name="{$key}" content="{$v|wash()}" />
+                    <meta property="{$key}" content="{$v|wash()}" />
                 {/foreach}
             {else}
-                <meta name="{$key}" content="{$value|wash()}" />
+                <meta property="{$key}" content="{$value|wash()}" />
             {/if}
         {/foreach}
     {/if}
