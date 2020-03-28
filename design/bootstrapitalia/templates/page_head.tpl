@@ -43,6 +43,18 @@
 
     {/foreach}
 
+    {if is_set($module_result.content_info.persistent_variable.opengraph)}
+        {foreach $module_result.content_info.persistent_variable.opengraph as $key => $value}
+            {if is_array($value)}
+                {foreach $value as $v}
+                    <meta name="{$key}" content="{$v|wash()}" />
+                {/foreach}
+            {else}
+                <meta name="{$key}" content="{$value|wash()}" />
+            {/if}
+        {/foreach}
+    {/if}
+
     {def $metadata = ezini( 'SiteSettings', 'MetaDataArray' )}
     {if is_set($metadata['google-site-verification'])}
         <meta name="google-site-verification" content="{$metadata['google-site-verification']}" />

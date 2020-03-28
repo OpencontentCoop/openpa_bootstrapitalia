@@ -16,6 +16,7 @@
 {if and( openpaini('GeneralSettings','valutation', 1), $homepage.node_id|ne($node.node_id), $node.class_identifier|ne('frontpage'), $node.class_identifier|ne('homepage') ) }
     {include name=valuation node_id=$node.node_id uri='design:openpa/valuation.tpl'}
 {/if}
+{ezpagedata_set('opengraph', $openpa.opengraph.generate_data)}
 {undef $openpa}
 
 {*if and(ezpreference('smart_edit'), $node.object.can_create, $node.object.can_edit)}
