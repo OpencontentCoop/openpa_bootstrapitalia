@@ -255,6 +255,12 @@
                         {/switch}
 
                     {/if}
+                {elseif $trasparenza.count_children_folder|gt(0)}
+
+                    {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
+                             nodes = fetch( 'content', 'list', $trasparenza.children_folder_fetch_parameters )
+                             nodes_count = $trasparenza.count_children_folder}
+
                 {/if}
 
                 {if $trasparenza.count_children_extra|gt(0)}
