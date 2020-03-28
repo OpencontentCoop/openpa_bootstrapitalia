@@ -52,7 +52,7 @@
         <select id="block-view-{$block_id}" class="list block-control" name="ContentObjectAttribute_ezpage_block_view_{$attribute.id}[{$zone_id}][{$block_id}]">
         {def $view_name = ezini( $block.type, 'ViewName', 'block.ini' )}
         {foreach ezini( $block.type, 'ViewList', 'block.ini' ) as $view}
-            <option value="{$view}" {if eq( $block.view, $view )}selected="selected"{/if}>{$view_name[$view]}</option>
+            <option value="{$view}" {if and(is_set($block.view), eq( $block.view, $view ))}selected="selected"{/if}>{$view_name[$view]}</option>
         {/foreach}
         </select>
     </div>

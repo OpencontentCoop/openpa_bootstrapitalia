@@ -64,10 +64,11 @@ section#image figure {
     &.before-overlay .singolo-text {
       padding-bottom: 50px !important;
     }
+  }
 
-    &.after-overlay > .py-5 {
-      padding-top: 0 !important;
-    }
+  section:not(.bg-100) + section:not(.bg-100).after-overlay > .py-5,
+  section.bg-100 + section.bg-100.after-overlay > .py-5 {
+    padding-top: 0 !important;
   }
 
   .singolo-container {
