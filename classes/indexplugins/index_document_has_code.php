@@ -52,9 +52,9 @@ class ezfIndexHasCodeNormalized implements ezfIndexPlugin
 		}
 		
 		$code = self::convertToNumber($code);
-		
+        $year = self::convertToNumber($year);
+        
 		if (strlen($year) == 4){
-			$year = self::convertToNumber($year);
 			$normalized = $year . $code;
 		}else{
 			$normalized = $code . $year;
