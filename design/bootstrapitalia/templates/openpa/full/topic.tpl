@@ -53,28 +53,12 @@
 {if $node|has_attribute('layout')}
     {attribute_view_gui attribute=$node|attribute('layout')}
 {else}
-    {def $blocks = array(
-        page_block(
-            "In evidenza", 
-            "ListaAutomatica", 
-            "lista_card_alt",
-            hash(
-                "limite", "3",
-                "elementi_per_riga", "3",
-                "includi_classi", "event,public_service",
-                "escludi_classi", "",
-                "ordinamento", "priority",
-                "livello_profondita", "",
-                "state_id", "3",
-                "color_style", "section section-muted section-inset-shadow pb-5",
-                "container_style", "",
-                "topic_node_id", $node.node_id,
-                "node_id", "2"
-            )
-        ),
-        page_block(
-            "Amministrazione", 
-            "ListaPaginata", 
+    {def $blocks = array()}
+
+    {if api_search(concat('classes [employee,private_organization,public_organization,office] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
+        {set $blocks = $blocks|append(page_block(
+            "Amministrazione",
+            "ListaPaginata",
             "lista_paginata",
             hash(
                 "limite", "3",
@@ -88,10 +72,13 @@
                 "container_style", "",
                 "node_id", "2"
             )
-        ),
-        page_block(
-            "Servizi", 
-            "ListaPaginata", 
+        ))}
+    {/if}
+
+    {if api_search(concat('classes [public_service] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
+        {set $blocks = $blocks|append(page_block(
+            "Servizi",
+            "ListaPaginata",
             "lista_paginata",
             hash(
                 "limite", "3",
@@ -105,10 +92,13 @@
                 "container_style", "",
                 "node_id", "2"
             )
-        ),
-        page_block(
-            "Novità", 
-            "ListaPaginata", 
+        ))}
+    {/if}
+
+    {if api_search(concat('classes [event,article] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
+        {set $blocks = $blocks|append(page_block(
+            "Novità",
+            "ListaPaginata",
             "lista_paginata",
             hash(
                 "limite", "3",
@@ -122,10 +112,13 @@
                 "container_style", "",
                 "node_id", "2"
             )
-        ),
-        page_block(
-            "Documenti", 
-            "ListaPaginata", 
+        ))}
+    {/if}
+
+    {if api_search(concat('classes [event,public_service] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
+        {set $blocks = $blocks|append(page_block(
+            "Documenti",
+            "ListaPaginata",
             "lista_paginata",
             hash(
                 "limite", "3",
@@ -139,9 +132,12 @@
                 "container_style", "",
                 "node_id", "2"
             )
-        )          
-    )}
+        ))}
+    {/if}
+    {if $blocks|count()}
+        {include uri='design:zone/default.tpl' zones=array(hash('blocks', $blocks))}
+    {else}
+        <section class="page-topic section section-muted section-inset-shadow pb-5" id=""></section>
+    {/if}
 
-    {include uri='design:zone/default.tpl' zones=array(hash('blocks', $blocks))}
-    
 {/if}
