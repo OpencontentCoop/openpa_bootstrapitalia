@@ -17,6 +17,13 @@
     {include name=valuation node_id=$node.node_id uri='design:openpa/valuation.tpl'}
 {/if}
 {ezpagedata_set('opengraph', $openpa.opengraph.generate_data)}
+
+{def $easyontology = class_extra_parameters($node.object.class_identifier, 'easyontology')}
+{if and($easyontology, $easyontology.enabled, $easyontology.easyontology|ne(''))}
+    {def $jsonld = $node.contentobject_id|easyontology_to_json($easyontology.easyontology)}
+    {if $jsonld}<script type="application/ld+json">{$jsonld}</script>{/if}
+{/if}
+
 {undef $openpa}
 
 {*if and(ezpreference('smart_edit'), $node.object.can_create, $node.object.can_edit)}
