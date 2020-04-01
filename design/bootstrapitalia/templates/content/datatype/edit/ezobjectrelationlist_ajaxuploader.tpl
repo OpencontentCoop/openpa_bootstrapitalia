@@ -25,6 +25,7 @@ $(function () {
     $({/literal}'#{concat('multiupload-', $attribute.id)}'{literal}).fileupload({
         url: {/literal}{concat('ocbtools/upload/',$attribute.id, '/', $attribute.version, '/', $start_node)|ezurl()}{literal},
         acceptFileTypes: "{/literal}{$attribute|multiupload_file_types_string_from_attribute()}{literal}",
+        dropZone: $('#edit-{/literal}{$attribute.contentclass_attribute_identifier}{literal}'),
         dataType: 'json',
         autoUpload: true,
         submit: function (e, data) {
@@ -36,7 +37,7 @@ $(function () {
                 alert('Error');
                 $("{/literal}#{concat('multiupload-', $attribute.id, '-container')}{literal} .spinner").hide();
                 $("{/literal}#{concat('multiupload-', $attribute.id, '-container')}{literal} .add").show();
-            }else{
+            }else{                
                 var container = $("{/literal}#{concat('multiupload-', $attribute.id, '-container')}{literal} .spinner").hide();
                 var id = data.result.contentobject_id;
                 var priority = parseInt(container.parent().prev().find('input[name^="ContentObjectAttribute_priority"]:last-child').val()) || 0;
