@@ -5,498 +5,498 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>Αυτός ο ιστότοπος χρησιμοποιεί cookies για να διασφαλίσει την καλύτερη δυνατή εμπειρία πλοήγησης, χρησιμοποιούμε την τεχνική analytics και cookies τρίτων μερών.</translation>
+      <translation>Ta stran uporablja tehnične, analitiko in piškotke tretjih oseb.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
-      <translation>Εάν συνεχίσετε να χρησιμοποιείτε τη σελίδα μας, αποδέχεστε τη χρήση των cookies.</translation>
+      <translation>Z nadaljevanjem brskanje, da se strinjate z uporabo piškotkov.</translation>
     </message>
     <message>
       <source>Informations</source>
-      <translation>Πληροφορίες</translation>
+      <translation>Informacije</translation>
     </message>
     <message>
       <source>Accept</source>
-      <translation>Αποδέχομαι</translation>
+      <translation>Sprejmi</translation>
     </message>
     <message>
       <source>Jump to main content</source>
-      <translation>Μετάβαση στο κύριο περιεχόμενο</translation>
+      <translation>Skok na glavno vsebino</translation>
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Μετάβαση στο μενού ενότητα</translation>
+      <translation>Skok na meni oddelek</translation>
     </message>
     <message>
       <source>Jump to footer</source>
-      <translation>Μετάβαση στο υποσέλιδο</translation>
+      <translation>Skok na nogi</translation>
     </message>
     <message>
       <source>Table of contents</source>
-      <translation>Πινακας περιεχομενων</translation>
+      <translation>Kazalo</translation>
     </message>
     <message>
       <source>Close</source>
-      <translation>Κοντά</translation>
+      <translation>Zapri</translation>
     </message>
     <message>
       <source>FREE</source>
-      <translation>Δωρεάν</translation>
+      <translation>PROST</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Δωρεάν είσοδος για όλους τους συμμετέχοντες</translation>
+      <translation>Prost vstop za vse udeležence</translation>
     </message>
     <message>
       <source>Download</source>
-      <translation>Κατεβάστε</translation>
+      <translation>Prenesi</translation>
     </message>
     <message>
       <source>Download file</source>
-      <translation>Κατεβάστε το αρχείο</translation>
+      <translation>Prenos datotek</translation>
     </message>
     <message>
       <source>File type</source>
-      <translation>Τύπος αρχείου</translation>
+      <translation>Vrsta datoteke</translation>
     </message>
     <message>
       <source>days</source>
-      <translation>μέρες</translation>
+      <translation>dnevi</translation>
     </message>
     <message>
       <source>Share</source>
-      <translation>Κοινοποίηση</translation>
+      <translation>Deliti</translation>
     </message>
     <message>
       <source>Actions</source>
-      <translation>Ενέργειες</translation>
+      <translation>dejanja</translation>
     </message>
     <message>
       <source>Send</source>
-      <translation>Προώθηση</translation>
+      <translation>Pošlji</translation>
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Σχετικό περιεχόμενο</translation>
+      <translation>Podobni vsebina</translation>
     </message>
     <message>
       <source>Search in</source>
-      <translation>Αναζήτηση σε</translation>
+      <translation>Iskanje v</translation>
     </message>
     <message>
       <source>Filters</source>
-      <translation>φίλτρα</translation>
+      <translation>filtri</translation>
     </message>
     <message>
       <source>All</source>
-      <translation>Ολα</translation>
+      <translation>vsi</translation>
     </message>
     <message>
       <source>Read more</source>
-      <translation>Διαβαστε περισσοτερα</translation>
+      <translation>Preberi več</translation>
     </message>
     <message>
       <source>Go to page</source>
-      <translation>Πήγαινε στην σελίδα</translation>
+      <translation>Pojdi na stran</translation>
     </message>
     <message>
       <source>Explore topic</source>
-      <translation>Εξερευνήστε το θέμα</translation>
+      <translation>Raziščite temo</translation>
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Πηγαίνετε στο ημερολόγιο εκδηλώσεων</translation>
+      <translation>Pojdi na koledar prireditev</translation>
     </message>
     <message>
       <source>Event start</source>
-      <translation>έναρξη εκδήλωσης</translation>
+      <translation>začetek dogodka</translation>
     </message>
     <message>
       <source>Event end</source>
-      <translation>τέλος εκδήλωσης</translation>
+      <translation>konec dogodka</translation>
     </message>
     <message>
       <source>Jump to field</source>
-      <translation>Μετάβαση σε τομέα</translation>
+      <translation>Skok na področju</translation>
     </message>
     <message>
       <source>Upload file</source>
-      <translation>Ανέβασμα αρχείου</translation>
+      <translation>Naloži datoteko</translation>
     </message>
     <message>
       <source>Select from library</source>
-      <translation>Επιλέξτε από τη βιβλιοθήκη</translation>
+      <translation>Izberite iz knjižnice</translation>
     </message>
     <message>
       <source>Create</source>
-      <translation>Δημιουργήστε</translation>
+      <translation>ustvarjanje</translation>
     </message>
     <message>
       <source>Create new</source>
-      <translation>Δημιουργία νέου</translation>
+      <translation>Ustvari novo</translation>
     </message>
     <message>
       <source>Reading time</source>
-      <translation>Χρόνος διαβάσματος</translation>
+      <translation>branje čas</translation>
     </message>
     <message>
       <source>Topics</source>
-      <translation>Θέματα</translation>
+      <translation>Teme</translation>
     </message>
     <message>
       <source>Last modified</source>
-      <translation>Τελευταία τροποποίηση</translation>
+      <translation>Zadnja sprememba</translation>
     </message>
     <message>
       <source>Editor tools</source>
-      <translation>Εργαλεία Επεξεργασίας</translation>
+      <translation>orodja za urejanje</translation>
     </message>
     <message>
       <source>See previous versions</source>
-      <translation>Δείτε τις προηγούμενες εκδοχές</translation>
+      <translation>Glej prejšnje različice</translation>
     </message>
     <message>
       <source>Go to the history of this content</source>
-      <translation>Πηγαίνετε στην ιστορία αυτού του περιεχομένου</translation>
+      <translation>Pojdi na zgodovino te vsebine</translation>
     </message>
     <message>
       <source>Further details</source>
-      <translation>Περαιτέρω λεπτομέρειες</translation>
+      <translation>Nadaljne podrobnosti</translation>
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Μετάβαση στο περιεχόμενο</translation>
+      <translation>Pojdi na vsebino</translation>
     </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>eZ Ετικέτες</translation>
+      <translation>EZ Oznake</translation>
     </message>
     <message>
       <source>Apps</source>
-      <translation>Εφαρμογές</translation>
+      <translation>Aplikacije</translation>
     </message>
     <message>
       <source>Amministrazione Trasparente</source>
-      <translation>Διαφανής Διαχείριση</translation>
+      <translation>Amministrazione Trasparente</translation>
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Λίστες ανά κατηγορία</translation>
+      <translation>Seznami po razredu</translation>
     </message>
     <message>
       <source>Import management</source>
-      <translation>Εισαγωγή Διαχείρισης</translation>
+      <translation>upravljanje uvoz</translation>
     </message>
   </context>
   <context>
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Θέση στον Οργανισμό</translation>
+      <translation>Položaj v organizacijski shemi</translation>
     </message>
     <message>
       <source>Add objects</source>
-      <translation>Προσθήκη στοιχείων</translation>
+      <translation>dodaj predmeti</translation>
     </message>
   </context>
   <context>
     <name>openpa/tools</name>
     <message>
       <source>Info</source>
-      <translation>Πληροφορίες</translation>
+      <translation>informacije</translation>
     </message>
   </context>
   <context>
     <name>openpa/sidebar</name>
     <message>
       <source>Related information</source>
-      <translation>Σχετικές πληροφορίες</translation>
+      <translation>Povezane informacije</translation>
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Αναφέρεται στο</translation>
+      <translation>sodi na področje</translation>
     </message>
     <message>
       <source>Classification</source>
-      <translation>Ταξινόμηση</translation>
+      <translation>Razvrstitev</translation>
     </message>
     <message>
       <source>References</source>
-      <translation>Βιβλιογραφια</translation>
+      <translation>Reference</translation>
     </message>
   </context>
   <context>
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>Πληροφοριες</translation>
+      <translation>Informacije</translation>
     </message>
     <message>
       <source>Contacts</source>
-      <translation>Επικοινωνια</translation>
+      <translation>Kontakti</translation>
     </message>
     <message>
       <source>Links</source>
-      <translation>Συνδέσμος</translation>
+      <translation>povezave</translation>
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Ακολουθηστε μας</translation>
+      <translation>Sledi nam</translation>
     </message>
     <message>
       <source>back to top</source>
-      <translation>Επιστροφή στην κορυφή</translation>
+      <translation>nazaj na vrh</translation>
     </message>
   </context>
   <context>
     <name>openpa/valuation</name>
     <message>
       <source>Valuta questo sito</source>
-      <translation>Αξιολόγηση ιστοτόπου</translation>
+      <translation>Valuta ta sito</translation>
     </message>
     <message>
       <source>per nulla</source>
-      <translation>Καθόλου</translation>
+      <translation>na nulla</translation>
     </message>
     <message>
       <source>poco</source>
-      <translation>Λίγο</translation>
+      <translation>poco</translation>
     </message>
     <message>
       <source>abbastanza</source>
-      <translation>Αρκετά</translation>
+      <translation>abbastanza</translation>
     </message>
     <message>
       <source>molto</source>
-      <translation>Πολύ</translation>
+      <translation>molto</translation>
     </message>
     <message>
       <source>Invia la valutazione</source>
-      <translation>Υποβολή Αξιολόγησης</translation>
+      <translation>InVia la VALUTAZIONE</translation>
     </message>
   </context>
   <context>
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Πηγαίνετε στα φίλτρα αναζήτησης</translation>
+      <translation>Pojdi na iskanje filtre</translation>
     </message>
     <message>
       <source>Link to</source>
-      <translation>Σύνδεση με</translation>
+      <translation>Povezava do</translation>
     </message>
     <message>
       <source>Search</source>
-      <translation>Αναζήτηση</translation>
+      <translation>Iskanje</translation>
     </message>
     <message>
       <source>Advanced search</source>
-      <translation>Σύνθετη Αναζήτηση</translation>
+      <translation>Napredno iskanje</translation>
     </message>
     <message>
       <source>in</source>
-      <translation>σε</translation>
+      <translation>v</translation>
     </message>
     <message>
       <source>all website</source>
-      <translation>Σε όλη την  ιστοσελίδα</translation>
+      <translation>vse spletne strani</translation>
     </message>
     <message>
       <source>only information of type</source>
-      <translation>πληροφορίες τύπου</translation>
+      <translation>le informacije o vrsti</translation>
     </message>
     <message>
       <source>Sorting by</source>
-      <translation>Ταξινόμηση κατά</translation>
+      <translation>Razvrščanje po</translation>
     </message>
     <message>
       <source>Sorting</source>
-      <translation>Ταξινόμηση</translation>
+      <translation>sortiranje</translation>
     </message>
     <message>
       <source>Descending</source>
-      <translation>Φθίνουσα</translation>
+      <translation>Padajoče</translation>
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Αύξουσα</translation>
+      <translation>naraščajoče</translation>
     </message>
     <message>
       <source>Score</source>
-      <translation>Αποτέλεσμα</translation>
+      <translation>ocena</translation>
     </message>
     <message>
       <source>Publication date</source>
-      <translation>Ημερομηνία δημοσίευσης</translation>
+      <translation>datum objave</translation>
     </message>
     <message>
       <source>Content type</source>
-      <translation>Τύπος περιεχομένου</translation>
+      <translation>Vrsta vsebine</translation>
     </message>
     <message>
       <source>Name</source>
-      <translation>Ονομα</translation>
+      <translation>ime</translation>
     </message>
     <message>
       <source>from</source>
-      <translation>από</translation>
+      <translation>iz</translation>
     </message>
     <message>
       <source>to</source>
-      <translation>προς</translation>
+      <translation>za</translation>
     </message>
     <message>
       <source>Year</source>
-      <translation>Ετος</translation>
+      <translation>Leto</translation>
     </message>
     <message>
       <source>Any year</source>
-      <translation>Κάθε χρόνο</translation>
+      <translation>Vsako leto</translation>
     </message>
     <message>
       <source>Logical conditions</source>
-      <translation>Λογικές συνθήκες</translation>
+      <translation>logične pogoji</translation>
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Ίσως ψάχνετε</translation>
+      <translation>Mogoče si mislil, da poiščete</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
-      <translation>Οι ακόλουθες λέξεις αποκλείστηκαν από την αναζήτηση:</translation>
+      <translation>Naslednje besede so bile izključene iz iskanja:</translation>
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>Δεν βρέθηκαν αποτελέσματα κατά την αναζήτηση για «% 1».</translation>
+      <translation>Ni bilo zadetkov pri iskanju »% 1«.</translation>
     </message>
     <message>
       <source>Search tips</source>
-      <translation>συμβουλές αναζήτησης</translation>
+      <translation>Nasveti za iskanje</translation>
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Ελέγξτε την ορθογραφία των λέξεων-κλειδιών.</translation>
+      <translation>Preveri črkovanje besede.</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Προσπαθήστε να αλλάξετε κάποιες λέξεις-κλειδιά (π.χ., «αυτοκίνητο» αντί για «αυτοκίνητα»).</translation>
+      <translation>Poskusite spremeniti nekatere ključne besede (na primer, "avto" namesto "avtomobili").</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
-      <translation>Δοκιμάστε να κάνετε αναζήτηση με λιγότερες λέξεις-κλειδιά.</translation>
+      <translation>Poskusite iskati z manj določene ključne besede.</translation>
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
-      <translation>Μειώστε τον αριθμό των λέξεων-κλειδιών για να έχετε περισσότερα αποτελέσματα.</translation>
+      <translation>Zmanjšajte število ključnih besed, da bi dobili več rezultatov.</translation>
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Η Αναζήτηση για «% 1»  επέστρεψε % 2</translation>
+      <translation>Iskanje »% 1« vrnjenih% 2 tekem</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Η αναζήτηση έδωσε αποτελέσματα% 2</translation>
+      <translation>Iskanje vrnjenih% 2 tekme</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Για περισσότερα αποτελέσματα, δοκιμάστε την% 1 σύνθετη αναζήτηση% 2</translation>
+      <translation>Za več možnosti, poskusite% 1Advanced iskanje% 2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
-      <translation>Μειώστε τον αριθμό των φίλτρων που εφαρμόζονται</translation>
+      <translation>Zmanjšajte število filtrov uporablja</translation>
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Κατάργηση όλων των φίλτρων</translation>
+      <translation>Odstrani vse filtre</translation>
     </message>
     <message>
       <source>Refine your search</source>
-      <translation>Βελτιώστε την αναζήτησή σας</translation>
+      <translation>Izboljšajte svoje iskanje</translation>
     </message>
     <message>
       <source>You are filtering for</source>
-      <translation>Φιλτράρετε με:</translation>
+      <translation>Vi ste filtriranje</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/opening_hours_matrix</name>
     <message>
       <source>monday</source>
-      <translation>Δευτέρα</translation>
+      <translation>ponedeljek</translation>
     </message>
     <message>
       <source>tuesday</source>
-      <translation>Τρίτη</translation>
+      <translation>torek</translation>
     </message>
     <message>
       <source>wednesday</source>
-      <translation>Τετάρτη</translation>
+      <translation>sreda</translation>
     </message>
     <message>
       <source>thursday</source>
-      <translation>Πέμπτη</translation>
+      <translation>četrtek</translation>
     </message>
     <message>
       <source>friday</source>
-      <translation>Παρασκευή</translation>
+      <translation>petek</translation>
     </message>
     <message>
       <source>saturday</source>
-      <translation>Σάββατο</translation>
+      <translation>sobota</translation>
     </message>
     <message>
       <source>sunday</source>
-      <translation>Κυριακή</translation>
+      <translation>nedelja</translation>
     </message>
   </context>
   <context>
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation type="unfinished"/>
+      <translation>Izpolnite nekaj informacij o svojem mestu</translation>
     </message>
     <message>
       <source>Select place</source>
-      <translation type="unfinished"/>
+      <translation>Izberite kraj</translation>
     </message>
     <message>
       <source>Nowhere</source>
-      <translation type="unfinished"/>
+      <translation>nikjer</translation>
     </message>
     <message>
       <source>Editor choice</source>
-      <translation type="unfinished"/>
+      <translation>izbira urednika</translation>
     </message>
     <message>
       <source>Shared with other editors</source>
-      <translation type="unfinished"/>
+      <translation>V skupni rabi z drugimi uredniki</translation>
     </message>
     <message>
       <source>Your own</source>
-      <translation type="unfinished"/>
+      <translation>Lastne</translation>
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation type="unfinished"/>
+      <translation>Lahko povlecite oznako na zemljevidu natančneje izbrati lokacijo.</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation type="unfinished"/>
+      <translation>Dodaj ta kraj na svoja mesta</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation type="unfinished"/>
+      <translation>Obstajajo kraji v bližini izbrane lokacije registriranega v sistemu. Ali želite uporabiti eno od teh?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
-      <translation type="unfinished"/>
+      <translation>Nadaljujte z mojo lokacijo</translation>
     </message>
     <message>
       <source>Detect position</source>
-      <translation type="unfinished"/>
+      <translation>odkriti položaj</translation>
     </message>
   </context>
   <context>

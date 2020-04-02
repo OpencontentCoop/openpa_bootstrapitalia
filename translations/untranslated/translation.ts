@@ -452,4 +452,90 @@
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>add_place_gui</name>
+    <message>
+      <source>Fill some information about your place</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select place</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Nowhere</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Editor choice</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Shared with other editors</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Your own</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>You can drag the marker on the map to select the location more precisely.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Add this location to your places</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Continue with my location</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Detect position</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>editorialstuff/dashboard</name>
+    <message>
+      <source>Add filter</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>List</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Published</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Translations</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>When?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Confirm</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Start date</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>End date</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Loading...</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
 </TS>

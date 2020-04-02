@@ -452,4 +452,90 @@
       <translation>Domenica</translation>
     </message>
   </context>
+  <context>
+    <name>add_place_gui</name>
+    <message>
+      <source>Fill some information about your place</source>
+      <translation>Completa le informazioni sul luogo</translation>
+    </message>
+    <message>
+      <source>Select place</source>
+      <translation>Seleziona luogo</translation>
+    </message>
+    <message>
+      <source>Nowhere</source>
+      <translation>Nessun luogo</translation>
+    </message>
+    <message>
+      <source>Editor choice</source>
+      <translation>Scelti dalla redazione</translation>
+    </message>
+    <message>
+      <source>Shared with other editors</source>
+      <translation>Condivisi con altri redattori</translation>
+    </message>
+    <message>
+      <source>Your own</source>
+      <translation>I tuoi luoghi</translation>
+    </message>
+    <message>
+      <source>You can drag the marker on the map to select the location more precisely.</source>
+      <translation>Trascina il marker sulla mappa per rifinire la selezione</translation>
+    </message>
+    <message>
+      <source>Add this location to your places</source>
+      <translation>Aggiungi questa posizione ai tuoi luoghi</translation>
+    </message>
+    <message>
+      <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
+      <translation>Ci sono altri luoghi registrati vicino alla posizione che hai selezionato: vuoi usare uno di questi?</translation>
+    </message>
+    <message>
+      <source>Continue with my location</source>
+      <translation>Prosegui con la mia selezione</translation>
+    </message>
+    <message>
+      <source>Detect position</source>
+      <translation>Rileva posizione</translation>
+    </message>
+  </context>
+  <context>
+    <name>editorialstuff/dashboard</name>
+    <message>
+      <source>Add filter</source>
+      <translation>Aggiungi filtro</translation>
+    </message>
+    <message>
+      <source>List</source>
+      <translation>Lista</translation>
+    </message>
+    <message>
+      <source>Published</source>
+      <translation>Pubblicato</translation>
+    </message>
+    <message>
+      <source>Translations</source>
+      <translation>Traduzioni</translation>
+    </message>
+    <message>
+      <source>When?</source>
+      <translation>Quando?</translation>
+    </message>
+    <message>
+      <source>Confirm</source>
+      <translation>Conferma</translation>
+    </message>
+    <message>
+      <source>Start date</source>
+      <translation>Inizio</translation>
+    </message>
+    <message>
+      <source>End date</source>
+      <translation>Fine</translation>
+    </message>
+    <message>
+      <source>Loading...</source>
+      <translation>Caricamento...</translation>
+    </message>
+  </context>
 </TS>
