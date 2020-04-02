@@ -22,7 +22,7 @@ class ezfIndexSubAttributeGeo implements ezfIndexPlugin, ExtraDataProviderInterf
         $subGeoValues = self::getSubAttributeGeo($contentObject);
         if (!empty($subGeoValues)) {
             foreach ($subGeoValues as $subGeoValue) {
-                if (!empty($subGeoValue) && !empty($subGeoValue[0]) && !empty($subGeoValue[1])) {
+                if (!empty($subGeoValue) && !empty($subGeoValue['longitude']) && !empty($subGeoValue['latitude'])) {
                     foreach ($availableLanguages as $languageCode) {
                         if ($docList[$languageCode] instanceof eZSolrDoc) {
                             if ($docList[$languageCode]->Doc instanceof DOMDocument) {
