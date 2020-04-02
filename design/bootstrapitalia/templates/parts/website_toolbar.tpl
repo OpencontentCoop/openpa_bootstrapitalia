@@ -106,6 +106,15 @@
             </li>
             {/if}
 
+            {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'bookmark' ) )}
+            <li>
+                <button class="btn" type="submit" name="ActionAddToBookmarks" title="{'Add the current item to your bookmarks.'|i18n( 'design/admin/pagelayout' )}">
+                    <i class="fa fa-bookmark"></i>
+                    <span class="toolbar-label">Preferito</span>
+                </button>
+            </li>
+            {/if}
+
             <li class="toolbar-divider" aria-hidden="true"></li>
 
             {* Custom templates inclusion *}
@@ -247,6 +256,22 @@
                                         <a class="list-item left-icon" href="{'openpa/recaptcha'|ezurl(no)}">
                                             <i class="fa fa-key"></i>
                                             Gestione chiavi recaptcha
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'rss', 'function', 'edit' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'rss/list'|ezurl(no)}">
+                                            <i class="fa fa-rss-square"></i>
+                                            Esportazioni RSS
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'trash' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'content/trash'|ezurl(no)}">
+                                            <i class="fa fa-trash"></i>
+                                            Cestino
                                         </a>
                                     </li>
                                 {/if}
