@@ -1,0 +1,32 @@
+.break {
+    clear: both;
+}
+.schedule-handler {
+    cursor: pointer;
+}
+div#schedule-dialog-container .object-left {
+    width: 43%;
+    float: left;
+    clear: left;
+    margin: 0 !important;
+}
+div#schedule-dialog-container .object-right {
+    width: 54%;
+    float: right;
+    clear: right;
+    margin: 0 !important;
+}
+div#schedule-dialog-container .block {
+    margin-bottom: 1em;
+}
+div#schedule-dialog-container label {
+    display: block;
+    text-align: left;
+}
+div#schedule-dialog-container .element {
+    float: none !important;
+    padding-right: 0 !important;
+}
+div#shedule-calendar-container {
+    border: none;
+}

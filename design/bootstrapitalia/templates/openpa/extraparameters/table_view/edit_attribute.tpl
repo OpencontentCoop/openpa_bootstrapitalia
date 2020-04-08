@@ -55,7 +55,7 @@
 </div>
 </td>
 <td>
-{if and( is_set($attribute.data_type_string), array('ezimage', 'ezobjectrelationlist')|contains($attribute.data_type_string))}
+{if and( is_set($attribute.data_type_string), or($attribute.data_type_string|eq('ezimage'), $attribute.identifier|eq('image')) )}
 <div class="checkbox">
     <label>
         <input type="checkbox" name="extra_handler_{$handler.identifier}[class_attribute][{$class.identifier}][{$attribute.identifier}][main_image]" value="1" {if $handler.main_image|contains($attribute.identifier)}checked="checked"{/if} /> <small>Immagine in apertura</small>

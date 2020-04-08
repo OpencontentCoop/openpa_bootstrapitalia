@@ -78,6 +78,12 @@ MatchFile=datatype/view/string_as_video.tpl
 Subdir=templates
 Match[attribute_identifier]=has_video
 
+[datatype_view_video_ezurl]
+Source=content/datatype/view/ezurl.tpl
+MatchFile=datatype/view/url_as_video.tpl
+Subdir=templates
+Match[attribute_identifier]=video
+
 [datatype_view_relations_gallery]
 Source=content/datatype/view/ezobjectrelationlist.tpl
 MatchFile=datatype/view/relations_gallery.tpl

@@ -2,8 +2,9 @@
 {ezpagedata_set( 'show_path', false() )}
 
 {def $base_query = concat('classes [',$factory_configuration.ClassIdentifier,'] and subtree [', $factory_configuration.CreationRepositoryNode, '] sort [published=>desc]')}
-
-{*set $base_query = concat($base_query, " and owner_id = ", fetch(user, current_user).contentobject_id)*}
+{if fetch( 'user', 'has_access_to', hash( 'module', 'editorialstuff', 'function', 'full_dashboard' ) )|not}
+    {set $base_query = concat($base_query, " and owner_id = ", fetch(user, current_user).contentobject_id)}
+{/if}
 
 
 <section class="container py-4">

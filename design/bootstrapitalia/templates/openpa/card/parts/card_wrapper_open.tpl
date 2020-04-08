@@ -1,2 +1,2 @@
 <div data-object_id="{$node.contentobject_id}" class="card-wrapper {if or($view_variation|eq('big'),$view_variation|eq('alt'))}card-space{/if} {$node|access_style}">
-    <div class="card {if $node|has_attribute('image')} card-img{/if} {if $view_variation|eq('alt')}rounded shadow{/if} {if $view_variation|eq('big')}card-bg {if $node|has_attribute('image')|not()}card-big{/if} rounded shadow{/if}">
+    <div class="card {if $has_media} card-img{/if} {if $view_variation|eq('alt')}rounded shadow{/if} {if $view_variation|eq('big')}card-bg {if $node|has_attribute('image')|not()}card-big{/if} rounded shadow{/if}">

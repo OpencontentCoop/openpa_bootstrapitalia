@@ -1,5 +1,10 @@
 {set_defaults(hash('show_icon', true(), 'image_class', 'large', 'view_variation', ''))}
 
+{def $has_media = false()}
+{if $node|has_attribute('image')}
+    {set $has_media = true()}
+{/if}
+
 {include uri='design:openpa/card/parts/card_wrapper_open.tpl'}
 
     {include uri='design:openpa/card/parts/image.tpl'}

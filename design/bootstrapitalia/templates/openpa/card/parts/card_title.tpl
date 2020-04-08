@@ -3,7 +3,7 @@
 		{$node.name|wash()}
 	</h5>
 {else}
-	<h5 class="card-title{if and($node|has_attribute('image')|not(), $view_variation|eq('big')|not())} big-heading{/if}">
+	<h5 class="card-title{if and($has_media|not(), $view_variation|eq('big')|not())} big-heading{/if}">
 	    {$node.name|wash()}
 	</h5>
 {/if}

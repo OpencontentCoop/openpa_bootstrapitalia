@@ -1,4 +1,4 @@
-{if and($view_variation|eq('big'), $show_icon, $node|has_attribute('image')|not())}
+{if and($view_variation|eq('big'), $show_icon, $has_media|not())}
 
     <div class="flag-icon invisible"></div>
 

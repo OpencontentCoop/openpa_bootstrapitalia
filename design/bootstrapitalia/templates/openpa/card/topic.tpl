@@ -4,6 +4,11 @@
     'view_variation', ''    
 ))}
 
+{def $has_media = false()}
+{if $node|has_attribute('image')}
+    {set $has_media = true()}
+{/if}
+
 <div data-object_id="{$node.contentobject_id}" class="card-wrapper {if $view_variation|eq('big')}card-space{/if} {$node|access_style}">
     <div class="card {if $node|has_attribute('image')} card-img{/if} {if $view_variation|eq('big')}card-bg rounded shadow{/if}">
 
