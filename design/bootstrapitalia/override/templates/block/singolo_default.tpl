@@ -31,7 +31,7 @@
         <div class="singolo-image-container d-lg-flex align-items-stretch flex-nowrap">
             <div class="singolo-placeholder d-none d-lg-block flex-lg-fill"></div>
             {if $has_video}
-                <div class="singolo-image flex-lg-fill video-container">{$oembed.html}</div>
+                <div class="singolo-image flex-lg-fill video-wrapper">{$oembed.html}</div>
             {elseif $has_image}
                 <div class="singolo-image flex-lg-fill bg-dark"
                      style="background-image:url('{include uri='design:atoms/image_url.tpl' node=$valid_node}'); background-position: center center;background-repeat: no-repeat;background-size: cover;min-height:200px"></div>
