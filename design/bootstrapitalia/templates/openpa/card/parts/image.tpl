@@ -2,7 +2,7 @@
     <div class="img-responsive-wrapper">
         <div class="img-responsive{if $view_variation|eq('big')} img-responsive-panoramic{/if}">
             <div class="img-wrapper">
-                {if is_set($oembed)}
+                {if and(is_set($oembed), is_array($oembed))}
                     {$oembed.html}
                 {elseif $node|has_attribute('image')}
                     {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
