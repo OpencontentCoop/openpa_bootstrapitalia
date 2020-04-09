@@ -14,7 +14,8 @@
      $available_for_current_class = false()
      $custom_templates = ezini( 'CustomTemplateSettings', 'CustomTemplateList', 'websitetoolbar.ini' )
      $include_in_view = ezini( 'CustomTemplateSettings', 'IncludeInView', 'websitetoolbar.ini' )
-     $node_hint = ': '|append( $current_node.name|wash(), ' [', $content_object.content_class.name|wash(), ']' ) }
+     $node_hint = ': '|append( $current_node.name|wash(), ' [', $content_object.content_class.name|wash(), ']' )
+     $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )}
 
      {foreach $policies as $policy}
         {if and( eq( $policy.moduleName, 'websitetoolbar' ),eq( $policy.functionName, 'use' ),is_array( $policy.limitation ) )}
@@ -68,7 +69,10 @@
                 </li>
             {/if}
 
-            {if $content_object.can_move}
+            {if and(
+                $content_object.can_move,
+                not( $top_menu_node_ids|contains( $current_node.node_id ) )
+            )}
                 <li>
                     <button class="btn" type="submit" name="MoveNodeButton" title="{'Move'|i18n('design/standard/parts/website_toolbar')}{$node_hint}">
                         <i class="fa fa-arrows"></i>
@@ -87,7 +91,15 @@
             {/if}
 
             {if $can_manage_location}
-                {if and( $can_manage_location, ne( $current_node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), ne( $current_node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), ne( $current_node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}
+                {if and(
+                    $can_manage_location,
+                    ne( $current_node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ),
+                    ne( $current_node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ),
+                    ne( $current_node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ),
+                    not( $top_menu_node_ids|contains( $current_node.node_id ) ),
+                    not( array('topic')|contains( $current_node.class_identifier ) ),
+                    $current_node.depth|gt(3)
+                )}
                     <li>
                         <button class="btn" type="submit" name="AddAssignmentButton" title="{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}">
                             <i class="fa fa-map-marker"></i>
@@ -183,6 +195,7 @@
                 ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' ),
                 openpaini( 'WebsiteToolbar', 'ShowMediaRoot', 'enabled' )|eq('enabled'),
                 openpaini( 'WebsiteToolbar', 'ShowUsersRoot', 'enabled' )|eq('enabled'),
+                openpaini( 'WebsiteToolbar', 'ShowEditorRoles', 'disabled' )|eq('enabled'),
                 and(fetch( 'user', 'has_access_to', hash( 'module', 'newsletter', 'function', 'index' ) ), ezmodule('newsletter','subscribe')),
                 fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'roles' ) )
             )}
@@ -190,7 +203,7 @@
             <li>
                 <div class="dropdown">
                     <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-link"></i>
+                        <i class="fa fa-sliders"></i>
                         <span class="toolbar-label">Amministra</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
@@ -231,9 +244,17 @@
                                 <li>
                                     <a class="list-item left-icon" href="{'openpa/roles'|ezurl(no)}">
                                         <i class="fa fa-user-o"></i>
-                                        Gestione ruoli
+                                        Gestione ruoli amministrativi
                                     </a>
                                 </li>
+                                {/if}
+                                {if and( openpaini( 'WebsiteToolbar', 'ShowEditorRoles', 'disabled' )|eq('enabled'), fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'permissions' ) ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'bootstrapitalia/permissions'|ezurl(no)}">
+                                            <i class="fa fa-user-secret"></i>
+                                            Gestione accessi redazione
+                                        </a>
+                                    </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'theme' ) )}
                                     <li>

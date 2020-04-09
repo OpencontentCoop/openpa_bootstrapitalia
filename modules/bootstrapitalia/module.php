@@ -3,13 +3,6 @@
 $Module = array( 'name' => 'OpenContent BootstrapItalia' );
 
 $ViewList = array();
-$ViewList['palette'] = array(
-    'functions' => array( 'palette' ),
-    'script' => 'palette.php',
-    'params' => array( ),
-    'unordered_params' => array(),
-    "default_navigation_part" => 'ezsetupnavigationpart',
-);
 $ViewList['theme'] = array(
     'functions' => array( 'theme' ),
     'script' => 'theme.php',
@@ -17,7 +10,15 @@ $ViewList['theme'] = array(
     'unordered_params' => array(),
     "default_navigation_part" => 'ezsetupnavigationpart',
 );
+$ViewList['permissions'] = array(
+    'functions' => array( 'permissions' ),
+    'script' => 'permissions.php',
+    'params' => array('Action', 'UserNode', 'GroupNode'),
+    'unordered_params' => array(),
+    "default_navigation_part" => 'ezsetupnavigationpart',
+);
 
 
 $FunctionList = array();
 $FunctionList['theme'] = array();
+$FunctionList['permissions'] = array();

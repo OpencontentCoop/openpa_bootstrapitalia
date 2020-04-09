@@ -1,11 +1,14 @@
+{ezpagedata_set('show_path', false())}
 {def $class_identifier = 'time_indexed_role'
-	 $parent_node_id = openpa_roles_parent_node_id()}
+	 $parent_node_id = openpa_roles_parent_node_id()
+	 $parent_node = fetch(content, node, hash(node_id, $parent_node_id))
+	 $can_create = cond($parent_node.can_create, true(), false())}
 
 <div class="row">
 	<div class="col-md-12">
 	  	<h3>Gestione dei ruoli</h3> 
 	</div>		
-	<div class="col-md-10">
+	<div class="col-md-{if $can_create}10{else}12{/if}">
 		<div class="input-group">
 		  <input type="text" class="form-control" id="name">
 		  <div class="input-group-append">
@@ -14,11 +17,13 @@
 		  </div>
 		</div>
 	</div>
+	{if $can_create}
 	<div class="col-md-2">
-		<button type="submit" class="btn btn-success" id="AddContent">
+		<button type="submit" class="btn btn-success rounded-0" id="AddContent">
 		  Crea nuovo
 		</button>	          
 	</div>
+	{/if}
 	<div class="col-md-12">
 		<table class="table table-striped" id="data">
 			<thead>
@@ -26,7 +31,7 @@
 					<th>Ruolo</th>
 					<th>Persona</th>
 					<th>Struttura</th>
-					<th width="1"></th>
+					{if $can_create}<th width="1"></th>{/if}
 		        </tr>
 			</thead>
 			<tbody></tbody>
@@ -104,11 +109,12 @@
             {{for ~i18n(data,'for_entity')}}<a href="{{:~baseUrl}}content/view/full/{{:mainNodeId}}">{{:~i18n(name)}}</a>{{/for}}
         {{/if}}
 	</td>	
-    
+    {/literal}{if $can_create}{literal}
 	<td style="white-space: nowrap;">
 		<a href="#" class="edit-object" data-object="{{:metadata.id}}"><span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-pencil fa-stack-1x fa-inverse"></i></span></a>
 		<a href="#" class="delete-object" data-object="{{:metadata.id}}"><span class="fa-stack text-danger"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-trash-o fa-stack-1x fa-inverse"></i></span></a>
 	</td>
+	{/literal}{/if}{literal}
 </tr>	
 {{/for}}
 {{if prevPageQuery || nextPageQuery }}
@@ -216,7 +222,7 @@
 	            $('#ResetContents').show();
 	            currentPage = 0;
 	        }else{
-	            loadAnagrafica();
+                loadContents();
 	        }                
 	        e.preventDefault();
 	    });

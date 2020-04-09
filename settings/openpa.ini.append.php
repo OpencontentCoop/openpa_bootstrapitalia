@@ -82,4 +82,7 @@ FromFolder[]=infobox
 #Handlers[datatype/classIdentifier/attributeIdentifier]=PhpClassname
 Handlers[ezinteger/*/*]=OpenPAAttributeIntegerHandler
 
+[WebsiteToolbar]
+ShowEditorRoles=disabled
+
 */ ?>

@@ -25,10 +25,14 @@ Actions[]
 Actions[private-public]=NotifyOwner
 Actions[public-private]=NotifyOwner
 NotificationAttributeIdentifiers[]
+AutoRegistration=disabled
+
+### Esempi di configurazione:
 
 #[AvailableFactories]
 #Identifiers[]=event
 #Identifiers[]=place
+#Identifiers[]=private_organization
 
 #[event]
 #Name=Eventi
@@ -43,4 +47,13 @@ NotificationAttributeIdentifiers[]
 #CreationRepositoryNode=71
 #CreationButtonText=Crea nuovo luogo
 #ClassName=OpenPABootstrapItaliaPrivacyFactory
+
+#[private_organization]
+#Name=Organizzazione
+#ClassIdentifier=private_organization
+#CreationButtonText=Crea nuova organizzazione
+#ClassName=OpenPABootstrapItaliaPrivacyFactory
+#CreationRepositoryNode=12
+#AutoRegistration=enabled
+
 /*?>
