@@ -22,14 +22,39 @@ class OpenPABootstrapItaliaPrivacyPost extends OCEditorialStuffPostDefault
 
     public function onCreate()
     {
+        $this->updateOwner();
         if ($this->getObject()->attribute('current_version') == 1) {
             $states = $this->states();
             $default = 'privacy.private';
             if (isset($states[$default])) {
                 $this->getObject()->assignState($states[$default]);
-                eZSearch::addObject($this->object, true);
+                $this->disableUser();
+                $this->flushObject();
+                eZSearch::addObject($this->getObject(), true);
             }
         }
+    }
+
+    public function onUpdate()
+    {
+        $this->updateOwner();
+    }
+
+    public function onChangeState(eZContentObjectState $beforeState, eZContentObjectState $afterState)
+    {
+        if ($afterState->attribute('identifier') == 'private') {
+            $this->disableUser();
+            $this->flushObject();
+        } elseif ($afterState->attribute('identifier') == 'public') {
+            $this->enableUser();
+            $this->flushObject();
+        }
+
+        if ($beforeState->attribute('identifier') != $afterState->attribute('identifier')) {
+            $this->setObjectLastModified();
+        }
+
+        return parent::onChangeState($beforeState, $afterState);
     }
 
     public function attribute($property)
@@ -39,5 +64,55 @@ class OpenPABootstrapItaliaPrivacyPost extends OCEditorialStuffPostDefault
         }
 
         return parent::attribute($property);
+    }
+
+    private function hasAutoRegistrableFactory()
+    {
+        $factory = $this->getFactory();
+        if ($factory instanceof OpenPABootstrapitaliaAutoRegistrableInterface) {
+            return $factory->canAutoRegister();
+        }
+
+        return false;
+    }
+
+    private function disableUser()
+    {
+        if ($this->hasAutoRegistrableFactory()) {
+            $userSetting = eZUserSetting::fetch($this->id());
+            if ($userSetting instanceof eZUserSetting) {
+                if ($userSetting->attribute("is_enabled") != 0) {
+                    eZContentCacheManager::clearContentCacheIfNeeded($this->id());
+                    eZContentCacheManager::generateObjectViewCache($this->id());
+                }
+                $userSetting->setAttribute("is_enabled", 0);
+                $userSetting->store();
+            }
+        }
+    }
+
+    private function enableUser()
+    {
+        if ($this->hasAutoRegistrableFactory()) {
+            $userSetting = eZUserSetting::fetch($this->id());
+            if ($userSetting instanceof eZUserSetting) {
+                if ($userSetting->attribute("is_enabled") != 1) {
+                    eZContentCacheManager::clearContentCacheIfNeeded($this->id());
+                    eZContentCacheManager::generateObjectViewCache($this->id());
+                }
+                $userSetting->setAttribute("is_enabled", 1);
+                $userSetting->store();
+            }
+        }
+    }
+
+    private function updateOwner()
+    {
+        if ($this->hasAutoRegistrableFactory()) {
+            if ($this->getObject()->attribute('owner_id') != $this->id()) {
+                $this->getObject()->setAttribute('owner_id', $this->id());
+                $this->getObject()->store();
+            }
+        }
     }
 }

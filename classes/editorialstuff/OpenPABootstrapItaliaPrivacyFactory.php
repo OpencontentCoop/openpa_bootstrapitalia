@@ -1,6 +1,6 @@
 <?php
 
-class OpenPABootstrapItaliaPrivacyFactory extends OCEditorialStuffPostDefaultFactory
+class OpenPABootstrapItaliaPrivacyFactory extends OCEditorialStuffPostDefaultFactory implements OpenPABootstrapitaliaAutoRegistrableInterface
 {
     public function __construct($configuration)
     {
@@ -142,4 +142,22 @@ class OpenPABootstrapItaliaPrivacyFactory extends OCEditorialStuffPostDefaultFac
         }
         return $Result;
     }
+
+    public function canAutoRegister()
+    {
+        return isset($this->configuration['AutoRegistration'])
+            && $this->configuration['AutoRegistration'] == 'enabled'
+            && in_array($this->classIdentifier(), eZUser::fetchUserClassNames())
+            && $this->ifWorkflowIsActive();
+    }
+
+    private function ifWorkflowIsActive()
+    {
+        $workflowTypeString = EditorialStuffType::WORKFLOW_TYPE_STRING;
+        $query = "SELECT COUNT(*) FROM ezworkflow_event WHERE workflow_type_string = 'event_{$workflowTypeString}' AND workflow_id IN (SELECT workflow_id FROM eztrigger WHERE name = 'post_publish')";
+        $result = eZDB::instance()->arrayQuery($query);
+
+        return $result[0]['count'] > 0;
+    }
+
 }

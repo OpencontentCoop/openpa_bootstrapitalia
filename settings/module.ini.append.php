@@ -3,4 +3,5 @@
 [ModuleSettings]
 ExtensionRepositories[]=openpa_bootstrapitalia
 ModuleList[]=bootstrapitalia
+ModuleList[]=join
 */ ?>
