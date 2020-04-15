@@ -32,7 +32,7 @@
         this.filtersGui = $('.filters-gui');
 
         this.toggleSectionSearch = $('#toggleSectionSearch');
-        this.toggleGlobalSearch = $('#toggleGlobalSearch');
+        this.toggleGlobalSearch = $('[data-trigger="toggleGlobalSearch"]');
         this.toggleSearch = $('#toggleSearch');
 
         this.triggerSubtree = $('.trigger-subtree');
