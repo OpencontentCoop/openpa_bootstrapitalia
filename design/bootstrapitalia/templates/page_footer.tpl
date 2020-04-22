@@ -26,7 +26,7 @@
             {/if}
             {undef $top_menu_node_ids}
 
-            {def $has_newsletter = cond(and(ezmodule('newsletter','subscribe'), newsletter_edition_hash()|count()|gt(0)), true(), false())
+            {def $has_newsletter = cond(and(ezmodule('newsletter','subscribe'), has_newsletter()), true(), false())
                  $has_social = cond(or(
                         is_set($pagedata.contacts.facebook),
                         is_set($pagedata.contacts.twitter),
