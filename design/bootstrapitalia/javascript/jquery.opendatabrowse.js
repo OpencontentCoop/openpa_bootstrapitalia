@@ -618,7 +618,7 @@
                                     this.data[Object.keys(this.data)[0]];
 
                                 if (data.hasOwnProperty('image')) {
-                                    if (typeof(data.image) == "object" && data.image.hasOwnProperty('url')) {
+                                    if (data.image) {
                                         thumbnail = data.image.url;
                                     }
                                 }
