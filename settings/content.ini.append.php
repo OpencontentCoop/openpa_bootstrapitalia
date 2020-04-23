@@ -7,7 +7,7 @@ AvailableDataTypes[]=openparole
 AvailableDataTypes[]=openpareverserelationlist
 AvailableDataTypes[]=openparestrictedarea
 
-#[EditSettings]
+[EditSettings]
 #AdditionalTemplates[]=load_ocopendata_forms.tpl
-
+ExtensionDirectories[]=openpa_bootstrapitalia
 */

@@ -186,6 +186,12 @@ MatchFile=datatype/view/matrix_closure.tpl
 Subdir=templates
 Match[attribute_identifier]=closure
 
+[datatype_view_file_ezurl]
+Source=content/datatype/view/ezurl.tpl
+MatchFile=datatype/view/url_as_file.tpl
+Subdir=templates
+Match[class_identifier]=document
+Match[attribute_identifier]=link
 
 ############################################
 ############################################ DATATYPE EDIT
