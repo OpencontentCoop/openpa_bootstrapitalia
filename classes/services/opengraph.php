@@ -136,10 +136,12 @@ class ObjectHandlerServiceOpengraph extends ObjectHandlerServiceBase
                     $imagesIdList = explode('-', $dataMap[$mainImage]->toString());
                     foreach ($imagesIdList as $id) {
                         $object = eZContentObject::fetch((int)$id);
-                        $dataMap = $object->dataMap();
-                        $image = $this->loadImage(['image'], $dataMap);
-                        if ($image) {
-                            return $image;
+                        if ($object instanceof eZContentObject) {
+                            $dataMap = $object->dataMap();
+                            $image = $this->loadImage(['image'], $dataMap);
+                            if ($image) {
+                                return $image;
+                            }
                         }
                     }
                 }
