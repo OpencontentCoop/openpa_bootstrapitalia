@@ -55,18 +55,23 @@
         {set $show_next_link = true()}
       {/if}
 
-      {set $block_wrappers = $block_wrappers|append(hash(
-        'block', $block,
-        'slug', $slug,
-        'items_per_row', $current_items_per_row,
-        'is_wide', $is_wide,
-        'container_style', $container_style,
-        'layout_style', $layout_style,
-        'color_style', $color_style,
-        'show_next_link', $show_next_link
-      ))}
+      {def $openpa_block = object_handler($block)
+           $has_content = cond(is_set($openpa_block.has_content), $openpa_block.has_content, true())}
 
-      {undef $slug $current_items_per_row $is_wide $color_style $next_index $show_next_link $container_style $layout_style}
+      {if $has_content}
+        {set $block_wrappers = $block_wrappers|append(hash(
+          'block', $block,
+          'slug', $slug,
+          'items_per_row', $current_items_per_row,
+          'is_wide', $is_wide,
+          'container_style', $container_style,
+          'layout_style', $layout_style,
+          'color_style', $color_style,
+          'show_next_link', $show_next_link
+        ))}
+      {/if}
+
+      {undef $slug $current_items_per_row $is_wide $color_style $next_index $show_next_link $container_style $layout_style $openpa_block $has_content}
 
     {else}
       {skip}
@@ -92,7 +97,6 @@
         <span class="Icon Icon-expand"></span>
     </a>
     {/if*}
-
   </section>
   {undef $next_index $prev_index}
 {/foreach}

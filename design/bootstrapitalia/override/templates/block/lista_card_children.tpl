@@ -5,13 +5,13 @@
 {include uri='design:parts/block_name.tpl'}
 
 <div class="container">
-
-{include uri='design:atoms/grid.tpl'
-         items_per_row=$items_per_row
-         i_view=card_children
-         view_variation='big'
-         image_class=widemedium
-         items=$openpa.content}
+    {include uri='design:atoms/grid.tpl'
+             items_per_row=$items_per_row
+             i_view=card_children
+             view_variation='big'
+             image_class=widemedium
+             items=$openpa.content}
+    {include uri='design:parts/block_show_all.tpl'}
 </div>
 {/if}
 {unset_defaults(array('items_per_row'))}

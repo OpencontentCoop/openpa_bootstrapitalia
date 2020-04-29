@@ -12,6 +12,7 @@
              show_icon=true()
              image_class=large
              items=$openpa.content}
+    {include uri='design:parts/block_show_all.tpl'}
 </div>
 {/if}
 {unset_defaults(array('items_per_row'))}

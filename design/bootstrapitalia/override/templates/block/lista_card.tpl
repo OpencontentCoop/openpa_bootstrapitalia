@@ -11,6 +11,7 @@
              view_variation='big'
              image_class=imagelargeoverlay
              items=$openpa.content}
+    {include uri='design:parts/block_show_all.tpl'}
 </div>
 {/if}
 {unset_defaults(array('items_per_row'))}

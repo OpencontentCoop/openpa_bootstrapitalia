@@ -29,6 +29,7 @@
 
 	{/if}
 
+	{include uri='design:parts/block_show_all.tpl'}
 </div>
 {/if}
 {undef $openpa}

@@ -362,7 +362,7 @@
     <div class="block-parameters float-break">
         <div class="block-parameter">
         <label>Sfondo</label>
-        <input type="radio" title="Nessuno" id="block-custom_attribute-{$block_id}-{19771205}" class="block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][color_style]" {if is_set($block.custom_attributes[color_style])|not()}checked="checked"{/if} value="" />
+        <input type="radio" title="Nessuno" id="block-custom_attribute-{$block_id}-19771205" class="block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][color_style]" {if is_set($block.custom_attributes[color_style])|not()}checked="checked"{/if} value="" />
         <div style="vertical-align: middle; margin-right: 5px; width: 15px; height: 15px; display: inline-block; border: 1px solid #ccc; background: #fff"></div>
         {def $node_styles = openpaini('Stili', 'Nodo_NomeStile')
              $styles = array()}
@@ -374,7 +374,7 @@
             {undef $style_parts}
         {/foreach}
         {foreach $styles as $style}
-            <input type="radio" title="{$style}" id="block-custom_attribute-{$block_id}-{19771205}" class="block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][color_style]" {if and(  is_set($block.custom_attributes[color_style]), $block.custom_attributes[color_style]|eq($style) )}checked="checked"{/if} value="{$style}" />
+            <input type="radio" title="{$style}" id="block-custom_attribute-{$block_id}-19771205" class="block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][color_style]" {if and(  is_set($block.custom_attributes[color_style]), $block.custom_attributes[color_style]|eq($style) )}checked="checked"{/if} value="{$style}" />
             <div class="block-color-select {$style}" style="padding:0 !important;vertical-align: middle; margin-right: 5px; width: 15px; height: 15px; display: inline-block; border: 1px solid #ccc"><span style="visibility: hidden">{$style}</span></div>
         {/foreach}
         </div>
@@ -384,14 +384,40 @@
 <div class="block-parameters float-break">
     <div class="block-parameter">
         <label>Impostazioni di layout</label>
-        <label for="block-custom_attribute-{$block_id}-{20171205}-0">
-            <input type="radio" id="block-custom_attribute-{$block_id}-{20171205}-0" class="block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][container_style]" {if or(is_set($block.custom_attributes[container_style])|not(), $block.custom_attributes[container_style]|eq(''))}checked="checked"{/if} value="" /> Default
+        <label for="block-custom_attribute-{$block_id}-20171205-0">
+            <input type="radio" id="block-custom_attribute-{$block_id}-20171205-0" class="block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][container_style]" {if or(is_set($block.custom_attributes[container_style])|not(), $block.custom_attributes[container_style]|eq(''))}checked="checked"{/if} value="" /> Default
         </label>
-        <label for="block-custom_attribute-{$block_id}-{20171205}-1">
-            <input type="radio" id="block-custom_attribute-{$block_id}-{20171205}-1" class="block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][container_style]" {if and(is_set($block.custom_attributes[container_style]), $block.custom_attributes[container_style]|eq('overlay'))}checked="checked"{/if} value="overlay" /> Sovrapposto al blocco precedente
+        <label for="block-custom_attribute-{$block_id}-20171205-1">
+            <input type="radio" id="block-custom_attribute-{$block_id}-20171205-1" class="block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][container_style]" {if and(is_set($block.custom_attributes[container_style]), $block.custom_attributes[container_style]|eq('overlay'))}checked="checked"{/if} value="overlay" /> Sovrapposto al blocco precedente
         </label>        
     </div>
 </div>
+
+{if and(ezini_hasvariable($block.type, 'CanAddShowAllLink', 'block.ini'), ezini($block.type, 'CanAddShowAllLink', 'block.ini')|eq('enabled') )}
+    <div class="block-parameters float-break">
+        <div class="block-parameter">
+            <label>Link all'origine</label>
+            <label for="block-custom_attribute-{$block_id}-19791023-0">
+                <input type="radio" id="block-custom_attribute-{$block_id}-19791023-0"
+                       class="block-control"
+                       name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][show_all_link]"
+                       {if or(is_set($block.custom_attributes[show_all_link])|not(), $block.custom_attributes[show_all_link]|eq(''))}checked="checked"{/if} value="" /> Nascondi bottone
+            </label>
+            <label for="block-custom_attribute-{$block_id}-19791023-1">
+                <input type="radio" id="block-custom_attribute-{$block_id}-19791023-1"
+                       class="block-control"
+                       name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][show_all_link]"
+                       {if and(is_set($block.custom_attributes[show_all_link]), $block.custom_attributes[show_all_link]|eq('1'))}checked="checked"{/if} value="1" /> Mostra bottone
+            </label>
+            <label for="block-custom_attribute-{$block_id}-19791023-2">
+                Testo del bottone "Vedi tutti"
+            </label>
+            <input type="text" id="block-custom_attribute-{$block_id}-19791023-2" class="block-control"
+                   name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][show_all_text]"
+                   value="{if is_set($block.custom_attributes[show_all_text])}{$block.custom_attributes[show_all_text]|wash()}{/if}" />
+        </div>
+    </div>
+{/if}
 
 </div>
 </div>

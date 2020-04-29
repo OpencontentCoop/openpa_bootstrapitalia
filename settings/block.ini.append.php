@@ -43,6 +43,7 @@ ContainerStyle[]
 #ContainerStyle[card_children]=py-5
 Wide[]
 Wide[]=card_image
+CanAddShowAllLink=disabled
 
 [ListaAutomatica]
 Name=Lista automatica
@@ -115,6 +116,7 @@ ContainerStyle[lista_card_children]=py-5
 ContainerStyle[lista_accordion]=py-5
 ContainerStyle[lista_banner]=py-5
 ContainerStyle[lista_carousel]=py-5
+CanAddShowAllLink=enabled
 
 [ListaManuale]
 Name=Lista manuale
@@ -158,6 +160,7 @@ ContainerStyle[lista_card_children]=py-5
 ContainerStyle[lista_accordion]=py-5
 ContainerStyle[lista_banner]=py-5
 ContainerStyle[lista_carousel]=py-5
+CanAddShowAllLink=disabled
 
 [Eventi]
 Name=Eventi
@@ -193,6 +196,7 @@ ViewList[]=default
 ViewName[default]=Default
 ItemsPerRow[]
 ContainerStyle[default]=py-5
+CanAddShowAllLink=disabled
 
 [EventiRemoti]
 Name=Eventi (sorgente esterna)
@@ -221,6 +225,7 @@ ViewList[]=default
 ViewName[default]=Default
 ItemsPerRow[]
 ContainerStyle[default]=py-5
+CanAddShowAllLink=disabled
 
 [GMapItems]
 Name=Mappa
@@ -243,6 +248,7 @@ ViewName[map_nolist]=Mappa senza lista (OpenStreetMap)
 ViewName[map_wide]=Mappa wide (OpenStreetMap)
 ItemsPerRow[]
 ItemsPerRow[map_wide]=1
+CanAddShowAllLink=disabled
 
 [AreaRiservata]
 Name=Accesso Area Riservata
@@ -258,6 +264,7 @@ ViewList[]
 ViewList[]=accesso_area_riservata
 ViewName[]
 ViewName[accesso_area_riservata]=Accesso area riservata
+CanAddShowAllLink=disabled
 
 [HTML]
 Name=Codice HTML
@@ -265,6 +272,7 @@ ManualAddingOfItems=disabled
 CustomAttributes[]
 CustomAttributes[]=html
 CustomAttributeTypes[html]=text
+CustomAttributeNames[html]=HTML code (With great power comes great responsibility)
 ViewList[]
 ViewList[]=html
 ViewList[]=html_wide
@@ -272,6 +280,7 @@ ViewName[html]=html
 ViewName[html_wide]=html wide
 ItemsPerRow[]
 ItemsPerRow[html_wide]=1
+CanAddShowAllLink=disabled
 
 [Html3Colonne]
 Name=Codice HTML in 3 colonne
@@ -286,6 +295,7 @@ CustomAttributeTypes[htmlCol3]=text
 ViewList[]
 ViewList[]=html_3_colonne
 ViewName[html_3_colonne]=html
+CanAddShowAllLink=disabled
 
 [Argomenti]
 Name=Argomenti
@@ -302,6 +312,7 @@ ViewName[lista_card]=Default
 ItemsPerRow[]
 Wide[]
 Wide[]=lista_card
+CanAddShowAllLink=disabled
 
 [ListaPaginata]
 Name=Lista paginata
@@ -345,6 +356,7 @@ TTL=3600
 ItemsPerRow[]
 ContainerStyle[]
 ContainerStyle[lista_paginata]=section py-5
+CanAddShowAllLink=enabled
 
 [RicercaDocumenti]
 Name=Ricerca Documenti
@@ -368,6 +380,7 @@ ViewName[default]=Default
 ItemsPerRow[]
 ContainerStyle[]
 ContainerStyle[default]=section py-5
+CanAddShowAllLink=disabled
 
 [RicercaLuoghi]
 Name=Ricerca Luoghi
@@ -391,20 +404,6 @@ ViewName[default]=Default
 ItemsPerRow[]
 ContainerStyle[]
 ContainerStyle[default]=section py-5
-
-[HTML]
-Name=HTML
-ManualAddingOfItems=disabled
-CustomAttributes[]
-CustomAttributes[]=html
-CustomAttributeNames[html]=HTML code (With great power comes great responsibility)
-ViewList[]=default
-ViewList[]=wide
-ViewName[]
-ViewName[default]=Default
-ViewName[wide]=Wide
-ItemsPerRow[]
-Wide[]
-Wide[]=wide
+CanAddShowAllLink=disabled
 
 */ ?>

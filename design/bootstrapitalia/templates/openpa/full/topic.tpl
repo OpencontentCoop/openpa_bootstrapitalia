@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 px-lg-5">
-                <div class="it-hero-card it-hero-bottom-overlapping px-2 px-lg-5 py-2 py-lg-5 rounded shadow">
+                <div class="it-hero-card it-hero-bottom-overlapping px-2 px-lg-5 py-2 py-lg-5 rounded" style="box-shadow: 0 -1rem 1rem rgba(0,0,0,0.15) !important">
                     <div class="container">
                         <div class="row">
                             <div class="col">
@@ -51,7 +51,9 @@
 </div>    
 
 {if $node|has_attribute('layout')}
-    {attribute_view_gui attribute=$node|attribute('layout')}
+    <div style="min-height: 80px">
+        {attribute_view_gui attribute=$node|attribute('layout')}
+    </div>
 {else}
     {def $blocks = array()}
 

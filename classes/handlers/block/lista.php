@@ -19,16 +19,23 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
      */
     protected $rootNode;
 
+    private static $cache = [];
+
     protected function run()
     {
-        $this->build();
-        $this->data['root_node'] = $this->rootNode;        
-        $this->data['fetch_parameters'] = $this->query;
-        
-        $content = $this->getContent();
-        $this->data['has_content'] = $content['SearchCount'] > 0;
-        $this->data['content'] = $content['SearchResult'];
-        $this->data['search_parameters'] = $content['SearchParams'];
+        if (!isset(self::$cache[$this->currentBlock->id()])) {
+            $this->build();
+            $this->data['root_node'] = $this->rootNode;
+            $this->data['fetch_parameters'] = $this->query;
+
+            $content = $this->getContent();
+            $this->data['has_content'] = $content['SearchCount'] > 0;
+            $this->data['content'] = $content['SearchResult'];
+            $this->data['search_parameters'] = $content['SearchParams'];
+            self::$cache[$this->currentBlock->id()] = $this->data;
+        }else{
+            $this->data = self::$cache[$this->currentBlock->id()];
+        }
     }
 
     protected function build()

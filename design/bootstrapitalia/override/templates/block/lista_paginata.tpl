@@ -8,22 +8,24 @@
 	<div class="hide" data-block_subtree_query="{$openpa.query}" data-subtree_filter="{$openpa.subtree_facet_filter}" data-limit="{$openpa.limit}"{if and($openpa.root_node, $openpa.root_node|has_attribute('icon'))} data-icon="{$openpa.root_node|attribute('icon').content}"{/if}>
 		{if $block.name|ne('')}
 		    <div class="row row-title">
-		        <h3>{$block.name|wash()}</h3>
-				{if $openpa.root_node}
-					{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
-					<div class="mb-2 mb-md-0 filters-wrapper hide">
-						<button type="button" class="btn btn-secondary btn-sm mb-1" data-block_subtree_filter>Tutto</button>
-						{foreach $tree_menu.children as $child}
-			                {if $openpa.tree_facets.subtree|contains($child.item.node_id)}
-			                	<button type="button" data-block_subtree_filter="{$child.item.node_id}" class="btn btn-outline-secondary btn-sm mb-1">{$child.item.name|wash()}</button>
-			                {/if}
-			            {/foreach}
-					</div>
-				{/if}
+				<div class="col">
+					<h3 class="m-0">{$block.name|wash()}</h3>
+				</div>
+					{if $openpa.root_node}
+						{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
+						<div class="col text-right mb-2 mb-md-0 filters-wrapper hide">
+							<button type="button" class="btn btn-secondary btn-sm mb-1" data-block_subtree_filter>Tutto</button>
+							{foreach $tree_menu.children as $child}
+								{if $openpa.tree_facets.subtree|contains($child.item.node_id)}
+									<button type="button" data-block_subtree_filter="{$child.item.node_id}" class="btn btn-outline-secondary btn-sm mb-1">{$child.item.name|wash()}</button>
+								{/if}
+							{/foreach}
+						</div>
+					{/if}
 		    </div>
 		{/if}
 
-		<div class="py-4 results">
+		<div class="{if $block.name|ne('')}pb-4{else}py-4{/if} results">
 			<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-3">
 		    </div>
 		</div>
@@ -32,6 +34,7 @@
 			<div class="hide" data-class_identifier="{$class}" data-attributes="{$main_attributes|implode(',')}"></div>
 			{undef $main_attributes}
 		{/foreach}
+		{include uri='design:parts/block_show_all.tpl'}
 	</div>
 {/if}
 
