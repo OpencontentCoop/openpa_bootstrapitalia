@@ -216,6 +216,12 @@ MatchFile=datatype/edit/matrix_contact.tpl
 Subdir=templates
 Match[attribute_identifier]=contact
 
+[datatype_edit_compensi]
+Source=content/datatype/edit/ezmatrix.tpl
+MatchFile=datatype/edit/matrix_compensi.tpl
+Subdir=templates
+Match[attribute_identifier]=compensi
+
 ############################################
 ############################################ BLOCK
 ############################################
