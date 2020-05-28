@@ -20,9 +20,9 @@ class OpenPABootstrapItaliaCkanOrganizationBuilder extends BaseBuilder
             //     throw new \Exception( "L'istanza corrente non è in produzione" );
             // }
 
-            if ($instance->getType() != 'comune_standard' && $instance->getType() != 'comune_new_design') {
-                throw new \Exception("L'istanza corrente non è un comune");
-            }
+//            if ($instance->getType() != 'comune_standard' && $instance->getType() != 'comune_new_design') {
+//                throw new \Exception("L'istanza corrente non è un comune");
+//            }
 
             $pagedata = new \OpenPAPageData();
             $contacts = $pagedata->getContactsData();

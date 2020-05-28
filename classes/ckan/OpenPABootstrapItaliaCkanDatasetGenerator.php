@@ -3,12 +3,20 @@
 use Opencontent\Ckan\DatiTrentinoIt\DatasetGenerator\OpenPA as BaseDatasetGenerator;
 use Opencontent\Opendata\Api\ContentSearch;
 use Opencontent\Opendata\Api\EnvironmentLoader;
-use Opencontent\Ckan\DatiTrentinoIt\Converter\OpenPA as OpenPAConverter;
 
 class OpenPABootstrapItaliaCkanDatasetGenerator extends BaseDatasetGenerator
 {
     public static $containerRemoteId = 'dataset';
 
+    /**
+     * @param $classIdentifier
+     * @param array $parameters
+     * @param null $dryRun
+     * @return eZContentObject|false|mixed
+     * @throws \Opencontent\Opendata\Api\Exception\EnvironmentForbiddenException
+     * @throws \Opencontent\Opendata\Api\Exception\EnvironmentMisconfigurationException
+     * @throws \Exception
+     */
     public function createFromClassIdentifier($classIdentifier, $parameters = array(), $dryRun = null)
     {
         $tools = new OCOpenDataTools();
@@ -25,6 +33,7 @@ class OpenPABootstrapItaliaCkanDatasetGenerator extends BaseDatasetGenerator
             throw new \Exception("Dataset container (remote $containerRemoteId) not found");
         }
 
+        /** @var eZContentObjectAttribute[] $homeDataMap */
         $homeDataMap = OpenPaFunctionCollection::fetchHome()->attribute('data_map');
 
         $currentPublicOrganization = false;
@@ -74,11 +83,14 @@ class OpenPABootstrapItaliaCkanDatasetGenerator extends BaseDatasetGenerator
             throw new \Exception("Theme not found");
         }
 
+        $language = null;
+        $keywordsFound = eZTagsObject::fetchByKeyword('Italiano');
+        if (!empty($keywordsFound)) {
+            $language = implode('|#', [$keywordsFound[0]->ID, $keywordsFound[0]->Keyword, $keywordsFound[0]->ParentID, eZLocale::currentLocaleCode()]);
+        }
+
         //controllo se l'organizzazione è valida
         $tools->getOrganizationBuilder()->build();
-
-        $pagedata = new \OpenPAPageData();
-        $contacts = $pagedata->getContactsData();
 
         $siteUrl = rtrim(eZINI::instance()->variable('SiteSettings', 'SiteURL'), '/');
         $siteName = eZINI::instance()->variable('SiteSettings', 'SiteName');
@@ -96,7 +108,6 @@ class OpenPABootstrapItaliaCkanDatasetGenerator extends BaseDatasetGenerator
         $query = urlencode($rawQuery);
 
         $hasResource = false;
-        $hasGeoResource = false;
 
         if (isset($parameters['Plurale'], $parameters['Descrizione'])) {
             $title = $parameters['Plurale'] . ' del ' . $siteName;
@@ -113,18 +124,18 @@ class OpenPABootstrapItaliaCkanDatasetGenerator extends BaseDatasetGenerator
         }
 
         if (!$hasResource) {
-            throw new \Exception("Nessuna risorsa trovata per $classIdentifier");
+//            throw new \Exception("Nessuna risorsa trovata per $classIdentifier");
         }
 
         $distribuzioni = [];
         $distribuzioni[] = [
             'title' => $resourceTitle . ' in formato JSON',
-            'url_download' => "http://$siteUrl/api/opendata/v2/content/search/" . $query,
+            'url_download' => "https://$siteUrl/api/opendata/v2/content/search/" . $query,
             'format' => 'JSON',
         ];
         $distribuzioni[] = [
             'title' => $resourceTitle . ' in formato CSV',
-            'url_download' => "http://$siteUrl/exportas/custom/csv_search/" . $query,
+            'url_download' => "https://$siteUrl/exportas/custom/csv_search/" . $query,
             'format' => 'CSV',
         ];
 
@@ -132,8 +143,20 @@ class OpenPABootstrapItaliaCkanDatasetGenerator extends BaseDatasetGenerator
         if ($this->anonymousSearch($contentSearch, $rawQuery)) {
             $distribuzioni[] = [
                 'title' => $resourceTitle . ' in formato GeoJSON',
-                'url_download' => "http://$siteUrl/api/opendata/v2/geo/search/" . $query,
+                'url_download' => "https://$siteUrl/api/opendata/v2/geo/search/" . $query,
                 'format' => 'GeoJSON',
+            ];
+        }
+
+        $queryObject = $contentSearch->getQueryBuilder()->instanceQuery($rawQuery);
+        $ezFindQuery = $queryObject->convert()->getArrayCopy();
+
+        if (isset($ezFindQuery['SearchContentClassID'][0])) {
+            $mainClassId = $ezFindQuery['SearchContentClassID'][0];
+            $distribuzioni[] = [
+                'title' => 'Descrizione dei campi',
+                'url_download' => "https://$siteUrl/api/opendata/v2/classes/" . eZContentClass::classIdentifierByID($mainClassId),
+                'format' => 'JSON',
             ];
         }
 
@@ -141,13 +164,7 @@ class OpenPABootstrapItaliaCkanDatasetGenerator extends BaseDatasetGenerator
         foreach ($distribuzioni as $item) {
             $rows[] = implode('|', array_values($item));
         }
-        $distribuzione = implode('&', $rows);
-
-        $email = '';
-        if (isset($contacts['email']))
-            $email = $contacts['email'];
-        elseif (isset($contacts['pec']))
-            $email = $contacts['pec'];
+        $resources = implode('&', $rows);
 
         $attributeList = array();
         $attributeList['title'] = $title;
@@ -166,8 +183,9 @@ class OpenPABootstrapItaliaCkanDatasetGenerator extends BaseDatasetGenerator
         $attributeList['license'] = $license;
         $attributeList['publisher'] = $currentPublicOrganization->attribute('id');
         $attributeList['theme'] = $theme;
+        $attributeList['language'] = $language;
         $attributeList['version_info'] = '1.0';
-        $attributeList['distribuzione'] = $distribuzione;
+        $attributeList['resources'] = $resources;
 
         $params = array();
         $params['class_identifier'] = $tools->getIni()->variable('GeneralSettings', 'DatasetClassIdentifier');

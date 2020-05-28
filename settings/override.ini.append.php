@@ -193,6 +193,13 @@ Subdir=templates
 Match[class_identifier]=document
 Match[attribute_identifier]=link
 
+[datatype_view_matrix_resources]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype/view/matrix_resources.tpl
+Subdir=templates
+Match[class_identifier]=dataset
+Match[attribute_identifier]=resources
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################
