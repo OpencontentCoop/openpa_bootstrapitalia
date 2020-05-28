@@ -13,7 +13,7 @@
             <div class="input-group">
                 <input type="text" class="form-control" id="name">
                 <div class="input-group-append">
-                    <button class="btn btn-info rounded-0" type="button" id="FindContents">Cerca utente o dipendente</button>
+                    <button class="btn btn-info rounded-0" type="button" id="FindContents">Cerca</button>
                     <button class="btn btn-danger rounded-0" type="button" style="display: none;" id="ResetContents">Annulla ricerca</button>
                 </div>
             </div>
@@ -24,6 +24,30 @@
             </button>
         </div>
         <div class="col-12">
+            <p class="font-weight-bold m-0">Filtra per tipologia di utenza:</p>
+            <div class="form-check form-check-inline">
+                <input class="filter" id="user" data-filterclass="user" type="checkbox">
+                <label for="user">Utente</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="filter" id="employee" data-filterclass="employee" type="checkbox">
+                <label for="employee">Dipendente</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="filter" id="politico" data-filterclass="politico" type="checkbox">
+                <label for="politico">Politico</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <p class="font-weight-bold m-0">Filtra per assegnazione del ruolo:</p>
+            {foreach $available_groups as $group}
+            <div class="form-check form-check-inline">
+                <input class="filter" id="path-{$group.node_id}" data-filterpath="{$group.node_id}" type="checkbox">
+                <label for="path-{$group.node_id}">{$group.name|wash()}</label>
+            </div>
+            {/foreach}
+        </div>
+        <div class="col-12">
             <table class="table table-striped mt-2" id="data">
                 <thead>
                 <tr style="font-size: .7em">
@@ -31,7 +55,6 @@
                     {foreach $available_groups as $group}
                         <th style="text-align: center" data-node="{$group.node_id}">{$group.name|wash()}</th>
                     {/foreach}
-                    <th width="1"></th>
                 </tr>
                 </thead>
                 <tbody></tbody>
@@ -119,7 +142,7 @@
     {{/for}}
     {{if prevPageQuery || nextPageQuery }}
     <tr>
-        <td colspan="4">
+        <td colspan="{{:colSpan}}">
             {{if prevPageQuery}}
                 <div class="pull-left"><a href="#" id="prevPage" data-query="{{>prevPageQuery}}">Pagina precedente</a></div>
             {{/if}}
@@ -137,8 +160,7 @@
         var ParentNodeId = {$parent_node_id};
         var ContainerSelector = "#data";
         var FormSelector = "#data-form";
-        var ClassIdentifier = "user";
-        var ModalSelector = "#data-modal"
+        var ModalSelector = "#data-modal";
         {literal}
 
         $(document).ready(function () {
@@ -153,17 +175,58 @@
 
             var pageLimit = 50;
             var template = $.templates('#tpl-results');
-            var mainQuery = "((raw[meta_class_identifier_ms] = 'user' and raw[meta_path_si] = ["+ParentNodeId+"]) or (raw[meta_class_identifier_ms] in [politico,employee])) sort [name=>asc] limit " + pageLimit;
             var $container = $(ContainerSelector).find('tbody');
+            var resetButton = $('#ResetContents');
 
             var currentPage = 0;
             var queryPerPage = [];
+
+            var buildQuery = function(){
+                var mainQuery = "((raw[meta_class_identifier_ms] = 'user' and raw[meta_path_si] = ["+ParentNodeId+"]) or (raw[meta_class_identifier_ms] in [politico,employee])) sort [name=>asc] limit " + pageLimit;
+                var filters = '';
+                var showReset = false;
+
+                var filterClasses = [];
+                var checkedClassFilters = $('[data-filterclass]:checked');
+                checkedClassFilters.each(function () {
+                    filterClasses.push($(this).data('filterclass'));
+                });
+                if (filterClasses.length > 0){
+                    filters += 'classes [' + filterClasses.join(',') + '] and ';
+                    showReset = true;
+                }
+
+                var filterPath = [];
+                var checkedPathFilters = $('[data-filterpath]:checked');
+                checkedPathFilters.each(function () {
+                    filterPath.push($(this).data('filterpath'));
+                });
+                if (filterPath.length > 0){
+                    filters += 'raw[meta_path_si] in [' + filterPath.join(',') + '] and ';
+                    showReset = true;
+                }
+
+                var name = $('#name').val();
+                if (name.length > 0) {
+                    filters += 'q = "' + name + '" and ';
+                    showReset = true;
+                }
+
+                if (showReset){
+                    resetButton.show();
+                }else{
+                    resetButton.hide();
+                }
+
+                return filters + mainQuery;
+            };
 
             var runQuery = function (query) {
                 tools.find(query, function (response) {
                     queryPerPage[currentPage] = query;
                     response.currentPage = currentPage;
                     response.prevPageQuery = jQuery.type(queryPerPage[currentPage - 1]) === "undefined" ? null : queryPerPage[currentPage - 1];
+                    response.colSpan = Groups.length + 1;
 
                     $.each(response.searchHits, function(){
                         var currentParentNodes = this.metadata.parentNodes;
@@ -226,30 +289,26 @@
             };
 
             var loadContents = function () {
-                $('#name').val('');
-                runQuery(mainQuery);
+                runQuery(buildQuery());
             };
 
+            $('input.filter').on('change', function (e) {
+                currentPage = 0;
+                loadContents();
+            });
+
             $('#FindContents').on('click', function (e) {
-                var name = $('#name').val();
-                var filters = '';
-                if (name) {
-                    filters += 'q = "' + name + '" and ';
-                    var searchQuery = filters + mainQuery;
-                    runQuery(searchQuery);
-                    $('#ResetContents').show();
-                    currentPage = 0;
-                }else{
-                    loadContents();
-                }
+                currentPage = 0;
+                loadContents();
                 e.preventDefault();
             });
 
-            $('#ResetContents').on('click', function (e) {
+            resetButton.on('click', function (e) {
                 $('#name').val('');
-                $('#ResetContents').hide();
+                $('input.filter').prop('checked', false);
+                resetButton.hide();
                 currentPage = 0;
-                runQuery(mainQuery);
+                loadContents();
                 e.preventDefault();
             });
 
