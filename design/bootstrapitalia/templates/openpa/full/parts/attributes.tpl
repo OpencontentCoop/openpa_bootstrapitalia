@@ -47,7 +47,8 @@
 {/if}
 
 {if count($summary_items)|gt(0)}
-    <div class="row border-top row-column-border row-column-menu-left attribute-list">
+    <div class="row{if count($summary_items)|gt(1)} border-top row-column-border row-column-menu-left{/if} attribute-list">
+        {if count($summary_items)|gt(1)}
         <aside class="col-lg-4">
             <div class="sticky-wrapper navbar-wrapper">
                 <nav class="navbar it-navscroll-wrapper it-top-navscroll navbar-expand-lg">
@@ -81,7 +82,8 @@
                 </nav>
             </div>
         </aside>
-        <section class="col-lg-8">
+        {/if}
+        <section class="col-lg-8{if count($summary_items)|eq(1)} px-lg-4 pb-lg-4{/if}">
             {foreach $summary_items as $index => $item}
                 <article id="{$item.slug|wash()}" class="it-page-section mb-2 anchor-offset clearfix" {*if $index|eq(0)} class="anchor-offset"{/if*}>
                     <h4>{$item.title|wash()}</h4>
