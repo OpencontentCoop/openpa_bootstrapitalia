@@ -1,0 +1,17 @@
+//modificando
+// - html/extension/openpa_bootstrapitalia/node_modules/bootstrap-italia/src/scss/utilities/colors_vars.scss#202-2014
+//usando http://colorizer.org/
+
+$colore-header: #4472C4;
+
+$primary-a7: darken($colore-header, 3);
+$primary-a6: darken($colore-header, 0);
+$primary-a10: darken($colore-header, 1);
+$primary-a12: darken($colore-header, 2);
+
+$primary-h: 218;
+$primary-s: 65;
+$primary-b: 77;
+
+
+@import "default";
