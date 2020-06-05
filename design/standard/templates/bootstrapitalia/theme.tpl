@@ -1,4 +1,11 @@
 <div class="container">
+    <style>
+        {literal}
+        input[type="radio"]:checked + label{
+            font-weight: bold;
+        }
+        {/literal}
+    </style>
     <h2>Impostazioni Tema</h2>
     {if is_set($message)}
         <div class="message-error">
@@ -9,16 +16,32 @@
     {if count($theme_list)}
         <form method="post" action="{'bootstrapitalia/theme'|ezurl(no)}" class="form">
             <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <select id="theme" class="Form-input u-color-black form-control" name="Theme" placeholder="">
-                        {foreach $theme_list as $item}
-                            <option value="{$item|wash()}"{if $current_theme|eq($item)} selected="selected"{/if}>{$item|wash()}</option>
-                        {/foreach}
-                    </select>
+                {foreach $theme_list as $item}
+                <div class="col-12 col-lg-3">
+                    <div class="card-wrapper">
+                        <div class="card card-img">
+                            <div class="img-responsive-wrapper">
+                                <div class="img-responsive">
+                                    <figure class="img-wrapper">
+                                        <img src="https://via.placeholder.com/310x190/0066cc/FFFFFF/?text=IMMAGINE%20DI%20ESEMPIO" title="theme_{$item|wash()}" alt="theme_{$item|wash()}">
+                                    </figure>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{$item|wash()}</h5>
+                                <input type="radio" id="theme_{$item|wash()}" name="Theme"{if $current_theme|eq($item)} checked="checked"{/if} value="{$item|wash()}" class="hidden">
+                                <label class="btn btn-primary small{if $current_theme|eq($item)} disabled{/if}" for="theme_{$item|wash()}">Seleziona{if $current_theme|eq($item)}to{/if}</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                {/foreach}
+            </div>
+            <div class="row">
                 <div class="col-md-3">
                     <input type="submit" class="btn btn-success" name="StoreTheme" value="Salva"/>
                 </div>
+            </div>
         </form>
     {/if}
 
