@@ -11,7 +11,7 @@
 				<div class="col">
 					<h3 class="m-0">{$block.name|wash()}</h3>
 				</div>
-					{if $openpa.root_node}
+					{if and($openpa.root_node, object_handler($openpa.root_node).content_tag_menu.has_tag_menu|not())}
 						{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
 						<div class="col text-right mb-2 mb-md-0 filters-wrapper hide">
 							<button type="button" class="btn btn-secondary btn-sm mb-1" data-block_subtree_filter>Tutto</button>
