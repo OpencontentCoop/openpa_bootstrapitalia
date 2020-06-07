@@ -202,57 +202,9 @@
 
                         {def $figli = fetch( 'content', 'list', $trasparenza.children_fetch_parameters )}
 
-                        {switch match=$trasparenza.remote_id_map[$node.object.remote_id]}
-
-                            {case match=consulenti_e_collaboratori}                            
-                                {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table.tpl'
-                                         nodes=$figli
-                                         nodes_count=$trasparenza.count_children
-                                         class='consulenza'}
-                            {/case}
-
-                            {case match=incarichi_amministrativi_di_vertice}
-                                {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table.tpl'
-                                         nodes=$figli
-                                         nodes_count=$trasparenza.count_children
-                                         class='dipendente'}
-                            {/case}
-
-                            {case match=dirigenti}
-                                {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table.tpl'
-                                         nodes=$figli
-                                         nodes_count=$trasparenza.count_children
-                                         class='dipendente'}
-                            {/case}
-
-                            {case match=tassi_di_assenza}
-                                {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table.tpl'
-                                         nodes=$figli
-                                         nodes_count=$trasparenza.count_children
-                                         class='tasso_assenza'}
-                            {/case}
-
-                            {case match=incarichi_conferiti}
-                                {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table.tpl'
-                                nodes=$figli
-                                nodes_count=$trasparenza.count_children
-                                class='incarico'}
-                            {/case}
-
-                            {case match=atti_di_concessione}
-                                {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table.tpl'
-                                         nodes=$figli
-                                         nodes_count=$trasparenza.count_children
-                                         class=array( 'sovvenzione_contributo', 'determinazione', 'deliberazione' )}
-                            {/case}
-
-                            {* default *}
-                            {case}
-                                {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
-                                         nodes=$figli
-                                         nodes_count=$trasparenza.count_children}
-                            {/case}
-                        {/switch}
+                        {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
+                                 nodes=$figli
+                                 nodes_count=$trasparenza.count_children}
 
                     {/if}
                 {elseif $trasparenza.count_children_folder|gt(0)}
