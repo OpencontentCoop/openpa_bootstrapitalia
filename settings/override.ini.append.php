@@ -430,3 +430,12 @@ MatchFile=block/html.tpl
 Subdir=templates
 Match[type]=HTML
 Match[view]=wide
+
+#### OpendataRemoteContents
+
+[block_opendata_remote_gui_default]
+Source=block/view/view.tpl
+MatchFile=block/opendata_remote_gui.tpl
+Subdir=templates
+Match[type]=OpendataRemoteContents
+Match[view]=default

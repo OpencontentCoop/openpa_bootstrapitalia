@@ -21,6 +21,7 @@ AllowedTypes[]=RicercaDocumenti
 AllowedTypes[]=RicercaLuoghi
 AllowedTypes[]=HTML
 AllowedTypes[]=EventiRemoti
+AllowedTypes[]=OpendataRemoteContents
 
 [Singolo]
 Name=Oggetto singolo
@@ -406,4 +407,42 @@ ContainerStyle[]
 ContainerStyle[default]=section py-5
 CanAddShowAllLink=disabled
 
+[OpendataRemoteContents]
+Name=Contenuti remoti (opencontent opendata)
+ManualAddingOfItems=disabled
+CustomAttributes[]
+CustomAttributes[]=remote_url
+CustomAttributes[]=query
+CustomAttributes[]=show_map
+CustomAttributes[]=show_search
+CustomAttributes[]=input_search_placeholder
+CustomAttributes[]=fields
+CustomAttributes[]=limit
+CustomAttributes[]=items_per_row
+CustomAttributeNames[]
+CustomAttributeNames[remote_url]=Url remoto
+CustomAttributeNames[query]=Query (esempio: classes [private_organization] sort [name=>asc])
+CustomAttributeNames[show_map]=Mostra mappa
+CustomAttributeNames[show_search]=Mostra input di ricerca
+CustomAttributeNames[input_search_placeholder]=Placeholder input di ricerca
+CustomAttributeNames[fields]=Identificatori campi (esempio: description,more_information)
+CustomAttributeNames[limit]=Elementi per pagina
+CustomAttributeNames[items_per_row]=Elementi per riga
+CustomAttributeTypes[]
+CustomAttributeTypes[show_map]=checkbox
+CustomAttributeTypes[show_search]=checkbox
+CustomAttributeTypes[limit]=select
+CustomAttributeTypes[items_per_row]=select
+CustomAttributeSelection_limit[2]=2
+CustomAttributeSelection_limit[3]=3
+CustomAttributeSelection_limit[4]=4
+CustomAttributeSelection_limit[6]=6
+CustomAttributeSelection_items_per_row[2]=2
+CustomAttributeSelection_items_per_row[3]=3
+ViewList[]
+ViewList[]=default
+ViewName[default]=Default
+ItemsPerRow[]
+ContainerStyle[default]=py-5
+CanAddShowAllLink=disabled
 */ ?>
