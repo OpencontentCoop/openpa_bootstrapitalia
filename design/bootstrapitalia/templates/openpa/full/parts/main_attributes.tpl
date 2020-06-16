@@ -19,7 +19,7 @@
 			{include uri=$openpa['content_show_modified'].template}
 		</div>
 	{/if}
-	{if and($node|has_attribute('reading_time'), $main_attributes|contains('reading_time'))}
+	{if and($node|has_attribute('reading_time'), $main_attributes|contains('reading_time'), $node|attribute('reading_time').content|ne('0'))}
 		<div class="col">
 			<p class="info-date my-3">
 			    <span class="d-block text-nowrap">{'Reading time'|i18n('bootstrapitalia')}:</span>

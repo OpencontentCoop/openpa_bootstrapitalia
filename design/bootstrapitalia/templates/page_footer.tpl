@@ -9,6 +9,12 @@
                 </div>
             </section>
 
+            {def $show_footer_menu = true()}
+            {if $pagedata.homepage|has_attribute('hide_footer_menu')}
+                {set $show_footer_menu = cond($pagedata.homepage|attribute('hide_footer_menu').data_int|eq(1), false(), true())}
+            {/if}
+
+            {if $show_footer_menu}
             {def $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )}
             {if count($top_menu_node_ids)|gt(0)}
             <section>
@@ -25,6 +31,7 @@
             </section>
             {/if}
             {undef $top_menu_node_ids}
+            {/if}
 
             {def $has_newsletter = cond(and(ezmodule('newsletter','subscribe'), has_newsletter()), true(), false())
                  $has_social = cond(or(
@@ -35,7 +42,7 @@
                         is_set($pagedata.contacts.youtube)
                     ), true(), false())}
 
-            <section class="py-4 border-white border-top">
+            <section{if $show_footer_menu} class="py-4 border-white border-top"{/if}>
                 <div class="row">
 
                     {def $footer_notes = fetch( 'openpa', 'footer_notes' )}
@@ -69,7 +76,7 @@
                 </div>
             </section>
 
-            {undef $has_newsletter $has_social}
+            {undef $has_newsletter $has_social $show_footer_menu}
 
         </div>
     </div>
