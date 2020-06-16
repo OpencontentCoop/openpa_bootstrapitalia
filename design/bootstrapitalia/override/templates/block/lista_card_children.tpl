@@ -9,7 +9,7 @@
              items_per_row=$items_per_row
              i_view=card_children
              view_variation='big'
-             image_class=widemedium
+             image_class=imagelargeoverlay
              items=$openpa.content}
     {include uri='design:parts/block_show_all.tpl'}
 </div>

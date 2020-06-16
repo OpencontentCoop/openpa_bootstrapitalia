@@ -10,7 +10,7 @@
              i_view=card
              view_variation='alt'
              show_icon=true()
-             image_class=large
+             image_class=imagelargeoverlay
              items=$openpa.content}
     {include uri='design:parts/block_show_all.tpl'}
 </div>
