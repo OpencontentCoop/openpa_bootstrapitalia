@@ -1,6 +1,6 @@
 {cache-block keys=array( $user.contentobject_id )}
 
-{def $latest_content = fetch( 'content', 'tree', hash( 'parent_node_id',   ezini( 'NodeSettings', 'RootNode', 'content.ini' ),
+{def $latest_content = fetch( 'content', 'tree', hash( 'parent_node_id',   1,
                                                        'limit',            $block.number_of_items,
                                                        'main_node_only',   true(),
                                                        'sort_by',          array( 'modified', false() ),

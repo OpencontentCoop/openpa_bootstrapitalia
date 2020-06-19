@@ -4,7 +4,7 @@
 
 {* We only fetch items within last 60 days to make sure we don't generate to heavy sql queries *}
 {def $date_end = sub( currentdate(), 5184000 )
-     $all_latest_content = fetch( 'content', 'tree', hash( 'parent_node_id',   ezini( 'NodeSettings', 'RootNode', 'content.ini' ),
+     $all_latest_content = fetch( 'content', 'tree', hash( 'parent_node_id',   1,
                                                            'limit',            $block.number_of_items,
                                                            'main_node_only',   true(),
                                                            'attribute_filter', array( array( 'published', '>=',$date_end ) ),
