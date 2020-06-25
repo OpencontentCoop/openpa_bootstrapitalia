@@ -351,3 +351,33 @@ $block-calendar-big: 800px;
   height: 100%;
   width: 100%;
 }
+
+.block-evidence {
+  background-color: #455a64 !important;
+
+  .evidence-text {
+    color: #fff;
+
+    p {
+      margin: 0;
+    }
+
+    a {
+      text-transform: uppercase;
+      color: #000;
+      background: #f8c22e !important;
+      text-decoration: none !important;
+      font-size: .8em;
+      padding: 2px 10px;
+      border-radius: 4px;
+      display: inline-block;
+      font-weight: 600;
+    }
+  }
+}
+
+@media (min-width: #{map-get($grid-breakpoints, lg)}) {
+  .block-evidence .evidence-text{
+    width: 75%;
+  }
+}

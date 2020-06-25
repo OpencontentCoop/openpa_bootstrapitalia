@@ -360,6 +360,13 @@ Subdir=templates
 Match[type]=Singolo
 Match[view]=card_children
 
+[block_singolo_evidence]
+Source=block/view/view.tpl
+MatchFile=block/singolo_evidence.tpl
+Subdir=templates
+Match[type]=Singolo
+Match[view]=evidence
+
 
 #### Eventi
 

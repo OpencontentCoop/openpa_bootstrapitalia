@@ -30,12 +30,14 @@ NumberOfArchivedItems=0
 ManualAddingOfItems=enabled
 ViewList[]
 ViewList[]=default
-ViewList[]=card
+#ViewList[]=card
 ViewList[]=card_image
-ViewList[]=card_children
+#ViewList[]=card_children
+ViewList[]=evidence
 ViewName[]
 ViewName[default]=Default
 ViewName[card_image]=Card (solo immagine)
+ViewName[evidence]=In evidenza
 #ViewName[card]=Card
 #ViewName[card_children]=Card (ultimi 4 contenuti)
 ItemsPerRow[]
@@ -44,6 +46,7 @@ ContainerStyle[]
 #ContainerStyle[card_children]=py-5
 Wide[]
 Wide[]=card_image
+Wide[]=evidence
 CanAddShowAllLink=disabled
 
 [ListaAutomatica]

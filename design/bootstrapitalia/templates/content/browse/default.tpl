@@ -140,7 +140,11 @@
                                 </td>
 
                                 <td>
-                                    {$item.node.name|wash()}
+                                    {if and($item.node_id|ne( $main_node.node_id ), $browse.ignore_nodes_click|contains( $item.node_id )|not())}
+                                        <a href="{concat( 'content/browse/', $item.node_id, '/' )|ezurl(no)}">{$item.node.name|wash()}</a>
+                                    {else}
+                                        {$item.node.name|wash()}
+                                    {/if}
                                 </td>
                                 <td class="class">
                                     {$item.node.object.content_class.name|wash}
