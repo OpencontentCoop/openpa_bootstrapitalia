@@ -121,7 +121,7 @@
             {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'bookmark' ) )}
             <li>
                 <button class="btn" type="submit" name="ActionAddToBookmarks" title="{'Add the current item to your bookmarks.'|i18n( 'design/admin/pagelayout' )}">
-                    <i class="fa fa-bookmark"></i>
+                    <i class="fa fa-bookmark{if is_bookmark($current_node.node_id)} text-light{/if}"></i>
                     <span class="toolbar-label">Preferito</span>
                 </button>
             </li>
@@ -300,6 +300,16 @@
                         </div>
                     </div>
                 </div>
+            </li>
+            {/if}
+
+            {if openpaini('GeneralSettings', 'AnnounceKit')|ne('disabled')}
+            <li>
+                <a class="btn position-relative" href="#" id="announce-news">
+                    <span class="badge badge-warning position-absolute pulsate" style="display: none;top: 0;right: 0;"></span>
+                    <i class="fa fa-bell"></i>
+                    <span class="toolbar-label">Novità</span>
+                </a>
             </li>
             {/if}
 

@@ -18,6 +18,7 @@ class OpenPABootstrapItaliaOperators
             'primary_color',
             'header_color',
             'footer_color',
+            'is_bookmark',
         );
     }
 
@@ -47,7 +48,10 @@ class OpenPABootstrapItaliaOperators
                 'view' => array("type" => "string", "required" => true, "default" => false),
                 'custom_attributes' => array("type" => "array", "required" => false, "default" => array()),
                 'valid_nodes' => array("type" => "array", "required" => false, "default" => array())
-            )
+            ),
+            'is_bookmark' => array(
+                'node_id' => array('type' => 'integer', 'required' => true),
+            ),
         );
     }
 
@@ -62,6 +66,17 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'is_bookmark':
+                $nodeId = (int)$namedParameters['node_id'];
+                $operatorValue = eZContentBrowseBookmark::count(
+                    eZContentBrowseBookmark::definition(),
+                    [
+                        'user_id' => eZUser::currentUserID(),
+                        'node_id' => $nodeId
+                    ]
+                );
+                break;
 
             case 'primary_color':
             case 'header_color':

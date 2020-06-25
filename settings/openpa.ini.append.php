@@ -85,4 +85,7 @@ Handlers[ezinteger/*/*]=OpenPAAttributeIntegerHandler
 [WebsiteToolbar]
 ShowEditorRoles=disabled
 
+[GeneralSettings]
+AnnounceKit=4EqExO
+
 */ ?>
