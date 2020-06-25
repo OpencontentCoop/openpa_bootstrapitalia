@@ -2,7 +2,12 @@
 {foreach $main_attributes as $identifier}
 	{if array('content_show_published','content_show_modified','reading_time')|contains($identifier)}{skip}{/if}
 	{if is_set($openpa[$identifier].contentobject_attribute)}
-		{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute image_class=reference alignment=center}
+		{if $openpa[$identifier].contentobject_attribute.has_content}
+			{*if class_extra_parameters($node.object.class_identifier, 'table_view').show_label|contains($identifier)}
+				<span class="d-block text-nowrap text-sans-serif">{$openpa[$identifier].contentobject_attribute.contentclass_attribute_name}:</span>
+			{/if*}
+			{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute image_class=reference alignment=center}
+		{/if}
 	{else}
 	    {include uri=$openpa[$identifier].template}
 	{/if}

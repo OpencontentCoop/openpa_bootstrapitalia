@@ -33,7 +33,7 @@ class ObjectHandlerServiceOpengraph extends ObjectHandlerServiceBase
             }
 
             $tags = [];
-            foreach ($dataMap as $attribute) {
+            foreach ($dataMap as $identifier => $attribute) {
                 if ($attribute->attribute('data_type_string') == eZTagsType::DATA_TYPE_STRING && $attribute->hasContent()) {
                     /** @var eZTags $attributeContent */
                     $attributeContent = $attribute->content();
@@ -51,12 +51,17 @@ class ObjectHandlerServiceOpengraph extends ObjectHandlerServiceBase
                     && $attribute->hasContent()) {
                     $returnArray['og:description'] = str_replace("\n", " ", strip_tags(trim($attribute->attribute('data_text'))));
                 }
+                if ($identifier == 'reading_time' && $attribute->content() != 0) {
+                    $returnArray['twitter:label1'] = $attribute->attribute('contentclass_attribute_name');
+                    $returnArray['twitter:data1'] = $attribute->content() . ' mins';
+                }
             }
             if (!empty($tags)) {
                 $returnArray['article:tag'] = array_unique($tags);
             }
 
             $returnArray['og:title'] = $contentNode->attribute('name');
+            $returnArray['twitter:title'] = $returnArray['og:title'];
             try {
                 $tableView = OCClassExtraParametersManager::instance($contentNode->object()->contentClass())->getHandler('table_view');
                 $mainImages = $tableView->attribute('main_image');
@@ -113,6 +118,17 @@ class ObjectHandlerServiceOpengraph extends ObjectHandlerServiceBase
             }
 
             $returnArray['og:locale'] = str_replace('-', '_', eZLocale::instance()->httpLocaleCode());
+
+            if (isset($returnArray['og:description'])) {
+                $returnArray['twitter:card'] = 'summary';
+                $returnArray['twitter:description'] = $returnArray['og:description'];
+            }
+            if (isset($returnArray['og:image'])) {
+                $returnArray['twitter:image'] = $returnArray['og:image'];
+            }
+            if (isset($returnArray['og:url'])) {
+                $returnArray['twitter:url'] = $returnArray['og:url'];
+            }
         }
 
         return $returnArray;

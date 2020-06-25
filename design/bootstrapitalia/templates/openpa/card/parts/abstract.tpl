@@ -3,8 +3,20 @@
 <div class="card-text">
 {foreach $main_attributes as $identifier}
 	{if is_set($openpa[$identifier].contentobject_attribute)}
-		{if $openpa[$identifier].contentobject_attribute.data_type_string|ne('ezimage')}
-			<div>{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute}</div>
+		{if and($openpa[$identifier].contentobject_attribute.data_type_string|ne('ezimage'), $openpa[$identifier].contentobject_attribute.has_content)}
+			{if $identifier|eq('reading_time')}
+				<p class="info-date my-3">
+					<span class="d-block text-nowrap">{'Reading time'|i18n('bootstrapitalia')}:</span>
+					<strong class="text-nowrap">{$openpa[$identifier].contentobject_attribute.content|wash()} min</strong>
+				</p>
+			{else}
+			<div>
+				{*if class_extra_parameters($node.object.class_identifier, 'table_view').show_label|contains($identifier)}
+					<span class="font-weight-bold text-nowrap text-sans-serif">{$openpa[$identifier].contentobject_attribute.contentclass_attribute_name}: </span>
+				{/if*}
+				{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute}
+			</div>
+			{/if}
 		{/if}
 	{else}
 	    {include uri=$openpa[$identifier].template}
