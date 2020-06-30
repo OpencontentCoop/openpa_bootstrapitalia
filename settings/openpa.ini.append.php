@@ -86,6 +86,6 @@ Handlers[ezinteger/*/*]=OpenPAAttributeIntegerHandler
 ShowEditorRoles=disabled
 
 [GeneralSettings]
-AnnounceKit=4EqExO
+AnnounceKit=BvwBO
 
 */ ?>
