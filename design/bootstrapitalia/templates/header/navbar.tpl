@@ -2,7 +2,8 @@
 	 $selected_topic_list = array()
 	 $topic_menu_label = 'Tutti gli argomenti...'
 	 $topics = false()
-	 $topic_list = array()}
+	 $topic_list = array()
+     $show_topic_menu = true()}
 
 {if and( $pagedata.is_login_page|not(), array( 'edit', 'browse' )|contains( $ui_context )|not(), openpaini( 'TopMenu', 'ShowMegaMenu', 'enabled' )|eq('enabled') )}
     {def $is_area_tematica = is_area_tematica()}
@@ -16,19 +17,24 @@
     {/if}
     {undef $is_area_tematica}
 
-    {if $pagedata.homepage|has_attribute('topics')}
-        {foreach $pagedata.homepage|attribute('topics').content.relation_list as $item}
-            {set $selected_topic_list = $selected_topic_list|append(fetch(content, node, hash(node_id, $item.node_id)))}
-        {/foreach}
+    {if $pagedata.homepage|has_attribute('hide_topic_menu')}
+        {set $show_topic_menu = cond($pagedata.homepage|attribute('hide_topic_menu').data_int|eq(1), false(), true())}
     {/if}
 
-    {if $pagedata.homepage|has_attribute('topic_menu_label')}
-        {set $topic_menu_label = $pagedata.homepage|attribute('topic_menu_label').content}
+    {if $show_topic_menu}
+        {if $pagedata.homepage|has_attribute('topics')}
+            {foreach $pagedata.homepage|attribute('topics').content.relation_list as $item}
+                {set $selected_topic_list = $selected_topic_list|append(fetch(content, node, hash(node_id, $item.node_id)))}
+            {/foreach}
+        {/if}
+
+        {if $pagedata.homepage|has_attribute('topic_menu_label')}
+            {set $topic_menu_label = $pagedata.homepage|attribute('topic_menu_label').content}
+        {/if}
+
+        {set $topics = fetch(content, object, hash(remote_id, 'topics'))
+             $topic_list = cond(and($topics, count($selected_topic_list)|eq(0)), tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu')), array())}
     {/if}
-
-    {set $topics = fetch(content, object, hash(remote_id, 'topics'))
-         $topic_list = cond(and($topics, count($selected_topic_list)|eq(0)), tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu')), array())}
-
 {/if}
 
 <div class="it-header-navbar-wrapper{* theme-light*}">
@@ -62,31 +68,33 @@
                                 {undef $tree_menu}
                             {/foreach}
                             </ul>
-                            {if or(count($topic_list)|gt(0), count($selected_topic_list)|gt(0))}
-                            <ul class="navbar-nav navbar-secondary">
-                                {if count($selected_topic_list)|gt(0)}
-                                    {foreach $selected_topic_list as $selected_topic max 3}
+                            {if $show_topic_menu}
+                                {if or(count($topic_list)|gt(0), count($selected_topic_list)|gt(0))}
+                                <ul class="navbar-nav navbar-secondary">
+                                    {if count($selected_topic_list)|gt(0)}
+                                        {foreach $selected_topic_list as $selected_topic max 3}
+                                        <li class="nav-item">
+                                            <a class="nav-link text-truncate" href="{$selected_topic.url_alias|ezurl(no)}">
+                                                <span>{$selected_topic.name|wash()}</span>
+                                            </a>
+                                        </li>
+                                        {/foreach}
+                                    {elseif $pagedata.homepage|has_attribute('topic_menu_label')|not()}
+                                        {foreach $topic_list.children as $child max 3}
+                                        <li class="nav-item">
+                                            <a class="nav-link text-truncate" href="{$child.item.url|ezurl(no)}">
+                                                <span>{$child.item.name|wash()}</span>
+                                            </a>
+                                        </li>
+                                        {/foreach}
+                                    {/if}
                                     <li class="nav-item">
-                                        <a class="nav-link text-truncate" href="{$selected_topic.url_alias|ezurl(no)}">
-                                            <span>{$selected_topic.name|wash()}</span>
+                                        <a class="nav-link text-truncate" href="{$topics.main_node.url_alias|ezurl(no)}">
+                                            <span class="font-weight-bold">{$topic_menu_label|wash}</span>
                                         </a>
                                     </li>
-                                    {/foreach}
-                                {elseif $pagedata.homepage|has_attribute('topic_menu_label')|not()}
-                                    {foreach $topic_list.children as $child max 3}
-                                    <li class="nav-item">
-                                        <a class="nav-link text-truncate" href="{$child.item.url|ezurl(no)}">
-                                            <span>{$child.item.name|wash()}</span>
-                                        </a>
-                                    </li>
-                                    {/foreach}
+                                </ul>
                                 {/if}
-                                <li class="nav-item">
-                                    <a class="nav-link text-truncate" href="{$topics.main_node.url_alias|ezurl(no)}">
-                                        <span class="font-weight-bold">{$topic_menu_label|wash}</span>
-                                    </a>
-                                </li>                                
-                            </ul>
                             {/if}
                         </div>
                     </div>

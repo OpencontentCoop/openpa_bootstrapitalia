@@ -1,6 +1,13 @@
 {def $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )
      $topics = fetch(content, object, hash(remote_id, 'topics'))
-     $topic_list = cond($topics, tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu')), array())}
+     $topic_list = cond($topics, tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu')), array())
+     $topic_menu_label_extended = 'Tutti gli argomenti'
+     $topic_menu_label = 'Argomenti'}
+
+{if $pagedata.homepage|has_attribute('topic_menu_label')}
+    {set $topic_menu_label = $pagedata.homepage|attribute('topic_menu_label').content
+         $topic_menu_label_extended = $topic_menu_label}
+{/if}
 
 <div class="modal modal-fullscreen modal-search" tabindex="-1" role="dialog" id="searchModal">
     <div class="modal-dialog" role="document">
@@ -64,9 +71,9 @@
                                 </div>
 
                                 <div class="search-filter-by-topic mt-5">
-                                    <h6 class="small">Argomenti</h6>
+                                    <h6 class="small">{$topic_menu_label|wash()}</h6>
                                     <a href="#" class="chip chip-simple chip-lg selected">
-                                        <span class="chip-label">Tutti gli argomenti</span>
+                                        <span class="chip-label">{$topic_menu_label_extended|wash()}</span>
                                     </a>
                                     <a href="#" class="chip chip-simple chip-lg chip-trigger trigger-topic">
                                         <span class="chip-label">...</span>
@@ -99,7 +106,7 @@
                                         <li class="nav-item">
                                             <a role="tab" data-toggle="tab" class="nav-link"
                                                href="#filter-by-topic">
-                                                Argomenti
+                                                {$topic_menu_label|wash()}
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -252,7 +259,7 @@ $(document).ready(function () {
 </script>
 {/literal}
 
-{undef $top_menu_node_ids $topics $topic_list}
+{undef $top_menu_node_ids $topics $topic_list $topic_menu_label $topic_menu_label_extended}
 
 
 {* https://github.com/blueimp/Gallery vedi atom/gallery.tpl *}

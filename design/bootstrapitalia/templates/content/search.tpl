@@ -1,5 +1,10 @@
 {def $params = parse_search_get_params()
-     $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )}
+     $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )
+     $topic_menu_label = 'Argomenti'}
+
+{if fetch('openpa', 'homepage')|has_attribute('topic_menu_label')}
+    {set $topic_menu_label = fetch('openpa', 'homepage')|attribute('topic_menu_label').content}
+{/if}
 
 {set $page_limit = 20}
 {def $filters = array()
@@ -98,7 +103,7 @@
                 
                 
                 <div class="pt-4 pt-lg-5">
-                        <h6 class="text-uppercase">Argomenti</h6>
+                        <h6 class="text-uppercase">{$topic_menu_label|wash()}</h6>
                         </li>
                         {def $topics = fetch(content, object, hash(remote_id, 'topics'))
                              $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu'))
