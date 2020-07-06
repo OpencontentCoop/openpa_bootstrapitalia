@@ -6,12 +6,11 @@
 
 {def $has_image = false()}
 {foreach class_extra_parameters($node.object.class_identifier, 'table_view').main_image as $identifier}
-    {if $node|has_attribute($identifier)}
+    {if and($node|has_attribute($identifier), or($node|attribute($identifier).data_type_string|eq('ezimage'), $identifier|eq('image')))}
         {set $has_image = true()}
         {break}
     {/if}
 {/foreach}
-
 
 {def $has_video = false()}
 {if $view_variation|ne('big')}
