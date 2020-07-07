@@ -431,6 +431,13 @@ Subdir=templates
 Match[type]=HTML
 Match[view]=default
 
+[block_HTML_html]
+Source=block/view/view.tpl
+MatchFile=block/html.tpl
+Subdir=templates
+Match[type]=HTML
+Match[view]=html
+
 [block_HTML_wide]
 Source=block/view/view.tpl
 MatchFile=block/html.tpl
