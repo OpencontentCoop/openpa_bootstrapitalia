@@ -49,10 +49,33 @@
         </ul>
     </div>
 
-    {def $sezione = fetch( 'section', 'object', hash( 'section_id', $node.object.section_id ))}
     <div class="col-md-3 text-right text-primary">Sezione:</div>
     <div class="col-md-9">
-        {$sezione.name|wash}
+        {def $sections = $node.object.allowed_assign_section_list}
+        {if and($node.depth|gt(3), count($sections)|gt(1))}
+            <form name="changesection" id="changesection" method="post" action={concat( 'content/edit/', $node.object.id )|ezurl}>
+                <input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias|wash}" />
+                <input type="hidden" name="ChangeSectionOnly" value="1" />
+                <label for="SelectedSectionId" class="sr-only">{'Choose section'|i18n( 'design/admin/node/view/full' )}:</label>
+                <div class="input-group input-group-sm w-75">
+                    <select class="custom-select custom-select-sm border" id="SelectedSectionId" name="SelectedSectionId" aria-label="{'Choose section'|i18n( 'design/admin/node/view/full' )}">
+                        {foreach $sections as $section}
+                            {if eq( $section.id, $node.object.section_id )}
+                                <option value="{$section.id}" selected="selected">{$section.name|wash}</option>
+                            {else}
+                                <option value="{$section.id}">{$section.name|wash}</option>
+                            {/if}
+                        {/foreach}
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-xs btn-secondary" name="SectionEditButton" type="submit">{'Set'|i18n( 'design/standard/websitetoolbar/sort' )}</button>
+                    </div>
+                </div>
+            </form>
+        {else}
+            {fetch( 'section', 'object', hash( 'section_id', $node.object.section_id )).name|wash}
+        {/if}
+        {undef $sections}
     </div>
 
     <div class="col-md-3 text-right text-primary">Tipo:</div>
