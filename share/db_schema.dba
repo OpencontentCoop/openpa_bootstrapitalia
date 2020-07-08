@@ -50,6 +50,44 @@ $schema = array (
       ),
     ),
   ),
+  'eztags_description' =>
+  array (
+    'name' => 'eztags_description',
+    'fields' =>
+    array (
+      'keyword_id' =>
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'description_text' =>
+      array (
+        'type' => 'longtext',
+        'default' => false,
+      ),
+      'locale' =>
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' =>
+    array (
+      'PRIMARY' =>
+      array (
+        'type' => 'primary',
+        'fields' =>
+        array (
+          0 => 'keyword_id',
+          1 => 'locale',
+        ),
+      ),
+    ),
+  ),
   '_info' =>
   array (
     'format' => 'generic',

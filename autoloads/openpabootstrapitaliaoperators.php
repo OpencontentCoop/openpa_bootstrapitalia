@@ -19,6 +19,7 @@ class OpenPABootstrapItaliaOperators
             'header_color',
             'footer_color',
             'is_bookmark',
+            'tag_description',
         );
     }
 
@@ -52,6 +53,10 @@ class OpenPABootstrapItaliaOperators
             'is_bookmark' => array(
                 'node_id' => array('type' => 'integer', 'required' => true),
             ),
+            'tag_description' => array(
+                'tag_id' => array('type' => 'integer', 'required' => true),
+                'locale' => array('type' => 'string', 'required' => true),
+            ),
         );
     }
 
@@ -66,6 +71,15 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'tag_description':
+                $tagDescription = eZTagsDescription::fetch((int)$namedParameters['tag_id'], $namedParameters['locale']);
+                if ($tagDescription instanceof eZTagsDescription){
+                    $operatorValue = $tagDescription->attribute('description_text');
+                }else{
+                    $operatorValue = '';
+                }
+                break;
 
             case 'is_bookmark':
                 $nodeId = (int)$namedParameters['node_id'];
