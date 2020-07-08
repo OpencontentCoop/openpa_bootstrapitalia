@@ -1,6 +1,9 @@
 {def $main_attributes = class_extra_parameters($node.object.class_identifier, 'table_view').in_overview}
 {foreach $main_attributes as $identifier}
-	{if array('content_show_published','content_show_modified','reading_time')|contains($identifier)}{skip}{/if}
+	{if $identifier|eq('alternative_name')}
+		<p class="lead"><strong>{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute image_class=reference alignment=center}</strong></p>
+	{/if}
+	{if array('alternative_name','content_show_published','content_show_modified','reading_time')|contains($identifier)}{skip}{/if}
 	{if is_set($openpa[$identifier].contentobject_attribute)}
 		{if $openpa[$identifier].contentobject_attribute.has_content}
 			{*if class_extra_parameters($node.object.class_identifier, 'table_view').show_label|contains($identifier)}
