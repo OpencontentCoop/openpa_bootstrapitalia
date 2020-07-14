@@ -5,10 +5,12 @@
 	{if is_set($openpa[$identifier].contentobject_attribute)}
 		{if and($openpa[$identifier].contentobject_attribute.data_type_string|ne('ezimage'), $openpa[$identifier].contentobject_attribute.has_content)}
 			{if $identifier|eq('reading_time')}
+				{if $openpa[$identifier].contentobject_attribute.content|ne('0')}
 				<p class="info-date my-3">
-					<span class="d-block text-nowrap">{'Reading time'|i18n('bootstrapitalia')}:</span>
+					<span class="d-block text-nowrap text-sans-serif">{'Reading time'|i18n('bootstrapitalia')}:</span>
 					<strong class="text-nowrap">{$openpa[$identifier].contentobject_attribute.content|wash()} min</strong>
 				</p>
+				{/if}
 			{else}
 			<div>
 				{*if class_extra_parameters($node.object.class_identifier, 'table_view').show_label|contains($identifier)}
