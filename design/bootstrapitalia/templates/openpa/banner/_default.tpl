@@ -3,6 +3,9 @@
     'image_class', 'medium',
     'view_variation', ''
 ))}
+{if and($openpa.content_link.is_internal|not(), $node.can_edit)}
+<div class="position-relative">
+{/if}
 <a data-object_id="{$node.contentobject_id}" href="{$openpa.content_link.full_link}" class="banner {$view_variation} {$node|access_style}">
     {if $node|has_attribute('image')}
     <div class="banner-image">
@@ -25,4 +28,13 @@
         {/if}
     </div>
 </a>
+{if and($openpa.content_link.is_internal|not(), $node.can_edit)}
+    <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$node.url_alias|ezurl(no)}">
+        <span class="fa-stack">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</div>
+{/if}
 {unset_defaults(array('show_icon', 'image_class', 'view_variation'))}

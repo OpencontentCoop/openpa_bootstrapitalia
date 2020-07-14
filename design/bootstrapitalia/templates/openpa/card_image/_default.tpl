@@ -28,7 +28,19 @@
       </span>
     </a>
     {if and($view_variation|eq('gallery'), $node.can_edit)}
-    <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute white-color p-1" href="{$node.url_alias|ezurl(no)}"><i class="fa fa-link"></i></a>
+        <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$node.url_alias|ezurl(no)}">
+            <span class="fa-stack">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+    {elseif and($openpa.content_link.is_internal|not(), $node.can_edit)}
+        <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$node.url_alias|ezurl(no)}">
+            <span class="fa-stack">
+              <i class="fa fa-circle fa-stack-2x"></i>
+              <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
     {/if}
 </div>
 {unset_defaults(array('image_class', 'view_variation'))}
