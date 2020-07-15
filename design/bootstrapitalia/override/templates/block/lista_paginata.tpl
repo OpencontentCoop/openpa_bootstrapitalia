@@ -58,7 +58,7 @@
 		        </h5>		        
 		        <div class="card-text">		            
 		            {{for mainAttributes ~content=#data}}			            	
-		            	{{if ~i18n(~content.data, #data)}}{{:~i18n(~content.data, #data)}}{{/if}}	
+		            	{{if ~i18n(~content.data, #data)}}{{:~stripATag(~i18n(~content.data, #data))}}{{/if}}
 		            {{/for}}
 		        </div>		        		        
 		    </div>
@@ -102,7 +102,17 @@
 </script>
 
 <script>
-$.views.helpers($.opendataTools.helpers);
+	$.views.helpers($.extend({}, $.opendataTools.helpers, {
+		'stripATag': function (value) {
+			var element = $(value);
+			element.find('a').each(function() {
+				var content = $(this).contents();
+				$(this).replaceWith(content);
+			});
+
+			return element.html()
+		}
+	}));
 $(document).ready(function () {
 	$('[data-block_subtree_query]').each(function(){
         var baseUrl = '/';
