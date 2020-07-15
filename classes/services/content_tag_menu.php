@@ -8,11 +8,14 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
 
     private $currentViewTag;
 
+    private $showTagCards;
+
     function run()
     {
         $this->fnData['has_tag_menu'] = 'hasTagMenu';
         $this->fnData['tag_menu_root'] = 'getTagMenuRootTag';
         $this->fnData['current_view_tag'] = 'getCurrentViewTag';
+        $this->fnData['show_tag_cards'] = 'showTagCards';
     }
 
     protected function hasTagMenu()
@@ -36,12 +39,16 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
         	if ($sideMenu){
         		$sideMenuRootNode = $sideMenu->attribute('root_node');
         		if ($sideMenuRootNode instanceof eZContentObjectTreeNode){
-        			$dataMap = $sideMenuRootNode->attribute('data_map');
+        			/** @var eZContentObjectAttribute[] $dataMap */
+        		    $dataMap = $sideMenuRootNode->attribute('data_map');
         			if (isset($dataMap['tag_menu']) && $dataMap['tag_menu']->attribute('data_type_string') == eZTagsType::DATA_TYPE_STRING && $dataMap['tag_menu']->hasContent()){
         				$tags = $dataMap['tag_menu']->content()->attribute('tags');
         				if ($tags[0]->attribute('children_count') > 0){
         					$this->tagMenuRootTag = $tags[0];
         				}
+        				if (isset($dataMap['show_tag_cards']) && $dataMap['show_tag_cards']->attribute('data_int') == 1){
+                            $this->showTagCards = true;
+                        }
         			}
         		}
         	}
@@ -53,6 +60,7 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
     protected function getCurrentViewTag()
     {
         if ($this->currentViewTag === null){
+            $this->currentViewTag = false;
             $userView = false;
             $currentUri = eZURI::instance(eZSys::requestURI());
             if (isset($currentUri->UserArray['view'])){
@@ -61,15 +69,29 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
 
             if ($this->hasTagMenu() && $userView){
                 $rootTag = $this->getTagMenuRootTag();
-                foreach ($rootTag->attribute('children') as $child) {
-                    if ($child->attribute('keyword') == $userView){
-                        $this->currentViewTag = $child;
-                        break;
+                if ($rootTag instanceof eZTagsObject) {
+                    foreach ($rootTag->attribute('children') as $child) {
+                        if ($child->attribute('keyword') == $userView) {
+                            $this->currentViewTag = $child;
+                            break;
+                        }
                     }
                 }
             }
         }
 
         return $this->currentViewTag;
+    }
+
+    protected function showTagCards()
+    {
+        if ($this->showTagCards === null){
+            $this->showTagCards = false;
+            $this->getTagMenuRootTag();
+        }
+        if ($this->showTagCards && $this->getCurrentViewTag()){
+            $this->showTagCards = false;
+        }
+        return $this->showTagCards;
     }
 }
