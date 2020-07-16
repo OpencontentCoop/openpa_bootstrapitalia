@@ -453,3 +453,12 @@ MatchFile=block/opendata_remote_gui.tpl
 Subdir=templates
 Match[type]=OpendataRemoteContents
 Match[view]=default
+
+#### Ricerca
+
+[block_ricerca_default]
+Source=block/view/view.tpl
+MatchFile=block/ricerca.tpl
+Subdir=templates
+Match[type]=Ricerca
+Match[view]=default

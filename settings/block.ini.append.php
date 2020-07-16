@@ -22,6 +22,7 @@ AllowedTypes[]=RicercaLuoghi
 AllowedTypes[]=HTML
 AllowedTypes[]=EventiRemoti
 AllowedTypes[]=OpendataRemoteContents
+AllowedTypes[]=Ricerca
 
 [Singolo]
 Name=Oggetto singolo
@@ -448,4 +449,22 @@ ViewName[default]=Default
 ItemsPerRow[]
 ContainerStyle[default]=py-5
 CanAddShowAllLink=disabled
+
+[Ricerca]
+Name=Ricerca
+NumberOfValidItems=15
+NumberOfArchivedItems=0
+ManualAddingOfItems=enabled
+CustomAttributes[]
+CustomAttributes[]=image
+UseBrowseMode[image]=true
+CustomAttributeNames[image]=Immagine di sfondo
+ViewList[]=default
+ViewName[]
+ViewName[default]=Default
+ItemsPerRow[]
+Wide[]
+Wide[]=default
+CanAddShowAllLink=disabled
+
 */ ?>
