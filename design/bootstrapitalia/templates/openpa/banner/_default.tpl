@@ -25,7 +25,7 @@
         <h4>{$node.name|wash()}</h4>
         {if $node|has_abstract()}
             <p>{$node|abstract()|oc_shorten(60)}</p>
-        {/if}
+    {/if}
     </div>
 </a>
 {if and($openpa.content_link.is_internal|not(), $node.can_edit)}

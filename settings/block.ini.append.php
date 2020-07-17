@@ -102,6 +102,7 @@ ViewList[]=lista_card_image
 ViewList[]=lista_card_children
 ViewList[]=lista_accordion
 ViewList[]=lista_banner
+ViewList[]=lista_banner_color
 #ViewList[]=lista_carousel
 ViewName[]
 ViewName[lista_card]=Card
@@ -110,6 +111,7 @@ ViewName[lista_card_image]=Card (solo immagine)
 ViewName[lista_card_children]=Card (ultimi 4 contenuti)
 ViewName[lista_accordion]=Accordion
 ViewName[lista_banner]=Banner
+ViewName[lista_banner_color]=Banner (colorati)
 #ViewName[lista_carousel]=Carousel
 TTL=3600
 ItemsPerRow[]
@@ -120,6 +122,7 @@ ContainerStyle[lista_card_image]=py-5
 ContainerStyle[lista_card_children]=py-5
 ContainerStyle[lista_accordion]=py-5
 ContainerStyle[lista_banner]=py-5
+ContainerStyle[lista_banner_color]=py-5
 ContainerStyle[lista_carousel]=py-5
 CanAddShowAllLink=enabled
 
@@ -147,6 +150,7 @@ ViewList[]=lista_card_image
 ViewList[]=lista_card_children
 ViewList[]=lista_accordion
 ViewList[]=lista_banner
+ViewList[]=lista_banner_color
 #ViewList[]=lista_carousel
 ViewName[]
 ViewName[lista_card]=Card
@@ -155,6 +159,7 @@ ViewName[lista_card_image]=Card (solo immagine)
 ViewName[lista_card_children]=Card (ultimi 4 contenuti)
 ViewName[lista_accordion]=Accordion
 ViewName[lista_banner]=Banner
+ViewName[lista_banner_color]=Banner (colorati)
 #ViewName[lista_carousel]=Carousel
 ItemsPerRow[]
 ContainerStyle[]
@@ -164,6 +169,7 @@ ContainerStyle[lista_card_image]=py-5
 ContainerStyle[lista_card_children]=py-5
 ContainerStyle[lista_accordion]=py-5
 ContainerStyle[lista_banner]=py-5
+ContainerStyle[lista_banner_color]=py-5
 ContainerStyle[lista_carousel]=py-5
 CanAddShowAllLink=disabled
 

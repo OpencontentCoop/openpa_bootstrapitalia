@@ -178,3 +178,143 @@
 .card.card-teaser .icon + .card-body{
   max-width: 80%;
 }
+
+// complementary 1
+$colorlist: $complementary-1-a1 $complementary-1-a2 $complementary-1-a3
+$complementary-1-a4 $complementary-1-a5 $complementary-1-a6
+$complementary-1-a7 $complementary-1-a8 $complementary-1-a9
+$complementary-1-a10 $complementary-1-a11 $complementary-1-a12;
+.card.complementary-1-bg {
+  background-color: $complementary-1;
+}
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.complementary-1-bg-a#{$i} {
+    background-color: $color;
+  }
+}
+
+// complementary 2
+$colorlist: $complementary-2-a1 $complementary-2-a2 $complementary-2-a3
+$complementary-2-a4 $complementary-2-a5 $complementary-2-a6
+$complementary-2-a7 $complementary-2-a8 $complementary-2-a9
+$complementary-2-a10 $complementary-2-a11 $complementary-2-a12;
+.card.complementary-2-bg {
+  background-color: $complementary-2;
+}
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.complementary-2-bg-a#{$i} {
+    background-color: $color;
+  }
+}
+
+// complementary 3
+$colorlist: $complementary-3-a1 $complementary-3-a2 $complementary-3-a3
+$complementary-3-a4 $complementary-3-a5 $complementary-3-a6
+$complementary-3-a7 $complementary-3-a8 $complementary-3-a9
+$complementary-3-a10 $complementary-3-a11 $complementary-3-a12;
+.card.complementary-3-bg {
+  background-color: $complementary-3;
+}
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.complementary-3-bg-a#{$i} {
+    background-color: $color;
+  }
+}
+
+// analog 1
+.card.analogue-1-bg {
+  background-color: $analogue-1;
+}
+$colorlist: $analogue-1-b1 $analogue-1-b2 $analogue-1-b3 $analogue-1-b4
+$analogue-1-b5 $analogue-1-b6 $analogue-1-b7 $analogue-1-b8;
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.analogue-1-bg-b#{$i} {
+    background-color: $color;
+  }
+}
+
+// analog 2
+.card.analogue-2-bg {
+  background-color: $analogue-2;
+}
+$colorlist: $analogue-2-b1 $analogue-2-b2 $analogue-2-b3 $analogue-2-b4
+$analogue-2-b5 $analogue-2-b6 $analogue-2-b7 $analogue-2-b8;
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.analogue-2-bg-b#{$i} {
+    background-color: $color;
+  }
+}
+
+// complementary 1
+$colorlist: $complementary-1-b1 $complementary-1-b2 $complementary-1-b3
+$complementary-1-b4 $complementary-1-b5 $complementary-1-b6
+$complementary-1-b7 $complementary-1-b8;
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.complementary-1-bg-b#{$i} {
+    background-color: $color;
+  }
+}
+
+// complementary 2
+$colorlist: $complementary-2-b1 $complementary-2-b2 $complementary-2-b3
+$complementary-2-b4 $complementary-2-b5 $complementary-2-b6
+$complementary-2-b7 $complementary-2-b8;
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.complementary-2-bg-b#{$i} {
+    background-color: $color;
+  }
+}
+
+// complementary 3
+$colorlist: $complementary-3-b1 $complementary-3-b2 $complementary-3-b3
+$complementary-3-b4 $complementary-3-b5 $complementary-3-b6
+$complementary-3-b7 $complementary-3-b8;
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.complementary-3-bg-b#{$i} {
+    background-color: $color;
+  }
+}
+
+// neutral 1
+.card.neutral-1-bg {
+  background-color: $neutral-1;
+}
+$colorlist: $neutral-1-a1 $neutral-1-a2 $neutral-1-a3 $neutral-1-a4
+$neutral-1-a5 $neutral-1-a6 $neutral-1-a7 $neutral-1-a8 $neutral-1-a9
+$neutral-1-a10;
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.neutral-1-bg-a#{$i} {
+    background-color: $color;
+  }
+}
+
+// neutral 2
+.card.neutral-2-bg {
+  background-color: $neutral-2;
+}
+$colorlist: $neutral-2-b1 $neutral-2-b2 $neutral-2-b3 $neutral-2-b4
+$neutral-2-b5 $neutral-2-b6 $neutral-2-b7;
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.neutral-2-bg-b#{$i} {
+    background-color: $color;
+  }
+}
+
+$colorlist: $neutral-2-a1 $neutral-2-a2 $neutral-2-a3 $neutral-2-a4
+$neutral-2-a5 $neutral-2-a6 $neutral-2-a7;
+@for $i from 1 through length($colorlist) {
+  $color: nth($colorlist, $i);
+  .card.neutral-2-bg-a#{$i} {
+    background-color: $color;
+  }
+}

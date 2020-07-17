@@ -200,6 +200,12 @@ Subdir=templates
 Match[class_identifier]=dataset
 Match[attribute_identifier]=resources
 
+[datatype_edit_selection_background_color]
+Source=content/datatype/edit/ezselection.tpl
+MatchFile=datatype/edit/selection_background_color.tpl
+Subdir=templates
+Match[attribute_identifier]=background_color
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################
@@ -270,6 +276,13 @@ Subdir=templates
 Match[type]=ListaAutomatica
 Match[view]=lista_banner
 
+[block_lista_banner_color]
+Source=block/view/view.tpl
+MatchFile=block/lista_banner_color.tpl
+Subdir=templates
+Match[type]=ListaAutomatica
+Match[view]=lista_banner_color
+
 [block_lista_carousel]
 Source=block/view/view.tpl
 MatchFile=block/lista_carousel.tpl
@@ -321,6 +334,13 @@ MatchFile=block/lista_banner.tpl
 Subdir=templates
 Match[type]=ListaManuale
 Match[view]=lista_banner
+
+[block_lista_manuale_banner_color]
+Source=block/view/view.tpl
+MatchFile=block/lista_banner_color.tpl
+Subdir=templates
+Match[type]=ListaManuale
+Match[view]=lista_banner_color
 
 [block_lista_manuale_carousel]
 Source=block/view/view.tpl
