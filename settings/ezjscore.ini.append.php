@@ -5,4 +5,7 @@ Packer=2
 LoadFromCDN=disabled
 LocalScripts[jqueryUI]=jquery-ui.min.js
 
+[ezjscServer_ezjsctags]
+Class=ezjscCachedTags
+
 */ ?>
