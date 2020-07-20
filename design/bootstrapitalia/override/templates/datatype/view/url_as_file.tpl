@@ -7,7 +7,7 @@
                     <a class="stretched-link" href="{$attribute.content|wash( xhtml )}" title="Vai al documento">
                         {if $attribute.data_text}{$attribute.data_text|wash( xhtml )}{else}{$attribute.content|wash( xhtml )}{/if}
                     </a>
-                    {if $attribute.data_text}<small class="text-truncate d-block mw-100">{$attribute.content|wash( xhtml )}</small>
+                    {if $attribute.data_text}<small class="text-truncate d-block mw-100">{$attribute.content|wash( xhtml )}</small>{/if}
                 </h5>
             </div>
         </div>
