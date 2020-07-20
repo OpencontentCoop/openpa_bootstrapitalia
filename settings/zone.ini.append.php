@@ -16,6 +16,8 @@ Template=default.tpl
 AvailableForClasses[]
 AvailableForClasses[]=topic
 AvailableForClasses[]=homepage
+AvailableForClasses[]=pagina_sito
+AvailableForClasses[]=frontpage
 
 # pagina_sito
 [1ZonesLayoutFolder]

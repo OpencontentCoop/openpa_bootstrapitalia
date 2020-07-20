@@ -19,6 +19,7 @@ class OpenPABootstrapItaliaIconExtraParameter extends OCClassExtraParametersHand
         $attributes = parent::attributes();
         $attributes[] = 'icon_list';
         $attributes[] = 'icon';
+        $attributes[] = 'icon_label';
 
         return $attributes;
     }
@@ -32,6 +33,9 @@ class OpenPABootstrapItaliaIconExtraParameter extends OCClassExtraParametersHand
 
             case 'icon':
                 return $this->getClassParameter('icon');
+
+            case 'icon_label':
+                return $this->getAttributeIdentifierListByParameter( 'icon_label', 1, false );
         }
 
         return parent::attribute($key);
@@ -39,11 +43,16 @@ class OpenPABootstrapItaliaIconExtraParameter extends OCClassExtraParametersHand
 
     protected function handleAttributes()
     {
-        return false;
+        return true;
     }
 
     protected function classEditTemplateUrl()
     {
         return 'design:openpa/extraparameters/' . $this->getIdentifier() . '/edit_class.tpl';
+    }
+
+    protected function attributeEditTemplateUrl()
+    {
+        return 'design:openpa/extraparameters/' . $this->getIdentifier() . '/edit_attribute.tpl';
     }
 }
