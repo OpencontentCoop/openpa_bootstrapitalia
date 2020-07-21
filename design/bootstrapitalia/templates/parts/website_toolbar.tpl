@@ -234,6 +234,7 @@
                                     </li>
                                 {/if}
                                 {include uri='design:parts/websitetoolbar/cjw_newsletter.tpl'}
+                                {include uri='design:parts/websitetoolbar/ezsurvey.tpl'}
                                 <li>
                                     <a class="list-item left-icon" href="{'opendata/console/1'|ezurl(no)}">
                                         <i class="fa fa-code"></i>
