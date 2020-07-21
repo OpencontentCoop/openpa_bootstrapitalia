@@ -1,6 +1,6 @@
 {def $params = parse_search_get_params()
      $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )
-     $topic_menu_label = 'Argomenti'}
+     $topic_menu_label = 'Topics'|i18n('bootstrapitalia')}
 
 {if fetch('openpa', 'homepage')|has_attribute('topic_menu_label')}
     {set $topic_menu_label = fetch('openpa', 'homepage')|attribute('topic_menu_label').content}

@@ -142,21 +142,21 @@
                                                 <span class="rounded-icon">
                                                     {display_icon('it-user', 'svg', 'icon icon-primary notrasform')}
                                                 </span>
-                                        <span class="d-none d-lg-block">Accedi all'area personale</span>
+                                        <span class="d-none d-lg-block">{'Access the personal area'|i18n('bootstrapitalia')}</span>
                                         {display_icon('it-expand', 'svg', 'icon-expand icon icon-white')}
                                     </a>
                                     <div class="dropdown-user dropdown-menu" aria-labelledby="dropdown-user">
                                         <div class="link-list-wrapper">
                                             <ul class="link-list">
                                                 <li>
-                                                    <a class="list-item left-icon" href="{$pagedata.contacts.link_area_personale}" title="Accesso area personale">
+                                                    <a class="list-item left-icon" href="{$pagedata.contacts.link_area_personale}" title="{'Access the personal area'|i18n('bootstrapitalia')}">
                                                         {display_icon('it-user', 'svg', 'icon icon-sm icon-primary left')}
-                                                        <span class="d-none d-md-inline-block">Accesso area personale</span></a>
+                                                        <span class="d-none d-md-inline-block">{'Access the personal area'|i18n('bootstrapitalia')}</span></a>
                                                 </li>
                                                 <li>
-                                                    <a class="list-item ez-login left-icon" href="{"/user/login"|ezurl(no)}" title="Accesso redazione">
+                                                    <a class="list-item ez-login left-icon" href="{"/user/login"|ezurl(no)}" title="{'Site editors access'|i18n('bootstrapitalia')}">
                                                         {display_icon('it-pencil', 'svg', 'icon icon-sm icon-primary left')}
-                                                        <span class="d-none d-md-inline-block">Accesso redattori sito</span>
+                                                        <span class="d-none d-md-inline-block">{'Site editors access'|i18n('bootstrapitalia')}</span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -166,11 +166,11 @@
                             {else}
                                 <a data-login-top-button class="btn btn-primary btn-icon btn-full ez-login" href="{"/user/login"|ezurl(no)}"
                                    data-icon="it-user"
-                                   title="Esegui il login al sito" style="display: none;">
+                                   title="{'Access the personal area'|i18n('bootstrapitalia')}" style="display: none;">
                                      <span class="rounded-icon">
                                          {display_icon('it-user', 'svg', 'icon-primary')}
                                     </span>
-                                    <span class="d-none d-lg-block">Accedi all'area personale</span>
+                                    <span class="d-none d-lg-block">{'Access the personal area'|i18n('bootstrapitalia')}</span>
                                 </a>
                             {/if}
                         </div>
@@ -232,15 +232,15 @@
                 $('<a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="rounded-icon"><svg class="icon icon-primary notrasform"><use xlink:href="'+spritePath+'#'+icon+'"></use></svg></span><span class="d-none d-lg-block">'+data.content.name+' </span><svg class="icon-expand icon icon-white"><use xlink:href="'+spritePath+'#it-expand"></use></svg></a>')
                     .appendTo(dropdownWrapper);
 
-                $('<li><a class="list-item" href="'+trimmedPrefix+'/user/edit/" title="Visualizza il profilo utente"><span>Profilo utente</span></a></li>')
+                $('<li><a class="list-item" href="'+trimmedPrefix+'/user/edit/" title="{/literal}{'User profile'|i18n('bootstrapitalia')}{literal}"><span>{/literal}{'User profile'|i18n('bootstrapitalia')}{literal}</span></a></li>')
                     .appendTo(dropdownList);
                 if(data.content.has_access_to_dashboard){
-                    $('<li><a class="list-item" href="'+trimmedPrefix+'/content/dashboard/" title="Accedi al pannello strumenti"><span>Strumenti</span></a></li>')
+                    $('<li><a class="list-item" href="'+trimmedPrefix+'/content/dashboard/" title="{/literal}{'Dashboard'|i18n('bootstrapitalia')}{literal}"><span>{/literal}{'Dashboard'|i18n('bootstrapitalia')}{literal}</span></a></li>')
                         .appendTo(dropdownList);
                 }
                 $('<li><span class="divider"></span></li>')
                     .appendTo(dropdownList);
-                $('<li><a class="list-item" href="'+trimmedPrefix+'/user/logout" title="Esegui il logout"><span>Logout</span></a></li>')
+                $('<li><a class="list-item" href="'+trimmedPrefix+'/user/logout" title="{/literal}{'Logout'|i18n('bootstrapitalia')}{literal}"><span>{/literal}{'Logout'|i18n('bootstrapitalia')}{literal}</span></a></li>')
                     .appendTo(dropdownList);
 
                 dropdownList.appendTo(dropdownListWrapper);

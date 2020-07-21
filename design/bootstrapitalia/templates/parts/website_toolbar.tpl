@@ -64,7 +64,7 @@
                 <li>
                     <button class="btn" type="submit" name="EditButton" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
                         <i class="fa fa-pencil"></i>
-                        <span class="toolbar-label">Modifica</span>
+                        <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
                     </button>
                 </li>
             {/if}
@@ -76,7 +76,7 @@
                 <li>
                     <button class="btn" type="submit" name="MoveNodeButton" title="{'Move'|i18n('design/standard/parts/website_toolbar')}{$node_hint}">
                         <i class="fa fa-arrows"></i>
-                        <span class="toolbar-label">Sposta</span>
+                        <span class="toolbar-label">{'Move'|i18n('design/standard/parts/website_toolbar')}</span>
                     </button>
                 </li>
             {/if}
@@ -85,7 +85,7 @@
                 <li>
                     <button class="btn" type="submit" name="ActionRemove" title="{'Remove'|i18n('design/standard/parts/website_toolbar')}{$node_hint}">
                         <i class="fa fa-trash"></i>
-                        <span class="toolbar-label">Elimina</span>
+                        <span class="toolbar-label">{'Remove'|i18n('design/standard/parts/website_toolbar')}</span>
                     </button>
                 </li>
             {/if}
@@ -103,7 +103,7 @@
                     <li>
                         <button class="btn" type="submit" name="AddAssignmentButton" title="{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}">
                             <i class="fa fa-map-marker"></i>
-                            <span class="toolbar-label">Colloca</span>
+                            <span class="toolbar-label">{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}</span>
                         </button>
                     </li>
                 {/if}
@@ -113,7 +113,7 @@
             <li>
                 <a href="{concat( "websitetoolbar/sort/", $current_node.node_id )|ezurl(no)}" title="{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}">
                     <i class="fa fa-sort-alpha-asc"></i>
-                    <span class="toolbar-label">Ordina</span>
+                    <span class="toolbar-label">{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}</span>
                 </a>
             </li>
             {/if}
@@ -122,7 +122,7 @@
             <li>
                 <button class="btn" type="submit" name="ActionAddToBookmarks" title="{'Add the current item to your bookmarks.'|i18n( 'design/admin/pagelayout' )}">
                     <i class="fa fa-bookmark{if is_bookmark($current_node.node_id)} text-light{/if}"></i>
-                    <span class="toolbar-label">Preferito</span>
+                    <span class="toolbar-label">{'Bookmarks'|i18n( 'design/admin/content/browse' )}</span>
                 </button>
             </li>
             {/if}

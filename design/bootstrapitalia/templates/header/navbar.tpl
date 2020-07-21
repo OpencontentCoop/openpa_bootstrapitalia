@@ -1,6 +1,6 @@
 {def $top_menu_node_ids = array()
 	 $selected_topic_list = array()
-	 $topic_menu_label = 'Tutti gli argomenti...'
+	 $topic_menu_label = 'All topics...'|i18n('bootstrapitalia')
 	 $topics = false()
 	 $topic_list = array()
      $show_topic_menu = true()}

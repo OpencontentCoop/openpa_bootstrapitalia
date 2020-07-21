@@ -167,6 +167,38 @@
       <source>Go to content</source>
       <translation>Vai al contenuto</translation>
     </message>
+    <message>
+      <source>View all</source>
+      <translation>Vedi tutti</translation>
+    </message>
+    <message>
+      <source>Other topics</source>
+      <translation>Altri argomenti</translation>
+    </message>
+    <message>
+      <source>All topics...</source>
+      <translation>Tutti gli argomenti...</translation>
+    </message>
+    <message>
+      <source>Access the personal area</source>
+      <translation>Accedi all'area personale</translation>
+    </message>
+    <message>
+      <source>Site editors access</source>
+      <translation>Accesso redattori sito</translation>
+    </message>
+    <message>
+      <source>Logout</source>
+      <translation>Logout</translation>
+    </message>
+    <message>
+      <source>Dashboard</source>
+      <translation>Strumenti</translation>
+    </message>
+    <message>
+      <source>User profile</source>
+      <translation>Profilo utente</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

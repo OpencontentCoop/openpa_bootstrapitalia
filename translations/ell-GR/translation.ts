@@ -167,6 +167,38 @@
       <source>Go to content</source>
       <translation>Μετάβαση στο περιεχόμενο</translation>
     </message>
+    <message>
+      <source>View all</source>
+      <translation>Δείτε όλα</translation>
+    </message>
+    <message>
+      <source>Other topics</source>
+      <translation>Άλλα θέματα</translation>
+    </message>
+    <message>
+      <source>All topics...</source>
+      <translation>Όλα τα θέματα ...</translation>
+    </message>
+    <message>
+      <source>Access the personal area</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Site editors access</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Logout</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>User profile</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

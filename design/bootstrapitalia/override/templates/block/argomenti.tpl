@@ -24,7 +24,7 @@
 				{def $line_topics = $block.valid_nodes|extract_right($others_count)}
 				<div class="row">
 					<div class="col-sm-12 col-md-3 text-right">
-						<span class="etichetta d-inline">Altri argomenti</span>
+						<span class="etichetta d-inline">{'Other topics'|i18n('bootstrapitalia')}</span>
 					</div>
 					<div class="col-sm-12 col-md-7 text-left">
 						{foreach $line_topics as $topic}    	
@@ -37,7 +37,7 @@
 			{undef $others_count}
 			<div class="row">
 				<div class="col text-center">
-					<a class="btn btn-primary" href="{$parent.url_alias|ezurl(no)}">Vedi tutti</a>
+					<a class="btn btn-primary" href="{$parent.url_alias|ezurl(no)}">{'View all'|i18n('bootstrapitalia')}</a>
 				</div>
 			</div>
 		</div>	

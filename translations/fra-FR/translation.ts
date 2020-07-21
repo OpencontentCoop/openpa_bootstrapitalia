@@ -37,11 +37,11 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>proche</translation>
+      <translation>Fermer</translation>
     </message>
     <message>
       <source>FREE</source>
-      <translation>GRATUIT</translation>
+      <translation>LIBRE</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -141,7 +141,7 @@
     </message>
     <message>
       <source>Topics</source>
-      <translation>Les sujets</translation>
+      <translation>Sujets</translation>
     </message>
     <message>
       <source>Last modified</source>
@@ -166,6 +166,38 @@
     <message>
       <source>Go to content</source>
       <translation>Aller au contenu</translation>
+    </message>
+    <message>
+      <source>View all</source>
+      <translation>Voir tout</translation>
+    </message>
+    <message>
+      <source>Other topics</source>
+      <translation>Autres sujets</translation>
+    </message>
+    <message>
+      <source>All topics...</source>
+      <translation>Tous les sujets ...</translation>
+    </message>
+    <message>
+      <source>Access the personal area</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Site editors access</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Logout</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>User profile</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>
@@ -225,7 +257,7 @@
     </message>
     <message>
       <source>References</source>
-      <translation>Les références</translation>
+      <translation>Références</translation>
     </message>
   </context>
   <context>
@@ -350,7 +382,7 @@
     </message>
     <message>
       <source>Year</source>
-      <translation>Année</translation>
+      <translation>An</translation>
     </message>
     <message>
       <source>Any year</source>

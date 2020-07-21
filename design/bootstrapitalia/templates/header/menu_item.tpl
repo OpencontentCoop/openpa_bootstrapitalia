@@ -15,7 +15,7 @@
        {if $is_dropdown}data-toggle="dropdown" aria-expanded="false"{/if}
        href="{$href}"
        {if $menu_item.item.target}target="{$menu_item.item.target}"{/if}
-       title="Vai alla pagina: {$menu_item.item.name|wash()}">
+       title="{'Go to page'|i18n('bootstrapitalia')}: {$menu_item.item.name|wash()}">
         <span>{$menu_item.item.name|wash()}</span>
         {if $is_dropdown}
             {display_icon('it-expand', 'svg', 'icon icon-xs')}

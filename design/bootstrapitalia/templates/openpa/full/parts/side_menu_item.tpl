@@ -25,7 +25,7 @@
         <a href="{if $menu_item.item.internal}{$menu_item.item.url|ezurl(no)}{else}{$menu_item.item.url}{/if}"
            {if $menu_item.item.target}target="{$menu_item.item.target}"{/if}
            class="list-item{if or($is_active, $is_current)} medium{/if}"
-           title="Vai a {$menu_item.item.name|wash()}">
+           title="{'Go to content'|i18n('bootstrapitalia')} {$menu_item.item.name|wash()}">
             {$menu_item.item.name|wash()}
         </a>
     {/if}

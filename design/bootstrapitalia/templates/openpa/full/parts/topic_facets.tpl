@@ -9,7 +9,7 @@
         
         <div class="row">
             <div class="col-md-12">
-                <h3 class="mb-4 text-primary">Argomenti</h3>
+                <h3 class="mb-4 text-primary">{'Topics'|i18n('bootstrapitalia')}</h3>
             </div>
         </div>
 

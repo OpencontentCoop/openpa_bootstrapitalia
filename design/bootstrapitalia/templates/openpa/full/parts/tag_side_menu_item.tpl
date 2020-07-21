@@ -22,7 +22,7 @@
     {else}
         <a href="{concat($root_node.url_alias, '/(view)/', $menu_item.keyword)|ezurl(no)}"
            class="list-item{if or($is_active, $is_current)} medium{/if}"
-           title="Vai a {$menu_item.keyword|wash()}">
+           title="{'Go to content'|i18n('bootstrapitalia')} {$menu_item.keyword|wash()}">
             {$menu_item.keyword|wash()}
         </a>
     {/if}

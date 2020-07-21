@@ -141,7 +141,7 @@
     </message>
     <message>
       <source>Topics</source>
-      <translation>temas</translation>
+      <translation>Temas</translation>
     </message>
     <message>
       <source>Last modified</source>
@@ -166,6 +166,38 @@
     <message>
       <source>Go to content</source>
       <translation>Ir al contenido</translation>
+    </message>
+    <message>
+      <source>View all</source>
+      <translation>Ver todo</translation>
+    </message>
+    <message>
+      <source>Other topics</source>
+      <translation>Otros temas</translation>
+    </message>
+    <message>
+      <source>All topics...</source>
+      <translation>Todos los temas ...</translation>
+    </message>
+    <message>
+      <source>Access the personal area</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Site editors access</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Logout</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>User profile</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>
@@ -342,7 +374,7 @@
     </message>
     <message>
       <source>from</source>
-      <translation>desde</translation>
+      <translation>de</translation>
     </message>
     <message>
       <source>to</source>

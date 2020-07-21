@@ -9,7 +9,7 @@
 
 <div class="col-lg-3 col-md-3 col-sm-6 pb-2">
     <h4>
-        <a href="{$href}" title="Vai alla pagina: {$menu_item.item.name|wash()}">{$menu_item.item.name|wash()}</a>
+        <a href="{$href}" title="{'Go to page'|i18n('bootstrapitalia')}: {$menu_item.item.name|wash()}">{$menu_item.item.name|wash()}</a>
     </h4>
     {if $has_children}
     <div class="link-list-wrapper">
@@ -20,7 +20,7 @@
                 {else}
                     {def $child_href = $child.item.url}
                 {/if}
-                <li><a class="list-item" href="{$child_href}" title="Vai alla pagina: {$child.item.name|wash()}">{$child.item.name|wash()}</a></li>
+                <li><a class="list-item" href="{$child_href}" title="{'Go to page'|i18n('bootstrapitalia')}: {$child.item.name|wash()}">{$child.item.name|wash()}</a></li>
                 {undef $child_href}
             {/foreach}
             {if $count_children|gt($children_max_items)}

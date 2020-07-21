@@ -410,7 +410,7 @@
                        {if and(is_set($block.custom_attributes[show_all_link]), $block.custom_attributes[show_all_link]|eq('1'))}checked="checked"{/if} value="1" /> Mostra bottone
             </label>
             <label for="block-custom_attribute-{$block_id}-19791023-2">
-                Testo del bottone "Vedi tutti"
+                Testo del bottone "{'View all'|i18n('bootstrapitalia')}"
             </label>
             <input type="text" id="block-custom_attribute-{$block_id}-19791023-2" class="block-control"
                    name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][show_all_text]"

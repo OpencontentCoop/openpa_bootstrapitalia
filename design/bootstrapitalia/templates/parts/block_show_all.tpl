@@ -6,7 +6,7 @@
             {if and(is_set($block.custom_attributes.show_all_text), $block.custom_attributes.show_all_text|ne(''))}
                 {$block.custom_attributes.show_all_text|wash()}
             {else}
-                Vedi tutti
+                {'View all'|i18n('bootstrapitalia')}
             {/if}
         </a>
     </div>

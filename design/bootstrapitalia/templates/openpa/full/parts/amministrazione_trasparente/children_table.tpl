@@ -34,7 +34,7 @@
                             {set $item_url_alias = $openpa_item.content_link.full_link}
                         {/if}
                         <td>
-                            <a href="{$item_url_alias}" title="Vai al dettaglio di {$item.name|wash()}">{$item.name|wash()}</a>
+                            <a href="{$item_url_alias}" title="{'Go to content'|i18n('bootstrapitalia')} {$item.name|wash()}">{$item.name|wash()}</a>
                         </td>
                         <td>
                             {$item.class_name|wash()}
@@ -74,7 +74,7 @@
                     <tbody>
                         {foreach $nodes as $item}
                         <tr>
-                            <td><a href={$item.url_alias|ezurl()} title="Vai al dettaglio di {$item.name|wash()}">{$item.name|wash()}</a></td>
+                            <td><a href={$item.url_alias|ezurl()} title="{'Go to content'|i18n('bootstrapitalia')} {$item.name|wash()}">{$item.name|wash()}</a></td>
                             <td>{attribute_view_gui attribute=$item.data_map.role}</td>
                             <td>{$item.object.published|l10n(date)} {if $item.object.modified|gt(sum($item.object.published,86400))}<br />
                                 <span class="f_size_small ">Ultima modifica: <strong>{$item.object.modified|l10n(date)}</strong></span>{/if}</td>                           
@@ -100,7 +100,7 @@
                         {foreach $nodes as $item}
                         <tr>
                             {def $item_url_alias = cond($item.class_identifier|eq('folder'), $item.url_alias, $item.object.main_node.url_alias)}
-                            <td><a href={$item_url_alias|ezurl()} title="Vai al dettaglio di {$item.name|wash()}">{$item.name|wash()}</a></td>
+                            <td><a href={$item_url_alias|ezurl()} title="{'Go to content'|i18n('bootstrapitalia')} {$item.name|wash()}">{$item.name|wash()}</a></td>
                             <td>{$item.object.published|l10n(date)} {if $item.object.modified|gt(sum($item.object.published,86400))}<br />
                                 <span class="f_size_small ">Ultima modifica: <strong>{$item.object.modified|l10n(date)}</strong></span>{/if}</td>
                             {undef $item_url_alias}
