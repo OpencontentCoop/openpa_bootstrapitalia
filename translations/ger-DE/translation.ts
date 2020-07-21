@@ -181,7 +181,7 @@
     </message>
     <message>
       <source>Access the personal area</source>
-      <translation>Greifen Sie auf den persönlichen Bereich zu</translation>
+      <translation>Persönlicher Bereich</translation>
     </message>
     <message>
       <source>Site editors access</source>

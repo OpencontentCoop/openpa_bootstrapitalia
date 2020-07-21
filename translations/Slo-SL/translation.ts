@@ -426,7 +426,7 @@
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Iskanje »% 1« vrnjenih% 2 tekem</translation>
+      <translation>Iskanje »% 1« se vrnili% 2 tekem</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
