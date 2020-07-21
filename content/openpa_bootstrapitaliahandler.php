@@ -23,6 +23,8 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
         if ($class->attribute('identifier') == 'document') {
             $file = eZHTTPFile::UPLOADEDFILE_OK;
             $link = true;
+            $fileName = 'file';
+            $linkName = 'link';
             foreach ($contentObjectAttributes as $contentObjectAttribute) {
                 $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
                 if ($contentClassAttribute->attribute('identifier') == 'file') {
