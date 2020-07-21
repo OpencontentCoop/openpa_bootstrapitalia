@@ -5,7 +5,7 @@
 			<a href="{$node.url_alias|ezurl(no)}">
 				<span class="fa-stack">
 				  <i class="fa fa-circle fa-stack-2x"></i>
-				  <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+				  <i class="fa fa-wrench fa-stack-1x fa-inverse"></i>
 				</span>
 			</a>
 		{/if}
@@ -17,7 +17,7 @@
 			<a href="{$node.url_alias|ezurl(no)}">
 				<span class="fa-stack">
 				  <i class="fa fa-circle fa-stack-2x"></i>
-				  <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+				  <i class="fa fa-wrench fa-stack-1x fa-inverse"></i>
 				</span>
 			</a>
 		{/if}
