@@ -42,6 +42,12 @@ MatchFile=datatype/view/string_as_url.tpl
 Subdir=templates
 Match[attribute_identifier]=sito
 
+[datatype_view_ezstring_external_contact_point]
+Source=content/datatype/view/ezstring.tpl
+MatchFile=datatype/view/string_as_url.tpl
+Subdir=templates
+Match[attribute_identifier]=external_contact_point
+
 [datatype_view_binary_mp3]
 Source=content/datatype/view/ezbinaryfile.tpl
 MatchFile=datatype/view/file_mp3.tpl
