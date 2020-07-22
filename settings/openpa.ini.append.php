@@ -89,4 +89,6 @@ ShowEditorRoles=disabled
 [GeneralSettings]
 AnnounceKit=BvwBO
 
+[RelationsBrowse]
+AllowAllBrowse[]=article/attachment
 */ ?>
