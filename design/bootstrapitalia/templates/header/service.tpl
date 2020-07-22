@@ -61,6 +61,11 @@
   {/foreach}
 {/if}
 
+{def $hide_access = false()}
+{if $pagedata.homepage|has_attribute('hide_access_menu')}
+    {set $hide_access = cond($pagedata.homepage|attribute('hide_access_menu').data_int|eq(1), true(), false())}
+{/if}
+
 <div class="it-header-slim-wrapper{* theme-light*}">
     <div class="container">
         <div class="row">
@@ -134,6 +139,7 @@
                         </div>
                         {/if}
 
+                        {if $hide_access|not()}
                         <div class="it-access-top-wrapper">
                             {if is_set($pagedata.contacts.link_area_personale)}
                                 <div data-login-top-button class="dropdown" data-icon="it-user" style="display: none;">
@@ -174,6 +180,7 @@
                                 </a>
                             {/if}
                         </div>
+                        {/if}
                         {*
                         <div class="it-access-top-wrapper{if is_set($pagedata.contacts.link_area_personale)} d-flex{/if}">
                             {if is_set($pagedata.contacts.link_area_personale)}
