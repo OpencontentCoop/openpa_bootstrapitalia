@@ -155,9 +155,10 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
             return $this->getCurrentTranslation();
         }
 
+        $identifiers = array_keys($this->classAttributes);
         foreach ($groupList as $identifier => $name) {
-            if ($key == $identifier) {                
-                return $this->getAttributeIdentifierListByParameter($identifier, 1, false);
+            if ($key == $identifier) {
+                return array_intersect($identifiers, $this->getAttributeIdentifierListByParameter($identifier, 1, false));
             }
         }
 
