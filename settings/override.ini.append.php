@@ -212,6 +212,12 @@ MatchFile=datatype/edit/selection_background_color.tpl
 Subdir=templates
 Match[attribute_identifier]=background_color
 
+[datatype_view_html]
+Source=content/datatype/view/eztext.tpl
+MatchFile=datatype/view/text_as_html.tpl
+Subdir=templates
+Match[attribute_identifier]=html
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################
