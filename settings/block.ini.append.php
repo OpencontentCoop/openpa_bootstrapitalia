@@ -423,26 +423,37 @@ ManualAddingOfItems=disabled
 CustomAttributes[]
 CustomAttributes[]=remote_url
 CustomAttributes[]=query
+CustomAttributes[]=show_grid
 CustomAttributes[]=show_map
 CustomAttributes[]=show_search
 CustomAttributes[]=input_search_placeholder
-CustomAttributes[]=fields
 CustomAttributes[]=limit
 CustomAttributes[]=items_per_row
+CustomAttributes[]=fields
+CustomAttributes[]=facets
+CustomAttributes[]=simple_geo_api
+CustomAttributes[]=template
 CustomAttributeNames[]
 CustomAttributeNames[remote_url]=Url remoto
 CustomAttributeNames[query]=Query (esempio: classes [private_organization] sort [name=>asc])
+CustomAttributeNames[show_grid]=Mostra lista
 CustomAttributeNames[show_map]=Mostra mappa
 CustomAttributeNames[show_search]=Mostra input di ricerca
 CustomAttributeNames[input_search_placeholder]=Placeholder input di ricerca
 CustomAttributeNames[fields]=Identificatori campi (esempio: description,more_information)
+CustomAttributeNames[facets]=Identificatori filtri (esempio: Argomenti:topics.name,Tipologia:type)
 CustomAttributeNames[limit]=Elementi per pagina
 CustomAttributeNames[items_per_row]=Elementi per riga
+CustomAttributeNames[simple_geo_api]=Impostazione avanzata: utilizza geo api semplici
+CustomAttributeNames[template]=Impostazione avanzata: template jsrender custom
 CustomAttributeTypes[]
+CustomAttributeTypes[show_grid]=checkbox
 CustomAttributeTypes[show_map]=checkbox
 CustomAttributeTypes[show_search]=checkbox
 CustomAttributeTypes[limit]=select
 CustomAttributeTypes[items_per_row]=select
+CustomAttributeTypes[simple_geo_api]=checkbox
+CustomAttributeTypes[template]=text
 CustomAttributeSelection_limit[2]=2
 CustomAttributeSelection_limit[3]=3
 CustomAttributeSelection_limit[4]=4

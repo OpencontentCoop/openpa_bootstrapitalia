@@ -11,7 +11,8 @@
             'query': null,
             'searchApi': '/api/opendata/v2/content/search/',
             'geoSearchApi': '/api/opendata/v2/extrageo/search/',
-            'fields': []
+            'fields': [],
+            'facets': []
         };
 
     function Plugin(element, options) {
@@ -56,6 +57,7 @@
             if (plugin.searchForm.hasClass('hide')){
                 plugin.searchFormToggle.find('i').removeClass('fa-search').addClass('fa-close');
                 plugin.searchForm.removeClass('hide');
+                plugin.container.find('select[data-facets_select]').trigger("chosen:updated");
             }else{
                 plugin.searchFormToggle.find('i').removeClass('fa-close').addClass('fa-search');
                 plugin.searchForm.find('input').val('');
@@ -77,6 +79,7 @@
             }
         });
 
+        plugin.buildFacets();
         plugin.runSearch();
     }
 
@@ -91,6 +94,14 @@
                     q = q.replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
                     baseQuery = 'q = \'' + q + '\' ' + baseQuery;
                 }
+            }
+            if (plugin.settings.facets.length > 0) {
+                $.each(plugin.settings.facets, function (index, facet) {
+                    let values = plugin.container.find('select[data-facets_select="facet-'+index+'"]').val();
+                    if (values.length > 0) {
+                        baseQuery = facet + ' in [\'' + values.join("','") + '\'] and ' + baseQuery;
+                    }
+                });
             }
             return baseQuery;
         },
@@ -288,6 +299,42 @@
                     plugin.detectError(error,jqXHR);
                 }
             });
+        },
+
+        buildFacets: function () {
+            let plugin = this;
+            if (plugin.settings.facets.length > 0) {
+                plugin.container.find('select[data-facets_select]').chosen();
+                let paginatedQuery = plugin.buildQuery() + ' and limit 1 facets [' + plugin.settings.facets.join(',') + ']';
+                $.ajax({
+                    type: "GET",
+                    url: plugin.searchUrl + paginatedQuery,
+                    dataType: "jsonp",
+                    success: function (response, textStatus, jqXHR) {
+                        if (!plugin.detectError(response, jqXHR)) {
+                            $.each(response.facets, function (index, value) {
+                                $.each(value.data, function (facet, count) {
+                                    plugin.container.find('select[data-facets_select="facet-'+index+'"]')
+                                        .append('<option value="'+facet.replace(/"/g, '').replace(/'/g, "\\'").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "")+'">'+facet+'</option>');
+                                });
+                                plugin.container.find('select[data-facets_select="facet-'+index+'"]')
+                                    .trigger("chosen:updated")
+                                    .on('change', function () {
+                                        plugin.currentPage = 0;
+                                        plugin.runSearch();
+                                    });
+                            });
+                        }
+                    },
+                    error: function (jqXHR) {
+                        let error = {
+                            error_code: jqXHR.status,
+                            error_message: jqXHR.statusText
+                        };
+                        plugin.detectError(error, jqXHR);
+                    }
+                });
+            }
         },
 
         runSearch: function () {
