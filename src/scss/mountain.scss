@@ -4,13 +4,20 @@
 // colore trentino: #BDD131
 // colore trentino: #7BB73B
 
-$primary-a7: #26529E;
-$primary-a6: #BDD131;
-$primary-a10: #2C5FB8;
-$primary-a12: #234B91;
+// $colore-header: #699c32;
+// $colore-header: #62912f;
+$colore-header: #57822a;
 
-$primary-h: 217.99;
-$primary-s: 71.91;
-$primary-b: 53.92;
+$primary-a7: darken($colore-header, 10);
+$primary-a6: darken($colore-header, 8);
+$primary-a10: darken($colore-header, 10);
+$primary-a12: darken($colore-header, 15);
 
+$primary-h: 88.97;
+$primary-s: 67.97;
+$primary-b: 50.2;
+
+// $primary-h: 88.78;
+// $primary-s: 67.59;
+// $primary-b: 61;
 @import "default";
