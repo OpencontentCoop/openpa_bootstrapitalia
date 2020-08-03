@@ -306,9 +306,14 @@ class OpenPAReverseRelationListType extends eZDataType
                 if (!$relationsListClassAttribute instanceof eZContentClassAttribute){
                     continue;
                 }
-                $className = eZContentClass::fetch($relationsListClassAttribute->attribute('contentclass_id'))->attribute('name');
-                $this->relationsListClassAttributes[$className][] = $relationsListClassAttribute;
-                ksort($this->relationsListClassAttributes);
+                $contentClass = eZContentClass::fetch($relationsListClassAttribute->attribute('contentclass_id'));
+                if ($contentClass instanceof eZContentClass) {
+                    $className = $contentClass->attribute('name');
+                    $this->relationsListClassAttributes[$className][] = $relationsListClassAttribute;
+                    ksort($this->relationsListClassAttributes);
+                }else{
+                    eZDebug::writeError('Found zoumbie relation class attribute ' . $relationsListClassAttribute->attribute('id'), __METHOD__);
+                }
             }
         }
 
