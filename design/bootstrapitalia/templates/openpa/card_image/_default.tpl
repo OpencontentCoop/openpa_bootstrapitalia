@@ -34,7 +34,7 @@
               <i class="fa fa-wrench fa-stack-1x fa-inverse"></i>
             </span>
         </a>
-    {elseif and($openpa.content_link.is_internal|not(), $node.can_edit)}
+    {elseif and($openpa.content_link.is_node_link|not(), $node.can_edit)}
         <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$node.url_alias|ezurl(no)}">
             <span class="fa-stack">
               <i class="fa fa-circle fa-stack-2x"></i>

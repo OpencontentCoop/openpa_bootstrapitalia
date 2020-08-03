@@ -13,7 +13,7 @@
     <div class="card-body{if $node|has_attribute('image')} pr-3{/if}">
         <h5 class="card-title mb-1">
             {$node.name|wash()}
-            {if and($openpa.content_link.is_internal|not(), $node.can_edit)}
+            {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
                 <a href="{$node.url_alias|ezurl(no)}">
 				<span class="fa-stack">
 				  <i class="fa fa-circle fa-stack-2x"></i>
