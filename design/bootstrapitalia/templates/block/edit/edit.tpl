@@ -136,7 +136,7 @@
                         <input id="block-custom_attribute-{$block_id}-{$loop_count}-b" class="block-control" type="checkbox" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]"{if eq( $block.custom_attributes[$custom_attrib], '1')} checked="checked"{/if} value="1" />
                         {/case}
                         {case match = 'string'}
-                        <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
+                        <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control w-50" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
                         {/case}
                         {case match = 'select'}
                             {set $custom_attribute_selections = ezini( $block.type, concat( 'CustomAttributeSelection_', $custom_attrib ), 'block.ini' )}
@@ -181,11 +181,11 @@
                             <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
                         {/case}
                         {case}
-                        <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
+                        <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control w-50" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
                         {/case}
                     {/switch}
                 {else}
-                <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
+                <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control w-50" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
                 {/if}
             {/if}
             {undef $use_browse_mode}
@@ -412,7 +412,7 @@
             <label for="block-custom_attribute-{$block_id}-19791023-2">
                 Testo del bottone "{'View all'|i18n('bootstrapitalia')}"
             </label>
-            <input type="text" id="block-custom_attribute-{$block_id}-19791023-2" class="block-control"
+            <input type="text" id="block-custom_attribute-{$block_id}-19791023-2" class="block-control w-50"
                    name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][show_all_text]"
                    value="{if is_set($block.custom_attributes[show_all_text])}{$block.custom_attributes[show_all_text]|wash()}{/if}" />
         </div>
