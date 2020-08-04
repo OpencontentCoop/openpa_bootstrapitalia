@@ -124,7 +124,7 @@
 			{{:~formatDate(~i18n(data,'end_time'), 'DD/MM/YYYY')}}
 		{{/if}}
 	</td>
-	<td>
+	<td class="text-center">
 		{{if ~i18n(data,'priorita')}}
 			{{:~i18n(data,'priorita')}}
 		{{/if}}

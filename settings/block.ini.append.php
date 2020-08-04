@@ -465,7 +465,7 @@ ViewList[]=default
 ViewName[default]=Default
 ItemsPerRow[]
 ContainerStyle[default]=py-5
-CanAddShowAllLink=disabled
+CanAddShowAllLink=enabled
 
 [Ricerca]
 Name=Ricerca

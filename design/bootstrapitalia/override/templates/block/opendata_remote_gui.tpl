@@ -97,6 +97,21 @@
         </div>
     </div>
 </div>
+
+{if and(is_set($block.custom_attributes.show_all_link), $block.custom_attributes.show_all_link|eq(1))}
+    <div class="row mt-2">
+        <div class="col text-center">
+            <a class="btn btn-primary" href="{$remoteUrl}">
+                {if and(is_set($block.custom_attributes.show_all_text), $block.custom_attributes.show_all_text|ne(''))}
+                    {$block.custom_attributes.show_all_text|wash()}
+                {else}
+                    {'View all'|i18n('bootstrapitalia')}
+                {/if}
+            </a>
+        </div>
+    </div>
+{/if}
+
 {ezscript_require(array(
     'leaflet.js',
     'leaflet.markercluster.js',
