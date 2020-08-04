@@ -3,7 +3,12 @@
 	 $topic_menu_label = 'All topics...'|i18n('bootstrapitalia')
 	 $topics = false()
 	 $topic_list = array()
-     $show_topic_menu = true()}
+     $show_topic_menu = true()
+     $show_children = false()}
+
+{if $pagedata.homepage|has_attribute('show_extended_menu')}
+    {set $show_children = cond($pagedata.homepage|attribute('show_extended_menu').data_int|eq(1), true(), false())}
+{/if}
 
 {if and( $pagedata.is_login_page|not(), array( 'edit', 'browse' )|contains( $ui_context )|not(), openpaini( 'TopMenu', 'ShowMegaMenu', 'enabled' )|eq('enabled') )}
     {def $is_area_tematica = is_area_tematica()}
@@ -63,7 +68,7 @@
                                 {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'top_menu'))}
                                 {include name=top_menu
                                          uri='design:header/menu_item.tpl'
-                                         show_children=false()
+                                         show_children=$show_children
                                          menu_item=$tree_menu}
                                 {undef $tree_menu}
                             {/foreach}
@@ -117,8 +122,9 @@ $(document).ready(function() {
             $.each(PathArray, function (i, v) {
                 if (v === node) {
                     self.addClass('active').parents('li').addClass('active');
-                    if (i === 0)
+                    if (i === 0) {
                         self.addClass('active').parents('li').addClass('active');
+                    }
                 }
             });
         }
