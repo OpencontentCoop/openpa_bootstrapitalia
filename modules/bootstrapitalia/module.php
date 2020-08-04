@@ -18,7 +18,7 @@ $ViewList['permissions'] = array(
     "default_navigation_part" => 'ezsetupnavigationpart',
 );
 
-
 $FunctionList = array();
 $FunctionList['theme'] = array();
 $FunctionList['permissions'] = array();
+$FunctionList['edit_tag_description'] = array();

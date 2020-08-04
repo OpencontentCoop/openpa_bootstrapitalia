@@ -33,7 +33,17 @@
                                         <a class="text-decoration-none" href="{concat($openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword)|ezurl(no)}">{$tag.keyword|wash()}</a>
                                     </h5>
                                     <div class="card-text">
-                                        <p>{tag_description($tag.id, $locale)|wash()}</p>
+                                        <p>
+                                            <span class="tag-description">{tag_description($tag.id, $locale)|wash()}</span>
+                                            {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'edit_tag_description' ) )}
+                                                <a href="#" data-edit_tag="{$tag.id}" data-locale="{$locale}">
+                                                    <span class="fa-stack">
+                                                      <i class="fa fa-circle fa-stack-2x"></i>
+                                                      <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
+                                            {/if}
+                                        </p>
                                     </div>
                                     <a class="read-more" href="{concat($openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword)|ezurl(no)}">
                                         <span class="text">{'Go to page'|i18n('bootstrapitalia')}</span>
@@ -49,6 +59,47 @@
             </div>
         </div>
     </section>
+
+    {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'edit_tag_description' ) )}
+        <script>{literal}
+            $(document).ready(function () {
+                $('[data-edit_tag]').on('click', function (e) {
+                    let button = $(this);
+                    let tagId = button.data('edit_tag');
+                    let locale = button.data('locale');
+                    let container = $(this).parent('p');
+                    let text = container.find('span.tag-description').text();
+                    container.hide();
+                    let editContainer = $('<div></div>');
+                    let textarea = $('<textarea rows="6" class="form-control form-control-sm text-sans-serif">'+$.trim(text)+'</textarea>')
+                        .appendTo(editContainer);
+                    let submitButton = $('<a href="#" data-tag="'+tagId+'" data-locale="'+locale+'" class="pull-right btn btn-xs btn-success py-1 px-2 text-sans-serif mt-2">Salva</a>')
+                        .appendTo(editContainer)
+                        .on('click', function (e) {
+                            let tagId = $(this).data('tag');
+                            let locale = $(this).data('locale');
+                            $.ez('ezjscedittagdescription::edit::'+tagId+'::'+locale+'::{/literal}{$node.contentobject_id}{literal}', {text: textarea.val()}, function (response) {
+                                if (response.result === 'success'){
+                                    $('[data-edit_tag="'+response.tag+'"]').parent('p').find('span.tag-description').text(response.text);
+                                }
+                                editContainer.remove();
+                                container.show();
+                            })
+                            e.preventDefault();
+                        });
+                    let cancelButton = $('<a href="#" class="pull-right btn btn-xs btn-info py-1 px-2 text-sans-serif mt-2 mr-2">Annulla</a>')
+                        .appendTo(editContainer)
+                        .on('click', function (e) {
+                            editContainer.remove();
+                            container.show();
+                            e.preventDefault();
+                        });
+                    editContainer.insertBefore(container);
+                    e.preventDefault();
+                });
+            })
+        {/literal}</script>
+    {/if}
 
 {else}
 

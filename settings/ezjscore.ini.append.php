@@ -8,4 +8,7 @@ LocalScripts[jqueryUI]=jquery-ui.min.js
 [ezjscServer_ezjsctags]
 Class=ezjscCachedTags
 
+[ezjscServer_ezjscedittagdescription]
+Class=ezjscEditTagDescription
+
 */ ?>
