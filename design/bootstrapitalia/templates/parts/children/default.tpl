@@ -34,7 +34,7 @@
                                     </h5>
                                     <div class="card-text">
                                         <p>
-                                            <span class="tag-description">{tag_description($tag.id, $locale)|wash()}</span>
+                                            <span class="tag-description">{tag_description($tag.id, $locale)|wash()|nl2br}</span>
                                             {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'edit_tag_description' ) )}
                                                 <a href="#" data-edit_tag="{$tag.id}" data-locale="{$locale}">
                                                     <span class="fa-stack">
