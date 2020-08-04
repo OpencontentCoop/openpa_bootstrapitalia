@@ -150,21 +150,58 @@ class OpenPARoleType extends eZDataType
         if (!isset(self::$content[$contentObjectAttribute->attribute('id')])){
             $contentSearch = new ContentSearch();
             $contentSearch->setEnvironment(new FullEnvironmentSettings());
-            $data = $contentSearch->search($this->buildQuery($contentObjectAttribute));
+            try {
+                $data = $contentSearch->search($this->buildQuery($contentObjectAttribute));
+            }catch (Exception $e){
+                $data = new stdClass();
+                $data->searchHits = [];
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+            }
 
             $classContent = $contentObjectAttribute->attribute('class_content');
             $sort = $classContent['sort'];
             $contents = $this->sortContents($data->searchHits, $sort);
-            $objects = array();
+            $roles = array();
+            $rolesPerPerson = array();
+            $rolesPerEntity = array();
+            $typePerEntities = array();
+            $people = [];
+            $entities = [];
             foreach ($contents as $content) {
                 try {
                     $apiContent = new Content($content);
-                    $objects[] = $apiContent->getContentObject($this->language);
+                    $role = $apiContent->getContentObject($this->language);
+                    foreach ($apiContent->data[$this->language]['person']['content'] as $person) {
+                        if (!isset($people[$person['id']])) {
+                            $people[$person['id']] = eZContentObject::fetch((int)$person['id']);
+                        }
+                        $rolesPerPerson[$person['id']][] = $role;
+                    }
+                    $type = implode(', ', $apiContent->data[$this->language]['role']['content']);
+                    foreach ($apiContent->data[$this->language]['for_entity']['content'] as $entity) {
+                        if (!isset($entities[$entity['id']])) {
+                            $entities[$entity['id']] = eZContentObject::fetch((int)$entity['id']);
+                        }
+                        $rolesPerEntity[$entity['id']][] = $role;
+                        if (isset($apiContent->data[$this->language]['ruolo_principale']['content'])
+                            && $apiContent->data[$this->language]['ruolo_principale']['content']) {
+                            $typePerEntities[$type][$entity['id']] = $entity['name'][$this->language];
+                        }
+                    }
+                    $roles[] = $role;
                 } catch (Exception $e) {
                     eZDebug::writeError($e->getMessage(), __METHOD__);
                 }
             }
-            self::$content[$contentObjectAttribute->attribute('id')] = $objects;
+
+            self::$content[$contentObjectAttribute->attribute('id')] = [
+                'roles' => $roles,
+                'roles_per_person' => $rolesPerPerson,
+                'roles_per_entity' => $rolesPerEntity,
+                'people' => $people,
+                'entities' => $entities,
+                'main_type_per_entities' => $typePerEntities,
+            ];
         }
 
         return self::$content[$contentObjectAttribute->attribute('id')];
@@ -235,6 +272,8 @@ class OpenPARoleType extends eZDataType
             $queryParts[] = "role in ['\"" . implode("\"','\"", $data['filter']) . "\"']";
         }
 
+        $queryParts[] = 'calendar[start_time,end_time] = [now,*]';
+        $queryParts[] = 'sort [raw[attr_priorita_si]=>desc]';
         $queryParts[] = $asCount ? 'limit 1' : 'limit 100';
 
         return implode(' and ', $queryParts);
@@ -243,35 +282,38 @@ class OpenPARoleType extends eZDataType
     private function sortContents($contents, $sortValue)
     {
         if (count($contents) > 1) {
+            $attributeIdentifier = false;
             if ($sortValue == self::SORT_ENTITY_NAME) {
                 $attributeIdentifier = 'for_entity';
             } elseif ($sortValue == self::SORT_PERSON_NAME) {
                 $attributeIdentifier = 'person';
-            } elseif ($sortValue == self::SORT_TYPE) {
+            } /*elseif ($sortValue == self::SORT_TYPE) {
                 $attributeIdentifier = 'role';
+            }*/
+            if ($attributeIdentifier) {
+                $language = $this->language;
+                usort($contents, function ($a, $b) use ($attributeIdentifier, $language) {
+                    if ($attributeIdentifier !== 'role'
+                        && isset($a['data'][$language][$attributeIdentifier]['content'][0]['name'][$language])
+                        && isset($b['data'][$language][$attributeIdentifier]['content'][0]['name'][$language])
+                    ) {
+                        return strcmp(
+                            $a['data'][$language][$attributeIdentifier]['content'][0]['name'][$language],
+                            $b['data'][$language][$attributeIdentifier]['content'][0]['name'][$language]
+                        );
+
+                    } elseif (isset($a['data'][$language][$attributeIdentifier]['content'][0])
+                        && isset($b['data'][$language][$attributeIdentifier]['content'][0])
+                    ) {
+                        return strcmp(
+                            $a['data'][$language][$attributeIdentifier]['content'][0],
+                            $b['data'][$language][$attributeIdentifier]['content'][0]
+                        );
+                    }
+
+                    return 0;
+                });
             }
-            $language = $this->language;
-            usort($contents, function ($a, $b) use ($attributeIdentifier, $language) {
-                if ($attributeIdentifier !== 'role'
-                    && isset($a['data'][$language][$attributeIdentifier]['content'][0]['name'][$language])
-                    && isset($b['data'][$language][$attributeIdentifier]['content'][0]['name'][$language])
-                ) {
-                    return strcmp(
-                        $a['data'][$language][$attributeIdentifier]['content'][0]['name'][$language],
-                        $b['data'][$language][$attributeIdentifier]['content'][0]['name'][$language]
-                    );
-
-                } elseif (isset($a['data'][$language][$attributeIdentifier]['content'][0])
-                    && isset($b['data'][$language][$attributeIdentifier]['content'][0])
-                ) {
-                    return strcmp(
-                        $a['data'][$language][$attributeIdentifier]['content'][0],
-                        $b['data'][$language][$attributeIdentifier]['content'][0]
-                    );
-                }
-
-                return 0;
-            });
         }
 
         return $contents;

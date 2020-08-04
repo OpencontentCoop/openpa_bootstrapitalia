@@ -91,4 +91,7 @@ AnnounceKit=BvwBO
 
 [RelationsBrowse]
 AllowAllBrowse[]=article/attachment
+
+[AreeTematiche]
+IdentificatoreAreaTematica[]
 */ ?>

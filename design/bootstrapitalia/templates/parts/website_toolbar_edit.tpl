@@ -102,7 +102,7 @@
 {include uri='design:parts/websitetoolbar/floating_toolbar.tpl'}
 <script>{literal}
 $(document).ready(function(){
-    $('select#ezwt-create').chosen({width:"200px"}).change(function(e){
+    $('select#ezwt-create').chosen({width:"300px !important"}).change(function(e){
         var values = $(e.currentTarget).find('option:selected').data();    
         $('a[href="#attribute-group-'+values.group+'"]').trigger('click');    
         var x = $('#edit-'+values.identifier).offset().top - 100;

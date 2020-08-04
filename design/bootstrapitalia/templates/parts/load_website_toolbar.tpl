@@ -4,7 +4,7 @@
         $('#toolbar').load($.ez.url+'call/openpaajax::loadWebsiteToolbar::{/literal}{$node.node_id}{literal}', null, function(response){
             $('body').addClass('fixed-wt');
             //load chosen in class list
-            $("#ezwt-create").chosen({width:"200px"});
+            $("#ezwt-create").chosen({width:"300px !important"});
             $('#toolbar').trigger('ezwt-loaded');
             {/literal}{if openpaini('GeneralSettings', 'AnnounceKit')|ne('disabled')}{literal}
             window.announcekit = (window.announcekit || { queue: [], on: function(n, x) { window.announcekit.queue.push([n, x]); }, push: function(x) { window.announcekit.queue.push(x); } });

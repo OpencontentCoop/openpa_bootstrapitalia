@@ -31,6 +31,9 @@
 					<th>Ruolo</th>
 					<th>Persona</th>
 					<th>Struttura</th>
+					<th>Valido dal</th>
+					<th>Valido al</th>
+					<th>Priorità</th>
 					{if $can_create}<th width="1"></th>{/if}
 		        </tr>
 			</thead>
@@ -96,30 +99,47 @@
 <script id="tpl-results" type="text/x-jsrender">    
 {{for searchHits}}
 <tr>
-	<td>
-		{{if ~i18n(data,'role')}}{{:~i18n(data,'role')}}{{/if}}
+	<td class="{{if ~i18n(data,'ruolo_principale')}}font-weight-bold{{/if}}">
+		{{if ~i18n(data,'role')}}
+			{{:~i18n(data,'role')}}
+		{{/if}}
 	</td>
 	<td>
 		{{if ~i18n(data,'person') ~baseUrl=baseUrl}}
-            {{for ~i18n(data,'person')}}<a href="{{:~baseUrl}}content/view/full/{{:mainNodeId}}">{{:~i18n(name)}}</a>{{/for}}
+            {{for ~i18n(data,'person')}}<a class="d-block" href="{{:~baseUrl}}content/view/full/{{:mainNodeId}}">{{:~i18n(name)}}</a>{{/for}}
         {{/if}}
 	</td>
     <td>
         {{if ~i18n(data,'for_entity') ~baseUrl=baseUrl}}
-            {{for ~i18n(data,'for_entity')}}<a href="{{:~baseUrl}}content/view/full/{{:mainNodeId}}">{{:~i18n(name)}}</a>{{/for}}
+            {{for ~i18n(data,'for_entity')}}<a class="d-block" href="{{:~baseUrl}}content/view/full/{{:mainNodeId}}">{{:~i18n(name)}}</a>{{/for}}
         {{/if}}
-	</td>	
-    {/literal}{if $can_create}{literal}
+	</td>
+	<td>
+		{{if ~i18n(data,'start_time')}}
+			{{:~formatDate(~i18n(data,'start_time'), 'DD/MM/YYYY')}}
+		{{/if}}
+	</td>
+	<td>
+		{{if ~i18n(data,'end_time')}}
+			{{:~formatDate(~i18n(data,'end_time'), 'DD/MM/YYYY')}}
+		{{/if}}
+	</td>
+	<td>
+		{{if ~i18n(data,'priorita')}}
+			{{:~i18n(data,'priorita')}}
+		{{/if}}
+	</td>
 	<td style="white-space: nowrap;">
+    {/literal}{if $can_create}{literal}
 		<a href="#" class="edit-object" data-object="{{:metadata.id}}"><span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-pencil fa-stack-1x fa-inverse"></i></span></a>
 		<a href="#" class="delete-object" data-object="{{:metadata.id}}"><span class="fa-stack text-danger"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-trash-o fa-stack-1x fa-inverse"></i></span></a>
-	</td>
 	{/literal}{/if}{literal}
+	</td>
 </tr>	
 {{/for}}
 {{if prevPageQuery || nextPageQuery }}
 <tr>
-	<td colspan="4">
+	<td colspan="6">
 		{{if prevPageQuery}}
 			<div class="pull-left"><a href="#" id="prevPage" data-query="{{>prevPageQuery}}">Pagina precedente</a></div>
 		{{/if}}
@@ -156,7 +176,7 @@
 	    if (ClassIdentifier){
 	    	classQuery = 'classes ['+ClassIdentifier+'] ';
 	    }
-	    var mainQuery = classQuery+'subtree [' + ParentNodeId + '] sort [name=>asc] limit ' + pageLimit;
+	    var mainQuery = classQuery+'subtree [' + ParentNodeId + '] sort [raw[attr_priorita_si]=>desc,role=>asc] limit ' + pageLimit;
 	    var $container = $(ContainerSelector).find('tbody');
 
 	    var currentPage = 0;

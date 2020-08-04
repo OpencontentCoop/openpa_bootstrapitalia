@@ -1,72 +1,112 @@
 {if $attribute.has_content}
 
-	{def $view_nodes = array()}
-	
-	{if array(1,2)|contains($attribute.class_content.view)}	
-	    	<ul class="list-unstyled">
-	{/if}    	
-			{foreach $attribute.content as $role}
-				
-				{def $view_node = false()}
+	{def $context = false()
+		 $module_params = module_params()}
+	{if and($module_params.module_name|eq('content'),$module_params.function_name|eq('view'),$module_params.parameters.ViewMode|eq('full'))}
+		{set $context = fetch(content, node, hash('node_id', $module_params.parameters.NodeID))}
+	{/if}
 
-				{if array(1,3)|contains($attribute.class_content.view)}
-					{foreach $role|attribute('person').content.relation_list as $item}	        
-				        {set $view_node = fetch(content, node, hash(node_id, $item.node_id))}
-				        {break}      
-				    {/foreach}
-				{elseif array(2,4)|contains($attribute.class_content.view)}
-					{foreach $role|attribute('for_entity').content.relation_list as $item}	        
-				        {set $view_node = fetch(content, node, hash(node_id, $item.node_id))}
-				        {break}      
-				    {/foreach}
-				{/if}
 
-				{if $view_node} 
-					{set $view_nodes = $view_nodes|append($view_node)}
-				{/if}				
-				
-				{if array(1,2)|contains($attribute.class_content.view)}
-				<li>	            
-		            {$role|attribute('role').content.keyword_string} 
-		            {if $view_node} presso
-		            {def $openpa_view_node = object_handler($view_node)}
-		            <a href="{$openpa_view_node.content_link.full_link}"
-					   title="Link a {$view_node.name|wash()}">					    	
-					    	{$view_node.name|wash()}					    	
-					</a>				
-					{if and(is_set($view_context), $view_context|eq('full_attributes'))}
-				    	{if $role|has_attribute('competences')}
-				    	<li><small class="font-weight-bold">{$role|attribute('competences').contentclass_attribute_name}:</small></li>					    	
-				    	<ul>					    	
-				    		<li><small>{$role|attribute('competences').content.cells|implode('</small></li><li><small>')}</small></li>					    	
-				    	</ul>
-				    	{/if}
-				    	{if $role|has_attribute('delegations')}
-				    	<li><small class="font-weight-bold">{$role|attribute('delegations').contentclass_attribute_name}:</small></li>					    	
-				    	<ul>					    	
-				    		<li><small>{$role|attribute('delegations').content.cells|implode('</small></li><li><small>')}</small></li>					    	
-				    	</ul>
-				    	{/if}				    	
-			    	{/if}
-					{undef $openpa_view_node}
-					{/if}	
-	        	</li>
-	        	{/if}
-		      
-				{undef $view_node}
+	{switch match=$attribute.class_content.view}
 
-			{/foreach}
-	{if array(1,2)|contains($attribute.class_content.view)}
+		{case match=1} {* Lista Persone per i ruoli afferenti a una struttura*}
+			<ul class="list-unstyled ">
+				{foreach $attribute.content.people as $person}
+					{def $openpa_person = object_handler($person)}
+						<li class="text-sans-serif">
+							<a class="text-sans-serif" href="{$openpa_person.content_link.full_link}" title="Link {$person.name|wash()}">{$person.name|wash()}</a>
+							{foreach $attribute.content.roles_per_person[$person.id] as $role}{*
+								*}{$role|attribute('role').content.keyword_string|trim}{*
+								*}{if $role|has_attribute('delegations')}
+									<small class="text-sans-serif">({$role|attribute('delegations').contentclass_attribute_name|downcase|wash()}: {$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
+								{/if}{*
+								*}{delimiter}, {/delimiter}{*
+							*}{/foreach}
+						</li>
+					{undef $openpa_person}
+				{/foreach}
 			</ul>
-	{/if}
+		{/case}
 
-	{if array(3,4)|contains($attribute.class_content.view)}
-	    <div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
-		    {foreach $view_nodes as $child }
-	            {node_view_gui content_node=$child view=card_teaser show_icon=true() image_class=widemedium}
-	        {/foreach}
-        </div>
-	{/if}
+		{case match=3} {* Persone per i ruoli afferenti a una struttura *}
+			<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
+				{foreach $attribute.content.people as $child }
+					{node_view_gui content_node=$child.main_node view=card_teaser show_icon=true() image_class=widemedium}
+				{/foreach}
+			</div>
+		{/case}
 
-	{undef $view_nodes}
+		{case match=2} {* Lista Strutture per i ruoli afferenti a una persona *}
+
+			{* versione estesa per il full *}
+			{if and(is_set($view_context), $view_context|eq('full_attributes'))}
+				<ul class="list-unstyled text-sans-serif">
+					{foreach $attribute.content.entities as $entity}
+						{def $openpa_entity = object_handler($entity)}
+							{foreach $attribute.content.roles_per_entity[$entity.id] as $role}
+							<li class="text-sans-serif">
+								{$role|attribute('role').content.keyword_string|trim} presso <a class="text-sans-serif" href="{$openpa_entity.content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
+								{if or($role|has_attribute('competences'), $role|has_attribute('delegations'))}
+								<ul class="list-unstyled mb-3">
+									{if $role|has_attribute('competences')}
+										<small class="d-block text-sans-serif">
+											<strong class="text-sans-serif">{$role|attribute('competences').contentclass_attribute_name}:</strong>
+											{$role|attribute('competences').content.cells|implode(', ')}
+										</small>
+									{/if}
+									{if $role|has_attribute('delegations')}
+										<small class="d-block text-sans-serif">
+											<strong class="text-sans-serif">{$role|attribute('delegations').contentclass_attribute_name}:</strong>
+											{$role|attribute('delegations').content.cells|implode(', ')}
+										</small>
+									{/if}
+								</ul>
+									{/if}
+							</li>
+							{/foreach}
+						{undef $openpa_entity}
+					{/foreach}
+				</ul>
+
+			{* versione compatta per abstract *}
+			{else}
+
+				{* contestualizzato alla struttura del full corrente *}
+				{if and($context, is_set($attribute.content.roles_per_entity[$context.contentobject_id]))}
+					<ul class="list-unstyled text-sans-serif">
+						<li class="text-sans-serif">
+							{foreach $attribute.content.roles_per_entity[$context.contentobject_id] as $role}{*
+								*}{$role|attribute('role').content.keyword_string|trim}{*
+								mostra il dettaglio delegations dei ruoli legati all'entità di cui si sta visualizzando il content/view/full
+								*}{if $role|has_attribute('delegations')}
+									<small class="text-sans-serif">({$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
+								{/if}{*
+								*}{delimiter}, {/delimiter}{*
+						  *}{/foreach}
+						</li>
+					</ul>
+
+				{* in generale per abstract *}
+				{else}
+                    <ul class="list-unstyled text-sans-serif">
+					{foreach $attribute.content.main_type_per_entities as $type => $entities}
+						<li class="text-sans-serif">{$type} presso {foreach $entities as $id => $name}<a class="text-sans-serif" href="{concat('openpa/object/', $id)|ezurl(no)}">{$name|wash()}</a>{delimiter}, {/delimiter}{/foreach}</li>
+					{/foreach}
+					</ul>
+				{/if}
+			{/if}
+		{/case}
+
+		{case match=4} {* Strutture per i ruoli afferenti a una persona *}
+			<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
+				{foreach $attribute.content.entities as $child }
+					{node_view_gui content_node=$child.main_node view=card_teaser show_icon=true() image_class=widemedium}
+				{/foreach}
+			</div>
+		{/case}
+
+		{case}{/case}
+	{/switch}
+
+	{undef $context $module_params}
 {/if}
