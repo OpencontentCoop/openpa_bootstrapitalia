@@ -57,7 +57,7 @@
 {else}
     {def $table_view = class_extra_parameters($object.class_identifier, 'table_view')}
     {foreach $table_view.show as $attribute_identifier}
-        {if or($openpa[$attribute_identifier].has_content, $openpa[$attribute_identifier].full.show_empty)}
+        {if and($openpa[$attribute_identifier].full.exclude|not(), or($openpa[$attribute_identifier].has_content, $openpa[$attribute_identifier].full.show_empty))}
             {set $summary_items = $summary_items|append(
                 hash( 'slug', $attribute_identifier, 'title', $openpa[$attribute_identifier].label, 'attributes', array($openpa[$attribute_identifier]), 'is_grouped', false(), 'wrap', false() )
             )}
@@ -106,7 +106,10 @@
         <section class="col-lg-8{if count($summary_items)|eq(1)} px-lg-4 pb-lg-4{/if}">
             {foreach $summary_items as $index => $item}
                 <article id="{$item.slug|wash()}" class="it-page-section mb-2 anchor-offset clearfix" {*if $index|eq(0)} class="anchor-offset"{/if*}>
+
+                    {if count($summary_items)|gt(1)}
                     <h4>{$item.title|wash()}</h4>
+                    {/if}
 
                     {if $item.wrap}                    
                     <div class="card-wrapper card-teaser-wrapper card-teaser-embed">
@@ -116,12 +119,12 @@
 
                         {if $openpa_attribute.full.highlight}
                         <div class="callout important">
-                            <div class="callout-title">
-                                {display_icon('it-info-circle', 'svg', 'icon')}
-                                {if and($openpa_attribute.full.show_label, $openpa_attribute.full.collapse_label|not(), $item.is_grouped)}
+                            {if and($openpa_attribute.full.show_label, $openpa_attribute.full.collapse_label|not(), $item.is_grouped)}
+                                <div class="callout-title">
+                                    {display_icon('it-info-circle', 'svg', 'icon')}
                                     {$openpa_attribute.label|wash()}
-                                {/if}
-                            </div>
+                                </div>
+                            {/if}
                             <div class="text-serif small neutral-1-color-a7">
                         {elseif and($openpa_attribute.full.show_label, $item.is_grouped)}
                             {if $openpa_attribute.full.collapse_label|not()}

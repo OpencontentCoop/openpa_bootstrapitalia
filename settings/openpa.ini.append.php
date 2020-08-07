@@ -17,6 +17,7 @@ Services[content_show_published]=ObjectHandlerServiceContentShowPublished
 Services[content_trasparenza]=ObjectHandlerServiceContentTrasparenza
 Services[content_tag_menu]=ObjectHandlerServiceContentTagMenu
 Services[opengraph]=ObjectHandlerServiceOpengraph
+Services[content_show_info_collector]=ObjectHandlerServiceShowContentInfoCollector
 
 [ViewSettings]
 AvailableView[]=card
