@@ -14,6 +14,9 @@
         {break}
     {/if}
 {/foreach}
+{if $background_color_class|eq('Nessuno')}
+    {set $text_black = true()}
+{/if}
 <div data-object_id="{$node.contentobject_id}" class="card card-teaser rounded {$background_color_class} {$view_variation}">
     {if $node|has_attribute('image')}
     <div class="avatar size-lg mr-3">
