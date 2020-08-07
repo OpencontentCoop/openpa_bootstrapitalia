@@ -4,4 +4,5 @@
 ExtensionRepositories[]=openpa_bootstrapitalia
 ModuleList[]=bootstrapitalia
 ModuleList[]=join
+ModuleList[]=image
 */ ?>

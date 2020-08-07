@@ -6,4 +6,7 @@ TranslationExtensions[]=openpa_bootstrapitalia
 [TemplateSettings]
 ExtensionAutoloadPath[]=openpa_bootstrapitalia
 
+[RoleSettings]
+PolicyOmitList[]=image/view
+
 */ ?>

@@ -125,7 +125,10 @@ $(document).ready(function () {ldelim}
     $.views.helpers($.extend({ldelim}{rdelim}, $.opendataTools.helpers, {ldelim}
         'remoteUrl': function (remoteUrl, id) {ldelim}
             return remoteUrl+'/openpa/object/' + id;
-        {rdelim}
+        {rdelim},
+        'mainImage': function (remoteUrl, id, css) {ldelim}
+            return '<img alt="" src="'+remoteUrl+'/image/view/'+id+'" class="'+css+'" />';
+        {rdelim},
     {rdelim}));
     $("#remote-gui-{$block.id}").remoteContentsGui({ldelim}
         'remoteUrl': "{$remoteUrl}",
@@ -171,7 +174,9 @@ $(document).ready(function () {ldelim}
 	{{else}}
         <div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{{:itemsPerRow}}">
         {{for searchHits}}
+        <div class="card card-teaser rounded shadow" style="text-decoration:none !important">
             {{include tmpl="#tpl-remote-gui-item"/}}
+        </div>
         {{/for}}
         </div>
 	{{/if}}
@@ -206,11 +211,7 @@ $(document).ready(function () {ldelim}
 	{{/if}}
 </script>
 <script id="tpl-remote-gui-item" type="text/x-jsrender">
-<div class="card card-teaser rounded shadow" style="text-decoration:none !important">
-    <div class="card-body">
-        {{include tmpl="#tpl-remote-gui-item-inner-{/literal}{$block.id}{literal}"/}}
-    </div>
-</div>
+{{include tmpl="#tpl-remote-gui-item-inner-{/literal}{$block.id}{literal}"/}}
 </script>
 {/literal}
 {/run-once}
@@ -220,18 +221,22 @@ $(document).ready(function () {ldelim}
     {$block.custom_attributes.template}
 {else}
     {literal}
-    <h5 class="card-title">
-        {{:~i18n(metadata.name)}}
-    </h5>
-    <div style="padding-bottom: 34px;">
-        {{for fields ~current=data}}
-            {{if ~i18n(~current, #data)}}<div class="card-text">{{:~i18n(~current, #data)}}</div>{{/if}}
-        {{/for}}
+    <div class="d-flex w-100">
+        <div class="card-body p-0">
+            <h5 class="card-title">
+                {{:~i18n(metadata.name)}}
+            </h5>
+            <div style="padding-bottom: 34px;">
+                {{for fields ~current=data}}
+                    {{if ~i18n(~current, #data)}}<div class="card-text">{{:~i18n(~current, #data)}}</div>{{/if}}
+                {{/for}}
+            </div>
+            <a class="read-more" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">
+                <span class="text">Leggi di più</span>
+                <svg class="icon"><use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-arrow-right"></use></svg>
+            </a>
+        </div>
     </div>
-    <a class="read-more" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">
-        <span class="text">Leggi di più</span>
-        <svg class="icon"><use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-arrow-right"></use></svg>
-    </a>
     {/literal}
 {/if}
 </script>

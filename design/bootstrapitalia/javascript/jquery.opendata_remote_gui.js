@@ -125,7 +125,7 @@
                     let popupDefault = '<p class="text-center"><i class="fa fa-circle-o-notch fa-spin"></i></p><p><a href="' + plugin.settings.remoteUrl + '/content/view/full/' + feature.properties.mainNodeId + '" target="_blank">';
                     popupDefault += feature.properties.name;
                     popupDefault += '</a></p>';
-                    let popup = new L.Popup({maxHeight: 360});
+                    let popup = new L.Popup({maxHeight: 360, minWidth: 300});
                     popup.setContent(popupDefault);
                     layer.on('click', function (e) {
                         $.ajax({
