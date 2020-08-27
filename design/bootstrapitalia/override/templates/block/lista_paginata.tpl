@@ -104,7 +104,7 @@
 <script>
 	$.views.helpers($.extend({}, $.opendataTools.helpers, {
 		'stripATag': function (value) {
-			var element = $(value);
+			var element = $('<div>'+value+'</div>');
 			element.find('a').each(function() {
 				var content = $(this).contents();
 				$(this).replaceWith(content);
