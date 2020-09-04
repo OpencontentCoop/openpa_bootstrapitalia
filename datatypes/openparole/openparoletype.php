@@ -273,7 +273,7 @@ class OpenPARoleType extends eZDataType
         }
 
         $queryParts[] = 'calendar[start_time,end_time] = [now,*]';
-        $queryParts[] = 'sort [raw[attr_priorita_si]=>desc]';
+        $queryParts[] = 'sort [raw[attr_priorita_si]=>desc,name=>asc]';
         $queryParts[] = $asCount ? 'limit 1' : 'limit 100';
 
         return implode(' and ', $queryParts);
