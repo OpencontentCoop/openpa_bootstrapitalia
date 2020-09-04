@@ -301,7 +301,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                     'class_filter_array' => $excludeClasses,
                     'limit' => OpenPAINI::variable('GestioneFigli', 'limite_paginazione', '25'),
                     'offset' => $this->getOffset(),
-                    'sort_by' => array('published', false)
+                    'sort_by' => $this->container->getContentNode()->attribute('sort_array')
                 );
             }
         }
