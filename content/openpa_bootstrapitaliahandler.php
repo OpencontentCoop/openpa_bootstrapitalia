@@ -2,6 +2,8 @@
 
 class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
 {
+    const ERROR_MESSAGE = "Popolare almeno un campo tra '%s' e '%s'";
+
     /**
      * @param eZHTTPTool $http
      * @param eZModule $module
@@ -49,7 +51,7 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
 
             if ($file == eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST && empty($link)) {
                 $result = array('is_valid' => false, 'warnings' => [
-                    ['text' => "Popolare almeno un campo tra '$fileName' e '$linkName'"]
+                    ['text' => sprintf(self::ERROR_MESSAGE, $fileName, $linkName)]
                 ]);
             }
         }

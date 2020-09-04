@@ -4,6 +4,7 @@
 #ClassConnectors[article]=MyAwesomeArticleClassConnector
 #ClassGroupConnectors[1]=MyAwesomeContentClassConnector
 ClassConnectors[image]=ImageClassConnector
+ClassConnectors[document]=DocumentClassConnector
 
 [FieldSettings]
 FieldConnectors[ezxmltext]=\Opencontent\Ocopendata\Forms\Connectors\OpendataConnector\FieldConnector\EzOnlineEditorXmlField
