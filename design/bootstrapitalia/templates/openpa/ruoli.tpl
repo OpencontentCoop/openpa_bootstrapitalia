@@ -176,7 +176,7 @@
 	    if (ClassIdentifier){
 	    	classQuery = 'classes ['+ClassIdentifier+'] ';
 	    }
-	    var mainQuery = classQuery+'subtree [' + ParentNodeId + '] sort [raw[attr_priorita_si]=>desc,role=>asc] limit ' + pageLimit;
+	    var mainQuery = classQuery+'subtree [' + ParentNodeId + '] sort [raw[attr_priorita_si]=>desc,person.name=>asc] limit ' + pageLimit;
 	    var $container = $(ContainerSelector).find('tbody');
 
 	    var currentPage = 0;
@@ -237,7 +237,7 @@
 	        var filters = '';
 	        if (name) {
 	            filters += 'q = "' + name + '" and ';            
-	            var searchQuery = classQuery+'subtree [' + ParentNodeId + '] and ' + filters + ' limit ' + pageLimit;
+	            var searchQuery = classQuery+'subtree [' + ParentNodeId + '] and ' + filters + ' sort [raw[attr_priorita_si]=>desc,person.name=>asc] limit ' + pageLimit;
 	            runQuery(searchQuery);
 	            $('#ResetContents').show();
 	            currentPage = 0;
