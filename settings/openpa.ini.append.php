@@ -91,7 +91,8 @@ ShowEditorRoles=disabled
 AnnounceKit=BvwBO
 
 [RelationsBrowse]
-AllowAllBrowse[]=article/attachment
+AllowAllBrowse=enabled
+#AllowAllBrowseAttributes[]=article/attachment
 
 [AreeTematiche]
 IdentificatoreAreaTematica[]

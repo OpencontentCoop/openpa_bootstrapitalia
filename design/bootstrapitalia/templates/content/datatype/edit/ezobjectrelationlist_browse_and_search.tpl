@@ -13,7 +13,7 @@ $(document).ready(function () {ldelim}
         'attributeId': {$attribute.id},
         'subtree': {cond($browse_object_start_node, $browse_object_start_node, 1)},
         'addCloseButton': true,
-        'allowAllBrowse': {cond(openpaini('RelationsBrowse', 'AllowAllBrowse', array())|contains(concat($attribute.object.class_identifier,'/',$attribute.contentclass_attribute_identifier)), 'true', 'false')},
+        'allowAllBrowse': {cond(or(openpaini('RelationsBrowse', 'AllowAllBrowse', 'enabled')|eq('enabled'),openpaini('RelationsBrowse', 'AllowAllBrowseAttributes', array())|contains(concat($attribute.object.class_identifier,'/',$attribute.contentclass_attribute_identifier))), 'true', 'false')},
         'addCreateButton': false,
         'classes': {cond( and( is_set( $attribute.class_content.class_constraint_list ), $attribute.class_content.class_constraint_list|count|ne( 0 ) ), concat("['", $class_content.class_constraint_list|implode("','"), "']"), "[]")},
         'i18n':{ldelim}
