@@ -7,5 +7,8 @@ I seguenti attributi, non disponibili per default, possono essere aggiunti modif
  - string `topic_menu_label`: permette di customizzare l'etichetta Argomenti
  - boolean `hide_topic_menu`: permette di nascondere la voce di menu Argomenti
  - boolean `hide_footer_menu`: permette di nascondere il menu nel footer
- - booleam `show_extended_menu`: permette di visualizzare il menu principale esteso (con dropdown)
- 
+ - boolean `show_extended_menu`: permette di visualizzare il menu principale esteso (con dropdown)
+ - text `cookie_alert_text`: permette di personalizzare il testo del cookie alert 
+ - string `cookie_alert_info_button_link`: permette di personalizzare il link alle informazioni cookie alert
+ - string `cookie_alert_info_button_text`: permette di personalizzare il testo del link alle informazioni del cookie alert 
+ - string `cookie_alert_accept_button_text`: permette di personalizzare il testo del bottone di accettazione del cookie alert  

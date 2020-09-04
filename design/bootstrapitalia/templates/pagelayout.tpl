@@ -78,8 +78,6 @@ $.opendataTools.settings('endpoint',{ldelim}
         <a class="sr-only sr-only-focusable" href="#footer">{'Jump to footer'|i18n('bootstrapitalia')}</a>
     </div>
 
-    {include uri='design:page_notifications.tpl'}
-
     {debug-accumulator id=page_toolbar name=page_toolbar}
     {include uri='design:page_toolbar.tpl'}
     {/debug-accumulator}
@@ -88,6 +86,7 @@ $.opendataTools.settings('endpoint',{ldelim}
     {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $extra_cache_key )}
     {debug-accumulator id=page_header_and_offcanvas_menu name=page_header_and_offcanvas_menu}
         {def $pagedata = openpapagedata()}
+        {include uri='design:page_notifications.tpl'}
         {include uri='design:page_header.tpl'}
         {undef $pagedata}
     {/debug-accumulator}
