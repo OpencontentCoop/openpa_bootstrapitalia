@@ -1,8 +1,8 @@
 section {
   article {
     h1.title_editor, h2.title_editor, h3.title_editor, h4.title_editor, h5.title_editor, h6.title_editor,
-    > div.clearfix > p, > div.clearfix > ul *,
-    > p, > ul * {
+    > div.clearfix > p, > div.clearfix > ul *:not(.fa),
+    > p, > ul *:not(.fa) {
       font-family: $font-family-serif;
     }
 

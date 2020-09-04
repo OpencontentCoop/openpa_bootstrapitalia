@@ -13,12 +13,12 @@
 			<ul class="list-unstyled ">
 				{foreach $attribute.content.people as $person}
 					{def $openpa_person = object_handler($person)}
-						<li class="text-sans-serif">
-							<a class="text-sans-serif" href="{$openpa_person.content_link.full_link}" title="Link {$person.name|wash()}">{$person.name|wash()}</a>
+						<li>
+							<a href="{$openpa_person.content_link.full_link}" title="Link {$person.name|wash()}">{$person.name|wash()}</a>
 							{foreach $attribute.content.roles_per_person[$person.id] as $role}{*
 								*}{$role|attribute('role').content.keyword_string|trim}{*
 								*}{if $role|has_attribute('delegations')}
-									<small class="text-sans-serif">({$role|attribute('delegations').contentclass_attribute_name|downcase|wash()}: {$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
+									<small>({$role|attribute('delegations').contentclass_attribute_name|downcase|wash()}: {$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
 								{/if}{*
 								*}{delimiter}, {/delimiter}{*
 							*}{/foreach}
@@ -40,31 +40,29 @@
 
 			{* versione estesa per il full *}
 			{if and(is_set($view_context), $view_context|eq('full_attributes'))}
-				<ul class="list-unstyled text-sans-serif">
-					{foreach $attribute.content.entities as $entity}
-						{def $openpa_entity = object_handler($entity)}
-							{foreach $attribute.content.roles_per_entity[$entity.id] as $role}
-							<li class="text-sans-serif">
-								{$role|attribute('role').content.keyword_string|trim} presso <a class="text-sans-serif" href="{$openpa_entity.content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
-								{if or($role|has_attribute('competences'), $role|has_attribute('delegations'))}
-								<ul class="list-unstyled mb-3">
-									{if $role|has_attribute('competences')}
-										<small class="d-block text-sans-serif">
-											<strong class="text-sans-serif">{$role|attribute('competences').contentclass_attribute_name}:</strong>
-											{$role|attribute('competences').content.cells|implode(', ')}
-										</small>
-									{/if}
-									{if $role|has_attribute('delegations')}
-										<small class="d-block text-sans-serif">
-											<strong class="text-sans-serif">{$role|attribute('delegations').contentclass_attribute_name}:</strong>
-											{$role|attribute('delegations').content.cells|implode(', ')}
-										</small>
-									{/if}
-								</ul>
-									{/if}
-							</li>
-							{/foreach}
-						{undef $openpa_entity}
+				<ul>
+					{foreach $attribute.content.roles as $role}
+					<li>
+						{def $entity = $attribute.content.entities[$role|attribute('for_entity').content.relation_list[0].contentobject_id]}
+						{$role|attribute('role').content.keyword_string|trim} presso <a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
+						{if or($role|has_attribute('competences'), $role|has_attribute('delegations'))}
+						<ul class="list-unstyled">
+							{if $role|has_attribute('competences')}
+								<small class="d-block">
+									<strong>{$role|attribute('competences').contentclass_attribute_name}:</strong>
+									{$role|attribute('competences').content.cells|implode(', ')}
+								</small>
+							{/if}
+							{if $role|has_attribute('delegations')}
+								<small class="d-block">
+									<strong>{$role|attribute('delegations').contentclass_attribute_name}:</strong>
+									{$role|attribute('delegations').content.cells|implode(', ')}
+								</small>
+							{/if}
+						</ul>
+						{/if}
+						{undef $entity}
+					</li>
 					{/foreach}
 				</ul>
 
@@ -73,13 +71,13 @@
 
 				{* contestualizzato alla struttura del full corrente *}
 				{if and($context, is_set($attribute.content.roles_per_entity[$context.contentobject_id]))}
-					<ul class="list-unstyled text-sans-serif">
-						<li class="text-sans-serif">
+					<ul class="list-unstyled">
+						<li>
 							{foreach $attribute.content.roles_per_entity[$context.contentobject_id] as $role}{*
 								*}{$role|attribute('role').content.keyword_string|trim}{*
 								mostra il dettaglio delegations dei ruoli legati all'entità di cui si sta visualizzando il content/view/full
 								*}{if $role|has_attribute('delegations')}
-									<small class="text-sans-serif">({$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
+									<small>({$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
 								{/if}{*
 								*}{delimiter}, {/delimiter}{*
 						  *}{/foreach}
@@ -88,9 +86,9 @@
 
 				{* in generale per abstract *}
 				{else}
-                    <ul class="list-unstyled text-sans-serif">
+                    <ul class="list-unstyled">
 					{foreach $attribute.content.main_type_per_entities as $type => $entities}
-						<li class="text-sans-serif">{$type} presso {foreach $entities as $id => $name}<a class="text-sans-serif" href="{concat('openpa/object/', $id)|ezurl(no)}">{$name|wash()}</a>{delimiter}, {/delimiter}{/foreach}</li>
+						<li>{$type} presso {foreach $entities as $id => $name}<a href="{concat('openpa/object/', $id)|ezurl(no)}">{$name|wash()}</a>{delimiter}, {/delimiter}{/foreach}</li>
 					{/foreach}
 					</ul>
 				{/if}

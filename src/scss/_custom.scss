@@ -69,3 +69,12 @@ td.alpaca-container-item{
 .it-header-slim-wrapper .it-header-slim-wrapper-content a.dropdown-toggle{
   line-height: 2;
 }
+
+
+.modal .modal-dialog .modal-content .modal-body p.form-text{
+  margin: .25rem 0 1rem
+}
+
+.alpaca-form p.form-text{
+  @extend .small;
+}
