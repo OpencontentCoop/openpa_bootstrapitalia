@@ -40,8 +40,9 @@
 
 			{* versione estesa per il full *}
 			{if and(is_set($view_context), $view_context|eq('full_attributes'))}
-				<ul>
-					{foreach $attribute.content.roles as $role}
+				{def $roles = $attribute.content.roles}
+				<ul{if count($roles)|eq(1)} class="list-unstyled"{/if}>
+					{foreach $roles as $role}
 					<li>
 						{def $entity = $attribute.content.entities[$role|attribute('for_entity').content.relation_list[0].contentobject_id]}
 						{$role|attribute('role').content.keyword_string|trim} presso <a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
@@ -65,6 +66,7 @@
 					</li>
 					{/foreach}
 				</ul>
+				{undef $roles}
 
 			{* versione compatta per abstract *}
 			{else}
