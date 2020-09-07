@@ -96,4 +96,11 @@ AllowAllBrowse=enabled
 
 [AreeTematiche]
 IdentificatoreAreaTematica[]
+
+[HideRelationsTitle]
+AttributeIdentifiers[]
+AttributeIdentifiers[]=has_spatial_coverage
+AttributeIdentifiers[]=has_online_contact_point
+AttributeIdentifiers[]=opening_hours_specification
+
 */ ?>

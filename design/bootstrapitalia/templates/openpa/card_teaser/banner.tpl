@@ -1,7 +1,8 @@
 {set_defaults(hash(
     'show_icon', true(),
     'image_class', 'medium',
-    'view_variation', false()
+    'view_variation', false(),
+    'hide_title', false()
 ))}
 
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
@@ -11,6 +12,7 @@
         {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}
     {/if}
     <div class="card-body{if $node|has_attribute('image')} pr-3{/if}">
+        {if $hide_title|not()}
         <h5 class="card-title mb-1">
             {$node.name|wash()}
             {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
@@ -22,6 +24,7 @@
                 </a>
             {/if}
         </h5>
+        {/if}
         <div class="card-text">
             
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
@@ -39,4 +42,4 @@
 </div>
 
 {undef $attributes}
-{unset_defaults(array('show_icon', 'image_class', 'view_variation'))}
+{unset_defaults(array('show_icon', 'image_class', 'view_variation', 'hide_title'))}

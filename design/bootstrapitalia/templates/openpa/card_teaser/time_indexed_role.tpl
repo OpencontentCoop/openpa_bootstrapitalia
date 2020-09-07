@@ -1,7 +1,8 @@
 {set_defaults(hash(
     'show_icon', true(),
     'image_class', 'medium',
-    'view_variation', false()
+    'view_variation', false(),
+    'hide_title', false()
 ))}
 
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
@@ -30,7 +31,7 @@
         {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}
     {/if}
     <div class="card-body{if $node|has_attribute('image')} pr-3{/if}">
-        {if $person}
+        {if and($person, $hide_title|not())}
         <h5 class="card-title mb-1">            
             {$person.name|wash()}
         </h5>
@@ -53,4 +54,4 @@
 </div>
 
 {undef $attributes $person $role $for_entity}
-{unset_defaults(array('show_icon', 'image_class', 'view_variation'))}
+{unset_defaults(array('show_icon', 'image_class', 'view_variation', 'hide_title'))}
