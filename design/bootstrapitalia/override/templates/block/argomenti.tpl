@@ -3,7 +3,7 @@
 {if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
     {def $image = fetch(content, node, hash(node_id, $block.custom_attributes.image))}
     {if and($image, $image.class_identifier|eq('image'), $image|has_attribute('image'))}
-    	{set $background_image = $image|attribute('image').content.imagefull.full_path|ezroot(no)}
+    	{set $background_image = $image|attribute('image').content.original.full_path|ezroot(no)}
 	{/if}
     {undef $image}
 {/if}
