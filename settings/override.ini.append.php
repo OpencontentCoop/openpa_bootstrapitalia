@@ -218,6 +218,12 @@ MatchFile=datatype/view/text_as_html.tpl
 Subdir=templates
 Match[attribute_identifier]=html
 
+[datatype_view_url_as_button]
+Source=content/datatype/view/ezurl.tpl
+MatchFile=datatype/view/url_as_button.tpl
+Subdir=templates
+Match[attribute_identifier]=channel_url
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################
