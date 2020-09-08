@@ -82,7 +82,7 @@
 	                </li>
 	                {{/if}}	                
 	                {{for pages ~current=currentPage}}	                
-						<li class="page-item"><a href="#" class="page-link page" data-page="{{:query}}"{{if ~current == query}} aria-current="page"{{/if}}>{{:page}}</a></li>						
+						<li class="page-item"><a href="#" class="page-link page" data-page_number="{{:page}}" data-page="{{:query}}"{{if ~current == query}} data-current aria-current="page"{{/if}}>{{:page}}</a></li>
 					{{/for}}	
 					{{if nextPageQuery }}	 
 	                <li class="page-item">
@@ -224,6 +224,34 @@ $(document).ready(function () {
 	                loadContents();
 	                e.preventDefault();
 	            });
+				let more = $('<li class="page-item"><span class="page-link">...</span></li');
+				let displayPages = resultsContainer.find('.page[data-page_number]');
+
+				let currentPageNumber = resultsContainer.find('.page[data-current]').data('page_number');
+				let length = 3;
+				if (displayPages.length > (length + 2)) {
+					if (currentPageNumber <= (length - 1)) {
+						resultsContainer.find('.page[data-page_number="' + length + '"]').parent().after(more.clone());
+						for (i = length; i < pagination; i++) {
+							resultsContainer.find('.page[data-page_number="' + i + '"]').parent().hide();
+						}
+					} else if (currentPageNumber >= length) {
+						resultsContainer.find('.page[data-page_number="1"]').parent().after(more.clone());
+						let itemToRemove = (currentPageNumber + 1 - length);
+						for (i = 2; i < pagination; i++) {
+							if (itemToRemove > 0) {
+								resultsContainer.find('.page[data-page_number="' + i + '"]').parent().hide();
+								itemToRemove--;
+							}
+						}
+						if (currentPageNumber < (pagination - 1)) {
+							resultsContainer.find('.page[data-current]').parent().after(more.clone());
+						}
+						for (i = (currentPageNumber + 1); i < pagination; i++) {
+							resultsContainer.find('.page[data-page_number="' + i + '"]').parent().hide();
+						}
+					}
+				}
 	            container.removeClass('hide');
 			});
 		};
