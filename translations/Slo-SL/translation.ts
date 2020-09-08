@@ -199,6 +199,18 @@
       <source>User profile</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Other</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Manage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>News</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -426,7 +438,7 @@
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Iskanje »% 1« se vrnili% 2 tekem</translation>
+      <translation>Iskanje »% 1« vrnjenih% 2 tekem</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>

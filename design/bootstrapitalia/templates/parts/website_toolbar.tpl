@@ -49,7 +49,7 @@
                         <div class="input-group-append">
                             <button class="btn btn-create" type="submit" name="NewButton" title="{'Create here'|i18n('design/standard/parts/website_toolbar')}">
                                 <i class="fa fa-plus-circle"></i>
-                                <span class="toolbar-label">Crea</span>
+                                <span class="toolbar-label">{'Create'|i18n( 'bootstrapitalia')}</span>
                             </button>
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                 <div class="dropdown">
                     <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-ellipsis-h"></i>
-                        <span class="toolbar-label">Altro</span>
+                        <span class="toolbar-label">{'Other'|i18n( 'bootstrapitalia' )}</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
                         <div class="link-list-wrapper">
@@ -204,7 +204,7 @@
                 <div class="dropdown">
                     <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-sliders"></i>
-                        <span class="toolbar-label">Amministra</span>
+                        <span class="toolbar-label">{'Manage'|i18n( 'bootstrapitalia' )}</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
                         <div class="link-list-wrapper">
@@ -309,7 +309,7 @@
                 <a class="btn position-relative" href="#" id="announce-news">
                     <span class="badge badge-warning position-absolute pulsate" style="display: none;top: 0;right: 0;"></span>
                     <i class="fa fa-bell"></i>
-                    <span class="toolbar-label">Novità</span>
+                    <span class="toolbar-label">{'News'|i18n( 'bootstrapitalia' )}</span>
                 </a>
             </li>
             {/if}

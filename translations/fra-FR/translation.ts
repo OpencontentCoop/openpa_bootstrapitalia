@@ -199,6 +199,18 @@
       <source>User profile</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Other</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Manage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>News</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

@@ -4,7 +4,9 @@
 
 {else}
 	
-	{def $currentLanguage = ezini('RegionalSettings','Locale')}
+    {def $current_language = ezini('RegionalSettings', 'Locale')}
+    {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', $current_language ))}
+    {def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
 
   {if count($fields.facets)|gt(0)}
     <div class="state-navigation" data-group="{$fields.group_by}">
@@ -15,7 +17,7 @@
   {/if}
 
   <script type="text/javascript" language="javascript" class="init">
-    moment.locale('it');
+    moment.locale('{$moment_language}');
     $(document).ready(function () {ldelim}
 
       var fieldsDatatable{$table_index} = $('#container-{$node.node_id}-{$table_index}').opendataDataTable({ldelim}
@@ -28,34 +30,13 @@
           "responsive": true,
           "order": {$fields.order},
           "language":{ldelim}
-              "decimal":        "",
-              "emptyTable":     "Nessun dato presente nella tabella",
-              "info":           "Vista da _START_ a _END_ di _TOTAL_ elementi",
-              "infoEmpty":      "Zero elementi",
-              "infoFiltered":   "(filtrati da _MAX_ elementi totali)",
-              "infoPostFix":    "",
-              "thousands":      ",",
-              "lengthMenu":     "Visualizza _MENU_ elementi",
-              "loadingRecords": "Caricamento...",
-              "processing":     "Elaborazione...",
-              "search":         "Cerca:",
-              "zeroRecords":    "La ricerca non ha portato alcun risultato",
-              "paginate": {ldelim}
-                  "first":      "Inizio",
-                  "last":       "Fine",
-                  "next":       "Successivo",
-                  "previous":   "Precedente"
-              {rdelim},
-              "aria": {ldelim}
-                  "sortAscending":  ": attiva per ordinare la colonna in ordine crescente",
-                  "sortDescending": ": attiva per ordinare la colonna in ordine decrescente"
-              {rdelim}
+              "url": "{concat('javascript/datatable/',$current_language,'.json')|ezdesign(no)}"
           {rdelim},
           "ajax": {ldelim}url: "{'opendata/api/datatable/search'|ezurl(no,full)}/"{rdelim},
           "lengthMenu": [ 30, 60, 90, 120 ],
           "columns": [
             {foreach $fields.class_fields as $field}
-              {def $title = $field.name[$currentLanguage]}
+              {def $title = $field.name[$current_language]}
               {if is_set($field.matrix_column)}
                 {foreach $field['template']['format'][0][0] as $columnIdentifier => $columnName}
                   {if $columnIdentifier|eq($field.matrix_column)}
@@ -65,7 +46,7 @@
                 {/foreach}
               {/if}
               {ldelim}
-                "data": "data.{$currentLanguage}.{$field.identifier}",
+                "data": "data.{$current_language}.{$field.identifier}",
                 "name": '{$field.identifier}',
                 "title": '{$title|wash(javascript)}',
                 "searchable": {if and($field.isSearchable|eq(true()), $field.dataType|ne('ezmatrix'))}true{else}false{/if}, {*@todo ricercabilità per sottoelemento matrice*}
@@ -85,7 +66,7 @@
                         $.each(data, function () {ldelim}
                             var row = this;                            
                             $.each(row, function (index, value) {ldelim}
-                              if (index == '{$field.matrix_column}') {ldelim}
+                              if (index === '{$field.matrix_column}') {ldelim}
                                 result.push(value);
                               {rdelim}
                             {rdelim});                                                    
@@ -95,12 +76,12 @@
                           var link = null;
                           {if $index|eq(0)}
                               {if $fields.class_identifier|eq('time_indexed_role')}
-                                link = "{'/content/view/full/'|ezurl(no)}/"+row.data['{$currentLanguage}'].person[0].mainNodeId;
+                                link = "{'/content/view/full/'|ezurl(no)}/"+row.data['{$current_language}'].person[0].mainNodeId;
                               {else}
                                 link = "{'/content/view/full/'|ezurl(no)}/"+row.metadata.mainNodeId;
                               {/if}
                           {/if}
-                          return opendataDataTableRenderField('{$field.dataType}', '{$field.template.type}', '{$currentLanguage}', data, type, row, meta, link);
+                          return opendataDataTableRenderField('{$field.dataType}', '{$field.template.type}', '{$current_language}', data, type, row, meta, link);
                       {/if}
                   {rdelim}
                   return '';
@@ -150,13 +131,13 @@
     
   <div id="container-{$node.node_id}-{$table_index}" style="font-size:.8em"></div>
 
-  <div style="margin:-18px 0 35px;font-size:.8em;position:relative;z-index:10">
+  <div>
     <img style="vertical-align: middle" src="data:image/jpg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAYEBAQFBAYFBQYJBgUGCQsIBgYICwwKCgsKCgwQDAwMDAwMEAwODxAPDgwTExQUExMcGxsbHCAgICAgICAgICD/2wBDAQcHBw0MDRgQEBgaFREVGiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCAASAGEDAREAAhEBAxEB/8QAGwAAAQUBAQAAAAAAAAAAAAAAAAEDBAUHAgb/xAA2EAABAwIDBAgEBQUAAAAAAAACAQMEBREABhITFCHRBxUWIjFBVZMyUVSUI0JW0tNSYWJxc//EABkBAQADAQEAAAAAAAAAAAAAAAABAgMEBf/EACcRAAICAQIFBQADAAAAAAAAAAABAhEDBBITITFRkRQVMkFhcYGh/9oADAMBAAIRAxEAPwDU8l5O6PzyDSqxWqYw488zd54hMjM9S+AhdSWyeCJi0YOTpEN0W0jKfRDHZivHS45BM1JG2bbzhEoJcu6Gok0+d04YusMn/RG9HT2T+iNmRFjrSo5uzR2kZGm3XdQXQdV29SIl1TiuIWGXgbkK5k7ohbCcZU2IiU00bnJY7tkVtN08eN+GHCly5deg3IrukDJuTcvZZeqdPoMJZLZtiO2AzCxmiLwQk8sa6XEsk6fQrllSsz+U3Jiwm5r+V6OMZ0BcA9kpLoP4TIEeUhFfmqY71o8Ddc7MHlmNvE6wy087likA28qCKqyV0Uvh2ibW7d/LXbErQ4X3HGmPSo8uLUAp7+V6MMtwdojaN6kQF/MRi8oin9yXELR4Gr50OLMhyZ7cV8mJGW6QDo+KbA14L4Kio7ZUXyVOGLrQYn3I48hrrmH+nqP9u5/JifbsX75I9RIOuYf6eo/27n8mHt2L98j1EibRnaXVJbsJ+hUxpsoktxHGGTBwTaYIwUSU18CT5Yw1OihDG5K7NMeZt0JvD/8AWuPKOk1TIlIWpdGmXNm7u8qKKSYjyjrEXRUxRSC46ksa8L40xz2/wyslZbLkOnON05qQ4TzMJ2RIdDiO1dk3UluKooohEqomNfUvn+1/hXhjtXyg3OrFPqDToMBADZjGVpVG2sT7ug29K923mmIx56i13EoWxioZEjTGqgm9E1InSd424CiKgLs7snx74Lsk8cWjqWq/EHjI3S3FlSskyWYrDkh1XWbNsgplbaJfujdcW0DSycyM/wATKagVdk09Y7WXZrMp6CzTZUlWnjQ2GC1Dpb0JpLUicbrj1YqKfyVXZyu+w/XKlm+sQZkF+izBjySjEyO7ufhbuGlUujaKev8AyXhiMcMcGna+/vuTKTf0NNyM0s1iRVI9DmNPvQ9zBN3cXQuyFpHOIKhfBeypidsNu1yXWyLd3RErjGaKxNbmP0eaLwx2Y5ru7neVkdOvgCImr5J4Ytj2QVWuvciVsr+z+YfSZ32zv7cacSPdeSu1h2fzD6TO+2d/bhxI915G1lrlij1mPVXXpFOlMMjBnanXWXABLxTtciRExy62cXifNGuFPcRceEdp4Q6rVGS2TMx9tseAgDhoKf6RFwAnXda+vk+6fPAB13Wvr5PunzwAdd1r6+T7p88ACV2tot0qElF/7Oc8Addoa/6lK99znhQDtDX/AFKV77nPCgHaGv8AqUr33OeFAO0Nf9Sle+5zwoB2hr/qUr33OeFAO0Nf9Sle+5zwoB17W3Pw3KhJMC4EBPOKip8lS+ANQ0D8kwB//9k="/>          
-        <div class="chip chip-simple chip-primary d-inline"><a class="chip-label" href="{concat("exportas/custom/csv_search/", $fields.query|urlencode, "/",$node.node_id)|ezurl(no)}"><abbr title="Comma-separated values">CSV</abbr></a></div>
-        <div class="chip chip-simple chip-primary d-inline"><a class="chip-label" href="{concat("/api/opendata/v2/content/search/",$fields.query|urlencode)}"><abbr title="JavaScript Object Notation">JSON</abbr></a></div>
+        <a class="btn btn-outline-primary btn-sm p-1" href="{concat("exportas/custom/csv_search/", $fields.query|urlencode, "/",$node.node_id)|ezurl(no)}"><abbr title="Comma-separated values">CSV</abbr></a>
+        <a class="btn btn-outline-primary btn-sm p-1" href="{concat("/api/opendata/v2/content/search/",$fields.query|urlencode)}"><abbr title="JavaScript Object Notation">JSON</abbr></a>
       {if $fields.class_identifier|eq('lotto')}
-          <div class="chip chip-simple chip-primary d-inline"><a class="chip-label" href={concat("exportas/avpc/",$fields.class_identifier,"/",$node.node_id)|ezurl()}><abbr title="Xtensible Markup Language">ANAC (XML)</abbr></a></div>
-          <div class="chip chip-simple chip-primary d-inline"><a class="chip-label" href={concat("exportas/csvsicopat/", $fields.class_identifier,"/",$node.node_id)|ezurl()}><abbr title="Comma-separated values">SICOPAT</abbr></a></div>
+          <a class="btn btn-outline-primary btn-sm p-1" href={concat("exportas/avpc/",$fields.class_identifier,"/",$node.node_id)|ezurl()}><abbr title="Xtensible Markup Language">ANAC (XML)</abbr></a>
+          <a class="btn btn-outline-primary btn-sm p-1" href={concat("exportas/csvsicopat/", $fields.class_identifier,"/",$node.node_id)|ezurl()}><abbr title="Comma-separated values">SICOPAT</abbr></a>
       {/if}
   </div>  
 

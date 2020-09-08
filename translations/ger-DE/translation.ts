@@ -199,6 +199,18 @@
       <source>User profile</source>
       <translation>Benutzerprofil</translation>
     </message>
+    <message>
+      <source>Other</source>
+      <translation>Anders</translation>
+    </message>
+    <message>
+      <source>Manage</source>
+      <translation>Verwalten</translation>
+    </message>
+    <message>
+      <source>News</source>
+      <translation>Neuigkeiten</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
