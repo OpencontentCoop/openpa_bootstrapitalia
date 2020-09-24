@@ -15,7 +15,8 @@
             'useCustomTpl': false,
             'removeExistingEmptyFacets': false,
             'fields': [],
-            'facets': []
+            'facets': [],
+            'responseCallback': null
         };
 
     function Plugin(element, options) {
@@ -301,6 +302,9 @@
                                     resultsContainer.find('.page[data-page_number="' + i + '"]').parent().hide();
                                 }
                             }
+                        }
+                        if ($.isFunction(plugin.settings.responseCallback)) {
+                            plugin.settings.responseCallback(response, resultsContainer);
                         }
                     }
                 },
