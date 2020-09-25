@@ -136,6 +136,27 @@
             )
         ))}
     {/if}
+    {if fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('topic') ) )|gt(0)}
+        {set $blocks = $blocks|append(page_block(
+            "",
+            "ListaAutomatica",
+            "lista_card",
+            hash(
+                "limite", "3",
+                "elementi_per_riga", "3",
+                "includi_classi", "topic",
+                "escludi_classi", "",
+                "ordinamento", "name",
+                "state_id", "",
+                "topic_node_id", "",
+                "color_style", "",
+                "container_style", "",
+                "livello_profondita", 1,
+                "node_id", $node.node_id
+            )
+        ))}
+    {/if}
+
     {if $blocks|count()}
         {include uri='design:zone/default.tpl' zones=array(hash('blocks', $blocks))}
     {else}

@@ -24,9 +24,14 @@ class TreeTagsFieldConnector extends TagsField
         $options["name"] = $this->getIdentifier();
         $options["subtree_limit"] = $this->attribute->attribute(self::SUBTREE_LIMIT_FIELD);        
         $options["type"] = "tree";
-        $options["tree"] = array(            
+        $options["tree"] = array(
+            'property_value' => 'text',
             'core' => array(
-                'data' => $this->getTagTree($this->attribute->attribute(self::SUBTREE_LIMIT_FIELD))
+                'data' => $this->getTagTree($this->attribute->attribute(self::SUBTREE_LIMIT_FIELD)),
+                'multiple' => $this->attribute->attribute(self::MAX_TAGS_FIELD) != 1,
+                'themes' => [
+                    'variant' => 'large'
+                ]
             ),
             'plugins' => array('search'),
             'i18n' => [

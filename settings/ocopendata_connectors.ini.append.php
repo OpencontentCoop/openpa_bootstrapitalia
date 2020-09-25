@@ -19,4 +19,5 @@ FieldConnectors[time_indexed_role/role]=SelectTagsFieldConnector
 FieldConnectors[has_temporal_coverage]=FullRelationsField
 FieldConnectors[opening_hours_specification]=FullRelationsField
 FieldConnectors[opening_hours]=OpeningHoursMatrixField
+FieldConnectors[topics]=TopicsField
 */ ?>

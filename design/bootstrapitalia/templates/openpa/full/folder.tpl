@@ -45,4 +45,4 @@
 {/if}
 
 {undef $children_count $page_limit}
-</section>
+</div>

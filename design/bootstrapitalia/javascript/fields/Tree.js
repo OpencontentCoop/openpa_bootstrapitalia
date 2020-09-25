@@ -10,13 +10,16 @@
         afterRenderControl: function(model, callback) {
             var self = this;
             this.base(model, function() {
-                var container = self.getFieldEl();  
-                
+                var container = self.getFieldEl();
                 var treeSearchInput = $('<input type="text" value="" class="form-control" placeholder="'+self.options.tree.i18n.search+'" />')
                 treeSearchInput.appendTo(container); 
 
                 var tree = $('<div></div>').jstree(self.options.tree).on("changed.jstree", function (e, data) {
-                  if (data.action === 'select_node') self.setValue([data.node.text]);
+                    var i, j, r = [];
+                    for(i = 0, j = data.selected.length; i < j; i++) {
+                        r.push(data.instance.get_node(data.selected[i])[self.options.tree.property_value]);
+                    }
+                    self.setValue(r);
                 });
                 tree.appendTo(container);
 

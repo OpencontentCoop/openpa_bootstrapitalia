@@ -253,6 +253,12 @@ Subdir=templates
 Match[class_identifier]=event
 Match[attribute_identifier]=takes_place_in
 
+[datatype_topics]
+Source=content/datatype/edit/ezobjectrelationlist.tpl
+MatchFile=datatype/edit/ezobjectrelationlist_topics.tpl
+Subdir=templates
+Match[attribute_identifier]=topics
+
 ############################################
 ############################################ BLOCK
 ############################################

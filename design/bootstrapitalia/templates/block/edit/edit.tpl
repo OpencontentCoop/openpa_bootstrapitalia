@@ -175,6 +175,21 @@
                                 <option></option>
                                 {foreach $topic_list.children as $child}
                                     <option value="{$child.item.node_id}">{$child.item.name|wash()} ({$child.item.node_id})</option>
+                                    {if $child.has_children}
+                                        {foreach $child.children as $child1}
+                                            <option value="{$child1.item.node_id}">&nbsp;{$child1.item.name|wash()} ({$child1.item.node_id})</option>
+                                            {if $child1.has_children}
+                                                {foreach $child1.children as $child2}
+                                                    <option value="{$child2.item.node_id}">&nbsp;&nbsp;{$child2.item.name|wash()} ({$child2.item.node_id})</option>
+                                                    {if $child2.has_children}
+                                                        {foreach $child2.children as $child3}
+                                                            <option value="{$child3.item.node_id}">&nbsp;&nbsp;&nbsp;{$child3.item.name|wash()} ({$child3.item.node_id})</option>
+                                                        {/foreach}
+                                                    {/if}
+                                                {/foreach}
+                                            {/if}
+                                        {/foreach}
+                                    {/if}
                                 {/foreach}
                             </select>
                             {undef $topics $topic_list}
