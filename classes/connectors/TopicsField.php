@@ -38,13 +38,13 @@ class TopicsField extends RelationsField
     public function getSchema()
     {
         if (!$this->showAsTree) {
-            $schema = parent::getSchema();
-        } else {
-            $schema = array(
-                'title' => $this->attribute->attribute('name'),
-                'required' => (bool)$this->attribute->attribute('is_required')
-            );
+            return parent::getSchema();
         }
+
+        $schema = array(
+            'title' => $this->attribute->attribute('name'),
+            'required' => (bool)$this->attribute->attribute('is_required')
+        );
 
         return $schema;
     }
@@ -52,36 +52,34 @@ class TopicsField extends RelationsField
     public function getOptions()
     {
         if (!$this->showAsTree) {
-            $options = parent::getOptions();
-        } else {
-            $options = [
-                "helper" => $this->attribute->attribute('description'),
-                "label" => $this->attribute->attribute('name'),
-                "name" => $this->getIdentifier(),
-                "type" => 'tree',
-            ];
-            $options["tree"] = [
-                'property_value' => 'id',
-                'core' => array(
-                    'data' => $this->getTree(),
-                    'multiple' => true,
-                    'themes' => [
-                        'variant' => 'large'
-                    ]
-                ),
-                'plugins' => array('search', 'checkbox'),
-                'checkbox' => [
-                    'keep_selected_style' => false,
-                    'three_state' => false,
-                    'cascade' => 'up+undetermined',
-                ],
-                'i18n' => [
-                    'search' => \ezpI18n::tr('opendata_forms', "Search"),
-                ]
-            ];
-
-            return $options;
+            return parent::getOptions();
         }
+
+        $options = [
+            "helper" => $this->attribute->attribute('description'),
+            "label" => $this->attribute->attribute('name'),
+            "name" => $this->getIdentifier(),
+            "type" => 'tree',
+        ];
+        $options["tree"] = [
+            'property_value' => 'id',
+            'core' => array(
+                'data' => $this->getTree(),
+                'multiple' => true,
+                'themes' => [
+                    'variant' => 'large'
+                ]
+            ),
+            'plugins' => array('search', 'checkbox'),
+            'checkbox' => [
+                'keep_selected_style' => false,
+                'three_state' => false,
+                'cascade' => 'up+undetermined',
+            ],
+            'i18n' => [
+                'search' => \ezpI18n::tr('opendata_forms', "Search"),
+            ]
+        ];
 
         return $options;
     }
@@ -89,21 +87,20 @@ class TopicsField extends RelationsField
     public function setPayload($postData)
     {
         if (!$this->showAsTree) {
-            $payload = parent::setPayload($postData);
-        } else {
-            $this->getTree();
-            $payload = [];
-            $postData = explode(',', $postData);
-            foreach ($postData as $item){
-                $payload[] = $item;
-                if (isset($this->treePath[$item])) {
-                    $payload = array_merge($payload, $this->treePath[$item]);
-                }
-            }
-            $payload = array_unique($payload);
+            return parent::setPayload($postData);
         }
 
-        return $payload;
+        $this->getTree();
+        $payload = [];
+        $postData = explode(',', $postData);
+        foreach ($postData as $item){
+            $payload[] = $item;
+            if (isset($this->treePath[$item])) {
+                $payload = array_merge($payload, $this->treePath[$item]);
+            }
+        }
+
+        return array_unique($payload);
     }
 
     private function getTree()

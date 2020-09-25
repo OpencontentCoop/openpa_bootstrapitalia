@@ -69,8 +69,13 @@ class FullRelationsField extends FieldConnector
 
     public function getSchema()
     {
+        $title = $this->attribute->attribute('name');
+        if ($this->attribute->attribute('is_required')){
+            $title .= ' *';
+        }
+
         $schema = array(
-            "title" => $this->attribute->attribute('name'),
+            "title" => $title,
             'required' => (bool)$this->attribute->attribute('is_required'),
             'relation_mode' => $this->selectionType
         );

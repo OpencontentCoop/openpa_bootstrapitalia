@@ -1,8 +1,6 @@
 <?php
 
-use Opencontent\Ocopendata\Forms\Connectors\OpendataConnector\FieldConnector;
-
-class FullRelationField extends FieldConnector\RelationField
+class FullRelationField extends RelationField
 {
     public function getData()
     {
