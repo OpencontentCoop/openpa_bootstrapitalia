@@ -140,9 +140,9 @@ $(document).ready(function () {ldelim}
         'popupTpl': '#tpl-remote-gui-item',
         'itemsPerRow': {$itemsPerRow},
         'limitPagination': {$limit},
-        'query': "{$query|wash(javascript)}"{if $fields|ne('')},
-        'facets': {if $facetsFields|count()}['{$facetsFields|implode("','")}']{else}[]{/if},
-        'fields': {if $fields|ne('')}['{$fields|explode(',')|implode("','")}']{else}[]{/if}
+        'query': "{$query|wash(javascript)}"
+        {if $facetsFields|count()},'facets':['{$facetsFields|implode("','")}']{/if}
+        {if $fields|ne('')},'fields':['{$fields|explode(',')|implode("','")}']{/if}
     {rdelim});
 {rdelim});
 </script>
