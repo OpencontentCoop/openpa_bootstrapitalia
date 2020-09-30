@@ -17,5 +17,6 @@
     'jquery.dataTables.js',
     'dataTables.bootstrap4.min.js',
     'jquery.opendataDataTable.js',
-    'jquery.blueimp-gallery.min.js'
+    'jquery.blueimp-gallery.min.js',
+    'stacktable.js'
 ))}
