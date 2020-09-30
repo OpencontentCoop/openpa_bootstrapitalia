@@ -1,4 +1,5 @@
 {def $block_wrappers = array()}
+{def $topic_first_block_color_style = 'section section-muted section-inset-shadow pb-5'}
 
 {if and( is_set( $zones[0].blocks ), $zones[0].blocks|count() )}
   {foreach $zones[0].blocks as $index => $block}
@@ -82,8 +83,15 @@
 {if count($block_wrappers)|gt(0)}
 {foreach $block_wrappers as $index => $block_wrapper}
   {def $next_index = $index|inc()
-       $prev_index = $index|sub(1)}
-  <section class="page-{$#node.class_identifier} {$block_wrapper.layout_style} {if and(is_set($block_wrappers[$next_index].layout_style),$block_wrappers[$next_index].layout_style)} before-{$block_wrappers[$next_index].layout_style}{/if} {if and(is_set($block_wrappers[$prev_index].layout_style),$block_wrappers[$prev_index].layout_style)} after-{$block_wrappers[$prev_index].layout_style}{/if} {if $block_wrapper.color_style}{$block_wrapper.color_style}{/if}" id="{$block_wrapper.slug}">
+       $prev_index = $index|sub(1)
+       $block_wrapper_color_style = $block_wrapper.color_style}
+
+  {* forza il color_style al primo blocco dei topic *}
+  {if and($#node.class_identifier|eq('topic'), $index|eq(0), $block_wrapper.color_style|ne($topic_first_block_color_style))}
+      {set $block_wrapper_color_style = $topic_first_block_color_style}
+  {/if}
+
+  <section class="page-{$#node.class_identifier} {$block_wrapper.layout_style} {if and(is_set($block_wrappers[$next_index].layout_style),$block_wrappers[$next_index].layout_style)} before-{$block_wrappers[$next_index].layout_style}{/if} {if and(is_set($block_wrappers[$prev_index].layout_style),$block_wrappers[$prev_index].layout_style)} after-{$block_wrappers[$prev_index].layout_style}{/if} {$block_wrapper_color_style}" id="{$block_wrapper.slug}">
     {if $block_wrapper.container_style}<div class="{$block_wrapper.container_style}">{/if}
     {if $block_wrapper.is_wide|not()}<div class="container">{/if}
 
@@ -98,7 +106,8 @@
     </a>
     {/if*}
   </section>
-  {undef $next_index $prev_index}
+
+  {undef $next_index $prev_index $block_wrapper_color_style}
 {/foreach}
 {/if}
 {undef $block_wrappers}
