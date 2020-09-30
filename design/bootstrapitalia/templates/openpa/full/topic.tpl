@@ -56,8 +56,9 @@
     </div>
 {else}
     {def $blocks = array()}
-
+    {def $has_first_block = false()}
     {if api_search(concat('classes [employee,private_organization,public_organization,office] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
+        {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
             "Amministrazione",
             "ListaPaginata",
@@ -70,7 +71,7 @@
                 "ordinamento", "modificato",
                 "state_id", "",
                 "topic_node_id", $node.node_id,
-                "color_style", "",
+                "color_style", cond($has_first_block, 'section section-muted section-inset-shadow pb-5', ''),
                 "container_style", "",
                 "node_id", "2"
             )
@@ -78,6 +79,7 @@
     {/if}
 
     {if api_search(concat('classes [public_service] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
+        {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
             "Servizi",
             "ListaPaginata",
@@ -90,7 +92,7 @@
                 "ordinamento", "modificato",
                 "state_id", "",
                 "topic_node_id", $node.node_id,
-                "color_style", "",
+                "color_style", cond($has_first_block, 'section section-muted section-inset-shadow pb-5', ''),
                 "container_style", "",
                 "node_id", "2"
             )
@@ -98,6 +100,7 @@
     {/if}
 
     {if api_search(concat('classes [event,article] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
+        {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
             "Novità",
             "ListaPaginata",
@@ -110,7 +113,7 @@
                 "ordinamento", "modificato",
                 "state_id", "",
                 "topic_node_id", $node.node_id,
-                "color_style", "",
+                "color_style", cond($has_first_block, 'section section-muted section-inset-shadow pb-5', ''),
                 "container_style", "",
                 "node_id", "2"
             )
@@ -118,6 +121,7 @@
     {/if}
 
     {if api_search(concat('classes [event,public_service] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
+        {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
             "Documenti",
             "ListaPaginata",
@@ -130,13 +134,14 @@
                 "ordinamento", "modificato",
                 "state_id", "",
                 "topic_node_id", $node.node_id,
-                "color_style", "",
+                "color_style", cond($has_first_block, 'section section-muted section-inset-shadow pb-5', ''),
                 "container_style", "",
                 "node_id", "2"
             )
         ))}
     {/if}
     {if fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('topic') ) )|gt(0)}
+        {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
             "",
             "ListaAutomatica",
@@ -149,7 +154,7 @@
                 "ordinamento", "name",
                 "state_id", "",
                 "topic_node_id", "",
-                "color_style", "",
+                "color_style", cond($has_first_block, 'section section-muted section-inset-shadow pb-5', ''),
                 "container_style", "",
                 "livello_profondita", 1,
                 "node_id", $node.node_id
