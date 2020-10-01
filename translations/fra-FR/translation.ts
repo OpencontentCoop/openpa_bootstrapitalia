@@ -37,11 +37,11 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>Fermer</translation>
+      <translation>proche</translation>
     </message>
     <message>
       <source>FREE</source>
-      <translation>LIBRE</translation>
+      <translation>GRATUIT</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -211,6 +211,10 @@
       <source>News</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>You must select at least one topic not included in %custom_topics_name</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -269,7 +273,7 @@
     </message>
     <message>
       <source>References</source>
-      <translation>Références</translation>
+      <translation>Les références</translation>
     </message>
   </context>
   <context>
@@ -394,7 +398,7 @@
     </message>
     <message>
       <source>Year</source>
-      <translation>An</translation>
+      <translation>Année</translation>
     </message>
     <message>
       <source>Any year</source>

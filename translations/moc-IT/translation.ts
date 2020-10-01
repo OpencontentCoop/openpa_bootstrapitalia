@@ -5,179 +5,179 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>Αυτός ο ιστότοπος χρησιμοποιεί cookies για να διασφαλίσει την καλύτερη δυνατή εμπειρία πλοήγησης, χρησιμοποιούμε την τεχνική analytics και cookies τρίτων μερών.</translation>
+      <translation>De doin saitn prauchen technischa ont analitischa cookie, van sèlln as kemmen va òndra saitn aa.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
-      <translation>Εάν συνεχίσετε να χρησιμοποιείτε τη σελίδα μας, αποδέχεστε τη χρήση των cookies.</translation>
+      <translation>Benn as men baitergeat, ist men oa’ne pet en prauch van cokie</translation>
     </message>
     <message>
       <source>Informations</source>
-      <translation>Πληροφορίες</translation>
+      <translation>Informazionen</translation>
     </message>
     <message>
       <source>Accept</source>
-      <translation>Αποδέχομαι</translation>
+      <translation>Ibernemmen/U’nemmen</translation>
     </message>
     <message>
       <source>Jump to main content</source>
-      <translation>Μετάβαση στο κύριο περιεχόμενο</translation>
+      <translation>en hauptinnhòlt</translation>
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Μετάβαση στο μενού ενότητα</translation>
+      <translation>En sezionmenu</translation>
     </message>
     <message>
       <source>Jump to footer</source>
-      <translation>Μετάβαση στο υποσέλιδο</translation>
+      <translation>En de vuassait</translation>
     </message>
     <message>
       <source>Table of contents</source>
-      <translation>Πινακας περιεχομενων</translation>
+      <translation>Saitinnhòlt</translation>
     </message>
     <message>
       <source>Close</source>
-      <translation>Κοντά</translation>
+      <translation>Sperrn</translation>
     </message>
     <message>
       <source>FREE</source>
-      <translation>Δωρεάν</translation>
+      <translation>Umansist</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Δωρεάν είσοδος για όλους τους συμμετέχοντες</translation>
+      <translation>Vrai ver òlla de toalnemmer/en</translation>
     </message>
     <message>
       <source>Download</source>
-      <translation>Κατεβάστε</translation>
+      <translation>arovòssn</translation>
     </message>
     <message>
       <source>Download file</source>
-      <translation>Κατεβάστε το αρχείο</translation>
+      <translation>arovòssn der file</translation>
     </message>
     <message>
       <source>File type</source>
-      <translation>Τύπος αρχείου</translation>
+      <translation>schòrt va file</translation>
     </message>
     <message>
       <source>days</source>
-      <translation>μέρες</translation>
+      <translation>Tag</translation>
     </message>
     <message>
       <source>Share</source>
-      <translation>Κοινοποίηση</translation>
+      <translation>Toal aus</translation>
     </message>
     <message>
       <source>Actions</source>
-      <translation>Ενέργειες</translation>
+      <translation>azionen</translation>
     </message>
     <message>
       <source>Send</source>
-      <translation>Προώθηση</translation>
+      <translation>schick vort</translation>
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Σχετικό περιεχόμενο</translation>
+      <translation>Zòmmpuntnen innhòlt</translation>
     </message>
     <message>
       <source>Search in</source>
-      <translation>Αναζήτηση σε</translation>
+      <translation>Suach en</translation>
     </message>
     <message>
       <source>Filters</source>
-      <translation>φίλτρα</translation>
+      <translation>Filtre</translation>
     </message>
     <message>
       <source>All</source>
-      <translation>Ολα</translation>
+      <translation>Òlls</translation>
     </message>
     <message>
       <source>Read more</source>
-      <translation>Διαβαστε περισσοτερα</translation>
+      <translation>Les envir</translation>
     </message>
     <message>
       <source>Go to page</source>
-      <translation>Πήγαινε στην σελίδα</translation>
+      <translation>gea en de sait</translation>
     </message>
     <message>
       <source>Explore topic</source>
-      <translation>Εξερευνήστε το θέμα</translation>
+      <translation>suach araus</translation>
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Πηγαίνετε στο ημερολόγιο εκδηλώσεων</translation>
+      <translation>Gea en klender van eventn</translation>
     </message>
     <message>
       <source>Event start</source>
-      <translation>έναρξη εκδήλωσης</translation>
+      <translation>U’vòng van event</translation>
     </message>
     <message>
       <source>Event end</source>
-      <translation>τέλος εκδήλωσης</translation>
+      <translation>Rif van event</translation>
     </message>
     <message>
       <source>Jump to field</source>
-      <translation>Μετάβαση σε τομέα</translation>
+      <translation>gea en òcker</translation>
     </message>
     <message>
       <source>Upload file</source>
-      <translation>Ανέβασμα αρχείου</translation>
+      <translation>vòss au der file</translation>
     </message>
     <message>
       <source>Select from library</source>
-      <translation>Επιλέξτε από τη βιβλιοθήκη</translation>
+      <translation>tscherl/suach aus va de piacherai</translation>
     </message>
     <message>
       <source>Create</source>
-      <translation>Δημιουργήστε</translation>
+      <translation>Vinn araus</translation>
     </message>
     <message>
       <source>Create new</source>
-      <translation>Δημιουργία νέου</translation>
+      <translation>Vinn araus a nais</translation>
     </message>
     <message>
       <source>Reading time</source>
-      <translation>Χρόνος διαβάσματος</translation>
+      <translation>Zait za lesn</translation>
     </message>
     <message>
       <source>Topics</source>
-      <translation>Θέματα</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Last modified</source>
-      <translation>Τελευταία τροποποίηση</translation>
+      <translation>Leiste bècksl</translation>
     </message>
     <message>
       <source>Editor tools</source>
-      <translation>Εργαλεία Επεξεργασίας</translation>
+      <translation>Plinder ver en editor</translation>
     </message>
     <message>
       <source>See previous versions</source>
-      <translation>Δείτε τις προηγούμενες εκδοχές</translation>
+      <translation>Schaug de vriaregen versionen</translation>
     </message>
     <message>
       <source>Go to the history of this content</source>
-      <translation>Πηγαίνετε στην ιστορία αυτού του περιεχομένου</translation>
+      <translation>Gea en de gschicht van doi innhòlt</translation>
     </message>
     <message>
       <source>Further details</source>
-      <translation>Περαιτέρω λεπτομέρειες</translation>
+      <translation>òndra detailn</translation>
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Μετάβαση στο περιεχόμενο</translation>
+      <translation>gea en innhòlt</translation>
     </message>
     <message>
       <source>View all</source>
-      <translation>Δείτε όλα</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Other topics</source>
-      <translation>Άλλα θέματα</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>All topics...</source>
-      <translation>Όλα τα θέματα ...</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Access the personal area</source>
@@ -220,331 +220,331 @@
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>eZ Ετικέτες</translation>
+      <translation>eZ stichbeirter</translation>
     </message>
     <message>
       <source>Apps</source>
-      <translation>Εφαρμογές</translation>
+      <translation>Apps</translation>
     </message>
     <message>
       <source>Amministrazione Trasparente</source>
-      <translation>Διαφανής Διαχείριση</translation>
+      <translation>Transparente amministrazion</translation>
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Λίστες ανά κατηγορία</translation>
+      <translation>Lista noch klasse</translation>
     </message>
     <message>
       <source>Import management</source>
-      <translation>Εισαγωγή Διαχείρισης</translation>
+      <translation>Regiar van auvòssn</translation>
     </message>
   </context>
   <context>
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Θέση στον Οργανισμό</translation>
+      <translation>Plòtz en organigramm</translation>
     </message>
     <message>
       <source>Add objects</source>
-      <translation>Προσθήκη στοιχείων</translation>
+      <translation>Leig derzua dinger</translation>
     </message>
   </context>
   <context>
     <name>openpa/tools</name>
     <message>
       <source>Info</source>
-      <translation>Πληροφορίες</translation>
+      <translation>Informazion</translation>
     </message>
   </context>
   <context>
     <name>openpa/sidebar</name>
     <message>
       <source>Related information</source>
-      <translation>Σχετικές πληροφορίες</translation>
+      <translation>Zòmmpuntna informazionen</translation>
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Αναφέρεται στο</translation>
+      <translation>kearn zua en</translation>
     </message>
     <message>
       <source>Classification</source>
-      <translation>Ταξινόμηση</translation>
+      <translation>Klassifikazion</translation>
     </message>
     <message>
       <source>References</source>
-      <translation>Βιβλιογραφια</translation>
+      <translation>Riferimentn</translation>
     </message>
   </context>
   <context>
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>Πληροφοριες</translation>
+      <translation>Informazionen</translation>
     </message>
     <message>
       <source>Contacts</source>
-      <translation>Επικοινωνια</translation>
+      <translation>Kontaktn</translation>
     </message>
     <message>
       <source>Links</source>
-      <translation>Συνδέσμος</translation>
+      <translation>Links</translation>
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Ακολουθηστε μας</translation>
+      <translation>Biar sai’ aa as</translation>
     </message>
     <message>
       <source>back to top</source>
-      <translation>Επιστροφή στην κορυφή</translation>
+      <translation>Kear u’ gònz doum</translation>
     </message>
   </context>
   <context>
     <name>openpa/valuation</name>
     <message>
       <source>Valuta questo sito</source>
-      <translation>Αξιολόγηση ιστοτόπου</translation>
+      <translation>schòtz de doin internet saitn</translation>
     </message>
     <message>
       <source>per nulla</source>
-      <translation>Καθόλου</translation>
+      <translation>gor nicht</translation>
     </message>
     <message>
       <source>poco</source>
-      <translation>Λίγο</translation>
+      <translation>a bea’ne</translation>
     </message>
     <message>
       <source>abbastanza</source>
-      <translation>Αρκετά</translation>
+      <translation>ganua</translation>
     </message>
     <message>
       <source>molto</source>
-      <translation>Πολύ</translation>
+      <translation>vil</translation>
     </message>
     <message>
       <source>Invia la valutazione</source>
-      <translation>Υποβολή Αξιολόγησης</translation>
+      <translation>schick de schòtzung</translation>
     </message>
   </context>
   <context>
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Πηγαίνετε στα φίλτρα αναζήτησης</translation>
+      <translation>kan filtern za suachen</translation>
     </message>
     <message>
       <source>Link to</source>
-      <translation>Σύνδεση με</translation>
+      <translation>Link en</translation>
     </message>
     <message>
       <source>Search</source>
-      <translation>Αναζήτηση</translation>
+      <translation>Suach</translation>
     </message>
     <message>
       <source>Advanced search</source>
-      <translation>Σύνθετη Αναζήτηση</translation>
+      <translation>kompliziareta suach</translation>
     </message>
     <message>
       <source>in</source>
-      <translation>σε</translation>
+      <translation>en</translation>
     </message>
     <message>
       <source>all website</source>
-      <translation>Σε όλη την  ιστοσελίδα</translation>
+      <translation>en òlla de saitn van web</translation>
     </message>
     <message>
       <source>only information of type</source>
-      <translation>πληροφορίες τύπου</translation>
+      <translation>lai informazionen as de schòrt</translation>
     </message>
     <message>
       <source>Sorting by</source>
-      <translation>Ταξινόμηση κατά</translation>
+      <translation>leig no</translation>
     </message>
     <message>
       <source>Sorting</source>
-      <translation>Ταξινόμηση</translation>
+      <translation>Ordnung</translation>
     </message>
     <message>
       <source>Descending</source>
-      <translation>Φθίνουσα</translation>
+      <translation>va oum ano’</translation>
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Αύξουσα</translation>
+      <translation>va unter anau</translation>
     </message>
     <message>
       <source>Score</source>
-      <translation>Αποτέλεσμα</translation>
+      <translation>rilevanz</translation>
     </message>
     <message>
       <source>Publication date</source>
-      <translation>Ημερομηνία δημοσίευσης</translation>
+      <translation>arausgem as de</translation>
     </message>
     <message>
       <source>Content type</source>
-      <translation>Τύπος περιεχομένου</translation>
+      <translation>schòrt va innhòlt</translation>
     </message>
     <message>
       <source>Name</source>
-      <translation>Ονομα</translation>
+      <translation>Nu’m</translation>
     </message>
     <message>
       <source>from</source>
-      <translation>από</translation>
+      <translation>va</translation>
     </message>
     <message>
       <source>to</source>
-      <translation>προς</translation>
+      <translation>finz</translation>
     </message>
     <message>
       <source>Year</source>
-      <translation>Ετος</translation>
+      <translation>Jor</translation>
     </message>
     <message>
       <source>Any year</source>
-      <translation>Κάθε χρόνο</translation>
+      <translation>an iats jor</translation>
     </message>
     <message>
       <source>Logical conditions</source>
-      <translation>Λογικές συνθήκες</translation>
+      <translation>logischa kondizionen</translation>
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Ίσως ψάχνετε</translation>
+      <translation>Fursche hòst tsuacht</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
-      <translation>Οι ακόλουθες λέξεις αποκλείστηκαν από την αναζήτηση:</translation>
+      <translation>de doin beirter sai ausgalòkt kemmen</translation>
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>Δεν βρέθηκαν αποτελέσματα κατά την αναζήτηση για «% 1».</translation>
+      <translation>s ist nicht pfuntn kemmen ver en suach “%1”</translation>
     </message>
     <message>
       <source>Search tips</source>
-      <translation>συμβουλές αναζήτησης</translation>
+      <translation>Rotn ver za suachen</translation>
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Ελέγξτε την ορθογραφία των λέξεων-κλειδιών.</translation>
+      <translation>Kontrolliar benn de schlisslbeirter rècht tschrim sai’</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Προσπαθήστε να αλλάξετε κάποιες λέξεις-κλειδιά (π.χ., «αυτοκίνητο» αντί για «αυτοκίνητα»).</translation>
+      <translation>Probiar za bècksln de schlisslbeirter (z.p. “haus” stòtt “haiser”)</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
-      <translation>Δοκιμάστε να κάνετε αναζήτηση με λιγότερες λέξεις-κλειδιά.</translation>
+      <translation>probiar za suachen pet minder spezifischa beirter</translation>
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
-      <translation>Μειώστε τον αριθμό των λέξεων-κλειδιών για να έχετε περισσότερα αποτελέσματα.</translation>
+      <translation>leig minder schlisslbeirter ver za hom mear risultatn</translation>
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Η Αναζήτηση για «% 1»  επέστρεψε % 2</translation>
+      <translation>De suach va “%1” hòt %2 resultatn gem</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Η αναζήτηση έδωσε αποτελέσματα% 2</translation>
+      <translation>De suach hòt %2 resultatn gem</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Για περισσότερα αποτελέσματα, δοκιμάστε την% 1 σύνθετη αναζήτηση% 2</translation>
+      <translation>Ver za hom mear moglechkaitn, probiar de %1kompliziareta suach</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
-      <translation>Μειώστε τον αριθμό των φίλτρων που εφαρμόζονται</translation>
+      <translation>leig minder filtern drinn</translation>
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Κατάργηση όλων των φίλτρων</translation>
+      <translation>Nimm vort òlla de filtern</translation>
     </message>
     <message>
       <source>Refine your search</source>
-      <translation>Βελτιώστε την αναζήτησή σας</translation>
+      <translation>suach vai’ner:</translation>
     </message>
     <message>
       <source>You are filtering for</source>
-      <translation>Φιλτράρετε με:</translation>
+      <translation>aktiveta filtern</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/opening_hours_matrix</name>
     <message>
       <source>monday</source>
-      <translation>Δευτέρα</translation>
+      <translation>Ma'ta</translation>
     </message>
     <message>
       <source>tuesday</source>
-      <translation>Τρίτη</translation>
+      <translation>Eirta</translation>
     </message>
     <message>
       <source>wednesday</source>
-      <translation>Τετάρτη</translation>
+      <translation>Mitta</translation>
     </message>
     <message>
       <source>thursday</source>
-      <translation>Πέμπτη</translation>
+      <translation>Pfinsta</translation>
     </message>
     <message>
       <source>friday</source>
-      <translation>Παρασκευή</translation>
+      <translation>Vraita</translation>
     </message>
     <message>
       <source>saturday</source>
-      <translation>Σάββατο</translation>
+      <translation>Sònsta</translation>
     </message>
     <message>
       <source>sunday</source>
-      <translation>Κυριακή</translation>
+      <translation>Sunta</translation>
     </message>
   </context>
   <context>
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation type="unfinished"/>
+      <translation>leig mear informazionen as en dai’ ourt</translation>
     </message>
     <message>
       <source>Select place</source>
-      <translation type="unfinished"/>
+      <translation>selezionar der ourt</translation>
     </message>
     <message>
       <source>Nowhere</source>
-      <translation type="unfinished"/>
+      <translation>Ninderst</translation>
     </message>
     <message>
       <source>Editor choice</source>
-      <translation type="unfinished"/>
+      <translation>tscherl der editor</translation>
     </message>
     <message>
       <source>Shared with other editors</source>
-      <translation type="unfinished"/>
+      <translation>toal pet òndra editor</translation>
     </message>
     <message>
       <source>Your own</source>
-      <translation type="unfinished"/>
+      <translation>Der dai’</translation>
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation type="unfinished"/>
+      <translation>ziach der kursor as de mappa ver za selezionarn ganauer der plòtz</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation type="unfinished"/>
+      <translation>leig derzua der doi punkt en de dai’na platz</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation type="unfinished"/>
+      <translation>s hòt òndra platz glaim en doi ourt. Billst prauchen oa’n van sèlln?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
-      <translation type="unfinished"/>
+      <translation>gea baiter pet en mai’ ourt</translation>
     </message>
     <message>
       <source>Detect position</source>
-      <translation type="unfinished"/>
+      <translation>lesch aus de doi stell</translation>
     </message>
   </context>
   <context>

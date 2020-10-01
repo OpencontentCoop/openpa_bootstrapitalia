@@ -89,7 +89,7 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Alles</translation>
+      <translation>Alle</translation>
     </message>
     <message>
       <source>Read more</source>
@@ -210,6 +210,10 @@
     <message>
       <source>News</source>
       <translation>Neuigkeiten</translation>
+    </message>
+    <message>
+      <source>You must select at least one topic not included in %custom_topics_name</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>

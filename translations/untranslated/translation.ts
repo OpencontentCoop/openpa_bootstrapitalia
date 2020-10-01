@@ -211,6 +211,10 @@
       <source>News</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>You must select at least one topic not included in %custom_topics_name</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
