@@ -251,7 +251,19 @@ class OpenPABootstrapItaliaOperators
         $data['_uri_suffix'] = '?' . http_build_query($queryData);
 
         $data['class'] = array_map('intval', $data['class']);
-        $data['subtree'] = array_map('intval', $data['subtree']);
+        $subtree = [];
+        $tags = [];
+        foreach ($data['subtree'] as $index => $value){
+            if (strpos($value, '-') !== false){
+                list($nodeId, $tagId) = explode('-', $value);
+                $data['subtree'][] = intval($nodeId) . '-' . intval($tagId);
+                $subtree[] = (int)$nodeId;
+                $tags[] = (int)$tagId;
+            }else{
+                $data['subtree'][] = (int)$value;
+                $subtree[] = (int)$value;
+            }
+        }
         $data['topic'] = array_map('intval', $data['topic']);
         if ($data['from']) {
             $data['from'] = $this->parseDate($data['from']);
@@ -266,13 +278,16 @@ class OpenPABootstrapItaliaOperators
             $searchHash['query'] = $data['text'];
             $searchHash['sort_by'] = array('score' => 'desc');
         }
-        if (!empty($data['subtree'])) {
-            $searchHash['subtree_array'] = $data['subtree'];
+        if (!empty($subtree)) {
+            $searchHash['subtree_array'] = array_unique($subtree);
         } elseif ($data['subtree_boundary']) {
             $searchHash['subtree_array'] = array($data['subtree_boundary']);
         }
 
         $filters = array();
+        if (!empty($tags)){
+            $filters[] = 'ezf_df_tag_ids:(' . implode(' OR ', $tags) . ')';
+        }
         $facets = array(
             array('field' => ezfSolrDocumentFieldBase::generateMetaFieldName('path', 'filter'), 'limit' => 100),
             array('field' => OpenPASolr::generateSolrSubMetaField('topics', 'main_node_id', 'sint'), 'limit' => 100),

@@ -193,7 +193,7 @@
                         {foreach $classes as $class}
                             <div class="form-check custom-control custom-checkbox">
                                 <input name="Class[]" id="class-{$class.id}" value={$class.id|wash()} {if $params.class|contains($class.id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
-                                <label class="class="custom-control-label" for="class-{$class.id}">{$class.name|wash()} {if is_set($class_facets[$class.id])}<small>({$class_facets[$class.id]})</small>{/if}</label>                                
+                                <label class="custom-control-label" for="class-{$class.id}">{$class.name|wash()} {if is_set($class_facets[$class.id])}<small>({$class_facets[$class.id]})</small>{/if}</label>
                             </div>
                         {/foreach}
                     </div>
@@ -205,19 +205,19 @@
                     {if $params.only_active}
                         <div class="form-check custom-control custom-checkbox">
                             <input name="OnlyActive" id="onlyactive" value=1 checked="checked" class="custom-control-input" type="checkbox">
-                            <label class="class="custom-control-label" for="onlyactive">Contenuti attivi
+                            <label class="custom-control-label" for="onlyactive">Contenuti attivi
                         </div>                            
                     {/if}
                     {if $params.from}
                         <div class="form-check custom-control custom-checkbox">
                             <input name="From" id="from" checked="checked" class="custom-control-input" type="checkbox" value="{$params.from|datetime( 'custom', '%j/%m/%Y' )}">
-                            <label class="class="custom-control-label" for="from">Da {$params.from|datetime( 'custom', '%j/%m/%Y' )}
+                            <label class="custom-control-label" for="from">Da {$params.from|datetime( 'custom', '%j/%m/%Y' )}
                         </div>                            
                     {/if}
                     {if $params.to}                                
                         <div class="form-check custom-control custom-checkbox">
                             <input name="To" id="to" checked="checked" class="custom-control-input" type="checkbox" value="{$params.to|datetime( 'custom', '%j/%m/%Y' )}">
-                            <label class="class="custom-control-label" for="to">Fino a {$params.to|datetime( 'custom', '%j/%m/%Y' )}
+                            <label class="custom-control-label" for="to">Fino a {$params.to|datetime( 'custom', '%j/%m/%Y' )}
                         </div>
                     {/if}
                 </div>
@@ -274,9 +274,10 @@ $(document).ready(function () {
         $(this).parent().next().find('input').prop('checked', isChecked);
     });
     $('[data-checkbox-child]').on('click', function(){        
-        var length = $(this).parents('div').find('input').length;
-        var checked = $(this).parents('div').find('input:checked').length;
-        var container = $(this).parents('div').prev().find('input');
+        var parentDiv = $(this).parents('div.collapse')
+        var length = parentDiv.find('input').length;
+        var checked = parentDiv.find('input:checked').length;
+        var container = parentDiv.prev().find('input');
         if (checked === length){ 
             container.prop('checked', true);
         } else if (checked > 0) {
