@@ -92,6 +92,10 @@
 
         {* check boxes list *}
         {if array(3,5)|contains($class_content.selection_type)}
+
+            {def $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))}
+            {def $has_custom_topics = cond(and($custom_topic_container, $custom_topic_container.main_node.children_count))}
+
             {ezscript_require(array( 'ezjsc::jquery' ))}
             {literal}
             <script type="text/javascript">
@@ -110,9 +114,21 @@
                             $(this).parent().siblings("ul").hide().find("input:checked").prop("checked", false);
                         }
                     });
+                    {/literal}{if and($attribute.is_required, $has_custom_topics)}{literal}
+                    $('[name="PublishButton"]').on('click', function (e) {
+                        if ($('ul.incremental-select input:checked').length === 0 && $('ul.custom_topics input:checked').length > 0){
+                            alert("{/literal}{'You must select at least one topic not included in %custom_topics_name'|i18n('bootstrapitalia',,hash('%custom_topics_name', $custom_topic_container.name|wash(javascript)))}{literal}");
+                            e.preventDefault();
+                        }
+                    });
+                    {/literal}{/if}{literal}
                 });
             </script>
             {/literal}
+            {if $has_custom_topics}
+                <div class="row">
+                    <div class="col-md-7">
+            {/if}
             <ul class="list-unstyled incremental-select">
             {section var=node loop=$nodesList}
             <li>
@@ -212,6 +228,40 @@
             {/section}
         </ul>
         {/if}
+
+        {if $has_custom_topics}
+        </div>
+            <div class="col-md-5">
+                <div class="bg-light rounded p-3">
+                <p class="font-weight-bold">{$custom_topic_container.name|wash()}</p>
+                <ul class="list-unstyled custom_topics">
+                    {foreach $custom_topic_container.main_node.children as $node}
+                    <li>
+                        <div class="form-check">
+                          <input id="check-{$attribute.id}-{$node.contentobject_id}"
+                                 class="form-check-input"
+                                 type="checkbox"
+                                 name="{$attribute_base}_data_object_relation_list_{$attribute.id}[{$node.node_id}]"
+                                 value="{$node.contentobject_id}"
+                              {if ne( count( $attribute.content.relation_list ), 0)}
+                              {foreach $attribute.content.relation_list as $item}
+                                   {if eq( $item.contentobject_id, $node.contentobject_id )}
+                                          checked="checked"
+                                          {break}
+                                   {/if}
+                              {/foreach}
+                              {/if}
+                              />
+                          <label class="form-check-label" for="check-{$attribute.id}-{$node.contentobject_id}">{$node.name|wash}</label>
+                        </div>
+                    </li>
+                    {/foreach}
+                </ul>
+                </div>
+            </div>
+        </div>
+        {/if}
+        {undef $custom_topic_container $has_custom_topics}
 
 
         {if eq( count( $nodesList ), 0 )}

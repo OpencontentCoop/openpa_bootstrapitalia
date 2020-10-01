@@ -20,6 +20,7 @@ class OpenPABootstrapItaliaOperators
             'footer_color',
             'is_bookmark',
             'privacy_states',
+            'menu_item_tree_contains',
         );
     }
 
@@ -53,6 +54,10 @@ class OpenPABootstrapItaliaOperators
             'is_bookmark' => array(
                 'node_id' => array('type' => 'integer', 'required' => true),
             ),
+            'menu_item_tree_contains' => array(
+                'item' => array('type' => 'array', 'required' => true),
+                'id_list' => array('type' => 'array', 'required' => true),
+            ),
         );
     }
 
@@ -67,6 +72,18 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'menu_item_tree_contains':
+                $item = $namedParameters['item'];
+                $idList = (array)$namedParameters['id_list'];
+                if (in_array($item['item']['node_id'], $idList)){
+                    $operatorValue = true;
+                }elseif ($item['has_children']){
+                    $operatorValue = $this->recursiveMenuTreeContains($item, $idList);
+                }else{
+                    $operatorValue = false;
+                }
+                break;
 
             case 'is_bookmark':
                 $nodeId = (int)$namedParameters['node_id'];
@@ -393,5 +410,20 @@ class OpenPABootstrapItaliaOperators
         }
 
         return self::$cssData;
+    }
+
+    private function recursiveMenuTreeContains($item, $idList)
+    {
+        $contains = false;
+        foreach ($item['children'] as $child){
+            if (in_array($child['item']['node_id'], $idList) && !$contains){
+                $contains = true;
+            }
+            if ($child['has_children'] && !$contains){
+                $contains = $this->recursiveMenuTreeContains($child, $idList);
+            }
+        }
+
+        return $contains;
     }
 }

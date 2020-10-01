@@ -1,5 +1,6 @@
 {def $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )
      $topics = fetch(content, object, hash(remote_id, 'topics'))
+     $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))
      $topic_list = cond($topics, tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu')), array())
      $topic_menu_label_extended = 'All topics...'|i18n('bootstrapitalia')
      $topic_menu_label = 'Topics'|i18n('bootstrapitalia')}
@@ -120,10 +121,10 @@
                             </div>
                         </div>
                         <button class="do-search btn btn-outline-primary btn-icon btn-sm mt-3" style="position: absolute;top: -84px;z-index: 100;right: 10px;" type="submit">Conferma</button>
-                        <div class="tab-content mt-5">
+                        <div class="tab-content my-5">
                             <div class="tab-pane active" id="filter-by-section">
                                 <div class="row">
-                                    <div class="offset-lg-2 col-lg-8 offset-md-1 col-md-10 col-sm-12">
+                                    <div class="offset-lg-2 col-lg-8 offset-md-1 col-md-10 col-11 offset-1">
                                         <div class="row">
                                     {foreach $top_menu_node_ids as $id}
                                         {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'side_menu'))}
@@ -165,42 +166,42 @@
                             </div>
                             <div class="tab-pane" id="filter-by-topic">
                                 <div class="row">
-                                    <div class="offset-lg-2 col-lg-8 offset-md-1 col-md-10 col-sm-12">
+                                    <div class="offset-lg-1 col-lg-10 offset-md-1 col-md-10 col-11 offset-1">
                                         {if count($topic_list)|gt(0)}
-                                        {def $max = count($topic_list.children)|div(2)|ceil()}
+                                        {def $max = count($topic_list.children)|div(2)|ceil()
+                                             $has_custom_topics = false()}
+                                        {if and($custom_topic_container, $custom_topic_container.main_node.children_count)}
+                                            {set $has_custom_topics = true()}
+                                        {/if}
                                         <div class="row">
-                                            <div class="col-md-6">
-                                            {foreach $topic_list.children as $child max $max}                                            
-                                                <div class="form-check">
-                                                    <input id="topic-filter-{$child.item.node_id}"
-                                                           type="checkbox"
-                                                           class="form-check-input"
-                                                           name="Topic[]"
-                                                           value="{$child.item.node_id}"
-                                                           data-topic="{$child.item.node_id}">
-                                                    <label for="topic-filter-{$child.item.node_id}" class="form-check-label">
-                                                        {$child.item.name|wash()}
-                                                    </label>
+                                            <div class="col-md-{if $has_custom_topics}4{else}6{/if}">
+                                                {foreach $topic_list.children as $child max $max}
+                                                    {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))|not()}
+                                                        {include uri='design:parts/search/topic_top_search_input.tpl' topic=$child}
+                                                    {/if}
+                                                {/foreach}
+                                            </div>
+                                            <div class="col-md-{if $has_custom_topics}4{else}6{/if}">
+                                                {foreach $topic_list.children as $child offset $max}
+                                                    {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))|not()}
+                                                        {include uri='design:parts/search/topic_top_search_input.tpl' topic=$child}
+                                                    {/if}
+                                                {/foreach}
+                                            </div>
+                                            {if $has_custom_topics}
+                                                <div class="col-md-4">
+                                                    <p class="font-weight-bold mt-3 mt-md-0">{$custom_topic_container.name|wash()}</p>
+                                                    {foreach $topic_list.children as $child}
+                                                        {if $custom_topic_container.main_node_id|eq($child.item.node_id)}
+                                                            {foreach $child.children as $item}
+                                                                {include uri='design:parts/search/topic_top_search_input.tpl' topic=$item}
+                                                            {/foreach}
+                                                        {/if}
+                                                    {/foreach}
                                                 </div>
-                                            {/foreach}
-                                            </div>
-                                            <div class="col-md-6">
-                                            {foreach $topic_list.children as $child offset $max}
-                                                <div class="form-check">
-                                                    <input id="topic-filter-{$child.item.node_id}"
-                                                           type="checkbox"
-                                                           class="form-check-input"
-                                                           name="Topic[]"
-                                                           value="{$child.item.node_id}"
-                                                           data-topic="{$child.item.node_id}">
-                                                    <label for="topic-filter-{$child.item.node_id}" class="form-check-label">
-                                                        {$child.item.name|wash()}
-                                                    </label>
-                                                </div>                                        
-                                            {/foreach}
-                                            </div>
+                                            {/if}
                                         </div>
-                                        {undef $max}
+                                        {undef $max $has_custom_topics}
                                         {/if}
                                     </div>
                                 </div>
@@ -259,7 +260,7 @@ $(document).ready(function () {
 </script>
 {/literal}
 
-{undef $top_menu_node_ids $topics $topic_list $topic_menu_label $topic_menu_label_extended}
+{undef $top_menu_node_ids $topics $topic_list $topic_menu_label $topic_menu_label_extended $custom_topic_container}
 
 
 {* https://github.com/blueimp/Gallery vedi atom/gallery.tpl *}

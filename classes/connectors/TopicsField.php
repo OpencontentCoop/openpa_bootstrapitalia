@@ -11,6 +11,8 @@ class TopicsField extends RelationsField
     private $tree;
 
     private $treePath = [];
+
+    private $topicsIdList = [];
     /**
      * @var eZContentObjectTreeNode
      */
@@ -87,20 +89,56 @@ class TopicsField extends RelationsField
     public function setPayload($postData)
     {
         if (!$this->showAsTree) {
-            return parent::setPayload($postData);
-        }
+            $payload = parent::setPayload($postData);
+        }else {
 
-        $this->getTree();
-        $payload = [];
-        $postData = explode(',', $postData);
-        foreach ($postData as $item){
-            $payload[] = $item;
-            if (isset($this->treePath[$item])) {
-                $payload = array_merge($payload, $this->treePath[$item]);
+            $this->getTree();
+            $payload = [];
+            $postData = explode(',', $postData);
+            foreach ($postData as $item) {
+                if (in_array($item, $this->topicsIdList)) {
+                    $payload[] = $item;
+                    if (isset($this->treePath[$item])) {
+                        $payload = array_merge($payload, $this->treePath[$item]);
+                    }
+                }
             }
+
+            $payload = array_unique($payload);
+        }
+        $this->checkRequired($payload);
+
+        return $payload;
+    }
+
+    /**
+     * @param $payload
+     * @return bool
+     * @throws Exception
+     */
+    private function checkRequired($payload)
+    {
+        $customTopicsContainer = eZContentObject::fetchByRemoteID('custom_topics');
+        if ($customTopicsContainer instanceof eZContentObject
+            && $customTopicsContainer->mainNode()->childrenCount() > 0
+            && !empty($payload)){
+            $objects = OpenPABase::fetchObjects($payload);
+            foreach ($objects as $object){
+                if ($object->mainParentNodeID() != $customTopicsContainer->mainNodeID()){
+                    return true;
+                }
+            }
+            $message = ezpI18n::tr(
+                'bootstrapitalia',
+                'You must select at least one topic not included in %custom_topics_name',
+                null,
+                ['%custom_topics_name' => $customTopicsContainer->attribute('name')]
+            );
+
+            throw new Exception($message);
         }
 
-        return array_unique($payload);
+        return true;
     }
 
     private function getTree()
@@ -139,15 +177,23 @@ class TopicsField extends RelationsField
             'text' => $node->attribute('name'),
             'state' => array(
                 'selected' => in_array($node->attribute('contentobject_id'), $this->getData()),
-                'opened' => in_array($node->attribute('contentobject_id'), $this->getData()) && count($childrenNodes),
-                'disabled' => false
+                'opened' => (in_array($node->attribute('contentobject_id'), $this->getData()) && count($childrenNodes))
+                    || $node->attribute('class_identifier') != 'topic',
+                'disabled' => $node->attribute('class_identifier') != 'topic'
             ),
         );
+
+        if ($node->attribute('class_identifier') == 'topic') {
+            $this->topicsIdList[] = $node->attribute('contentobject_id');
+        }
 
         if (count($childrenNodes)) {
             $children = [];
             foreach ($childrenNodes as $childNode) {
-                $children[] = $this->createTreeItem($childNode, array_merge($parentIdList, [$node->attribute('contentobject_id')]));
+                if ($node->attribute('class_identifier') == 'topic') {
+                    $parentIdList = array_merge($parentIdList, [$node->attribute('contentobject_id')]);
+                }
+                $children[] = $this->createTreeItem($childNode, $parentIdList);
             }
             $item['children'] = $children;
         }

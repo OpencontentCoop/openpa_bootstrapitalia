@@ -89,7 +89,7 @@
                                 {if $child.item.node_id|eq($tree_menu.item.node_id)}{skip}{/if} {*tag menu*}
                                 <div class="form-check custom-control custom-checkbox">
                                     <input data-checkbox-child name="Subtree[]" id="subtree-{$child.item.node_id}" value={$child.item.node_id} {if $params.subtree|contains($child.item.node_id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
-                                    <label class="class="custom-control-label" for="subtree-{$child.item.node_id}">{$child.item.name|wash()} {if is_set($subtree_facets[$child.item.node_id])}<small>({$subtree_facets[$child.item.node_id]})</small>{/if}</label>
+                                    <label class="custom-control-label" for="subtree-{$child.item.node_id}">{$child.item.name|wash()} {if is_set($subtree_facets[$child.item.node_id])}<small>({$subtree_facets[$child.item.node_id]})</small>{/if}</label>
                                 </div>
                             {/foreach}                    
                         </div>
@@ -104,66 +104,69 @@
                 
                 <div class="pt-4 pt-lg-5">
                         <h6 class="text-uppercase">{$topic_menu_label|wash()}</h6>
-                        </li>
                         {def $topics = fetch(content, object, hash(remote_id, 'topics'))
                              $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu'))
                              $topic_list_children = $topic_list.children
+                             $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))
+                             $custom_topic_container_item = false
                              $already_displayed = array()
                              $count = 0 
                              $max = 6 
                              $total = count($topic_list_children)
                              $sub_count = 0}
 
-                        {foreach $topic_list_children as $child}                    
-                            {if $params.topic|contains($child.item.node_id)}
-                                <div class="form-check custom-control custom-checkbox">
-                                    <input name="Topic[]" id="topic-{$child.item.node_id}" value={$child.item.node_id} checked="checked" class="custom-control-input" type="checkbox">
-                                    <label class="class="custom-control-label" for="topic-{$child.item.node_id}">{$child.item.name|wash()}  {if is_set($topic_facets[$child.item.node_id])}<small>({$topic_facets[$child.item.node_id]})</small>{/if}                                
-                                </div>
-                                {set $count = $count|inc()}
+                        {* argomenti selezionati *}
+                        {foreach $topic_list_children as $child}
+                            {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}
+                                {set $custom_topic_container_item = $child}
+                                {skip}
+                            {/if}
+                            {if menu_item_tree_contains($child, $params.topic)}
                                 {set $already_displayed = $already_displayed|append($child.item.node_id)}
+                                {include name="topic_search_input" uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=true() selected=$params.topic recursion=0}
+                                {set $count = $count|inc()}
                             {/if}
                         {/foreach}
 
-                        {if $count|lt($max)}                            
-                            {foreach $topic_list_children as $child} 
+                        {* argomenti selezionabili *}
+                        {if $count|lt($max)}
+                            {foreach $topic_list_children as $child}
+                                {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}{skip}{/if}
                                 {if and($already_displayed|contains($child.item.node_id)|not(), is_set($topic_facets[$child.item.node_id]))}
-                                    <div class="form-check custom-control custom-checkbox">
-                                        <input name="Topic[]" id="topic-{$child.item.node_id}" value={$child.item.node_id} class="custom-control-input" type="checkbox">
-                                        <label class="class="custom-control-label" for="topic-{$child.item.node_id}">{$child.item.name|wash()}  {if is_set($topic_facets[$child.item.node_id])}<small>({$topic_facets[$child.item.node_id]})</small>{/if}                                
-                                    </div>
-                                    {set $count = $count|inc()}
                                     {set $already_displayed = $already_displayed|append($child.item.node_id)}
+                                    {include name="topic_search_input" uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=false() selected=$params.topic recursion=0}
                                     {if $count|eq($max)}{break}{/if}
+                                    {set $count = $count|inc()}
                                 {/if}
                             {/foreach}
                         {/if}
 
+                        {* altri argomenti *}
                         {if $count|lt($max)}
                             {set $sub_count = $max|sub($count)}
-                            {foreach $topic_list_children as $child max $sub_count} 
+                            {def $sub_index = 0}
+                            {foreach $topic_list_children as $child}
+                                {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}{skip}{/if}
                                 {if $already_displayed|contains($child.item.node_id)|not()}
-                                    <div class="form-check custom-control custom-checkbox">
-                                        <input name="Topic[]" id="topic-{$child.item.node_id}" value={$child.item.node_id} class="custom-control-input" type="checkbox">
-                                        <label class="class="custom-control-label" for="topic-{$child.item.node_id}">{$child.item.name|wash()}  {if is_set($topic_facets[$child.item.node_id])}<small>({$topic_facets[$child.item.node_id]})</small>{/if}                                
-                                    </div>
-                                    {set $count = $count|inc()}
+                                    {set $sub_index = $sub_index|inc()}
                                     {set $already_displayed = $already_displayed|append($child.item.node_id)}
+                                    {include name="topic_search_input" uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=false() selected=$params.topic recursion=0}
+                                    {set $count = $count|inc()}
+                                    {if $sub_index|eq($sub_count)}{break}{/if}
                                 {/if}
                             {/foreach}
                         {/if}
 
+                        {* altri argomenti collassati *}
                         {if $count|lt($total)}
                             <a href="#more-topics" data-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
                                 {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
                             </a>
                             <div class="collapse" id="more-topics">
-                            {foreach $topic_list_children as $child} 
+                            {foreach $topic_list_children as $child}
+                                {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}{skip}{/if}
                                 {if $already_displayed|contains($child.item.node_id)|not()}
-                                    <div class="form-check custom-control custom-checkbox">
-                                        <input name="Topic[]" id="topic-{$child.item.node_id}" value={$child.item.node_id} class="custom-control-input" type="checkbox">
-                                        <label class="class="custom-control-label" for="topic-{$child.item.node_id}">{$child.item.name|wash()}  {if is_set($topic_facets[$child.item.node_id])}<small>({$topic_facets[$child.item.node_id]})</small>{/if}                                
-                                    </div>                                
+                                    {include uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=false() selected=$params.topic recursion=0}
                                 {/if}
                             {/foreach}
                             </div>
@@ -171,7 +174,18 @@
 
                         
                         {undef $topics $topic_list $count $max $total $already_displayed $sub_count}
+
+                        {if and($custom_topic_container_item, $custom_topic_container_item.has_children)}
+                        <div class="pt-3 pt-lg-3">
+                            <h6 class="text-uppercase text-black-50">{$custom_topic_container.name|wash()}</h6>
+                            {foreach $custom_topic_container_item.children as $child}
+                                {include uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=cond(menu_item_tree_contains($child,$params.topic), true(), false()) selected=$params.topic recursion=0}
+                            {/foreach}
+                        </div>
+                        {/if}
+
                 </div>
+
 
                 {if count($classes)}
                     <div class="pt-4 pt-lg-5">
