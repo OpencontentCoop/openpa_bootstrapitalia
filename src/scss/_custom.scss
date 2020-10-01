@@ -89,3 +89,7 @@ td.alpaca-container-item{
   .stacktable.large-only { display: none; }
   .stacktable.small-only { display: table; }
 }
+
+.highcharts-data-table table{
+  @extend .table;
+}
