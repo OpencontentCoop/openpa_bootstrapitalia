@@ -26,7 +26,7 @@
     {def $private_places = api_search($private_places_query)}
     {debug-log msg='private_places_count' var=$private_places.totalCount}
 
-    {def $all_used_places_id_list_query = concat("classes [event] and owner_id in [", $owner_list|implode(','), "] and facets [takes_place_in.id|count|100] limit 1")}
+    {def $all_used_places_id_list_query = concat("owner_id in [", $owner_list|implode(','), "] and facets [takes_place_in.id|count|100] limit 1")}
     {debug-log msg='all_used_places_id_list_query' var=$all_used_places_id_list_query}
     {def $all_used_places_id_list = api_search($all_used_places_id_list_query).facets[0].data|array_keys}
 

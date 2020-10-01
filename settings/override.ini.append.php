@@ -250,7 +250,7 @@ Match[attribute_identifier]=compensi
 Source=content/datatype/edit/ezobjectrelationlist.tpl
 MatchFile=datatype/edit/ezobjectrelationlist_takes_place_in_event.tpl
 Subdir=templates
-Match[class_identifier]=event
+#Match[class_identifier]=event
 Match[attribute_identifier]=takes_place_in
 
 [datatype_topics]
