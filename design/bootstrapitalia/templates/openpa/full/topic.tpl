@@ -147,7 +147,7 @@
             "ListaAutomatica",
             "lista_card",
             hash(
-                "limite", "3",
+                "limite", "30",
                 "elementi_per_riga", "3",
                 "includi_classi", "topic",
                 "escludi_classi", "",
