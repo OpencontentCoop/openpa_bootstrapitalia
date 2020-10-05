@@ -136,6 +136,7 @@
 			<div class="col-md-8">
 				<strong class="d-block d-sm-none">Oggetto</strong>				
 				<a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}">{{:~i18n(metadata.name)}}</a>
+				{{if ~i18n(data, 'description')}}<p class="m-0" style="line-height:1.2"><small>{{:~stripTag(~i18n(data, 'description'))}}</small></p>{{/if}}
 				<ul class="list-inline m-0"><li class="list-inline-item"><strong>{{:~i18n(data, 'document_type')}}</strong>{{if ~i18n(data, 'has_code')}} ({{:~i18n(data, 'has_code')}}){{/if}}</li></ul>
 				{{if ~i18n(data, 'area') || ~i18n(data, 'has_organization')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>Area/Ufficio:</strong></li>{{if ~i18n(data, 'area')}}{{for ~i18n(data,'area')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}{{if ~i18n(data, 'has_organization')}}{{for ~i18n(data,'has_organization')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}</ul>{{/if}}
 				{{if ~i18n(data, 'interroganti')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>Interroganti:</strong></li>{{for ~i18n(data,'interroganti')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}
@@ -179,7 +180,17 @@
 </script>
 
 <script>
-$.views.helpers($.opendataTools.helpers);
+$.views.helpers($.extend({}, $.opendataTools.helpers, {
+	'stripTag': function (value) {
+		var element = $('<div>'+value+'</div>');
+		element.find('*').each(function() {
+			var content = $(this).contents();
+			$(this).replaceWith(content);
+		});
+
+		return element.html()
+	}
+}));
 $(document).ready(function () {
 	$('[data-block_document_subtree]').each(function(){
         var baseUrl = '/';
