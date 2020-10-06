@@ -7,6 +7,10 @@
 	{/if}
     {undef $image}
 {/if}
+{def $exclude_classes = array()}
+{if and(is_set($block.custom_attributes.exclude_classes), $block.custom_attributes.exclude_classes|ne(''))}
+	{set $exclude_classes = $block.custom_attributes.exclude_classes|explode(',')}
+{/if}
 <div class="py-5 position-relative">
 <div class="block-topics-bg bg-primary" {if $background_image}style="background-image: url({$background_image});"{/if}></div>
 	<div class="container">	
@@ -17,6 +21,7 @@
 		             i_view=card_children
 		             view_variation='big'
 		             image_class=imagelargeoverlay
+					 exclude_classes=$exclude_classes
 		             items=$block.valid_nodes|extract_left( 3 )}
 
 			{def $others_count = count($block.valid_nodes)|sub(3)}

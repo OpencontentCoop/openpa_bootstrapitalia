@@ -4,7 +4,7 @@
     'view_variation', '',
     'limit', 4,
     'class_filter_type', 'exclude',
-    'class_filter_array', openpaini( 'ExcludedClassesAsChild', 'FromFolder', array( 'image', 'infobox', 'global_layout' ) )
+    'class_filter_array', openpaini( 'ExcludedClassesAsChild', 'FromFolder', array( 'image', 'infobox', 'global_layout' )|merge($exclude_classes) )
 ))}
 
 {def $fetch_params = hash('parent_node_id', $node.node_id,

@@ -5,7 +5,14 @@
     'limit', 7
 ))}
 
-{def $related_items = api_search(concat("class != 'homepage' and topics.id in [", $node.contentobject_id, '] sort [modified=>desc] limit ', $limit))}
+{def $esclude_query = array("class != 'homepage'")}
+{foreach $exclude_classes as $exclude_class}
+    {set $esclude_query = $esclude_query|append(concat("class != '",$exclude_class|trim(),"'"))}
+{/foreach}
+
+{def $related_items_query = concat($esclude_query|implode(' and '), " and topics.id in [", $node.contentobject_id, '] sort [modified=>desc] limit ', $limit)}
+{debug-log var=$related_items_query msg='Topic related query'}
+{def $related_items = api_search($related_items_query)}
 {def $language = ezini('RegionalSettings', 'Locale')}
 
 <div data-object_id="{$node.contentobject_id}" class="card-wrapper {if $view_variation|eq('big')}card-space{/if} {$node|access_style}">
@@ -54,4 +61,4 @@
     </div>
 </div>
 {unset_defaults(array('show_icon', 'image_class', 'limit', 'view_variation'))}
-{undef $related_items $language}
+{undef $related_items $language $related_items_query}

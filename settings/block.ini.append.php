@@ -315,8 +315,12 @@ NumberOfArchivedItems=0
 ManualAddingOfItems=enabled
 CustomAttributes[]
 CustomAttributes[]=image
+CustomAttributes[]=exclude_classes
 UseBrowseMode[image]=true
 CustomAttributeNames[image]=Immagine di sfondo
+CustomAttributeNames[exclude_classes]=Tipologie di contenuto da escludere
+CustomAttributeTypes[]
+CustomAttributeTypes[exclude_classes]=class_select
 ViewList[]=lista_card
 ViewName[]
 ViewName[lista_card]=Default
