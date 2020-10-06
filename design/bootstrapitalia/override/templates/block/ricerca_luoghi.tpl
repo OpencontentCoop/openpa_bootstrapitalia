@@ -24,8 +24,8 @@
 			</button>						
 		</div>	
 		<div class="col-md-6 text-center">
-			<a href="#" class="show-list btn btn-secondary mt-4">Visualizza come lista</a>		
-			<a href="#" class="show-map btn btn-outline-secondary mt-4">Visualizza come mappa</a>
+			<a href="#" class="show-map btn btn-secondary mt-4">Visualizza come mappa</a>
+			<a href="#" class="show-list btn btn-outline-secondary mt-4">Visualizza come lista</a>
 		</div>
 	</form>
 	<div class="row border-top row-column-border row-column-menu-left attribute-list mt-0">
@@ -254,11 +254,11 @@ $(document).ready(function () {
                 }
             );
             map.scrollWheelZoom.disable();
-            $.opendataTools.loadMarkersInMap(baseQuery, function(){mapContainer.removeClass('invisible'), map.fitBounds(map.getBounds().pad(0.5))});
+            $.opendataTools.loadMarkersInMap(baseQuery, function(){
+            	mapContainer.removeClass('invisible');
+            	map.fitBounds(map.getBounds().pad(0.5))
+            });
 		};
-
-		container.find('form')[0].reset();
-		loadContents();
 
 		container.find('a[data-tag_id]').on('click', function(e){
 			var listItem = $(this);
@@ -316,6 +316,16 @@ $(document).ready(function () {
         		loadMap();
 			e.preventDefault();
 		});
+
+		container.find('form')[0].reset();
+		if (showList.hasClass('btn-secondary')){
+			loadContents();
+		}else{
+			$.opendataTools.find(buildQuery() + ' and limit 1', function (response) {
+				loadFacetsCount(response.facets);
+				loadMap();
+			});
+		}
 	});
 }); 
 </script>
