@@ -20,7 +20,7 @@
 <video width="{$width}" height="{$height}" controls{if $is_autoplay} autoplay{/if}>
   	<source src="{concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl(no)}"
   		    type="{$attribute.content.mime_type}">
-	{'Your browser does not support the video element.'|i18n("bootstrapitalia)}
+	{'Your browser does not support the video element.'|i18n("bootstrapitalia")}
 </video>
 
 {undef}
