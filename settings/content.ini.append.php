@@ -19,4 +19,18 @@ ClassDescription[responsive-stack]=Responsive (stack)
 ClassDescription[responsive-card]=Responsive (card)
 ClassDescription[responsive-column]=Responsive (column
 
+[ClassAttributeSettings]
+CategoryList[content]=Contenuti principali
+CategoryList[meta]=Meta
+CategoryList[hidden]=Nascosto
+CategoryList[taxonomy]=Categorizzazione
+CategoryList[attribuzione]=Attribuzione
+CategoryList[details]=Contenuti secondari
+CategoryList[riferimenti_temporali]=Riferimenti temporali
+CategoryList[protocollo]=Protocollo
+CategoryList[attivita_politica]=Attività politica
+CategoryList[geo]=Dove
+CategoryList[time]=Quando
+CategoryList[altre_info]=Altre informazioni
+CategoryList[resource]=Risorse
 */
