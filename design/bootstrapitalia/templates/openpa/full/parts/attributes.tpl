@@ -103,7 +103,7 @@
             </div>
         </aside>
         {/if}
-        <section class="col-lg-8{if count($summary_items)|eq(1)} px-lg-4 pb-lg-4{/if}">
+        <section class="{if count($summary_items)|eq(1)}col w-100 px-lg-4 pb-lg-4{else}col-lg-8{/if}">
             {foreach $summary_items as $index => $item}
                 <article id="{$item.slug|wash()}" class="it-page-section mb-2 anchor-offset clearfix" {*if $index|eq(0)} class="anchor-offset"{/if*}>
 
