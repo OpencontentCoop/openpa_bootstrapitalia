@@ -1,6 +1,7 @@
 {ezpagedata_set( 'has_container', true() )}
 {ezpagedata_set( 'show_path',false() )}
 {def $homepage = fetch('openpa', 'homepage')}
+{def $topics = fetch(content, object, hash(remote_id, 'topics'))}
 
 <div class="it-hero-wrapper it-wrapped-container">
     {if $node|has_attribute('image')}
@@ -25,30 +26,38 @@
                                         <li class="breadcrumb-item">
                                             <a href="{'/'|ezurl(no)}">{$homepage.name|wash()}</a>
                                         </li>
-                                        <li class="breadcrumb-item">
-                                            <a href="{$node.parent.url_alias|ezurl(no)}">{$node.parent.name|wash()}</a>
-                                        </li>
+                                        {def $write_path = false()}
+                                        {foreach $node.path as $item}
+                                            {if $write_path}
+                                            <li class="breadcrumb-item">
+                                                <a href="{$item.url_alias|ezurl(no)}">{$item.name|wash()}</a>
+                                            </li>
+                                            {/if}
+                                            {if $item.contentobject_id|eq($topics.id)}
+                                                {set $write_path = true()}
+                                            {/if}
+                                        {/foreach}
                                         <li class="breadcrumb-item active" aria-current="page">
                                             {$node.name|wash()}
                                         </li>
                                     </ol>
-                                </nav>   
+                                </nav>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <h1>{$node.name|wash()}</h1>
                                 {include uri='design:openpa/full/parts/main_attributes.tpl'}
-                            </div>         
+                            </div>
                             <div class="col-lg-4 offset-lg-2">
                             </div>
-                        </div>                    
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>    
+</div>
 
 {if $node|has_attribute('layout')}
     <div style="min-height: 80px">
