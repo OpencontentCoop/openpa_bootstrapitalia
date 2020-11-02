@@ -197,7 +197,8 @@
                 openpaini( 'WebsiteToolbar', 'ShowUsersRoot', 'enabled' )|eq('enabled'),
                 openpaini( 'WebsiteToolbar', 'ShowEditorRoles', 'disabled' )|eq('enabled'),
                 and(fetch( 'user', 'has_access_to', hash( 'module', 'newsletter', 'function', 'index' ) ), ezmodule('newsletter','subscribe')),
-                fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'roles' ) )
+                fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'roles' ) ),
+                fetch( 'user', 'has_access_to', hash( 'module', 'valuation', 'function', 'dashboard' ) )
             )}
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
@@ -294,6 +295,14 @@
                                         <a class="list-item left-icon" href="{'content/trash'|ezurl(no)}">
                                             <i class="fa fa-trash"></i>
                                             Cestino
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if and(openpaini('GeneralSettings','Valuation', 1), fetch( 'user', 'has_access_to', hash( 'module', 'valuation', 'function', 'dashboard' ) ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'valuation/dashboard'|ezurl(no)}">
+                                            <i class="fa fa-dashboard"></i>
+                                            {'User feedbacks'|i18n("bootstrapitalia")}
                                         </a>
                                     </li>
                                 {/if}

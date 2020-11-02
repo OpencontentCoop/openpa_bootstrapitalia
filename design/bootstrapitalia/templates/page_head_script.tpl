@@ -3,6 +3,7 @@
     'ezjsc::jqueryUI',
     'ezjsc::jqueryio',
     'jquery.search-gui.js',
+    'jquery.valuation.js',
     'popper.js',
     'owl.carousel.js',
     'moment-with-locales.min.js',
@@ -18,5 +19,8 @@
     'dataTables.bootstrap4.min.js',
     'jquery.opendataDataTable.js',
     'jquery.blueimp-gallery.min.js',
+    'handlebars.min.js',
+    'alpaca.js',
+    'jquery.opendataform.js',
     'stacktable.js'
 ))}

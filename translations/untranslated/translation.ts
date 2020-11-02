@@ -590,4 +590,31 @@
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/valuation</name>
+    <message>
+      <source>Thanks for your feedback</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>User feedbacks</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Feedbacks count</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Is content useful?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Problems</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Feedback #%id</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
 </TS>

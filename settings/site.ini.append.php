@@ -8,6 +8,8 @@ ExtensionAutoloadPath[]=openpa_bootstrapitalia
 
 [RoleSettings]
 PolicyOmitList[]=image/view
+PolicyOmitList[]=valuation/send
+PolicyOmitList[]=valuation/form
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login

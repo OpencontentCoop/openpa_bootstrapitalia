@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>Cerca</translation>
+      <translation>Cerrar</translation>
     </message>
     <message>
       <source>FREE</source>
@@ -89,7 +89,7 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Todos</translation>
+      <translation>Todas</translation>
     </message>
     <message>
       <source>Read more</source>
@@ -583,6 +583,33 @@
     </message>
     <message>
       <source>Loading...</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/valuation</name>
+    <message>
+      <source>Thanks for your feedback</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>User feedbacks</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Feedbacks count</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Is content useful?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Problems</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Feedback #%id</source>
       <translation type="unfinished"/>
     </message>
   </context>

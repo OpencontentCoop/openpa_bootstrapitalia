@@ -16,8 +16,8 @@
 {if $homepage.node_id|eq($node.node_id)}
     {ezpagedata_set('is_homepage', true())}
 {/if}
-{if and( openpaini('GeneralSettings','valutation', 1), $homepage.node_id|ne($node.node_id), $node.class_identifier|ne('frontpage'), $node.class_identifier|ne('homepage') ) }
-    {include name=valuation node_id=$node.node_id uri='design:openpa/valuation.tpl'}
+{if and(openpaini('GeneralSettings','Valuation', 1), $homepage.node_id|ne($node.node_id), $node.class_identifier|ne('valuation'))}
+    {ezpagedata_set('show_valuation', true())}
 {/if}
 {ezpagedata_set('opengraph', $openpa.opengraph.generate_data)}
 

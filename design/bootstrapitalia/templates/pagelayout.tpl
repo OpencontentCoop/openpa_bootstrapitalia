@@ -22,6 +22,11 @@
         {set $extra_cache_key = concat($extra_cache_key, 'areatematica_', openpacontext().is_area_tematica)}
     {/if}
 
+    {def $has_valuation = '0'}
+    {if and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation)}
+        {set $has_valuation = '1'}
+    {/if}
+
     {def $theme = openpaini('GeneralSettings','theme', 'default')
          $main_content_class = ''
          $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
@@ -108,7 +113,7 @@ $.opendataTools.settings('endpoint',{ldelim}
 
     {if and(openpacontext().is_login_page|not(), openpacontext().is_edit|not())}
     {debug-accumulator id=page_footer name=page_footer}
-    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name )}
+    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $has_valuation )}
         {def $pagedata = openpapagedata()}
         {include uri='design:page_footer.tpl'}
         {include uri='design:page_extra.tpl'}

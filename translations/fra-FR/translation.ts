@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>FREE</source>
-      <translation>GRATUIT</translation>
+      <translation>LIBRE</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -273,7 +273,7 @@
     </message>
     <message>
       <source>References</source>
-      <translation>Les références</translation>
+      <translation>Références</translation>
     </message>
   </context>
   <context>
@@ -398,7 +398,7 @@
     </message>
     <message>
       <source>Year</source>
-      <translation>Année</translation>
+      <translation>An</translation>
     </message>
     <message>
       <source>Any year</source>
@@ -583,6 +583,33 @@
     </message>
     <message>
       <source>Loading...</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/valuation</name>
+    <message>
+      <source>Thanks for your feedback</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>User feedbacks</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Feedbacks count</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Is content useful?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Problems</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Feedback #%id</source>
       <translation type="unfinished"/>
     </message>
   </context>

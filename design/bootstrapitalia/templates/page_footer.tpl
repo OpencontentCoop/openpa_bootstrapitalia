@@ -1,4 +1,10 @@
 <footer class="it-footer">
+    {def $openpa_valuation = fetch(content, object, hash(remote_id, 'openpa-valuation'))}
+
+    {if and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation, $openpa_valuation, $openpa_valuation.can_read)}
+        {include uri='design:openpa/valuation.tpl' openpa_valuation=$openpa_valuation}
+    {/if}
+
     <div class="it-footer-main">
         <div class="container">
             <section>
@@ -88,6 +94,9 @@
                 {foreach $footer_links as $item}
                 <li class="list-inline-item">{node_view_gui content_node=$item view=text_linked}</li>
                 {/foreach}
+                {if and($openpa_valuation, $openpa_valuation.can_read)}
+                    <li class="list-inline-item">{node_view_gui content_node=$openpa_valuation.main_node view=text_linked text_wrap_start='<i class="fa fa-warning"></i> '}</li>
+                {/if}
             </ul>
             {undef $footer_links}
         </div>

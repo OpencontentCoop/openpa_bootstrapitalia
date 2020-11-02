@@ -7,12 +7,19 @@
                      collection_attributes=$collection_attributes}
 
             {foreach $openpa.content_infocollection.attributes as $attribute_handler}
-                <div class="form-group mb-3">
-                    {if $attribute_handler.contentclass_attribute.data_type_string|ne('ezboolean')}
-                    <h6 class="text-sans-serif">{$attribute_handler.contentclass_attribute.name|wash()}</h6>
+                {def $contentclass_attribute = $attribute_handler.contentclass_attribute}
+                <div class="form-group mb-3{if $contentclass_attribute.category|eq('hidden')} hide{/if}">
+                    {if $contentclass_attribute.data_type_string|ne('ezboolean')}
+                    <h6 class="text-sans-serif">
+                        {$contentclass_attribute.name|wash()}
+                        {if $contentclass_attribute.description}
+                            <small class="text-muted mb-1 d-block">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash}</small>
+                        {/if}
+                    </h6>
                     {/if}
                     {attribute_view_gui attribute=$attribute_handler.contentobject_attribute html_class='form-control border'}
                 </div>
+                {undef $contentclass_attribute}
             {/foreach}
 
             <div class="content-action clearfix">

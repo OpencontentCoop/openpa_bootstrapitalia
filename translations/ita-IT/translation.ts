@@ -590,4 +590,31 @@
       <translation>Gestione collaborativa dei contenuti</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/valuation</name>
+    <message>
+      <source>Thanks for your feedback</source>
+      <translation>Grazie per il tuo contributo</translation>
+    </message>
+    <message>
+      <source>User feedbacks</source>
+      <translation>Segnalazioni degli utenti</translation>
+    </message>
+    <message>
+      <source>Feedbacks count</source>
+      <translation>Totale segnalazioni</translation>
+    </message>
+    <message>
+      <source>Is content useful?</source>
+      <translation>Il contenuto è utile?</translation>
+    </message>
+    <message>
+      <source>Problems</source>
+      <translation>Problemi</translation>
+    </message>
+    <message>
+      <source>Feedback #%id</source>
+      <translation>Segnalazione #%id</translation>
+    </message>
+  </context>
 </TS>

@@ -89,6 +89,7 @@ ShowEditorRoles=disabled
 
 [GeneralSettings]
 AnnounceKit=BvwBO
+Valuation=1
 
 [RelationsBrowse]
 AllowAllBrowse=enabled
