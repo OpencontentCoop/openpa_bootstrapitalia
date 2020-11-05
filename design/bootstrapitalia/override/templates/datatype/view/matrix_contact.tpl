@@ -3,7 +3,7 @@
         {def $type = $row.columns[0]
         	 $contact = $row.columns[2]
         	 $value = $row.columns[1]}
-        <p class="mb-1">
+        <p class="mb-1 text-truncate">
             <strong>{$type|wash()}{if $contact|ne('')} - {$contact|wash()}{/if}:</strong> 
             <br/>
             {if $value|begins_with('http')}

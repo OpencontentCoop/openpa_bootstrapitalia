@@ -1,7 +1,7 @@
 {if $attributes.show|count()|gt(0)}
     {foreach $attributes.show as $identifier}
         {if $node|has_attribute($identifier)}
-            <div class="mt-1">
+            <div class="mt-1{if $node|attribute($identifier).data_type_string|eq('ezemail')} text-truncate{/if}">
             {if $attributes.show_label|contains($identifier)}
                 <strong>{$node|attribute($identifier).contentclass_attribute_name}:</strong>
             {/if}
@@ -22,7 +22,8 @@
                 </div>
             {elseif $node|attribute($identifier).data_type_string|ne('ezimage')}
                 {attribute_view_gui attribute=$node|attribute($identifier) 
-                                    image_class=small show_link=false() 
+                                    image_class=small
+                                    show_link=false()
                                     only_address=true()}
             {/if}
             </div>

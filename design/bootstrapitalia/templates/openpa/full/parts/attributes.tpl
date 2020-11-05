@@ -130,7 +130,7 @@
                             {if $openpa_attribute.full.collapse_label|not()}
                                 <h5 class="no_toc">{$openpa_attribute.label|wash()}</h5>
                             {else}
-                                <h6 class="d-inline font-weight-bold">{$openpa_attribute.label|wash()}</h6>
+                                <h6 class="d-inline mr-2 font-weight-bold">{$openpa_attribute.label|wash()}:</h6>
                             {/if}
                         {/if}
 
@@ -150,6 +150,8 @@
                         {if $openpa_attribute.full.highlight}
                             </div>
                         </div>
+                        {elseif and($openpa_attribute.full.show_label, $item.is_grouped,$openpa_attribute.full.collapse_label)}
+                            <br />
                         {/if}
                     {/foreach}
 
