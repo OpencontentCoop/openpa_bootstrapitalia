@@ -50,6 +50,28 @@
                                 {include uri='design:openpa/full/parts/main_attributes.tpl'}
                             </div>
                             <div class="col-lg-4 offset-lg-2">
+                                {if or($node|has_attribute('managed_by_area'), $node|has_attribute('help'))}
+                                <div class="card-wrapper card-column">
+                                    {if $node|has_attribute('managed_by_area')}
+                                    {foreach $node|attribute('managed_by_area').content.relation_list as $item}
+                                        {def $object = fetch(content, object, hash('object_id', $item.contentobject_id))}
+                                        {if $object.can_read}
+                                            {content_view_gui content_object=$object view=embed show_icon=false() view_variation="card-teaser-info"}
+                                        {/if}
+                                        {undef $object}
+                                    {/foreach}
+                                    {/if}
+                                    {if $node|has_attribute('help')}
+                                        {foreach $node|attribute('help').content.relation_list as $item}
+                                            {def $object = fetch(content, object, hash('object_id', $item.contentobject_id))}
+                                            {if $object.can_read}
+                                                {content_view_gui content_object=$object view=embed show_icon=false() view_variation="card-teaser-info"}
+                                            {/if}
+                                            {undef $object}
+                                        {/foreach}
+                                    {/if}
+                                </div>
+                                {/if}
                             </div>
                         </div>
                     </div>
