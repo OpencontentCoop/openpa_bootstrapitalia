@@ -125,6 +125,7 @@ ContainerStyle[lista_banner]=py-5
 ContainerStyle[lista_banner_color]=py-5
 ContainerStyle[lista_carousel]=py-5
 CanAddShowAllLink=enabled
+CanAddIntroText=enabled
 
 [ListaManuale]
 Name=Lista manuale
@@ -172,6 +173,7 @@ ContainerStyle[lista_banner]=py-5
 ContainerStyle[lista_banner_color]=py-5
 ContainerStyle[lista_carousel]=py-5
 CanAddShowAllLink=disabled
+CanAddIntroText=enabled
 
 [Eventi]
 Name=Eventi
@@ -388,6 +390,7 @@ ItemsPerRow[]
 ContainerStyle[]
 ContainerStyle[lista_paginata]=section py-5
 CanAddShowAllLink=enabled
+CanAddIntroText=enabled
 
 [RicercaDocumenti]
 Name=Ricerca Documenti
@@ -441,6 +444,9 @@ CanAddShowAllLink=disabled
 Name=Contenuti remoti (opencontent opendata)
 ManualAddingOfItems=disabled
 CustomAttributes[]
+CustomAttributes[]
+CustomAttributes[]=image
+UseBrowseMode[image]=true
 CustomAttributes[]=remote_url
 CustomAttributes[]=query
 CustomAttributes[]=show_grid
@@ -454,6 +460,7 @@ CustomAttributes[]=facets
 CustomAttributes[]=simple_geo_api
 CustomAttributes[]=template
 CustomAttributeNames[]
+CustomAttributeNames[image]=Immagine di sfondo
 CustomAttributeNames[remote_url]=Url remoto
 CustomAttributeNames[query]=Query (esempio: classes [private_organization] sort [name=>asc])
 CustomAttributeNames[show_grid]=Mostra lista
@@ -478,14 +485,17 @@ CustomAttributeSelection_limit[2]=2
 CustomAttributeSelection_limit[3]=3
 CustomAttributeSelection_limit[4]=4
 CustomAttributeSelection_limit[6]=6
+CustomAttributeSelection_limit[8]=8
+CustomAttributeSelection_limit[9]=9
 CustomAttributeSelection_items_per_row[2]=2
 CustomAttributeSelection_items_per_row[3]=3
 ViewList[]
 ViewList[]=default
 ViewName[default]=Default
 ItemsPerRow[]
-ContainerStyle[default]=py-5
 CanAddShowAllLink=enabled
+Wide[]
+Wide[]=default
 
 [Ricerca]
 Name=Ricerca

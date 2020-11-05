@@ -444,5 +444,18 @@
     </div>
 {/if}
 
+{if and(ezini_hasvariable($block.type, 'CanAddIntroText', 'block.ini'), ezini($block.type, 'CanAddIntroText', 'block.ini')|eq('enabled') )}
+    <div class="block-parameters float-break">
+        <div class="block-parameter">
+            <label>Testo introduttico</label>
+            <label for="block-custom_attribute-{$block_id}-20160702-0">
+                <textarea id="block-custom_attribute-{$block_id}-20160702-0"
+                          class="textbox block-control"
+                          name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][intro_text]"
+                          rows="3">{if is_set($block.custom_attributes[intro_text])}{$block.custom_attributes[intro_text]|wash()}{/if}</textarea>
+            </label>
+        </div>
+    </div>
+{/if}
 </div>
 </div>
