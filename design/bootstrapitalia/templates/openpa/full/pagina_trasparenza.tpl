@@ -84,7 +84,7 @@
             {/if}
             
             {* Guida al cittadino *}
-            {if $user_group_has_content}            
+            {if and($user_group_has_content, openpaini('Trasparenza', 'MostraGuidaAlCittadino', 'enabled')|eq('enabled'))}
             <div class="callout w-100 mw-100 note">
                 <div class="callout-title">{display_icon('it-help-circle', 'svg', 'icon')}Guida per il cittadino</div>
                 {foreach $node.data_map as $identifier => $attribute}
