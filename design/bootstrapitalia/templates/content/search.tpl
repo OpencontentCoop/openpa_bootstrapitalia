@@ -236,17 +236,37 @@
             <div class="search-results mb-4 pl-lg-5 mt-3 mt-lg-5">
                 {if $search.SearchCount|gt(0)}                
                 
-                    <div class="border-bottom">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 mb-4">
                         {if $search.SearchCount|eq(1)}
-                            <p><small>{'Found a result'|i18n('openpa/search')}</small></p>
+                            <p class="m-0"><small>{'Found a result'|i18n('openpa/search')}</small></p>
                         {else}
-                            <p><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
+                            <p class="m-0"><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
                         {/if}
+                        </div>
+                        <div class="col-sm-12 col-md-4 mb-4">
+                            <label class="d-inline-block text-black" for="Sort"><small>{'Sorting by'|i18n('openpa/search')}</small></label>
+                            <select class="d-inline-block w-50 form-control form-control-sm" id="Sort" name="Sort">
+                                <option {if $params.sort|eq('score')} selected="selected"{/if} value="score">{'Score'|i18n('openpa/search')}</option>
+                                <option {if $params.sort|eq('published')} selected="selected"{/if} value="published">{'Publication date'|i18n('openpa/search')}</option>
+                                <option {if $params.sort|eq('class_name')} selected="selected"{/if} value="class_name">{'Content type'|i18n('openpa/search')}</option>
+                                <option {if $params.sort|eq('name')} selected="selected"{/if} value="name">{'Name'|i18n('openpa/search')}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 col-md-4 mb-4">
+                            <label class="d-inline-block text-black" for="Order"><small>{'Sorting'|i18n('openpa/search')}</small></label>
+                            <select class="d-inline-block w-50 form-control form-control-sm" id="Order" name="Order">
+                                <option {if $params.order|eq('desc')} selected="selected"{/if} value="desc">{'Descending'|i18n('openpa/search')}</option>
+                                <option {if $params.order|eq('asc')} selected="selected"{/if} value="asc">{'Ascending'|i18n('openpa/search')}</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="card-wrapper card-teaser-wrapper card-teaser-embed mb-4">
+                    <div class="row row-cols-1 row-cols-md-2">
                         {foreach $search.SearchResult as $child}
+                        <div class="col mb-3">
                             {node_view_gui content_node=$child view=search_result show_icon=true() image_class=widemedium}
+                        </div>
                         {/foreach}
                     </div>
 

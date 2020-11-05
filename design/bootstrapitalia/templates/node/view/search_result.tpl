@@ -7,12 +7,14 @@
 
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
 
-<div data-object_id="{$node.contentobject_id}" class="card card-teaser shadow {$node|access_style} p-4 pt-5 position-relative overflow-hidden rounded border {$view_variation}">
+<div data-object_id="{$node.contentobject_id}" class="card h-100 card-teaser {$node|access_style} p-4 pt-5 position-relative overflow-hidden rounded border {$view_variation}">
     <div class="card-body{if $node|has_attribute('image')} pr-3{/if}">
         {if $show_icon}
             <div class="etichetta mb-2" style="position: absolute;top: 0;width: 100%;left: 0;background: #efefef;padding: 5px;">
-            {if $openpa.content_icon.icon}
-                {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}
+            {if $openpa.content_icon.class_icon}
+                {display_icon($openpa.content_icon.class_icon.icon_text, 'svg', 'icon')}
+            {else}
+                {display_icon('it-file', 'svg', 'icon')}
             {/if}
                 {$node.class_name|wash()}
             </div>

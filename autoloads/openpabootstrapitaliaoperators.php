@@ -213,6 +213,8 @@ class OpenPABootstrapItaliaOperators
             'from' => $http->hasVariable('From') ? $http->variable('From') : false,
             'to' => $http->hasVariable('To') ? $http->variable('To') : false,
             'class' => $http->hasVariable('Class') ? (array)$http->variable('Class') : array(),
+            'sort' => $http->hasVariable('Sort') ? $http->variable('Sort') : false,
+            'order' => $http->hasVariable('Order') ? $http->variable('Order') : 'desc',
         );
 
         return $this->decodeSearchParams($data);
@@ -273,11 +275,23 @@ class OpenPABootstrapItaliaOperators
         }
 
         $searchHash = array();
-        $searchHash['sort_by'] = array('published' => 'desc');
+        if (!in_array($data['sort'], ['published', 'score', 'class_name', 'name'])){
+            $data['sort'] = false;
+        }
+        if (!$data['sort']){
+            $data['sort'] = empty($data['text']) ? 'published' : 'score';
+        }
+        if (!in_array($data['order'], ['asc', 'desc'])){
+            $data['order'] = 'desc';
+        }
+        $searchHash['sort_by'] = array($data['sort'] => $data['order']);
+        if ($data['sort'] == 'score' && $data['order'] == 'desc'){
+            $searchHash['sort_by']['published'] = 'desc';
+        }
         if (!empty($data['text'])) {
             $searchHash['query'] = $data['text'];
-            $searchHash['sort_by'] = array('score' => 'desc');
         }
+
         if (!empty($subtree)) {
             $searchHash['subtree_array'] = array_unique($subtree);
         } elseif ($data['subtree_boundary']) {
@@ -333,7 +347,7 @@ class OpenPABootstrapItaliaOperators
 
         $data['_search_hash'] = $searchHash;
 
-        //eZDebug::writeDebug(print_r($data, 1), __METHOD__);
+//        eZDebug::writeDebug(print_r($data, 1), __METHOD__);
 
         return $data;
     }

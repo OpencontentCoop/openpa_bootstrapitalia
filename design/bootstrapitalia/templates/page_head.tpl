@@ -18,6 +18,8 @@
 {set-block scope=root variable=site_title}
 {if and(is_set($module_result.node_id), $module_result.node_id|eq(ezini( 'NodeSettings', 'RootNode', 'content.ini' )))}
 {$site.title|wash}
+{elseif and(openpacontext().is_search_page, ezhttp_hasvariable( 'SearchText', 'get' ), ezhttp( 'SearchText', 'get' )|ne(''))}
+    {'Search results for %searchtext'|i18n('openpa/search',,hash('%searchtext',ezhttp( 'SearchText', 'get' )|wash()))} - {$site.title|wash}
 {else}
 {section loop=$Path:reverse_path}{$:item.text|wash}{delimiter} / {/delimiter}{/section} - {$site.title|wash}
 {/if}
