@@ -302,7 +302,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'valuation/dashboard'|ezurl(no)}">
                                             <i class="fa fa-dashboard"></i>
-                                            {'User feedbacks'|i18n("bootstrapitalia")}
+                                            {'User feedbacks'|i18n("bootstrapitalia/valuation")}
                                         </a>
                                     </li>
                                 {/if}

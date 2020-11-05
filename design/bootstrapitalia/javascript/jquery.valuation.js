@@ -66,7 +66,7 @@ $(document).ready(function () {
                     prefix = $.ez.root_url;
                 }
                 $.get(prefix+'valuation/send/', {
-                    'page': ModuleResultUri,
+                    'page': ModuleResultUri+location.search,
                     'token': token
                 }, function (data) {
                 });
@@ -83,7 +83,7 @@ $(document).ready(function () {
         grecaptcha.ready(function() {
             grecaptcha.execute(sitekey, {action: 'submit'}).then(function(token) {
                 feedbackSurvey.find('form').opendataForm({
-                    'page': ModuleResultUri,
+                    'page': ModuleResultUri+location.search,
                     'token': token
                 }, {
                     'connector': 'form',

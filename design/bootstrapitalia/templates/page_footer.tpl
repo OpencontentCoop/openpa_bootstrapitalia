@@ -1,7 +1,6 @@
 <footer class="it-footer">
     {def $openpa_valuation = fetch(content, object, hash(remote_id, 'openpa-valuation'))}
-
-    {if and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation, $openpa_valuation, $openpa_valuation.can_read)}
+    {if and(or( and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation), openpacontext().is_search_page ),$openpa_valuation, $openpa_valuation.can_read)}
         {include uri='design:openpa/valuation.tpl' openpa_valuation=$openpa_valuation}
     {/if}
 

@@ -23,7 +23,7 @@
     {/if}
 
     {def $has_valuation = '0'}
-    {if and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation)}
+    {if or(and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation),openpacontext().is_search_page)}
         {set $has_valuation = '1'}
     {/if}
 
