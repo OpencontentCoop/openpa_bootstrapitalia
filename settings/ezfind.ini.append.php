@@ -10,4 +10,12 @@ General[]=ezfIndexExtraGeo
 [SolrFieldMapSettings]
 DatatypeMap[openparestrictedarea]=lckeyword
 
+[IndexBoost]
+Class[public_service]=3.0
+Attribute[legal_name]=2.0
+Attribute[event_title]=2.0
+Attribute[name]=2.0
+Attribute[title]=2.0
+Attribute[titolo]=2.0
+
 */ ?>

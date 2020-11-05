@@ -18,7 +18,7 @@
 
 <div class="row">
     <div class="col-12 mt-5 pb-4 border-bottom">        
-        <h2>Risultati della ricerca{if $params.text|ne('')} di <em>{$params.text|wash()}</em>{/if}</h2>
+        <h2>{if $params.text|ne('')}{'Search results for %searchtext'|i18n('openpa/search',,hash('%searchtext',concat('<em>',$params.text|wash(),'</em>')))}{else}{'Search results'|i18n('openpa/search')}{/if}</h2>
     </div>
 </div>
 
@@ -44,9 +44,9 @@
                                id="search-text"
                                name="SearchText"
                                value="{$params.text|wash()}"
-                               placeholder="Cerca"
+                               placeholder="{'Search'|i18n('openpa/search')}"
                                aria-invalid="false"/>
-                        <label class="pl-0" for="search-text">Cerca</label>
+                        <label class="pl-0" for="search-text">{'Search'|i18n('openpa/search')}</label>
                         <button type="submit" class="autocomplete-icon btn btn-link">
                             {display_icon('it-search', 'svg', 'icon')}
                         </button>
@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="pt-4 pt-lg-0">
-                    <h6 class="text-uppercase">Sezioni</h6>
+                    <h6 class="text-uppercase">{'Sections'|i18n('openpa/search')}</h6>
                     <div class="mt-4">
                     {foreach $top_menu_node_ids as $id}
                         {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'side_menu'))}
@@ -189,7 +189,7 @@
 
                 {if count($classes)}
                     <div class="pt-4 pt-lg-5">
-                        <h6 class="text-uppercase">Tipo di contenuto</h3>                            
+                        <h6 class="text-uppercase">{'Content type'|i18n('openpa/search')}</h6>
                         {foreach $classes as $class}
                             <div class="form-check custom-control custom-checkbox">
                                 <input name="Class[]" id="class-{$class.id}" value={$class.id|wash()} {if $params.class|contains($class.id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
@@ -201,23 +201,23 @@
                 
                 {if or($params.from,$params.to,$params.only_active)}
                 <div class="pt-4 pt-lg-5">
-                    <h6 class="text-uppercase">Opzioni</h6>
+                    <h6 class="text-uppercase">{'Options'|i18n('openpa/search')}</h6>
                     {if $params.only_active}
                         <div class="form-check custom-control custom-checkbox">
                             <input name="OnlyActive" id="onlyactive" value=1 checked="checked" class="custom-control-input" type="checkbox">
-                            <label class="custom-control-label" for="onlyactive">Contenuti attivi
+                            <label class="custom-control-label" for="onlyactive">{'Active contents'|i18n('openpa/search')}
                         </div>                            
                     {/if}
                     {if $params.from}
                         <div class="form-check custom-control custom-checkbox">
                             <input name="From" id="from" checked="checked" class="custom-control-input" type="checkbox" value="{$params.from|datetime( 'custom', '%j/%m/%Y' )}">
-                            <label class="custom-control-label" for="from">Da {$params.from|datetime( 'custom', '%j/%m/%Y' )}
+                            <label class="custom-control-label" for="from">{'from'|i18n('openpa/search')} {$params.from|datetime( 'custom', '%j/%m/%Y' )}
                         </div>                            
                     {/if}
                     {if $params.to}                                
                         <div class="form-check custom-control custom-checkbox">
                             <input name="To" id="to" checked="checked" class="custom-control-input" type="checkbox" value="{$params.to|datetime( 'custom', '%j/%m/%Y' )}">
-                            <label class="custom-control-label" for="to">Fino a {$params.to|datetime( 'custom', '%j/%m/%Y' )}
+                            <label class="custom-control-label" for="to">{'to'|i18n('openpa/search')} {$params.to|datetime( 'custom', '%j/%m/%Y' )}
                         </div>
                     {/if}
                 </div>
@@ -225,7 +225,7 @@
 
                 <div class="pt-4 pt-lg-5">
                     <button type="submit" class="btn btn-primary">
-                        Applica filtri
+                        {'Apply filters'|i18n('openpa/search')}
                     </button>
                 </div>
 
@@ -236,11 +236,13 @@
             <div class="search-results mb-4 pl-lg-5 mt-3 mt-lg-5">
                 {if $search.SearchCount|gt(0)}                
                 
-                    {if $search.SearchCount|eq(1)}
-                        <p><small>Trovato un risultato</small></p>
-                    {else}
-                        <p><small>Trovati {$search.SearchCount} risultati</small></p>
-                    {/if}                    
+                    <div class="border-bottom">
+                        {if $search.SearchCount|eq(1)}
+                            <p><small>{'Found a result'|i18n('openpa/search')}</small></p>
+                        {else}
+                            <p><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
+                        {/if}
+                    </div>
 
                     <div class="card-wrapper card-teaser-wrapper card-teaser-embed mb-4">
                         {foreach $search.SearchResult as $child}
@@ -256,7 +258,7 @@
                              view_parameters=$view_parameters
                              item_limit=$page_limit}                 
                 {else}
-                    <p><small>Nessun risultato ottenuto</small></p>
+                    <p><small>{'No results were found'|i18n('openpa/search')}</small></p>
                     {if $search.SearchExtras.hasError}<div class="alert alert-danger">{$search.SearchExtras.error|wash}</div>{/if}
                 {/if}
             </div>

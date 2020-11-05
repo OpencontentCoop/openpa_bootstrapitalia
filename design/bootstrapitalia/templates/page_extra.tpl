@@ -22,9 +22,9 @@
                             </button>
                             <button class="back-to-search hide float-left mt-1" type="button">
                                 {display_icon('it-arrow-left-circle', 'svg', 'icon')}
-                                <span class="close-help">Cerca</span>
+                                <span class="close-help">{'Search'|i18n('openpa/search')}</span>
                             </button>
-                            <h1 class="d-none d-sm-block">Cerca</h1>
+                            <h1 class="d-none d-sm-block">{'Search'|i18n('openpa/search')}</h1>
                         </div>
                     </div>
                 </div>
@@ -40,10 +40,10 @@
                                                class="form-control"
                                                id="search-gui-text"
                                                name="SearchText"
-                                               placeholder="Cerca"
+                                               placeholder="{'Search'|i18n('openpa/search')}"
                                                aria-invalid="false"/>
                                         <label class="" for="search-gui-text">
-                                            Cerca
+                                            {'Search'|i18n('openpa/search')}
                                         </label>
                                         <button type="submit" class="autocomplete-icon btn btn-link">
                                             {display_icon('it-search', 'svg', 'icon')}
@@ -52,7 +52,7 @@
                                 </div>
 
                                 <div class="search-filter-by-section mt-4">
-                                    <h6 class="small">Sezioni</h6>
+                                    <h6 class="small">{'Sections'|i18n('openpa/search')}</h6>
                                     <a href="#" class="btn btn-outline-primary btn-icon btn-xs mr-2 mb-2 selected"
                                        data-subtree_group="all">Tutto</a>
                                     {foreach $top_menu_node_ids as $id}
@@ -82,9 +82,9 @@
                                 </div>
 
                                 <div class="search-filter-by-option mt-5">
-                                    <h6 class="small">Opzioni</h6>
+                                    <h6 class="small">{'Options'|i18n('openpa/search')}</h6>
                                     <a href="#" class="chip chip-simple chip-lg selected">
-                                        <span class="chip-label">Tutte le date</span>
+                                        <span class="chip-label">{'All dates'|i18n('openpa/search')}</span>
                                     </a>
                                     <a href="#" class="chip chip-simple chip-lg chip-trigger trigger-option">
                                         <span class="chip-label">...</span>
@@ -101,7 +101,7 @@
                                         <li class="nav-item">
                                             <a role="tab" data-toggle="tab" class="nav-link active"
                                                href="#filter-by-section">
-                                                Sezioni
+                                                {'Sections'|i18n('openpa/search')}
                                             </a>
                                         </li>
                                         <li class="nav-item">
@@ -113,14 +113,14 @@
                                         <li class="nav-item">
                                             <a role="tab" data-toggle="tab" class="nav-link"
                                                href="#filter-by-option">
-                                                Opzioni
+                                                {'Options'|i18n('openpa/search')}
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <button class="do-search btn btn-outline-primary btn-icon btn-sm mt-3" style="position: absolute;top: -84px;z-index: 100;right: 10px;" type="submit">Conferma</button>
+                        <button class="do-search btn btn-outline-primary btn-icon btn-sm mt-3" style="position: absolute;top: -84px;z-index: 100;right: 10px;" type="submit">{'Confirm'|i18n('openpa/search')}</button>
                         <div class="tab-content my-5">
                             <div class="tab-pane active" id="filter-by-section">
                                 <div class="row">
@@ -214,28 +214,27 @@
                                         <div class="form-check form-check-group">
                                             <div class="toggles">
                                                 <label for="OnlyActive">
-                                                    Cerca solo tra i contenuti attivi
+                                                    {'Search only active content'|i18n('openpa/search')}
                                                     <input type="checkbox" id="OnlyActive" name="OnlyActive" value="1">
                                                     <span class="lever"></span>
                                                 </label>
                                             </div>
                                         </div>
-                                        <p class="small">Verranno esclusi dalla ricerca i contenuti archiviati e non più
-                                            validi come gli eventi terminati o i bandi scaduti.</p>
+                                        <p class="small">{'Archived and no longer valid content will be excluded from the search.'|i18n('openpa/search')}</p>
                                     </div>
                                     <div class="col-md-6 col-sm-12 mb-4">
                                         <div class="it-datepicker-wrapper">
                                             <div class="form-group">
-                                                <label for="datepicker_start">Data inizio</label>
-                                                <input class="form-control it-date-datepicker" id="datepicker_start" type="text" name="From" placeholder="inserisci la data in formato gg/mm/aaaa" value="">
+                                                <label for="datepicker_start">{'Start date'|i18n('openpa/search')}</label>
+                                                <input class="form-control it-date-datepicker" id="datepicker_start" type="text" name="From" placeholder="{'enter the date in dd/mm/yyyy format'|i18n('openpa/search')}" value="">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12 mb-4">
                                         <div class="it-datepicker-wrapper">
                                             <div class="form-group">
-                                                <label for="datepicker_end">Data fine</label>
-                                                <input class="form-control it-date-datepicker" id="datepicker_end" type="text" name="To" placeholder="inserisci la data in formato gg/mm/aaaa" value="">
+                                                <label for="datepicker_end">{'End date'|i18n('openpa/search')}</label>
+                                                <input class="form-control it-date-datepicker" id="datepicker_end" type="text" name="To" placeholder="{'enter the date in dd/mm/yyyy format'|i18n('openpa/search')}" value="">
                                             </div>
                                         </div>
                                     </div>

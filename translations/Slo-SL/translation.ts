@@ -468,6 +468,70 @@
       <source>You are filtering for</source>
       <translation>Vi ste filtriranje</translation>
     </message>
+    <message>
+      <source>Options</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Active contents</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Apply filters</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Found a result</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Found %count results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>No results were found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search only active content</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Archived and no longer valid content will be excluded from the search.'</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Start date</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>End date</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>enter the date in dd/mm/yyyy format</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sections</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Confirm</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search results for %searchtext</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>All dates</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/opening_hours_matrix</name>

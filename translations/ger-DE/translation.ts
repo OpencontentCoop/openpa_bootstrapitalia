@@ -213,7 +213,7 @@
     </message>
     <message>
       <source>You must select at least one topic not included in %custom_topics_name</source>
-      <translation type="unfinished"/>
+      <translation>Sie müssen mindestens ein Thema wählen nicht in %custom_topics_name enthalten</translation>
     </message>
   </context>
   <context>
@@ -468,6 +468,70 @@
       <source>You are filtering for</source>
       <translation>Sie filtern nach</translation>
     </message>
+    <message>
+      <source>Options</source>
+      <translation>Optionen</translation>
+    </message>
+    <message>
+      <source>Active contents</source>
+      <translation>aktive Inhalte</translation>
+    </message>
+    <message>
+      <source>Apply filters</source>
+      <translation>Filter anwenden</translation>
+    </message>
+    <message>
+      <source>Found a result</source>
+      <translation>Gefunden ein Ergebnis</translation>
+    </message>
+    <message>
+      <source>Found %count results</source>
+      <translation>Suche ergab %count Treffer</translation>
+    </message>
+    <message>
+      <source>No results were found</source>
+      <translation>Es wurden keine Ergebnisse gefunden</translation>
+    </message>
+    <message>
+      <source>Search only active content</source>
+      <translation>Suche nur aktive Inhalte</translation>
+    </message>
+    <message>
+      <source>Archived and no longer valid content will be excluded from the search.'</source>
+      <translation>Archiviert und nicht mehr gültig Inhalte werden von der Suche ausgeschlossen werden.‘</translation>
+    </message>
+    <message>
+      <source>Start date</source>
+      <translation>Anfangsdatum</translation>
+    </message>
+    <message>
+      <source>End date</source>
+      <translation>Endtermin</translation>
+    </message>
+    <message>
+      <source>enter the date in dd/mm/yyyy format</source>
+      <translation>geben Sie das Datum in tt/mm/jjjj Format</translation>
+    </message>
+    <message>
+      <source>Sections</source>
+      <translation>Abschnitte</translation>
+    </message>
+    <message>
+      <source>Confirm</source>
+      <translation>Bestätigen</translation>
+    </message>
+    <message>
+      <source>Search results</source>
+      <translation>Suchergebnisse</translation>
+    </message>
+    <message>
+      <source>Search results for %searchtext</source>
+      <translation>Suchergebnisse für %searchtext</translation>
+    </message>
+    <message>
+      <source>All dates</source>
+      <translation>Alle Daten</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/opening_hours_matrix</name>
@@ -590,27 +654,27 @@
     <name>bootstrapitalia/valuation</name>
     <message>
       <source>Thanks for your feedback</source>
-      <translation type="unfinished"/>
+      <translation>Vielen Dank für Ihr Feedback</translation>
     </message>
     <message>
       <source>User feedbacks</source>
-      <translation type="unfinished"/>
+      <translation>Benutzerrückmeldungen</translation>
     </message>
     <message>
       <source>Feedbacks count</source>
-      <translation type="unfinished"/>
+      <translation>Bewertungen zählen</translation>
     </message>
     <message>
       <source>Is content useful?</source>
-      <translation type="unfinished"/>
+      <translation>Ist Inhalt hilfreich gefunden?</translation>
     </message>
     <message>
       <source>Problems</source>
-      <translation type="unfinished"/>
+      <translation>Probleme</translation>
     </message>
     <message>
       <source>Feedback #%id</source>
-      <translation type="unfinished"/>
+      <translation>Feedback #%id</translation>
     </message>
   </context>
 </TS>

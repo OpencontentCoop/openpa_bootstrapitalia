@@ -394,7 +394,7 @@
     </message>
     <message>
       <source>to</source>
-      <translation>a</translation>
+      <translation>fino a</translation>
     </message>
     <message>
       <source>Year</source>
@@ -467,6 +467,70 @@
     <message>
       <source>You are filtering for</source>
       <translation>Stai filtrando per:</translation>
+    </message>
+    <message>
+      <source>Options</source>
+      <translation>Opzioni</translation>
+    </message>
+    <message>
+      <source>Active contents</source>
+      <translation>Contenuti attivi</translation>
+    </message>
+    <message>
+      <source>Apply filters</source>
+      <translation>Applica filtri</translation>
+    </message>
+    <message>
+      <source>Found a result</source>
+      <translation>Trovato un risultato</translation>
+    </message>
+    <message>
+      <source>Found %count results</source>
+      <translation>Trovati %count risultati</translation>
+    </message>
+    <message>
+      <source>No results were found</source>
+      <translation>Nessun risultato ottenuto</translation>
+    </message>
+    <message>
+      <source>Search only active content</source>
+      <translation>Cerca solo tra i contenuti attivi</translation>
+    </message>
+    <message>
+      <source>Archived and no longer valid content will be excluded from the search.'</source>
+      <translation>Verranno esclusi dalla ricerca i contenuti archiviati e non più validi come gli eventi terminati o i bandi scaduti.</translation>
+    </message>
+    <message>
+      <source>Start date</source>
+      <translation>Data inizio</translation>
+    </message>
+    <message>
+      <source>End date</source>
+      <translation>Data fine</translation>
+    </message>
+    <message>
+      <source>enter the date in dd/mm/yyyy format</source>
+      <translation>inserisci la data in formato gg/mm/aaaa</translation>
+    </message>
+    <message>
+      <source>Sections</source>
+      <translation>Sezioni</translation>
+    </message>
+    <message>
+      <source>Confirm</source>
+      <translation>Conferma</translation>
+    </message>
+    <message>
+      <source>Search results</source>
+      <translation>Risultati della ricerca</translation>
+    </message>
+    <message>
+      <source>Search results for %searchtext</source>
+      <translation>Risultati della ricerca di %searchtext</translation>
+    </message>
+    <message>
+      <source>All dates</source>
+      <translation>Tutte le date</translation>
     </message>
   </context>
   <context>
