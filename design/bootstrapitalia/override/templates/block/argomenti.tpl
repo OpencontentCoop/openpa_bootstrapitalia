@@ -14,7 +14,7 @@
 <div class="py-5 position-relative">
 <div class="block-topics-bg bg-primary" {if $background_image}style="background-image: url({$background_image});"{/if}></div>
 	<div class="container">	
-		{include uri='design:parts/block_name.tpl' css_class='text-white'}
+		{include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', 'text-white')}
 		<div class="container">
 		    {include uri='design:atoms/grid.tpl'
 		             items_per_row=3

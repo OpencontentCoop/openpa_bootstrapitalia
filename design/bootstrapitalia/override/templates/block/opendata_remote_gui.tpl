@@ -12,88 +12,102 @@
      $facetsFields = array()
 	 $remoteUrl = $block.custom_attributes.remote_url|trim('/')}
 
+{def $background_image = false()}
+{if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
+    {def $image = fetch(content, node, hash(node_id, $block.custom_attributes.image))}
+    {if and($image, $image.class_identifier|eq('image'), $image|has_attribute('image'))}
+        {set $background_image = $image|attribute('image').content.original.full_path|ezroot(no)}
+    {/if}
+    {undef $image}
+{/if}
+
 {if or($showGrid, $showMap)}
-<div class="row" id="remote-gui-{$block.id}">
-    <div class="col-12 col-md-9">
-        {include uri='design:parts/block_name.tpl' no_margin=cond(and($showGrid, $showMap, $showSearch), true(), false())}
-    </div>
-    <div class="col-12 col-md-3 pr-0">
-        <ul class="nav d-block nav-pills border-bottom border-primary text-right{if or($showGrid|not(), $showMap|not())} hide{/if}">
-            {if $showGrid}
-            <li class="nav-item pr-1 text-center d-inline-block">
-                <a data-toggle="tab"
-                   class="nav-link active rounded-0 view-selector"
-                   href="#remote-gui-{$block.id}-list">
-                    <i class="fa fa-list" aria-hidden="true"></i> <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
-                </a>
-            </li>
-            {/if}
-            {if $showMap}
-            <li class="nav-item text-center d-inline-block">
-                <a data-toggle="tab"
-                   class="nav-link{if $showGrid|not} active{/if} rounded-0 view-selector"
-                   href="#remote-gui-{$block.id}-geo">
-                    <i class="fa fa-map" aria-hidden="true"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
-                </a>
-            </li>
-            {/if}
-            {if $showSearch}
-            <li class="nav-item text-center d-inline-block">
-                <a class="nav-link rounded-0 search-form-toggle"
-                   href="#">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </a>
-            </li>
-            {/if}
-        </ul>
-        {if and($showSearch, $facets|count()|eq(0))}
-        <div class="input-group mb-3 search-form{if and($showGrid, $showMap)} hide{/if}">
-            <input type="text" class="form-control" placeholder="{$searchPlaceholder|wash()}" />
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+<div class="py-5 position-relative">
+    <div class="block-topics-bg" {if $background_image}style="background-image: url({$background_image});"{/if}></div>
+    <div class="container">
+        <div class="row" id="remote-gui-{$block.id}">
+            <div class="col-12 col-md-9">
+                {include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', '') no_margin=cond(and($showGrid, $showMap, $showSearch), true(), false())}
             </div>
-        </div>
-        {/if}
-    </div>
-    {if and($showSearch, $facets|count())}
-        <div class="search-form{if and($showGrid, $showMap)} hide{/if} col-12">
-            <div class="row pt-3">
-                <div class="col-sm mb-3">
-                    <div class="input-group chosen-border">
-                        <input type="text" class="form-control border-0" placeholder="{$searchPlaceholder|wash()}" />
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary border-0" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-                        </div>
+            <div class="col-12 col-md-3 pr-0">
+                <ul class="nav d-block nav-pills border-bottom border-primary text-right{if or($showGrid|not(), $showMap|not())} hide{/if}">
+                    {if $showGrid}
+                    <li class="nav-item pr-1 text-center d-inline-block">
+                        <a data-toggle="tab"
+                           class="nav-link active rounded-0 view-selector"
+                           href="#remote-gui-{$block.id}-list">
+                            <i class="fa fa-list" aria-hidden="true"></i> <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
+                        </a>
+                    </li>
+                    {/if}
+                    {if $showMap}
+                    <li class="nav-item text-center d-inline-block">
+                        <a data-toggle="tab"
+                           class="nav-link{if $showGrid|not} active{/if} rounded-0 view-selector"
+                           href="#remote-gui-{$block.id}-geo">
+                            <i class="fa fa-map" aria-hidden="true"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
+                        </a>
+                    </li>
+                    {/if}
+                    {if $showSearch}
+                    <li class="nav-item text-center d-inline-block">
+                        <a class="nav-link rounded-0 search-form-toggle"
+                           href="#">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    {/if}
+                </ul>
+                {if and($showSearch, $facets|count()|eq(0))}
+                <div class="input-group mb-3 search-form{if and($showGrid, $showMap)} hide{/if}">
+                    <input type="text" class="form-control" placeholder="{$searchPlaceholder|wash()}" />
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </div>
                 </div>
-                {if count($facets)|gt(3)}<div class="w-100"></div>{/if}
-                {foreach $facets as $index => $facet}
-                    <div class="col-sm mb-3">
-                        {def $facets_parts = $facet|explode(':')}
-                        {if is_set($facets_parts[1])}
-                            <label class="sr-only" for="{$block.id}-facet-{$index}">{$facets_parts[0]|wash()}</label>
-                            <select data-placeholder="{$facets_parts[0]|wash()}" data-facets_select="facet-{$index}" id="{$block.id}-facet-{$index}" class="form-control" multiple>
-                            </select>
-                            {set $facetsFields = $facetsFields|append($facets_parts[1])}
-                        {/if}
-                        {undef $facets_parts}
-                    </div>
-                    {if or($index|eq(2), $index|eq(6))}<div class="w-100"></div>{/if}
-                {/foreach}
+                {/if}
             </div>
-        </div>
-    {/if}
+            {if and($showSearch, $facets|count())}
+                <div class="search-form{if and($showGrid, $showMap)} hide{/if} col-12">
+                    <div class="row pt-3">
+                        <div class="col-sm mb-3">
+                            <div class="input-group chosen-border">
+                                <input type="text" class="form-control border-0" placeholder="{$searchPlaceholder|wash()}" />
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary border-0" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        {if count($facets)|gt(3)}<div class="w-100"></div>{/if}
+                        {foreach $facets as $index => $facet}
+                            <div class="col-sm mb-3">
+                                {def $facets_parts = $facet|explode(':')}
+                                {if is_set($facets_parts[1])}
+                                    <label class="sr-only" for="{$block.id}-facet-{$index}">{$facets_parts[0]|wash()}</label>
+                                    <select data-placeholder="{$facets_parts[0]|wash()}" data-facets_select="facet-{$index}" id="{$block.id}-facet-{$index}" class="form-control" multiple>
+                                    </select>
+                                    {set $facetsFields = $facetsFields|append($facets_parts[1])}
+                                {/if}
+                                {undef $facets_parts}
+                            </div>
+                            {if or($index|eq(2), $index|eq(6))}<div class="w-100"></div>{/if}
+                        {/foreach}
+                    </div>
+                </div>
+            {/if}
 
-    <div class="col-12">
-        <div class="items tab-content">
-            {if $showGrid}
-            <section id="remote-gui-{$block.id}-list" class="tab-pane active pt-0 pl-0"></section>
-            {/if}
-            {if $showMap}
-            <section id="remote-gui-{$block.id}-geo" class="tab-pane{if $showGrid|not} active{/if} p-0">
-                <div id="remote-gui-{$block.id}-map" style="width: 100%; height: 700px"></div>
-            </section>
-            {/if}
+            <div class="col-12">
+                <div class="items tab-content">
+                    {if $showGrid}
+                    <section id="remote-gui-{$block.id}-list" class="tab-pane active pt-0 pl-0"></section>
+                    {/if}
+                    {if $showMap}
+                    <section id="remote-gui-{$block.id}-geo" class="tab-pane{if $showGrid|not} active{/if} p-0">
+                        <div id="remote-gui-{$block.id}-map" style="width: 100%; height: 700px"></div>
+                    </section>
+                    {/if}
+                </div>
+            </div>
         </div>
     </div>
 </div>
