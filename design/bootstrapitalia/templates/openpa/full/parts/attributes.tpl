@@ -112,7 +112,7 @@
                     {/if}
 
                     {if $item.wrap}                    
-                    <div class="card-wrapper card-teaser-wrapper card-teaser-embed">
+                    <div class="card-wrapper card-teaser-wrapper">
                     {/if}
 
                     {foreach $item.attributes as $openpa_attribute}
