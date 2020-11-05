@@ -1,6 +1,6 @@
 {set_defaults(hash(
     'show_icon', true(),
-    'image_class', 'medium',
+    'image_class', 'large',
     'view_variation', ''
 ))}
 {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}

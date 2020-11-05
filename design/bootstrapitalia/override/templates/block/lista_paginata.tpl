@@ -3,37 +3,46 @@
     'handlebars.min.js'
 ))}
 
+{def $view='card_teaser'}
+{switch match=$block.view}
+	{case match='lista_paginata_card'}
+		{set $view='card'}
+	{/case}
+	{case match='lista_paginata_banner'}
+		{set $view='banner'}
+	{/case}
+	{case}
+		{set $view='card_teaser'}
+	{/case}
+{/switch}
 {def $openpa = object_handler($block)}
 {if $openpa.has_content}
-	<div class="hide" data-block_subtree_query="{$openpa.query}" data-subtree_filter="{$openpa.subtree_facet_filter}" data-limit="{$openpa.limit}"{if and($openpa.root_node, $openpa.root_node|has_attribute('icon'))} data-icon="{$openpa.root_node|attribute('icon').content}"{/if}>
-		{if $block.name|ne('')}
-		    <div class="row row-title">
+	<div class="hide"
+		 data-view="{$view}"
+		 data-block_subtree_query="{$openpa.query}"
+		 data-subtree_filter="{$openpa.subtree_facet_filter}"
+		 data-limit="{$openpa.limit}"
+		 data-items_per_row="{cond(is_set($block.custom_attributes.elementi_per_riga), $block.custom_attributes.elementi_per_riga, 3)}"
+		 {if and($openpa.root_node, $openpa.root_node|has_attribute('icon'))}data-icon="{$openpa.root_node|attribute('icon').content}"{/if}>
+		<div class="row row-title">
+			{if $block.name|ne('')}
 				<div class="col">
 					<h3 class="m-0">{$block.name|wash()}</h3>
 				</div>
-					{if and($openpa.root_node, object_handler($openpa.root_node).content_tag_menu.has_tag_menu|not())}
-						{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
-						<div class="col text-right mb-2 mb-md-0 filters-wrapper hide">
-							<button type="button" class="btn btn-secondary btn-sm mb-1" data-block_subtree_filter>Tutto</button>
-							{foreach $tree_menu.children as $child}
-								{if $openpa.tree_facets.subtree|contains($child.item.node_id)}
-									<button type="button" data-block_subtree_filter="{$child.item.node_id}" class="btn btn-outline-secondary btn-sm mb-1">{$child.item.name|wash()}</button>
-								{/if}
-							{/foreach}
-						</div>
-					{/if}
-		    </div>
-		{/if}
-
-		<div class="{if $block.name|ne('')}pb-4{else}py-4{/if} results">
-			<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-3">
-		    </div>
+			{/if}
+			{if and($openpa.root_node, object_handler($openpa.root_node).content_tag_menu.has_tag_menu|not())}
+				{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
+				<div class="col text-right mb-2 mb-md-0 filters-wrapper hide">
+					<button type="button" class="btn btn-secondary btn-sm mb-1" data-block_subtree_filter>Tutto</button>
+					{foreach $tree_menu.children as $child}
+						{if $openpa.tree_facets.subtree|contains($child.item.node_id)}
+							<button type="button" data-block_subtree_filter="{$child.item.node_id}" class="btn btn-outline-secondary btn-sm mb-1">{$child.item.name|wash()}</button>
+						{/if}
+					{/foreach}
+				</div>
+			{/if}
 		</div>
-		{foreach $openpa.tree_facets.class_identifier as $class}
-			{def $main_attributes = class_extra_parameters($class, 'table_view').in_overview}
-			<div class="hide" data-class_identifier="{$class}" data-attributes="{$main_attributes|implode(',')}"></div>
-			{undef $main_attributes}
-		{/foreach}
+		<div class="{if $block.name|ne('')}py-4{else}pb-4{/if} results"></div>
 		{include uri='design:parts/block_show_all.tpl'}
 	</div>
 {/if}
@@ -41,31 +50,31 @@
 {run-once}
 {literal}
 <script id="tpl-results" type="text/x-jsrender">    	
-	<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-3">	
-	{{for searchHits ~contentIcon=icon}}		
-		<a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}" class="card card-teaser rounded shadow" style="text-decoration:none !important">
-		    <div class="card-body">
-		        {{if ~contentIcon && subtree}}
-		        <div class="category-top">
-		            <svg class="icon">
-		                <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#{{:~contentIcon}}"></use>
-		            </svg>		            
-		            <span class="category" href="{{:subtree.url}}">{{:subtree.text}}</span>
-		        </div>
-		        {{/if}}	
-		        <h5 class="card-title">
-		            {{:~i18n(metadata.name)}}
-		        </h5>		        
-		        <div class="card-text">		            
-		            {{for mainAttributes ~content=#data}}			            	
-		            	{{if ~i18n(~content.data, #data)}}{{:~stripATag(~i18n(~content.data, #data))}}{{/if}}
-		            {{/for}}
-		        </div>		        		        
-		    </div>
-		</a>
+	<div class="{{if itemsPerRow == 'auto'}}card-columns{{else}}row card-h-100 mx-lg-n3 row-cols-1 row-cols-md-2 row-cols-lg-{{:itemsPerRow}}{{/if}}">
+	{{for searchHits ~contentIcon=icon ~itemsPerRow=itemsPerRow}}
+		{{if ~itemsPerRow !== 'auto'}}<div class="px-3 pb-3">{{/if}}
+		{{if ~i18n(extradata, 'view')}}
+			{{:~i18n(extradata, 'view')}}
+		{{else}}
+			<a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}" class="card card-teaser rounded shadow" style="text-decoration:none !important">
+				<div class="card-body">
+					{{if ~contentIcon && subtree}}
+					<div class="category-top">
+						<svg class="icon">
+							<use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#{{:~contentIcon}}"></use>
+						</svg>
+						<span class="category" href="{{:subtree.url}}">{{:subtree.text}}</span>
+					</div>
+					{{/if}}
+					<h5 class="card-title">
+						{{:~i18n(metadata.name)}}
+					</h5>
+				</div>
+			</a>
+		{{/if}}
+		{{if ~itemsPerRow !== 'auto'}}</div>{{/if}}
 	{{/for}}
 	</div>
-
 	{{if pageCount > 1}}
 	<div class="row mt-lg-4">
 	    <div class="col">
@@ -100,19 +109,11 @@
 	</div>
 	{{/if}}
 </script>
-
+<style>
+.card-h-100 .card-wrapper {height: 100%;}
+</style>
 <script>
-	$.views.helpers($.extend({}, $.opendataTools.helpers, {
-		'stripATag': function (value) {
-			var element = $('<div>'+value+'</div>');
-			element.find('a').each(function() {
-				var content = $(this).contents();
-				$(this).replaceWith(content);
-			});
-
-			return element.html()
-		}
-	}));
+$.views.helpers($.opendataTools.helpers);
 $(document).ready(function () {
 	$('[data-block_subtree_query]').each(function(){
         var baseUrl = '/';
@@ -123,6 +124,8 @@ $(document).ready(function () {
 		var resultsContainer = container.find('.results');
 		var subTreeFilter = container.data('subtree_filter');
 		var limitPagination = container.data('limit');
+		var itemsPerRow = container.data('items_per_row');
+		var view = container.data('view');
 		var icon = container.data('icon');
 		var currentPage = 0;
 		var queryPerPage = [];
@@ -180,21 +183,46 @@ $(document).ready(function () {
 			return subtree;
 		};
 
-		var findMainAttributes = function(content){
-			var definition = container.find('[data-class_identifier="'+content.metadata.classIdentifier+'"]');
-			if (definition.length && definition.data('attributes').length){
-				return definition.data('attributes').split(',');
+		var detectError = function(response,jqXHR){
+			if(response.error_message || response.error_code){
+				if ($.isFunction(settings.onError)) {
+					settings.onError(response.error_code, response.error_message,jqXHR);
+				}
+				return true;
 			}
+			return false;
+		};
 
-			return [];
+		var find = function (query, cb, context) {
+			$.ajax({
+				type: "GET",
+				url: $.opendataTools.settings('endpoint').search,
+				data: {q: query, view: view},
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function (data,textStatus,jqXHR) {
+					if (!detectError(data,jqXHR)){
+						cb.call(context, data);
+					}
+				},
+				error: function (jqXHR) {
+					var error = {
+						error_code: jqXHR.status,
+						error_message: jqXHR.statusText
+					};
+					detectError(error,jqXHR);
+				}
+			});
 		};
 
 		var loadContents = function(){						
 			var baseQuery = buildQuery();
 			var paginatedQuery = baseQuery + ' and limit ' + limitPagination + ' offset ' + currentPage*limitPagination;
 			
-			$.opendataTools.find(paginatedQuery, function (response) {				
+			find(paginatedQuery, function (response) {
 				queryPerPage[currentPage] = paginatedQuery;
+				response.view = view;
+				response.itemsPerRow = itemsPerRow;
 				response.icon = icon;
 				response.currentPage = currentPage;
 				response.prevPage = currentPage - 1;
@@ -213,7 +241,6 @@ $(document).ready(function () {
 
 	            $.each(response.searchHits, function(){
 	            	this.subtree = findSubtree(this);
-	            	this.mainAttributes = findMainAttributes(this);
 	            	this.baseUrl = baseUrl;
 	            });
 				var renderData = $(template.render(response));

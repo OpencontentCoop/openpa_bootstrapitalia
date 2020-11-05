@@ -1,4 +1,4 @@
-{if or(ezini_hasvariable('RegionalSettings', 'TranslationSA')|not(), ezini('RegionalSettings', 'TranslationSA')|count()|eq(0))}
+{if or(ezini_hasvariable('RegionalSettings', 'TranslationSA')|not(), and(ezini_hasvariable('RegionalSettings', 'TranslationSA'), ezini('RegionalSettings', 'TranslationSA')|count()|eq(0)))}
 {def $node_languages = $node.object.languages}
 {if $node_languages|count()|gt(1)}
     <div class="link-list-wrapper">

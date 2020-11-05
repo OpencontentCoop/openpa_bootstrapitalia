@@ -73,7 +73,7 @@
             "ListaPaginata",
             "lista_paginata",
             hash(
-                "limite", "3",
+                "limite", "9",
                 "elementi_per_riga", "auto",
                 "includi_classi", "employee,private_organization,public_organization,office",
                 "escludi_classi", "",
@@ -94,7 +94,7 @@
             "ListaPaginata",
             "lista_paginata",
             hash(
-                "limite", "3",
+                "limite", "9",
                 "elementi_per_riga", "auto",
                 "includi_classi", "public_service",
                 "escludi_classi", "",
@@ -115,7 +115,7 @@
             "ListaPaginata",
             "lista_paginata",
             hash(
-                "limite", "3",
+                "limite", "9",
                 "elementi_per_riga", "auto",
                 "includi_classi", "event,article",
                 "escludi_classi", "",
@@ -136,7 +136,7 @@
             "ListaPaginata",
             "lista_paginata",
             hash(
-                "limite", "3",
+                "limite", "9",
                 "elementi_per_riga", "auto",
                 "includi_classi", "document",
                 "escludi_classi", "",

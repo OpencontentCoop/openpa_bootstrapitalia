@@ -339,6 +339,7 @@ CustomAttributes[]
 CustomAttributes[]=node_id
 UseBrowseMode[node_id]=true
 CustomAttributes[]=limite
+CustomAttributes[]=elementi_per_riga
 CustomAttributes[]=includi_classi
 CustomAttributes[]=ordinamento
 CustomAttributes[]=state_id
@@ -353,22 +354,35 @@ CustomAttributeNames[topic_node_id]=Argomenti
 CustomAttributeTypes[ordinamento]=select
 CustomAttributeTypes[includi_classi]=class_select
 CustomAttributeTypes[limite]=select
+CustomAttributeTypes[elementi_per_riga]=select
+CustomAttributeNames[elementi_per_riga]=Elementi per riga
 CustomAttributeSelection_ordinamento[]
 CustomAttributeSelection_ordinamento[name]=Titolo
 CustomAttributeSelection_ordinamento[pubblicato]=Data di pubblicazione
 CustomAttributeSelection_ordinamento[modificato]=Data di ultima modifica
 CustomAttributeSelection_limite[]
+CustomAttributeSelection_limite[2]=2
 CustomAttributeSelection_limite[3]=3
+CustomAttributeSelection_limite[4]=4
 CustomAttributeSelection_limite[6]=6
+CustomAttributeSelection_limite[8]=8
 CustomAttributeSelection_limite[9]=9
+CustomAttributeSelection_elementi_per_riga[]
+CustomAttributeSelection_elementi_per_riga[3]=3
+CustomAttributeSelection_elementi_per_riga[2]=2
+CustomAttributeSelection_elementi_per_riga[auto]=Masonry
 CustomAttributeTypes[state_id]=state_select
 CustomAttributeTypes[topic_node_id]=topic_select
 CustomAttributeNames[tags]=Percorsi tag
 ManualAddingOfItems=disabled
 ViewList[]
 ViewList[]=lista_paginata
+ViewList[]=lista_paginata_card
+ViewList[]=lista_paginata_banner
 ViewName[]
-ViewName[lista_paginata]=Card (alternativa)
+ViewName[lista_paginata]=Card (teaser)
+ViewName[lista_paginata_card]=Card
+ViewName[lista_paginata_banner]=Banner
 TTL=3600
 ItemsPerRow[]
 ContainerStyle[]

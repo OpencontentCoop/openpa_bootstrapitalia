@@ -34,11 +34,11 @@
                     {*evita di duplicare l'immagine principale nella galleria*}
                     {if and(
                         class_extra_parameters($object.class_identifier, 'table_view').main_image|contains($attribute_identifier),
-                        is_set($openpa[$attribute_identifier].contentobject_attribute),
-                        $openpa[$attribute_identifier].contentobject_attribute.data_type_string|eq('ezobjectrelationlist'),
-                        count($openpa[$attribute_identifier].contentobject_attribute.content.relation_list)|le(1)
+                        is_set($openpa[$attribute_identifier].contentobject_attribute)
                     )}
-                        {skip}
+                        {if and($openpa[$attribute_identifier].contentobject_attribute.data_type_string|eq('ezobjectrelationlist'), count($openpa[$attribute_identifier].contentobject_attribute.content.relation_list)|le(1))}
+                            {skip}
+                        {/if}
                     {/if}
 
                     {set $openpa_attributes = $openpa_attributes|append($openpa[$attribute_identifier])}

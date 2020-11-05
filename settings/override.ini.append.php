@@ -454,6 +454,20 @@ Subdir=templates
 Match[type]=ListaPaginata
 Match[view]=lista_paginata
 
+[block_lista_paginata_card]
+Source=block/view/view.tpl
+MatchFile=block/lista_paginata.tpl
+Subdir=templates
+Match[type]=ListaPaginata
+Match[view]=lista_paginata_card
+
+[block_lista_paginata_banner]
+Source=block/view/view.tpl
+MatchFile=block/lista_paginata.tpl
+Subdir=templates
+Match[type]=ListaPaginata
+Match[view]=lista_paginata_banner
+
 #### RicercaDocumenti
 
 [block_ricerca_documenti_default]

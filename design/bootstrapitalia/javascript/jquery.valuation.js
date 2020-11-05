@@ -119,10 +119,6 @@ $(document).ready(function () {
                                     'submit': {
                                         'align': 'right',
                                         'title': i18n.submit,
-                                        'validate': function(callback) {
-                                            console.log('Submit validate()');
-                                            callback(true);
-                                        },
                                         'click': function() {
                                             feedbackSurvey.addClass('hide');
                                             feedbackThanks.removeClass('hide');
