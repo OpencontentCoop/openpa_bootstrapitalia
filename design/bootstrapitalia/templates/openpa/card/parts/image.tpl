@@ -5,7 +5,7 @@
                 {if and(is_set($oembed), is_array($oembed))}
                     {$oembed.html}
                 {elseif $node|has_attribute('image')}
-                    {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
+                    {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class href=$openpa.content_link.full_link}
                 {/if}
             </div>
             {if $node|has_attribute('time_interval')}

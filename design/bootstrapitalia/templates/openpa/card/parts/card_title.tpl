@@ -1,6 +1,6 @@
 {if $view_variation|eq('alt')}
 	<h5 class="card-title">
-		{$node.name|wash()}
+		<a class="text-decoration-none" href="{$openpa.content_link.full_link}">{$node.name|wash()}</a>
 		{if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
 			<a href="{$node.url_alias|ezurl(no)}">
 				<span class="fa-stack">
@@ -12,7 +12,7 @@
 	</h5>
 {else}
 	<h5 class="card-title{if and($has_media|not(), $view_variation|eq('big')|not())} big-heading{/if}">
-	    {$node.name|wash()}
+		<a class="text-decoration-none" href="{$openpa.content_link.full_link}">{$node.name|wash()}</a>
 		{if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
 			<a href="{$node.url_alias|ezurl(no)}">
 				<span class="fa-stack">
