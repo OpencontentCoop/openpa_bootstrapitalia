@@ -146,17 +146,20 @@
                 {foreach $node.object.languages as $language}
                     {if $node.object.available_languages|contains($language.locale)}
                         <li>
-                            <a href="{concat( $node.url_alias, '/(language)/', $language.locale )|ezurl(no)}">
+                            <a class="mr-3" href="{concat( $node.url_alias, '/(language)/', $language.locale )|ezurl(no)}">
                                 {if $language.locale|eq($node.object.current_language)}<strong>{/if}
                                     <small>{$language.name|wash()}</small>
-                                    {if $language.locale|eq($node.object.current_language)}</strong>{/if}
+                                {if $language.locale|eq($node.object.current_language)}</strong>{/if}
+                            </a>
+                            <a href="{concat('content/edit/', $node.object.id, '/f/', $language.locale)|ezurl(no)}">
+                                <i class="fa fa-pencil"></i>
                             </a>
                         </li>
                     {/if}
                 {/foreach}
                 <li>
                     {def $can_create_languages = $node.object.can_create_languages
-                    $languages = fetch( 'content', 'prioritized_languages' )}
+                         $languages = fetch( 'content', 'prioritized_languages' )}
                     <form method="post" action={"content/action"|ezurl}>
                         <input type="hidden" name="HasMainAssignment" value="1"/>
                         <input type="hidden" name="ContentObjectID" value="{$node.object.id}"/>
