@@ -56,7 +56,7 @@
 
             {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false()}
 
-            <a class="read-more mt-5" href="{$openpa.content_link.full_link}">
+            <a class="read-more mt-5 mb-3" href="{$openpa.content_link.full_link}">
                 <span class="text">{if $openpa.content_link.is_node_link}Leggi di più{else}Visita{/if}</span>
                 {display_icon('it-arrow-right', 'svg', 'icon')}
             </a>
