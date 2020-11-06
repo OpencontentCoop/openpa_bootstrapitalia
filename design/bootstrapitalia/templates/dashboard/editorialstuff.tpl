@@ -1,7 +1,7 @@
 {def $factories = ezini( 'AvailableFactories', 'Identifiers', 'editorialstuff.ini' )}
 {if count($factories)}
     <div class="my-3 p-3 bg-white rounded shadow-sm">
-        <h4 class="border-bottom border-gray pb-2 mb-0">Dashboard di collaborazione</h4>
+        <h4 class="border-bottom border-gray pb-2 mb-0">{'Collaborative content management'|i18n('editorialstuff/dashboard')}</h4>
         <div class="table-responsive">
         <table class="table table-striped table-condensed" cellpadding="0" cellspacing="0" border="0">
             {foreach $factories as $factory}
@@ -19,8 +19,8 @@
                 {/if}
                 {if $show}
                 <tr>
-                    <td>
-                        <a href="{concat('editorialstuff/dashboard/',$factory)|ezurl(no)}">
+                    <td width="1">
+                        <a class="btn btn-primary btn-md" href="{concat('editorialstuff/dashboard/',$factory)|ezurl(no)}">
                             <strong>{$name|wash()}</strong>
                         </a>
                     </td>

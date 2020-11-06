@@ -226,7 +226,7 @@
         var spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
         var login = $('[data-login-top-button]');
         var icon = login.data('icon');
-        login.find('a.ez-login').attr('href', login.find('a.ez-login').attr('href') + '?url='+ ModuleResultUri);
+        login.find('a.ez-login').attr('href', login.find('a.ez-login').attr('href'));
         var injectUserInfo = function(data){
             if(data.error_text || !data.content){
                 login.show();

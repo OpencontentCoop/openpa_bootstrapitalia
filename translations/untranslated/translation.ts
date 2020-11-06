@@ -585,5 +585,9 @@
       <source>Loading...</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Collaborative content management</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
 </TS>

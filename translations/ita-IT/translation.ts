@@ -585,5 +585,9 @@
       <source>Loading...</source>
       <translation>Caricamento...</translation>
     </message>
+    <message>
+      <source>Collaborative content management</source>
+      <translation>Gestione collaborativa dei contenuti</translation>
+    </message>
   </context>
 </TS>
