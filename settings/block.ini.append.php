@@ -184,12 +184,14 @@ CustomAttributes[]=show_facets
 CustomAttributes[]=topic_node_id
 CustomAttributes[]=size
 CustomAttributes[]=calendar_view
+CustomAttributes[]=max_events
 CustomAttributeNames[]
 CustomAttributeNames[includi_classi]=Tipologie di contenuto da includere
 CustomAttributeNames[show_facets]=Mostra faccette per tipologie selezionate
 CustomAttributeNames[topic_node_id]=Argomenti
 CustomAttributeNames[size]=Ingombro
 CustomAttributeNames[calendar_view]=Visualizzazione
+CustomAttributeNames[max_events]=Numero massimo di eventi per giorno
 CustomAttributeTypes[]
 CustomAttributeTypes[includi_classi]=class_select
 CustomAttributeTypes[show_facets]=checkbox

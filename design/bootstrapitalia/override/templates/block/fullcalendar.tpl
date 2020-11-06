@@ -30,7 +30,7 @@ $classes = array()}
 {/if}
 
 {def $max_events = 6}
-{if and(is_set($block.custom_attributes.max_events), $block.custom_attributes.max_events|is_integer|gt(0))}
+{if and(is_set($block.custom_attributes.max_events), $block.custom_attributes.max_events|int()|gt(0))}
     {set $max_events = $block.custom_attributes.max_events}
 {/if}
 

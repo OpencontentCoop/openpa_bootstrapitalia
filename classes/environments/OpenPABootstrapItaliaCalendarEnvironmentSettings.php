@@ -107,9 +107,19 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
                     || ($fromDateTime <= $endRequest && $toDateTime >= $startRequest)
                 ) {
 
-                    $diff = $toDateTime->diff($fromDateTime);
-                    if ($diff instanceof DateInterval) {
-                        $allDay = (bool)$diff->days;
+                    $endOfFrom = clone $fromDateTime;
+                    $endOfFrom->setTime(23, 59);
+                    if ($toDateTime > $endOfFrom){
+                        $allDay = true;
+                        $from = $fromDateTime->format("Y-m-d");
+                        $fixedToDateTime = clone $toDateTime;
+                        /*
+                         * https://fullcalendar.io/docs/event-object
+                         * The exclusive date/time an event ends. Optional. A Moment-ish input, like an ISO8601 string.
+                         * Throughout the API this will become a real Moment object. It is the moment immediately after the event has ended.
+                         */
+                        $fixedToDateTime->add(new DateInterval("P1D"));
+                        $to = $fixedToDateTime->format("Y-m-d");
                     }
 
                     $event = new OpenPABootstrapItaliaCalendarEvent();
