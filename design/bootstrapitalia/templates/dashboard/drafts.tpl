@@ -1,6 +1,7 @@
 <div class="my-3 p-3 bg-white rounded shadow-sm">
-    <h6 class="border-bottom border-gray pb-2 mb-0">{'My drafts'|i18n( 'design/admin/dashboard/drafts' )}</h6>
+    <h4 class="border-bottom border-gray pb-2 mb-0">{'My drafts'|i18n( 'design/admin/dashboard/drafts' )}</h4>
     {if fetch( 'content', 'draft_count' )}
+    <div class="table-responsive">
         <table class="table table-striped table-condensed" cellpadding="0" cellspacing="0" border="0">
             <tr>
                 <th>{'Name'|i18n( 'design/admin/dashboard/drafts' )}</th>
@@ -36,6 +37,7 @@
                 </tr>
             {/foreach}
         </table>
+    </div>
     {else}
         <p>{'Currently you do not have any drafts available.'|i18n( 'design/admin/dashboard/drafts' )}</p>
     {/if}

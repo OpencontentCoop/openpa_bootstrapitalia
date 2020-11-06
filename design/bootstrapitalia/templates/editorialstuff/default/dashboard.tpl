@@ -1,5 +1,4 @@
 {ezpagedata_set( 'has_container', true() )}
-{ezpagedata_set( 'show_path', false() )}
 
 {def $base_query = concat('classes [',$factory_configuration.ClassIdentifier,'] and subtree [', $factory_configuration.CreationRepositoryNode, '] sort [published=>desc]')}
 {if fetch( 'user', 'has_access_to', hash( 'module', 'editorialstuff', 'function', 'full_dashboard' ) )|not}
@@ -22,12 +21,15 @@
     </div>
 
     {if $factory_configuration.CreationRepositoryNode}
+        {def $creationRepositoryNode = fetch(content, node, hash(node_id, $factory_configuration.CreationRepositoryNode))}
+        {if $creationRepositoryNode.can_create}
         <div class="pt-4">
             <a class="btn btn-info rounded-0 text-white"
                href="{concat('editorialstuff/add/',$factory_identifier)|ezurl(no)}">
                 <i class="fa fa-plus mr-2"></i> {$factory_configuration.CreationButtonText|wash()}
             </a>
         </div>
+        {/if}
     {/if}
 
     <div class="tab-pane active" id="items">

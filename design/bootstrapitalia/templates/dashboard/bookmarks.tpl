@@ -3,7 +3,7 @@
 {if $bookmark_list}
 <div class="my-3 p-3 bg-white rounded shadow-sm">
     <form action={concat("content/bookmark/")|ezurl} method="post">
-        <h6 class="border-bottom border-gray pb-2 mb-0">
+        <h4 class="border-bottom border-gray pb-2 mb-0">
             {'Bookmarks'|i18n( 'design/admin/pagelayout' )}
             {if $bookmark_list}
                 <button class="btn btn-xs pull-right" type="submit" name="RemoveButton"
@@ -12,8 +12,8 @@
                     <i class="fa fa-trash"></i> Rimuovi selezionati
                 </button>
             {/if}
-        </h6>
-
+        </h4>
+        <div class="table-responsive">
         <table class="table table-striped table-condensed" width="100%" cellpadding="0" cellspacing="0" border="0">
 
             {foreach $bookmark_list as $bookmark}
@@ -26,6 +26,7 @@
             <tr>
             </tr>
         </table>
+        </div>
     </form>
 </div>
 {undef $bookmark_list $bookmark_node}

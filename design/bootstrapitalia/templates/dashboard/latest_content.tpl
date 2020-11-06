@@ -10,7 +10,8 @@
 
 {if $latest_content}
     <div class="my-3 p-3 bg-white rounded shadow-sm">
-        <h6 class="border-bottom border-gray pb-2 mb-0">{'My latest content'|i18n( 'design/admin/dashboard/latest_content' )}</h6>
+        <h4 class="border-bottom border-gray pb-2 mb-0">{'My latest content'|i18n( 'design/admin/dashboard/latest_content' )}</h4>
+        <div class="table-responsive">
         <table class="table table-striped table-condensed" cellpadding="0" cellspacing="0" border="0">
             <tr>
                 <th>{'Name'|i18n( 'design/admin/dashboard/latest_content' )}</th>
@@ -41,6 +42,7 @@
                 </tr>
             {/foreach}
         </table>
+        </div>
     </div>
 {/if}
 

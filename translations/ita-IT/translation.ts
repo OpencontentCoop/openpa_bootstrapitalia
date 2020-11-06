@@ -193,7 +193,7 @@
     </message>
     <message>
       <source>Dashboard</source>
-      <translation>Strumenti</translation>
+      <translation>Pannello strumenti</translation>
     </message>
     <message>
       <source>User profile</source>

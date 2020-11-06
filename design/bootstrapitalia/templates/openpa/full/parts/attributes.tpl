@@ -8,7 +8,7 @@
 
 {if $show_all_attributes}
     {foreach $object.data_map as $attribute_identifier => $attribute}
-        {if and($openpa[$attribute_identifier].has_content, $attribute.contentclass_attribute.category|ne('hidden'))}
+        {if or($attribute.has_content, $attribute.data_type_string|eq('ezuser'))}
             {set $summary_items = $summary_items|append(
                 hash( 'slug', $attribute_identifier, 'title', $openpa[$attribute_identifier].label, 'attributes', array($openpa[$attribute_identifier]), 'is_grouped', false(), 'wrap', false() )
             )}

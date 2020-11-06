@@ -232,7 +232,7 @@
                 login.show();
             }else{
                 var dropdownWrapper = $('<div class="dropdown"></div>');
-                var dropdownMenu = $('<div class="dropdown-user dropdown-menu" aria-labelledby="dropdown-user"></div>');
+                var dropdownMenu = $('<div class="dropdown-user dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user"></div>');
                 var dropdownListWrapper = $('<div class="link-list-wrapper"></div>');
                 var dropdownList = $('<ul class="link-list"></ul>');
 
@@ -242,7 +242,7 @@
                 $('<li><a class="list-item" href="'+trimmedPrefix+'/user/edit/" title="{/literal}{'User profile'|i18n('bootstrapitalia')}{literal}"><span>{/literal}{'User profile'|i18n('bootstrapitalia')}{literal}</span></a></li>')
                     .appendTo(dropdownList);
                 if(data.content.has_access_to_dashboard){
-                    $('<li><a class="list-item" href="'+trimmedPrefix+'/content/dashboard/" title="{/literal}{'Dashboard'|i18n('bootstrapitalia')}{literal}"><span>{/literal}{'Dashboard'|i18n('bootstrapitalia')}{literal}</span></a></li>')
+                    $('<li><a class="list-item text-nowrap" href="'+trimmedPrefix+'/content/dashboard/" title="{/literal}{'Dashboard'|i18n('bootstrapitalia')}{literal}"><span>{/literal}{'Dashboard'|i18n('bootstrapitalia')}{literal}</span></a></li>')
                         .appendTo(dropdownList);
                 }
                 $('<li><span class="divider"></span></li>')
@@ -268,6 +268,8 @@
 </script>
 <style>
     .rounded-icon .notrasform{transform: none !important}
+    .dropdown-menu-right:before{right:24px; left: auto!important;}
+    .it-header-slim-wrapper .it-header-slim-wrapper-content .dropdown-user.dropdown-menu{top:0 !important;}
 </style>
 {/literal}
 
