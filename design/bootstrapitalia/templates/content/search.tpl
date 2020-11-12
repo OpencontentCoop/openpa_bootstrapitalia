@@ -338,12 +338,4 @@ $(document).ready(function () {
 {literal}
 });    
 </script>
-<style>
-.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::after {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3e%3cpath stroke='%23fff' d='M0 2h4'/%3e%3c/svg%3e");
-    border-color: #bbb;
-    background-color: #bbb;
-    z-index: 0;
-}
-</style>
 {/literal}

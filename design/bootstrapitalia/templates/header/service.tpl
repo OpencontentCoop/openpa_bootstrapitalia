@@ -266,11 +266,6 @@
         }
     });
 </script>
-<style>
-    .rounded-icon .notrasform{transform: none !important}
-    .dropdown-menu-right:before{right:24px; left: auto!important;}
-    .it-header-slim-wrapper .it-header-slim-wrapper-content .dropdown-user.dropdown-menu{top:0 !important;}
-</style>
 {/literal}
 
 </div>

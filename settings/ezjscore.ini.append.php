@@ -11,4 +11,6 @@ Class=ezjscCachedTags
 [ezjscServer_ezjscedittagdescription]
 Class=ezjscEditTagDescription
 
+[Packer]
+AppendLastModifiedTime=enabled
 */ ?>

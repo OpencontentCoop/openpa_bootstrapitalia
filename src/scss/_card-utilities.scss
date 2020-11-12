@@ -179,6 +179,10 @@
   max-width: 80%;
 }
 
+.card-h-100 .card-wrapper {
+  height: 100%;
+}
+
 .card.primary-bg {background-color: $primary !important;}
 .card.primary-bg-a1 {background-color: $primary-a1 !important;}
 .card.primary-bg-a2 {background-color: $primary-a2 !important;}

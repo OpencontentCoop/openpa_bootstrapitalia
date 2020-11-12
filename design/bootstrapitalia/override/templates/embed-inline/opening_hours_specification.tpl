@@ -42,6 +42,3 @@
     {if $count|gt($min_view_accordion)}</div>{/if}
 {/if}
 {undef $attributes $min_view_accordion}
-{run-once}{literal}
-<style>a.opening-hours-accordion[aria-expanded='true'] .fa-caret-down {transform: scaleY(-1);}</style>
-{/literal}{/run-once}

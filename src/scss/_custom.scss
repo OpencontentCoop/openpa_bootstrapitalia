@@ -93,3 +93,59 @@ td.alpaca-container-item{
 .highcharts-data-table table{
   @extend .table;
 }
+
+.leaflet-marker-icon.badge{
+  width: auto !important;
+  height: auto !important;
+}
+[data-simplified_place_gui] a.chosen-single {
+  margin-top: 0;
+  border-radius: 0;
+  background: white;
+  line-height: 40px;
+  height: 40px;
+}
+[data-simplified_place_gui] .chosen-container-single .chosen-single div b {
+  background-position-y: 10px;
+}
+.map-label {
+  position: absolute;
+  bottom: 0;left: -50%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+/*Wrap the content of the divicon (text) in this class*/
+.map-label-content {
+  order: 1;
+  position: relative; left: -50%;
+  background-color: #5c6f82;
+  border-radius: 5px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #5c6f82;
+  padding: 3px;
+  white-space: nowrap;
+  color: #fff;
+  font-weight: bold;
+}
+/*Add this arrow*/
+.map-label-arrow {
+  order: 2;
+  width: 0;
+  height: 0;
+  left: 50%;
+  border-style: solid;
+  border-color: #5c6f82 transparent transparent transparent;
+  border-width: 10px 6px 0 6px; /*[first number is height, second/fourth are rigth/left width]*/
+  margin-left: -6px;
+}
+
+/*Instance classes*/
+.map-label.inactive {
+  opacity: 0.5;
+}
+
+a.opening-hours-accordion[aria-expanded='true'] .fa-caret-down {
+  transform: scaleY(-1);
+}

@@ -432,6 +432,7 @@ CustomAttributeNames[hide_empty_facets]=Nascondi tag senza contenuti
 CustomAttributeTypes[]
 CustomAttributeTypes[hide_first_level]=checkbox
 CustomAttributeTypes[hide_empty_facets]=checkbox
+ViewList[]
 ViewList[]=default
 ViewName[]
 ViewName[default]=Default
