@@ -11,6 +11,9 @@
             'query': null,
             'searchApi': '/api/opendata/v2/content/search/',
             'geoSearchApi': '/api/opendata/v2/extrageo/search/',
+            'customTpl': '#no-template-defined',
+            'useCustomTpl': false,
+            'removeExistingEmptyFacets': false,
             'fields': [],
             'facets': []
         };
@@ -19,18 +22,24 @@
         this.settings = $.extend({}, defaults, options);
         this.container = $(element);
         this.baseId = this.container.attr('id')+'-';
+        if (this.settings.remoteUrl === '') {
+            this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', 'opendata/api');
+            this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', 'opendata/api');
+            this.settings.searchApi += '?view=card_teaser&q=';
+        }
         this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
         this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
         this.searchFormToggle = this.container.find('.search-form-toggle');
         this.searchForm = this.container.find('.search-form');
 
-        this.limitPagination = 9;
         this.currentPage = 0;
         this.queryPerPage = [];
         this.resultWrapper = this.container.find('.items');
         this.spinnerTpl = $($.templates(this.settings.spinnerTpl).render({}));
         this.listTpl = $.templates(this.settings.listTpl);
         this.popupTpl = $.templates(this.settings.popupTpl);
+
+        this.ajaxDatatype = this.settings.remoteUrl === '' ? 'json' : 'jsonp';
 
         this.hasMap = $('#'+this.baseId+'map').length > 0;
 
@@ -131,12 +140,14 @@
                         $.ajax({
                             type: "GET",
                             url: plugin.searchUrl + 'id = '+e.target.feature.properties.id,
-                            dataType: "jsonp",
+                            dataType: plugin.ajaxDatatype,
                             success: function (response,textStatus,jqXHR) {
                                 if (!plugin.detectError(response,jqXHR)){
                                     let content = response.searchHits[0];
                                     content.fields = plugin.settings.fields;
                                     content.remoteUrl = plugin.settings.remoteUrl;
+                                    content.useCustomTpl = plugin.settings.useCustomTpl;
+                                    content.customTpl = plugin.settings.customTpl;
                                     let htmlOutput = plugin.popupTpl.render([content]);
                                     popup.setContent(htmlOutput);
                                     popup.update();
@@ -167,7 +178,7 @@
                     $.ajax({
                         type: "GET",
                         url: plugin.geoSearchUrl+query,
-                        dataType: "jsonp",
+                        dataType: plugin.ajaxDatatype,
                         success: function (response,textStatus,jqXHR) {
                             if (!plugin.detectError(response,jqXHR)){
                                 if ($.isFunction(cb)) {
@@ -228,7 +239,7 @@
             $.ajax({
                 type: "GET",
                 url: plugin.searchUrl + paginatedQuery,
-                dataType: "jsonp",
+                dataType: plugin.ajaxDatatype,
                 success: function (response,textStatus,jqXHR) {
                     if (!plugin.detectError(response,jqXHR)){
                         plugin.queryPerPage[plugin.currentPage] = paginatedQuery;
@@ -248,6 +259,8 @@
                         $.each(response.searchHits, function(){
                             this.fields = plugin.settings.fields;
                             this.remoteUrl = plugin.settings.remoteUrl;
+                            this.useCustomTpl = plugin.settings.useCustomTpl;
+                            this.customTpl = plugin.settings.customTpl;
                         });
                         response.itemsPerRow = plugin.settings.itemsPerRow;
 
@@ -303,22 +316,33 @@
 
         buildFacets: function () {
             let plugin = this;
+
             if (plugin.settings.facets.length > 0) {
-                plugin.container.find('select[data-facets_select]').chosen();
+                if (plugin.settings.removeExistingEmptyFacets){
+                    $.each(plugin.settings.facets, function (index, value) {
+                        plugin.container.find('select[data-facets_select="facet-'+index+'"] option').hide();
+                    });
+                }
                 let paginatedQuery = plugin.buildQuery() + ' and limit 1 facets [' + plugin.settings.facets.join(',') + ']';
                 $.ajax({
                     type: "GET",
                     url: plugin.searchUrl + paginatedQuery,
-                    dataType: "jsonp",
+                    dataType: plugin.ajaxDatatype,
                     success: function (response, textStatus, jqXHR) {
                         if (!plugin.detectError(response, jqXHR)) {
                             $.each(response.facets, function (index, value) {
+                                var notEmpty = plugin.container.find('select[data-facets_select="facet-'+index+'"] option').length === 0;
                                 $.each(value.data, function (facet, count) {
-                                    plugin.container.find('select[data-facets_select="facet-'+index+'"]')
-                                        .append('<option value="'+facet.replace(/"/g, '').replace(/'/g, "\\'").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "")+'">'+facet+'</option>');
+                                    if (notEmpty) {
+                                        plugin.container.find('select[data-facets_select="facet-' + index + '"]')
+                                            .append('<option value="' + facet.replace(/"/g, '').replace(/'/g, "\\'").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "") + '">' + facet + '</option>');
+                                    }else if (plugin.settings.removeExistingEmptyFacets){
+                                        plugin.container.find('select[data-facets_select="facet-' + index + '"] option[value="'+ facet+'"]').show();
+                                    }
                                 });
                                 plugin.container.find('select[data-facets_select="facet-'+index+'"]')
-                                    .trigger("chosen:updated")
+                                    .show()
+                                    .chosen()
                                     .on('change', function () {
                                         plugin.currentPage = 0;
                                         plugin.runSearch();

@@ -488,6 +488,7 @@ CustomAttributeSelection_limit[4]=4
 CustomAttributeSelection_limit[6]=6
 CustomAttributeSelection_limit[8]=8
 CustomAttributeSelection_limit[9]=9
+CustomAttributeSelection_items_per_row[auto]=Masonry
 CustomAttributeSelection_items_per_row[2]=2
 CustomAttributeSelection_items_per_row[3]=3
 ViewList[]

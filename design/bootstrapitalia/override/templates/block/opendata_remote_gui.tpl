@@ -152,9 +152,11 @@ $(document).ready(function () {ldelim}
         'spinnerTpl': '#tpl-remote-gui-spinner',
         'listTpl': '#tpl-remote-gui-list',
         'popupTpl': '#tpl-remote-gui-item',
-        'itemsPerRow': {$itemsPerRow},
+        'itemsPerRow': '{$itemsPerRow}',
         'limitPagination': {$limit},
-        'query': "{$query|wash(javascript)}"
+        'query': "{$query|wash(javascript)}",
+        'customTpl': "{concat('#tpl-remote-gui-item-inner-', $block.id)}",
+        'useCustomTpl': {cond(and(is_set($block.custom_attributes.template), $block.custom_attributes.template|ne('')), 'true', 'false')}
         {if $facetsFields|count()},'facets':['{$facetsFields|implode("','")}']{/if}
         {if $fields|ne('')},'fields':['{$fields|explode(',')|implode("','")}']{/if}
     {rdelim});
@@ -163,72 +165,7 @@ $(document).ready(function () {ldelim}
 {undef $showGrid $showMap $showSearch $searchPlaceholder $query $limit $itemsPerRow $fields $remoteUrl}
 {/if}
 
-{run-once}
-{def $current_language = ezini('RegionalSettings', 'Locale')}
-{def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', $current_language ))}
-{def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
-<script>
-    $.opendataTools.settings('language', "{$current_language}");
-    $.opendataTools.settings('locale', "{$moment_language}");
-</script>
-{literal}
-<script id="tpl-remote-gui-spinner" type="text/x-jsrender">
-<div class="col-xs-12 spinner text-center py-5">
-    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw py-5"></i>
-    <span class="sr-only">{'Loading...'|i18n('editorialstuff/dashboard')}</span>
-</div>
-</script>
-<script id="tpl-remote-gui-list" type="text/x-jsrender">
-	{{if totalCount == 0}}
-	    <div class="row">
-            <div class="col text-center py-4">
-                <i class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
-            </div>
-        </div>
-	{{else}}
-        <div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{{:itemsPerRow}}">
-        {{for searchHits}}
-        <div class="card card-teaser rounded shadow" style="text-decoration:none !important">
-            {{include tmpl="#tpl-remote-gui-item"/}}
-        </div>
-        {{/for}}
-        </div>
-	{{/if}}
-	{{if pageCount > 1}}
-	<div class="row mt-lg-4">
-	    <div class="col">
-	        <nav class="pagination-wrapper justify-content-center" aria-label="Pagination">
-	            <ul class="pagination">
-	                <li class="page-item {{if !prevPageQuery}}disabled{{/if}}">
-	                    <a class="page-link prevPage" {{if prevPageQuery}}data-page="{{>prevPage}}"{{/if}} href="#">
-	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
-	                        </svg>
-	                        <span class="sr-only">Pagina precedente</span>
-	                    </a>
-	                </li>
-	                {{for pages ~current=currentPage}}
-						<li class="page-item"><a href="#" class="page-link page" data-page_number="{{:page}}" data-page="{{:query}}"{{if ~current == query}} data-current aria-current="page"{{/if}}>{{:page}}</a></li>
-					{{/for}}
-	                <li class="page-item {{if !nextPageQuery}}disabled{{/if}}">
-	                    <a class="page-link nextPage" {{if nextPageQuery}}data-page="{{>nextPage}}"{{/if}} href="#">
-	                        <span class="sr-only">Pagina successiva</span>
-	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
-	                        </svg>
-	                    </a>
-	                </li>
-	            </ul>
-	        </nav>
-	    </div>
-	</div>
-	{{/if}}
-</script>
-<script id="tpl-remote-gui-item" type="text/x-jsrender">
-{{include tmpl="#tpl-remote-gui-item-inner-{/literal}{$block.id}{literal}"/}}
-</script>
-{/literal}
-{/run-once}
+{include uri='design:parts/opendata_remote_gui_templates.tpl' block=$block}
 
 <script id="tpl-remote-gui-item-inner-{$block.id}" type="text/x-jsrender">
 {if and(is_set($block.custom_attributes.template), $block.custom_attributes.template|ne(''))}
