@@ -497,8 +497,8 @@
       <translation>Suche nur aktive Inhalte</translation>
     </message>
     <message>
-      <source>Archived and no longer valid content will be excluded from the search.'</source>
-      <translation>Archiviert und nicht mehr gültig Inhalte werden von der Suche ausgeschlossen werden.‘</translation>
+      <source>Archived and no longer valid content will be excluded from the search.</source>
+      <translation>Archiviert und nicht mehr gültig Inhalte werden von der Suche ausgeschlossen werden.</translation>
     </message>
     <message>
       <source>Start date</source>
@@ -648,6 +648,10 @@
     <message>
       <source>Loading...</source>
       <translation>Laden...</translation>
+    </message>
+    <message>
+      <source>Collaborative content management</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>

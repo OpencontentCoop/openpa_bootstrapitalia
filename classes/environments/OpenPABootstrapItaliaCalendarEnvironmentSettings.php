@@ -262,7 +262,7 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
     {
         $calendarFilter = $this->buildCalendarFilter($query, $builder);
 
-        $currentFilter = $query['Filter'];
+        $currentFilter = isset($query['Filter']) ? $query['Filter'] : [];
         if (!empty($currentFilter))
             $query['Filter'] = array($currentFilter, $calendarFilter);
         else

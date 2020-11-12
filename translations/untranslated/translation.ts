@@ -497,7 +497,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Archived and no longer valid content will be excluded from the search.'</source>
+      <source>Archived and no longer valid content will be excluded from the search.</source>
       <translation type="unfinished"/>
     </message>
     <message>

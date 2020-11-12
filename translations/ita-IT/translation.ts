@@ -497,7 +497,7 @@
       <translation>Cerca solo tra i contenuti attivi</translation>
     </message>
     <message>
-      <source>Archived and no longer valid content will be excluded from the search.'</source>
+      <source>Archived and no longer valid content will be excluded from the search.</source>
       <translation>Verranno esclusi dalla ricerca i contenuti archiviati e non più validi come gli eventi terminati o i bandi scaduti.</translation>
     </message>
     <message>
