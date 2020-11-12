@@ -17,8 +17,7 @@
                                               sort_by, array( modified, false() ) ) )}
     {include uri='design:atoms/grid.tpl'
              items_per_row='auto'
-             i_view=card
-             view_variation='big'
+             i_view=card_teaser
              image_class=large
              items=$nodes}
 
