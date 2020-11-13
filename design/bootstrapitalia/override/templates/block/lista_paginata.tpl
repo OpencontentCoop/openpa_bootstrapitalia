@@ -43,6 +43,15 @@
 				</div>
 			{/if}
 		</div>
+		{def $intro = cond(is_set($block.custom_attributes.intro_text), $block.custom_attributes.intro_text, '')}
+		{if $intro|ne('')}
+			<div class="row">
+				<div class="col">
+					<p class="lead">{$intro|simpletags|autolink}</p>
+				</div>
+			</div>
+		{/if}
+		{undef $intro}
 		<div class="{if $block.name|ne('')}py-4{else}pb-4{/if} results"></div>
 		{include uri='design:parts/block_show_all.tpl'}
 	</div>
