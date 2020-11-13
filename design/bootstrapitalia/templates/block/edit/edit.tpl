@@ -447,7 +447,7 @@
 {if and(ezini_hasvariable($block.type, 'CanAddIntroText', 'block.ini'), ezini($block.type, 'CanAddIntroText', 'block.ini')|eq('enabled') )}
     <div class="block-parameters float-break">
         <div class="block-parameter">
-            <label>Testo introduttico</label>
+            <label>Testo introduttivo</label>
             <label for="block-custom_attribute-{$block_id}-20160702-0">
                 <textarea id="block-custom_attribute-{$block_id}-20160702-0"
                           class="textbox block-control"

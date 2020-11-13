@@ -75,6 +75,7 @@
                 plugin.showSearchGui();
                 plugin.setGlobalFilterGui();
                 plugin.modalContainer.modal();
+                plugin.searchGui.find('#search-gui-text').focus();
                 e.preventDefault();
             });
 

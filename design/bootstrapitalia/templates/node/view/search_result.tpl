@@ -4,30 +4,23 @@
     'view_variation', false()
 ))}
 {def $openpa = object_handler($node)}
-
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
 
-<div data-object_id="{$node.contentobject_id}" class="card h-100 card-teaser {$node|access_style} p-4 pt-5 position-relative overflow-hidden rounded border {$view_variation}">
+<div data-object_id="{$node.contentobject_id}" class="card h-100 card-teaser {$node|access_style} p-3 position-relative overflow-hidden rounded border {$view_variation}">
     <div class="card-body{if $node|has_attribute('image')} pr-3{/if}">
         {if $show_icon}
-            <div class="etichetta mb-2" style="position: absolute;top: 0;width: 100%;left: 0;background: #efefef;padding: 5px;">
-            {if $openpa.content_icon.class_icon}
-                {display_icon($openpa.content_icon.class_icon.icon_text, 'svg', 'icon')}
-            {else}
-                {display_icon('it-file', 'svg', 'icon')}
+            {if $openpa.content_icon.context_icon}
+                <div class="etichetta mb-2">
+                    {display_icon($openpa.content_icon.context_icon.icon_text, 'svg', 'icon')}
+                    {include uri='design:openpa/card/parts/icon_label.tpl' fallback=$openpa.content_icon.context_icon.node.name}
+                </div>
             {/if}
-                {$node.class_name|wash()}
-            </div>
         {/if}
-        <h5 class="card-title mb-1">
-            {$node.name|wash()}
+        <h5 class="mb-3 font-weight-normal">
+            <a href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">{$node.name|wash()}</a>
         </h5>
         <div class="card-text">
-            
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
-            
-            <p class="mt-3"><a href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">{'Go to content'|i18n('bootstrapitalia')}</a></p>
-
         </div>
     </div>
     {if and($attributes.show|contains('image'), $node|has_attribute('image'))}
@@ -37,8 +30,5 @@
     {/if}
 </div>
 
-{undef $attributes}
-
-
-{undef $openpa}
+{undef $openpa $attributes}
 {unset_defaults(array('show_icon', 'image_class', 'view_variation'))}

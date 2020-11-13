@@ -74,7 +74,7 @@
                             {set $display = true()}
                         {/if}
                         
-                        <div class="form-check custom-control custom-checkbox">
+                        <div class="form-check custom-control custom-checkbox m-0">
                             <input name="Subtree[]" data-checkbox-container id="subtree-{$tree_menu.item.node_id}" value={$tree_menu.item.node_id} {if or($params.subtree|contains($id), and($display, $has_children|not()))}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
                             <label class="custom-control-label" for="subtree-{$tree_menu.item.node_id}">{$tree_menu.item.name|wash()} {if is_set($subtree_facets[$id])}<small>({$subtree_facets[$id]})</small>{/if}</label>
                             {if $has_children}
@@ -87,7 +87,7 @@
                         <div class="pl-4 collapse{*if $display} show{/if*}" id="more-subtree-{$tree_menu.item.node_id}">
                             {foreach $tree_menu.children as $child}
                                 {if $child.item.node_id|eq($tree_menu.item.node_id)}{skip}{/if} {*tag menu*}
-                                <div class="form-check custom-control custom-checkbox">
+                                <div class="form-check custom-control custom-checkbox m-0">
                                     <input data-checkbox-child name="Subtree[]" id="subtree-{$child.item.node_id}" value={$child.item.node_id} {if $params.subtree|contains($child.item.node_id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
                                     <label class="custom-control-label" for="subtree-{$child.item.node_id}">{$child.item.name|wash()} {if is_set($subtree_facets[$child.item.node_id])}<small>({$subtree_facets[$child.item.node_id]})</small>{/if}</label>
                                 </div>
@@ -191,7 +191,7 @@
                     <div class="pt-4 pt-lg-5">
                         <h6 class="text-uppercase">{'Content type'|i18n('openpa/search')}</h6>
                         {foreach $classes as $class}
-                            <div class="form-check custom-control custom-checkbox">
+                            <div class="form-check custom-control custom-checkbox m-0">
                                 <input name="Class[]" id="class-{$class.id}" value={$class.id|wash()} {if $params.class|contains($class.id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
                                 <label class="custom-control-label" for="class-{$class.id}">{$class.name|wash()} {if is_set($class_facets[$class.id])}<small>({$class_facets[$class.id]})</small>{/if}</label>
                             </div>
@@ -237,14 +237,14 @@
                 {if $search.SearchCount|gt(0)}                
                 
                     <div class="row">
-                        <div class="col-sm-12 col-md-4 mb-4">
+                        <div class="col-md-12 col-lg-3 mb-3 text-center text-lg-left">
                         {if $search.SearchCount|eq(1)}
-                            <p class="m-0"><small>{'Found a result'|i18n('openpa/search')}</small></p>
+                            <p class="m-0 text-nowrap"><small>{'Found a result'|i18n('openpa/search')}</small></p>
                         {else}
-                            <p class="m-0"><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
+                            <p class="m-0 text-nowrap"><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
                         {/if}
                         </div>
-                        <div class="col-sm-12 col-md-4 mb-4">
+                        <div class="col-sm-12 col-md-5 col-lg-4 mb-4 text-center text-md-right">
                             <label class="d-inline-block text-black" for="Sort"><small>{'Sorting by'|i18n('openpa/search')}</small></label>
                             <select class="d-inline-block w-50 form-control form-control-sm" id="Sort" name="Sort">
                                 <option {if $params.sort|eq('score')} selected="selected"{/if} value="score">{'Score'|i18n('openpa/search')}</option>
@@ -253,12 +253,17 @@
                                 <option {if $params.sort|eq('name')} selected="selected"{/if} value="name">{'Name'|i18n('openpa/search')}</option>
                             </select>
                         </div>
-                        <div class="col-sm-12 col-md-4 mb-4">
+                        <div class="col-sm-12 col-md-5 col-lg-4 mb-4 text-center text-md-right">
                             <label class="d-inline-block text-black" for="Order"><small>{'Sorting'|i18n('openpa/search')}</small></label>
                             <select class="d-inline-block w-50 form-control form-control-sm" id="Order" name="Order">
                                 <option {if $params.order|eq('desc')} selected="selected"{/if} value="desc">{'Descending'|i18n('openpa/search')}</option>
                                 <option {if $params.order|eq('asc')} selected="selected"{/if} value="asc">{'Ascending'|i18n('openpa/search')}</option>
                             </select>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-lg-1 mb-4 text-center text-md-right">
+                            <button type="submit" class="btn btn-primary btn-xs">
+                                {'Apply'|i18n('design/standard/ezoe')}
+                            </button>
                         </div>
                     </div>
 

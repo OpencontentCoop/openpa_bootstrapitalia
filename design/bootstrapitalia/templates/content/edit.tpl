@@ -90,7 +90,12 @@ var select_to_string = function(element) {
     $input.val('');
   }
 }
-
+$(document).ready(function () {
+    $(document).on('keydown', 'input, select', function(e){
+        if(e.keyCode === 13)
+            e.preventDefault();
+    });
+});
 </script>
 {/literal}
 {/run-once}

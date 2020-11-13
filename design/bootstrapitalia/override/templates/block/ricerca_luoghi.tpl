@@ -35,7 +35,7 @@
 							data-facets_select="facet-0"
 							multiple>
 						{foreach $tag_tree.children as $tag}
-							{if $block.custom_attributes.hide_first_level|not}<option value="{$tag.id|wash()}" class="font-weight-bold pl-1">{$tag.keyword|wash()}</option>{/if}
+							{if $block.custom_attributes.hide_first_level|not}<option value="{$tag.id|wash()}" class="pl-1">{$tag.keyword|wash()}</option>{/if}
 							{if $tag.hasChildren}
 								{foreach $tag.children as $childTag}
 									<option value="{$childTag.id|wash()}" class="{if $block.custom_attributes.hide_first_level|not}pl-3{else}pl-1{/if}">{$childTag.keyword|wash()}</option>
@@ -95,7 +95,7 @@
 				'listTpl': '#tpl-remote-gui-list',
 				'popupTpl': '#tpl-remote-gui-item',
 				'itemsPerRow': 'auto',
-				'limitPagination': 6,
+				'limitPagination': 9,
 				'query': "{$query|wash(javascript)}",
 				'facets': ['raw[subattr_type___tag_ids____si]'],
 				'removeExistingEmptyFacets': {cond($hide_empty_facets, 'true', 'false')}
