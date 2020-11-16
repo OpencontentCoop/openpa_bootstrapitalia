@@ -15,7 +15,7 @@
             </div>
             <div class="row feedback-thanks hide">
                 <div class="col-sm-12 py-2">
-                    <p class="h6 mt-2 font-weight-normal">{'Thanks for your feedback'|i18n("bootstrapitalia/valuation")}</p>
+                    <p class="h6 mt-2 font-weight-normal">{'Thanks for your feedback'|i18n("bootstrapitalia/valuation")} <i class="fa fa-heart"></i></p>
                 </div>
             </div>
             <div class="row feedback-survey hide"

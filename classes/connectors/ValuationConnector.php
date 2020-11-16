@@ -243,7 +243,9 @@ class ValuationConnector extends AbstractBaseConnector
         }
         $wizard = [
             'bindings' => $bindings,
-            'steps' => $steps
+            'steps' => $steps,
+            'showSteps' => false,
+            'showProgressBar' => true,
         ];
         return [
             'parent' => $parent,

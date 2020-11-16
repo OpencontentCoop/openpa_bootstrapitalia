@@ -120,9 +120,12 @@ $(document).ready(function () {
                                         'align': 'right',
                                         'title': i18n.submit,
                                         'click': function() {
-                                            feedbackSurvey.addClass('hide');
-                                            feedbackThanks.removeClass('hide');
+                                            feedbackSurvey.find('.progress-bar').css('width', '100%');
                                             this.form.ajaxSubmit();
+                                            setTimeout(function () {
+                                                feedbackSurvey.addClass('hide');
+                                                feedbackThanks.removeClass('hide');
+                                            }, 500);
                                         }
                                     }
                                 }

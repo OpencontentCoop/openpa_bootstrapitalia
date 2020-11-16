@@ -10,7 +10,7 @@
 
         {if is_set($collection)}
 
-            <h3><a href={'/valuation/dashboard/'|ezurl}><i class="fa fa-arrow-circle-left"></i></a> {'User feedbacks'|i18n("bootstrapitalia")}</h3>
+            <h3><a href={'/valuation/dashboard/'|ezurl}><i class="fa fa-arrow-circle-left"></i></a> {'User feedbacks'|i18n("bootstrapitalia/valuation")}</h3>
             <h4>
                 {'Feedback #%id'|i18n( 'bootstrapitalia/valuation',, hash( '%id', $collection.id ) )|wash}
                 <small class="d-block">
