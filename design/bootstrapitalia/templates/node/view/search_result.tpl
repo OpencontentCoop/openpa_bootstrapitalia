@@ -16,9 +16,9 @@
                 </div>
             {/if}
         {/if}
-        <h5 class="mb-3 font-weight-normal">
+        <p class="mb-3 h6 font-weight-normal">
             <a href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">{$node.name|wash()}</a>
-        </h5>
+        </p>
         <div class="card-text">
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
         </div>
