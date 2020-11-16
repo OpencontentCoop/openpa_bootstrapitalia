@@ -10,8 +10,8 @@ States[accepted]=Accettato
 States[refused]=Rifiutato
 States[skipped]=Non necessita di moderazione
 Actions[]
-Actions[draft-accepted]=NotifyOwner
-Actions[draft-refused]=NotifyOwner
+Actions[waiting-accepted]=NotifyOwner
+Actions[waiting-refused]=NotifyOwner
 Actions[accepted-draft]=NotifyOwner
 NotificationAttributeIdentifiers[]
 
