@@ -177,4 +177,25 @@ Plurale=Uffici
 Descrizione=Tutti gli uffici
 Query=classes [office]
 
+[public_service]
+Plurale=Servizi pubblici
+Descrizione=Tutti i servizi pubblici ai cittadini
+Query=classes [public_service]
+
+[comunicato_stampa]
+Plurale=Comunicati stampa
+Descrizione=Tutti i comunicati stampa
+Query=classes [article] and content_type in ["Comunicato stampa"]
+
+[notizia]
+Plurale=Notizie
+Descrizione=Tutti i notizie
+Query=classes [article] and content_type in ["Notizia"]
+
+[online_contact_point]
+Plurale=Punto di contatto on-line
+Descrizione=Tutti i punto di contatto on-line
+Query=classes [online_contact_point]
+
+
 */ ?>
