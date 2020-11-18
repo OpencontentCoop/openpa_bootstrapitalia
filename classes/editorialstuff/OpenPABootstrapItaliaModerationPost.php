@@ -1,6 +1,6 @@
 <?php
 
-class OpenPABootstrapItaliaModerationPost extends OCEditorialStuffPostDefault
+class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractPost
 {
     public function tabs()
     {
@@ -22,7 +22,7 @@ class OpenPABootstrapItaliaModerationPost extends OCEditorialStuffPostDefault
 
     public function onCreate()
     {
-        if ($this->getObject()->attribute('current_version') == 1) {
+        if ($this->currentUserNeedModeration() && $this->getObject()->attribute('current_version') == 1) {
             $states = $this->states();
             $default = 'moderation.draft';
             if (isset($states[$default])) {

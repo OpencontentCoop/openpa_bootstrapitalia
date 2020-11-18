@@ -1,6 +1,6 @@
 <?php
 
-class OpenPABootstrapItaliaPrivacyPost extends OCEditorialStuffPostDefault
+class OpenPABootstrapItaliaPrivacyPost extends OpenPABootstrapItaliaAbstractPost
 {
     public function tabs()
     {
@@ -23,7 +23,7 @@ class OpenPABootstrapItaliaPrivacyPost extends OCEditorialStuffPostDefault
     public function onCreate()
     {
         $this->updateOwner();
-        if ($this->getObject()->attribute('current_version') == 1) {
+        if ($this->currentUserNeedModeration() && $this->getObject()->attribute('current_version') == 1) {
             $states = $this->states();
             $default = 'privacy.private';
             if (isset($states[$default])) {
