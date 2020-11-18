@@ -8,7 +8,7 @@
             {if is_set($introText[1])}
                 {def $intro_object = fetch(content, object, hash('remote_id', $introText[0]))}
                 {if and($intro_object, $intro_object|has_attribute($introText[1]))}
-                    <div class="lead py-2">
+                    <div class="py-2">
                         {attribute_view_gui attribute=$intro_object|attribute($introText[1])}
                     </div>
                 {/if}
