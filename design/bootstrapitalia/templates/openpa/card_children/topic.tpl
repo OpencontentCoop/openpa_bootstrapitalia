@@ -40,7 +40,16 @@
                                 {if $icon}
                                     {display_icon($icon, 'svg', 'icon icon-sm mr-2')}
                                 {/if}
-                                <span style="flex:1">{$item.metadata.name[$language]|wash()}</span>
+                                <span style="flex:1">
+                                    {if is_set($item.metadata.name[$language])}
+                                        {$item.metadata.name[$language]|wash()}
+                                    {else}
+                                        {foreach $item.metadata.name as $locale => $name}
+                                            {$name|wash()}
+                                            {break}
+                                        {/foreach}
+                                    {/if}
+                                </span>
                                 
                             </a>                        
                             {undef $icon}

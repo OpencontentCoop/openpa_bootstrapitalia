@@ -45,7 +45,7 @@
 					{foreach $roles as $role}
 					<li>
 						{def $entity = $attribute.content.entities[$role|attribute('for_entity').content.relation_list[0].contentobject_id]}
-						{$role|attribute('role').content.keyword_string|trim} presso <a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
+						{$role|attribute('role').content.keyword_string|trim} {'at'|i18n('bootstrapitalia')} <a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
 						{if or($role|has_attribute('competences'), $role|has_attribute('delegations'))}
 						<ul class="list-unstyled">
 							{if $role|has_attribute('competences')}
@@ -90,7 +90,7 @@
 				{else}
                     <ul class="list-unstyled">
 					{foreach $attribute.content.main_type_per_entities as $type => $entities}
-						<li>{$type} presso {foreach $entities as $id => $name}<a href="{concat('openpa/object/', $id)|ezurl(no)}">{$name|wash()}</a>{delimiter}, {/delimiter}{/foreach}</li>
+						<li>{$type} {'at'|i18n('bootstrapitalia')} {foreach $entities as $id => $name}<a href="{concat('openpa/object/', $id)|ezurl(no)}">{$name|wash()}</a>{delimiter}, {/delimiter}{/foreach}</li>
 					{/foreach}
 					</ul>
 				{/if}

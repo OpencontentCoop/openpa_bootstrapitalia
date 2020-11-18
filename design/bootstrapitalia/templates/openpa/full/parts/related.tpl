@@ -51,7 +51,16 @@
 	                                                <ul class="link-list">
 	                                                {foreach $item.contents as $item}
 	                                                    <li><a class="list-item" href="{concat('content/view/full/',$item.metadata.mainNodeId )|ezurl(no)}">
-	                                                    	<span>{$item.metadata.name[ezini('RegionalSettings','Locale')]}</span></a>
+	                                                    	<span>
+                                                                {if is_set($item.metadata.name[ezini('RegionalSettings','Locale')])}
+                                                                    {$item.metadata.name[ezini('RegionalSettings','Locale')]|wash()}
+                                                                {else}
+                                                                    {foreach $item.metadata.name as $locale => $name}
+                                                                        {$name|wash()}
+                                                                        {break}
+                                                                    {/foreach}
+                                                                {/if}
+                                                            </span></a>
                                                     	</li>
                                                     {/foreach}
 	                                                </ul>

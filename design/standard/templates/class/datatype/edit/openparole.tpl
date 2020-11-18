@@ -34,7 +34,14 @@
 	    <label>{'Filtra per tipo'|i18n( 'openparoletype' )}:</label>
 	    <select class="box" name="ContentClass_openparole_filter_{$class_attribute.id}[]" multiple>		    
 		    {foreach api_tagtree($class_attribute_content.roletype_root_tag).children as $tag}
-		    	<option value="{$tag.keyword|wash()}" {if $class_attribute_content.filter|contains($tag.keyword)}selected="selected"{/if}>{$tag.keyword|wash}</option>
+				{def $used = array()}
+				{foreach $tag.keywordTranslations as $translation}
+					{if $used|contains($translation)|not()}
+						<option value="{$translation|wash()}" {if $class_attribute_content.filter|contains($translation)}selected="selected"{/if}>{$translation|wash}</option>
+						{set $used = $used|append($translation)}
+					{/if}
+				{/foreach}
+				{undef $used}
 		    {/foreach}
 	    </select>
 	</div>

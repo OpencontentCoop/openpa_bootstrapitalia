@@ -31,7 +31,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                 $NodeID = $content->metadata->mainNodeId;
                 $Module = new eZModule("", "", 'opendata');
                 $tpl = eZTemplate::factory();
-                $LanguageCode = eZLocale::currentLocaleCode();
+                $LanguageCode = null;
                 $Offset = 0;
                 $ini = eZINI::instance();
                 $viewParameters = [];

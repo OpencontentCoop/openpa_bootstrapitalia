@@ -7,6 +7,15 @@ Class[document]=ezfIndexHasCodeNormalized
 Class[time_indexed_role]=ezfIndexEndlessRole
 General[]=ezfIndexExtraGeo
 
+# Per siti multilingua occorre impostare a livello globale questo index plugin:
+#General[]=ezfIndexLangBitwise
+# e in ciascun ezfind.ini di siteaccess con la lingua relativa:
+# [LanguageSearch]
+# SearchMainLanguageOnly=disabled
+# [SearchFilters]
+# RawFilterList[]=meta_language_code_ms:ita-IT OR extra_lang_ita-IT_b:true
+
+
 [SolrFieldMapSettings]
 DatatypeMap[openparestrictedarea]=lckeyword
 

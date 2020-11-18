@@ -222,7 +222,11 @@ class OpenPAReverseRelationListType extends eZDataType
                 foreach ($contents as $content) {
                     try {
                         $apiContent = new Content($content);
-                        $objects[] = $apiContent->getContentObject($this->language);
+                        $language = $this->language;
+                        if (!in_array($language, $apiContent->metadata->languages)){
+                            $language = $apiContent->metadata->languages[0];
+                        }
+                        $objects[] = $apiContent->getContentObject($language);
                     } catch (Exception $e) {
                         eZDebug::writeError($e->getMessage(), __METHOD__);
                     }

@@ -94,7 +94,14 @@
     'alpaca-custom.css',
     'jstree.min.css'
 ))}
-
+{def $current_language = ezini('RegionalSettings', 'Locale')}
+{def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', $current_language ))}
+{def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
+<script>
+	$.opendataTools.settings('language', "{$current_language}");
+	$.opendataTools.settings('locale', "{$moment_language}");
+	$.opendataTools.settings('languages', ['{ezini('RegionalSettings','SiteLanguageList')|implode("','")}']);
+</script>
 {literal}
 <script id="tpl-results" type="text/x-jsrender">    
 {{for searchHits}}

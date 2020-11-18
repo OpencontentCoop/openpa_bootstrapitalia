@@ -170,22 +170,28 @@ class OpenPARoleType extends eZDataType
             foreach ($contents as $content) {
                 try {
                     $apiContent = new Content($content);
-                    $role = $apiContent->getContentObject($this->language);
-                    foreach ($apiContent->data[$this->language]['person']['content'] as $person) {
+                    $language = $this->language;
+                    if (!in_array($language, $apiContent->metadata->languages)){
+                        $language = $apiContent->metadata->languages[0];
+                    }
+                    $role = $apiContent->getContentObject($language);
+                    foreach ($apiContent->data[$language]['person']['content'] as $person) {
                         if (!isset($people[$person['id']])) {
                             $people[$person['id']] = eZContentObject::fetch((int)$person['id']);
                         }
                         $rolesPerPerson[$person['id']][] = $role;
                     }
-                    $type = implode(', ', $apiContent->data[$this->language]['role']['content']);
-                    foreach ($apiContent->data[$this->language]['for_entity']['content'] as $entity) {
+                    $type = implode(', ', $apiContent->data[$language]['role']['content']);
+                    foreach ($apiContent->data[$language]['for_entity']['content'] as $entity) {
                         if (!isset($entities[$entity['id']])) {
                             $entities[$entity['id']] = eZContentObject::fetch((int)$entity['id']);
                         }
                         $rolesPerEntity[$entity['id']][] = $role;
-                        if (isset($apiContent->data[$this->language]['ruolo_principale']['content'])
-                            && $apiContent->data[$this->language]['ruolo_principale']['content']) {
-                            $typePerEntities[$type][$entity['id']] = $entity['name'][$this->language];
+                        if (isset($apiContent->data[$language]['ruolo_principale']['content'])
+                            && $apiContent->data[$language]['ruolo_principale']['content']) {
+                            $typePerEntities[$type][$entity['id']] = $entities[$entity['id']] instanceof eZContentObject ?
+                                $entities[$entity['id']]->attribute('name') :
+                                $entity['name'][$language];
                         }
                     }
                     $roles[] = $role;
@@ -293,21 +299,33 @@ class OpenPARoleType extends eZDataType
             if ($attributeIdentifier) {
                 $language = $this->language;
                 usort($contents, function ($a, $b) use ($attributeIdentifier, $language) {
-                    if ($attributeIdentifier !== 'role'
-                        && isset($a['data'][$language][$attributeIdentifier]['content'][0]['name'][$language])
-                        && isset($b['data'][$language][$attributeIdentifier]['content'][0]['name'][$language])
-                    ) {
-                        return strcmp(
-                            $a['data'][$language][$attributeIdentifier]['content'][0]['name'][$language],
-                            $b['data'][$language][$attributeIdentifier]['content'][0]['name'][$language]
-                        );
+                    $aLanguage = $language;
+                    if (!in_array($language, $a['metadata']['languages'])){
+                        $aLanguage = $a['metadata']['languages'][0];
+                    }
+                    $bLanguage = $language;
+                    if (!in_array($language, $b['metadata']['languages'])){
+                        $bLanguage = $a['metadata']['languages'][0];
+                    }
 
-                    } elseif (isset($a['data'][$language][$attributeIdentifier]['content'][0])
-                        && isset($b['data'][$language][$attributeIdentifier]['content'][0])
+                    if ($attributeIdentifier !== 'role'
+                        && isset($a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name'])
+                        && isset($b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name'])
+                    ) {
+                        $aName = isset($a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name'][$aLanguage]) ?
+                            $a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name'][$aLanguage] :
+                            current($a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name']);
+                        $bName = isset($b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name'][$bLanguage]) ?
+                            $b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name'][$bLanguage] :
+                            current($b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name']);
+
+                        return strcmp($aName, $bName);
+                    } elseif (isset($a['data'][$aLanguage][$attributeIdentifier]['content'][0])
+                        && isset($b['data'][$bLanguage][$attributeIdentifier]['content'][0])
                     ) {
                         return strcmp(
-                            $a['data'][$language][$attributeIdentifier]['content'][0],
-                            $b['data'][$language][$attributeIdentifier]['content'][0]
+                            $a['data'][$aLanguage][$attributeIdentifier]['content'][0],
+                            $b['data'][$bLanguage][$attributeIdentifier]['content'][0]
                         );
                     }
 

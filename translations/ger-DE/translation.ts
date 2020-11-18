@@ -215,6 +215,10 @@
       <source>You must select at least one topic not included in %custom_topics_name</source>
       <translation>Sie müssen mindestens ein Thema wählen nicht in %custom_topics_name enthalten</translation>
     </message>
+    <message>
+      <source>at</source>
+      <translation>bei</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
