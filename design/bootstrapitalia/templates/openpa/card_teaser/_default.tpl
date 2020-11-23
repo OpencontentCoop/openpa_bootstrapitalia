@@ -7,7 +7,7 @@
 
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
 
-<div data-object_id="{$node.contentobject_id}" class="card card-teaser shadow {$node|access_style} rounded {if $view_variation|ne('card-teaser-info')}border{/if} {$view_variation}">
+<div data-object_id="{$node.contentobject_id}" class="card card-teaser shadow {$node|access_style} rounded {$view_variation}">
     {if and($show_icon, $openpa.content_icon.icon, $node|has_attribute('image')|not())}
         {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}
     {/if}

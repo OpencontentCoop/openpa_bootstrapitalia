@@ -26,7 +26,7 @@
     {/foreach}
 {/if}
 
-<div data-object_id="{$node.contentobject_id}" class="card card-teaser shadow {$node|access_style} p-4 rounded border {$view_variation}">
+<div data-object_id="{$node.contentobject_id}" class="card card-teaser shadow {$node|access_style} p-4 rounded {$view_variation}">
     {if and($show_icon, $openpa.content_icon.icon)}
         {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}
     {/if}
