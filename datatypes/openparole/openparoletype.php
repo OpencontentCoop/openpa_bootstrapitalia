@@ -277,7 +277,7 @@ class OpenPARoleType extends eZDataType
         if (!empty($data['filter'])) {
             $filterList = [];
             foreach ($data['filter'] as $filter){
-                $filterList[] = addcslashes(implode(' AND ', $filter), "')(][");
+                $filterList[] = addcslashes($filter, "')(][");
             }
             $queryParts[] = "role in ['\"" . implode("\"','\"", $filterList) . "\"']";
         }
