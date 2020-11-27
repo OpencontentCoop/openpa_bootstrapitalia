@@ -21,6 +21,8 @@ DatatypeMap[openparestrictedarea]=lckeyword
 
 [IndexBoost]
 Class[public_service]=3.0
+Class[pagina_sito]=3.0
+Class[frontpage]=3.0
 Attribute[legal_name]=2.0
 Attribute[event_title]=2.0
 Attribute[name]=2.0
