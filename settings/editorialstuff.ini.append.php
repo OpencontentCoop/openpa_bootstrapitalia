@@ -26,6 +26,9 @@ Actions[private-public]=NotifyOwner
 Actions[public-private]=NotifyOwner
 NotificationAttributeIdentifiers[]
 AutoRegistration=disabled
+#AutoRegistrationNotificationReceiver=group-<USERGROUP_NODE_ID>
+#AutoRegistrationNotificationReceiver=<USER_ID>
+AutoRegistrationNotificationReceiver=
 
 ### Esempi di configurazione:
 

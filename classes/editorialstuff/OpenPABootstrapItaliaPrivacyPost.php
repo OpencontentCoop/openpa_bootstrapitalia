@@ -23,6 +23,12 @@ class OpenPABootstrapItaliaPrivacyPost extends OpenPABootstrapItaliaAbstractPost
     public function onCreate()
     {
         $this->updateOwner();
+        if ($this->hasAutoRegistrableFactory()) {
+            $factory = $this->getFactory();
+            if ($factory instanceof OpenPABootstrapitaliaAutoRegistrableInterface) {
+                return $factory->onRegister($this);
+            }
+        }
         if ($this->currentUserNeedModeration() && $this->getObject()->attribute('current_version') == 1) {
             $states = $this->states();
             $default = 'privacy.private';
