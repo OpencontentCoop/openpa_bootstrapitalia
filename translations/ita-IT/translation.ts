@@ -685,4 +685,63 @@
       <translation>Segnalazione #%id</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/documents</name>
+    <message>
+      <source>Search text</source>
+      <translation>Ricerca libera</translation>
+    </message>
+    <message>
+      <source>Document number</source>
+      <translation>Numero</translation>
+    </message>
+    <message>
+      <source>Date</source>
+      <translation>Data</translation>
+    </message>
+    <message>
+      <source>Office</source>
+      <translation>Ufficio</translation>
+    </message>
+    <message>
+      <source>Administrative area</source>
+      <translation>Area</translation>
+    </message>
+    <message>
+      <source>Submit</source>
+      <translation>Invia</translation>
+    </message>
+    <message>
+      <source>Reset</source>
+      <translation>Annulla</translation>
+    </message>
+    <message>
+      <source>Document type</source>
+      <translation>Tipo di documento</translation>
+    </message>
+    <message>
+      <source>Loading...</source>
+      <translation>Attendere il caricamento dei dati...</translation>
+    </message>
+    <message>
+      <source>Subject</source>
+      <translation>Oggetto</translation>
+    </message>
+    <message>
+      <source>No documents were found</source>
+      <translation>Nessun documento trovato</translation>
+    </message>
+    <message>
+      <source>Questioners</source>
+      <translation>Interroganti</translation>
+    </message>
+    <message>
+      <source>From</source>
+      <translation>Dal</translation>
+    </message>
+    <message>
+      <source>to</source>
+      <translation>al</translation>
+    </message>
+  </context>
 </TS>

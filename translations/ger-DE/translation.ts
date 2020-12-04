@@ -217,7 +217,7 @@
     </message>
     <message>
       <source>at</source>
-      <translation>bei</translation>
+      <translation>beim</translation>
     </message>
   </context>
   <context>
@@ -655,7 +655,7 @@
     </message>
     <message>
       <source>Collaborative content management</source>
-      <translation type="unfinished"/>
+      <translation>Collaborative Content Management</translation>
     </message>
   </context>
   <context>
@@ -683,6 +683,65 @@
     <message>
       <source>Feedback #%id</source>
       <translation>Feedback #%id</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/documents</name>
+    <message>
+      <source>Search text</source>
+      <translation>Suchtext</translation>
+    </message>
+    <message>
+      <source>Document number</source>
+      <translation>Dokumentnummer</translation>
+    </message>
+    <message>
+      <source>Date</source>
+      <translation>Datum</translation>
+    </message>
+    <message>
+      <source>Office</source>
+      <translation>Büro</translation>
+    </message>
+    <message>
+      <source>Administrative area</source>
+      <translation>Verwaltungsbereich</translation>
+    </message>
+    <message>
+      <source>Submit</source>
+      <translation>einreichen</translation>
+    </message>
+    <message>
+      <source>Reset</source>
+      <translation>Reset</translation>
+    </message>
+    <message>
+      <source>Document type</source>
+      <translation>Art des Dokuments</translation>
+    </message>
+    <message>
+      <source>Loading...</source>
+      <translation>Wird geladen...</translation>
+    </message>
+    <message>
+      <source>Subject</source>
+      <translation>Gegenstand</translation>
+    </message>
+    <message>
+      <source>No documents were found</source>
+      <translation>Es wurden keine Dokumente gefunden</translation>
+    </message>
+    <message>
+      <source>Questioners</source>
+      <translation>Fragesteller</translation>
+    </message>
+    <message>
+      <source>From</source>
+      <translation>Von</translation>
+    </message>
+    <message>
+      <source>to</source>
+      <translation>zu</translation>
     </message>
   </context>
 </TS>

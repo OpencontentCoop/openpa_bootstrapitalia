@@ -30,7 +30,7 @@
 <form class="mt-3 mb-5" action="{'content/search'|ezurl(no)}" method="get">
     
     <div class="d-block d-lg-none d-xl-none text-center">
-        <a href="#categoryCollapse" role="button" class="btn btn-primary btn-lg text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="categoryCollapse">Filtri</a>          
+        <a href="#categoryCollapse" role="button" class="btn btn-primary btn-lg text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="categoryCollapse">{'Filters'|i18n('bootstrapitalia')}</a>
     </div>
 
     <div class="row">

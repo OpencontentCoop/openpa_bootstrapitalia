@@ -604,7 +604,7 @@
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Il y a des endroits près de l'emplacement sélectionné enregistré dans le système. Voulez-vous utiliser l'un de ces?</translation>
+      <translation>Il y a des endroits près de l'emplacement sélectionné enregistré dans le système. Vous souhaitez utiliser un de ces?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
@@ -682,6 +682,65 @@
     </message>
     <message>
       <source>Feedback #%id</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/documents</name>
+    <message>
+      <source>Search text</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Document number</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Date</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Office</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Administrative area</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Submit</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Reset</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Document type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Loading...</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Subject</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>No documents were found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Questioners</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>From</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>to</source>
       <translation type="unfinished"/>
     </message>
   </context>
