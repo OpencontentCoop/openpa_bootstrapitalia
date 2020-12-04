@@ -224,6 +224,13 @@ MatchFile=datatype/view/url_as_button.tpl
 Subdir=templates
 Match[attribute_identifier]=channel_url
 
+[datatype_view_channel_location_as_button]
+Source=content/datatype/view/ezurl.tpl
+MatchFile=datatype/view/url_as_button.tpl
+Subdir=templates
+Match[class_identifier]=channel
+Match[attribute_identifier]=location
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################
