@@ -1,4 +1,7 @@
 {def $factories = ezini( 'AvailableFactories', 'Identifiers', 'editorialstuff.ini' )}
+{if and(count($factories)|eq(1), $factories[0]|eq('demo'))}
+    {set $factories = array()}
+{/if}
 {if count($factories)}
     <div class="my-3 p-3 bg-white rounded shadow-sm">
         <h4 class="border-bottom border-gray pb-2 mb-0">{'Collaborative content management'|i18n('editorialstuff/dashboard')}</h4>
@@ -20,8 +23,9 @@
         {/if}
 
         <div class="table-responsive">
-        <table class="table table-striped table-condensed" cellpadding="0" cellspacing="0" border="0">
+        <table class="table table-striped table-condensed">
             {foreach $factories as $factory}
+                {if $factory|eq('demo')}{skip}{/if}
                 {def $name = $factory}
                 {if ezini_hasvariable( $factory, 'Name', 'editorialstuff.ini' )}
                     {set $name = ezini( $factory, 'Name', 'editorialstuff.ini' )}
@@ -37,15 +41,17 @@
                 {if $show}
                 <tr>
                     <td width="1">
-                        <a class="btn btn-primary btn-md" href="{concat('editorialstuff/dashboard/',$factory)|ezurl(no)}">
+                        <a class="btn btn-primary btn-md text-nowrap" href="{concat('editorialstuff/dashboard/',$factory)|ezurl(no)}">
                             <strong>{$name|wash()}</strong>
                         </a>
                     </td>
                     <td width="1">
+                        {if ezini_hasvariable( $factory, 'CreationButtonText', 'editorialstuff.ini' )}
                         <a class="btn btn-primary btn-md text-nowrap"
                            href="{concat('editorialstuff/add/',$factory)|ezurl(no)}">
                             <i class="fa fa-plus mr-2"></i> {ezini( $factory, 'CreationButtonText', 'editorialstuff.ini' )|wash()}
                         </a>
+                        {/if}
                     </td>
                     <td>
                         {if ezini_hasvariable( $factory, 'Description', 'editorialstuff.ini' )}

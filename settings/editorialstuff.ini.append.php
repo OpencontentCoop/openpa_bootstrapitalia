@@ -30,8 +30,15 @@ AutoRegistration=disabled
 #AutoRegistrationNotificationReceiver=<USER_ID>
 AutoRegistrationNotificationReceiver=
 
-### Esempi di configurazione:
+[AvailableFactories]
+Identifiers[]=place
 
+[place]
+Name=Gestisci luoghi
+ClassIdentifier=place
+ClassName=OpenPABootstrapItaliaPrivacyFactory
+
+### Esempi di configurazione:
 #[AvailableFactories]
 #Identifiers[]=event
 #Identifiers[]=place
