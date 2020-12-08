@@ -23,10 +23,12 @@ DatatypeMap[openparestrictedarea]=lckeyword
 Class[public_service]=3.0
 Class[pagina_sito]=3.0
 Class[frontpage]=3.0
+Class[employee]=3.0
+Class[politico]=3.0
 Attribute[legal_name]=2.0
 Attribute[event_title]=2.0
 Attribute[name]=2.0
 Attribute[title]=2.0
 Attribute[titolo]=2.0
-
+Attribute[has_role]=2.0
 */ ?>

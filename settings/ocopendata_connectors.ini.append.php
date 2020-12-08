@@ -5,6 +5,7 @@
 #ClassGroupConnectors[1]=MyAwesomeContentClassConnector
 ClassConnectors[image]=ImageClassConnector
 ClassConnectors[document]=DocumentClassConnector
+ClassConnectors[time_indexed_role]=TimeIndexedRoleClassConnector
 
 [FieldSettings]
 FieldConnectors[ezxmltext]=\Opencontent\Ocopendata\Forms\Connectors\OpendataConnector\FieldConnector\EzOnlineEditorXmlField
