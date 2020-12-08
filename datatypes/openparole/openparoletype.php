@@ -22,6 +22,8 @@ class OpenPARoleType extends eZDataType
 
     private static $content;
 
+    private static $timeIndexedRolePersonClassAttribute;
+
     public function __construct()
     {
         parent::__construct(
@@ -339,6 +341,68 @@ class OpenPARoleType extends eZDataType
         }
 
         return $contents;
+    }
+
+    function isIndexable()
+    {
+        return true;
+    }
+
+
+    /**
+     * @param eZContentObjectAttribute $attribute
+     * @return string|void
+     */
+    function metaData($attribute)
+    {
+        $data = [];
+        $definition = $attribute->attribute('class_content');
+        $classAttribute = $this->getTimeIndexedRolePersonClassAttribute();
+        if ($classAttribute instanceof eZContentClassAttribute){
+            /** @var array $classContent */
+            $classContent = $classAttribute->content();
+            if (isset($classContent['class_constraint_list'])
+                && in_array($attribute->object()->attribute('class_identifier'), $classContent['class_constraint_list'])){
+                $roles = $attribute->object()->reverseRelatedObjectList(false, $classAttribute->attribute('id'));
+                foreach ($roles as $role){
+                    if (!empty($definition['filter'])) {
+                        $dataMap = $role->dataMap();
+                        if (isset($dataMap['role']) && $dataMap['role']->hasContent()){
+                            $roleContent = $dataMap['role']->content();
+                            if ($roleContent instanceof eZTags) {
+                                foreach ($roleContent->attribute('keywords') as $keyword) {
+                                    if (in_array($keyword, $definition['filter'])) {
+                                        $data[] = $role->attribute('name');
+                                    }
+                                }
+                            }
+                        }
+                    }else {
+                        $data[] = $role->attribute('name');
+                    }
+                }
+            }
+        }
+
+        return implode(', ', $data);
+    }
+
+    private function getTimeIndexedRolePersonClassAttribute()
+    {
+        if (self::$timeIndexedRolePersonClassAttribute === null) {
+            self::$timeIndexedRolePersonClassAttribute = false;
+            $class = eZContentClass::fetchByIdentifier('time_indexed_role');
+            if ($class instanceof eZContentClass) {
+                /** @var eZContentClassAttribute $classAttribute */
+                foreach ($class->dataMap() as $classAttribute) {
+                    if ($classAttribute->attribute('identifier') == 'person') {
+                        self::$timeIndexedRolePersonClassAttribute = $classAttribute;
+                    }
+                }
+            }
+        }
+
+        return self::$timeIndexedRolePersonClassAttribute;
     }
 }
 
