@@ -263,11 +263,11 @@ $(document).ready(function () {
 				query += " and raw[subattr_document_type___tag_ids____si] in [" + tagFilters.join(',') + "]";
 			}
 			var officeFilter = container.find('[data-search="has_organization"]').val();			
-			if (officeFilter.length > 0){
+			if (officeFilter && officeFilter.length > 0){
 				query += " and has_organization.id in [" + officeFilter + "]";
 			}
 			var areaFilter = container.find('[data-search="area"]').val();
-			if (areaFilter.length > 0){
+			if (areaFilter && areaFilter.length > 0){
 				query += " and area.id in [" + areaFilter + "]";
 			}
 			var hasCodeFilter = container.find('[data-search="has_code"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
