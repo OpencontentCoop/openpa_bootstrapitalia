@@ -11,8 +11,9 @@ class TimeIndexedRoleClassConnector extends ClassConnector
 
         $result = parent::submit();
 
-        foreach ($people as $person){
-            eZContentOperationCollection::registerSearchObject((int)$person);
+        foreach ($people as $person) {
+            $id = isset($person['id']) ? $person['id'] : $person;
+            eZContentOperationCollection::registerSearchObject((int)$id);
         }
 
         return $result;
