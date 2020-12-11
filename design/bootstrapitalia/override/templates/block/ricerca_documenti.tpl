@@ -146,7 +146,7 @@
 		<div class="row mb-3 pt-3 border-top">				
 			<div class="col-md-2"><strong class="d-inline d-sm-none">{/literal}{'Date'|i18n('bootstrapitalia/documents')}{literal}</strong>
 				{{if ~i18n(data,'publication_start_time') && ~i18n(data,'publication_end_time')}}
-					<small>{/literal}{'From'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,'publication_start_time'), 'D/MM/YYYY')}}<br />{'to'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,'publication_end_time'), 'D/MM/YYYY')}}</small>
+					<small>{/literal}{'From'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,'publication_start_time'), 'D/MM/YYYY')}}<br />{/literal}{'to'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,'publication_end_time'), 'D/MM/YYYY')}}</small>
 				{{else}}
 					{{:~formatDate(~i18n(data,'publication_start_time'), 'D/MM/YYYY')}} 
 				{{/if}}
