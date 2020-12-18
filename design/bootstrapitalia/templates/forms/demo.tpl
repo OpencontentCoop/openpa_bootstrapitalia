@@ -97,7 +97,7 @@
         <p>Form di creazione e modifica dinamico per ciascuna classe. <strong>Crea e modifica realmente i dati ez!</strong></p>
         <div class="container">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="input-group input-group-lg">
                         <select id="selectclass" class="custom-select input-lg">
                             {def $class_list = fetch(class, list, hash(sort_by, array(name, true())))}
@@ -110,11 +110,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="input-group input-group-lg">
                         <input id="selectobject" type="text" class="custom-select input-lg" placeholder="Object ID" value=""/>
                         <div class="input-group-append">
                             <button id="editobject" class="btn btn-lg btn-success">Edit</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-group input-group-lg">
+                        <input id="selectviewobject" type="text" class="custom-select input-lg" placeholder="Object ID" value=""/>
+                        <div class="input-group-append">
+                            <button id="viewobject" class="btn btn-lg btn-success">View</button>
                         </div>
                     </div>
                 </div>
@@ -351,6 +359,11 @@
 
         $('#editobject').on('click', function (e) {
             $('#form').opendataFormEdit({object: $('#selectobject').val()});
+            e.preventDefault();
+        });
+
+        $('#viewobject').on('click', function (e) {
+            $('#form').opendataFormView({object: $('#selectviewobject').val()});
             e.preventDefault();
         });
 

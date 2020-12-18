@@ -23,4 +23,5 @@ FieldConnectors[has_temporal_coverage]=FullRelationsField
 FieldConnectors[opening_hours_specification]=FullRelationsField
 FieldConnectors[opening_hours]=OpeningHoursMatrixField
 FieldConnectors[topics]=TopicsField
+FieldConnectors[openpamaskedstring]=MaskTextLineFieldConnector
 */ ?>

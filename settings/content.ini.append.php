@@ -6,6 +6,7 @@ AvailableDataTypes[]=openpabootstrapitaliaicon
 AvailableDataTypes[]=openparole
 AvailableDataTypes[]=openpareverserelationlist
 AvailableDataTypes[]=openparestrictedarea
+AvailableDataTypes[]=openpamaskedstring
 
 [EditSettings]
 #AdditionalTemplates[]=load_ocopendata_forms.tpl
