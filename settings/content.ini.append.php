@@ -34,4 +34,5 @@ CategoryList[geo]=Dove
 CategoryList[time]=Quando
 CategoryList[altre_info]=Altre informazioni
 CategoryList[resource]=Risorse
+CategoryList[concorsi]=Concorsi
 */
