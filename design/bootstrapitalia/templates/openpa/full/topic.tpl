@@ -160,7 +160,7 @@
         ))}
     {/if}
 
-    {if api_search(concat('classes [event,public_service] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
+    {if api_search(concat('classes [document] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
         {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
             "Documenti",
