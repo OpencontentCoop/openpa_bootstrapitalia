@@ -105,4 +105,7 @@ AttributeIdentifiers[]=has_online_contact_point
 AttributeIdentifiers[]=opening_hours_specification
 AttributeIdentifiers[]=has_channel
 
+[NetworkSettings]
+SyncTrasparenza=disabled
+
 */ ?>
