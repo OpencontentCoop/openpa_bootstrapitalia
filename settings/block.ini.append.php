@@ -31,12 +31,14 @@ NumberOfArchivedItems=0
 ManualAddingOfItems=enabled
 ViewList[]
 ViewList[]=default
+ViewList[]=alt
 #ViewList[]=card
 ViewList[]=card_image
 #ViewList[]=card_children
 ViewList[]=evidence
 ViewName[]
 ViewName[default]=Default
+ViewName[alt]=Testo più grande
 ViewName[card_image]=Card (solo immagine)
 ViewName[evidence]=In evidenza
 #ViewName[card]=Card

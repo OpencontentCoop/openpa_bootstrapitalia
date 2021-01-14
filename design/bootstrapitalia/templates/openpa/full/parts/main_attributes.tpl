@@ -1,3 +1,4 @@
+{set_defaults( hash('dates_container_class', 'mt-5 mb-4'))}
 {def $main_attributes = class_extra_parameters($node.object.class_identifier, 'table_view').in_overview}
 {def $datetime_attributes = array()}
 {foreach $main_attributes as $identifier}
@@ -18,7 +19,7 @@
 	{/if}
 {/foreach}
 {if or($main_attributes|contains('content_show_published'),$main_attributes|contains('content_show_modified'),$main_attributes|contains('reading_time'))}
-	<div class="row mt-5 mb-4">
+	<div class="row {$dates_container_class}">
 	{if $main_attributes|contains('content_show_published')}
 		<div class="col">
 			{include uri=$openpa['content_show_published'].template}
@@ -32,7 +33,7 @@
 	{if and($node|has_attribute('reading_time'), $main_attributes|contains('reading_time'), $node|attribute('reading_time').content|ne('0'))}
 		<div class="col">
 			<p class="info-date my-3">
-			    <span class="d-block text-nowrap">{'Reading time'|i18n('bootstrapitalia')}:</span>
+			    <span class="d-block text-nowrap text-sans-serif">{'Reading time'|i18n('bootstrapitalia')}:</span>
 			    <strong class="text-nowrap">{$node|attribute('reading_time').content|wash()} min</strong>
 			</p>
 		</div>
@@ -48,3 +49,4 @@
 	</div>
 {/if}
 {undef $main_attributes $datetime_attributes}
+{unset_defaults(array('dates_container_class'))}

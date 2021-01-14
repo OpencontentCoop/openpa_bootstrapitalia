@@ -1,9 +1,10 @@
 {set_defaults( hash(
-    'show_title', true()
+    'show_title', true(),
+    'container_class', 'mt-4 mb-4'
 ))}
 
 {if or($node|has_attribute('topics'), $node|has_attribute('has_public_event_typology'))}
-<div class="mt-4 mb-4">
+<div class="{$container_class}">
     {if $show_title}
     <h6 class="mb-0"><small>{'Topics'|i18n('bootstrapitalia')}</small></h6>
     {/if}
@@ -23,7 +24,7 @@
 {/if}
 
 {if and($node|has_attribute('type'), $node|attribute('type').data_type_string|eq('eztags'), $openpa.content_tag_menu.has_tag_menu)}
-<div class="mt-4 mb-4">
+<div class="{$container_class}">
     {if $show_title}
         <h6 class="mb-0"><small>{$node|attribute('type').contentclass_attribute_name|wash()}</small></h6>
     {/if}
@@ -38,5 +39,6 @@
 {/if}
 
 {unset_defaults(array(
-    'show_title'
+    'show_title',
+    'container_class'
 ))}

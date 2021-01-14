@@ -24,53 +24,55 @@
         {/if}
     {/if}
 
-    <div class="singolo-container {$valid_node|access_style}">
+    <section id="head-section {$valid_node|access_style}">
+        <div class="container">
+            <div class="row">
+                {if or($has_image, $has_video)}
+                    <div class="col-lg-6 offset-lg-1 order-lg-2">
+                        {if $has_video}
+                            <div class="singolo-image flex-lg-fill video-wrapper">{$oembed.html}</div>
+                        {elseif $has_image}
+                            <img src="{include uri='design:atoms/image_url.tpl' node=$valid_node}" alt="{include uri='design:atoms/image_alt.tpl' node=$valid_node}" class="mw-100 h-100 of-lg-cover">
+                        {/if}
+                    </div>
+                {/if}
+                <div class="{if and($has_image|not(), $has_video|not())}col{else}col-lg-5 order-lg-1{/if}">
+                    <div class="card">
+                        <div class="card-body pb-5">
 
+                            {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}
 
-        {if or($has_image, $has_video)}
-        <div class="singolo-image-container d-lg-flex align-items-stretch flex-nowrap">
-            <div class="singolo-placeholder d-none d-lg-block flex-lg-fill"></div>
-            {if $has_video}
-                <div class="singolo-image flex-lg-fill video-wrapper">{$oembed.html}</div>
-            {elseif $has_image}
-                <div class="singolo-image flex-lg-fill bg-dark"
-                     style="background-image:url('{include uri='design:atoms/image_url.tpl' node=$valid_node}'); background-position: center center;background-repeat: no-repeat;background-size: cover;min-height:200px"></div>
-            {/if}
-        </div>
-        {/if}
+                            <h1 class="h4 card-title">
+                                <a href="{$openpa.content_link.full_link}" title="Link a {$valid_node.name|wash()}" class="text-primary text-decoration-none">
+                                    {$valid_node.name|wash()}
+                                </a>
+                            </h1>
 
-        <div class="singolo-text p-2 pr-4{if and($has_image|not(), $has_video|not())} mw-100{/if}">
+                            <div class="card-text mb-3">
+                                {include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node dates_container_class=false()}
+                            </div>
+                            {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false() container_class='pb-3'}
 
-            <div class="mt-5">
-                {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}
+                            <a class="read-more pb-5 pt-4" href="{$openpa.content_link.full_link}">
+                                <span class="text">{if $openpa.content_link.is_node_link}Leggi di più{else}Visita{/if}</span>
+                                {display_icon('it-arrow-right', 'svg', 'icon')}
+                            </a>
+
+                            {if and($openpa.content_link.is_node_link|not(), $valid_node.can_edit)}
+                                <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$valid_node.url_alias|ezurl(no)}">
+                                    <span class="fa-stack">
+                                      <i class="fa fa-circle fa-stack-2x"></i>
+                                      <i class="fa fa-wrench fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            {/if}
+
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <h2 class="mt-0 mb-4">
-                <a href="{$openpa.content_link.full_link}" title="Link a {$valid_node.name|wash()}" class="text-primary">
-                    {$valid_node.name|wash()}
-                </a>
-            </h2>
-            <div class="card-text mb-5">
-                {include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node}
-            </div>
-
-            {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false()}
-
-            <a class="read-more mt-5 mb-3" href="{$openpa.content_link.full_link}">
-                <span class="text">{if $openpa.content_link.is_node_link}Leggi di più{else}Visita{/if}</span>
-                {display_icon('it-arrow-right', 'svg', 'icon')}
-            </a>
-
-            {if and($openpa.content_link.is_node_link|not(), $valid_node.can_edit)}
-                <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$valid_node.url_alias|ezurl(no)}">
-                    <span class="fa-stack">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-wrench fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-            {/if}
         </div>
+    </section>
 
-    </div>
     {undef $valid_node $openpa}
 {/if}

@@ -397,6 +397,13 @@ Subdir=templates
 Match[type]=Singolo
 Match[view]=default
 
+[block_singolo_alt]
+Source=block/view/view.tpl
+MatchFile=block/singolo_alt.tpl
+Subdir=templates
+Match[type]=Singolo
+Match[view]=alt
+
 [block_singolo_card]
 Source=block/view/view.tpl
 MatchFile=block/singolo_card.tpl
