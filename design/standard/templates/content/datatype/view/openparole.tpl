@@ -41,26 +41,29 @@
 			{* versione estesa per il full *}
 			{if and(is_set($view_context), $view_context|eq('full_attributes'))}
 				{def $roles = $attribute.content.roles}
-				<ul{if count($roles)|eq(1)} class="list-unstyled"{/if}>
+				<ul>
 					{foreach $roles as $role}
-					<li>
+					<li class="mb-2">
 						{def $entity = $attribute.content.entities[$role|attribute('for_entity').content.relation_list[0].contentobject_id]}
 						{$role|attribute('role').content.keyword_string|trim} {'at'|i18n('bootstrapitalia')} <a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
 						{if or($role|has_attribute('competences'), $role|has_attribute('delegations'))}
-						<ul class="list-unstyled">
 							{if $role|has_attribute('competences')}
-								<small class="d-block">
-									<strong>{$role|attribute('competences').contentclass_attribute_name}:</strong>
-									{$role|attribute('competences').content.cells|implode(', ')}
-								</small>
+								<ul class="list-unstyled" style="font-size: .8em">
+									<li><strong>{$role|attribute('competences').contentclass_attribute_name}:</strong></li>
+								</ul>
+								<ul style="font-size: .8em">
+									<li>{$role|attribute('competences').content.cells|implode('</li><li>')}</li>
+								</ul>
+
 							{/if}
 							{if $role|has_attribute('delegations')}
-								<small class="d-block">
-									<strong>{$role|attribute('delegations').contentclass_attribute_name}:</strong>
-									{$role|attribute('delegations').content.cells|implode(', ')}
-								</small>
+								<ul class="list-unstyled" style="font-size: .8em">
+									<li><strong>{$role|attribute('delegations').contentclass_attribute_name}:</strong></li>
+								</ul>
+								<ul style="font-size: .8em">
+									<li>{$role|attribute('delegations').content.cells|implode('</li><li>')}</li>
+								</ul>
 							{/if}
-						</ul>
 						{/if}
 						{undef $entity}
 					</li>
