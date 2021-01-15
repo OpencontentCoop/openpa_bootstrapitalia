@@ -4,9 +4,7 @@
        name="CustomActionButton[{$attribute.id}_browse_objects]"
        value="{'Select from library'|i18n('bootstrapitalia')}"
        title="{'Browse to add existing objects in this relation'|i18n( 'design/standard/content/datatype' )}" />
-{run-once}
 {ezscript_require(array('jquery.relationsbrowse.js'))}
-{/run-once}
 <script>
 $(document).ready(function () {ldelim}
     $('#browse_and_search_{$attribute.id}').relationsbrowse({ldelim}

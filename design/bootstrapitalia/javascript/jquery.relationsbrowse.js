@@ -251,8 +251,8 @@
         buildTreeSelect: function () {
             var self = this;
 
-            $(this.browserContainer).html('');
-            var panel = $('<div class="card card-bg no-after"></div>').appendTo($(this.browserContainer));
+            this.browserContainer.html('');
+            var panel = $('<div class="card card-bg no-after"></div>').appendTo(this.browserContainer);
             var panelHeading = self.buildPanelHeader(panel, true, false, false);
             self.fetchBrowseSubtreeRoot(self.browseParameters.subtree, function (rootNode) {
                 var name = $('<h5></h5>');
@@ -314,7 +314,7 @@
 
                     if(data.content.offset > 0){
                         var prevPaginationOffset = self.browseParameters.offset - self.browseParameters.limit;
-                        var prevButton = $('<a href="#" class="pull-left" title="'+self.settings.i18n.goToPreviousPage+'"><span class="glyphicon glyphicon-chevron-left"></span></a>')
+                        $('<a href="#" class="pull-left" title="'+self.settings.i18n.goToPreviousPage+'"><span class="glyphicon glyphicon-chevron-left"></span></a>')
                             .bind('click', function(e){
                                 self.browseParameters.offset = prevPaginationOffset;
                                 self.buildTreeSelect();
@@ -326,7 +326,7 @@
 
                     if(data.content.total_count > data.content.list.length + self.browseParameters.offset){
                         var nextPaginationOffset = self.browseParameters.offset + self.browseParameters.limit;
-                        var nextButton = $('<a href="#" class="pull-right" title="'+self.settings.i18n.goToNextPage+'"><span class="glyphicon glyphicon-chevron-right"></span></a>')
+                        $('<a href="#" class="pull-right" title="'+self.settings.i18n.goToNextPage+'"><span class="glyphicon glyphicon-chevron-right"></span></a>')
                             .bind('click', function(e){
                                 self.browseParameters.offset = nextPaginationOffset;
                                 self.buildTreeSelect();
@@ -345,18 +345,34 @@
         
         buildSearchSelect: function () {  
             var self = this;  
-            $(this.browserContainer).html('');
-            var panel = $('<div class="card card-bg no-after"></div>').appendTo($(this.browserContainer));
+            this.browserContainer.html('');
+            var panel = $('<div class="card card-bg no-after"></div>').appendTo(this.browserContainer);
             var panelHeading = self.buildPanelHeader(panel, false, true, false);
             panelHeading.append('<h5>'+self.settings.i18n.search+'</h5>');
             self.fetchBrowseSubtreeRoot(self.browseParameters.subtree, function (rootNode) {
                 if (typeof rootNode === 'string'){
-                    panelHeading.find('h5').append(' in ' + rootNode);
+                    panelHeading.find('h5').append('<span> in ' + rootNode + '</span>');
                 }else if (typeof rootNode === 'object'){
                     var itemName = (rootNode.name.length > 50) ? rootNode.name.substring(0, 47) + '...' : rootNode.name;
-                    panelHeading.find('h5').append(' in ' + itemName);
+                    panelHeading.find('h5').append('<span> in ' + itemName + '</span>');
                 }
             });
+            if (self.browseParameters.subtree > 1) {
+                panelHeading.append(
+                    '<div class="form-check">' +
+                    '<input class="form-check-input" type="checkbox" name="search-all" id="search-all-'+self.settings.attributeId+'" />' +
+                    '<label for="search-all-'+self.settings.attributeId+'" class="form-check-label">'+self.settings.i18n.search+' in ' + self.settings.i18n.allContents.toLowerCase()+'</label>' +
+                    '</div>'
+                );
+                panelHeading.find('h5').data('search-text', panelHeading.find('h5 span').text());
+                panelHeading.find('#search-all-'+self.settings.attributeId).on('change', function (e){
+                    if ($(this).is(':checked')){
+                        panelHeading.find('h5 span').text(' in ' + self.settings.i18n.allContents.toLowerCase());
+                    }else{
+                        panelHeading.find('h5 span').text(panelHeading.find('h5').data('search-text'));
+                    }
+                });
+            }
 
             var inputGroup = $('<div class="input-group"></div>');
             this.searchInput = $('<input class="form-control" type="text" placeholder="" value=""/>').appendTo(inputGroup);
@@ -387,7 +403,12 @@
         buildQuery: function(){
             var searchText = this.searchInput.val();
             searchText = searchText.replace(/'/g, "\\'");
-            var subtreeQuery = " and subtree ["+this.browseParameters.subtree+"]";
+            var subtreeQuery;
+            if (this.browserContainer.find('#search-all-'+this.settings.attributeId).is(':checked')){
+                subtreeQuery = " and subtree [1]";
+            }else {
+                subtreeQuery = " and subtree [" + this.browseParameters.subtree + "]";
+            }
             var classesQuery = '';
             if ($.isArray(this.settings.classes) && this.settings.classes.length > 0){
                 classesQuery = " and classes ["+this.settings.classes.join(',')+"]";
