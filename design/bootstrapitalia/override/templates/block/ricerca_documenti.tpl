@@ -8,8 +8,17 @@
 ))}
 
 {def $root_tags = $block.custom_attributes.root_tag|explode(',')}
+{def $hide_tag_select = cond(and(is_set($block.custom_attributes.hide_tag_select), $block.custom_attributes.hide_tag_select|eq('1')), true(), false())}
+{def $topics_filter = cond(and(is_set($block.custom_attributes.topic_node_id), $block.custom_attributes.topic_node_id|ne('')), $block.custom_attributes.topic_node_id|wash(), false())}
+{def $topics = fetch(content, object, hash(remote_id, 'topics'))
+	 $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu'))
+	 $topic_list_children = $topic_list.children}
 
-<div data-block_document_subtree="{$block.custom_attributes.node_id}" data-limit="20" data-hide_empty_facets="{$block.custom_attributes.hide_empty_facets}" data-hide_first_level="{$block.custom_attributes.hide_first_level}">
+<div data-block_document_subtree="{$block.custom_attributes.node_id}"
+	 data-limit="20"
+	 data-hide_empty_facets="{$block.custom_attributes.hide_empty_facets}"
+	 data-topics="{$topics_filter}"
+	 data-hide_first_level="{$block.custom_attributes.hide_first_level}">
 	<div class="d-block d-lg-none d-xl-none text-center mb-2">
 		<a href="#filters" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="filters">{'Filters'|i18n('bootstrapitalia')}</a>
 	</div>
@@ -50,16 +59,32 @@
 					</select>
 				</div>
 				{/if}
-				<div class="col-md-4 col-lg-2 my-2 text-left">
+				{if $topics_filter|not()}
+					<div class="col-md-4 col-lg-2 my-2">
+						<label for="searchFormTopic-{$block.id}" class="m-0 d-none"><small>{'Topics'|i18n('bootstrapitalia')}</small></label>
+						<select class="form-control custom-select chosen-border" id="searchFormTopic-{$block.id}" data-search="topic">
+							<option value="">{'Topics'|i18n('bootstrapitalia')}</option>
+							{foreach $topic_list_children as $topic}
+								<option value="{$topic.item.node_id}">{$topic.item.name|wash()}</option>
+								{if $topic.has_children}
+									{foreach $topic.children as $child}
+										<option value="{$child.item.node_id}">&nbsp;&nbsp;{$child.item.name|wash()}</option>
+									{/foreach}
+								{/if}
+							{/foreach}
+						</select>
+					</div>
+				{/if}
+				<div class="col-md-4 col-lg-2 my-2 text-center text-md-left">
 					<div class="row">
 						<div class="col">
 							<button type="submit" class="btn btn-link pt-2 text-decoration-none">
-								<i class="fa fa-2x fa-search text-black"></i> <span class="d-xs-inline d-sm-none text-uppercase">{'Submit'|i18n('bootstrapitalia/documents')}</span>
+								<i class="fa fa-2x fa-search text-black"></i> <span class="d-xs-inline d-md-none text-uppercase h5 text-black">{'Submit'|i18n('bootstrapitalia/documents')}</span>
 							</button>
 						</div>
 						<div class="col">
 							<button type="reset" class="btn btn-link pt-2  text-decoration-none hide">
-								<i class="fa fa-2x fa-close resetSearch text-danger"></i> <span class="d-xs-inline d-sm-none text-uppercase">{'Reset'|i18n('bootstrapitalia/documents')}</span>
+								<i class="fa fa-2x fa-close resetSearch text-danger"></i> <span class="d-xs-inline d-md-none text-uppercase h5 text-danger">{'Reset'|i18n('bootstrapitalia/documents')}</span>
 							</button>
 						</div>
 					</div>
@@ -69,7 +94,7 @@
 	</div>
 	<div class="row border-top row-column-border row-column-menu-left attribute-list mt-0">
 	    {if and($root_tags|count(), $root_tags[0]|ne(''))}
-		    <aside class="col-lg-4">
+		    <aside class="col-lg-4{if $hide_tag_select} d-none{/if}">
 				<div class="d-block d-lg-none d-xl-none text-center mb-2">
 					<a href="#types" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="types">{'Document type'|i18n('bootstrapitalia/documents')}</a>
 				</div>
@@ -116,7 +141,7 @@
 		    </aside>
 	    {/if}
 
-	    <section class="{if $root_tag_id_list|count()|gt(0)}col-lg-8{else}col{/if} p-0">
+	    <section class="{if and($root_tag_id_list|count()|gt(0), $hide_tag_select|not())}col-lg-8{else}col{/if} p-0">
 			<div class="results p-3" data-root_tags="{$root_tag_id_list|implode(',')}"></div>
 	    </section>
 	</div>
@@ -222,6 +247,7 @@ $(document).ready(function () {
 		var subtree = container.data('block_document_subtree');		
 		var hideEmptyFacets = container.data('hide_empty_facets') == 1;
 		var hideFirstLevel = container.data('hide_first_level') == 1;
+		var topics = container.data('topics').toString();
 		var currentPage = 0;
 		var queryPerPage = [];
 		var template = $.templates('#tpl-document-results');
@@ -280,6 +306,14 @@ $(document).ready(function () {
 				query += ' and calendar[publication_start_time,publication_end_time] = [' + dateFilter.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',' + dateFilter.set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + ']';				
 			}
 
+			if (topics.length > 0){
+				query += ' and raw[submeta_topics___main_node_id____si] in ['+topics+']';
+			}else{
+				var topicsFilter = container.find('[data-search="topic"]').val();
+				if (topicsFilter && topicsFilter.length > 0){
+					query += ' and raw[submeta_topics___main_node_id____si] in ['+topicsFilter+']';
+				}
+			}
 			query += ' sort [publication_start_time=>desc,start_time=>desc,raw[extra_has_code_sl]=>desc]'
 			
 			return query;
