@@ -140,7 +140,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             } else {
                 $parameters = array(
                     'ClassFilterType' => 'exclude',
-                    'ClassFilterArray' => array(self::PAGINA_TRASPARENZA_CLASS, self::NOTA_TRASPARENZA_CLASS, self::FOLDER_CLASS),
+                    'ClassFilterArray' => array(self::PAGINA_TRASPARENZA_CLASS, self::NOTA_TRASPARENZA_CLASS),
                     'Depth' => 1,
                     'DepthOperator' => 'eq',
                 );
@@ -260,7 +260,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 $parameters = array(
                     'parent_node_id' => $this->container->getContentNode()->attribute('node_id'),
                     'class_filter_type' => 'exclude',
-                    'class_filter_array' => array(self::PAGINA_TRASPARENZA_CLASS, self::NOTA_TRASPARENZA_CLASS, self::FOLDER_CLASS),
+                    'class_filter_array' => array(self::PAGINA_TRASPARENZA_CLASS, self::NOTA_TRASPARENZA_CLASS),
                     'limit' => OpenPAINI::variable('GestioneFigli', 'limite_paginazione', '25'),
                     'offset' => $this->getOffset(),
                     'sort_by' => $this->container->getContentNode()->attribute('sort_array')
@@ -328,7 +328,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     {
         if ($this->isPaginaTrasparenza()) {
 
-            $baseClasses = array(self::PAGINA_TRASPARENZA_CLASS, self::NOTA_TRASPARENZA_CLASS, self::FOLDER_CLASS);
+            $baseClasses = array(self::PAGINA_TRASPARENZA_CLASS, self::NOTA_TRASPARENZA_CLASS);
 
             $excludeClasses = array();
             if ($this->hasBlocks()) {

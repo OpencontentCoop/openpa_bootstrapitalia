@@ -153,81 +153,35 @@
             {/if}
 
             {* Figli di classe pagina_trasaparenza *}
-                {if $trasparenza.count_children_trasparenza|gt(0)}
-                    
-                    {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
-                             nodes = fetch( 'content', 'list', $trasparenza.children_trasparenza_fetch_parameters )
-                             nodes_count = $trasparenza.count_children_trasparenza}
+            {if $trasparenza.count_children_trasparenza|gt(0)}
+                {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
+                         nodes = fetch('content', 'list', $trasparenza.children_trasparenza_fetch_parameters)
+                         nodes_count = $trasparenza.count_children_trasparenza}
 
-                    {if or($trasparenza.count_children|gt(0), $trasparenza.has_table_fields, $trasparenza.has_blocks)}<hr />{/if}
+                {if or($trasparenza.count_children|gt(0), $trasparenza.has_table_fields, $trasparenza.has_blocks)}<hr />{/if}
+            {/if}
 
-                {/if}
+            {* layout a blocchi *}
+            {if $trasparenza.has_blocks}
+                {attribute_view_gui attribute=$trasparenza.blocks_attribute}
+            {/if}
 
-                {* Altri figli nelle varie visualizzazioni *}
-                {if or($trasparenza.count_children|gt(0), $trasparenza.has_table_fields, $trasparenza.has_blocks)}
+            {* figli in base a sintassi convenzionale sul campo fields *}
+            {if $trasparenza.has_table_fields}
+                {foreach $trasparenza.table_fields as $table_index => $fields}
+                    {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table_fields.tpl'
+                             nodes_count = $trasparenza.count_children
+                             fields = $fields
+                             table_index = $table_index}
+                {/foreach}
+            {/if}
 
-                    {* layout a blocchi *}
-                    {if $trasparenza.has_blocks}
-
-                        {attribute_view_gui attribute=$trasparenza.blocks_attribute}
-
-                        {if $trasparenza.count_children_folder|gt(0)}
-
-                            {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
-                                     nodes = fetch( 'content', 'list', $trasparenza.children_folder_fetch_parameters )
-                                     nodes_count = $trasparenza.count_children_folder}
-                        {/if}
-
-
-                    {* figli in base a sintassi convenzionale sul campo fields *}
-                    {elseif $trasparenza.has_table_fields}
-
-                        {foreach $trasparenza.table_fields as $table_index => $fields}
-                            {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table_fields.tpl'
-                                     nodes_count = $trasparenza.count_children
-                                     fields = $fields
-                                     table_index = $table_index}
-                        {/foreach}
-
-                        {if $trasparenza.count_children_folder|gt(0)}
-
-                            {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
-                                     nodes = fetch( 'content', 'list', $trasparenza.children_folder_fetch_parameters )
-                                     nodes_count = $trasparenza.count_children_folder}
-                        {/if}
-
-
-                    {* lista dei figli *}
-                    {else}
-
-                        {def $figli = fetch( 'content', 'list', $trasparenza.children_fetch_parameters )}
-
-                        {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
-                                 nodes=$figli
-                                 nodes_count=$trasparenza.count_children}
-
-                    {/if}
-                {elseif $trasparenza.count_children_folder|gt(0)}
-
-                    {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
-                             nodes = fetch( 'content', 'list', $trasparenza.children_folder_fetch_parameters )
-                             nodes_count = $trasparenza.count_children_folder}
-
-                {/if}
-
-                {if $trasparenza.count_children_extra|gt(0)}
-                    {*if $node.object.can_create}
-                        {editor_warning('Vengono visualizzazi qui i contenuti presenti che non corrispondono alle classi di contenuto consigliate in "Guida per il redattore"')}
-                    {/if*}  
-                    
-                    {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table.tpl'
-                             nodes = fetch( 'content', 'list', $trasparenza.children_extra_fetch_parameters )
-                             nodes_count = $trasparenza.count_children_extra
-                             title=false()
-                             class=array()
-                             hide_date=true()}    
-                    
-                {/if}
+            {* lista dei figli *}
+            {if $$trasparenza.count_children}
+                {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
+                         nodes=fetch('content', 'list', $trasparenza.children_fetch_parameters)
+                         nodes_count=$trasparenza.count_children}
+            {/if}
 
         </section>
     </div>
