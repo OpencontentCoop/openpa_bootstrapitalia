@@ -13,6 +13,8 @@
 {def $topics = fetch(content, object, hash(remote_id, 'topics'))
 	 $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu'))
 	 $topic_list_children = $topic_list.children}
+{def $area_count = fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('administrative_area')))}
+{def $office_count = fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('office')))}
 
 <div data-block_document_subtree="{$block.custom_attributes.node_id}"
 	 data-limit="20"
@@ -23,13 +25,13 @@
 		<a href="#filters" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="filters">{'Filters'|i18n('bootstrapitalia')}</a>
 	</div>
 	<div class="d-lg-block d-xl-block collapse" id="filters">
-		<form class="row form">
+		<form class="form">
 			<div class="form-row">
 				<div class="col-md-4 col-lg-2 my-2">
 					<label for="search-{$block.id}" class="m-0 d-none"><small>{'Search text'|i18n('bootstrapitalia/documents')}</small></label>
 					<input type="text" class="form-control chosen-border" id="search-{$block.id}" data-search="q" placeholder="{'Search text'|i18n('bootstrapitalia/documents')}">
 				</div>
-				<div class="col-md-4 col-lg-2 my-2">
+				<div class="col-md-4 col-lg-{if and($office_count|gt(0), $area_count|gt(0), $topics_filter|not())}1{else}2{/if} my-2">
 					<label for="searchFormNumber-{$block.id}" class="m-0 d-none"><small>{'Document number'|i18n('bootstrapitalia/documents')}</small></label>
 					<input type="text" class="form-control chosen-border" id="searchFormNumber-{$block.id}" data-search="has_code" placeholder="{'Document number'|i18n('bootstrapitalia/documents')}">
 				</div>
@@ -37,7 +39,7 @@
 					<label for="searchFormDate-{$block.id}" class="m-0 d-none"><small>{'Date'|i18n('bootstrapitalia/documents')}</small></label>
 					<input type="text" class="form-control chosen-border" id="searchFormDate-{$block.id}" data-search="calendar" placeholder="{'Date'|i18n('bootstrapitalia/documents')}">
 				</div>
-				{if fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('office')))|gt(0)}
+				{if $office_count|gt(0)}
 				<div class="col-md-4 col-lg-2 my-2">
 					<label for="searchFormOffice-{$block.id}" class="m-0 d-none"><small>{'Office'|i18n('bootstrapitalia/documents')}</small></label>
 					<select class="form-control custom-select chosen-border" id="searchFormOffice-{$block.id}" data-search="has_organization">
@@ -48,7 +50,7 @@
 					</select>
 				</div>
 				{/if}
-				{if fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('administrative_area')))|gt(0)}
+				{if $area_count|gt(0)}
 				<div class="col-md-4 col-lg-2 my-2">
 					<label for="searchFormArea-{$block.id}" class="m-0 d-none"><small>{'Administrative area'|i18n('bootstrapitalia/documents')}</small></label>
 					<select class="form-control custom-select chosen-border" id="searchFormArea-{$block.id}" data-search="area">
@@ -75,16 +77,16 @@
 						</select>
 					</div>
 				{/if}
-				<div class="col-md-4 col-lg-2 my-2 text-center text-md-left">
+				<div class="col-md-12 col-lg-1 my-2 text-center">
 					<div class="row">
 						<div class="col">
-							<button type="submit" class="btn btn-link pt-2 text-decoration-none">
-								<i class="fa fa-2x fa-search text-black"></i> <span class="d-xs-inline d-md-none text-uppercase h5 text-black">{'Submit'|i18n('bootstrapitalia/documents')}</span>
+							<button type="submit" class="btn btn-link pt-2 px-lg-0 text-decoration-none">
+								<i class="fa fa-search text-black" style="font-size: 1.4em"></i> <span class="d-md-inline d-lg-none text-uppercase h5 text-black">{'Submit'|i18n('bootstrapitalia/documents')}</span>
 							</button>
 						</div>
 						<div class="col">
-							<button type="reset" class="btn btn-link pt-2  text-decoration-none hide">
-								<i class="fa fa-2x fa-close resetSearch text-danger"></i> <span class="d-xs-inline d-md-none text-uppercase h5 text-danger">{'Reset'|i18n('bootstrapitalia/documents')}</span>
+							<button type="reset" class="btn btn-link pt-2 px-lg-0 text-decoration-none hide">
+								<i class="fa fa-close resetSearch text-danger" style="font-size: 1.4em"></i> <span class="d-md-inline d-lg-none text-uppercase h5 text-danger">{'Reset'|i18n('bootstrapitalia/documents')}</span>
 							</button>
 						</div>
 					</div>
