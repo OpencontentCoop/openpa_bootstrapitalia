@@ -132,6 +132,7 @@
             <ul class="list-unstyled incremental-select">
             {section var=node loop=$nodesList}
             <li>
+                {def $node_has_children = $node.children_count}
                 <div class="form-check">
                   <input id="check-{$attribute.id}-{$node.contentobject_id}"
                          class="form-check-input"
@@ -147,12 +148,13 @@
                       {/foreach}
                       {/if}
                       />
-                  <label class="form-check-label" for="check-{$attribute.id}-{$node.contentobject_id}">{$node.name|wash}</label>
+                  <label class="form-check-label" for="check-{$attribute.id}-{$node.contentobject_id}">{$node.name|wash}{if $node_has_children} <i class="fa fa-plus-square-o"></i>{/if}</label>
                 </div>
-                {if $node.children_count}
+                {if $node_has_children}
                 <ul class="list-unstyled ml-3">
                     {foreach $node.children as $child}
                     <li>
+                        {def $child_has_children = $child.children_count}
                         <div class="form-check">
                             <input id="check-{$attribute.id}-{$child.contentobject_id}"
                                    class="form-check-input"
@@ -168,12 +170,13 @@
                                         {/foreach}
                                     {/if}
                             />
-                            <label class="form-check-label" for="check-{$attribute.id}-{$child.contentobject_id}">{$child.name|wash}</label>
+                            <label class="form-check-label" for="check-{$attribute.id}-{$child.contentobject_id}">{$child.name|wash}{if $child_has_children} <i class="fa fa-plus-square-o"></i>{/if}</label>
                         </div>
-                        {if $child.children_count}
+                        {if $child_has_children}
                         <ul class="list-unstyled ml-3">
                             {foreach $child.children as $sub_child}
                             <li>
+                                {def $sub_child_has_children = $sub_child.children_count}
                                 <div class="form-check">
                                     <input id="check-{$attribute.id}-{$sub_child.contentobject_id}"
                                            class="form-check-input"
@@ -189,9 +192,9 @@
                                                 {/foreach}
                                             {/if}
                                     />
-                                    <label class="form-check-label" for="check-{$attribute.id}-{$sub_child.contentobject_id}">{$sub_child.name|wash}</label>
+                                    <label class="form-check-label" for="check-{$attribute.id}-{$sub_child.contentobject_id}">{$sub_child.name|wash}{if $sub_child_has_children} <i class="fa fa-plus-square-o"></i>{/if}</label>
                                 </div>
-                                {if $sub_child.children_count}
+                                {if $sub_child_has_children}
                                 <ul class="list-unstyled ml-3">
                                     {foreach $sub_child.children as $sub_sub_child}
                                     <li>
@@ -216,14 +219,17 @@
                                     {/foreach}
                                 </ul>
                                 {/if}
+                                {undef $sub_child_has_children}
                             </li>
                             {/foreach}
                         </ul>
                         {/if}
+                        {undef $child_has_children}
                     </li>
                     {/foreach}
                 </ul>
                 {/if}
+                {undef $node_has_children}
             </li>
             {/section}
         </ul>
