@@ -344,7 +344,9 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                         }
                     }
                 }
-            } elseif ($this->hasTableFields()) {
+            }
+
+            if ($this->hasTableFields()) {
                 $tableFieldsParameters = $this->getTableFieldsParameters();
                 foreach ($tableFieldsParameters as $tableFieldsParameter) {
                     if (isset($tableFieldsParameter['class_identifier'])) {

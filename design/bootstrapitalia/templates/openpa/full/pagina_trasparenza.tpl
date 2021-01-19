@@ -158,7 +158,7 @@
                          nodes = fetch('content', 'list', $trasparenza.children_trasparenza_fetch_parameters)
                          nodes_count = $trasparenza.count_children_trasparenza}
 
-                {if or($trasparenza.count_children|gt(0), $trasparenza.has_table_fields, $trasparenza.has_blocks)}<hr />{/if}
+                {if or($trasparenza.count_children_extra|gt(0), $trasparenza.has_table_fields, $trasparenza.has_blocks)}<hr />{/if}
             {/if}
 
             {* layout a blocchi *}
@@ -170,17 +170,16 @@
             {if $trasparenza.has_table_fields}
                 {foreach $trasparenza.table_fields as $table_index => $fields}
                     {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table_fields.tpl'
-                             nodes_count = $trasparenza.count_children
                              fields = $fields
                              table_index = $table_index}
                 {/foreach}
             {/if}
 
             {* lista dei figli *}
-            {if $$trasparenza.count_children}
+            {if $$trasparenza.count_children_extra}
                 {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
-                         nodes=fetch('content', 'list', $trasparenza.children_fetch_parameters)
-                         nodes_count=$trasparenza.count_children}
+                         nodes=fetch('content', 'list', $trasparenza.children_extra_fetch_parameters)
+                         nodes_count=$trasparenza.count_children_extra}
             {/if}
 
         </section>
