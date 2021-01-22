@@ -8,7 +8,7 @@
 {elseif $object.main_parent_node_id}
     {set $_redirect = concat( 'content/view/full/', $object.main_parent_node_id )}
 {elseif ezhttp( 'url', 'get', true() )}
-    {set $_redirect = ezhttp( 'url', 'get' )}
+    {set $_redirect = ezhttp( 'url', 'get' )|wash()}
 {elseif ezhttp_hasvariable( 'LastAccessesURI', 'session' )}
     {set $_redirect = ezhttp( 'LastAccessesURI', 'session' )}
 {/if}
