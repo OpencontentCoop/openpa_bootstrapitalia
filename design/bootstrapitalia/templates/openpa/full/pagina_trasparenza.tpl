@@ -176,7 +176,7 @@
             {/if}
 
             {* lista dei figli *}
-            {if $$trasparenza.count_children_extra}
+            {if $trasparenza.count_children_extra}
                 {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
                          nodes=fetch('content', 'list', $trasparenza.children_extra_fetch_parameters)
                          nodes_count=$trasparenza.count_children_extra}

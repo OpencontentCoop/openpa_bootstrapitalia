@@ -47,29 +47,15 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         $this->fnData['remote_id_map'] = 'getRemoteIdMap';
     }
 
-    protected function getRemoteIdMap()
+    protected function getCountFolderChildren()
     {
-        $remoteIdMap = array(
-            '5a2189cac55adf79ddfee35336e796fa' => 'rappresentazione_grafica',
-            'b5df51b035ee30375db371af76c3d9fb' => 'consulenti_e_collaboratori',
-            'efc995388bebdd304f19eef17aab7e0d' => 'incarichi_amministrativi_di_vertice',
-            '9eed77856255692eca75cdb849540c23' => 'dirigenti',
-            'c46fafba5730589c0b34a5fada7f3d07' => 'tassi_di_assenza',
-            'b7286a151f027977fa080f78817c895a' => 'incarichi_conferiti',
-            '90b631e882ab0f966d03aababf3d9f15' => 'atti_di_concessione',
-        );
-
-        return array_merge(
-            $remoteIdMap,
-            OpenPAINI::variable('Trasparenza', 'RemoteIdMap', array())
-        );
-    }
-
-    protected function getRemoteIdMapItem($remoteId)
-    {
-        $remoteIdMap = $this->getRemoteIdMap();
-        if (isset($remoteIdMap[$remoteId])) {
-            return $remoteIdMap[$remoteId];
+        if ($this->isPaginaTrasparenza()) {
+            return $this->container->getContentNode()->subTreeCount(array(
+                'ClassFilterType' => 'include',
+                'ClassFilterArray' => array(self::FOLDER_CLASS),
+                'Depth' => 1,
+                'DepthOperator' => 'eq',
+            ));
         }
 
         return false;
@@ -84,15 +70,15 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         return false;
     }
 
-    protected function hasNotaTrasparenza()
+    protected function showAlert()
     {
         if ($this->isPaginaTrasparenza()) {
-            return $this->container->getContentNode()->subTreeCount(array(
-                    'ClassFilterType' => 'include',
-                    'ClassFilterArray' => array(self::NOTA_TRASPARENZA_CLASS),
-                    'Depth' => 1,
-                    'DepthOperator' => 'eq',
-                )) > 0;
+            return $this->getCountTrasparenzaChildren() == 0
+                && $this->getCountChildren() == 0
+                && !$this->hasNotaTrasparenza()
+                && !$this->hasBlocks()
+                && 'rappresentazione_grafica' !== $this->getRemoteIdMapItem($this->container->getContentObject()->attribute('remote_id'))
+                && OpenPAINI::variable('Trasparenza', 'MostraAvvisoPaginaVuota', 'disabled') == 'enabled';
         }
 
         return false;
@@ -104,20 +90,6 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             return $this->container->getContentNode()->subTreeCount(array(
                 'ClassFilterType' => 'include',
                 'ClassFilterArray' => array(self::PAGINA_TRASPARENZA_CLASS),
-                'Depth' => 1,
-                'DepthOperator' => 'eq',
-            ));
-        }
-
-        return false;
-    }
-
-    protected function getCountFolderChildren()
-    {
-        if ($this->isPaginaTrasparenza()) {
-            return $this->container->getContentNode()->subTreeCount(array(
-                'ClassFilterType' => 'include',
-                'ClassFilterArray' => array(self::FOLDER_CLASS),
                 'Depth' => 1,
                 'DepthOperator' => 'eq',
             ));
@@ -151,6 +123,35 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         return false;
     }
 
+    protected function getSuggestedClasses()
+    {
+        $classes = array();
+        if (isset($this->container->attributesHandlers[self::SUGGESTED_CLASSES_ATTRIBUTE])
+            && $this->container->attributesHandlers[self::SUGGESTED_CLASSES_ATTRIBUTE]->attribute('contentobject_attribute')->attribute('has_content')) {
+            $stringClasses = $this->container->attributesHandlers[self::SUGGESTED_CLASSES_ATTRIBUTE]->attribute('contentobject_attribute')->toString();
+            $listClasses = explode(',', $stringClasses);
+            foreach ($listClasses as $listClass) {
+                $classes[] = trim($listClass);
+            }
+        }
+
+        return array_unique($classes);
+    }
+
+    protected function hasNotaTrasparenza()
+    {
+        if ($this->isPaginaTrasparenza()) {
+            return $this->container->getContentNode()->subTreeCount(array(
+                    'ClassFilterType' => 'include',
+                    'ClassFilterArray' => array(self::NOTA_TRASPARENZA_CLASS),
+                    'Depth' => 1,
+                    'DepthOperator' => 'eq',
+                )) > 0;
+        }
+
+        return false;
+    }
+
     protected function hasBlocks()
     {
         if ($this->isPaginaTrasparenza()) {
@@ -161,28 +162,32 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         return false;
     }
 
-    protected function hasTableFields()
+    protected function getRemoteIdMapItem($remoteId)
     {
-        if ($this->isPaginaTrasparenza()) {
-            return isset($this->container->attributesHandlers[self::TABLE_FIELDS_ATTRIBUTE])
-                && $this->container->attributesHandlers[self::TABLE_FIELDS_ATTRIBUTE]->attribute('contentobject_attribute')->attribute('has_content');
+        $remoteIdMap = $this->getRemoteIdMap();
+        if (isset($remoteIdMap[$remoteId])) {
+            return $remoteIdMap[$remoteId];
         }
 
         return false;
     }
 
-    protected function showAlert()
+    protected function getRemoteIdMap()
     {
-        if ($this->isPaginaTrasparenza()) {
-            return $this->getCountTrasparenzaChildren() == 0
-                && $this->getCountChildren() == 0
-                && !$this->hasNotaTrasparenza()
-                && !$this->hasBlocks()
-                && 'rappresentazione_grafica' !== $this->getRemoteIdMapItem($this->container->getContentObject()->attribute('remote_id'))
-                && OpenPAINI::variable('Trasparenza', 'MostraAvvisoPaginaVuota', 'disabled') == 'enabled';
-        }
+        $remoteIdMap = array(
+            '5a2189cac55adf79ddfee35336e796fa' => 'rappresentazione_grafica',
+            'b5df51b035ee30375db371af76c3d9fb' => 'consulenti_e_collaboratori',
+            'efc995388bebdd304f19eef17aab7e0d' => 'incarichi_amministrativi_di_vertice',
+            '9eed77856255692eca75cdb849540c23' => 'dirigenti',
+            'c46fafba5730589c0b34a5fada7f3d07' => 'tassi_di_assenza',
+            'b7286a151f027977fa080f78817c895a' => 'incarichi_conferiti',
+            '90b631e882ab0f966d03aababf3d9f15' => 'atti_di_concessione',
+        );
 
-        return false;
+        return array_merge(
+            $remoteIdMap,
+            OpenPAINI::variable('Trasparenza', 'RemoteIdMap', array())
+        );
     }
 
     protected function getNotaTrasparenza()
@@ -203,14 +208,6 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         return false;
     }
 
-    private function getOffset()
-    {
-        $uri = $GLOBALS['eZRequestedURI'];
-        $userParameters = $uri instanceof eZURI ? $uri->userParameters() : array();
-
-        return isset($userParameters['offset']) ? $userParameters['offset'] : 0;
-    }
-
     protected function getTrasparenzaChildrenFetchParameters()
     {
         if ($this->isPaginaTrasparenza()) {
@@ -225,6 +222,14 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         }
 
         return false;
+    }
+
+    private function getOffset()
+    {
+        $uri = $GLOBALS['eZRequestedURI'];
+        $userParameters = $uri instanceof eZURI ? $uri->userParameters() : array();
+
+        return isset($userParameters['offset']) ? $userParameters['offset'] : 0;
     }
 
     protected function getFolderChildrenFetchParameters()
@@ -290,40 +295,6 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         return false;
     }
 
-    protected function getExtraChildrenFetchParameters()
-    {
-        if ($this->isPaginaTrasparenza()) {
-            $excludeClasses = $this->getExcludeClassesForExtraChildren();
-            if (is_array($excludeClasses) && count($excludeClasses) > 0) {
-                return array(
-                    'parent_node_id' => $this->container->getContentNode()->attribute('node_id'),
-                    'class_filter_type' => 'exclude',
-                    'class_filter_array' => $excludeClasses,
-                    'limit' => OpenPAINI::variable('GestioneFigli', 'limite_paginazione', '25'),
-                    'offset' => $this->getOffset(),
-                    'sort_by' => $this->container->getContentNode()->attribute('sort_array')
-                );
-            }
-        }
-
-        return false;
-    }
-
-    protected function getSuggestedClasses()
-    {
-        $classes = array();
-        if (isset($this->container->attributesHandlers[self::SUGGESTED_CLASSES_ATTRIBUTE])
-            && $this->container->attributesHandlers[self::SUGGESTED_CLASSES_ATTRIBUTE]->attribute('contentobject_attribute')->attribute('has_content')) {
-            $stringClasses = $this->container->attributesHandlers[self::SUGGESTED_CLASSES_ATTRIBUTE]->attribute('contentobject_attribute')->toString();
-            $listClasses = explode(',', $stringClasses);
-            foreach ($listClasses as $listClass) {
-                $classes[] = trim($listClass);
-            }
-        }
-
-        return array_unique($classes);
-    }
-
     protected function getExcludeClassesForExtraChildren()
     {
         if ($this->isPaginaTrasparenza()) {
@@ -355,24 +326,9 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 }
             }
 
-            $excludeClasses = array_merge($excludeClasses, $this->getSuggestedClasses());
+            $excludeClasses = array_merge($baseClasses, $excludeClasses, $this->getSuggestedClasses());
 
-            if (!empty($excludeClasses)) {
-                $excludeClasses = array_merge($baseClasses, $excludeClasses);
-
-                return array_unique($excludeClasses);
-            }
-
-            return array();
-        }
-
-        return false;
-    }
-
-    protected function getTableFieldsAttribute()
-    {
-        if ($this->isPaginaTrasparenza() && $this->hasTableFields()) {
-            return $this->container->attributesHandlers[self::TABLE_FIELDS_ATTRIBUTE]->attribute('contentobject_attribute');
+            return array_unique($excludeClasses);
         }
 
         return false;
@@ -387,9 +343,16 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         return false;
     }
 
-    /*
-     * [group_by:<identifier>|]<class>|<identifier>[,<identifier>]|<depth[&...]>
-     */
+    protected function hasTableFields()
+    {
+        if ($this->isPaginaTrasparenza()) {
+            return isset($this->container->attributesHandlers[self::TABLE_FIELDS_ATTRIBUTE])
+                && $this->container->attributesHandlers[self::TABLE_FIELDS_ATTRIBUTE]->attribute('contentobject_attribute')->attribute('has_content');
+        }
+
+        return false;
+    }
+
     protected function getTableFieldsParameters()
     {
         if ($this->hasTableFields()) {
@@ -397,7 +360,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $parameters = explode('&', $string);
 
             $data = array();
-            foreach ($parameters as $parameter){
+            foreach ($parameters as $parameter) {
                 $data[] = $this->getTableFieldsParameter($parameter);
             }
 
@@ -411,12 +374,24 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         );
     }
 
-    // [parent:$nodeId|][filters:$queryFilters|][group_by:$identifier|][order_by:+$attribute|]$class|$attribute[,$attribute,...]|$depth
+    protected function getTableFieldsAttribute()
+    {
+        if ($this->isPaginaTrasparenza() && $this->hasTableFields()) {
+            return $this->container->attributesHandlers[self::TABLE_FIELDS_ATTRIBUTE]->attribute('contentobject_attribute');
+        }
+
+        return false;
+    }
+
+    /*
+     * [group_by:<identifier>|]<class>|<identifier>[,<identifier>]|<depth[&...]>
+     */
+
     protected function getTableFieldsParameter($string)
     {
         $index = 0;
         $fieldsParts = explode('|', $string);
-        
+
         $parentNodeId = null;
         if (strpos($fieldsParts[$index], 'parent:') === 0) {
             $parameters = array_shift($fieldsParts);
@@ -430,14 +405,14 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $filtersParts = explode(':', $parameters);
             $filters = $filtersParts[1];
         }
-        
+
         $facetField = null;
         if (strpos($fieldsParts[$index], 'group_by:') === 0) {
             $parameters = array_shift($fieldsParts);
             $groupParts = explode(':', $parameters);
             $facetField = $groupParts[1];
         }
-        
+
         $orderFields = null;
         if (strpos($fieldsParts[$index], 'order_by:') === 0) {
             $parameters = array_shift($fieldsParts);
@@ -474,27 +449,27 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
             // To indicate sorting direction, fields may be prefixed with + (ascending) or - (descending),
             $orders = array();
-            if (is_array($orderFields)){
+            if (is_array($orderFields)) {
                 foreach ($orderFields as $orderField) {
                     $sort = substr($orderField, 0, 1);
-                    $field = substr($orderField, 1);                      
+                    $field = substr($orderField, 1);
                     foreach ($classFields as $index => $classField) {
-                        if ($classField['identifier'] == $field){
+                        if ($classField['identifier'] == $field) {
                             $direction = $sort == '+' ? 'asc' : 'desc';
                             $orders[] = [$index, $direction];
                         }
                     }
                 }
             }
-            if (empty($orders)){
-                $orders = [[0,'asc']]; //default
+            if (empty($orders)) {
+                $orders = [[0, 'asc']]; //default
             }
 
             $node = null;
-            if ($parentNodeId){
+            if ($parentNodeId) {
                 $node = eZContentObjectTreeNode::fetch((int)$parentNodeId);
             }
-            if (!$node instanceof eZContentObjectTreeNode){
+            if (!$node instanceof eZContentObjectTreeNode) {
                 $node = $this->container->getContentNode();
             }
 
@@ -508,12 +483,12 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             }
 
             $query = "{$depthQueryPart} classes [{$classIdentifier}] subtree [{$nodeId}]";
-            if ($filters){
+            if ($filters) {
                 $query .= ' and ' . $filters;
             }
-            
+
             //eZDebug::writeDebug($query, __METHOD__);
-            
+
             $facetQuery = null;
             if ($facetField) {
                 $contentSearch = new ContentSearch();
@@ -545,7 +520,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             );
 
             //eZDebug::writeDebug($result, __METHOD__);
-            
+
             return $result;
 
 
@@ -557,6 +532,27 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 'error' => $error
             );
         }
+    }
+
+    // [parent:$nodeId|][filters:$queryFilters|][group_by:$identifier|][order_by:+$attribute|]$class|$attribute[,$attribute,...]|$depth
+
+    protected function getExtraChildrenFetchParameters()
+    {
+        if ($this->isPaginaTrasparenza()) {
+            $excludeClasses = $this->getExcludeClassesForExtraChildren();
+            if (is_array($excludeClasses) && count($excludeClasses) > 0) {
+                return array(
+                    'parent_node_id' => $this->container->getContentNode()->attribute('node_id'),
+                    'class_filter_type' => 'exclude',
+                    'class_filter_array' => $excludeClasses,
+                    'limit' => OpenPAINI::variable('GestioneFigli', 'limite_paginazione', '25'),
+                    'offset' => $this->getOffset(),
+                    'sort_by' => $this->container->getContentNode()->attribute('sort_array')
+                );
+            }
+        }
+
+        return false;
     }
 
 }
