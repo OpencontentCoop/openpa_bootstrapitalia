@@ -111,11 +111,11 @@
 
             <div class="context-toolbar">
                 {include name=navigator
-                uri='design:navigator/google.tpl'
-                page_uri=concat( '/infocollector/collectionlist/', $object.id )
-                item_count=$collection_count
-                view_parameters=$view_parameters
-                item_limit=$limit}
+                         uri='design:navigator/google.tpl'
+                         page_uri='/valuation/dashboard'
+                         item_count=$collection_count
+                         view_parameters=$view_parameters
+                         item_limit=$limit}
             </div>
         {/if}
 

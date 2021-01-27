@@ -17,7 +17,7 @@ $ViewList['dashboard'] = array(
     'script' => 'dashboard.php',
     'functions' => array('dashboard'),
     'params' => array('ID'),
-    'unordered_params' => array('Offset')
+    'unordered_params' => array('offset' => 'Offset'),
 );
 
 $FunctionList = array();
