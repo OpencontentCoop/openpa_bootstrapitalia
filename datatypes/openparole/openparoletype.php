@@ -16,6 +16,8 @@ class OpenPARoleType extends eZDataType
     const SORT_ENTITY_NAME = 2;
     const SORT_TYPE = 3;
 
+    const FETCH_LIMIT = 500;
+
     private $language;
 
     private static $hasContent;
@@ -128,8 +130,8 @@ class OpenPARoleType extends eZDataType
             try {
                 $contentSearch = new ContentSearch();
                 $contentSearch->setEnvironment(new FullEnvironmentSettings());
-                eZDebug::writeDebug($this->buildQuery($contentObjectAttribute, true), __METHOD__);
-                $data = (array)$contentSearch->search($this->buildQuery($contentObjectAttribute, true));
+                eZDebug::writeDebug($this->buildQuery($contentObjectAttribute, 1), __METHOD__);
+                $data = (array)$contentSearch->search($this->buildQuery($contentObjectAttribute, 1));
 
                 self::$hasContent[$contentObjectAttribute->attribute('id')] = $data['totalCount'] > 0;
             } catch (Exception $e) {
@@ -151,9 +153,9 @@ class OpenPARoleType extends eZDataType
     {
         if (!isset(self::$content[$contentObjectAttribute->attribute('id')])){
             $contentSearch = new ContentSearch();
-            $contentSearch->setEnvironment(new FullEnvironmentSettings());
+            $contentSearch->setEnvironment(new FullEnvironmentSettings(['maxSearchLimit' => self::FETCH_LIMIT]));
             try {
-                $data = $contentSearch->search($this->buildQuery($contentObjectAttribute));
+                $data = $contentSearch->search($this->buildQuery($contentObjectAttribute, self::FETCH_LIMIT));
             }catch (Exception $e){
                 $data = new stdClass();
                 $data->searchHits = [];
@@ -260,7 +262,7 @@ class OpenPARoleType extends eZDataType
         );
     }
 
-    private function buildQuery($contentObjectAttribute, $asCount = false)
+    private function buildQuery($contentObjectAttribute, $limit = 1)
     {
         $queryParts = array();
         $data = $contentObjectAttribute->attribute('class_content');
@@ -286,7 +288,7 @@ class OpenPARoleType extends eZDataType
 
         $queryParts[] = 'calendar[start_time,end_time] = [now,*]';
         $queryParts[] = 'sort [raw[attr_priorita_si]=>desc,person.name=>asc]';
-        $queryParts[] = $asCount ? 'limit 1' : 'limit 100';
+        $queryParts[] = 'limit ' . (int)$limit;
 
         return implode(' and ', $queryParts);
     }

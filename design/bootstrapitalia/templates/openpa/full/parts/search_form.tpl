@@ -26,7 +26,7 @@
            class="btn btn-outline-primary btn-icon btn-xs align-top ml-1 mt-1"
            id="toggleSectionSearch"
            data-section_subtree="{$current_node.node_id}">
-            {display_icon('it-plus', 'svg', 'icon icon-primary mr-1')} Aggiungi filtro
+            {display_icon('it-plus', 'svg', 'icon icon-primary mr-1')} {'Add filter'|i18n('editorialstuff/dashboard')}
         </a>
         <input type="hidden"
                name="SubtreeBoundary"
