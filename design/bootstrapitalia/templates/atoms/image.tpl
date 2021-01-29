@@ -8,6 +8,17 @@
 ))}
 
 {def $main_attributes = class_extra_parameters($node.object.class_identifier, 'table_view').main_image}
+{if $is_main_image}
+    {def $show_link = class_extra_parameters($node.object.class_identifier, 'table_view').show_link}
+    {def $reload_main_attributes = array()}
+    {foreach $main_attributes as $identifier}
+        {if $show_link|contains($identifier)|not()}
+            {set $reload_main_attributes = $reload_main_attributes|append($identifier)}
+        {/if}
+    {/foreach}
+    {set $main_attributes = $reload_main_attributes}
+    {undef $reload_main_attributes}
+{/if}
 {foreach $main_attributes as $identifier}
     {if $node|has_attribute($identifier)}
         {if $node|attribute($identifier).data_type_string|eq('ezimage')}
