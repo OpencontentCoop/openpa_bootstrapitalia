@@ -34,6 +34,7 @@
                     {*evita di duplicare l'immagine principale nella galleria*}
                     {if and(
                         class_extra_parameters($object.class_identifier, 'table_view').main_image|contains($attribute_identifier),
+                        class_extra_parameters($object.class_identifier, 'table_view').show_link|contains($attribute_identifier)|not(),
                         is_set($openpa[$attribute_identifier].contentobject_attribute)
                     )}
                         {if and($openpa[$attribute_identifier].contentobject_attribute.data_type_string|eq('ezobjectrelationlist'), count($openpa[$attribute_identifier].contentobject_attribute.content.relation_list)|le(1))}
