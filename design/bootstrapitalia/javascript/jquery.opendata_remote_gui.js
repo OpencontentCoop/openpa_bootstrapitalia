@@ -100,7 +100,7 @@
             if (plugin.searchForm.find('input').length > 0) {
                 let q = plugin.searchForm.find('input').val();
                 if (q.length > 0) {
-                    q = q.replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
+                    q = q.replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
                     baseQuery = 'q = \'' + q + '\' ' + baseQuery;
                 }
             }
