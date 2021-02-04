@@ -36,6 +36,10 @@ Converters[opening_hours_specification]=FullRelationsAttributeConverter
 [ExtraDataProviders]
 Class[event]=ezfIndexSubAttributeGeo
 Class[private_organization]=ezfIndexSubAttributeGeo
+Class[office]=ezfIndexSubAttributeGeo
+Class[public_organization]=ezfIndexSubAttributeGeo
+Class[public_service]=ezfIndexSubAttributeGeo
+Class[administrative_area]=ezfIndexSubAttributeGeo
 
 [GeneralSettings]
 DatasetClassIdentifier=dataset

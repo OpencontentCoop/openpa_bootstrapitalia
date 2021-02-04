@@ -3,6 +3,10 @@
 [IndexPlugins]
 Class[event]=ezfIndexSubAttributeGeo
 Class[private_organization]=ezfIndexSubAttributeGeo
+Class[office]=ezfIndexSubAttributeGeo
+Class[public_organization]=ezfIndexSubAttributeGeo
+Class[public_service]=ezfIndexSubAttributeGeo
+Class[administrative_area]=ezfIndexSubAttributeGeo
 Class[document]=ezfIndexHasCodeNormalized
 Class[time_indexed_role]=ezfIndexEndlessRole
 General[]=ezfIndexExtraGeo
