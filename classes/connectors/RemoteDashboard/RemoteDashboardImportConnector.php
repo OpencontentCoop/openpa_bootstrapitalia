@@ -104,12 +104,12 @@ class RemoteDashboardImportConnector extends AbstractBaseConnector
         $contentMap = [];
         $fields = $this->remoteContent['data'][$this->language];
         foreach ($this->attributeMap as $map) {
-            $contentMap[$map['t']] = $fields[$map['s']];
+            $contentMap[$map['s']] = $fields[$map['t']];
         }
 
         $data = [];
         foreach ($this->classConnector->getFieldConnectors() as $identifier => $connector) {
-            if ($connector instanceof UploadFieldConnector) {
+            if ($connector instanceof UploadFieldConnector && is_array($contentMap[$identifier])) {
                 $file = $contentMap[$identifier];
                 $url = strpos($file['url'], 'http') === false ? $this->baseRemoteUrl . $file['url'] : $file['url'];
                 $path = '/tmp/' . $file['filename'];
