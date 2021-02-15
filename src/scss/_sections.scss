@@ -179,6 +179,13 @@ section#image figure {
   }
 }
 
+@media (min-width: #{map-get($grid-breakpoints, lg)}) {
+  img.singolo_default {
+    height: 100%;
+    position: absolute;
+  }
+}
+
 .info-date {
   span {
     font-size: .778em;

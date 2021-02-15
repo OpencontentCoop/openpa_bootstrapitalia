@@ -32,7 +32,7 @@
                         {if $has_video}
                             <div class="singolo-image flex-lg-fill video-wrapper">{$oembed.html}</div>
                         {elseif $has_image}
-                            <img src="{include uri='design:atoms/image_url.tpl' node=$valid_node}" alt="{include uri='design:atoms/image_alt.tpl' node=$valid_node}" class="mw-100 h-100 of-lg-cover">
+                            <img src="{include uri='design:atoms/image_url.tpl' node=$valid_node}" alt="{include uri='design:atoms/image_alt.tpl' node=$valid_node}" class="mw-100 of-lg-cover singolo_default">
                         {/if}
                     </div>
                 {/if}
