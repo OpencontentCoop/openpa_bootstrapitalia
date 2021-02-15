@@ -11,7 +11,7 @@
             <span>{$menu_item.item.name|wash()}</span>
             {display_icon('it-expand', 'svg', 'icon icon-primary right m-0')}
         </a>
-        <ul class="link-sublist{if or($is_active, $is_current)|not()} collapse{/if}" id="menu-dropdown-{$menu_item.item.node_id}">
+        <ul class="link-sublist{if or($is_active, $is_current)|not()} collapse{else} collapse show{/if}" id="menu-dropdown-{$menu_item.item.node_id}">
             {foreach $menu_item.children as $child}
                 {include name="side_sub_menu"
                          uri='design:openpa/full/parts/side_menu_item.tpl'

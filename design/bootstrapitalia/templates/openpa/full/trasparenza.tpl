@@ -38,7 +38,7 @@
                 <ul class="link-list">                    
                     {foreach $tree_menu.children as $menu_item}
                         {include name=side_menu
-                                 uri='design:openpa/full/parts/side_menu_item.tpl'
+                                 uri=cond(openpaini('SideMenu', 'AmministrazioneTrasparenteTipoMenu', 'default')|eq('browsable'), 'design:openpa/full/parts/browsable_side_menu_item.tpl', 'design:openpa/full/parts/side_menu_item.tpl')
                                  menu_item=$menu_item
                                  current_node=$node
                                  max_recursion=3
