@@ -89,8 +89,9 @@
 				{rdelim}));
 			$("#remote-gui-{$block.id}").remoteContentsGui({ldelim}
 				'remoteUrl': "",
-				'geoSearchApi': '/opendata/api/geo/search/',
-				'searchApi': '/opendata/api/content/search/',
+				'localAccessPrefix': {'/'|ezurl()},
+				'geoSearchApi': "{'/opendata/api/geo/search/'|ezurl(no)}/",
+				'searchApi': "{'/opendata/api/content/search/'|ezurl(no)}/",
 				'spinnerTpl': '#tpl-remote-gui-spinner',
 				'listTpl': '#tpl-remote-gui-list',
 				'popupTpl': '#tpl-remote-gui-item',

@@ -146,6 +146,7 @@ $(document).ready(function () {ldelim}
     {rdelim}));
     $("#remote-gui-{$block.id}").remoteContentsGui({ldelim}
         'remoteUrl': "{$remoteUrl}",
+        'localAccessPrefix': {'/'|ezurl()},
         {if and(is_set($block.custom_attributes.simple_geo_api), $block.custom_attributes.simple_geo_api)}
         'geoSearchApi': '/api/opendata/v2/geo/search/',
         {/if}

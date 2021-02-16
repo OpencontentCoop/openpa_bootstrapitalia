@@ -3,6 +3,7 @@
     var pluginName = 'remoteContentsGui',
         defaults = {
             'remoteUrl': '',
+            'localAccessPrefix': '/',
             'limitPagination': 3,
             'itemsPerRow': 3,
             'spinnerTpl': null,
@@ -24,8 +25,10 @@
         this.container = $(element);
         this.baseId = this.container.attr('id')+'-';
         if (this.settings.remoteUrl === '') {
-            this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', 'opendata/api');
-            this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', 'opendata/api');
+            var localAccessPrefix = this.settings.localAccessPrefix.substr(1);
+            var replaceEndpoint = localAccessPrefix.length === 0 ? 'opendata/api' : localAccessPrefix + '/opendata/api';
+            this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', replaceEndpoint);
+            this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', replaceEndpoint);
             this.settings.searchApi += '?view=card_teaser&q=';
         }
         this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
