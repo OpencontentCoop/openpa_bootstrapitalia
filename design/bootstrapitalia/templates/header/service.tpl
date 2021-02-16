@@ -41,24 +41,20 @@
 {/if}
 
 {def $current_language = false()
-     $available_languages = array()
+     $global_avail_translation = language_switcher('/')
      $lang_selector = array()
-     $avail_translation = array()}
-{if and( is_set( $DesignKeys:used.url_alias ), $DesignKeys:used.url_alias|count|ge( 1 ) )}
-    {set $avail_translation = language_switcher( $DesignKeys:used.url_alias )}
-{else}
-    {set $avail_translation = language_switcher( $site.uri.original_uri )}
-{/if}
-{if $avail_translation|count|gt( 1 )}
-  {foreach $avail_translation as $siteaccess => $lang}
-    {if is_set($lang.locale)}
+     $uri = '/'}
+{if $global_avail_translation|count|gt( 1 )}
+    {foreach $global_avail_translation as $siteaccess => $lang}
         {if $siteaccess|eq( $access_type.name )}
-          {set $current_language = $lang}
-        {else}
-          {set $available_languages = $available_languages|append($lang)}
+            {set $current_language = $lang}
         {/if}
-    {/if}
-  {/foreach}
+        {set $lang_selector = $lang_selector|append(hash(
+            'is_current', cond($siteaccess|eq( $access_type.name ), true(), false()),
+            'lang', $lang,
+            'href', $uri|lang_selector_url( $siteaccess )
+        ))}
+    {/foreach}
 {/if}
 
 {def $hide_access = false()}
@@ -102,7 +98,7 @@
                     {/if}
 
                     <div class="header-slim-right-zone">
-                        {if $available_languages|count()}
+                        {if $lang_selector|count()}
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle"
                                href="#"
@@ -116,18 +112,13 @@
                                     <div class="col-12">
                                         <div class="link-list-wrapper">
                                             <ul class="link-list">
-                                                <li>
-                                                    <a href="{$current_language.url|ezurl(no)}"
-                                                       class="list-item">
-                                                        <span lang="{fetch(content, locale, hash(locale_code, $current_language.locale)).http_locale_code|explode('-')[0]}">{$current_language.text|wash|upcase}</span>
-                                                    </a>
-                                                </li>
-                                                {foreach $available_languages as $lang}
+                                                {foreach $lang_selector as $lang_selector_item}
                                                     <li>
-                                                        <a href="{$lang.url|ezurl(no)}"
-                                                           title="{$lang.text|wash|upcase}"
+                                                        <a href="{if $lang_selector_item.is_current}#{else}{$lang_selector_item.href}{/if}"
+                                                           title="{$lang_selector_item.lang.text|wash|upcase}"
+                                                           {if $lang_selector_item.is_current|not()}data-switch_locale="{$lang_selector_item.lang.locale}"{/if}
                                                            class="list-item">
-                                                            <span lang="{fetch(content, locale, hash(locale_code, $lang.locale)).http_locale_code|explode('-')[0]}">{$lang.text|wash|upcase}</span>
+                                                            <span lang="{fetch(content, locale, hash(locale_code, $lang_selector_item.lang.locale)).http_locale_code|explode('-')[0]}">{$lang_selector_item.lang.text|wash|upcase}</span>
                                                         </a>
                                                     </li>
                                                 {/foreach}
@@ -145,9 +136,9 @@
                                 <div data-login-top-button class="dropdown" data-icon="it-user" style="display: none;">
                                     <a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: none; font-size: 16px">
-                                                <span class="rounded-icon">
-                                                    {display_icon('it-user', 'svg', 'icon icon-primary notrasform')}
-                                                </span>
+                                        <span class="rounded-icon">
+                                            {display_icon('it-user', 'svg', 'icon icon-primary notrasform')}
+                                        </span>
                                         <span class="d-none d-lg-block">{'Access the personal area'|i18n('bootstrapitalia')}</span>
                                         {display_icon('it-expand', 'svg', 'icon-expand icon icon-white')}
                                     </a>
@@ -220,6 +211,17 @@
 {literal}
 <script>
     $(document).ready(function(){
+        if (typeof LanguageUrlAliasList !== 'undefined') {
+            $('[data-switch_locale]').each(function () {
+                var self = $(this);
+                var locale = self.data('switch_locale');
+                $.each(LanguageUrlAliasList, function () {
+                    if (this.locale === locale) {
+                        self.attr('href', this.uri);
+                    }
+                })
+            });
+        }
         $('[data-toggle="tooltip"]').tooltip();
         var trimmedPrefix = UriPrefix.replace(/~+$/g,"");
         if(trimmedPrefix === '/') trimmedPrefix = '';
@@ -269,4 +271,4 @@
 {/literal}
 
 </div>
-{undef $header_service $header_service_list $is_area_tematica $header_links $current_language $available_languages $lang_selector $avail_translation}
+{undef $header_service $header_service_list $is_area_tematica $header_links $current_language $lang_selector $uri}

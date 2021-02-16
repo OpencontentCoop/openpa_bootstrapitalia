@@ -21,6 +21,7 @@ class OpenPABootstrapItaliaOperators
             'is_bookmark',
             'privacy_states',
             'menu_item_tree_contains',
+            'lang_selector_url',
         );
     }
 
@@ -58,6 +59,13 @@ class OpenPABootstrapItaliaOperators
                 'item' => array('type' => 'array', 'required' => true),
                 'id_list' => array('type' => 'array', 'required' => true),
             ),
+            'lang_selector_url' => array(
+                'siteaccess' => array(
+                    'type' => 'string',
+                    'required' => true,
+                    'default' => ''
+                )
+            )
         );
     }
 
@@ -72,6 +80,35 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'lang_selector_url':
+                {
+                    if (empty($namedParameters['siteaccess'])) {
+                        return;
+                    }
+                    $ini = eZSiteAccess::getIni($namedParameters['siteaccess'], 'site.ini');
+                    $destinationLocale = $ini->variable('RegionalSettings', 'ContentObjectLocale');
+                    $siteLanguageList = $ini->variable('RegionalSettings', 'SiteLanguageList');
+                    $nodeID = eZURLAliasML::fetchNodeIDByPath($operatorValue);
+                    $destinationElement = eZURLAliasML::fetchByAction('eznode', $nodeID, $destinationLocale, false);
+                    if (empty($destinationElement) || (!isset($destinationElement[0]) && !($destinationElement[0] instanceof eZURLAliasML))) {
+                        if ($this->isModuleUrl($operatorValue) || $this->isCurrentLocaleAvailable($siteLanguageList)) {
+                            $destinationUrl = $operatorValue;
+                        } else {
+                            $destinationUrl = '';
+                        }
+                    } else {
+                        $destinationUrl = $destinationElement[0]->getPath($destinationLocale, $siteLanguageList);
+                    }
+                    $destinationUrl = eZURI::encodeURL($destinationUrl);
+                    $prefix = '/' . $namedParameters['siteaccess'];
+                    if (eZINI::instance()->variable('SiteSettings', 'DefaultAccess') == $namedParameters['siteaccess']
+                        && eZINI::instance()->variable('SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess') == 'enabled') {
+                        $prefix = '';
+                    }
+                    $operatorValue = $prefix . '/' . ltrim($destinationUrl, '/');
+                }
+                break;
 
             case 'menu_item_tree_contains':
                 $item = $namedParameters['item'];
@@ -454,5 +491,26 @@ class OpenPABootstrapItaliaOperators
         }
 
         return $contains;
+    }
+
+    private function isModuleUrl($url)
+    {
+        // Grab the first URL element, representing the possible module name
+        $urlElements = explode('/', $url);
+        $moduleName = $urlElements[0];
+
+        // Look up for a match in the module list
+        $moduleIni = eZINI::instance('module.ini');
+        $availableModules = $moduleIni->variable('ModuleSettings', 'ModuleList');
+        return in_array($moduleName, $availableModules, true);
+    }
+
+    private function isCurrentLocaleAvailable($siteLanguageList)
+    {
+        return in_array(
+            eZINI::instance()->variable('RegionalSettings', 'ContentObjectLocale'),
+            $siteLanguageList,
+            true
+        );
     }
 }

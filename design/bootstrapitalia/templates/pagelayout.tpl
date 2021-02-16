@@ -31,7 +31,8 @@
          $main_content_class = ''
          $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
          $has_section_menu = cond(is_set($module_result.content_info.persistent_variable.has_section_menu), true(), false())
-         $has_sidemenu = cond(and(is_set($module_result.content_info.persistent_variable.has_sidemenu), $module_result.content_info.persistent_variable.has_sidemenu), true(), false())}
+         $has_sidemenu = cond(and(is_set($module_result.content_info.persistent_variable.has_sidemenu), $module_result.content_info.persistent_variable.has_sidemenu), true(), false())
+         $avail_translation = language_switcher( $site.uri.original_uri )}
     {if $has_container|not()}
         {set $main_content_class = 'container px-4 my-4'}
     {/if}
@@ -65,6 +66,7 @@ var UriPrefix = {'/'|ezurl()};
 var PathArray = [{if is_set( openpacontext().path_array[0].node_id )}{foreach openpacontext().path_array|reverse as $path}{$path.node_id}{delimiter},{/delimiter}{/foreach}{/if}];
 {/if}
 var ModuleResultUri = "{$module_result.uri|wash()}";
+var LanguageUrlAliasList = [{foreach $avail_translation as $siteaccess => $lang}{ldelim}locale:"{$lang.locale}",uri:"{$site.uri.original_uri|lang_selector_url($siteaccess)}"{rdelim}{delimiter},{/delimiter}{/foreach}];
 $.opendataTools.settings('endpoint',{ldelim}
     'geo': '{'/opendata/api/geo/search/'|ezurl(no)}/',
     'search': '{'/opendata/api/content/search/'|ezurl(no)}/',
