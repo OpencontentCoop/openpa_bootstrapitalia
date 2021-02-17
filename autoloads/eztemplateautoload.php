@@ -16,6 +16,7 @@ $eZTemplateOperatorArray = array(
             'is_bookmark',
             'privacy_states',
             'menu_item_tree_contains',
+            'lang_selector_url',
         )
     )
 );
