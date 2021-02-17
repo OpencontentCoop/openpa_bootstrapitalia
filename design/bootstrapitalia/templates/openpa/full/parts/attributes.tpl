@@ -107,8 +107,7 @@
         <section class="{if count($summary_items)|eq(1)}col w-100 px-lg-4 pb-lg-4{else}col-lg-8{/if}">
             {foreach $summary_items as $index => $item}
                 <article id="{$item.slug|wash()}" class="it-page-section mb-2 anchor-offset clearfix" {*if $index|eq(0)} class="anchor-offset"{/if*}>
-
-                    {if count($summary_items)|gt(1)}
+                    {if and(count($summary_items)|gt(1), $attribute_groups.hidden_list|contains($item.slug)|not())}
                     <h4>{$item.title|wash()}</h4>
                     {/if}
 

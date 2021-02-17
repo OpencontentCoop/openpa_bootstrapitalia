@@ -28,6 +28,17 @@
             <input style="border: 1px solid #ccc;padding: 0 3px;height: auto;font-weight: normal;" name="extra_handler_{$handler.identifier}[class][{$class.identifier}][{$locale}::{$identifier}]" value="{if is_set($handler.translations[$identifier][$locale])}{$handler.translations[$identifier][$locale]}{else}{$name|wash()}{/if}" />
         </div>
         {/foreach}
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"
+                           name="extra_handler_{$handler.identifier}[class][{$class.identifier}][hidden::{$identifier}]"
+                           value="{$identifier|wash()}"
+                           {if is_set($handler.hidden_list[$identifier])}checked="checked"{/if}/>
+                    <small>Nascondi etichetta</small>
+                </label>
+            </div>
+        </div>
     </div>
 {/foreach}
 {/if}
