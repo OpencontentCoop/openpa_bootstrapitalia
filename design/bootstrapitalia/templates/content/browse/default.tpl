@@ -24,6 +24,14 @@
     {/if}
 {/if}
 
+{def $sezione_trasparenza = fetch('content', 'tree', hash(
+    parent_node_id, 1,
+    class_filter_type, 'include',
+    class_filter_array, array('trasparenza'),
+    limit, 1,
+    load_data_map, false()
+))}
+
 {if eq( $browse.return_type, 'NodeID' )}
     {set select_name='SelectedNodeIDArray'}
     {set select_attribute='node_id'}
@@ -33,22 +41,18 @@
     {set select_type='radio'}
 {/if}
 
-<form name="browse" action={$browse.from_page|ezurl()} method="post">
-
 {if $browse.description_template}
-    {include name=Description uri=$browse.description_template browse=$browse main_node=$main_node}
+    {include name=Description uri=$browse.description_template browse=$browse main_node=cond(is_set($main_node), $main_node, false())}
 {else}
     <div class="attribute-header">
-    <h1 class="long">{'Browse'|i18n( 'design/ocbootstrap/content/browse' )} - {$main_node.name|wash}</h1>
+        <h1 class="long">{'Browse'|i18n( 'design/ocbootstrap/content/browse' )}{if is_set($main_node)} - {$main_node.name|wash}{/if}</h1>
     </div>
 
     <p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Select" button.'|i18n( 'design/ocbootstrap/content/browse' )}</p>
     <p>{'To select an object that is a child of one of the displayed objects, click the parent object name to display a list of its children.'|i18n( 'design/ocbootstrap/content/browse' )}</p>
 {/if}
 
-    {def $sezione_trasparenza = fetch('content','list',hash( parent_node_id,1,class_filter_type,'include',class_filter_array,array(trasparenza),limit,1))}
-
-    {if count($bookmark_list)}
+{if count($bookmark_list)}
     <ul class="nav nav-tabs nav-fill overflow-hidden">
         <li role="presentation" class="nav-item">
             <a class="text-decoration-none nav-link active" data-toggle="tab" href="#structure">
@@ -61,34 +65,79 @@
             </a>
         </li>
     </ul>
+{/if}
 
+<form id="search-in-browse" action="{'content/search'|ezurl(no)}" method="get">
+    <div class="form-group floating-labels my-2 bg-200">
+        <div class="form-label-group">
+            <input type="text"
+                   class="form-control"
+                   id="search-gui-text"
+                   name="SearchText"
+                   placeholder="{'Search'|i18n('openpa/search')}"
+                   value="{if is_set( $search_text )}{$search_text|wash}{/if}"
+                   aria-invalid="false"/>
+            <label class="" for="search-gui-text">
+                {'Search'|i18n('openpa/search')}
+            </label>
+            <button type="submit" class="autocomplete-icon btn btn-link">
+                {display_icon('it-search', 'svg', 'icon')}
+            </button>
+            <input name="Mode" type="hidden" value="browse" />
+            <input name="BrowsePageLimit" type="hidden" value="{min( ezpreference( 'admin_list_limit' ), 3)|choose( 10, 10, 25, 50 )}" />
+        </div>
+    </div>
+</form>
+
+<form name="browse" action={$browse.from_page|ezurl()} method="post">
+
+    {if count($bookmark_list)}
     <div class="tab-content mt-3">
         <div role="tabpanel" class="tab-pane active" id="structure">
     {/if}
-            <div class="card mb-3">
-                {def $current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
-                {if $browse.start_node|gt( 1 )}
-                    <div class="card-header px-2">
+        <div class="card mb-3">
+        {if is_set( $search_text )|not()}
+            {def $current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
+            {if $browse.start_node|gt( 1 )}
+                <div class="card-header px-2">
+                    {if is_set($main_node)}
                         <a class="mr-3" href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><i class="fa fa-arrow-circle-up fa-2x"></i></a>
-                        <h5 class="d-inline">{$current_node.name|wash}</h5>
-                        {if is_set($sezione_trasparenza[0])}
-                            <a class="mt-2 float-right btn btn-primary btn-xs" href="{concat( '/content/browse/', $sezione_trasparenza[0].node_id, '/' )|ezurl(no)}">{$sezione_trasparenza[0].name|wash()}</a>
-                        {/if}
-                    </div>
+                    {/if}
+                    <h5 class="d-inline">{$current_node.name|wash}</h5>
+                    {if and(
+                        is_set($sezione_trasparenza[0]),
+                        $sezione_trasparenza[0].node_id|ne($current_node.node_id),
+                        $current_node.path_array|contains($sezione_trasparenza[0].node_id)|not()
+                    )}
+                        <a class="mt-2 float-right btn btn-primary btn-xs" href="{concat( '/content/browse/', $sezione_trasparenza[0].node_id, '/' )|ezurl(no)}">{$sezione_trasparenza[0].name|wash()}</a>
+                    {/if}
+                </div>
+            {/if}
+        {else}
+            <div class="card-header px-2">
+                <a class="ml-3 pull-right" href={'/content/browse/'|ezurl}><i class="fa fa-close fa-2x"></i></a>
+                <h5 class="d-inline">
+                    {'Search results for %searchtext'|i18n('openpa/search',,hash('%searchtext',concat('<em>',$search_text|wash(),'</em>')))}
+                </h5>
+                {if is_set($sezione_trasparenza[0])}
+                    <a class="mt-2 float-right btn btn-primary btn-xs" href="{concat( '/content/browse/', $sezione_trasparenza[0].node_id, '/' )|ezurl(no)}">{$sezione_trasparenza[0].name|wash()}</a>
                 {/if}
-
-                {include uri='design:content/browse_mode_list.tpl'}
             </div>
+        {/if}
 
-            {include name=Navigator
-                     uri='design:navigator/google.tpl'
-                     page_uri=concat('/content/browse/',$main_node.node_id)
-                     item_count=$browse_list_count
-                     view_parameters=$view_parameters
-                     item_limit=$number_of_items}
+        {include uri='design:content/browse_mode_list.tpl'}
+    </div>
+
+        {include name=Navigator
+                 uri='design:navigator/google.tpl'
+                 page_uri=$page_uri
+                 page_uri_suffix=$page_uri_suffix
+                 item_count=$browse_list_count
+                 view_parameters=$view_parameters
+                 item_limit=$number_of_items}
             
     {if count($bookmark_list)}
-        </div>
+    </div>
         <div role="tabpanel" class="tab-pane" id="bookmarks">
             <div class="card mb-3">
                 <div class="table-responsive">
@@ -170,8 +219,6 @@
     {if $browse.browse_custom_action}
     <input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
     {/if}
-
-    
 
     <button class="float-left btn btn-primary" type="submit" name="SelectButton">{'Select'|i18n('design/ocbootstrap/content/browse')}</button>
     {if $cancel_action}
