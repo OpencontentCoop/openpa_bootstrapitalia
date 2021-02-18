@@ -21,7 +21,7 @@
             </a>
         </h5>
         {if $node|has_attribute('description')}
-        <p class="card-text text-sans-serif text-{$background_color_class}">{$node|attribute('description').content.output.output_text|oc_shorten(60)}</p>
+        <p class="card-text text-sans-serif text-{$background_color_class}">{$node|attribute('description').content.output.output_text|oc_shorten(160)}</p>
         {/if}
         {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
             <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$node.url_alias|ezurl(no)}">

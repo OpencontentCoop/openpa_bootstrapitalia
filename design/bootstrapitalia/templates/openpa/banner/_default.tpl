@@ -24,7 +24,7 @@
     <div class="banner-text">
         <h4>{$node.name|wash()}</h4>
         {if $node|has_abstract()}
-            <p>{$node|abstract()|oc_shorten(60)}</p>
+            <p>{$node|abstract()|oc_shorten(160)}</p>
     {/if}
     </div>
 </a>
