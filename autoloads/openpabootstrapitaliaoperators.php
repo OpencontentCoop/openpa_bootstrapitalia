@@ -101,12 +101,17 @@ class OpenPABootstrapItaliaOperators
                         $destinationUrl = $destinationElement[0]->getPath($destinationLocale, $siteLanguageList);
                     }
                     $destinationUrl = eZURI::encodeURL($destinationUrl);
-                    $prefix = '/' . $namedParameters['siteaccess'];
-                    if (eZINI::instance()->variable('SiteSettings', 'DefaultAccess') == $namedParameters['siteaccess']
-                        && eZINI::instance()->variable('SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess') == 'enabled') {
-                        $prefix = '';
+                    if (eZINI::instance()->variable('SiteAccessSettings', 'MatchOrder') == 'host_uri'){
+                        $scheme = eZSys::isSSLNow() ? 'https://' : 'http://';
+                        $operatorValue = $scheme . rtrim($ini->variable('SiteSettings', 'SiteURL'), '/') . '/' . ltrim($destinationUrl, '/');
+                    }else {
+                        $prefix = '/' . $namedParameters['siteaccess'];
+                        if (eZINI::instance()->variable('SiteSettings', 'DefaultAccess') == $namedParameters['siteaccess']
+                            && eZINI::instance()->variable('SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess') == 'enabled') {
+                            $prefix = '';
+                        }
+                        $operatorValue = $prefix . '/' . ltrim($destinationUrl, '/');
                     }
-                    $operatorValue = $prefix . '/' . ltrim($destinationUrl, '/');
                 }
                 break;
 
