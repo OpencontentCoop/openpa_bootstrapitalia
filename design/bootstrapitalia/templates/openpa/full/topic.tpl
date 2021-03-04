@@ -45,12 +45,20 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            {def $has_managed = cond(or($node|has_attribute('managed_by_area'), $node|has_attribute('managed_by_political_body')), true(), false())}
+                            <div class="col-lg-{if $has_managed}6{else}12{/if}">
                                 <h1>{$node.name|wash()}</h1>
                                 {include uri='design:openpa/full/parts/main_attributes.tpl'}
+                                {if and( $node.children_count, $node|has_attribute('show_topic_children'), $node|attribute('show_topic_children').data_int|eq(1) )}
+                                <div class="mt-4">
+                                    {foreach $node.children as $child}
+                                        <a class="text-decoration-none text-nowrap d-inline-block " href="{$child.url_alias|ezurl(no)}"><div class="chip chip-simple chip-{if $child.object.section_id|eq(1)}primary{else}danger{/if}"><span class="chip-label">{$child.name|wash()}</span></div></a>
+                                    {/foreach}
+                                </div>
+                                {/if}
                             </div>
+                            {if $has_managed}
                             <div class="col-lg-4 offset-lg-2">
-                                {if or($node|has_attribute('managed_by_area'), $node|has_attribute('managed_by_political_body'))}
                                 <div class="card-wrapper card-column">
                                     {if $node|has_attribute('managed_by_area')}
                                         {foreach $node|attribute('managed_by_area').content.relation_list as $item}
@@ -80,8 +88,9 @@
                                         {/foreach}
                                     {/if*}
                                 </div>
-                                {/if}
                             </div>
+                            {/if}
+                            {undef $has_managed}
                         </div>
                     </div>
                 </div>
@@ -119,7 +128,8 @@
     {/if}
 
     {if api_search(concat('classes [public_service] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
-        {set $has_first_block = true()}
+        {def $is_first_block = false()}
+        {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
             "Servizi",
             "ListaPaginata",
@@ -132,15 +142,17 @@
                 "ordinamento", "modificato",
                 "state_id", "",
                 "topic_node_id", $node.node_id,
-                "color_style", cond($has_first_block, 'section section-muted section-inset-shadow pb-5', ''),
+                "color_style", cond($is_first_block, 'section section-muted section-inset-shadow pb-5', ''),
                 "container_style", "",
                 "node_id", "2"
             )
         ))}
+        {undef $is_first_block}
     {/if}
 
     {if api_search(concat('classes [event,article] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
-        {set $has_first_block = true()}
+        {def $is_first_block = false()}
+        {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
             "Novità",
             "ListaPaginata",
@@ -153,15 +165,17 @@
                 "ordinamento", "modificato",
                 "state_id", "",
                 "topic_node_id", $node.node_id,
-                "color_style", cond($has_first_block, 'section section-muted section-inset-shadow pb-5', ''),
+                "color_style", cond($is_first_block, 'section section-muted section-inset-shadow pb-5', ''),
                 "container_style", "",
                 "node_id", "2"
             )
         ))}
+        {undef $is_first_block}
     {/if}
 
     {if api_search(concat('classes [document] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
-        {set $has_first_block = true()}
+        {def $is_first_block = false()}
+        {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
             "Documenti",
             "ListaPaginata",
@@ -174,14 +188,16 @@
                 "ordinamento", "modificato",
                 "state_id", "",
                 "topic_node_id", $node.node_id,
-                "color_style", cond($has_first_block, 'section section-muted section-inset-shadow pb-5', ''),
+                "color_style", cond($is_first_block, 'section section-muted section-inset-shadow pb-5', ''),
                 "container_style", "",
                 "node_id", "2"
             )
         ))}
+        {undef $is_first_block}
     {/if}
     {if fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('topic') ) )|gt(0)}
-        {set $has_first_block = true()}
+        {def $is_first_block = false()}
+        {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
             "",
             "ListaAutomatica",
@@ -194,12 +210,13 @@
                 "ordinamento", "name",
                 "state_id", "",
                 "topic_node_id", "",
-                "color_style", cond($has_first_block, 'section section-muted section-inset-shadow pb-5', ''),
+                "color_style", cond($is_first_block, 'section section-muted section-inset-shadow pb-5', ''),
                 "container_style", "",
                 "livello_profondita", 1,
                 "node_id", $node.node_id
             )
         ))}
+        {undef $is_first_block}
     {/if}
 
     {if $blocks|count()}

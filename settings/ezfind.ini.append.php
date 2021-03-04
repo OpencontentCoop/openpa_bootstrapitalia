@@ -24,6 +24,7 @@ General[]=ezfIndexExtraGeo
 DatatypeMap[openparestrictedarea]=lckeyword
 
 [IndexBoost]
+Class[topic]=4.0
 Class[public_service]=3.0
 Class[pagina_sito]=3.0
 Class[frontpage]=3.0
