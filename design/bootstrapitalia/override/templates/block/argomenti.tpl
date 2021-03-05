@@ -11,6 +11,13 @@
 {if and(is_set($block.custom_attributes.exclude_classes), $block.custom_attributes.exclude_classes|ne(''))}
 	{set $exclude_classes = $block.custom_attributes.exclude_classes|explode(',')}
 {/if}
+{def $valid_topics = array()}
+{foreach $block.valid_nodes as $valid_node}
+	{if $valid_node.object.section_id|eq(1)}
+		{set $valid_topics = $valid_topics|append($valid_node)}
+	{/if}
+{/foreach}
+{if $valid_topics|count()}
 <div class="py-5 position-relative">
 <div class="block-topics-bg bg-primary" {if $background_image}style="background-image: url({$background_image});"{/if}></div>
 	<div class="container">	
@@ -22,11 +29,11 @@
 		             view_variation='big'
 		             image_class=imagelargeoverlay
 					 exclude_classes=$exclude_classes
-		             items=$block.valid_nodes|extract_left( 3 )}
+		             items=$valid_topics|extract_left( 3 )}
 
-			{def $others_count = count($block.valid_nodes)|sub(3)}
+			{def $others_count = count($valid_topics)|sub(3)}
 			{if $others_count|gt(0)}
-				{def $line_topics = $block.valid_nodes|extract_right($others_count)}
+				{def $line_topics = $valid_topics|extract_right($others_count)}
 				<div class="row">
 					<div class="col-sm-12 col-md-3 text-right">
 						<span class="etichetta d-inline">{'Other topics'|i18n('bootstrapitalia')}</span>
@@ -47,5 +54,6 @@
 			</div>
 		</div>	
 	</div>	
-</div>	
-{undef $parent $background_image}
+</div>
+{/if}
+{undef $parent $background_image $valid_topics}
