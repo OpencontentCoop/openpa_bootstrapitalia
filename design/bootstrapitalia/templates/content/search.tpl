@@ -105,7 +105,7 @@
                 <div class="pt-4 pt-lg-5">
                         <h6 class="text-uppercase">{$topic_menu_label|wash()}</h6>
                         {def $topics = fetch(content, object, hash(remote_id, 'topics'))
-                             $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu'))
+                             $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'user_hash', false(), 'scope', 'side_menu'))
                              $topic_list_children = $topic_list.children
                              $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))
                              $custom_topic_container_item = false

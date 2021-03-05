@@ -29,7 +29,10 @@
     {if $show_topic_menu}
         {if $pagedata.homepage|has_attribute('topics')}
             {foreach $pagedata.homepage|attribute('topics').content.relation_list as $item}
-                {set $selected_topic_list = $selected_topic_list|append(fetch(content, node, hash(node_id, $item.node_id)))}
+                {def $selected_topic = fetch(content, node, hash(node_id, $item.node_id))}
+                {if $selected_topic.object.section_id|eq(1)}
+                    {set $selected_topic_list = $selected_topic_list|append($selected_topic)}
+                {/if}
             {/foreach}
         {/if}
 
@@ -38,10 +41,9 @@
         {/if}
 
         {set $topics = fetch(content, object, hash(remote_id, 'topics'))
-             $topic_list = cond(and($topics, count($selected_topic_list)|eq(0)), tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu')), array())}
+             $topic_list = cond(and($topics, count($selected_topic_list)|eq(0)), tree_menu( hash( 'root_node_id', $topics.main_node_id, 'user_hash', false(), 'scope', 'side_menu')), array())}
     {/if}
 {/if}
-
 <div class="it-header-navbar-wrapper{* theme-light*}">
     <div class="container">
         <div class="row">

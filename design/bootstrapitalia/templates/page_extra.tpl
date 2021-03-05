@@ -1,7 +1,7 @@
 {def $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )
      $topics = fetch(content, object, hash(remote_id, 'topics'))
      $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))
-     $topic_list = cond($topics, tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu')), array())
+     $topic_list = cond($topics, tree_menu( hash( 'root_node_id', $topics.main_node_id, 'user_hash', false(), 'scope', 'side_menu')), array())
      $topic_menu_label_extended = 'All topics...'|i18n('bootstrapitalia')
      $topic_menu_label = 'Topics'|i18n('bootstrapitalia')}
 

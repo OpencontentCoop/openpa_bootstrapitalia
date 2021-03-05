@@ -170,7 +170,7 @@
                         {/case}
                         {case match = 'topic_select'}
                             {def $topics = fetch(content, object, hash(remote_id, 'topics'))
-                                 $topic_list = cond($topics, tree_menu( hash( 'root_node_id', $topics.main_node_id, 'scope', 'side_menu')), array())
+                                 $topic_list = cond($topics, tree_menu( hash( 'root_node_id', $topics.main_node_id, 'user_hash', false(), 'scope', 'side_menu')), array())
                                  $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))
                                  $has_custom_topics = cond(and($custom_topic_container, $custom_topic_container.main_node.children_count))}
                             <select class="list block-control select_to_string" onchange="select_to_string(this)">
