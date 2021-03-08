@@ -2,7 +2,7 @@
 
 class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
 {
-    const ERROR_MESSAGE = "Popolare almeno un campo tra '%s' e '%s'";
+    const ERROR_MESSAGE = "Popolare almeno un campo tra '%s', '%s' e '%s'";
 
     /**
      * @param eZHTTPTool $http
@@ -25,8 +25,10 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
         if ($class->attribute('identifier') == 'document') {
             $file = eZHTTPFile::UPLOADEDFILE_OK;
             $link = true;
+            $attachments = true;
             $fileName = 'file';
             $linkName = 'link';
+            $attachmentsName = 'attachments';
             foreach ($contentObjectAttributes as $contentObjectAttribute) {
                 $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
                 if ($contentClassAttribute->attribute('identifier') == 'file') {
@@ -46,12 +48,18 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                         $link = $http->postVariable($base . "_ezurl_url_" . $contentObjectAttribute->attribute("id"));
                     }
                     $linkName = $contentClassAttribute->attribute('name');
+                } elseif ($contentClassAttribute->attribute('identifier') == 'attachments') {
+                    $attachments = false;
+                    if ($contentObjectAttribute->hasContent()){
+                        $attachments = $contentObjectAttribute->content();
+                    }
+                    $attachmentsName = $contentClassAttribute->attribute('name');
                 }
             }
 
-            if ($file == eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST && empty($link)) {
+            if ($file == eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST && empty($link) && empty($attachments)) {
                 $result = array('is_valid' => false, 'warnings' => [
-                    ['text' => sprintf(self::ERROR_MESSAGE, $fileName, $linkName)]
+                    ['text' => sprintf(self::ERROR_MESSAGE, $fileName, $linkName, $attachmentsName)]
                 ]);
             }
         }
