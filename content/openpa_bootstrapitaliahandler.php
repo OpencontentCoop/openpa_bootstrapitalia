@@ -48,10 +48,11 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                         $link = $http->postVariable($base . "_ezurl_url_" . $contentObjectAttribute->attribute("id"));
                     }
                     $linkName = $contentClassAttribute->attribute('name');
-                } elseif ($contentClassAttribute->attribute('identifier') == 'attachments') {
-                    $attachments = false;
-                    if ($contentObjectAttribute->hasContent()){
-                        $attachments = $contentObjectAttribute->content();
+                } elseif ($contentClassAttribute->attribute('identifier') == 'attachments'){
+                    if ($contentClassAttribute->attribute('data_type_string') == OCMultiBinaryType::DATA_TYPE_STRING) {
+                        $attachments = eZMultiBinaryFile::fetch($contentObjectAttribute->attribute('id'), $contentObjectAttribute->attribute('version'));
+                    }else{
+                        $attachments = $contentObjectAttribute->toString();
                     }
                     $attachmentsName = $contentClassAttribute->attribute('name');
                 }
