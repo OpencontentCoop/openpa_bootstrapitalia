@@ -43,7 +43,7 @@
                         <span class="chip-label">{'State'|i18n('editorialstuff/dashboard')}:</span> <span class="chip-label ml-1 current-state-filter" data-text="{'All'|i18n('editorialstuff/dashboard')}">{'All'|i18n('editorialstuff/dashboard')}</span>
                         {display_icon('it-expand', 'svg', 'icon-expand icon icon-sm icon-primary filter-remove')}
                     </a>
-                    <div class="dropdown-menu" style="min-width:250px; right: 0; left: auto">
+                    <div class="dropdown-menu" style="min-width:300px; right: 0; left: auto">
                         <div class="link-list-wrapper">
                             <ul class="link-list state-filters">
                                 {foreach $states as $state}
@@ -86,7 +86,7 @@
 
 {include uri='design:editorialstuff/parts/tpl-spinner.tpl'}
 {include uri='design:editorialstuff/parts/tpl-empty.tpl'}
-{include uri='design:editorialstuff/parts/tpl-dashboard-list.tpl'}
+{include uri='design:editorialstuff/parts/tpl-dashboard-list.tpl' enable_translations=cond(and(is_set($factory_configuration.Translations), $factory_configuration.Translations|eq('enabled')), true(), false())}
 {include uri='design:editorialstuff/parts/dashboard-search-modal.tpl'}
 {include uri='design:editorialstuff/parts/preview-modal.tpl'}
 {include uri='design:editorialstuff/parts/workflow-styles.tpl'}

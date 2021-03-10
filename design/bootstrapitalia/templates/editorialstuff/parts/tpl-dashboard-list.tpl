@@ -15,7 +15,9 @@
                       <th>{'Title'|i18n('editorialstuff/dashboard')}</th>
                       <th>{'Author'|i18n('editorialstuff/dashboard')}</th>
                       <th>{'Published'|i18n('editorialstuff/dashboard')}</th>
-                      <!--<th>{'Translations'|i18n('editorialstuff/dashboard')}</th>-->
+                      {if $enable_translations}
+                      <th>{'Translations'|i18n('editorialstuff/dashboard')}</th>
+                      {/if}
                   </tr>
             </thead>
         {literal}
@@ -70,15 +72,31 @@
     <td>{{:~i18n(metadata.name)}}</td>
     <td>{{:~i18n(metadata.ownerName)}}</td>
     <td>{{:~formatDate(metadata.published,'DD/MM/YYYY HH:mm')}}</td>
-    <!--<td class="text-nowrap">
-        {{for translations}}
+    {/literal}{if $enable_translations}{literal}
+    <td class="text-nowrap">
+        <ul class="list-inline">
+        {{for translations ~baseUrl=baseUrl ~nodeId=metadata.mainNodeId ~objectId=metadata.id ~factoryIdentifier=factoryIdentifier}}
             {{if active}}
-                <a href="{{:baseUrl}}/content/edit/{{:id}}/f/{{:language}}"><img style="max-width:none" src="/share/icons/flags/{{:language}}.gif" /></a>
+                <li class="list-inline-item align-middle">
+                    <img style="display:flex;width: 30px;max-width:none" src="/share/icons/flags/{{:language}}.gif" />
+                </li>
             {{else}}
-                <a href="{{:baseUrl}}/content/edit/{{:id}}/a"><img style="max-width:none;opacity:0.2" src="/share/icons/flags/{{:language}}.gif" /></a>
+                <li class="list-inline-item align-middle">
+                    <form class="form-inline" method="post" action="{{:~baseUrl}}/content/action">
+                        <input type="hidden" name="HasMainAssignment" value="1"/>
+                        <input type="hidden" name="ContentObjectID" value="{{:~objectId}}"/>
+                        <input type="hidden" name="NodeID" value="{{:~nodeId}}"/>
+                        <input type="hidden" name="ContentNodeID" value="{{:~nodeId}}"/>
+                        <input type="hidden" name="ContentObjectLanguageCode" value=""/>
+                        <input type="hidden" name="RedirectIfDiscarded" value="/editorialstuff/dashboard/{{:~factoryIdentifier}}" />
+                        <input type="hidden" name="RedirectURIAfterPublish" value="/editorialstuff/edit/{{:~factoryIdentifier}}/{{:~objectId}}" />
+                        <input type="image" style="width: 30px;max-width:none;opacity:0.2" name="EditButton" src="/share/icons/flags/{{:language}}.gif" alt="Translate"/>
+                    </form>
+                </li>
             {{/if}}
         {{/for}}
-    </td>-->
+    </td>
+    {/literal}{/if}{literal}
 </tr>
 </script>
 

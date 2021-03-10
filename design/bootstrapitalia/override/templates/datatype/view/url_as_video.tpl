@@ -5,12 +5,12 @@
                {$oembed.html}
           </div>
      </div>
-{elseif count($attribute.content|explode( '?access_token' ))|gt(0)}
+{elseif and($attribute.has_content, count($attribute.content|explode( '?access_token' ))|gt(0))}
      {def $link = $attribute.content|explode( '?access_token' )|implode( 'embed/?access_token' )}
      <iframe style="border:0px;padding:0px;margin:0px;" width="100%" height="343" src="{$link}" frameborder="0" scrolling="no" allowfullscreen></iframe>
      {undef $link}
 {elseif $attribute.data_text}
      <a href="{$attribute.content|wash( xhtml )}">{$attribute.data_text|wash( xhtml )}</a>
-{else}
+{elseif $attribute.has_content}
      <a href="{$attribute.content|wash( xhtml )}">{$attribute.content|wash( xhtml )}</a>
 {/if}

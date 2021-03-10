@@ -90,6 +90,7 @@ abstract class OpenPABootstrapItaliaAbstractFactory extends OCEditorialStuffPost
             return $currentPost;
         }
         $tpl = $this->editModuleResultTemplate($currentPost, $parameters, $handler, $module);
+        $tpl->setVariable('view_parameters', $module->UserParameters);
 
         $Result = array();
         $Result['content'] = $tpl->fetch("design:{$this->getTemplateDirectory()}/edit.tpl");
