@@ -31,12 +31,12 @@
 		{case match=3} {* Persone: per i ruoli afferenti a una struttura *}
 			{def $index = 1}
 			{def $total = count($attribute.content.people)}
-			{def $items_per_page = 6}
+			{def $items_per_page = cond(is_set($attribute.content.settings.pagination), $attribute.content.settings.pagination, 6)}
 			<div data-people_pagination="1" data-people_pages="{div($total,$items_per_page)|ceil()}">
 				<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
 					{foreach $attribute.content.people as $child }
 						{def $css = concat('page-', div($index,$items_per_page)|ceil())}
-						{if $index|gt(6)}
+						{if $index|gt($items_per_page)}
 							{set $css = concat($css, '" style="display:none !important')}
 						{/if}
 						{node_view_gui content_node=$child.main_node view=card_teaser show_icon=true() image_class=widemedium view_variation=$css}
@@ -115,7 +115,11 @@
 					{foreach $roles as $role}
 					<li class="mb-2">
 						{def $entity = $attribute.content.entities[$role|attribute('for_entity').content.relation_list[0].contentobject_id]}
+						{if $role|has_attribute('label')}
+							<a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$role|attribute('label').content|wash()}</a>
+						{else}
 						{$role|attribute('role').content.keyword_string|trim} {'at'|i18n('bootstrapitalia')} <a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
+						{/if}
 						{if or($role|has_attribute('competences'), $role|has_attribute('delegations'))}
 							{if $role|has_attribute('competences')}
 								<ul class="list-unstyled" style="font-size: .8em">
@@ -163,7 +167,13 @@
 				{else}
                     <ul class="list-unstyled">
 					{foreach $attribute.content.main_type_per_entities as $type => $entities}
-						<li>{$type} {'at'|i18n('bootstrapitalia')} {foreach $entities as $id => $name}<a href="{concat('openpa/object/', $id)|ezurl(no)}">{$name|wash()}</a>{delimiter}, {/delimiter}{/foreach}</li>
+						<li>
+							{if $type|begins_with('#')}
+								{$type|extract(1)|wash()}
+							{else}
+								{$type} {foreach $entities as $id => $name}<a href="{concat('openpa/object/', $id)|ezurl(no)}">{$name|wash()}</a>{delimiter}, {/delimiter}{/foreach}
+							{/if}
+						</li>
 					{/foreach}
 					</ul>
 				{/if}

@@ -93,17 +93,38 @@ class OpenPARoleType extends eZDataType
         $classAttribute->store();
     }
 
+    function initializeObjectAttribute($contentObjectAttribute, $currentVersion, $originalContentObjectAttribute)
+    {
+        if ($currentVersion != false) {
+            $dataText = $originalContentObjectAttribute->attribute("data_text");
+            $contentObjectAttribute->setAttribute("data_text", $dataText);
+        } else {
+            $contentObjectAttribute->setAttribute('data_text', json_encode(['pagination' => 6]));
+        }
+    }
+
     /**
      * Fetches all variables from the object and handles them
      * Data store can be done here
      * @param eZHTTPTool $http
      * @param string $base POST variable name prefix (Always "ContentObjectAttribute")
      * @param eZContentObjectAttribute $contentObjectAttribute
-     * @return true if fetching of class attributes are successfull, false if not
+     * @return boolean if fetching of class attributes are successfull, false if not
      */
     public function fetchObjectAttributeHTTPInput($http, $base, $contentObjectAttribute)
     {
-        return true;
+        $paginationVarName = "{$base}_openparole_pagination_" . $contentObjectAttribute->attribute('id');
+        if ($http->hasPostVariable($paginationVarName)){
+            $pagination = (int)$http->postVariable($paginationVarName);
+            $settings = (array)json_decode($contentObjectAttribute->attribute('data_text'), true);
+            $settings['pagination'] = $pagination;
+            $contentObjectAttribute->setAttribute('data_text', json_encode($settings));
+            $contentObjectAttribute->store();
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -186,6 +207,10 @@ class OpenPARoleType extends eZDataType
                         $rolesPerPerson[$person['id']][] = $role;
                     }
                     $type = implode(', ', $apiContent->data[$language]['role']['content']);
+                    if (isset($apiContent->data[$language]['label']['content'])
+                        && $apiContent->data[$language]['label']['content']) {
+                        $type = '#' . $apiContent->data[$language]['label']['content'];
+                    }
                     foreach ($apiContent->data[$language]['for_entity']['content'] as $entity) {
                         if (!isset($entities[$entity['id']])) {
                             $entities[$entity['id']] = eZContentObject::fetch((int)$entity['id']);
@@ -204,6 +229,8 @@ class OpenPARoleType extends eZDataType
                 }
             }
 
+            $settings = (array)json_decode($contentObjectAttribute->attribute('data_text'), true);
+
             self::$content[$contentObjectAttribute->attribute('id')] = [
                 'roles' => $roles,
                 'roles_per_person' => $rolesPerPerson,
@@ -211,6 +238,7 @@ class OpenPARoleType extends eZDataType
                 'people' => $people,
                 'entities' => $entities,
                 'main_type_per_entities' => $typePerEntities,
+                'settings' => $settings,
             ];
         }
 
@@ -367,8 +395,8 @@ class OpenPARoleType extends eZDataType
                 && in_array($attribute->object()->attribute('class_identifier'), $classContent['class_constraint_list'])){
                 $roles = $attribute->object()->reverseRelatedObjectList(false, $classAttribute->attribute('id'));
                 foreach ($roles as $role){
+                    $dataMap = $role->dataMap();
                     if (!empty($definition['filter'])) {
-                        $dataMap = $role->dataMap();
                         if (isset($dataMap['role']) && $dataMap['role']->hasContent()){
                             $roleContent = $dataMap['role']->content();
                             if ($roleContent instanceof eZTags) {
@@ -381,6 +409,9 @@ class OpenPARoleType extends eZDataType
                         }
                     }else {
                         $data[] = $role->attribute('name');
+                    }
+                    if (isset($dataMap['label']) && $dataMap['label'] instanceof eZContentObjectAttribute && $dataMap['label']->hasContent()){
+                        $data[] = $dataMap['label']->toString();
                     }
                 }
             }
