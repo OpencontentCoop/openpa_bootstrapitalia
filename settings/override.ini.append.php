@@ -144,6 +144,12 @@ MatchFile=datatype/view/matrix_link.tpl
 Subdir=templates
 Match[attribute_identifier]=link
 
+[datatype_view_matrix_links]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype/view/matrix_link.tpl
+Subdir=templates
+Match[attribute_identifier]=links
+
 [datatype_view_relations_requires_service]
 Source=content/datatype/view/ezobjectrelationlist.tpl
 MatchFile=datatype/view/relations_requires_service.tpl
