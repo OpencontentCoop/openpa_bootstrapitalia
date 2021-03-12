@@ -27,10 +27,11 @@
 
             <div class="form-group form-check">
                 <input type="checkbox" name="is_enabled" {if $userSetting.is_enabled}checked="checked"{/if}
+                       id="user-toogle"
                        class="form-check-input"
                        title="{'Use this checkbox to enable or disable the user account.'|i18n( 'design/admin/user/setting' )}"/>
-                <label class="form-check-label">
-                    {'Enable user account'|i18n( 'design/admin/user/setting' )}:
+                <label class="form-check-label" for="user-toogle">
+                    {'Enable user account'|i18n( 'design/admin/user/setting' )}
                 </label>
             </div>
 
