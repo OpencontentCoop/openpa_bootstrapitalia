@@ -126,6 +126,7 @@
             {{else}}
                 {{:~i18n(metadata.name)}} <br /><small>{{:~i18n(metadata.classDefinition.name)}}</small>
             {{/if}}
+            <a target="_blank" href="/user/setting/{{:metadata.id}}"><i class="fa fa-gear"></i></a>
         </td>
 
         {{for groups ~current=metadata}}
@@ -248,9 +249,17 @@
                         var user = self.data('user');
                         var group = self.data('group');
                         var action = self.is(':checked') ? 'add' : 'remove';
+
+                        var csrfToken;
+                        var tokenNode = document.getElementById('ezxform_token_js');
+                        if ( tokenNode ){
+                            csrfToken = tokenNode.getAttribute('title');
+                        }
+
                         $.ajax({
                             url: '/bootstrapitalia/permissions/'+action+'/'+user+'/'+group,
-                            type: 'get',
+                            type: 'post',
+                            headers: {"X-CSRF-TOKEN": csrfToken},
                             dataType: 'json',
                             success: function (response) {
                                 if (response.code !== 'success'){
