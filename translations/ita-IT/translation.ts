@@ -744,4 +744,11 @@
       <translation>al</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/forgotpassword</name>
+    <message>
+      <source>If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user.</source>
+      <translation>Se l'indirizzo email è registrato nel sistema, ti verrà inviato un messaggio con un link che devi cliccare per darci la conferma che sei l'utente giusto.</translation>
+    </message>
+  </context>
 </TS>

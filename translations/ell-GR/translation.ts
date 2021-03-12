@@ -744,4 +744,11 @@
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/forgotpassword</name>
+    <message>
+      <source>If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user.</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
 </TS>

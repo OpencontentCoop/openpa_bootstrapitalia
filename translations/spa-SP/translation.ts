@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>FREE</source>
-      <translation>GRATIS</translation>
+      <translation>LIBRE</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -65,7 +65,7 @@
     </message>
     <message>
       <source>Share</source>
-      <translation>Compartir</translation>
+      <translation>Cuota</translation>
     </message>
     <message>
       <source>Actions</source>
@@ -89,11 +89,11 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Todas</translation>
+      <translation>Todos</translation>
     </message>
     <message>
       <source>Read more</source>
-      <translation>Lee mas</translation>
+      <translation>Leer más</translation>
     </message>
     <message>
       <source>Go to page</source>
@@ -296,7 +296,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Síguenos</translation>
+      <translation>Síganos</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -378,7 +378,7 @@
     </message>
     <message>
       <source>Score</source>
-      <translation>Puntuación</translation>
+      <translation>Puntaje</translation>
     </message>
     <message>
       <source>Publication date</source>
@@ -580,7 +580,7 @@
     </message>
     <message>
       <source>Nowhere</source>
-      <translation>En ninguna parte</translation>
+      <translation>En ningún lugar</translation>
     </message>
     <message>
       <source>Editor choice</source>
@@ -741,6 +741,13 @@
     </message>
     <message>
       <source>to</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/forgotpassword</name>
+    <message>
+      <source>If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user.</source>
       <translation type="unfinished"/>
     </message>
   </context>

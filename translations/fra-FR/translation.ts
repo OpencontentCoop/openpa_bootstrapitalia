@@ -37,11 +37,11 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>proche</translation>
+      <translation>Fermer</translation>
     </message>
     <message>
       <source>FREE</source>
-      <translation>LIBRE</translation>
+      <translation>GRATUIT</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>days</source>
-      <translation>journées</translation>
+      <translation>jours</translation>
     </message>
     <message>
       <source>Share</source>
@@ -277,7 +277,7 @@
     </message>
     <message>
       <source>References</source>
-      <translation>Références</translation>
+      <translation>Les références</translation>
     </message>
   </context>
   <context>
@@ -545,7 +545,7 @@
     </message>
     <message>
       <source>tuesday</source>
-      <translation>Mardi</translation>
+      <translation>mardi</translation>
     </message>
     <message>
       <source>wednesday</source>
@@ -553,11 +553,11 @@
     </message>
     <message>
       <source>thursday</source>
-      <translation>Jeudi</translation>
+      <translation>jeudi</translation>
     </message>
     <message>
       <source>friday</source>
-      <translation>Vendredi</translation>
+      <translation>vendredi</translation>
     </message>
     <message>
       <source>saturday</source>
@@ -604,7 +604,7 @@
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Il y a des endroits près de l'emplacement sélectionné enregistré dans le système. Vous souhaitez utiliser un de ces?</translation>
+      <translation>Il y a des endroits près de l'emplacement sélectionné enregistré dans le système. Voulez-vous utiliser l'un de ces?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
@@ -741,6 +741,13 @@
     </message>
     <message>
       <source>to</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/forgotpassword</name>
+    <message>
+      <source>If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user.</source>
       <translation type="unfinished"/>
     </message>
   </context>

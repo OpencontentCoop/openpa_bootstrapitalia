@@ -89,7 +89,7 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Alles</translation>
+      <translation>Alle</translation>
     </message>
     <message>
       <source>Read more</source>
@@ -217,7 +217,7 @@
     </message>
     <message>
       <source>at</source>
-      <translation></translation>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>
@@ -662,7 +662,7 @@
     <name>bootstrapitalia/valuation</name>
     <message>
       <source>Thanks for your feedback</source>
-      <translation>Vielen Dank für Ihr Feedback</translation>
+      <translation>Vielen Dank für Ihre Rückmeldung</translation>
     </message>
     <message>
       <source>User feedbacks</source>
@@ -742,6 +742,13 @@
     <message>
       <source>to</source>
       <translation>zu</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/forgotpassword</name>
+    <message>
+      <source>If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user.</source>
+      <translation>Wenn die E-Mail-Adresse im System registriert ist, wird eine Nachricht mit einem Link an Sie gesendet, auf den Sie klicken müssen, um zu bestätigen, dass Sie der richtige Benutzer sind.</translation>
     </message>
   </context>
 </TS>
