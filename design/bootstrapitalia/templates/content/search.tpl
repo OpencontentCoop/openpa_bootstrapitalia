@@ -337,7 +337,7 @@ $(document).ready(function () {
         searchGui.activateActiveContent();
         {/if}
         {if $params.text}
-        $('#search-gui-text').val('{$params.text|wash()}');
+        $('#search-gui-text').val('{$params.text|wash(javascript)}');
         {/if}
     {rdelim});
 {literal}
