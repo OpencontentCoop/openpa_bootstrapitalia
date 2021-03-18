@@ -75,12 +75,11 @@
                    id="search-gui-text"
                    name="SearchText"
                    placeholder="{'Search'|i18n('openpa/search')}"
-                   value="{if is_set( $search_text )}{$search_text|wash}{/if}"
-                   aria-invalid="false"/>
+                   value="{if is_set( $search_text )}{$search_text|wash}{/if}" />
             <label class="" for="search-gui-text">
                 {'Search'|i18n('openpa/search')}
             </label>
-            <button type="submit" class="autocomplete-icon btn btn-link">
+            <button type="submit" class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
                 {display_icon('it-search', 'svg', 'icon')}
             </button>
             <input name="Mode" type="hidden" value="browse" />
@@ -93,7 +92,7 @@
 
     {if count($bookmark_list)}
     <div class="tab-content mt-3">
-        <div role="tabpanel" class="tab-pane active" id="structure">
+        <div class="tab-pane active" id="structure">
     {/if}
         <div class="card mb-3">
         {if is_set( $search_text )|not()}
@@ -101,7 +100,7 @@
             {if $browse.start_node|gt( 1 )}
                 <div class="card-header px-2">
                     {if is_set($main_node)}
-                        <a class="mr-3" href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><i class="fa fa-arrow-circle-up fa-2x"></i></a>
+                        <a class="mr-3" href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><i aria-hidden="true" class="fa fa-arrow-circle-up fa-2x"></i></a>
                     {/if}
                     <h5 class="d-inline">{$current_node.name|wash}</h5>
                     {if and(
@@ -115,7 +114,7 @@
             {/if}
         {else}
             <div class="card-header px-2">
-                <a class="ml-3 pull-right" href={'/content/browse/'|ezurl}><i class="fa fa-close fa-2x"></i></a>
+                <a class="ml-3 pull-right" href={'/content/browse/'|ezurl}><i aria-hidden="true" class="fa fa-close fa-2x"></i></a>
                 <h5 class="d-inline">
                     {'Search results for %searchtext'|i18n('openpa/search',,hash('%searchtext',concat('<em>',$search_text|wash(),'</em>')))}
                 </h5>
@@ -138,7 +137,7 @@
             
     {if count($bookmark_list)}
     </div>
-        <div role="tabpanel" class="tab-pane" id="bookmarks">
+        <div class="tab-pane" id="bookmarks">
             <div class="card mb-3">
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -146,7 +145,7 @@
                             <th class="tight">
                                 {section show=eq( $select_type, 'checkbox' )}
                                     <a href="#" data-toggle="tooltip" data-placement="top" title="{'Invert selection'|i18n( 'design/ocbootstrap/content/browse_mode_list' )}" onclick="ezjs_toggleCheckboxes( document.browse, '{$select_name}[]' ); return false;">
-                                        <i class="fa fa-check-circle"></i>
+                                        <i aria-hidden="true" class="fa fa-check-circle"></i>
                                     </a>
                                 {/section}
                             </th>

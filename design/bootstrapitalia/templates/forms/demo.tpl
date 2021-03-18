@@ -71,7 +71,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="clearfix">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
                     </div>
                     <div id="form" class="clearfix p-4"></div>
                 </div>
@@ -82,12 +82,12 @@
     <div class="container">
         <h1>Opendata Forms Demo</h1>
 
-        <p class="lead">Implementazione di <a href="http://www.alpacajs.org/">alpacajs <i class="fa fa-external-link"></i> </a>
+        <p class="lead">Implementazione di <a href="http://www.alpacajs.org/">alpacajs <i aria-hidden="true" class="fa fa-external-link"></i> </a>
             per eZPublish con OpenContentOpendata</p>
 
         <h2>Demo form</h2>
         <p>Form dimostrativo: non utitlizza nessun valore dinamico e non salva alcun dato. E' l'implemetazione del tutorial di
-            <a href="http://www.alpacajs.org/tutorial.html">alpacajs <i class="fa fa-external-link"></i> </a></p>
+            <a href="http://www.alpacajs.org/tutorial.html">alpacajs <i aria-hidden="true" class="fa fa-external-link"></i> </a></p>
         <button id="showdemo" class="btn btn-lg btn-success">Open Demo Form</button>
         <div id="staticform"></div>
         <hr/>
@@ -310,17 +310,17 @@
             newRow.append($('<td><a href="">'+data.content.metadata.name[language]+'</a></td>'));
             newRow.append($('<td><a href="">'+data.content.metadata.classIdentifier+'</a></td>'));
             var buttonCell = $('<td width="1" style="white-space:nowrap"></td>');
-            $('<button class="btn btn-warning" data-object="'+data.content.metadata.id+'"><i class="fa fa-edit"></i></button>')
+            $('<button class="btn btn-warning" data-object="'+data.content.metadata.id+'"><i aria-hidden="true" class="fa fa-edit"></i></button>')
                 .bind('click', function(e){
                     $('#form').opendataFormEdit({object: $(this).data('object')});
                     e.preventDefault();
                 }).appendTo(buttonCell);
-            $('<button class="btn btn-success" data-object="'+data.content.metadata.id+'"><i class="fa fa-eye"></i></button>')
+            $('<button class="btn btn-success" data-object="'+data.content.metadata.id+'"><i aria-hidden="true" class="fa fa-eye"></i></button>')
                 .bind('click', function(e){
                     $('#form').opendataFormView({object: $(this).data('object')});
                     e.preventDefault();
                 }).appendTo(buttonCell);
-            $('<button class="btn btn-danger" data-object="'+data.content.metadata.id+'"><i class="fa fa-trash"></i></button>')
+            $('<button class="btn btn-danger" data-object="'+data.content.metadata.id+'"><i aria-hidden="true" class="fa fa-trash"></i></button>')
                 .bind('click', function(e){
                     var object = $(this).data('object')
                     $('#form').opendataFormDelete({object: object},{
@@ -331,7 +331,7 @@
                     });
                     e.preventDefault();
                 }).appendTo(buttonCell);
-            $('<button class="btn btn-info" data-node="'+data.content.metadata.mainNodeId+'"><i class="fa fa-code-fork"></i></button>')
+            $('<button class="btn btn-info" data-node="'+data.content.metadata.mainNodeId+'"><i aria-hidden="true" class="fa fa-code-fork"></i></button>')
                 .bind('click', function(e){
                     var node = $(this).data('node')
                     $('#form').opendataFormManageLocation({source: node});

@@ -45,7 +45,7 @@
                     <td>
                         {if $latest_node.can_edit}
                             <a href="{concat( 'content/edit/', $latest_node.contentobject_id, '/f/', $latest_node.object.default_language )|ezurl('no')}">
-                                <i class="fa fa-pencil"></i> <span
+                                <i aria-hidden="true" class="fa fa-pencil"></i> <span
                                         class="sr-only">{'Edit'|i18n( 'design/admin/dashboard/all_latest_content' )}</span>
                             </a>
                         {/if}

@@ -19,7 +19,7 @@
 
         {include uri='design:openpa/card/parts/abstract.tpl'}      
 
-        <a class="read-more" href="{$openpa.content_link.full_link}">
+        <a class="read-more" href="{$openpa.content_link.full_link}#main-content">
             <span class="text">{if $node|has_attribute('menu_name')}{$node|attribute('menu_name').content|wash()}{else}{'Go to page'|i18n('bootstrapitalia')}{/if}</span>
             {display_icon('it-arrow-right', 'svg', 'icon')}
         </a>

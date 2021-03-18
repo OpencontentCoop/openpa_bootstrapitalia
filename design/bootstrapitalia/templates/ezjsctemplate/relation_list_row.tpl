@@ -24,14 +24,14 @@
     <div class="float-right">
       {if $object.can_edit}<a data-priority="{$priority}" data-attribute="{$attribute_id}" data-edit="{$object.id}" href="#">
         <span class="fa-stack text-info">
-          <i class="fa fa-square fa-stack-2x"></i>
-          <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+          <i aria-hidden="true" class="fa fa-square fa-stack-2x"></i>
+          <i aria-hidden="true" class="fa fa-pencil fa-stack-1x fa-inverse"></i>
         </span>
       </a>{/if}
       {*if $object.can_remove}<a data-priority="{$priority}" data-attribute="{$attribute_id}" data-remove="{$object.id}" href="#">
         <span class="fa-stack text-info">
-          <i class="fa fa-square fa-stack-2x"></i>
-          <i class="fa fa-trash fa-stack-1x fa-inverse"></i>
+          <i aria-hidden="true" class="fa fa-square fa-stack-2x"></i>
+          <i aria-hidden="true" class="fa fa-trash fa-stack-1x fa-inverse"></i>
         </span>
       </a>{/if*}
     </div>

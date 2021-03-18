@@ -152,7 +152,7 @@
                                 {if $language.locale|eq($node.object.current_language)}</strong>{/if}
                             </a>
                             <a href="{concat('content/edit/', $node.object.id, '/f/', $language.locale)|ezurl(no)}">
-                                <i class="fa fa-pencil"></i>
+                                <i aria-hidden="true" class="fa fa-pencil"></i>
                             </a>
                         </li>
                     {/if}

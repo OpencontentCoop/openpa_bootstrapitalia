@@ -38,7 +38,9 @@ $classes = array()}
 <div class="block-calendar-{$block.view} shadow block-calendar block-calendar-{$size}" {if $show_facets|not()}data-query="{$query}"{/if}>
     {if $show_facets}
         <div class="block-calendar-facets d-none d-md-block" style="position: absolute;right: 0;top: -57px;">
-            <button type="button" class="btn btn-secondary btn-sm filter-select" data-block_calendar_class="{foreach $classes as $class}{$class.identifier|wash()}{delimiter},{/delimiter}{/foreach}">Tutto</button>
+            <button type="button"
+                    title="{'All'|i18n('design/standard/ezoe')}"
+                    class="btn btn-secondary btn-sm filter-select" data-block_calendar_class="{foreach $classes as $class}{$class.identifier|wash()}{delimiter},{/delimiter}{/foreach}">{'All'|i18n('design/standard/ezoe')}</button>
             {foreach $classes as $class}
             {*def $icon = class_extra_parameters($class.identifier, 'bootstrapitalia_icon').icon*}
             <button type="button" class="btn btn-outline-secondary btn-sm filter-select" data-block_calendar_class="{$class.identifier|wash()}">

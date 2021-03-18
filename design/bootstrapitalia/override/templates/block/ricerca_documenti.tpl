@@ -29,15 +29,15 @@
 			<div class="form-row">
 				<div class="col-md-4 col-lg-2 my-2">
 					<label for="search-{$block.id}" class="m-0 d-none"><small>{'Search text'|i18n('bootstrapitalia/documents')}</small></label>
-					<input type="text" class="form-control chosen-border" id="search-{$block.id}" data-search="q" placeholder="{'Search text'|i18n('bootstrapitalia/documents')}">
+					<input type="text" autocomplete="off" class="form-control chosen-border" id="search-{$block.id}" data-search="q" placeholder="{'Search text'|i18n('bootstrapitalia/documents')}">
 				</div>
 				<div class="col-md-4 col-lg-{if and($office_count|gt(0), $area_count|gt(0), $topics_filter|not())}1{else}2{/if} my-2">
 					<label for="searchFormNumber-{$block.id}" class="m-0 d-none"><small>{'Document number'|i18n('bootstrapitalia/documents')}</small></label>
-					<input type="text" class="form-control chosen-border" id="searchFormNumber-{$block.id}" data-search="has_code" placeholder="{'Document number'|i18n('bootstrapitalia/documents')}">
+					<input type="text" autocomplete="off" class="form-control chosen-border" id="searchFormNumber-{$block.id}" data-search="has_code" placeholder="{'Document number'|i18n('bootstrapitalia/documents')}">
 				</div>
 				<div class="col-md-4 col-lg-2 my-2">
 					<label for="searchFormDate-{$block.id}" class="m-0 d-none"><small>{'Date'|i18n('bootstrapitalia/documents')}</small></label>
-					<input type="text" class="form-control chosen-border" id="searchFormDate-{$block.id}" data-search="calendar" placeholder="{'Date'|i18n('bootstrapitalia/documents')}">
+					<input type="text" autocomplete="off" class="form-control chosen-border" id="searchFormDate-{$block.id}" data-search="calendar" placeholder="{'Date'|i18n('bootstrapitalia/documents')}">
 				</div>
 				{if $office_count|gt(0)}
 				<div class="col-md-4 col-lg-2 my-2">
@@ -81,12 +81,12 @@
 					<div class="row">
 						<div class="col">
 							<button type="submit" class="btn btn-link pt-2 px-lg-0 text-decoration-none">
-								<i class="fa fa-search text-black" style="font-size: 1.4em"></i> <span class="d-md-inline d-lg-none text-uppercase h5 text-black">{'Submit'|i18n('bootstrapitalia/documents')}</span>
+								<i aria-hidden="true" class="fa fa-search text-black" style="font-size: 1.4em"></i> <span class="d-md-inline d-lg-none text-uppercase h5 text-black">{'Submit'|i18n('bootstrapitalia/documents')}</span>
 							</button>
 						</div>
 						<div class="col">
 							<button type="reset" class="btn btn-link pt-2 px-lg-0 text-decoration-none hide">
-								<i class="fa fa-close resetSearch text-danger" style="font-size: 1.4em"></i> <span class="d-md-inline d-lg-none text-uppercase h5 text-danger">{'Reset'|i18n('bootstrapitalia/documents')}</span>
+								<i aria-hidden="true" class="fa fa-close resetSearch text-danger" style="font-size: 1.4em"></i> <span class="d-md-inline d-lg-none text-uppercase h5 text-danger">{'Reset'|i18n('bootstrapitalia/documents')}</span>
 							</button>
 						</div>
 					</div>
@@ -154,7 +154,7 @@
 {literal}
 <script id="tpl-document-spinner" type="text/x-jsrender">
 <div class="spinner text-center pt-3">
-    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+    <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
     <span class="sr-only">{/literal}{'Loading...'|i18n('bootstrapitalia/documents')}{literal}</span>
 </div>
 </script>

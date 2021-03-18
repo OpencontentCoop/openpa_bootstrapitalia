@@ -58,7 +58,7 @@
                 <div class="input-group-append">
                     <button name="SearchButton" value="Cerca" id="searchbox_submit" type="submit"
                             class="btn btn-info searchbutton">
-                        <i class="fa fa-search"></i>
+                        <i aria-hidden="true" class="fa fa-search"></i>
                     </button>
                     {if $is_search}
                       <a href="{concat('content/browse/', $browse.start_node)|ezurl(no)}" class="btn btn-danger">Annulla ricerca</a>
@@ -117,7 +117,7 @@
                 {if $browse.start_node|gt( 1 )}
                     <div class="card-header">
                         <a href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}>
-                            <i class="fa fa-arrow-circle-up fa-2x align-middle"></i>
+                            <i aria-hidden="true" class="fa fa-arrow-circle-up fa-2x align-middle"></i>
                         </a>
                         {$current_node.name|wash} <span class="badge badge-primary">{$current_node.children_count}</span>
                     </div>
@@ -184,7 +184,7 @@
                             </td>
                             <td>
                               <span data-object="{$item.contentobject_id}" class="load-preview">
-                                  <i class="fa fa-search-plus"></i>
+                                  <i aria-hidden="true" class="fa fa-search-plus"></i>
                               </span>
                             </td>
                         </tr>

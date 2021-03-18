@@ -36,7 +36,7 @@
                         <a data-toggle="tab"
                            class="nav-link active rounded-0 view-selector"
                            href="#remote-gui-{$block.id}-list">
-                            <i class="fa fa-list" aria-hidden="true"></i> <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
+                            <i aria-hidden="true" class="fa fa-list" aria-hidden="true"></i> <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
                         </a>
                     </li>
                     {/if}
@@ -45,7 +45,7 @@
                         <a data-toggle="tab"
                            class="nav-link{if $showGrid|not} active{/if} rounded-0 view-selector"
                            href="#remote-gui-{$block.id}-geo">
-                            <i class="fa fa-map" aria-hidden="true"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
+                            <i aria-hidden="true" class="fa fa-map" aria-hidden="true"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
                         </a>
                     </li>
                     {/if}
@@ -53,16 +53,16 @@
                     <li class="nav-item text-center d-inline-block">
                         <a class="nav-link rounded-0 search-form-toggle"
                            href="#">
-                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <i aria-hidden="true" class="fa fa-search" aria-hidden="true"></i>
                         </a>
                     </li>
                     {/if}
                 </ul>
                 {if and($showSearch, $facets|count()|eq(0))}
                 <div class="input-group mb-3 search-form{if and($showGrid, $showMap)} hide{/if}">
-                    <input type="text" class="form-control" placeholder="{$searchPlaceholder|wash()}" />
+                    <input type="text" autocomplete="off" class="form-control" placeholder="{$searchPlaceholder|wash()}" />
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        <button class="btn btn-outline-secondary" type="button"><i aria-hidden="true" class="fa fa-search" aria-hidden="true"></i></button>
                     </div>
                 </div>
                 {/if}
@@ -72,9 +72,9 @@
                     <div class="row pt-3">
                         <div class="col-sm mb-3">
                             <div class="input-group chosen-border">
-                                <input type="text" class="form-control border-0" placeholder="{$searchPlaceholder|wash()}" />
+                                <input type="text" autocomplete="off" class="form-control border-0" placeholder="{$searchPlaceholder|wash()}" />
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary border-0" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                    <button class="btn btn-outline-secondary border-0" type="button"><i aria-hidden="true" class="fa fa-search" aria-hidden="true"></i></button>
                                 </div>
                             </div>
                         </div>

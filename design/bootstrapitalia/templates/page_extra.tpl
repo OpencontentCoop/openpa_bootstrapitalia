@@ -10,21 +10,21 @@
          $topic_menu_label_extended = $topic_menu_label}
 {/if}
 
-<div class="modal modal-fullscreen modal-search" tabindex="-1" role="dialog" id="searchModal">
-    <div class="modal-dialog" role="document">
+<div class="modal modal-fullscreen fade modal-search" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true" id="searchModal">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header my-3">
                 <div class="container">
                     <div class="row">
                         <div class="offset-md-12 col-sm-12 text-center pb12 search-gui-header">
-                            <button class="close float-left mt-1" type="button" data-dismiss="modal" aria-label="Close">
+                            <button class="close float-left mt-1" type="button" data-dismiss="modal" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
                                 {display_icon('it-arrow-left-circle', 'svg', 'icon')}
                             </button>
                             <button class="back-to-search hide float-left mt-1" type="button">
                                 {display_icon('it-arrow-left-circle', 'svg', 'icon')}
                                 <span class="close-help">{'Search'|i18n('openpa/search')}</span>
                             </button>
-                            <h1 class="d-none d-sm-block">{'Search'|i18n('openpa/search')}</h1>
+                            <h1 id="searchModalLabel" class="d-none d-sm-block">{'Search'|i18n('openpa/search')}</h1>
                         </div>
                     </div>
                 </div>
@@ -34,19 +34,19 @@
                     <div class="container search-gui">
                         <div class="row">
                             <div class="offset-lg-2 col-lg-8 offset-md-1 col-md-10 col-sm-12">
-                                <div class="form-group floating-labels">
+                                <div class="form-group">
                                     <div class="form-label-group">
+                                        <label class="sr-only" for="search-gui-text">
+                                            {'Search'|i18n('openpa/search')}
+                                        </label>
                                         <input type="text"
+                                               autocomplete="off"
                                                class="form-control"
                                                id="search-gui-text"
                                                name="SearchText"
-                                               placeholder="{'Search'|i18n('openpa/search')}"
-                                               aria-invalid="false"/>
-                                        <label class="" for="search-gui-text">
-                                            {'Search'|i18n('openpa/search')}
-                                        </label>
-                                        <button type="submit" class="autocomplete-icon btn btn-link">
-                                            {display_icon('it-search', 'svg', 'icon')}
+                                               placeholder="{'Search'|i18n('openpa/search')}"/>
+                                        <button type="submit" class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
+                                            {display_icon('it-search', 'svg', 'icon icon-sm')}
                                         </button>
                                     </div>
                                 </div>
@@ -97,21 +97,21 @@
                         <div class="nav-tabs-hidescroll w-100">
                             <div class="row">
                                 <div class="col-12">
-                                    <ul class="nav nav-tabs auto" role="tablist">
+                                    <ul class="nav nav-tabs auto">
                                         <li class="nav-item">
-                                            <a role="tab" data-toggle="tab" class="nav-link active"
+                                            <a data-toggle="tab" class="nav-link active"
                                                href="#filter-by-section">
                                                 {'Sections'|i18n('openpa/search')}
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a role="tab" data-toggle="tab" class="nav-link"
+                                            <a data-toggle="tab" class="nav-link"
                                                href="#filter-by-topic">
                                                 {$topic_menu_label|wash()}
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a role="tab" data-toggle="tab" class="nav-link"
+                                            <a data-toggle="tab" class="nav-link"
                                                href="#filter-by-option">
                                                 {'Options'|i18n('openpa/search')}
                                             </a>
@@ -226,7 +226,7 @@
                                         <div class="it-datepicker-wrapper">
                                             <div class="form-group">
                                                 <label for="datepicker_start">{'Start date'|i18n('openpa/search')}</label>
-                                                <input class="form-control it-date-datepicker" id="datepicker_start" type="text" name="From" placeholder="{'enter the date in dd/mm/yyyy format'|i18n('openpa/search')}" value="">
+                                                <input class="form-control it-date-datepicker" id="datepicker_start" autocomplete="off" type="text" name="From" placeholder="{'enter the date in dd/mm/yyyy format'|i18n('openpa/search')}" value="">
                                             </div>
                                         </div>
                                     </div>
@@ -234,7 +234,7 @@
                                         <div class="it-datepicker-wrapper">
                                             <div class="form-group">
                                                 <label for="datepicker_end">{'End date'|i18n('openpa/search')}</label>
-                                                <input class="form-control it-date-datepicker" id="datepicker_end" type="text" name="To" placeholder="{'enter the date in dd/mm/yyyy format'|i18n('openpa/search')}" value="">
+                                                <input class="form-control it-date-datepicker" id="datepicker_end" autocomplete="off" type="text" name="To" placeholder="{'enter the date in dd/mm/yyyy format'|i18n('openpa/search')}" value="">
                                             </div>
                                         </div>
                                     </div>

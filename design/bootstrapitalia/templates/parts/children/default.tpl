@@ -38,8 +38,8 @@
                                             {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'edit_tag_description' ) )}
                                                 <a href="#" data-edit_tag="{$tag.id}" data-locale="{$locale}">
                                                     <span class="fa-stack">
-                                                      <i class="fa fa-circle fa-stack-2x"></i>
-                                                      <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                      <i aria-hidden="true" class="fa fa-circle fa-stack-2x"></i>
+                                                      <i aria-hidden="true" class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                                     </span>
                                                 </a>
                                             {/if}

@@ -47,7 +47,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="clearfix">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
                 </div>
                 <div id="data-form" class="clearfix p-4"></div>
             </div>
@@ -138,8 +138,8 @@
 	</td>
 	<td style="white-space: nowrap;">
     {/literal}{if $can_create}{literal}
-		<a href="#" class="edit-object" data-object="{{:metadata.id}}"><span class="fa-stack"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-pencil fa-stack-1x fa-inverse"></i></span></a>
-		<a href="#" class="delete-object" data-object="{{:metadata.id}}"><span class="fa-stack text-danger"><i class="fa fa-square fa-stack-2x"></i><i class="fa fa-trash-o fa-stack-1x fa-inverse"></i></span></a>
+		<a href="#" class="edit-object" data-object="{{:metadata.id}}"><span class="fa-stack"><i aria-hidden="true" class="fa fa-square fa-stack-2x"></i><i aria-hidden="true" class="fa fa-pencil fa-stack-1x fa-inverse"></i></span></a>
+		<a href="#" class="delete-object" data-object="{{:metadata.id}}"><span class="fa-stack text-danger"><i aria-hidden="true" class="fa fa-square fa-stack-2x"></i><i aria-hidden="true" class="fa fa-trash-o fa-stack-1x fa-inverse"></i></span></a>
 	{/literal}{/if}{literal}
 	</td>
 </tr>	

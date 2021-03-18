@@ -135,7 +135,7 @@
                             {if is_set($pagedata.contacts.link_area_personale)}
                                 <div data-login-top-button class="dropdown" data-icon="it-user" style="display: none;">
                                     <a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: none; font-size: 16px">
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: none; font-size: 1rem">
                                         <span class="rounded-icon">
                                             {display_icon('it-user', 'svg', 'icon icon-primary notrasform')}
                                         </span>

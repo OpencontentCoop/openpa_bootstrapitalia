@@ -19,9 +19,9 @@
 			<div class="col-sm mb-3 mb-sm-0">
 				<div class="input-group chosen-border">
 					<label class="hidden" for="{$block.id}-search-input">{$searchPlaceholder|wash()}</label>
-					<input id="{$block.id}-search-input" type="text" class="form-control border-0" placeholder="{$searchPlaceholder|wash()}" />
+					<input id="{$block.id}-search-input" autocomplete="off" type="text" class="form-control border-0" placeholder="{$searchPlaceholder|wash()}" />
 					<div class="input-group-append">
-						<button class="btn btn-outline-secondary border-0" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+						<button class="btn btn-outline-secondary border-0" type="button"><i aria-hidden="true" class="fa fa-search" aria-hidden="true"></i></button>
 					</div>
 				</div>
 			</div>
@@ -58,13 +58,13 @@
 				<a data-toggle="tab"
 				   class="nav-link active rounded-0 view-selector"
 				   href="#remote-gui-{$block.id}-geo">
-					<i class="fa fa-map" aria-hidden="true"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
+					<i aria-hidden="true" class="fa fa-map" aria-hidden="true"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
 				</a>
 			</li><li class="nav-item pr-1 text-center d-inline-block">
 				<a data-toggle="tab"
 				   class="nav-link rounded-0 view-selector"
 				   href="#remote-gui-{$block.id}-list">
-					<i class="fa fa-th" aria-hidden="true"></i> <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
+					<i aria-hidden="true" class="fa fa-th" aria-hidden="true"></i> <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
 				</a>
 			</li>
 		</ul>

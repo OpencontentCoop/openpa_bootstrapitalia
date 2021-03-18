@@ -4,7 +4,7 @@
 {if count($owner_ids)}
     {set $owner_id_name_list = api_search(concat('select-fields [metadata.id=>metadata.name] classes [user,private_organization] and subtree [1] and id in [', $owner_ids|implode(','), ']'))}
 {/if}
-<div class="modal modal-fullscreen modal-search" tabindex="-1" role="dialog" id="dashboardSearchModal">
+<div class="modal modal-fullscreen fade modal-search" tabindex="-1" role="dialog" id="dashboardSearchModal">
     <div class="modal-dialog" role="search">
         <div class="modal-content">
             <div class="modal-body mt-5">
@@ -12,16 +12,16 @@
                     <div class="search-gui container position-relative">
                         <div class="row">
                             <div class="col-12">
-                                <ul class="nav nav-tabs nav-justified flex-wrap" role="tablist">
+                                <ul class="nav nav-tabs nav-justified flex-wrap">
                                     <li class="nav-item">
-                                        <a role="tab" data-toggle="tab" class="nav-link active"
+                                        <a data-toggle="tab" class="nav-link active"
                                            href="#filter-by-when">
                                             {'When?'|i18n('editorialstuff/dashboard')}
                                         </a>
                                     </li>
                                     {if count($owner_id_name_list)}
                                         <li class="nav-item">
-                                            <a role="tab" data-toggle="tab" class="nav-link"
+                                            <a data-toggle="tab" class="nav-link"
                                                href="#filter-by-owner">
                                                 {'Author'|i18n('editorialstuff/dashboard')}
                                             </a>

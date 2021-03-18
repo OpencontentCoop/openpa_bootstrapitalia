@@ -94,7 +94,7 @@ $(document).ready(function(){
         <div class="modal-content">
             <div class="modal-body">
                 <div class="clearfix">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
                 </div>
                 <div id="relation-form" class="clearfix p-4"></div>
             </div>

@@ -3,7 +3,7 @@
 	<div class="row">
 	{{if totalCount == 0}}
 	    <div class="col text-center">
-            <i class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
+            <i aria-hidden="true" class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
         </div>
 	{{else}}
         <div class="col">

@@ -148,7 +148,7 @@
                       {/foreach}
                       {/if}
                       />
-                  <label class="form-check-label" for="check-{$attribute.id}-{$node.contentobject_id}">{$node.name|wash}{if $node_has_children} <i class="fa fa-plus-square-o"></i>{/if}</label>
+                  <label class="form-check-label" for="check-{$attribute.id}-{$node.contentobject_id}">{$node.name|wash}{if $node_has_children} <i aria-hidden="true" class="fa fa-plus-square-o"></i>{/if}</label>
                 </div>
                 {if $node_has_children}
                 <ul class="list-unstyled ml-3">
@@ -170,7 +170,7 @@
                                         {/foreach}
                                     {/if}
                             />
-                            <label class="form-check-label" for="check-{$attribute.id}-{$child.contentobject_id}">{$child.name|wash}{if $child_has_children} <i class="fa fa-plus-square-o"></i>{/if}</label>
+                            <label class="form-check-label" for="check-{$attribute.id}-{$child.contentobject_id}">{$child.name|wash}{if $child_has_children} <i aria-hidden="true" class="fa fa-plus-square-o"></i>{/if}</label>
                         </div>
                         {if $child_has_children}
                         <ul class="list-unstyled ml-3">
@@ -192,7 +192,7 @@
                                                 {/foreach}
                                             {/if}
                                     />
-                                    <label class="form-check-label" for="check-{$attribute.id}-{$sub_child.contentobject_id}">{$sub_child.name|wash}{if $sub_child_has_children} <i class="fa fa-plus-square-o"></i>{/if}</label>
+                                    <label class="form-check-label" for="check-{$attribute.id}-{$sub_child.contentobject_id}">{$sub_child.name|wash}{if $sub_child_has_children} <i aria-hidden="true" class="fa fa-plus-square-o"></i>{/if}</label>
                                 </div>
                                 {if $sub_child_has_children}
                                 <ul class="list-unstyled ml-3">

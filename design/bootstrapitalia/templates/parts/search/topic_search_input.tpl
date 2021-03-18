@@ -11,7 +11,7 @@
         {if $recursion|gt(0)}</small>{/if}
     </label>
     {if $topic.has_children}
-        <a class="float-right" href="#side-search-more-topic-{$topic.item.node_id}" data-toggle="collapse" aria-expanded="{*if $checked}true{else*}false{*/if*}" aria-controls="side-search-more-topic-{$topic.item.node_id}">
+        <a class="float-right" aria-label="More items" href="#side-search-more-topic-{$topic.item.node_id}" data-toggle="collapse" aria-expanded="{*if $checked}true{else*}false{*/if*}" aria-controls="side-search-more-topic-{$topic.item.node_id}">
             {display_icon('it-more-items', 'svg', 'icon icon-primary right icon-sm ml-2')}
         </a>
     {/if}

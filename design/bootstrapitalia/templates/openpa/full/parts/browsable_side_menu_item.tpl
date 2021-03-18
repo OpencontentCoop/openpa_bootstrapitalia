@@ -12,7 +12,7 @@
            data-toggle="collapse"
            aria-expanded="{if or($is_active, $is_current)}true{else}false{/if}"
            aria-controls="menu-dropdown-{$menu_item.item.node_id}">
-            {if or($is_active, $is_current)}<i class="fa fa-minus-square-o" aria-hidden="true"></i>{else}<i class="fa fa-plus-square-o" aria-hidden="true"></i>{/if}
+            {if or($is_active, $is_current)}<i aria-hidden="true" class="fa fa-minus-square-o" aria-hidden="true"></i>{else}<i aria-hidden="true" class="fa fa-plus-square-o" aria-hidden="true"></i>{/if}
         </a>
     {/if}
 

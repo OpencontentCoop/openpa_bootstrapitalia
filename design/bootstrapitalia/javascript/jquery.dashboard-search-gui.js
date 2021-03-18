@@ -73,7 +73,7 @@
                             return L.marker(latlng, {icon: customIcon});
                         },
                         onEachFeature: function (feature, layer) {
-                            var popupDefault = '<p class="text-center"><i class="fa fa-circle-o-notch fa-spin"></i></p><p><a href="' + $.opendataTools.settings('accessPath') + '/content/view/full/' + feature.properties.mainNodeId + '" target="_blank">';
+                            var popupDefault = '<p class="text-center"><i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i></p><p><a href="' + $.opendataTools.settings('accessPath') + '/content/view/full/' + feature.properties.mainNodeId + '" target="_blank">';
                             popupDefault += feature.properties.name;
                             popupDefault += '</a></p>';
                             var popup = new L.Popup({maxHeight: 360});
@@ -230,7 +230,7 @@
                     $(this).addClass('current');
                     currentStateFilter.html($(this).html());
                     stateFilterContainer.addClass('selected').find('.icon').removeClass('icon-primary');
-                    $(this).prepend('<i class="fa fa-times"></i>');
+                    $(this).prepend('<i aria-hidden="true" class="fa fa-times"></i>');
                 }
             });
 
@@ -434,12 +434,12 @@
             var plugin = this;
             var start = this.fromDateInput.val();
             var end = this.toDateInput.val();
-            var text = '<i class="fa fa-calendar"></i> ';
+            var text = '<i aria-hidden="true" class="fa fa-calendar"></i> ';
             if (start.length > 0) {
                 text += start + ' ';
             }
             if (end.length > 0) {
-                text += '<i class="fa fa-arrow-right"></i> ' + end;
+                text += '<i aria-hidden="true" class="fa fa-arrow-right"></i> ' + end;
             }
             this.removeFilterChip('daterange');
 

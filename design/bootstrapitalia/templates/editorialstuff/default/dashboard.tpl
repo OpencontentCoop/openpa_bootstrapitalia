@@ -26,7 +26,7 @@
         <div class="pt-4">
             <a class="btn btn-info rounded-0 text-white"
                href="{concat('editorialstuff/add/',$factory_identifier)|ezurl(no)}">
-                <i class="fa fa-plus mr-2"></i> {$factory_configuration.CreationButtonText|wash()}
+                <i aria-hidden="true" class="fa fa-plus mr-2"></i> {$factory_configuration.CreationButtonText|wash()}
             </a>
         </div>
         {/if}

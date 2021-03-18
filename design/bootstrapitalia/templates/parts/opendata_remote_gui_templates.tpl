@@ -9,7 +9,7 @@
 {literal}
 <script id="tpl-remote-gui-spinner" type="text/x-jsrender">
 <div class="col-xs-12 spinner text-center py-5">
-    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw py-5"></i>
+    <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw py-5"></i>
     <span class="sr-only">{'Loading...'|i18n('editorialstuff/dashboard')}</span>
 </div>
 </script>
@@ -17,7 +17,7 @@
 	{{if totalCount == 0}}
 	    <div class="row">
             <div class="col text-center py-4">
-                <i class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
+                <i aria-hidden="true" class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
             </div>
         </div>
 	{{else}}

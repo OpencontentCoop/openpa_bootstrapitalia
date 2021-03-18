@@ -22,7 +22,7 @@
                     {include name=side_menu uri='design:openpa/full/parts/side_menu_item.tpl' menu_item=$menu_item current_node=$node max_recursion=1 recursion=1}
                 {/foreach}
                 <li>
-                  <a class="list-item large medium left-icon collapsed" href="#more-menu" data-toggle="collapse" aria-expanded="false" aria-controls="more-menu">
+                  <a class="list-item large medium left-icon collapsed" href="#more-menu" data-toggle="collapse" aria-expanded="false" aria-controls="more-menu" aria-label="More items">
                     {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
                   </a>
                   <ul class="link-sublist px-0 collapse" id="more-menu">
@@ -31,7 +31,11 @@
                     {/foreach}
                   </ul>
                 </li>
-                {if and($menu_title, $openpa.control_menu.side_menu.root_node.node_id|eq($node.node_id))}
+                {if and(
+                    $menu_title,
+                    $openpa.control_menu.side_menu.root_node.node_id|eq($node.node_id),
+                    $openpa.control_children.current_view, $openpa.control_children.current_view|ne('empty')
+                )}
                 <li>
                     <a class="list-item medium" href="#{$menu_title|slugize}">{$menu_title}</a>
                 </li>

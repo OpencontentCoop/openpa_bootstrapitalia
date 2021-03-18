@@ -44,7 +44,7 @@
 
         <li>
             <button class="btn" type="submit" name="VersionsButton" title="{'Manage versions'|i18n('design/standard/content/edit')}">
-                <i class="fa fa-history"></i>
+                <i aria-hidden="true" class="fa fa-history"></i>
                 <span class="toolbar-label">{'Manage versions'|i18n('design/standard/content/edit')}</span>
             </button>
         </li>
@@ -92,7 +92,7 @@
         <li>
             <div class="dropdown">
                 <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-ellipsis-h"></i>
+                    <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
                     <span class="toolbar-label">Altro</span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownToolbar">

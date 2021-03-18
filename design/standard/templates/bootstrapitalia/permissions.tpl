@@ -20,7 +20,7 @@
         </div>
         <div class="col-1">
             <button type="submit" class="btn btn-success rounded-0" id="AddContent" title="Crea nuovo utente">
-                <i class="fa fa-plus"></i>
+                <i aria-hidden="true" class="fa fa-plus"></i>
             </button>
         </div>
         <div class="col-12">
@@ -126,7 +126,7 @@
             {{else}}
                 {{:~i18n(metadata.name)}} <br /><small>{{:~i18n(metadata.classDefinition.name)}}</small>
             {{/if}}
-            <a target="_blank" href="/user/setting/{{:metadata.id}}"><i class="fa fa-gear"></i></a>
+            <a target="_blank" href="/user/setting/{{:metadata.id}}"><i aria-hidden="true" class="fa fa-gear"></i></a>
         </td>
 
         {{for groups ~current=metadata}}

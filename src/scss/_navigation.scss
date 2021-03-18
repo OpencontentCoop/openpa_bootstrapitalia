@@ -13,7 +13,6 @@
 }
 
 .navbar .navbar-collapsable {
-
   &.expanded {
     .it-brand-wrapper.cloned {
 
@@ -26,7 +25,7 @@
     }
 
     .navbar-nav li a.main-nav-link {
-      font-size: 20px;
+      font-size: 1.25rem;
       font-weight: 700;
     }
   }
@@ -47,10 +46,17 @@
   padding: 24px 1px;
   display: block;
   .breadcrumb-item{
-    display: inline;
+    display: inline !important;
   }
   .breadcrumb-item + .breadcrumb-item::before{
+    float:none;
     display: inline-block !important;
     padding: 0 0.1em;
+    content: "/";
   }
+}
+
+#main-menu.expanded .it-search-wrapper.cloned,
+#main-menu.expanded .it-brand-wrapper.cloned{
+  display:none !important;
 }

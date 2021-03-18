@@ -4,7 +4,7 @@
             <input type="hidden" name="ContentObjectLanguageCode"
                    value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}"/>
             <button class="btn btn-info rounded-0 text-white" type="submit" name="EditButton">
-                <i class="fa fa-pencil mr-2"></i> {'Edit'|i18n('editorialstuff/dashboard')}
+                <i aria-hidden="true" class="fa fa-pencil mr-2"></i> {'Edit'|i18n('editorialstuff/dashboard')}
             </button>
             <input type="hidden" name="HasMainAssignment" value="1"/>
             <input type="hidden" name="ContentObjectID" value="{$post.object.id}"/>
@@ -32,7 +32,7 @@
         <form method="post" action="{"content/action"|ezurl(no)}" style="display: inline;">
 
             <button class="btn btn-info rounded-0  text-white" type="submit" name="ActionRemove">
-                <i class="fa fa-trash mr-2"></i> {'Delete'|i18n('design/standard/gui')}
+                <i aria-hidden="true" class="fa fa-trash mr-2"></i> {'Delete'|i18n('design/standard/gui')}
             </button>
 
             <input type="hidden" name="ContentObjectID" value="{$post.object.id}" />
@@ -45,7 +45,7 @@
         </form>
     {/if}
     <a class="btn btn-info rounded-0 text-white" href="{$post.node.url_alias|ezurl(no)}">
-        <i class="fa fa-eye mr-2"></i> {'View on website'|i18n('editorialstuff/dashboard')}
+        <i aria-hidden="true" class="fa fa-eye mr-2"></i> {'View on website'|i18n('editorialstuff/dashboard')}
     </a>
 
     {def $assignable_states = hash()}

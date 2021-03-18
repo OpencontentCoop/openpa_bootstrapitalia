@@ -38,8 +38,8 @@
     <div class="col-md-9">
       {if $block}
       <p>
-        <a id="expand" class="btn btn-default u-text-xxs"><i class="fa fa-expand"></i></a>
-        <a id="collapse" class="btn btn-default u-text-xxs"><i class="fa fa-compress"></i></a>
+        <a id="expand" class="btn btn-default u-text-xxs"><i aria-hidden="true" class="fa fa-expand"></i></a>
+        <a id="collapse" class="btn btn-default u-text-xxs"><i aria-hidden="true" class="fa fa-compress"></i></a>
       </p>
 
       {def $current_items_per_row = 3}

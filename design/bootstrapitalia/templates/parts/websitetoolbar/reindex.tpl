@@ -3,7 +3,7 @@
         <a class="list-item left-icon"
            href="{concat( "/index/object/", $content_object.id )|ezurl(no)}"
            title="Controlla indicizzazione">
-            <i class="fa fa-search-plus"></i>
+            <i aria-hidden="true" class="fa fa-search-plus"></i>
             Controlla indicizzazione
         </a>
     </li>

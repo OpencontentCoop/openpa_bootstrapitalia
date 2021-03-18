@@ -54,6 +54,7 @@
                             aria-controls="main-menu"
                             aria-expanded="false"
                             aria-label="Toggle navigation"
+                            title="Toggle navigation"
                             data-target="#main-menu">
                         {display_icon('it-burger', 'svg', 'icon')}
                     </button>
@@ -61,7 +62,7 @@
                         <div class="overlay"></div>
                         <div class="menu-wrapper">
                             <div class="close-div">
-                                <button class="btn close-menu" type="button">
+                                <button class="btn close-menu" type="button" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
                                     {display_icon('it-close-circle', 'svg', 'icon')}
                                 </button>
                             </div>

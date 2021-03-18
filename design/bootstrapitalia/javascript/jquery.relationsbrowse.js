@@ -196,7 +196,7 @@
                 panelHeading.append(treeButton);
             }
 
-            panelHeading.append('<a href="#" class="browse-spinner btn btn-xs btn-link pull-right" style="display: none;"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i></a>');
+            panelHeading.append('<a href="#" class="browse-spinner btn btn-xs btn-link pull-right" style="display: none;"><i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-fw"></i></a>');
 
             return panelHeading;
         },
