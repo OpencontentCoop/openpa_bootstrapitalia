@@ -501,11 +501,14 @@ CustomAttributeSelection_items_per_row[2]=2
 CustomAttributeSelection_items_per_row[3]=3
 ViewList[]
 ViewList[]=default
+ViewList[]=datatable
 ViewName[default]=Default
+ViewName[datatable]=Datatable
 ItemsPerRow[]
 CanAddShowAllLink=enabled
 Wide[]
 Wide[]=default
+Wide[]=datatable
 
 [Ricerca]
 Name=Ricerca

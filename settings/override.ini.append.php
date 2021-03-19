@@ -539,6 +539,13 @@ Subdir=templates
 Match[type]=OpendataRemoteContents
 Match[view]=default
 
+[block_opendata_remote_gui_datatable]
+Source=block/view/view.tpl
+MatchFile=block/opendata_remote_gui_datatable.tpl
+Subdir=templates
+Match[type]=OpendataRemoteContents
+Match[view]=datatable
+
 #### Ricerca
 
 [block_ricerca_default]
