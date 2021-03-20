@@ -34,7 +34,7 @@
             {include uri='design:openpa/card/parts/abstract.tpl'}
         {/if}
 
-        <a class="read-more" href="{$openpa.content_link.full_link}">
+        <a class="read-more" href="{$openpa.content_link.full_link}#main-content">
             <span class="text">{'Read more'|i18n('bootstrapitalia')}</span>
             {display_icon('it-arrow-right', 'svg', 'icon')}
         </a>

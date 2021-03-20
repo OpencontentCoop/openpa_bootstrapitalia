@@ -23,7 +23,7 @@
         this.container = $(element);
 
         this.mapId = 'map-' + this.container.data('simplified_place_gui');
-        this.myLocationButton = $('<a href="#" title="' + this.settings.i18n.myLocation + '"><i class="fa fa-map-marker"></i></a>');
+        this.myLocationButton = $('<a href="#" title="' + this.settings.i18n.myLocation + '"><i aria-hidden="true" class="fa fa-map-marker"></i></a>');
         this.geocoder = L.Control.Geocoder.nominatim();
         this.marker = new L.Marker(new L.LatLng(0, 0), {
             icon: new L.MakiMarkers.icon({icon: "circle-stroked", color: "#f00", size: "l"}),
@@ -182,7 +182,7 @@
 
             $('#add-place-' + plugin.mapId).on('click', function (e) {
                 var self = $(this);
-                self.html('<i class="fa fa-circle-o-notch fa-spin"></i>');
+                self.html('<i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i>');
                 var latLng = new L.LatLng(self.data('lat'), self.data('lng'));
                 plugin.findNearPlaces(latLng, function (places, latLng) {
                     plugin.marker.closePopup();
@@ -253,7 +253,7 @@
             plugin.editWindow.hide();
             plugin.selectWindow.html('');
             var list = $('<div class="list-group overflow-auto"></div>');
-            var cancelButton = $('<a href="#" style="z-index: 2;right: 5px;position: absolute"><i class="fa fa-times"></i></a>').on('click', function (e) {
+            var cancelButton = $('<a href="#" style="z-index: 2;right: 5px;position: absolute"><i aria-hidden="true" class="fa fa-times"></i></a>').on('click', function (e) {
                 plugin.nearestLayer.clearLayers();
                 plugin.selectWindow.hide();
                 plugin.displaySelectedMarkers();
@@ -269,7 +269,7 @@
                         'data-name="' + feature.properties.name + '" ' +
                         'data-lat="' + center.lat + '" ' +
                         'data-lng="' + center.lng + '">' +
-                        '<h6 class="mb-0"><span class="badge badge-secondary"><i class="fa fa-map-marker"></i> ' + feature.id + '</span> ' + feature.properties.name + '</h6></a>'
+                        '<h6 class="mb-0"><span class="badge badge-secondary"><i aria-hidden="true" class="fa fa-map-marker"></i> ' + feature.id + '</span> ' + feature.properties.name + '</h6></a>'
                     ).on('click', function (e) {
                         plugin.selectPlace(
                             $(this).data('id'),
@@ -290,7 +290,7 @@
                 }
             });
             plugin.nearestLayer.addLayer(searchLayer);
-            var continueButton = $('<a href="#" class="list-group-item list-group-item-action p-2 text-decoration-none"><h6 class="mb-0"><span class="badge badge-danger"><i class="fa fa-map-marker"></i></span> ' + plugin.helperTexts.find('[data-continue]').html() + '</h6></a>').on('click', function (e) {
+            var continueButton = $('<a href="#" class="list-group-item list-group-item-action p-2 text-decoration-none"><h6 class="mb-0"><span class="badge badge-danger"><i aria-hidden="true" class="fa fa-map-marker"></i></span> ' + plugin.helperTexts.find('[data-continue]').html() + '</h6></a>').on('click', function (e) {
                 plugin.map.removeLayer(plugin.marker);
                 plugin.openCreateWindow(latLng, data);
                 e.preventDefault();

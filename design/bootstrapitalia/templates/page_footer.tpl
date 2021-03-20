@@ -1,10 +1,11 @@
-<footer class="it-footer">
+<footer class="it-footer" id="footer">
     {def $openpa_valuation = fetch(content, object, hash(remote_id, 'openpa-valuation'))}
     {if and(or( and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation), openpacontext().is_search_page ),$openpa_valuation, $openpa_valuation.can_read)}
         {include uri='design:openpa/valuation.tpl' openpa_valuation=$openpa_valuation}
     {/if}
 
     <div class="it-footer-main">
+        <h3 class="sr-only d-none">{'Site map'|i18n('design/ocbootstrap/pagelayout')}</h3>
         <div class="container">
             <section>
                 <div class="row clearfix">
@@ -86,15 +87,15 @@
         </div>
     </div>
     <div class="it-footer-small-prints clearfix">
+        <h3 class="text-white sr-only d-none">{'Links'|i18n('openpa/footer')}</h3>
         <div class="container">
             {def $footer_links = fetch( 'openpa', 'footer_links' )}
-            <h3 class="sr-only">Sezione Link Utili</h3>
             <ul class="it-footer-small-prints-list list-inline mb-0 d-flex flex-column flex-md-row">
                 {foreach $footer_links as $item}
                 <li class="list-inline-item">{node_view_gui content_node=$item view=text_linked}</li>
                 {/foreach}
                 {if and($openpa_valuation, $openpa_valuation.can_read)}
-                    <li class="list-inline-item">{node_view_gui content_node=$openpa_valuation.main_node view=text_linked text_wrap_start='<i class="fa fa-warning"></i> '}</li>
+                    <li class="list-inline-item">{node_view_gui content_node=$openpa_valuation.main_node view=text_linked}</li>
                 {/if}
             </ul>
             {undef $footer_links}
@@ -104,6 +105,6 @@
 </footer>
 
 
-<a href="#" aria-hidden="true" data-attribute="back-to-top" class="back-to-top shadow">
+<a href="#" aria-hidden="true" data-attribute="back-to-top" class="back-to-top shadow" aria-label="{'back to top'|i18n('bootstrapitalia')}">
     {display_icon('it-arrow-up', 'svg', 'icon icon-light')}
 </a>

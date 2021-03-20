@@ -5,7 +5,7 @@
     <th class="tight">
     {section show=eq( $select_type, 'checkbox' )}
         <a href="#" data-toggle="tooltip" data-placement="top" title="{'Invert selection'|i18n( 'design/ocbootstrap/content/browse_mode_list' )}" onclick="ezjs_toggleCheckboxes( document.browse, '{$select_name}[]' ); return false;">
-            <i class="fa fa-check-circle"></i>
+            <i aria-hidden="true" class="fa fa-check-circle"></i>
         </a>
     {/section}
     </th>

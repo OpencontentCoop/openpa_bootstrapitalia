@@ -50,7 +50,7 @@
     {if is_set($pagedata.contacts.telegram)}
         <li class="list-inline-item">
             <a class="py-3 px-2 text-white" href="{$pagedata.contacts.telegram}" aria-label="Telegram" target="_blank">
-                <i class="fa fa-telegram" style="color:white;font-size: 21px;"></i>
+                {display_icon('it-telegram', 'svg', 'icon icon-sm icon-white align-top')}
             </a>
         </li>
     {/if}

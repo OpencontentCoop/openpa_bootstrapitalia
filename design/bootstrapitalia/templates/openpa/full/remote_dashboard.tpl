@@ -12,7 +12,7 @@
                 <div class="input-group mb-3 search-form">
                     <input type="text" class="form-control" placeholder="Cerca" />
                     <div class="input-group-append">
-                        <button class="btn btn-link text-black" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        <button class="btn btn-link text-black" type="button"><i aria-hidden="true" class="fa fa-search" aria-hidden="true"></i></button>
                     </div>
                 </div>
                 <a class="active view-selector hide" href="#remote-gui-list">{'List'|i18n('editorialstuff/dashboard')}</a>
@@ -225,7 +225,7 @@
 <script id="tpl-remote-gui-spinner" type="text/x-jsrender">
 <div class="row">
     <div class="col spinner text-center py-5">
-        <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw py-5"></i>
+        <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw py-5"></i>
         <span class="sr-only">{'Loading...'|i18n('editorialstuff/dashboard')}</span>
     </div>
 </div>
@@ -263,7 +263,7 @@
 	{{if totalCount == 0}}
 	    <div class="row">
             <div class="col text-center py-4">
-                <i class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
+                <i aria-hidden="true" class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
             </div>
         </div>
 	{{else}}
@@ -282,9 +282,9 @@
             <td style="white-space:nowrap">{{:~i18n(metadata.classDefinition.name)}}</td>
             <td style="white-space:nowrap">{{:~formatDate(metadata.published,'DD/MM/YYYY HH:mm')}}</td>
             <td style="white-space:nowrap;text-align:right">
-                <span class="load" href="#" data-remote="{{:metadata.remoteId}}"><i class="fa fa-circle-o-notch fa-spin"></i></span>
-                <a class="hide import btn btn-xs btn-warning text-nowrap" href="#" data-remote="{{:metadata.remoteId}}"><i class="fa fa-arrow-up"></i> Importa</a>
-                <a class="hide link btn btn-xs btn-success text-nowrap" target="_blank" href="/openpa/object/{{:metadata.remoteId}}" data-remote="{{:metadata.remoteId}}"><i class="fa fa-link"></i> Vedi</a>
+                <span class="load" href="#" data-remote="{{:metadata.remoteId}}"><i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i></span>
+                <a class="hide import btn btn-xs btn-warning text-nowrap" href="#" data-remote="{{:metadata.remoteId}}"><i aria-hidden="true" class="fa fa-arrow-up"></i> Importa</a>
+                <a class="hide link btn btn-xs btn-success text-nowrap" target="_blank" href="/openpa/object/{{:metadata.remoteId}}" data-remote="{{:metadata.remoteId}}"><i aria-hidden="true" class="fa fa-link"></i> Vedi</a>
             </td>
         </tr>
         {{/for}}

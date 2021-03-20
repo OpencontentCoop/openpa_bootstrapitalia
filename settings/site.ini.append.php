@@ -3,6 +3,9 @@
 [RegionalSettings]
 TranslationExtensions[]=openpa_bootstrapitalia
 
+#Per validare SC 3.1.1 - Tech H57 [WCAG 2.1 (A)]Using language attributes on the html element
+HTTPLocale=it
+
 [TemplateSettings]
 ExtensionAutoloadPath[]=openpa_bootstrapitalia
 

@@ -7,7 +7,7 @@
     <a class="list-item left-icon"
        href="{concat("/ezmultiupload/upload/",$current_node.node_id)|ezurl(no)}"
        title="{'Multiupload'|i18n('extension/ezmultiupload')}">
-        <i class="fa fa-upload"></i>
+        <i aria-hidden="true" class="fa fa-upload"></i>
         Multi-Upload
     </a>
 </li>

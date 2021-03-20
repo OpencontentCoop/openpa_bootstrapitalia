@@ -3,7 +3,7 @@
     <a class="list-item left-icon"
        href="{'/openpa/refreshmenu/'|ezurl(no)}"
        title="Aggiorna i menu">
-        <i class="fa fa-bars"></i>
+        <i aria-hidden="true" class="fa fa-bars"></i>
         Rigenera menu
     </a>
 </li>

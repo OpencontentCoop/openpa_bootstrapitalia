@@ -156,7 +156,7 @@
             <div class="form-group row mb-3">
                 <label class="col-sm-2 control-label" for="Subscription_FirstName">{"First name"|i18n( 'cjw_newsletter/subscribe' )}:</label>
                 <div class="col-sm-10">
-                <input class="form-control" id="Subscription_FirstName" type="text" name="Subscription_FirstName" value="{cond( and( is_set( $user), $subscription_data_array['first_name']|eq('') ), $user.contentobject.data_map.first_name.content|wash , $subscription_data_array['first_name'] )|wash}" title="{'First name of the subscriber.'|i18n( 'cjw_newsletter/subscribe' )}"
+                <input class="form-control" id="Subscription_FirstName" autocomplete="given-name" type="text" name="Subscription_FirstName" value="{cond( and( is_set( $user), $subscription_data_array['first_name']|eq('') ), $user.contentobject.data_map.first_name.content|wash , $subscription_data_array['first_name'] )|wash}" title="{'First name of the subscriber.'|i18n( 'cjw_newsletter/subscribe' )}"
                        {*cond( is_set( $user ), 'disabled="disabled"', '')*} />
                 </div>
             </div>
@@ -165,7 +165,7 @@
             <div class="form-group row mb-3">
                 <label class="col-sm-2 control-label" for="Subscription_LastName">{"Last name"|i18n( 'cjw_newsletter/subscribe' )}:</label>
                 <div class="col-sm-10">
-                <input class="form-control" id="Subscription_LastName" type="text" name="Subscription_LastName" value="{cond( and( is_set( $user ), $subscription_data_array['last_name']|eq('') ), $user.contentobject.data_map.last_name.content|wash , $subscription_data_array['last_name'] )|wash}" title="{'Last name of the subscriber.'|i18n( 'cjw_newsletter/subscribe' )}"
+                <input class="form-control" id="Subscription_LastName" autocomplete="family-name" type="text" name="Subscription_LastName" value="{cond( and( is_set( $user ), $subscription_data_array['last_name']|eq('') ), $user.contentobject.data_map.last_name.content|wash , $subscription_data_array['last_name'] )|wash}" title="{'Last name of the subscriber.'|i18n( 'cjw_newsletter/subscribe' )}"
                        {*cond( is_set( $user ), 'disabled="disabled"', '')*} />
                 </div>
             </div>
@@ -174,7 +174,7 @@
             <div class="form-group row mb-3">
                 <label class="col-sm-2 control-label" for="Subscription_Email">{"E-mail"|i18n( 'cjw_newsletter/subscribe' )}:</label>
                 <div class="col-sm-10">
-                  <input required="required" class="form-control" id="Subscription_Email" type="text" name="Subscription_Email" value="{cond( and( is_set( $user ), $subscription_data_array['email']|eq('') ), $user.email|wash(), $subscription_data_array['email']|wash )}" title="{'Email of the subscriber.'|i18n( 'cjw_newsletter/subscribe' )}" />
+                  <input required="required" class="form-control" id="Subscription_Email" autocomplete="email" type="text" name="Subscription_Email" value="{cond( and( is_set( $user ), $subscription_data_array['email']|eq('') ), $user.email|wash(), $subscription_data_array['email']|wash )}" title="{'Email of the subscriber.'|i18n( 'cjw_newsletter/subscribe' )}" />
                 </div>
             </div>
 
@@ -213,11 +213,11 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="clearfix">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
                 </div>
                 <div class="clearfix pb-5">
                     {include uri='design:newsletter/informativa.tpl'}
-                    <a class="btn btn-info pull-right" href="#" data-dismiss="modal" aria-hidden="true">Chiudi</a>
+                    <a class="btn btn-info pull-right" href="#" data-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">{'Close'|i18n('bootstrapitalia')}</a>
                 </div>
             </div>
         </div>

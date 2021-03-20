@@ -56,7 +56,7 @@
 
             {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false()}
 
-            <a class="read-more mt-5 mb-3" href="{$openpa.content_link.full_link}">
+            <a class="read-more mt-5 mb-3" href="{$openpa.content_link.full_link}#main-content">
                 <span class="text">{if $openpa.content_link.is_node_link}Leggi di più{else}Visita{/if}</span>
                 {display_icon('it-arrow-right', 'svg', 'icon')}
             </a>
@@ -64,8 +64,8 @@
             {if and($openpa.content_link.is_node_link|not(), $valid_node.can_edit)}
                 <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$valid_node.url_alias|ezurl(no)}">
                     <span class="fa-stack">
-                      <i class="fa fa-circle fa-stack-2x"></i>
-                      <i class="fa fa-wrench fa-stack-1x fa-inverse"></i>
+                      <i aria-hidden="true" class="fa fa-circle fa-stack-2x"></i>
+                      <i aria-hidden="true" class="fa fa-wrench fa-stack-1x fa-inverse"></i>
                     </span>
                 </a>
             {/if}

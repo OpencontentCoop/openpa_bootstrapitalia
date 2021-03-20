@@ -21,7 +21,7 @@
                     {include name=side_menu uri='design:openpa/full/parts/tag_side_menu_item.tpl' menu_item=$menu_item root_node=$openpa.control_menu.side_menu.root_node current_view_tag=$openpa.content_tag_menu.current_view_tag max_recursion=1 recursion=1}
                 {/foreach}
                 <li>
-                  <a class="list-item large medium left-icon collapsed" href="#more-menu" data-toggle="collapse" aria-expanded="false" aria-controls="more-menu">
+                  <a class="list-item large medium left-icon collapsed" href="#more-menu" data-toggle="collapse" aria-expanded="false" aria-controls="more-menu" aria-label="More items">
                     {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
                   </a>
                   <ul class="link-sublist px-0 collapse" id="more-menu">

@@ -9,7 +9,7 @@
         {$topic.item.name|wash()}
     </label>
     {if $topic.has_children}
-        <a href="#search-more-topic-{$topic.item.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="search-more-topic-{$topic.item.node_id}">
+        <a href="#search-more-topic-{$topic.item.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="search-more-topic-{$topic.item.node_id}" aria-label="More items">
             {display_icon('it-more-items', 'svg', 'icon icon-primary right icon-sm')}
         </a>
     {/if}

@@ -11,7 +11,7 @@
 
         {if $link}
             <div class="alert alert-info text-center">
-                <i class="fa fa-envelope-o fa-5x"></i>
+                <i aria-hidden="true" class="fa fa-envelope-o fa-5x"></i>
                 <p>
                     {"If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user."|i18n('bootstrapitalia/forgotpassword')}
                 </p>
@@ -22,7 +22,7 @@
                     {"There is no registered user with that email address."|i18n('mbpaex/userpaex/forgotpassword')}
                 </div>*}
                 <div class="alert alert-info text-center">
-                    <i class="fa fa-envelope-o fa-5x"></i>
+                    <i aria-hidden="true" class="fa fa-envelope-o fa-5x"></i>
                     <p>
                         {"If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user."|i18n('bootstrapitalia/forgotpassword')}
                     </p>
@@ -92,7 +92,7 @@
 
 
                             <div class="input-group mb-3">
-                                <input class="form-control" placeholder="{"Email"|i18n('mbpaex/userpaex/forgotpassword')}" type="text" name="UserEmail" size="40" value="{$wrong_email|wash}" />
+                                <input class="form-control" placeholder="{"Email"|i18n('mbpaex/userpaex/forgotpassword')}" autocomplete="off" type="text" name="UserEmail" size="40" value="{$wrong_email|wash}" />
                                 <div class="input-group-append">
                                     <input class="btn btn-primary" type="submit" name="GenerateButton" value="{'Generate new password'|i18n('mbpaex/userpaex/forgotpassword')}" />
                                 </div>

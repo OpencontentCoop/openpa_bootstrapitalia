@@ -7,7 +7,7 @@
             <a class="list-item left-icon"
                href="{concat("/flip/enqueue/", $attribute.id, '/', $attribute.version, '/', cond( flip_exists( $attribute.id, $attribute.version  ), 1, 0 ))|ezurl(no)}"
                title='Flip file "{$attribute.content.original_filename}"'>
-                <i class="fa fa-book"></i>
+                <i aria-hidden="true" class="fa fa-book"></i>
                 Rendi sfogliabile il file
             </a>
         </li>

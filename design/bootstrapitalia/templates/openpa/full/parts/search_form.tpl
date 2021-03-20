@@ -2,22 +2,22 @@
     <div class="form-group floating-labels">
         <div class="form-label-group">
             <input type="text"
+                   autocomplete="off"
                    class="form-control"
                    id="search-text"
                    name="SearchText"
-                   placeholder="{'Search in'|i18n('bootstrapitalia')} {$current_node.name|wash()}"
-                   aria-invalid="false"/>
+                   placeholder="{'Search in'|i18n('bootstrapitalia')} {$current_node.name|wash()}"/>
             <label class="" for="search-text">
                 {'Search in'|i18n('bootstrapitalia')} {$current_node.name|wash()}
             </label>
-            <button type="submit" class="autocomplete-icon btn btn-link">
+            <button type="submit" class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
                 {display_icon('it-search', 'svg', 'icon')}
             </button>
         </div>
     </div>
 
     <div class="section-search-form-filters">
-        <h6 class="small">{'Filters'|i18n('bootstrapitalia')}</h6>
+        <p class="small mb-1">{'Filters'|i18n('bootstrapitalia')}</p>
         <a href="#" class="chip chip-lg selected selected no-minwith"
            data-section_subtree_group="all">
             <span class="chip-label">{'All'|i18n('bootstrapitalia')}</span>

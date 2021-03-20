@@ -5,7 +5,7 @@
 
         {if $success}
             <div class="text-center py-5">
-                <i class="fa fa-check fa-5x"></i>
+                <i aria-hidden="true" class="fa fa-check fa-5x"></i>
                 <h3>Le informazioni sono state salvate e inviate per la validazione</h3>
                 <h4>Quando saranno validate riceverai una mail all'indirizzo che hai specificato</h4>
             </div>

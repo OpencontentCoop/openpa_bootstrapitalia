@@ -21,7 +21,7 @@
 
             <div class="tab-content mt-3">
                 {foreach $post.tabs as $index=> $tab}
-                <div role="tabpanel" class="tab-pane{if $index|eq(0)} active{/if}" id="{$tab.identifier}">
+                <div class="tab-pane{if $index|eq(0)} active{/if}" id="{$tab.identifier}">
                     {include uri=$tab.template_uri post=$post}
                 </div>
                 {/foreach}

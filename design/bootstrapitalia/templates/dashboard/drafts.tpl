@@ -30,7 +30,7 @@
                     <td>
                         <a href="{concat( '/content/edit/', $draft.contentobject.id, '/', $draft.version )|ezurl('no')}"
                            title="{'Edit <%draft_name>.'|i18n( 'design/admin/dashboard/drafts',, hash( '%draft_name', $draft.name ) )|wash()}">
-                            <i class="fa fa-pencil"></i> <span
+                            <i aria-hidden="true" class="fa fa-pencil"></i> <span
                                     class="sr-only">{'Edit'|i18n( 'design/admin/dashboard/all_latest_content' )}</span>
                         </a>
                     </td>

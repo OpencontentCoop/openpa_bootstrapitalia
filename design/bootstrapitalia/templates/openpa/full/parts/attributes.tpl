@@ -73,13 +73,13 @@
         <aside class="col-lg-4">
             <div class="sticky-wrapper navbar-wrapper">
                 <nav class="navbar it-navscroll-wrapper it-top-navscroll navbar-expand-lg">
-                    <button class="custom-navbar-toggler" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" data-target="#navbarNav">
+                    <button class="custom-navbar-toggler" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" title="Toggle navigation" data-target="#navbarNav">
                         <span class="it-list"></span> {$summary_text|wash()}
                     </button>
                     <div class="navbar-collapsable" id="navbarNav">
                         <div class="overlay"></div>
                         <div class="close-div sr-only">
-                            <button class="btn close-menu" type="button">
+                            <button class="btn close-menu" type="button" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
                                 <span class="it-close"></span> {$close_text|wash()}
                             </button>
                         </div>

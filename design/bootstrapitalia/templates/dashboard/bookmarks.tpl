@@ -9,7 +9,7 @@
                 <button class="btn btn-xs pull-right" type="submit" name="RemoveButton"
                         value="{'Remove'|i18n('design/standard/content/view')}"
                         alt="{'Remove'|i18n('design/standard/content/view')}">
-                    <i class="fa fa-trash"></i> Rimuovi selezionati
+                    <i aria-hidden="true" class="fa fa-trash"></i> Rimuovi selezionati
                 </button>
             {/if}
         </h4>

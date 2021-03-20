@@ -15,7 +15,7 @@
             </div>
             <div class="row feedback-thanks hide">
                 <div class="col-sm-12 py-2">
-                    <p class="h6 mt-2 font-weight-normal">{'Thanks for your feedback'|i18n("bootstrapitalia/valuation")} <i class="fa fa-heart"></i></p>
+                    <p class="h6 mt-2 font-weight-normal">{'Thanks for your feedback'|i18n("bootstrapitalia/valuation")} <i aria-hidden="true" class="fa fa-heart"></i></p>
                 </div>
             </div>
             <div class="row feedback-survey hide"
@@ -25,7 +25,9 @@
                 <div class="col-lg-9 py-2">
                     <div class="my-1">
                         <p class="h6 mt-2 font-weight-normal">{$openpa_valuation.name|wash()}</p>
-                        <form class="form text-left"></form>
+                        <form class="form text-left">
+                            <input type="submit" class="sr-only d-none" title="{$openpa_valuation.name|wash()}" />
+                        </form>
                     </div>
                 </div>
             </div>

@@ -48,7 +48,7 @@
                         </select>
                         <div class="input-group-append">
                             <button class="btn btn-create" type="submit" name="NewButton" title="{'Create here'|i18n('design/standard/parts/website_toolbar')}">
-                                <i class="fa fa-plus-circle"></i>
+                                <i aria-hidden="true" class="fa fa-plus-circle"></i>
                                 <span class="toolbar-label">{'Create'|i18n( 'bootstrapitalia')}</span>
                             </button>
                         </div>
@@ -63,7 +63,7 @@
                 <input type="hidden" name="ContentObjectLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
                 <li>
                     <button class="btn" type="submit" name="EditButton" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
-                        <i class="fa fa-pencil"></i>
+                        <i aria-hidden="true" class="fa fa-pencil"></i>
                         <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
                     </button>
                 </li>
@@ -75,7 +75,7 @@
             )}
                 <li>
                     <button class="btn" type="submit" name="MoveNodeButton" title="{'Move'|i18n('design/standard/parts/website_toolbar')}{$node_hint}">
-                        <i class="fa fa-arrows"></i>
+                        <i aria-hidden="true" class="fa fa-arrows"></i>
                         <span class="toolbar-label">{'Move'|i18n('design/standard/parts/website_toolbar')}</span>
                     </button>
                 </li>
@@ -84,7 +84,7 @@
             {if $content_object.can_remove}
                 <li>
                     <button class="btn" type="submit" name="ActionRemove" title="{'Remove'|i18n('design/standard/parts/website_toolbar')}{$node_hint}">
-                        <i class="fa fa-trash"></i>
+                        <i aria-hidden="true" class="fa fa-trash"></i>
                         <span class="toolbar-label">{'Remove'|i18n('design/standard/parts/website_toolbar')}</span>
                     </button>
                 </li>
@@ -102,7 +102,7 @@
                 )}
                     <li>
                         <button class="btn" type="submit" name="AddAssignmentButton" title="{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}">
-                            <i class="fa fa-map-marker"></i>
+                            <i aria-hidden="true" class="fa fa-map-marker"></i>
                             <span class="toolbar-label">{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}</span>
                         </button>
                     </li>
@@ -112,7 +112,7 @@
             {if $is_container}
             <li>
                 <a href="{concat( "websitetoolbar/sort/", $current_node.node_id )|ezurl(no)}" title="{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}">
-                    <i class="fa fa-sort-alpha-asc"></i>
+                    <i aria-hidden="true" class="fa fa-sort-alpha-asc"></i>
                     <span class="toolbar-label">{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}</span>
                 </a>
             </li>
@@ -121,7 +121,7 @@
             {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'bookmark' ) )}
             <li>
                 <button class="btn" type="submit" name="ActionAddToBookmarks" title="{'Add the current item to your bookmarks.'|i18n( 'design/admin/pagelayout' )}">
-                    <i class="fa fa-bookmark{if is_bookmark($current_node.node_id)} text-light{/if}"></i>
+                    <i aria-hidden="true" class="fa fa-bookmark{if is_bookmark($current_node.node_id)} text-light{/if}"></i>
                     <span class="toolbar-label">{'Bookmarks'|i18n( 'design/admin/content/browse' )}</span>
                 </button>
             </li>
@@ -133,7 +133,7 @@
             <li>
                 <div class="dropdown">
                     <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-ellipsis-h"></i>
+                        <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
                         <span class="toolbar-label">{'Other'|i18n( 'bootstrapitalia' )}</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
@@ -161,7 +161,7 @@
                                 {if count($onto_links)}
                                     <li>
                                         <div class="list-item left-icon">
-                                            <i class="fa fa-code"></i> Linked Data
+                                            <i aria-hidden="true" class="fa fa-code"></i> Linked Data
                                             {foreach $onto_links as $slug => $link}
                                                 <a href="{$link}" target="_blank" title="{$slug|wash()}" class="badge badge-dark text-white d-inline px-1">{$slug|wash()}</a>
                                             {/foreach}
@@ -170,7 +170,7 @@
                                 {else}
                                     <li>
                                         <a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="Visualizza in JSON">
-                                            <i class="fa fa-code"></i> Visualizza in JSON
+                                            <i aria-hidden="true" class="fa fa-code"></i> Visualizza in JSON
                                         </a>
                                     </li>
                                 {/if}
@@ -186,7 +186,7 @@
 
             <li>
                 <a class="btn" href="#" id="ezwt-help" data-toggle="modal" data-target="#editor_tools">
-                    <i class="fa fa-info-circle"></i>
+                    <i aria-hidden="true" class="fa fa-info-circle"></i>
                     <span class="toolbar-label">Info</span>
                 </a>
             </li>
@@ -204,7 +204,7 @@
             <li>
                 <div class="dropdown">
                     <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-sliders"></i>
+                        <i aria-hidden="true" class="fa fa-sliders"></i>
                         <span class="toolbar-label">{'Manage'|i18n( 'bootstrapitalia' )}</span>
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
@@ -213,7 +213,7 @@
                                 {if ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )}{* has_access_to_limitation('user', 'login', hash('SiteAccess', '<!-- SiteAccessName -->')) *}
                                     <li>
                                         <a class="list-item left-icon" href="{ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )|explode('user/login')[0]}{$current_node.url_alias}" target="_blank" title="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}">
-                                            <i class="fa fa-wrench"></i>
+                                            <i aria-hidden="true" class="fa fa-wrench"></i>
                                             Backend
                                         </a>
                                     </li>
@@ -221,7 +221,7 @@
                                 {if openpaini( 'WebsiteToolbar', 'ShowMediaRoot', 'enabled' )|eq('enabled')}
                                     <li>
                                         <a class="list-item left-icon" href="{concat('content/view/full/',ezini('NodeSettings', 'MediaRootNode', 'content.ini'))|ezurl(no)}">
-                                            <i class="fa fa-image"></i>
+                                            <i aria-hidden="true" class="fa fa-image"></i>
                                             Libreria Media
                                         </a>
                                     </li>
@@ -229,7 +229,7 @@
                                 {if openpaini( 'WebsiteToolbar', 'ShowUsersRoot', 'enabled' )|eq('enabled')}
                                     <li>
                                         <a class="list-item left-icon" href="{concat('content/view/full/',ezini('NodeSettings', 'UserRootNode', 'content.ini'))|ezurl(no)}">
-                                            <i class="fa fa-users"></i>
+                                            <i aria-hidden="true" class="fa fa-users"></i>
                                             Account utenti
                                         </a>
                                     </li>
@@ -238,14 +238,14 @@
                                 {include uri='design:parts/websitetoolbar/ezsurvey.tpl'}
                                 <li>
                                     <a class="list-item left-icon" href="{'opendata/console/1'|ezurl(no)}">
-                                        <i class="fa fa-code"></i>
+                                        <i aria-hidden="true" class="fa fa-code"></i>
                                         Console api
                                     </a>
                                 </li>
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'roles' ) )}
                                 <li>
                                     <a class="list-item left-icon" href="{'openpa/roles'|ezurl(no)}">
-                                        <i class="fa fa-user-o"></i>
+                                        <i aria-hidden="true" class="fa fa-user-o"></i>
                                         Gestione ruoli amministrativi
                                     </a>
                                 </li>
@@ -253,7 +253,7 @@
                                 {if and( openpaini( 'WebsiteToolbar', 'ShowEditorRoles', 'disabled' )|eq('enabled'), fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'permissions' ) ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/permissions'|ezurl(no)}">
-                                            <i class="fa fa-user-secret"></i>
+                                            <i aria-hidden="true" class="fa fa-user-secret"></i>
                                             Gestione accessi redazione
                                         </a>
                                     </li>
@@ -261,7 +261,7 @@
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'theme' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/theme'|ezurl(no)}">
-                                            <i class="fa fa-television"></i>
+                                            <i aria-hidden="true" class="fa fa-television"></i>
                                             Gestione tema
                                         </a>
                                     </li>
@@ -269,7 +269,7 @@
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'seo' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'openpa/seo'|ezurl(no)}">
-                                            <i class="fa fa-google"></i>
+                                            <i aria-hidden="true" class="fa fa-google"></i>
                                             Gestione S.E.O.
                                         </a>
                                     </li>
@@ -277,7 +277,7 @@
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'recaptcha' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'openpa/recaptcha'|ezurl(no)}">
-                                            <i class="fa fa-key"></i>
+                                            <i aria-hidden="true" class="fa fa-key"></i>
                                             Gestione chiavi recaptcha
                                         </a>
                                     </li>
@@ -285,7 +285,7 @@
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'rss', 'function', 'edit' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'rss/list'|ezurl(no)}">
-                                            <i class="fa fa-rss-square"></i>
+                                            <i aria-hidden="true" class="fa fa-rss-square"></i>
                                             Esportazioni RSS
                                         </a>
                                     </li>
@@ -293,7 +293,7 @@
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'trash' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'content/trash'|ezurl(no)}">
-                                            <i class="fa fa-trash"></i>
+                                            <i aria-hidden="true" class="fa fa-trash"></i>
                                             Cestino
                                         </a>
                                     </li>
@@ -301,7 +301,7 @@
                                 {if and(openpaini('GeneralSettings','Valuation', 1), fetch( 'user', 'has_access_to', hash( 'module', 'valuation', 'function', 'dashboard' ) ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'valuation/dashboard'|ezurl(no)}">
-                                            <i class="fa fa-dashboard"></i>
+                                            <i aria-hidden="true" class="fa fa-dashboard"></i>
                                             {'User feedbacks'|i18n("bootstrapitalia/valuation")}
                                         </a>
                                     </li>
@@ -317,7 +317,7 @@
             <li>
                 <a class="btn position-relative" href="#" id="announce-news">
                     <span class="badge badge-warning position-absolute pulsate" style="display: none;top: 0;right: 0;"></span>
-                    <i class="fa fa-bell"></i>
+                    <i aria-hidden="true" class="fa fa-bell"></i>
                     <span class="toolbar-label">{'News'|i18n( 'bootstrapitalia' )}</span>
                 </a>
             </li>

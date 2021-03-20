@@ -12,7 +12,7 @@
     <ul>
         {if is_set($pagedata.contacts.facebook)}
         <li>
-            <a href="{$pagedata.contacts.facebook}" aria-label="Facebook" target="_blank">
+            <a href="{$pagedata.contacts.facebook}" aria-label="Facebook" target="_blank" title="Facebook">
                 {display_icon('it-facebook', 'svg', 'icon')}
             </a>
         </li>
@@ -20,7 +20,7 @@
 
         {if is_set($pagedata.contacts.twitter)}
             <li>
-                <a href="{$pagedata.contacts.twitter}" aria-label="Twitter" target="_blank">
+                <a href="{$pagedata.contacts.twitter}" aria-label="Twitter" target="_blank" title="Twitter">
                     {display_icon('it-twitter', 'svg', 'icon')}
                 </a>
             </li>
@@ -28,7 +28,7 @@
 
         {if is_set($pagedata.contacts.linkedin)}
             <li>
-                <a href="{$pagedata.contacts.linkedin}" aria-label="Linkedin" target="_blank">
+                <a href="{$pagedata.contacts.linkedin}" aria-label="Linkedin" target="_blank" title="Linkedin">
                     {display_icon('it-linkedin', 'svg', 'icon')}
                 </a>
             </li>
@@ -36,7 +36,7 @@
 
         {if is_set($pagedata.contacts.instagram)}
             <li>
-                <a href="{$pagedata.contacts.instagram}" aria-label="Instagram" target="_blank">
+                <a href="{$pagedata.contacts.instagram}" aria-label="Instagram" target="_blank" title="Instagram">
                     {display_icon('it-instagram', 'svg', 'icon')}
                 </a>
             </li>
@@ -44,7 +44,7 @@
 
         {if is_set($pagedata.contacts.youtube)}
             <li>
-                <a href="{$pagedata.contacts.youtube}" aria-label="YouTube" target="_blank">
+                <a href="{$pagedata.contacts.youtube}" aria-label="YouTube" target="_blank" title="YouTube">
                     {display_icon('it-youtube', 'svg', 'icon')}
                 </a>
             </li>
@@ -52,7 +52,7 @@
 
         {if is_set($pagedata.contacts.whatsapp)}
             <li>
-                <a href="{$pagedata.contacts.whatsapp}" aria-label="WhatsApp" target="_blank">
+                <a href="{$pagedata.contacts.whatsapp}" aria-label="WhatsApp" target="_blank" title="WhatsApp">
                     {display_icon('it-whatsapp', 'svg', 'icon')}
                 </a>
             </li>
@@ -60,15 +60,15 @@
 
         {if is_set($pagedata.contacts.telegram)}
             <li>
-                <a href="{$pagedata.contacts.telegram}" aria-label="Telegram" target="_blank">
-                    <i class="fa fa-telegram" style="color:white;font-size: 21px;vertical-align: bottom;margin-left: 16px;"></i>
+                <a href="{$pagedata.contacts.telegram}" aria-label="Telegram" target="_blank" title="Telegram">
+                    {display_icon('it-telegram', 'svg', 'icon')}
                 </a>
             </li>
         {/if}
 
         {if is_set($pagedata.contacts.tiktok)}
             <li>
-                <a href="{$pagedata.contacts.tiktok}" aria-label="TikTok" target="_blank">
+                <a href="{$pagedata.contacts.tiktok}" aria-label="TikTok" target="_blank" title="TikTok">
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
                         <g fill="none" fill-rule="evenodd">
                             <path fill="#00F2EA" d="M20.023 18.111v-1.703a13.17 13.17 0 0 0-1.784-.13c-7.3 0-13.239 5.94-13.239 13.24 0 4.478 2.238 8.442 5.652 10.839a13.187 13.187 0 0 1-3.555-9.014c0-7.196 5.77-13.064 12.926-13.232"/>

@@ -149,3 +149,18 @@ td.alpaca-container-item{
 a.opening-hours-accordion[aria-expanded='true'] .fa-caret-down {
   transform: scaleY(-1);
 }
+
+#main-menu{
+  z-index: 3;
+}
+
+/* Fix SC 1.4.4 - 1.4.5 - Tech C12 [WCAG 2.1 (AA)]Using percent, em units or named font sizes */
+html,
+body {
+  font-size: 1em;
+  line-height: 1.5;
+  @include media-breakpoint-up(sm) {
+    font-size: 1.06066em;
+    line-height: 1.555;
+  }
+}

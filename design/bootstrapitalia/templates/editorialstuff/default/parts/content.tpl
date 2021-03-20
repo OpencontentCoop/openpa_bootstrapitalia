@@ -45,7 +45,7 @@
                                     <input type="hidden" name="RedirectIfDiscarded" value="{$post.editorial_url}" />
                                     <input type="hidden" name="RedirectURIAfterPublish" value="{$post.editorial_url}" />
                                     <button type="submit" class="btn btn-link p-0 d-block w-100 text-left text-decoration-none" name="EditButton">
-                                        <i class="fa fa-plus float-right mt-1"></i>
+                                        <i aria-hidden="true" class="fa fa-plus float-right mt-1"></i>
                                         <img src="{$locale|flag_icon}" width="18" height="12" alt="{$locale}" /> {fetch('content', 'locale', hash('locale_code', $locale)).intl_language_name|wash()}
                                     </button>
                                 </form>

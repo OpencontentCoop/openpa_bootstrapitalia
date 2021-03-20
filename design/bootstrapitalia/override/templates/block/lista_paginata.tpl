@@ -34,10 +34,10 @@
 			{if and($openpa.root_node, object_handler($openpa.root_node).content_tag_menu.has_tag_menu|not())}
 				{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
 				<div class="col text-right mb-2 mb-md-0 filters-wrapper hide">
-					<button type="button" class="btn btn-secondary btn-sm mb-1" data-block_subtree_filter>Tutto</button>
+					<button type="button" title="{'All'|i18n('design/standard/ezoe')}" class="btn btn-secondary btn-sm mb-1" data-block_subtree_filter>{'All'|i18n('design/standard/ezoe')}</button>
 					{foreach $tree_menu.children as $child}
 						{if $openpa.tree_facets.subtree|contains($child.item.node_id)}
-							<button type="button" data-block_subtree_filter="{$child.item.node_id}" class="btn btn-outline-secondary btn-sm mb-1">{$child.item.name|wash()}</button>
+							<button type="button" title="{$child.item.name|wash()}" data-block_subtree_filter="{$child.item.node_id}" class="btn btn-outline-secondary btn-sm mb-1">{$child.item.name|wash()}</button>
 						{/if}
 					{/foreach}
 				</div>

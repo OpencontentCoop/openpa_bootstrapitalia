@@ -44,10 +44,9 @@
                                id="search-text"
                                name="SearchText"
                                value="{$params.text|wash()}"
-                               placeholder="{'Search'|i18n('openpa/search')}"
-                               aria-invalid="false"/>
+                               placeholder="{'Search'|i18n('openpa/search')}"/>
                         <label class="pl-0" for="search-text">{'Search'|i18n('openpa/search')}</label>
-                        <button type="submit" class="autocomplete-icon btn btn-link">
+                        <button type="submit" class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
                             {display_icon('it-search', 'svg', 'icon')}
                         </button>
                     </div>
@@ -78,7 +77,7 @@
                             <input name="Subtree[]" data-checkbox-container id="subtree-{$tree_menu.item.node_id}" value={$tree_menu.item.node_id} {if or($params.subtree|contains($id), and($display, $has_children|not()))}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
                             <label class="custom-control-label" for="subtree-{$tree_menu.item.node_id}">{$tree_menu.item.name|wash()} {if is_set($subtree_facets[$id])}<small>({$subtree_facets[$id]})</small>{/if}</label>
                             {if $has_children}
-                            <a class="float-right" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
+                            <a class="float-right" aria-label="More items" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
                                 {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
                             </a>
                             {/if}
@@ -159,7 +158,7 @@
 
                         {* altri argomenti collassati *}
                         {if $count|lt($total)}
-                            <a href="#more-topics" data-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
+                            <a href="#more-topics" aria-label="More items" data-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
                                 {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
                             </a>
                             <div class="collapse" id="more-topics">

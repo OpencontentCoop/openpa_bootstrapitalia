@@ -19,14 +19,14 @@
 
 <div class="block-header float-break">
     <div class="float-left">
-        <em id="block-expand-{$block_id}" class="trigger {if $action|eq( 'add' )}collapse{else}expand{/if}"><i class="fa fa-expand"></i></em>
+        <em id="block-expand-{$block_id}" class="trigger {if $action|eq( 'add' )}collapse{else}expand{/if}"><i aria-hidden="true" class="fa fa-expand"></i></em>
         {ezini( $block.type, 'Name', 'block.ini' )} {if ne( $block.name, '' )}- {$block.name|wash()}{/if}
     </div>
     <div class="float-right">
         <div class="btn-group" role="group">
-            <button id="block-up-{$block_id}" type="submit" class="button" name="CustomActionButton[{$attribute.id}_move_block_up-{$zone_id}-{$block_id}]" title="{'Move up'|i18n( 'design/standard/block/edit' )}"><i class="fa fa-arrow-circle-up"></i></button>
-            <button id="block-down-{$block_id}" type="submit" class="button" name="CustomActionButton[{$attribute.id}_move_block_down-{$zone_id}-{$block_id}]" title="{'Move down'|i18n( 'design/standard/block/edit' )}"><i class="fa fa-arrow-circle-down"></i></button>
-            <button id="block-remove-{$block_id}" type="submit" class="button" name="CustomActionButton[{$attribute.id}_remove_block-{$zone_id}-{$block_id}]" title="{'Remove'|i18n( 'design/standard/block/edit' )}" onclick="return confirmDiscard( '{'Are you sure you want to remove this block?'|i18n( 'design/standard/block/edit' )}' );"><i class="fa fa-trash"></i></button>
+            <button id="block-up-{$block_id}" type="submit" class="button" name="CustomActionButton[{$attribute.id}_move_block_up-{$zone_id}-{$block_id}]" title="{'Move up'|i18n( 'design/standard/block/edit' )}"><i aria-hidden="true" class="fa fa-arrow-circle-up"></i></button>
+            <button id="block-down-{$block_id}" type="submit" class="button" name="CustomActionButton[{$attribute.id}_move_block_down-{$zone_id}-{$block_id}]" title="{'Move down'|i18n( 'design/standard/block/edit' )}"><i aria-hidden="true" class="fa fa-arrow-circle-down"></i></button>
+            <button id="block-remove-{$block_id}" type="submit" class="button" name="CustomActionButton[{$attribute.id}_remove_block-{$zone_id}-{$block_id}]" title="{'Remove'|i18n( 'design/standard/block/edit' )}" onclick="return confirmDiscard( '{'Are you sure you want to remove this block?'|i18n( 'design/standard/block/edit' )}' );"><i aria-hidden="true" class="fa fa-trash"></i></button>
         </div>
     </div>
 </div>

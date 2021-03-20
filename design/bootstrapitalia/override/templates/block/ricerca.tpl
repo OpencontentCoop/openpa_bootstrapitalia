@@ -18,14 +18,14 @@
                                 {'Search'|i18n('design/base')}
                             </label>
                             <input type="text"
+                                   autocomplete="off"
                                    id="block-search-input-{$block.id}"
                                    name="SearchText"
                                    class="form-control rounded-left"
-                                   placeholder="{$block.name|wash()}"
-                                   aria-label="{$block.name|wash()}" aria-describedby="block-search-button-{$block.id}">
+                                   placeholder="{$block.name|wash()}">
                             <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="submit" id="block-search-button-{$block.id}">
-                                    <i class="fa fa-search"></i> <span class="sr-only">{'Search'|i18n('design/base')}</span>
+                                <button class="btn btn-outline-secondary" type="submit" id="block-search-button-{$block.id}" aria-label="{$block.name|wash()}">
+                                    {display_icon('it-search', 'svg', 'icon icon-sm')} <span class="sr-only">{'Search'|i18n('design/base')}</span>
                                 </button>
                             </div>
                         </div>

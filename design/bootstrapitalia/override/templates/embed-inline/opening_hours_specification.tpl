@@ -4,7 +4,7 @@
 {if $count|gt($min_view_accordion)}
     <div id="opening-hours-title-{$object.id}" class="py-1">
         <a href="#opening-hours-{$object.id}" class="text-decoration-none opening-hours-accordion" data-toggle="collapse" data-target="#opening-hours-{$object.id}" aria-controls="opening-hours-{$object.id}">            
-            <i class="fa fa-clock-o"></i> {$object.name|wash()} <i class="fa fa-caret-down"></i>
+            <i aria-hidden="true" class="fa fa-clock-o"></i> {$object.name|wash()} <i aria-hidden="true" class="fa fa-caret-down"></i>
         </a>
     </div>
 {/if}

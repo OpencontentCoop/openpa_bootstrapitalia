@@ -7,7 +7,7 @@
 			<button class="btn btn-danger btn-sm" type="submit"
                     name="CustomActionButton[{$attribute.id}_remove_user][{$user_id}]"
                     title="Remove">
-                <i class="fa fa-trash"></i>
+                <i aria-hidden="true" class="fa fa-trash"></i>
             </button>
         </td>
         <td>
@@ -21,5 +21,5 @@
 <small class="text-muted">Attenzione: non inserire utenti che hanno già priviliegi sufficienti per accedere all'area</small>
 <button class="btn btn-info btn-sm" type="submit"
         name="CustomActionButton[{$attribute.id}_browse_user]">
-    <i class="fa fa-plus"></i> Aggiungi utente
+    <i aria-hidden="true" class="fa fa-plus"></i> Aggiungi utente
 </button>

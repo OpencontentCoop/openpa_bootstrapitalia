@@ -4,7 +4,7 @@
             <a data-toggle="tab"
                class="nav-link {if $views[0]|eq('list')}active {/if}rounded-0 dashboard-view-selector"
                href="#list">
-                <i class="fa fa-list fa-2x" aria-hidden="true"></i> <span
+                <i aria-hidden="true" class="fa fa-list fa-2x" aria-hidden="true"></i> <span
                     class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
             </a>
         </li>
@@ -14,7 +14,7 @@
             <a data-toggle="tab"
                class="nav-link {if $views[0]|eq('geo')}active {/if}rounded-0 dashboard-view-selector"
                href="#geo">
-                <i class="fa fa-map fa-2x" aria-hidden="true"></i> <span
+                <i aria-hidden="true" class="fa fa-map fa-2x" aria-hidden="true"></i> <span
                     class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
             </a>
         </li>
@@ -24,7 +24,7 @@
             <a data-toggle="tab"
                class="nav-link {if $views[0]|eq('agenda')}active {/if}rounded-0 dashboard-view-selector"
                href="#agenda">
-                <i class="fa fa-calendar fa-2x" aria-hidden="true"></i> <span
+                <i aria-hidden="true" class="fa fa-calendar fa-2x" aria-hidden="true"></i> <span
                     class="sr-only">{'Calendar'|i18n('design/ocbootstrap/blog/calendar')}</span>
             </a>
         </li>
