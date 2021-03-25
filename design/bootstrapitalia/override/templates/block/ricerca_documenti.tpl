@@ -225,6 +225,8 @@
 </script>
 
 <script>
+$.opendataTools.settings('language', "{/literal}{ezini('RegionalSettings','Locale')}{literal}");
+$.opendataTools.settings('languages', ['{/literal}{ezini('RegionalSettings','SiteLanguageList')|implode("','")}{literal}']);
 $.views.helpers($.extend({}, $.opendataTools.helpers, {
 	'stripTag': function (value) {
 		var element = $('<div>'+value+'</div>');

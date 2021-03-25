@@ -52,7 +52,12 @@ class TreeTagsFieldConnector extends TagsField
         }
 
         $lastModified = $tag->attribute('modified');
-        $cacheFilePath = eZSys::cacheDirectory() . '/openpa/tags_tree/' . $tag->attribute('id') . '.cache';
+        $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
+        $locale = 'ita-IT';
+        if (count($prioritizedLanguages) > 0) {
+            $locale = $prioritizedLanguages[0]->Locale;
+        }
+        $cacheFilePath = eZSys::cacheDirectory() . '/openpa/tags_tree/' . $tag->attribute('id') . '-' . $locale . '.cache';
         $result = eZClusterFileHandler::instance($cacheFilePath)->processCache(
             function ($file) {
                 $content = include($file);

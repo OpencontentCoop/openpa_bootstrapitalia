@@ -12,6 +12,8 @@ $options = $script->getOptions();
 $script->initialize();
 $script->setUseDebugAccumulators(true);
 $cli = eZCLI::instance();
+$languageList = eZINI::instance()->variable('RegionalSettings', 'SiteLanguageList');
+
 try {
     $avoidDuplicates = [];
     $classIds = eZContentClass::fetchIDListContainingDatatype(eZTagsType::DATA_TYPE_STRING);
@@ -23,9 +25,13 @@ try {
                 if ($classAttribute->attribute('data_type_string') == eZTagsType::DATA_TYPE_STRING) {
                     $root = (int)$classAttribute->attribute(eZTagsType::SUBTREE_LIMIT_FIELD);
                     $view = $classAttribute->attribute(eZTagsType::EDIT_VIEW_FIELD);
-                    if ($root > 0 && !isset($avoidDuplicates[$root]) && $view == 'Tree'){
-                        $cli->output($class->attribute('identifier') . '/' .  $classAttribute->attribute('identifier') . ' ' . $root);
-                        ezjscCachedTags::tree([$root]);
+                    if ($root > 0 && !isset($avoidDuplicates[$root]) && $view == 'Tree') {
+                        foreach ($languageList as $language){
+                            eZContentLanguage::setPrioritizedLanguages([$language]);
+                            $cli->output($class->attribute('identifier') . '/' . $classAttribute->attribute('identifier') . ' ' . $root . ' ' . $language);
+                            ezjscCachedTags::tree([$root]);
+                        }
+                        eZContentLanguage::clearPrioritizedLanguages();
                         $avoidDuplicates[$root] = true;
                     }
                 }

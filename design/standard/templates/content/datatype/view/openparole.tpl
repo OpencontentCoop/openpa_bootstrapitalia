@@ -16,7 +16,7 @@
 						<li>
 							<a href="{$openpa_person.content_link.full_link}" title="Link {$person.name|wash()}">{$person.name|wash()}</a>
 							{foreach $attribute.content.roles_per_person[$person.id] as $role}{*
-								*}{$role|attribute('role').content.keyword_string|trim}{*
+								*}{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach}{*
 								*}{if $role|has_attribute('delegations')}
 									<small>({$role|attribute('delegations').contentclass_attribute_name|downcase|wash()}: {$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
 								{/if}{*
@@ -118,7 +118,7 @@
 						{if $role|has_attribute('label')}
 							<a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$role|attribute('label').content|wash()}</a>
 						{else}
-						{$role|attribute('role').content.keyword_string|trim} {'at'|i18n('bootstrapitalia')} <a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
+							{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach} {'at'|i18n('bootstrapitalia')} <a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
 						{/if}
 						{if or($role|has_attribute('competences'), $role|has_attribute('delegations'))}
 							{if $role|has_attribute('competences')}
@@ -153,7 +153,7 @@
 					<ul class="list-unstyled">
 						<li>
 							{foreach $attribute.content.roles_per_entity[$context.contentobject_id] as $role}{*
-								*}{$role|attribute('role').content.keyword_string|trim}{*
+								*}{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach}{*
 								mostra il dettaglio delegations dei ruoli legati all'entità di cui si sta visualizzando il content/view/full
 								*}{if $role|has_attribute('delegations')}
 									<small>({$role|attribute('delegations').content.cells|implode(', ')|wash})</small>

@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>days</source>
-      <translation>dias</translation>
+      <translation>días</translation>
     </message>
     <message>
       <source>Share</source>
@@ -342,7 +342,7 @@
     </message>
     <message>
       <source>Search</source>
-      <translation>Buscar</translation>
+      <translation>Búsqueda</translation>
     </message>
     <message>
       <source>Advanced search</source>
@@ -398,7 +398,7 @@
     </message>
     <message>
       <source>to</source>
-      <translation>a</translation>
+      <translation>para</translation>
     </message>
     <message>
       <source>Year</source>

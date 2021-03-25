@@ -77,7 +77,7 @@
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Verwandte Inhalte</translation>
+      <translation>Verbundene Webseiten</translation>
     </message>
     <message>
       <source>Search in</source>
@@ -89,7 +89,7 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Alle</translation>
+      <translation>Alles</translation>
     </message>
     <message>
       <source>Read more</source>
@@ -217,7 +217,7 @@
     </message>
     <message>
       <source>at</source>
-      <translation type="unfinished"/>
+      <translation>-</translation>
     </message>
   </context>
   <context>
@@ -506,7 +506,7 @@
     </message>
     <message>
       <source>Start date</source>
-      <translation>Anfangsdatum</translation>
+      <translation>Startdatum</translation>
     </message>
     <message>
       <source>End date</source>

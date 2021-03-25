@@ -25,7 +25,13 @@ class ezjscCachedTags extends ezjscTags
                 $retrieveCallback = function ($file) {
                     return include($file);
                 };
-                $cacheFileHandler = self::getCacheFileHandler($tagID);
+
+                $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
+                $locale = 'ita-IT';
+                if (count($prioritizedLanguages) > 0) {
+                    $locale = $prioritizedLanguages[0]->Locale;
+                }
+                $cacheFileHandler = self::getCacheFileHandler($tagID, $locale);
                 if ($cacheFileHandler->exists() && $cacheFileHandler->isExpired($tag->attribute('modified'), null, null)){
                     $retrieveCallback = null;
                 }
@@ -52,9 +58,9 @@ class ezjscCachedTags extends ezjscTags
         return parent::tree($args);
     }
 
-    protected static function getCacheFileHandler($identifier)
+    protected static function getCacheFileHandler($identifier, $locale = 'ita-IT')
     {
-        $cacheFile = $identifier . '.cache';
+        $cacheFile = $identifier . '-' . $locale . '.cache';
         $cacheFilePath = eZDir::path(
             array(eZSys::cacheDirectory(), 'cached_tags_tree', $cacheFile)
         );

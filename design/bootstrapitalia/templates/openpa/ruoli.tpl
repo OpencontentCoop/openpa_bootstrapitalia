@@ -137,6 +137,13 @@
 		{{/if}}
 	</td>
 	<td style="white-space: nowrap;">
+	{{for translations}}
+		{{if active}}
+			<img style="width: 30px;max-width:none" src="/share/icons/flags/{{:language}}.gif" />
+		{{else}}
+			<img style="width: 30px;max-width:none;opacity:0.2" src="/share/icons/flags/{{:language}}.gif" />
+		{{/if}}
+	{{/for}}
     {/literal}{if $can_create}{literal}
 		<a href="#" class="edit-object" data-object="{{:metadata.id}}"><span class="fa-stack"><i aria-hidden="true" class="fa fa-square fa-stack-2x"></i><i aria-hidden="true" class="fa fa-pencil fa-stack-1x fa-inverse"></i></span></a>
 		<a href="#" class="delete-object" data-object="{{:metadata.id}}"><span class="fa-stack text-danger"><i aria-hidden="true" class="fa fa-square fa-stack-2x"></i><i aria-hidden="true" class="fa fa-trash-o fa-stack-1x fa-inverse"></i></span></a>
@@ -159,12 +166,13 @@
 </script>
 {/literal}
 
-<script type="text/javascript" language="javascript">
+<script>
 	var ParentNodeId = {$parent_node_id};
 	var ContainerSelector = "#data";
 	var FormSelector = "#data-form";
 	var ClassIdentifier = "{$class_identifier}";
-	var ModalSelector = "#data-modal"
+	var ModalSelector = "#data-modal";
+	$.opendataTools.settings('languages', ['{ezini('RegionalSettings','SiteLanguageList')|implode("','")}']);
 	{literal}
 
 	$(document).ready(function () {
@@ -196,7 +204,23 @@
 	            response.prevPageQuery = jQuery.type(queryPerPage[currentPage - 1]) === "undefined" ? null : queryPerPage[currentPage - 1];
 
                 $.each(response.searchHits, function(){
-                    this.baseUrl = baseUrl;
+					var self = this;
+                	this.baseUrl = baseUrl;
+					this.languages = $.opendataTools.settings('languages');
+					var translations = [];
+					if (this.languages.length > 1) {
+						var currentTranslations = $.map(this.data, function (value, key) {
+							return key;
+						});
+						$.each(this.languages, function () {
+							translations.push({
+								'id': self.metadata.id,
+								'language': this,
+								'active': $.inArray(this.toString(), currentTranslations) > -1
+							});
+						});
+					}
+					this.translations = translations;
                 });
 	            var renderData = $(template.render(response));
 
