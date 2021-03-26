@@ -312,9 +312,9 @@ class OpenPARoles
                 throw new Exception("La configurazione dell'attributo openpa role non è valida", 1);
             }
 
-            $filterList = $this->getRoleFilterNameList();
-            if (!empty($filterList)) {
-                $this->searchQuery[] = "role in ['\"" . implode("\"','\"", $filterList) . "\"']";
+            $roleFilter = $this->getRoleFilter();
+            if ($roleFilter) {
+                $this->searchQuery[] = $roleFilter;
             }
             $this->searchQuery[] = 'calendar[start_time,end_time] = [now,*]';
             $this->searchQuery[] = 'sort [raw[attr_priorita_si]=>desc,person.name=>asc]';
@@ -327,40 +327,44 @@ class OpenPARoles
     }
 
     /**
-     * @return string[]
+     * @return string
      */
-    private function getRoleFilterNameList()
+    private function getRoleFilter()
     {
-        if (isset($this->attributeSettings['filters'])) {
-            $filters = $this->attributeSettings['filters'];
-            $inMemoryId = $this->contentObjectAttribute->attribute('id');
+        if (isset($this->attributeSettings['filters']) && count($this->attributeSettings['filters']) > 0) {
+
+            return "raw[subattr_role___tag_ids____si] in [" . implode(',', $this->attributeSettings['filters']). "]";
+
         } else {
             $filters = $this->classSettings['filter'];
             $inMemoryId = $this->contentObjectAttribute->attribute('contentclassattribute_id');
-        }
-        if (!isset(self::$filter[$inMemoryId])) {
-            self::$filter[$inMemoryId] = [];
-            if (!empty($filters)) {
-                $filterList = [];
-                foreach ($filters as $filter) {
-                    $filterList[] = addcslashes($filter, "')(][");
-                }
-                foreach ($filters as $filter) {
-                    $tags = eZTagsObject::fetchByKeyword($filter, true);
-                    foreach ($tags as $tag) {
-                        foreach ($tag->getTranslations() as $keyword) {
-                            $filterList[] = addcslashes($keyword->attribute('keyword'), "')(][");
-                        }
-                        foreach ($tag->getSynonyms() as $keyword) {
-                            $filterList[] = addcslashes($keyword->attribute('keyword'), "')(][");
+
+            if (!isset(self::$filter[$inMemoryId])) {
+                self::$filter[$inMemoryId] = [];
+                if (!empty($filters)) {
+                    $filterList = [];
+                    foreach ($filters as $filter) {
+                        $filterList[] = addcslashes($filter, "')(][");
+                    }
+                    foreach ($filters as $filter) {
+                        $tags = eZTagsObject::fetchByKeyword($filter, true);
+                        foreach ($tags as $tag) {
+                            foreach ($tag->getTranslations() as $keyword) {
+                                $filterList[] = addcslashes($keyword->attribute('keyword'), "')(][");
+                            }
+                            foreach ($tag->getSynonyms() as $keyword) {
+                                $filterList[] = addcslashes($keyword->attribute('keyword'), "')(][");
+                            }
                         }
                     }
+                    self::$filter[$inMemoryId] = "role in ['\"" . implode("\"','\"", array_unique($filterList)) . "\"']";
+                }else{
+                    self::$filter[$inMemoryId] = false;
                 }
-                self::$filter[$inMemoryId] = array_unique($filterList);
             }
-        }
 
-        return self::$filter[$inMemoryId];
+            return self::$filter[$inMemoryId];
+        }
     }
 
     private function sortContents($contents)

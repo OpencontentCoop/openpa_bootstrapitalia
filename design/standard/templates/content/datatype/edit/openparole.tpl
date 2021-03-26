@@ -11,7 +11,25 @@
                 value="{if is_set($attribute.content.settings.pagination)}{$attribute.content.settings.pagination|wash( xhtml )}{else}6{/if}"
         />
     </div>
+
+    <div class="mb-3">
+        <label for="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_override">{'Filtra per tipo'|i18n( 'openparoletype' )}:</label>
+        <select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_override" class="form-control" name="{$attribute_base}_openparole_filters_{$attribute.id}[]" multiple>
+            {foreach api_tagtree($attribute.class_content.roletype_root_tag).children as $tag}
+            <option value="{$tag.id|wash()}" {if and(is_set($attribute.content.settings.filters), $attribute.content.settings.filters|contains($tag.id))}selected="selected"{/if}>
+                {$tag.keywordTranslations|implode(', ')}{if count($tag.synonyms)}, {$tag.synonyms|implode(', ')}{/if}
+            </option>
+            {/foreach}
+        </select>
+    </div>
 {/default}
 
-<a target="_blank" href="{'openpa/roles'|ezurl(no)}"><small>Vai a Gestione Ruoli</small></a>
+<div class="mb-3">
+    <p class="mb-0">Impostazioni di default:</p>
+    {class_attribute_view_gui class_attribute=$attribute.contentclass_attribute}
+</div>
+
+<p>
+    <a target="_blank" href="{'openpa/roles'|ezurl(no)}">Vai a Gestione ruoli amministrativi</a>
+</p>
 
