@@ -16,7 +16,7 @@
   {* Remove. *}
   <td>
       <input type="checkbox" name="{$attribute_base}_selection[{$attribute_id}][]" value="{$object.id}" />
-      <input type="hidden" name="{$attribute_base}_data_object_relation_list_{$attribute_id}[]" value="{$object.id}" />      
+      <input type="hidden" name="{$attribute_base}_data_object_relation_list_{$attribute_id}[]" value="{$object.id}" />
   </td>
 
   {* Name *}
@@ -38,13 +38,19 @@
   	{if $object|has_attribute( 'image' )}
   	  {attribute_view_gui attribute=$object|attribute( 'image' ) image_class=rss image_css_class='img-thumbnail' fluid=false()}
   	{/if}	
-    <span class="name">{$object.name|wash()}</span> <small>({$object.class_name|wash()})</small>  
+    {if ezini('RegionalSettings', 'SiteLanguageList')|count()|gt(1)}
+      {foreach ezini('RegionalSettings', 'SiteLanguageList') as $locale}
+          <img src="{$locale|flag_icon}" width="18" height="12" alt="{$locale}"
+          {if $object.available_languages|contains($locale)|not()}style="opacity:0.2"{/if}
+          />
+      {/foreach}
+    {/if}
+    <span class="name">{$object.name|wash()}</span> <small>({$object.class_name|wash()})</small>
   </td>
 
   {* Section *}
   <td><small>{fetch( section, object, hash( section_id, $object.section_id ) ).name|wash()}</small></td>
 				
-
   {* Order. *}
   <td>
     <input size="2" type="text" name="{$attribute_base}_priority[{$attribute_id}][]" value="{$priority}" />

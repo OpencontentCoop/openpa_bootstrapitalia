@@ -1,9 +1,10 @@
 {ezpagedata_set('show_path', false())}
+{ezpagedata_set( 'has_container', true() )}
 {def $class_identifier = 'time_indexed_role'
 	 $parent_node_id = openpa_roles_parent_node_id()
 	 $parent_node = fetch(content, node, hash(node_id, $parent_node_id))
 	 $can_create = cond($parent_node.can_create, true(), false())}
-
+<div class="p-3">
 <div class="row">
 	<div class="col-md-12">
 		<h3>
@@ -30,14 +31,15 @@
 	</div>
 	{/if}
 	<div class="col-md-12">
-		<table class="table table-striped" id="data">
+		<table class="table table-striped table-sm" id="data">
 			<thead>
 				<tr>				
+					<th></th>
 					<th>Ruolo</th>
 					<th>Persona</th>
 					<th>Struttura</th>
-					<th>Valido dal</th>
-					<th>Valido al</th>
+					<th class="text-nowrap">Valido dal</th>
+					<th class="text-nowrap">Valido al</th>
 					<th>Priorità</th>
 					{if $can_create}<th width="1"></th>{/if}
 		        </tr>
@@ -46,7 +48,7 @@
 		</table>
 	</div>
 </div>
-
+</div>
 <div id="data-modal" class="modal fade modal-fullscreen" data-backdrop="static" style="z-index:10000">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -111,6 +113,17 @@
 <script id="tpl-results" type="text/x-jsrender">    
 {{for searchHits}}
 <tr>
+	<td>
+		{{if translations.length > 1}}
+		{{for translations}}
+			{{if active}}
+				<img src="/share/icons/flags/{{:language}}.gif" />
+			{{else}}
+				<img style="opacity:0.2" src="/share/icons/flags/{{:language}}.gif" />
+			{{/if}}
+		{{/for}}
+		{{/if}}
+	</td>
 	<td class="{{if ~i18n(data,'ruolo_principale')}}font-weight-bold{{/if}}">
 		{{if ~i18n(data,'role')}}
 			{{:~i18n(data,'role')}}
@@ -142,13 +155,6 @@
 		{{/if}}
 	</td>
 	<td style="white-space: nowrap;">
-	{{for translations}}
-		{{if active}}
-			<img style="width: 30px;max-width:none" src="/share/icons/flags/{{:language}}.gif" />
-		{{else}}
-			<img style="width: 30px;max-width:none;opacity:0.2" src="/share/icons/flags/{{:language}}.gif" />
-		{{/if}}
-	{{/for}}
     {/literal}{if $can_create}{literal}
 		<a href="#" class="edit-object" data-object="{{:metadata.id}}"><span class="fa-stack"><i aria-hidden="true" class="fa fa-square fa-stack-2x"></i><i aria-hidden="true" class="fa fa-pencil fa-stack-1x fa-inverse"></i></span></a>
 		<a href="#" class="delete-object" data-object="{{:metadata.id}}"><span class="fa-stack text-danger"><i aria-hidden="true" class="fa fa-square fa-stack-2x"></i><i aria-hidden="true" class="fa fa-trash-o fa-stack-1x fa-inverse"></i></span></a>
@@ -158,7 +164,7 @@
 {{/for}}
 {{if prevPageQuery || nextPageQuery }}
 <tr>
-	<td colspan="6">
+	<td colspan="{/literal}{if $can_create}8{else}7{/if}{literal}">
 		{{if prevPageQuery}}
 			<div class="pull-left"><a href="#" id="prevPage" data-query="{{>prevPageQuery}}">Pagina precedente</a></div>
 		{{/if}}
