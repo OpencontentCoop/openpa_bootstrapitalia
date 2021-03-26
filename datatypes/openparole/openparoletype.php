@@ -227,9 +227,8 @@ class OpenPARoleType extends eZDataType
                                 }
                             }
                         }
-                    }else {
-                        $data[] = $role->attribute('name');
                     }
+                    $data[] = $role->attribute('name');
                     if (isset($dataMap['label']) && $dataMap['label'] instanceof eZContentObjectAttribute && $dataMap['label']->hasContent()){
                         $data[] = $dataMap['label']->toString();
                     }

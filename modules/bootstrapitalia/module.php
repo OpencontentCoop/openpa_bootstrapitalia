@@ -17,6 +17,13 @@ $ViewList['permissions'] = array(
     'unordered_params' => array(),
     "default_navigation_part" => 'ezsetupnavigationpart',
 );
+$ViewList['role_list'] = array(
+    'functions' => array( 'theme' ),
+    'script' => 'role_list.php',
+    'params' => array( ),
+    'unordered_params' => array(),
+    "default_navigation_part" => 'ezsetupnavigationpart',
+);
 
 $FunctionList = array();
 $FunctionList['theme'] = array();

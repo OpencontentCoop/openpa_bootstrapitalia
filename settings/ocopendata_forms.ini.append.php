@@ -8,6 +8,7 @@ AvailableConnectors[]=remote_dashboard_select_target
 AvailableConnectors[]=remote_dashboard_map_target
 AvailableConnectors[]=remote_dashboard_manage_relations
 AvailableConnectors[]=remote_dashboard_import
+AvailableConnectors[]=role_tag
 
 [essential_ConnectorSettings]
 PHPClass=\Opencontent\Ocopendata\Forms\Connectors\OpendataConnector
@@ -33,5 +34,7 @@ PHPClass=RemoteDashboardManageRelationsConnector
 [remote_dashboard_import_ConnectorSettings]
 PHPClass=RemoteDashboardImportConnector
 
+[role_tag_ConnectorSettings]
+PHPClass=RoleTagConnector
 
 */ ?>

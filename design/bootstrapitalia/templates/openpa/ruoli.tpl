@@ -6,7 +6,12 @@
 
 <div class="row">
 	<div class="col-md-12">
-	  	<h3>Gestione dei ruoli</h3> 
+		<h3>
+			Gestione dei ruoli
+			{*<a class="btn btn-xs btn-primary rounded-0" href="{'bootstrapitalia/role_list'|ezurl(no)}">
+				Ruoli
+			</a>*}
+		</h3>
 	</div>		
 	<div class="col-md-{if $can_create}10{else}12{/if}">
 		<div class="input-group">
