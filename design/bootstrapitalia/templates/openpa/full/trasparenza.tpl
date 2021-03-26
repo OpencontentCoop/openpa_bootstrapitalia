@@ -33,23 +33,28 @@
 
 <section class="container">
     <div class="row border-top row-column-border row-column-menu-left attribute-list">
-        <aside class="col-lg-4 col-md-4">
-            <div class="link-list-wrapper menu-link-list pt-2">
-                <ul class="link-list">                    
-                    {foreach $tree_menu.children as $menu_item}
-                        {include name=side_menu
-                                 uri=cond(openpaini('SideMenu', 'AmministrazioneTrasparenteTipoMenu', 'default')|eq('browsable'), 'design:openpa/full/parts/browsable_side_menu_item.tpl', 'design:openpa/full/parts/side_menu_item.tpl')
-                                 menu_item=$menu_item
-                                 current_node=$node
-                                 max_recursion=3
-                                 recursion=1}
-                    {/foreach}
-                </ul>
+        <aside class="col-lg-4">
+            <div class="d-block d-lg-none d-xl-none text-center mb-2">
+                <a href="#toogle-sidemenu" role="button" class="btn btn-primary btn-md collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="toogle-sidemenu"><i class="fa fa-bars" aria-hidden="true"></i> {$tree_menu.item.name|wash()}</a>
+            </div>
+            <div class="d-lg-block d-xl-block collapse" id="toogle-sidemenu">
+                <div class="link-list-wrapper menu-link-list pt-2">
+                    <ul class="link-list">
+                        {foreach $tree_menu.children as $menu_item}
+                            {include name=side_menu
+                                     uri=cond(openpaini('SideMenu', 'AmministrazioneTrasparenteTipoMenu', 'default')|eq('browsable'), 'design:openpa/full/parts/browsable_side_menu_item.tpl', 'design:openpa/full/parts/side_menu_item.tpl')
+                                     menu_item=$menu_item
+                                     current_node=$node
+                                     max_recursion=3
+                                     recursion=1}
+                        {/foreach}
+                    </ul>
+                </div>
             </div>
         </aside>
-        <section class="col-lg-8 col-md-8 p-4">
+        <section class="col-lg-8 p-4">
             {foreach $summary_items as $index => $item}
-                <article id="{$item.slug|wash()}" class="it-page-section mb-2 anchor-offset" {*if $index|eq(0)} class="anchor-offset"{/if*}>
+                <article id="{$item.slug|wash()}" class="it-page-section mb-2">
                     {if $item.wrap}                    
                     <div class="card-wrapper card-teaser-wrapper card-teaser-embed">
                     {/if}

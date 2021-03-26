@@ -6,19 +6,19 @@
 <li>
 
     {if and($max_recursion|gt($recursion), $menu_item.has_children)}
-        <a class="browsable-menu-item d-inline-block py-0 pr-3 pl-2 pull-right {if or($is_active, $is_current)} font-weight-bold{else} collapsed{/if}"
-           style="z-index:10"
+        <a class="browsable-menu-item d-inline-block py-2 pr-3 pl-2 pull-right {if or($is_active, $is_current)} font-weight-bold{else} collapsed{/if}"
+           style="z-index:10;line-height: 1.7em"
            href="#menu-dropdown-{$menu_item.item.node_id}"
            data-toggle="collapse"
            aria-expanded="{if or($is_active, $is_current)}true{else}false{/if}"
            aria-controls="menu-dropdown-{$menu_item.item.node_id}">
-            {if or($is_active, $is_current)}<i aria-hidden="true" class="fa fa-minus-square-o" aria-hidden="true"></i>{else}<i aria-hidden="true" class="fa fa-plus-square-o" aria-hidden="true"></i>{/if}
+            {if or($is_active, $is_current)}<i aria-hidden="true" class="fa fa-minus-square-o"></i>{else}<i aria-hidden="true" class="fa fa-plus-square-o"></i>{/if}
         </a>
     {/if}
 
     <a href="{if $menu_item.item.internal}{$menu_item.item.url|ezurl(no)}{else}{$menu_item.item.url}{/if}"
        {if $menu_item.item.target}target="{$menu_item.item.target}"{/if}
-       class="list-item{if or($is_active, $is_current)} medium{/if}"
+       class="list-item{if or($is_active, $is_current)} medium{/if} py-2 pl-2" style="line-height: 1.7em; border-bottom:1px solid #eee"
        title="{'Go to content'|i18n('bootstrapitalia')} {$menu_item.item.name|wash()}">
         {$menu_item.item.name|wash()}
     </a>
