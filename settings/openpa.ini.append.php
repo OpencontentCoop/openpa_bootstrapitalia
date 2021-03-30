@@ -43,6 +43,7 @@ AbstractIdentifiers[]=event_abstract
 
 [Attributi]
 AttributiAbstract[]=event_abstract
+AttributiAbstract[]=description
 
 [Menu]
 IgnoraVirtualizzazione=enabled
