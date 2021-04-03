@@ -405,17 +405,23 @@ CustomAttributes[]=hide_first_level
 CustomAttributes[]=hide_empty_facets
 CustomAttributes[]=hide_tag_select
 CustomAttributes[]=topic_node_id
+CustomAttributes[]=hide_publication_end_time
+CustomAttributes[]=show_only_publication
 CustomAttributeNames[]
 CustomAttributeNames[root_tag]=Percorso tag classificazione
 CustomAttributeNames[hide_first_level]=Nascondi primo livello
 CustomAttributeNames[hide_empty_facets]=Nascondi tag senza contenuti
 CustomAttributeNames[hide_tag_select]=Nascondi menu laterale
 CustomAttributeNames[topic_node_id]=Argomenti
+CustomAttributeNames[hide_publication_end_time]=Nascondi la data di fine pubblicazione
+CustomAttributeNames[show_only_publication]=Mostra solo documenti in pubblicazione
 CustomAttributeTypes[]
 CustomAttributeTypes[hide_first_level]=checkbox
 CustomAttributeTypes[hide_empty_facets]=checkbox
 CustomAttributeTypes[hide_tag_select]=checkbox
 CustomAttributeTypes[topic_node_id]=topic_select
+CustomAttributeTypes[hide_publication_end_time]=checkbox
+CustomAttributeTypes[show_only_publication]=checkbox
 ViewList[]=default
 ViewName[]
 ViewName[default]=Default

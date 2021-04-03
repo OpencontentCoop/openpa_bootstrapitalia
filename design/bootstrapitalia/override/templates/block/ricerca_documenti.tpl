@@ -16,11 +16,13 @@
 {def $area_count = fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('administrative_area')))}
 {def $office_count = fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('office')))}
 
-<div data-block_document_subtree="{$block.custom_attributes.node_id}"
+<div data-block_document_subtree="{cond(is_set($block.custom_attributes.node_id), $block.custom_attributes.node_id, 1)}"
+	 data-hide_publication_end_time="{cond(and(is_set($block.custom_attributes.hide_publication_end_time), $block.custom_attributes.hide_publication_end_time|eq('1')), 'true','false')}"
+	 data-show_only_publication="{cond(and(is_set($block.custom_attributes.show_only_publication), $block.custom_attributes.show_only_publication|eq('1')), 'true','false')}"
 	 data-limit="20"
-	 data-hide_empty_facets="{$block.custom_attributes.hide_empty_facets}"
+	 data-hide_empty_facets="{cond($block.custom_attributes.hide_empty_facets, 'true', 'false')}"
 	 data-topics="{$topics_filter}"
-	 data-hide_first_level="{$block.custom_attributes.hide_first_level}">
+	 data-hide_first_level="{cond($block.custom_attributes.hide_first_level, 'true', 'false')}">
 	<div class="d-block d-lg-none d-xl-none text-center mb-2">
 		<a href="#filters" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="filters">{'Filters'|i18n('bootstrapitalia')}</a>
 	</div>
@@ -36,8 +38,8 @@
 					<input type="text" autocomplete="off" class="form-control chosen-border" id="searchFormNumber-{$block.id}" data-search="has_code" placeholder="{'Document number'|i18n('bootstrapitalia/documents')}">
 				</div>
 				<div class="col-md-4 col-lg-2 my-2">
-					<label for="searchFormDate-{$block.id}" class="m-0 d-none"><small>{'Date'|i18n('bootstrapitalia/documents')}</small></label>
-					<input type="text" autocomplete="off" class="form-control chosen-border" id="searchFormDate-{$block.id}" data-search="calendar" placeholder="{'Date'|i18n('bootstrapitalia/documents')}">
+					<label for="searchFormDate-{$block.id}" class="m-0 d-none"><small>{'Year'|i18n('openpa/search')}</small></label>
+					<input type="number" size="4" min="1900" max="2050" autocomplete="off" class="form-control chosen-border" id="searchFormDate-{$block.id}" data-search="calendar" placeholder="{'Year'|i18n('openpa/search')}">
 				</div>
 				{if $office_count|gt(0)}
 				<div class="col-md-4 col-lg-2 my-2">
@@ -172,7 +174,7 @@
 	{{for searchHits}}		
 		<div class="row mb-3 pt-3 border-top">				
 			<div class="col-md-2"><strong class="d-inline d-sm-none">{/literal}{'Date'|i18n('bootstrapitalia/documents')}{literal}</strong>
-				{{if ~i18n(data,'publication_start_time') && ~i18n(data,'publication_end_time')}}
+				{{if ~i18n(data,'publication_start_time') && ~i18n(data,'publication_end_time') && !hideEndTime}}
 					<small>{/literal}{'From'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,'publication_start_time'), 'D/MM/YYYY')}}<br />{/literal}{'to'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,'publication_end_time'), 'D/MM/YYYY')}}</small>
 				{{else}}
 					{{:~formatDate(~i18n(data,'publication_start_time'), 'D/MM/YYYY')}} 
@@ -249,8 +251,10 @@ $(document).ready(function () {
 		var rootTagIdList = resultsContainer.data('root_tags');
 		var limitPagination = container.data('limit');
 		var subtree = container.data('block_document_subtree');		
-		var hideEmptyFacets = container.data('hide_empty_facets') == 1;
-		var hideFirstLevel = container.data('hide_first_level') == 1;
+		var hideEmptyFacets = container.data('hide_empty_facets');
+		var hideFirstLevel = container.data('hide_first_level');
+		var hideEndTime = container.data('hide_publication_end_time');
+		var showOnlyPublication = container.data('show_only_publication');
 		var topics = container.data('topics').toString();
 		var currentPage = 0;
 		var queryPerPage = [];
@@ -271,13 +275,11 @@ $(document).ready(function () {
 			});
 		}
 
-		container.find('[data-search="calendar"]').datetimepicker({
-			locale: 'it',
-			format: "DD/MM/YYYY"
-		});
-
 	    var buildQuery = function(){
-			var query = 'classes [document] subtree [' + subtree + '] facets [raw[subattr_document_type___tag_ids____si]]';
+			var query = 'classes [document] subtree [' + subtree + '] facets [raw[subattr_document_type___tag_ids____si],raw[subattr_start_time___year____dt]]';
+			if (showOnlyPublication){
+				query += ' and (calendar[publication_start_time,publication_end_time] = [yesterday,now] or (publication_start_time range [*,now] and publication_end_time !range [*,*]))';
+			}
 			if (rootTagIdList !== ''){
 				query += " and raw[subattr_document_type___tag_ids____si] in [" + rootTagIdList + "]";
 			}
@@ -306,8 +308,9 @@ $(document).ready(function () {
 			}
 			var calendarFilter = container.find('[data-search="calendar"]').val();
 			if (calendarFilter.length > 0){
-				var dateFilter = moment(calendarFilter, "DD/MM/YYYY");
-				query += ' and calendar[publication_start_time,publication_end_time] = [' + dateFilter.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',' + dateFilter.set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + ']';				
+				var dateFilter = moment(calendarFilter, "YYYY");
+				query += ' and calendar[publication_start_time,publication_end_time] = [' + dateFilter.dayOfYear(1).set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ','
+						+ dateFilter.dayOfYear(365).set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + ']';
 			}
 
 			if (topics.length > 0){
@@ -325,16 +328,30 @@ $(document).ready(function () {
 
 		var loadFacetsCount = function(data){
 			if(isLoadedFacetsCount === false){
+				var yearList = [];
 				if (hideEmptyFacets){
 					container.find('[data-tag_id]').hide();
 				}
 				container.find('[data-tag_id] small').html('');
 				$.each(data, function(){
-					$.each(this.data, function(tagId, tagCount){
-						container.find('[data-tag_id="'+tagId+'"]').show().find('small').html('('+tagCount+')');
-					});
+					if (this.name === 'raw[subattr_document_type___tag_ids____si]') {
+						$.each(this.data, function (tagId, tagCount) {
+							container.find('[data-tag_id="' + tagId + '"]').show().find('small').html('(' + tagCount + ')');
+						});
+					}else if (this.name === 'raw[subattr_start_time___year____dt]'){
+						$.each(this.data, function (year, yearCount) {
+							yearList.push(moment(year).get('year'))
+						});
+					}
 				});
 				isLoadedFacetsCount = true;
+				if (yearList.length > 0){
+					var dataListContent = $('<datalist id="years"></datalist>');
+					$.each(yearList, function (){
+						dataListContent.append('<option value="'+this+'">');
+					});
+					container.find('[data-search="calendar"]').attr('list', 'years').after(dataListContent);
+				}
 			}
 		};
 
@@ -362,6 +379,7 @@ $(document).ready(function () {
 
                 $.each(response.searchHits, function(){
                     this.baseUrl = baseUrl;
+                    this.hideEndTime = hideEndTime;
                 });
 	            var renderData = $(template.render(response));
 				resultsContainer.html(renderData);
