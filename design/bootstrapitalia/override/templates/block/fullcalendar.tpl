@@ -18,7 +18,7 @@ $classes = array()}
 {if and($classes|count()|gt(1), is_set($block.custom_attributes.show_facets), $block.custom_attributes.show_facets|eq(1))}
     {set $show_facets = true()}
 {/if}
-
+{def $topics_filter = cond(and(is_set($block.custom_attributes.topic_node_id), $block.custom_attributes.topic_node_id|ne('')), $block.custom_attributes.topic_node_id|wash(), false())}
 {def $size_list = array(
     'small',
     'medium',
@@ -35,7 +35,7 @@ $classes = array()}
 {/if}
 
 {include uri='design:parts/block_name.tpl'}
-<div class="block-calendar-{$block.view} shadow block-calendar block-calendar-{$size}" {if $show_facets|not()}data-query="{$query}"{/if}>
+<div class="block-calendar-{$block.view} shadow block-calendar block-calendar-{$size}" {if $show_facets|not()}data-query="{$query}"{/if} data-topics="{$topics_filter}">
     {if $show_facets}
         <div class="block-calendar-facets d-none d-md-block" style="position: absolute;right: 0;top: -57px;">
             <button type="button"
@@ -87,16 +87,21 @@ $classes = array()}
     };
     var BlockCalendarBuildQuery = function(calendarId){
         var container = $('#'+calendarId).parent();
+        var topics = container.data('topics').toString();
+        var query;
         if (typeof container.data('query') !== 'undefined'){
-            return container.data('query');
+            query = container.data('query');
+        }else {
+            var classList = [];
+            container.find('.btn-secondary[data-block_calendar_class]').each(function () {
+                classList.push($(this).data('block_calendar_class'));
+            });
+            query = 'classes [' + classList.join(',') + ']';
         }
-
-        var classList = [];
-        container.find('.btn-secondary[data-block_calendar_class]').each(function(){
-            classList.push($(this).data('block_calendar_class'));
-        });
-
-        return 'classes [' + classList.join(',') + ']';
+        if (topics.length > 0){
+            query += ' and raw[submeta_topics___main_node_id____si] in ['+topics+']';
+        }
+        return query;
     };
     $('[data-block_calendar_class]').on('click', function(e){
         var self = $(this);
