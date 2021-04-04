@@ -4,10 +4,13 @@
 
 {def $query = $block.custom_attributes.query
 	 $limit = $block.custom_attributes.limit
-	 $fields = $block.custom_attributes.fields
+	 $fields = cond(and(is_set($block.custom_attributes.fields), $block.custom_attributes.fields|ne('')), $block.custom_attributes.fields|explode(','), array())
      $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
      $facetsFields = array()
 	 $remoteUrl = $block.custom_attributes.remote_url|trim('/')}
+
+{if $fields|not()}{set $fields = array()}{/if}
+{if $facets|not()}{set $facets = array()}{/if}
 
 {foreach $facets as $index => $facet}
     {def $facets_parts = $facet|explode(':')}
@@ -37,7 +40,7 @@
              data-remote="{$remoteUrl|wash()}"
              data-query="{$query|wash(javascript)}"
              data-facets='{$facetsFields|json_encode()}'
-             data-fields='{$fields|explode(',')|json_encode()}'>
+             data-fields='{$fields|json_encode()}'>
             {include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', '') no_margin=true()}
             {if $facetsFields|count()}
             <div class="d-block d-lg-none d-xl-none text-center mb-2">
@@ -160,7 +163,9 @@
                                         var dynamicColumns = [];
                                         var dynamicColumnDefs = [];
                                         var orderColumns = [[0, 'asc']];
+                                        var i = 0;
                                         $.each(fields, function (index,field) {
+                                            var splittedField = field.split('.');
                                             if (field === '_link'){
                                                 dynamicColumns.push({data: 'metadata.id', name: 'id', title: '#', orderable: false});
                                                 dynamicColumnDefs.push({
@@ -169,11 +174,12 @@
                                                     },
                                                     orderable: false,
                                                     width: "1",
-                                                    targets: [index]
+                                                    targets: [i]
                                                 });
-                                                if (index === 0){
+                                                if (i === 0){
                                                     orderColumns = [[1, 'asc']];
                                                 }
+                                                i++;
                                             }else {
                                                 $.each(contentClass.fields, function () {
                                                     var contentClassField = this;
@@ -187,11 +193,41 @@
                                                             render: function (data, type, row, meta) {
                                                                 return opendataDataTableRenderField(contentClassField.dataType, contentClassField.template.type, tools.settings('language'), data, type, row, meta, false);
                                                             },
-                                                            targets: [index]
+                                                            targets: [i]
                                                         });
-                                                        if (index === 0 && contentClassField.template.type === 'ISO 8601 date'){
+                                                        if (i === 0 && contentClassField.template.type === 'ISO 8601 date'){
                                                             orderColumns = [[0, 'desc']];
                                                         }
+                                                        i++;
+                                                    }else if (splittedField.length > 1 && contentClassField.identifier === splittedField[0] && contentClassField.dataType === 'ezmatrix'){
+                                                        var title = tools.helpers.i18n(contentClassField.name);
+                                                        $.each(contentClassField.template.format[0][0], function (matrixIdentifier,matrixTitle){
+                                                            if (matrixIdentifier === splittedField[1]){
+                                                                // strip 'string (' and ')'
+                                                                title = matrixTitle.substring(8).slice(0, -1);
+                                                            }
+                                                        });
+                                                        dynamicColumns.push({
+                                                            data: 'data.' + tools.settings('language') + '.' + splittedField[0],
+                                                            name: splittedField[0], title: title,
+                                                            orderable: false
+                                                        });
+                                                        dynamicColumnDefs.push({
+                                                            render: function (data, type, row, meta) {
+                                                                var result = [];
+                                                                $.each(data, function () {
+                                                                    var row = this;
+                                                                    $.each(row, function (rowIndex, rowValue) {
+                                                                        if (rowIndex === splittedField[1]){
+                                                                            result.push(rowValue);
+                                                                        }
+                                                                    });
+                                                                });
+                                                                return result.join('<br />');
+                                                            },
+                                                            targets: [i]
+                                                        });
+                                                        i++;
                                                     }
                                                 });
                                             }
