@@ -50,10 +50,34 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
         return $attributes;
     }
 
+    public function executeAction($actionIdentifier, $actionParameters, eZModule $module = null)
+    {
+        if ($actionIdentifier == 'ActionSendToMailingList' && $this->attribute('is_published')) {
+            $list = $this->getMailingList();
+            $emails = [];
+            foreach ($list as $item) {
+                if (in_array($item['u_id'], $actionParameters) && eZMail::validate($item['email'])) {
+                    $emails[] = $item['email'];
+                }
+            }
+            if (!empty($emails)) {
+                if ($this->sendMail($emails)) {
+                    OCEditorialStuffHistory::addHistoryToObjectId(
+                        $this->object->attribute('id'),
+                        'sent_to_mailing_list', [
+                            'addresses' => $emails,
+                            'mailing_list' => $this->getMailingListId()
+                        ]
+                    );
+                }
+            }
+        }
+    }
+
     public function attribute($property)
     {
         if ($property == 'is_published') {
-            return $this->is('accepted');
+            return $this->is('accepted') || $this->is('skipped');
         }
         if ($property == 'mailing_list') {
             return $this->getMailingList();
@@ -63,26 +87,6 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
         }
 
         return parent::attribute($property);
-    }
-
-    private function getMailingListId()
-    {
-        $configuration = $this->getFactory()->getConfiguration();
-        if (isset($configuration['RelatedNewsletterList'])) {
-            return (int)$configuration['RelatedNewsletterList'];
-        }
-
-        return 0;
-    }
-
-    private function getMailingListUrl()
-    {
-        $object = eZContentObject::fetch($this->getMailingListId());
-        if ($object instanceof eZContentObject) {
-            return '/newsletter/subscription_list/' . $object->mainNodeID();
-        }
-
-        return false;
     }
 
     private function getMailingList()
@@ -118,62 +122,189 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
         return $list;
     }
 
-    public function executeAction($actionIdentifier, $actionParameters, eZModule $module = null)
+    private function getMailingListId()
     {
-        if ($actionIdentifier == 'ActionSendToMailingList' && $this->attribute('is_published')) {
-            $list = $this->getMailingList();
-            $emails = [];
-            foreach ($list as $item) {
-                if (in_array($item['u_id'], $actionParameters) && eZMail::validate($item['email'])) {
-                    $emails[] = $item['email'];
-                }
-            }
-            if (!empty($emails)) {
-                if ($this->sendMail($emails)) {
-                    OCEditorialStuffHistory::addHistoryToObjectId(
-                        $this->object->attribute('id'),
-                        'sent_to_mailing_list', [
-                            'addresses' => $emails,
-                            'mailing_list' => $this->getMailingListId()
-                        ]
-                    );
-                }
-            }
+        $configuration = $this->getFactory()->getConfiguration();
+        if (isset($configuration['RelatedNewsletterList'])) {
+            return (int)$configuration['RelatedNewsletterList'];
         }
+
+        return 0;
     }
 
+    private function getMailingListUrl()
+    {
+        $object = eZContentObject::fetch($this->getMailingListId());
+        if ($object instanceof eZContentObject) {
+            return '/newsletter/subscription_list/' . $object->mainNodeID();
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $addressList
+     * @return bool
+     */
     private function sendMail($addressList)
     {
-        $mail = $this->composeMail();
-        $chunks = array_chunk($addressList, 48);
-        foreach ($chunks as $chunk) {
-            $mail->setBccElements($chunk);
-            eZMailTransport::send($mail);
+        try {
+            $mail = new eZMail();
+            $mail->Mail = $this->composeMail();
+            $chunks = array_chunk($addressList, 48);
+            foreach ($chunks as $chunk) {
+                $addresses = [];
+                foreach ($chunk as $value) {
+                    $addresses[] = ['email' => $value];
+                }
+                $mail->setBccElements($addresses);
+                eZMailTransport::send($mail);
+            }
+            return true;
+        }catch (Exception $e){
+            eZDebug::writeError($e->getMessage(), __METHOD__);
+            return false;
         }
-        return true;
     }
 
+    /**
+     * @return ezcMailComposer
+     * @throws ezcBaseFileNotFoundException
+     */
     private function composeMail()
     {
-        $languages = $this->object->availableLanguages();
-        $configuration = $this->getFactory()->getConfiguration();
-        $subjectFields = isset($configuration['MailSubjectFields']) ? $configuration['MailSubjectFields'] : [];
-        $bodyFields = isset($configuration['MailBodyFields']) ? $configuration['MailBodyFields'] : [];
-        $attachmentsFields = isset($configuration['MailAttachmentsFields']) ? $configuration['MailAttachmentsFields'] : [];
-        $subjectParts = [];
-
-
-        $mail = new eZMail();
         $ini = eZINI::instance();
         $emailSender = $ini->variable('MailSettings', 'EmailSender');
         if (!eZMail::validate($emailSender))
             $emailSender = $ini->variable("MailSettings", "AdminEmail");
 
-        $mail->setSender($emailSender);
-        $mail->setSubject($subject);
-        $mail->setBody($body);
-        $mail->setReceiver($emailSender);
+        $mail = new ezcMailComposer();
+        $mail->from = new ezcMailAddress($emailSender);
+        $mail->subject = $this->composeSubject();
+        $body = $this->composeBody();
+        $mail->plainText = wordwrap(strip_tags($body), 80, "\n");
+        $mail->htmlText = str_replace('=====', '', nl2br($body));
+        foreach ($this->composeAttachments() as $file) {
+            $mail->addFileAttachment($file);
+        }
+        $mail->build();
 
         return $mail;
+    }
+
+    private function composeSubject()
+    {
+        $configuration = $this->getFactory()->getConfiguration();
+        $subjectFields = isset($configuration['MailSubjectFields']) ? $configuration['MailSubjectFields'] : [];
+        if (empty($subjectFields)) {
+            return implode('/', $this->object->names());
+        }
+
+        $subjects = [];
+        foreach ($this->object->availableLanguages() as $language) {
+            $dataMap = $this->object->fetchDataMap(false, $language);
+            $localizeSubjects = [];
+            foreach ($subjectFields as $field) {
+                if (isset($dataMap[$field]) && $dataMap[$field]->hasContent()) {
+                    $localizeSubjects[] = $this->getAttributeAsMailString($dataMap[$field]);
+                }
+            }
+            $subjects[] = implode(' ', $localizeSubjects);
+        }
+
+        return implode('/', $subjects);
+    }
+
+    private function getAttributeAsMailString(eZContentObjectAttribute $attribute)
+    {
+        $content = $attribute->content();
+
+        if ($content instanceof eZTags) {
+            return $content->keywordString(', ');
+        }
+
+        if ($content instanceof eZDate || $content instanceof eZDateTime) {
+            return $content->toString(true);
+        }
+
+        return $attribute->toString();
+    }
+
+    private function composeBody()
+    {
+        $configuration = $this->getFactory()->getConfiguration();
+        $bodyFields = isset($configuration['MailBodyFields']) ? $configuration['MailBodyFields'] : [];
+
+        $bodies = [];
+        foreach ($this->object->availableLanguages() as $language) {
+            $dataMap = $this->object->fetchDataMap(false, $language);
+            $localizeBodies = [];
+            foreach ($bodyFields as $field) {
+                if (isset($dataMap[$field]) && $dataMap[$field]->hasContent()) {
+                    $localizeBodies[] = $this->getAttributeAsMailString($dataMap[$field]);
+                }
+            }
+            $bodies[] = implode("\n", $localizeBodies);
+        }
+
+        return implode("\n=====\n", $bodies);
+    }
+
+    private function composeAttachments()
+    {
+        $configuration = $this->getFactory()->getConfiguration();
+        $attachmentsFields = isset($configuration['MailAttachmentsFields']) ? $configuration['MailAttachmentsFields'] : [];
+        $attachments = [];
+        foreach ($this->object->availableLanguages() as $language) {
+            $dataMap = $this->object->fetchDataMap(false, $language);
+            foreach ($attachmentsFields as $field) {
+                if (isset($dataMap[$field]) && $dataMap[$field]->hasContent()) {
+                    $this->getAttributeAsMailAttachment($dataMap[$field], $attachments);
+                }
+            }
+        }
+        return array_unique($attachments);
+    }
+
+    private function getAttributeAsMailAttachment(eZContentObjectAttribute $attribute, &$attachments)
+    {
+        switch ($attribute->attribute('data_type_string')) {
+            case eZObjectRelationListType::DATA_TYPE_STRING:
+                $relationList = OpenPABase::fetchObjects(explode('-', $attribute->toString()));
+                foreach ($relationList as $related) {
+                    $dataMap = $related->dataMap();
+                    if (isset($dataMap['image']) && $dataMap['image']->hasContent()) {
+                        $this->getAttributeAsMailAttachment($dataMap['image'], $attachments);
+                    }
+                }
+                break;
+
+            case eZImageType::DATA_TYPE_STRING:
+                /** @var eZImageAliasHandler $content */
+                $content = $attribute->content();
+                $original = $content->attribute('original');
+                $filePath = $original['full_path'];
+                eZClusterFileHandler::instance($filePath)->fetch();
+                $attachments[] = $filePath;
+                break;
+
+            case eZBinaryFileType::DATA_TYPE_STRING:
+                /** @var eZBinaryFile $content */
+                $content = $attribute->content();
+                $filePath = $content->filePath();
+                eZClusterFileHandler::instance($filePath)->fetch();
+                $attachments[] = $filePath;
+                break;
+
+            case OCMultiBinaryType::DATA_TYPE_STRING:
+                /** @var eZMultiBinaryFile[] $contents */
+                $contents = $attribute->content();
+                foreach ($contents as $content) {
+                    $filePath = $content->filePath();
+                    eZClusterFileHandler::instance($filePath)->fetch();
+                    $attachments[] = $filePath;
+                }
+                break;
+        }
     }
 }
