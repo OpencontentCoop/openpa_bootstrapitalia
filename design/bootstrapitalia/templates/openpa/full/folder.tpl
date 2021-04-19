@@ -11,6 +11,10 @@
 </section>
 
 <div class="section section-muted section-inset-shadow p-4">
+{if and(fetch(user, current_user).is_logged_in|not(), $node.object.remote_id|eq('restricted_areas'))}
+    {include uri='design:user/login.tpl' site_access=hash('allowed', true()) redirect_uri=$node.url_alias}
+{/if}
+
 {def $children_count = fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id ) )
      $page_limit = 20}
 
