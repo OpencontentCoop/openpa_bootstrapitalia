@@ -96,6 +96,10 @@
       <translation>Διαβαστε περισσοτερα</translation>
     </message>
     <message>
+      <source>Visit</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Go to page</source>
       <translation>Πήγαινε στην σελίδα</translation>
     </message>

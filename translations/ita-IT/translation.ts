@@ -96,6 +96,10 @@
       <translation>Leggi di più</translation>
     </message>
     <message>
+      <source>Visit</source>
+      <translation>Visita</translation>
+    </message>
+    <message>
       <source>Go to page</source>
       <translation>Vai alla pagina</translation>
     </message>

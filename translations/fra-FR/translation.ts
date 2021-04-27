@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>FREE</source>
-      <translation>GRATUIT</translation>
+      <translation>LIBRE</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>days</source>
-      <translation>jours</translation>
+      <translation>journées</translation>
     </message>
     <message>
       <source>Share</source>
@@ -94,6 +94,10 @@
     <message>
       <source>Read more</source>
       <translation>Lire la suite</translation>
+    </message>
+    <message>
+      <source>Visit</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Go to page</source>
@@ -342,7 +346,7 @@
     </message>
     <message>
       <source>Search</source>
-      <translation>Chercher</translation>
+      <translation>Rechercher</translation>
     </message>
     <message>
       <source>Advanced search</source>
@@ -541,11 +545,11 @@
     <name>bootstrapitalia/opening_hours_matrix</name>
     <message>
       <source>monday</source>
-      <translation>Lundi</translation>
+      <translation>lundi</translation>
     </message>
     <message>
       <source>tuesday</source>
-      <translation>mardi</translation>
+      <translation>Mardi</translation>
     </message>
     <message>
       <source>wednesday</source>
@@ -557,7 +561,7 @@
     </message>
     <message>
       <source>friday</source>
-      <translation>vendredi</translation>
+      <translation>Vendredi</translation>
     </message>
     <message>
       <source>saturday</source>

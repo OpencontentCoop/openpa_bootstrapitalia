@@ -96,6 +96,10 @@
       <translation>Les envir</translation>
     </message>
     <message>
+      <source>Visit</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Go to page</source>
       <translation>gea en de sait</translation>
     </message>

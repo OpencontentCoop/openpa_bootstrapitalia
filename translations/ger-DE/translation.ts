@@ -89,11 +89,15 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Alles</translation>
+      <translation>Alle</translation>
     </message>
     <message>
       <source>Read more</source>
       <translation>Weiterlesen</translation>
+    </message>
+    <message>
+      <source>Visit</source>
+      <translation>Besuch</translation>
     </message>
     <message>
       <source>Go to page</source>
@@ -506,7 +510,7 @@
     </message>
     <message>
       <source>Start date</source>
-      <translation>Startdatum</translation>
+      <translation>Anfangsdatum</translation>
     </message>
     <message>
       <source>End date</source>
@@ -662,7 +666,7 @@
     <name>bootstrapitalia/valuation</name>
     <message>
       <source>Thanks for your feedback</source>
-      <translation>Vielen Dank für Ihre Rückmeldung</translation>
+      <translation>Vielen Dank für Ihr Feedback</translation>
     </message>
     <message>
       <source>User feedbacks</source>

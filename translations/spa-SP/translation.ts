@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>Cerrar</translation>
+      <translation>Cerca</translation>
     </message>
     <message>
       <source>FREE</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>days</source>
-      <translation>días</translation>
+      <translation>dias</translation>
     </message>
     <message>
       <source>Share</source>
@@ -89,11 +89,15 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Todos</translation>
+      <translation>Todas</translation>
     </message>
     <message>
       <source>Read more</source>
-      <translation>Leer más</translation>
+      <translation>Lee mas</translation>
+    </message>
+    <message>
+      <source>Visit</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Go to page</source>
@@ -342,7 +346,7 @@
     </message>
     <message>
       <source>Search</source>
-      <translation>Búsqueda</translation>
+      <translation>Buscar</translation>
     </message>
     <message>
       <source>Advanced search</source>
@@ -394,11 +398,11 @@
     </message>
     <message>
       <source>from</source>
-      <translation>desde</translation>
+      <translation>de</translation>
     </message>
     <message>
       <source>to</source>
-      <translation>para</translation>
+      <translation>a</translation>
     </message>
     <message>
       <source>Year</source>

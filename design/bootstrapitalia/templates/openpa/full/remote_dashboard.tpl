@@ -332,7 +332,7 @@
             {{/for}}
         </div>
         <a class="read-more" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">
-            <span class="text">Leggi di più</span>
+            <span class="text">{'Read more'|i18n('bootstrapitalia')}</span>
             <svg class="icon"><use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-arrow-right"></use></svg>
         </a>
     </div>

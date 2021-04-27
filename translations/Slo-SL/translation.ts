@@ -96,6 +96,10 @@
       <translation>Preberi več</translation>
     </message>
     <message>
+      <source>Visit</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Go to page</source>
       <translation>Pojdi na stran</translation>
     </message>
