@@ -1,10 +1,14 @@
 {ezpagedata_set( 'has_container', true() )}
 <div class="container">
-    {include uri=concat('design:', $template_directory, '/parts/workflow.tpl') post=$post}
+    <div class="row">
+        <div class="col">
+            {include uri=concat('design:', $template_directory, '/parts/workflow.tpl') post=$post}
+        </div>
+    </div>
 </div>
 <section class="container pt-0">
     <div class="row">
-        <div class="col-md-{if is_set( $post.object.data_map.internal_comments )}9{else}12{/if}">
+        <div class="col-{if is_set( $post.object.data_map.internal_comments )}9{else}12{/if}">
 
             <ul class="nav nav-tabs nav-fill overflow-hidden">
                 {foreach $post.tabs as $index=> $tab}
@@ -31,7 +35,7 @@
         </div>
 
         {if is_set( $post.object.data_map.internal_comments )}
-            <div class="col-md-3">
+            <div class="col-3">
                 {include uri=concat('design:', $template_directory, '/parts/comments.tpl') post=$post}
             </div>
         {/if}
@@ -62,6 +66,13 @@
         $.opendataTools.settings('language', "{$current_language}");
         $.opendataTools.settings('languages', ['{ezini('RegionalSettings','SiteLanguageList')|implode("','")}']);
         $.opendataTools.settings('locale', "{$moment_language}");
+        {literal}
+        $(function() {
+            $('a[data-toggle="tab"]').on('click', function(e) {
+                $(window).scrollTop($(window).scrollTop()+1);
+            });
+        });
+        {/literal}
     </script>
     {include uri='design:editorialstuff/parts/workflow-styles.tpl' states=$post.states}
 

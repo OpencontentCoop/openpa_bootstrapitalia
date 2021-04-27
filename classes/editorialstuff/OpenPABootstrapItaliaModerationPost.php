@@ -56,17 +56,19 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
             $list = $this->getMailingList();
             $emails = [];
             foreach ($list as $item) {
-                if (in_array($item['u_id'], $actionParameters) && eZMail::validate($item['email'])) {
+                if (in_array($item['u_id'], $actionParameters['users']) && eZMail::validate($item['email'])) {
                     $emails[] = $item['email'];
                 }
             }
-            if (!empty($emails)) {
-                if ($this->sendMail($emails)) {
+            $language = $actionParameters['language'];
+            if (!empty($emails) && !empty($language)) {
+                if ($this->sendMail($language, $emails)) {
                     OCEditorialStuffHistory::addHistoryToObjectId(
                         $this->object->attribute('id'),
                         'sent_to_mailing_list', [
                             'addresses' => $emails,
-                            'mailing_list' => $this->getMailingListId()
+                            'mailing_list' => $this->getMailingListId(),
+                            'language' => $language
                         ]
                     );
                 }
@@ -122,6 +124,9 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
         return $list;
     }
 
+    /**
+     * @return int
+     */
     private function getMailingListId()
     {
         $configuration = $this->getFactory()->getConfiguration();
@@ -143,14 +148,15 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
     }
 
     /**
-     * @param $addressList
+     * @param string $language
+     * @param array $addressList
      * @return bool
      */
-    private function sendMail($addressList)
+    private function sendMail($language, $addressList)
     {
         try {
             $mail = new eZMail();
-            $mail->Mail = $this->composeMail();
+            $mail->Mail = $this->composeMail($language);
             $chunks = array_chunk($addressList, 48);
             foreach ($chunks as $chunk) {
                 $addresses = [];
@@ -161,17 +167,18 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
                 eZMailTransport::send($mail);
             }
             return true;
-        }catch (Exception $e){
+        } catch (Exception $e) {
             eZDebug::writeError($e->getMessage(), __METHOD__);
             return false;
         }
     }
 
     /**
+     * @param string $language
      * @return ezcMailComposer
      * @throws ezcBaseFileNotFoundException
      */
-    private function composeMail()
+    private function composeMail($language)
     {
         $ini = eZINI::instance();
         $emailSender = $ini->variable('MailSettings', 'EmailSender');
@@ -180,11 +187,11 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
 
         $mail = new ezcMailComposer();
         $mail->from = new ezcMailAddress($emailSender);
-        $mail->subject = $this->composeSubject();
-        $body = $this->composeBody();
+        $mail->subject = $this->composeSubject($language);
+        $body = $this->composeBody($language);
         $mail->plainText = wordwrap(strip_tags($body), 80, "\n");
         $mail->htmlText = str_replace('=====', '', nl2br($body));
-        foreach ($this->composeAttachments() as $file) {
+        foreach ($this->composeAttachments($language) as $file) {
             $mail->addFileAttachment($file);
         }
         $mail->build();
@@ -192,7 +199,7 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
         return $mail;
     }
 
-    private function composeSubject()
+    private function composeSubject($currentLanguage)
     {
         $configuration = $this->getFactory()->getConfiguration();
         $subjectFields = isset($configuration['MailSubjectFields']) ? $configuration['MailSubjectFields'] : [];
@@ -202,14 +209,16 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
 
         $subjects = [];
         foreach ($this->object->availableLanguages() as $language) {
-            $dataMap = $this->object->fetchDataMap(false, $language);
-            $localizeSubjects = [];
-            foreach ($subjectFields as $field) {
-                if (isset($dataMap[$field]) && $dataMap[$field]->hasContent()) {
-                    $localizeSubjects[] = $this->getAttributeAsMailString($dataMap[$field]);
+            if ($language == $currentLanguage) {
+                $dataMap = $this->object->fetchDataMap(false, $language);
+                $localizeSubjects = [];
+                foreach ($subjectFields as $field) {
+                    if (isset($dataMap[$field]) && $dataMap[$field]->hasContent()) {
+                        $localizeSubjects[] = $this->getAttributeAsMailString($dataMap[$field]);
+                    }
                 }
+                $subjects[] = implode(' ', $localizeSubjects);
             }
-            $subjects[] = implode(' ', $localizeSubjects);
         }
 
         return implode('/', $subjects);
@@ -230,36 +239,59 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
         return $attribute->toString();
     }
 
-    private function composeBody()
+    private function composeBody($currentLanguage)
     {
         $configuration = $this->getFactory()->getConfiguration();
         $bodyFields = isset($configuration['MailBodyFields']) ? $configuration['MailBodyFields'] : [];
 
         $bodies = [];
         foreach ($this->object->availableLanguages() as $language) {
-            $dataMap = $this->object->fetchDataMap(false, $language);
-            $localizeBodies = [];
-            foreach ($bodyFields as $field) {
-                if (isset($dataMap[$field]) && $dataMap[$field]->hasContent()) {
-                    $localizeBodies[] = $this->getAttributeAsMailString($dataMap[$field]);
+            if ($language == $currentLanguage) {
+                $dataMap = $this->object->fetchDataMap(false, $language);
+                $localizeBodies = [];
+                foreach ($bodyFields as $field) {
+                    if (isset($dataMap[$field]) && $dataMap[$field]->hasContent()) {
+                        $localizeBodies[] = $this->getAttributeAsMailString($dataMap[$field]);
+                    }
+                }
+                $bodies[] = implode("\n", $localizeBodies);
+            }
+        }
+
+        $ini = eZINI::instance();
+        if ($ini->hasVariable('RegionalSettings', 'TranslationSA')) {
+            $translationSiteAccesses = $ini->variable('RegionalSettings', 'TranslationSA');
+            foreach ($translationSiteAccesses as $siteAccessName => $translationName) {
+                $saIni = eZSiteAccess::getIni($siteAccessName);
+                $locale = $saIni->variable('RegionalSettings', 'ContentObjectLocale');
+                if ($locale == $currentLanguage) {
+                    $host = $saIni->variable('SiteSettings', 'SiteURL');
+                    $host = eZSys::serverProtocol() . "://" . $host;
+                    $bodies[] = $host . '/' . eZURLAliasML::cleanURL('content/view/full/' . $this->object->mainNodeID());
+                    break;
                 }
             }
-            $bodies[] = implode("\n", $localizeBodies);
+        } else {
+            $fullUrl = eZURLAliasML::cleanURL('content/view/full/' . $this->object->mainNodeID());
+            eZURI::transformURI($fullUrl, false, 'full');
+            $bodies[] = $fullUrl;
         }
 
         return implode("\n=====\n", $bodies);
     }
 
-    private function composeAttachments()
+    private function composeAttachments($currentLanguage)
     {
         $configuration = $this->getFactory()->getConfiguration();
         $attachmentsFields = isset($configuration['MailAttachmentsFields']) ? $configuration['MailAttachmentsFields'] : [];
         $attachments = [];
         foreach ($this->object->availableLanguages() as $language) {
-            $dataMap = $this->object->fetchDataMap(false, $language);
-            foreach ($attachmentsFields as $field) {
-                if (isset($dataMap[$field]) && $dataMap[$field]->hasContent()) {
-                    $this->getAttributeAsMailAttachment($dataMap[$field], $attachments);
+            if ($language == $currentLanguage) {
+                $dataMap = $this->object->fetchDataMap(false, $language);
+                foreach ($attachmentsFields as $field) {
+                    if (isset($dataMap[$field]) && $dataMap[$field]->hasContent()) {
+                        $this->getAttributeAsMailAttachment($dataMap[$field], $attachments);
+                    }
                 }
             }
         }

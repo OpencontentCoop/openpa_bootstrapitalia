@@ -33,12 +33,11 @@
                 {def $show = true()}
                 {if ezini_hasvariable( $factory, 'CreationRepositoryNode', 'editorialstuff.ini' )}
                     {def $creationRepositoryNode = fetch(content, node, hash(node_id, ezini( $factory, 'CreationRepositoryNode', 'editorialstuff.ini' )))}
-                    {if $creationRepositoryNode.can_create|not()}
+                    {if or($creationRepositoryNode|not(), $creationRepositoryNode.can_create|not())}
                         {set $show = false()}
                     {/if}
                     {undef $creationRepositoryNode}
                 {/if}
-                {if $show}
                 <tr>
                     <td width="1">
                         <a class="btn btn-primary btn-md text-nowrap" href="{concat('editorialstuff/dashboard/',$factory)|ezurl(no)}">
@@ -46,7 +45,7 @@
                         </a>
                     </td>
                     <td width="1">
-                        {if ezini_hasvariable( $factory, 'CreationButtonText', 'editorialstuff.ini' )}
+                        {if and($show, ezini_hasvariable( $factory, 'CreationButtonText', 'editorialstuff.ini' ))}
                         <a class="btn btn-primary btn-md text-nowrap"
                            href="{concat('editorialstuff/add/',$factory)|ezurl(no)}">
                             <i aria-hidden="true" class="fa fa-plus mr-2"></i> {ezini( $factory, 'CreationButtonText', 'editorialstuff.ini' )|wash()}
@@ -59,7 +58,6 @@
                         {/if}
                     </td>
                 </tr>
-                {/if}
                 {undef $name $show}
             {/foreach}
         </table>
