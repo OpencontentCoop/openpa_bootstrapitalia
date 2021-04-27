@@ -53,7 +53,7 @@
                             </div>
                             {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false() container_class='pb-3'}
 
-                            <a class="read-more pb-5 pt-4" href="{$openpa.content_link.full_link}#main-content">
+                            <a class="read-more pb-5 pt-4" href="{$openpa.content_link.full_link}#page-content">
                                 <span class="text">{if $openpa.content_link.is_node_link}Leggi di più{else}Visita{/if}</span>
                                 {display_icon('it-arrow-right', 'svg', 'icon')}
                             </a>

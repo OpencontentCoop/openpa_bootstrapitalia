@@ -26,7 +26,7 @@
 
             {include uri='design:openpa/card/parts/abstract.tpl'}  
 
-            <a class="read-more" href="{$openpa.content_link.full_link}#main-content">
+            <a class="read-more" href="{$openpa.content_link.full_link}#page-content">
                 <span class="text">{'Explore topic'|i18n('bootstrapitalia')}</span>
                 {display_icon('it-arrow-right', 'svg', 'icon')}
             </a>
