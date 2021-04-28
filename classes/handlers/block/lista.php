@@ -49,7 +49,7 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
                         $query['topic'] = 'raw[' . OpenPASolr::generateSolrSubMetaField('topics', 'main_node_id', 'sint') . '] in [' . $value . ']';
 
                     }elseif ($key == 'state_id'){
-                        $query['topic'] = 'raw[' . ezfSolrDocumentFieldBase::generateMetaFieldName('object_states', 'filter') . '] in [' . $value . ']';
+                        $query['state'] = 'raw[' . ezfSolrDocumentFieldBase::generateMetaFieldName('object_states', 'filter') . '] in [' . $value . ']';
 
                     }elseif ($key == 'node_id'){
                         $query['node_id'] = 'subtree [' . $value . '] and raw[meta_node_id_si] != \'' . $value . '\'';
