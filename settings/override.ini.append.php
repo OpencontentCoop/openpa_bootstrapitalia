@@ -272,6 +272,12 @@ MatchFile=datatype/edit/ezobjectrelationlist_topics.tpl
 Subdir=templates
 Match[attribute_identifier]=topics
 
+[datatype_fields]
+Source=content/datatype/edit/ezstring.tpl
+MatchFile=datatype/edit/ezstring_fields.tpl
+Subdir=templates
+Match[attribute_identifier]=fields
+
 ############################################
 ############################################ BLOCK
 ############################################
