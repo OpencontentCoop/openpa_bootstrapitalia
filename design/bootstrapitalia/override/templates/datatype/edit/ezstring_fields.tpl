@@ -152,27 +152,39 @@
             value="Discendente">Discendente</option>
 </select>
 </script>
+<script id="tpl-operator-select" type="text/x-jsrender">
+<select class="form-control sort-direction">
+    <option {{if operator == '='}}selected="selected"{{/if}}
+            value="=">=</option>
+    <option {{if operator == '!='}}selected="selected"{{/if}}
+            value="=">!=</option>
+    <option {{if operator == 'in'}}selected="selected"{{/if}}
+            value="in">in</option>
+    <option {{if operator == '!in'}}selected="selected"{{/if}}
+            value="in">!in</option>
+</select>
+</script>
 <script id="tpl-sort-item" type="text/x-jsrender">
-<div class="row sort-item">
+<div class="row sort-item mb-1">
     <div class="col">{{include tmpl="#tpl-attribute-select"/}}</div>
     <div class="col">{{include tmpl="#tpl-sort-direction"/}}</div>
     <div class="col">{{include tmpl="#tpl-remove-item-button"/}}</div>
 </div>
 </script>
 <script id="tpl-filter-item" type="text/x-jsrender">
-<div class="row filter-item">
-    <div class="col">{{include tmpl="#tpl-attribute-select"/}}</div>
-    <div class="col"><input type="text" value="{{:operator}}" /></div>
-    <div class="col"><input type="text" value="{{:value}}" /></div>
-    <div class="col">{{include tmpl="#tpl-remove-item-button"/}}</div>
+<div class="row filter-item mb-1">
+    <div class="col-3">{{include tmpl="#tpl-attribute-select"/}}</div>
+    <div class="col-2">{{include tmpl="#tpl-operator-select"/}}</div>
+    <div class="col-6"><input type="text" value="{{:value}}" /></div>
+    <div class="col-1">{{include tmpl="#tpl-remove-item-button"/}}</div>
 </div>
 </script>
 <script id="tpl-custom-filter-item" type="text/x-jsrender">
-<div class="row filter-item">
-    <div class="col"><input type="text" value="{{:current}}" /></div>
-    <div class="col"><input type="text" value="{{:operator}}" /></div>
-    <div class="col"><input type="text" value="{{:value}}" /></div>
-    <div class="col">{{include tmpl="#tpl-remove-item-button"/}}</div>
+<div class="row filter-item mb-1">
+    <div class="col-3"><input type="text" value="{{:current}}" /></div>
+    <div class="col-2"><input type="text" value="{{:operator}}" /></div>
+    <div class="col-6"><input type="text" value="{{:value}}" /></div>
+    <div class="col-1">{{include tmpl="#tpl-remove-item-button"/}}</div>
 </div>
 </script>
 <script>
