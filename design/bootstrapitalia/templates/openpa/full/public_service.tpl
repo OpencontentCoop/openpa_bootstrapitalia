@@ -14,7 +14,7 @@
                 {/foreach}
             {/if}
 
-            {if $status_tags|contains('Attivo')|not()}
+            {if and($status_tags|contains('Attivo')|not(), $status_tags|contains('Aktiv')|not(), $status_tags|contains('Active')|not())}
                 <div class="alert alert-warning my-md-4 my-lg-4">
                     <strong>Servizio {$status_tags|implode(', ')|wash()}{if $node|has_attribute('status_note')}:{/if}</strong>
                     {if $node|has_attribute('status_note')}
