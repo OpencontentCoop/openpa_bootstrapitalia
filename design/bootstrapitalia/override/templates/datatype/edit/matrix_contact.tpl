@@ -4,17 +4,14 @@
     {* Matrix. *}
 {section show=$matrix.rows.sequential}
     <table class="table" cellspacing="0">
-
         <tr>
             <th class="tight">&nbsp;</th>
             {section var=ColumnNames loop=$matrix.columns.sequential}
                 <th>{$ColumnNames.item.name}</th>
             {/section}
         </tr>
-
         {section var=Rows loop=$matrix.rows.sequential sequence=array( bglight, bgdark )}
             <tr class="{$Rows.sequence}">
-
                 {* Remove. *}
                 <td>
                     <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$Rows.index}"
@@ -22,7 +19,6 @@
                            type="checkbox" name="{$attribute_base}_data_matrix_remove_{$attribute.id}[]"
                            value="{$Rows.index}"
                            title="{'Select row for removal.'|i18n( 'design/standard/content/datatype' )}"/></td>
-
                 {* Custom columns. *}
                 {section var=Columns loop=$Rows.item.columns}
                     <td>
@@ -33,15 +29,11 @@
                                name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]"
                                value="{$Columns.item|wash( xhtml )}"/>
                     </td>
-
                 {/section}
-
             </tr>
         {/section}
     </table>
 {/section}
-
-
 <div class="clearfix">
 {* Buttons. *}
 {if $matrix.rows.sequential}
@@ -86,6 +78,11 @@
 
 {/let}
 {/default}
+{def $tipologia_punti_contatto = array()
+     $tag_root = api_tagtree('/Organizzazione/Tipologia di punti di contatto')}
+{foreach $tag_root.children as $tag}
+    {set $tipologia_punti_contatto = $tipologia_punti_contatto|append($tag.keyword)}
+{/foreach}
 <script>
 {literal}
 $(document).ready(function () {
@@ -96,9 +93,7 @@ $(document).ready(function () {
                 var name = this.name;
                 var values = Object.keys(this.data);
                 if (name === 'raw[subattr_contact___type____s]'){
-                    if (values.length === 0){
-                        values = ['Telefono', 'E-mail', 'Fax', 'Cellulare', 'Sito web', 'PEC'];
-                    }
+                    values = $.unique($.merge(values, ['Telefono', 'E-mail', 'Fax', 'Cellulare', 'Sito web', 'PEC']));
                     var dataTypeList = $('<datalist id="contact_type"></datalist>');
                     $.each(values, function (){
                         dataTypeList.append('<option value="'+this+'">');
@@ -107,9 +102,7 @@ $(document).ready(function () {
                     $('[data-contact-identifier="type"]').attr('list', 'contact_type')
                 }
                 if (name === 'raw[subattr_contact___contact____s]'){
-                    if (values.length === 0){
-                        values = ['segreteria', 'supporto tecnico/specialistico', 'amministrazione'];
-                    }
+                    values = $.unique($.merge(values, JSON.parse('{/literal}{$tipologia_punti_contatto|json_encode()}{literal}')));
                     var dataContactList = $('<datalist id="contact_contact"></datalist>');
                     $.each(values, function (){
                         dataContactList.append('<option value="'+this+'">');
@@ -123,3 +116,4 @@ $(document).ready(function () {
 })
 {/literal}
 </script>
+{undef $tipologia_punti_contatto $tag_root}
