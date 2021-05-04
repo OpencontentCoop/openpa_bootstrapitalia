@@ -35,4 +35,6 @@ CategoryList[time]=Quando
 CategoryList[altre_info]=Altre informazioni
 CategoryList[resource]=Risorse
 CategoryList[concorsi]=Concorsi
+CategoryList[bandi_progetti]=Bandi/Progetti
+
 */
