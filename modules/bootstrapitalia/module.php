@@ -29,3 +29,4 @@ $FunctionList = array();
 $FunctionList['theme'] = array();
 $FunctionList['permissions'] = array();
 $FunctionList['edit_tag_description'] = array();
+$FunctionList['advanced_editor_tools'] = array();

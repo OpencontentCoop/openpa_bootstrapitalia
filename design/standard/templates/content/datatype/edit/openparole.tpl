@@ -11,7 +11,7 @@
                 value="{if is_set($attribute.content.settings.pagination)}{$attribute.content.settings.pagination|wash( xhtml )}{else}6{/if}"
         />
     </div>
-
+{if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'advanced_editor_tools' ) )}
     <div class="mb-3">
         <label for="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_override">{'Filtra per tipo'|i18n( 'openparoletype' )}:</label>
         <select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_override" class="form-control" name="{$attribute_base}_openparole_filters_{$attribute.id}[]" multiple>
@@ -22,6 +22,7 @@
             {/foreach}
         </select>
     </div>
+{/if}
 {/default}
 
 <div class="mb-3">
