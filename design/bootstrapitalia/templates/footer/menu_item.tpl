@@ -25,7 +25,7 @@
             {/foreach}
             {if $count_children|gt($children_max_items)}
                 <li class="list-item">
-                    <a href="{$href}"><em>Vedi tutto</em></a>
+                    <a href="{$href}"><em>{'See more'|i18n('bootstrapitalia')}</em></a>
                 </li>
             {/if}
         </ul>

@@ -60,7 +60,7 @@
                                 {if and($counter|eq(2), count($menu_item.children)|gt($megamenu_max_items))}
                                     <li class="it-more">
                                         <a class="list-item medium" href="{$href}">
-                                            <span>Vedi tutto</span>
+                                            <span>{'See more'|i18n('bootstrapitalia')}</span>
                                             {display_icon('it-arrow-right', 'svg', 'icon icon-sm icon-primary right')}
                                         </a>
                                     </li>

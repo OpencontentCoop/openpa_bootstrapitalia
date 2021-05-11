@@ -223,6 +223,10 @@
       <source>at</source>
       <translation>presso</translation>
     </message>
+    <message>
+      <source>See more</source>
+      <translation>Vedi tutto</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -688,6 +692,46 @@
       <source>Feedback #%id</source>
       <translation>Segnalazione #%id</translation>
     </message>
+    <message>
+      <source>no</source>
+      <translation>no</translation>
+    </message>
+    <message>
+      <source>si</source>
+      <translation>si</translation>
+    </message>
+    <message>
+      <source>per nulla</source>
+      <translation>per nulla</translation>
+    </message>
+    <message>
+      <source>poco</source>
+      <translation>poco</translation>
+    </message>
+    <message>
+      <source>abbastanza</source>
+      <translation>abbastanza</translation>
+    </message>
+    <message>
+      <source>molto</source>
+      <translation>molto</translation>
+    </message>
+    <message>
+      <source>Sono presenti contenuti non accessibili</source>
+      <translation>Sono presenti contenuti non accessibili</translation>
+    </message>
+    <message>
+      <source>I contenuti non sono pertinenti</source>
+      <translation>I contenuti non sono pertinenti</translation>
+    </message>
+    <message>
+      <source>Il linguaggio non è di facile comprensione</source>
+      <translation>Il linguaggio non è di facile comprensione</translation>
+    </message>
+    <message>
+      <source>Le informazioni non sono aggiornate</source>
+      <translation>Le informazioni non sono aggiornate</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/documents</name>
@@ -753,6 +797,17 @@
     <message>
       <source>If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user.</source>
       <translation>Se l'indirizzo email è registrato nel sistema, ti verrà inviato un messaggio con un link che devi cliccare per darci la conferma che sei l'utente giusto.</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/places</name>
+    <message>
+      <source>Search</source>
+      <translation>Cerca</translation>
+    </message>
+    <message>
+      <source>Filter by type</source>
+      <translation>Cerca per tipologia</translation>
     </message>
   </context>
 </TS>

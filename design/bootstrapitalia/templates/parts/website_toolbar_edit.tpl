@@ -27,7 +27,7 @@
             <div class="form-check form-check-group pb-0 my-0 border-0" style="box-shadow:none">
                 <div class="toggles">
                     <label for="OnlyRequired" class="mb-0 font-weight-normal">
-                        Mostra solo campi richiesti
+                        {'Display only required fields'|i18n( 'design/ocbootstrap/content/edit' )}
                         <input type="checkbox" id="OnlyRequired" value="1">
                         <span class="lever"></span>
                     </label>
@@ -36,10 +36,10 @@
         </li>
 
         <li class="publish-buttons">
-            <input class="btn btn-xs btn-success" type="submit" name="PublishButton" value="{'Send for publishing'|i18n( 'design/standard/content/edit' )}" title="{'Publish the contents of the draft that is being edited. The draft will become the published version of the object.'|i18n( 'design/standard/content/edit' )}" />
-            <input class="btn btn-xs btn-warning" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/standard/content/edit' )}" title="{'Store the contents of the draft that is being edited and continue editing. Use this button to periodically save your work while editing.'|i18n( 'design/standard/content/edit' )}" />
-            <input class="btn btn-xs btn-warning" type="submit" name="StoreExitButton" value="{'Store draft and exit'|i18n( 'design/standard/content/edit' )}" title="{'Store the draft that is being edited and exit from edit mode. Use when you need to exit your work and return later to continue.'|i18n( 'design/standard/content/edit' )}" />
-            <input class="btn btn-xs btn-dark" type="submit" name="DiscardButton" value="{'Discard draft'|i18n( 'design/standard/content/edit' )}" onclick="return window.confirmDiscard ? confirmDiscard( '{'Are you sure you want to discard the draft?'|i18n( 'design/standard/content/edit' )|wash(javascript)}' ): true;" title="{'Discard the draft that is being edited. This will also remove the translations that belong to the draft (if any).'|i18n( 'design/standard/content/edit' ) }" />
+            <input class="btn btn-xs btn-success" type="submit" name="PublishButton" value="{'Send for publishing'|i18n( 'design/ocbootstrap/content/edit' )}" title="{'Publish the contents of the draft that is being edited. The draft will become the published version of the object.'|i18n( 'design/standard/content/edit' )}" />
+            <input class="btn btn-xs btn-warning" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/ocbootstrap/content/edit' )}" title="{'Store the contents of the draft that is being edited and continue editing. Use this button to periodically save your work while editing.'|i18n( 'design/standard/content/edit' )}" />
+            <input class="btn btn-xs btn-warning" type="submit" name="StoreExitButton" value="{'Store draft and exit'|i18n( 'design/ocbootstrap/content/edit' )}" title="{'Store the draft that is being edited and exit from edit mode. Use when you need to exit your work and return later to continue.'|i18n( 'design/standard/content/edit' )}" />
+            <input class="btn btn-xs btn-dark" type="submit" name="DiscardButton" value="{'Discard draft'|i18n( 'design/ocbootstrap/content/edit' )}" onclick="return window.confirmDiscard ? confirmDiscard( '{'Are you sure you want to discard the draft?'|i18n( 'design/standard/content/edit' )|wash(javascript)}' ): true;" title="{'Discard the draft that is being edited. This will also remove the translations that belong to the draft (if any).'|i18n( 'design/standard/content/edit' ) }" />
         </li>
 
         <li>

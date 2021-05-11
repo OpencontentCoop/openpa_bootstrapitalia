@@ -204,7 +204,9 @@ class ValuationConnector extends AbstractBaseConnector
                     $option['type'] = 'radio';
                     $option['hideNone'] = true;
                     $option['sort'] = false;
-                    $option['optionLabels'] = array_column($optionsArray['options'], 'name');
+                    $option['optionLabels'] = array_map(function ($item){
+                        return OpenPABootstrapItaliaOperators::translateValuation($item);
+                    }, array_column($optionsArray['options'], 'name'));
                 }
 
                 $options['fields'][$identifier] = $option;

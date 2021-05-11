@@ -44,7 +44,7 @@
                                id="search-text"
                                name="SearchText"
                                value="{$params.text|wash()}"
-                               placeholder="{'Search'|i18n('openpa/search')}"/>
+                               placeholder="{'Search text'|i18n('bootstrapitalia/documents')}"/>
                         <label class="pl-0" for="search-text">{'Search'|i18n('openpa/search')}</label>
                         <button type="submit" class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
                             {display_icon('it-search', 'svg', 'icon')}

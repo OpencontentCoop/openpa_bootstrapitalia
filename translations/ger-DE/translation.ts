@@ -33,7 +33,7 @@
     </message>
     <message>
       <source>Table of contents</source>
-      <translation>Inhaltsverzeichnis</translation>
+      <translation>Inhalt</translation>
     </message>
     <message>
       <source>Close</source>
@@ -77,7 +77,7 @@
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Verbundene Webseiten</translation>
+      <translation>Häufig gesucht</translation>
     </message>
     <message>
       <source>Search in</source>
@@ -223,6 +223,10 @@
       <source>at</source>
       <translation>-</translation>
     </message>
+    <message>
+      <source>See more</source>
+      <translation>Mehr</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -292,7 +296,7 @@
     </message>
     <message>
       <source>Contacts</source>
-      <translation>Kontakte</translation>
+      <translation>Kontakt</translation>
     </message>
     <message>
       <source>Links</source>
@@ -688,16 +692,56 @@
       <source>Feedback #%id</source>
       <translation>Feedback #%id</translation>
     </message>
+    <message>
+      <source>no</source>
+      <translation>nein</translation>
+    </message>
+    <message>
+      <source>si</source>
+      <translation>ja</translation>
+    </message>
+    <message>
+      <source>per nulla</source>
+      <translation>überhaupt nicht</translation>
+    </message>
+    <message>
+      <source>poco</source>
+      <translation>nicht so zufrieden</translation>
+    </message>
+    <message>
+      <source>abbastanza</source>
+      <translation>zufrieden</translation>
+    </message>
+    <message>
+      <source>molto</source>
+      <translation>sehr zufrieden</translation>
+    </message>
+    <message>
+      <source>Sono presenti contenuti non accessibili</source>
+      <translation>Die Inhalte sind nicht zugänglich</translation>
+    </message>
+    <message>
+      <source>I contenuti non sono pertinenti</source>
+      <translation>Die Inhalte sind nicht relevant</translation>
+    </message>
+    <message>
+      <source>Il linguaggio non è di facile comprensione</source>
+      <translation>Die Texte sind nicht leicht verständlich</translation>
+    </message>
+    <message>
+      <source>Le informazioni non sono aggiornate</source>
+      <translation>Die Informationen werden nicht aktualisiert</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/documents</name>
     <message>
       <source>Search text</source>
-      <translation>Suchtext</translation>
+      <translation>Suchwort eingeben</translation>
     </message>
     <message>
       <source>Document number</source>
-      <translation>Dokumentnummer</translation>
+      <translation>Dokument Nr.</translation>
     </message>
     <message>
       <source>Date</source>
@@ -753,6 +797,17 @@
     <message>
       <source>If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user.</source>
       <translation>Wenn die E-Mail-Adresse im System registriert ist, wird eine Nachricht mit einem Link an Sie gesendet, auf den Sie klicken müssen, um zu bestätigen, dass Sie der richtige Benutzer sind.</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/places</name>
+    <message>
+      <source>Search</source>
+      <translation>Suchwort eingeben</translation>
+    </message>
+    <message>
+      <source>Filter by type</source>
+      <translation>Aus der Liste aussuchen</translation>
     </message>
   </context>
 </TS>

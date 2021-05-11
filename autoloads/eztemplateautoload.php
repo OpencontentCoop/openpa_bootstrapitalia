@@ -17,6 +17,7 @@ $eZTemplateOperatorArray = array(
             'privacy_states',
             'menu_item_tree_contains',
             'lang_selector_url',
+            'valuation_translation',
         )
     )
 );

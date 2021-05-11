@@ -7,7 +7,7 @@
 ))}
 
 {def $tag_tree = cond($block.custom_attributes.root_tag, api_tagtree($block.custom_attributes.root_tag), false())
-	 $searchPlaceholder = 'Search'|i18n('openpa/search')
+	 $searchPlaceholder = 'Search'|i18n('bootstrapitalia/places')
 	 $hide_empty_facets = $block.custom_attributes.hide_empty_facets}
 
 {def $query = concat("classes [place] subtree [", $block.custom_attributes.node_id, "] and state in [", privacy_states()['privacy.public'].id, "] sort [name=>asc]")}
@@ -31,7 +31,7 @@
 					<select id="{$block.id}-search-facets"
 							style="display:none"
 							class="form-control border-0"
-							data-placeholder="{$searchPlaceholder|wash()} {$tag_tree.keyword|downcase()|wash()}"
+							data-placeholder="{'Filter by type'|i18n('bootstrapitalia/places')}"
 							data-facets_select="facet-0"
 							multiple>
 						{foreach $tag_tree.children as $tag}

@@ -223,6 +223,10 @@
       <source>at</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>See more</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -688,6 +692,46 @@
       <source>Feedback #%id</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>no</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>si</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>per nulla</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>poco</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>abbastanza</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>molto</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sono presenti contenuti non accessibili</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>I contenuti non sono pertinenti</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Il linguaggio non è di facile comprensione</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Le informazioni non sono aggiornate</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/documents</name>
@@ -752,6 +796,17 @@
     <name>bootstrapitalia/forgotpassword</name>
     <message>
       <source>If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user.</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/places</name>
+    <message>
+      <source>Search</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Filter by type</source>
       <translation type="unfinished"/>
     </message>
   </context>

@@ -1,6 +1,9 @@
 {def $openpa = object_handler($block)}
 
-{ezscript_require(array('fullcalendar/core/main.js','fullcalendar/core/locales/it.js','fullcalendar/daygrid/main.js', 'fullcalendar/list/main.js'))}
+{def $current_language = ezini('RegionalSettings', 'Locale')}
+{def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', $current_language ))}
+{def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
+{ezscript_require(array('fullcalendar/core/main.js',concat('fullcalendar/core/locales/', $moment_language, '.js'),'fullcalendar/daygrid/main.js', 'fullcalendar/list/main.js'))}
 {ezcss_require(array('fullcalendar/core/main.css','fullcalendar/daygrid/main.css', 'fullcalendar/list/main.css'))}
 
 {def $calendar_view = 'day_grid_4'}
@@ -41,7 +44,7 @@
             right: 'today'
         },
         height: 'parent',
-        locale: 'it',
+        locale: '{/literal}{$moment_language}{literal}',
         aspectRatio: 3,
         eventLimit: false,
         columnHeaderFormat: {

@@ -22,6 +22,7 @@ class OpenPABootstrapItaliaOperators
             'privacy_states',
             'menu_item_tree_contains',
             'lang_selector_url',
+            'valuation_translation',
         );
     }
 
@@ -65,7 +66,10 @@ class OpenPABootstrapItaliaOperators
                     'required' => true,
                     'default' => ''
                 )
-            )
+            ),
+            'valuation_translation' => array(
+                'string' => array('type' => 'string', 'required' => true),
+            ),
         );
     }
 
@@ -80,6 +84,10 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'valuation_translation':
+                $operatorValue = self::translateValuation($namedParameters['string']);
+                break;
 
             case 'lang_selector_url':
                 {
@@ -517,5 +525,11 @@ class OpenPABootstrapItaliaOperators
             $siteLanguageList,
             true
         );
+    }
+
+    public static function translateValuation($string)
+    {
+        $string = trim($string);
+        return ezpI18n::tr('bootstrapitalia/valuation', $string);
     }
 }
