@@ -25,7 +25,7 @@
 {/if}
 
 {include uri='design:navigator/google.tpl'
-         page_uri=concat( '/tags/view/', $tag.url )
+         page_uri=$tag.url
          item_count=$nodes_count
          view_parameters=$view_parameters
          item_limit=$limit}
