@@ -144,7 +144,11 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
             $tagUrls = explode(',', $value);
             $tagIdList = [];
             foreach ($tagUrls as $tagUrl) {
-                $tag = eZTagsObject::fetchByUrl($tagUrl);
+                if (is_numeric($tagUrl)){
+                    $tag = eZTagsObject::fetch((int)$tagUrl);
+                }else {
+                    $tag = eZTagsObject::fetchByUrl($tagUrl);
+                }
                 if ($tag instanceof eZTagsObject){
                     $tagIdList[] = $tag->attribute('id');
                 }

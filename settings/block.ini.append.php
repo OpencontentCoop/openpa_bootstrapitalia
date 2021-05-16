@@ -391,6 +391,8 @@ TTL=3600
 ItemsPerRow[]
 ContainerStyle[]
 ContainerStyle[lista_paginata]=section py-5
+ContainerStyle[lista_paginata_card]=py-5
+ContainerStyle[lista_paginata_banner]=py-5
 CanAddShowAllLink=enabled
 CanAddIntroText=enabled
 
