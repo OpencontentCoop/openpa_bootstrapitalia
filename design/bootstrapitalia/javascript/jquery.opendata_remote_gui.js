@@ -112,7 +112,7 @@
                 $.each(plugin.settings.facets, function (index, facet) {
                     let values = plugin.container.find('select[data-facets_select="facet-'+index+'"]').val();
                     if (values.length > 0) {
-                        baseQuery = facet + ' in [\'' + values.join("','") + '\'] and ' + baseQuery;
+                        baseQuery = facet + ' in [\'"' + values.join('"\',\'"') + '"\'] and ' + baseQuery;
                     }
                 });
             }
