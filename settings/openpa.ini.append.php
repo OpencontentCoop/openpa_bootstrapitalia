@@ -109,4 +109,7 @@ AttributeIdentifiers[]=has_channel
 [NetworkSettings]
 SyncTrasparenza=disabled
 
+[CreditsSettings]
+ShowCredits=enabled
+
 */ ?>

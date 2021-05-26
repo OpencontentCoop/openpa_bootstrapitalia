@@ -2,6 +2,7 @@
 
 use Opencontent\Opendata\Api\AttributeConverterLoader;
 use Opencontent\Opendata\Api\ClassRepository;
+use Opencontent\Opendata\Api\EnvironmentLoader;
 use Opencontent\Opendata\Api\Values\Content;
 use Opencontent\Opendata\Api\Values\ContentData;
 use Opencontent\Opendata\Api\Values\ExtraData;
@@ -38,10 +39,10 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                 $collectionAttributes = false;
                 $validation = [];
 
-                if ($ViewMode == 'card'){
+                if ($ViewMode == 'card') {
                     $viewParameters['_custom'] = ['view_variation' => 'big'];
                 }
-                if ($ViewMode == 'banner' || $ViewMode == 'banner_color'){
+                if ($ViewMode == 'banner' || $ViewMode == 'banner_color') {
                     $viewParameters['_custom'] = ['view_variation' => 'banner-round banner-shadow h-100'];
                 }
 
@@ -86,28 +87,35 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
             $parentNodes[] = $parentNode['id'];
         }
 
-        $content->metadata = new ContentData(
-            array(
-                'id' => $content->metadata->id,
-                'remoteId' => $content->metadata->remoteId,
-                'classIdentifier' => $content->metadata->classIdentifier,
-                'class' => str_replace('/content', '/classes', $this->requestBaseUri) . $content->metadata->classIdentifier,
-                'ownerId' => $content->metadata->ownerId,
-                'ownerName' => $content->metadata->ownerName,
-                'mainNodeId' => (int)$content->metadata->mainNodeId,
-                'sectionIdentifier' => $content->metadata->sectionIdentifier,
-                'stateIdentifiers' => $content->metadata->stateIdentifiers,
-                'published' => $content->metadata->published,
-                'modified' => $content->metadata->modified,
-                'languages' => $content->metadata->languages,
-                'name' => $content->metadata->name,
-                'parentNodes' => $parentNodes,
-                'assignedNodes' => $content->metadata->assignedNodes,
-                'link' => $this->requestBaseUri . 'read/' . $content->metadata->id,
-                'classDefinition' => $this->getClassDefinition($content->metadata->classIdentifier)
-            )
+        $data = array(
+            'id' => $content->metadata->id,
+            'remoteId' => $content->metadata->remoteId,
+            'classIdentifier' => $content->metadata->classIdentifier,
+            'class' => str_replace('/content', '/classes', $this->requestBaseUri) . $content->metadata->classIdentifier,
+            'ownerId' => $content->metadata->ownerId,
+            'ownerName' => $content->metadata->ownerName,
+            'mainNodeId' => (int)$content->metadata->mainNodeId,
+            'sectionIdentifier' => $content->metadata->sectionIdentifier,
+            'stateIdentifiers' => $content->metadata->stateIdentifiers,
+            'published' => $content->metadata->published,
+            'modified' => $content->metadata->modified,
+            'languages' => $content->metadata->languages,
+            'name' => $content->metadata->name,
+            'parentNodes' => $parentNodes,
+            'assignedNodes' => $content->metadata->assignedNodes,
+            'link' => $this->requestBaseUri . 'read/' . $content->metadata->id,
+            'classDefinition' => $this->getClassDefinition($content->metadata->classIdentifier)
         );
+        $propertyBlackList = (array)EnvironmentLoader::ini()->variable('ContentSettings', 'PropertyBlackListForExternal');
+        if (count($propertyBlackList) > 0 && !eZUser::isCurrentUserRegistered()) {
+            foreach ($propertyBlackList as $property) {
+                if (isset($data[$property])) {
+                    $data[$property] = is_array($data[$property]) ? [] : null;
+                }
+            }
+        }
 
+        $content->metadata = new ContentData($data);
         return $content;
     }
 

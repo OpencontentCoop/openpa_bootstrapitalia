@@ -43,7 +43,7 @@ class OpenPABootstrapItaliaDatatableEnvironmentSettings extends OpenPABootstrapI
     
     protected function filterMetaData( Content $content )
     {
-        return $content;
+        return parent::filterMetaData($content);
     }
 
     /**
