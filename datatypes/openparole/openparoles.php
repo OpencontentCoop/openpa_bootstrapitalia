@@ -331,10 +331,16 @@ class OpenPARoles
      */
     private function getRoleFilter()
     {
-        if (isset($this->attributeSettings['filters']) && count($this->attributeSettings['filters']) > 0) {
+        if (isset($this->attributeSettings['filters']) && is_array($this->attributeSettings['filters']) && count($this->attributeSettings['filters']) > 0) {
+            $tagsIdList = $this->attributeSettings['filters'];
+            $synonyms = eZTagsObject::fetchObjectList(
+                eZTagsObject::definition(), ['id'], ['main_tag_id' => [$tagsIdList]], null, null, false
+            );
+            if (is_array($synonyms) && !empty($synonyms)){
+                $tagsIdList = array_unique(array_merge($tagsIdList, array_column($synonyms, 'id')));
+            }
 
-            return "raw[subattr_role___tag_ids____si] in [" . implode(',', $this->attributeSettings['filters']). "]";
-
+            return "raw[subattr_role___tag_ids____si] in [" . implode(',', $tagsIdList). "]";
         } else {
             $filters = $this->classSettings['filter'];
             $inMemoryId = $this->contentObjectAttribute->attribute('contentclassattribute_id');
