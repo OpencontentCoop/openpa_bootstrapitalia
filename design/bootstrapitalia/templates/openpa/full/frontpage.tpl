@@ -9,7 +9,7 @@
     {set $show_left = true()}    
     {if $openpa.content_tag_menu.current_view_tag}    
         {ezpagedata_set( 'current_view_tag_keyword', $openpa.content_tag_menu.current_view_tag.keyword )}
-        {ezpagedata_set( 'view_tag_root_node_url', $side_menu_root_node.url_alias )}
+        {ezpagedata_set( 'view_tag_root_node_url', $openpa.content_tag_menu.tag_menu_root_node.url_alias )}
     {/if}
 {else}
     {if $top_menu_node_ids|contains($side_menu_root_node.node_id)}

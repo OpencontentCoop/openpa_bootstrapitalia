@@ -30,7 +30,7 @@
                             <div class="card shadow p-1 rounded border h-100">
                                 <div class="card-body">
                                     <h5 class="card-title mb-2 big-heading">
-                                        <a class="text-decoration-none" href="{concat($openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword)|ezurl(no)}">{$tag.keyword|wash()}</a>
+                                        <a class="text-decoration-none" href="{concat($openpa.content_tag_menu.tag_menu_root_node.url_alias, '/(view)/', $tag.keyword)|ezurl(no)}">{$tag.keyword|wash()}</a>
                                     </h5>
                                     <div class="card-text">
                                         <p>
@@ -45,7 +45,7 @@
                                             {/if}
                                         </p>
                                     </div>
-                                    <a class="read-more" href="{concat($openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword)|ezurl(no)}">
+                                    <a class="read-more" href="{concat($openpa.content_tag_menu.tag_menu_root_node.url_alias, '/(view)/', $tag.keyword)|ezurl(no)}">
                                         <span class="text">{'Go to page'|i18n('bootstrapitalia')}</span>
                                         {display_icon('it-arrow-right', 'svg', 'icon')}
                                     </a>

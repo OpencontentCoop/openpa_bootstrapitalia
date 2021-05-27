@@ -6,6 +6,8 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
 
     private $tagMenuRootTag;
 
+    private $tagMenuRootNode;
+
     private $currentViewTag;
 
     private $showTagCards;
@@ -14,6 +16,7 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
     {
         $this->fnData['has_tag_menu'] = 'hasTagMenu';
         $this->fnData['tag_menu_root'] = 'getTagMenuRootTag';
+        $this->fnData['tag_menu_root_node'] = 'getTagMenuRootNode';
         $this->fnData['current_view_tag'] = 'getCurrentViewTag';
         $this->fnData['show_tag_cards'] = 'showTagCards';
     }
@@ -26,32 +29,34 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
         return $this->hasTagMenu;
     }
 
+    protected function getTagMenuRootNode()
+    {
+        $this->getTagMenuRootTag();
+        return $this->tagMenuRootNode;
+    }
+
     protected function getTagMenuRootTag()
     {
     	if ($this->tagMenuRootTag === null){
             $this->tagMenuRootTag = false;
             
-            $sideMenu = false;
-        	if ($this->container->hasAttribute('control_menu')){
-    			$sideMenu = $this->container->attribute('control_menu')->attribute('side_menu');
-        	}
-
-        	if ($sideMenu){
-        		$sideMenuRootNode = $sideMenu->attribute('root_node');
-        		if ($sideMenuRootNode instanceof eZContentObjectTreeNode){
-        			/** @var eZContentObjectAttribute[] $dataMap */
-        		    $dataMap = $sideMenuRootNode->attribute('data_map');
-        			if (isset($dataMap['tag_menu']) && $dataMap['tag_menu']->attribute('data_type_string') == eZTagsType::DATA_TYPE_STRING && $dataMap['tag_menu']->hasContent()){
-        				$tags = $dataMap['tag_menu']->content()->attribute('tags');
-        				if ($tags[0]->attribute('children_count') > 0){
-        					$this->tagMenuRootTag = $tags[0];
-        				}
-        				if (isset($dataMap['show_tag_cards']) && $dataMap['show_tag_cards']->attribute('data_int') == 1){
-                            $this->showTagCards = true;
-                        }
-        			}
-        		}
-        	}
+            $currentObject = $this->container->getContentObject();
+            if ($currentObject instanceof eZContentObject){
+                $this->tagMenuRootNode = $currentObject->mainNode();
+                /** @var eZContentObjectAttribute[] $dataMap */
+                $dataMap = $currentObject->attribute('data_map');
+                if (isset($dataMap['tag_menu'])
+                    && $dataMap['tag_menu']->attribute('data_type_string') == eZTagsType::DATA_TYPE_STRING
+                    && $dataMap['tag_menu']->hasContent()){
+                    $tags = $dataMap['tag_menu']->content()->attribute('tags');
+                    if ($tags[0]->attribute('children_count') > 0){
+                        $this->tagMenuRootTag = $tags[0];
+                    }
+                    if (isset($dataMap['show_tag_cards']) && $dataMap['show_tag_cards']->attribute('data_int') == 1){
+                        $this->showTagCards = true;
+                    }
+                }
+            }
         }
 
     	return $this->tagMenuRootTag;

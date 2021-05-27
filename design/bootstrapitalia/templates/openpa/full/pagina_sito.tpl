@@ -9,7 +9,7 @@
     {set $show_left = true()}    
     {if $openpa.content_tag_menu.current_view_tag}    
         {ezpagedata_set( 'current_view_tag_keyword', $openpa.content_tag_menu.current_view_tag.keyword )}
-        {ezpagedata_set( 'view_tag_root_node_url', $side_menu_root_node.url_alias )}
+        {ezpagedata_set( 'view_tag_root_node_url', $openpa.content_tag_menu.tag_menu_root_node.url_alias )}
     {/if}
 {else}
     {if $top_menu_node_ids|contains($side_menu_root_node.node_id)}
@@ -49,7 +49,7 @@
         </div>
         <div class="col-lg-3 offset-lg-1">
             {if $show_left}  
-                {if $openpa.content_tag_menu.has_tag_menu|not()}                
+                {if $openpa.content_tag_menu.has_tag_menu|not()}
                     {include uri='design:openpa/full/parts/side_menu.tpl' }
                 {else}
                     {include uri='design:openpa/full/parts/tag_side_menu.tpl'}
