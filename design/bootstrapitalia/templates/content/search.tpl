@@ -74,7 +74,7 @@
                         {/if}
                         
                         <div class="form-check custom-control custom-checkbox m-0">
-                            <input name="Subtree[]" data-checkbox-container id="subtree-{$tree_menu.item.node_id}" value={$tree_menu.item.node_id} {if or($params.subtree|contains($id), and($display, $has_children|not()))}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
+                            <input name="Subtree[]" data-checkbox-container id="subtree-{$tree_menu.item.node_id}" value="{$tree_menu.item.node_id|wash()}" {if or($params.subtree|contains($id), and($display, $has_children|not()))}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
                             <label class="custom-control-label" for="subtree-{$tree_menu.item.node_id}">{$tree_menu.item.name|wash()} {if is_set($subtree_facets[$id])}<small>({$subtree_facets[$id]})</small>{/if}</label>
                             {if $has_children}
                             <a class="float-right" aria-label="More items" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
@@ -87,7 +87,7 @@
                             {foreach $tree_menu.children as $child}
                                 {if $child.item.node_id|eq($tree_menu.item.node_id)}{skip}{/if} {*tag menu*}
                                 <div class="form-check custom-control custom-checkbox m-0">
-                                    <input data-checkbox-child name="Subtree[]" id="subtree-{$child.item.node_id}" value={$child.item.node_id} {if $params.subtree|contains($child.item.node_id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
+                                    <input data-checkbox-child name="Subtree[]" id="subtree-{$child.item.node_id}" value="{$child.item.node_id|wash()}" {if $params.subtree|contains($child.item.node_id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
                                     <label class="custom-control-label" for="subtree-{$child.item.node_id}">{$child.item.name|wash()} {if is_set($subtree_facets[$child.item.node_id])}<small>({$subtree_facets[$child.item.node_id]})</small>{/if}</label>
                                 </div>
                             {/foreach}                    
@@ -209,13 +209,13 @@
                     {/if}
                     {if $params.from}
                         <div class="form-check custom-control custom-checkbox">
-                            <input name="From" id="from" checked="checked" class="custom-control-input" type="checkbox" value="{$params.from|datetime( 'custom', '%j/%m/%Y' )}">
+                            <input name="From" id="from" checked="checked" class="custom-control-input" type="checkbox" value="{$params.from|datetime( 'custom', '%j/%m/%Y' )|wash()}">
                             <label class="custom-control-label" for="from">{'from'|i18n('openpa/search')} {$params.from|datetime( 'custom', '%j/%m/%Y' )}
                         </div>                            
                     {/if}
                     {if $params.to}                                
                         <div class="form-check custom-control custom-checkbox">
-                            <input name="To" id="to" checked="checked" class="custom-control-input" type="checkbox" value="{$params.to|datetime( 'custom', '%j/%m/%Y' )}">
+                            <input name="To" id="to" checked="checked" class="custom-control-input" type="checkbox" value="{$params.to|datetime( 'custom', '%j/%m/%Y' )|wash()}">
                             <label class="custom-control-label" for="to">{'to'|i18n('openpa/search')} {$params.to|datetime( 'custom', '%j/%m/%Y' )}
                         </div>
                     {/if}
@@ -316,21 +316,21 @@ $(document).ready(function () {
    $('#searchModal').on('search_gui_initialized', function (event, searchGui) {ldelim}
         {if $params.subtree|count()}
         {foreach $params.subtree as $subtree}
-            searchGui.activateSubtree({$subtree});
+            searchGui.activateSubtree({$subtree|wash(javascript)});
         {/foreach}
         {elseif $params.subtree_boundary}
-        searchGui.activateSubtree({$params.subtree_boundary});
+        searchGui.activateSubtree({$params.subtree_boundary|wash(javascript)});
         {/if}
         {if $params.topic|count()}
         {foreach $params.topic as $topic}
-        searchGui.activateTopic({$topic});
+        searchGui.activateTopic({$topic|wash(javascript)});
         {/foreach}
         {/if}
         {if $params.from}
-        searchGui.activateFrom("{$params.from|datetime( 'custom', '%j/%m/%Y' )}");
+        searchGui.activateFrom("{$params.from|datetime( 'custom', '%j/%m/%Y' )|wash(javascript)}");
         {/if}
         {if $params.to}
-        searchGui.activateTo("{$params.to|datetime( 'custom', '%j/%m/%Y' )}");
+        searchGui.activateTo("{$params.to|datetime( 'custom', '%j/%m/%Y' )|wash(javascript)}");
         {/if}
         {if $params.only_active}
         searchGui.activateActiveContent();

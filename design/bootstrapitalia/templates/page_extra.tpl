@@ -133,7 +133,7 @@
                                                 <input id="subtree-filter-{$tree_menu.item.node_id}"
                                                        type="checkbox"
                                                        name="Subtree[]"
-                                                       value="{$tree_menu.item.node_id}"
+                                                       value="{$tree_menu.item.node_id|wash()}"
                                                        class="custom-control-input"
                                                        data-subtree="{$tree_menu.item.node_id}">
                                                 <label for="subtree-filter-{$tree_menu.item.node_id}" class="custom-control-label">
@@ -148,7 +148,7 @@
                                                                type="checkbox"
                                                                class="form-check-input"
                                                                name="Subtree[]"
-                                                               value="{$child.item.node_id}"
+                                                               value="{$child.item.node_id|wash()}"
                                                                data-subtree="{$child.item.node_id}"
                                                                data-main_subtree="{$tree_menu.item.node_id}">
                                                         <label for="subtree-filter-{$child.item.node_id}" class="form-check-label">
