@@ -26,7 +26,7 @@ class OpenPABootstrapItaliaPrivacyPost extends OpenPABootstrapItaliaAbstractPost
         if ($this->hasAutoRegistrableFactory()) {
             $factory = $this->getFactory();
             if ($factory instanceof OpenPABootstrapitaliaAutoRegistrableInterface) {
-                return $factory->onRegister($this);
+                $factory->onRegister($this);
             }
         }
         if ($this->currentUserNeedModeration() && $this->getObject()->attribute('current_version') == 1) {
