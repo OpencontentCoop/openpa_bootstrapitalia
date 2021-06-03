@@ -132,11 +132,11 @@
             {* Custom templates inclusion *}
             <li>
                 <div class="dropdown">
-                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownOther" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
                         <span class="toolbar-label">{'Other'|i18n( 'bootstrapitalia' )}</span>
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
+                    <div class="dropdown-menu" aria-labelledby="dropdownOther">
                         <div class="link-list-wrapper">
                             <ul class="link-list">
                                 {include uri='design:parts/websitetoolbar/openpa_copy_object.tpl'}
