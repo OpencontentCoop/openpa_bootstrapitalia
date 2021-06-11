@@ -12,7 +12,8 @@
 
 <div class="section section-muted section-inset-shadow p-4">
 {if and(fetch(user, current_user).is_logged_in|not(), $node.object.remote_id|eq('restricted_areas'))}
-    {include uri='design:user/login.tpl' site_access=hash('allowed', true()) redirect_uri=$node.url_alias}
+    {set-block scope=root variable=cache_ttl}0{/set-block}
+    {include uri='design:user/login.tpl' site_access=hash('allowed', true()) redirect_uri=concat($node.url_alias, '?l=', rand(19771205))|ezurl(no)}
 {/if}
 
 {def $children_count = fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id ) )
