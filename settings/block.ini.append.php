@@ -96,6 +96,7 @@ CustomAttributeSelection_ordinamento[modificato]=Data di ultima modifica
 CustomAttributeSelection_ordinamento[priority]=Priorità del nodo
 CustomAttributeTypes[state_id]=state_select
 CustomAttributeTypes[topic_node_id]=topic_select
+CustomAttributeTypes[tags]=tag_tree_select
 ManualAddingOfItems=disabled
 ViewList[]
 ViewList[]=lista_card
@@ -224,7 +225,7 @@ CustomAttributes[]=api_url
 CustomAttributes[]=size
 CustomAttributes[]=calendar_view
 CustomAttributeNames[]
-CustomAttributeNames[remote_url]=Url del sito remoto 
+CustomAttributeNames[remote_url]=Url del sito remoto
 CustomAttributeNames[api_url]=Url api sorgente (in formato JSON Fullcalendar https://fullcalendar.io/docs/events-json-feed)
 CustomAttributeNames[size]=Ingombro
 CustomAttributeNames[calendar_view]=Visualizzazione
@@ -359,6 +360,7 @@ CustomAttributeTypes[ordinamento]=select
 CustomAttributeTypes[includi_classi]=class_select
 CustomAttributeTypes[limite]=select
 CustomAttributeTypes[elementi_per_riga]=select
+CustomAttributeTypes[tags]=tag_tree_select
 CustomAttributeNames[elementi_per_riga]=Elementi per riga
 CustomAttributeSelection_ordinamento[]
 CustomAttributeSelection_ordinamento[name]=Titolo
@@ -424,6 +426,7 @@ CustomAttributeTypes[hide_tag_select]=checkbox
 CustomAttributeTypes[topic_node_id]=topic_select
 CustomAttributeTypes[hide_publication_end_time]=checkbox
 CustomAttributeTypes[show_only_publication]=checkbox
+CustomAttributeTypes[root_tag]=tag_tree_select
 ViewList[]=default
 ViewName[]
 ViewName[default]=Default
@@ -448,6 +451,7 @@ CustomAttributeNames[hide_empty_facets]=Nascondi tag senza contenuti
 CustomAttributeTypes[]
 CustomAttributeTypes[hide_first_level]=checkbox
 CustomAttributeTypes[hide_empty_facets]=checkbox
+CustomAttributeTypes[root_tag]=tag_tree_select
 ViewList[]
 ViewList[]=default
 ViewName[]

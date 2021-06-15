@@ -163,7 +163,7 @@ $classes = array()}
                         views: {ldelim}
                             dayGridWeek: {ldelim}
                                 eventLimit: {$max_events},
-                                duration: {ldelim} days: {4} {rdelim}
+                                duration: {ldelim} days: 4 {rdelim}
                                 {rdelim}
                             {rdelim},
                         windowResize: function(view) {ldelim}

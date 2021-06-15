@@ -71,25 +71,101 @@
 
 {undef $_redirect}
 
+{ezcss_require(array('contentstructure-tree.css'))}
 {run-once}
 {literal}
+<style>
+    div.tag-block-select.contentstructure ul {padding:0}
+    div.tag-block-select.contentstructure a {text-decoration:none}
+</style>
 <script>
-var select_to_string = function(element) {
-  var newValue = $(element).val();
-  var $input = $(element).next();
-  if (newValue.length > 0) {        
-    var current = $input.val().length > 0 ? $input.val().split(',') : [];  
-    current.push(newValue);
-    function unique(array){
-      return array.filter(function(el, index, arr) {
-          return index === arr.indexOf(el);
-      });
+{/literal}
+var currentDate  = new Date().valueOf();
+var TagBlockSelectStructureMenuParams = {ldelim}{*
+    *}"path":[],{*
+    *}"useCookie":false,{*
+    *}"perm":"",{*
+    *}"expiry":"{fetch( content, content_tree_menu_expiry )}",{*
+    *}"modal":true,{*
+    *}"context":"browse",{*
+    *}"showTips":true,{*
+    *}"autoOpen":false,{*
+    *}"tag_id_string":"{'Tag ID'|i18n( 'extension/eztags/tags/treemenu' )|wash( javascript )}",{*
+    *}"parent_tag_id_string":"{'Parent tag ID'|i18n( 'extension/eztags/tags/treemenu' )|wash( javascript )}",{*
+    *}"treemenu_base_url":"{'tags/treemenu'|ezurl( no )}",{*
+    *}"not_allowed_string":"{'Dynamic tree not allowed for this siteaccess'|i18n( 'extension/eztags/tags/treemenu' )|wash( javascript )}",{*
+    *}"no_tag_string":"{'Tag does not exist'|i18n( 'extension/eztags/tags/treemenu' )|wash( javascript )}",{*
+    *}"internal_error_string":"{'Internal error'|i18n( 'extension/eztags/tags/treemenu' )|wash( javascript )}"{*
+*}{rdelim};
+var TagBlockRootTag = {ldelim}{*
+    *}"id":0,{*
+    *}"parent_id":0,{*
+    *}"has_children":true,{*
+    *}"keyword":"{"Top level tags"|i18n('extension/eztags/tags/treemenu')|wash(javascript)}",{*
+    *}"url":{'tags/dashboard'|ezurl},{*
+    *}"icon":"{ezini( 'Icons', 'Default', 'eztags.ini' )|tag_icon}",{*
+    *}"modified":currentDate{rdelim};
+{literal}
+var treeMenu_0;
+var tag_tree_select = function (element){
+    var self = $(element);
+    var parent = self.parent();
+    var returnAfterDestroy = parent.find('.tag-block-select.contentstructure').length > 0;
+    $('.tag-block-select.contentstructure').remove();
+    if (returnAfterDestroy){
+        return false;
     }
-    $input.val(unique(current).join(','));
-  }else{
-    $input.val('');
-  }
+    var $input = $(element).prev();
+    var browserContainer = $('<div class="tag-block-select contentstructure"></div>');
+    self.parent().append(browserContainer);
+    browserContainer.data('tag_browser_input', $input);
+    treeMenu_0 = new TagsStructureMenu(TagBlockSelectStructureMenuParams, '0');
+    browserContainer.append($('<ul class="content_tree_menu">').append(treeMenu_0.generateEntry(TagBlockRootTag, false, true)));
+    treeMenu_0.load(false, 0, currentDate);
 }
+$(document).on('click', '.tag-block-select.contentstructure a:not([class^="openclose"])', function(e) {
+    e.preventDefault();
+    function getParentTagHierarchy(tag, i) {
+        if (tag.attr('rel') === '0'){ return i === 0 ? '(no parent)' : ''; }
+        var parent = getParentTagHierarchy(tag.parents('div:first').prev('a'), ++i);
+        var data = (parent ? parent + '/' : '') + tag.parent().find('span').html();
+        return data.split(' (+')[0];
+    }
+    var tag = $(this);
+    var container = tag.parents('.tag-block-select.contentstructure');
+    if (tag.parents('li.disabled').length){ return false; }
+    var $input = container.data('tag_browser_input');
+    var newValue = getParentTagHierarchy(tag, 0);
+    if (newValue.length > 0 && tag.attr('rel') > 0) {
+        var current = $input.val().length > 0 ? $input.val().split(',') : [];
+        current.push(newValue);
+        function unique(array) {
+            return array.filter(function (el, index, arr) {
+                return index === arr.indexOf(el);
+            });
+        }
+        $input.val(unique(current).join(','));
+        container.remove();
+    }
+});
+
+var select_to_string = function(element) {
+    var newValue = $(element).val();
+    var $input = $(element).next();
+    if (newValue.length > 0) {
+        var current = $input.val().length > 0 ? $input.val().split(',') : [];
+        current.push(newValue);
+        function unique(array){
+            return array.filter(function(el, index, arr) {
+                return index === arr.indexOf(el);
+            });
+        }
+        $input.val(unique(current).join(','));
+    }else{
+        $input.val('');
+    }
+}
+
 $(document).ready(function () {
     $(document).on('keydown', 'input, select', function(e){
         if(e.keyCode === 13)

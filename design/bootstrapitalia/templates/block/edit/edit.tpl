@@ -24,9 +24,9 @@
     </div>
     <div class="float-right">
         <div class="btn-group" role="group">
-            <button id="block-up-{$block_id}" type="submit" class="button" name="CustomActionButton[{$attribute.id}_move_block_up-{$zone_id}-{$block_id}]" title="{'Move up'|i18n( 'design/standard/block/edit' )}"><i aria-hidden="true" class="fa fa-arrow-circle-up"></i></button>
-            <button id="block-down-{$block_id}" type="submit" class="button" name="CustomActionButton[{$attribute.id}_move_block_down-{$zone_id}-{$block_id}]" title="{'Move down'|i18n( 'design/standard/block/edit' )}"><i aria-hidden="true" class="fa fa-arrow-circle-down"></i></button>
-            <button id="block-remove-{$block_id}" type="submit" class="button" name="CustomActionButton[{$attribute.id}_remove_block-{$zone_id}-{$block_id}]" title="{'Remove'|i18n( 'design/standard/block/edit' )}" onclick="return confirmDiscard( '{'Are you sure you want to remove this block?'|i18n( 'design/standard/block/edit' )}' );"><i aria-hidden="true" class="fa fa-trash"></i></button>
+            <button id="block-up-{$block_id}" type="submit" class="btn-secondary btn py-1 px-2 btn-xs" name="CustomActionButton[{$attribute.id}_move_block_up-{$zone_id}-{$block_id}]" title="{'Move up'|i18n( 'design/standard/block/edit' )}"><i aria-hidden="true" class="fa fa-arrow-circle-up"></i></button>
+            <button id="block-down-{$block_id}" type="submit" class="btn-secondary btn py-1 px-2 btn-xs" name="CustomActionButton[{$attribute.id}_move_block_down-{$zone_id}-{$block_id}]" title="{'Move down'|i18n( 'design/standard/block/edit' )}"><i aria-hidden="true" class="fa fa-arrow-circle-down"></i></button>
+            <button id="block-remove-{$block_id}" type="submit" class="btn-secondary btn py-1 px-2 btn-xs" name="CustomActionButton[{$attribute.id}_remove_block-{$zone_id}-{$block_id}]" title="{'Remove'|i18n( 'design/standard/block/edit' )}" onclick="return confirmDiscard( '{'Are you sure you want to remove this block?'|i18n( 'design/standard/block/edit' )}' );"><i aria-hidden="true" class="fa fa-trash"></i></button>
         </div>
     </div>
 </div>
@@ -64,7 +64,7 @@
         {foreach ezini( $block.type, 'FetchParameters', 'block.ini' ) as $fetch_parameter => $value}
         {if eq( $fetch_parameter, 'Source' )}
         <div class="block-parameter">
-            <input id="block-fetch-parameter-choose-source-{$block_id}" class="button block-control" name="CustomActionButton[{$attribute.id}_new_source_browse-{$zone_id}-{$block_id}]" type="submit" value="{'Choose source'|i18n( 'design/standard/block/edit' )}" />
+            <input id="block-fetch-parameter-choose-source-{$block_id}" class="btn-secondary btn py-1 px-2 btn-xs block-control" name="CustomActionButton[{$attribute.id}_new_source_browse-{$zone_id}-{$block_id}]" type="submit" value="{'Choose source'|i18n( 'design/standard/block/edit' )}" />
             <div class="source">            
             {if is_set( $fetch_params['Source'] )}
                 {if is_array( $fetch_params['Source'] )}
@@ -113,7 +113,7 @@
             {/if}
             {if and( is_set( $use_browse_mode[$custom_attrib] ), eq( $use_browse_mode[$custom_attrib], 'true' ) )}
                 {if is_set($custom_attribute_names[$custom_attrib])}<label>{$custom_attribute_names[$custom_attrib]}:</label>{/if}
-                <input id="block-choose-source-{$block_id}" class="button block-control" name="CustomActionButton[{$attribute.id}_custom_attribute_browse-{$zone_id}-{$block_id}-{$custom_attrib}]" type="submit" value="{'Choose source'|i18n( 'design/standard/block/edit' )}" />
+                <input id="block-choose-source-{$block_id}" class="btn-secondary btn py-1 px-2 btn-xs block-control" name="CustomActionButton[{$attribute.id}_custom_attribute_browse-{$zone_id}-{$block_id}-{$custom_attrib}]" type="submit" value="{'Choose source'|i18n( 'design/standard/block/edit' )}" />
                 <div class="source">                    
                     {if is_set( $block.custom_attributes[$custom_attrib] )}
                         {def $source_node = fetch( 'content', 'node', hash( 'node_id', $block.custom_attributes[$custom_attrib] ) )}
@@ -125,55 +125,63 @@
                     {/if}
                 </div>
             {else}
-                <label>{if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}:</label>
                 {if is_set( $custom_attribute_types[$custom_attrib] )}
                     {switch match = $custom_attribute_types[$custom_attrib]}
                         {case match = 'text'}
-                        <textarea id="block-custom_attribute-{$block_id}-{$loop_count}" class="textbox block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" rows="7">{$block.custom_attributes[$custom_attrib]|wash()}</textarea>
+                            <label for="block-custom_attribute-{$block_id}-{$loop_count}">{if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}:</label>
+                            <textarea id="block-custom_attribute-{$block_id}-{$loop_count}" class="textbox block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" rows="7">{$block.custom_attributes[$custom_attrib]|wash()}</textarea>
                         {/case}
                         {case match = 'checkbox'}
                         <input id="block-custom_attribute-{$block_id}-{$loop_count}-a" class="block-control" type="hidden" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="0" />
-                        <input id="block-custom_attribute-{$block_id}-{$loop_count}-b" class="block-control" type="checkbox" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]"{if eq( $block.custom_attributes[$custom_attrib], '1')} checked="checked"{/if} value="1" />
+                            <label>
+                                <input id="block-custom_attribute-{$block_id}-{$loop_count}-b" class="block-control" type="checkbox" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]"{if and(is_set($block.custom_attributes[$custom_attrib]), eq( $block.custom_attributes[$custom_attrib], '1'))} checked="checked"{/if} value="1" />
+                                {if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}
+                            </label>
                         {/case}
                         {case match = 'string'}
-                        <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control w-50" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
+                            <label for="block-custom_attribute-{$block_id}-{$loop_count}">{if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}:</label>
+                            <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control w-50" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
                         {/case}
                         {case match = 'select'}
+                            <label for="block-custom_attribute-{$block_id}-{$loop_count}">{if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}:</label>
                             {set $custom_attribute_selections = ezini( $block.type, concat( 'CustomAttributeSelection_', $custom_attrib ), 'block.ini' )}
                             <select id="block-custom_attribute-{$block_id}-{$loop_count}" class="list block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]">
                                 {foreach $custom_attribute_selections as $selection_value => $selection_name}
-                                    <option value="{$selection_value|wash()}"{if eq( $block.custom_attributes[$custom_attrib], $selection_value )} selected="selected"{/if} />{$selection_name|wash()}</option>
+                                    <option value="{$selection_value|wash()}"{if eq( $block.custom_attributes[$custom_attrib], $selection_value )} selected="selected"{/if}>{$selection_name|wash()}</option>
                                 {/foreach}
                             </select>
                         {/case}
-                        {case match = 'class_select'}                          
-                          {def $class_list = fetch( class, list, hash( sort_by, array( 'name', true() ) ) )}
-                          <select class="list block-control select_to_string" onchange="select_to_string(this)">
-                          <option></option>
-                          {foreach $class_list as $class}
-                            <option value="{$class.identifier}">{$class.name|wash()}</option>
-                          {/foreach}
-                          </select>
-                          {undef $class_list}
-                          <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
+                        {case match = 'class_select'}
+                            <label for="block-custom_attribute-{$block_id}-{$loop_count}">{if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}:</label>
+                            {def $class_list = fetch( class, list, hash( sort_by, array( 'name', true() ) ) )}
+                              <select id="block-custom_attribute-{$block_id}-{$loop_count}" class="list block-control select_to_string" onchange="select_to_string(this)">
+                                  <option></option>
+                                  {foreach $class_list as $class}
+                                    <option value="{$class.identifier}">{$class.name|wash()}</option>
+                                  {/foreach}
+                              </select>
+                              {undef $class_list}
+                              <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
                         {/case}
                         {case match = 'state_select'}
-                          {def $state_list = object_state_list()}
-                          <select class="list block-control select_to_string" onchange="select_to_string(this)">
-                          <option></option>
-                          {foreach $state_list as $id => $name}
-                            <option value="{$id}">{$name|wash()} ({$id})</option>
-                          {/foreach}
-                          </select>
-                          {undef $state_list}
-                          <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
+                            <label for="block-custom_attribute-{$block_id}-{$loop_count}">{if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}:</label>
+                            {def $state_list = object_state_list()}
+                            <select id="block-custom_attribute-{$block_id}-{$loop_count}" class="list block-control select_to_string" onchange="select_to_string(this)">
+                                <option></option>
+                                {foreach $state_list as $id => $name}
+                                    <option value="{$id}">{$name|wash()} ({$id})</option>
+                                {/foreach}
+                            </select>
+                            {undef $state_list}
+                            <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
                         {/case}
                         {case match = 'topic_select'}
+                            <label for="block-custom_attribute-{$block_id}-{$loop_count}">{if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}:</label>
                             {def $topics = fetch(content, object, hash(remote_id, 'topics'))
                                  $topic_list = cond($topics, tree_menu( hash( 'root_node_id', $topics.main_node_id, 'user_hash', false(), 'scope', 'side_menu')), array())
                                  $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))
                                  $has_custom_topics = cond(and($custom_topic_container, $custom_topic_container.main_node.children_count))}
-                            <select class="list block-control select_to_string" onchange="select_to_string(this)">
+                            <select id="block-custom_attribute-{$block_id}-{$loop_count}" class="list block-control select_to_string" onchange="select_to_string(this)">
                                 <option></option>
                                 {foreach $topic_list.children as $child}
                                     {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}{skip}{/if}
@@ -203,14 +211,23 @@
                                 {/if}
                             </select>
                             {undef $topics $topic_list}
-                            <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
+                            <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{if is_set($block.custom_attributes[$custom_attrib])}{$block.custom_attributes[$custom_attrib]|wash()}{/if}" />
+                        {/case}
+                        {case match = 'tag_tree_select'}
+                            <label for="block-custom_attribute-{$block_id}-{$loop_count}">{if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}:</label>
+                            <div>
+                                <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control w-50" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
+                                <a href="#" data-index="{$loop_count}" onclick="tag_tree_select(this);return false;"><i class="fa fa-plus-square-o"></i></a>
+                            </div>
                         {/case}
                         {case}
-                        <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control w-50" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
+                            <label for="block-custom_attribute-{$block_id}-{$loop_count}">{if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}:</label>
+                            <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control w-50" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
                         {/case}
                     {/switch}
                 {else}
-                <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control w-50" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
+                    <label for="block-custom_attribute-{$block_id}-{$loop_count}">{if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}:</label>
+                    <input id="block-custom_attribute-{$block_id}-{$loop_count}" class="textfield block-control w-50" type="text" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="{$block.custom_attributes[$custom_attrib]|wash()}" />
                 {/if}
             {/if}
             {undef $use_browse_mode}
@@ -222,10 +239,12 @@
     </div>
     {if and( not( $is_dynamic ), not( $is_custom ) )}
         <div class="block-parameter">
-            <input id="block-add-item-{$block_id}" class="button block-control" name="CustomActionButton[{$attribute.id}_new_item_browse-{$zone_id}-{$block_id}]" type="submit" value="{'Add item'|i18n( 'design/standard/block/edit' )}" />
+            <input id="block-add-item-{$block_id}" class="btn-secondary btn py-1 px-2 btn-xs block-control" name="CustomActionButton[{$attribute.id}_new_item_browse-{$zone_id}-{$block_id}]" type="submit" value="{'Add item'|i18n( 'design/standard/block/edit' )}" />
         </div>
     {/if}
 </div>
+
+
 
 {if $is_custom|not}
 <table border="0" cellspacing="1" class="items queue" id="z:{$zone_id}_b:{$block_id}_q">
@@ -335,7 +354,7 @@
                 <option value="4" {if and( is_set( $block.rotation ), eq( $block.rotation.unit, 4 ) )}selected="selected"{/if}>{'day'|i18n( 'design/standard/block/edit' )}</option>
             </select>
 
-        {'Shuffle'|i18n( 'design/standard/block/edit' )} <input id="block-rotation-shuffle-{$block_id}" class="block-control" type="checkbox" {if and( is_set( $block.rotation ), eq( $block.rotation.type, 2 ) )}checked="checked"{/if} name="RotationShuffle_{$block_id}" /> <input id="block-set-rotation-{$block_id}" class="button block-control" type="submit" name="CustomActionButton[{$attribute.id}_set_rotation-{$zone_id}-{$block_id}]" value="{'Set'|i18n( 'design/standard/block/edit' )}" /></td>
+        {'Shuffle'|i18n( 'design/standard/block/edit' )} <input id="block-rotation-shuffle-{$block_id}" class="block-control" type="checkbox" {if and( is_set( $block.rotation ), eq( $block.rotation.type, 2 ) )}checked="checked"{/if} name="RotationShuffle_{$block_id}" /> <input id="block-set-rotation-{$block_id}" class="btn-secondary btn py-1 px-2 btn-xs block-control" type="submit" name="CustomActionButton[{$attribute.id}_set_rotation-{$zone_id}-{$block_id}]" value="{'Set'|i18n( 'design/standard/block/edit' )}" /></td>
     </tr>
 </table>
 <table border="0" cellspacing="1" class="items history" id="z:{$zone_id}_b:{$block_id}_h">
@@ -373,7 +392,7 @@
 
 <div class="block-controls float-break">
     <div class="left">
-        <input id="block-remove-selected-{$block_id}" class="button block-control" type="submit" name="CustomActionButton[{$attribute.id}_remove_item-{$zone_id}-{$block_id}]" value="{'Remove selected'|i18n( 'design/standard/block/edit' )}" />
+        <input id="block-remove-selected-{$block_id}" class="btn-secondary btn py-1 px-2 btn-xs block-control" type="submit" name="CustomActionButton[{$attribute.id}_remove_item-{$zone_id}-{$block_id}]" value="{'Remove selected'|i18n( 'design/standard/block/edit' )}" />
     </div>
     <div class="right legend">
         <div class="queue">&nbsp;</div> {'Queue:'|i18n( 'design/standard/block/edit' )} {$block.waiting|count()} <div class="online">&nbsp;</div> {'Online:'|i18n( 'design/standard/block/edit' )} {$block.valid|count()} <div class="history">&nbsp;</div> {'History:'|i18n( 'design/standard/block/edit' )} {$block.archived|count()}
