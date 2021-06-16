@@ -80,11 +80,14 @@
                                    role="button"
                                    aria-expanded="false"
                                    aria-controls="service-menu">
-                                    <span>{$header_service_list[0].name|wash()}</span>
+                                    <span>{'Links'|i18n('openpa/footer')}</span>
                                     {display_icon('it-expand', 'svg', 'icon icon-white')}
                                 </a>
                                 <div class="link-list-wrapper collapse" id="service-menu">
                                     <ul class="link-list">
+                                        {foreach $header_service_list as $item}
+                                            <li class="list-item d-block d-md-none"><a href="{$item.url}">{$item.name|wash()}</a></li>
+                                        {/foreach}
                                         {foreach $header_links as $header_link max 3}
                                             <li class="list-item">{node_view_gui content_node=$header_link view=text_linked}</li>
                                         {/foreach}
