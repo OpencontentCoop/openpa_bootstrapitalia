@@ -59,6 +59,9 @@
         this.activeContentCheck = $('#OnlyActive');
 
         this.addListeners();
+
+        var subtreePreselect = this.toggleSectionSearch.data('subtree_preselect') || 0;
+        $('#subtree-filter-'+subtreePreselect).trigger('click');
     }
 
     $.extend(Plugin.prototype, {

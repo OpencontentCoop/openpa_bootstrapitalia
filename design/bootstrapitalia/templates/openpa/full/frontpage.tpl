@@ -38,7 +38,7 @@
                     {if $node.depth|lt(3)}
                         {include uri='design:openpa/full/parts/search_form.tpl' current_node=$node}
                     {else}
-                        {include uri='design:openpa/full/parts/search_form.tpl' current_node=$node.path[1]}
+                        {include uri='design:openpa/full/parts/search_form.tpl' current_node=$node.path[1] subtree_preselect=$node.node_id}
                     {/if}            
                 {/if} 
             {/if}    

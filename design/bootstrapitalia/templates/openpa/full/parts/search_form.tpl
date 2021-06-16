@@ -25,6 +25,7 @@
         <a href="#"
            class="btn btn-outline-primary btn-icon btn-xs align-top ml-1 mt-1"
            id="toggleSectionSearch"
+           {if is_set($subtree_preselect)}data-subtree_preselect="{$subtree_preselect|wash()}"{/if}
            data-section_subtree="{$current_node.node_id}">
             {display_icon('it-plus', 'svg', 'icon icon-primary mr-1')} {'Add filter'|i18n('editorialstuff/dashboard')}
         </a>
