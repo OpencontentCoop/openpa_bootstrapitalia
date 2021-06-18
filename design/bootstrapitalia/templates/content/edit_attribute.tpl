@@ -117,6 +117,11 @@
                                     {if $contentclass_attribute.description}
                                         <small class="form-text text-muted mb-1">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash}</small>
                                     {/if}
+                                    {if array('ezimage', 'ezbinaryfile', 'ocmultibinary')|contains($contentclass_attribute.data_type_string)}
+                                    <small class="form-text text-muted mb-1">
+                                        {'Max file size'|i18n( 'design/standard/class/datatype' )}: {$contentclass_attribute.data_int1|max_upload_size()} MB
+                                    </small>
+                                    {/if}
                                     {attribute_edit_gui attribute_base=$attribute_base attribute=$attribute view_parameters=$view_parameters html_class='form-control'}
                                     <input type="hidden" name="ContentObjectAttribute_id[]" value="{$attribute.id}"/>
                                 </div>
@@ -135,6 +140,11 @@
                                 <div class="col-md-9">
                                     {if $contentclass_attribute.description}
                                         <small class="form-text text-muted mb-1">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash}</small>
+                                    {/if}
+                                    {if array('ezimage', 'ezbinaryfile', 'ocmultibinary')|contains($contentclass_attribute.data_type_string)}
+                                        <small class="form-text text-muted mb-1">
+                                            {'Max file size'|i18n( 'design/standard/class/datatype' )}: {$contentclass_attribute.data_int1|max_upload_size()} MB
+                                        </small>
                                     {/if}
                                     {attribute_edit_gui attribute_base=$attribute_base attribute=$attribute view_parameters=$view_parameters html_class='form-control'}
                                     <input type="hidden" name="ContentObjectAttribute_id[]" value="{$attribute.id}"/>

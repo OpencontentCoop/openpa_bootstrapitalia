@@ -18,6 +18,7 @@ $eZTemplateOperatorArray = array(
             'menu_item_tree_contains',
             'lang_selector_url',
             'valuation_translation',
+            'max_upload_size',
         )
     )
 );

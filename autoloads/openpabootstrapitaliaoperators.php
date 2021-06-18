@@ -23,6 +23,7 @@ class OpenPABootstrapItaliaOperators
             'menu_item_tree_contains',
             'lang_selector_url',
             'valuation_translation',
+            'max_upload_size',
         );
     }
 
@@ -84,6 +85,13 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'max_upload_size':
+                $postMaxSize = trim(ini_get('post_max_size'), 'M');
+                if ($operatorValue == 0 || $operatorValue > $postMaxSize){
+                    $operatorValue = $postMaxSize;
+                }
+                break;
 
             case 'valuation_translation':
                 $operatorValue = self::translateValuation($namedParameters['string']);
