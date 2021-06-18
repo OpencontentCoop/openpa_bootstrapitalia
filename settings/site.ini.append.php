@@ -19,4 +19,7 @@ PolicyOmitList[]=tags/treemenu
 LoginRedirectionUriAttribute[user]=redirect_after_login
 LoginRedirectionUriAttribute[group]=redirect_after_login
 
+[ContentSettings]
+RedirectAfterPublish=node
+
 */ ?>
