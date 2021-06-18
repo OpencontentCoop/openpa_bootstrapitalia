@@ -110,9 +110,19 @@
             }
             if (plugin.settings.facets.length > 0) {
                 $.each(plugin.settings.facets, function (index, facet) {
-                    let values = plugin.container.find('select[data-facets_select="facet-'+index+'"]').val();
+                    let facetField = facet.split('|')[0];
+                    let facetSelect = plugin.container.find('select[data-facets_select="facet-'+index+'"]');
+                    let values = facetSelect.val();
+                    let type = facetSelect.data('datatype') || 'string';
                     if (values.length > 0) {
-                        baseQuery = facet + ' in [\'"' + values.join('"\',\'"') + '"\'] and ' + baseQuery;
+                        if (type === 'string') {
+                            baseQuery = facetField + ' in [\'"' + values.join('"\',\'"') + '"\'] and ' + baseQuery;
+                        }else if (type === 'date') {
+                            let dates = facetField.indexOf('_dt') > -1 ? values.map(x => '"'+moment(x).format('YYYY-MM-DD')+'T00:00:00Z'+'"') : values;
+                            baseQuery = facetField + ' in [\'' + dates.join('\'','\'') + '\'] and ' + baseQuery;
+                        }else{
+                            baseQuery = facetField + ' in [\'' + values.join('\'','\'') + '\'] and ' + baseQuery;
+                        }
                     }
                 });
             }
@@ -336,15 +346,37 @@
                     url: plugin.searchUrl + paginatedQuery,
                     dataType: plugin.ajaxDatatype,
                     success: function (response, textStatus, jqXHR) {
+                        var getFacetType = function(facet) {
+                            let date = moment(new Date(facet));
+                            if (date.isValid()){
+                                return 'date';
+                            }
+                            return 'string';
+                        };
+                        var getFacetOptionText = function(facet) {
+                            let date = moment(new Date(facet));
+                            if (date.isValid()){
+                                if (facet.indexOf('-01-01T00:00:00Z') > -1){
+                                    return date.format('YYYY');
+                                }
+                                return date.format('DD/MM/YYYY');
+                            }
+                            return facet;
+                        };
                         if (!plugin.detectError(response, jqXHR)) {
                             $.each(response.facets, function (index, value) {
-                                var notEmpty = plugin.container.find('select[data-facets_select="facet-'+index+'"] option').length === 0;
+                                var facetContainer = plugin.container.find('select[data-facets_select="facet-'+index+'"]');
+                                var notEmpty = facetContainer.find('option').length === 0;
                                 $.each(value.data, function (facet, count) {
+                                    let datatype = getFacetType(facet);
                                     if (notEmpty) {
-                                        plugin.container.find('select[data-facets_select="facet-' + index + '"]')
-                                            .append('<option value="' + facet.replace(/"/g, '').replace(/'/g, "\\'").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "") + '">' + facet + '</option>');
+                                        facetContainer
+                                            .append('<option value="' + facet.replace(/"/g, '').replace(/'/g, "\\'").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "") + '">' + getFacetOptionText(facet) + '</option>');
                                     }else if (plugin.settings.removeExistingEmptyFacets){
                                         plugin.container.find('select[data-facets_select="facet-' + index + '"] option[value="'+ facet+'"]').show();
+                                    }
+                                    if (!facetContainer.data('datatype')) {
+                                        facetContainer.data('datatype', datatype);
                                     }
                                 });
                                 plugin.container.find('select[data-facets_select="facet-'+index+'"]')
