@@ -90,10 +90,10 @@ CustomAttributeTypes[ordinamento]=select
 CustomAttributeTypes[includi_classi]=class_select
 CustomAttributeTypes[escludi_classi]=class_select
 CustomAttributeSelection_ordinamento[]
-CustomAttributeSelection_ordinamento[name]=Titolo
-CustomAttributeSelection_ordinamento[pubblicato]=Data di pubblicazione
-CustomAttributeSelection_ordinamento[modificato]=Data di ultima modifica
-CustomAttributeSelection_ordinamento[priority]=Priorità del nodo
+CustomAttributeSelection_ordinamento[name]=Titolo ascendente
+CustomAttributeSelection_ordinamento[pubblicato]=Data di pubblicazione discendente
+CustomAttributeSelection_ordinamento[modificato]=Data di ultima modifica discendente
+CustomAttributeSelection_ordinamento[priority]=Priorità del nodo discendente
 CustomAttributeTypes[state_id]=state_select
 CustomAttributeTypes[topic_node_id]=topic_select
 CustomAttributeTypes[tags]=tag_tree_select
