@@ -7,6 +7,7 @@
                 {foreach openpacontext().path_array as $path}
                     {if $index|ge($root_node_depth)}
                         {if $path.url}
+                            {if $path.text|eq('Media')}{skip}{/if}
                             {if $path.text|eq('Classificazioni')}{skip}{/if}
                             {if $path.text|eq('Applicazioni')}{skip}{/if}
                             <li class="breadcrumb-item">

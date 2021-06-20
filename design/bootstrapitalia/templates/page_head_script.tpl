@@ -22,5 +22,7 @@
     'handlebars.min.js',
     'alpaca.js',
     'jquery.opendataform.js',
-    'stacktable.js'
+    'stacktable.js',
+    'jsrender.js',
+    'jquery.faqs.js'
 ))}
