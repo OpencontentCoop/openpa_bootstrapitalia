@@ -105,7 +105,7 @@
                 let q = plugin.searchForm.find('input').val();
                 if (q.length > 0) {
                     q = q.replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
-                    baseQuery = 'q = \'' + q + '\' ' + baseQuery;
+                    baseQuery = 'q = \'' + q + '\' and ' + baseQuery;
                 }
             }
             if (plugin.settings.facets.length > 0) {
