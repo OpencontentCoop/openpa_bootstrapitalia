@@ -33,6 +33,7 @@
                 {if $selected_topic.object.section_id|eq(1)}
                     {set $selected_topic_list = $selected_topic_list|append($selected_topic)}
                 {/if}
+                {undef $selected_topic}
             {/foreach}
         {/if}
 
