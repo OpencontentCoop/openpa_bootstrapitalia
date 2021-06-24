@@ -5,11 +5,11 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>Ta stran uporablja tehnične, analitiko in piškotke tretjih oseb.</translation>
+      <translation>Ta spletna stran uporablja tehnične, analitike in piškotke tretjih oseb.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
-      <translation>Z nadaljevanjem brskanje, da se strinjate z uporabo piškotkov.</translation>
+      <translation>Z nadaljevanjem brskanja sprejmete uporabo piškotkov.</translation>
     </message>
     <message>
       <source>Informations</source>
@@ -21,15 +21,15 @@
     </message>
     <message>
       <source>Jump to main content</source>
-      <translation>Skok na glavno vsebino</translation>
+      <translation>Skoči na glavno vsebino</translation>
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Skok na meni oddelek</translation>
+      <translation>Skoči na razdelek</translation>
     </message>
     <message>
       <source>Jump to footer</source>
-      <translation>Skok na nogi</translation>
+      <translation>Skoči na noge</translation>
     </message>
     <message>
       <source>Table of contents</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
       <source>Download file</source>
-      <translation>Prenos datotek</translation>
+      <translation>Prenesite datoteko</translation>
     </message>
     <message>
       <source>File type</source>
@@ -69,7 +69,7 @@
     </message>
     <message>
       <source>Actions</source>
-      <translation>dejanja</translation>
+      <translation>Akcijah</translation>
     </message>
     <message>
       <source>Send</source>
@@ -77,19 +77,19 @@
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Podobni vsebina</translation>
+      <translation>Povezane vsebine</translation>
     </message>
     <message>
       <source>Search in</source>
-      <translation>Iskanje v</translation>
+      <translation>Iskanje v.</translation>
     </message>
     <message>
       <source>Filters</source>
-      <translation>filtri</translation>
+      <translation>Filtri</translation>
     </message>
     <message>
       <source>All</source>
-      <translation>vsi</translation>
+      <translation>Vse</translation>
     </message>
     <message>
       <source>Read more</source>
@@ -109,19 +109,19 @@
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Pojdi na koledar prireditev</translation>
+      <translation>Pojdite na koledar dogodkov</translation>
     </message>
     <message>
       <source>Event start</source>
-      <translation>začetek dogodka</translation>
+      <translation>Start dogodka</translation>
     </message>
     <message>
       <source>Event end</source>
-      <translation>konec dogodka</translation>
+      <translation>Konec dogodka</translation>
     </message>
     <message>
       <source>Jump to field</source>
-      <translation>Skok na področju</translation>
+      <translation>Skoči na polje</translation>
     </message>
     <message>
       <source>Upload file</source>
@@ -133,15 +133,15 @@
     </message>
     <message>
       <source>Create</source>
-      <translation>ustvarjanje</translation>
+      <translation>Ustvarite</translation>
     </message>
     <message>
       <source>Create new</source>
-      <translation>Ustvari novo</translation>
+      <translation>Ustvarite novo</translation>
     </message>
     <message>
       <source>Reading time</source>
-      <translation>branje čas</translation>
+      <translation>Čas branja.</translation>
     </message>
     <message>
       <source>Topics</source>
@@ -149,11 +149,11 @@
     </message>
     <message>
       <source>Last modified</source>
-      <translation>Zadnja sprememba</translation>
+      <translation>Zadnji spremenjen</translation>
     </message>
     <message>
       <source>Editor tools</source>
-      <translation>orodja za urejanje</translation>
+      <translation>Orodja urednika</translation>
     </message>
     <message>
       <source>See previous versions</source>
@@ -161,7 +161,7 @@
     </message>
     <message>
       <source>Go to the history of this content</source>
-      <translation>Pojdi na zgodovino te vsebine</translation>
+      <translation>Pojdite v zgodovino te vsebine</translation>
     </message>
     <message>
       <source>Further details</source>
@@ -232,7 +232,7 @@
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>EZ Oznake</translation>
+      <translation>ez tags.</translation>
     </message>
     <message>
       <source>Apps</source>
@@ -240,7 +240,7 @@
     </message>
     <message>
       <source>Amministrazione Trasparente</source>
-      <translation>Amministrazione Trasparente</translation>
+      <translation>Amministrazione trasparente.</translation>
     </message>
     <message>
       <source>Lists by class</source>
@@ -248,36 +248,36 @@
     </message>
     <message>
       <source>Import management</source>
-      <translation>upravljanje uvoz</translation>
+      <translation>Upravljanje uvoza</translation>
     </message>
   </context>
   <context>
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Položaj v organizacijski shemi</translation>
+      <translation>Položaj v organizacijskem grafikonu</translation>
     </message>
     <message>
       <source>Add objects</source>
-      <translation>dodaj predmeti</translation>
+      <translation>Dodajte predmete</translation>
     </message>
   </context>
   <context>
     <name>openpa/tools</name>
     <message>
       <source>Info</source>
-      <translation>informacije</translation>
+      <translation>Info.</translation>
     </message>
   </context>
   <context>
     <name>openpa/sidebar</name>
     <message>
       <source>Related information</source>
-      <translation>Povezane informacije</translation>
+      <translation>Sorodne informacije</translation>
     </message>
     <message>
       <source>Referable to</source>
-      <translation>sodi na področje</translation>
+      <translation>Se sklicuje</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -296,11 +296,11 @@
     </message>
     <message>
       <source>Contacts</source>
-      <translation>Kontakti</translation>
+      <translation>Kontakti.</translation>
     </message>
     <message>
       <source>Links</source>
-      <translation>povezave</translation>
+      <translation>Povezave</translation>
     </message>
     <message>
       <source>Follow us</source>
@@ -315,34 +315,34 @@
     <name>openpa/valuation</name>
     <message>
       <source>Valuta questo sito</source>
-      <translation>Valuta ta sito</translation>
+      <translation>Valuta Questo SITO.</translation>
     </message>
     <message>
       <source>per nulla</source>
-      <translation>na nulla</translation>
+      <translation>na nulla.</translation>
     </message>
     <message>
       <source>poco</source>
-      <translation>poco</translation>
+      <translation>Poco.</translation>
     </message>
     <message>
       <source>abbastanza</source>
-      <translation>abbastanza</translation>
+      <translation>ABBASTANZA.</translation>
     </message>
     <message>
       <source>molto</source>
-      <translation>molto</translation>
+      <translation>Molto.</translation>
     </message>
     <message>
       <source>Invia la valutazione</source>
-      <translation>InVia la VALUTAZIONE</translation>
+      <translation>Invia la Valutazione.</translation>
     </message>
   </context>
   <context>
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Pojdi na iskanje filtre</translation>
+      <translation>Pojdi na iskalne filtre</translation>
     </message>
     <message>
       <source>Link to</source>
@@ -366,7 +366,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>le informacije o vrsti</translation>
+      <translation>samo informacije vrste</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -374,23 +374,23 @@
     </message>
     <message>
       <source>Sorting</source>
-      <translation>sortiranje</translation>
+      <translation>Razvrščanje</translation>
     </message>
     <message>
       <source>Descending</source>
-      <translation>Padajoče</translation>
+      <translation>Spust</translation>
     </message>
     <message>
       <source>Ascending</source>
-      <translation>naraščajoče</translation>
+      <translation>Naraščajoče</translation>
     </message>
     <message>
       <source>Score</source>
-      <translation>ocena</translation>
+      <translation>Ocena</translation>
     </message>
     <message>
       <source>Publication date</source>
-      <translation>datum objave</translation>
+      <translation>Datum objave</translation>
     </message>
     <message>
       <source>Content type</source>
@@ -398,11 +398,11 @@
     </message>
     <message>
       <source>Name</source>
-      <translation>ime</translation>
+      <translation>Ime</translation>
     </message>
     <message>
       <source>from</source>
-      <translation>iz</translation>
+      <translation>Od</translation>
     </message>
     <message>
       <source>to</source>
@@ -418,67 +418,67 @@
     </message>
     <message>
       <source>Logical conditions</source>
-      <translation>logične pogoji</translation>
+      <translation>Logični pogoji</translation>
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Mogoče si mislil, da poiščete</translation>
+      <translation>Mogoče si želel poiskati</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
-      <translation>Naslednje besede so bile izključene iz iskanja:</translation>
+      <translation>Iz iskanja so bile izključene naslednje besede:</translation>
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>Ni bilo zadetkov pri iskanju »% 1«.</translation>
+      <translation>Pri iskanju "% 1" ni bilo najdenih rezultatov.</translation>
     </message>
     <message>
       <source>Search tips</source>
-      <translation>Nasveti za iskanje</translation>
+      <translation>Iskanje nasvetov</translation>
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Preveri črkovanje besede.</translation>
+      <translation>Preverite črkovanje ključnih besed.</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Poskusite spremeniti nekatere ključne besede (na primer, "avto" namesto "avtomobili").</translation>
+      <translation>Poskusite spremeniti nekatere ključne besede (npr. "Avto" namesto "avtomobilov").</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
-      <translation>Poskusite iskati z manj določene ključne besede.</translation>
+      <translation>Poskusite iskati z manj specifičnimi ključnimi besedami.</translation>
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
-      <translation>Zmanjšajte število ključnih besed, da bi dobili več rezultatov.</translation>
+      <translation>Zmanjšajte število ključnih besed, da dobite več rezultatov.</translation>
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Iskanje »% 1« vrnjenih% 2 tekem</translation>
+      <translation>Iskanje "% 1" vrnjeno% 2 tekme</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Iskanje vrnjenih% 2 tekme</translation>
+      <translation>Iskanje se je vrnilo% 2 ujemanja</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Za več možnosti, poskusite% 1Advanced iskanje% 2</translation>
+      <translation>Za več možnosti poskusite% 1ADvanced Search% 2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
-      <translation>Zmanjšajte število filtrov uporablja</translation>
+      <translation>Zmanjšajte število uporabljenih filtrov</translation>
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Odstrani vse filtre</translation>
+      <translation>Odstranite vse filtre</translation>
     </message>
     <message>
       <source>Refine your search</source>
-      <translation>Izboljšajte svoje iskanje</translation>
+      <translation>Izboljšajte iskanje</translation>
     </message>
     <message>
       <source>You are filtering for</source>
-      <translation>Vi ste filtriranje</translation>
+      <translation>Filtrirate</translation>
     </message>
     <message>
       <source>Options</source>
@@ -549,7 +549,7 @@
     <name>bootstrapitalia/opening_hours_matrix</name>
     <message>
       <source>monday</source>
-      <translation>ponedeljek</translation>
+      <translation>Ponedeljek</translation>
     </message>
     <message>
       <source>tuesday</source>
@@ -561,15 +561,15 @@
     </message>
     <message>
       <source>thursday</source>
-      <translation>četrtek</translation>
+      <translation>Četrtek</translation>
     </message>
     <message>
       <source>friday</source>
-      <translation>petek</translation>
+      <translation>Petek</translation>
     </message>
     <message>
       <source>saturday</source>
-      <translation>sobota</translation>
+      <translation>Sobota</translation>
     </message>
     <message>
       <source>sunday</source>
@@ -584,19 +584,19 @@
     </message>
     <message>
       <source>Select place</source>
-      <translation>Izberite kraj</translation>
+      <translation>Izberite mesto</translation>
     </message>
     <message>
       <source>Nowhere</source>
-      <translation>nikjer</translation>
+      <translation>Nikjer</translation>
     </message>
     <message>
       <source>Editor choice</source>
-      <translation>izbira urednika</translation>
+      <translation>Izbira urednika</translation>
     </message>
     <message>
       <source>Shared with other editors</source>
-      <translation>V skupni rabi z drugimi uredniki</translation>
+      <translation>Delijo z drugimi uredniki</translation>
     </message>
     <message>
       <source>Your own</source>
@@ -604,15 +604,15 @@
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation>Lahko povlecite oznako na zemljevidu natančneje izbrati lokacijo.</translation>
+      <translation>Oznaka lahko povlečete na zemljevidu, da natančneje izberete lokacijo.</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation>Dodaj ta kraj na svoja mesta</translation>
+      <translation>Dodajte to lokacijo na vaša mesta</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Obstajajo kraji v bližini izbrane lokacije registriranega v sistemu. Ali želite uporabiti eno od teh?</translation>
+      <translation>Obstajajo mesta v bližini izbrane lokacije, registrirane v sistemu. Želite uporabiti enega od teh?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
@@ -620,7 +620,7 @@
     </message>
     <message>
       <source>Detect position</source>
-      <translation>odkriti položaj</translation>
+      <translation>Zaznavanje položaja</translation>
     </message>
   </context>
   <context>
@@ -807,6 +807,25 @@
     </message>
     <message>
       <source>Filter by type</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/menu</name>
+    <message>
+      <source>Amministrazione</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Servizi</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Novità</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Documenti</source>
       <translation type="unfinished"/>
     </message>
   </context>

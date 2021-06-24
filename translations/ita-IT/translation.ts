@@ -810,4 +810,23 @@
       <translation>Cerca per tipologia</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/menu</name>
+    <message>
+      <source>Amministrazione</source>
+      <translation>Amministrazione</translation>
+    </message>
+    <message>
+      <source>Servizi</source>
+      <translation>Servizi</translation>
+    </message>
+    <message>
+      <source>Novità</source>
+      <translation>Novità</translation>
+    </message>
+    <message>
+      <source>Documenti</source>
+      <translation>Documenti</translation>
+    </message>
+  </context>
 </TS>

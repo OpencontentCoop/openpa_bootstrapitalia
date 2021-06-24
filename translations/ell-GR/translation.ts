@@ -810,4 +810,23 @@
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/menu</name>
+    <message>
+      <source>Amministrazione</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Servizi</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Novità</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Documenti</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
 </TS>

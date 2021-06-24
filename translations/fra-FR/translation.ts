@@ -5,7 +5,7 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>Ce site utilise des analyses techniques, et les cookies tiers.</translation>
+      <translation>Ce site utilise des cookies techniques, analytiques et tiers.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
@@ -13,7 +13,7 @@
     </message>
     <message>
       <source>Informations</source>
-      <translation>informations</translation>
+      <translation>Informations</translation>
     </message>
     <message>
       <source>Accept</source>
@@ -29,7 +29,7 @@
     </message>
     <message>
       <source>Jump to footer</source>
-      <translation>Aller au pied de page</translation>
+      <translation>Sauter au pied de page</translation>
     </message>
     <message>
       <source>Table of contents</source>
@@ -77,7 +77,7 @@
     </message>
     <message>
       <source>Related contents</source>
-      <translation>contenus liés</translation>
+      <translation>Contenu relatif</translation>
     </message>
     <message>
       <source>Search in</source>
@@ -85,7 +85,7 @@
     </message>
     <message>
       <source>Filters</source>
-      <translation>filtres</translation>
+      <translation>Filtres</translation>
     </message>
     <message>
       <source>All</source>
@@ -105,7 +105,7 @@
     </message>
     <message>
       <source>Explore topic</source>
-      <translation>explorer le sujet</translation>
+      <translation>Explorer le sujet</translation>
     </message>
     <message>
       <source>Go to event calendar</source>
@@ -117,11 +117,11 @@
     </message>
     <message>
       <source>Event end</source>
-      <translation>fin de l'événement</translation>
+      <translation>Fin de l'événement</translation>
     </message>
     <message>
       <source>Jump to field</source>
-      <translation>Aller au champ</translation>
+      <translation>Sauter au champ</translation>
     </message>
     <message>
       <source>Upload file</source>
@@ -129,7 +129,7 @@
     </message>
     <message>
       <source>Select from library</source>
-      <translation>Sélectionnez bibliothèque</translation>
+      <translation>Sélectionnez de la bibliothèque</translation>
     </message>
     <message>
       <source>Create</source>
@@ -149,7 +149,7 @@
     </message>
     <message>
       <source>Last modified</source>
-      <translation>dernière modification</translation>
+      <translation>Dernière modification</translation>
     </message>
     <message>
       <source>Editor tools</source>
@@ -232,7 +232,7 @@
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>eZ Mots clés</translation>
+      <translation>EZ Tags</translation>
     </message>
     <message>
       <source>Apps</source>
@@ -244,11 +244,11 @@
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Listes par classe</translation>
+      <translation>Listes de classe</translation>
     </message>
     <message>
       <source>Import management</source>
-      <translation>gestion d'importation</translation>
+      <translation>Gestion des importations</translation>
     </message>
   </context>
   <context>
@@ -259,7 +259,7 @@
     </message>
     <message>
       <source>Add objects</source>
-      <translation>objets Ajouter des</translation>
+      <translation>Ajouter des objets</translation>
     </message>
   </context>
   <context>
@@ -273,11 +273,11 @@
     <name>openpa/sidebar</name>
     <message>
       <source>Related information</source>
-      <translation>informations connexes</translation>
+      <translation>Informations connexes</translation>
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Referable à</translation>
+      <translation>Référencée à</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -292,7 +292,7 @@
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>informations</translation>
+      <translation>Informations</translation>
     </message>
     <message>
       <source>Contacts</source>
@@ -315,7 +315,7 @@
     <name>openpa/valuation</name>
     <message>
       <source>Valuta questo sito</source>
-      <translation>Valuta questo sito</translation>
+      <translation>Valuta Questo Sito</translation>
     </message>
     <message>
       <source>per nulla</source>
@@ -335,14 +335,14 @@
     </message>
     <message>
       <source>Invia la valutazione</source>
-      <translation>Invia la valutazione</translation>
+      <translation>Invia La Valutazione</translation>
     </message>
   </context>
   <context>
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Aller à la recherche filtres</translation>
+      <translation>Aller aux filtres de recherche</translation>
     </message>
     <message>
       <source>Link to</source>
@@ -362,15 +362,15 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>tout le site</translation>
+      <translation>Tout site web</translation>
     </message>
     <message>
       <source>only information of type</source>
-      <translation>information seulement du type</translation>
+      <translation>Seules les informations de type</translation>
     </message>
     <message>
       <source>Sorting by</source>
-      <translation>tri par</translation>
+      <translation>Tri par</translation>
     </message>
     <message>
       <source>Sorting</source>
@@ -414,15 +414,15 @@
     </message>
     <message>
       <source>Any year</source>
-      <translation>toute l'année</translation>
+      <translation>Toute année</translation>
     </message>
     <message>
       <source>Logical conditions</source>
-      <translation>conditions logiques</translation>
+      <translation>Conditions logiques</translation>
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Peut-être que vous vouliez rechercher</translation>
+      <translation>Peut-être que vous vouliez chercher à rechercher</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
@@ -430,7 +430,7 @@
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>Aucun résultat n'a été trouvé lors de la recherche pour « % 1 ».</translation>
+      <translation>Aucun résultat n'a été trouvé lors de la recherche de "% 1".</translation>
     </message>
     <message>
       <source>Search tips</source>
@@ -438,31 +438,31 @@
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Vérifier l'orthographe des mots-clés.</translation>
+      <translation>Vérifiez l'orthographe des mots-clés.</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Essayez de changer certains mots-clés (par exemple, « voiture » au lieu de « voitures »).</translation>
+      <translation>Essayez de changer de mots-clés (par exemple, "voiture" au lieu de "voitures").</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
-      <translation>Essayez avec moins de mots-clés spécifiques.</translation>
+      <translation>Essayez. Vous trouverez la recherche de mots-clés.</translation>
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
-      <translation>Réduire le nombre de mots clés pour obtenir plus de résultats.</translation>
+      <translation>Réduisez le nombre de mots-clés pour obtenir plus de résultats.</translation>
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Chercher « % 1 » a renvoyé% 2 matchs</translation>
+      <translation>Recherche de "% 1" renvoyé% 2 correspondances</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>2% Recherche retour résultats</translation>
+      <translation>Recherche renvoyée% 2 correspondances</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Pour plus d'options% 1Advanced recherche% 2</translation>
+      <translation>Pour plus d'options, essayez le% 1Anvanced Recherche% 2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -470,7 +470,7 @@
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Retirer tous les filtres</translation>
+      <translation>Supprimer tous les filtres</translation>
     </message>
     <message>
       <source>Refine your search</source>
@@ -478,7 +478,7 @@
     </message>
     <message>
       <source>You are filtering for</source>
-      <translation>Vous filtrage pour</translation>
+      <translation>Vous filtrez pour</translation>
     </message>
     <message>
       <source>Options</source>
@@ -580,11 +580,11 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Remplissez quelques informations sur votre lieu</translation>
+      <translation>Remplir des informations sur votre place</translation>
     </message>
     <message>
       <source>Select place</source>
-      <translation>Sélectionnez votre lieu</translation>
+      <translation>Sélectionner</translation>
     </message>
     <message>
       <source>Nowhere</source>
@@ -592,7 +592,7 @@
     </message>
     <message>
       <source>Editor choice</source>
-      <translation>choix éditeur</translation>
+      <translation>Choix de l'éditeur</translation>
     </message>
     <message>
       <source>Shared with other editors</source>
@@ -608,19 +608,19 @@
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation>Ajouter cet endroit à vos lieux</translation>
+      <translation>Ajoutez cet endroit à vos lieux</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Il y a des endroits près de l'emplacement sélectionné enregistré dans le système. Voulez-vous utiliser l'un de ces?</translation>
+      <translation>Il existe des endroits près de l'emplacement sélectionné enregistré dans le système. Voulez-vous utiliser l'un d'entre eux?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
-      <translation>Continuer avec mon emplacement</translation>
+      <translation>Continuez avec mon emplacement</translation>
     </message>
     <message>
       <source>Detect position</source>
-      <translation>Position Detect</translation>
+      <translation>Détecter la position</translation>
     </message>
   </context>
   <context>
@@ -807,6 +807,25 @@
     </message>
     <message>
       <source>Filter by type</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/menu</name>
+    <message>
+      <source>Amministrazione</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Servizi</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Novità</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Documenti</source>
       <translation type="unfinished"/>
     </message>
   </context>

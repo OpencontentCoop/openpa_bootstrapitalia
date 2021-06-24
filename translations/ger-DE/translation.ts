@@ -13,7 +13,7 @@
     </message>
     <message>
       <source>Informations</source>
-      <translation>Informationen</translation>
+      <translation>Information</translation>
     </message>
     <message>
       <source>Accept</source>
@@ -21,7 +21,7 @@
     </message>
     <message>
       <source>Jump to main content</source>
-      <translation>Zum Hauptinhalt wechseln.</translation>
+      <translation>Zum Hauptinhalt wechseln</translation>
     </message>
     <message>
       <source>Jump to section menu</source>
@@ -157,7 +157,7 @@
     </message>
     <message>
       <source>See previous versions</source>
-      <translation>Siehe vorherigen Versionen</translation>
+      <translation>Siehe vorherige Versionen.</translation>
     </message>
     <message>
       <source>Go to the history of this content</source>
@@ -232,7 +232,7 @@
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>eZ Stichworte</translation>
+      <translation>EZ-Tags</translation>
     </message>
     <message>
       <source>Apps</source>
@@ -277,7 +277,7 @@
     </message>
     <message>
       <source>Referable to</source>
-      <translation>beziehbar auf</translation>
+      <translation>Bezogen auf</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -292,7 +292,7 @@
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>Informationen</translation>
+      <translation>Information</translation>
     </message>
     <message>
       <source>Contacts</source>
@@ -366,7 +366,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>nur Informationen vom Typ</translation>
+      <translation>Nur Informationen vom Typ</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -418,7 +418,7 @@
     </message>
     <message>
       <source>Logical conditions</source>
-      <translation>logische Bedingungen</translation>
+      <translation>Logische Bedingungen</translation>
     </message>
     <message>
       <source>Maybe you meant to search for</source>
@@ -426,7 +426,7 @@
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
-      <translation>Die folgenden Worte wurden von der Suche ausgeschlossen:</translation>
+      <translation>Die folgenden Wörter wurden von der Suche ausgeschlossen:</translation>
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
@@ -438,15 +438,15 @@
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Überprüfen Sie die Rechtschreibung der Schlüsselwörter.</translation>
+      <translation>Überprüfen Sie die Schreibweise von der Schlüsselwörter</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Versuchen Sie einige Schlüsselwörter zu ändern (zB „Auto“ statt „Autos“).</translation>
+      <translation>Ändern Sie einige Schlüsselwörter (z. B. "Auto" anstelle von "Autos").</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
-      <translation>Versuchen Sie es mit allgemeineren Suchbegriffen.</translation>
+      <translation>Versuchen Sie es mit allgemeineren Suchbegriffen</translation>
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
@@ -486,7 +486,7 @@
     </message>
     <message>
       <source>Active contents</source>
-      <translation>aktive Inhalte</translation>
+      <translation>Aktive Inhalte</translation>
     </message>
     <message>
       <source>Apply filters</source>
@@ -494,7 +494,7 @@
     </message>
     <message>
       <source>Found a result</source>
-      <translation>Gefunden ein Ergebnis</translation>
+      <translation>Ein Ergebnis gefunden</translation>
     </message>
     <message>
       <source>Found %count results</source>
@@ -506,11 +506,11 @@
     </message>
     <message>
       <source>Search only active content</source>
-      <translation>Suche nur aktive Inhalte</translation>
+      <translation>Nur aktive Inhalte suchen</translation>
     </message>
     <message>
       <source>Archived and no longer valid content will be excluded from the search.</source>
-      <translation>Archiviert und nicht mehr gültig Inhalte werden von der Suche ausgeschlossen werden.</translation>
+      <translation>Archivierte und nicht mehr gültige Inhalte werden von der Suche ausgeschlossen.</translation>
     </message>
     <message>
       <source>Start date</source>
@@ -604,7 +604,7 @@
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation>Sie können die Markierung auf der Karte ziehen den Standort genauer auszuwählen.</translation>
+      <translation>Positionieren Sie den Marker auf der Karte, um den Standort genauer auszuwählen</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
@@ -678,11 +678,11 @@
     </message>
     <message>
       <source>Feedbacks count</source>
-      <translation>Bewertungen zählen</translation>
+      <translation>Rückmeldungen zählen</translation>
     </message>
     <message>
       <source>Is content useful?</source>
-      <translation>Ist Inhalt hilfreich gefunden?</translation>
+      <translation>War dieser Inhalt hilfreich?</translation>
     </message>
     <message>
       <source>Problems</source>
@@ -749,7 +749,7 @@
     </message>
     <message>
       <source>Office</source>
-      <translation>Büro</translation>
+      <translation>Amt</translation>
     </message>
     <message>
       <source>Administrative area</source>
@@ -761,7 +761,7 @@
     </message>
     <message>
       <source>Reset</source>
-      <translation>Reset</translation>
+      <translation>Zurücksetzen</translation>
     </message>
     <message>
       <source>Document type</source>
@@ -808,6 +808,25 @@
     <message>
       <source>Filter by type</source>
       <translation>Aus der Liste aussuchen</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/menu</name>
+    <message>
+      <source>Amministrazione</source>
+      <translation>Politik und Verwaltung</translation>
+    </message>
+    <message>
+      <source>Servizi</source>
+      <translation>Serviceportal</translation>
+    </message>
+    <message>
+      <source>Novità</source>
+      <translation>Aktuelles</translation>
+    </message>
+    <message>
+      <source>Documenti</source>
+      <translation>Formulare und Dokumente</translation>
     </message>
   </context>
 </TS>
