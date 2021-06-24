@@ -109,7 +109,7 @@
     {if api_search(concat('classes [employee,private_organization,public_organization,office] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
         {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
-            "Amministrazione",
+            'Amministrazione'|i18n('bootstrapitalia/menu'),
             "ListaPaginata",
             "lista_paginata",
             hash(
@@ -131,7 +131,7 @@
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
-            "Servizi",
+            'Servizi'|i18n('bootstrapitalia/menu'),
             "ListaPaginata",
             "lista_paginata",
             hash(
@@ -154,7 +154,7 @@
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
-            "Novità",
+            'Novità'|i18n('bootstrapitalia/menu'),
             "ListaPaginata",
             "lista_paginata",
             hash(
@@ -177,7 +177,7 @@
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
-            "Documenti",
+            'Documenti'|i18n('bootstrapitalia/menu'),
             "ListaPaginata",
             "lista_paginata",
             hash(

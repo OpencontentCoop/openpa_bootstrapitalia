@@ -29,35 +29,27 @@
                 {* Custom columns. *}
                 {section var=Columns loop=$Rows.item.columns}
                     <td>
-                        {if and(is_set($currency_tag[0]), $matrix.columns.sequential[$Columns.index].identifier|eq('currency'))}
-                            {def $selected = $Columns.item}
-                            {if $selected|eq('')}
-                                {set $selected = 'Euro'}
-                            {/if}
-                            <select name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]"
-                                    id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_matrix_cell_{$Rows.index}_{$Columns.index}"
-                                    class="form-control ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}">
-                                {foreach $currency_tag[0].children as $currency}
-                                    <option value="{$currency.keyword|wash}" {if $selected|eq($currency.keyword)}selected="selected"{/if}>{$currency.keyword|wash}</option>
-                                {/foreach}
-                            </select>
-                            {undef $selected}
-                        {else}
                         <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_matrix_cell_{$Rows.index}_{$Columns.index}"
                                class="form-control ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
                                type="text"
                                name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]"
+                               {if $matrix.columns.sequential[$Columns.index].identifier|eq('currency')}list="currency_choose"{/if}
                                value="{$Columns.item|wash( xhtml )}"/>
-                        {/if}
                     </td>
 
                 {/section}
-
             </tr>
         {/section}
     </table>
 {/section}
 
+{if is_set($currency_tag[0])}
+<datalist id="currency_choose">
+    {foreach $currency_tag[0].children as $currency}
+        <option value="{$currency.keyword|wash}"></option>
+    {/foreach}
+</datalist>
+{/if}
 
 <div class="clearfix">
 {* Buttons. *}
@@ -70,7 +62,7 @@
            title="{'Remove selected rows from the matrix.'|i18n( 'design/standard/content/datatype' )}"/>
     </div>
 {/if}
-    &nbsp;&nbsp;
+
 {let row_count=sub( 40, count( $matrix.rows.sequential ) ) index_var=0}
 {if $row_count|lt( 1 )}
     {set row_count=0}
