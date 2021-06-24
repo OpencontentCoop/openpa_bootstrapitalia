@@ -30,17 +30,16 @@
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
             {include uri='design:parts/faq_accordion.tpl' node=$node}
 
-            {def $parent = $node.parent
-                 $openpa_parent = object_handler($parent)}
+            {def $parent = $node.parent}
             {if and($attributes.show|contains('content_show_read_more'), $parent.class_identifier|eq('faq_section'))}
             <p class="mt-5">
-                <a class="read-more position-static" href="{$parent.url_alias|ezurl(no)}" title="{'Go to content'|i18n('bootstrapitalia')} {$parent.name|wash()}">
-                    {if $openpa_parent.content_icon.class_icon}{display_icon($openpa_parent.content_icon.class_icon.icon_text, 'svg', 'icon')}{/if}
+                <a class="read-more position-static" href="{$node.url_alias|ezurl(no)}" title="{'Go to content'|i18n('bootstrapitalia')} {$parent.name|wash()}">
+                    {if $openpa.content_icon.class_icon}{display_icon($openpa.content_icon.class_icon.icon_text, 'svg', 'icon')}{/if}
                     {$parent.name|wash()}
                 </a>
             </p>
             {/if}
-            {undef $parent $openpa_parent}
+            {undef $parent}
         </div>
     </div>
     {if and($attributes.show|contains('image'), $node|has_attribute('image'))}
