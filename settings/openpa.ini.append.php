@@ -2,6 +2,7 @@
 
 [DataHandlers]
 Handlers[remote_calendar]=DataHandlerRemoteCalendar
+Handlers[theme]=DataHandlerTheme
 
 [BlockHandlers]
 Handlers[ListaManuale/*]=OpenPABootstrapItaliaBlockHandlerListaManuale

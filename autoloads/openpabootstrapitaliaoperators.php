@@ -15,6 +15,8 @@ class OpenPABootstrapItaliaOperators
             'clean_filename',
             'class_identifier_by_id',
             'page_block',
+            'current_theme',
+            'current_theme_has_variation',
             'primary_color',
             'header_color',
             'footer_color',
@@ -70,6 +72,9 @@ class OpenPABootstrapItaliaOperators
             ),
             'valuation_translation' => array(
                 'string' => array('type' => 'string', 'required' => true),
+            ),
+            'current_theme_has_variation' => array(
+                'variation' => array('type' => 'string', 'required' => true),
             ),
         );
     }
@@ -166,25 +171,24 @@ class OpenPABootstrapItaliaOperators
                 }
                 break;
 
+            case 'current_theme':
+                $operatorValue = self::getCurrentTheme()->getBaseIdentifier();
+                break;
+
+            case 'current_theme_has_variation':
+                $operatorValue = self::getCurrentTheme()->hasVariation($namedParameters['variation']);
+                break;
+
             case 'primary_color':
+                $operatorValue = self::getCurrentTheme()->getCssData('primary_color', '#222');
+                break;
+
             case 'header_color':
+                $operatorValue = self::getCurrentTheme()->getCssData('header_color', '#222');
+                break;
+
             case 'footer_color':
-
-                $cssData = self::getCss($tpl);
-
-                $value = '#222';
-                if ($operatorName == 'primary_color' && isset($cssData['.primary-bg']['background-color'])) {
-                    $value = $cssData['.primary-bg']['background-color'];
-
-                } elseif ($operatorName == 'header_color' && isset($cssData['.it-header-navbar-wrapper']['background'])) {
-                    $value = $cssData['.it-header-navbar-wrapper']['background'];
-
-                } elseif ($operatorName == 'footer_color' && isset($cssData['.it-footer-small-prints']['background-color'])) {
-                    $value = $cssData['.it-footer-small-prints']['background-color'];
-                }
-
-                $operatorValue = $value;
-
+                $operatorValue = self::getCurrentTheme()->getCssData('footer_color', '#222');
                 break;
 
             case 'page_block':
@@ -454,46 +458,13 @@ class OpenPABootstrapItaliaOperators
         return ucfirst($filename);
     }
 
-    public static function getCss(eZTemplate $tpl)
+    /**
+     * @return BootstrapItaliaTheme
+     */
+    public static function getCurrentTheme()
     {
-        if (self::$cssData === null) {
-
-            $theme = OpenPAINI::variable('GeneralSettings', 'theme', 'default');
-            $path = ltrim(eZURLOperator::eZDesign($tpl, "stylesheets/{$theme}.css", 'ezdesign'), '/');
-            if (!file_exists($path)) {
-                $path = "extension/openpa_bootstrapitalia/design/bootstrapitalia/stylesheets/default.css";
-            }
-
-            function parseCss($file)
-            {
-                $css = file_get_contents($file);
-                preg_match_all('/(?ims)([a-z0-9\s\.\:#_\-@,]+)\{([^\}]*)\}/', $css, $arr);
-                $result = array();
-                foreach ($arr[0] as $i => $x) {
-                    $selector = trim($arr[1][$i]);
-                    $rules = explode(';', trim($arr[2][$i]));
-                    $rules_arr = array();
-                    foreach ($rules as $strRule) {
-                        if (!empty($strRule)) {
-                            $rule = explode(":", $strRule);
-                            if (isset($rule[1])) {
-                                $rules_arr[trim($rule[0])] = trim($rule[1]);
-                            }
-                        }
-                    }
-
-                    $selectors = explode(',', trim($selector));
-                    foreach ($selectors as $strSel) {
-                        $result[$strSel] = $rules_arr;
-                    }
-                }
-                return $result;
-            }
-
-            self::$cssData = parseCss($path);
-        }
-
-        return self::$cssData;
+        $theme = OpenPAINI::variable('GeneralSettings', 'theme', 'default');
+        return BootstrapItaliaTheme::fromString($theme);
     }
 
     private function recursiveMenuTreeContains($item, $idList)

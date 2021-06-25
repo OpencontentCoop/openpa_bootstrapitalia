@@ -27,7 +27,7 @@
         {set $has_valuation = '1'}
     {/if}
 
-    {def $theme = openpaini('GeneralSettings','theme', 'default')
+    {def $theme = current_theme()
          $main_content_class = ''
          $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
          $has_section_menu = cond(is_set($module_result.content_info.persistent_variable.has_section_menu), true(), false())
@@ -90,7 +90,7 @@ $.opendataTools.settings('endpoint',{ldelim}
     {/debug-accumulator}
 
     {if and(openpacontext().is_edit|not(),openpacontext().is_browse|not())}
-    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $extra_cache_key )}
+    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $extra_cache_key, openpaini('GeneralSettings','theme', 'default') )}
     {debug-accumulator id=page_header_and_offcanvas_menu name=page_header_and_offcanvas_menu}
         {def $pagedata = openpapagedata()}
         {include uri='design:page_notifications.tpl'}

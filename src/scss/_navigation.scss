@@ -60,3 +60,7 @@
 #main-menu.expanded .it-brand-wrapper.cloned{
   display:none !important;
 }
+
+.it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper.theme-light-desk .menu-wrapper .it-search-wrapper{
+  color: $navigation-light-text-color;
+}

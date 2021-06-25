@@ -10,6 +10,8 @@ $eZTemplateOperatorArray = array(
             'clean_filename',
             'class_identifier_by_id',
             'page_block',
+            'current_theme',
+            'current_theme_has_variation',
             'primary_color',
             'header_color',
             'footer_color',

@@ -19,15 +19,18 @@ sort($themeList);
 
 if ($http->hasPostVariable('StoreTheme') && $http->hasPostVariable('Theme')) {
     $theme = trim($http->postVariable('Theme'));
+    $useLightSlim = $http->hasPostVariable('use_light_slim') ? '::light_slim' : '';
+    $useLightCenter = $http->hasPostVariable('use_light_center') ? '::light_center' : '';
+    $useLightNavbar = $http->hasPostVariable('use_light_navbar') ? '::light_navbar' : '';
+    $themeString = $theme.$useLightSlim.$useLightCenter.$useLightNavbar;
+
     if (!in_array($theme, $themeList)) {
         $tpl->setVariable('message', 'Errore: tema non supportato');
     } else {
-        $save = OpenPAINI::set("GeneralSettings", "theme", $theme);
+        $save = OpenPAINI::set("GeneralSettings", "theme", $themeString);
         if ($save) {
             $tpl->setVariable('message', 'Impostazioni salvate correttamente');
-
             eZCache::clearByTag('template');
-
             eZExtension::getHandlerClass(new ezpExtensionOptions(array('iniFile' => 'site.ini',
                 'iniSection' => 'ContentSettings',
                 'iniVariable' => 'StaticCacheHandler')))->generateCache(true, true);
@@ -40,11 +43,16 @@ if ($http->hasPostVariable('StoreTheme') && $http->hasPostVariable('Theme')) {
     }
 }
 
-$tpl->setVariable('current_theme', OpenPAINI::variable("GeneralSettings", "theme", false));
+$tpl->setVariable('current_base_theme', OpenPABootstrapItaliaOperators::getCurrentTheme()->getBaseIdentifier());
+$tpl->setVariable('use_light_slim', OpenPABootstrapItaliaOperators::getCurrentTheme()->hasVariation('light_slim'));
+$tpl->setVariable('use_light_center', OpenPABootstrapItaliaOperators::getCurrentTheme()->hasVariation('light_center'));
+$tpl->setVariable('use_light_navbar', OpenPABootstrapItaliaOperators::getCurrentTheme()->hasVariation('light_navbar'));
 $tpl->setVariable('theme_list', $themeList);
 if (count($themeList) == 0) {
     $tpl->setVariable('message', 'Impostazione non configurabile per il tema grafico corrente');
 }
+
+$tpl->setVariable('site_title', 'Impostazioni tema');
 
 $Result = array();
 $Result['content'] = $tpl->fetch('design:bootstrapitalia/theme.tpl');
@@ -56,4 +64,7 @@ $Result['content_info'] = array(
         'site_title' => 'Impostazioni tema'
     )
 );
+if (is_array($tpl->variable('persistent_variable'))) {
+    $Result['content_info']['persistent_variable'] = array_merge($Result['content_info']['persistent_variable'], $tpl->variable('persistent_variable'));
+}
 $Result['path'] = array();

@@ -1,4 +1,6 @@
-<div class="container">
+{ezpagedata_set( 'has_container', true() )}
+
+<div class="container mb-3">
     <h2>Impostazioni Tema</h2>
     {if is_set($message)}
         <div class="message-error">
@@ -9,20 +11,101 @@
     {if count($theme_list)}
         <form method="post" action="{'bootstrapitalia/theme'|ezurl(no)}" class="form">
             <div class="row">
-                <div class="col-md-6 col-md-offset-3">
-                    <select id="theme" class="Form-input u-color-black form-control" name="Theme" placeholder="">
-                        {foreach $theme_list as $item}
-                            <option value="{$item|wash()}"{if $current_theme|eq($item)} selected="selected"{/if}>{$item|wash()}</option>
-                        {/foreach}
-                    </select>
+                <div class="col-8 col-md-6">
+                    <div class="form-group">
+                        <label for="theme">Tema</label>
+                        <select id="theme" class="Form-input u-color-black form-control" name="Theme">
+                            {foreach $theme_list as $item}
+                                <option value="{$item|wash()}"{if $current_base_theme|eq($item)} selected="selected"{/if}>{$item|wash()}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                    <div class="form-group form-check">
+                        <input id="use_light_slim"
+                               class="form-check-input"
+                               type="checkbox"
+                               name="use_light_slim"
+                               {if $use_light_slim}checked="checked"{/if}
+                               value="1" />
+                        <label class="form-check-label" for="use_light_slim">
+                            Slim header in versione chiara
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <input id="use_light_center"
+                               class="form-check-input"
+                               type="checkbox"
+                               name="use_light_center"
+                               {if $use_light_center}checked="checked"{/if}
+                               value="1" />
+                        <label class="form-check-label" for="use_light_center">
+                            Header center in versione chiara
+                        </label>
+                    </div>
+                    <div class="form-group form-check">
+                        <input id="use_light_navbar"
+                               class="form-check-input"
+                               type="checkbox"
+                               name="use_light_navbar"
+                               {if $use_light_navbar}checked="checked"{/if}
+                               value="1" />
+                        <label class="form-check-label" for="use_light_navbar">
+                            Header nav in versione chiara
+                        </label>
+                    </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-12 col-md-6 mt-2">
+                    <div class="px-2">
+                        <div id="theme-preview" class="border">
+                            <div id="preview-service" class="w-100 border-bottom position-relative" style="height: 20px"><code style="font-size: 9px;position:absolute">Slim header</code></div>
+                            <div id="preview-header" class="w-100 border-bottom position-relative" style="height: 40px"><code style="font-size: 9px;position:absolute">Header center</code></div>
+                            <div id="preview-main_menu" class="w-100 border-bottom position-relative" style="height: 15px"><code style="font-size: 9px;position:absolute">Header nav</code></div>
+                            <div id="preview-main" class="w-100" style="height: 200px"></div>
+                            <div id="preview-footer_main" class="w-100" style="height: 50px"></div>
+                            <div id="preview-footer" class="w-100" style="height: 15px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 text-right mt-3">
                     <input type="submit" class="btn btn-success" name="StoreTheme" value="Salva"/>
                 </div>
+            </div>
         </form>
     {/if}
-
 </div>
+
+<script>{literal}
+    $(document).ready(function(){
+        var showThemePreview = function (){
+            var base = $('#theme').val();
+            var useLightSlim = $('#use_light_slim').is(':checked');
+            var useLightCenter = $('#use_light_center').is(':checked');
+            var useLightNavbar = $('#use_light_navbar').is(':checked');
+            var identifier = base;
+            if (useLightSlim){
+                identifier += '::light_slim';
+            }
+            if (useLightCenter){
+                identifier += '::light_center';
+            }
+            if (useLightNavbar){
+                identifier += '::light_navbar';
+            }
+            $.getJSON('/openpa/data/theme?identifier='+identifier, function (response){
+                $.each(response.colors, function (id, value){
+                    console.log(id,value);
+                    $('#theme-preview #preview-'+id).css('background', value);
+                });
+            })
+        }
+        $.each(['theme', 'use_light_slim', 'use_light_center', 'use_light_navbar'], function (){
+            $('#'+this).on('change', function (){
+                showThemePreview();
+            });
+        })
+        showThemePreview();
+    })
+{/literal}</script>
 
 
 {literal}<style>.box{width: 100%; height: 100px; text-align: center}</style>{/literal}
