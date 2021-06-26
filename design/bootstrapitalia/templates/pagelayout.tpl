@@ -126,6 +126,8 @@ $.opendataTools.settings('endpoint',{ldelim}
 
     {include uri='design:page_footer_script.tpl'}
 
+    {include uri='design:parts/load_global_website_toolbar.tpl' current_user=fetch(user, current_user)}
+
 <!--DEBUG_REPORT-->
 </body>
 </html>

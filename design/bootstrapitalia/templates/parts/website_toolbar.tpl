@@ -1,9 +1,7 @@
-{def $current_node = fetch( 'content', 'node', hash( 'node_id', $current_node_id ) )
-     $content_object = $current_node.object
-     $can_edit_languages = $content_object.can_edit_languages
-     $can_manage_location = fetch( 'content', 'access', hash( 'access', 'manage_locations', 'contentobject', $current_node ) )
-     $can_create_languages = $content_object.can_create_languages
-     $is_container = $content_object.content_class.is_container
+{def $can_edit_languages = false()
+     $can_manage_location = false()
+     $can_create_languages = false()
+     $is_container = false()
      $odf_display_classes = ezini( 'WebsiteToolbarSettings', 'ODFDisplayClasses', 'websitetoolbar.ini' )
      $odf_hide_container_classes = ezini( 'WebsiteToolbarSettings', 'HideODFContainerClasses', 'websitetoolbar.ini' )
      $website_toolbar_access = fetch( 'user', 'has_access_to', hash( 'module', 'websitetoolbar', 'function', 'use' ) )
@@ -11,13 +9,30 @@
      $odf_export_access = fetch( 'user', 'has_access_to', hash( 'module', 'ezodf', 'function', 'export' ) )
      $content_object_language_code = ''
      $policies = fetch( 'user', 'user_role', hash( 'user_id', $current_user.contentobject_id ) )
-     $available_for_current_class = false()
+     $available_for_current_class = true()
      $custom_templates = ezini( 'CustomTemplateSettings', 'CustomTemplateList', 'websitetoolbar.ini' )
      $include_in_view = ezini( 'CustomTemplateSettings', 'IncludeInView', 'websitetoolbar.ini' )
-     $node_hint = ': '|append( $current_node.name|wash(), ' [', $content_object.content_class.name|wash(), ']' )
-     $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )}
+     $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )
+     $content_object = hash(
+        'can_create', false(),
+        'can_edit', false(),
+        'can_move', false(),
+        'can_remove', false()
+     )
+     $current_node = hash(
+        'node_id', 0,
+        'url_alias', '/'
+     )}
+{if $current_node_id}
+    {set $current_node = fetch( 'content', 'node', hash( 'node_id', $current_node_id ) )
+         $content_object = $current_node.object
+         $can_edit_languages = $content_object.can_edit_languages
+         $can_manage_location = fetch( 'content', 'access', hash( 'access', 'manage_locations', 'contentobject', $current_node ) )
+         $can_create_languages = $content_object.can_create_languages
+         $is_container = $content_object.content_class.is_container}
+    {def $node_hint = ': '|append( $current_node.name|wash(), ' [', $content_object.content_class.name|wash(), ']' )}
 
-     {foreach $policies as $policy}
+    {foreach $policies as $policy}
         {if and( eq( $policy.moduleName, 'websitetoolbar' ),eq( $policy.functionName, 'use' ),is_array( $policy.limitation ) )}
             {if $policy.limitation[0].values_as_array|contains( $content_object.content_class.id )}
                 {set $available_for_current_class = true()}
@@ -27,7 +42,9 @@
                     and( eq( $policy.moduleName, 'websitetoolbar' ),eq( $policy.functionName, 'use' ),eq( $policy.limitation, '*' ) ) )}
             {set $available_for_current_class = true()}
         {/if}
-     {/foreach}
+    {/foreach}
+{/if}
+
 
 {if and( $website_toolbar_access, $available_for_current_class )}
 
@@ -118,7 +135,7 @@
             </li>
             {/if}
 
-            {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'bookmark' ) )}
+            {if and($current_node.node_id|gt(0), fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'bookmark' ) ))}
             <li>
                 <button class="btn" type="submit" name="ActionAddToBookmarks" title="{'Add the current item to your bookmarks.'|i18n( 'design/admin/pagelayout' )}">
                     <i aria-hidden="true" class="fa fa-bookmark{if is_bookmark($current_node.node_id)} text-light{/if}"></i>
@@ -127,7 +144,9 @@
             </li>
             {/if}
 
+            {if is_set($content_object.id)}
             <li class="toolbar-divider" aria-hidden="true"></li>
+            {/if}
 
             {* Custom templates inclusion *}
             <li>
@@ -139,42 +158,47 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownOther">
                         <div class="link-list-wrapper">
                             <ul class="link-list">
-                                {include uri='design:parts/websitetoolbar/openpa_copy_object.tpl'}
-                                {include uri='design:parts/websitetoolbar/versions.tpl'}
-                                {include uri='design:parts/websitetoolbar/object_states.tpl'}
-                                {include uri='design:parts/websitetoolbar/reindex.tpl'}
-                                {include uri='design:parts/websitetoolbar/classtools.tpl'}
-                                {include uri='design:parts/websitetoolbar/refreshorgnigramma.tpl'}
-                                {include uri='design:parts/websitetoolbar/ckan_push.tpl'}
-                                {*include uri='design:parts/websitetoolbar/ezflip.tpl'*}
-                                {*include uri='design:parts/websitetoolbar/ngpush.tpl'*}
-                                {include uri='design:parts/websitetoolbar/ezmultiupload.tpl'}
-                                <li><span class="divider"></span></li>
+                                {if is_set($content_object.id)}
+                                    {include uri='design:parts/websitetoolbar/openpa_copy_object.tpl'}
+                                    {include uri='design:parts/websitetoolbar/versions.tpl'}
+                                    {include uri='design:parts/websitetoolbar/object_states.tpl'}
+                                    {include uri='design:parts/websitetoolbar/reindex.tpl'}
+                                    {include uri='design:parts/websitetoolbar/classtools.tpl'}
+                                    {include uri='design:parts/websitetoolbar/ckan_push.tpl'}
+                                    {include uri='design:parts/websitetoolbar/ezmultiupload.tpl'}
+                                    {*include uri='design:parts/websitetoolbar/ezflip.tpl'*}
+                                    {*include uri='design:parts/websitetoolbar/ngpush.tpl'*}
+                                    {include uri='design:parts/websitetoolbar/refreshorgnigramma.tpl'}
+                                    <li><span class="divider"></span></li>
+                                {/if}
+
                                 {include uri='design:parts/websitetoolbar/openpa_menu.tpl'}
-                                <li><span class="divider"></span></li>
 
-                                {def $onto_links = array()}
-                                {if ezmodule('onto')}
-                                    {set $onto_links = easyontology_links($content_object.class_identifier, $content_object.id)}
-                                {/if}
+                                {if is_set($content_object.id)}
+                                    <li><span class="divider"></span></li>
+                                    {def $onto_links = array()}
+                                    {if ezmodule('onto')}
+                                        {set $onto_links = easyontology_links($content_object.class_identifier, $content_object.id)}
+                                    {/if}
 
-                                {if count($onto_links)}
-                                    <li>
-                                        <div class="list-item left-icon">
-                                            <i aria-hidden="true" class="fa fa-code"></i> Linked Data
-                                            {foreach $onto_links as $slug => $link}
-                                                <a href="{$link}" target="_blank" title="{$slug|wash()}" class="badge badge-dark text-white d-inline px-1">{$slug|wash()}</a>
-                                            {/foreach}
-                                        </div>
-                                    </li>
-                                {else}
-                                    <li>
-                                        <a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="Visualizza in JSON">
-                                            <i aria-hidden="true" class="fa fa-code"></i> Visualizza in JSON
-                                        </a>
-                                    </li>
+                                    {if count($onto_links)}
+                                        <li>
+                                            <div class="list-item left-icon">
+                                                <i aria-hidden="true" class="fa fa-code"></i> Linked Data
+                                                {foreach $onto_links as $slug => $link}
+                                                    <a href="{$link}" target="_blank" title="{$slug|wash()}" class="badge badge-dark text-white d-inline px-1">{$slug|wash()}</a>
+                                                {/foreach}
+                                            </div>
+                                        </li>
+                                    {else}
+                                        <li>
+                                            <a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="Visualizza in JSON">
+                                                <i aria-hidden="true" class="fa fa-code"></i> Visualizza in JSON
+                                            </a>
+                                        </li>
+                                    {/if}
+                                    {undef $onto_links}
                                 {/if}
-                                {undef $onto_links}
 
                             </ul>
                         </div>
@@ -182,14 +206,15 @@
                 </div>
             </li>
 
+            {if is_set($content_object.id)}
             <li class="toolbar-divider" aria-hidden="true"></li>
-
             <li>
                 <a class="btn" href="#" id="ezwt-help" data-toggle="modal" data-target="#editor_tools">
                     <i aria-hidden="true" class="fa fa-info-circle"></i>
                     <span class="toolbar-label">Info</span>
                 </a>
             </li>
+            {/if}
 
             {if or(
                 ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' ),
@@ -323,19 +348,21 @@
             </li>
             {/if}
 
-            <input type="hidden" name="HasMainAssignment" value="1" />
-            <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
-            <input type="hidden" name="NodeID" value="{$current_node.node_id}" />
-            <input type="hidden" name="ContentNodeID" value="{$current_node.node_id}" />
-            {* If a translation exists in the siteaccess' sitelanguagelist use default_language, otherwise let user select language to base translation on. *}
-            {def $avail_languages = $content_object.available_languages
-               $default_language = $content_object.default_language}
-            {if and( $avail_languages|count|ge( 1 ), $avail_languages|contains( $default_language ) )}
-            {set $content_object_language_code = $default_language}
-            {else}
-            {set $content_object_language_code = ''}
+            {if is_set($content_object.id)}
+                <input type="hidden" name="HasMainAssignment" value="1" />
+                <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
+                <input type="hidden" name="NodeID" value="{$current_node.node_id}" />
+                <input type="hidden" name="ContentNodeID" value="{$current_node.node_id}" />
+                {* If a translation exists in the siteaccess' sitelanguagelist use default_language, otherwise let user select language to base translation on. *}
+                {def $avail_languages = $content_object.available_languages
+                   $default_language = $content_object.default_language}
+                {if and( $avail_languages|count|ge( 1 ), $avail_languages|contains( $default_language ) )}
+                {set $content_object_language_code = $default_language}
+                {else}
+                {set $content_object_language_code = ''}
+                {/if}
+                <input type="hidden" name="ContentObjectLanguageCode" value="{$content_object_language_code}" />
             {/if}
-            <input type="hidden" name="ContentObjectLanguageCode" value="{$content_object_language_code}" />
 
         </ul>
     </nav>
