@@ -5,7 +5,7 @@
            name="Topic[]"
            value="{$topic.item.node_id}"
            data-topic="{$topic.item.node_id}">
-    <label for="topic-filter-{$topic.item.node_id}" class="form-check-label">
+    <label for="topic-filter-{$topic.item.node_id}" class="form-check-label"{if $topic.has_children} style="max-width: 80%"{/if}>
         {$topic.item.name|wash()}
     </label>
     {if $topic.has_children}

@@ -5,7 +5,7 @@
            {if $checked}{if $selected|contains($topic.item.node_id)}checked="checked"{else}data-indeterminate="1"{/if}{/if}
            class="custom-control-input"
            type="checkbox">
-    <label class="custom-control-label" for="topic-{$topic.item.node_id}">
+    <label class="custom-control-label" for="topic-{$topic.item.node_id}"{if $topic.has_children} style="max-width: 80%"{/if}>
         {if $recursion|gt(0)}<small>{/if}
         {$topic.item.name|wash()} {if is_set($topic_facets[$topic.item.node_id])}<small>({$topic_facets[$topic.item.node_id]})</small>{/if}
         {if $recursion|gt(0)}</small>{/if}
