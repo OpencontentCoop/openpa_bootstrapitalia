@@ -1,5 +1,4 @@
 {ezpagedata_set('show_path', false())}
-{ezpagedata_set( 'has_container', true() )}
 {def $class_identifier = 'time_indexed_role'
 	 $parent_node_id = openpa_roles_parent_node_id()
 	 $parent_node = fetch(content, node, hash(node_id, $parent_node_id))
@@ -8,7 +7,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<h3>
-			Gestione dei ruoli
+			Gestione dei ruoli amministrativi e politici
 			{*<a class="btn btn-xs btn-primary rounded-0" href="{'bootstrapitalia/role_list'|ezurl(no)}">
 				Ruoli
 			</a>*}
@@ -18,23 +17,33 @@
 		<div class="input-group">
 		  <input type="text" class="form-control" id="name">
 		  <div class="input-group-append">
-		    <button class="btn btn-info" type="button" id="FindContents">Cerca</button>
-		    <button class="btn btn-danger" type="button" style="display: none;" id="ResetContents">Annulla ricerca</button>
+		    <button class="btn btn-info py-2" type="button" id="FindContents">Cerca</button>
+		    <button class="btn btn-danger py-2" type="button" style="display: none;" id="ResetContents">Annulla ricerca</button>
 		  </div>
+		</div>
+		<div class="form-group form-check">
+			<input id="OnlyExpired"
+				   class="form-check-input"
+				   type="checkbox"
+				   name="OnlyExpired"
+				   value="" />
+			<label class="form-check-label" for="OnlyExpired">
+				Mostra solo ruoli scaduti
+			</label>
 		</div>
 	</div>
 	{if $can_create}
 	<div class="col-md-2">
-		<button type="submit" class="btn btn-success rounded-0" id="AddContent">
+		<button type="submit" class="btn btn-success rounded-0 py-2" id="AddContent">
 		  Crea nuovo
 		</button>	          
 	</div>
 	{/if}
 	<div class="col-md-12">
-		<table class="table table-striped table-sm" id="data">
+		<table class="table table-striped table-hover" id="data">
 			<thead>
 				<tr>				
-					<th></th>
+					<th width="1"></th>
 					<th>Ruolo</th>
 					<th>Persona</th>
 					<th>Struttura</th>
@@ -113,7 +122,7 @@
 <script id="tpl-results" type="text/x-jsrender">    
 {{for searchHits}}
 <tr>
-	<td>
+	<td style="white-space: nowrap;">
 		{{if translations.length > 1}}
 		{{for translations}}
 			{{if active}}
@@ -202,11 +211,29 @@
 	    if (ClassIdentifier){
 	    	classQuery = 'classes ['+ClassIdentifier+'] ';
 	    }
-	    var mainQuery = classQuery+'subtree [' + ParentNodeId + '] sort [raw[attr_priorita_si]=>desc,person.name=>asc] limit ' + pageLimit;
 	    var $container = $(ContainerSelector).find('tbody');
+		var onlyExpired = $('#OnlyExpired')
+		var reset = $('#ResetContents');
 
 	    var currentPage = 0;
 	    var queryPerPage = [];
+
+	    var baseQuery = classQuery+'subtree [' + ParentNodeId + '] sort [raw[attr_priorita_si]=>desc,person.name=>asc] limit ' + pageLimit;
+	    var buildQuery = function (){
+	    	var query = baseQuery;
+			var name = $('#name').val();
+			var filters = '';
+			if (onlyExpired.is(':checked')){
+				query =  'end_time range [\'*\', \'1 hour ago\'] and ' + query;
+			}
+			if (name) {
+				query =  'q = "' + name + '" and ' + query;
+			}
+			if (query !== baseQuery){
+				reset.show();
+			}
+			return query;
+		}
 
 	    var runQuery = function (query) {        
 	        tools.find(query, function (response) {            
@@ -270,32 +297,32 @@
 	    };
 
 	    var loadContents = function () {
-	        $('#name').val('');        
-	        runQuery(mainQuery);
+	        $('#name').val('');
+	        runQuery(buildQuery());
 	    };
 
 	    $('#FindContents').on('click', function (e) {
-	        var name = $('#name').val();
-	        var filters = '';
-	        if (name) {
-	            filters += 'q = "' + name + '" and ';            
-	            var searchQuery = classQuery+'subtree [' + ParentNodeId + '] and ' + filters + ' sort [raw[attr_priorita_si]=>desc,person.name=>asc] limit ' + pageLimit;
-	            runQuery(searchQuery);
-	            $('#ResetContents').show();
-	            currentPage = 0;
-	        }else{
-                loadContents();
-	        }                
+			currentPage = 0;
+			runQuery(buildQuery());
 	        e.preventDefault();
 	    });
 
-	    $('#ResetContents').on('click', function (e) {
+		reset.on('click', function (e) {
 	        $('#name').val('');
-	        $('#ResetContents').hide();
+			if (onlyExpired.is(':checked')){
+				onlyExpired.trigger('click');
+			}
+			reset.hide();
 	        currentPage = 0;
-	        runQuery(mainQuery);
+			runQuery(buildQuery());
 	        e.preventDefault();
 	    });
+
+		onlyExpired.on('change', function (){
+			currentPage = 0;
+			runQuery(buildQuery());
+			e.preventDefault();
+		})
 
 	    $('#AddContent').on('click', function (e) {	        
 	        $(FormSelector).opendataFormCreate({
@@ -305,7 +332,7 @@
 	        		onBeforeCreate: function () {$(ModalSelector).modal('show');},
 	                onSuccess: function () {
 	                	$(ModalSelector).modal('hide');
-	                	$('#ResetContents').trigger('click');
+						reset.trigger('click');
                 	}
 	        	}
 	        );

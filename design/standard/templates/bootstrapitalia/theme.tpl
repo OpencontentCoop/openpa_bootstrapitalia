@@ -93,7 +93,6 @@
             }
             $.getJSON('/openpa/data/theme?identifier='+identifier, function (response){
                 $.each(response.colors, function (id, value){
-                    console.log(id,value);
                     $('#theme-preview #preview-'+id).css('background', value);
                 });
             })
