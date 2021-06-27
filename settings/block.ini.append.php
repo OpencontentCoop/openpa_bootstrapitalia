@@ -328,6 +328,7 @@ CustomAttributeNames[image]=Immagine di sfondo
 CustomAttributeNames[exclude_classes]=Tipologie di contenuto da escludere
 CustomAttributeTypes[]
 CustomAttributeTypes[exclude_classes]=class_select
+ViewList[]
 ViewList[]=lista_card
 ViewName[]
 ViewName[lista_card]=Default
@@ -427,6 +428,7 @@ CustomAttributeTypes[topic_node_id]=topic_select
 CustomAttributeTypes[hide_publication_end_time]=checkbox
 CustomAttributeTypes[show_only_publication]=checkbox
 CustomAttributeTypes[root_tag]=tag_tree_select
+ViewList[]
 ViewList[]=default
 ViewName[]
 ViewName[default]=Default
@@ -531,6 +533,7 @@ CustomAttributes[]
 CustomAttributes[]=image
 UseBrowseMode[image]=true
 CustomAttributeNames[image]=Immagine di sfondo
+ViewList[]
 ViewList[]=default
 ViewName[]
 ViewName[default]=Default
