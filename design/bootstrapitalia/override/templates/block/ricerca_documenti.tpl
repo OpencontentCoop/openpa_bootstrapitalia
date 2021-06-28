@@ -163,8 +163,8 @@
 <script id="tpl-document-results" type="text/x-jsrender">    		
 	{{if totalCount > 0}}	
 	<div class="row mb-3 d-none d-md-flex">		
-		<div class="col-md-2"><strong>{/literal}{'Date'|i18n('bootstrapitalia/documents')}{literal}</strong></div>
-		<div class="col-md-8"><strong>{/literal}{'Subject'|i18n('bootstrapitalia/documents')}{literal}</strong></div>
+		<div class="col-md-3"><strong>{/literal}{'Date'|i18n('bootstrapitalia/documents')}{literal}</strong></div>
+		<div class="col-md-9"><strong>{/literal}{'Subject'|i18n('bootstrapitalia/documents')}{literal}</strong></div>
 	</div>
 	{{else}}
 		<div class="row mb-2">
@@ -173,14 +173,14 @@
 	{{/if}}
 	{{for searchHits}}		
 		<div class="row mb-3 pt-3 border-top">				
-			<div class="col-md-2"><strong class="d-inline d-sm-none">{/literal}{'Date'|i18n('bootstrapitalia/documents')}{literal}</strong>
+			<div class="col-md-3"><strong class="d-inline d-sm-none">{/literal}{'Date'|i18n('bootstrapitalia/documents')}{literal}</strong>
 				{{if ~i18n(data,'publication_start_time') && ~i18n(data,'publication_end_time') && !hideEndTime}}
 					<small>{/literal}{'From'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,'publication_start_time'), 'D/MM/YYYY')}}<br />{/literal}{'to'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,'publication_end_time'), 'D/MM/YYYY')}}</small>
 				{{else}}
 					{{:~formatDate(~i18n(data,'publication_start_time'), 'D/MM/YYYY')}} 
 				{{/if}}
 			</div>			
-			<div class="col-md-8">
+			<div class="col-md-9">
 				<strong class="d-block d-sm-none">{/literal}{'Subject'|i18n('bootstrapitalia/documents')}{literal}</strong>
 				<a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}">{{:~i18n(metadata.name)}}</a>
 				{{if ~i18n(data, 'description')}}<p class="m-0" style="line-height:1.2"><small>{{:~stripTag(~i18n(data, 'description'))}}</small></p>{{/if}}

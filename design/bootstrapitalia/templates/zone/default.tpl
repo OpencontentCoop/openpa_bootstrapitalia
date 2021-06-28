@@ -84,21 +84,26 @@
 {foreach $block_wrappers as $index => $block_wrapper}
   {def $next_index = $index|inc()
        $prev_index = $index|sub(1)
-       $block_wrapper_color_style = $block_wrapper.color_style}
+       $block_wrapper_color_style = $block_wrapper.color_style
+       $block_wrapper_container_style = $block_wrapper.container_style}
 
   {* forza il color_style al primo blocco dei topic *}
   {if and($#node.class_identifier|eq('topic'), $index|eq(0), $block_wrapper.color_style|ne($topic_first_block_color_style))}
-      {set $block_wrapper_color_style = $topic_first_block_color_style}
+    {set $block_wrapper_color_style = $topic_first_block_color_style}
+  {/if}
+
+  {if $#node.class_identifier|eq('pagina_trasparenza')}
+    {set $block_wrapper_container_style = 'py-3'}
   {/if}
 
   <section class="page-{$#node.class_identifier} {$block_wrapper.layout_style} {if and(is_set($block_wrappers[$next_index].layout_style),$block_wrappers[$next_index].layout_style)} before-{$block_wrappers[$next_index].layout_style}{/if} {if and(is_set($block_wrappers[$prev_index].layout_style),$block_wrappers[$prev_index].layout_style)} after-{$block_wrappers[$prev_index].layout_style}{/if} {$block_wrapper_color_style}" id="{$block_wrapper.slug}">
-    {if $block_wrapper.container_style}<div class="{$block_wrapper.container_style}">{/if}
+    {if $block_wrapper_container_style}<div class="{$block_wrapper_container_style}">{/if}
     {if $block_wrapper.is_wide|not()}<div class="container">{/if}
 
     {block_view_gui block=$block_wrapper.block items_per_row=$block_wrapper.items_per_row}
     
     {if $block_wrapper.is_wide|not()}</div>{/if}
-    {if $block_wrapper.container_style}</div>{/if}
+    {if $block_wrapper_container_style}</div>{/if}
     
     {*if and($block_wrapper.show_next_link, is_set($block_wrappers[$next_index]))}
     <a href="#{$block_wrappers[$next_index].slug}" class="scrollTo" aria-hidden="true">

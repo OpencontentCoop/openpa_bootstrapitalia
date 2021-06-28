@@ -65,6 +65,16 @@
 
 {undef $_redirect}
 
+{ezscript_require(array(
+    'ezjsc::jquery',
+    'ezjsc::jqueryio',
+    'ezjsc::jqueryUI',
+    'jstree.min.js',
+    'jquery.eztags.js',
+    'jquery.eztags.select.js',
+    'jquery.eztags.tree.js',
+    'tagsstructuremenu.js'
+))}
 {ezcss_require(array('contentstructure-tree.css'))}
 {run-once}
 {literal}
