@@ -3,7 +3,7 @@
 
 <form method="post" action={concat( 'content/versionview/', $object.id, '/', $version.version, '/', $language, '/', $from_language )|ezurl}>
 <nav class="toolbar edit-toolbar" id="ezwt">
-    <ul class="d-flex flex-nowrap">
+    <ul class="d-flex flex-nowrap border-bottom">
 
     <li class="publish-buttons">
     {if or( and( eq( $version.status, 0 ), $is_creator, $object.can_edit ),and( eq( $object.status, 2 ), $object.can_edit ) )}

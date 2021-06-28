@@ -2,7 +2,7 @@
      $include_in_view = ezini( 'CustomTemplateSettings', 'IncludeInView', 'websitetoolbar.ini' )}
 
 <nav class="toolbar edit-toolbar" id="ezwt">
-    <ul class="d-flex flex-nowrap">
+    <ul class="d-flex flex-nowrap border-bottom">
 
         <li>
             <div class="input-group">

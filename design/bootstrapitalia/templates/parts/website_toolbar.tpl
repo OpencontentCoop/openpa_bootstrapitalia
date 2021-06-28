@@ -50,7 +50,7 @@
 
 <form method="post" action="{"content/action"|ezurl(no)}">
     <nav class="toolbar" id="ezwt">
-        <ul class="d-flex flex-nowrap">
+        <ul class="d-flex flex-nowrap border-bottom">
 
             {if and( $content_object.can_create, $is_container )}
                 {def $can_create_class_list = $content_object.can_create_class_list}
