@@ -227,6 +227,22 @@
       <source>See more</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Citizen's Guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Editor's Guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Note</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Add note</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

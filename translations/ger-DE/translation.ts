@@ -225,7 +225,23 @@
     </message>
     <message>
       <source>See more</source>
-      <translation>Mehr</translation>
+      <translation>Alles anzeigen</translation>
+    </message>
+    <message>
+      <source>Citizen's Guide</source>
+      <translation>Wegweiser</translation>
+    </message>
+    <message>
+      <source>Editor's Guide</source>
+      <translation>Leitfaden für die Redaktion</translation>
+    </message>
+    <message>
+      <source>Note</source>
+      <translation>Anmerkung</translation>
+    </message>
+    <message>
+      <source>Add note</source>
+      <translation>Transparenzhinweis hinzufügen</translation>
     </message>
   </context>
   <context>
@@ -741,7 +757,7 @@
     </message>
     <message>
       <source>Document number</source>
-      <translation>Dokument Nr.</translation>
+      <translation>Nr.</translation>
     </message>
     <message>
       <source>Date</source>

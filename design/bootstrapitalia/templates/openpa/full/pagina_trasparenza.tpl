@@ -90,7 +90,7 @@
             {* Guida al cittadino *}
             {if and($user_group_has_content, openpaini('Trasparenza', 'MostraGuidaAlCittadino', 'enabled')|eq('enabled'))}
             <div class="callout w-100 mw-100 note">
-                <div class="callout-title">{display_icon('it-help-circle', 'svg', 'icon')}Guida per il cittadino</div>
+                <div class="callout-title">{display_icon('it-help-circle', 'svg', 'icon')}{'Citizen\'s Guide'|i18n('bootstrapitalia')}</div>
                 {foreach $node.data_map as $identifier => $attribute}
                     {if and( $user_identifiers|contains( $identifier ), $attribute.has_content, $attribute.data_text|ne('') )}        
                         <h6>{$attribute.contentclass_attribute_name}</h6>
@@ -103,7 +103,7 @@
             {* Guida al redattore *}
             {if and( $editor_group_has_content, $node.can_create )}            
             <div class="callout w-100 mw-100 danger">
-                <div class="callout-title">{display_icon('it-help-circle', 'svg', 'icon')}Guida per il redattore</div>
+                <div class="callout-title">{display_icon('it-help-circle', 'svg', 'icon')}{'Editor\'s Guide'|i18n('bootstrapitalia')}</div>
                 {foreach $node.data_map as $identifier => $attribute}
                     {if and( $editor_identifiers|contains( $identifier ), $attribute.has_content, $attribute.data_text|ne('') )}        
                         <h6>{$attribute.contentclass_attribute_name}</h6>
@@ -125,7 +125,7 @@
             {if $trasparenza.has_nota_trasparenza}
                 <div class="callout w-100 mw-100 danger">
                     <div class="callout-title">
-                        {display_icon('it-help-circle', 'svg', 'icon')}Nota
+                        {display_icon('it-help-circle', 'svg', 'icon')}{'Note'|i18n('bootstrapitalia')}
                         {include uri="design:parts/toolbar/node_edit.tpl" current_node=$trasparenza.nota_trasparenza}
                         {include uri="design:parts/toolbar/node_trash.tpl" current_node=$trasparenza.nota_trasparenza}
                     </div>
@@ -138,7 +138,7 @@
                 </div>
             {elseif $node.object.can_create}
                 <div class="callout w-100 mw-100 danger p-4">
-                    <div class="callout-title">{display_icon('it-help-circle', 'svg', 'icon')}Nota</div>
+                    <div class="callout-title">{display_icon('it-help-circle', 'svg', 'icon')}{'Note'|i18n('bootstrapitalia')}</div>
                     <form method="post" action="{'content/action'|ezurl(no)}" style="display:inline">
                         <input type="hidden" name="ContentLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
                         <input type="hidden" name="HasMainAssignment" value="1" />
@@ -146,7 +146,7 @@
                         <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
                         <input type="hidden" name="NodeID" value="{$node.node_id}" />
                         <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-                        <button class="btn btn-link p-0" type="submit" name="NewButton"><em>Aggiungi nota trasparenza</em></button>
+                        <button class="btn btn-link p-0" type="submit" name="NewButton"><em>{'Add note'|i18n('bootstrapitalia')}</em></button>
                     </form>
                 </div>
             {/if}

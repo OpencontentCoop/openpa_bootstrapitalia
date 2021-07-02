@@ -227,6 +227,22 @@
       <source>See more</source>
       <translation>Vedi tutto</translation>
     </message>
+    <message>
+      <source>Citizen's Guide</source>
+      <translation>Guida per il cittadino</translation>
+    </message>
+    <message>
+      <source>Editor's Guide</source>
+      <translation>Guida per il redattore</translation>
+    </message>
+    <message>
+      <source>Note</source>
+      <translation>Nota</translation>
+    </message>
+    <message>
+      <source>Add note</source>
+      <translation>Aggiungi nota trasparenza</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

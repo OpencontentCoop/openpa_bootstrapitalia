@@ -53,7 +53,7 @@
     </message>
     <message>
       <source>Download file</source>
-      <translation>Prenesite datoteko</translation>
+      <translation>Prenesite datoteko.</translation>
     </message>
     <message>
       <source>File type</source>
@@ -225,6 +225,22 @@
     </message>
     <message>
       <source>See more</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Citizen's Guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Editor's Guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Note</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Add note</source>
       <translation type="unfinished"/>
     </message>
   </context>
