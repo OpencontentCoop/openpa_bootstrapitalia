@@ -174,6 +174,8 @@
                                 </a>
                             {/if}
                         </div>
+                        {else}
+                            <span data-login-top-button class="d-none"></span>
                         {/if}
                         {*
                         <div class="it-access-top-wrapper{if is_set($pagedata.contacts.link_area_personale)} d-flex{/if}">
