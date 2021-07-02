@@ -112,7 +112,7 @@
     {/if*}
   </section>
 
-  {undef $next_index $prev_index $block_wrapper_color_style}
+  {undef $next_index $prev_index $block_wrapper_color_style $block_wrapper_container_style}
 {/foreach}
 {/if}
 {undef $block_wrappers}

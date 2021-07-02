@@ -26,6 +26,7 @@ class OpenPABootstrapItaliaOperators
             'lang_selector_url',
             'valuation_translation',
             'max_upload_size',
+            'explode_contact',
         );
     }
 
@@ -90,6 +91,21 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'explode_contact':
+                $originalString = $operatorValue;
+                $strings = [];
+                $parts = explode(',', $originalString);
+                foreach ($parts as $part){
+                    $subParts = explode('|', $part);
+                    $value = trim($subParts[0]);
+                    $name = isset($subParts[1]) ? trim($subParts[1]) : $value;
+                    if (!empty($value)){
+                        $strings[$name] = $value;
+                    }
+                }
+                $operatorValue = $strings;
+                break;
 
             case 'max_upload_size':
                 $postMaxSize = trim(ini_get('post_max_size'), 'M');

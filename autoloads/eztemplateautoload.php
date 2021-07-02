@@ -21,6 +21,7 @@ $eZTemplateOperatorArray = array(
             'lang_selector_url',
             'valuation_translation',
             'max_upload_size',
+            'explode_contact',
         )
     )
 );

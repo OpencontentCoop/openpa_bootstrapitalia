@@ -45,12 +45,16 @@
             </li>
         {/if}
         {if is_set($contacts.web)}
-            <li>
-                <a class="list-item" href="{$contacts.web}">
-                    {display_icon('it-link', 'svg', 'icon icon-sm icon-white')}
-                    {def $pnkParts = $contacts.web|explode('//')}{if is_set( $pnkParts[1] )}{$pnkParts[1]}{/if}
-                </a>
-            </li>
+            {def $webs = $contacts.web|explode_contact()}
+            {foreach $webs as $name => $link}
+                <li>
+                    <a class="list-item" href="{$link|wash()}">
+                        {display_icon('it-link', 'svg', 'icon icon-sm icon-white')}
+                        {$name|wash()}
+                    </a>
+                </li>
+            {/foreach}
+            {undef $webs}
         {/if}
         {if is_set($contacts.partita_iva)}
             <li>

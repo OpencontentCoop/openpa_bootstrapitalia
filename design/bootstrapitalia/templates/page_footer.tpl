@@ -54,7 +54,15 @@
                     {def $footer_notes = fetch( 'openpa', 'footer_notes' )}
                     {if $footer_notes}
                     <div class="col pb-2">
-                        <h4><span>{'Informations'|i18n('openpa/footer')}</span></h4>
+                        <h4>
+                            <span>
+                                {if $pagedata.homepage|has_attribute('footer_info_label')}
+                                    {$pagedata.homepage|attribute('footer_info_label').content|wash()}
+                                {else}
+                                    {'Informations'|i18n('openpa/footer')}
+                                {/if}
+                            </span>
+                        </h4>
                         {attribute_view_gui attribute=$footer_notes}
                         {undef $footer_notes}
                     </div>
