@@ -21,7 +21,7 @@
 					<label class="hidden" for="{$block.id}-search-input">{$searchPlaceholder|wash()}</label>
 					<input id="{$block.id}-search-input" autocomplete="off" type="text" class="form-control border-0" placeholder="{$searchPlaceholder|wash()}" />
 					<div class="input-group-append">
-						<button class="btn btn-outline-secondary border-0" type="button"><i aria-hidden="true" class="fa fa-search" aria-hidden="true"></i></button>
+						<button class="btn btn-outline-secondary border-0" type="button"><i aria-hidden="true" class="fa fa-search"></i></button>
 					</div>
 				</div>
 			</div>
@@ -58,13 +58,13 @@
 				<a data-toggle="tab"
 				   class="nav-link active rounded-0 view-selector"
 				   href="#remote-gui-{$block.id}-geo">
-					<i aria-hidden="true" class="fa fa-map" aria-hidden="true"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
+					<i aria-hidden="true" class="fa fa-map"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
 				</a>
 			</li><li class="nav-item pr-1 text-center d-inline-block">
 				<a data-toggle="tab"
 				   class="nav-link rounded-0 view-selector"
 				   href="#remote-gui-{$block.id}-list">
-					<i aria-hidden="true" class="fa fa-th" aria-hidden="true"></i> <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
+					<i aria-hidden="true" class="fa fa-th"></i> <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
 				</a>
 			</li>
 		</ul>

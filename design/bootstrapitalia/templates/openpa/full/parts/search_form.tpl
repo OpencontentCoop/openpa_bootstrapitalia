@@ -18,7 +18,7 @@
 
     <div class="section-search-form-filters">
         <p class="small mb-1">{'Filters'|i18n('bootstrapitalia')}</p>
-        <a href="#" class="chip chip-lg selected selected no-minwith"
+        <a href="#" class="chip chip-lg selected no-minwith"
            data-section_subtree_group="all">
             <span class="chip-label">{'All'|i18n('bootstrapitalia')}</span>
         </a>
