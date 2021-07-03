@@ -73,10 +73,10 @@
                     <div class="row pt-3">
                         <div class="col-sm mb-3">
                             <div class="input-group chosen-border">
-                                <label class="d-none" for="{$block.id}-search-input">{$searchPlaceholder|wash()}</label>
+                                <label class="d-none" for="{$block.id}-search-input">{if $searchPlaceholder|eq('')}{'Search'|i18n('openpa/search')}{else}{$searchPlaceholder|wash()}{/if}</label>
                                 <input id="{$block.id}-search-input" type="text" autocomplete="off" class="form-control border-0" placeholder="{$searchPlaceholder|wash()}" />
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary border-0" type="button"><i aria-hidden="true" class="fa fa-search"></i></button>
+                                    <button class="btn btn-outline-secondary border-0" type="button"><i aria-hidden="true" class="fa fa-search"></i><span class="d-none">{'Search'|i18n('openpa/search')}</span></button>
                                 </div>
                             </div>
                         </div>
