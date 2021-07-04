@@ -12,6 +12,11 @@
     {/if}
 {/foreach}
 
+{def $menu_type = openpaini('SideMenu', 'AmministrazioneTrasparenteTipoMenu', 'default')}
+{if and($node|has_attribute('show_browsable_menu'), $node|attribute('show_browsable_menu').data_int|eq(1))}
+    {set $menu_type = 'browsable'}
+{/if}
+
 <section class="container pt-5">
     <div class="row">
         <div class="col-lg-8 px-lg-4 py-lg-2">
@@ -42,7 +47,7 @@
                     <ul class="link-list">
                         {foreach $tree_menu.children as $menu_item}
                             {include name=side_menu
-                                     uri=cond(openpaini('SideMenu', 'AmministrazioneTrasparenteTipoMenu', 'default')|eq('browsable'), 'design:openpa/full/parts/browsable_side_menu_item.tpl', 'design:openpa/full/parts/side_menu_item.tpl')
+                                     uri=cond($menu_type|eq('browsable'), 'design:openpa/full/parts/browsable_side_menu_item.tpl', 'design:openpa/full/parts/side_menu_item.tpl')
                                      menu_item=$menu_item
                                      current_node=$node
                                      max_recursion=3
