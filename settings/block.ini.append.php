@@ -36,11 +36,13 @@ ViewList[]=alt
 ViewList[]=card_image
 #ViewList[]=card_children
 ViewList[]=evidence
+ViewList[]=image
 ViewName[]
 ViewName[default]=Default
 ViewName[alt]=Testo più grande
 ViewName[card_image]=Card (solo immagine)
 ViewName[evidence]=In evidenza
+ViewName[image]=Immagine decorativa
 #ViewName[card]=Card
 #ViewName[card_children]=Card (ultimi 4 contenuti)
 ItemsPerRow[]
@@ -50,7 +52,9 @@ ContainerStyle[]
 Wide[]
 Wide[]=card_image
 Wide[]=evidence
+Wide[]=image
 CanAddShowAllLink=disabled
+CanAddIntroText=enabled
 
 [ListaAutomatica]
 Name=Lista automatica
@@ -215,6 +219,7 @@ ViewName[default]=Default
 ItemsPerRow[]
 ContainerStyle[default]=py-5
 CanAddShowAllLink=disabled
+CanAddIntroText=enabled
 
 [EventiRemoti]
 Name=Eventi (sorgente esterna)
@@ -244,6 +249,7 @@ ViewName[default]=Default
 ItemsPerRow[]
 ContainerStyle[default]=py-5
 CanAddShowAllLink=disabled
+CanAddIntroText=enabled
 
 [GMapItems]
 Name=Mappa
@@ -267,6 +273,7 @@ ViewName[map_wide]=Mappa wide (OpenStreetMap)
 ItemsPerRow[]
 ItemsPerRow[map_wide]=1
 CanAddShowAllLink=disabled
+CanAddIntroText=enabled
 
 [AreaRiservata]
 Name=Accesso Area Riservata
@@ -283,6 +290,7 @@ ViewList[]=accesso_area_riservata
 ViewName[]
 ViewName[accesso_area_riservata]=Accesso area riservata
 CanAddShowAllLink=disabled
+CanAddIntroText=enabled
 
 [HTML]
 Name=Codice HTML
@@ -299,6 +307,8 @@ ViewName[html_wide]=html wide
 ItemsPerRow[]
 ItemsPerRow[html_wide]=1
 CanAddShowAllLink=disabled
+Wide[]
+Wide[]=html_wide
 
 [Html3Colonne]
 Name=Codice HTML in 3 colonne
@@ -462,6 +472,7 @@ ItemsPerRow[]
 ContainerStyle[]
 ContainerStyle[default]=section py-5
 CanAddShowAllLink=disabled
+CanAddIntroText=enabled
 
 [OpendataRemoteContents]
 Name=Contenuti remoti (opencontent opendata)
@@ -523,6 +534,7 @@ CanAddShowAllLink=enabled
 Wide[]
 Wide[]=default
 Wide[]=datatable
+CanAddIntroText=enabled
 
 [Ricerca]
 Name=Ricerca

@@ -23,6 +23,7 @@ Input:
          border_style=''
          margin_size=''
          alt_text=''
+         inline_style = ''
          fluid=true()
          title=''}
 
@@ -31,7 +32,6 @@ Input:
 {if $image_content.is_valid}
 
     {let image        = $image_content[$image_class]
-         inline_style = ''
 		 image_css_classes = array()}
 
 	{if $fluid}

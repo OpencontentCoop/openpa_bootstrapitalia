@@ -17,7 +17,7 @@ if (in_array($action, ['add', 'remove'])) {
     if ($userNode instanceof eZContentObjectTreeNode
         && in_array($userNode->attribute('class_identifier'), eZUser::fetchUserClassNames())
         && $groupNode instanceof eZContentObjectTreeNode
-        && $userNode->attribute('contentobject_id') != eZUser::currentUserID()
+        && ($userNode->attribute('contentobject_id') != eZUser::currentUserID() || $groupNode->attribute('name') != 'Gestione Accessi redazione')
     ) {
 
         if ($action === 'add') {

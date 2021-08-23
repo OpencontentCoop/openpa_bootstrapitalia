@@ -1,5 +1,5 @@
 {if $openpa.content_infocollection.is_information_collector}
-    <form action="{"/content/action"|ezurl(no)}" method="post">
+    <form enctype="multipart/form-data" action="{"/content/action"|ezurl(no)}" method="post">
         <div class="content-infocollection">
             {include name=Validation uri='design:content/collectedinfo_validation.tpl'
                      class='message-warning text-sans-serif'

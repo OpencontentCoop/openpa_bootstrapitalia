@@ -466,7 +466,7 @@ class OpenPABootstrapItaliaOperators
         $filename = implode('.', $parts);
         $filename = str_replace(array('_', '-', '+'), ' ', $filename);
         $filename = str_replace(':', '/', $filename);
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             $filename = str_replace('('.$i.')', '', $filename);
         }
         $filename = trim($filename);

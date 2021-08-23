@@ -106,10 +106,14 @@ class ValuationConnector extends AbstractBaseConnector
             }
 
             if ($collectionAttribute) {
+                $value = isset($data[$identifier]) ? $data[$identifier] : '';
+                if ($identifier == 'link' && !empty($value) && strpos($value, 'http') === false){
+                    eZURI::transformURI($value, false, 'full');
+                }
                 $collectionAttribute->setAttribute('contentclass_attribute_id', $attribute->attribute('contentclassattribute_id'));
                 $collectionAttribute->setAttribute('contentobject_attribute_id', $attribute->attribute('id'));
                 $collectionAttribute->setAttribute('contentobject_id', $attribute->attribute('contentobject_id'));
-                $collectionAttribute->setAttribute('data_text', isset($data[$identifier]) ? $data[$identifier] : '');
+                $collectionAttribute->setAttribute('data_text', $value);
                 $collectionAttribute->store();
             }
         }
@@ -137,20 +141,22 @@ class ValuationConnector extends AbstractBaseConnector
             'context' => eZSys::serverVariable('HTTP_USER_AGENT')
         ];
 
-        $this->store($data);
-
         $schema = [
             'title' => '',
             'type' => 'object',
             'properties' => []
         ];
 
+        $hasRequiredFields = false;
         foreach ($this->valuationAttributes as $identifier => $attribute) {
             if (!in_array($identifier, $this->hideAttributes)) {
                 $property = [
                     'title' => $attribute->attribute('contentclass_attribute_name'),
-                    'required' => false
+                    'required' => $attribute->attribute('contentclass_attribute')->attribute('is_required') > 0
                 ];
+                if ($property['required']){
+                    $hasRequiredFields = true;
+                }
                 if ($attribute->attribute('data_type_string') == eZSelectionType::DATA_TYPE_STRING) {
                     /** @var array $optionsArray */
                     $optionsArray = $attribute->attribute('class_content');
@@ -159,6 +165,10 @@ class ValuationConnector extends AbstractBaseConnector
                 }
                 $schema['properties'][$identifier] = $property;
             }
+        }
+
+        if (!$hasRequiredFields){
+            $this->store($data);
         }
 
         return $schema;

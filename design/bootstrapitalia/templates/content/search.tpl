@@ -9,7 +9,7 @@
 {set $page_limit = 20}
 {def $filters = array()
      $search_hash = $params._search_hash|merge(hash('offset', $view_parameters.offset,'limit', $page_limit ))
-     $search = fetch( ezfind, search, $search_hash )}
+     $search = fetch( extraindex, search_with_external_data, $search_hash )}
 
 {def $classes = array()}
 {if openpaini('MotoreRicerca', 'IncludiClassi', array())|count()}
@@ -269,7 +269,11 @@
                     <div class="row row-cols-1 row-cols-md-2">
                         {foreach $search.SearchResult as $child}
                         <div class="col mb-3">
-                            {node_view_gui content_node=$child view=search_result show_icon=true() image_class=widemedium}
+                            {if is_set($child.is_external_data)}
+                                {include name=external_data uri='design:parts/search/external_data_search_result.tpl' data=$child}
+                            {else}
+                                {node_view_gui content_node=$child view=search_result show_icon=true() image_class=widemedium}
+                            {/if}
                         </div>
                         {/foreach}
                     </div>

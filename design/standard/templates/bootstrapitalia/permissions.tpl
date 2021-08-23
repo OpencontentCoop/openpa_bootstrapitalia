@@ -126,12 +126,17 @@
             {{else}}
                 {{:~i18n(metadata.name)}} <br /><small>{{:~i18n(metadata.classDefinition.name)}}</small>
             {{/if}}
-            <a target="_blank" href="/user/setting/{{:metadata.id}}"><i aria-hidden="true" class="fa fa-gear"></i></a>
+            <p style="white-space: nowrap;">
+                <a title="User settings" target="_blank" href="/user/setting/{{:metadata.id}}"><i aria-hidden="true" class="fa fa-gear"></i></a>
+                <a title="Activate all" href="#" data-user="{{:metadata.mainNodeId}}" class="ActivateAllUserPermission text-decoration-none pl-2"><i class="fa fa-toggle-on"></i></a>
+                <a title="Deactivate all" href="#" data-user="{{:metadata.mainNodeId}}" class="DeactivateAllUserPermission text-decoration-none pl-2"><i class="fa fa-toggle-off"></i></a>
+            </p>
         </td>
 
         {{for groups ~current=metadata}}
-            <td>
+            <td class="text-center">
                 <div class="toggles">
+                    <i class="fa fa-circle-o-notch fa-spin fa-fw spinner" style="display:none"></i>
                     <label for="user-permission-{{:~current.mainNodeId}}-{{:node}}" style="line-height: 1px;text-align:center">
                         <input type="checkbox" data-user="{{:~current.mainNodeId}}" data-group="{{:node}}" id="user-permission-{{:~current.mainNodeId}}-{{:node}}" name="UserPermission" {{if active}}checked = "checked"{{/if}} />
                         <span class="lever" style="margin-top: 0;display: inline-block;float:none"></span>
@@ -246,6 +251,8 @@
 
                     renderData.find('[name="UserPermission"]').on('change', function (e) {
                         var self = $(this);
+                        var container = self.parent();
+                        var spinner = container.parent().find('.spinner');
                         var user = self.data('user');
                         var group = self.data('group');
                         var action = self.is(':checked') ? 'add' : 'remove';
@@ -255,7 +262,8 @@
                         if ( tokenNode ){
                             csrfToken = tokenNode.getAttribute('title');
                         }
-
+                        container.hide();
+                        spinner.show();
                         $.ajax({
                             url: '/bootstrapitalia/permissions/'+action+'/'+user+'/'+group,
                             type: 'post',
@@ -265,11 +273,34 @@
                                 if (response.code !== 'success'){
                                     self.prop('checked', action !== 'add');
                                 }
+                                spinner.hide();
+                                container.show();
                             },
                             error: function () {
                                 self.prop('checked', action !== 'add');
+                                spinner.hide();
+                                container.show();
                             }
                         });
+                    });
+
+                    renderData.find('.ActivateAllUserPermission').on('click', function (e) {
+                        var user = $(this).data('user');
+                        renderData.find('[name="UserPermission"][data-user="'+user+'"]').each(function (){
+                            if (!$(this).is(':checked')){
+                                $(this).trigger('click');
+                            }
+                        });
+                        e.preventDefault();
+                    });
+                    renderData.find('.DeactivateAllUserPermission').on('click', function (e) {
+                        var user = $(this).data('user');
+                        renderData.find('[name="UserPermission"][data-user="'+user+'"]').each(function (){
+                            if ($(this).is(':checked')){
+                                $(this).trigger('click');
+                            }
+                        });
+                        e.preventDefault();
                     });
 
                     renderData.find('.edit-object').on('click', function (e) {

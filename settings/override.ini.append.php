@@ -438,6 +438,13 @@ Subdir=templates
 Match[type]=Singolo
 Match[view]=evidence
 
+[block_singolo_image]
+Source=block/view/view.tpl
+MatchFile=block/singolo_image.tpl
+Subdir=templates
+Match[type]=Singolo
+Match[view]=image
+
 
 #### Eventi
 
@@ -529,6 +536,13 @@ MatchFile=block/html.tpl
 Subdir=templates
 Match[type]=HTML
 Match[view]=wide
+
+[block_HTML_html_wide]
+Source=block/view/view.tpl
+MatchFile=block/html.tpl
+Subdir=templates
+Match[type]=HTML
+Match[view]=html_wide
 
 #### OpendataRemoteContents
 

@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            {def $has_managed = cond(or($node|has_attribute('managed_by_area'), $node|has_attribute('managed_by_political_body')), true(), false())}
+                            {def $has_managed = cond(or($node|has_attribute('managed_by_area'), $node|has_attribute('managed_by_political_body'), $node|has_attribute('help')), true(), false())}
                             <div class="col-lg-{if $has_managed}6{else}12{/if}">
                                 <h1>{$node.name|wash()}</h1>
                                 {include uri='design:openpa/full/parts/main_attributes.tpl'}
@@ -78,15 +78,15 @@
                                             {undef $object}
                                         {/foreach}
                                     {/if}
-                                    {*if $node|has_attribute('help')}
+                                    {if $node|has_attribute('help')}
                                         {foreach $node|attribute('help').content.relation_list as $item}
                                             {def $object = fetch(content, object, hash('object_id', $item.contentobject_id))}
                                             {if $object.can_read}
-                                                {content_view_gui content_object=$object view=embed show_icon=false() view_variation="card-teaser-info"}
+                                                {content_view_gui content_object=$object view=embed show_icon=false()}
                                             {/if}
                                             {undef $object}
                                         {/foreach}
-                                    {/if*}
+                                    {/if}
                                 </div>
                             </div>
                             {/if}

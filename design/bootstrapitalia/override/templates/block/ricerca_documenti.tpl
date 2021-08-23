@@ -346,6 +346,7 @@ $(document).ready(function () {
 				});
 				isLoadedFacetsCount = true;
 				if (yearList.length > 0){
+					yearList.sort();
 					var dataListContent = $('<datalist id="years"></datalist>');
 					$.each(yearList, function (){
 						dataListContent.append('<option value="'+this+'">');

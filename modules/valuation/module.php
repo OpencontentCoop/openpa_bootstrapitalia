@@ -19,6 +19,11 @@ $ViewList['dashboard'] = array(
     'params' => array('ID'),
     'unordered_params' => array('offset' => 'Offset'),
 );
+$ViewList['csv'] = array(
+    'script' => 'csv.php',
+    'functions' => array('dashboard'),
+    'params' => array()
+);
 
 $FunctionList = array();
 $FunctionList['dashboard'] = array();
