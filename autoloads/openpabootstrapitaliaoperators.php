@@ -27,6 +27,7 @@ class OpenPABootstrapItaliaOperators
             'valuation_translation',
             'max_upload_size',
             'explode_contact',
+            'is_empty_matrix',
         );
     }
 
@@ -91,6 +92,33 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'is_empty_matrix':
+                if ($operatorValue instanceof eZContentObjectAttribute
+                    && $operatorValue->attribute('data_type_string') == eZMatrixType::DATA_TYPE_STRING) {
+                    /** @var eZMatrix $matrix */
+                    $matrix = $operatorValue->attribute('content');
+                    $rows = $matrix->attribute('rows');
+                    $hasContent = false;
+                    foreach ($rows['sequential'] as $index => $row) {
+                        $isEmpty = true;
+                        foreach ($row['columns'] as $column) {
+                            $column = trim($column);
+                            if (!empty($column)) {
+                                $isEmpty = false;
+                                break;
+                            }
+                        }
+                        if (!$isEmpty) {
+                            $hasContent = true;
+                            break;
+                        }
+                    }
+                    $operatorValue = !$hasContent;
+                }else{
+                    $operatorValue = true;
+                }
+                break;
 
             case 'explode_contact':
                 $originalString = $operatorValue;

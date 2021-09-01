@@ -33,11 +33,11 @@
                 
                 <div class="point-list-aside point-list-{if $day}warning{else}info{/if}">
                     {if $day}
-                        <div class="point-date text-monospace">{$day}</div>
-                        <div class="point-month text-monospace">{$month}</div>
+                        <div class="point-date text-monospace" style="max-height: 53px;">{$day}</div>
+                        <div class="point-month text-monospace" style="max-height: 20px;">{$month}</div>
                     {elseif $processing_time}
-                        <div class="point-date text-monospace">{$processing_time}</div>            
-                        <div class="point-month text-monospace"><small>{'days'|i18n('bootstrapitalia')}</small></div>
+                        <div class="point-date text-monospace" style="max-height: 53px;">{$processing_time}</div>
+                        <div class="point-month text-monospace" style="max-height: 20px;"><small>{'days'|i18n('bootstrapitalia')}</small></div>
                     {else}
                         <div class="point-date text-monospace invisible">00</div>
                         <div class="point-month text-monospace invisible">000</div>
@@ -53,11 +53,24 @@
                                 </a>
                                 {if $child|has_attribute('has_temporal_coverage')}
                                     <ul class="list-unstyled m-0">
+                                    {def $tc_count = $child|attribute('has_temporal_coverage').content.relation_list|count()}
                                     {foreach $child|attribute('has_temporal_coverage').content.relation_list as $item}
                                         {def $temporal_coverage = fetch(content, object, hash('object_id', $item.contentobject_id))}
-                                        <li><small>Dal {$temporal_coverage|attribute('valid_from').content.timestamp|l10n( shortdate )} al {$temporal_coverage|attribute('valid_through').content.timestamp|l10n( shortdate )}</small></li>
+                                        <li>
+                                            <small>
+                                                {if $tc_count|gt(1)}
+                                                    {attribute_view_gui attribute=$temporal_coverage|attribute('name')}:
+                                                {/if}
+                                                {$temporal_coverage|attribute('valid_from').content.timestamp|l10n( shortdate )}
+                                                {if $temporal_coverage|has_attribute('valid_through')}
+                                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                                    {$temporal_coverage|attribute('valid_through').content.timestamp|l10n( shortdate )}
+                                                {/if}
+                                            </small>
+                                        </li>
                                         {undef $temporal_coverage}
                                     {/foreach}
+                                    {undef $tc_count}
                                     </ul>
                                 {/if}
                             </h5>

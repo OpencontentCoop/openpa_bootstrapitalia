@@ -237,6 +237,13 @@ Subdir=templates
 Match[class_identifier]=channel
 Match[attribute_identifier]=location
 
+[datatype_view_public_service_has_temporal_coverage]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_public_service_has_temporal_coverage.tpl
+Subdir=templates
+Match[class_identifier]=public_service
+Match[attribute_identifier]=has_temporal_coverage
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################

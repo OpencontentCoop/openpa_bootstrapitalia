@@ -22,6 +22,7 @@ $eZTemplateOperatorArray = array(
             'valuation_translation',
             'max_upload_size',
             'explode_contact',
+            'is_empty_matrix',
         )
     )
 );
