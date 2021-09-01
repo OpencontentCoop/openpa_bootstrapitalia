@@ -13,3 +13,13 @@ $primary-s: 97.36;
 $primary-b: 89.02;
 
 @import "default";
+
+
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone,
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone a,
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-brand-wrapper a {
+  color: #222;
+}
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone .it-socials ul .icon{
+  fill: #222;
+}
