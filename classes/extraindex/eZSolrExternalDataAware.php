@@ -68,6 +68,7 @@ class eZSolrExternalDataAware extends eZSolr
             $this->FindINI->variable('SiteSettings', 'URLProtocol') . $this->SiteINI->variable('SiteSettings', 'SiteURL') . '/');
         $doc->addField(ezfSolrDocumentFieldBase::generateMetaFieldName('path_string'), '/0');
         $doc->addField(ezfSolrDocumentFieldBase::generateMetaFieldName('is_invisible'), false);
+        $doc->addField(ezfSolrDocumentFieldBase::generateMetaFieldName('anon_access'), true);
         $doc->addField(ezfSolrDocumentFieldBase::generateMetaFieldName('contentclass_id'), $contentClassId);
         $doc->addField(ezfSolrDocumentFieldBase::generateMetaFieldName('class_name'), $contentClassName);
         $doc->addField(ezfSolrDocumentFieldBase::generateMetaFieldName('name'), $document->getName());
