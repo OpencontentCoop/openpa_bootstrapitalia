@@ -61,6 +61,22 @@
 {if $pagedata.homepage|has_attribute('hide_access_menu')}
     {set $hide_access = cond($pagedata.homepage|attribute('hide_access_menu').data_int|eq(1), true(), false())}
 {/if}
+{def $editor_access_in_footer = false()}
+{if $pagedata.homepage|has_attribute('editor_access_in_footer')}
+    {set $editor_access_in_footer = cond($pagedata.homepage|attribute('editor_access_in_footer').data_int|eq(1), true(), false())}
+{/if}
+
+{def $link_area_personale = cond(is_set($pagedata.contacts.link_area_personale), $pagedata.contacts.link_area_personale, false())}
+{def $link_area_personale_title = 'Access the personal area'|i18n('bootstrapitalia')}
+{def $link_area_personale_parts = $link_area_personale|explode('|')}
+{if count($link_area_personale_parts)|gt(1)}
+    {set $link_area_personale = $link_area_personale_parts[0]}
+    {set $link_area_personale_title = $link_area_personale_parts[1]}
+{/if}
+
+{if and($editor_access_in_footer, $link_area_personale|not)}
+    {set $hide_access = true()}
+{/if}
 
 <div class="it-header-slim-wrapper{if current_theme_has_variation('light_slim')} theme-light{/if}">
     <div class="container">
@@ -135,42 +151,49 @@
 
                         {if $hide_access|not()}
                         <div class="it-access-top-wrapper">
-                            {if is_set($pagedata.contacts.link_area_personale)}
-                                <div data-login-top-button class="dropdown" data-icon="it-user" style="display: none;">
-                                    <a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: none; font-size: 1rem">
-                                        <span class="rounded-icon">
-                                            {display_icon('it-user', 'svg', 'icon icon-primary notrasform')}
-                                        </span>
-                                        <span class="d-none d-lg-block">{'Access the personal area'|i18n('bootstrapitalia')}</span>
-                                        {display_icon('it-expand', 'svg', 'icon-expand icon icon-white')}
-                                    </a>
-                                    <div class="dropdown-user dropdown-menu" aria-labelledby="dropdown-user">
-                                        <div class="link-list-wrapper">
-                                            <ul class="link-list">
-                                                <li>
-                                                    <a class="list-item left-icon" href="{$pagedata.contacts.link_area_personale}" title="{'Access the personal area'|i18n('bootstrapitalia')}">
-                                                        {display_icon('it-user', 'svg', 'icon icon-sm icon-primary left')}
-                                                        <span class="d-none d-md-inline-block">{'Access the personal area'|i18n('bootstrapitalia')}</span></a>
-                                                </li>
-                                                <li>
-                                                    <a class="list-item ez-login left-icon" href="{"/user/login"|ezurl(no)}" title="{'Site editors access'|i18n('bootstrapitalia')}">
-                                                        {display_icon('it-pencil', 'svg', 'icon icon-sm icon-primary left')}
-                                                        <span class="d-none d-md-inline-block">{'Site editors access'|i18n('bootstrapitalia')}</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                            {if $link_area_personale}
+                                {if $editor_access_in_footer|not()}
+                                    <div data-login-top-button class="dropdown" data-icon="it-user" style="display: none;">
+                                        <a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user"
+                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: none; font-size: 1rem">
+                                            <span class="rounded-icon">
+                                                {display_icon('it-user', 'svg', 'icon icon-primary notrasform')}
+                                            </span>
+                                            <span class="d-none d-lg-block">{'Access the personal area'|i18n('bootstrapitalia')}</span>
+                                            {display_icon('it-expand', 'svg', 'icon-expand icon icon-white')}
+                                        </a>
+                                        <div class="dropdown-user dropdown-menu" aria-labelledby="dropdown-user">
+                                            <div class="link-list-wrapper">
+                                                <ul class="link-list">
+                                                    <li>
+                                                        <a class="list-item left-icon" href="{$link_area_personale}" title="{$link_area_personale_title|wash()}">
+                                                            {display_icon('it-user', 'svg', 'icon icon-sm icon-primary left')}
+                                                            <span class="d-none d-md-inline-block">{$link_area_personale_title|wash()}</span></a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="list-item ez-login left-icon" href="{"/user/login"|ezurl(no)}" title="{'Site editors access'|i18n('bootstrapitalia')}">
+                                                            {display_icon('it-pencil', 'svg', 'icon icon-sm icon-primary left')}
+                                                            <span class="d-none d-md-inline-block">{'Site editors access'|i18n('bootstrapitalia')}</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                {else}
+                                    <a data-login-top-button class="btn btn-primary btn-icon btn-full" href="{$link_area_personale}"
+                                       data-icon="it-user"
+                                       title="{$link_area_personale_title|wash()}">
+                                         <span class="rounded-icon">{display_icon('it-user', 'svg', 'icon-primary')}</span>
+                                        <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
+                                    </a>
+                                {/if}
                             {else}
                                 <a data-login-top-button class="btn btn-primary btn-icon btn-full ez-login" href="{"/user/login"|ezurl(no)}"
                                    data-icon="it-user"
-                                   title="{'Access the personal area'|i18n('bootstrapitalia')}" style="display: none;">
-                                     <span class="rounded-icon">
-                                         {display_icon('it-user', 'svg', 'icon-primary')}
-                                    </span>
-                                    <span class="d-none d-lg-block">{'Access the personal area'|i18n('bootstrapitalia')}</span>
+                                   title="{$link_area_personale_title|wash()}" style="display: none;">
+                                     <span class="rounded-icon">{display_icon('it-user', 'svg', 'icon-primary')}</span>
+                                    <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
                                 </a>
                             {/if}
                         </div>
@@ -178,9 +201,9 @@
                             <span data-login-top-button class="d-none"></span>
                         {/if}
                         {*
-                        <div class="it-access-top-wrapper{if is_set($pagedata.contacts.link_area_personale)} d-flex{/if}">
-                            {if is_set($pagedata.contacts.link_area_personale)}
-                                <a class="btn btn-primary btn-icon btn-full" href="{$pagedata.contacts.link_area_personale}"
+                        <div class="it-access-top-wrapper{if $link_area_personale} d-flex{/if}">
+                            {if is_set($link_area_personale)}
+                                <a class="btn btn-primary btn-icon btn-full" href="{$link_area_personale}"
                                    data-toggle="tooltip" data-placement="bottom" title="Accesso area personale">
                                      <span class="rounded-icon">
                                          {display_icon('it-user', 'svg', 'icon icon-primary')}
