@@ -43,7 +43,7 @@
 
 {foreach $main_node.parent.data_map.footer_link.content.relation_list as $relation}  
 {def $related = fetch( content, object, hash( object_id, $relation.contentobject_id ) )}        
-{$related.name}: https://{concat($site_url, $related.main_node.url_alias|ezurl('no'))}  
+{$related.name}: {concat($site_url, $related.main_node.url_alias|ezurl('no'))}
 {undef $related}
 {/foreach}
 {/if}

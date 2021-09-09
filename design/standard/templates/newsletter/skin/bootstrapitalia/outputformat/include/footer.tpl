@@ -71,7 +71,7 @@
                                 <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:8pt;line-height:1;text-align:left;color:#FFFFFF;">
                                 {foreach $main_node.parent.data_map.footer_link.content.relation_list as $relation}
                                   {def $related = fetch( content, object, hash( object_id, $relation.contentobject_id ) )}        
-                                    <a style="color: #fff;" href="http://{concat($site_url, $related.main_node.url_alias|ezurl('no'))}">{$related.name|wash()}</a>
+                                    <a style="color: #fff;" href="{concat($site_url, $related.main_node.url_alias|ezurl('no'))}">{$related.name|wash()}</a>
                                   {delimiter} - {/delimiter}
                                   {undef $related}
                                 {/foreach}  
