@@ -244,6 +244,12 @@ Subdir=templates
 Match[class_identifier]=public_service
 Match[attribute_identifier]=has_temporal_coverage
 
+[datatype_view_matrix_lotto]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype/view/matrix_lotto.tpl
+Subdir=templates
+Match[class_identifier]=lotto
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################
@@ -278,6 +284,22 @@ Source=content/datatype/edit/ezobjectrelationlist.tpl
 MatchFile=datatype/edit/ezobjectrelationlist_topics.tpl
 Subdir=templates
 Match[attribute_identifier]=topics
+
+[datatype_edit_matrix_lotto]
+Source=content/datatype/edit/ezmatrix.tpl
+MatchFile=datatype/edit/matrix_lotto.tpl
+Subdir=templates
+Match[class_identifier]=lotto
+
+############################################
+############################################ TEXT-LINKED
+############################################
+
+[embed-inline_opening_hours_specification]
+Source=node/view/text_linked.tpl
+MatchFile=text_linked/dataset_lotto.tpl
+Subdir=templates
+Match[class_identifier]=dataset_lotto
 
 ############################################
 ############################################ BLOCK

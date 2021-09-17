@@ -24,4 +24,7 @@ FieldConnectors[opening_hours_specification]=FullRelationsField
 FieldConnectors[opening_hours]=OpeningHoursMatrixField
 FieldConnectors[topics]=TopicsField
 FieldConnectors[openpamaskedstring]=MaskTextLineFieldConnector
+FieldConnectors[lotto/partecipanti]=PartecipanteLottoMatrixField
+FieldConnectors[lotto/aggiudicatari]=PartecipanteLottoMatrixField
+FieldConnectors[lotto/invitati]=PartecipanteLottoMatrixField
 */ ?>

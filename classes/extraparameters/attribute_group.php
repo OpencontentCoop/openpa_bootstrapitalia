@@ -26,6 +26,8 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
     {
         $attributes = parent::attributes();
 
+        $attributes[] = 'hide_index';
+
         $attributes[] = 'group_list';
         $attributes[] = 'sort_list';
         $attributes[] = 'hidden_list';
@@ -160,6 +162,10 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
 
     public function attribute($key)
     {
+        if ($key == 'hide_index') {
+            return (bool)$this->getClassParameter('hide_index');
+        }
+
         $groupList = $this->getGroupList();
 
         if ($key == 'group_list') {

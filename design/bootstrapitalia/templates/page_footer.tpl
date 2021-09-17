@@ -113,6 +113,6 @@
 </footer>
 
 
-<a href="#" aria-hidden="true" data-attribute="back-to-top" class="back-to-top shadow" aria-label="{'back to top'|i18n('bootstrapitalia')}">
+<a href="#" aria-hidden="true" data-attribute="back-to-top" class="back-to-top shadow" aria-label="{'back to top'|i18n('openpa/footer')}">
     {display_icon('it-arrow-up', 'svg', 'icon icon-light')}
 </a>

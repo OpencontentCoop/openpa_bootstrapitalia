@@ -10,6 +10,7 @@
     </label>
 </div>
 {else}
+
 <h6>Gruppi abilitati</h6>
 {foreach $handler.group_list as $identifier => $name}
     <div class="row">
@@ -42,6 +43,12 @@
     </div>
 {/foreach}
 {/if}
+
+<div class="checkbox mt-3">
+    <label>
+        <input type="checkbox" name="extra_handler_{$handler.identifier}[class][{$class.identifier}][hide_index]" {if $handler.hide_index}checked="checked"{/if} value="1"/> Nascondi l'indice della pagina
+    </label>
+</div>
 
 <div class="form-group mt-5">
     <label for="add-{$handler.identifier}">Aggiungi gruppo</label>

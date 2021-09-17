@@ -32,6 +32,12 @@
 {/foreach}
 {/if}
 
+<div class="checkbox mt-3">
+    <label>
+        <input type="checkbox" name="extra_handler_{$handler.identifier}[class][{$class.identifier}][hide_index]" {if $handler.hide_index}checked="checked"{/if} value="1"/> Nascondi l'indice della pagina
+    </label>
+</div>
+
 <div class="form-group mt-5">
     <label for="add-{$handler.identifier}">Aggiungi gruppo</label>
     <input id="add-{$handler.identifier}" type="text" name="extra_handler_{$handler.identifier}[class][{$class.identifier}][add_group]" value=""  />

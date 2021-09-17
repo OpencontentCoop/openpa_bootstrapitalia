@@ -5,7 +5,7 @@
 {/if}
 {def $summary_items = array()}
 {def $attribute_groups = class_extra_parameters($object.class_identifier, 'attribute_group')}
-
+{def $hide_index = $attribute_groups.hide_index}
 {if $show_all_attributes}
     {foreach $object.data_map as $attribute_identifier => $attribute}
         {if or($attribute.has_content, $attribute.data_type_string|eq('ezuser'))}
@@ -68,8 +68,8 @@
 {/if}
 
 {if count($summary_items)|gt(0)}
-    <div class="row{if count($summary_items)|gt(1)} border-top row-column-border row-column-menu-left{/if} attribute-list">
-        {if count($summary_items)|gt(1)}
+    <div class="row{if and(count($summary_items)|gt(1), $hide_index|not())} border-top row-column-border row-column-menu-left{/if} attribute-list">
+        {if and(count($summary_items)|gt(1), $hide_index|not())}
         <aside class="col-lg-4">
             <div class="sticky-wrapper navbar-wrapper">
                 <nav class="navbar it-navscroll-wrapper it-top-navscroll navbar-expand-lg">
@@ -104,9 +104,9 @@
             </div>
         </aside>
         {/if}
-        <section class="{if count($summary_items)|eq(1)}col w-100 px-lg-4 pb-lg-4{else}col-lg-8{/if}">
+        <section class="{if or(count($summary_items)|eq(1), $hide_index)}col w-100 px-lg-4 pb-lg-4{else}col-lg-8{/if}">
             {foreach $summary_items as $index => $item}
-                <article id="{$item.slug|wash()}" class="it-page-section mb-2 anchor-offset clearfix" {*if $index|eq(0)} class="anchor-offset"{/if*}>
+                <article id="{$item.slug|wash()}" class="it-page-section mb-4 {if and(count($summary_items)|gt(1), $hide_index|not())}anchor-offset {/if}clearfix" {*if $index|eq(0)} class="anchor-offset"{/if*}>
                     {if and(count($summary_items)|gt(1), $attribute_groups.hidden_list|contains($item.slug)|not())}
                     <h4>{$item.title|wash()}</h4>
                     {/if}

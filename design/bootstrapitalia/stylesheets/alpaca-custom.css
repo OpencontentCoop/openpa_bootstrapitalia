@@ -55,6 +55,7 @@
     margin-bottom: 1em;
 }
 
+.alpaca-form .alpaca-field-table > legend,
 .alpaca-display .alpaca-field-table > legend {
     display: block;
 }
