@@ -71,7 +71,9 @@
     {ezscript_require(array(
         'jstree.min.js',
         'bootstrap-datetimepicker.min.js',
-        'jquery.price_format.min.js'
+        'jquery.price_format.min.js',
+        'jquery.opendatabrowse.js',
+        'fields/RelationBrowse.js'
     ))}
     {ezcss_require(array(
         'alpaca.min.css',
