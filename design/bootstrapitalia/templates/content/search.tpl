@@ -317,30 +317,30 @@ $(document).ready(function () {
         }
     });
 {/literal}
-   $('#searchModal').on('search_gui_initialized', function (event, searchGui) {ldelim}
+    $('#searchModal').on('search_gui_initialized', function (event, searchGui) {ldelim}
         {if $params.subtree|count()}
         {foreach $params.subtree as $subtree}
-            searchGui.activateSubtree({$subtree|wash(javascript)});
+        searchGui.activateSubtree({$subtree|strip_tags()|wash(javascript)});
         {/foreach}
         {elseif $params.subtree_boundary}
-        searchGui.activateSubtree({$params.subtree_boundary|wash(javascript)});
+        searchGui.activateSubtree({$params.subtree_boundary|strip_tags()|wash(javascript)});
         {/if}
         {if $params.topic|count()}
         {foreach $params.topic as $topic}
-        searchGui.activateTopic({$topic|wash(javascript)});
+        searchGui.activateTopic({$topic|strip_tags()|wash(javascript)});
         {/foreach}
         {/if}
         {if $params.from}
-        searchGui.activateFrom("{$params.from|datetime( 'custom', '%j/%m/%Y' )|wash(javascript)}");
+        searchGui.activateFrom("{$params.from|datetime( 'custom', '%j/%m/%Y' )|strip_tags()|wash(javascript)}");
         {/if}
         {if $params.to}
-        searchGui.activateTo("{$params.to|datetime( 'custom', '%j/%m/%Y' )|wash(javascript)}");
+        searchGui.activateTo("{$params.to|datetime( 'custom', '%j/%m/%Y' )|strip_tags()|wash(javascript)}");
         {/if}
         {if $params.only_active}
         searchGui.activateActiveContent();
         {/if}
         {if $params.text}
-        $('#search-gui-text').val('{$params.text|wash(javascript)}');
+        $('#search-gui-text').val('{$params.text|strip_tags()|wash(javascript)}');
         {/if}
     {rdelim});
 {literal}
