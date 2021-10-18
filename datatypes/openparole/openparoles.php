@@ -171,7 +171,7 @@ class OpenPARoles
             $contents = $this->getContent();
             foreach ($contents as $content) {
                 $role = $this->getRole($content['metadata']['id']);
-                if ($role) {
+                if ($role instanceof eZContentObject) {
                     $roleDataMap = $role->dataMap();
                     $personIdList = isset($roleDataMap['person']) && $roleDataMap['person']->hasContent() ?
                         explode('-', $roleDataMap['person']->toString()) : [];
@@ -193,7 +193,7 @@ class OpenPARoles
             $idList = [];
             foreach ($contents as $content) {
                 $role = $this->getRole($content['metadata']['id']);
-                if ($role) {
+                if ($role instanceof eZContentObject) {
                     $roleDataMap = $role->dataMap();
                     $personIdList = isset($roleDataMap['person']) && $roleDataMap['person']->hasContent() ?
                         explode('-', $roleDataMap['person']->toString()) : [];
@@ -218,7 +218,7 @@ class OpenPARoles
             $idList = [];
             foreach ($contents as $content) {
                 $role = $this->getRole($content['metadata']['id']);
-                if ($role) {
+                if ($role instanceof eZContentObject) {
                     $roleDataMap = $role->dataMap();
                     $entityIdList = isset($roleDataMap['for_entity']) && $roleDataMap['for_entity']->hasContent() ?
                         explode('-', $roleDataMap['for_entity']->toString()) : [];
@@ -242,7 +242,7 @@ class OpenPARoles
             $contents = $this->getContent();
             foreach ($contents as $content) {
                 $role = $this->getRole($content['metadata']['id']);
-                if ($role) {
+                if ($role instanceof eZContentObject) {
                     $roleDataMap = $role->dataMap();
                     $entityIdList = isset($roleDataMap['for_entity']) && $roleDataMap['for_entity']->hasContent() ?
                         explode('-', $roleDataMap['for_entity']->toString()) : [];
@@ -263,7 +263,7 @@ class OpenPARoles
             $contents = $this->getContent();
             foreach ($contents as $content) {
                 $role = $this->getRole($content['metadata']['id']);
-                if ($role) {
+                if ($role instanceof eZContentObject) {
                     $roleDataMap = $role->dataMap();
                     $type = $role->attribute('name');
                     if (isset($roleDataMap['label']) && $roleDataMap['label']->hasContent()) {
