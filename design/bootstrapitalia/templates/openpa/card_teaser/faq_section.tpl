@@ -14,7 +14,7 @@
     <div class="card-body{if $node|has_attribute('image')} pr-3{/if}">
         {if $hide_title|not()}
         <h5 class="card-title mb-1">
-            {$node.name|wash()}
+            {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
             {if $node.can_edit}
                 <a href="{$node.url_alias|ezurl(no)}">
 				<span class="fa-stack">
