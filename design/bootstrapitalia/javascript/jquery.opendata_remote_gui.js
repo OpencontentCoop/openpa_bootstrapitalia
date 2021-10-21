@@ -17,7 +17,8 @@
             'removeExistingEmptyFacets': false,
             'fields': [],
             'facets': [],
-            'responseCallback': null
+            'responseCallback': null,
+            'view': 'card_teaser'
         };
 
     function Plugin(element, options) {
@@ -29,7 +30,7 @@
             var replaceEndpoint = localAccessPrefix.length === 0 ? 'opendata/api' : localAccessPrefix + '/opendata/api';
             this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', replaceEndpoint);
             this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', replaceEndpoint);
-            this.settings.searchApi += '?view=card_teaser&q=';
+            this.settings.searchApi += '?view='+this.settings.view+'&q=';
         }
         this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
         this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
@@ -249,10 +250,14 @@
             let baseQuery = plugin.buildQuery();
             let paginatedQuery = baseQuery + ' and limit ' + plugin.settings.limitPagination + ' offset ' + plugin.currentPage * plugin.settings.limitPagination;
             resultsContainer.html(plugin.spinnerTpl);
-
+            let data = null;
+            if (plugin.settings.remoteUrl !== '') {
+                data = {view: plugin.settings.view};
+            }
             $.ajax({
                 type: "GET",
                 url: plugin.searchUrl + paginatedQuery,
+                data: data,
                 dataType: plugin.ajaxDatatype,
                 success: function (response,textStatus,jqXHR) {
                     if (!plugin.detectError(response,jqXHR)){

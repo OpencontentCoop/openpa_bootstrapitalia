@@ -58,6 +58,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                 $args = compact([
                     "NodeID", "Module", "tpl", "LanguageCode", "ViewMode", "Offset", "ini", "viewParameters", "collectionAttributes", "validation"
                 ]);
+                eZURI::setTransformURIMode('full');
                 $result = eZClusterFileHandler::instance($cacheFileArray['cache_path'])
                     ->processCache(
                         array('eZNodeviewfunctions', 'contentViewRetrieve'),
