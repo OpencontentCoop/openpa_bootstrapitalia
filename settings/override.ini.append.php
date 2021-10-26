@@ -295,7 +295,7 @@ Match[class_identifier]=lotto
 ############################################ TEXT-LINKED
 ############################################
 
-[embed-inline_opening_hours_specification]
+[text_linked_dataset_lotto]
 Source=node/view/text_linked.tpl
 MatchFile=text_linked/dataset_lotto.tpl
 Subdir=templates
