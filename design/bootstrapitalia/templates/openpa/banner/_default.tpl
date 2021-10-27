@@ -22,7 +22,10 @@
     </div>
     {/if}
     <div class="banner-text">
-        <h4>{$node.name|wash()}</h4>
+        <h4>
+            {$node.name|wash()}
+            {include uri='design:parts/card_title_suffix.tpl'}
+        </h4>
         {if $node|has_abstract()}
             <p>{$node|abstract()|oc_shorten(160)}</p>
     {/if}

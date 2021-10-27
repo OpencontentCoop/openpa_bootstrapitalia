@@ -18,6 +18,7 @@
         <h5 class="card-title text-{$background_color_class}">
             <a class="stretched-link text-decoration-none text-{$background_color_class}" href="{$openpa.content_link.full_link}">
                 {$node.name|wash()}
+                {include uri='design:parts/card_title_suffix.tpl'}
             </a>
         </h5>
         {if $node|has_attribute('description')}
