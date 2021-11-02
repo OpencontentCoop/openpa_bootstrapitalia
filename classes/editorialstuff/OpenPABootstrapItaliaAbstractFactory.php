@@ -27,7 +27,7 @@ abstract class OpenPABootstrapItaliaAbstractFactory extends OCEditorialStuffPost
                     $views[] = 'geo';
                 }
             }
-            if ($attribute->attribute('data_type_string') == OCEventType::DATA_TYPE_STRING) {
+            if (class_exists('OCEventType') && $attribute->attribute('data_type_string') == OCEventType::DATA_TYPE_STRING) {
                 $views[] = 'agenda';
             }
         }
