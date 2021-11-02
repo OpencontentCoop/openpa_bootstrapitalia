@@ -141,7 +141,7 @@
                                     <textarea id="block-custom_attribute-{$block_id}-{$loop_count}" class="textbox block-control" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" rows="7">{$block.custom_attributes[$custom_attrib]|wash()}</textarea>
                                 {/case}
                                 {case match = 'checkbox'}
-                                <input id="block-custom_attribute-{$block_id}-{$loop_count}-a" class="block-control" type="hidden" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="0" />
+                                    <input id="block-custom_attribute-{$block_id}-{$loop_count}-a" class="block-control" type="hidden" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]" value="0" />
                                     <label class="font-weight-bold w-100">
                                         <input id="block-custom_attribute-{$block_id}-{$loop_count}-b" class="block-control" type="checkbox" name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][{$custom_attrib}]"{if and(is_set($block.custom_attributes[$custom_attrib]), eq( $block.custom_attributes[$custom_attrib], '1'))} checked="checked"{/if} value="1" />
                                         {if is_set( $custom_attribute_names[$custom_attrib] )}{$custom_attribute_names[$custom_attrib]}{else}{$custom_attrib}{/if}

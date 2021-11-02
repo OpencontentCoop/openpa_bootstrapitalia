@@ -127,6 +127,9 @@
                     }
                 });
             }
+            if (plugin.searchForm.find('input').length > 0 && plugin.searchForm.find('input').val().length > 0) {
+                baseQuery += ' and offset 0 sort [score=>desc]'; //workaround se già presente il parametro sort in query
+            }
             return baseQuery;
         },
 
@@ -364,7 +367,7 @@
                                 if (facet.indexOf('-01-01T00:00:00Z') > -1){
                                     return date.format('YYYY');
                                 }
-                                return date.format('DD/MM/YYYY');
+                                return date.format(MomentDateFormat);
                             }
                             return facet;
                         };

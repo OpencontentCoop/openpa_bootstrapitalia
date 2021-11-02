@@ -37,11 +37,11 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>Cerca</translation>
+      <translation>Cerrar</translation>
     </message>
     <message>
       <source>FREE</source>
-      <translation>LIBRE</translation>
+      <translation>GRATIS</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -89,7 +89,7 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Todas</translation>
+      <translation>Todos</translation>
     </message>
     <message>
       <source>Read more</source>
@@ -320,7 +320,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Síganos</translation>
+      <translation>Síguenos</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -422,7 +422,7 @@
     </message>
     <message>
       <source>to</source>
-      <translation>a</translation>
+      <translation>para</translation>
     </message>
     <message>
       <source>Year</source>
@@ -474,11 +474,11 @@
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Búsqueda devuelta% 2 coincidencias</translation>
+      <translation>Búsqueda devueltos% 2 coincidencias</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Para más opciones, intente la búsqueda avanzada% 2% 2</translation>
+      <translation>Para más opciones, pruebe el% 1 búsqueda avanzada% 2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -486,7 +486,7 @@
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Eliminar todos los filtros</translation>
+      <translation>Retire todos los filtros</translation>
     </message>
     <message>
       <source>Refine your search</source>
@@ -558,6 +558,10 @@
     </message>
     <message>
       <source>All dates</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>All</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -747,6 +751,27 @@
     <message>
       <source>Le informazioni non sono aggiornate</source>
       <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>openpa/date_format</name>
+    <message>
+      <source>dd/MM/yyyy</source>
+      <translation>dd/MM/yyyy</translation>
+    </message>
+  </context>
+  <context>
+    <name>openpa/moment_date_format</name>
+    <message>
+      <source>DD/MM/YYYY</source>
+      <translation>DD/MM/YYYY</translation>
+    </message>
+  </context>
+  <context>
+    <name>openpa/moment_datetime_format</name>
+    <message>
+      <source>DD/MM/YYYY HH:mm</source>
+      <translation>DD/MM/YYYY HH:mm</translation>
     </message>
   </context>
   <context>

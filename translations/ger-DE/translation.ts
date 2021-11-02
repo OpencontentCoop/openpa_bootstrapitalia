@@ -233,7 +233,7 @@
     </message>
     <message>
       <source>Editor's Guide</source>
-      <translation>Leitfaden für die Redaktion</translation>
+      <translation>Gegenstand der Pflicht</translation>
     </message>
     <message>
       <source>Note</source>
@@ -248,7 +248,7 @@
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>EZ-Tags</translation>
+      <translation>eZ Tags</translation>
     </message>
     <message>
       <source>Apps</source>
@@ -374,7 +374,7 @@
     </message>
     <message>
       <source>in</source>
-      <translation>im</translation>
+      <translation>in</translation>
     </message>
     <message>
       <source>all website</source>
@@ -530,19 +530,19 @@
     </message>
     <message>
       <source>Start date</source>
-      <translation>Anfangsdatum</translation>
+      <translation>Von</translation>
     </message>
     <message>
       <source>End date</source>
-      <translation>Endtermin</translation>
+      <translation>Bis</translation>
     </message>
     <message>
       <source>enter the date in dd/mm/yyyy format</source>
-      <translation>geben Sie das Datum in tt/mm/jjjj Format</translation>
+      <translation>Datumsformat TT.MM.JJJJ</translation>
     </message>
     <message>
       <source>Sections</source>
-      <translation>Abschnitte</translation>
+      <translation>Bereiche</translation>
     </message>
     <message>
       <source>Confirm</source>
@@ -559,6 +559,10 @@
     <message>
       <source>All dates</source>
       <translation>Alle Daten</translation>
+    </message>
+    <message>
+      <source>All</source>
+      <translation>Alle Bereiche</translation>
     </message>
   </context>
   <context>
@@ -747,6 +751,27 @@
     <message>
       <source>Le informazioni non sono aggiornate</source>
       <translation>Die Informationen werden nicht aktualisiert</translation>
+    </message>
+  </context>
+  <context>
+    <name>openpa/date_format</name>
+    <message>
+      <source>dd/MM/yyyy</source>
+      <translation>dd.MM.yyyy</translation>
+    </message>
+  </context>
+  <context>
+    <name>openpa/moment_date_format</name>
+    <message>
+      <source>DD/MM/YYYY</source>
+      <translation>DD.MM.YYYY</translation>
+    </message>
+  </context>
+  <context>
+    <name>openpa/moment_datetime_format</name>
+    <message>
+      <source>DD/MM/YYYY HH:mm</source>
+      <translation>DD.MM.YYYY HH:mm</translation>
     </message>
   </context>
   <context>

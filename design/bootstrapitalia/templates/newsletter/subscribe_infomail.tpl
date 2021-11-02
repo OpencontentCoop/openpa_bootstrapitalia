@@ -32,7 +32,7 @@
         <div class="input-group">        
           <input class="form-control input-lg" type="text" id="EmailInput" name="EmailInput" size="50" placeholder="{'E-mail'|i18n( 'cjw_newsletter/subscribe_infomail' )}" />
           <div class="input-group-append">
-            <button title="Cerca" class="btn btn-primary btn-lg" name="SubscribeInfoMailButton" type="submit">
+            <button title="{'Search'|i18n('openpa/search')}" class="btn btn-primary btn-lg" name="SubscribeInfoMailButton" type="submit">
               {'Send'|i18n( 'cjw_newsletter/subscribe_infomail' )}
             </button>        
           </div>

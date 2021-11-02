@@ -10,7 +10,7 @@
 
             <div id="remote-gui">
                 <div class="input-group mb-3 search-form">
-                    <input type="text" class="form-control" placeholder="Cerca" />
+                    <input type="text" class="form-control" placeholder="{'Search'|i18n('openpa/search')}" />
                     <div class="input-group-append">
                         <button class="btn btn-link text-black" type="button"><i aria-hidden="true" class="fa fa-search" aria-hidden="true"></i></button>
                     </div>

@@ -52,11 +52,11 @@
                 <input style="padding:6px" class="form-control" name="SearchText" type="text"
                        value="{cond( ezhttp_hasvariable('SearchText','get'), ezhttp('SearchText','get')|wash(),'')}"
                        size="12"/>
-                <input type="hidden" value="Cerca" name="SearchButton"/>
+                <input type="hidden" value="{'Search'|i18n('openpa/search')}" name="SearchButton"/>
                 <input type="hidden" value="{$browse.start_node}" name="SubTreeArray[]"/>
                 <input name="Mode" type="hidden" value="browse"/>
                 <div class="input-group-append">
-                    <button name="SearchButton" value="Cerca" id="searchbox_submit" type="submit"
+                    <button name="SearchButton" value="{'Search'|i18n('openpa/search')}" id="searchbox_submit" type="submit"
                             class="btn btn-info searchbutton">
                         <i aria-hidden="true" class="fa fa-search"></i>
                     </button>

@@ -19,7 +19,9 @@
                 search: 'Cerca',
                 filters: 'Filtri',
                 sections: 'Sezioni',
-                remove: 'Elimina'
+                remove: 'Elimina',
+                from: 'Da',
+                to: 'Fino a',
             }
         };
 
@@ -48,13 +50,15 @@
         this.allSectionToggle = $('.section-search-form-filters a:first');
         this.subTreeGroupSelector = $('a[data-subtree_group]');
 
-        this.fromDateInput = $('#datepicker_start').datepicker({
-            inputFormat: ['dd/MM/yyyy'],
-            outputFormat: 'dd/MM/yyyy',
+        var pickerStart = $('#datepicker_start');
+        var pickerEnd = $('#datepicker_end');
+        this.fromDateInput = pickerStart.datepicker({
+            inputFormat: [pickerStart.data('format')],
+            outputFormat: pickerStart.data('format')
         });
-        this.toDateInput = $('#datepicker_end').datepicker({
-            inputFormat: ['dd/MM/yyyy'],
-            outputFormat: 'dd/MM/yyyy',
+        this.toDateInput = pickerEnd.datepicker({
+            inputFormat: [pickerEnd.data('format')],
+            outputFormat: pickerEnd.data('format')
         });
         this.activeContentCheck = $('#OnlyActive');
 
@@ -473,10 +477,10 @@
             var end = this.toDateInput.val();
             var text = '';
             if (start.length > 0) {
-                text += 'Da ' + start + ' ';
+                text += this.settings.i18n.from + ' ' + start + ' ';
             }
             if (end.length > 0) {
-                text += 'Fino a ' + end;
+                text += this.settings.i18n.to + ' ' + end;
             }
             this.toggleDateChip(text, start, end);
             this.refreshOptionChipToggle();

@@ -467,7 +467,8 @@ class OpenPABootstrapItaliaOperators
     private function parseDate($string, $hour = 0, $minute = 0)
     {
         if (!empty($string)) {
-            $parts = explode('/', $string);
+            $separator = (strpos($string, '/') === false) ? '.' : '/';
+            $parts = explode($separator, $string);
             if (count($parts) == 3) {
                 return mktime($hour, $minute, 0, $parts[1], $parts[0], $parts[2]);
             }

@@ -29,7 +29,7 @@
     </message>
     <message>
       <source>Jump to footer</source>
-      <translation>Skoči na noge</translation>
+      <translation>Skoči na nogo</translation>
     </message>
     <message>
       <source>Table of contents</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Prost vstop za vse udeležence</translation>
+      <translation>Brezplačni vstop za vse udeležence</translation>
     </message>
     <message>
       <source>Download</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
       <source>Download file</source>
-      <translation>Prenesite datoteko.</translation>
+      <translation>Prenesite datoteko</translation>
     </message>
     <message>
       <source>File type</source>
@@ -271,7 +271,7 @@
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Položaj v organizacijskem grafikonu</translation>
+      <translation>Položaj v grafikonu organizacije</translation>
     </message>
     <message>
       <source>Add objects</source>
@@ -358,7 +358,7 @@
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Pojdi na iskalne filtre</translation>
+      <translation>Pojdite na iskalne filtre</translation>
     </message>
     <message>
       <source>Link to</source>
@@ -378,7 +378,7 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>vse spletne strani</translation>
+      <translation>Vse spletne strani</translation>
     </message>
     <message>
       <source>only information of type</source>
@@ -402,7 +402,7 @@
     </message>
     <message>
       <source>Score</source>
-      <translation>Ocena</translation>
+      <translation>Rezultat</translation>
     </message>
     <message>
       <source>Publication date</source>
@@ -422,7 +422,7 @@
     </message>
     <message>
       <source>to</source>
-      <translation>za</translation>
+      <translation>To.</translation>
     </message>
     <message>
       <source>Year</source>
@@ -470,7 +470,7 @@
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Iskanje "% 1" vrnjeno% 2 tekme</translation>
+      <translation>Iskanje "% 1" Vrnilo% 2 tekme</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
@@ -560,6 +560,10 @@
       <source>All dates</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>All</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/opening_hours_matrix</name>
@@ -612,7 +616,7 @@
     </message>
     <message>
       <source>Shared with other editors</source>
-      <translation>Delijo z drugimi uredniki</translation>
+      <translation>V skupni rabi z drugimi uredniki</translation>
     </message>
     <message>
       <source>Your own</source>
@@ -624,11 +628,11 @@
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation>Dodajte to lokacijo na vaša mesta</translation>
+      <translation>Dodajte to mesto na kraje</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Obstajajo mesta v bližini izbrane lokacije, registrirane v sistemu. Želite uporabiti enega od teh?</translation>
+      <translation>Obstajajo kraji blizu izbrane lokacije, registrirane v sistemu. Želite uporabiti enega od teh?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
@@ -747,6 +751,27 @@
     <message>
       <source>Le informazioni non sono aggiornate</source>
       <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>openpa/date_format</name>
+    <message>
+      <source>dd/MM/yyyy</source>
+      <translation>dd/MM/yyyy</translation>
+    </message>
+  </context>
+  <context>
+    <name>openpa/moment_date_format</name>
+    <message>
+      <source>DD/MM/YYYY</source>
+      <translation>DD/MM/YYYY</translation>
+    </message>
+  </context>
+  <context>
+    <name>openpa/moment_datetime_format</name>
+    <message>
+      <source>DD/MM/YYYY HH:mm</source>
+      <translation>DD/MM/YYYY HH:mm</translation>
     </message>
   </context>
   <context>

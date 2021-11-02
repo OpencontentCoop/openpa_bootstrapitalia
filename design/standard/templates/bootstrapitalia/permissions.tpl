@@ -13,7 +13,7 @@
             <div class="input-group">
                 <input type="text" class="form-control" id="name">
                 <div class="input-group-append">
-                    <button class="btn btn-info rounded-0" type="button" id="FindContents">Cerca</button>
+                    <button class="btn btn-info rounded-0" type="button" id="FindContents">{'Search'|i18n('openpa/search')}</button>
                     <button class="btn btn-danger rounded-0" type="button" style="display: none;" id="ResetContents">Annulla ricerca</button>
                 </div>
             </div>

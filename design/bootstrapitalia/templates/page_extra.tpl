@@ -54,7 +54,7 @@
                                 <div class="search-filter-by-section mt-4">
                                     <h6 class="small">{'Sections'|i18n('openpa/search')}</h6>
                                     <a href="#" class="btn btn-outline-primary btn-icon btn-xs mr-2 mb-2 selected"
-                                       data-subtree_group="all">Tutto</a>
+                                       data-subtree_group="all">{'All'|i18n('bootstrapitalia')}</a>
                                     {foreach $top_menu_node_ids as $id}
                                         {def $top_menu_node = fetch(content, node, hash(node_id, $id))}
                                         <a href="#"
@@ -226,7 +226,7 @@
                                         <div class="it-datepicker-wrapper">
                                             <div class="form-group">
                                                 <label for="datepicker_start">{'Start date'|i18n('openpa/search')}</label>
-                                                <input class="form-control it-date-datepicker" id="datepicker_start" autocomplete="off" type="text" name="From" placeholder="{'enter the date in dd/mm/yyyy format'|i18n('openpa/search')}" value="">
+                                                <input class="form-control it-date-datepicker" data-format="{'dd/MM/yyyy'|i18n('openpa/date_format')}" id="datepicker_start" autocomplete="off" type="text" name="From" placeholder="{'enter the date in dd/mm/yyyy format'|i18n('openpa/search')}" value="">
                                             </div>
                                         </div>
                                     </div>
@@ -234,7 +234,7 @@
                                         <div class="it-datepicker-wrapper">
                                             <div class="form-group">
                                                 <label for="datepicker_end">{'End date'|i18n('openpa/search')}</label>
-                                                <input class="form-control it-date-datepicker" id="datepicker_end" autocomplete="off" type="text" name="To" placeholder="{'enter the date in dd/mm/yyyy format'|i18n('openpa/search')}" value="">
+                                                <input class="form-control it-date-datepicker" data-format="{'dd/MM/yyyy'|i18n('openpa/date_format')}" id="datepicker_end" autocomplete="off" type="text" name="To" placeholder="{'enter the date in dd/mm/yyyy format'|i18n('openpa/search')}" value="">
                                             </div>
                                         </div>
                                     </div>
@@ -254,7 +254,17 @@
 {literal}
 <script>
 $(document).ready(function () {
-    $('#searchModal').searchGui({'spritePath': '{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}'});
+    $('#searchModal').searchGui({
+        'spritePath': '{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}',
+        'i18n': {
+            search: '{/literal}{'Search'|i18n('openpa/search')}{literal}',
+            filters: '{/literal}{'Filters'|i18n('bootstrapitalia')}{literal}',
+            sections: '{/literal}{'Sections'|i18n('openpa/search')}{literal}',
+            remove: '{/literal}{'Reset'|i18n('bootstrapitalia/documents')}{literal}',
+            from: '{/literal}{'from'|i18n('openpa/search')}{literal}',
+            to: '{/literal}{'to'|i18n('openpa/search')}{literal}'
+        }
+    });
 });
 </script>
 {/literal}

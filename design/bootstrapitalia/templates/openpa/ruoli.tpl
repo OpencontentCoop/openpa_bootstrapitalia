@@ -17,7 +17,7 @@
 		<div class="input-group">
 		  <input type="text" class="form-control" id="name">
 		  <div class="input-group-append">
-		    <button class="btn btn-info py-2" type="button" id="FindContents">Cerca</button>
+		    <button class="btn btn-info py-2" type="button" id="FindContents">{'Search'|i18n('openpa/search')}</button>
 		    <button class="btn btn-danger py-2" type="button" style="display: none;" id="ResetContents">Annulla ricerca</button>
 		  </div>
 		</div>
@@ -150,12 +150,12 @@
 	</td>
 	<td>
 		{{if ~i18n(data,'start_time')}}
-			{{:~formatDate(~i18n(data,'start_time'), 'DD/MM/YYYY')}}
+			{{:~formatDate(~i18n(data,'start_time'), dateFormat)}}
 		{{/if}}
 	</td>
 	<td>
 		{{if ~i18n(data,'end_time')}}
-			{{:~formatDate(~i18n(data,'end_time'), 'DD/MM/YYYY')}}
+			{{:~formatDate(~i18n(data,'end_time'), dateFormat)}}
 		{{/if}}
 	</td>
 	<td class="text-center">
@@ -245,6 +245,8 @@
 					var self = this;
                 	this.baseUrl = baseUrl;
 					this.languages = $.opendataTools.settings('languages');
+					this.dateFormat = MomentDateFormat;
+					this.dateTimeFormat = MomentDateTimeFormat;
 					var translations = [];
 					if (this.languages.length > 1) {
 						var currentTranslations = $.map(this.data, function (value, key) {

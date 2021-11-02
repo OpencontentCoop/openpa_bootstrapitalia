@@ -1,11 +1,29 @@
 {ezscript_require(array(    
     'jsrender.js',
     'handlebars.min.js',
-    'bootstrap-datetimepicker.min.js'
+    'bootstrap-datetimepicker.min.js',
+	'daterangepicker.js'
 ))}
 {ezcss_require(array(
-    'bootstrap-datetimepicker.min.css'    
+    'bootstrap-datetimepicker.min.css',
+	'daterangepicker-bs3.css'
 ))}
+{def $locale = fetch(content, locale)}
+{def $filters = array()}
+{def $filterMap = hash(
+	'hide_search_text', 'search_text',
+	'hide_search_number', 'number',
+	'hide_search_year', 'year',
+	'hide_search_daterange', 'daterange',
+	'hide_search_office', 'office',
+	'hide_search_area', 'area',
+	'hide_search_topics', 'topics'
+)}
+{foreach $filterMap as $setting_field => $flag_identifier}
+	{if or(is_set($block.custom_attributes[$setting_field])|not(), $block.custom_attributes[$setting_field]|eq(0))}
+		{set $filters = $filters|append($flag_identifier)}
+	{/if}
+{/foreach}
 
 {def $root_tags = $block.custom_attributes.root_tag|explode(',')}
 {def $hide_tag_select = cond(and(is_set($block.custom_attributes.hide_tag_select), $block.custom_attributes.hide_tag_select|eq('1')), true(), false())}
@@ -16,32 +34,52 @@
 {def $area_count = fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('administrative_area')))}
 {def $office_count = fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('office')))}
 
+{def $start_date = cond(and(is_set($block.custom_attributes.start_date), $block.custom_attributes.start_date|ne(''), array('start_time','publication_start_time','data_di_firma','data_protocollazione')|contains($block.custom_attributes.start_date)), $block.custom_attributes.start_date, 'publication_start_time')}
+{def $end_date = cond(and(is_set($block.custom_attributes.end_date), $block.custom_attributes.end_date|ne(''), array('end_time','publication_end_time','expiration_time','data_di_scadenza_delle_iscrizioni','data_di_conclusione')|contains($block.custom_attributes.end_date)), $block.custom_attributes.end_date, 'publication_end_time')}
+{def $number = cond(and(is_set($block.custom_attributes.number), $block.custom_attributes.number|ne(''), array('has_code','protocollo')|contains($block.custom_attributes.number)), $block.custom_attributes.number, 'has_code')}
+
 <div data-block_document_subtree="{cond(is_set($block.custom_attributes.node_id), $block.custom_attributes.node_id, 1)}"
 	 data-hide_publication_end_time="{cond(and(is_set($block.custom_attributes.hide_publication_end_time), $block.custom_attributes.hide_publication_end_time|eq('1')), 'true','false')}"
 	 data-show_only_publication="{cond(and(is_set($block.custom_attributes.show_only_publication), $block.custom_attributes.show_only_publication|eq('1')), 'true','false')}"
 	 data-limit="20"
 	 data-hide_empty_facets="{cond($block.custom_attributes.hide_empty_facets, 'true', 'false')}"
 	 data-topics="{$topics_filter}"
-	 data-hide_first_level="{cond($block.custom_attributes.hide_first_level, 'true', 'false')}">
+	 data-hide_first_level="{cond($block.custom_attributes.hide_first_level, 'true', 'false')}"
+	 data-start_identifier="{$start_date|wash()}"
+	 data-end_identifier="{$end_date|wash()}"
+	 data-number_identifier="{$number|wash()}">
+	{if $filters|count()}
 	<div class="d-block d-lg-none d-xl-none text-center mb-2">
 		<a href="#filters" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="filters">{'Filters'|i18n('bootstrapitalia')}</a>
 	</div>
 	<div class="d-lg-block d-xl-block collapse" id="filters">
 		<form class="form">
-			<div class="form-row">
+			<div class="form-row flex-nowrap">
+				{if $filters|contains('search_text')}
 				<div class="col-md-4 col-lg-2 my-2">
 					<label for="search-{$block.id}" class="m-0 d-none"><small>{'Search text'|i18n('bootstrapitalia/documents')}</small></label>
 					<input type="text" autocomplete="off" class="form-control chosen-border" id="search-{$block.id}" data-search="q" placeholder="{'Search text'|i18n('bootstrapitalia/documents')}">
 				</div>
-				<div class="col-md-4 col-lg-{if and($office_count|gt(0), $area_count|gt(0), $topics_filter|not())}1{else}2{/if} my-2">
+				{/if}
+				{if $filters|contains('number')}
+				<div class="col-md-2 col-lg-1 my-2">
 					<label for="searchFormNumber-{$block.id}" class="m-0 d-none"><small>{'Document number'|i18n('bootstrapitalia/documents')}</small></label>
 					<input type="text" autocomplete="off" class="form-control chosen-border" id="searchFormNumber-{$block.id}" data-search="has_code" placeholder="{'Document number'|i18n('bootstrapitalia/documents')}">
 				</div>
-				<div class="col-md-4 col-lg-2 my-2">
-					<label for="searchFormDate-{$block.id}" class="m-0 d-none"><small>{'Year'|i18n('openpa/search')}</small></label>
-					<input type="number" size="4" min="1900" max="2050" autocomplete="off" class="form-control chosen-border" id="searchFormDate-{$block.id}" data-search="calendar" placeholder="{'Year'|i18n('openpa/search')}">
+				{/if}
+				{if $filters|contains('year')}
+				<div class="col-md-2 col-lg-1 my-2">
+					<label for="searchFormYear-{$block.id}" class="m-0 d-none"><small>{'Year'|i18n('openpa/search')}</small></label>
+					<input type="number" size="4" min="1900" max="2050" autocomplete="off" class="form-control chosen-border" id="searchFormYear-{$block.id}" data-search="year" placeholder="{'Year'|i18n('openpa/search')}">
 				</div>
-				{if $office_count|gt(0)}
+				{/if}
+				{if $filters|contains('daterange')}
+					<div class="col-md-4 col-lg-2 my-2">
+						<label for="searchFormDate-{$block.id}" class="m-0 d-none"><small>{'Date'|i18n('bootstrapitalia/documents')}</small></label>
+						<input type="text" class="form-control chosen-border" id="searchFormDate-{$block.id}" data-search="daterange" placeholder="{'Date'|i18n('bootstrapitalia/documents')}">
+					</div>
+				{/if}
+				{if and($filters|contains('office'), $office_count|gt(-1))}
 				<div class="col-md-4 col-lg-2 my-2">
 					<label for="searchFormOffice-{$block.id}" class="m-0 d-none"><small>{'Office'|i18n('bootstrapitalia/documents')}</small></label>
 					<select class="form-control custom-select chosen-border" id="searchFormOffice-{$block.id}" data-search="has_organization">
@@ -52,7 +90,7 @@
 					</select>
 				</div>
 				{/if}
-				{if $area_count|gt(0)}
+				{if and($filters|contains('area'), $area_count|gt(-1))}
 				<div class="col-md-4 col-lg-2 my-2">
 					<label for="searchFormArea-{$block.id}" class="m-0 d-none"><small>{'Administrative area'|i18n('bootstrapitalia/documents')}</small></label>
 					<select class="form-control custom-select chosen-border" id="searchFormArea-{$block.id}" data-search="area">
@@ -63,7 +101,7 @@
 					</select>
 				</div>
 				{/if}
-				{if $topics_filter|not()}
+				{if and($filters|contains('topics'), $topics_filter|not())}
 					<div class="col-md-4 col-lg-2 my-2">
 						<label for="searchFormTopic-{$block.id}" class="m-0 d-none"><small>{'Topics'|i18n('bootstrapitalia')}</small></label>
 						<select class="form-control custom-select chosen-border" id="searchFormTopic-{$block.id}" data-search="topic">
@@ -96,6 +134,7 @@
 			</div>
 		</form>
 	</div>
+	{/if}
 	<div class="row border-top row-column-border row-column-menu-left attribute-list mt-0">
 	    {if and($root_tags|count(), $root_tags[0]|ne(''))}
 		    <aside class="col-lg-4{if $hide_tag_select} d-none{/if}">
@@ -174,17 +213,18 @@
 	{{for searchHits}}		
 		<div class="row mb-3 pt-3 border-top">				
 			<div class="col-md-3"><strong class="d-inline d-sm-none">{/literal}{'Date'|i18n('bootstrapitalia/documents')}{literal}</strong>
-				{{if ~i18n(data,'publication_start_time') && ~i18n(data,'publication_end_time') && !hideEndTime}}
-					<small>{/literal}{'From'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,'publication_start_time'), 'D/MM/YYYY')}}<br />{/literal}{'to'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,'publication_end_time'), 'D/MM/YYYY')}}</small>
+				{{if ~i18n(data,startIdentifier) && ~i18n(data,endIdentifier) && !hideEndTime}}
+					<small>{/literal}{'From'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,startIdentifier), dateFormat)}}
+					<br />{/literal}{'to'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,endIdentifier), dateFormat)}}</small>
 				{{else}}
-					{{:~formatDate(~i18n(data,'publication_start_time'), 'D/MM/YYYY')}} 
+					{{:~formatDate(~i18n(data,startIdentifier), dateFormat)}}
 				{{/if}}
 			</div>			
 			<div class="col-md-9">
 				<strong class="d-block d-sm-none">{/literal}{'Subject'|i18n('bootstrapitalia/documents')}{literal}</strong>
 				<a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}">{{:~i18n(metadata.name)}}</a>
 				{{if ~i18n(data, 'description')}}<p class="m-0" style="line-height:1.2"><small>{{:~stripTag(~i18n(data, 'description'))}}</small></p>{{/if}}
-				<ul class="list-inline m-0"><li class="list-inline-item"><strong>{{:~i18n(data, 'document_type')}}</strong>{{if ~i18n(data, 'has_code')}} ({{:~i18n(data, 'has_code')}}){{/if}}</li></ul>
+				<ul class="list-inline m-0"><li class="list-inline-item"><strong>{{:~i18n(data, 'document_type')}}</strong>{{if ~i18n(data, numberIdentifier)}} ({{:~i18n(data, numberIdentifier)}}){{/if}}</li></ul>
 				{{if ~i18n(data, 'area') || ~i18n(data, 'has_organization')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{/literal}{'Administrative area'|i18n('bootstrapitalia/documents')}/{'Office'|i18n('bootstrapitalia/documents')}{literal}:</strong></li>{{if ~i18n(data, 'area')}}{{for ~i18n(data,'area')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}{{if ~i18n(data, 'has_organization')}}{{for ~i18n(data,'has_organization')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}</ul>{{/if}}
 				{{if ~i18n(data, 'interroganti')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{/literal}{'Questioners'|i18n('bootstrapitalia/documents')}{literal}:</strong></li>{{for ~i18n(data,'interroganti')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}
 			</div>		
@@ -194,7 +234,7 @@
 	{{if pageCount > 1}}
 	<div class="row mt-lg-4">
 	    <div class="col">
-	        <nav class="pagination-wrapper justify-content-center" aria-label="Esempio di navigazione della pagina">
+	        <nav class="pagination-wrapper justify-content-center" aria-label="{/literal}{'Navigation'|i18n('design/ocbootstrap/menu')}{literal}">
 	            <ul class="pagination">
 	                
 	                <li class="page-item {{if !prevPageQuery}}disabled{{/if}}">
@@ -261,6 +301,9 @@ $(document).ready(function () {
 		var template = $.templates('#tpl-document-results');
 		var spinner = $($.templates("#tpl-document-spinner").render({}));
 		var isLoadedFacetsCount = false;
+		var startIdentifier = container.data('start_identifier');
+		var endIdentifier = container.data('end_identifier');
+		var numberIdentifier = container.data('number_identifier');
 
 		if (hideFirstLevel){
 			container.find('[data-level="1"]').each(function(){
@@ -275,17 +318,48 @@ $(document).ready(function () {
 			});
 		}
 
+		var dateRange = container.find('[data-search="daterange"]');
+		if (dateRange.length > 0){
+			dateRange.daterangepicker({
+				autoUpdateInput: false,
+				locale: {
+					format: MomentDateFormat,
+					"applyLabel": "{/literal}{'Apply'|i18n('design/standard/ezoe')}{literal}",
+					"cancelLabel": "{/literal}{'Cancel'|i18n('design/standard/ezoe')}{literal}",
+					"fromLabel": "{/literal}{'From'|i18n('bootstrapitalia/documents')}{literal}",
+					"toLabel": "{/literal}{'to'|i18n('bootstrapitalia/documents')}{literal}",
+					"daysOfWeek": [
+						"{/literal}{$locale.weekday_short_name_list[0]}{literal}",
+						"{/literal}{$locale.weekday_short_name_list[1]}{literal}",
+						"{/literal}{$locale.weekday_short_name_list[2]}{literal}",
+						"{/literal}{$locale.weekday_short_name_list[3]}{literal}",
+						"{/literal}{$locale.weekday_short_name_list[4]}{literal}",
+						"{/literal}{$locale.weekday_short_name_list[5]}{literal}",
+						"{/literal}{$locale.weekday_short_name_list[6]}{literal}"
+					],
+					"monthNames": ["{/literal}{$locale.month_name_list|implode('","')}{literal}"]
+				}
+			});
+			dateRange.on('apply.daterangepicker', function(ev, picker) {
+				$(this).val(picker.startDate.format(MomentDateFormat) + ' - ' + picker.endDate.format(MomentDateFormat));
+			}).on('cancel.daterangepicker', function(ev, picker) {
+				$(this).val('');
+			});
+		}
+
 	    var buildQuery = function(){
-			var query = 'classes [document] subtree [' + subtree + '] facets [raw[subattr_document_type___tag_ids____si],raw[subattr_start_time___year____dt]]';
+			var query = 'classes [document] subtree [' + subtree + '] facets [raw[subattr_document_type___tag_ids____si],raw[subattr_'+startIdentifier+'___year____dt]]';
 			if (showOnlyPublication){
-				query += ' and (calendar[publication_start_time,publication_end_time] = [yesterday,now] or (publication_start_time range [*,now] and publication_end_time !range [*,*]))';
+				query += ' and (calendar['+startIdentifier+','+endIdentifier+'] = [yesterday,now] or ('+startIdentifier+' range [*,now] and '+endIdentifier+' !range [*,*]))';
 			}
 			if (rootTagIdList !== ''){
 				query += " and raw[subattr_document_type___tag_ids____si] in [" + rootTagIdList + "]";
 			}
-			var searchText = container.find('[data-search="q"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
-			if (searchText.length > 0){
-				query += " and q = '\"" + searchText + "\"'";
+			if (container.find('[data-search="q"]').length > 0) {
+				var searchText = container.find('[data-search="q"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
+				if (searchText.length > 0) {
+					query += " and q = '\"" + searchText + "\"'";
+				}
 			}
 			var tagFilters = [];
 			container.find('a[data-tag_id].active').each(function(){
@@ -294,25 +368,37 @@ $(document).ready(function () {
 			if (tagFilters.length > 0){
 				query += " and raw[subattr_document_type___tag_ids____si] in [" + tagFilters.join(',') + "]";
 			}
-			var officeFilter = container.find('[data-search="has_organization"]').val();			
-			if (officeFilter && officeFilter.length > 0){
-				query += " and has_organization.id in [" + officeFilter + "]";
+			if (container.find('[data-search="has_organization"]').length > 0) {
+				var officeFilter = container.find('[data-search="has_organization"]').val();
+				if (officeFilter && officeFilter.length > 0) {
+					query += " and has_organization.id in [" + officeFilter + "]";
+				}
 			}
-			var areaFilter = container.find('[data-search="area"]').val();
-			if (areaFilter && areaFilter.length > 0){
-				query += " and area.id in [" + areaFilter + "]";
+			if (container.find('[data-search="area"]').length > 0) {
+				var areaFilter = container.find('[data-search="area"]').val();
+				if (areaFilter && areaFilter.length > 0) {
+					query += " and area.id in [" + areaFilter + "]";
+				}
 			}
-			var hasCodeFilter = container.find('[data-search="has_code"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
-			if (hasCodeFilter.length > 0){
-				query += " and raw[attr_has_code_t] = '" + hasCodeFilter + "'";
+			if (container.find('[data-search="has_code"]').length > 0) {
+				var hasCodeFilter = container.find('[data-search="has_code"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
+				if (hasCodeFilter.length > 0) {
+					query += ' and raw[attr_'+numberIdentifier+'_t] = \'"' + hasCodeFilter + '"\'';
+				}
 			}
-			var calendarFilter = container.find('[data-search="calendar"]').val();
-			if (calendarFilter.length > 0){
-				var dateFilter = moment(calendarFilter, "YYYY");
-				query += ' and calendar[publication_start_time,publication_end_time] = [' + dateFilter.dayOfYear(1).set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ','
-						+ dateFilter.dayOfYear(365).set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + ']';
+			if (container.find('[data-search="year"]').length > 0) {
+				var yearFilter = container.find('[data-search="year"]').val();
+				if (yearFilter.length > 0) {
+					var dateFilter = moment(yearFilter, "YYYY");
+					query += ' and calendar['+startIdentifier+','+endIdentifier+'] = [' + dateFilter.dayOfYear(1).set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ','
+							+ dateFilter.dayOfYear(365).set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + ']';
+				}
 			}
-
+			if (dateRange.length > 0 && dateRange.val().length > 0){
+				var picker = dateRange.data('daterangepicker');
+				query += ' and calendar['+startIdentifier+','+endIdentifier+'] = [' + picker.startDate.format('YYYY-MM-DD') + ' 00:00,'
+						+ picker.endDate.format('YYYY-MM-DD') + ' 23:59]';
+			}
 			if (topics.length > 0){
 				query += ' and raw[submeta_topics___main_node_id____si] in ['+topics+']';
 			}else{
@@ -321,7 +407,12 @@ $(document).ready(function () {
 					query += ' and raw[submeta_topics___main_node_id____si] in ['+topicsFilter+']';
 				}
 			}
-			query += ' sort [publication_start_time=>desc,start_time=>desc,raw[extra_has_code_sl]=>desc]'
+			var sort = ' sort ['+startIdentifier+'=>desc';
+			if (numberIdentifier === 'has_code'){
+				sort += ',raw[extra_has_code_sl]=>desc';
+			}
+			sort += ']';
+			query += sort;
 			
 			return query;
 		};
@@ -338,7 +429,7 @@ $(document).ready(function () {
 						$.each(this.data, function (tagId, tagCount) {
 							container.find('[data-tag_id="' + tagId + '"]').show().find('small').html('(' + tagCount + ')');
 						});
-					}else if (this.name === 'raw[subattr_start_time___year____dt]'){
+					}else if (this.name === 'raw[subattr_'+startIdentifier+'___year____dt]'){
 						$.each(this.data, function (year, yearCount) {
 							yearList.push(moment(year).get('year'))
 						});
@@ -351,7 +442,7 @@ $(document).ready(function () {
 					$.each(yearList, function (){
 						dataListContent.append('<option value="'+this+'">');
 					});
-					container.find('[data-search="calendar"]').attr('list', 'years').after(dataListContent);
+					container.find('[data-search="year"]').attr('list', 'years').after(dataListContent);
 				}
 			}
 		};
@@ -375,12 +466,16 @@ $(document).ready(function () {
 				} 
 	            response.pages = pages;
 	            response.pageCount = pagination;
-
 	            response.prevPageQuery = jQuery.type(queryPerPage[response.prevPage]) === "undefined" ? null : queryPerPage[response.prevPage];
 
                 $.each(response.searchHits, function(){
                     this.baseUrl = baseUrl;
                     this.hideEndTime = hideEndTime;
+					this.dateFormat = MomentDateFormat;
+					this.dateTimeFormat = MomentDateTimeFormat;
+					this.startIdentifier = startIdentifier;
+					this.endIdentifier = endIdentifier;
+					this.numberIdentifier = numberIdentifier;
                 });
 	            var renderData = $(template.render(response));
 				resultsContainer.html(renderData);

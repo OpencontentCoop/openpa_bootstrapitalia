@@ -560,6 +560,10 @@
       <source>All dates</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>All</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/opening_hours_matrix</name>
@@ -746,6 +750,27 @@
     </message>
     <message>
       <source>Le informazioni non sono aggiornate</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>openpa/date_format</name>
+    <message>
+      <source>dd/MM/yyyy</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>openpa/moment_date_format</name>
+    <message>
+      <source>DD/MM/YYYY</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>openpa/moment_datetime_format</name>
+    <message>
+      <source>DD/MM/YYYY HH:mm</source>
       <translation type="unfinished"/>
     </message>
   </context>

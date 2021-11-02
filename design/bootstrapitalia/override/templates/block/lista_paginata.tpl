@@ -88,7 +88,7 @@
 	{{if pageCount > 1}}
 	<div class="row mt-lg-4">
 	    <div class="col">
-	        <nav class="pagination-wrapper justify-content-center" aria-label="Esempio di navigazione della pagina">
+	        <nav class="pagination-wrapper justify-content-center" aria-label="{/literal}{'Navigation'|i18n('design/ocbootstrap/menu')}{literal}">
 	            <ul class="pagination">
 	                {{if prevPageQuery}}
 	                <li class="page-item">

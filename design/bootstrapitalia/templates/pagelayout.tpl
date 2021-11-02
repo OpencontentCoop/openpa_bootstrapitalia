@@ -74,6 +74,8 @@ $.opendataTools.settings('endpoint',{ldelim}
     'tags_tree': '{'/opendata/api/tags_tree/'|ezurl(no)}/',
     'fullcalendar': '{'/opendata/api/fullcalendar/search/'|ezurl(no)}/'
 {rdelim});
+var MomentDateFormat = "{'DD/MM/YYYY'|i18n('openpa/moment_date_format')}";
+var MomentDateTimeFormat = "{'DD/MM/YYYY HH:mm'|i18n('openpa/moment_datetime_format')}";
 //]]>
 </script>
 

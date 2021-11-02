@@ -209,14 +209,14 @@
                     {/if}
                     {if $params.from}
                         <div class="form-check custom-control custom-checkbox">
-                            <input name="From" id="from" checked="checked" class="custom-control-input" type="checkbox" value="{$params.from|datetime( 'custom', '%j/%m/%Y' )|wash()}">
-                            <label class="custom-control-label" for="from">{'from'|i18n('openpa/search')} {$params.from|datetime( 'custom', '%j/%m/%Y' )}
+                            <input name="From" id="from" checked="checked" class="custom-control-input" type="checkbox" value="{$params.from|l10n( 'shortdate' )|wash()}">
+                            <label class="custom-control-label" for="from">{'from'|i18n('openpa/search')} {$params.from|l10n( 'shortdate' )}
                         </div>                            
                     {/if}
                     {if $params.to}                                
                         <div class="form-check custom-control custom-checkbox">
-                            <input name="To" id="to" checked="checked" class="custom-control-input" type="checkbox" value="{$params.to|datetime( 'custom', '%j/%m/%Y' )|wash()}">
-                            <label class="custom-control-label" for="to">{'to'|i18n('openpa/search')} {$params.to|datetime( 'custom', '%j/%m/%Y' )}
+                            <input name="To" id="to" checked="checked" class="custom-control-input" type="checkbox" value="{$params.to|l10n( 'shortdate' )|wash()}">
+                            <label class="custom-control-label" for="to">{'to'|i18n('openpa/search')} {$params.to|l10n( 'shortdate' )}
                         </div>
                     {/if}
                 </div>
@@ -331,10 +331,10 @@ $(document).ready(function () {
         {/foreach}
         {/if}
         {if $params.from}
-        searchGui.activateFrom("{$params.from|datetime( 'custom', '%j/%m/%Y' )|strip_tags()|wash(javascript)}");
+        searchGui.activateFrom("{$params.from|l10n( 'shortdate' )|strip_tags()|wash(javascript)}");
         {/if}
         {if $params.to}
-        searchGui.activateTo("{$params.to|datetime( 'custom', '%j/%m/%Y' )|strip_tags()|wash(javascript)}");
+        searchGui.activateTo("{$params.to|l10n( 'shortdate' )|strip_tags()|wash(javascript)}");
         {/if}
         {if $params.only_active}
         searchGui.activateActiveContent();

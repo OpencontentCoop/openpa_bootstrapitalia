@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>Fermer</translation>
+      <translation>proche</translation>
     </message>
     <message>
       <source>FREE</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>days</source>
-      <translation>journées</translation>
+      <translation>jours</translation>
     </message>
     <message>
       <source>Share</source>
@@ -89,7 +89,7 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Tout</translation>
+      <translation>Tous</translation>
     </message>
     <message>
       <source>Read more</source>
@@ -320,7 +320,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Suivez nous</translation>
+      <translation>Suivez-nous</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -366,7 +366,7 @@
     </message>
     <message>
       <source>Search</source>
-      <translation>Rechercher</translation>
+      <translation>Chercher</translation>
     </message>
     <message>
       <source>Advanced search</source>
@@ -426,7 +426,7 @@
     </message>
     <message>
       <source>Year</source>
-      <translation>An</translation>
+      <translation>Année</translation>
     </message>
     <message>
       <source>Any year</source>
@@ -458,7 +458,7 @@
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Essayez de changer de mots-clés (par exemple, "voiture" au lieu de "voitures").</translation>
+      <translation>Essayez de changer certains mots-clés (par exemple, "voiture" au lieu de "voitures").</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
@@ -470,7 +470,7 @@
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Recherche de "% 1" renvoyé% 2 correspondances</translation>
+      <translation>Recherche de "% 1" retourné% 2 correspondances</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
@@ -478,7 +478,7 @@
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Pour plus d'options, essayez le% 1Anvanced Recherche% 2</translation>
+      <translation>Pour plus d'options, essayez la recherche% 1Anvanced% 2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -560,12 +560,16 @@
       <source>All dates</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>All</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/opening_hours_matrix</name>
     <message>
       <source>monday</source>
-      <translation>lundi</translation>
+      <translation>Lundi</translation>
     </message>
     <message>
       <source>tuesday</source>
@@ -581,7 +585,7 @@
     </message>
     <message>
       <source>friday</source>
-      <translation>Vendredi</translation>
+      <translation>vendredi</translation>
     </message>
     <message>
       <source>saturday</source>
@@ -620,7 +624,7 @@
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation>Vous pouvez faire glisser le marqueur sur la carte pour sélectionner l'emplacement plus précisément.</translation>
+      <translation>Vous pouvez faire glisser le marqueur sur la carte pour sélectionner plus précisément l'emplacement.</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
@@ -747,6 +751,27 @@
     <message>
       <source>Le informazioni non sono aggiornate</source>
       <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>openpa/date_format</name>
+    <message>
+      <source>dd/MM/yyyy</source>
+      <translation>dd/MM/yyyy</translation>
+    </message>
+  </context>
+  <context>
+    <name>openpa/moment_date_format</name>
+    <message>
+      <source>DD/MM/YYYY</source>
+      <translation>DD/MM/YYYY</translation>
+    </message>
+  </context>
+  <context>
+    <name>openpa/moment_datetime_format</name>
+    <message>
+      <source>DD/MM/YYYY HH:mm</source>
+      <translation>DD/MM/YYYY HH:mm</translation>
     </message>
   </context>
   <context>
