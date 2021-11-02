@@ -72,6 +72,15 @@
                             {rdelim});                                                    
                         {rdelim});
                         return result.join('<br />');
+                      {elseif $field.template.type|eq('multifile')}
+                        var result = '<ul class="list-unstyled">'
+                        if (data.length > 0) {ldelim}
+                          $.each(data, function () {ldelim}
+                              result += '<li><a href="' + this.url + '">' + this.filename + '</a></li>';
+                          {rdelim});
+                        {rdelim}
+                        result += '</ul>';
+                        return result;
                       {else}
                           var link = null;
                           {if $index|eq(0)}
