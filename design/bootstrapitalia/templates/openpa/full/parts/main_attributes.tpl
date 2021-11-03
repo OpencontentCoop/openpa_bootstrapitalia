@@ -18,7 +18,7 @@
 	    {include uri=$openpa[$identifier].template}
 	{/if}
 {/foreach}
-{if or($main_attributes|contains('content_show_published'),$main_attributes|contains('content_show_modified'),$main_attributes|contains('reading_time'))}
+{if or($main_attributes|contains('content_show_published'),$main_attributes|contains('content_show_modified'),$main_attributes|contains('reading_time'),count($datetime_attributes)|gt(0))}
 	<div class="row {$dates_container_class}">
 	{if $main_attributes|contains('content_show_published')}
 		<div class="col">
