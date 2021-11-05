@@ -223,7 +223,8 @@
                 openpaini( 'WebsiteToolbar', 'ShowEditorRoles', 'disabled' )|eq('enabled'),
                 and(fetch( 'user', 'has_access_to', hash( 'module', 'newsletter', 'function', 'index' ) ), ezmodule('newsletter','subscribe')),
                 fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'roles' ) ),
-                fetch( 'user', 'has_access_to', hash( 'module', 'valuation', 'function', 'dashboard' ) )
+                fetch( 'user', 'has_access_to', hash( 'module', 'valuation', 'function', 'dashboard' ) ),
+                fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'list' ) )
             )}
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
@@ -328,6 +329,14 @@
                                         <a class="list-item left-icon" href="{'valuation/dashboard'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-dashboard"></i>
                                             {'User feedbacks'|i18n("bootstrapitalia/valuation")}
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'list' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'webhook/list'|ezurl(no)}">
+                                            <i aria-hidden="true" class="fa fa-external-link-square"></i>
+                                            Webhooks
                                         </a>
                                     </li>
                                 {/if}

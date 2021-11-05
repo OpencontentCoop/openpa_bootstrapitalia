@@ -42,39 +42,39 @@
 
                 {if $figure_wrapper}
                     <figcaption class="figure-caption text-center pt-3">
-                        {def $object = $image.object}
-                        {if $object|has_attribute('caption')}
-                            {$object|attribute('caption').content.output.output_text|oc_shorten(200,'...')}
+                        {def $image_object = $image.object}
+                        {if $image_object|has_attribute('caption')}
+                            {$image_object|attribute('caption').content.output.output_text|oc_shorten(200,'...')}
                         {*elseif $image.content.alternative_text}
                             {$image.content.alternative_text*}
                         {/if}
 
-                        <small class="d-block" style="font-size:.8em" data-image-node="{$object.main_node_id}">
-                            {if $object|has_attribute('author')}
-                                &copy; {attribute_view_gui attribute=$object|attribute('author')} - 
+                        <small class="d-block" style="font-size:.8em" data-image-node="{$image_object.main_node_id}">
+                            {if $image_object|has_attribute('author')}
+                                &copy; {attribute_view_gui attribute=$image_object|attribute('author')} -
                             {/if}
-                            {if $object|has_attribute('proprietary_license')}
+                            {if $image_object|has_attribute('proprietary_license')}
                                 {def $proprietary_license_source = false()}
-                                {if $object|has_attribute('proprietary_license_source')}
-                                    {set $proprietary_license_source = $object|attribute('proprietary_license_source').content}
+                                {if $image_object|has_attribute('proprietary_license_source')}
+                                    {set $proprietary_license_source = $image_object|attribute('proprietary_license_source').content}
                                 {/if}
                                 {if $proprietary_license_source|begins_with('http')}
                                     <a href="{$proprietary_license_source}">
                                 {else}
                                     <span title="{$proprietary_license_source}">
                                 {/if}
-                                    {attribute_view_gui attribute=$object|attribute('proprietary_license')}
+                                    {attribute_view_gui attribute=$image_object|attribute('proprietary_license')}
                                 {if $proprietary_license_source|begins_with('http')}
                                     </a>
                                 {else}
                                     </span>
                                 {/if}
                                 {undef $proprietary_license_source}
-                            {elseif $object|has_attribute('license')}
-                                {$object|attribute('license').content.keyword_string|wash()}
+                            {elseif $image_object|has_attribute('license')}
+                                {$image_object|attribute('license').content.keyword_string|wash()}
                             {/if}
                         </small>
-                        {undef $object}
+                        {undef $image_object}
                     </figcaption>
                 </figure>
                 {/if}

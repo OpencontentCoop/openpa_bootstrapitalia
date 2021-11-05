@@ -136,7 +136,7 @@
                                                         <a href="{if $lang_selector_item.is_current}#{else}{$lang_selector_item.href}{/if}"
                                                            title="{$lang_selector_item.lang.text|wash|upcase}"
                                                            {if $lang_selector_item.is_current|not()}data-switch_locale="{$lang_selector_item.lang.locale}"{/if}
-                                                           class="list-item">
+                                                           class="list-item nowrap">
                                                             <span lang="{fetch(content, locale, hash(locale_code, $lang_selector_item.lang.locale)).http_locale_code|explode('-')[0]}">{$lang_selector_item.lang.text|wash|upcase}</span>
                                                         </a>
                                                     </li>
@@ -159,7 +159,7 @@
                                             <span class="rounded-icon">
                                                 {display_icon('it-user', 'svg', 'icon icon-primary notrasform')}
                                             </span>
-                                            <span class="d-none d-lg-block">{'Access the personal area'|i18n('bootstrapitalia')}</span>
+                                            <span class="d-none d-lg-block nowrap">{'Access the personal area'|i18n('bootstrapitalia')}</span>
                                             {display_icon('it-expand', 'svg', 'icon-expand icon icon-white')}
                                         </a>
                                         <div class="dropdown-user dropdown-menu" aria-labelledby="dropdown-user">
@@ -185,7 +185,7 @@
                                        data-icon="it-user"
                                        title="{$link_area_personale_title|wash()}">
                                          <span class="rounded-icon">{display_icon('it-user', 'svg', 'icon-primary')}</span>
-                                        <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
+                                        <span class="d-none d-lg-block nowrap">{$link_area_personale_title|wash()}</span>
                                     </a>
                                 {/if}
                             {else}
@@ -193,7 +193,7 @@
                                    data-icon="it-user"
                                    title="{$link_area_personale_title|wash()}" style="display: none;">
                                      <span class="rounded-icon">{display_icon('it-user', 'svg', 'icon-primary')}</span>
-                                    <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
+                                    <span class="d-none d-lg-block nowrap">{$link_area_personale_title|wash()}</span>
                                 </a>
                             {/if}
                         </div>

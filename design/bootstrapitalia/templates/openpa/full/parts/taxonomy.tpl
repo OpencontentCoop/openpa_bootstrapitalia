@@ -7,7 +7,7 @@
 {if and($node|has_attribute('topics'), $node|attribute('topics').data_type_string|eq('ezobjectrelationlist'))}
     {foreach $node|attribute('topics').content.relation_list as $item}
         {def $object = fetch(content, object, hash(object_id, $item.contentobject_id))}
-        {if $object.can_read}
+        {if and($object.can_read, $object.class_identifier|eq('topic'))}
             {set $current_topics = $current_topics|append($object)}
         {/if}
         {undef $object}

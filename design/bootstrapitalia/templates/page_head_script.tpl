@@ -24,7 +24,8 @@
     'jquery.opendataform.js',
     'stacktable.js',
     'jsrender.js',
-    'jquery.faqs.js'
+    'jquery.faqs.js',
+    'jquery.sharedlink.js'
 )}
 {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', ezini('RegionalSettings', 'Locale') ))}
 {def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
