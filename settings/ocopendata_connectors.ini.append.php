@@ -27,4 +27,6 @@ FieldConnectors[openpamaskedstring]=MaskTextLineFieldConnector
 FieldConnectors[lotto/partecipanti]=PartecipanteLottoMatrixField
 FieldConnectors[lotto/aggiudicatari]=PartecipanteLottoMatrixField
 FieldConnectors[lotto/invitati]=PartecipanteLottoMatrixField
+FieldConnectors[time_indexed_role/person]=SingleRelationsField
+FieldConnectors[time_indexed_role/for_entity]=SingleRelationsField
 */ ?>

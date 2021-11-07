@@ -587,7 +587,6 @@
             return listItem;
         },  
 
-
         appendToSelection: function (item, cb, context){
             var self = this;
             if (!self.isInSelection(item)) {

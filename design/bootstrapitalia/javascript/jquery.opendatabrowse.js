@@ -757,6 +757,12 @@
         },  
 
         emptySelection: function () {
+            if (this.settings.selectionType !== 'multiple') {
+                var self = this;
+                $.each(this.selection, function () {
+                    self.removeFromSelection(this);
+                });
+            }
             this.selection = [];
             this.refreshSelection();
         },      
