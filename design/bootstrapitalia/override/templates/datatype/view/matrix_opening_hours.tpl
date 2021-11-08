@@ -10,7 +10,7 @@
 		{/if}
 	{/foreach}
 	{if count($value)|gt(0)}
-		<dt class="col-2 text-nowrap{if $i|gt(0)} border-top pt-1{/if}">{$column.name|wash()|shorten( 3, '')}</dt><dd class="col-10{if $i|gt(0)} border-top pt-1{/if}"><span class="text-nowrap">{$value|implode('</span>, <span class="text-nowrap">')}</span></dd>
+		<dt class="col-2 text-nowrap{if $i|gt(0)} border-top pt-1{/if}">{$column.identifier|i18n('bootstrapitalia/opening_hours_matrix_short')|wash()}</dt><dd class="col-10{if $i|gt(0)} border-top pt-1{/if}"><span class="text-nowrap">{$value|implode('</span>, <span class="text-nowrap">')}</span></dd>
 		{set $i = $i|inc()}
 	{/if}
 	{undef $value}

@@ -486,7 +486,7 @@
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Retire todos los filtros</translation>
+      <translation>Eliminar todos los filtros</translation>
     </message>
     <message>
       <source>Refine your search</source>
@@ -594,6 +594,65 @@
     <message>
       <source>sunday</source>
       <translation>domingo</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/opening_hours_matrix_short</name>
+    <message>
+      <source>monday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>tuesday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>wednesday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>thursday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>friday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>saturday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>sunday</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>mon</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>tue</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>wed</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>thu</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>fri</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>sat</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>sun</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>

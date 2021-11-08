@@ -597,6 +597,65 @@
     </message>
   </context>
   <context>
+    <name>bootstrapitalia/opening_hours_matrix_short</name>
+    <message>
+      <source>monday</source>
+      <translation>Lun</translation>
+    </message>
+    <message>
+      <source>tuesday</source>
+      <translation>Mar</translation>
+    </message>
+    <message>
+      <source>wednesday</source>
+      <translation>Mer</translation>
+    </message>
+    <message>
+      <source>thursday</source>
+      <translation>Gio</translation>
+    </message>
+    <message>
+      <source>friday</source>
+      <translation>Ven</translation>
+    </message>
+    <message>
+      <source>saturday</source>
+      <translation>Sab</translation>
+    </message>
+    <message>
+      <source>sunday</source>
+      <translation>Dom</translation>
+    </message>
+    <message>
+      <source>mon</source>
+      <translation>Lun</translation>
+    </message>
+    <message>
+      <source>tue</source>
+      <translation>Mar</translation>
+    </message>
+    <message>
+      <source>wed</source>
+      <translation>Mer</translation>
+    </message>
+    <message>
+      <source>thu</source>
+      <translation>Gio</translation>
+    </message>
+    <message>
+      <source>fri</source>
+      <translation>Ven</translation>
+    </message>
+    <message>
+      <source>sat</source>
+      <translation>Sab</translation>
+    </message>
+    <message>
+      <source>sun</source>
+      <translation>Dom</translation>
+    </message>
+  </context>
+  <context>
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
