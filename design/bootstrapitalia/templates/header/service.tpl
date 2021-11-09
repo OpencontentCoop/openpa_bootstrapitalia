@@ -266,7 +266,7 @@
                 var dropdownListWrapper = $('<div class="link-list-wrapper"></div>');
                 var dropdownList = $('<ul class="link-list"></ul>');
 
-                $('<a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="rounded-icon"><svg class="icon icon-primary notrasform"><use xlink:href="'+spritePath+'#'+icon+'"></use></svg></span><span class="d-none d-lg-block">'+data.content.name+' </span><svg class="icon-expand icon icon-white"><use xlink:href="'+spritePath+'#it-expand"></use></svg></a>')
+                $('<a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="rounded-icon"><svg class="icon icon-primary notrasform"><use xlink:href="'+spritePath+'#'+icon+'"></use></svg></span><span class="d-none d-lg-block text-nowrap">'+data.content.name+' </span><svg class="icon-expand icon icon-white"><use xlink:href="'+spritePath+'#it-expand"></use></svg></a>')
                     .appendTo(dropdownWrapper);
 
                 $('<li><a class="list-item" href="'+trimmedPrefix+'/user/edit/" title="{/literal}{'User profile'|i18n('bootstrapitalia')}{literal}"><span>{/literal}{'User profile'|i18n('bootstrapitalia')}{literal}</span></a></li>')
