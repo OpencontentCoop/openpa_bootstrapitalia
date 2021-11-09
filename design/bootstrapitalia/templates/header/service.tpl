@@ -105,7 +105,7 @@
                                             <li class="list-item d-block d-md-none"><a href="{$item.url}">{$item.name|wash()}</a></li>
                                         {/foreach}
                                         {foreach $header_links as $header_link max 3}
-                                            <li class="list-item">{node_view_gui content_node=$header_link view=text_linked}</li>
+                                            <li class="list-item text-nowrap">{node_view_gui content_node=$header_link view=text_linked}</li>
                                         {/foreach}
                                     </ul>
                                 </div>
