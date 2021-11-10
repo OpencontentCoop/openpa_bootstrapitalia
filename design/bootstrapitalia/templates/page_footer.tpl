@@ -67,11 +67,13 @@
                         {undef $footer_notes}
                     </div>
                     {/if}
-                    
+
+                    {if count($pagedata.contacts)|gt(0)}
                     <div class="col pb-2">
                         <h4><span>{'Contacts'|i18n('openpa/footer')}</span></h4>
                         {include uri='design:footer/contacts.tpl'}
                     </div>
+                    {/if}
                     
                     {if $has_newsletter}                        
                         <div class="col pb-2">
