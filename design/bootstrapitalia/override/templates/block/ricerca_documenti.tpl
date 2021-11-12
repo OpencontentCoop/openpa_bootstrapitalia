@@ -70,7 +70,7 @@
 				{if $filters|contains('year')}
 				<div class="col-md-2 col-lg-1 my-2">
 					<label for="searchFormYear-{$block.id}" class="m-0 d-none"><small>{'Year'|i18n('openpa/search')}</small></label>
-					<input type="number" size="4" min="1900" max="2050" autocomplete="off" class="form-control chosen-border" id="searchFormYear-{$block.id}" data-search="year" placeholder="{'Year'|i18n('openpa/search')}">
+					<input size="4" autocomplete="off" class="form-control chosen-border" id="searchFormYear-{$block.id}" data-search="year" placeholder="{'Year'|i18n('openpa/search')}">
 				</div>
 				{/if}
 				{if $filters|contains('daterange')}

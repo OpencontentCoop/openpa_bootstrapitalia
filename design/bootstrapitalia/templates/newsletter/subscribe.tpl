@@ -1,3 +1,15 @@
+{if and(ezini_hasvariable('GeneralSettings', 'EnableSendy', 'sendy.ini'), ezini('GeneralSettings', 'EnableSendy', 'sendy.ini')|eq('enabled'))}
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1>{'Newsletter subscribe'|i18n( 'cjw_newsletter/subscribe' )}</h1>
+            <div class="lead">
+                <p>{'Here you can subscribe to one of our newsletters.'|i18n( 'cjw_newsletter/subscribe' )}</p>
+            </div>
+            {include uri='design:sendy/newsletter_subscribe.tpl' text_default=true() id_suffix='-full'}
+    </div>
+{else}
+
 <div class="newsletter newsletter-subscribe">
 
 
@@ -236,3 +248,4 @@ $(document).ready(function(){
 });
 {/literal}</script>
 
+{/if}

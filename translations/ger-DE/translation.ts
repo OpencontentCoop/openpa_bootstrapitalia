@@ -97,7 +97,7 @@
     </message>
     <message>
       <source>Visit</source>
-      <translation>Besuch</translation>
+      <translation>Seiten besuchen</translation>
     </message>
     <message>
       <source>Go to page</source>
@@ -422,7 +422,7 @@
     </message>
     <message>
       <source>to</source>
-      <translation>zu</translation>
+      <translation>bis</translation>
     </message>
     <message>
       <source>Year</source>

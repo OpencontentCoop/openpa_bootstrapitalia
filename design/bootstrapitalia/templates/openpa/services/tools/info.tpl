@@ -140,37 +140,75 @@
     {/if}
 
     {if $node.object.can_translate}
-        <div class="col-md-3 text-right text-primary">Traduzioni:</div>
+        {def $available_languages = fetch( 'content', 'prioritized_languages' )
+             $translations = $node.object.languages
+             $translations_count = $translations|count
+             $object_can_edit = $node.object.can_edit}
+        {if count($available_languages)|ge(2)}
+        <div class="col-md-3 text-right text-primary">{'Existing translations'|i18n( 'design/admin/node/view/full' )}</div>
         <div class="col-md-9">
-            <ul class="list-inline">
-                {foreach $node.object.languages as $language}
-                    {if $node.object.available_languages|contains($language.locale)}
-                        <li>
-                            <a class="mr-3" href="{concat( $node.url_alias, '/(language)/', $language.locale )|ezurl(no)}">
-                                {if $language.locale|eq($node.object.current_language)}<strong>{/if}
-                                    <small>{$language.name|wash()}</small>
-                                {if $language.locale|eq($node.object.current_language)}</strong>{/if}
-                            </a>
-                            <a href="{concat('content/edit/', $node.object.id, '/f/', $language.locale)|ezurl(no)}">
-                                <i aria-hidden="true" class="fa fa-pencil"></i>
-                            </a>
-                        </li>
+            <table class="table table-sm" summary="{'Language list of translations for current object.'|i18n( 'design/admin/node/view/full' )}">
+            {section var=Translations loop=$translations sequence=array( bglight, bgdark )}
+                {def $can_edit=fetch( 'content', 'access', hash( 'access', 'edit',
+                                      'contentobject', $node.object,
+                                      'language', $Translations.item.locale ) )}
+                <tr>
+                    <td>
+                        <img src="{$Translations.item.locale|flag_icon}" width="18" height="12" alt="{$Translations.item.locale}" />
+                        {if eq( $Translations.item.locale, $node.object.current_language )}
+                            <b><a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name}</a></b>
+                        {else}
+                            <a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name}</a>
+                        {/if}
+                        {if $Translations.item.id|eq($node.object.initial_language_id)}({'Main'|i18n( 'design/admin/node/view/full' )}){/if}
+                    </td>
+                    <td width="1">
+                        {if $object_can_edit}
+                            {if and($translations_count|gt( 1 ), $Translations.item.id|ne($node.object.initial_language_id))}
+                                <form name="translationsform" method="post" action={'content/translation'|ezurl}>
+                                    <input type="hidden" name="InitialLanguageID" value="{$Translations.item.id}" />
+                                    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+                                    <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+                                    <input type="hidden" name="ViewMode" value="full" />
+                                    <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
+                                    <button class="btn btn-link p-0 mr-2 text-black" type="submit" name="UpdateInitialLanguageButton" title="{'Set main'|i18n( 'design/admin/node/view/full' )}"><i class="fa fa-toggle-off"></i></button>
+                                </form>
+                            {else}
+                                <i class="fa fa-toggle-on"></i
+                            {/if}
+                        {/if}
+                    </td>
+                    <td width="1">
+                        {if $can_edit}
+                            <a class="text-black" title="{'Edit in <%language_name>.'|i18n( 'design/admin/node/view/full',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" href={concat( 'content/edit/', $node.object.id, '/f/', $Translations.item.locale )|ezurl}><i class="fa fa-pencil"></i></a>
+                        {/if}
+                    </td>
+                    <td width="1">
+                    {if and($object_can_edit, $translations_count|gt( 1 ), $Translations.item.id|ne($node.object.initial_language_id))}
+                        <form name="translationsform" method="post" action={'content/translation'|ezurl}>
+                            <input type="hidden" name="LanguageID[]" value="{$Translations.item.id}" />
+                            <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+                            <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+                            <input type="hidden" name="ViewMode" value="full" />
+                            <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
+                            <button class="btn btn-link p-0 ml-2 text-black" type="submit" name="RemoveTranslationButton" title="{'Remove selected'|i18n( 'design/admin/node/view/full' )}"><i class="fa fa-trash"></i></button>
+                        </form>
                     {/if}
-                {/foreach}
-                <li>
-                    {def $can_create_languages = $node.object.can_create_languages
-                         $languages = fetch( 'content', 'prioritized_languages' )}
-                    <form method="post" action={"content/action"|ezurl}>
-                        <input type="hidden" name="HasMainAssignment" value="1"/>
-                        <input type="hidden" name="ContentObjectID" value="{$node.object.id}"/>
-                        <input type="hidden" name="NodeID" value="{$node.node_id}"/>
-                        <input type="hidden" name="ContentNodeID" value="{$node.node_id}"/>
-                        <input type="hidden" name="ContentObjectLanguageCode" value=""/>
-                        <input type="submit" name="EditButton" class="btn btn-xs btn-secondary" value="Modifica/inserisci traduzione"/>
-                    </form>
-                </li>
-            </ul>
+                    </td>
+                </tr>
+                {undef $can_edit}
+            {/section}
+            </table>
+            <form method="post" action={"content/action"|ezurl}>
+                <input type="hidden" name="HasMainAssignment" value="1"/>
+                <input type="hidden" name="ContentObjectID" value="{$node.object.id}"/>
+                <input type="hidden" name="NodeID" value="{$node.node_id}"/>
+                <input type="hidden" name="ContentNodeID" value="{$node.node_id}"/>
+                <input type="hidden" name="ContentObjectLanguageCode" value=""/>
+                <input type="submit" name="EditButton" class="btn btn-xs btn-secondary" value="{'New translation'|i18n('design/admin/content/edit_languages')}"/>
+            </form>
         </div>
+        {/if}
     {/if}
 
     {*if $openpa.content_globalinfo.has_content}
