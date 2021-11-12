@@ -889,7 +889,7 @@
     </message>
     <message>
       <source>to</source>
-      <translation>zu</translation>
+      <translation>bis</translation>
     </message>
   </context>
   <context>
