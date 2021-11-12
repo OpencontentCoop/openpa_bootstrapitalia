@@ -53,6 +53,29 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
     public function executeAction($actionIdentifier, $actionParameters, eZModule $module = null)
     {
         if ($actionIdentifier == 'ActionSendToMailingList' && $this->attribute('is_published')) {
+            $tpl = eZTemplate::factory();
+            $tpl->setVariable('factory_identifier', $this->getFactory()->identifier());
+            $tpl->setVariable('post', $this);
+            $list = $this->getMailingList();
+            $emails = [];
+            foreach ($list as $item) {
+                if (in_array($item['u_id'], $actionParameters['users']) && eZMail::validate($item['email'])) {
+                    $emails[$item['u_id']] = $item['email'];
+                }
+            }
+            $language = $actionParameters['language'];
+            $tpl->setVariable('emails', $emails);
+            $tpl->setVariable('language', $language);
+            if (class_exists('ezxFormToken')) {
+                $tpl->setVariable('token_field', ezxFormToken::FORM_FIELD);
+                $tpl->setVariable('token', ezxFormToken::getToken());
+            }
+            echo $tpl->fetch('design:editorialstuff/send_confirmation.tpl');
+            eZExecution::cleanExit();
+
+        }
+
+        if ($actionIdentifier == 'ActionDoSendToMailingList' && $this->attribute('is_published')) {
             $list = $this->getMailingList();
             $emails = [];
             foreach ($list as $item) {
