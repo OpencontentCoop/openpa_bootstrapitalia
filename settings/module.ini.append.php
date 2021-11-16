@@ -6,4 +6,5 @@ ModuleList[]=bootstrapitalia
 ModuleList[]=join
 ModuleList[]=image
 ModuleList[]=valuation
+ModuleList[]=extraindex
 */ ?>
