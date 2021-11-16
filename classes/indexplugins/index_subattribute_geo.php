@@ -6,6 +6,7 @@ use Opencontent\Opendata\Api\Values\ExtraData;
 class ezfIndexSubAttributeGeo implements ezfIndexPlugin, ExtraDataProviderInterface
 {
     const FIELD = 'extra_geo____gpt';
+    const RPT_FIELD = 'extra_geo____rpt';
 
     private static $geoClassIdentifiers;
 
@@ -21,15 +22,13 @@ class ezfIndexSubAttributeGeo implements ezfIndexPlugin, ExtraDataProviderInterf
 
         $subGeoValues = self::getSubAttributeGeo($contentObject);
         if (!empty($subGeoValues)) {
-            foreach ($subGeoValues as $subGeoValue) {
+            foreach ($subGeoValues as $index => $subGeoValue) {
                 if (!empty($subGeoValue) && !empty($subGeoValue['longitude']) && !empty($subGeoValue['latitude'])) {
                     foreach ($availableLanguages as $languageCode) {
                         if ($docList[$languageCode] instanceof eZSolrDoc) {
-                            if ($docList[$languageCode]->Doc instanceof DOMDocument) {
-                                $xpath = new DomXpath($docList[$languageCode]->Doc);
-                                $docList[$languageCode]->addField(self::FIELD, implode(',', $subGeoValue));
-                            } elseif (is_array($docList[$languageCode]->Doc)) {
-                                $docList[$languageCode]->addField(self::FIELD, implode(',', $subGeoValue));
+                            $docList[$languageCode]->addField(self::FIELD, implode(',', $subGeoValue));
+                            if ($index === 0) {
+                                $docList[$languageCode]->addField(self::RPT_FIELD, $subGeoValue['longitude'] . ' ' . $subGeoValue['latitude']);
                             }
                         }
                     }

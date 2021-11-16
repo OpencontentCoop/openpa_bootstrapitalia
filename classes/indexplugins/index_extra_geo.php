@@ -16,12 +16,7 @@ class ezfIndexExtraGeo implements ezfIndexPlugin
         if ($extraGeo) {
             foreach ($availableLanguages as $languageCode) {
                 if ($docList[$languageCode] instanceof eZSolrDoc) {
-                    if ($docList[$languageCode]->Doc instanceof DOMDocument) {
-                        $xpath = new DomXpath($docList[$languageCode]->Doc);
-                        $docList[$languageCode]->addField(self::FIELD, $extraGeo);
-                    } elseif (is_array($docList[$languageCode]->Doc)) {
-                        $docList[$languageCode]->addField(self::FIELD, $extraGeo);
-                    }
+                    $docList[$languageCode]->addField(self::FIELD, $extraGeo);
                 }
             }
         }
