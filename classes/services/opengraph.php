@@ -49,7 +49,7 @@ class ObjectHandlerServiceOpengraph extends ObjectHandlerServiceBase
                 if (!isset($returnArray['og:description'])
                     && in_array($attribute->attribute('data_type_string'), [eZTextType::DATA_TYPE_STRING, eZXMLTextType::DATA_TYPE_STRING])
                     && $attribute->hasContent()) {
-                    $returnArray['og:description'] = str_replace("\n", " ", strip_tags(trim($attribute->attribute('data_text'))));
+                    $returnArray['og:description'] = $this->cleanText($attribute->attribute('data_text'));
                 }
                 if ($identifier == 'reading_time' && $attribute->content() != 0) {
                     $returnArray['twitter:label1'] = $attribute->attribute('contentclass_attribute_name');
@@ -76,7 +76,7 @@ class ObjectHandlerServiceOpengraph extends ObjectHandlerServiceBase
                     if (isset($dataMap[$identifier])
                         && in_array($dataMap[$identifier]->attribute('data_type_string'), [eZTextType::DATA_TYPE_STRING, eZXMLTextType::DATA_TYPE_STRING])
                         && $dataMap[$identifier]->hasContent()) {
-                        $returnArray['og:description'] = str_replace("\n", " ", strip_tags(trim($dataMap[$identifier]->attribute('data_text'))));
+                        $returnArray['og:description'] = $this->cleanText($dataMap[$identifier]->attribute('data_text'));
                     }
                 }
             } catch (Exception $e) {
@@ -132,6 +132,26 @@ class ObjectHandlerServiceOpengraph extends ObjectHandlerServiceBase
         }
 
         return $returnArray;
+    }
+
+    private function cleanText($text)
+    {
+        $text = strip_tags(trim($text));
+        $text = str_replace("\n", " ", $text);
+        if (strpos($text, 'script') !== false) {
+            $text = html_entity_decode($text);
+            $doc = new DOMDocument();
+            if ($doc->loadHTML($text, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD)) {
+                $scripts = $doc->getElementsByTagName('script');
+                $length = $scripts->length;
+                for ($i = 0; $i < $length; $i++) {
+                    $scripts->item($i)->parentNode->removeChild($scripts->item($i));
+                }
+                $text = $doc->saveHTML();
+            }
+        }
+
+        return $text;
     }
 
     /**
