@@ -79,7 +79,7 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
             $list = $this->getMailingList();
             $emails = [];
             foreach ($list as $item) {
-                if (in_array($item['u_id'], $actionParameters['users']) && eZMail::validate($item['email'])) {
+                if (in_array($item['u_id'], (array)$actionParameters['users']) && eZMail::validate($item['email'])) {
                     $emails[] = $item['email'];
                 }
             }

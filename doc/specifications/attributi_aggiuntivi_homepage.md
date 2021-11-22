@@ -14,3 +14,4 @@ I seguenti attributi, non disponibili per default, possono essere aggiunti modif
  - string `cookie_alert_accept_button_text`: permette di personalizzare il testo del bottone di accettazione del cookie alert
  - string `footer_info_label`: permette di personalizzare l'etichetta Informazioni nel footer
  - boolean `editor_access_in_footer`: permette di posizionare sul footer il menu di accesso dei redattori
+ - file `favicon`: permette di customizzare la favicon

@@ -9,6 +9,7 @@ Class[public_service]=ezfIndexSubAttributeGeo
 Class[administrative_area]=ezfIndexSubAttributeGeo
 Class[document]=ezfIndexHasCodeNormalized
 Class[time_indexed_role]=ezfIndexEndlessRole
+Class[homepage]=ezfIndexHomepage
 General[]=ezfIndexExtraGeo
 
 # Per siti multilingua occorre impostare a livello globale questo index plugin:

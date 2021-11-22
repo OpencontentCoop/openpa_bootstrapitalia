@@ -44,6 +44,12 @@
     {include uri='design:page_head.tpl' canonical_url=openpacontext().canonical_url}
     {/debug-accumulator}
 
+    {cache-block expiry=86400 ignore_content_expiry keys=array( 'favicon' )}
+    {def $pagedata = openpapagedata()}
+    {include uri="design:favicon.tpl"}
+    {undef $pagedata}
+    {/cache-block}
+
     {debug-accumulator id=page_head_style name=page_head_style}
     {include uri='design:page_head_style.tpl'}
     {/debug-accumulator}
