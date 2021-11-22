@@ -4,7 +4,7 @@
 <td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;">
 <![endif]-->
 
-<div style="background:#fff;background-color:#fff;Margin:0px auto;max-width:600px;">
+<div style="background:#fff;background-color:#fff;Margin:0px auto;max-width:600px;" xmlns="http://www.w3.org/1999/html">
 
     <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background:#fff;background-color:#fff;width:100%;">
         <tbody>
@@ -24,7 +24,18 @@
                                 <td align="left" style="font-size:0px;padding:0 25px;word-break:break-word;">
 
                                     <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:12pt;line-height:1;text-align:left;color:#000000;">
-                                        <a href="{concat($site_url, '/', $content.object.main_node.url_alias)}">{$content.name|wash()} ></a>
+                                        <a href="{concat($site_url, '/', $content.object.main_node.url_alias)}">
+
+                                            {if $content|has_attribute('time_interval')}
+                                                {def $events = $content|attribute('time_interval').content.events}
+                                                {if count($events)|gt(0)}
+                                                    <strong style="display: block">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )} {recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</strong>
+                                                {/if}
+                                                {undef $events}
+                                            {/if}
+
+                                            {$content.name|wash()}
+                                        </a>
                                     </div>
 
                                 </td>
