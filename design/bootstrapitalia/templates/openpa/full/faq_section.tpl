@@ -23,7 +23,7 @@
 
 {include uri='design:openpa/full/parts/main_image.tpl'}
 
-{def $faq_groups = fetch(content, list, hash('parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('faq_group')))}
+{def $faq_groups = fetch(content, list, hash('parent_node_id', $node.node_id, 'sort_by', $node.sort_array, 'class_filter_type', 'include', 'class_filter_array', array('faq_group')))}
 {if count($faq_groups)|gt(0)}
 <section class="container mb-4">
     <div class="row border-top row-column-border row-column-menu-left attribute-list">
