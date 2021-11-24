@@ -251,6 +251,10 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
     {
         $content = $attribute->content();
 
+        if ($content instanceof eZXMLText){
+            return str_replace('&nbsp;', ' ', $content->attribute('output')->attribute('output_text'));
+        }
+
         if ($content instanceof eZTags) {
             return $content->keywordString(', ');
         }
