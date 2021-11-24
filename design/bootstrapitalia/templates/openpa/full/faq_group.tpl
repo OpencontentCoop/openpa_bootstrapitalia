@@ -6,7 +6,7 @@
 {/if}
 {def $siblings = array()}
 {if $parent.node_id|ne($node.node_id)}
-    {set $siblings = fetch(content, list, hash('parent_node_id', $parent.node_id, 'class_filter_type', 'include', 'class_filter_array', array('faq_group')))}
+    {set $siblings = fetch(content, list, hash('parent_node_id', $parent.node_id, 'sort_by', $parent.sort_array, 'class_filter_type', 'include', 'class_filter_array', array('faq_group')))}
 {/if}
 {if count($siblings)|eq(1)}
     {set $siblings = array()}
