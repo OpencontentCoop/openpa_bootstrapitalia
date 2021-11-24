@@ -145,7 +145,9 @@ class ObjectHandlerServiceOpengraph extends ObjectHandlerServiceBase
                 $scripts = $doc->getElementsByTagName('script');
                 $length = $scripts->length;
                 for ($i = 0; $i < $length; $i++) {
-                    $scripts->item($i)->parentNode->removeChild($scripts->item($i));
+                    if ($scripts->item($i)->parentNode) {
+                        $scripts->item($i)->parentNode->removeChild($scripts->item($i));
+                    }
                 }
                 $text = $doc->saveHTML();
             }
