@@ -410,6 +410,8 @@ $(document).ready(function () {
 			var sort = ' sort ['+startIdentifier+'=>desc';
 			if (numberIdentifier === 'has_code'){
 				sort += ',raw[extra_has_code_sl]=>desc';
+			}else {
+				sort += ',' + numberIdentifier + '=>desc';
 			}
 			sort += ']';
 			query += sort;

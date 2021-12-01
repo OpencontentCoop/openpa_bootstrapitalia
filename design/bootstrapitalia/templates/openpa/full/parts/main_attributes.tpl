@@ -42,7 +42,7 @@
 		<div class="col">
 			<p class="info-date my-3">
 				<span class="d-block text-nowrap">{$attribute.contentclass_attribute_name|wash()}:</span>
-				<strong class="text-nowrap">{$attribute.content.timestamp|datetime( 'custom', '%j %F %Y' )}</strong>
+				<strong class="text-nowrap">{$attribute.content.timestamp|l10n( 'date' )}</strong>
 			</p>
 		</div>
 	{/foreach}

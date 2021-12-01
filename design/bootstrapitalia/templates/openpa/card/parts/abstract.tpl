@@ -14,7 +14,7 @@
 			{elseif and(array('ezdate', 'ezdatetime')|contains($openpa[$identifier].contentobject_attribute.data_type_string), $openpa[$identifier].contentobject_attribute.has_content)}
 				<p class="info-date my-3 text-sans-serif">
 					<span class="d-block text-nowrap text-sans-serif">{$openpa[$identifier].contentobject_attribute.contentclass_attribute_name|wash()}:</span>
-					<strong class="text-nowrap">{$openpa[$identifier].contentobject_attribute.content.timestamp|datetime( 'custom', '%j %F %Y' )}</strong>
+					<strong class="text-nowrap">{$openpa[$identifier].contentobject_attribute.content.timestamp|l10n( 'date' )}</strong>
 				</p>
 			{else}
 				<div>

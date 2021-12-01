@@ -173,7 +173,7 @@
     </message>
     <message>
       <source>View all</source>
-      <translation>Alle ansehen</translation>
+      <translation>Alles anzeigen</translation>
     </message>
     <message>
       <source>Other topics</source>
@@ -320,7 +320,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Folge uns</translation>
+      <translation>Folgen Sie uns</translation>
     </message>
     <message>
       <source>back to top</source>
