@@ -15,7 +15,11 @@ $(document).ready(function () {
                     if (response.extradata){
                         let extradata = $.opendataTools.helpers.i18n(response.extradata, 'view');
                         if (extradata.length > 0) {
-                            container.replaceWith(extradata);
+                            var data = $(extradata);
+                            data.find('a').each(function() {
+                                $(this).attr('target','_blank');
+                            });
+                            container.replaceWith(data);
                         }
                     }
                 },

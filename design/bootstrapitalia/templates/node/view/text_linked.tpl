@@ -12,7 +12,7 @@
 <a href="{$openpa.content_link.full_link}"
    title="Link a {if is_set( $text )}{$text|wash()}{else}{$node.name|wash()}{/if}"
    {if $a_class|ne('')}class="{$a_class}"{/if}
-   {if $openpa.content_link.target}target="_blank" rel="noopener noreferrer"{/if}>
+   {if or($node.class_identifier|eq('shared_link'), $openpa.content_link.target)}target="_blank" rel="noopener noreferrer"{/if}>
     {if and($show_icon, $openpa.content_icon.icon)}
         {display_icon($openpa.content_icon.icon.icon_text|wash(), 'svg', 'icon icon-sm mr-2')}
     {/if}

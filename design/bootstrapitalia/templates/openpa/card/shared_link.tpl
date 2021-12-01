@@ -8,7 +8,7 @@
 
             {include uri='design:openpa/card/parts/card_title.tpl'}
 
-            <a data-shared_link="{$node.contentobject_id}" data-shared_link_view="card" class="read-more" href="{$openpa.content_link.full_link}#page-content">
+            <a data-shared_link="{$node.contentobject_id}" data-shared_link_view="card" target="_blank" class="read-more" href="{$openpa.content_link.full_link}#page-content">
                 <span class="text">{'Further details'|i18n('bootstrapitalia')}</span>
                 {display_icon('it-external-link', 'svg', 'icon')}
             </a>
