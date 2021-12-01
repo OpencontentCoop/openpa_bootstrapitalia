@@ -22,7 +22,7 @@
                         <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                             <tr>
                                 <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                    <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:12pt;line-height:1;text-align:left;color:#000000;">
+                                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:12pt;line-height:1;text-align:left;color:#000000;">
                                         {attribute_view_gui attribute=$main_node.data_map.description}
                                     </div>
                                 </td>
@@ -30,7 +30,7 @@
                             {if and( is_set( $main_node.parent.data_map.banner ), $main_node.parent.data_map.banner.has_content )}
                             <tr>
                                 <td>
-                                    <img height="auto" src="{$main_node.parent.data_map.banner.content['original'].url|ezroot(no, full)}" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;" width="100%" />
+                                    <img height="auto" src="{$main_node.parent.data_map.banner.content['original'].url|ezroot(no, full)|explode('http://')|implode('https://')}" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;" width="100%" />
                                 </td>
                             </tr>
                             {/if}

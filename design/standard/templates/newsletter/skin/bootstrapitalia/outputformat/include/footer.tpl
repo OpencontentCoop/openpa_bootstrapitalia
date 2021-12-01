@@ -20,7 +20,7 @@
                         <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
                             <tr>
                                 <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                    <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:9pt;line-height:auto;text-align:left;color:#000000;">
+                                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:9pt;line-height:auto;text-align:left;color:#000000;">
                                         {'To unsubscribe from this newsletter please visit the following link'|i18n('cjw_newsletter/skin/default')}: 
                                         <a href="{concat($site_url,'/newsletter/unsubscribe/#_hash_unsubscribe_#')}">annulla sottoscrizione</a>
                                     </div>
@@ -68,7 +68,7 @@
                             {if and( is_set( $main_node.parent.data_map.footer_link ), $main_node.parent.data_map.footer_link.has_content )}      
                             <tr>
                                 <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:8pt;line-height:1;text-align:left;color:#FFFFFF;">
+                                <div style="font-family:Arial,Helvetica,sans-serif;font-size:8pt;line-height:1;text-align:left;color:#FFFFFF;">
                                 {foreach $main_node.parent.data_map.footer_link.content.relation_list as $relation}
                                   {def $related = fetch( content, object, hash( object_id, $relation.contentobject_id ) )}        
                                     <a style="color: #fff;" href="{concat($site_url, $related.main_node.url_alias|ezurl('no'))}">{$related.name|wash()}</a>
@@ -81,7 +81,7 @@
                             {/if}
                             <tr>
                                 <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                                    <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:10pt;line-height:1;text-align:left;color:#FFFFFF;">
+                                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;line-height:1;text-align:left;color:#FFFFFF;">
                                         &copy; {currentdate()|datetime( 'custom', '%Y' )} {ezini('SiteSettings', 'SiteName')|wash()}
                                     </div>
                                 </td>

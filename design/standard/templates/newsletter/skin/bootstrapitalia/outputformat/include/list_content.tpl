@@ -23,13 +23,13 @@
                             <tr>
                                 <td align="left" style="font-size:0px;padding:0 25px;word-break:break-word;">
 
-                                    <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:12pt;line-height:1;text-align:left;color:#000000;">
+                                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:12pt;line-height:1;text-align:left;color:#000000;">
                                         <a href="{concat($site_url, '/', $content.object.main_node.url_alias)}">
 
                                             {if $content|has_attribute('time_interval')}
                                                 {def $events = $content|attribute('time_interval').content.events}
                                                 {if count($events)|gt(0)}
-                                                    <strong style="display: block">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )} {recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</strong>
+                                                    <strong style="display: block;line-height: 2">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )} {recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</strong>
                                                 {/if}
                                                 {undef $events}
                                             {/if}
@@ -45,7 +45,7 @@
                             <tr>
                                 <td align="left" style="font-size:0px;padding:0 25px;word-break:break-word;">
 
-                                    <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:10pt;line-height:auto;text-align:left;color:#000000;">
+                                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;line-height:auto;text-align:left;color:#000000;">
                                         {$content|abstract()}
                                     </div>
 

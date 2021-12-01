@@ -117,100 +117,6 @@
 </style>
 <![endif]-->
 
-<!--[if !mso]><!-->
-<style type="text/css">
-    @font-face {
-        font-family: 'Titillium Web';
-        font-style: normal;
-        font-weight: 300;
-        src: local('Titillium Web Light'), local('TitilliumWeb-Light'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Light.woff2'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff2'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Light.woff'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Light.ttf'|ezdesign(no)|ezroot(no, full)}{literal}) format('truetype');
-        unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-    }
-    /* latin */
-    @font-face {
-        font-family: 'Titillium Web';
-        font-style: normal;
-        font-weight: 300;
-        src: local('Titillium Web Light'), local('TitilliumWeb-Light'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Light.woff2'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff2'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Light.woff'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Light.ttf'|ezdesign(no)|ezroot(no, full)}{literal}) format('truetype');
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-    }
-    /* latin-ext */
-    @font-face {
-        font-family: 'Titillium Web';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Titillium Web Regular'), local('TitilliumWeb-Regular'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Regular.woff2'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff2'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Regular.woff'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Regular.ttf'|ezdesign(no)|ezroot(no, full)}{literal}) format('truetype');
-        unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-    }
-    /* latin */
-    @font-face {
-        font-family: 'Titillium Web';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Titillium Web Regular'), local('TitilliumWeb-Regular'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Regular.woff2'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff2'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Regular.woff'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Regular.ttf'|ezdesign(no)|ezroot(no, full)}{literal}) format('truetype');
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-    }
-    /* latin-ext */
-    @font-face {
-        font-family: 'Titillium Web';
-        font-style: normal;
-        font-weight: 600;
-        src: local('Titillium Web SemiBold'), local('TitilliumWeb-SemiBold'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-SemiBold.woff2'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff2'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-SemiBold.woff'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-SemiBold.ttf'|ezdesign(no)|ezroot(no, full)}{literal}) format('truetype');
-        unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-    }
-    /* latin */
-    @font-face {
-        font-family: 'Titillium Web';
-        font-style: normal;
-        font-weight: 600;
-        src: local('Titillium Web SemiBold'), local('TitilliumWeb-SemiBold'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-SemiBold.woff2'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff2'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-SemiBold.woff'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-SemiBold.ttf'|ezdesign(no)|ezroot(no, full)}{literal}) format('truetype');
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-    }
-    /* latin-ext */
-    @font-face {
-        font-family: 'Titillium Web';
-        font-style: normal;
-        font-weight: 700;
-        src: local('Titillium Web Bold'), local('TitilliumWeb-Bold'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Bold.woff2'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff2'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Bold.woff'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Bold.ttf'|ezdesign(no)|ezroot(no, full)}{literal}) format('truetype');
-        unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-    }
-    /* latin */
-    @font-face {
-        font-family: 'Titillium Web';
-        font-style: normal;
-        font-weight: 700;
-        src: local('Titillium Web Bold'), local('TitilliumWeb-Bold'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Bold.woff2'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff2'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Bold.woff'|ezdesign(no)|ezroot(no, full)}{literal}) format('woff'),
-        url({/literal}{'fonts/Titillium_Web/TitilliumWeb-Bold.ttf'|ezdesign(no)|ezroot(no, full)}{literal}) format('truetype');
-        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-    }
-
-</style>
-<!--<![endif]-->
-
-
 <style type="text/css">
     @media only screen and (min-width: 480px) {
         .mj-column-per-25 {
@@ -237,8 +143,6 @@
 
 
 <style type="text/css">
-
-
     @media only screen and (max-width: 480px) {
         table.full-width-mobile {
             width: 100% !important;
@@ -248,6 +152,5 @@
             width: auto !important;
         }
     }
-
 </style>
 {/literal}

@@ -24,8 +24,8 @@
 
                             <img alt="{ezini('SiteSettings', 'SiteName')|wash()}" 
                                  height="auto" 
-                                 src="{openpapagedata().homepage|attribute('logo').content['squarethumb'].url|ezroot(no)}"
-                                 style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100px;" width="100" />                            
+                                 src="{openpapagedata().homepage|attribute('logo').content['header_logo'].url|ezroot(no,full)|explode('http://')|implode('https://')}"
+                                 style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100px;" width="100" />
                           </td>
                         </tr>
                       </tbody>
@@ -43,11 +43,11 @@
                 <tr>
                   <td align="center" style="font-size:0px;padding:10px 25px;padding-bottom:0;word-break:break-word;">            
                     
-                     <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:10pt;line-height:1;margin-bottom:5px;text-align:left;color:#FFFFFF;">
+                     <div style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;line-height:1;margin-bottom:5px;text-align:left;color:#FFFFFF;">
                         {ezini('SiteSettings','SiteName')}
                       </div>
 
-                    <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:20pt;line-height:1.2;text-align:left;color:#FFFFFF;">
+                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:20pt;line-height:1.2;text-align:left;color:#FFFFFF;">
                       
                       {$main_node.parent.name|wash()}
 
@@ -56,7 +56,7 @@
                 </tr>
                 <tr>
                   <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">            
-                    <div style="font-family:'Titillium Web',Geneva,Tahoma,sans-serif;font-size:10pt;line-height:1;text-align:left;color:#FFFFFF;">
+                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;line-height:1;text-align:left;color:#FFFFFF;">
                       
                       {$main_node.name|wash()} - {currentdate()|l10n('shortdate')}
                       
