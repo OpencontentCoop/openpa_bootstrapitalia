@@ -25,7 +25,8 @@
 
                                     <div style="font-family:Arial,Helvetica,sans-serif;font-size:18pt;line-height:1;text-align:left;color:#000000;">
 
-                                        {if and($content|has_attribute('image')|not(), $content|has_attribute('time_interval'))}
+                                        {*if and($content|has_attribute('image')|not(), $content|has_attribute('time_interval'))*}
+                                        {if $content|has_attribute('time_interval')}
                                             {def $events = $content|attribute('time_interval').content.events}
                                             {if count($events)|gt(0)}
                                                 <strong>{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )} {recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</strong>
@@ -48,13 +49,13 @@
                                               <tr>
                                                   <td style="width:550px;">
 
-                                                      <div style="position:relative">
+                                                      {*<div style="position:relative">*}
                                                           <img height="auto"
                                                                src="{include name="main_image" uri='design:newsletter/skin/bootstrapitalia/outputformat/include/image_url.tpl' node=$content image_class=reference}"
                                                                style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;"
                                                                width="550"/>
 
-                                                          {if $content|has_attribute('time_interval')}
+                                                          {*if $content|has_attribute('time_interval')}
                                                               {def $events = $content|attribute('time_interval').content.events}
                                                               {def $is_recurrence = cond(count($events)|gt(1), true(), false())}
                                                               {if count($events)|gt(0)}
@@ -65,8 +66,8 @@
                                                                   </div>
                                                               {/if}
                                                               {undef $events $is_recurrence}
-                                                          {/if}
-                                                      </div>
+                                                          {/if*}
+                                                      {*</div>*}
 
                                                   </td>
                                               </tr>
