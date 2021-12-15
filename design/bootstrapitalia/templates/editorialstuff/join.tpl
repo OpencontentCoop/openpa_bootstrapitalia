@@ -45,7 +45,7 @@
                     {foreach $content_attributes as $attribute}
                         {def $class_attribute = $attribute.contentclass_attribute}
 
-                        {if $class_attribute.is_required}
+                        {if and($class_attribute.is_required, $class_attribute.is_information_collector|not())}
                             <div id="edit-{$class_attribute.identifier}"
                                  class="py-3 mb-4 ezcca-edit-datatype-{$attribute.data_type_string} ezcca-edit-{$class_attribute.identifier}">
                                     <h5{if $attribute.has_validation_error} class="text-error"{/if}>
