@@ -553,4 +553,15 @@ class OpenPABootstrapItaliaOperators
         $string = trim($string);
         return ezpI18n::tr('bootstrapitalia/valuation', $string);
     }
+
+    public static function filterOembedHtml($html, $url, $data)
+    {
+        if (OpenPAINI::variable('CookiesSettings', 'Consent', 'advanced') === 'advanced'){
+            $encodeUrl = base64_encode($url);
+            $html = str_replace('src=', 'preview_placeholder data-coookieconsent="multimedia" data-src=', $html);
+            $html = str_replace('preview_placeholder', "data-preview=\"/ocembed/preview/?u={$encodeUrl}\" src=\"/ocembed/preview/?u={$encodeUrl}\"", $html);
+        }
+
+        return $html;
+    }
 }

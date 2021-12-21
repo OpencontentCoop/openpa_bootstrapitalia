@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>Cerrar</translation>
+      <translation>Cerca</translation>
     </message>
     <message>
       <source>FREE</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>days</source>
-      <translation>dias</translation>
+      <translation>días</translation>
     </message>
     <message>
       <source>Share</source>
@@ -89,7 +89,7 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Todos</translation>
+      <translation>Todo</translation>
     </message>
     <message>
       <source>Read more</source>
@@ -320,7 +320,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Síguenos</translation>
+      <translation>Síganos</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -366,7 +366,7 @@
     </message>
     <message>
       <source>Search</source>
-      <translation>Buscar</translation>
+      <translation>Búsqueda</translation>
     </message>
     <message>
       <source>Advanced search</source>
@@ -378,7 +378,7 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>todo sitio web</translation>
+      <translation>Todo sitio web</translation>
     </message>
     <message>
       <source>only information of type</source>
@@ -418,11 +418,11 @@
     </message>
     <message>
       <source>from</source>
-      <translation>de</translation>
+      <translation>desde</translation>
     </message>
     <message>
       <source>to</source>
-      <translation>para</translation>
+      <translation>a</translation>
     </message>
     <message>
       <source>Year</source>
@@ -486,7 +486,7 @@
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Eliminar todos los filtros</translation>
+      <translation>Retire todos los filtros</translation>
     </message>
     <message>
       <source>Refine your search</source>
@@ -699,7 +699,7 @@
     </message>
     <message>
       <source>Detect position</source>
-      <translation>Posición de detección</translation>
+      <translation>Detectar posición</translation>
     </message>
   </context>
   <context>
@@ -926,6 +926,85 @@
     </message>
     <message>
       <source>Documenti</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/cookieconsent</name>
+    <message>
+      <source>Cookie policy</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>This website uses cookies to ensure you get the best experience on our website.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Accept all cookies</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Cookie information and preferences</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Cookie settings</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Save current settings</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Accept all cookies and close</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Affected solutions:</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>On</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Off</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Watch this content on %provider</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The embedding of multimedia content is not enabled by respecting your cookie preferences.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Strictly Necessary Cookies</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>They are necessary for the proper functioning of the site. They allow the browsing of the pages, the storage of a user's sessions (to keep them active while browsing). Without these cookies, the services for which users access the site could not be provided.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Cookie analytics</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The analytics cookies are used to collect information on the number of users and how they visit the website and then process general statistics on the service and its use. The data is collected anonymously.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Automatic embedding of multimedia contents</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
       <translation type="unfinished"/>
     </message>
   </context>

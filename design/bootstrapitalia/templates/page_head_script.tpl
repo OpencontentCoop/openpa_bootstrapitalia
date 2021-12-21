@@ -1,4 +1,5 @@
 {def $scripts = array(
+    'cookieconsent/cookieconsent.min.js',
     'ezjsc::jquery',
     'ezjsc::jqueryUI',
     'ezjsc::jqueryio',

@@ -113,4 +113,6 @@ SyncTrasparenza=disabled
 [CreditsSettings]
 ShowCredits=enabled
 
+[CookiesSettings]
+Consent=advanced
 */ ?>

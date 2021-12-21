@@ -22,4 +22,7 @@ LoginRedirectionUriAttribute[group]=redirect_after_login
 [ContentSettings]
 RedirectAfterPublish=node
 
+[Event]
+Listeners[]=oembed/html@OpenPABootstrapItaliaOperators::filterOembedHtml
+
 */ ?>
