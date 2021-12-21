@@ -11,9 +11,8 @@
         {break}
     {/if}
 {/foreach}
-
 {def $has_video = false()}
-{if $view_variation|ne('big')}
+{if and($view_variation|ne('big'), class_extra_parameters($node.object.class_identifier, 'line_view').show|contains('disable_video')|not())}
     {def $oembed = false()}
     {if $node|has_attribute('video')}
         {set $has_video = $node|attribute('video').content}

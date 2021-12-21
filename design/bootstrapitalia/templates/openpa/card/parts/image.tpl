@@ -3,7 +3,11 @@
         <div class="img-responsive{if $view_variation|eq('big')} img-responsive-panoramic{/if}">
             <div class="img-wrapper">
                 {if and(is_set($oembed), is_array($oembed))}
-                    {$oembed.html}
+                    {if class_extra_parameters($node.object.class_identifier, 'line_view').show|contains('disable_video_player')|not()}
+                        {$oembed.html}
+                    {else}
+                        <a class="img-fluid" style="border: 0px;" href="{$openpa.content_link.full_link}"><img src="{$oembed.thumbnail_url}" alt="{$oembed.title|wash()}" /></a>
+                    {/if}
                 {elseif $node|has_attribute('image')}
                     {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class href=$openpa.content_link.full_link alt_text=$node.name}
                 {/if}

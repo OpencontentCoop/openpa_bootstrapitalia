@@ -19,7 +19,22 @@ class OpenPABootstrapItaliaLineViewClassExtraParameters extends OpenPALineViewCl
             'show_icon',
             'Mostra icona'
         );
+        $attributes[] = OCClassExtraParametersCustomAttribute::create(
+            'disable_video',
+            'Visualizza anteprima video'
+        );
+        $attributes[] = OCClassExtraParametersCustomAttribute::create(
+            'disable_video_player',
+            'Espone il player video nell\'anteprima'
+        );
 
         return $attributes;
+    }
+
+    public function storeParameters( $data )
+    {
+        parent::storeParameters( $data );
+        OpenPAINI::clearDynamicIniCache();
+        eZContentCacheManager::clearAllContentCache(true);
     }
 }
