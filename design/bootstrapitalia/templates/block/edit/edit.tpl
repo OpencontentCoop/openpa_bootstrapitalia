@@ -79,13 +79,13 @@
                             {'Current source:'|i18n( 'design/standard/block/edit' )}
                             {foreach $fetch_params['Source'] as $source}
                                 {def $source_node = fetch( 'content', 'node', hash( 'node_id', $source ) )}
-                                <a href="{$source_node.url_alias|ezurl(no)}" target="_blank" title="{$source_node.name|wash()} [{$source_node.object.content_class.name|wash()}]">{$source_node.name|wash()}</a>{delimiter}, {/delimiter}
+                                <a href="{$source_node.url_alias|ezurl(no)}" target="_blank" rel="noopener noreferrer" title="{$source_node.name|wash()} [{$source_node.object.content_class.name|wash()}]">{$source_node.name|wash()}</a>{delimiter}, {/delimiter}
                                 {undef $source_node}
                             {/foreach}
                         {else}
                             {def $source_node = fetch( 'content', 'node', hash( 'node_id', $fetch_params['Source'] ) )}
                             {'Current source:'|i18n( 'design/standard/block/edit' )}
-                            <a href="{$source_node.url_alias|ezurl(no)}" target="_blank" title="{$source_node.name|wash()} [{$source_node.object.content_class.name|wash()}]">{$source_node.name|wash()}</a>
+                            <a href="{$source_node.url_alias|ezurl(no)}" target="_blank" rel="noopener noreferrer" title="{$source_node.name|wash()} [{$source_node.object.content_class.name|wash()}]">{$source_node.name|wash()}</a>
                             {undef $source_node}
                         {/if}
                     {/if}

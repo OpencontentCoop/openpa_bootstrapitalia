@@ -277,7 +277,7 @@
         {{for searchHits}}
         <tr>
             <td>
-                <a target="_blank" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">{{:~i18n(metadata.name)}}</a>
+                <a target="_blank" rel="noopener noreferrer" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">{{:~i18n(metadata.name)}}</a>
             </td>
             <td style="white-space:nowrap">{{:~i18n(metadata.classDefinition.name)}}</td>
             <td style="white-space:nowrap">{{:~formatDate(metadata.published,'DD/MM/YYYY HH:mm')}}</td>

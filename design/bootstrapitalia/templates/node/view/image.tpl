@@ -49,7 +49,7 @@
 					{if $keys|contains($name)}
 						<strong>{$name}: </strong>					
 						{if $name|eq('url')}
-						  <a target="_blank" href={$value|ezroot()}>{$value|wash()}</a>
+						  <a target="_blank" rel="noopener noreferrer" href={$value|ezroot()}>{$value|wash()}</a>
 						{elseif $name|eq('filesize')}
 						  {$value|si(byte)}
 						{else}

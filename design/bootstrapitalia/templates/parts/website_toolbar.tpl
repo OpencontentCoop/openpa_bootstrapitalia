@@ -186,7 +186,7 @@
                                             <div class="list-item left-icon">
                                                 <i aria-hidden="true" class="fa fa-code"></i> Linked Data
                                                 {foreach $onto_links as $slug => $link}
-                                                    <a href="{$link}" target="_blank" title="{$slug|wash()}" class="badge badge-dark text-white d-inline px-1">{$slug|wash()}</a>
+                                                    <a href="{$link}" target="_blank" rel="noopener noreferrer"  title="{$slug|wash()}" class="badge badge-dark text-white d-inline px-1">{$slug|wash()}</a>
                                                 {/foreach}
                                             </div>
                                         </li>
@@ -238,7 +238,7 @@
                             <ul class="link-list">
                                 {if ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )}{* has_access_to_limitation('user', 'login', hash('SiteAccess', '<!-- SiteAccessName -->')) *}
                                     <li>
-                                        <a class="list-item left-icon" href="{ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )|explode('user/login')[0]}{$current_node.url_alias}" target="_blank" title="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}">
+                                        <a class="list-item left-icon" href="{ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )|explode('user/login')[0]}{$current_node.url_alias}" rel="noopener noreferrer" target="_blank" title="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}">
                                             <i aria-hidden="true" class="fa fa-wrench"></i>
                                             Backend
                                         </a>
