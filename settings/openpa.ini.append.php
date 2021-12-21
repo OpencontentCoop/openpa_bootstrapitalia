@@ -114,5 +114,6 @@ SyncTrasparenza=disabled
 ShowCredits=enabled
 
 [CookiesSettings]
-Consent=advanced
+#simple or advanced
+Consent=simple
 */ ?>
