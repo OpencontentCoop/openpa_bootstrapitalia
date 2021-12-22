@@ -699,7 +699,7 @@
     </message>
     <message>
       <source>Detect position</source>
-      <translation>Detectar posición</translation>
+      <translation>Posición de detección</translation>
     </message>
   </context>
   <context>
@@ -944,6 +944,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Refuse all cookies</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity.</source>
       <translation type="unfinished"/>
     </message>
@@ -961,6 +965,10 @@
     </message>
     <message>
       <source>Accept all cookies and close</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Refuse all cookies and close</source>
       <translation type="unfinished"/>
     </message>
     <message>

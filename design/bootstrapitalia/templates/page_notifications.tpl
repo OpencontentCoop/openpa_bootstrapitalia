@@ -23,11 +23,13 @@ var modalMainTextMoreLink = "{if $pagedata.homepage|has_attribute('cookie_alert_
 var learnMore = "{if $pagedata.homepage|has_attribute('cookie_alert_info_button_text')}{$pagedata.homepage|attribute('cookie_alert_info_button_text').content}{else}{'Cookie policy'|i18n('bootstrapitalia/cookieconsent')}{/if}";
 var barMainText = "{if $pagedata.homepage|has_attribute('cookie_alert_text')}{attribute_view_gui attribute=$pagedata.homepage|attribute('cookie_alert_text')|wash(javascript)}{else}{'This website uses cookies to ensure you get the best experience on our website.'|i18n('bootstrapitalia/cookieconsent')}{/if}"
 var barBtnAcceptAll = "{if $pagedata.homepage|has_attribute('cookie_alert_accept_button_text')}{$pagedata.homepage|attribute('cookie_alert_accept_button_text').content}{else}{'Accept all cookies'|i18n('bootstrapitalia/cookieconsent')}{/if}";
+var barBtnRefuseAll = "{'Refuse all cookies'|i18n('bootstrapitalia/cookieconsent')}";
 var modalMainText = "{"Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity."|i18n('bootstrapitalia/cookieconsent')} ";
-var modalMainTitle = "{'Cookie information and preferences '|i18n('bootstrapitalia/cookieconsent')}";
+var modalMainTitle = "{'Cookie information and preferences'|i18n('bootstrapitalia/cookieconsent')}";
 var barLinkSetting = "{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}";
 var modalBtnSave = "{'Save current settings'|i18n('bootstrapitalia/cookieconsent')}";
 var modalBtnAcceptAll = "{'Accept all cookies and close'|i18n('bootstrapitalia/cookieconsent')}";
+var modalBtnRefuseAll = "{'Refuse all cookies and close'|i18n('bootstrapitalia/cookieconsent')}";
 var modalAffectedSolutions = "{'Affected solutions:'|i18n('bootstrapitalia/cookieconsent')}";
 var on = "{'On'|i18n('bootstrapitalia/cookieconsent')}";
 var off = "{'Off'|i18n('bootstrapitalia/cookieconsent')}";
@@ -74,10 +76,12 @@ window.CookieConsent.init({
                 barMainText: barMainText,
                 barLinkSetting: barLinkSetting,
                 barBtnAcceptAll: barBtnAcceptAll,
+                barBtnRefuseAll: barBtnRefuseAll,
                 modalMainTitle: modalMainTitle,
                 modalMainText: modalMainText,
                 modalBtnSave: modalBtnSave,
                 modalBtnAcceptAll: modalBtnAcceptAll,
+                modalBtnRefuseAll: modalBtnRefuseAll,
                 modalAffectedSolutions: modalAffectedSolutions,
                 learnMore: learnMore,
                 on: on,

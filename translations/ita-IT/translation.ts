@@ -944,6 +944,10 @@
       <translation>Accetta tutti i cookie</translation>
     </message>
     <message>
+      <source>Refuse all cookies</source>
+      <translation>Rifiuta tutti i cookie</translation>
+    </message>
+    <message>
       <source>Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity.</source>
       <translation>I cookie sono piccole porzioni di dati inviati da un sito web e memorizzati sul computer dell'utente dal browser durante la navigazione. Il tuo browser memorizza ciascun messaggio in un piccolo file, chiamato cookie. Quando richiedi un'altra pagina dal server, il tuo browser invia il cookie al server. I cookie sono stati progettati per essere un meccanismo affiché i siti web possano memorizzare informazioni o registrare l'attività di navigazione dell'utente.</translation>
     </message>
@@ -962,6 +966,10 @@
     <message>
       <source>Accept all cookies and close</source>
       <translation>Accetta tutti i cookie e chiudi</translation>
+    </message>
+    <message>
+      <source>Refuse all cookies and close</source>
+      <translation>Rifiuta tutti i cookie e chiudi</translation>
     </message>
     <message>
       <source>Affected solutions:</source>
