@@ -4,12 +4,19 @@
     @var eZContentClassAttribute $attribute
 *}
 {if or($attribute.identifier|eq('disable_video'), $attribute.identifier|eq('disable_video_player'))}
-    <td colspan="3">
-        <div class="checkbox">
+    <td{* colspan="3"*}>
+        <div class="radio m-0">
             <label>
-                <input type="checkbox"
+                <input type="radio"
                        name="extra_handler_{$handler.identifier}[class_attribute][{$class.identifier}][{$attribute.identifier}][show]"
                        value="1" {if $handler.show|contains($attribute.identifier)}checked="checked"{/if} /> Disabilita
+            </label>
+        </div>
+        <div class="radio m-0">
+            <label>
+                <input type="radio"
+                       name="extra_handler_{$handler.identifier}[class_attribute][{$class.identifier}][{$attribute.identifier}][show]"
+                       value="0" {if $handler.show|contains($attribute.identifier)|not()}checked="checked"{/if} /> Abilita
             </label>
         </div>
     </td>
@@ -23,6 +30,7 @@
         </label>
     </div>
 </td>
+{*
 <td>
     <div class="checkbox">
         <label>
@@ -43,4 +51,5 @@
         </label>
     </div>
 </td>
+*}
 {/if}
