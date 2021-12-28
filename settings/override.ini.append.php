@@ -250,6 +250,12 @@ MatchFile=datatype/view/matrix_lotto.tpl
 Subdir=templates
 Match[class_identifier]=lotto
 
+[datatype_view_matrix_social]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype/view/matrix_social.tpl
+Subdir=templates
+Match[attribute_identifier]=social
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################
@@ -290,6 +296,12 @@ Source=content/datatype/edit/ezmatrix.tpl
 MatchFile=datatype/edit/matrix_lotto.tpl
 Subdir=templates
 Match[class_identifier]=lotto
+
+[datatype_edit_matrix_social]
+Source=content/datatype/edit/ezmatrix.tpl
+MatchFile=datatype/edit/matrix_social.tpl
+Subdir=templates
+Match[attribute_identifier]=social
 
 ############################################
 ############################################ TEXT-LINKED
