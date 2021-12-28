@@ -61,8 +61,8 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                 eZURI::setTransformURIMode('full');
                 $result = eZClusterFileHandler::instance($cacheFileArray['cache_path'])
                     ->processCache(
-                        array('eZNodeviewfunctions', 'contentViewRetrieve'),
-                        array('eZNodeviewfunctions', 'contentViewGenerate'),
+                        array('OpenPABootstrapItaliaNodeViewFunctions', 'contentViewRetrieve'),
+                        array('OpenPABootstrapItaliaNodeViewFunctions', 'contentViewGenerate'),
                         null,
                         null,
                         $args

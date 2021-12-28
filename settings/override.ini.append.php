@@ -597,3 +597,13 @@ MatchFile=block/ricerca.tpl
 Subdir=templates
 Match[type]=Ricerca
 Match[view]=default
+
+#### OpendataQueriedContents
+
+[block_opendata_queried_default]
+Source=block/view/view.tpl
+MatchFile=block/opendata_remote_gui.tpl
+Subdir=templates
+Match[type]=OpendataQueriedContents
+Match[view]=default
+

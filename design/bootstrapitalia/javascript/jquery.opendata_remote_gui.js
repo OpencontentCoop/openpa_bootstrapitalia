@@ -2,6 +2,7 @@
     'use strict';
     var pluginName = 'remoteContentsGui',
         defaults = {
+            'queryBuilder': 'browser',
             'remoteUrl': '',
             'localAccessPrefix': '/',
             'limitPagination': 3,
@@ -25,15 +26,22 @@
         this.settings = $.extend({}, defaults, options);
         this.container = $(element);
         this.baseId = this.container.attr('id')+'-';
-        if (this.settings.remoteUrl === '') {
-            var localAccessPrefix = this.settings.localAccessPrefix.substr(1);
-            var replaceEndpoint = localAccessPrefix.length === 0 ? 'opendata/api' : localAccessPrefix + '/opendata/api';
-            this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', replaceEndpoint);
-            this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', replaceEndpoint);
-            this.settings.searchApi += '?view='+this.settings.view+'&q=';
+        if (this.settings.queryBuilder === 'browser') {
+            if (this.settings.remoteUrl === '') {
+                var localAccessPrefix = this.settings.localAccessPrefix.substr(1);
+                var replaceEndpoint = localAccessPrefix.length === 0 ? 'opendata/api' : localAccessPrefix + '/opendata/api';
+                this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', replaceEndpoint);
+                this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', replaceEndpoint);
+                this.settings.searchApi += '?view=' + this.settings.view + '&q=';
+            }
+            this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
+            this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
+        }else{
+            let blockId = this.container.attr('id').replace('remote-gui-', '');
+            this.searchUrl = '/openpa/data/block_opendata_queried_contents/'+blockId+'/search/';
+            this.geoSearchUrl = '/openpa/data/block_opendata_queried_contents/'+blockId+'/geo/';
+            this.settings.query = '';
         }
-        this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
-        this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
         this.searchFormToggle = this.container.find('.search-form-toggle');
         this.searchForm = this.container.find('.search-form');
 
@@ -102,11 +110,15 @@
         buildQuery: function () {
             let plugin = this;
             let baseQuery = plugin.settings.query;
+            let queryParams = {
+                'facets': {}
+            };
             if (plugin.searchForm.find('input').length > 0) {
                 let q = plugin.searchForm.find('input').val();
                 if (q.length > 0) {
                     q = q.replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
                     baseQuery = 'q = \'' + q + '\' and ' + baseQuery;
+                    queryParams.search = q;
                 }
             }
             if (plugin.settings.facets.length > 0) {
@@ -118,11 +130,14 @@
                     if (values.length > 0) {
                         if (type === 'string') {
                             baseQuery = facetField + ' in [\'"' + values.join('"\',\'"') + '"\'] and ' + baseQuery;
+                            queryParams.facets[facetField] = values;
                         }else if (type === 'date') {
                             let dates = facetField.indexOf('_dt') > -1 ? values.map(x => '"'+moment(x).format('YYYY-MM-DD')+'T00:00:00Z'+'"') : values;
                             baseQuery = facetField + ' in [\'' + dates.join('\'','\'') + '\'] and ' + baseQuery;
+                            queryParams.facets[facetField] = dates;
                         }else{
                             baseQuery = facetField + ' in [\'' + values.join('\'','\'') + '\'] and ' + baseQuery;
+                            queryParams.facets[facetField] = values;
                         }
                     }
                 });
@@ -130,7 +145,47 @@
             if (plugin.searchForm.find('input').length > 0 && plugin.searchForm.find('input').val().length > 0) {
                 baseQuery += ' and offset 0 sort [score=>desc]'; //workaround se già presente il parametro sort in query
             }
-            return baseQuery;
+            if (plugin.settings.queryBuilder === 'browser') {
+                return baseQuery;
+            }else{
+                return $.param(queryParams);
+            }
+        },
+
+        buildByIdQueryParams: function (id){
+            let plugin = this;
+            if (plugin.settings.queryBuilder === 'browser') {
+                return 'id = ' + id;
+            }else{
+                return '?limit=1&id=' + id + '&' + plugin.buildQuery();
+            }
+        },
+
+        buildPaginatedQueryParams: function (limit, offset){
+            let plugin = this;
+            if (plugin.settings.queryBuilder === 'browser') {
+                return plugin.buildQuery() + ' and limit ' + limit + ' offset ' + offset;
+            }else{
+                return '?limit='+limit + '&offset=' + offset + '&' + plugin.buildQuery();
+            }
+        },
+
+        buildFacetedQueryParams: function (){
+            let plugin = this;
+            if (plugin.settings.queryBuilder === 'browser') {
+                return plugin.buildQuery() + ' and limit 1 facets [' + plugin.settings.facets.join(',') + ']';
+            }else{
+                return '?limit=1&offset=0&f=1&' + plugin.buildQuery();
+            }
+        },
+
+        buildGeoQueryParams: function (){
+            let plugin = this;
+            if (plugin.settings.queryBuilder === 'browser') {
+                return plugin.buildQuery();
+            }else{
+                return '?' + plugin.buildQuery();
+            }
         },
 
         detectError: function(response,jqXHR){
@@ -157,7 +212,7 @@
                     layer.on('click', function (e) {
                         $.ajax({
                             type: "GET",
-                            url: plugin.searchUrl + 'id = '+e.target.feature.properties.id,
+                            url: plugin.searchUrl + plugin.buildByIdQueryParams(e.target.feature.properties.id),
                             dataType: plugin.ajaxDatatype,
                             success: function (response,textStatus,jqXHR) {
                                 if (!plugin.detectError(response,jqXHR)){
@@ -187,7 +242,7 @@
 
         renderGeo: function () {
             let plugin = this;
-            let query = plugin.buildQuery();
+            let query = plugin.buildGeoQueryParams();
             plugin.markers.clearLayers();
 
             let geoJsonFindAll = function (query, cb, context) {
@@ -250,8 +305,10 @@
             let plugin = this;
             let resultsContainer = plugin.resultWrapper.find('#'+plugin.baseId+'list');
 
-            let baseQuery = plugin.buildQuery();
-            let paginatedQuery = baseQuery + ' and limit ' + plugin.settings.limitPagination + ' offset ' + plugin.currentPage * plugin.settings.limitPagination;
+            let limit = plugin.settings.limitPagination;
+            let offset = plugin.currentPage * plugin.settings.limitPagination;
+            let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
+
             resultsContainer.html(plugin.spinnerTpl);
             let data = null;
             if (plugin.settings.remoteUrl !== '') {
@@ -272,7 +329,7 @@
                         let pages = [];
                         let i;
                         for (i = 0; i < pagination; i++) {
-                            plugin.queryPerPage[i] = baseQuery + ' and limit ' + plugin.settings.limitPagination + ' offset ' + (plugin.settings.limitPagination * i);
+                            plugin.queryPerPage[i] = plugin.buildPaginatedQueryParams(plugin.settings.limitPagination, (plugin.settings.limitPagination * i));
                             pages.push({'query': i, 'page': (i + 1)});
                         }
                         response.pages = pages;
@@ -348,10 +405,10 @@
                         plugin.container.find('select[data-facets_select="facet-'+index+'"] option').hide();
                     });
                 }
-                let paginatedQuery = plugin.buildQuery() + ' and limit 1 facets [' + plugin.settings.facets.join(',') + ']';
+                let facetedQuery = plugin.buildFacetedQueryParams();
                 $.ajax({
                     type: "GET",
-                    url: plugin.searchUrl + paginatedQuery,
+                    url: plugin.searchUrl + facetedQuery,
                     dataType: plugin.ajaxDatatype,
                     success: function (response, textStatus, jqXHR) {
                         var getFacetType = function(facet) {
@@ -410,11 +467,10 @@
 
         runSearch: function () {
             let plugin = this;
-            let query = plugin.buildQuery();
             if (plugin.container.find('a.view-selector.active').attr('href') === '#'+plugin.baseId+'list') {
                 plugin.renderList(plugin.listTpl);
             } else if (plugin.container.find('a.view-selector.active').attr('href') === '#'+plugin.baseId+'geo' && plugin.hasMap) {
-                plugin.renderGeo(query);
+                plugin.renderGeo();
             }
         }
 

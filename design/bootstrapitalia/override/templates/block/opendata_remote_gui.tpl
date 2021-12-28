@@ -10,7 +10,7 @@
 	 $fields = $block.custom_attributes.fields
      $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
      $facetsFields = array()
-	 $remoteUrl = $block.custom_attributes.remote_url|trim('/')}
+	 $remoteUrl = cond(is_set($block.custom_attributes.remote_url), $block.custom_attributes.remote_url|trim('/'), false())}
 
 {def $background_image = false()}
 {if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
@@ -147,6 +147,7 @@ $(document).ready(function () {ldelim}
         {rdelim},
     {rdelim}));
     $("#remote-gui-{$block.id}").remoteContentsGui({ldelim}
+        'queryBuilder': "{cond($block.type|eq('OpendataQueriedContents'), 'server', 'browser')}",
         'remoteUrl': "{$remoteUrl}",
         'localAccessPrefix': {'/'|ezurl()},
         {if and(is_set($block.custom_attributes.simple_geo_api), $block.custom_attributes.simple_geo_api)}
