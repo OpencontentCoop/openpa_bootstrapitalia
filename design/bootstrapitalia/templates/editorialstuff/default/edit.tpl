@@ -69,7 +69,9 @@
         {literal}
         $(function() {
             $('a[data-toggle="tab"]').on('click', function(e) {
-                $(window).scrollTop($(window).scrollTop()+1);
+                window.setTimeout(function () {
+                    $(window).scrollTop($(window).scrollTop() + 1);
+                }, 10);
             });
         });
         {/literal}
