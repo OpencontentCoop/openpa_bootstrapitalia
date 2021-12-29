@@ -937,7 +937,10 @@
     </message>
     <message>
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
-      <translation>Questo sito web utilizza cookie tecnici e di terze parti per assicurarti una migliore esperienza sul nostro sito web.</translation>
+      <translation>Questo sito fa uso di cookies tecnici necessari al corretto funzionamento delle pagine web, di cookies analytics e di cookies di terze parti.
+Selezionando Accetta tutti i cookies si acconsente all’utilizzo di tutti i cookies. 
+Selezionando Rifiuta tutti i cookies o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità e alcuni contenuti potrebbero non essere disponibili.
+La preferenza può essere modificata in qualsiasi momento dall'informativa cookies.</translation>
     </message>
     <message>
       <source>Accept all cookies</source>
@@ -949,7 +952,8 @@
     </message>
     <message>
       <source>Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity.</source>
-      <translation>I cookie sono piccole porzioni di dati inviati da un sito web e memorizzati sul computer dell'utente dal browser durante la navigazione. Il tuo browser memorizza ciascun messaggio in un piccolo file, chiamato cookie. Quando richiedi un'altra pagina dal server, il tuo browser invia il cookie al server. I cookie sono stati progettati per essere un meccanismo affiché i siti web possano memorizzare informazioni o registrare l'attività di navigazione dell'utente.</translation>
+      <translation>I cookies sono piccoli file di testo che i siti web visitati inviano al device dell'utente, dove vengono memorizzati per raccogliere informazioni per poi essere ritrasmessi agli stessi siti alla visita successiva. 
+Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti attraverso l'analisi del comportamento dei visitatori.</translation>
     </message>
     <message>
       <source>Cookie information and preferences</source>
@@ -973,7 +977,7 @@
     </message>
     <message>
       <source>Affected solutions:</source>
-      <translation>Soluzioni interessate:</translation>
+      <translation>Strumenti:</translation>
     </message>
     <message>
       <source>On</source>
@@ -1009,11 +1013,11 @@
     </message>
     <message>
       <source>Automatic embedding of multimedia contents</source>
-      <translation>Incorporamento automatico di contenuti multimediali</translation>
+      <translation>Cookie di terze parti</translation>
     </message>
     <message>
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
-      <translation>Questo sistema utilizza le specifiche oEmbed per incorporare automaticamente contenuti multimediali nelle pagine. Ciascun provider di contenuti (ad esempio YouTube o Vimeo) potrebbe rilasciare cookie tecnici, analitici e di profilazione in base alle impostazioni configurate dal video maker. Se questa impostazione è disabilitata i contenuti multimediali non saranno automaticamente incorporati nel sito e sarà invece esposto un link per poterli visualizzare direttamente alla fonte.</translation>
+      <translation>I cookie di terze parti vengono utilizzati per analizzare le caratteristiche della navigazione dell’utente, per fornirgli servizi di visualizzazione di contenuti o di condivisione degli stessi e per creare profili in base al suo comportamento sul sito. Questo sito incorpora contenuti multimediali tramite provider di terze parti  (ad esempio YouTube o Facebok) utilizzando le specifiche oEmbed o widget di integrazione. Ciascun provider di contenuti potrebbe rilasciare cookie tecnici, analitici e di profilazione in base alle proprie impostazioni. Se questa impostazione è disabilitata i contenuti multimediali non saranno automaticamente incorporati nel sito e sarà invece esposto un link per poterli visualizzare direttamente alla fonte.</translation>
     </message>
   </context>
 </TS>

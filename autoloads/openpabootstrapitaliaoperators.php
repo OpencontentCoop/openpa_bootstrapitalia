@@ -28,6 +28,7 @@ class OpenPABootstrapItaliaOperators
             'max_upload_size',
             'explode_contact',
             'is_empty_matrix',
+            'cookie_consent_config_translations',
         );
     }
 
@@ -93,6 +94,9 @@ class OpenPABootstrapItaliaOperators
     {
         switch ($operatorName) {
 
+            case 'cookie_consent_config_translations':
+                $operatorValue = json_encode(self::getCookieConsentConfigTranslations());
+                break;
             case 'is_empty_matrix':
                 if ($operatorValue instanceof eZContentObjectAttribute
                     && $operatorValue->attribute('data_type_string') == eZMatrixType::DATA_TYPE_STRING) {
@@ -563,5 +567,64 @@ class OpenPABootstrapItaliaOperators
         }
 
         return $html;
+    }
+
+    private static function getCookieConsentConfigTranslations()
+    {
+        $modalMainTextMoreLink = false;
+        $learnMore = ezpI18n::tr('bootstrapitalia/cookieconsent', 'Cookie policy');
+        $barMainText = ezpI18n::tr('bootstrapitalia/cookieconsent', 'This website uses cookies to ensure you get the best experience on our website.');
+        $barBtnAcceptAll = ezpI18n::tr('bootstrapitalia/cookieconsent', 'Accept all cookies');
+        try{
+            $homepage = OpenPaFunctionCollection::fetchHome();
+            if ($homepage) {
+                $dataMap = $homepage->dataMap();
+                if (isset($dataMap['cookie_alert_info_button_link']) && $dataMap['cookie_alert_info_button_link']->hasContent()){
+                    $modalMainTextMoreLink = $dataMap['cookie_alert_info_button_link']->toString();
+                } elseif (isset($dataMap['cookie_policy']) && $dataMap['cookie_policy']->hasContent()) {
+                    $modalMainTextMoreLink = '/openpa/cookie';
+                }
+                if (isset($dataMap['cookie_alert_info_button_text']) && $dataMap['cookie_alert_info_button_text']->hasContent()){
+                    $learnMore = $dataMap['cookie_alert_info_button_text']->toString();
+                }
+                if (isset($dataMap['cookie_alert_text']) && $dataMap['cookie_alert_text']->hasContent()){
+                    $barMainText = $dataMap['cookie_alert_text']->toString();
+                }
+                if (isset($dataMap['cookie_alert_accept_button_text']) && $dataMap['cookie_alert_accept_button_text']->hasContent()){
+                    $barMainText = $dataMap['cookie_alert_accept_button_text']->toString();
+                }
+            }
+        }catch (RuntimeException $e){
+            eZDebug::writeError($e->getMessage(), __METHOD__);
+        }
+
+        return [
+            'modalMainTextMoreLink' => $modalMainTextMoreLink,
+            'learnMore' => $learnMore,
+            'barMainText' => $barMainText,
+            'barBtnAcceptAll' => $barBtnAcceptAll,
+            'barBtnRefuseAll' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Refuse all cookies'),
+            'modalMainText' => ezpI18n::tr('bootstrapitalia/cookieconsent', "Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity."),
+            'modalMainTitle' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Cookie information and preferences'),
+            'barLinkSetting' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Cookie settings'),
+            'modalBtnAcceptAll' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Accept all cookies and close'),
+            'modalBtnRefuseAll' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Refuse all cookies and close'),
+            'modalBtnSave' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Save current settings'),
+            'modalAffectedSolutions' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Affected solutions:'),
+            'on' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'On'),
+            'off' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Off'),
+            'necessary' => [
+                'name' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Strictly Necessary Cookies'),
+                'description' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'They are necessary for the proper functioning of the site. They allow the browsing of the pages, the storage of a user\'s sessions (to keep them active while browsing). Without these cookies, the services for which users access the site could not be provided.'),
+            ],
+            'analytics' => [
+                'name' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Cookie analytics'),
+                'description' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'The analytics cookies are used to collect information on the number of users and how they visit the website and then process general statistics on the service and its use. The data is collected anonymously.'),
+            ],
+            'multimedia' => [
+                'name' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Automatic embedding of multimedia contents'),
+                'description' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.'),
+            ],
+        ];
     }
 }

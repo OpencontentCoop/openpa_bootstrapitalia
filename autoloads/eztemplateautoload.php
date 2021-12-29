@@ -23,6 +23,7 @@ $eZTemplateOperatorArray = array(
             'max_upload_size',
             'explode_contact',
             'is_empty_matrix',
+            'cookie_consent_config_translations',
         )
     )
 );
