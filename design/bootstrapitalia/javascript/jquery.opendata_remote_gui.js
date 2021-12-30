@@ -38,8 +38,12 @@
             this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
         }else{
             let blockId = this.container.attr('id').replace('remote-gui-', '');
-            this.searchUrl = '/openpa/data/block_opendata_queried_contents/'+blockId+'/search/';
-            this.geoSearchUrl = '/openpa/data/block_opendata_queried_contents/'+blockId+'/geo/';
+            var prefix = '/';
+            if ($.isFunction($.ez)) {
+                prefix = $.ez.root_url;
+            }
+            this.searchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+blockId+'/search/';
+            this.geoSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+blockId+'/geo/';
             this.settings.query = '';
         }
         this.searchFormToggle = this.container.find('.search-form-toggle');

@@ -48,8 +48,8 @@
                         {def $class_attribute = $attribute.contentclass_attribute}
 
                         {if or(
-                            $class_attribute.is_required,
-                           and(or($class_attribute.category|eq(''),$class_attribute.category|eq($attribute_default_category)), $class_attribute.is_information_collector|not())
+                            and($class_attribute.is_required, $class_attribute.is_information_collector|not()),
+                            and(or($class_attribute.category|eq(''),$class_attribute.category|eq($attribute_default_category)), $class_attribute.is_information_collector|not())
                         )}
                             <div id="edit-{$class_attribute.identifier}"
                                  class="py-3 mb-4 ezcca-edit-datatype-{$attribute.data_type_string} ezcca-edit-{$class_attribute.identifier}">
