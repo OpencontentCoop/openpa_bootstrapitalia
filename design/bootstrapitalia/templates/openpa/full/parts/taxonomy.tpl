@@ -16,15 +16,18 @@
 
 {if or($current_topics|count(), $node|has_attribute('has_public_event_typology'))}
 <div class="{$container_class}">
-    {if $show_title}
-    <h6 class="mb-0"><small>{'Topics'|i18n('bootstrapitalia')}</small></h6>
+    {if $current_topics|count()}
+        {if $show_title}
+            <h6 class="mb-0"><small>{'Topics'|i18n('bootstrapitalia')}</small></h6>
+        {/if}
+        {foreach $current_topics as $object}
+            <a class="text-decoration-none text-nowrap d-inline-block " href="{$object.main_node.url_alias|ezurl(no)}"><div class="chip chip-simple chip-{if $object.section_id|eq(1)}primary{else}danger{/if}"><span class="chip-label">{$object.name|wash()}</span></div></a>
+        {/foreach}
     {/if}
-
-    {foreach $current_topics as $object}
-        <a class="text-decoration-none text-nowrap d-inline-block " href="{$object.main_node.url_alias|ezurl(no)}"><div class="chip chip-simple chip-{if $object.section_id|eq(1)}primary{else}danger{/if}"><span class="chip-label">{$object.name|wash()}</span></div></a>
-    {/foreach}
-
     {if $node|has_attribute('has_public_event_typology')}
+        {if $show_title}
+            <h6 class="mb-0{if $current_topics|count()} mt-1{/if}"><small>{$node|attribute('has_public_event_typology').contentclass_attribute_name}</small></h6>
+        {/if}
         {attribute_view_gui attribute=$node|attribute('has_public_event_typology')}
     {/if}
 </div>
