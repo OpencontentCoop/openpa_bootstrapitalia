@@ -178,7 +178,7 @@ window.CookieConsent.init({
             language: {
                 locale: {
                     i18n: {
-                        name: 'YouTube, Vimeo, Slideshare, Isuu'
+                        name: 'YouTube, Vimeo, Slideshare, Isuu, Facebook, Twitter, Linkedin, Instagram, Whatsapp'
                     }
                 }
             }

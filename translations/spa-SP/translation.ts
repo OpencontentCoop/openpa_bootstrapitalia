@@ -699,7 +699,7 @@
     </message>
     <message>
       <source>Detect position</source>
-      <translation>Posición de detección</translation>
+      <translation>Detectar posición</translation>
     </message>
   </context>
   <context>

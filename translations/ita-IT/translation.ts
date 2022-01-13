@@ -937,10 +937,10 @@
     </message>
     <message>
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
-      <translation>Questo sito fa uso di cookies tecnici necessari al corretto funzionamento delle pagine web, di cookies analytics e di cookies di terze parti.
-Selezionando Accetta tutti i cookies si acconsente all’utilizzo di tutti i cookies. 
-Selezionando Rifiuta tutti i cookies o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità e alcuni contenuti potrebbero non essere disponibili.
-La preferenza può essere modificata in qualsiasi momento dall'informativa cookies.</translation>
+      <translation>Questo sito fa uso di cookie tecnici essenziali al corretto funzionamento delle pagine web, di cookie di analisi e misurazione e di cookie di terze parti. 
+Selezionando "Accetta tutti i cookie" si acconsente all'utilizzo di tutti i cookie. 
+Selezionando "Rifiuta tutti i cookie" o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità ed alcuni contenuti potrebbero non essere disponibili. 
+La preferenza può essere modificata in qualsiasi momento dall'Informativa cookie.</translation>
     </message>
     <message>
       <source>Accept all cookies</source>
@@ -952,7 +952,7 @@ La preferenza può essere modificata in qualsiasi momento dall'informativa cooki
     </message>
     <message>
       <source>Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity.</source>
-      <translation>I cookies sono piccoli file di testo che i siti web visitati inviano al device dell'utente, dove vengono memorizzati per raccogliere informazioni per poi essere ritrasmessi agli stessi siti alla visita successiva. 
+      <translation>I cookie sono piccoli file di testo che i siti web visitati inviano al device dell'utente, dove vengono memorizzati per raccogliere informazioni attraverso il browser, per essere poi ritrasmessi agli stessi siti nelle visite successive. 
 Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti attraverso l'analisi del comportamento dei visitatori.</translation>
     </message>
     <message>
@@ -1001,7 +1001,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>They are necessary for the proper functioning of the site. They allow the browsing of the pages, the storage of a user's sessions (to keep them active while browsing). Without these cookies, the services for which users access the site could not be provided.</source>
-      <translation>Sono necessari al corretto funzionamento del sito. Consentono la navigazione delle pagine, la memorizzazione delle sessioni di un utente (per mantenerle attive durante la navigazione). Senza questi cookie non potrebbero essere erogati i servizi per cui gli utenti accedono al sito.</translation>
+      <translation>Sono necessari al corretto funzionamento del sito. Consentono la navigazione delle pagine e la memorizzazione delle sessioni di un utente (per mantenerle attive durante la navigazione). Senza questi cookie non potrebbero essere erogati i servizi e le funzionalità per cui gli utenti accedono al sito.</translation>
     </message>
     <message>
       <source>Cookie analytics</source>
@@ -1009,7 +1009,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>The analytics cookies are used to collect information on the number of users and how they visit the website and then process general statistics on the service and its use. The data is collected anonymously.</source>
-      <translation>I cookie di analisi e misurazione sono utilizzati per raccogliere informazioni sul numero degli utenti e su come questi visitano il sito ed elaborare quindi statistiche generali sul servizio e sul suo utilizzo. I dati sono raccolti in forma anonima.</translation>
+      <translation>I cookie di analisi e misurazione sono utilizzati per raccogliere informazioni sul numero degli utenti e su come questi visitano il sito ed elaborare quindi statistiche generali sul servizio web e sul suo utilizzo. I dati sono raccolti in forma anonima e non consentono l'identificazione dell'utente.</translation>
     </message>
     <message>
       <source>Automatic embedding of multimedia contents</source>
