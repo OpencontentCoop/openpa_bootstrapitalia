@@ -121,6 +121,7 @@ $classes = array()}
     {/literal}
 </script>
 {/run-once}
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {ldelim}
         $('#calendar-{$block.id}').data('fullcalendar', new FullCalendar.Calendar(
@@ -130,7 +131,10 @@ $classes = array()}
                         defaultView: 'dayGridMonth',
                         views: {ldelim}
                             dayGridMonth: {ldelim}
-                                eventLimit: {$max_events}
+                                eventLimit: {$max_events},
+                                columnHeaderFormat: {ldelim}
+                                    weekday: 'short'
+                                    {rdelim}
                                 {rdelim}
                             {rdelim},
                         windowResize: function(view) {ldelim}

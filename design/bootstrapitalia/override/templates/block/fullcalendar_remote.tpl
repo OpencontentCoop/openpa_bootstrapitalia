@@ -69,7 +69,10 @@
                         defaultView: 'dayGridMonth',
                         views: {ldelim}
                             dayGridMonth: {ldelim}
-                                eventLimit: {$max_events}
+                                eventLimit: {$max_events},
+                                columnHeaderFormat: {ldelim}
+                                    weekday: 'short'
+                                    {rdelim}
                                 {rdelim}
                             {rdelim},
                         windowResize: function(view) {ldelim}

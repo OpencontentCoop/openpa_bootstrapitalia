@@ -124,7 +124,10 @@
             defaultView: 'dayGridMonth',
             views: {
                 dayGridMonth: {
-                    eventLimit: 6
+                    eventLimit: 6,
+                    columnHeaderFormat: {
+                        weekday: 'short'
+                    }
                 }
             },
             eventRender: function (info) {
