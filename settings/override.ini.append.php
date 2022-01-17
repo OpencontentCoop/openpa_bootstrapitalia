@@ -375,6 +375,12 @@ Subdir=templates
 Match[type]=ListaAutomatica
 Match[view]=lista_carousel
 
+[block_lista_card_teaser]
+Source=block/view/view.tpl
+MatchFile=block/lista_card_teaser.tpl
+Subdir=templates
+Match[type]=ListaAutomatica
+Match[view]=lista_card_teaser
 
 #### ListaManuale
 
@@ -434,6 +440,12 @@ Subdir=templates
 Match[type]=ListaManuale
 Match[view]=lista_carousel
 
+[block_lista_manuale_card_teaser]
+Source=block/view/view.tpl
+MatchFile=block/lista_card_teaser.tpl
+Subdir=templates
+Match[type]=ListaManuale
+Match[view]=lista_card_teaser
 
 #### Singolo
 

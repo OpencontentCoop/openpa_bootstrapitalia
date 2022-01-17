@@ -3,9 +3,9 @@
         <nav class="breadcrumb-container" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 {def $root_node_depth = cond(ezini_hasvariable( 'SiteSettings', 'RootNodeDepth', 'site.ini' ), ezini( 'SiteSettings', 'RootNodeDepth', 'site.ini' ), 1)}
-                {def $index = 1}
+                {def $_index = 1}
                 {foreach openpacontext().path_array as $path}
-                    {if $index|ge($root_node_depth)}
+                    {if $_index|ge($root_node_depth)}
                         {if $path.url}
                             {if $path.text|eq('Media')}{skip}{/if}
                             {if $path.text|eq('Classificazioni')}{skip}{/if}
@@ -28,9 +28,9 @@
                             {/if}
                         {/if}
                     {/if}
-                    {set $index = $index|inc()}
+                    {set $_index = $_index|inc()}
                 {/foreach}
-                {undef $root_node_depth $index}
+                {undef $root_node_depth $_index}
             </ol>
         </nav>
     </div>
