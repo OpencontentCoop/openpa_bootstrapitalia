@@ -9,7 +9,7 @@
 {def $megamenu_min_items = 12}
 {def $megamenu_max_items = 18}
 
-<li class="nav-item{if $is_dropdown} dropdown{if $count_children|gt(10)} megamenu{/if}{/if}">
+<li class="nav-item{if $is_dropdown} dropdown{if $count_children|gt($megamenu_min_items)} megamenu{/if}{/if}">
     <a class="main-nav-link nav-link{if $is_dropdown} dropdown-toggle{/if} text-truncate"
        data-node="{$menu_item.item.node_id}"
        {if $is_dropdown}data-toggle="dropdown" aria-expanded="false"{/if}
@@ -22,7 +22,7 @@
         {/if}
     </a>
     {if $is_dropdown}
-        <div class="dropdown-menu p-2"{if $count_children|gt(10)} style="margin-top: 13px !important;"{/if}>
+        <div class="dropdown-menu p-2"{if $count_children|gt($megamenu_min_items)} style="margin-top: 13px !important;"{/if}>
             <div class="p-2 mb-2 border-bottom text-center">
                 <a data-node="{$menu_item.item.node_id}"
                    href="{$href}"
