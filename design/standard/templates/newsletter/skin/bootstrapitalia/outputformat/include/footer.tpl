@@ -22,7 +22,7 @@
                                 <td align="left" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                                     <div style="font-family:Arial,Helvetica,sans-serif;font-size:9pt;line-height:auto;text-align:left;color:#000000;">
                                         {'To unsubscribe from this newsletter please visit the following link'|i18n('cjw_newsletter/skin/default')}: 
-                                        <a href="{concat($site_url,'/newsletter/unsubscribe/#_hash_unsubscribe_#')}">annulla sottoscrizione</a>
+                                        <a href="{concat($site_url,'/newsletter/unsubscribe/#_hash_unsubscribe_#')}">{'Unsubscribe'|i18n('openpa_newsletter')}</a>
                                     </div>
                                 </td>
                             </tr>
