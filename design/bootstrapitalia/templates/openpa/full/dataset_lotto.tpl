@@ -72,12 +72,31 @@
         'jstree.min.js',
         'bootstrap-datetimepicker.min.js',
         'jquery.price_format.min.js',
+        'jquery.fileupload.js',
+        'jquery.fileupload-ui.js',
+        'jquery.fileupload-process.js',
         'jquery.opendatabrowse.js',
-        'fields/RelationBrowse.js'
+        'jstree.min.js',
+        'fields/RelationBrowse.js',
+        'fields/LocationBrowse.js',
+        'fields/Tags.js',
+        'fields/Ezxml.js',
+        'fields/Tree.js'
     ))}
+    {def $plugin_list = ezini('EditorSettings', 'Plugins', 'ezoe.ini',,true() )
+         $ez_locale = ezini( 'RegionalSettings', 'Locale', 'site.ini')
+         $language = '-'|concat( $ez_locale )
+         $dependency_js_list = array( 'ezoe::i18n::'|concat( $language ) )}
+    {foreach $plugin_list as $plugin}
+        {set $dependency_js_list = $dependency_js_list|append( concat( 'plugins/', $plugin|trim, '/editor_plugin.js' ))}
+    {/foreach}
+    <script id="tinymce_script_loader" type="text/javascript" src={"javascript/tiny_mce_jquery.js"|ezdesign} charset="utf-8"></script>
+    {ezscript( $dependency_js_list )}
     {ezcss_require(array(
         'alpaca.min.css',
-        'bootstrap-datetimepicker.min.css'
+        'jquery.fileupload.css',
+        'bootstrap-datetimepicker.min.css',
+        'jstree.min.css'
     ))}
     <script>{literal}
     $(document).ready(function(){
