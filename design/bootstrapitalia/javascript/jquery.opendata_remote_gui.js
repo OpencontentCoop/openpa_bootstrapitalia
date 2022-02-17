@@ -137,10 +137,10 @@
                             queryParams.facets[facetField] = values;
                         }else if (type === 'date') {
                             let dates = facetField.indexOf('_dt') > -1 ? values.map(x => '"'+moment(x).format('YYYY-MM-DD')+'T00:00:00Z'+'"') : values;
-                            baseQuery = facetField + ' in [\'' + dates.join('\'','\'') + '\'] and ' + baseQuery;
+                            baseQuery = facetField + " in ['" + dates.join("','") + "'] and " + baseQuery;
                             queryParams.facets[facetField] = dates;
                         }else{
-                            baseQuery = facetField + ' in [\'' + values.join('\'','\'') + '\'] and ' + baseQuery;
+                            baseQuery = facetField + " in ['" + values.join("','") + "'] and " + baseQuery;
                             queryParams.facets[facetField] = values;
                         }
                     }

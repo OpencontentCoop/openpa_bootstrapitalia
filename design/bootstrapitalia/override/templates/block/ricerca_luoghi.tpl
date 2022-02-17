@@ -9,9 +9,9 @@
 {def $tag_tree = cond($block.custom_attributes.root_tag, api_tagtree($block.custom_attributes.root_tag), false())
 	 $searchPlaceholder = 'Search'|i18n('bootstrapitalia/places')
 	 $hide_empty_facets = $block.custom_attributes.hide_empty_facets}
-
-{def $query = concat("classes [place] subtree [", $block.custom_attributes.node_id, "] and state in [", privacy_states()['privacy.public'].id, "] sort [name=>asc]")}
-
+{def $tag_tree_query = cond($tag_tree, concat(" and raw[ezf_df_tag_ids] = ", $tag_tree.id, " "), '')}
+{def $query = concat("classes [place] subtree [", $block.custom_attributes.node_id, "] ", $tag_tree_query, " and state in [", privacy_states()['privacy.public'].id, "] sort [name=>asc]")}
+{undef $tag_tree_query}
 
 <div class="row" id="remote-gui-{$block.id}">
 	<div class="col-12 col-sm-8 col-md-9 col-lg-10 mb-3 search-form">
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 			{if and($tag_tree, is_set($tag_tree.children))}
-				<div class="col-sm mb-3 mb-sm-0">
+				<div class="col-sm mb-3 mb-sm-0 {if count($tag_tree.children)|eq(0)}d-none{/if}">
 					<label class="hidden" for="{$block.id}-search-facets">{$tag_tree.keyword|wash()}</label>
 					<select id="{$block.id}-search-facets"
 							style="display:none"
