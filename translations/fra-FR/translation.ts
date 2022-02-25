@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>FREE</source>
-      <translation>GRATUIT</translation>
+      <translation>LIBRE</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>days</source>
-      <translation>jours</translation>
+      <translation>journées</translation>
     </message>
     <message>
       <source>Share</source>
@@ -89,7 +89,7 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Tout</translation>
+      <translation>Tous</translation>
     </message>
     <message>
       <source>Read more</source>
@@ -320,7 +320,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Suivez nous</translation>
+      <translation>Suivez-nous</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -366,7 +366,7 @@
     </message>
     <message>
       <source>Search</source>
-      <translation>Chercher</translation>
+      <translation>Rechercher</translation>
     </message>
     <message>
       <source>Advanced search</source>
@@ -422,7 +422,7 @@
     </message>
     <message>
       <source>to</source>
-      <translation>à</translation>
+      <translation>pour</translation>
     </message>
     <message>
       <source>Year</source>
@@ -577,11 +577,11 @@
     </message>
     <message>
       <source>wednesday</source>
-      <translation>mercredi</translation>
+      <translation>Mercredi</translation>
     </message>
     <message>
       <source>thursday</source>
-      <translation>Jeudi</translation>
+      <translation>jeudi</translation>
     </message>
     <message>
       <source>friday</source>

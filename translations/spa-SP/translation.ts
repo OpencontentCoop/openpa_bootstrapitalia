@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>Cerca</translation>
+      <translation>Cerrar</translation>
     </message>
     <message>
       <source>FREE</source>
@@ -89,11 +89,11 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Todo</translation>
+      <translation>Todos</translation>
     </message>
     <message>
       <source>Read more</source>
-      <translation>Lee mas</translation>
+      <translation>Leer más</translation>
     </message>
     <message>
       <source>Visit</source>
@@ -320,7 +320,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Síganos</translation>
+      <translation>Síguenos</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -378,7 +378,7 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>Todo sitio web</translation>
+      <translation>todo sitio web</translation>
     </message>
     <message>
       <source>only information of type</source>
@@ -422,7 +422,7 @@
     </message>
     <message>
       <source>to</source>
-      <translation>a</translation>
+      <translation>para</translation>
     </message>
     <message>
       <source>Year</source>
@@ -699,7 +699,7 @@
     </message>
     <message>
       <source>Detect position</source>
-      <translation>Detectar posición</translation>
+      <translation>Posición de detección</translation>
     </message>
   </context>
   <context>

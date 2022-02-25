@@ -73,7 +73,7 @@
     </message>
     <message>
       <source>Send</source>
-      <translation>Senden</translation>
+      <translation>Schicken</translation>
     </message>
     <message>
       <source>Related contents</source>
@@ -450,7 +450,7 @@
     </message>
     <message>
       <source>Search tips</source>
-      <translation>Suchvorschläge</translation>
+      <translation>Suchtipps</translation>
     </message>
     <message>
       <source>Check spelling of keywords.</source>
@@ -933,87 +933,91 @@
     <name>bootstrapitalia/cookieconsent</name>
     <message>
       <source>Cookie policy</source>
-      <translation type="unfinished"/>
+      <translation>Lesen Sie die Cookie-Erklärung</translation>
     </message>
     <message>
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
-      <translation type="unfinished"/>
+      <translation>Diese Website verwendet technische Cookies, die für das reibungslose Funktionieren der Webseiten erforderlich sind, sowie Analyse- und Messungscookies sowie Cookies von Drittanbietern. &#13;
+Wenn Sie "Alle Cookies zulassen" wählen, stimmen Sie der Verwendung aller Cookies zu. &#13;
+Wenn Sie "Alle Cookies blockieren" wählen oder das Banner schließen, werden nur technische Cookies verwendet, wodurch einige Funktionen und Inhalte eventuell nicht verfügbar sind. &#13;
+Sie können Ihre Einstellungen jederzeit in der Cookie-Erklärung ändern.</translation>
     </message>
     <message>
       <source>Accept all cookies</source>
-      <translation type="unfinished"/>
+      <translation>Alle Cookies akzeptieren</translation>
     </message>
     <message>
       <source>Refuse all cookies</source>
-      <translation type="unfinished"/>
+      <translation>Alle Cookies blockieren</translation>
     </message>
     <message>
       <source>Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity.</source>
-      <translation type="unfinished"/>
+      <translation>Cookies sind kleine Textdateien, die von besuchten Websites an das Gerät des Nutzers gesendet werden, wo sie gespeichert werden, um über den Browser Informationen zu sammeln, die dann bei späteren Besuchen an dieselben Websites zurückgesendet werden. &#13;
+Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu verbessern, indem das Nutzerverhalten analysiert wird.</translation>
     </message>
     <message>
       <source>Cookie information and preferences</source>
-      <translation type="unfinished"/>
+      <translation>Cookie-Informationen und -Einstellungen</translation>
     </message>
     <message>
       <source>Cookie settings</source>
-      <translation type="unfinished"/>
+      <translation>Cookies benutzerdefiniert anpassen</translation>
     </message>
     <message>
       <source>Save current settings</source>
-      <translation type="unfinished"/>
+      <translation>Ausgewählte Einstellungen speichern</translation>
     </message>
     <message>
       <source>Accept all cookies and close</source>
-      <translation type="unfinished"/>
+      <translation>Alle Cookies akzeptieren und schließen</translation>
     </message>
     <message>
       <source>Refuse all cookies and close</source>
-      <translation type="unfinished"/>
+      <translation>Alle Cookies blockieren und schließen</translation>
     </message>
     <message>
       <source>Affected solutions:</source>
-      <translation type="unfinished"/>
+      <translation>Inhaltsanbieter:</translation>
     </message>
     <message>
       <source>On</source>
-      <translation type="unfinished"/>
+      <translation>Ja</translation>
     </message>
     <message>
       <source>Off</source>
-      <translation type="unfinished"/>
+      <translation>Nein</translation>
     </message>
     <message>
       <source>Watch this content on %provider</source>
-      <translation type="unfinished"/>
+      <translation>Diesen Inhalt auf %provider anzeigen</translation>
     </message>
     <message>
       <source>The embedding of multimedia content is not enabled by respecting your cookie preferences.</source>
-      <translation type="unfinished"/>
+      <translation>Entsprechend Ihren Cookie-Einstellungen ist das automatische Einbetten von Multimedia-Inhalten deaktiviert.</translation>
     </message>
     <message>
       <source>Strictly Necessary Cookies</source>
-      <translation type="unfinished"/>
+      <translation>Erforderliche technische Cookies</translation>
     </message>
     <message>
       <source>They are necessary for the proper functioning of the site. They allow the browsing of the pages, the storage of a user's sessions (to keep them active while browsing). Without these cookies, the services for which users access the site could not be provided.</source>
-      <translation type="unfinished"/>
+      <translation>Diese sind für das reibungslose Funktionieren der Website erforderlich. Sie ermöglichen die Navigation auf den Seiten und die Speicherung der Sessions eines Nutzers (um sie während der Navigation aktiv zu halten). Ohne diese Cookies könnten die Dienste, für die die Nutzer auf die Website zugreifen, nicht bereitgestellt werden.</translation>
     </message>
     <message>
       <source>Cookie analytics</source>
-      <translation type="unfinished"/>
+      <translation>Analyse- und Messungs-Cookies</translation>
     </message>
     <message>
       <source>The analytics cookies are used to collect information on the number of users and how they visit the website and then process general statistics on the service and its use. The data is collected anonymously.</source>
-      <translation type="unfinished"/>
+      <translation>Analyse- und Messungs-Cookies werden verwendet, um Informationen über die Anzahl der Nutzer und deren Besuch auf der Website zu sammeln und so allgemeine Statistiken über den Webdienst und seine Nutzung zu erstellen. Die Daten werden anonym erhoben und lassen keine Rückschlüsse auf den Nutzer zu.</translation>
     </message>
     <message>
       <source>Automatic embedding of multimedia contents</source>
-      <translation type="unfinished"/>
+      <translation>Cookies von Drittanbietern</translation>
     </message>
     <message>
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
-      <translation type="unfinished"/>
+      <translation>Cookies von Drittanbietern werden verwendet, um die Eigenschaften des Navigationsverhaltens des Nutzers zu analysieren, um Dienste zum Aufrufen oder Teilen von Inhalten bereitzustellen und um Profile auf der Grundlage des Verhaltens des Nutzers auf der Website zu erstellen. Auf dieser Website werden Medieninhalte von Drittanbietern (z. B. YouTube oder Facebook) unter Verwendung von oEmbed-Spezifikationen oder Integrationswidgets eingebunden. Jeder Inhaltsanbieter kann technische, analytische und profilbildende Cookies gemäß seinen eigenen Einstellungen setzen. Wenn diese Einstellung deaktiviert ist, werden die Medieninhalte nicht automatisch in die Website eingebettet, sondern es wird ein Link angezeigt, über den sie direkt von der Quelle abgerufen werden können.</translation>
     </message>
   </context>
 </TS>
