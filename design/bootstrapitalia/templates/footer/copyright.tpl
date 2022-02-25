@@ -1,10 +1,10 @@
 <div class="container text-secondary x-small mt-1 mb-1">
     <div class="row">
     {if openpaini('CookiesSettings', 'Consent', 'advanced')|eq('advanced')}
-        <div class="col-2">
+        <div class="col-3">
             <a href="#" class="ccb__edit">{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}</a>
         </div>
-        <div class="col-10 text-right">
+        <div class="col-9 text-right">
     {else}
         <div class="col-12 text-right">
     {/if}
