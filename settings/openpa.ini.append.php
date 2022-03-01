@@ -49,6 +49,7 @@ AttributiAbstract[]=description
 
 [Menu]
 IgnoraVirtualizzazione=enabled
+HeaderLinksLimit=3
 
 [SideMenu]
 IdentificatoriMenu[]=topic
