@@ -87,7 +87,10 @@ FromFolder[]=infobox
 [AttributeHandlers]
 #Handlers[datatype/classIdentifier/attributeIdentifier]=PhpClassname
 Handlers[ezinteger/*/*]=OpenPAAttributeIntegerHandler
-DocumentHasCodeUniqueCheck=disabled
+UniqueStringCheck[]
+#UniqueStringCheck[]=document/has_code
+#UniqueStringCheck[]=lotto/cig
+#UniqueStringCheck[]=public_service/identifier
 
 [WebsiteToolbar]
 ShowEditorRoles=disabled

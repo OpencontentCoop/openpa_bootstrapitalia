@@ -4,7 +4,7 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
 {
     const FILE_ERROR_MESSAGE = "Popolare almeno un campo tra '%s', '%s' e '%s'";
 
-    const CODE_ERROR_MESSAGE = "Il valore del campo '%s' è già presente a sistema (%s)";
+    const UNIQUE_FIELD_ERROR_MESSAGE = "Il valore del campo '%s' è già presente a sistema (%s)";
 
     /**
      * @param eZHTTPTool $http
@@ -28,13 +28,10 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
             $file = eZHTTPFile::UPLOADEDFILE_OK;
             $link = true;
             $attachments = true;
-            $hasUniqueCode = true;
-            $duplicates = [];
 
             $fileName = 'file';
             $linkName = 'link';
             $attachmentsName = 'attachments';
-            $documentCodeName = 'has_code';
 
             foreach ($contentObjectAttributes as $contentObjectAttribute) {
                 $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
@@ -64,14 +61,6 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                         $attachments = $contentObjectAttribute->toString();
                     }
                     $attachmentsName = $contentClassAttribute->attribute('name');
-
-                } elseif ($contentClassAttribute->attribute('identifier') == 'has_code') {
-                    $inputData = $http->postVariable('ContentObjectAttribute_ezstring_data_text_' . $contentObjectAttribute->attribute('id'));
-                    $duplicates = $this->getObjectIdListByAttributeDataText($contentObjectAttribute, $inputData);
-                    if ($contentObjectAttribute->hasContent() && count($duplicates) > 0) {
-                        $hasUniqueCode = false;
-                    }
-                    $documentCodeName = $contentClassAttribute->attribute('name');
                 }
             }
 
@@ -80,16 +69,16 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                     ['text' => sprintf(self::FILE_ERROR_MESSAGE, $fileName, $linkName, $attachmentsName)],
                 ]];
             }
-            if (!$hasUniqueCode){
-                $duplicateLinks = [];
-                foreach ($duplicates as $duplicate){
-                    $duplicateObject = eZContentObject::fetch((int)$duplicate);
-                    $duplicateName = $duplicateObject instanceof eZContentObject ? $duplicateObject->attribute('name') : $duplicate;
-                    $duplicateLinks[] = '<a href="/openpa/object/' . $duplicate . '" target="_blank">' . $duplicateName . '</a>';
-                }
+        }
+
+        $uniqueStringCheckList = OpenPAINI::variable('AttributeHandlers', 'UniqueStringCheck', []);
+        foreach ($uniqueStringCheckList as $uniqueStringCheck){
+            list($classIdentifier, $attributeIdentifier) = explode('/', $uniqueStringCheck);
+            $uniqueResult = $this->checkUniqueStringField($classIdentifier, $attributeIdentifier, $http, $class, $contentObjectAttributes);
+            if (!$uniqueResult['is_valid']) {
                 $result['is_valid'] = false;
                 $result['warnings'][] = [
-                    'text' => sprintf(self::CODE_ERROR_MESSAGE, $documentCodeName, implode(', ', $duplicateLinks))
+                    'text' => $uniqueResult['message']
                 ];
             }
         }
@@ -97,26 +86,65 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
         return $result;
     }
 
+    private function checkUniqueStringField($classIdentifier, $attributeIdentifier, $http, $class, $contentObjectAttributes)
+    {
+        $result = [
+            'is_valid' => true,
+            'message' => '',
+        ];
+
+        $hasUniqueValue = true;
+        $duplicates = [];
+        $attributeName = $attributeIdentifier;
+
+        if ($class->attribute('identifier') == $classIdentifier) {
+            foreach ($contentObjectAttributes as $contentObjectAttribute) {
+                $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
+                if ($contentClassAttribute->attribute('identifier') == $attributeIdentifier
+                    && $contentClassAttribute->attribute('data_type_string') == eZStringType::DATA_TYPE_STRING) {
+                    $inputData = $http->postVariable('ContentObjectAttribute_ezstring_data_text_' . $contentObjectAttribute->attribute('id'));
+                    $duplicates = $this->getObjectIdListByAttributeDataText($contentObjectAttribute, $inputData);
+                    if ($contentObjectAttribute->hasContent() && count($duplicates) > 0) {
+                        $hasUniqueValue = false;
+                    }
+                    $attributeName = $contentClassAttribute->attribute('name');
+                    break;
+                }
+            }
+        }
+
+        if (!$hasUniqueValue){
+            $duplicateLinks = [];
+            foreach ($duplicates as $duplicate){
+                $duplicateObject = eZContentObject::fetch((int)$duplicate);
+                $duplicateName = $duplicateObject instanceof eZContentObject ? $duplicateObject->attribute('name') : $duplicate;
+                $duplicateLinks[] = '<a href="/openpa/object/' . $duplicate . '" target="_blank">' . $duplicateName . '</a>';
+            }
+            $result['is_valid'] = false;
+            $result['message'] = sprintf(self::UNIQUE_FIELD_ERROR_MESSAGE, $attributeName, implode(', ', $duplicateLinks));
+        }
+
+        return $result;
+    }
+
     private function getObjectIdListByAttributeDataText(eZContentObjectAttribute $contentObjectAttribute, $inputData)
     {
-        if (OpenPAINI::variable('AttributeHandlers', 'DocumentHasCodeUniqueCheck', 'disabled') == 'enabled') {
-            $contentObjectID = $contentObjectAttribute->attribute('contentobject_id');
-            $contentClassAttributeID = $contentObjectAttribute->attribute('contentclassattribute_id');
-            $db = eZDB::instance();
-            $query = "SELECT coa.contentobject_id as id
-				FROM ezcontentobject co, ezcontentobject_attribute coa
-				WHERE co.id = coa.contentobject_id
-				AND co.current_version = coa.version
-				AND co.status = " . eZContentObject::STATUS_PUBLISHED . "
-				AND coa.contentobject_id <> " . $db->escapeString($contentObjectID) . "
-				AND coa.contentclassattribute_id = " . $db->escapeString($contentClassAttributeID) . "
-				AND coa.data_text = '" . $db->escapeString($inputData) . "'";
+        $contentObjectID = $contentObjectAttribute->attribute('contentobject_id');
+        $contentClassAttributeID = $contentObjectAttribute->attribute('contentclassattribute_id');
+        $db = eZDB::instance();
+        $query = "SELECT coa.contentobject_id as id
+            FROM ezcontentobject co, ezcontentobject_attribute coa
+            WHERE co.id = coa.contentobject_id
+            AND co.current_version = coa.version
+            AND co.status = " . eZContentObject::STATUS_PUBLISHED . "
+            AND coa.contentobject_id <> " . $db->escapeString($contentObjectID) . "
+            AND coa.contentclassattribute_id = " . $db->escapeString($contentClassAttributeID) . "
+            AND coa.data_text = '" . $db->escapeString($inputData) . "'";
 
 
-            $results = $db->arrayQuery($query);
-            if (count($results) > 0) {
-                return array_column($results, 'id');
-            }
+        $results = $db->arrayQuery($query);
+        if (count($results) > 0) {
+            return array_column($results, 'id');
         }
         return [];
     }
