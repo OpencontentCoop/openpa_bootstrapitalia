@@ -42,5 +42,16 @@ Grazie a questa licenza, qualsiasi utente gode delle quattro libertà fondamenta
 **Build css e js:**
 ```
 npm i
+
+# Fix font-awesome divsion
+npm install -g sass-migrator
+sass-migrator division node_modules/font-awesome/scss/*.scss
+
+# Avoid @import in css output
+# In macos
+# brew install gnu-sed
+# gsed -i 's/autocomplete.css/autocomplete/g' ./node_modules/bootstrap-italia/src/scss/bootstrap-italia.scss
+sed -i 's/autocomplete.css/autocomplete/g' ./node_modules/bootstrap-italia/src/scss/bootstrap-italia.scss
+
 gulp
 ```

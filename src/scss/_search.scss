@@ -24,7 +24,7 @@
   }
 
   .back-to-search {
-    @extend button.close;
+    @extend button, .close;
     padding: 16px;
   }
 
@@ -95,7 +95,7 @@ a.chip.chip-lg {
   }
 
   &.selected {
-    @extend .chip:hover;
+    @extend .chip, :hover;
   }
 }
 

@@ -157,12 +157,14 @@ $banner-border-width: 8px;
 }
 
 @each $color, $value in $theme-colors {
-  .embed.#{$color} {
-    .banner {
-      background-color: #{$value} !important;
-      .banner-icon *, .banner-text * {
-        color: white !important;
-        fill: white !important;
+  @if index(('100' '200' '300' '400' '500' '600' '700' '800' '900'), $color) == false {
+    .embed.#{$color} {
+      .banner {
+        background-color: #{$value} !important;
+        .banner-icon *, .banner-text * {
+          color: white !important;
+          fill: white !important;
+        }
       }
     }
   }
