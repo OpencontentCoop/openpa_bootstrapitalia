@@ -11,8 +11,15 @@
             {if $homepage|has_attribute('cookie_policy')}
                 {attribute_view_gui attribute=$homepage|attribute('cookie_policy')}
             {/if}
-            <a href="#"
-               class="ccb__edit btn btn-info mt-2">{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}</a>
+            {def $needCookieConsent = cond(or(
+                and( openpaini('Seo', 'GoogleAnalyticsAccountID'), openpaini('Seo', 'GoogleCookieless')|eq('disabled') ),
+                and( openpaini('Seo', 'webAnalyticsItaliaID'), openpaini('Seo', 'WebAnalyticsItaliaCookieless')|eq('disabled') ),
+                openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled')
+            ), true(), false())}
+            {if $needCookieConsent}
+                <a href="#" class="ccb__edit btn btn-info mt-2">{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}</a>
+            {/if}
+            {undef $needCookieConsent}
         {else}
             <h1>Informativa Cookie</h1>
             <p>

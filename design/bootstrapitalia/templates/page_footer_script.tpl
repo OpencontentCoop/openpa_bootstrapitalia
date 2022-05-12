@@ -2,6 +2,8 @@
 <script src="{'javascript/app.min.js'|ezdesign(no)}"></script>
 
 {if openpaini( 'Seo', 'GoogleAnalyticsAccountID', false() )}
+    {* see https://goenning.net/2021/02/01/cookieless-google-analytics/ *}
+    {*
     <script type="text/javascript">
         (function(i,s,o,g,r,a,m){ldelim}i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ldelim}
             (i[r].q=i[r].q||[]).push(arguments){rdelim},i[r].l=1*new Date();a=s.createElement(o),
@@ -12,11 +14,21 @@
         ga('set', 'forceSSL', true);
         ga('send', 'pageview');
     </script>
+    *}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={openpaini( 'Seo', 'GoogleAnalyticsAccountID' )}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){ldelim}dataLayer.push(arguments);{rdelim}
+        gtag('js', new Date());
+        gtag('config', '{openpaini( 'Seo', 'GoogleAnalyticsAccountID' )}', {ldelim}{if openpaini('Seo', 'GoogleCookieless')|eq('enabled')}client_storage: 'none', {/if}anonymize_ip: true {rdelim});
+    </script>
 {/if}
 
 {if openpaini( 'Seo', 'webAnalyticsItaliaID', false() )}
+    {* see https://matomo.org/faq/general/faq_157/ *}
     <script type="text/javascript">
         var _paq = window._paq || [];
+        {if openpaini('Seo', 'WebAnalyticsItaliaCookieless')|eq('enabled')}_paq.push(['disableCookies']);{/if}
         _paq.push(['trackPageView']);
         _paq.push(['enableLinkTracking']);
         (function() {ldelim}

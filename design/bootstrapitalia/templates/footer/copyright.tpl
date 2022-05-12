@@ -1,6 +1,11 @@
 <div class="container text-secondary x-small mt-1 mb-1">
     <div class="row">
-    {if openpaini('CookiesSettings', 'Consent', 'advanced')|eq('advanced')}
+    {def $needCookieConsent = cond(or(
+            and( openpaini('Seo', 'GoogleAnalyticsAccountID'), openpaini('Seo', 'GoogleCookieless')|eq('disabled') ),
+            and( openpaini('Seo', 'webAnalyticsItaliaID'), openpaini('Seo', 'WebAnalyticsItaliaCookieless')|eq('disabled') ),
+            openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled')
+        ), true(), false())}
+    {if and(openpaini('CookiesSettings', 'Consent', 'advanced')|eq('advanced'), $needCookieConsent)}
         <div class="col-3">
             <a href="#" class="ccb__edit">{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}</a>
         </div>
@@ -8,6 +13,7 @@
     {else}
         <div class="col-12 text-right">
     {/if}
+    {undef $needCookieConsent}
             &copy; {currentdate()|datetime( 'custom', '%Y' )} {ezini('SiteSettings','SiteName')}
             {if openpaini('CreditsSettings', 'ShowCredits', 'enabled')|eq('enabled')}
                 powered by
