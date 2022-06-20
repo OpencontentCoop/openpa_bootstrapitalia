@@ -29,11 +29,11 @@ class OpenPAReverseRelationListType extends eZDataType
      * @param eZHTTPTool $http
      * @param string $base
      * @param eZContentClassAttribute $classAttribute
-     * @return true if fetching of class attributes are successfull, false if not
+     * @return boolean true if fetching of class attributes are successfull, false if not
      */
     function fetchClassAttributeHTTPInput($http, $base, $classAttribute)
     {
-        $content = $classAttribute->content();
+        $content = (array)$classAttribute->content();
         $base = $base . '_openpareverserelationlist_';
         $store = false;        
 
@@ -55,18 +55,18 @@ class OpenPAReverseRelationListType extends eZDataType
             $store = true;
         }
 
-        if ($store) {            
+        if ($store) {
             $classAttribute->setContent($content);
             $this->storeClassAttributeContent($classAttribute, $content);
             return true;
         }
 		
-		return false;        
+		return false;
     }
 
     /**
      * @param eZHTTPTool $http
-     * @param string $base
+     * @param string $action
      * @param eZContentClassAttribute $classAttribute
      */
     function customClassAttributeHTTPAction($http, $action, $classAttribute)
@@ -75,10 +75,15 @@ class OpenPAReverseRelationListType extends eZDataType
             case 'add_attribute':
                 {
                     $postName = 'RelationClassAttribute_' . $classAttribute->attribute('id');
+                    $subtreePostName = 'RelationClassAttributeSubtree_' . $classAttribute->attribute('id');
                     if ($http->hasPostVariable($postName)) {
                         $attributeId = (int)$http->postVariable($postName);
-                        $content = $classAttribute->content();
+                        $content = (array)$classAttribute->content();
                         $content['attribute_id_list'][] = $attributeId;
+                        if ($http->hasPostVariable($subtreePostName)) {
+                            $attributeIdSubtree = (int)$http->postVariable($subtreePostName);
+                            $content['attribute_id_subtree'][$attributeId] = $attributeIdSubtree;
+                        }
                         $classAttribute->setContent($content);
                         $this->storeClassAttributeContent($classAttribute, $content);
                     }
@@ -90,13 +95,16 @@ class OpenPAReverseRelationListType extends eZDataType
                     $postName = 'RemoveRelationClassAttribute_' . $classAttribute->attribute('id');
                     if ($http->hasPostVariable($postName)) {
                         $removeAttributeIdList = (array)$http->postVariable($postName);
-                        $content = $classAttribute->content();
+                        $content = (array)$classAttribute->content();
                         $attributeIdList = array();
                         foreach ($content['attribute_id_list'] as $id) {
                             if (!in_array($id, $removeAttributeIdList)) {
                                 $attributeIdList[] = $id;
+                            }elseif (isset($content['attribute_id_subtree'][$id])){
+                                unset($content['attribute_id_subtree'][$id]);
                             }
                         }
+
                         $content['attribute_id_list'] = $attributeIdList;
                         $classAttribute->setContent($content);
                         $this->storeClassAttributeContent($classAttribute, $content);
@@ -122,6 +130,7 @@ class OpenPAReverseRelationListType extends eZDataType
             'sort' => 'name',
             'order' => 'asc',
             'limit' => 4,
+            'attribute_id_subtree' => [],
         );
         $data = array_merge($data, (array)json_decode($classAttribute->attribute('data_text5'), true));
 
@@ -184,34 +193,35 @@ class OpenPAReverseRelationListType extends eZDataType
 
     /**
      * Returns the content.
-     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param eZContentObjectAttribute $objectAttribute
      * @return string
      */
-    public function objectAttributeContent($contentObjectAttribute)
+    public function objectAttributeContent($objectAttribute)
     {
-        if (!isset(self::$content[$contentObjectAttribute->attribute('id')])) {
+        $objectAttributeId = $objectAttribute->attribute('id');
+        if (!isset(self::$content[$objectAttributeId])) {
 
-            $classContent = $contentObjectAttribute->attribute('class_content');
+            $classContent = $objectAttribute->attribute('class_content');
 
             $uri = eZURI::instance(eZSys::requestURI());
-            if (isset($uri->UserArray[$contentObjectAttribute->attribute('contentclass_attribute_identifier')])){
-            	$currentPage = $uri->UserArray[$contentObjectAttribute->attribute('contentclass_attribute_identifier')];
+            if (isset($uri->UserArray[$objectAttribute->attribute('contentclass_attribute_identifier')])){
+            	$currentPage = $uri->UserArray[$objectAttribute->attribute('contentclass_attribute_identifier')];
             }else{
             	$currentPage = 1;
             }
             $limit = $classContent['limit'];
             $offset = $currentPage == 1 ? 0 : $limit * ($currentPage - 1);
-            $query = $this->buildQuery($contentObjectAttribute, $limit, $offset);
+            $query = $this->buildQuery($objectAttribute, $limit, $offset);
 
-            self::$content[$contentObjectAttribute->attribute('id')]['query'] = $query;
-            self::$content[$contentObjectAttribute->attribute('id')]['limit'] = $limit;
-            self::$content[$contentObjectAttribute->attribute('id')]['offset'] = $offset;
-            self::$content[$contentObjectAttribute->attribute('id')]['pages'] = 0;
-            self::$content[$contentObjectAttribute->attribute('id')]['current_page'] = $currentPage;
+            self::$content[$objectAttributeId]['query'] = $query;
+            self::$content[$objectAttributeId]['limit'] = $limit;
+            self::$content[$objectAttributeId]['offset'] = $offset;
+            self::$content[$objectAttributeId]['pages'] = 0;
+            self::$content[$objectAttributeId]['current_page'] = $currentPage;
 
             if (!$query) {
-                self::$content[$contentObjectAttribute->attribute('id')]['objects'] = array();
-                self::$content[$contentObjectAttribute->attribute('id')]['count'] = 0;
+                self::$content[$objectAttributeId]['objects'] = array();
+                self::$content[$objectAttributeId]['count'] = 0;
             } else {
                 $contentSearch = new ContentSearch();
                 $contentSearch->setEnvironment(new FullEnvironmentSettings());
@@ -221,7 +231,7 @@ class OpenPAReverseRelationListType extends eZDataType
                 $objects = array();
                 foreach ($contents as $content) {
                     try {
-                        $apiContent = new Content($content);
+                        $apiContent = new Content((array)$content);
                         $language = $this->language;
                         if (!in_array($language, $apiContent->metadata->languages)){
                             $language = $apiContent->metadata->languages[0];
@@ -231,13 +241,13 @@ class OpenPAReverseRelationListType extends eZDataType
                         eZDebug::writeError($e->getMessage(), __METHOD__);
                     }
                 }
-                self::$content[$contentObjectAttribute->attribute('id')]['objects'] = $objects;
-                self::$content[$contentObjectAttribute->attribute('id')]['count'] = $data->totalCount;
-                self::$content[$contentObjectAttribute->attribute('id')]['pages'] = ceil($data->totalCount/$limit);
+                self::$content[$objectAttributeId]['objects'] = $objects;
+                self::$content[$objectAttributeId]['count'] = $data->totalCount;
+                self::$content[$objectAttributeId]['pages'] = ceil($data->totalCount/$limit);
             }
         }
 
-        return self::$content[$contentObjectAttribute->attribute('id')];
+        return self::$content[$objectAttributeId];
     }
 
     /**
@@ -253,7 +263,7 @@ class OpenPAReverseRelationListType extends eZDataType
     {
         $dom = $attributeParametersNode->ownerDocument;
 
-        $data = $classAttribute->attribute('data_text5');
+        $dataKey = $classAttribute->attribute('data_text5');
         $dataKeyNode = $dom->createElement('data');
         $dataKeyNode->appendChild($dom->createTextNode($dataKey));
         $attributeParametersNode->appendChild($dataKeyNode);
@@ -276,14 +286,21 @@ class OpenPAReverseRelationListType extends eZDataType
 
     private function buildQuery($contentObjectAttribute, $limit, $offset = 0)
     {
-        $data = $contentObjectAttribute->attribute('class_content');
+        $data = (array)$contentObjectAttribute->attribute('class_content');
         if (count($data['attribute_id_list']) > 0) {
             if (count($data['attribute_list']) > 0) {
                 $queryParts = array();
                 $attributeQueryParts = array();
                 foreach ($data['attribute_list'] as $className => $attributes) {
                     foreach ($attributes as $attribute) {
-                        $attributeQueryParts[] = "(raw[meta_contentclass_id_si] = " . $attribute->attribute('contentclass_id') . " and " . $attribute->attribute('identifier') . ".id = " . $contentObjectAttribute->attribute('contentobject_id') . ")";
+                        if (isset($data['attribute_id_subtree'][$attribute->attribute('id')]) && intval($data['attribute_id_subtree'][$attribute->attribute('id')]) > 0){
+                            $attributeQueryParts[] = "(raw[meta_contentclass_id_si] = " . $attribute->attribute('contentclass_id') .
+                                " and " . $attribute->attribute('identifier') . ".id = " . $contentObjectAttribute->attribute('contentobject_id') .
+                                " and raw[meta_path_si] = " . (int)$data['attribute_id_subtree'][$attribute->attribute('id')] . ")";
+                        }else{
+                            $attributeQueryParts[] = "(raw[meta_contentclass_id_si] = " . $attribute->attribute('contentclass_id') .
+                                " and " . $attribute->attribute('identifier') . ".id = " . $contentObjectAttribute->attribute('contentobject_id') . ")";
+                        }
                     }
                 }
                 $queryParts[] = '(' . implode(' or ', $attributeQueryParts) . ')';

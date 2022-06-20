@@ -2,19 +2,24 @@
 
 <div class="block"></div>
 <div class="block">
-
-	<select name="RelationClassAttribute_{$class_attribute.id}"
-	<option></option>
-	{foreach $class_attribute_content.available_class_attributes as $class_name => $relation_attributes}
-		{foreach $relation_attributes as $relation_attribute}
-		<option value="{$relation_attribute.id}">{$class_name|wash()}/{$relation_attribute.name|wash()}</option>
+	<div class="element">
+		<select name="RelationClassAttribute_{$class_attribute.id}" style="max-width: 300px">
+		<option></option>
+		{foreach $class_attribute_content.available_class_attributes as $class_name => $relation_attributes}
+			{foreach $relation_attributes as $relation_attribute}
+			<option value="{$relation_attribute.id}">{$class_name|wash()}/{$relation_attribute.name|wash()}</option>
+			{/foreach}
 		{/foreach}
-	{/foreach}
-	</select>
-
-	<input class="button" type="submit" 
-		   name="CustomActionButton[{$class_attribute.id}_add_attribute]" 
-		   value="{'Select item'|i18n('design/standard/class/datatype')}" />
+		</select>
+	</div>
+	<div class="element">
+		<input type="number" name="RelationClassAttributeSubtree_{$class_attribute.id}" class="halfbox" placeholder="{'Subtree'|i18n( 'design/admin/role/createpolicystep3' )}"/>
+	</div>
+	<div class="element">
+		<input class="button" type="submit"
+			   name="CustomActionButton[{$class_attribute.id}_add_attribute]"
+			   value="{'Select item'|i18n('design/standard/class/datatype')}" />
+	</div>
 </div>
 
 {if count($class_attribute_content.attribute_list)}
@@ -24,6 +29,7 @@
 			<th class="tight"></th>
 			<th>{'Class'|i18n('design/standard/class/datatype')}</th>
 			<th>{'Attribute'|i18n('design/standard/class/datatype')}</th>
+			<th>{'Subtree'|i18n( 'design/admin/role/createpolicystep3' )}</th>
 		</tr>
 		{foreach $class_attribute_content.attribute_list as $class_name => $relation_attributes}
 			{foreach $relation_attributes as $relation_attribute}
@@ -31,6 +37,7 @@
 				<td><input type="checkbox" name="RemoveRelationClassAttribute_{$class_attribute.id}[]" value="{$relation_attribute.id}" /></td>
 				<td>{$class_name|wash()}</td>
 				<td>{$relation_attribute.name|wash()}</td>
+				<td>{if and(is_set($class_attribute_content.attribute_id_subtree[$relation_attribute.id]), $class_attribute_content.attribute_id_subtree[$relation_attribute.id]|gt(0))}{$class_attribute_content.attribute_id_subtree[$relation_attribute.id]|wash()}{/if}</td>
 			</tr>
 			{/foreach}
 		{/foreach}
