@@ -1,6 +1,6 @@
 {def $recaptcha_public_key = openpa_recaptcha_public_key(3)}
 {if and($recaptcha_public_key|ne(''), $recaptcha_public_key|ne('no-public'))}
-<script src="https://www.google.com/recaptcha/api.js?render={$recaptcha_public_key}"></script>
+<script src="https://www.recaptcha.net/recaptcha/api.js?render={$recaptcha_public_key}"></script>
 <div class="it-footer-valuation bg-light border-top position-relative">
     <div class="container">
         <section style="padding: 0 16px">
