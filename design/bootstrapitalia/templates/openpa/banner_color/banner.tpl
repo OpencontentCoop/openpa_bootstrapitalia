@@ -16,7 +16,9 @@
     {/if}
     <div class="card-body">
         <h5 class="card-title text-{$background_color_class}">
-            <a class="stretched-link text-decoration-none text-{$background_color_class}" href="{$openpa.content_link.full_link}">
+            <a class="stretched-link text-decoration-none text-{$background_color_class}"
+               {if $openpa.content_link.target}target="{$openpa.content_link.target|wash()}"{/if}
+               href="{$openpa.content_link.full_link}">
                 {$node.name|wash()}
                 {include uri='design:parts/card_title_suffix.tpl'}
             </a>

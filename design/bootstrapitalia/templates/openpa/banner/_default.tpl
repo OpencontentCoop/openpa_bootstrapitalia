@@ -6,7 +6,9 @@
 {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
 <div class="position-relative">
 {/if}
-<a data-object_id="{$node.contentobject_id}" href="{$openpa.content_link.full_link}" class="banner {$view_variation} {$node|access_style}">
+<a data-object_id="{$node.contentobject_id}"
+   {if $openpa.content_link.target}target="{$openpa.content_link.target|wash()}"{/if}
+   href="{$openpa.content_link.full_link}" class="banner {$view_variation} {$node|access_style}">
     {if $node|has_attribute('image')}
     <div class="banner-image">
         {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
