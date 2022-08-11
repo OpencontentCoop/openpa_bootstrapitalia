@@ -26,7 +26,7 @@
                                     <div style="font-family:Arial,Helvetica,sans-serif;font-size:12pt;line-height:1;text-align:left;color:#000000;">
                                         <a href="{concat($site_url, '/', $content.object.main_node.url_alias)}">
 
-                                            {if $content|has_attribute('time_interval')}
+                                            {if and($content.class_identifier|eq('event'), $content|has_attribute('time_interval'))}
                                                 {def $events = $content|attribute('time_interval').content.events}
                                                 {if count($events)|gt(0)}
                                                     <strong style="display: block;line-height: 2">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )} {recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</strong>

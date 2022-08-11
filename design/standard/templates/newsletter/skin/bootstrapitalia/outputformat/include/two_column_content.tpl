@@ -37,7 +37,7 @@
                 <div style="font-family:Arial,Helvetica,sans-serif;font-size:14pt;line-height:1;text-align:left;color:#000000;">
 
 {*                    {if and($content|has_attribute('image')|not(), $content|has_attribute('time_interval'))}*}
-                    {if $content|has_attribute('time_interval')}
+                    {if and($content.class_identifier|eq('event'), $content|has_attribute('time_interval'))}
                         {def $events = $content|attribute('time_interval').content.events}
                         {if count($events)|gt(0)}
                             <strong>{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )} {recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</strong>
