@@ -121,5 +121,5 @@ ShowCredits=enabled
 
 [CookiesSettings]
 #simple or advanced
-Consent=simple
+Consent=advanced
 */ ?>
