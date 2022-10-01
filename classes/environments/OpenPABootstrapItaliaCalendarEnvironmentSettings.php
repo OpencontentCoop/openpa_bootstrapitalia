@@ -65,14 +65,16 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
                 }
             }
             if (!$converted) {
-                foreach ($timedAttributesIdentifiers['opening_hours'] as $openingHours) {
-                    if (isset($data[$openingHours]) && !empty($data[$openingHours]['content'])) {
-                        $recurrences = array_merge($recurrences, $this->convertEventToFullcalendarItem($content, $openingHours));
+                foreach ($timedAttributesIdentifiers['opening_hours'] as $openingHoursIdentifier) {
+                    if (isset($data[$openingHoursIdentifier]) && !empty($data[$openingHoursIdentifier]['content'])) {
+                        $recurrences = array_merge($recurrences, $this->convertOpeningHourToFullcalendarItem($content, $openingHoursIdentifier));
                         $converted = true;
                         break;
                     }
                 }
             }
+        }else{
+            $recurrences = array_merge($recurrences, $this->convertEventToFullcalendarItem($content));
         }
 
         return $recurrences;
@@ -139,7 +141,61 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
         return $recurrences;
     }
 
-    private function convertEventToFullcalendarItem(Content $content, $openingHoursIdentifier)
+    private function convertEventToFullcalendarItem(Content $content)
+    {
+        $content = parent::filterContent($content);
+        $data = $this->getFirstLocale($content['data']);
+        $recurrences = array();
+        $eventBoundary = $this->getFromToEventBoundary($content, $data, 'from_time', 'to_time');
+
+        if ($eventBoundary->from) {
+            $event = new OpenPABootstrapItaliaCalendarEvent();
+            $event->setTitle($this->getFirstLocale($content['metadata']['name']))
+                ->setId($content['metadata']['id'])
+                ->setType($this->getClassName($content['metadata']['classIdentifier']))
+                ->setStart($eventBoundary->from)
+                ->setEnd($eventBoundary->to)
+                ->setAllDay($eventBoundary->allDay);
+            $recurrences[] = $event;
+        }
+
+        return $recurrences;
+    }
+
+    private function getFromToEventBoundary($content, $contentData, $fromIdentifier, $toIdentifier)
+    {
+        $data = new stdClass();
+        $data->from = isset($contentData[$fromIdentifier]) ? $contentData[$toIdentifier] : false;
+        if ($data->from) {
+            $data->to = isset($contentData[$toIdentifier]) ? $contentData[$toIdentifier] : false;
+            $data->allDay = false;
+            if ($data->to) {
+                $fromDateTime = DateTime::createFromFormat(DateTime::ISO8601, $data->from);
+                $toDateTime = DateTime::createFromFormat(DateTime::ISO8601, $data->to);
+                if ($fromDateTime instanceof DateTime && $toDateTime instanceof DateTime) {
+                    $endOfFrom = clone $fromDateTime;
+                    $endOfFrom->setTime(23, 59);
+
+                    if ($toDateTime > $endOfFrom) {
+                        $data->allDay = true;
+                        $data->from = $fromDateTime->format("Y-m-d");
+                        $fixedToDateTime = clone $toDateTime;
+                        /*
+                         * https://fullcalendar.io/docs/event-object
+                         * The exclusive date/time an event ends. Optional. A Moment-ish input, like an ISO8601 string.
+                         * Throughout the API this will become a real Moment object. It is the moment immediately after the event has ended.
+                         */
+                        $fixedToDateTime->add(new DateInterval("P1D"));
+                        $data->to = $fixedToDateTime->format("Y-m-d");
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    private function convertOpeningHourToFullcalendarItem(Content $content, $openingHoursIdentifier)
     {
         $content = parent::filterContent($content);
         $recurrences = array();
@@ -147,33 +203,9 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
         $fromTo = $data[$openingHoursIdentifier];
 
         foreach ($fromTo as $timeRelation) {
-            $from = isset($timeRelation['data'][self::OPENING_HOURS_FROM_IDENTIFIER]) ? $timeRelation['data'][self::OPENING_HOURS_FROM_IDENTIFIER] : false;
-            $hoursMatrix = isset($timeRelation['data'][self::OPENING_HOURS_MATRIX_IDENTIFIER]) ? $this->getMatrixContent($timeRelation['data'][self::OPENING_HOURS_MATRIX_IDENTIFIER]) : false;
-            if ($from) {
-                $to = isset($timeRelation['data'][self::OPENING_HOURS_TO_IDENTIFIER]) ? $timeRelation['data'][self::OPENING_HOURS_TO_IDENTIFIER] : false;
-                $allDay = false;
-                if ($to) {
-                    $fromDateTime = DateTime::createFromFormat(DateTime::ISO8601, $from);
-                    $toDateTime = DateTime::createFromFormat(DateTime::ISO8601, $to);
-                    if ($fromDateTime instanceof DateTime && $toDateTime instanceof DateTime) {
-                        $endOfFrom = clone $fromDateTime;
-                        $endOfFrom->setTime(23, 59);
-
-                        if ($toDateTime > $endOfFrom) {
-                            $allDay = true;
-                            $from = $fromDateTime->format("Y-m-d");
-                            $fixedToDateTime = clone $toDateTime;
-                            /*
-                             * https://fullcalendar.io/docs/event-object
-                             * The exclusive date/time an event ends. Optional. A Moment-ish input, like an ISO8601 string.
-                             * Throughout the API this will become a real Moment object. It is the moment immediately after the event has ended.
-                             */
-                            $fixedToDateTime->add(new DateInterval("P1D"));
-                            $to = $fixedToDateTime->format("Y-m-d");
-                        }
-                    }
-                }
-
+            $eventBoundary = $this->getFromToEventBoundary($timeRelation, $timeRelation['data'],self::OPENING_HOURS_FROM_IDENTIFIER, self::OPENING_HOURS_FROM_IDENTIFIER);
+            if ($eventBoundary->from) {
+                $hoursMatrix = isset($timeRelation['data'][self::OPENING_HOURS_MATRIX_IDENTIFIER]) ? $this->getMatrixContent($timeRelation['data'][self::OPENING_HOURS_MATRIX_IDENTIFIER]) : false;
                 $baseEvent = new OpenPABootstrapItaliaCalendarEvent();
                 $baseEvent->setTitle($this->getFirstLocale($content['metadata']['name']) . ' (' . $this->getFirstLocale($timeRelation['name']) . ')')
                     ->setId($content['metadata']['id'])
@@ -182,9 +214,9 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
                 if (empty($hoursMatrix)) {
                     $event = clone $baseEvent;
                     $event->setTitle($this->getFirstLocale($content['metadata']['name']) . ' (' . $this->getFirstLocale($timeRelation['name']) . ')')
-                        ->setStart($from)
-                        ->setEnd($to)
-                        ->setAllDay($allDay);
+                        ->setStart($eventBoundary->from)
+                        ->setEnd($eventBoundary->to)
+                        ->setAllDay($eventBoundary->allDay);
 
                     $recurrences[] = $event;
                 

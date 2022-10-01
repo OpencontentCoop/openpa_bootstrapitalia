@@ -60,8 +60,13 @@
     </div>
 </section>
 
-{if and($current_view_tag|not(), $node|has_attribute('layout'))}
-    {attribute_view_gui attribute=$node|attribute('layout')}
+{if and($current_view_tag|not(), or($node|has_attribute('layout'),$node|has_attribute('page')))}
+    {if $node|has_attribute('layout')}
+        {attribute_view_gui attribute=$node|attribute('layout')}
+    {/if}
+    {if $node|has_attribute('page')}
+        {attribute_view_gui attribute=$node|attribute('page')}
+    {/if}
 {/if}
 
 {node_view_gui content_node=$node view=children view_parameters=$view_parameters}

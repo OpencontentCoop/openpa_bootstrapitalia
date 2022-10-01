@@ -24,6 +24,8 @@ $eZTemplateOperatorArray = array(
             'explode_contact',
             'is_empty_matrix',
             'cookie_consent_config_translations',
+            'subtree_classes',
+            'find_common_class_attributes',
         )
     )
 );

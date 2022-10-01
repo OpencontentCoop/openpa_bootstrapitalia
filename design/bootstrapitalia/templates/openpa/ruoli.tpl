@@ -1,62 +1,66 @@
 {ezpagedata_set('show_path', false())}
 {def $class_identifier = 'time_indexed_role'
-	 $parent_node_id = openpa_roles_parent_node_id()
-	 $parent_node = fetch(content, node, hash(node_id, $parent_node_id))
+	 $parent_node_id = openpa_roles_parent_node_id()}
+{if $parent_node_id|not()}
+	<div class="message-error">Errore di configurazione. Si prega di contattare il supporto.</div>
+{else}
+
+{def $parent_node = fetch(content, node, hash(node_id, $parent_node_id))
 	 $can_create = cond($parent_node.can_create, true(), false())}
 <div class="p-3">
-<div class="row">
-	<div class="col-md-12">
-		<h3>
-			Gestione dei ruoli amministrativi e politici
-			{*<a class="btn btn-xs btn-primary rounded-0" href="{'bootstrapitalia/role_list'|ezurl(no)}">
-				Ruoli
-			</a>*}
-		</h3>
-	</div>		
-	<div class="col-md-{if $can_create}10{else}12{/if}">
-		<div class="input-group">
-		  <input type="text" class="form-control" id="name">
-		  <div class="input-group-append">
-		    <button class="btn btn-info py-2" type="button" id="FindContents">{'Search'|i18n('openpa/search')}</button>
-		    <button class="btn btn-danger py-2" type="button" style="display: none;" id="ResetContents">Annulla ricerca</button>
-		  </div>
+	<div class="row">
+		<div class="col-md-12">
+			<h3>
+				Gestione dei ruoli amministrativi e politici
+				{*<a class="btn btn-xs btn-primary rounded-0" href="{'bootstrapitalia/role_list'|ezurl(no)}">
+					Ruoli
+				</a>*}
+			</h3>
 		</div>
-		<div class="form-group form-check">
-			<input id="OnlyExpired"
-				   class="form-check-input"
-				   type="checkbox"
-				   name="OnlyExpired"
-				   value="" />
-			<label class="form-check-label" for="OnlyExpired">
-				Mostra solo ruoli scaduti
-			</label>
+		<div class="col-md-{if $can_create}10{else}12{/if}">
+			<div class="input-group">
+			  <input type="text" class="form-control" id="name">
+			  <div class="input-group-append">
+				<button class="btn btn-info py-2" type="button" id="FindContents">{'Search'|i18n('openpa/search')}</button>
+				<button class="btn btn-danger py-2" type="button" style="display: none;" id="ResetContents">Annulla ricerca</button>
+			  </div>
+			</div>
+			<div class="form-group form-check">
+				<input id="OnlyExpired"
+					   class="form-check-input"
+					   type="checkbox"
+					   name="OnlyExpired"
+					   value="" />
+				<label class="form-check-label" for="OnlyExpired">
+					Mostra solo ruoli scaduti
+				</label>
+			</div>
+		</div>
+		{if $can_create}
+		<div class="col-md-2">
+			<button type="submit" class="btn btn-success rounded-0 py-2" id="AddContent">
+			  Crea nuovo
+			</button>
+		</div>
+		{/if}
+		<div class="col-md-12">
+			<table class="table table-striped table-hover" id="data">
+				<thead>
+					<tr>
+						<th width="1"></th>
+						<th>Ruolo</th>
+						<th>Persona</th>
+						<th>Struttura</th>
+						<th class="text-nowrap">Valido dal</th>
+						<th class="text-nowrap">Valido al</th>
+						<th>Priorità</th>
+						{if $can_create}<th width="1"></th>{/if}
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
 		</div>
 	</div>
-	{if $can_create}
-	<div class="col-md-2">
-		<button type="submit" class="btn btn-success rounded-0 py-2" id="AddContent">
-		  Crea nuovo
-		</button>	          
-	</div>
-	{/if}
-	<div class="col-md-12">
-		<table class="table table-striped table-hover" id="data">
-			<thead>
-				<tr>				
-					<th width="1"></th>
-					<th>Ruolo</th>
-					<th>Persona</th>
-					<th>Struttura</th>
-					<th class="text-nowrap">Valido dal</th>
-					<th class="text-nowrap">Valido al</th>
-					<th>Priorità</th>
-					{if $can_create}<th width="1"></th>{/if}
-		        </tr>
-			</thead>
-			<tbody></tbody>
-		</table>
-	</div>
-</div>
 </div>
 <div id="data-modal" class="modal fade modal-fullscreen" data-backdrop="static" style="z-index:10000">
     <div class="modal-dialog modal-lg">
@@ -320,7 +324,7 @@
 	        e.preventDefault();
 	    });
 
-		onlyExpired.on('change', function (){
+		onlyExpired.on('change', function (){\
 			currentPage = 0;
 			runQuery(buildQuery());
 			e.preventDefault();
@@ -345,3 +349,4 @@
 	});  
 {/literal}
 </script>
+{/if}

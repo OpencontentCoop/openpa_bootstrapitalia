@@ -29,6 +29,8 @@ class OpenPABootstrapItaliaOperators
             'explode_contact',
             'is_empty_matrix',
             'cookie_consent_config_translations',
+            'subtree_classes',
+            'find_common_class_attributes',
         );
     }
 
@@ -79,6 +81,13 @@ class OpenPABootstrapItaliaOperators
             'current_theme_has_variation' => array(
                 'variation' => array('type' => 'string', 'required' => true),
             ),
+            'subtree_classes' => array(
+                'node' => array('type' => 'object', 'required' => true),
+            ),
+            'find_common_class_attributes' => array(
+                'classes' => array( 'type' => 'array', 'required' => true ),
+                'extra_identifier' => array( 'type' => 'string', 'required' => false, 'default' => false ),
+            ),
         );
     }
 
@@ -94,9 +103,97 @@ class OpenPABootstrapItaliaOperators
     {
         switch ($operatorName) {
 
+            case 'find_common_class_attributes':
+                $attributes = [];
+                /** @var eZContentClass[] $classes */
+                $classes = $namedParameters['classes'];
+                $identifiers = [];
+                $extra = [];
+                foreach ($classes as $class){
+                    if ($namedParameters['extra_identifier']){
+                        $extra[$class->attribute('id')] = [];
+                        $extraParameters = OCClassExtraParameters::fetchByHandlerAndClassIdentifier($namedParameters['extra_identifier'], $class->attribute('identifier'));
+                        foreach ($extraParameters as $extraParameter) {
+                            if ($extraParameter->attribute('attribute_identifier') != '*'){
+                                $extra[$class->attribute('id')][] = $extraParameter->attribute('attribute_identifier');
+                            }
+                        }
+                        eZDebug::writeDebug($extra, $class->attribute('identifier'));
+                        $identifiers[$class->attribute('id')] = $extra[$class->attribute('id')];
+                    }else{
+                        $identifiers[$class->attribute('id')] = array_keys($class->dataMap());
+                    }
+                }
+
+                $commonIdentifiers =  count($identifiers) > 1 ? call_user_func_array('array_intersect', $identifiers) : [];
+                $commonAttributes = [];
+                foreach ($classes as $class) {
+                    $attributes['class-' . $class->attribute('id')] = [];
+                    foreach ($class->dataMap() as $identifier => $attribute) {
+                        if (in_array($identifier, $commonIdentifiers)) {
+                            if (!isset($commonAttributes[$identifier])) {
+                                $commonAttributes[$identifier] = $attribute;
+                            }
+                        } else {
+                            if ($namedParameters['extra_identifier']) {
+                                if (in_array($identifier, $extra[$class->attribute('id')])) {
+                                    $attributes['class-' . $class->attribute('id')][$identifier] = $attribute;
+                                }
+                            } else {
+                                $attributes['class-' . $class->attribute('id')][$identifier] = $attribute;
+                            }
+                        }
+                    }
+                }
+
+                $attributes['common'] = $commonAttributes;
+                $operatorValue = $attributes;
+
+                break;
+
+            case 'subtree_classes':
+                $operatorValue = [];
+                if ($namedParameters['node'] instanceof eZContentObjectTreeNode) {
+                    $pathStringCond = '';
+                    $notEqParentString = '';
+                    eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings(
+                        $pathStringCond,
+                        $notEqParentString,
+                        $namedParameters['node']->attribute('node_id'),
+                        1,
+                        'eq'
+                    );
+                    $limitation = false;
+                    $limitationList = eZContentObjectTreeNode::getLimitationList($limitation);
+                    $sqlPermissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQL($limitationList);
+                    $languageFilter = eZContentLanguage::languagesSQLFilter('ezcontentobject');
+
+                    $query = "SELECT DISTINCT 
+                                    ezcontentclass.*
+                              FROM
+                                   ezcontentobject_tree
+                                   INNER JOIN ezcontentobject ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)
+                                   INNER JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id)
+                                   INNER JOIN ezcontentobject_name ON (
+                                       ezcontentobject_name.contentobject_id = ezcontentobject_tree.contentobject_id AND
+                                       ezcontentobject_name.content_version = ezcontentobject_tree.contentobject_version
+                                   )
+                               WHERE $pathStringCond 
+                                     ezcontentclass.version=0 AND
+                                     $notEqParentString
+                                     $sqlPermissionChecking[where]
+                                     $languageFilter";
+
+                    $classList = eZDB::instance()->arrayQuery($query);
+                    $operatorValue = eZPersistentObject::handleRows($classList, 'eZContentClass', true);
+                }
+
+                break;
+
             case 'cookie_consent_config_translations':
                 $operatorValue = json_encode(self::getCookieConsentConfigTranslations());
                 break;
+
             case 'is_empty_matrix':
                 if ($operatorValue instanceof eZContentObjectAttribute
                     && $operatorValue->attribute('data_type_string') == eZMatrixType::DATA_TYPE_STRING) {
