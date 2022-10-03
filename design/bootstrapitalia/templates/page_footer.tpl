@@ -100,9 +100,9 @@
         <h3 class="text-white sr-only d-none">{'Links'|i18n('openpa/footer')}</h3>
         <div class="container">
             {def $footer_links = fetch( 'openpa', 'footer_links' )}
-            <ul class="it-footer-small-prints-list list-inline mb-0 d-flex flex-column flex-md-row">
-                {foreach $footer_links as $item}
-                <li class="list-inline-item">{node_view_gui content_node=$item view=text_linked}</li>
+            <ul class="it-footer-small-prints-list list-inline mb-0">
+                {foreach $footer_links as $index => $item}
+                <li class="list-inline-item text-nowrap pl-0">{node_view_gui content_node=$item view=text_linked}</li>
                 {/foreach}
                 {if and($openpa_valuation, $openpa_valuation.can_read)}
                     <li class="list-inline-item">{node_view_gui content_node=$openpa_valuation.main_node view=text_linked}</li>
