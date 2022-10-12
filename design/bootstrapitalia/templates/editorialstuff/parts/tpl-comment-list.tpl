@@ -66,7 +66,7 @@
     <td>{{:~i18n(data,'message')}}</td>
     <td class="text-nowrap">
         {{for states ~commentId=metadata.id ~current=moderationStateIdentifier}}
-        <a href="#" class="moderation-change d-inline-block mr-1 rounded has-tooltip border border-{{:state_identifier}} {{if ~current == state_identifier}}label-{{:state_identifier}}{{/if}}" style="width: 18px;height: 18px"
+        <a href="#" class="moderation-change d-inline-block mr-1 me-1 rounded has-tooltip border border-{{:state_identifier}} {{if ~current == state_identifier}}label-{{:state_identifier}}{{/if}}" style="width: 18px;height: 18px"
              title="{{:state_name}}" data-comment="{{:~commentId}}" data-moderation="{{:state_identifier}}"></a>
         {{/for}}
     </td>

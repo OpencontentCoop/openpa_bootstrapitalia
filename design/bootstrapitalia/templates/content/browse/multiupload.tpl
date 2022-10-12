@@ -119,7 +119,7 @@
                         <a href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}>
                             <i aria-hidden="true" class="fa fa-arrow-circle-up fa-2x align-middle"></i>
                         </a>
-                        {$current_node.name|wash} <span class="badge badge-primary">{$current_node.children_count}</span>
+                        {$current_node.name|wash} <span class="badge badge-primary bg-primary">{$current_node.children_count}</span>
                     </div>
                 {/if}
 

@@ -12,7 +12,7 @@
 <li class="nav-item{if $is_dropdown} dropdown{if $count_children|gt($megamenu_min_items)} megamenu{/if}{/if}">
     <a class="main-nav-link nav-link{if $is_dropdown} dropdown-toggle{/if} text-truncate"
        data-node="{$menu_item.item.node_id}"
-       {if $is_dropdown}data-toggle="dropdown" aria-expanded="false"{/if}
+       {if $is_dropdown}data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false"{/if}
        href="{$href}"
        {if $menu_item.item.target}target="{$menu_item.item.target}"{/if}
        title="{'Go to page'|i18n('bootstrapitalia')}: {$menu_item.item.name|wash()}">

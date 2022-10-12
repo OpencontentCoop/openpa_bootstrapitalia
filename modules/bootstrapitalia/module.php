@@ -1,32 +1,39 @@
 <?php
 
-$Module = array( 'name' => 'OpenContent BootstrapItalia' );
+$Module = ['name' => 'OpenContent BootstrapItalia'];
 
-$ViewList = array();
-$ViewList['theme'] = array(
-    'functions' => array( 'theme' ),
+$ViewList = [];
+$ViewList['theme'] = [
+    'functions' => ['theme'],
     'script' => 'theme.php',
-    'params' => array( ),
-    'unordered_params' => array(),
+    'params' => [],
+    'unordered_params' => [],
     "default_navigation_part" => 'ezsetupnavigationpart',
-);
-$ViewList['permissions'] = array(
-    'functions' => array( 'permissions' ),
+];
+$ViewList['permissions'] = [
+    'functions' => ['permissions'],
     'script' => 'permissions.php',
-    'params' => array('Action', 'UserNode', 'GroupNode'),
-    'unordered_params' => array(),
+    'params' => ['Action', 'UserNode', 'GroupNode'],
+    'unordered_params' => [],
     "default_navigation_part" => 'ezsetupnavigationpart',
-);
-$ViewList['role_list'] = array(
-    'functions' => array( 'theme' ),
+];
+$ViewList['role_list'] = [
+    'functions' => ['theme'],
     'script' => 'role_list.php',
-    'params' => array( ),
-    'unordered_params' => array(),
+    'params' => [],
+    'unordered_params' => [],
     "default_navigation_part" => 'ezsetupnavigationpart',
-);
+];
+$ViewList['avatar'] = [
+    'functions' => ['avatar'],
+    'script' => 'avatar.php',
+    'params' => ['ID'],
+    'unordered_params' => [],
+];
 
-$FunctionList = array();
-$FunctionList['theme'] = array();
-$FunctionList['permissions'] = array();
-$FunctionList['edit_tag_description'] = array();
-$FunctionList['advanced_editor_tools'] = array();
+$FunctionList = [];
+$FunctionList['theme'] = [];
+$FunctionList['permissions'] = [];
+$FunctionList['edit_tag_description'] = [];
+$FunctionList['advanced_editor_tools'] = [];
+$FunctionList['avatar'] = [];

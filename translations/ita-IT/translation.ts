@@ -243,6 +243,34 @@
       <source>Add note</source>
       <translation>Aggiungi nota trasparenza</translation>
     </message>
+    <message>
+      <source>Contact the municipality</source>
+      <translation>Contatta il comune</translation>
+    </message>
+    <message>
+      <source>Read the FAQ</source>
+      <translation>Leggi le domande frequenti</translation>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation>Richiedi assistenza</translation>
+    </message>
+    <message>
+      <source>Call the municipality</source>
+      <translation>Chiama il comune</translation>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation>Prenota appuntamento</translation>
+    </message>
+    <message>
+      <source>Report a disservice</source>
+      <translation>Segnala disservizio</translation>
+    </message>
+    <message>
+      <source>Trouble in the city</source>
+      <translation>Problemi in città</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -255,7 +283,7 @@
       <translation>Apps</translation>
     </message>
     <message>
-      <source>Amministrazione Trasparente</source>
+      <source>Transparent Administration</source>
       <translation>Amministrazione Trasparente</translation>
     </message>
     <message>
@@ -330,27 +358,27 @@
   <context>
     <name>openpa/valuation</name>
     <message>
-      <source>Valuta questo sito</source>
+      <source>Rate this site</source>
       <translation>Valuta questo sito</translation>
     </message>
     <message>
-      <source>per nulla</source>
+      <source>in no way</source>
       <translation>per nulla</translation>
     </message>
     <message>
-      <source>poco</source>
+      <source>little</source>
       <translation>poco</translation>
     </message>
     <message>
-      <source>abbastanza</source>
+      <source>enough</source>
       <translation>abbastanza</translation>
     </message>
     <message>
-      <source>molto</source>
+      <source>Very</source>
       <translation>molto</translation>
     </message>
     <message>
-      <source>Invia la valutazione</source>
+      <source>Submit your rating</source>
       <translation>Invia la valutazione</translation>
     </message>
   </context>
@@ -776,39 +804,39 @@
       <translation>no</translation>
     </message>
     <message>
-      <source>si</source>
+      <source>yes</source>
       <translation>si</translation>
     </message>
     <message>
-      <source>per nulla</source>
+      <source>in no way</source>
       <translation>per nulla</translation>
     </message>
     <message>
-      <source>poco</source>
+      <source>little</source>
       <translation>poco</translation>
     </message>
     <message>
-      <source>abbastanza</source>
+      <source>enough</source>
       <translation>abbastanza</translation>
     </message>
     <message>
-      <source>molto</source>
+      <source>Very</source>
       <translation>molto</translation>
     </message>
     <message>
-      <source>Sono presenti contenuti non accessibili</source>
+      <source>There are inaccessible content</source>
       <translation>Sono presenti contenuti non accessibili</translation>
     </message>
     <message>
-      <source>I contenuti non sono pertinenti</source>
+      <source>The contents are not relevant</source>
       <translation>I contenuti non sono pertinenti</translation>
     </message>
     <message>
-      <source>Il linguaggio non è di facile comprensione</source>
+      <source>The language is not easy to understand</source>
       <translation>Il linguaggio non è di facile comprensione</translation>
     </message>
     <message>
-      <source>Le informazioni non sono aggiornate</source>
+      <source>The information is not up to date</source>
       <translation>Le informazioni non sono aggiornate</translation>
     </message>
   </context>
@@ -913,19 +941,19 @@
   <context>
     <name>bootstrapitalia/menu</name>
     <message>
-      <source>Amministrazione</source>
+      <source>Administration</source>
       <translation>Amministrazione</translation>
     </message>
     <message>
-      <source>Servizi</source>
+      <source>Services</source>
       <translation>Servizi</translation>
     </message>
     <message>
-      <source>Novità</source>
+      <source>Announcements</source>
       <translation>Novità</translation>
     </message>
     <message>
-      <source>Documenti</source>
+      <source>Papers</source>
       <translation>Documenti</translation>
     </message>
   </context>
@@ -1018,6 +1046,45 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
       <translation>I cookie di terze parti vengono utilizzati per analizzare le caratteristiche della navigazione dell’utente, per fornirgli servizi di visualizzazione di contenuti o di condivisione degli stessi e per creare profili in base al suo comportamento sul sito. Questo sito incorpora contenuti multimediali tramite provider di terze parti  (ad esempio YouTube o Facebok) utilizzando le specifiche oEmbed o widget di integrazione. Ciascun provider di contenuti potrebbe rilasciare cookie tecnici, analitici e di profilazione in base alle proprie impostazioni. Se questa impostazione è disabilitata i contenuti multimediali non saranno automaticamente incorporati nel sito e sarà invece esposto un link per poterli visualizzare direttamente alla fonte.</translation>
+    </message>
+  </context>
+  <context>
+    <name>openparoletype</name>
+    <message>
+      <source>Search for</source>
+      <translation>Cerca per</translation>
+    </message>
+    <message>
+      <source>Person</source>
+      <translation>Persona</translation>
+    </message>
+    <message>
+      <source>View</source>
+      <translation>Visualizza</translation>
+    </message>
+    <message>
+      <source>People</source>
+      <translation>Persone</translation>
+    </message>
+    <message>
+      <source>Sort by</source>
+      <translation>Ordina per</translation>
+    </message>
+    <message>
+      <source>Person name</source>
+      <translation>Nome persona</translation>
+    </message>
+    <message>
+      <source>Filter by type</source>
+      <translation>Filtra per tipo</translation>
+    </message>
+    <message>
+      <source>Structure</source>
+      <translation>Struttura</translation>
+    </message>
+    <message>
+      <source>Role type</source>
+      <translation>Tipo di ruolo</translation>
     </message>
   </context>
 </TS>

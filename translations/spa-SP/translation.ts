@@ -5,15 +5,15 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>Este sitio utiliza cookies técnicas, analesíticas y de terceros.</translation>
+      <translation>Este sitio utiliza cookies técnicas, analíticas y de terceros.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
-      <translation>Al continuar navegando, aceptas el uso de cookies.</translation>
+      <translation>Al continuar navegando, acepta el uso de cookies.</translation>
     </message>
     <message>
       <source>Informations</source>
-      <translation>Informaciones</translation>
+      <translation>Información</translation>
     </message>
     <message>
       <source>Accept</source>
@@ -25,7 +25,7 @@
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Saltar al menú de la sección</translation>
+      <translation>Saltar al menú de sección</translation>
     </message>
     <message>
       <source>Jump to footer</source>
@@ -37,15 +37,15 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>Cerrar</translation>
+      <translation>Cerca</translation>
     </message>
     <message>
       <source>FREE</source>
-      <translation>GRATIS</translation>
+      <translation>LIBRE</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Admisión gratuita para todos los asistentes.</translation>
+      <translation>Entrada gratuita para todos los asistentes</translation>
     </message>
     <message>
       <source>Download</source>
@@ -77,7 +77,7 @@
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Contenidos relacionados</translation>
+      <translation>Contenido relacionado</translation>
     </message>
     <message>
       <source>Search in</source>
@@ -93,7 +93,7 @@
     </message>
     <message>
       <source>Read more</source>
-      <translation>Leer más</translation>
+      <translation>Lee mas</translation>
     </message>
     <message>
       <source>Visit</source>
@@ -105,7 +105,7 @@
     </message>
     <message>
       <source>Explore topic</source>
-      <translation>Explorar el tema</translation>
+      <translation>Explorar tema</translation>
     </message>
     <message>
       <source>Go to event calendar</source>
@@ -117,7 +117,7 @@
     </message>
     <message>
       <source>Event end</source>
-      <translation>Extremo del evento</translation>
+      <translation>Final</translation>
     </message>
     <message>
       <source>Jump to field</source>
@@ -129,7 +129,7 @@
     </message>
     <message>
       <source>Select from library</source>
-      <translation>Seleccione de la biblioteca</translation>
+      <translation>Seleccionar de la biblioteca</translation>
     </message>
     <message>
       <source>Create</source>
@@ -161,7 +161,7 @@
     </message>
     <message>
       <source>Go to the history of this content</source>
-      <translation>Ir a la historia de este contenido.</translation>
+      <translation>Ir a la historia de este contenido</translation>
     </message>
     <message>
       <source>Further details</source>
@@ -243,20 +243,48 @@
       <source>Add note</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Contact the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Read the FAQ</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Call the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Report a disservice</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Trouble in the city</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>Etiquetas EZ</translation>
+      <translation>Ez etiquetas EZ</translation>
     </message>
     <message>
       <source>Apps</source>
-      <translation>Apps</translation>
+      <translation>Aplicaciones</translation>
     </message>
     <message>
-      <source>Amministrazione Trasparente</source>
-      <translation>Amministrazione trasparente</translation>
+      <source>Transparent Administration</source>
+      <translation>Administración transparente</translation>
     </message>
     <message>
       <source>Lists by class</source>
@@ -271,7 +299,7 @@
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Posición en el organigrama.</translation>
+      <translation>Posición en la tabla de organización</translation>
     </message>
     <message>
       <source>Add objects</source>
@@ -308,7 +336,7 @@
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>Informaciones</translation>
+      <translation>Información</translation>
     </message>
     <message>
       <source>Contacts</source>
@@ -320,7 +348,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Síguenos</translation>
+      <translation>Síganos</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -330,28 +358,28 @@
   <context>
     <name>openpa/valuation</name>
     <message>
-      <source>Valuta questo sito</source>
-      <translation>Valuta Questo SIGO</translation>
+      <source>Rate this site</source>
+      <translation>Califica este sitio</translation>
     </message>
     <message>
-      <source>per nulla</source>
-      <translation>por nulla</translation>
+      <source>in no way</source>
+      <translation>de ninguna manera</translation>
     </message>
     <message>
-      <source>poco</source>
+      <source>little</source>
       <translation>poco</translation>
     </message>
     <message>
-      <source>abbastanza</source>
-      <translation>abastanza</translation>
+      <source>enough</source>
+      <translation>suficiente</translation>
     </message>
     <message>
-      <source>molto</source>
-      <translation>molestar</translation>
+      <source>Very</source>
+      <translation>Muy</translation>
     </message>
     <message>
-      <source>Invia la valutazione</source>
-      <translation>Invia La Valutazione</translation>
+      <source>Submit your rating</source>
+      <translation>Envíe su calificación</translation>
     </message>
   </context>
   <context>
@@ -378,11 +406,11 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>todo sitio web</translation>
+      <translation>todo el sitio web</translation>
     </message>
     <message>
       <source>only information of type</source>
-      <translation>solo información de tipo</translation>
+      <translation>Solo información del tipo</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -394,7 +422,7 @@
     </message>
     <message>
       <source>Descending</source>
-      <translation>Descender</translation>
+      <translation>Descendente</translation>
     </message>
     <message>
       <source>Ascending</source>
@@ -418,11 +446,11 @@
     </message>
     <message>
       <source>from</source>
-      <translation>desde</translation>
+      <translation>de</translation>
     </message>
     <message>
       <source>to</source>
-      <translation>para</translation>
+      <translation>a</translation>
     </message>
     <message>
       <source>Year</source>
@@ -438,7 +466,7 @@
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Tal vez quisiste buscar</translation>
+      <translation>Quizás quisiste buscar</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
@@ -446,7 +474,7 @@
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>No se encontraron resultados al buscar "% 1".</translation>
+      <translation>No se encontraron resultados al buscar "%1".</translation>
     </message>
     <message>
       <source>Search tips</source>
@@ -454,7 +482,7 @@
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Compruebe la ortografía de las palabras clave.</translation>
+      <translation>Verifique la ortografía de las palabras clave.</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
@@ -462,7 +490,7 @@
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
-      <translation>Intenta buscar con menos palabras clave específicas.</translation>
+      <translation>Intente buscar con palabras clave menos específicas.</translation>
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
@@ -470,23 +498,23 @@
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Buscar "% 1" devuelto% 2 coincidencias</translation>
+      <translation>Buscar " %1" devuelto %2 partidos</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Búsqueda devueltos% 2 coincidencias</translation>
+      <translation>Búsqueda devuelta %2 partidos</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Para más opciones, pruebe el% 1 búsqueda avanzada% 2</translation>
+      <translation>Para obtener más opciones, pruebe el %1 Advanced Search %2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
-      <translation>Reducir el número de filtros aplicados.</translation>
+      <translation>Reducir el número de filtros aplicados</translation>
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Retire todos los filtros</translation>
+      <translation>Eliminar todos los filtros</translation>
     </message>
     <message>
       <source>Refine your search</source>
@@ -494,7 +522,7 @@
     </message>
     <message>
       <source>You are filtering for</source>
-      <translation>Estas filtrando para</translation>
+      <translation>Estás filtrando para</translation>
     </message>
     <message>
       <source>Options</source>
@@ -659,11 +687,11 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Llene algo de información sobre su lugar.</translation>
+      <translation>Complete información sobre su lugar</translation>
     </message>
     <message>
       <source>Select place</source>
-      <translation>Seleccione lugar</translation>
+      <translation>Seleccionar lugar</translation>
     </message>
     <message>
       <source>Nowhere</source>
@@ -683,7 +711,7 @@
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation>Puede arrastrar el marcador en el mapa para seleccionar la ubicación con mayor precisión.</translation>
+      <translation>Puede arrastrar el marcador en el mapa para seleccionar la ubicación con más precisión.</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
@@ -699,7 +727,7 @@
     </message>
     <message>
       <source>Detect position</source>
-      <translation>Posición de detección</translation>
+      <translation>Detectar posición</translation>
     </message>
   </context>
   <context>
@@ -776,39 +804,39 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>si</source>
+      <source>yes</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>per nulla</source>
+      <source>in no way</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>poco</source>
+      <source>little</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>abbastanza</source>
+      <source>enough</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>molto</source>
+      <source>Very</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Sono presenti contenuti non accessibili</source>
+      <source>There are inaccessible content</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>I contenuti non sono pertinenti</source>
+      <source>The contents are not relevant</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Il linguaggio non è di facile comprensione</source>
+      <source>The language is not easy to understand</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Le informazioni non sono aggiornate</source>
+      <source>The information is not up to date</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -913,19 +941,19 @@
   <context>
     <name>bootstrapitalia/menu</name>
     <message>
-      <source>Amministrazione</source>
+      <source>Administration</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Servizi</source>
+      <source>Services</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Novità</source>
+      <source>Announcements</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Documenti</source>
+      <source>Papers</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -1013,6 +1041,45 @@
     </message>
     <message>
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>openparoletype</name>
+    <message>
+      <source>Search for</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Person</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>View</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>People</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sort by</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Person name</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Filter by type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Structure</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Role type</source>
       <translation type="unfinished"/>
     </message>
   </context>

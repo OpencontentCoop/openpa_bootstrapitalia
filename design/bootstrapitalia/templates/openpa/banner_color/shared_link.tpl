@@ -10,7 +10,7 @@
 
 <div data-object_id="{$node.contentobject_id}" class="shared_link-banner_color card card-teaser rounded {$background_color_class} {$view_variation}">
     {if $node|has_attribute('image')}
-        <div class="avatar size-lg mr-3">
+        <div class="avatar size-lg mr-3 me-3">
             {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
         </div>
     {/if}

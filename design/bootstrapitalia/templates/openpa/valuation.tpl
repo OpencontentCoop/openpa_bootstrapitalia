@@ -6,9 +6,9 @@
         <section style="padding: 0 16px">
             <div class="row feedback-input">
                 <div class="col-sm-12 py-2 text-center text-lg-left">
-                    <span class="pr-3 pb-2 text-dark h6">{$openpa_valuation.data_map.useful.contentclass_attribute_name|wash()}</span>
+                    <span class="pr-3 pe-3 pb-2 text-dark h6">{$openpa_valuation.data_map.useful.contentclass_attribute_name|wash()}</span>
                     <div class="d-inline-block nowrap">
-                        <a data-sitekey="{$recaptcha_public_key|wash()}" data-feedback="yes" class="btn btn-outline-dark btn-sm mr-2 text-uppercase bg-white rounded-0" href="#">{'Yes'|i18n('design/admin/class/view')}</a>
+                        <a data-sitekey="{$recaptcha_public_key|wash()}" data-feedback="yes" class="btn btn-outline-dark btn-sm mr-2 me-2 text-uppercase bg-white rounded-0" href="#">{'Yes'|i18n('design/admin/class/view')}</a>
                         <a data-sitekey="{$recaptcha_public_key|wash()}" data-feedback="no" class="btn btn-outline-dark btn-sm text-uppercase bg-white rounded-0" href="#">{'No'|i18n('design/admin/class/view')}</a>
                     </div>
                 </div>

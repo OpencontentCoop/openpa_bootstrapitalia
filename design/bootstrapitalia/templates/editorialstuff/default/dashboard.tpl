@@ -11,7 +11,7 @@
         <div class="col">
             <ul class="nav nav-tabs nav-fill overflow-hidden">
                 <li role="presentation" class="nav-item">
-                    <a class="text-decoration-none nav-link active" style="font-size: 1.8em" data-toggle="tab"
+                    <a class="text-decoration-none nav-link active" style="font-size: 1.8em" data-toggle="tab" data-bs-toggle="tab"
                        href="#items">
                         {if is_set($factory_configuration.Name)}{$factory_configuration.Name|wash()}{else}{$factory_configuration.identifier|wash()}{/if}
                     </a>
@@ -26,7 +26,7 @@
         <div class="pt-4">
             <a class="btn btn-info rounded-0 text-white"
                href="{concat('editorialstuff/add/',$factory_identifier)|ezurl(no)}">
-                <i aria-hidden="true" class="fa fa-plus mr-2"></i> {$factory_configuration.CreationButtonText|wash()}
+                <i aria-hidden="true" class="fa fa-plus mr-2 me-2"></i> {$factory_configuration.CreationButtonText|wash()}
             </a>
         </div>
         {/if}
@@ -39,8 +39,8 @@
             </div>
             <div class="col-md-3 py-2">
                 <div class="btn-group">
-                    <a class="py-2 chip chip-lg chip-primary no-minwith text-black dropdown-toggle text-decoration-none" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="chip-label">{'State'|i18n('editorialstuff/dashboard')}:</span> <span class="chip-label ml-1 current-state-filter" data-text="{'All'|i18n('editorialstuff/dashboard')}">{'All'|i18n('editorialstuff/dashboard')}</span>
+                    <a class="py-2 chip chip-lg chip-primary no-minwith text-black dropdown-toggle text-decoration-none" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="chip-label">{'State'|i18n('editorialstuff/dashboard')}:</span> <span class="chip-label ml-1 ms-1 current-state-filter" data-text="{'All'|i18n('editorialstuff/dashboard')}">{'All'|i18n('editorialstuff/dashboard')}</span>
                         {display_icon('it-expand', 'svg', 'icon-expand icon icon-sm icon-primary filter-remove')}
                     </a>
                     <div class="dropdown-menu" style="min-width:300px; right: 0; left: auto">
@@ -53,7 +53,7 @@
                                            data-state_identifier="{$state.identifier|wash()}"
                                            data-state_name="{$state.current_translation.name|wash()}"
                                            href="#">
-                                            <div class="d-inline-block mr-1 rounded label-{$state.identifier|wash()}" style="width: 12px;height: 12px"></div>
+                                            <div class="d-inline-block mr-1 me-1 rounded label-{$state.identifier|wash()}" style="width: 12px;height: 12px"></div>
                                             <small>{$state.current_translation.name|wash()}</small>
                                         </a>
                                     </li>

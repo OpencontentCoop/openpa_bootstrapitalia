@@ -14,6 +14,7 @@ PolicyOmitList[]=image/view
 PolicyOmitList[]=valuation/send
 PolicyOmitList[]=valuation/form
 PolicyOmitList[]=tags/treemenu
+PolicyOmitList[]=bootstrapitalia/avatar
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login

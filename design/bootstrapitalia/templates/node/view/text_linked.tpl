@@ -14,7 +14,7 @@
    {if $a_class|ne('')}class="{$a_class}"{/if}
    {if or($node.class_identifier|eq('shared_link'), $openpa.content_link.target)}target="_blank" rel="noopener noreferrer"{/if}>
     {if and($show_icon, $openpa.content_icon.icon)}
-        {display_icon($openpa.content_icon.icon.icon_text|wash(), 'svg', 'icon icon-sm mr-2')}
+        {display_icon($openpa.content_icon.icon.icon_text|wash(), 'svg', 'icon icon-sm mr-2 me-2')}
     {/if}
     {$text_wrap_start}
     {if and( is_set( $text ), $text|ne('') )}

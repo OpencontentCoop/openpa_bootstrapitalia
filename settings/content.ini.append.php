@@ -7,6 +7,7 @@ AvailableDataTypes[]=openparole
 AvailableDataTypes[]=openpareverserelationlist
 AvailableDataTypes[]=openparestrictedarea
 AvailableDataTypes[]=openpamaskedstring
+AvailableDataTypes[]=openpacomuniitaliani
 
 [EditSettings]
 #AdditionalTemplates[]=load_ocopendata_forms.tpl

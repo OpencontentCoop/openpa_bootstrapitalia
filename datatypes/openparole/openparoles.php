@@ -59,6 +59,7 @@ class OpenPARoles
             'entities',
             'main_type_per_entities',
             'settings',
+            'query',
         ];
     }
 
@@ -94,6 +95,9 @@ class OpenPARoles
 
             case 'settings':
                 return $this->attributeSettings;
+
+            case 'query':
+                return $this->buildQuery(false);
         }
 
         eZDebug::writeError("Attribute $name does not exixts", __METHOD__);
@@ -321,7 +325,8 @@ class OpenPARoles
             eZDebug::writeDebug(implode(' and ', $this->searchQuery), $this->contentObjectAttribute->attribute('id') . ' ' . __METHOD__);
         }
         $queryParts = $this->searchQuery;
-        $queryParts[] = 'limit ' . (int)$limit;
+        $limit = (int)$limit;
+        if ($limit > 0) $queryParts[] = 'limit ' . $limit;
 
         return implode(' and ', $queryParts);
     }

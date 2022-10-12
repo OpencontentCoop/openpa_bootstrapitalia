@@ -40,6 +40,17 @@
                 </label>
             </div>
         </div>
+        <div class="col">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox"
+                           name="extra_handler_{$handler.identifier}[class][{$class.identifier}][evidence::{$identifier}]"
+                           value="{$identifier|wash()}"
+                           {if is_set($handler.evidence_list[$identifier])}checked="checked"{/if}/>
+                    <small>In evidenza</small>
+                </label>
+            </div>
+        </div>
     </div>
 {/foreach}
 {/if}

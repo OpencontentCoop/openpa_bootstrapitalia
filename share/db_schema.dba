@@ -1,59 +1,132 @@
 <?php
+
 // This array contains the database schema
-$schema = array (
-  'openpabootstrapitaliaicon' =>
-  array (
-    'name' => 'openpabootstrapitaliaicon',
-    'fields' =>
-    array (
-      'contentobject_attribute_id' =>
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-      'icon_text' =>
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
-      'node_id' =>
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
-    ),
-    'indexes' =>
-    array (
-      'PRIMARY' =>
-      array (
-        'type' => 'primary',
-        'fields' =>
-        array (
-          0 => 'node_id',
-          1 => 'icon_text',
-        ),
-      ),
-      'openpabootstrapitaliaicon_key' =>
-      array (
-        'type' => 'non-unique',
-        'fields' =>
-        array (
-          0 => 'node_id',
-          1 => 'icon_text',
-        ),
-      ),
-    ),
-  ),
-  '_info' =>
-  array (
-    'format' => 'generic',
-  ),
-);
+$schema = [
+    'openpacomuniitaliani' =>
+        [
+            'name' => 'openpacomuniitaliani',
+            'fields' =>
+                [
+                    'cod_reg' =>
+                        [
+                            'length' => 11,
+                            'type' => 'int',
+                            'default' => 0,
+                        ],
+                    'comune' =>
+                        [
+                            'length' => 255,
+                            'type' => 'varchar',
+                            'not_null' => '1',
+                            'default' => '',
+                        ],
+                    'den_prov' =>
+                        [
+                            'length' => 255,
+                            'type' => 'varchar',
+                            'default' => '',
+                        ],
+                    'den_reg' =>
+                        [
+                            'length' => 255,
+                            'type' => 'varchar',
+                            'default' => '',
+                        ],
+                    'name_normalized' =>
+                        [
+                            'length' => 255,
+                            'type' => 'varchar',
+                            'not_null' => '1',
+                            'default' => '',
+                        ],
+                    'pro_com_t' =>
+                        [
+                            'length' => 255,
+                            'type' => 'varchar',
+                            'not_null' => '1',
+                            'default' => '',
+                        ],
+                    'sigla' =>
+                        [
+                            'length' => 255,
+                            'type' => 'varchar',
+                            'default' => '',
+                        ],
+                ],
+            'indexes' =>
+                [
+                    'PRIMARY' =>
+                        [
+                            'type' => 'primary',
+                            'fields' =>
+                                [
+                                    0 => 'pro_com_t',
+                                ],
+                        ],
+                    'openpacomuniitaliani_key' =>
+                        [
+                            'type' => 'non-unique',
+                            'fields' =>
+                                [
+                                    0 => 'comune',
+                                    1 => 'name_normalized',
+                                ],
+                        ],
+                ],
+        ],
+    'openpabootstrapitaliaicon' =>
+        [
+            'name' => 'openpabootstrapitaliaicon',
+            'fields' =>
+                [
+                    'contentobject_attribute_id' =>
+                        [
+                            'length' => 11,
+                            'type' => 'int',
+                            'not_null' => '1',
+                            'default' => 0,
+                        ],
+                    'icon_text' =>
+                        [
+                            'length' => 255,
+                            'type' => 'varchar',
+                            'not_null' => '1',
+                            'default' => '',
+                        ],
+                    'node_id' =>
+                        [
+                            'length' => 11,
+                            'type' => 'int',
+                            'not_null' => '1',
+                            'default' => 0,
+                        ],
+                ],
+            'indexes' =>
+                [
+                    'PRIMARY' =>
+                        [
+                            'type' => 'primary',
+                            'fields' =>
+                                [
+                                    0 => 'node_id',
+                                    1 => 'icon_text',
+                                ],
+                        ],
+                    'openpabootstrapitaliaicon_key' =>
+                        [
+                            'type' => 'non-unique',
+                            'fields' =>
+                                [
+                                    0 => 'node_id',
+                                    1 => 'icon_text',
+                                ],
+                        ],
+                ],
+        ],
+    '_info' =>
+        [
+            'format' => 'generic',
+        ],
+];
 
 ?>

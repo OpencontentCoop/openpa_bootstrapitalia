@@ -67,6 +67,9 @@
             $('[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 plugin.map.invalidateSize(false);
             });
+            $('[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                plugin.map.invalidateSize(false);
+            });
 
             plugin.markers.addTo(plugin.map);
             plugin.displaySelectedMarkers();

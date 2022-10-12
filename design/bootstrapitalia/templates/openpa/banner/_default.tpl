@@ -30,7 +30,7 @@
         </h4>
         {if $node|has_abstract()}
             <p>{$node|abstract()|oc_shorten(160)}</p>
-    {/if}
+        {/if}
     </div>
 </a>
 {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}

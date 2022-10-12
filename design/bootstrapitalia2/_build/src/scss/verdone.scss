@@ -1,0 +1,16 @@
+//usando http://colorizer.org/
+// colore cinderela: #95C11F
+
+$colore-header: #587506;
+
+$primary-a7: darken($colore-header, 3);
+$primary-a6: darken($colore-header, 0);
+$primary-a10: darken($colore-header, 1);
+$primary-a12: darken($colore-header, 2);
+
+$primary-h: 76; // 76
+$primary-s: 95; // 94
+$primary-b: 46; // 76
+
+
+@import "default";

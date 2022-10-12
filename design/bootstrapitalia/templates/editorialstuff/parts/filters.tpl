@@ -12,9 +12,9 @@
             </a>
         {/if}
         <a href="#"
-           class="btn btn-outline-primary btn-icon btn-xs align-top ml-1 mt-1"
+           class="btn btn-outline-primary btn-icon btn-xs align-top ml-1 ms-1 mt-1"
            id="toggleDashboardSearch">
-            {display_icon('it-plus', 'svg', 'icon icon-primary mr-1')} {'Add filter'|i18n('editorialstuff/dashboard')}
+            {display_icon('it-plus', 'svg', 'icon icon-primary mr-1 me-1')} {'Add filter'|i18n('editorialstuff/dashboard')}
         </a>
     </div>
 </form>

@@ -29,14 +29,18 @@
 
         {else}
 
-            <a href="{'/valuation/csv/'|ezurl(no)}" class="btn btn-info float-right"><i class="fa fa-download"></i> Download CSV</a>
-            <h3>{'User feedbacks'|i18n("bootstrapitalia/valuation")}</h3>
+            <div class="row mb-3">
+                <div class="col">
+                    <a href="{'/valuation/csv/'|ezurl(no)}" class="btn btn-info float-right"><i class="fa fa-download"></i> Download CSV</a>
+                    <h3>{'User feedbacks'|i18n("bootstrapitalia/valuation")}</h3>
+                </div>
+            </div>
 
             <div class="row mb-3">
                 <div class="col">
                     <div class="p-3 text-center">
                         <p class="font-weight-bold mb-2 d-block">{'Feedbacks count'|i18n("bootstrapitalia/valuation")}</p>
-                        <p class="h1 py-5"><span class="badge badge-dark">{$collection_count}</span></p>
+                        <p class="h1 py-5"><span class="badge badge-dark bg-dark">{$collection_count}</span></p>
                     </div>
                 </div>
                 <div class="col">
@@ -44,8 +48,8 @@
                         <p class="font-weight-bold mb-2 d-block">{'Is content useful?'|i18n("bootstrapitalia/valuation")}</p>
                         <p class="h1 py-5">
                             {foreach $useful_count as $item}
-                                {if $item.data_text|eq(0)}<span class="badge badge-danger mx-3">{'No'|i18n('design/admin/class/view')} {$item.count}</span>{/if}
-                                {if $item.data_text|eq(1)}<span class="badge badge-success mx-3">{'Yes'|i18n('design/admin/class/view')} {$item.count}</span>{/if}
+                                {if $item.data_text|eq(0)}<span class="badge badge-danger bg-danger mx-3">{'No'|i18n('design/admin/class/view')} {$item.count}</span>{/if}
+                                {if $item.data_text|eq(1)}<span class="badge badge-success bg-success mx-3">{'Yes'|i18n('design/admin/class/view')} {$item.count}</span>{/if}
                             {/foreach}
                         </p>
                     </div>
@@ -59,7 +63,7 @@
                                 {$option.name|wash()}
                                 {foreach $problem_type_count as $item}
                                     {if $item.data_text|eq($option.id)}
-                                        <span class="badge badge-danger badge-pill">{$item.count}</span>
+                                        <span class="badge badge-danger bg-danger badge-pill">{$item.count}</span>
                                     {/if}
                                 {/foreach}
                             </li>

@@ -48,6 +48,38 @@ class ObjectHandlerServiceContentIcon extends ObjectHandlerServiceBase
         return $this->objectIcon;
     }
 
+    private function getContextNode(eZContentObjectTreeNode $node)
+    {
+        $contextNode = false;
+        $currentDesign = eZINI::instance()->variable('DesignSettings', 'SiteDesign');
+        if ($currentDesign === 'bootstrapitalia2') {
+            if ($node->attribute('class_identifier') == 'public_service') {
+                $dataMap = $node->dataMap();
+                if (isset($dataMap['type']) && $dataMap['type']->hasContent()
+                    && $dataMap['type']->attribute('data_type_string') === eZTagsType::DATA_TYPE_STRING) {
+                    $tag = $dataMap['type']->content()->attribute('keywords')[0];
+                    $contextNode = [
+                        'name' => $tag,
+                        'url_alias' => $node->fetchParent()->attribute('url_alias') . '/(view)/' . urlencode($tag),
+                    ];
+                }
+            }
+            if ($node->attribute('class_identifier') == 'place') {
+                $dataMap = $node->dataMap();
+                if (isset($dataMap['type']) && $dataMap['type']->hasContent()
+                    && $dataMap['type']->attribute('data_type_string') === eZTagsType::DATA_TYPE_STRING) {
+                    $tag = $dataMap['type']->content()->attribute('keywords')[0];
+                    $contextNode = [
+                        'name' => $tag,
+                        'url_alias' => $node->fetchParent()->attribute('url_alias') . '/(view)/' . urlencode($tag),
+                    ];
+                }
+            }
+        }
+
+        return $contextNode;
+    }
+
     protected function getContextIcon()
     {
         if ($this->contextIcon === null) {
@@ -60,6 +92,10 @@ class ObjectHandlerServiceContentIcon extends ObjectHandlerServiceBase
                     foreach ($pathArray as $nodeId) {
                         foreach ($iconList as $icon) {
                             if ($icon->attribute('node_id') == $nodeId) {
+                                $overrideNode = $this->getContextNode($node);
+                                if ($overrideNode) {
+                                    $icon->setNode($overrideNode);
+                                }
                                 $this->contextIcon = $icon;
                                 break(2);
                             }

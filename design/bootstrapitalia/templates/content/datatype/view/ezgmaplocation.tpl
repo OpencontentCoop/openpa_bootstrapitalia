@@ -10,7 +10,7 @@
 <div class="card-wrapper card-teaser-wrapper">
     <div class="card card-teaser shadow  p-4 rounded border ">
         {display_icon('it-pin', 'svg', 'icon')}        
-        <div class="card-body pr-3">            
+        <div class="card-body pr-3 pe-3">
             <div class="card-text">
               <a href="https://www.google.com/maps/dir//'{$attribute.content.latitude},{$attribute.content.longitude}'/@{$attribute.content.latitude},{$attribute.content.longitude},15z?hl=it" rel="noopener noreferrer" target="_blank">
                 {$attribute.content.address}
