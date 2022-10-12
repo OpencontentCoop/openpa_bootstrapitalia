@@ -17,7 +17,7 @@ const
 // source and distribution folder
 const
     source = 'src/',
-    dest = 'design/bootstrapitalia/',
+    dest = '../',
     standardDest = 'design/standard/';
 
 const bootstrapItaliaSrc = {
