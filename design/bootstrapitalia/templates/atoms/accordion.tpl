@@ -1,7 +1,7 @@
 <div class="collapse-div collapse-left-icon">
     {foreach $items as $item}
     <div class="collapse-header" id="heading-{$item.node_id}">
-        <button data-toggle="collapse" data-target="#collapse-{$item.node_id}" aria-expanded="false" aria-controls="collapse-{$item.node_id}">
+        <button data-toggle="collapse" data-bs-toggle="collapse" data-target="#collapse-{$item.node_id}" data-bs-target="#collapse-{$item.node_id}" aria-expanded="false" aria-controls="collapse-{$item.node_id}">
             {$item.name|wash()}
         </button>
     </div>

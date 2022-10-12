@@ -3,13 +3,13 @@
 
 {if $count|gt($min_view_accordion)}
     <div id="opening-hours-title-{$object.id}" class="py-1">
-        <a href="#opening-hours-{$object.id}" class="text-decoration-none opening-hours-accordion" data-toggle="collapse" data-target="#opening-hours-{$object.id}" aria-controls="opening-hours-{$object.id}">            
+        <a href="#opening-hours-{$object.id}-{$container_parent_id}" class="text-decoration-none opening-hours-accordion" data-toggle="collapse" data-bs-toggle="collapse" data-target="#opening-hours-{$object.id}-{$container_parent_id}" data-bs-target="#opening-hours-{$object.id}-{$container_parent_id}" aria-controls="opening-hours-{$object.id}-{$container_parent_id}">
             <i aria-hidden="true" class="fa fa-clock-o"></i> {$object.name|wash()} <i aria-hidden="true" class="fa fa-caret-down"></i>
         </a>
     </div>
 {/if}
 {if $attributes.show|count()|gt(0)}
-    {if $count|gt($min_view_accordion)}<div class="collapse p-2 lightgrey-bg-c1 mb-1" id="opening-hours-{$object.id}" aria-labelledby="opening-hours-title-{$object.id}" data-parent="#{$container_parent_id}">{/if}
+    {if $count|gt($min_view_accordion)}<div class="collapse p-2 lightgrey-bg-c1 mb-1" id="opening-hours-{$object.id}-{$container_parent_id}" aria-labelledby="opening-hours-title-{$object.id}" data-parent="#{$container_parent_id}">{/if}
     {foreach $attributes.show as $identifier}
         {if $object|has_attribute($identifier)}
             <div>

@@ -74,8 +74,8 @@
         </div>
     </div>
 </div>
-<div class="block inline-block ezobject-relation-search-browse hide"></div>
-    {include uri='design:content/datatype/edit/ezobjectrelation_ajax_search.tpl'}
+{*<div class="block inline-block ezobject-relation-search-browse hide"></div>
+    {include uri='design:content/datatype/edit/ezobjectrelation_ajax_search.tpl'}*}
 </div>
 {/case}
 

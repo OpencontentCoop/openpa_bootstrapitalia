@@ -202,7 +202,7 @@
             }
 
             if (isTree || isCreate) {
-                var searchButton = $('<a class="btn btn-xs btn-primary pull-right mr-2" href="#" data-toggle="tooltip" title="'+self.settings.i18n.clickToOpenSearch+'"><span class="glyphicon glyphicon-search"></span> '+self.settings.i18n.search+'</a>');
+                var searchButton = $('<a class="btn btn-xs btn-primary pull-right mr-2 me-2" href="#" data-toggle="tooltip" title="'+self.settings.i18n.clickToOpenSearch+'"><span class="glyphicon glyphicon-search"></span> '+self.settings.i18n.search+'</a>');
                 if (self.settings.useTooltip) searchButton.tooltip();
                 searchButton.bind('click', function (e) {
                     self.resetBrowseParameters();
@@ -213,7 +213,7 @@
             }
 
             if (isSearch || isCreate){
-                var treeButton = $('<a class="btn btn-xs btn-primary pull-right mr-2" href="#" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowse+'"><span class="glyphicon glyphicon-th-list"></span> '+self.settings.i18n.browse+'</a>');
+                var treeButton = $('<a class="btn btn-xs btn-primary pull-right mr-2 me-2" href="#" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowse+'"><span class="glyphicon glyphicon-th-list"></span> '+self.settings.i18n.browse+'</a>');
                 if (self.settings.useTooltip){
                     treeButton.tooltip();
                 }
@@ -233,7 +233,7 @@
                     }
                     return false;
                 };
-                var createButtonGroup = $('<div class="dropdown pull-right mr-2"></div>');
+                var createButtonGroup = $('<div class="dropdown pull-right mr-2 me-2"></div>');
                 createButtonGroup.append($('<button type="button" class="btn btn-xs btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span> '+self.settings.i18n.create+'</button>'));
                 var list = $('<div class="dropdown-menu"></div>');
                 $.each(self.settings.classes, function(){
@@ -734,7 +734,7 @@
             var input = '';
             if (self.isSelectable(item)){
                 if (!self.isInSelection(item)){
-                    input = $('<a href="#"  title="'+self.settings.i18n.addToSelection+'" class="btn btn-xs btn-success pull-right mr-2" data-selection="'+item.contentobject_id+'"><small>'+self.settings.i18n.addItem+'</small></a>');
+                    input = $('<a href="#"  title="'+self.settings.i18n.addToSelection+'" class="btn btn-xs btn-success pull-right mr-2 me-2" data-selection="'+item.contentobject_id+'"><small>'+self.settings.i18n.addItem+'</small></a>');
                     input.data('item', item);
                     input.bind('click', function(e){
                         e.preventDefault();

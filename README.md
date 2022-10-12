@@ -39,8 +39,3 @@ Grazie a questa licenza, qualsiasi utente gode delle quattro libertà fondamenta
 ## Documentazione tecnica
 *(La documentazione tecnica è in corso di pubblicazione)*
 
-**Build css e js:**
-```
-npm i
-gulp
-```

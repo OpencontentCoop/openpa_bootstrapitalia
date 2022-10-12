@@ -20,6 +20,7 @@ Services[content_trasparenza]=ObjectHandlerServiceContentTrasparenza
 Services[content_tag_menu]=ObjectHandlerServiceContentTagMenu
 Services[opengraph]=ObjectHandlerServiceOpengraph
 Services[content_show_info_collector]=ObjectHandlerServiceShowContentInfoCollector
+Services[data_element]=ObjectHandlerServiceDataElement
 
 [ViewSettings]
 AvailableView[]=card
@@ -28,6 +29,8 @@ AvailableView[]=banner
 AvailableView[]=card_teaser
 AvailableView[]=card_image
 AvailableView[]=banner_color
+AvailableView[]=card_simple
+AvailableView[]=card_teaser_info
 
 [ContentMain]
 Identifiers[]=image
@@ -68,6 +71,8 @@ IncludiClassi[]=employee
 IncludiClassi[]=document
 IncludiClassi[]=event
 IncludiClassi[]=place
+IncludiClassi[]=organization
+IncludiClassi[]=person
 IncludiClassi[]=private_organization
 IncludiClassi[]=public_organization
 IncludiClassi[]=pagina_sito
@@ -98,6 +103,8 @@ ShowEditorRoles=disabled
 [GeneralSettings]
 AnnounceKit=BvwBO
 Valuation=1
+ShowRssInSocialList=disabled
+ShowUeLogo=enabled
 
 [RelationsBrowse]
 AllowAllBrowse=enabled

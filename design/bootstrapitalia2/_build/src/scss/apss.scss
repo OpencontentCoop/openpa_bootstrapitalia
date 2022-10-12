@@ -1,0 +1,15 @@
+//usando http://colorizer.org/
+
+$colore-header: #872642;
+
+$primary-a7: darken($colore-header, 3);
+$primary-a6: darken($colore-header, 0);
+$primary-a10: darken($colore-header, 1);
+$primary-a12: #302e2e;
+
+$primary-h: 343;
+$primary-s: 72;
+$primary-b: 53;
+
+
+@import "default";

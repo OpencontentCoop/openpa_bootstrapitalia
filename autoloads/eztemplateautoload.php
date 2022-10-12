@@ -1,8 +1,9 @@
 <?php
-$eZTemplateOperatorArray = array(
-    array(
+
+$eZTemplateOperatorArray = [
+    [
         'class' => 'OpenPABootstrapItaliaOperators',
-        'operator_names' => array(
+        'operator_names' => [
             'display_icon',
             'parse_search_get_params',
             'filtered_search_params_query_string',
@@ -24,6 +25,10 @@ $eZTemplateOperatorArray = array(
             'explode_contact',
             'is_empty_matrix',
             'cookie_consent_config_translations',
-        )
-    )
-);
+            'parse_layout_blocks',
+            'parse_attribute_groups',
+            'tag_tree_has_contents',
+            'edit_attribute_groups',
+        ],
+    ],
+];

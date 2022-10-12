@@ -5,13 +5,14 @@ $tpl = eZTemplate::factory();
 $http = eZHTTPTool::instance();
 
 $themeList = array();
-$files = eZDir::recursiveFind('extension/openpa_bootstrapitalia/src', '.scss');
+$currentDesign = eZINI::instance()->variable('DesignSettings', 'SiteDesign');
+$files = eZDir::findSubitems("extension/openpa_bootstrapitalia/design/$currentDesign/_build/src/scss", 'f');
 foreach ($files as $file) {
     $filename = basename($file);
     $parts = explode('.', $filename);
     array_pop($parts);
     $filename = implode('.', $parts);
-    if (substr($filename, 0, 1) !== '_'){
+    if (substr($filename, 0, 1) !== '_' && substr($filename, 0, 16) !== 'bootstrap-italia'){
         $themeList[] = $filename;
     }
 }

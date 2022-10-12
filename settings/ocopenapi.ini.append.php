@@ -3,4 +3,7 @@
 [ContentMetaSettings]
 ContentMetaPropertyFactories[privacy]=PrivacyStatusFactoryProvider
 
+[ClassAttributeSettings]
+ClassAttributePropertyFactories[openpacomuniitaliani]=OpenPAComuniItalianiFactoryProvider
+
 */ ?>

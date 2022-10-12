@@ -29,7 +29,7 @@
     <div class="row border-top row-column-border row-column-menu-left attribute-list">
         <aside class="col-lg-4">
             <div class="d-block d-lg-none d-xl-none text-center mb-2">
-                <a href="#toogle-sidemenu" role="button" class="btn btn-primary btn-md collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="toogle-sidemenu"><i class="fa fa-bars" aria-hidden="true"></i> {$parent.name|wash()}</a>
+                <a href="#toogle-sidemenu" role="button" class="btn btn-primary btn-md collapsed" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="toogle-sidemenu"><i class="fa fa-bars" aria-hidden="true"></i> {$parent.name|wash()}</a>
             </div>
             <div class="d-lg-block d-xl-block collapse" id="toogle-sidemenu">
                 {foreach $faq_groups as $index => $faq_group}
