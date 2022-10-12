@@ -117,15 +117,15 @@
     {/if}*}
 
 {*    {include uri='design:page_mainarea.tpl'}*}
-    {$module_result.content}
+{*    {$module_result.content}*}
 </main>
 
 {if and(openpacontext().is_login_page|not(), openpacontext().is_edit|not())}
     {debug-accumulator id=page_footer name=page_footer}
     {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $has_valuation )}
     {def $pagedata = openpapagedata()}
-        {include uri='design:page_footer.tpl'}
         {include uri='design:page_extra.tpl'}
+        {include uri='design:page_footer.tpl'}
     {undef $pagedata}
     {/cache-block}
 {/debug-accumulator}
