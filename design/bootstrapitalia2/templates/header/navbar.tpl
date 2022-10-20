@@ -101,7 +101,7 @@
                                         {/foreach}
                                     {/if}
                                     <li class="nav-item">
-                                        <a class="nav-link text-truncate" href="{$topics.main_node.url_alias|ezurl(no)}">
+                                        <a class="nav-link text-truncate" href="{$topics.main_node.url_alias|ezurl(no)}" data-element="all-topics">
                                             <span class="fw-bold">{$topic_menu_label|wash}</span>
                                         </a>
                                     </li>

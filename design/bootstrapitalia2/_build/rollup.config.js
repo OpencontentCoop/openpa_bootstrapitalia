@@ -108,4 +108,17 @@ export default [
       }),
     ],
   },
+  {
+    input: 'src/scss/default.scss',
+    output: {
+      dir: '../stylesheets',
+    },
+    plugins: [
+      scss({
+        output: '../stylesheets/default.css',
+        outputStyle: 'compressed',
+        watch: 'src/scss',
+      }),
+    ],
+  },
 ]

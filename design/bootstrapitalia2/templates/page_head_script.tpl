@@ -37,4 +37,29 @@
 {/if}
 *}
 {ezscript_load($scripts)}
+
+<script type="text/javascript">
+    //<![CDATA[
+    var CurrentLanguage = "{ezini( 'RegionalSettings', 'Locale' )}";
+    var CurrentUserIsLoggedIn = {cond(fetch('user','current_user').is_logged_in, 'true', 'false')};
+    var CurrentUserId = {fetch('user','current_user').contentobject_id};
+    var UiContext = "{$ui_context}";
+    var UriPrefix = {'/'|ezurl()};
+    {if and(openpacontext().is_edit|not(),openpacontext().is_browse|not())}
+    var PathArray = [{if is_set( openpacontext().path_array[0].node_id )}{foreach openpacontext().path_array|reverse as $path}{$path.node_id}{delimiter},{/delimiter}{/foreach}{/if}];
+    {/if}
+    var ModuleResultUri = "{$module_result.uri|wash()}";
+    var LanguageUrlAliasList = [{foreach $avail_translation as $siteaccess => $lang}{ldelim}locale:"{$lang.locale}",uri:"{$site.uri.original_uri|lang_selector_url($siteaccess)}"{rdelim}{delimiter},{/delimiter}{/foreach}];
+    $.opendataTools.settings('endpoint',{ldelim}
+        'geo': '{'/opendata/api/geo/search/'|ezurl(no)}/',
+        'search': '{'/opendata/api/content/search/'|ezurl(no)}/',
+        'class': '{'/opendata/api/classes/'|ezurl(no)}/',
+        'tags_tree': '{'/opendata/api/tags_tree/'|ezurl(no)}/',
+        'fullcalendar': '{'/opendata/api/fullcalendar/search/'|ezurl(no)}/'
+        {rdelim});
+    var MomentDateFormat = "{'DD/MM/YYYY'|i18n('openpa/moment_date_format')}";
+    var MomentDateTimeFormat = "{'DD/MM/YYYY HH:mm'|i18n('openpa/moment_datetime_format')}";
+    moment.locale("{$moment_language}");
+    //]]>
+</script>
 {undef $scripts $current_locale $moment_language}

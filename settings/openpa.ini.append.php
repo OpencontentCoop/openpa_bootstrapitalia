@@ -28,6 +28,7 @@ AvailableView[]=banner
 AvailableView[]=card_teaser
 AvailableView[]=card_image
 AvailableView[]=banner_color
+AvailableView[]=card_simple
 
 [ContentMain]
 Identifiers[]=image
