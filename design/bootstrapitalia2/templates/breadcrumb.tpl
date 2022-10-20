@@ -1,0 +1,39 @@
+<div class="row{if $has_sidemenu|not()} justify-content-center{/if}">
+    <div class="{if $has_sidemenu|not()}col-12 col-lg-10{else}col px-lg-4{/if}">
+        <div class="cmp-breadcrumbs" role="navigation">
+            <nav class="breadcrumb-container">
+                <ol class="breadcrumb p-0" data-element="breadcrumb">
+                {def $root_node_depth = cond(ezini_hasvariable( 'SiteSettings', 'RootNodeDepth', 'site.ini' ), ezini( 'SiteSettings', 'RootNodeDepth', 'site.ini' ), 1)}
+                {def $_index = 1}
+                {foreach openpacontext().path_array as $path}
+                    {if $_index|ge($root_node_depth)}
+                        {if $path.url}
+                            {if $path.text|eq('Media')}{skip}{/if}
+                            {if $path.text|eq('Classificazioni')}{skip}{/if}
+                            {if $path.text|eq('Applicazioni')}{skip}{/if}
+                            <li class="breadcrumb-item">
+                                <a href={cond( is_set( $path.url_alias ), $path.url_alias, $path.url )|ezurl}>{if $_index|gt(1)}<span class="separator">/</span>{/if}{$path.text|wash}</a>
+                            </li>
+                        {else}
+                            {if is_set($module_result.content_info.persistent_variable.current_view_tag_keyword)}
+                                <li class="breadcrumb-item">
+                                    <a href={$module_result.content_info.persistent_variable.view_tag_root_node_url|ezurl}>{if $_index|gt(1)}<span class="separator">/</span>{/if}{$path.text|wash}</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page" style="max-width: 200px">
+                                    {if $_index|gt(1)}<span class="separator">/</span>{/if}{$module_result.content_info.persistent_variable.current_view_tag_keyword|wash}
+                                </li>
+                            {else}
+                                <li class="breadcrumb-item active" aria-current="page" style="max-width: 200px">
+                                    {if $_index|gt(1)}<span class="separator">/</span>{/if}{$path.text|wash}
+                                </li>
+                            {/if}
+                        {/if}
+                    {/if}
+                    {set $_index = $_index|inc()}
+                {/foreach}
+                {undef $root_node_depth $_index}
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>

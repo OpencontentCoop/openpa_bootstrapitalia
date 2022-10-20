@@ -42,6 +42,7 @@
 
 .block-evidence {
   @extend .bg-600;
+
   .evidence-text {
     color: #fff;
 
@@ -70,7 +71,35 @@
 }
 
 .it-grid-item-wrapper.it-grid-item-overlay .img-responsive-wrapper::after {
-  background: rgb(0,0,0);
-  background: linear-gradient(0deg, rgba(0,0,0,0.4) 0%, rgba(255,255,255,0) 100%);
+  background: rgb(0, 0, 0);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
 }
 
+.evidence-section .bg-placeholder {
+  background: linear-gradient(180deg, rgba($primary,1) 0%, rgba($primary,1) 300px, rgba(255,255,255,0) 300px);
+}
+
+.opencity-banner-color {
+  &.card.card-teaser {
+    .card-text {
+      @include font(16, 16);
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    h3.card-title {
+      @include font(20, 20);
+      line-height: 1.5;
+
+      &.sito-tematico {
+        @include font(16, 20);
+      }
+      a {
+        text-decoration: none;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

@@ -5,13 +5,14 @@
   'type', 'exclude',
   'fetch_type', 'list',
   'parent_node', $node,
-  'items_per_row', 3
+  'items_per_row', 3,
+  'view_variation', ''
 ))}
 
 {if $openpa.content_tag_menu.show_tag_cards}
 
     <section id="{if $node|has_attribute('menu_name')}{$node|attribute('menu_name').content|slugize}{else}{$parent_node.name|slugize}{/if}">
-        <div class="container py-5">
+        <div class="container {$view_variation}">
             {if $node|has_attribute('menu_name')}
                 <h2 class="title-xxlarge mb-4">{$node|attribute('menu_name').content|wash()}</h2>
             {/if}
@@ -120,7 +121,7 @@
                                                            'sort_by', $parent_node.sort_array,
                                                            'limit', $page_limit )|merge( $params ) )}
         <section id="{if $node|has_attribute('menu_name')}{$node|attribute('menu_name').content|slugize}{else}{$parent_node.name|slugize}{/if}">
-            <div class="container py-5">
+            <div class="container {$view_variation}">
                 {if $node|has_attribute('menu_name')}
                     <h2 class="title-xxlarge mb-4">{$node|attribute('menu_name').content|wash()}</h2>
                 {/if}

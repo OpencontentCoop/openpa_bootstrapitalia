@@ -3,9 +3,6 @@
 {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', $current_language ))}
 {def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
 
-{ezscript_require(array('fullcalendar/core/main.js',concat('fullcalendar/core/locales/', $moment_language, '.js'),'fullcalendar/daygrid/main.js', 'fullcalendar/list/main.js'))}
-{ezcss_require(array('fullcalendar/core/main.css','fullcalendar/daygrid/main.css', 'fullcalendar/list/main.css'))}
-
 {def $query = 'facets [class]'
 $classes = array()}
 {if and(is_set($block.custom_attributes.includi_classi), $block.custom_attributes.includi_classi|ne(''))}
@@ -36,16 +33,33 @@ $classes = array()}
 {if and(is_set($block.custom_attributes.max_events), $block.custom_attributes.max_events|int()|gt(0))}
     {set $max_events = $block.custom_attributes.max_events}
 {/if}
-{include uri='design:parts/block_name.tpl'}
+
+{ezscript_require(array('fullcalendar/main.min.js','fullcalendar/locales-all.min.js', 'fullcalendar/init.js'))}
+{ezcss_require(array('fullcalendar/main.min.css'))}
+<script>
+document.addEventListener('DOMContentLoaded', function () {ldelim}
+    OpenCityFullCalendarInit(
+        (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/') ? UriPrefix + '/' : '/',
+        '{$moment_language}',
+        '{'/opendata/api/calendar/search/'|ezurl(no)}/',
+        'calendar-{$block.id}',
+        '{$calendar_view}',
+        {$max_events}
+    ).render();
+    window.dispatchEvent(new Event('resize'));
+{rdelim});
+</script>
+
+{include uri='design:parts/block_name.tpl' no_margin=true()}
 <div class="mt-2 position-relative block-calendar-{$block.view} block-calendar block-calendar-{$size}" {if $show_facets|not()}data-query="{$query}"{/if} data-topics="{$topics_filter}">
     {if $show_facets}
         <div class="block-calendar-facets d-none d-md-block" style="position: absolute;right: 0;top: -57px;">
             <button type="button"
                     title="{'All'|i18n('design/standard/ezoe')}"
-                    class="btn btn-secondary btn-sm filter-select" data-block_calendar_class="{foreach $classes as $class}{$class.identifier|wash()}{delimiter},{/delimiter}{/foreach}">{'All'|i18n('design/standard/ezoe')}</button>
+                    class="btn btn-secondary btn-xs filter-select" data-block_calendar_class="{foreach $classes as $class}{$class.identifier|wash()}{delimiter},{/delimiter}{/foreach}">{'All'|i18n('design/standard/ezoe')}</button>
             {foreach $classes as $class}
             {*def $icon = class_extra_parameters($class.identifier, 'bootstrapitalia_icon').icon*}
-            <button type="button" class="btn btn-outline-secondary btn-sm filter-select" data-block_calendar_class="{$class.identifier|wash()}">
+            <button type="button" class="btn btn-outline-secondary btn-xs filter-select" data-block_calendar_class="{$class.identifier|wash()}">
                 {*if $icon}{display_icon($icon, 'svg', 'icon icon-sm')}{/if*}
                 {$class.name|wash()}
             </button>
@@ -57,161 +71,3 @@ $classes = array()}
 </div>
 
 {undef $openpa}
-
-{run-once}
-<script>
-    var baseUrl = '/';
-    if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){ldelim}
-        baseUrl = UriPrefix + '/';
-    {rdelim}
-    var BlockCalendarEndpoint = '{'/opendata/api/calendar/search/'|ezurl(no)}/';
-    {literal}
-    var BlockCalendarBaseOptions = {
-        plugins: [ 'dayGrid', 'list' ],
-        header: {
-            left: '',
-            center: 'title',
-            right: 'today'
-        },
-        footer: {
-            left: '',
-            center: 'prev,next',
-            right: ''
-        },
-        locale: '{/literal}{$moment_language}{literal}',
-        eventLimit: false,
-        columnHeaderFormat: {
-            weekday: 'short',
-            day: 'numeric',
-            omitCommas: true
-        },
-        eventClick: function(info) {
-            window.location.href = baseUrl + "openpa/object/"+info.event.id;
-        },
-        displayEventTime: false
-    };
-    var BlockCalendarBuildQuery = function(calendarId){
-        var container = $('#'+calendarId).parent();
-        var topics = container.data('topics').toString();
-        var query;
-        if (typeof container.data('query') !== 'undefined'){
-            query = container.data('query');
-        }else {
-            var classList = [];
-            container.find('.btn-secondary[data-block_calendar_class]').each(function () {
-                classList.push($(this).data('block_calendar_class'));
-            });
-            query = 'classes [' + classList.join(',') + ']';
-        }
-        if (topics.length > 0){
-            query += ' and raw[submeta_topics___main_node_id____si] in ['+topics+']';
-        }
-        return query;
-    };
-    $('[data-block_calendar_class]').on('click', function(e){
-        var self = $(this);
-        var container = self.parents('.block-calendar');
-        if(self.hasClass('btn-secondary')){
-            self.removeClass('btn-secondary').addClass('btn-outline-secondary');
-        }else{
-            container.find('.filter-select').removeClass('btn-secondary').addClass('btn-outline-secondary');
-            self.addClass('btn-secondary').removeClass('btn-outline-secondary');
-        }
-        container.find('.fc').data('fullcalendar').refetchEvents();
-        e.preventDefault();
-    });
-    {/literal}
-</script>
-{/run-once}
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {ldelim}
-        $('#calendar-{$block.id}').data('fullcalendar', new FullCalendar.Calendar(
-            document.getElementById('calendar-{$block.id}'), $.extend({ldelim}{rdelim}, BlockCalendarBaseOptions,{ldelim}
-                    {switch match=$calendar_view}
-                    {case match="month"}
-                        defaultView: 'dayGridMonth',
-                        views: {ldelim}
-                            dayGridMonth: {ldelim}
-                                eventLimit: {$max_events},
-                                columnHeaderFormat: {ldelim}
-                                    weekday: 'short'
-                                    {rdelim}
-                                {rdelim}
-                            {rdelim},
-                        windowResize: function(view) {ldelim}
-                            var windowWidth = $(window).width();
-                            if (windowWidth < 800) {ldelim}
-                                this.changeView('listWeek');
-                            {rdelim}else{ldelim}
-                                this.changeView('dayGridMonth');
-                            {rdelim}
-                        {rdelim},
-                    {/case}
-                    {case match="day_grid"}
-                        defaultView: 'dayGridWeek',
-                        views: {ldelim}
-                            dayGridWeek: {ldelim}
-                                eventLimit: {$max_events}
-                                {rdelim}
-                            {rdelim},
-                        windowResize: function(view) {ldelim}
-                            var windowWidth = $(window).width();
-                            if (windowWidth < 800) {ldelim}
-                                this.changeView('listWeek');
-                            {rdelim}else{ldelim}
-                                this.changeView('dayGridWeek');
-                            {rdelim}
-                        {rdelim},
-                    {/case}
-                    {case}
-                        defaultView: 'dayGridWeek',
-                        views: {ldelim}
-                            dayGridWeek: {ldelim}
-                                eventLimit: {$max_events},
-                                duration: {ldelim} days: 4 {rdelim},
-                                titleFormat: {ldelim} year: 'numeric', month: 'long'{rdelim }
-                            {rdelim}
-                        {rdelim},
-                        columnHeaderHtml: function(date) {ldelim}
-                            return '<div class="day-title">'+moment(date).format('D')+'<span>'+moment(date).format('ddd')+'</span></div>';
-                        {rdelim},
-                        aspectRatio: 2.8,
-                        windowResize: function(view) {ldelim}
-                            var windowWidth = $(window).width();
-                            if (windowWidth < 800) {ldelim}
-                                this.changeView('listWeek');
-                                this.setOption('aspectRatio', 1);
-                            {rdelim}else{ldelim}
-                                this.changeView('dayGridWeek');
-                                this.setOption('aspectRatio', 2.8);
-                            {rdelim}
-                        {rdelim},
-                    {/case}
-                    {/switch}
-                {*if $classes|count()|gt(1)}
-                    eventRender: function(info) {ldelim}
-                        $(info.el)
-                            .find('.fc-content, .fc-list-item-title')
-                            .html(info.event.extendedProps.type + ' - <strong>' + info.event.title + '</strong>')
-                            .css('cursor', 'pointer');
-                    {rdelim},
-                {else*}
-                    eventRender: function(info) {ldelim}
-                        $(info.el)
-                            .find('.fc-content, .fc-list-item-title')
-                            .html(info.event.title)
-                            .css('cursor', 'pointer');
-                    {rdelim},
-                {*/if*}
-                events: {ldelim}
-                    url: BlockCalendarEndpoint,
-                    extraParams: function () {ldelim}
-                        return {ldelim}q: BlockCalendarBuildQuery('calendar-{$block.id}'){rdelim};
-                        {rdelim}
-                    {rdelim}
-                {rdelim}))
-        ).data('fullcalendar').render();
-        window.dispatchEvent(new Event('resize'));
-        {rdelim});
-</script>

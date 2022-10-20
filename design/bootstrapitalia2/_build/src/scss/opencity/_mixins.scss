@@ -1,0 +1,7 @@
+@mixin font($sizeMob, $sizeDsk) {
+  font-size: calc($sizeMob/16) + rem;
+
+  @media (min-width: 576px) {
+    font-size: calc($sizeDsk/18) + rem;
+  }
+}

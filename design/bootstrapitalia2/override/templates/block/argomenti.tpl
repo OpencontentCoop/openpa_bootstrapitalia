@@ -7,6 +7,7 @@
 	{/if}
     {undef $image}
 {/if}
+{set $background_image = false()}
 {def $exclude_classes = array()}
 {if and(is_set($block.custom_attributes.exclude_classes), $block.custom_attributes.exclude_classes|ne(''))}
 	{set $exclude_classes = $block.custom_attributes.exclude_classes|explode(',')}
@@ -18,42 +19,44 @@
 	{/if}
 {/foreach}
 {if $valid_topics|count()}
-<div class="py-5 position-relative">
-<div class="block-topics-bg bg-primary" {if $background_image}style="background-image: url({$background_image});"{/if}></div>
-	<div class="container">	
-		{include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', 'text-white')}
-		<div class="container">
-		    {include uri='design:atoms/grid.tpl'
+<div class="section pt-5 pb-0 px-lg-5 position-relative{if $background_image}" style="background-image: url({$background_image});{else} bg-placeholder{/if}">
+	<div class="container">
+		{include uri='design:parts/block_name.tpl' h_level=2 css_class=cond($background_image, 'text-white bg-primary d-inline-block px-2 rounded title-xlarge mb-3', 'text-white title-xlarge mb-3')}
+		<div>
+			{include uri='design:atoms/grid.tpl'
 		             items_per_row=3
 		             i_view=card_children
 		             view_variation='big'
 		             image_class=imagelargeoverlay
 					 exclude_classes=$exclude_classes
 		             items=$valid_topics|extract_left( 3 )}
-
-			{def $others_count = count($valid_topics)|sub(3)}
+		</div>
+		{def $others_count = count($valid_topics)|sub(3)}
+		<div class="row pt-30">
 			{if $others_count|gt(0)}
-				{def $line_topics = $valid_topics|extract_right($others_count)}
+			{def $line_topics = $valid_topics|extract_right($others_count)}
+			<div class="col-lg-10 col-xl-6 offset-lg-1 offset-xl-2">
 				<div class="row">
-					<div class="col-sm-12 col-md-3 text-right">
-						<span class="etichetta d-inline">{'Other topics'|i18n('bootstrapitalia')}</span>
+					<div class="col-lg-3">
+						<h3 class="text-uppercase mb-3 title-xsmall-bold text u-grey-light">{'Other topics'|i18n('bootstrapitalia')}</h3>
 					</div>
-					<div class="col-sm-12 col-md-7 text-left">
-						{foreach $line_topics as $topic}    	
-					    	<a class="text-decoration-none" href="{$topic.url_alias|ezurl(no)}"><span class="chip chip-simple chip-primary"><span class="chip-label">{$topic.name|wash()}</span></span></a>    	
-					    {/foreach}
+					<div class="col-lg-9 argomenti">
+						{foreach $line_topics as $topic}
+						<div class="chip chip-simple pb-0 mb-2">
+							<a href="{$topic.url_alias|ezurl(no)}" class="chip-label">{$topic.name|wash()}</a>
+						</div>
+						{/foreach}
 					</div>
-				</div>
-				{undef $line_topics}
-			{/if}
-			{undef $others_count}
-			<div class="row">
-				<div class="col text-center">
-					<a class="btn btn-primary" href="{$parent.url_alias|ezurl(no)}">{'View all'|i18n('bootstrapitalia')}</a>
 				</div>
 			</div>
-		</div>	
-	</div>	
+			{/if}
+			{undef $line_topics}
+			<div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2 text-center">
+				<a href="{$parent.url_alias|ezurl(no)}" class="btn btn-primary mt-40">{'View all'|i18n('bootstrapitalia')}</a>
+			</div>
+		</div>
+		{undef $others_count}
+	</div>
 </div>
 {/if}
 {undef $parent $background_image $valid_topics}

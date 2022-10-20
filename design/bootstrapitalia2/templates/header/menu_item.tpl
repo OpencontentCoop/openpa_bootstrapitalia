@@ -12,6 +12,7 @@
 <li class="nav-item{if $is_dropdown} dropdown{if $count_children|gt($megamenu_min_items)} megamenu{/if}{/if}">
     <a class="main-nav-link nav-link{if $is_dropdown} dropdown-toggle{/if} text-truncate"
        id="mainMenu{$menu_item.item.node_id}"
+       data-element="{$menu_item.item.remote_id}"
        data-node="{$menu_item.item.node_id}"
        {if $is_dropdown}data-bs-toggle="dropdown" aria-expanded="false"{/if}
        href="{$href}"
@@ -26,6 +27,7 @@
         <div class="dropdown-menu p-2" role="region" aria-labelledby="mainMenu{$menu_item.item.node_id}" {if $count_children|gt($megamenu_min_items)} style="margin-top: 13px !important;"{/if}>
             <div class="p-2 mb-2 border-bottom text-center">
                 <a data-node="{$menu_item.item.node_id}"
+                   data-element="{$menu_item.item.remote_id}"
                    href="{$href}"
                     {if $menu_item.item.target}target="{$menu_item.item.target}"{/if}
                    title="{'Go to page'|i18n('bootstrapitalia')}: {$menu_item.item.name|wash()}">

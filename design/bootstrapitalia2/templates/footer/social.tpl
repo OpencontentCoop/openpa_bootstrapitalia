@@ -25,7 +25,7 @@
         {foreach $socials as $social => $name}
             {if is_set($pagedata.contacts[$social])}
                 <li class="list-inline-item mb-3">
-                <a href="{$pagedata.contacts.[$social]}" class="p-1 text-white" aria-label="Facebook" target="_blank" rel="noopener noreferrer"  title="{$name|wash()}">
+                <a href="{$pagedata.contacts.[$social]}" class="p-1 text-white" aria-label="{$name|wash()}" target="_blank" rel="noopener noreferrer"  title="{$name|wash()}">
                     {if $social|eq('tiktok')}
                         <svg class="icon icon-sm icon-white align-top" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
                             <g fill="none" fill-rule="evenodd">

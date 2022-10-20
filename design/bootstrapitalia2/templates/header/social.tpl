@@ -29,7 +29,7 @@
         {if $split_at|eq($social_count)}</ul><ul>{/if}
         {set $social_count = $social_count|inc()}
         <li>
-            <a href="{$pagedata.contacts.[$social]}" aria-label="Facebook" target="_blank" rel="noopener noreferrer"  title="{$name|wash()}">
+            <a href="{$pagedata.contacts.[$social]}" aria-label="{$name|wash()}" target="_blank" rel="noopener noreferrer"  title="{$name|wash()}">
                 {if $social|eq('tiktok')}
                     <svg class="icon icon-sm icon-white align-top" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
                         <g fill="none" fill-rule="evenodd">

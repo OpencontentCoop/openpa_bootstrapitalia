@@ -29,6 +29,7 @@ class OpenPABootstrapItaliaOperators
             'explode_contact',
             'is_empty_matrix',
             'cookie_consent_config_translations',
+            'parse_layout_blocks',
         );
     }
 
@@ -79,6 +80,9 @@ class OpenPABootstrapItaliaOperators
             'current_theme_has_variation' => array(
                 'variation' => array('type' => 'string', 'required' => true),
             ),
+            'parse_layout_blocks' => array(
+                'zones' => array('type' => 'array', 'required' => true),
+            ),
         );
     }
 
@@ -94,9 +98,14 @@ class OpenPABootstrapItaliaOperators
     {
         switch ($operatorName) {
 
+            case 'parse_layout_blocks':
+                $operatorValue = self::parseBlocks($namedParameters['zones']);
+                break;
+
             case 'cookie_consent_config_translations':
                 $operatorValue = json_encode(self::getCookieConsentConfigTranslations());
                 break;
+
             case 'is_empty_matrix':
                 if ($operatorValue instanceof eZContentObjectAttribute
                     && $operatorValue->attribute('data_type_string') == eZMatrixType::DATA_TYPE_STRING) {
@@ -626,5 +635,95 @@ class OpenPABootstrapItaliaOperators
                 'description' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.'),
             ],
         ];
+    }
+
+    private static function parseBlocks($zones)
+    {
+        $data = [];
+        if (is_array($zones)){
+            foreach ($zones as $zone){
+                if ($zone instanceof eZPageZone && $zone->hasAttribute('blocks')) {
+                    $blocks = $zone->attribute('blocks');
+                    foreach ($blocks as $index => $block){
+                        if ($item = self::parseBlock($block, $index, $blocks)) {
+                            $data[] = $item;
+                        }
+                    }
+                }
+            }
+        }
+        $first = array_shift($data);
+        array_unshift($data, $first);
+        $last = array_pop($data);
+        $data[] = $last;
+
+        return [
+            'wrappers' => $data,
+            'first' => $first,
+            'last' => $last,
+        ];
+    }
+
+    private static function parseBlock(eZPageBlock $block, $index, $blocks)
+    {
+        $nextIndex = $index + 1;
+        $trans = eZCharTransform::instance();
+        $ini = eZINI::instance('block.ini')->group($block->attribute('type'));
+        $blockWrapper = false;
+        $customAttributes = $block->hasAttribute('custom_attributes') ? $block->attribute('custom_attributes') : [];
+        $validNodes = $block->attribute('valid_nodes');
+        $blockView = $block->attribute('view');
+        $hasContent = count($validNodes) > 0
+            || count($customAttributes) > 0
+            || ($ini['ManualAddingOfItems'] == 'disabled' && isset($ini['FetchClass']));
+
+        if ($hasContent){
+            $currentItemsPerRow = 3;
+            if (isset($customAttributes['elementi_per_riga'])
+                && (
+                    (is_numeric($customAttributes['elementi_per_riga'])
+                        && $customAttributes['elementi_per_riga'] > 0
+                        && $customAttributes['elementi_per_riga'] <= 6)
+                    || $customAttributes['elementi_per_riga'] == 'auto'
+                )
+            ) {
+                $currentItemsPerRow = $customAttributes['elementi_per_riga'];
+            }elseif (isset($ini['ItemsPerRow'][$blockView])){
+                $currentItemsPerRow = $ini['ItemsPerRow'][$blockView];
+            }
+
+            $slug = 'section-' . $index;
+            if (!empty($block->attribute('name'))){
+                $slug = 'section-' . $trans->transformByGroup( $block->attribute('name'), 'identifier' );
+            }elseif (isset($validNodes[0])){
+                $slug = 'section-' . $trans->transformByGroup( $validNodes[0]->attribute('name'), 'identifier' );
+            }
+
+            $isWide = isset($ini['Wide']) && in_array($blockView, (array)$ini['Wide']);
+
+            $containerStyle = $ini['ContainerStyle'][$blockView] ?? false;
+
+            $layoutStyle = $customAttributes['container_style'] ?? false;
+
+            $colorStyle = $customAttributes['color_style'] ?? false;
+            $colorStyle = str_replace('section section-muted section-inset-shadow pb-5', 'section section-muted', $colorStyle);
+            $colorStyle = str_replace('bg-100', 'bg-grey-card', $colorStyle);
+
+            $showNextLink = $customAttributes['show_next_link'] ?? false;
+
+            $blockWrapper = [
+                'block' => $block,
+                'view' => $blockView,
+                'slug' => $slug,
+                'items_per_row' => $currentItemsPerRow,
+                'is_wide' => $isWide,
+                'container_style' => $containerStyle,
+                'layout_style' => $layoutStyle,
+                'color_style' => $colorStyle,
+                'show_next_link' => $showNextLink && isset($blocks[$nextIndex])
+            ];
+
+        }
+        return $blockWrapper;
     }
 }

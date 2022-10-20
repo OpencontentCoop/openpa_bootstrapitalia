@@ -83,13 +83,13 @@
 {/if}
 
 <main>
-{*    {if openpacontext().show_breadcrumb}
-        {if $has_container}<div class="container">{/if}
-        {debug-accumulator id=breadcrumb name=breadcrumb}
+    {if openpacontext().show_breadcrumb}
+        {if $has_container}<div class="container" id="main-container">{/if}
+        {debug-accumulator id=breadcrumb name=breadcrumb has_sidemenu=$has_sidemenu}
         {include uri='design:breadcrumb.tpl' path_array=openpacontext().path_array}
         {/debug-accumulator}
         {if $has_container}</div>{/if}
-    {/if}*}
+    {/if}
 
     {include uri='design:page_mainarea.tpl'}
 </main>

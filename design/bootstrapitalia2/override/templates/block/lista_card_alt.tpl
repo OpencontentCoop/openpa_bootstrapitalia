@@ -5,7 +5,7 @@
     {include uri='design:parts/block_name.tpl'}
     {include uri='design:atoms/grid.tpl'
              items_per_row=$items_per_row
-             i_view=card_teaser
+             i_view=card_simple
              view_variation=false()
              show_icon=false()
              image_class=imagelargeoverlay
