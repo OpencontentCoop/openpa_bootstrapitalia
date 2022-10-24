@@ -119,6 +119,7 @@
   }
 }
 
+.relationbrowse-container  div.list-wrapper,
 .relations-searchbox div.list-wrapper{
   padding-left: 0;
 }
@@ -135,7 +136,27 @@
   color: #000;
 }
 
-.alpaca-container-item:not(:first-child),
-.alpaca-control-buttons-container{
-  margin-top: 40px !important;
+.alpaca-create, .alpaca-edit {
+  &> .alpaca-container {
+    &> .alpaca-container-item,
+    &> .alpaca-control-buttons-container {
+      margin-top: 40px !important;
+    }
+  }
+}
+
+.alpaca-field .btn-sm{
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.alpaca-field {
+  tbody > tr > td, th{
+    border-color: #eee !important;
+  }
+}
+
+select.form-control{
+  appearance: auto;
+  border: 1px solid #ddd;
 }

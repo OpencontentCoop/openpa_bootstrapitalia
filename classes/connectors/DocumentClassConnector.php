@@ -9,6 +9,8 @@ class DocumentClassConnector extends ClassConnector
 
     private $linkName;
 
+    private $attachmentsName;
+
     /**
      * @var eZContentClassAttribute[]
      */
@@ -20,6 +22,7 @@ class DocumentClassConnector extends ClassConnector
         $this->classDataMap = $this->class->dataMap();
         $this->fileName = isset($this->classDataMap['file']) ? $this->classDataMap['file']->attribute('name') : null;
         $this->linkName = isset($this->classDataMap['link']) ? $this->classDataMap['link']->attribute('name') : null;
+        $this->attachmentsName = isset($this->classDataMap['attachments']) ? $this->classDataMap['attachments']->attribute('name') : null;
     }
 
     public function getFieldConnectors()
@@ -73,7 +76,7 @@ class DocumentClassConnector extends ClassConnector
         $submitData = $this->getSubmitData();
         if (empty($submitData['file']) && empty($submitData['link'])){
             throw new Exception(
-                sprintf(openpa_bootstrapitaliaHandler::ERROR_MESSAGE, $this->fileName, $this->linkName)
+                sprintf(openpa_bootstrapitaliaHandler::FILE_ERROR_MESSAGE, $this->fileName, $this->linkName, $this->attachmentsName)
             );
         }
 
