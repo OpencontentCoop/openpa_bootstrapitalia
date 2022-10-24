@@ -209,7 +209,7 @@
             {if is_set($content_object.id)}
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
-                <a class="btn" href="#" id="ezwt-help" data-toggle="modal" data-target="#editor_tools">
+                <a class="btn" href="#" id="ezwt-help" data-toggle="modal" data-bs-toggle="modal" data-target="#editor_tools" data-bs-target="#editor_tools">
                     <i aria-hidden="true" class="fa fa-info-circle"></i>
                     <span class="toolbar-label">Info</span>
                 </a>

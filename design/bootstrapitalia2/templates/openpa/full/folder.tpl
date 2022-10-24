@@ -1,4 +1,5 @@
 {ezpagedata_set( 'has_container', true() )}
+{ezpagedata_set( 'has_sidemenu', false() )}
 
 <section class="container">
     <div class="row justify-content-center row-shadow">

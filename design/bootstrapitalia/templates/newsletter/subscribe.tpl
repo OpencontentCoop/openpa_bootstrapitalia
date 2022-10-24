@@ -193,7 +193,7 @@
           <div class="checkbox">
               <div class="form-check form-check-inline">              
                 <input required="required" class="form-check-input"  type="checkbox" id="Privacy" />
-                <label class="form-check-label" for="Privacy">Dichiaro di aver preso visione dell'<a href="#" data-toggle="modal" data-target="#informativa">informativa sul trattamento dei dati personali</a>.</label>
+                <label class="form-check-label" for="Privacy">Dichiaro di aver preso visione dell'<a href="#" data-toggle="modal" data-bs-toggle="modal" data-target="#informativa" data-bs-target="#informativa">informativa sul trattamento dei dati personali</a>.</label>
               </div>
           </div>
 

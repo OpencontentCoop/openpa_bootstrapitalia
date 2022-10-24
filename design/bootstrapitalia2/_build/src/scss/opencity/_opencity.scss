@@ -76,7 +76,7 @@
 }
 
 .evidence-section .bg-placeholder {
-  background: linear-gradient(180deg, rgba($primary,1) 0%, rgba($primary,1) 300px, rgba(255,255,255,0) 300px);
+  background: linear-gradient(180deg, rgba($primary, 1) 0%, rgba($primary, 1) 300px, rgba(255, 255, 255, 0) 300px);
 }
 
 .opencity-banner-color {
@@ -94,9 +94,11 @@
       &.sito-tematico {
         @include font(16, 20);
       }
+
       a {
         text-decoration: none;
-        &:hover{
+
+        &:hover {
           text-decoration: underline;
         }
       }
@@ -106,6 +108,7 @@
 
 .modal-fullscreen {
   margin-top: 0 !important;
+
   .modal-dialog {
     width: 100%;
     height: 100%;
@@ -119,44 +122,198 @@
   }
 }
 
-.relationbrowse-container  div.list-wrapper,
-.relations-searchbox div.list-wrapper{
+.relationbrowse-container div.list-wrapper,
+.relations-searchbox div.list-wrapper {
   padding-left: 0;
 }
 
-.ezcca-edit-datatype-ezimage .col-md-6{
+.ezcca-edit-datatype-ezimage .col-md-6 {
   position: relative;
 }
 
 .alpaca-container .alpaca-container-label,
 .alpaca-container-item legend.alpaca-container-label,
-.alpaca-form .form-group label{
+.alpaca-form .form-group label {
   font-size: 1em !important;
   font-weight: 600 !important;
   color: #000;
 }
 
 .alpaca-create, .alpaca-edit {
-  &> .alpaca-container {
-    &> .alpaca-container-item,
-    &> .alpaca-control-buttons-container {
+  & > .alpaca-container {
+    & > .alpaca-container-item,
+    & > .alpaca-control-buttons-container {
       margin-top: 40px !important;
     }
   }
 }
 
-.alpaca-field .btn-sm{
+.alpaca-field .btn-sm {
   padding: 6px 12px;
   font-size: 12px;
 }
 
 .alpaca-field {
-  tbody > tr > td, th{
+  tbody > tr > td, th {
     border-color: #eee !important;
   }
 }
 
-select.form-control{
-  appearance: auto;
+select {
+  background: #fff;
   border: 1px solid #ddd;
+  padding: 4px;
+
+  &.form-control {
+    appearance: auto;
+    border: 1px solid #ddd;
+  }
+}
+
+body input {
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+}
+
+a.btn-outline-primary.selected,
+a.btn-outline-primary:hover {
+  @extend .btn-primary;
+
+  .icon {
+    @extend .icon-white;
+  }
+}
+
+a.chip.chip-lg {
+  text-decoration: none !important;
+  justify-content: space-between;
+  @extend .ms-1;
+
+  svg.icon {
+    fill: $chips-label-color;
+  }
+  svg.filter-remove {
+    transform: scale(2);
+    width: 16px;
+    height: 16px;
+    vertical-align: sub;
+    margin-left: 10px;
+  }
+
+  &.no-minwith {
+    min-width: 0;
+  }
+
+  &.selected {
+    background: $chips-background-hover;
+    border-color: $chips-background-hover;
+    transition: background-color 0.1s;
+    //label
+    .chip-label {
+      color: $white;
+      transition: color 0.1s;
+    }
+    //close button
+    button {
+      .icon {
+        fill: $white;
+        transition: fill 0.1s;
+      }
+    }
+    //left icon
+    & > .icon {
+      fill: $white;
+      transition: fill 0.1s;
+    }
+  }
+}
+
+.floating-labels {
+  .form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .form-label-group > input,
+  .form-label-group > label {
+    height: 3.125rem;
+    padding: .75rem;
+  }
+
+  .form-label-group > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0; /* Override default `<label>` margin */
+    line-height: 1.5;
+    color: #495057;
+    pointer-events: none;
+    cursor: text; /* Match the input under the label */
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: all .1s ease-in-out;
+  }
+
+  .form-label-group input::-webkit-input-placeholder {
+    color: transparent;
+  }
+
+  .form-label-group input:-ms-input-placeholder {
+    color: transparent;
+  }
+
+  .form-label-group input::-ms-input-placeholder {
+    color: transparent;
+  }
+
+  .form-label-group input::-moz-placeholder {
+    color: transparent;
+  }
+
+  .form-label-group input::placeholder {
+    color: transparent;
+  }
+
+  .form-label-group input:not(:placeholder-shown) {
+    padding-top: 1.25rem;
+    padding-bottom: .25rem;
+  }
+
+  .form-label-group input:not(:placeholder-shown) ~ label {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-size: 13px !important;
+    color: #777;
+  }
+}
+
+/* Fallback for Edge
+-------------------------------------------------- */
+@supports (-ms-ime-align: auto) {
+  .floating-labels .form-label-group > label {
+    display: none;
+  }
+  .floating-labels .form-label-group input::-ms-input-placeholder {
+    color: #777;
+  }
+}
+
+/* Fallback for IE
+-------------------------------------------------- */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .floating-labels .form-label-group > label {
+    display: none;
+  }
+  .floating-labels .form-label-group input:-ms-input-placeholder {
+    color: #777;
+  }
+}
+
+.custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3e%3cpath stroke='%23fff' d='M0 2h4'/%3e%3c/svg%3e");
+  border-color: #bbb;
+  background-color: #bbb;
+  z-index: 0;
 }

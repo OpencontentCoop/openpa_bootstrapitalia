@@ -192,10 +192,13 @@ div.split div.three-center {
   width: 100%;
 }
 
+.controlbar > .box-bc > .box-ml,
 .controlbar > .block {
   @extend .row;
 }
 
+.controlbar > .box-bc > .box-ml > .button-left,
+.controlbar > .box-bc > .box-ml > .button-right,
 .controlbar > .block > .left,
 .controlbar > .block > .right {
   @extend .col-6;

@@ -63,7 +63,7 @@ $(document).ready(function(){
     <div class="collapse-div collapse-right-icon">
     {{for searchHits}}
         <div class="collapse-header" id="heading-{{:metadata.id}}">
-            <button class="px-1" data-toggle="collapse" data-bs-toggle="collapse" data-target="#collapse-{{:metadata.id}}" aria-expanded="false" aria-controls="collapse-{{:metadata.id}}">
+            <button class="px-1" data-toggle="collapse" data-bs-toggle="collapse" data-target="#collapse-{{:metadata.id}}" data-bs-target="#collapse-{{:metadata.id}}" aria-expanded="false" aria-controls="collapse-{{:metadata.id}}">
                 {{if metadata.userAccess && metadata.userAccess.canEdit}}<a href="#" class="pr-2 pe-2 pe-2" data-edit={{:metadata.id}}><i class="fa fa-pencil"></i></a>{{/if}}
                 {{if metadata.userAccess && metadata.userAccess.canRemove}}<a href="#" class="pr-2 pe-2 pe-2" data-remove={{:metadata.id}}><i class="fa fa-trash"></i></a>{{/if}}
                 {{if ~i18n(data, 'question')}}{{:~i18n(data, 'question')}}{{/if}}

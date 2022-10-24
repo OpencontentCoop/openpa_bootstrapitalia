@@ -29,8 +29,12 @@
 
         {else}
 
-            <a href="{'/valuation/csv/'|ezurl(no)}" class="btn btn-info float-right"><i class="fa fa-download"></i> Download CSV</a>
-            <h3>{'User feedbacks'|i18n("bootstrapitalia/valuation")}</h3>
+            <div class="row mb-3">
+                <div class="col">
+                    <a href="{'/valuation/csv/'|ezurl(no)}" class="btn btn-info float-right"><i class="fa fa-download"></i> Download CSV</a>
+                    <h3>{'User feedbacks'|i18n("bootstrapitalia/valuation")}</h3>
+                </div>
+            </div>
 
             <div class="row mb-3">
                 <div class="col">

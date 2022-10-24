@@ -208,6 +208,9 @@ $card-comuni-bg-dark: #2c2c2c !default;
 
 
 @import 'design-comuni-pagine-statiche/styles';
+
+$image-path: "../images/" !default;
+
 @import 'opencity/mixins';
 @import 'opencity/colors';
 @import 'opencity/opencity';
@@ -216,12 +219,14 @@ $card-comuni-bg-dark: #2c2c2c !default;
 @import 'opencity/calendar';
 @import 'opencity/chosen';
 @import 'opencity/leaflet';
+@import 'opencity/audio';
+@import 'opencity/datatable';
+@import 'opencity/gallery';
 @import 'opencity/websitetoolbar';
 
 $fa-font-path: "../fonts/FontAwesome" !default;
 @import 'node_modules/font-awesome/scss/font-awesome.scss';
 
-$image-path: "../images/" !default;
 $icon-font-path: "../fonts/Glyphicons-Halflings/";
 $icon-font-name: "glyphicons-halflings-regular";
 $icon-font-svg-id: "glyphicons_halflingsregular";
