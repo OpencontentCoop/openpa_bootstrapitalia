@@ -44,7 +44,7 @@
             {include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', '') no_margin=true()}
             {if $facetsFields|count()}
             <div class="d-block d-lg-none d-xl-none text-center mb-2">
-                <a href="#filters-{$block.id}" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="filters-{$block.id}">{'Filters'|i18n('bootstrapitalia')}</a>
+                <a href="#filters-{$block.id}" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="filters-{$block.id}">{'Filters'|i18n('bootstrapitalia')}</a>
             </div>
             <div class="d-lg-block d-xl-block collapse content-filters" id="filters-{$block.id}"></div>
             {/if}

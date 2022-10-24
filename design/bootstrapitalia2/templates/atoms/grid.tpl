@@ -17,7 +17,7 @@
     {/foreach}
     {if $grid_wrapper}</div>{/if}
 
-{elseif and(array('2','3','4')|contains($items_per_row), $i_view|eq('card_teaser'))}
+{elseif and(array('2','3','4')|contains($items_per_row), array('card_teaser', 'banner_color')|contains($i_view))}
 
     {if $grid_wrapper}<div class="{$grid_wrapper_class}">{/if}
     <div class="card-wrapper px-0 card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{$items_per_row}">

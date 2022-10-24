@@ -171,7 +171,7 @@
                                     <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
                                     <input type="hidden" name="ViewMode" value="full" />
                                     <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
-                                    <button class="btn btn-link p-0 mr-2 text-black" type="submit" name="UpdateInitialLanguageButton" title="{'Set main'|i18n( 'design/admin/node/view/full' )}"><i class="fa fa-toggle-off"></i></button>
+                                    <button class="btn btn-link p-0 mr-2 me-2 text-black" type="submit" name="UpdateInitialLanguageButton" title="{'Set main'|i18n( 'design/admin/node/view/full' )}"><i class="fa fa-toggle-off"></i></button>
                                 </form>
                             {else}
                                 <i class="fa fa-toggle-on"></i
@@ -191,7 +191,7 @@
                             <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
                             <input type="hidden" name="ViewMode" value="full" />
                             <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
-                            <button class="btn btn-link p-0 ml-2 text-black" type="submit" name="RemoveTranslationButton" title="{'Remove selected'|i18n( 'design/admin/node/view/full' )}"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-link p-0 ml-2 ms-2 text-black" type="submit" name="RemoveTranslationButton" title="{'Remove selected'|i18n( 'design/admin/node/view/full' )}"><i class="fa fa-trash"></i></button>
                         </form>
                     {/if}
                     </td>

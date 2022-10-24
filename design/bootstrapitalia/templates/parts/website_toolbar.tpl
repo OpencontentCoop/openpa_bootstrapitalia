@@ -151,7 +151,7 @@
             {* Custom templates inclusion *}
             <li>
                 <div class="dropdown">
-                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownOther" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownOther" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
                         <span class="toolbar-label">{'Other'|i18n( 'bootstrapitalia' )}</span>
                     </button>
@@ -229,7 +229,7 @@
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
                 <div class="dropdown">
-                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i aria-hidden="true" class="fa fa-sliders"></i>
                         <span class="toolbar-label">{'Manage'|i18n( 'bootstrapitalia' )}</span>
                     </button>

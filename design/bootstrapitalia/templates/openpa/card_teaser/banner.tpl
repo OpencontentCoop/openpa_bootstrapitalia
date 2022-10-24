@@ -11,7 +11,7 @@
     {if and($show_icon, $openpa.content_icon.icon, $node|has_attribute('image')|not())}
         {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}
     {/if}
-    <div class="card-body{if $node|has_attribute('image')} pr-3{/if}">
+    <div class="card-body{if $node|has_attribute('image')} pr-3 pe-3{/if}">
         {if $hide_title|not()}
         <h5 class="card-title mb-1">
             {include uri='design:openpa/card_teaser/parts/card_title.tpl'}

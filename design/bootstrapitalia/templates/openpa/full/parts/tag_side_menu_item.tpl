@@ -4,7 +4,7 @@
 <li>
     {if and($max_recursion|gt($recursion), $menu_item.children_count)}
         {set $recursion = $recursion|inc()}
-        <a class="list-item right-icon{if or($is_active, $is_current)} medium{/if}" href="#menu-dropdown-{$menu_item.id}" data-toggle="collapse" aria-expanded="{if or($is_active, $is_current)}true{else}false{/if}" aria-controls="menu-dropdown-{$menu_item.id}">
+        <a class="list-item right-icon{if or($is_active, $is_current)} medium{/if}" href="#menu-dropdown-{$menu_item.id}" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="{if or($is_active, $is_current)}true{else}false{/if}" aria-controls="menu-dropdown-{$menu_item.id}">
             <span>{$menu_item.keyword|wash()}</span>
             {display_icon('it-expand', 'svg', 'icon icon-primary right m-0')}
         </a>

@@ -130,7 +130,7 @@
                             {if $openpa_attribute.full.collapse_label|not()}
                                 <h5 class="no_toc">{$openpa_attribute.label|wash()}</h5>
                             {else}
-                                <h6 class="d-inline mr-2 font-weight-bold">{$openpa_attribute.label|wash()}:</h6>
+                                <h6 class="d-inline mr-2 me-2 font-weight-bold">{$openpa_attribute.label|wash()}:</h6>
                             {/if}
                         {/if}
 
@@ -142,7 +142,7 @@
                                                 relation_view=cond($openpa_attribute.full.show_link|not, 'list', 'banner')
                                                 relation_has_wrapper=$item.wrap
                                                 show_link=$openpa_attribute.full.show_link
-                                                tag_view="chip-lg mr-2"}
+                                                tag_view="chip-lg mr-2 me-2"}
                         {elseif and(is_set($openpa_attribute.template), $openpa_attribute.template)}
                             {include uri=$openpa_attribute.template}
                         {/if}

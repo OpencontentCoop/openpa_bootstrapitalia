@@ -17,14 +17,14 @@
         {foreach $content_attributes_grouped_data_map as $attribute_group => $content_attributes_grouped}
             {if $attribute_group|ne('hidden')}
                 <li class="nav-item">
-                    <a class="nav-link{if $attribute_group|eq($attribute_default_category)} active{/if}" data-toggle="tab"
+                    <a class="nav-link{if $attribute_group|eq($attribute_default_category)} active{/if}" data-toggle="tab" data-bs-toggle="tab"
                        href="#attribute-group-{$attribute_group}">{$attribute_categorys[$attribute_group]}</a>
                 </li>
                 {set $count = $count|inc()}
             {/if}
         {/foreach}
         {*<li class="nav-item ml-auto">
-            <a class="nav-link" data-toggle="tab"
+            <a class="nav-link" data-toggle="tab" data-bs-toggle="tab"
                href="#contentactions">{'General information'|i18n( 'design/admin/content/edit_attribute')}</a>
         </li>*}
     </ul>

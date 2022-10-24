@@ -1,3 +1,57 @@
 .font-weight-bold{
   @extend .fw-bold;
 }
+
+.sr-only{
+  @extend .visually-hidden;
+}
+
+.float-left{
+  @extend .float-start;
+}
+
+.text-left{
+  @extend .text-start;
+}
+
+.float-right{
+  @extend .float-end;
+}
+
+.text-right{
+  @extend .text-end;
+}
+
+button.close{
+  @extend .btn-close;
+  text-indent: -50px;
+  overflow: hidden;
+  float: right;
+}
+
+select.form-control{
+  appearance: auto;
+}
+
+.form-inline {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+
+  .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+  }
+}
+
+
+/*
+    Renamed .left-* and .right-* to .start-* and .end-*.
+    Renamed .float-left and .float-right to .float-start and .float-end.
+    Renamed .border-left and .border-right to .border-start and .border-end.
+    Renamed .rounded-left and .rounded-right to .rounded-start and .rounded-end.
+    Renamed .ml-* and .mr-* to .ms-* and .me-*.
+    Renamed .pl-* and .pr-* to .ps-* and .pe-*.
+    Renamed .text-left and .text-right to .text-start and .text-end.
+*/

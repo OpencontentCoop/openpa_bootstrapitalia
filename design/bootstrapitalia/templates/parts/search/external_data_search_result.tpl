@@ -1,5 +1,5 @@
 <div class="card h-100 card-teaser p-3 position-relative overflow-hidden rounded border">
-    <div class="card-body{if $data.image} pr-3{/if}">
+    <div class="card-body{if $data.image} pr-3 pe-3{/if}">
         <div class="etichetta mb-2">
             {display_icon('it-link', 'svg', 'icon')}
             <a class="text-decoration-none neutral-1-color-a8" href="{$data.source_uri|wash()}" title="{'Go to content'|i18n('bootstrapitalia')} {$data.source_name|wash()}">{$data.source_name|wash()}</a>

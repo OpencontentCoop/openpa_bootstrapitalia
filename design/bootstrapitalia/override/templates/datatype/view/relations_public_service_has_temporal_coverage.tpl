@@ -29,7 +29,7 @@
 
                     <h5 class="card-title">
                         {if or($has_attribute_opening_hours, $has_attribute_closure, $child|has_attribute('note'))}
-                        <a class="float-right" style="margin-top: -3px;" data-toggle="collapse" href="#collapse-{$child.contentobject_id}" role="button" aria-expanded="false" aria-controls="collapse-{$child.contentobject_id}">
+                        <a class="float-right" style="margin-top: -3px;" data-toggle="collapse" data-bs-toggle="collapse" href="#collapse-{$child.contentobject_id}" role="button" aria-expanded="false" aria-controls="collapse-{$child.contentobject_id}">
                             {display_icon('it-info-circle', 'svg', 'icon icon-sm card-icon-color-primary')}
                         </a>
                         {/if}

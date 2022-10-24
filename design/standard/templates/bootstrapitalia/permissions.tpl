@@ -67,7 +67,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="clearfix">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div id="data-form" class="clearfix p-4"></div>
                 </div>
@@ -128,8 +128,8 @@
             {{/if}}
             <p style="white-space: nowrap;">
                 <a title="User settings" target="_blank" href="/user/setting/{{:metadata.id}}"><i aria-hidden="true" class="fa fa-gear"></i></a>
-                <a title="Activate all" href="#" data-user="{{:metadata.mainNodeId}}" class="ActivateAllUserPermission text-decoration-none pl-2"><i class="fa fa-toggle-on"></i></a>
-                <a title="Deactivate all" href="#" data-user="{{:metadata.mainNodeId}}" class="DeactivateAllUserPermission text-decoration-none pl-2"><i class="fa fa-toggle-off"></i></a>
+                <a title="Activate all" href="#" data-user="{{:metadata.mainNodeId}}" class="ActivateAllUserPermission text-decoration-none pl-2 ps-2"><i class="fa fa-toggle-on"></i></a>
+                <a title="Deactivate all" href="#" data-user="{{:metadata.mainNodeId}}" class="DeactivateAllUserPermission text-decoration-none pl-2 ps-2"><i class="fa fa-toggle-off"></i></a>
             </p>
         </td>
 

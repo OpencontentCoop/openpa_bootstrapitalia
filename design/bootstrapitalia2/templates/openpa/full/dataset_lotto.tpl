@@ -33,7 +33,7 @@
         <a class="btn btn-success btn-sm my-2" href={concat("exportas/avpc/lotto/",$node.node_id)|ezurl()}>Esporta in formato <abbr title="Xtensible Markup Language">ANAC XML</abbr></a>
     {/if}
     {if $node.can_create}
-        <a class="btn btn-info btn-sm my-2 mr-2" href='#' id="AddLotto"><i class="fa fa-plus"></i> {'Add item'|i18n( 'design/standard/block/edit' )}</a>
+        <a class="btn btn-info btn-sm my-2 mr-2 me-2" href='#' id="AddLotto"><i class="fa fa-plus"></i> {'Add item'|i18n( 'design/standard/block/edit' )}</a>
     {/if}
 </div>
 
@@ -140,7 +140,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="clearfix">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
                     </div>
                     <div id="lotto-form" class="clearfix p-4"></div>
                 </div>

@@ -39,7 +39,7 @@
         </div>
         {/if}
 
-        <div class="singolo-text p-2 pr-4{if and($has_image|not(), $has_video|not())} mw-100{/if}">
+        <div class="singolo-text p-2 pr-4 pe-4{if and($has_image|not(), $has_video|not())} mw-100{/if}">
 
             <div class="mt-5">
                 {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}

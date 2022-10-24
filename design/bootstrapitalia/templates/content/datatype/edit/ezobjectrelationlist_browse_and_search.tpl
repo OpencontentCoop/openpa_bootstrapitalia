@@ -1,4 +1,4 @@
-<input class="btn btn-sm btn-info ml-2"
+<input class="btn btn-sm btn-info ml-2 ms-2"
        id="browse_objects_{$attribute.id}"
        type="submit"
        name="CustomActionButton[{$attribute.id}_browse_objects]"

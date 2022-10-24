@@ -151,7 +151,7 @@
                   <label class="form-check-label" for="check-{$attribute.id}-{$node.contentobject_id}">{$node.name|wash}{if $node_has_children} <i aria-hidden="true" class="fa fa-plus-square-o"></i>{/if}</label>
                 </div>
                 {if $node_has_children}
-                <ul class="list-unstyled ml-3">
+                <ul class="list-unstyled ml-3 ms-3">
                     {foreach $node.children as $child}
                     <li>
                         {def $child_has_children = $child.children_count}
@@ -173,7 +173,7 @@
                             <label class="form-check-label" for="check-{$attribute.id}-{$child.contentobject_id}">{$child.name|wash}{if $child_has_children} <i aria-hidden="true" class="fa fa-plus-square-o"></i>{/if}</label>
                         </div>
                         {if $child_has_children}
-                        <ul class="list-unstyled ml-3">
+                        <ul class="list-unstyled ml-3 ms-3">
                             {foreach $child.children as $sub_child}
                             <li>
                                 {def $sub_child_has_children = $sub_child.children_count}
@@ -195,7 +195,7 @@
                                     <label class="form-check-label" for="check-{$attribute.id}-{$sub_child.contentobject_id}">{$sub_child.name|wash}{if $sub_child_has_children} <i aria-hidden="true" class="fa fa-plus-square-o"></i>{/if}</label>
                                 </div>
                                 {if $sub_child_has_children}
-                                <ul class="list-unstyled ml-3">
+                                <ul class="list-unstyled ml-3 ms-3">
                                     {foreach $sub_child.children as $sub_sub_child}
                                     <li>
                                         <div class="form-check">

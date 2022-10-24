@@ -11,13 +11,13 @@
         {if $recursion|gt(0)}</small>{/if}
     </label>
     {if $topic.has_children}
-        <a class="float-right" aria-label="More items" href="#side-search-more-topic-{$topic.item.node_id}" data-toggle="collapse" aria-expanded="{*if $checked}true{else*}false{*/if*}" aria-controls="side-search-more-topic-{$topic.item.node_id}">
-            {display_icon('it-more-items', 'svg', 'icon icon-primary right icon-sm ml-2')}
+        <a class="float-right" aria-label="More items" href="#side-search-more-topic-{$topic.item.node_id}" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="{*if $checked}true{else*}false{*/if*}" aria-controls="side-search-more-topic-{$topic.item.node_id}">
+            {display_icon('it-more-items', 'svg', 'icon icon-primary right icon-sm ml-2 ms-2')}
         </a>
     {/if}
 </div>
 {if $topic.has_children}
-    <div class="pl-2 collapse{*if $checked} show{/if*}" id="side-search-more-topic-{$topic.item.node_id}">
+    <div class="pl-2 ps-2 collapse{*if $checked} show{/if*}" id="side-search-more-topic-{$topic.item.node_id}">
         {foreach $topic.children as $child}
             {set $recursion = $recursion|inc()}
             {include name="topic_search_input" uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=cond(menu_item_tree_contains($child,$selected), true(), false()) selected=$selected recursion=$recursion}

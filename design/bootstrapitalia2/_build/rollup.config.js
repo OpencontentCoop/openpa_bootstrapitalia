@@ -117,6 +117,20 @@ export default [
       scss({
         output: '../stylesheets/default.css',
         outputStyle: 'compressed',
+        sourceMap: true,
+        watch: 'src/scss',
+      }),
+    ],
+  },
+  {
+    input: 'src/scss/cagliari.scss',
+    output: {
+      dir: '../stylesheets',
+    },
+    plugins: [
+      scss({
+        output: '../stylesheets/cagliari.css',
+        outputStyle: 'compressed',
         watch: 'src/scss',
       }),
     ],

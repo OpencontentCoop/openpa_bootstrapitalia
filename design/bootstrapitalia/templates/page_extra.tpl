@@ -17,7 +17,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="offset-md-12 col-sm-12 text-center pb12 search-gui-header">
-                            <button class="close float-left mt-1" type="button" data-dismiss="modal" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
+                            <button class="close float-left mt-1" type="button" data-dismiss="modal" data-bs-dismiss="modal" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
                                 {display_icon('it-arrow-left-circle', 'svg', 'icon')}
                             </button>
                             <button class="back-to-search hide float-left mt-1" type="button">
@@ -53,22 +53,22 @@
 
                                 <div class="search-filter-by-section mt-4">
                                     <h6 class="small">{'Sections'|i18n('openpa/search')}</h6>
-                                    <a href="#" class="btn btn-outline-primary btn-icon btn-xs mr-2 mb-2 selected"
+                                    <a href="#" class="btn btn-outline-primary btn-icon btn-xs mr-2 me-2 mb-2 selected"
                                        data-subtree_group="all">{'All'|i18n('bootstrapitalia')}</a>
                                     {foreach $top_menu_node_ids as $id}
                                         {def $top_menu_node = fetch(content, node, hash(node_id, $id))}
                                         <a href="#"
-                                           class="btn btn-outline-primary btn-icon btn-xs mr-2 mb-2"
+                                           class="btn btn-outline-primary btn-icon btn-xs mr-2 me-2 mb-2"
                                            data-subtree_group="{$id}">
                                             {if $top_menu_node|has_attribute('icon')}
-                                                {display_icon($top_menu_node|attribute('icon').content|wash(), 'svg', 'icon icon-primary mr-1')}
+                                                {display_icon($top_menu_node|attribute('icon').content|wash(), 'svg', 'icon icon-primary mr-1 me-1')}
                                             {/if}
                                             {$top_menu_node.name|wash()}
                                         </a>
                                         {undef $top_menu_node}
                                     {/foreach}
                                     <a href="#"
-                                       class="btn btn-outline-primary btn-icon btn-xs mr-2 mb-2 px-3 trigger-subtree">...</a>
+                                       class="btn btn-outline-primary btn-icon btn-xs mr-2 me-2 mb-2 px-3 trigger-subtree">...</a>
                                 </div>
 
                                 <div class="search-filter-by-topic mt-5">
@@ -99,19 +99,19 @@
                                 <div class="col-12">
                                     <ul class="nav nav-tabs auto">
                                         <li class="nav-item">
-                                            <a data-toggle="tab" class="nav-link active"
+                                            <a data-toggle="tab" data-bs-toggle="tab" class="nav-link active"
                                                href="#filter-by-section">
                                                 {'Sections'|i18n('openpa/search')}
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a data-toggle="tab" class="nav-link"
+                                            <a data-toggle="tab" data-bs-toggle="tab" class="nav-link"
                                                href="#filter-by-topic">
                                                 {$topic_menu_label|wash()}
                                             </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a data-toggle="tab" class="nav-link"
+                                            <a data-toggle="tab" data-bs-toggle="tab" class="nav-link"
                                                href="#filter-by-option">
                                                 {'Options'|i18n('openpa/search')}
                                             </a>

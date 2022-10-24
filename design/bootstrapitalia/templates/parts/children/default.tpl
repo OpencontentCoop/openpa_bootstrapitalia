@@ -87,7 +87,7 @@
                             })
                             e.preventDefault();
                         });
-                    let cancelButton = $('<a href="#" class="pull-right btn btn-xs btn-info py-1 px-2 text-sans-serif mt-2 mr-2">Annulla</a>')
+                    let cancelButton = $('<a href="#" class="pull-right btn btn-xs btn-info py-1 px-2 text-sans-serif mt-2 mr-2 me-2">Annulla</a>')
                         .appendTo(editContainer)
                         .on('click', function (e) {
                             editContainer.remove();

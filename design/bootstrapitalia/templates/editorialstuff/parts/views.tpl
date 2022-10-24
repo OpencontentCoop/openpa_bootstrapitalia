@@ -4,7 +4,7 @@
         <section id="grid" class="tab-pane {if $views[0]|eq('grid')}active {/if}{$view_style} pt-0"></section>
     {/if}
     {if $views|contains('list')}
-        <section id="list" class="tab-pane {if $views[0]|eq('list')}active {/if}{$view_style} pt-0 pl-0"></section>
+        <section id="list" class="tab-pane {if $views[0]|eq('list')}active {/if}{$view_style} pt-0 pl-0 ps-0"></section>
     {/if}
     {if $views|contains('geo')}
         <section id="geo" class="tab-pane {if $views[0]|eq('geo')}active {/if}p-0">

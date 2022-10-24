@@ -103,3 +103,39 @@
     }
   }
 }
+
+.modal-fullscreen {
+  margin-top: 0 !important;
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    margin: 0;
+
+    .modal-content {
+      height: 100%;
+      overflow-y: auto;
+    }
+  }
+}
+
+.relations-searchbox div.list-wrapper{
+  padding-left: 0;
+}
+
+.ezcca-edit-datatype-ezimage .col-md-6{
+  position: relative;
+}
+
+.alpaca-container .alpaca-container-label,
+.alpaca-container-item legend.alpaca-container-label,
+.alpaca-form .form-group label{
+  font-size: 1em !important;
+  font-weight: 600 !important;
+  color: #000;
+}
+
+.alpaca-container-item:not(:first-child),
+.alpaca-control-buttons-container{
+  margin-top: 40px !important;
+}

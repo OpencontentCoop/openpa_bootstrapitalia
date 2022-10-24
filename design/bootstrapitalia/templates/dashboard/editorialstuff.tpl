@@ -48,7 +48,7 @@
                         {if and($show, ezini_hasvariable( $factory, 'CreationButtonText', 'editorialstuff.ini' ))}
                         <a class="btn btn-primary btn-md text-nowrap"
                            href="{concat('editorialstuff/add/',$factory)|ezurl(no)}">
-                            <i aria-hidden="true" class="fa fa-plus mr-2"></i> {ezini( $factory, 'CreationButtonText', 'editorialstuff.ini' )|wash()}
+                            <i aria-hidden="true" class="fa fa-plus mr-2 me-2"></i> {ezini( $factory, 'CreationButtonText', 'editorialstuff.ini' )|wash()}
                         </a>
                         {/if}
                     </td>

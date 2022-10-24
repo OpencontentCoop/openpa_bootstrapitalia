@@ -4,7 +4,7 @@
 ))}
 <div data-object_id="{$node.contentobject_id}" class="d-flex align-items-stretch position-relative">
     {if $node|has_attribute('image')}
-        <a class="mr-3" href="{$openpa.content_link.full_link}">
+        <a class="mr-3 me-3" href="{$openpa.content_link.full_link}">
             {attribute_view_gui image_class=$image_class
                                 attribute=$node|attribute('image')
                                 href=false()

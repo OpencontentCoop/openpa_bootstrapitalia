@@ -225,11 +225,11 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="clearfix">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
                 </div>
                 <div class="clearfix pb-5">
                     {include uri='design:newsletter/informativa.tpl'}
-                    <a class="btn btn-info pull-right" href="#" data-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">{'Close'|i18n('bootstrapitalia')}</a>
+                    <a class="btn btn-info pull-right" href="#" data-dismiss="modal" data-bs-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">{'Close'|i18n('bootstrapitalia')}</a>
                 </div>
             </div>
         </div>

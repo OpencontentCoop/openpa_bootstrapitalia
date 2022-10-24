@@ -1,5 +1,5 @@
 <header class="it-header-wrapper it-header-sticky" data-bs-toggle="sticky" data-bs-position-type="fixed" data-bs-sticky-class-name="is-sticky" data-bs-target="#header-nav-wrapper">
-
+    {include uri='design:page_toolbar.tpl'}
     {include uri='design:header/service.tpl'}
 
     <div class="it-nav-wrapper">

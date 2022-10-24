@@ -30,7 +30,7 @@
 <form class="mt-3 mb-5" action="{'content/search'|ezurl(no)}" method="get">
     
     <div class="d-block d-lg-none d-xl-none text-center">
-        <a href="#categoryCollapse" role="button" class="btn btn-primary btn-lg text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="categoryCollapse">{'Filters'|i18n('bootstrapitalia')}</a>
+        <a href="#categoryCollapse" role="button" class="btn btn-primary btn-lg text-uppercase collapsed" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="categoryCollapse">{'Filters'|i18n('bootstrapitalia')}</a>
     </div>
 
     <div class="row">
@@ -38,14 +38,14 @@
             <div class="d-lg-block d-xl-block collapse mt-5" id="categoryCollapse">
                 
                 <div class="form-group floating-labels">
-                    <div class="form-label-group pr-2">
+                    <div class="form-label-group pr-2 pe-2 pe-2">
                         <input type="text"
-                               class="form-control pl-0"
+                               class="form-control pl-0 ps-0"
                                id="search-text"
                                name="SearchText"
                                value="{$params.text|wash()}"
                                placeholder="{'Search text'|i18n('bootstrapitalia/documents')}"/>
-                        <label class="pl-0" for="search-text">{'Search'|i18n('openpa/search')}</label>
+                        <label class="pl-0 ps-0" for="search-text">{'Search'|i18n('openpa/search')}</label>
                         <button type="submit" class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
                             {display_icon('it-search', 'svg', 'icon')}
                         </button>
@@ -77,13 +77,13 @@
                             <input name="Subtree[]" data-checkbox-container id="subtree-{$tree_menu.item.node_id}" value="{$tree_menu.item.node_id|wash()}" {if or($params.subtree|contains($id), and($display, $has_children|not()))}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
                             <label class="custom-control-label"{if $has_children} style="max-width: 80%"{/if} for="subtree-{$tree_menu.item.node_id}">{$tree_menu.item.name|wash()} {if is_set($subtree_facets[$id])}<small>({$subtree_facets[$id]})</small>{/if}</label>
                             {if $has_children}
-                            <a class="float-right" aria-label="More items" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
+                            <a class="float-right" aria-label="More items" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
                                 {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
                             </a>
                             {/if}
                         </div>
                         {if $has_children}
-                        <div class="pl-4 collapse{*if $display} show{/if*}" id="more-subtree-{$tree_menu.item.node_id}">
+                        <div class="pl-4 ps-4 collapse{*if $display} show{/if*}" id="more-subtree-{$tree_menu.item.node_id}">
                             {foreach $tree_menu.children as $child}
                                 {if $child.item.node_id|eq($tree_menu.item.node_id)}{skip}{/if} {*tag menu*}
                                 <div class="form-check custom-control custom-checkbox m-0">
@@ -158,7 +158,7 @@
 
                         {* altri argomenti collassati *}
                         {if $count|lt($total)}
-                            <a href="#more-topics" aria-label="More items" data-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
+                            <a href="#more-topics" aria-label="More items" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
                                 {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
                             </a>
                             <div class="collapse" id="more-topics">

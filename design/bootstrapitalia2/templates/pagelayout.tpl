@@ -27,14 +27,10 @@
     {/if}
 
     {def $theme = current_theme()
-         $main_content_class = ''
          $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
          $has_section_menu = cond(is_set($module_result.content_info.persistent_variable.has_section_menu), true(), false())
          $has_sidemenu = cond(and(is_set($module_result.content_info.persistent_variable.has_sidemenu), $module_result.content_info.persistent_variable.has_sidemenu), true(), false())
          $avail_translation = language_switcher( $site.uri.original_uri )}
-    {if $has_container|not()}
-        {set $main_content_class = 'container px-4 my-4'}
-    {/if}
 
     {debug-accumulator id=page_head name=page_head}
     <meta charset="utf-8">
@@ -84,14 +80,15 @@
 
 <main>
     {if openpacontext().show_breadcrumb}
-        {if $has_container}<div class="container" id="main-container">{/if}
-        {debug-accumulator id=breadcrumb name=breadcrumb has_sidemenu=$has_sidemenu}
+        {debug-accumulator id=breadcrumb name=breadcrumb has_sidemenu=$has_sidemenu has_container=$has_container}
         {include uri='design:breadcrumb.tpl' path_array=openpacontext().path_array}
         {/debug-accumulator}
-        {if $has_container}</div>{/if}
     {/if}
 
-    {include uri='design:page_mainarea.tpl'}
+    {if $has_container|not()}<div class="container px-4 my-4">{/if}
+        {include uri='design:page_mainarea.tpl'}
+    {if $has_container|not()}</div>{/if}
+
 </main>
 
 {if and(openpacontext().is_login_page|not(), openpacontext().is_edit|not())}
@@ -107,7 +104,7 @@
 
 {include uri='design:page_footer_script.tpl'}
 
-{*{include uri='design:parts/load_global_website_toolbar.tpl' current_user=fetch(user, current_user)}*}
+{include uri='design:parts/load_global_website_toolbar.tpl' current_user=fetch(user, current_user)}
 
 </body>
 
