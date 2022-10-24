@@ -203,3 +203,7 @@ div.split div.three-center {
 .controlbar > .block > .right {
   @extend .col-6;
 }
+
+td.tight, th.tight{
+  width: 1px;
+}
