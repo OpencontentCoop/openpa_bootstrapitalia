@@ -135,7 +135,7 @@ function OpenCityFullCalendarInit(baseUrl, language, BlockCalendarEndpoint, Cale
         }
     }
 
-    console.log(baseUrl, language, BlockCalendarEndpoint, CalendarId, CalendarView, MaxEvents, options);
+    // console.log(baseUrl, language, BlockCalendarEndpoint, CalendarId, CalendarView, MaxEvents, options);
 
     return new FullCalendar.Calendar(calendarEl, options);
 }

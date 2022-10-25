@@ -4,7 +4,10 @@
     'span_class', false(),
     'text_wrap_start', '',
     'text_wrap_end', '',
+    'icon_wrap_start', '',
+    'icon_wrap_end', '',
     'show_icon', false(),
+    'icon_class', 'icon icon-sm mr-2 me-2',
     'shorten', false()
 ))}
 {if $show_icon}
@@ -16,7 +19,9 @@
    {if or($node.class_identifier|eq('shared_link'), $openpa.content_link.target)}target="_blank" rel="noopener noreferrer"{/if}>
     {if $span_class}<span class="{$span_class}">{/if}
     {if and($show_icon, $openpa.content_icon.icon)}
-        {display_icon($openpa.content_icon.icon.icon_text|wash(), 'svg', 'icon icon-sm mr-2 me-2')}
+        {$icon_wrap_start}
+        {display_icon($openpa.content_icon.icon.icon_text|wash(), 'svg', $icon_class)}
+        {$icon_wrap_end}
     {/if}
     {$text_wrap_start}
     {if and( is_set( $text ), $text|ne('') )}
@@ -39,6 +44,9 @@
     'a_class',
     'span_class',
     'text_wrap_start',
-    'text_wrap_end'
+    'text_wrap_end',
+    'icon_wrap_start',
+    'icon_wrap_end',
+    'icon_class'
 ))}
 {undef $openpa}

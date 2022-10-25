@@ -14,11 +14,7 @@
     'stacktable.js',
     'jsrender.js',
     'jquery.faqs.js',
-    'jquery.sharedlink.js'
-)}
-{*
-,
-
+    'jquery.sharedlink.js',
     'leaflet/leaflet.0.7.2.js',
     'leaflet/Control.Geocoder.js',
     'leaflet/Control.Loading.js',
@@ -27,10 +23,8 @@
     'leaflet/leaflet.markercluster.js',
     'jquery.dataTables.js',
     'dataTables.bootstrap4.min.js',
-    'jquery.opendataDataTable.js',
-    'jquery.blueimp-gallery.min.js',
-
-*}
+    'jquery.blueimp-gallery.min.js'
+)}
 {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', ezini('RegionalSettings', 'Locale') ))}
 {def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
 {debug-log var=concat('Regional settings: ', ezini('RegionalSettings', 'Locale'), ' Http locale: ', $current_locale.http_locale_code, ' Moment: ', $moment_language) msg='Current language'}

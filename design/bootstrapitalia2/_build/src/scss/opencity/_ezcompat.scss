@@ -60,7 +60,7 @@ div.embed {
 
 .button {
   @extend .btn;
-  @extend .btn-secondary;
+  @extend .btn-info;
   @extend .btn-xs;
 }
 
@@ -69,6 +69,12 @@ li.button a {
 }
 
 .defaultbutton {
+  @extend .btn;
+  @extend .btn-primary;
+  @extend .btn-xs;
+}
+
+.button-disabled {
   @extend .btn;
   @extend .btn-primary;
   @extend .btn-xs;
