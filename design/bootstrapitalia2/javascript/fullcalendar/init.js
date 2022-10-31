@@ -80,6 +80,10 @@ function OpenCityFullCalendarInit(baseUrl, language, BlockCalendarEndpoint, Cale
                         }
                     }
                 },
+                dayHeaderContent: function (arg) {
+                    var date = arg.date;
+                    return {'html': '<div class="day-title text-uppercase"><span>' + moment(date).format('ddd') + '</span></div>'};
+                },
                 windowResize: function (view) {
                     var windowWidth = $(window).width();
                     if (windowWidth < 800) {
@@ -96,6 +100,11 @@ function OpenCityFullCalendarInit(baseUrl, language, BlockCalendarEndpoint, Cale
                     dayGridWeek: {
                         dayMaxEventRows : MaxEvents
                     }
+                },
+                aspectRatio: 3,
+                dayHeaderContent: function (arg) {
+                    var date = arg.date;
+                    return {'html': '<div class="day-title text-uppercase">' + moment(date).format('D') + '<span>' + moment(date).format('ddd') + '</span></div>'};
                 },
                 windowResize: function (view) {
                     var windowWidth = $(window).width();

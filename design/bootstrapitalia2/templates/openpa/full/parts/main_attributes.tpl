@@ -3,7 +3,7 @@
 {def $datetime_attributes = array()}
 {foreach $main_attributes as $identifier}
 	{if and(or($identifier|eq('alternative_name'), $identifier|eq('alt_name')), is_set($openpa[$identifier].contentobject_attribute))}
-		<p class="lead"><strong>{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute image_class=reference alignment=center}</strong></p>
+		<p class="subtitle-small mb-3">{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute image_class=reference alignment=center}</p>
 	{/if}
 	{if array('alternative_name','alt_name','content_show_published','content_show_modified','reading_time')|contains($identifier)}{skip}{/if}
 	{if is_set($openpa[$identifier].contentobject_attribute)}

@@ -12,6 +12,8 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
 
     private $hiddenList;
 
+    private $evidenceList;
+
     public function getIdentifier()
     {
         return 'attribute_group';
@@ -33,6 +35,7 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
         $attributes[] = 'hidden_list';
         $attributes[] = 'translations';
         $attributes[] = 'current_translation';
+        $attributes[] = 'evidence_list';
 
         $groupList = $this->getGroupList();        
         foreach ($groupList as $identifier => $name) {
@@ -118,6 +121,26 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
         return $this->hiddenList;
     }
 
+    private function getEvidenceList()
+    {
+        if ($this->evidenceList === null) {
+            $evidenceList = array();
+            foreach ($this->parameters as $parameter) {
+                if ($parameter->attribute('attribute_identifier') == '*' && $parameter->attribute('key') != 'enabled') {
+                    $key = $parameter->attribute('key');
+                    if (strpos($key, 'evidence:') !== false) {
+                        $key = str_replace('evidence::', '', $key);
+                        $evidenceList[$key] = $parameter->attribute('value');
+                    }
+                }
+            }
+            asort($evidenceList);
+            $this->evidenceList = $evidenceList;
+        }
+
+        return $this->evidenceList;
+    }
+
     private function getTranslations()
     {
         if ($this->translationList === null) {
@@ -174,6 +197,10 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
 
         if ($key == 'sort_list') {
             return $this->getSortList();
+        }
+
+        if ($key == 'evidence_list') {
+            return $this->getEvidenceList();
         }
 
         if ($key == 'hidden_list') {

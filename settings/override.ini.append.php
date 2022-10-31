@@ -256,6 +256,14 @@ MatchFile=datatype/view/matrix_social.tpl
 Subdir=templates
 Match[attribute_identifier]=social
 
+[datatype_view_public_service_has_channel]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_public_service_has_channel.tpl
+Subdir=templates
+Match[class_identifier]=public_service
+Match[attribute_identifier]=has_channel
+
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################

@@ -17,13 +17,14 @@
 	{/case}
 {/switch}
 {def $openpa = object_handler($block)}
+{def $lista_paginata_items_per_row = cond(is_set($block.custom_attributes.elementi_per_riga), $block.custom_attributes.elementi_per_riga, 3)}
 {if $openpa.has_content}
 	<div class="hide"
 		 data-view="{$view}"
 		 data-block_subtree_query="{$openpa.query}"
 		 data-subtree_filter="{$openpa.subtree_facet_filter}"
 		 data-limit="{$openpa.limit}"
-		 data-items_per_row="{cond(is_set($block.custom_attributes.elementi_per_riga), $block.custom_attributes.elementi_per_riga, 3)}"
+		 data-items_per_row="{$lista_paginata_items_per_row}"
 		 {if and($openpa.root_node, $openpa.root_node|has_attribute('icon'))}data-icon="{$openpa.root_node|attribute('icon').content}"{/if}>
 		<div class="row row-title">
 			{if $block.name|ne('')}
@@ -60,30 +61,32 @@
 {run-once}
 {literal}
 <script id="tpl-results" type="text/x-jsrender">    	
-	<div class="{{if itemsPerRow == 'auto'}}card-columns{{else}}row card-h-100 mx-lg-n3 row-cols-1 row-cols-md-2 row-cols-lg-{{:itemsPerRow}}{{/if}}">
-	{{for searchHits ~contentIcon=icon ~itemsPerRow=itemsPerRow}}
-		{{if ~itemsPerRow !== 'auto'}}<div class="px-3 pb-3">{{/if}}
-		{{if ~i18n(extradata, 'view')}}
-			{{:~i18n(extradata, 'view')}}
-		{{else}}
-			<a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}" class="card card-teaser rounded shadow" style="text-decoration:none !important">
-				<div class="card-body">
-					{{if ~contentIcon && subtree}}
-					<div class="category-top">
-						<svg class="icon">
-							<use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#{{:~contentIcon}}"></use>
-						</svg>
-						<span class="category" href="{{:subtree.url}}">{{:subtree.text}}</span>
+	<div class="row mx-lg-n3"{{if itemsPerRow == 'auto'}} data-bs-toggle="masonry"{{/if}}>
+		{{if itemsPerRow != 'auto'}}<div class="card-wrapper card-teaser-wrapper card-teaser-block-{{:itemsPerRow}}">{{/if}}
+		{{for searchHits ~contentIcon=icon ~itemsPerRow=itemsPerRow}}
+		{{if ~itemsPerRow == 'auto'}}<div class="col-sm-6 col-lg-4 mb-4 card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper">{{/if}}
+			{{if ~i18n(extradata, 'view')}}
+				{{:~i18n(extradata, 'view')}}
+			{{else}}
+				<a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}" class="card card-teaser rounded shadow" style="text-decoration:none !important">
+					<div class="card-body">
+						{{if ~contentIcon && subtree}}
+						<div class="category-top">
+							<svg class="icon">
+								<use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#{{:~contentIcon}}"></use>
+							</svg>
+							<span class="category" href="{{:subtree.url}}">{{:subtree.text}}</span>
+						</div>
+						{{/if}}
+						<h5 class="card-title">
+							{{:~i18n(metadata.name)}}
+						</h5>
 					</div>
-					{{/if}}
-					<h5 class="card-title">
-						{{:~i18n(metadata.name)}}
-					</h5>
-				</div>
-			</a>
-		{{/if}}
-		{{if ~itemsPerRow !== 'auto'}}</div>{{/if}}
-	{{/for}}
+				</a>
+			{{/if}}
+		{{if ~itemsPerRow == 'auto'}}</div>{{/if}}
+		{{/for}}
+		{{if itemsPerRow != 'auto'}}</div>{{/if}}
 	</div>
 	{{if pageCount > 1}}
 	<div class="row mt-lg-4">
@@ -123,4 +126,4 @@
 {/run-once}
 
 
-{undef $openpa}
+{undef $openpa $lista_paginata_items_per_row}

@@ -9,15 +9,19 @@
     'exclude_classes', array()
 ))}
 
+{def $need_card_wrapper = cond(array('card_teaser', 'banner_color', 'card_children')|contains($i_view), true(), false())}
+
 {if $items_per_row|eq('auto')}
 
-    {if $grid_wrapper}<div class="card-columns">{/if}
+    {if $grid_wrapper}<div class="{$grid_wrapper_class}" data-bs-toggle="masonry">{/if}
     {foreach $items as $child }
-        {node_view_gui content_node=$child view=$i_view image_class=$image_class show_icon=$show_icon view_variation=$view_variation exclude_classes=$exclude_classes}
+        <div class="col-sm-6 col-lg-4 mb-4{if $need_card_wrapper} card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{/if}">
+            {node_view_gui content_node=$child view=$i_view image_class=$image_class show_icon=$show_icon view_variation=$view_variation exclude_classes=$exclude_classes}
+        </div>
     {/foreach}
     {if $grid_wrapper}</div>{/if}
 
-{elseif and(array('2','3','4')|contains($items_per_row), array('card_teaser', 'banner_color')|contains($i_view))}
+{elseif and(array('2','3','4')|contains($items_per_row), $need_card_wrapper)}
 
     {if $grid_wrapper}<div class="{$grid_wrapper_class}">{/if}
     <div class="card-wrapper px-0 card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{$items_per_row}">
@@ -32,7 +36,7 @@
     {def $col = 12|div($items_per_row)}
     {if $grid_wrapper}<div class="{$grid_wrapper_class}">{/if}
         {foreach $items as $child }
-        <div class="col-md-6 col-lg-{$col}">
+        <div class="col-md-6 col-lg-{$col}{if $need_card_wrapper} card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{/if}">
             {node_view_gui content_node=$child view=$i_view image_class=$image_class show_icon=$show_icon view_variation=$view_variation exclude_classes=$exclude_classes}
         </div>
         {/foreach}

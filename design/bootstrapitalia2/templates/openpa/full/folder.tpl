@@ -1,7 +1,7 @@
 {ezpagedata_set( 'has_container', true() )}
 {ezpagedata_set( 'has_sidemenu', false() )}
 
-<section class="container">
+<div class="container">
     <div class="row justify-content-center row-shadow">
         <div class="col-12 col-lg-10">
             <div class="cmp-hero">
@@ -19,6 +19,6 @@
             </div>
         </div>
     </div>
-</section>
+</div>
 
 {include uri='design:parts/children/default.tpl' view_variation='py-5' view_parameters=$view_parameters}

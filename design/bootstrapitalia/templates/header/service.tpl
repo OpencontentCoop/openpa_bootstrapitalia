@@ -250,7 +250,7 @@
                 })
             });
         }
-        $('[data-toggle="tooltip" data-bs-toggle="tooltip"]').tooltip();
+        $('[data-toggle="tooltip"]').tooltip();
         var trimmedPrefix = UriPrefix.replace(/~+$/g,"");
         if(trimmedPrefix === '/') trimmedPrefix = '';
         var spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";

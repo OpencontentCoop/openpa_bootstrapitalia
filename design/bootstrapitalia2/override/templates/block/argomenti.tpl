@@ -7,7 +7,6 @@
 	{/if}
     {undef $image}
 {/if}
-{set $background_image = false()}
 {def $exclude_classes = array()}
 {if and(is_set($block.custom_attributes.exclude_classes), $block.custom_attributes.exclude_classes|ne(''))}
 	{set $exclude_classes = $block.custom_attributes.exclude_classes|explode(',')}
@@ -18,6 +17,7 @@
 		{set $valid_topics = $valid_topics|append($valid_node)}
 	{/if}
 {/foreach}
+
 {if $valid_topics|count()}
 <div class="section pt-5 pb-0 px-lg-5 position-relative{if $background_image}" style="background-image: url({$background_image});{else} bg-placeholder{/if}">
 	<div class="container">
@@ -49,8 +49,8 @@
 					</div>
 				</div>
 			</div>
-			{/if}
 			{undef $line_topics}
+			{/if}
 			<div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2 text-center">
 				<a href="{$parent.url_alias|ezurl(no)}" class="btn btn-primary mt-40">{'View all'|i18n('bootstrapitalia')}</a>
 			</div>

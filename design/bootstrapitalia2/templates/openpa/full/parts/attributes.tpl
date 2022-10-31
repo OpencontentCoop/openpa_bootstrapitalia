@@ -68,52 +68,63 @@
 {/if}
 
 {if count($summary_items)|gt(0)}
-    <div class="row{if and(count($summary_items)|gt(1), $hide_index|not())} border-top row-column-border row-column-menu-left{/if} attribute-list">
+    <div class="row{if and(count($summary_items)|gt(1), $hide_index|not())} row-column-menu-left mt-4 mt-lg-80 pb-lg-80 pb-40{/if} attribute-list">
         {if and(count($summary_items)|gt(1), $hide_index|not())}
-        <aside class="col-lg-4">
-            <div class="sticky-wrapper navbar-wrapper">
-                <nav class="navbar it-navscroll-wrapper it-top-navscroll navbar-expand-lg">
-                    <button class="custom-navbar-toggler" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" title="Toggle navigation" data-target="#navbarNav">
-                        <span class="it-list"></span> {$summary_text|wash()}
-                    </button>
-                    <div class="navbar-collapsable" id="navbarNav">
-                        <div class="overlay"></div>
-                        <div class="close-div sr-only">
-                            <button class="btn close-menu" type="button" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
-                                <span class="it-close"></span> {$close_text|wash()}
-                            </button>
-                        </div>
-                        <a class="it-back-button" href="#">
-                            {display_icon('it-chevron-left', 'svg', 'icon icon-sm icon-primary align-top')}
-                            <span>{$close_text|wash()}</span>
-                        </a>
+        <div class="col-12 col-lg-3 mb-4 border-col">
+            <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one">
+                <nav class="navbar it-navscroll-wrapper navbar-expand-lg" data-bs-navscroll="">
+                    <div class="navbar-custom" id="navbarNavProgress">
                         <div class="menu-wrapper">
-                            <div class="link-list-wrapper menu-link-list">
-                                <h3 class="no_toc">{$summary_text|wash()}</h3>
-                                <ul class="link-list">
-                                    {foreach $summary_items as $index => $item}
-                                        <li class="nav-item{if $index|eq(0)} active{/if}">
-                                            <a class="nav-link{if $index|eq(0)} active{/if}" href="#{$item.slug|wash()}"><span>{$item.title|wash()}</span></a>
-                                        </li>
-                                    {/foreach}
-                                </ul>
+                            <div class="link-list-wrapper">
+                                <div class="accordion">
+                                    <div class="accordion-item">
+                                      <span class="accordion-header" id="accordion-title-one">
+                                        <button class="accordion-button pb-10 px-3 text-uppercase" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#collapse-one" aria-expanded="true"
+                                                aria-controls="collapse-one"
+                                                data-focus-mouse="false">
+                                            {$summary_text|wash()}
+                                            {display_icon('it-expand', 'svg', 'icon icon-xs right')}
+                                        </button>
+                                      </span>
+                                        <div class="progress">
+                                            <div class="progress-bar it-navscroll-progressbar" role="progressbar"
+                                                 aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                                 style="width: 0;"></div>
+                                        </div>
+                                        <div id="collapse-one" class="accordion-collapse collapse show" role="region" aria-labelledby="accordion-title-one">
+                                            <div class="accordion-body">
+                                                <ul class="link-list" data-element="page-index">
+                                                    {foreach $summary_items as $index => $item}
+                                                    <li class="nav-item">
+                                                        <a class="nav-link{if $index|eq(0)} active{/if}" href="#{$item.slug|wash()}">
+                                                            <span class="title-medium">{$item.title|wash()}</span>
+                                                        </a>
+                                                    </li>
+                                                    {/foreach}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </nav>
             </div>
-        </aside>
+        </div>
         {/if}
-        <section class="{if or(count($summary_items)|eq(1), $hide_index)}col w-100 px-lg-4 pb-lg-4{else}col-lg-8{/if}">
+
+        <div class="{if or(count($summary_items)|eq(1), $hide_index)}col w-100 px-lg-4 pb-lg-4{else}col-12 col-lg-8 offset-lg-1{/if}">
+            <div class="it-page-sections-container">
             {foreach $summary_items as $index => $item}
-                <article id="{$item.slug|wash()}" class="it-page-section mb-4 {if and(count($summary_items)|gt(1), $hide_index|not())}anchor-offset {/if}clearfix" {*if $index|eq(0)} class="anchor-offset"{/if*}>
+                <section id="{$item.slug|wash()}" class="it-page-section mb-30{if $attribute_groups.evidence_list|contains($item.slug)} has-bg-grey p-3{/if}">
                     {if and(count($summary_items)|gt(1), $attribute_groups.hidden_list|contains($item.slug)|not())}
-                    <h4>{$item.title|wash()}</h4>
+                    <h2 class="title-xxlarge mb-3">{$item.title|wash()}</h2>
                     {/if}
 
-                    {if $item.wrap}                    
-                    <div class="card-wrapper card-teaser-wrapper">
-                    {/if}
+                    <div class="richtext-wrapper lora{if $item.wrap} card-wrapper card-teaser-wrapper{/if}">
 
                     {foreach $item.attributes as $openpa_attribute}
 
@@ -125,12 +136,12 @@
                                     {$openpa_attribute.label|wash()}
                                 </div>
                             {/if}
-                            <div class="text-serif small neutral-1-color-a7">
+                            <div class="font-serif small neutral-1-color-a7">
                         {elseif and($openpa_attribute.full.show_label, $item.is_grouped)}
                             {if $openpa_attribute.full.collapse_label|not()}
-                                <h5 class="no_toc">{$openpa_attribute.label|wash()}</h5>
+                                <h3 class="my-3 subtitle-medium font-sans-serif">{$openpa_attribute.label|wash()}</h3>
                             {else}
-                                <h6 class="d-inline mr-2 me-2 font-weight-bold">{$openpa_attribute.label|wash()}:</h6>
+                                <h3 class="h5 d-inline mr-2 me-2 fw-bold">{$openpa_attribute.label|wash()}:</h3>
                             {/if}
                         {/if}
 
@@ -155,19 +166,11 @@
                         {/if}
                     {/foreach}
 
-                    {if $item.wrap}
                     </div>
-                    {/if}
 
-                </article>
+                </section>
             {/foreach}
-        </section>
+            </div>
+        </div>
     </div>
-    <script>{literal}$(document).ready(function () {
-        $('.menu-wrapper a.nav-link').on('click', function () {
-            $(this).addClass('active')
-                .parent().addClass('active')
-                .parents('.menu-wrapper').find('.active').not(this).removeClass('active')
-        })
-    }){/literal}</script>
 {/if}

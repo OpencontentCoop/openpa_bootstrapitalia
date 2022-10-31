@@ -14,7 +14,7 @@
     {/if}
 {/if}
 
-<section class="container">
+<div class="container">
     <div class="row justify-content-center{if $first_block_has_bg|not()} row-shadow{/if}">
         <div class="col-12 col-lg-10">
             <div class="cmp-hero">
@@ -38,7 +38,7 @@
             </div>
         </div>
     </div>
-</section>
+</div>
 
 {if and($current_view_tag|not(), $node|has_attribute('layout'))}
     {attribute_view_gui attribute=$node|attribute('layout')}

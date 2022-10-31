@@ -1,5 +1,13 @@
-<div class="section section-muted p-0 py-5 useful-links-section">
-    <div class="container">
+{def $background_image = false()}
+{if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
+    {def $image = fetch(content, node, hash(node_id, $block.custom_attributes.image))}
+    {if and($image, $image.class_identifier|eq('image'), $image|has_attribute('image'))}
+        {set $background_image = $image|attribute('image').content.original.full_path|ezroot(no)}
+    {/if}
+    {undef $image}
+{/if}
+<div class="section section-muted p-0 py-5 useful-links-section"{if and(count($block.valid_nodes)|eq(0), $background_image)} style="background-image: url({$background_image});background-position: center"{/if}>
+    <div class="container{if and(count($block.valid_nodes)|eq(0), $background_image)} py-5{/if}">
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-lg-6">
                 <div class="cmp-input-search">

@@ -192,6 +192,7 @@ a.chip.chip-lg {
   svg.icon {
     fill: $chips-label-color;
   }
+
   svg.filter-remove {
     transform: scale(2);
     width: 16px;
@@ -213,6 +214,7 @@ a.chip.chip-lg {
       color: $white;
       transition: color 0.1s;
     }
+
     //close button
     button {
       .icon {
@@ -220,6 +222,7 @@ a.chip.chip-lg {
         transition: fill 0.1s;
       }
     }
+
     //left icon
     & > .icon {
       fill: $white;
@@ -318,6 +321,20 @@ a.chip.chip-lg {
   z-index: 0;
 }
 
-#toogle-sidemenu a{
+#toogle-sidemenu a {
   text-decoration: none;
+}
+
+ul.list-inline,
+ul.link-list,
+.it-list-wrapper .it-list {
+  list-style-type: none !important;
+
+  li {
+    margin-left: 0 !important;
+  }
+}
+
+.card-wrapper.card-teaser-wrapper.card-teaser-masonry-wrapper .card-teaser{
+  flex: 0 0 100%;
 }
