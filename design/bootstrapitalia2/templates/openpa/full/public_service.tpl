@@ -18,7 +18,9 @@
                 </div>
             </div>
         </div>
+        {if $node|has_attribute('image')|not()}
         <hr class="d-none d-lg-block mt-2">
+        {/if}
     </div>
 </div>
 
