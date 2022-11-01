@@ -1,7 +1,8 @@
 {set_defaults(hash(
     'relation_view', 'list',
     'relation_has_wrapper', false(),
-    'context_class', false()
+    'context_class', false(),
+    'attribute_index', 0
 ))}
 
 {def $node_list = array()}
@@ -19,12 +20,22 @@
 
 {if count($node_list)|gt(0)}
     {if $relation_view|eq('list')}
-        {include uri='design:atoms/list_with_icon.tpl' items=$node_list}
+        {if $attribute.contentclass_attribute_identifier|eq('topics')}
+            {include uri='design:atoms/chip_list.tpl' items=$node_list data_element=cond($attribute.object.class_identifier|eq('public_service'), 'service-topic', false())}
+        {else}
+            {include uri='design:atoms/list_with_icon.tpl' items=$node_list}
+        {/if}
     {else}
-        {if $relation_has_wrapper|not()}<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">{/if}
+        {if $relation_has_wrapper|not()}<div class="card-wrapper card-teaser-wrapper" data-bs-toggle="masonry">{/if}
         {def $hide_title = cond(and(count($node_list)|eq(1), openpaini('HideRelationsTitle', 'AttributeIdentifiers', array())|contains($attribute.contentclass_attribute_identifier)), true(), false())}
-        {foreach $node_list as $child}
-            {node_view_gui content_node=$child view=card_teaser show_icon=true() hide_title=$hide_title image_class=widemedium}
+        {foreach $node_list as $index => $child}
+            {node_view_gui
+                content_node=$child
+                view=card_teaser_info
+                hide_title=$hide_title
+                attribute_index=sum($attribute_index, $index)
+                data_element=cond($attribute.object.class_identifier|eq('public_service'), 'service-area', false())
+                image_class=widemedium}
         {/foreach}
         {undef $hide_title}
         {if $relation_has_wrapper|not()}</div>{/if}
@@ -34,4 +45,4 @@
 
 {undef $node_list}
 
-{unset_defaults(array('relation_view', 'relation_has_wrapper'))}
+{unset_defaults(array('relation_view', 'relation_has_wrapper', 'attribute_index'))}

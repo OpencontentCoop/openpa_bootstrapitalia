@@ -124,9 +124,9 @@
                     <h2 class="title-xxlarge mb-3">{$item.title|wash()}</h2>
                     {/if}
 
-                    <div class="richtext-wrapper lora{if $item.wrap} card-wrapper card-teaser-wrapper{/if}">
+                    <div class="{if $item.wrap}card-wrapper card-teaser-wrapper" data-bs-toggle="masonry{/if}">
 
-                    {foreach $item.attributes as $openpa_attribute}
+                    {foreach $item.attributes as $attribute_index => $openpa_attribute}
 
                         {if $openpa_attribute.full.highlight}
                         <div class="callout important">
@@ -141,19 +141,30 @@
                             {if $openpa_attribute.full.collapse_label|not()}
                                 <h3 class="my-3 subtitle-medium font-sans-serif">{$openpa_attribute.label|wash()}</h3>
                             {else}
-                                <h3 class="h5 d-inline mr-2 me-2 fw-bold">{$openpa_attribute.label|wash()}:</h3>
+                                <span class="text-paragraph-small font-sans-serif">{$openpa_attribute.label|wash()}:</span>
                             {/if}
                         {/if}
 
                         {if is_set($openpa_attribute.contentobject_attribute)}
+                            {def $need_container = cond(
+                                and(
+                                    $item.wrap|not(),
+                                    array('ezobjectrelationlist')|contains($openpa_attribute.contentobject_attribute.data_type_string)|not()
+                                ),
+                                true(), false()
+                            )}
+                            {if $need_container}<div class="richtext-wrapper lora">{/if}
                             {attribute_view_gui attribute=$openpa_attribute.contentobject_attribute
                                                 view_context=full_attributes
                                                 image_class=medium
+                                                attribute_index=$attribute_index
                                                 context_class=$node.class_identifier
                                                 relation_view=cond($openpa_attribute.full.show_link|not, 'list', 'banner')
                                                 relation_has_wrapper=$item.wrap
                                                 show_link=$openpa_attribute.full.show_link
                                                 tag_view="chip-lg mr-2 me-2"}
+                            {if $need_container}</div>{/if}
+                            {undef $need_container}
                         {elseif and(is_set($openpa_attribute.template), $openpa_attribute.template)}
                             {include uri=$openpa_attribute.template}
                         {/if}
@@ -162,7 +173,7 @@
                             </div>
                         </div>
                         {elseif and($openpa_attribute.full.show_label, $item.is_grouped,$openpa_attribute.full.collapse_label)}
-                            <br />
+
                         {/if}
                     {/foreach}
 

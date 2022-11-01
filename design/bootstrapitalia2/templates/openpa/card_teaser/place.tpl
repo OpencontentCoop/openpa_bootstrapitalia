@@ -1,23 +1,28 @@
 {set_defaults(hash(
     'show_icon', false(),
+    'show_category', true(),
     'image_class', 'medium',
-    'view_variation', 'border-light',
+    'view_variation', 'border border-light',
     'hide_title', false()
 ))}
+
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
 {def $has_image = cond(and($attributes.show|contains('image'), $node|has_attribute('image')), true(), false())}
+
 <div data-object_id="{$node.contentobject_id}"
-     class="font-sans-serif card card-teaser{if $has_image} card-teaser-image card-flex{/if} no-after rounded shadow-sm mb-0 border border-light {$node|access_style}">
+    class="font-sans-serif card card-teaser{if $has_image} card-teaser-image card-flex{/if} no-after rounded shadow-sm mb-0 {$view_variation} {$node|access_style}">
     {if $has_image}
     <div class="card-image-wrapper{if $attributes.show|contains('content_show_read_more')} with-read-more{/if}">
     {/if}
-        <div class="card-body {if $has_image}p-3 {/if}pb-5">
-        {if $openpa.content_icon.context_icon.node}
-        <div class="category-top">
-            {if $show_icon}{display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}{/if}
-            <span class="title-xsmall-semi-bold fw-semibold">{$openpa.content_icon.context_icon.node.name|wash()}</span>
-        </div>
+
+    <div class="card-body {if $has_image}p-3 {/if}pb-5">
+        {if and($show_category, $openpa.content_icon.context_icon.node)}
+            <div class="category-top">
+                {if $show_icon}{display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}{/if}
+                {if $show_category}<span class="title-xsmall-semi-bold fw-semibold">{$openpa.content_icon.context_icon.node.name|wash()}</span>{/if}
+            </div>
         {/if}
+        {if $hide_title|not()}
         <h3 class="card-title text-paragraph-medium u-grey-light">
             {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
             {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
@@ -29,10 +34,12 @@
                 </a>
             {/if}
         </h3>
+        {/if}
         <div class="text-paragraph-card u-grey-light m-0">
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
         </div>
     </div>
+
     {if $has_image}
         <div class="card-image card-image-rounded pb-5">
             {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
@@ -46,5 +53,6 @@
         </a>
     {/if}
 </div>
-{undef $attributes $has_image}
+
+{undef $attributes}
 {unset_defaults(array('show_icon', 'image_class', 'view_variation', 'hide_title'))}
