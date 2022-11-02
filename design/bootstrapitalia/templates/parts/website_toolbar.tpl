@@ -186,7 +186,7 @@
                                             <div class="list-item left-icon">
                                                 <i aria-hidden="true" class="fa fa-code"></i> Linked Data
                                                 {foreach $onto_links as $slug => $link}
-                                                    <a href="{$link}" target="_blank" rel="noopener noreferrer"  title="{$slug|wash()}" class="badge badge-dark text-white d-inline px-1">{$slug|wash()}</a>
+                                                    <a href="{$link}" target="_blank" rel="noopener noreferrer"  title="{$slug|wash()}" class="badge badge-dark bg-dark text-white d-inline px-1">{$slug|wash()}</a>
                                                 {/foreach}
                                             </div>
                                         </li>
@@ -350,7 +350,7 @@
             {if openpaini('GeneralSettings', 'AnnounceKit')|ne('disabled')}
             <li>
                 <a class="btn position-relative" href="#" id="announce-news">
-                    <span class="badge badge-warning position-absolute pulsate" style="display: none;top: 0;right: 0;"></span>
+                    <span class="badge badge-warning bg-warning position-absolute pulsate" style="display: none;top: 0;right: 0;"></span>
                     <i aria-hidden="true" class="fa fa-bell"></i>
                     <span class="toolbar-label">{'News'|i18n( 'bootstrapitalia' )}</span>
                 </a>

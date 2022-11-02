@@ -9,9 +9,7 @@
 {/if}
 
 <div data-object_id="{$node.contentobject_id}"
-   {if $openpa.content_link.target}target="{$openpa.content_link.target|wash()}"{/if}
-   href="{$openpa.content_link.full_link}"
-   class="opencity-banner-color card card-teaser no-after rounded mt-0 p-3 {$background_color_class} {$view_variation}">
+     class="opencity-banner-color card card-teaser rounded mt-0 p-3 {$background_color_class} {$view_variation}">
     <div class="avatar size-lg me-3">
         {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
     </div>

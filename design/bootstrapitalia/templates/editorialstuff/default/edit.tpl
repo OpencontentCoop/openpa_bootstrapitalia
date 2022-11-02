@@ -16,7 +16,7 @@
                         <a class="text-decoration-none nav-link{if $index|eq(0)} active{/if}" data-toggle="tab" data-bs-toggle="tab" href="#{$tab.identifier}">
                             <span style="font-size: 1.2em">{$tab.name|wash()}</span>
                             {if $tab.identifier|eq('comments')}
-                                <span class="ml-1 ms-1 badge badge-light">{api_search(concat('classes [comment] subtree [',$post.node.node_id,'] limit 1')).totalCount}</span>
+                                <span class="ml-1 ms-1 badge badge-light bg-light">{api_search(concat('classes [comment] subtree [',$post.node.node_id,'] limit 1')).totalCount}</span>
                             {/if}
                         </a>
                     </li>

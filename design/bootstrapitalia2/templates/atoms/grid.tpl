@@ -2,7 +2,7 @@
     'items_per_row', 3,
     'i_view', 'card',
     'image_class', 'large',
-    'show_icon', true(),
+    'show_icon', false(),
     'view_variation', false(),
     'grid_wrapper', true(),
     'grid_wrapper_class', 'row mx-lg-n3',
@@ -36,7 +36,7 @@
     {def $col = 12|div($items_per_row)}
     {if $grid_wrapper}<div class="{$grid_wrapper_class}">{/if}
         {foreach $items as $child }
-        <div class="col-md-6 col-lg-{$col}{if $need_card_wrapper} card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{/if}">
+        <div class="col-md-6 col-lg-{$col} mb-4{if $need_card_wrapper} card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{/if}">
             {node_view_gui content_node=$child view=$i_view image_class=$image_class show_icon=$show_icon view_variation=$view_variation exclude_classes=$exclude_classes}
         </div>
         {/foreach}

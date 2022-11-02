@@ -14,10 +14,11 @@
         <div class="card-body {if $has_image}p-3 {/if}pb-5">
         {if $openpa.content_icon.context_icon.node}
         <div class="category-top">
-            {if $show_icon}{display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}{/if}
+            {if $show_icon}{display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon icon-sm')}{/if}
             <span class="title-xsmall-semi-bold fw-semibold">{$openpa.content_icon.context_icon.node.name|wash()}</span>
         </div>
         {/if}
+        {if $hide_title|not()}
         <h3 class="card-title text-paragraph-medium u-grey-light">
             {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
             {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
@@ -29,6 +30,7 @@
                 </a>
             {/if}
         </h3>
+        {/if}
         <div class="text-paragraph-card u-grey-light m-0">
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
         </div>

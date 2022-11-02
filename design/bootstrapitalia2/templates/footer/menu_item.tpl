@@ -19,7 +19,7 @@
         {else}
             {def $child_href = $child.item.url}
         {/if}
-        <li><a href="{$child_href}" title="{'Go to page'|i18n('bootstrapitalia')}: {$child.item.name|wash()}">{$child.item.name|wash()}</a></li>
+        <li><a {*data-element="{$child.item.remote_id}" *}href="{$child_href}" title="{'Go to page'|i18n('bootstrapitalia')}: {$child.item.name|wash()}">{$child.item.name|wash()}</a></li>
         {undef $child_href}
     {/foreach}
     {if and( $show_more, $count_children|gt($max|sum($offset)))}

@@ -82,6 +82,11 @@ class OpenPABootstrapItaliaIcon extends eZPersistentObject
         );
     }
 
+    public function setNode($node)
+    {
+        $this->node = $node;
+    }
+
     public function getNode()
     {
         if ($this->node === null){

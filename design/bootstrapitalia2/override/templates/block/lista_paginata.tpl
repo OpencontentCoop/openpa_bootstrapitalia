@@ -61,10 +61,10 @@
 {run-once}
 {literal}
 <script id="tpl-results" type="text/x-jsrender">    	
-	<div class="row mx-lg-n3"{{if itemsPerRow == 'auto'}} data-bs-toggle="masonry"{{/if}}>
-		{{if itemsPerRow != 'auto'}}<div class="card-wrapper card-teaser-wrapper card-teaser-block-{{:itemsPerRow}}">{{/if}}
-		{{for searchHits ~contentIcon=icon ~itemsPerRow=itemsPerRow}}
-		{{if ~itemsPerRow == 'auto'}}<div class="col-sm-6 col-lg-4 mb-4 card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper">{{/if}}
+	<div class="row mx-lg-n3{{if !autoColumn && itemsPerRow != 'auto'}} row-cols-1 row-cols-md-2 row-cols-lg-{{:itemsPerRow}}{{/if}}"{{if itemsPerRow == 'auto'}} data-bs-toggle="masonry"{{/if}}>
+		{{if autoColumn}}<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{{:itemsPerRow}}">{{/if}}
+		{{for searchHits ~contentIcon=icon ~itemsPerRow=itemsPerRow ~autoColumn=autoColumn}}
+		{{if !~autoColumn}}<div class="{{if ~itemsPerRow == 'auto'}}col-sm-6 col-lg-4 mb-4 card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{{else}}px-3 pb-3{{/if}}">{{/if}}
 			{{if ~i18n(extradata, 'view')}}
 				{{:~i18n(extradata, 'view')}}
 			{{else}}
@@ -84,9 +84,9 @@
 					</div>
 				</a>
 			{{/if}}
-		{{if ~itemsPerRow == 'auto'}}</div>{{/if}}
+		{{if !~autoColumn}}</div>{{/if}}
 		{{/for}}
-		{{if itemsPerRow != 'auto'}}</div>{{/if}}
+		{{if autoColumn}}</div>{{/if}}
 	</div>
 	{{if pageCount > 1}}
 	<div class="row mt-lg-4">

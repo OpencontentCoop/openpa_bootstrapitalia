@@ -207,7 +207,92 @@ $card-comuni-bg-dark: #2c2c2c !default;
 @import 'override-comuni';
 
 
-@import 'design-comuni-pagine-statiche/styles';
+// start import 'design-comuni-pagine-statiche/styles';
+
+@import "design-comuni-pagine-statiche/base/color";
+@import "design-comuni-pagine-statiche/base/functions";
+@import "design-comuni-pagine-statiche/base/mixins";
+@import "design-comuni-pagine-statiche/base/reset";
+@import "design-comuni-pagine-statiche/base/fonts";
+@import "design-comuni-pagine-statiche/elements/headings/all";
+@import "design-comuni-pagine-statiche/base/global";
+
+@import "design-comuni-pagine-statiche/general/splide";
+@import "design-comuni-pagine-statiche/general/public-templates";
+
+
+//components
+// @import "design-comuni-pagine-statiche/components/documents-alert/documents-alert";
+@import "design-comuni-pagine-statiche/components/header/header";
+@import "design-comuni-pagine-statiche/components/cmp-footer/cmp-footer";
+@import "design-comuni-pagine-statiche/components/cmp-breadcrumbs/cmp-breadcrumbs";
+@import "design-comuni-pagine-statiche/components/cmp-heading/cmp-heading";
+@import "design-comuni-pagine-statiche/components/cmp-card/cmp-card";
+//@import "design-comuni-pagine-statiche/components/cmp-steps-header/cmp-steps-header";
+@import "design-comuni-pagine-statiche/components/cmp-info-button-card/cmp-info-button-card";
+@import "design-comuni-pagine-statiche/components/cmp-alert-box/cmp-alert-box";
+@import "design-comuni-pagine-statiche/components/cmp-modal/cmp-modal";
+@import "design-comuni-pagine-statiche/components/cmp-modal/cmp-modal-header-search";
+@import "design-comuni-pagine-statiche/components/cmp-modal/modal-categories";
+@import "design-comuni-pagine-statiche/components/cmp-modal/modal-address";
+@import "design-comuni-pagine-statiche/components/cmp-card-radio/cmp-card-radio";
+@import "design-comuni-pagine-statiche/components/cmp-nav-steps/cmp-nav-steps";
+@import "design-comuni-pagine-statiche/components/cmp-info-progress/cmp-info-progress";
+@import "design-comuni-pagine-statiche/components/cmp-icon-card/cmp-icon-card";
+@import "design-comuni-pagine-statiche/components/cmp-info-summary/cmp-info-summary";
+@import "design-comuni-pagine-statiche/components/cmp-ul-list/cmp-ul-list";
+@import "design-comuni-pagine-statiche/components/cmp-card-img/cmp-card-img";
+@import "design-comuni-pagine-statiche/components/cmp-navscroll/cmp-navscroll";
+@import "design-comuni-pagine-statiche/components/cmp-card-latest-messages/cmp-card-latest-message";
+@import "design-comuni-pagine-statiche/components/cmp-icon-link/cmp-icon-link";
+//@import "design-comuni-pagine-statiche/components/cmp-steps-rating/cmp-steps-rating";
+@import "design-comuni-pagine-statiche/components/cmp-radio-list/cmp-radio-list";
+
+@import "design-comuni-pagine-statiche/components/cmp-contacts/cmp-contacts";
+@import "design-comuni-pagine-statiche/components/cmp-rating/cmp-rating";
+@import "design-comuni-pagine-statiche/components/cmp-carousel/cmp-carousel";
+@import "design-comuni-pagine-statiche/components/cmp-disclaimer/cmp-disclaimer";
+
+@import "design-comuni-pagine-statiche/components/button/button";
+@import "design-comuni-pagine-statiche/components/cmp-timeline/cmp-timeline";
+@import "design-comuni-pagine-statiche/components/link-list/link-list";
+
+@import "design-comuni-pagine-statiche/components/partials/button/button";
+@import "design-comuni-pagine-statiche/components/partials/cmp-tag/cmp-tag";
+@import "design-comuni-pagine-statiche/components/partials/input/input";
+@import "design-comuni-pagine-statiche/components/partials/checkbox/checkbox";
+@import "design-comuni-pagine-statiche/components/cmp-text-button/cmp-text-button";
+@import "design-comuni-pagine-statiche/components/cmp-icon-list/cmp-icon-list";
+@import "design-comuni-pagine-statiche/components/partials/select/select";
+//@import "design-comuni-pagine-statiche/components/partials/cmp-upload/cmp-upload";
+@import "design-comuni-pagine-statiche/components/cmp-nav-tab/cmp-nav-tab";
+//@import "design-comuni-pagine-statiche/components/partials/cmp-accordion/cmp-accordion";
+//@import "design-comuni-pagine-statiche/components/cmp-accordion/cmp-accordion";
+@import "design-comuni-pagine-statiche/components/cmp-filter/cmp-filter";
+@import "design-comuni-pagine-statiche/components/partials/input-search/input-search";
+@import "design-comuni-pagine-statiche/components/partials/dropdown/dropdown";
+@import "design-comuni-pagine-statiche/components/partials/input-autocomplete/input-autocomplete";
+@import "design-comuni-pagine-statiche/components/partials/text-area/text.area";
+@import "design-comuni-pagine-statiche/components/cmp-map/cmp-map";
+@import "design-comuni-pagine-statiche/components/cmp-hero/cmp-hero";
+@import "design-comuni-pagine-statiche/components/cmp-hero-img/cmp-hero-img";
+@import "design-comuni-pagine-statiche/components/cmp-list-card-img/cmp-list-card-img";
+
+
+@import "design-comuni-pagine-statiche/components/cmp-info-radio/cmp-info-radio";
+@import "design-comuni-pagine-statiche/components/cmp-tab/cmp-tab";
+@import "design-comuni-pagine-statiche/components/cmp-input-search-button/cmp-input-search-button";
+@import "design-comuni-pagine-statiche/components/cmp-category-list/category-list";
+@import "design-comuni-pagine-statiche/components/partials/input-calendar/input-calendar";
+@import "design-comuni-pagine-statiche/components/partials/toggle/toggle";
+@import "design-comuni-pagine-statiche/components/cmp-info-checkbox/cmp-info-checkbox";
+//@import "design-comuni-pagine-statiche/components/cmp-callout/callout";
+@import "design-comuni-pagine-statiche/components/cmp-modal/cmp-modal-scrollable";
+@import "design-comuni-pagine-statiche/components/cmp-card-radio-list/cmp-card-radio-list";
+@import "design-comuni-pagine-statiche/components/cmp-tot/cmp-tot";
+
+
+// end import 'design-comuni-pagine-statiche/styles';
 
 $image-path: "../images/" !default;
 

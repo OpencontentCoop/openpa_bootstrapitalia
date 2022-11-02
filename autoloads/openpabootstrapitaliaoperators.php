@@ -720,6 +720,7 @@ class OpenPABootstrapItaliaOperators
                 'container_style' => $containerStyle,
                 'layout_style' => $layoutStyle,
                 'color_style' => $colorStyle,
+                'has_bg' => $colorStyle || $block->attribute('type') == 'Singolo',
                 'show_next_link' => $showNextLink && isset($blocks[$nextIndex])
             ];
 

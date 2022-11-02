@@ -20,7 +20,7 @@
 {def $easyontology = class_extra_parameters($node.object.class_identifier, 'easyontology')}
 {if and($easyontology, $easyontology.enabled, $easyontology.easyontology|ne(''))}
     {def $jsonld = $node.contentobject_id|easyontology_to_json($easyontology.easyontology)}
-    {if $jsonld}<script type="application/ld+json">{$jsonld}</script>{/if}
+    {if $jsonld}<script data-element="metatag" type="application/ld+json">{$jsonld}</script>{/if}
 {/if}
 
 {undef $openpa}

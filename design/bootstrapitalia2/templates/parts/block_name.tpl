@@ -1,4 +1,5 @@
 {def $intro = cond(is_set($block.custom_attributes.intro_text), $block.custom_attributes.intro_text, '')}
+{set_defaults(hash('block_index', 0))}
 {if or($block.name|ne(''), $intro|ne(''))}
     <div class="row row-title{if and(is_set($no_margin), $no_margin)|not()} pb-3{/if}">
         <div class="col-12">
@@ -15,4 +16,5 @@
         </div>
     </div>
 {/if}
+{unset_defaults(array('block_index'))}
 {undef $intro}

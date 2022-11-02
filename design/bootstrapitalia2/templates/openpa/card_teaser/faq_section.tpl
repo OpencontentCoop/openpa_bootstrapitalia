@@ -9,7 +9,7 @@
 
 <div data-object_id="{$node.contentobject_id}" class="card card-teaser shadow {$node|access_style} rounded {$view_variation}">
     {if and($show_icon, $openpa.content_icon.icon, $node|has_attribute('image')|not())}
-        {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}
+        {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon icon-sm')}
     {/if}
     <div class="card-body{if $node|has_attribute('image')} pr-3 pe-3{/if}">
         {if $hide_title|not()}

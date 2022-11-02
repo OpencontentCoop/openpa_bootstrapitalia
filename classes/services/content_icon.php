@@ -48,6 +48,26 @@ class ObjectHandlerServiceContentIcon extends ObjectHandlerServiceBase
         return $this->objectIcon;
     }
 
+    private function getContextNode(eZContentObjectTreeNode $node)
+    {
+        $contextNode = [
+            'name' => $node->attribute('name'),
+            'url_alias' => $node->attribute('url_alias'),
+        ];
+        if ($node->attribute('class_identifier') == 'public_service'){
+            $dataMap = $node->dataMap();
+            if (isset($dataMap['type']) && $dataMap['type']->hasContent() && $dataMap['type']->attribute('data_type_string') === eZTagsType::DATA_TYPE_STRING){
+                $tag = $dataMap['type']->content()->attribute('keywords')[0];
+                $contextNode = [
+                    'name' => $tag,
+                    'url_alias' => $node->fetchParent()->attribute('url_alias') . '/(view)/' . urlencode($tag),
+                ];
+            }
+        }
+
+        return $contextNode;
+    }
+
     protected function getContextIcon()
     {
         if ($this->contextIcon === null) {
@@ -60,6 +80,7 @@ class ObjectHandlerServiceContentIcon extends ObjectHandlerServiceBase
                     foreach ($pathArray as $nodeId) {
                         foreach ($iconList as $icon) {
                             if ($icon->attribute('node_id') == $nodeId) {
+                                $icon->setNode($this->getContextNode($node));
                                 $this->contextIcon = $icon;
                                 break(2);
                             }

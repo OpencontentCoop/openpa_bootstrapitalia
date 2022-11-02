@@ -107,6 +107,7 @@ $(document).ready(function () {
             find(paginatedQuery, function (response) {
                 queryPerPage[currentPage] = paginatedQuery;
                 response.view = view;
+                response.autoColumn = itemsPerRow !== 'auto' && $.inArray(view, ['card_teaser', 'banner_color', 'card_children']) > -1;
                 response.itemsPerRow = itemsPerRow;
                 response.icon = icon;
                 response.currentPage = currentPage;
@@ -130,6 +131,9 @@ $(document).ready(function () {
                 });
                 let renderData = $(template.render(response));
                 resultsContainer.html(renderData);
+                if (typeof bootstrap === 'object') {
+                    new bootstrap.Masonry(renderData[0]);
+                }
                 resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {
                     currentPage = $(this).data('page');
                     loadContents();

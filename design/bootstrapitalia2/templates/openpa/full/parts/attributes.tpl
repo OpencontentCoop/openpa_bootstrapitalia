@@ -149,7 +149,7 @@
                             {def $need_container = cond(
                                 and(
                                     $item.wrap|not(),
-                                    array('ezobjectrelationlist')|contains($openpa_attribute.contentobject_attribute.data_type_string)|not()
+                                    array('ezobjectrelationlist', 'ezmatrix')|contains($openpa_attribute.contentobject_attribute.data_type_string)|not()
                                 ),
                                 true(), false()
                             )}

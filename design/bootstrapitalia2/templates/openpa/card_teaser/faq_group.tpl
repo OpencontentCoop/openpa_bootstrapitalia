@@ -9,7 +9,7 @@
 
 <div data-object_id="{$node.contentobject_id}" class="card card-teaser shadow {$node|access_style} rounded {$view_variation}">
     {if and($show_icon, $openpa.content_icon.icon, $node|has_attribute('image')|not())}
-        {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}
+        {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon icon-sm')}
     {/if}
     <div class="card-body{if $node|has_attribute('image')} pr-3 pe-3{/if}">
         {if $hide_title|not()}
@@ -34,7 +34,7 @@
             {if and($attributes.show|contains('content_show_read_more'), $parent.class_identifier|eq('faq_section'))}
             <p class="mt-5">
                 <a class="read-more position-static" href="{$node.url_alias|ezurl(no)}" title="{'Go to content'|i18n('bootstrapitalia')} {$parent.name|wash()}">
-                    {if $openpa.content_icon.class_icon}{display_icon($openpa.content_icon.class_icon.icon_text, 'svg', 'icon')}{/if}
+                    {if $openpa.content_icon.class_icon}{display_icon($openpa.content_icon.class_icon.icon_text, 'svg', 'icon icon-sm')}{/if}
                     {$parent.name|wash()}
                 </a>
             </p>

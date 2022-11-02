@@ -9,7 +9,7 @@
 {/if}
 
 <div data-object_id="{$node.contentobject_id}"
-   class="opencity-banner-color card card-teaser no-after rounded mt-0 p-3 {$background_color_class} {$view_variation}">
+   class="opencity-banner-color card card-teaser rounded mt-0 p-3 {$background_color_class} {$view_variation}">
     {if $node|has_attribute('image')}
     <div class="avatar size-lg me-3">
         {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
@@ -21,9 +21,11 @@
                 {$node.name|wash()}{include uri='design:parts/card_title_suffix.tpl'}
             </a>
         </h3>
-        {if $node|has_attribute('description')}
-            <p class="card-text text-sans-serif text-{$background_color_class}">{$node|attribute('description').content.output.output_text|oc_shorten(160)}</p>
+
+        {if $node|has_abstract()}
+            <p class="card-text text-sans-serif text-{$background_color_class}">{$node|abstract()|oc_shorten(160)}</p>
         {/if}
+
         {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
             <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$node.url_alias|ezurl(no)}">
                 <span class="fa-stack">

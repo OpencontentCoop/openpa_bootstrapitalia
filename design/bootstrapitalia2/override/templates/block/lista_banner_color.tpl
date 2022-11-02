@@ -8,7 +8,6 @@
              i_view=banner_color
              image_class=medium
              grid_wrapper=false()
-             view_variation='h-100'
              items=$openpa.content}
     {include uri='design:parts/block_show_all.tpl'}
 {/if}
