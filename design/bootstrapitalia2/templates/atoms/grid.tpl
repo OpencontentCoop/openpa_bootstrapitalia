@@ -3,6 +3,7 @@
     'i_view', 'card',
     'image_class', 'large',
     'show_icon', false(),
+    'show_category', true(),
     'view_variation', false(),
     'grid_wrapper', true(),
     'grid_wrapper_class', 'row mx-lg-n3',
@@ -24,9 +25,12 @@
 {elseif and(array('2','3','4')|contains($items_per_row), $need_card_wrapper)}
 
     {if $grid_wrapper}<div class="{$grid_wrapper_class}">{/if}
-    <div class="card-wrapper px-0 card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{$items_per_row}">
+    {if and(count($items)|eq(2),count($items)|lt($items_per_row))}
+        {set $items_per_row = 2}
+    {/if}
+    <div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{$items_per_row}">
     {foreach $items as $child }
-        {node_view_gui content_node=$child view=$i_view image_class=$image_class show_icon=$show_icon view_variation=$view_variation exclude_classes=$exclude_classes}
+        {node_view_gui content_node=$child view=$i_view image_class=$image_class show_icon=$show_icon show_category=$show_category view_variation=$view_variation exclude_classes=$exclude_classes}
     {/foreach}
     </div>
     {if $grid_wrapper}</div>{/if}

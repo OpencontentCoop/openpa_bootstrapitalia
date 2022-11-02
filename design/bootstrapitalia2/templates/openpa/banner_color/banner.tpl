@@ -15,7 +15,7 @@
     </div>
     <div class="card-body">
         <h3 class="card-title text-{$background_color_class} mb-1">
-            <a class="stretched-link text-{$background_color_class}" {if $openpa.content_link.target}target="{$openpa.content_link.target|wash()}"{/if} href="{$openpa.content_link.full_link}">
+            <a data-element="{$openpa.data_element.value|wash()}" class="stretched-link text-{$background_color_class}" {if $openpa.content_link.target}target="{$openpa.content_link.target|wash()}"{/if} href="{$openpa.content_link.full_link}">
                 {$node.name|wash()}
             </a>
         </h3>

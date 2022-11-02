@@ -16,7 +16,6 @@
             {if $node|has_attribute('menu_name')}
                 <h2 class="title-xxlarge mb-4">{$node|attribute('menu_name').content|wash()}</h2>
             {/if}
-
             {def $tag_menu_children = $openpa.content_tag_menu.tag_menu_root.children
                  $locale = ezini('RegionalSettings', 'Locale')}
             <div class="row g-4">
@@ -26,6 +25,7 @@
                             <div class="card shadow-sm rounded">
                                 <div class="card-body">
                                     <a href="{concat($openpa.content_tag_menu.tag_menu_root_node.url_alias, '/(view)/', $tag.keyword)|ezurl(no)}"
+                                       {if $node.object.remote_id|eq('all-service')}data-element="service-category-link"{/if}
                                        class="text-decoration-none" data-focus-mouse="false">
                                         <h3 class="card-title t-primary title-xlarge">{$tag.keyword|wash()}</h3>
                                     </a>
@@ -122,16 +122,17 @@
                                                            'limit', $page_limit )|merge( $params ) )}
         <section id="{if $node|has_attribute('menu_name')}{$node|attribute('menu_name').content|slugize}{else}{$parent_node.name|slugize}{/if}">
             <div class="container {$view_variation}">
-                {if $node|has_attribute('menu_name')}
+                {if and($openpa.content_tag_menu.current_view_tag|not(), $node|has_attribute('menu_name'))}
                     <h2 class="title-xxlarge mb-4">{$node|attribute('menu_name').content|wash()}</h2>
                 {/if}
 
                 {include uri='design:atoms/grid.tpl'
                          items_per_row=$items_per_row
-                         i_view=card_simple
+                         i_view=cond($openpa.content_tag_menu.current_view_tag, 'card_teaser', 'card_simple')
                          image_class=cond($children_count|eq(2), 'reference', 'large')
                          grid_wrapper_class='row g-4'
                          show_icon = false()
+                         show_category = false()
                          items=$children}
 
                 {include name=navigator

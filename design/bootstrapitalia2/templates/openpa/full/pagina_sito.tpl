@@ -28,9 +28,10 @@
                             {/if}
                         </h1>
                         <div class="hero-text">
-                            {include uri='design:openpa/full/parts/main_attributes.tpl'}
-                            {if and($current_view_tag|not(), $node|has_attribute('description'))}
-                                {attribute_view_gui attribute=$node|attribute('description')}
+                            {if $current_view_tag|not()}
+                                {include uri='design:openpa/full/parts/main_attributes.tpl'}
+                            {else}
+                                {tag_description($current_view_tag.id, ezini('RegionalSettings', 'Locale'))|wash()|nl2br}
                             {/if}
                         </div>
                     </div>

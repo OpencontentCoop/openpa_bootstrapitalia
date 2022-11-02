@@ -20,6 +20,7 @@ Services[content_trasparenza]=ObjectHandlerServiceContentTrasparenza
 Services[content_tag_menu]=ObjectHandlerServiceContentTagMenu
 Services[opengraph]=ObjectHandlerServiceOpengraph
 Services[content_show_info_collector]=ObjectHandlerServiceShowContentInfoCollector
+Services[data_element]=ObjectHandlerServiceDataElement
 
 [ViewSettings]
 AvailableView[]=card

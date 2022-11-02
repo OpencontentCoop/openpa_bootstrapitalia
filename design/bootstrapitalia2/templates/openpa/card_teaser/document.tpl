@@ -1,6 +1,5 @@
 {set_defaults(hash(
-    'show_icon', false(),
-    'show_category', true(),
+    'show_icon', true(),
     'image_class', 'medium',
     'view_variation', 'border-light',
     'hide_title', false()
@@ -13,15 +12,17 @@
     <div class="card-image-wrapper{if $attributes.show|contains('content_show_read_more')} with-read-more{/if}">
     {/if}
         <div class="card-body {if $has_image}p-3 {/if}pb-5">
-        {if and($show_category, $openpa.content_icon.context_icon.node)}
-        <div class="category-top">
-            {if $show_icon}{display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon icon-sm')}{/if}
-            <span class="title-xsmall-semi-bold fw-semibold">{$openpa.content_icon.context_icon.node.name|wash()}</span>
+        {if $openpa.content_icon.context_icon.node}
+        <div class="categoryicon-top">
+            {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon icon-sm')}
+            <span class="text fw-semibold">{$openpa.content_icon.context_icon.node.name|wash()}</span>
         </div>
         {/if}
         {if $hide_title|not()}
         <h3 class="card-title text-paragraph-medium u-grey-light">
+            <a data-element="{$openpa.data_element.value|wash()}" class="text-decoration-none stretched-link" href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">
             {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
+            </a>
             {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
                 <a href="{$node.url_alias|ezurl(no)}">
 				<span class="fa-stack">
@@ -32,7 +33,7 @@
             {/if}
         </h3>
         {/if}
-        <div class="text-paragraph-card u-grey-light m-0">
+        <div class="card-text">
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
         </div>
     </div>
@@ -42,12 +43,7 @@
         </div>
     </div>
     {/if}
-    {if $attributes.show|contains('content_show_read_more')}
-        <a data-element="{$openpa.data_element.value|wash()}" class="read-more{if $has_image} ps-3 position-absolute bottom-0 mb-3{/if}" href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">
-            <span class="text">{'Further details'|i18n('bootstrapitalia')}</span>
-            {display_icon('it-arrow-right', 'svg', 'icon ms-0')}
-        </a>
-    {/if}
+
 </div>
 {undef $attributes $has_image}
 {unset_defaults(array('show_icon', 'image_class', 'view_variation', 'hide_title'))}

@@ -1,10 +1,10 @@
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
 {def $has_image = cond(and($attributes.show|contains('image'), $node|has_attribute('image')), true(), false())}
-{set_defaults(hash('attribute_index', 0, 'data_element', ''))}
+{set_defaults(hash('attribute_index', 0, 'data_element', $openpa.data_element.value))}
 <div data-object_id="{$node.contentobject_id}" class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width" style="z-index: {100|sub($attribute_index)}">
     <div class="card-body {if $has_image}pe-3{/if}">
         <p class="card-title text-paragraph-regular-medium-semi mb-3">
-            <a class="text-decoration-none" href="{$openpa.content_link.full_link}" data-element="{$data_element}" data-focus-mouse="false">
+            <a class="text-decoration-none" href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}" data-focus-mouse="false">
                 {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
             </a>
         </p>

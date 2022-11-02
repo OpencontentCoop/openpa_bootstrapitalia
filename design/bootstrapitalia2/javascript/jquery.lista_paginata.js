@@ -131,7 +131,7 @@ $(document).ready(function () {
                 });
                 let renderData = $(template.render(response));
                 resultsContainer.html(renderData);
-                if (typeof bootstrap === 'object') {
+                if (typeof bootstrap === 'object' && itemsPerRow === 'auto') {
                     new bootstrap.Masonry(renderData[0]);
                 }
                 resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {
