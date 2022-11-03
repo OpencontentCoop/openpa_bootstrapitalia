@@ -1,6 +1,6 @@
 <div class="container" {if $has_container}id="main-container"{/if}>
     <div class="row{if $has_sidemenu|not()} justify-content-center{/if}">
-        <div class="{if and($has_container, $has_sidemenu|not())}col-12{if is_set($module_result.content_info.persistent_variable.has_sidemenu)} col-lg-10{/if}{else}col px-lg-4{/if}">
+        <div class="{if and($has_container, $has_sidemenu|not())}col-12 {if is_set($module_result.content_info.persistent_variable.has_sidemenu)} col-lg-10{else} px-lg-4{/if}{else}col px-lg-4{/if}">
             <div class="cmp-breadcrumbs" role="navigation">
                 <nav class="breadcrumb-container">
                     <ol class="breadcrumb p-0" data-element="breadcrumb">

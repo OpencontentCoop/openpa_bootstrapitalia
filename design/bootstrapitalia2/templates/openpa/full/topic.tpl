@@ -16,7 +16,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 px-0 px-lg-2 drop-shadow">
-                <div class="it-hero-card it-hero-bottom-overlapping rounded hero-p pb-lg-80">
+                <div class="it-hero-card it-hero-bottom-overlapping rounded hero-p">
                     <div class="row justify-content-center">
                         <div class="col-12 col-lg-10">
                             <div class="cmp-breadcrumbs mt-0" role="navigation">
@@ -38,7 +38,7 @@
                     </div>
                     <div class="row justify-content-between mt-lg-2">
                         {def $has_managed = cond(or($node|has_attribute('managed_by_area'), $node|has_attribute('managed_by_political_body'), $node|has_attribute('help')), true(), false())}
-                        <div class="col-12 col-lg-{if $has_managed}5{else}12{/if} offset-lg-1">
+                        <div class="col-12 col-lg-{if $has_managed}5{else}10{/if} offset-lg-1">
                             <h1 class="mb-3 mb-lg-4 title-xxlarge">{$node.name|wash()}</h1>
                             <div class="u-main-black text-paragraph-regular-medium mb-60">
                                 {include uri='design:openpa/full/parts/main_attributes.tpl'}
@@ -52,13 +52,14 @@
                             {/if}
                         </div>
                         {if $has_managed}
-                        <div class="col-12 col-lg-5 me-lg-5">
+                        <div class="col-12 col-lg-5 me-lg-5 contact-section">
+                            <h2 class="h3 title-xsmall-semi-bold">Questo argomento è gestito da:</h2>
                             <div class="card-wrapper card-column">
                                 {if $node|has_attribute('managed_by_area')}
                                     {foreach $node|attribute('managed_by_area').content.relation_list as $item}
                                         {def $object = fetch(content, object, hash('object_id', $item.contentobject_id))}
                                         {if $object.can_read}
-                                            {content_view_gui content_object=$object view=embed show_icon=false() view_variation="card-teaser-info"}
+                                            {content_view_gui content_object=$object view=embed show_icon=false()}
                                         {/if}
                                         {undef $object}
                                     {/foreach}

@@ -2,44 +2,42 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content perfect-scrollbar">
             <div class="modal-body">
-                <form>
+                <form action="{'content/search'|ezurl(no)}" method="get">
                     <div class="container">
                         <div class="row variable-gutters">
                             <div class="col">
                                 <div class="modal-title">
                                     <button class="search-link d-md-none" type="button" data-bs-toggle="modal"
                                             data-bs-target="#search-modal"
-                                            aria-label="Chiudi e torna alla pagina precedente">
+                                            aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
                                         <svg class="icon icon-md">
                                             <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-arrow-left"></use>
                                         </svg>
                                     </button>
                                     <h2>Cerca</h2>
-                                    <button class="search-link d-none d-md-block" type="button" data-bs-toggle="modal"
+                                    <button class="search-link d-none d-md-block" type="button"
+                                            data-bs-toggle="modal"
                                             data-bs-target="#search-modal"
-                                            aria-label="Chiudi e torna alla pagina precedente">
+                                            aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
                                         <svg class="icon icon-md">
                                             <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-close-big"></use>
                                         </svg>
                                     </button>
                                 </div>
                                 <div class="form-group autocomplete-wrapper">
-                                    <label for="autocomplete-two" class="visually-hidden">Cerca nel sito</label>
+                                    <label for="autocomplete-two" class="visually-hidden">{'Search in all content'|i18n('design/admin/pagelayout')}</label>
                                     <input type="search" class="autocomplete ps-5" placeholder="Cerca nel sito"
-                                           id="autocomplete-two" name="autocomplete-two" data-bs-autocomplete="[]">
+                                           id="autocomplete-two" name="SearchText" data-bs-autocomplete="[]">
                                     <span class="autocomplete-icon" aria-hidden="true">
-                      <svg class="icon"><use
-                                  href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-search"></use></svg>
-                    </span>
-                                    <button type="button" class="btn btn-primary">
-
-
-                                        <span class="">Cerca</span>
+                                        {display_icon('it-search', 'svg', 'icon')}
+                                    </span>
+                                    <button type="submit" class="btn btn-primary">
+                                        <span class="">{'Search'|i18n('openpa/search')}</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        <div class="row variable-gutters">
+                        {*<div class="row variable-gutters">
                             <div class="col-lg-5">
                                 <div class="searches-list-wrapper">
                                     <div class="other-link-title">FORSE STAVI CERCANDO</div>
@@ -65,7 +63,7 @@
                                     </ul><!-- /searches-list -->
                                 </div><!-- /searches-list-wrapper -->
                             </div>
-                        </div>
+                        </div>*}
                     </div>
                 </form>
             </div>

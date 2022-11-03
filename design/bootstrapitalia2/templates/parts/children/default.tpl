@@ -6,7 +6,8 @@
   'fetch_type', 'list',
   'parent_node', $node,
   'items_per_row', 3,
-  'view_variation', ''
+  'view_variation', '',
+  'view', 'card_simple'
 ))}
 
 {if $openpa.content_tag_menu.show_tag_cards}
@@ -128,7 +129,7 @@
 
                 {include uri='design:atoms/grid.tpl'
                          items_per_row=$items_per_row
-                         i_view=cond($openpa.content_tag_menu.current_view_tag, 'card_teaser', 'card_simple')
+                         i_view=cond($openpa.content_tag_menu.current_view_tag, 'card_teaser', $view)
                          image_class=cond($children_count|eq(2), 'reference', 'large')
                          grid_wrapper_class='row g-4'
                          show_icon = false()
