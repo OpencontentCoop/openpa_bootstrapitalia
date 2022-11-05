@@ -1,3 +1,17 @@
+{*    <div class="container">*}
+{*        <div class="row d-flex justify-content-center bg-primary">*}
+{*            <div class="col-12 col-lg-6">*}
+{*                {ezscript_require(array('https://satisfy.opencontent.it/widget.js'))}*}
+{*                <div class="bg-white" data-element="feedback">*}
+{*                    <app-widget data-entrypoints="2783a121-063e-4219-bc95-9b4b599316b7"></app-widget>*}
+{*                </div>*}
+{*                <style>*}
+{*                    .satisfy-widget-content .title {ldelim}font-weight: 600;font-size: 1.3rem;{rdelim}*}
+{*                </style>*}
+{*            </div>*}
+{*        </div>*}
+{*    </div>*}
+
 <div class="bg-primary">
     <div class="container">
         <div class="row d-flex justify-content-center bg-primary">
@@ -6,14 +20,16 @@
                     <div class="card shadow card-wrapper" data-element="feedback">
                         <div class="cmp-rating__card-first">
                             <div class="card-header border-0">
-                                <h2 class="title-medium-2-semi-bold mb-0">Quanto sono chiare le informazioni su questa pagina?</h2>
+                                <h2 class="title-medium-2-semi-bold mb-0">Quanto sono chiare le informazioni su questa
+                                    pagina?</h2>
                             </div>
                             <div class="card-body">
                                 <fieldset class="rating">
                                     <legend class="visually-hidden">Valuta da 1 a 5 stelle la pagina</legend>
                                     <input type="radio" id="star5a" name="ratingA" value="5">
                                     <label class="full rating-star active" for="star5a">
-                                        <svg class="icon icon-sm" role="img" aria-labelledby="first-star" viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">
+                                        <svg class="icon icon-sm" role="img" aria-labelledby="first-star"
+                                             viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12 1.7L9.5 9.2H1.6L8 13.9l-2.4 7.6 6.4-4.7 6.4 4.7-2.4-7.6 6.4-4.7h-7.9L12 1.7z"></path>
                                             <path fill="none" d="M0 0h24v24H0z"></path>
                                         </svg>
@@ -21,7 +37,8 @@
                                     </label>
                                     <input type="radio" id="star4a" name="ratingA" value="4">
                                     <label class="full rating-star active" for="star4a">
-                                        <svg class="icon icon-sm" role="img" aria-labelledby="second-star" viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">
+                                        <svg class="icon icon-sm" role="img" aria-labelledby="second-star"
+                                             viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12 1.7L9.5 9.2H1.6L8 13.9l-2.4 7.6 6.4-4.7 6.4 4.7-2.4-7.6 6.4-4.7h-7.9L12 1.7z"></path>
                                             <path fill="none" d="M0 0h24v24H0z"></path>
                                         </svg>
@@ -29,7 +46,8 @@
                                     </label>
                                     <input type="radio" id="star3a" name="ratingA" value="3">
                                     <label class="full rating-star active" for="star3a">
-                                        <svg class="icon icon-sm" role="img" aria-labelledby="third-star" viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">
+                                        <svg class="icon icon-sm" role="img" aria-labelledby="third-star"
+                                             viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12 1.7L9.5 9.2H1.6L8 13.9l-2.4 7.6 6.4-4.7 6.4 4.7-2.4-7.6 6.4-4.7h-7.9L12 1.7z"></path>
                                             <path fill="none" d="M0 0h24v24H0z"></path>
                                         </svg>
@@ -37,7 +55,8 @@
                                     </label>
                                     <input type="radio" id="star2a" name="ratingA" value="2">
                                     <label class="full rating-star active" for="star2a">
-                                        <svg class="icon icon-sm" role="img" aria-labelledby="fourth-star" viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">
+                                        <svg class="icon icon-sm" role="img" aria-labelledby="fourth-star"
+                                             viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12 1.7L9.5 9.2H1.6L8 13.9l-2.4 7.6 6.4-4.7 6.4 4.7-2.4-7.6 6.4-4.7h-7.9L12 1.7z"></path>
                                             <path fill="none" d="M0 0h24v24H0z"></path>
                                         </svg>
@@ -45,7 +64,8 @@
                                     </label>
                                     <input type="radio" id="star1a" name="ratingA" value="1">
                                     <label class="full rating-star active" for="star1a">
-                                        <svg class="icon icon-sm" role="img" aria-labelledby="fifth-star" viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">
+                                        <svg class="icon icon-sm" role="img" aria-labelledby="fifth-star"
+                                             viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12 1.7L9.5 9.2H1.6L8 13.9l-2.4 7.6 6.4-4.7 6.4 4.7-2.4-7.6 6.4-4.7h-7.9L12 1.7z"></path>
                                             <path fill="none" d="M0 0h24v24H0z"></path>
                                         </svg>
@@ -56,7 +76,8 @@
                         </div>
                         <div class="cmp-rating__card-second d-none" data-step="3">
                             <div class="card-header border-0 mb-0">
-                                <h2 class="title-medium-2-bold mb-0" id="rating-feedback">Grazie, il tuo parere ci aiuterà a migliorare il
+                                <h2 class="title-medium-2-bold mb-0" id="rating-feedback">Grazie, il tuo parere ci
+                                    aiuterà a migliorare il
                                     servizio!</h2>
                             </div>
                         </div>
@@ -79,19 +100,23 @@
                                                         <div class="form-check m-0">
                                                             <div class="radio-body border-bottom border-light cmp-radio-list__item">
                                                                 <input name="rating1" type="radio" id="radio-1">
-                                                                <label for="radio-1" class="active">Le indicazioni erano chiare</label>
+                                                                <label for="radio-1" class="active">Le indicazioni erano
+                                                                    chiare</label>
                                                             </div>
                                                             <div class="radio-body border-bottom border-light cmp-radio-list__item">
                                                                 <input name="rating1" type="radio" id="radio-2">
-                                                                <label for="radio-2" class="active">Le indicazioni erano complete</label>
+                                                                <label for="radio-2" class="active">Le indicazioni erano
+                                                                    complete</label>
                                                             </div>
                                                             <div class="radio-body border-bottom border-light cmp-radio-list__item">
                                                                 <input name="rating1" type="radio" id="radio-3">
-                                                                <label for="radio-3" class="active">Capivo sempre che stavo procedendo correttamente</label>
+                                                                <label for="radio-3" class="active">Capivo sempre che
+                                                                    stavo procedendo correttamente</label>
                                                             </div>
                                                             <div class="radio-body border-bottom border-light cmp-radio-list__item">
                                                                 <input name="rating1" type="radio" id="radio-4">
-                                                                <label for="radio-4" class="active">Non ho avuto problemi tecnici</label>
+                                                                <label for="radio-4" class="active">Non ho avuto
+                                                                    problemi tecnici</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -115,19 +140,23 @@
                                                         <div class="form-check m-0">
                                                             <div class="radio-body border-bottom border-light cmp-radio-list__item">
                                                                 <input name="rating2" type="radio" id="radio-5">
-                                                                <label for="radio-5" class="active">A volte le indicazioni non erano chiare</label>
+                                                                <label for="radio-5" class="active">A volte le
+                                                                    indicazioni non erano chiare</label>
                                                             </div>
                                                             <div class="radio-body border-bottom border-light cmp-radio-list__item">
                                                                 <input name="rating2" type="radio" id="radio-6">
-                                                                <label for="radio-6" class="active">A volte le indicazioni non erano complete</label>
+                                                                <label for="radio-6" class="active">A volte le
+                                                                    indicazioni non erano complete</label>
                                                             </div>
                                                             <div class="radio-body border-bottom border-light cmp-radio-list__item">
                                                                 <input name="rating2" type="radio" id="radio-7">
-                                                                <label for="radio-7" class="active">A volte non capivo se stavo procedendo correttamente</label>
+                                                                <label for="radio-7" class="active">A volte non capivo
+                                                                    se stavo procedendo correttamente</label>
                                                             </div>
                                                             <div class="radio-body border-bottom border-light cmp-radio-list__item">
                                                                 <input name="rating2" type="radio" id="radio-8">
-                                                                <label for="radio-8" class="active">Ho avuto problemi tecnici</label>
+                                                                <label for="radio-8" class="active">Ho avuto problemi
+                                                                    tecnici</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -151,7 +180,10 @@
                                         <div class="cmp-steps-rating__body">
                                             <div class="form-group">
                                                 <label for="formGroupExampleInputWithHelp" class="">Dettaglio</label>
-                                                <input type="text" class="form-control" id="formGroupExampleInputWithHelp" aria-describedby="formGroupExampleInputWithHelpDescription" maxlength="200">
+                                                <input type="text" class="form-control"
+                                                       id="formGroupExampleInputWithHelp"
+                                                       aria-describedby="formGroupExampleInputWithHelpDescription"
+                                                       maxlength="200">
                                                 <small id="formGroupExampleInputWithHelpDescription" class="form-text">
                                                     Inserire massimo 200 caratteri</small>
                                             </div>
@@ -160,12 +192,15 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-nowrap pt-4 w-100 justify-content-center button-shadow">
-                                <button class="btn btn-outline-primary fw-bold me-4 btn-back" type="button">Indietro</button>
-                                <button class="btn btn-primary fw-bold btn-next" type="submit" form="rating">Avanti</button>
+                                <button class="btn btn-outline-primary fw-bold me-4 btn-back" type="button">Indietro
+                                </button>
+                                <button class="btn btn-primary fw-bold btn-next" type="submit" form="rating">Avanti
+                                </button>
                             </div>
                         </div>
                     </div>
-                </div>        </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

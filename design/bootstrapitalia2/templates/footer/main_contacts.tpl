@@ -9,16 +9,20 @@
                             <ul class="contact-list p-0">
                                 <li><a class="list-item" href="#">
                                         {display_icon('it-help-circle', 'svg', 'icon icon-primary icon-sm')}
+                                        Leggi le domande frequenti
                                     </a></li>
 
                                 <li><a class="list-item" href="#" data-element="contacts">
                                         {display_icon('it-mail', 'svg', 'icon icon-primary icon-sm')}
+                                        Richiedi assistenza
                                     </a></li>
                                 <li><a class="list-item" href="#">
                                         {display_icon('it-hearing', 'svg', 'icon icon-primary icon-sm')}
+                                        Chiama il numero verde 05 0505
                                     </a></li>
                                 <li><a class="list-item" href="#" data-element="appointment-booking">
                                         {display_icon('it-calendar', 'svg', 'icon icon-primary icon-sm')}
+                                        Prenota appuntamento
                                     </a></li>
                             </ul>
 
@@ -26,6 +30,7 @@
                             <ul class="contact-list p-0">
                                 <li><a class="list-item" href="#">
                                         {display_icon('it-map-marker-circle', 'svg', 'icon icon-primary icon-sm')}
+                                        Segnala disservizio
                                     </a></li>
                             </ul>
 

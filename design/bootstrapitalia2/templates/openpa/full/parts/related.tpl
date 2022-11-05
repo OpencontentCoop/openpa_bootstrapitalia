@@ -25,51 +25,49 @@
 		{/foreach}
 		{if count($data)|gt(0)}
 		<section id="contenuti-correlati">
-		    <div class="section section-muted section-inset-shadow">
+		    <div class="bg-grey-card shadow-contacts">
 		        <div class="section-content">
 		            <div class="container">
 		                <div class="row">
-		                    <div class="col">
-		                        <h3 class="text-center">{'Related contents'|i18n('bootstrapitalia')}</h3>
+		                    <div class="col-12 pt-5">
+		                        <h3 class="text-center cmp-carousel__title">{'Related contents'|i18n('bootstrapitalia')}</h3>
 		                    </div>
 		                </div>
-		                <div class="row mt-lg-4">		                    
-		                    <div class="col">
-		                        <div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{count($data)}">                            
-		                            {foreach $data as $item}
-	                                    <div class="card card-teaser card-column shadow my-3 rounded">
-	                                        <div class="card-header">
-	                                            {if $item.icon}
-	                                                {display_icon($item.icon, 'svg', 'icon')}
-	                                            {/if}
-	                                            <h5 class="card-title">
-	                                                {$item.title|wash()}
-	                                            </h5>
-	                                        </div>
-	                                        <div class="card-body">
-	                                            <div class="link-list-wrapper mt-3">
-	                                                <ul class="link-list">
-	                                                {foreach $item.contents as $item}
-	                                                    <li><a class="list-item" href="{concat('content/view/full/',$item.metadata.mainNodeId )|ezurl(no)}">
-	                                                    	<span>
-                                                                {if is_set($item.metadata.name[ezini('RegionalSettings','Locale')])}
-                                                                    {$item.metadata.name[ezini('RegionalSettings','Locale')]|wash()}
-                                                                {else}
-                                                                    {foreach $item.metadata.name as $locale => $name}
-                                                                        {$name|wash()}
-                                                                        {break}
-                                                                    {/foreach}
-                                                                {/if}
-                                                            </span></a>
-                                                    	</li>
+		                <div class="row mt-lg-4 pb-5">
+                            {foreach $data as $item}
+                            <div class="col">
+                                <div class="card-wrapper card-space h-100 pb-4">
+                                    <div class="card card-bg single-card rounded shadow-sm">
+                                        <div class="cmp-carousel__header">
+                                            {if $item.icon}
+                                                {display_icon($item.icon, 'svg', 'icon')}
+                                            {/if}
+                                            <span class="ms-3 cmp-carousel__header-title">{$item.title|wash()}</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="link-list-wrapper">
+                                                <ul class="card-body__list">
+                                                    {foreach $item.contents as $item}
+                                                        <li><a class="list-item px-0 href="{concat('content/view/full/',$item.metadata.mainNodeId )|ezurl(no)}">
+                                                            <span>
+                                                            {if is_set($item.metadata.name[ezini('RegionalSettings','Locale')])}
+                                                                {$item.metadata.name[ezini('RegionalSettings','Locale')]|wash()}
+                                                            {else}
+                                                                {foreach $item.metadata.name as $locale => $name}
+                                                                    {$name|wash()}
+                                                                    {break}
+                                                                {/foreach}
+                                                            {/if}
+                                                        </span></a>
+                                                        </li>
                                                     {/foreach}
-	                                                </ul>
-	                                            </div>
-	                                        </div>
-	                                    </div>
-		                            {/foreach}
-		                        </div>
-		                    </div>		                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/foreach}
 		                </div>
 		            </div>
 		        </div>
