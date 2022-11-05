@@ -1,5 +1,6 @@
 {set_defaults(hash(
     'show_icon', false(),
+    'show_category', false(),
     'image_class', 'medium',
     'view_variation', 'border-light',
     'hide_title', false()
@@ -32,7 +33,7 @@
     <div class="card-image-wrapper{if $attributes.show|contains('content_show_read_more')} with-read-more{/if}">
     {/if}
         <div class="card-body {if $has_image}p-3 {/if}pb-5">
-        {if $openpa.content_icon.context_icon.node}
+        {if and($show_category, $openpa.content_icon.context_icon.node)}
         <div class="category-top">
             {if $show_icon}{display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon icon-sm')}{/if}
             <span class="title-xsmall-semi-bold fw-semibold">{$openpa.content_icon.context_icon.node.name|wash()}</span>

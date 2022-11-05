@@ -26,7 +26,7 @@
             {include uri='design:atoms/list_with_icon.tpl' items=$node_list}
         {/if}
     {else}
-        {if $relation_has_wrapper|not()}<div class="card-wrapper card-teaser-wrapper" data-bs-toggle="masonry">{/if}
+        {if $relation_has_wrapper|not()}<div class="card-wrapper card-column" data-bs-toggle="masonry">{/if}
         {def $hide_title = cond(and(count($node_list)|eq(1), openpaini('HideRelationsTitle', 'AttributeIdentifiers', array())|contains($attribute.contentclass_attribute_identifier)), true(), false())}
         {foreach $node_list as $index => $child}
             {node_view_gui

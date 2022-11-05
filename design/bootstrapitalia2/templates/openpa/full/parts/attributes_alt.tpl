@@ -7,9 +7,9 @@
 {def $summary = parse_attribute_groups($object, $show_all_attributes)}
 
 {if $summary.has_items}
-    <div class="row{if $summary.show_index} border-top border-light row-column-border row-column-menu-left{/if} attribute-list">
+    <div class="row{if $summary.show_index} row-column-menu-left mt-4 mt-lg-80 pb-lg-80 pb-40{/if} attribute-list">
         {if $summary.show_index}
-        <aside class="col-lg-4">
+        <div class="col-12 col-lg-3 mb-4 border-col">
             <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one">
                 <nav class="navbar it-navscroll-wrapper navbar-expand-lg" data-bs-navscroll="">
                     <div class="navbar-custom" id="navbarNavProgress">
@@ -52,14 +52,15 @@
                     </div>
                 </nav>
             </div>
-        </aside>
+        </div>
         {/if}
 
-        <section class="{if $summary.show_index}col-lg-8 border-light {/if}it-page-sections-container">
+        <div class="{if $summary.show_index|not()}col w-100 px-lg-4 pb-lg-4{else}col-12 col-lg-8 offset-lg-1{/if}">
+            <div class="it-page-sections-container">
             {foreach $summary.items as $index => $item}
-                <article id="{$item.slug|wash()}" class="it-page-section anchor-offset{if $item.evidence} has-bg-grey p-3{/if}">
+                <section id="{$item.slug|wash()}" class="it-page-section mb-30{if $item.evidence} has-bg-grey p-3{/if}">
                     {if and(count($summary.items)|gt(1), $item.label)}
-                        <h2 class="h4 mt-3">{$item.label|wash()}</h2>
+                        <h2 class="title-xxlarge mb-3">{$item.label|wash()}</h2>
                     {else}
                         <h2 class="visually-hidden">{$item.title|wash()}</h2>
                     {/if}
@@ -79,13 +80,21 @@
                             <div class="font-serif small neutral-1-color-a7">
                         {elseif and($openpa_attribute.full.show_label, $item.is_grouped)}
                             {if $openpa_attribute.full.collapse_label|not()}
-                                <h3 class="h5 mt-4 font-sans-serif">{$openpa_attribute.label|wash()}</h3>
+                                <h3 class="my-3 subtitle-medium font-sans-serif">{$openpa_attribute.label|wash()}</h3>
                             {else}
                                 <span class="text-paragraph-small font-sans-serif">{$openpa_attribute.label|wash()}:</span>
                             {/if}
                         {/if}
 
                         {if is_set($openpa_attribute.contentobject_attribute)}
+                            {def $need_container = cond(
+                                and(
+                                    $item.wrap|not(),
+                                    array('ezobjectrelationlist', 'ezmatrix')|contains($openpa_attribute.contentobject_attribute.data_type_string)|not()
+                                ),
+                                true(), false()
+                            )}
+                            {if $need_container}<div class="richtext-wrapper lora">{/if}
                             {attribute_view_gui attribute=$openpa_attribute.contentobject_attribute
                                                 view_context=full_attributes
                                                 image_class=medium
@@ -95,8 +104,10 @@
                                                 relation_has_wrapper=$item.wrap
                                                 show_link=$openpa_attribute.full.show_link
                                                 tag_view="chip-lg mr-2 me-2"}
+                            {if $need_container}</div>{/if}
+                            {undef $need_container}
                         {elseif and(is_set($openpa_attribute.template), $openpa_attribute.template)}
-                            {include uri=$openpa_attribute.template}
+                            {include uri=$openpa_attribute.template context='attributes'}
                         {/if}
 
                         {if $openpa_attribute.full.highlight}
@@ -107,8 +118,9 @@
                         {/if}
                     {/foreach}
                     </div>
-                </article>
+                </section>
             {/foreach}
-        </section>
+            </div>
+        </div>
     </div>
 {/if}

@@ -8,7 +8,7 @@
 <div data-object_id="{$node.contentobject_id}" class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width {$view_variation}" style="z-index: {100|sub($attribute_index)}">
     <div class="card-body {if $has_image}pe-3{/if}">
         <p class="card-title text-paragraph-regular-medium-semi mb-3">
-            <a class="text-decoration-none" href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}" data-focus-mouse="false">
+            <a class="text-decoration-none" href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}" data-focus-mouse="false" style="hyphens: auto">
                 {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
             </a>
         </p>

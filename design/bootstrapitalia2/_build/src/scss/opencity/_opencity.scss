@@ -437,6 +437,9 @@ ul.link-list,
 
 .card-teaser-info-width {
   width: 100%;
+  .card-body{
+    max-width: 100%;
+  }
 }
 
 @media (min-width: #{map-get($grid-breakpoints, md)}) {

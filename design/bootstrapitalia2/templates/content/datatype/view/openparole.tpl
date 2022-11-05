@@ -39,7 +39,7 @@
 						{if $role_index|gt($items_per_page)}
 							{set $css = concat($css, '" style="display:none !important')}
 						{/if}
-						{node_view_gui content_node=$child.main_node view=card_teaser show_icon=true() image_class=widemedium view_variation=$css}
+						{node_view_gui content_node=$child.main_node view=card_teaser show_icon=false() show_category=false() image_class=widemedium view_variation=$css}
 						{set $role_index = $role_index|inc()}
 						{undef $css}
 					{/foreach}
@@ -183,7 +183,7 @@
 		{case match=4} {* Strutture: per i ruoli afferenti a una persona *}
 			<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
 				{foreach $attribute.content.entities as $child }
-					{node_view_gui content_node=$child.main_node view=card_teaser show_icon=true() image_class=widemedium}
+					{node_view_gui content_node=$child.main_node view=card_teaser show_icon=false() show_category=false() image_class=widemedium}
 				{/foreach}
 			</div>
 		{/case}

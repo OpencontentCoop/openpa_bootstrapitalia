@@ -26,6 +26,7 @@ $eZTemplateOperatorArray = [
             'is_empty_matrix',
             'cookie_consent_config_translations',
             'parse_layout_blocks',
+            'parse_attribute_groups',
         ],
     ],
 ];

@@ -94,6 +94,29 @@
 
 {else}
 
+    {if and($node.object.remote_id|eq('all-service'), $openpa.content_tag_menu.current_view_tag)}
+        {include uri='design:zone/default.tpl' zones=array(hash('blocks', array(page_block(
+        "",
+        "OpendataRemoteContents",
+        "default",
+        hash(
+            "remote_url", "",
+            "query", concat("raw[ezf_df_tag_ids] = ", $openpa.content_tag_menu.current_view_tag.id, " and classes [public_service]"),
+            "show_grid", "1",
+            "show_map", "1",
+            "show_search", "1",
+            "limit", "4",
+            "items_per_row", "2",
+            "facets", "Ufficio:holds_role_in_time_ufficio.name,Argomenti:topics.name",
+            "view_api", "card_teaser",
+            "color_style", "bg-100",
+            "fields", "",
+            "template", "",
+            "simple_geo_api", "0"
+        )
+        ))))}
+    {/if}
+
     {if $type|eq( 'exclude' )}
         {def $params = hash( 'class_filter_type', 'exclude', 'class_filter_array', $exclude_classes )}
     {else}

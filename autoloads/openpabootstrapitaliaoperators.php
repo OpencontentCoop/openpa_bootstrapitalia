@@ -30,6 +30,7 @@ class OpenPABootstrapItaliaOperators
             'is_empty_matrix',
             'cookie_consent_config_translations',
             'parse_layout_blocks',
+            'parse_attribute_groups',
         );
     }
 
@@ -83,6 +84,10 @@ class OpenPABootstrapItaliaOperators
             'parse_layout_blocks' => array(
                 'zones' => array('type' => 'array', 'required' => true),
             ),
+            'parse_attribute_groups' => array(
+                'object' => array('type' => 'array', 'required' => true),
+                'show_all' => array('type' => 'boolean', 'required' => false, 'default' => false),
+            ),
         );
     }
 
@@ -97,6 +102,10 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'parse_attribute_groups':
+                $operatorValue = self::parseAttributeGroups($namedParameters['object'], $namedParameters['show_all']);
+                break;
 
             case 'parse_layout_blocks':
                 $operatorValue = self::parseBlocks($namedParameters['zones']);
@@ -376,7 +385,7 @@ class OpenPABootstrapItaliaOperators
         $tags = [];
         foreach ($data['subtree'] as $index => $value){
             if (strpos($value, '-') !== false){
-                list($nodeId, $tagId) = explode('-', $value);
+                [$nodeId, $tagId] = explode('-', $value);
                 $data['subtree'][] = intval($nodeId) . '-' . intval($tagId);
                 $subtree[] = (int)$nodeId;
                 $tags[] = (int)$tagId;
@@ -642,6 +651,13 @@ class OpenPABootstrapItaliaOperators
         $data = [];
         if (is_array($zones)){
             foreach ($zones as $zone){
+                if (is_array($zone) && isset($zone['blocks'])){
+                    $zoneObj = new eZPageZone();
+                    foreach ($zone['blocks'] as $block){
+                        $zoneObj->addBlock($block);
+                    }
+                    $zone = $zoneObj;
+                }
                 if ($zone instanceof eZPageZone && $zone->hasAttribute('blocks')) {
                     $blocks = $zone->attribute('blocks');
                     foreach ($blocks as $index => $block){
@@ -726,5 +742,111 @@ class OpenPABootstrapItaliaOperators
 
         }
         return $blockWrapper;
+    }
+
+    private static function parseAttributeGroups($object, $showAll = false)
+    {
+        if (!$object instanceof eZContentObject){
+            return [];
+        }
+
+        $items = [];
+        $dataMap = $object->dataMap();
+        $extraManager = OCClassExtraParametersManager::instance($object->contentClass());
+        $attributeGroups = $extraManager->getHandler('attribute_group');
+        $openpa = OpenPAObjectHandler::instanceFromObject($object);
+
+        $tableView = $extraManager->getHandler('table_view');
+        $hiddenList = $attributeGroups->attribute('hidden_list');
+        if ($showAll){
+            foreach ($dataMap as $identifier => $attribute){
+                if ($openpa->hasAttribute($identifier)){
+                    $items[] = [
+                        'slug' => $identifier,
+                        'title' => $openpa->attribute($identifier)->attribute('label'),
+                        'attributes' => [$openpa->attribute($identifier)],
+                        'is_grouped' => false,
+                        'wrap' => false,
+                        'evidence' => false,
+                    ];
+                }
+            }
+        }elseif($attributeGroups->attribute('enabled')){
+            foreach ($attributeGroups->attribute('group_list') as $slug => $name){
+                if (count($attributeGroups->attribute($slug)) > 0){
+                    $attributes = [];
+                    $wrapped = true;
+                    foreach ($attributeGroups->attribute($slug) as $identifier) {
+                        if ($openpa->hasAttribute($identifier)){
+                            $openpaAttribute = $openpa->attribute($identifier);
+                            if (!$openpaAttribute->attribute('full')['exclude']
+                                && ($openpaAttribute->attribute('has_content') || $openpaAttribute->attribute('full')['show_empty'])) {
+                                if (
+                                    // workaround per ezboolean
+                                    (
+                                        $openpaAttribute->hasAttribute('contentobject_attribute')
+                                        && $openpaAttribute->attribute('contentobject_attribute')->attribute('data_type_string') == eZBooleanType::DATA_TYPE_STRING
+                                        && $openpaAttribute->attribute('contentobject_attribute')->attribute('data_int') != '1'
+                                    )
+                                    ||
+                                    // evita di duplicare l'immagine principale nella galleria
+                                    (
+                                        in_array($identifier, $tableView->attribute('main_image'))
+                                        && in_array($identifier, $tableView->attribute('show_link'))
+                                        && $openpaAttribute->hasAttribute('contentobject_attribute')
+                                        && $openpaAttribute->attribute('contentobject_attribute')->attribute('data_type_string') == eZObjectRelationListType::DATA_TYPE_STRING
+                                        && count($openpaAttribute->attribute('contentobject_attribute')->attribute('content')['relation_list']) <= 1
+                                    )
+                                ){
+                                    continue;
+                                }
+
+                                $attributes[] = $openpaAttribute;
+                                if ($wrapped && (!$openpaAttribute->attribute('full')['show_link'] || $openpaAttribute->attribute('full')['show_label'])){
+                                    $wrapped = false;
+                                }
+                            }
+                        }
+                    }
+                    if (count($attributes)){
+                        $items[] = [
+                            'slug' => $slug,
+                            'title' => $attributeGroups->attribute('current_translation')[$slug],
+                            'label' => in_array($slug, $hiddenList) ? false : $attributeGroups->attribute('current_translation')[$slug],
+                            'attributes' => $attributes,
+                            'is_grouped' => true,
+                            'wrap' => $wrapped && count($attributes) > 1,
+                            'evidence' => in_array($slug, $attributeGroups->attribute('evidence_list'))
+                        ];
+                    }
+                }
+            }
+        }else{
+            foreach ($tableView->attribute('show') as $identifier){
+                if ($openpa->hasAttribute($identifier)) {
+                    $openpaAttribute = $openpa->attribute($identifier);
+                    if (!$openpaAttribute->attribute('full')['exclude']
+                        && ($openpaAttribute->attribute('has_content')
+                            || $openpaAttribute->attribute('full')['show_empty']
+                        )
+                    ) {
+                        $items[] = [
+                            'slug' => $identifier,
+                            'title' => $openpa->attribute($identifier)->attribute('label'),
+                            'attributes' => [$openpaAttribute],
+                            'is_grouped' => false,
+                            'wrap' => false,
+                            'evidence' => false,
+                        ];
+                    }
+                }
+            }
+        }
+
+        return [
+            'has_items' => count($items) > 0,
+            'show_index' => count($items) > 1 && !$attributeGroups->attribute('hide_index'),
+            'items' => $items,
+        ];
     }
 }
