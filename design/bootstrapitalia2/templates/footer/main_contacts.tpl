@@ -5,34 +5,52 @@
                 <div class="cmp-contacts">
                     <div class="card w-100">
                         <div class="card-body">
-                            <h2 class="title-medium-2-semi-bold">Contatta il comune</h2>
+                            <h2 class="title-medium-2-semi-bold">{'Contact the municipality'|i18n('bootstrapitalia')}</h2>
                             <ul class="contact-list p-0">
-                                <li><a class="list-item" href="#">
-                                        {display_icon('it-help-circle', 'svg', 'icon icon-primary icon-sm')}
-                                        Leggi le domande frequenti
-                                    </a></li>
-
-                                <li><a class="list-item" href="#" data-element="contacts">
-                                        {display_icon('it-mail', 'svg', 'icon icon-primary icon-sm')}
-                                        Richiedi assistenza
-                                    </a></li>
-                                <li><a class="list-item" href="#">
-                                        {display_icon('it-hearing', 'svg', 'icon icon-primary icon-sm')}
-                                        Chiama il numero verde 05 0505
-                                    </a></li>
-                                <li><a class="list-item" href="#" data-element="appointment-booking">
-                                        {display_icon('it-calendar', 'svg', 'icon icon-primary icon-sm')}
-                                        Prenota appuntamento
-                                    </a></li>
+                                {def $faq_system = fetch(content, object, hash(remote_id, 'faq_system'))}
+                                {if $faq_system}
+                                <li>
+                                    <a class="list-item" href="{object_handler($faq_system).content_link.full_link}">
+                                        {display_icon('it-help-circle', 'svg', 'icon icon-primary')}<span>{'Read the FAQ'|i18n('bootstrapitalia')}</span>
+                                    </a>
+                                </li>
+                                {/if}
+                                {undef $faq_system}
+                                {if or(is_set($pagedata.contacts['assistenza']), is_set($pagedata.contacts['email']))}
+                                <li>
+                                    <a class="list-item" href="{if is_set($pagedata.contacts['assistenza'])}{$pagedata.contacts['assistenza']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}"
+                                       data-element="contacts">
+                                        {display_icon('it-mail', 'svg', 'icon icon-primary')}<span>{'Request assistance'|i18n('bootstrapitalia')}</span>
+                                    </a>
+                                </li>
+                                {/if}
+                                {if or(is_set($pagedata.contacts['numero_verde']), is_set($pagedata.contacts['telefono']))}
+                                <li>
+                                    <a class="list-item" href="{if is_set($pagedata.contacts['numero_verde'])}{$pagedata.contacts['numero_verde']|wash()}{else}{$pagedata.contacts['telefono']|wash()}{/if}">
+                                        {display_icon('it-hearing', 'svg', 'icon icon-primary')}<span>{'Call the municipality'|i18n('bootstrapitalia')}</span>
+                                    </a>
+                                </li>
+                                {/if}
+                                {if or(is_set($pagedata.contacts['prenota_appuntamento']), is_set($pagedata.contacts['email']))}
+                                <li>
+                                    <a class="list-item" href="{if is_set($pagedata.contacts['prenota_appuntamento'])}{$pagedata.contacts['prenota_appuntamento']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}"
+                                       data-element="appointment-booking">
+                                        {display_icon('it-calendar', 'svg', 'icon icon-primary')}<span>{'Book an appointment'|i18n('bootstrapitalia')}</span>
+                                    </a>
+                                </li>
+                                {/if}
                             </ul>
 
-                            <h2 class="title-medium-2-semi-bold mt-4">Problemi in città</h2>
+                            {if or(is_set($pagedata.contacts['segnala_disservizio']), is_set($pagedata.contacts['email']))}
+                            <h2 class="title-medium-2-semi-bold mt-4">{'Trouble in the city'|i18n('bootstrapitalia')}</h2>
                             <ul class="contact-list p-0">
-                                <li><a class="list-item" href="#">
-                                        {display_icon('it-map-marker-circle', 'svg', 'icon icon-primary icon-sm')}
-                                        Segnala disservizio
-                                    </a></li>
+                                <li>
+                                    <a class="list-item" href="{if is_set($pagedata.contacts['segnala_disservizio'])}{$pagedata.contacts['segnala_disservizio']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}">
+                                        {display_icon('it-map-marker-circle', 'svg', 'icon icon-primary')}<span>{'Report a disservice'|i18n('bootstrapitalia')}</span>
+                                    </a>
+                                </li>
                             </ul>
+                            {/if}
 
                         </div>
                     </div>

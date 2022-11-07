@@ -284,4 +284,17 @@ for (var service in CookieConsentServices) {
 }, 800);
 *}
 </script>
+{literal}
+<style>
+    #cconsent-bar .ccb__wrapper{
+        padding: 35px !important;
+    }
+    #cconsent-bar .close{
+        float:right;
+    }
+    #cconsent-bar{
+        max-width:900px !important;
+    }
+</style>
+{/literal}
 {/if}

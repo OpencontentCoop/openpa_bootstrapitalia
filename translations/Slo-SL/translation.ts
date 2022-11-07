@@ -5,11 +5,11 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>Ta spletna stran uporablja tehnične, analitike in piškotke tretjih oseb.</translation>
+      <translation>To spletno mesto uporablja tehnične, analitične in piškotke drugih proizvajalcev.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
-      <translation>Z nadaljevanjem brskanja sprejmete uporabo piškotkov.</translation>
+      <translation>Z nadaljnjim brskanjem sprejemate uporabo piškotkov.</translation>
     </message>
     <message>
       <source>Informations</source>
@@ -17,15 +17,15 @@
     </message>
     <message>
       <source>Accept</source>
-      <translation>Sprejmi</translation>
+      <translation>Sprejeti</translation>
     </message>
     <message>
       <source>Jump to main content</source>
-      <translation>Skoči na glavno vsebino</translation>
+      <translation>Skočite na glavno vsebino</translation>
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Skoči na razdelek</translation>
+      <translation>Skočite na meni</translation>
     </message>
     <message>
       <source>Jump to footer</source>
@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>Zapri</translation>
+      <translation>Blizu</translation>
     </message>
     <message>
       <source>FREE</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Brezplačni vstop za vse udeležence</translation>
+      <translation>Brezplačen vstop za vse udeležence</translation>
     </message>
     <message>
       <source>Download</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
       <source>Download file</source>
-      <translation>Prenesite datoteko</translation>
+      <translation>Prenos datoteke</translation>
     </message>
     <message>
       <source>File type</source>
@@ -69,7 +69,7 @@
     </message>
     <message>
       <source>Actions</source>
-      <translation>Akcijah</translation>
+      <translation>Dejanja</translation>
     </message>
     <message>
       <source>Send</source>
@@ -81,7 +81,7 @@
     </message>
     <message>
       <source>Search in</source>
-      <translation>Iskanje v.</translation>
+      <translation>Iskanje</translation>
     </message>
     <message>
       <source>Filters</source>
@@ -109,11 +109,11 @@
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Pojdite na koledar dogodkov</translation>
+      <translation>Pojdite na koledar dogodka</translation>
     </message>
     <message>
       <source>Event start</source>
-      <translation>Start dogodka</translation>
+      <translation>Začnite dogodek</translation>
     </message>
     <message>
       <source>Event end</source>
@@ -133,15 +133,15 @@
     </message>
     <message>
       <source>Create</source>
-      <translation>Ustvarite</translation>
+      <translation>Ustvari</translation>
     </message>
     <message>
       <source>Create new</source>
-      <translation>Ustvarite novo</translation>
+      <translation>Ustvari novo</translation>
     </message>
     <message>
       <source>Reading time</source>
-      <translation>Čas branja.</translation>
+      <translation>Čas branja</translation>
     </message>
     <message>
       <source>Topics</source>
@@ -149,11 +149,11 @@
     </message>
     <message>
       <source>Last modified</source>
-      <translation>Zadnji spremenjen</translation>
+      <translation>Nazadnje spremenjeno</translation>
     </message>
     <message>
       <source>Editor tools</source>
-      <translation>Orodja urednika</translation>
+      <translation>Orodja za urejanje</translation>
     </message>
     <message>
       <source>See previous versions</source>
@@ -169,7 +169,7 @@
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Pojdi na vsebino</translation>
+      <translation>Pojdi v vsebino</translation>
     </message>
     <message>
       <source>View all</source>
@@ -243,35 +243,63 @@
       <source>Add note</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Contact the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Read the FAQ</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Call the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Report a disservice</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Trouble in the city</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>ez tags.</translation>
+      <translation>EZ oznake</translation>
     </message>
     <message>
       <source>Apps</source>
       <translation>Aplikacije</translation>
     </message>
     <message>
-      <source>Amministrazione Trasparente</source>
-      <translation>Amministrazione trasparente.</translation>
+      <source>Transparent Administration</source>
+      <translation>Prozorna uporaba</translation>
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Seznami po razredu</translation>
+      <translation>Sezname po razredu</translation>
     </message>
     <message>
       <source>Import management</source>
-      <translation>Upravljanje uvoza</translation>
+      <translation>Uvozno upravljanje</translation>
     </message>
   </context>
   <context>
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Položaj v grafikonu organizacije</translation>
+      <translation>Položaj v organizacijski lestvici</translation>
     </message>
     <message>
       <source>Add objects</source>
@@ -282,22 +310,22 @@
     <name>openpa/tools</name>
     <message>
       <source>Info</source>
-      <translation>Info.</translation>
+      <translation>Informacije</translation>
     </message>
   </context>
   <context>
     <name>openpa/sidebar</name>
     <message>
       <source>Related information</source>
-      <translation>Sorodne informacije</translation>
+      <translation>Povezane informacije</translation>
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Se sklicuje</translation>
+      <translation>Sklicevanje na</translation>
     </message>
     <message>
       <source>Classification</source>
-      <translation>Razvrstitev</translation>
+      <translation>Klasifikacija</translation>
     </message>
     <message>
       <source>References</source>
@@ -312,7 +340,7 @@
     </message>
     <message>
       <source>Contacts</source>
-      <translation>Kontakti.</translation>
+      <translation>Stiki</translation>
     </message>
     <message>
       <source>Links</source>
@@ -330,28 +358,28 @@
   <context>
     <name>openpa/valuation</name>
     <message>
-      <source>Valuta questo sito</source>
-      <translation>Valuta Questo SITO.</translation>
+      <source>Rate this site</source>
+      <translation>Ocenite to spletno mesto</translation>
     </message>
     <message>
-      <source>per nulla</source>
-      <translation>na nulla.</translation>
+      <source>in no way</source>
+      <translation>na noben način</translation>
     </message>
     <message>
-      <source>poco</source>
-      <translation>Poco.</translation>
+      <source>little</source>
+      <translation>malo</translation>
     </message>
     <message>
-      <source>abbastanza</source>
-      <translation>ABBASTANZA.</translation>
+      <source>enough</source>
+      <translation>dovolj</translation>
     </message>
     <message>
-      <source>molto</source>
-      <translation>Molto.</translation>
+      <source>Very</source>
+      <translation>Zelo</translation>
     </message>
     <message>
-      <source>Invia la valutazione</source>
-      <translation>Invia la Valutazione.</translation>
+      <source>Submit your rating</source>
+      <translation>Oddajte svojo oceno</translation>
     </message>
   </context>
   <context>
@@ -378,15 +406,15 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>Vse spletne strani</translation>
+      <translation>vse spletno mesto</translation>
     </message>
     <message>
       <source>only information of type</source>
-      <translation>samo informacije vrste</translation>
+      <translation>Samo informacije o vrsti</translation>
     </message>
     <message>
       <source>Sorting by</source>
-      <translation>Razvrščanje po</translation>
+      <translation>Razvrščanje</translation>
     </message>
     <message>
       <source>Sorting</source>
@@ -394,11 +422,11 @@
     </message>
     <message>
       <source>Descending</source>
-      <translation>Spust</translation>
+      <translation>Spuščanje</translation>
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Naraščajoče</translation>
+      <translation>Vzpona</translation>
     </message>
     <message>
       <source>Score</source>
@@ -418,11 +446,11 @@
     </message>
     <message>
       <source>from</source>
-      <translation>Od</translation>
+      <translation>od</translation>
     </message>
     <message>
       <source>to</source>
-      <translation>To.</translation>
+      <translation>do</translation>
     </message>
     <message>
       <source>Year</source>
@@ -430,7 +458,7 @@
     </message>
     <message>
       <source>Any year</source>
-      <translation>Vsako leto</translation>
+      <translation>Katero koli leto</translation>
     </message>
     <message>
       <source>Logical conditions</source>
@@ -438,19 +466,19 @@
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Mogoče si želel poiskati</translation>
+      <translation>Mogoče ste želeli iskati</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
-      <translation>Iz iskanja so bile izključene naslednje besede:</translation>
+      <translation>Naslednje besede so bile izključene iz iskanja:</translation>
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>Pri iskanju "% 1" ni bilo najdenih rezultatov.</translation>
+      <translation>Pri iskanju "%1" ni bilo mogoče najti rezultatov.</translation>
     </message>
     <message>
       <source>Search tips</source>
-      <translation>Iskanje nasvetov</translation>
+      <translation>Nasveti za iskanje</translation>
     </message>
     <message>
       <source>Check spelling of keywords.</source>
@@ -466,19 +494,19 @@
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
-      <translation>Zmanjšajte število ključnih besed, da dobite več rezultatov.</translation>
+      <translation>Zmanjšajte število ključnih besed, da dosežete več rezultatov.</translation>
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Iskanje "% 1" Vrnilo% 2 tekme</translation>
+      <translation>Iskanje " %1" je vrnilo %2 tekme</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Iskanje se je vrnilo% 2 ujemanja</translation>
+      <translation>Iskanje se je vrnilo %2 tekma</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Za več možnosti poskusite% 1ADvanced Search% 2</translation>
+      <translation>Za več možnosti poskusite z %1 invalidsko iskanje %2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -490,11 +518,11 @@
     </message>
     <message>
       <source>Refine your search</source>
-      <translation>Izboljšajte iskanje</translation>
+      <translation>Izpolnite iskanje</translation>
     </message>
     <message>
       <source>You are filtering for</source>
-      <translation>Filtrirate</translation>
+      <translation>Filtrirate za</translation>
     </message>
     <message>
       <source>Options</source>
@@ -573,11 +601,11 @@
     </message>
     <message>
       <source>tuesday</source>
-      <translation>torek</translation>
+      <translation>Torek</translation>
     </message>
     <message>
       <source>wednesday</source>
-      <translation>sreda</translation>
+      <translation>Sreda</translation>
     </message>
     <message>
       <source>thursday</source>
@@ -585,7 +613,7 @@
     </message>
     <message>
       <source>friday</source>
-      <translation>Petek</translation>
+      <translation>petek</translation>
     </message>
     <message>
       <source>saturday</source>
@@ -683,15 +711,15 @@
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation>Oznaka lahko povlečete na zemljevidu, da natančneje izberete lokacijo.</translation>
+      <translation>Označevalec lahko povlečete na zemljevidu, da natančneje izberete lokacijo.</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation>Dodajte to mesto na kraje</translation>
+      <translation>Dodajte to lokacijo na svoja mesta</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Obstajajo kraji blizu izbrane lokacije, registrirane v sistemu. Želite uporabiti enega od teh?</translation>
+      <translation>V bližini izbrane lokacije, registrirane v sistemu, so mesta. Ali želite uporabiti eno od teh?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
@@ -699,7 +727,7 @@
     </message>
     <message>
       <source>Detect position</source>
-      <translation>Zaznavanje položaja</translation>
+      <translation>Zaznati položaj</translation>
     </message>
   </context>
   <context>
@@ -776,39 +804,39 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>si</source>
+      <source>yes</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>per nulla</source>
+      <source>in no way</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>poco</source>
+      <source>little</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>abbastanza</source>
+      <source>enough</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>molto</source>
+      <source>Very</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Sono presenti contenuti non accessibili</source>
+      <source>There are inaccessible content</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>I contenuti non sono pertinenti</source>
+      <source>The contents are not relevant</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Il linguaggio non è di facile comprensione</source>
+      <source>The language is not easy to understand</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Le informazioni non sono aggiornate</source>
+      <source>The information is not up to date</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -913,19 +941,19 @@
   <context>
     <name>bootstrapitalia/menu</name>
     <message>
-      <source>Amministrazione</source>
+      <source>Administration</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Servizi</source>
+      <source>Services</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Novità</source>
+      <source>Announcements</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Documenti</source>
+      <source>Papers</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -1013,6 +1041,45 @@
     </message>
     <message>
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>openparoletype</name>
+    <message>
+      <source>Search for</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Person</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>View</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>People</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sort by</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Person name</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Filter by type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Structure</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Role type</source>
       <translation type="unfinished"/>
     </message>
   </context>

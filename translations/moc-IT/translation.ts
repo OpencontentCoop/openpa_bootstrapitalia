@@ -243,6 +243,34 @@
       <source>Add note</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Contact the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Read the FAQ</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Call the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Report a disservice</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Trouble in the city</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -255,7 +283,7 @@
       <translation>Apps</translation>
     </message>
     <message>
-      <source>Amministrazione Trasparente</source>
+      <source>Transparent Administration</source>
       <translation>Transparente amministrazion</translation>
     </message>
     <message>
@@ -330,27 +358,27 @@
   <context>
     <name>openpa/valuation</name>
     <message>
-      <source>Valuta questo sito</source>
+      <source>Rate this site</source>
       <translation>schòtz de doin internet saitn</translation>
     </message>
     <message>
-      <source>per nulla</source>
+      <source>in no way</source>
       <translation>gor nicht</translation>
     </message>
     <message>
-      <source>poco</source>
+      <source>little</source>
       <translation>a bea’ne</translation>
     </message>
     <message>
-      <source>abbastanza</source>
+      <source>enough</source>
       <translation>ganua</translation>
     </message>
     <message>
-      <source>molto</source>
+      <source>Very</source>
       <translation>vil</translation>
     </message>
     <message>
-      <source>Invia la valutazione</source>
+      <source>Submit your rating</source>
       <translation>schick de schòtzung</translation>
     </message>
   </context>
@@ -776,39 +804,39 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>si</source>
+      <source>yes</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>per nulla</source>
+      <source>in no way</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>poco</source>
+      <source>little</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>abbastanza</source>
+      <source>enough</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>molto</source>
+      <source>Very</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Sono presenti contenuti non accessibili</source>
+      <source>There are inaccessible content</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>I contenuti non sono pertinenti</source>
+      <source>The contents are not relevant</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Il linguaggio non è di facile comprensione</source>
+      <source>The language is not easy to understand</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Le informazioni non sono aggiornate</source>
+      <source>The information is not up to date</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -913,19 +941,19 @@
   <context>
     <name>bootstrapitalia/menu</name>
     <message>
-      <source>Amministrazione</source>
+      <source>Administration</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Servizi</source>
+      <source>Services</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Novità</source>
+      <source>Announcements</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Documenti</source>
+      <source>Papers</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -1013,6 +1041,45 @@
     </message>
     <message>
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>openparoletype</name>
+    <message>
+      <source>Search for</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Person</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>View</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>People</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Sort by</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Person name</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Filter by type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Structure</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Role type</source>
       <translation type="unfinished"/>
     </message>
   </context>

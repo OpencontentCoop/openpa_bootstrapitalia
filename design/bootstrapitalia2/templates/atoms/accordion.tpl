@@ -2,7 +2,8 @@
     {foreach $items as $item}
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading-{$item.node_id}">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{$item.node_id}" aria-expanded="false" aria-controls="collapse-{$item.node_id}">
+            <button class="accordion-button collapsed" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#collapse-{$item.node_id}" aria-expanded="false" aria-controls="collapse-{$item.node_id}">
                 {$item.name|wash()}
             </button>
         </h2>

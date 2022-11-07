@@ -118,30 +118,115 @@
                         <h3 class="footer-heading-title">Contatti</h3>
                         <div class="row">
                             <div class="col-md-4">
-                                <p class="footer-info">Comune di Nome Comune<br>
-                                    Via Roma 123 - 00100 Comune<br>
-                                    Codice fiscale / P. IVA: 00123456789<br><br>
-                                    <a href="#">Ufficio Relazioni con il Pubblico</a><br>
-                                    Numero verde: 800 016 123<br>
-                                    SMS e WhatsApp: +39 320 1234567<br>
-                                    Posta Elettronica Certificata<br>
-                                    Centralino unico: 012 3456
-                                </p>
+                                <ul class="contact-list p-0 footer-info">
+                                {if is_set($pagedata.contacts.indirizzo)}
+                                    <li style="display: flex;align-items: center;">
+                                        {display_icon('it-pa', 'svg', 'icon icon-sm icon-white')}
+                                        <small class="ms-2">{$pagedata.contacts.indirizzo|wash()}</small>
+                                    </li>
+                                {/if}
+                                {if is_set($pagedata.contacts.telefono)}
+                                <li>
+                                    {def $tel = strReplace($pagedata.contacts.telefono,array(" ",""))}
+                                    <a style="display: flex;align-items: center;" class="text-decoration-none" href="tel:{$tel}">
+                                        {display_icon('it-telephone', 'svg', 'icon icon-sm icon-white')}
+                                        <small class="ms-2">{$pagedata.contacts.telefono}</small>
+                                    </a>
+                                </li>
+                                {/if}
+                                {if is_set($pagedata.contacts.fax)}
+                                    <li>
+                                        {def $fax = strReplace($pagedata.contacts.fax,array(" ",""))}
+                                        <a style="display: flex;align-items: center;" class="text-decoration-none" href="tel:{$fax}">
+                                            {display_icon('it-file', 'svg', 'icon icon-sm icon-white')}
+                                            <small class="ms-2">{$pagedata.contacts.fax}</small>
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if is_set($pagedata.contacts.email)}
+                                    <li>
+                                        <a style="display: flex;align-items: center;" class="text-decoration-none" href="mailto:{$pagedata.contacts.email}">
+                                            {display_icon('it-mail', 'svg', 'icon icon-sm icon-white')}
+                                            <small class="ms-2">{$pagedata.contacts.email}</small>
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if is_set($pagedata.contacts.pec)}
+                                    <li>
+                                        <a style="display: flex;align-items: center;" class="text-decoration-none" href="mailto:{$pagedata.contacts.pec}">
+                                            {display_icon('it-mail', 'svg', 'icon icon-sm icon-warning')}
+                                            <small class="ms-2">{$pagedata.contacts.pec}</small>
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if is_set($pagedata.contacts.web)}
+                                    {def $webs = $pagedata.contacts.web|explode_contact()}
+                                    {foreach $webs as $name => $link}
+                                        <li>
+                                            <a style="display: flex;align-items: center;" class="text-decoration-none" href="{$link|wash()}">
+                                                {display_icon('it-link', 'svg', 'icon icon-sm icon-white')}
+                                                <small class="ms-2">{$name|wash()}</small>
+                                            </a>
+                                        </li>
+                                    {/foreach}
+                                    {undef $webs}
+                                {/if}
+                                {if is_set($pagedata.contacts.partita_iva)}
+                                    <li>
+                                        <a style="display: flex;align-items: center;" class="text-decoration-none" href="#">
+                                            {display_icon('it-card', 'svg', 'icon icon-sm icon-white')}
+                                            <small class="ms-2">P.IVA {$pagedata.contacts.partita_iva}</small>
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if is_set($pagedata.contacts.codice_fiscale)}
+                                    <li>
+                                        <a style="display: flex;align-items: center;" class="text-decoration-none" href="#">
+                                            {display_icon('it-card', 'svg', 'icon icon-sm icon-white')}
+                                            <small class="ms-2">C.F. {$pagedata.contacts.codice_fiscale}</small>
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if is_set($pagedata.contacts.codice_sdi)}
+                                    <li>
+                                        <a style="display: flex;align-items: center;" class="text-decoration-none" href="#">
+                                            {display_icon('it-card', 'svg', 'icon icon-sm icon-white')}
+                                            <small class="ms-2">SDI {$pagedata.contacts.codice_sdi}</small>
+                                        </a>
+                                    </li>
+                                {/if}
+                                </ul>
                             </div>
                             <div class="col-md-4">
                                 <ul class="footer-list"> {*@todo*}
-                                    <li>
-                                        <a href="#" data-element="faq">Leggi le FAQ</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Prenotazione appuntamento</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" data-element="report-inefficiency">Segnalazione disservizio</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Richiesta d'assistenza</a>
-                                    </li>
+                                    {def $faq_system = fetch(content, object, hash(remote_id, 'faq_system'))}
+                                    {if $faq_system}
+                                        <li>
+                                            <a href="{object_handler($faq_system).content_link.full_link}" data-element="faq">{'Read the FAQ'|i18n('bootstrapitalia')}</a>
+                                        </li>
+                                    {/if}
+                                    {undef $faq_system}
+                                    {if or(is_set($pagedata.contacts['prenota_appuntamento']), is_set($pagedata.contacts['email']))}
+                                        <li>
+                                            <a href="{if is_set($pagedata.contacts['prenota_appuntamento'])}{$pagedata.contacts['prenota_appuntamento']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}">
+                                                {'Book an appointment'|i18n('bootstrapitalia')}
+                                            </a>
+                                        </li>
+                                    {/if}
+                                    {if or(is_set($pagedata.contacts['segnala_disservizio']), is_set($pagedata.contacts['email']))}
+                                        <li>
+                                            <a href="{if is_set($pagedata.contacts['segnala_disservizio'])}{$pagedata.contacts['segnala_disservizio']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}">
+                                                {'Report a disservice'|i18n('bootstrapitalia')}
+                                            </a>
+                                        </li>
+                                    {/if}
+                                    {if or(is_set($pagedata.contacts['assistenza']), is_set($pagedata.contacts['email']))}
+                                        <li>
+                                            <a href="{if is_set($pagedata.contacts['assistenza'])}{$pagedata.contacts['assistenza']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}">
+                                                {'Request assistance'|i18n('bootstrapitalia')}
+                                            </a>
+                                        </li>
+                                    {/if}
                                 </ul>
                             </div>
                             <div class="col-md-4">

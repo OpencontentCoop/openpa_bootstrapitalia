@@ -5,243 +5,243 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>Este sitio utiliza cookies técnicas, analíticas y de terceros.</translation>
+      <translation>This site uses technical, analytics and third-party cookies.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
-      <translation>Al continuar navegando, acepta el uso de cookies.</translation>
+      <translation>By continuing to browse, you accept the use of cookies.</translation>
     </message>
     <message>
       <source>Informations</source>
-      <translation>Información</translation>
+      <translation>Informations</translation>
     </message>
     <message>
       <source>Accept</source>
-      <translation>Aceptar</translation>
+      <translation>Accept</translation>
     </message>
     <message>
       <source>Jump to main content</source>
-      <translation>Saltar al contenido principal</translation>
+      <translation>Jump to main content</translation>
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Saltar al menú de sección</translation>
+      <translation>Jump to section menu</translation>
     </message>
     <message>
       <source>Jump to footer</source>
-      <translation>Saltar al pie de página</translation>
+      <translation>Jump to footer</translation>
     </message>
     <message>
       <source>Table of contents</source>
-      <translation>Tabla de contenido</translation>
+      <translation>Table of contents</translation>
     </message>
     <message>
       <source>Close</source>
-      <translation>Cerca</translation>
+      <translation>Close</translation>
     </message>
     <message>
       <source>FREE</source>
-      <translation>LIBRE</translation>
+      <translation>FREE</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Entrada gratuita para todos los asistentes</translation>
+      <translation>Free admission for all attendees</translation>
     </message>
     <message>
       <source>Download</source>
-      <translation>Descargar</translation>
+      <translation>Download</translation>
     </message>
     <message>
       <source>Download file</source>
-      <translation>Descargar archivo</translation>
+      <translation>Download file</translation>
     </message>
     <message>
       <source>File type</source>
-      <translation>Tipo de archivo</translation>
+      <translation>File type</translation>
     </message>
     <message>
       <source>days</source>
-      <translation>días</translation>
+      <translation>days</translation>
     </message>
     <message>
       <source>Share</source>
-      <translation>Cuota</translation>
+      <translation>Share</translation>
     </message>
     <message>
       <source>Actions</source>
-      <translation>Comportamiento</translation>
+      <translation>Actions</translation>
     </message>
     <message>
       <source>Send</source>
-      <translation>Enviar</translation>
+      <translation>Send</translation>
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Contenido relacionado</translation>
+      <translation>Related contents</translation>
     </message>
     <message>
       <source>Search in</source>
-      <translation>Busca en</translation>
+      <translation>Search in</translation>
     </message>
     <message>
       <source>Filters</source>
-      <translation>Filtros</translation>
+      <translation>Filters</translation>
     </message>
     <message>
       <source>All</source>
-      <translation>Todos</translation>
+      <translation>All</translation>
     </message>
     <message>
       <source>Read more</source>
-      <translation>Lee mas</translation>
+      <translation>Read more</translation>
     </message>
     <message>
       <source>Visit</source>
-      <translation type="unfinished"/>
+      <translation>Visit</translation>
     </message>
     <message>
       <source>Go to page</source>
-      <translation>Ir a la página</translation>
+      <translation>Go to page</translation>
     </message>
     <message>
       <source>Explore topic</source>
-      <translation>Explorar tema</translation>
+      <translation>Explore topic</translation>
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Ir al calendario de eventos</translation>
+      <translation>Go to event calendar</translation>
     </message>
     <message>
       <source>Event start</source>
-      <translation>Inicio del evento</translation>
+      <translation>Event start</translation>
     </message>
     <message>
       <source>Event end</source>
-      <translation>Final</translation>
+      <translation>Event end</translation>
     </message>
     <message>
       <source>Jump to field</source>
-      <translation>Saltar al campo</translation>
+      <translation>Jump to field</translation>
     </message>
     <message>
       <source>Upload file</source>
-      <translation>Subir archivo</translation>
+      <translation>Upload file</translation>
     </message>
     <message>
       <source>Select from library</source>
-      <translation>Seleccionar de la biblioteca</translation>
+      <translation>Select from library</translation>
     </message>
     <message>
       <source>Create</source>
-      <translation>Crear</translation>
+      <translation>Create</translation>
     </message>
     <message>
       <source>Create new</source>
-      <translation>Crear nuevo</translation>
+      <translation>Create new</translation>
     </message>
     <message>
       <source>Reading time</source>
-      <translation>Tiempo de leer</translation>
+      <translation>Reading time</translation>
     </message>
     <message>
       <source>Topics</source>
-      <translation>Temas</translation>
+      <translation>Topics</translation>
     </message>
     <message>
       <source>Last modified</source>
-      <translation>Última modificación</translation>
+      <translation>Last modified</translation>
     </message>
     <message>
       <source>Editor tools</source>
-      <translation>Herramientas del editor</translation>
+      <translation>Editor tools</translation>
     </message>
     <message>
       <source>See previous versions</source>
-      <translation>Ver versiones anteriores</translation>
+      <translation>See previous versions</translation>
     </message>
     <message>
       <source>Go to the history of this content</source>
-      <translation>Ir a la historia de este contenido</translation>
+      <translation>Go to the history of this content</translation>
     </message>
     <message>
       <source>Further details</source>
-      <translation>Más detalles</translation>
+      <translation>Further details</translation>
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Ir al contenido</translation>
+      <translation>Go to content</translation>
     </message>
     <message>
       <source>View all</source>
-      <translation>Ver todo</translation>
+      <translation>View all</translation>
     </message>
     <message>
       <source>Other topics</source>
-      <translation>Otros temas</translation>
+      <translation>Other topics</translation>
     </message>
     <message>
       <source>All topics...</source>
-      <translation>Todos los temas ...</translation>
+      <translation>All topics...</translation>
     </message>
     <message>
       <source>Access the personal area</source>
-      <translation type="unfinished"/>
+      <translation>Access the personal area</translation>
     </message>
     <message>
       <source>Site editors access</source>
-      <translation type="unfinished"/>
+      <translation>Site editors access</translation>
     </message>
     <message>
       <source>Logout</source>
-      <translation type="unfinished"/>
+      <translation>Logout</translation>
     </message>
     <message>
       <source>Dashboard</source>
-      <translation type="unfinished"/>
+      <translation>Dashboard</translation>
     </message>
     <message>
       <source>User profile</source>
-      <translation type="unfinished"/>
+      <translation>User profile</translation>
     </message>
     <message>
       <source>Other</source>
-      <translation type="unfinished"/>
+      <translation>Other</translation>
     </message>
     <message>
       <source>Manage</source>
-      <translation type="unfinished"/>
+      <translation>Manage</translation>
     </message>
     <message>
       <source>News</source>
-      <translation type="unfinished"/>
+      <translation>News</translation>
     </message>
     <message>
       <source>You must select at least one topic not included in %custom_topics_name</source>
-      <translation type="unfinished"/>
+      <translation>You must select at least one topic not included in %custom_topics_name</translation>
     </message>
     <message>
       <source>at</source>
-      <translation type="unfinished"/>
+      <translation>at</translation>
     </message>
     <message>
       <source>See more</source>
-      <translation type="unfinished"/>
+      <translation>See more</translation>
     </message>
     <message>
       <source>Citizen's Guide</source>
-      <translation type="unfinished"/>
+      <translation>Citizen's Guide</translation>
     </message>
     <message>
       <source>Editor's Guide</source>
-      <translation type="unfinished"/>
+      <translation>Editor's Guide</translation>
     </message>
     <message>
       <source>Note</source>
-      <translation type="unfinished"/>
+      <translation>Note</translation>
     </message>
     <message>
       <source>Add note</source>
-      <translation type="unfinished"/>
+      <translation>Add note</translation>
     </message>
     <message>
       <source>Contact the municipality</source>
@@ -276,568 +276,568 @@
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>Ez etiquetas EZ</translation>
+      <translation>eZ Tags</translation>
     </message>
     <message>
       <source>Apps</source>
-      <translation>Aplicaciones</translation>
+      <translation>Apps</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
-      <translation>Administración transparente</translation>
+      <translation>Transparent Administration</translation>
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Listas por clase</translation>
+      <translation>Lists by class</translation>
     </message>
     <message>
       <source>Import management</source>
-      <translation>Gestión de importaciones</translation>
+      <translation>Import management</translation>
     </message>
   </context>
   <context>
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Posición en la tabla de organización</translation>
+      <translation>Position in the organization chart</translation>
     </message>
     <message>
       <source>Add objects</source>
-      <translation>Agregar objetos</translation>
+      <translation>Add objects</translation>
     </message>
   </context>
   <context>
     <name>openpa/tools</name>
     <message>
       <source>Info</source>
-      <translation>Información</translation>
+      <translation>Info</translation>
     </message>
   </context>
   <context>
     <name>openpa/sidebar</name>
     <message>
       <source>Related information</source>
-      <translation>Información relacionada</translation>
+      <translation>Related information</translation>
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Referible a</translation>
+      <translation>Referable to</translation>
     </message>
     <message>
       <source>Classification</source>
-      <translation>Clasificación</translation>
+      <translation>Classification</translation>
     </message>
     <message>
       <source>References</source>
-      <translation>Referencias</translation>
+      <translation>References</translation>
     </message>
   </context>
   <context>
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>Información</translation>
+      <translation>Informations</translation>
     </message>
     <message>
       <source>Contacts</source>
-      <translation>Contactos</translation>
+      <translation>Contacts</translation>
     </message>
     <message>
       <source>Links</source>
-      <translation>Enlaces</translation>
+      <translation>Links</translation>
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Síganos</translation>
+      <translation>Follow us</translation>
     </message>
     <message>
       <source>back to top</source>
-      <translation>volver arriba</translation>
+      <translation>back to top</translation>
     </message>
   </context>
   <context>
     <name>openpa/valuation</name>
     <message>
       <source>Rate this site</source>
-      <translation>Califica este sitio</translation>
+      <translation>Rate this site</translation>
     </message>
     <message>
       <source>in no way</source>
-      <translation>de ninguna manera</translation>
+      <translation>in no way</translation>
     </message>
     <message>
       <source>little</source>
-      <translation>poco</translation>
+      <translation>little</translation>
     </message>
     <message>
       <source>enough</source>
-      <translation>suficiente</translation>
+      <translation>enough</translation>
     </message>
     <message>
       <source>Very</source>
-      <translation>Muy</translation>
+      <translation>Very</translation>
     </message>
     <message>
       <source>Submit your rating</source>
-      <translation>Envíe su calificación</translation>
+      <translation>Submit your rating</translation>
     </message>
   </context>
   <context>
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Ir a los filtros de búsqueda</translation>
+      <translation>Go to search filters</translation>
     </message>
     <message>
       <source>Link to</source>
-      <translation>Enlace a</translation>
+      <translation>Link to</translation>
     </message>
     <message>
       <source>Search</source>
-      <translation>Búsqueda</translation>
+      <translation>Search</translation>
     </message>
     <message>
       <source>Advanced search</source>
-      <translation>Búsqueda Avanzada</translation>
+      <translation>Advanced search</translation>
     </message>
     <message>
       <source>in</source>
-      <translation>en</translation>
+      <translation>in</translation>
     </message>
     <message>
       <source>all website</source>
-      <translation>todo el sitio web</translation>
+      <translation>all website</translation>
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Solo información del tipo</translation>
+      <translation>only information of type</translation>
     </message>
     <message>
       <source>Sorting by</source>
-      <translation>Clasificación por</translation>
+      <translation>Sorting by</translation>
     </message>
     <message>
       <source>Sorting</source>
-      <translation>Clasificación</translation>
+      <translation>Sorting</translation>
     </message>
     <message>
       <source>Descending</source>
-      <translation>Descendente</translation>
+      <translation>Descending</translation>
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Ascendente</translation>
+      <translation>Ascending</translation>
     </message>
     <message>
       <source>Score</source>
-      <translation>Puntaje</translation>
+      <translation>Score</translation>
     </message>
     <message>
       <source>Publication date</source>
-      <translation>Fecha de publicación</translation>
+      <translation>Publication date</translation>
     </message>
     <message>
       <source>Content type</source>
-      <translation>Tipo de contenido</translation>
+      <translation>Content type</translation>
     </message>
     <message>
       <source>Name</source>
-      <translation>Nombre</translation>
+      <translation>Name</translation>
     </message>
     <message>
       <source>from</source>
-      <translation>de</translation>
+      <translation>from</translation>
     </message>
     <message>
       <source>to</source>
-      <translation>a</translation>
+      <translation>to</translation>
     </message>
     <message>
       <source>Year</source>
-      <translation>Año</translation>
+      <translation>Year</translation>
     </message>
     <message>
       <source>Any year</source>
-      <translation>Cualquier año</translation>
+      <translation>Any year</translation>
     </message>
     <message>
       <source>Logical conditions</source>
-      <translation>Condiciones lógicas</translation>
+      <translation>Logical conditions</translation>
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Quizás quisiste buscar</translation>
+      <translation>Maybe you meant to search for</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
-      <translation>Las siguientes palabras fueron excluidas de la búsqueda:</translation>
+      <translation>The following words were excluded from the search:</translation>
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>No se encontraron resultados al buscar "%1".</translation>
+      <translation>No results were found when searching for "%1".</translation>
     </message>
     <message>
       <source>Search tips</source>
-      <translation>Consejos de búsqueda</translation>
+      <translation>Search tips</translation>
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Verifique la ortografía de las palabras clave.</translation>
+      <translation>Check spelling of keywords.</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Intente cambiar algunas palabras clave (por ejemplo, "automóvil" en lugar de "automóviles").</translation>
+      <translation>Try changing some keywords (eg, "car" instead of "cars").</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
-      <translation>Intente buscar con palabras clave menos específicas.</translation>
+      <translation>Try searching with less specific keywords.</translation>
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
-      <translation>Reduzca el número de palabras clave para obtener más resultados.</translation>
+      <translation>Reduce number of keywords to get more results.</translation>
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Buscar " %1" devuelto %2 partidos</translation>
+      <translation>Search for "%1" returned %2 matches</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Búsqueda devuelta %2 partidos</translation>
+      <translation>Search returned %2 matches</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Para obtener más opciones, pruebe el %1 Advanced Search %2</translation>
+      <translation>For more options try the %1Advanced search%2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
-      <translation>Reducir el número de filtros aplicados</translation>
+      <translation>Reduce the number of filters applied</translation>
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Eliminar todos los filtros</translation>
+      <translation>Remove all filters</translation>
     </message>
     <message>
       <source>Refine your search</source>
-      <translation>Refina tu búsqueda</translation>
+      <translation>Refine your search</translation>
     </message>
     <message>
       <source>You are filtering for</source>
-      <translation>Estás filtrando para</translation>
+      <translation>You are filtering for</translation>
     </message>
     <message>
       <source>Options</source>
-      <translation type="unfinished"/>
+      <translation>Options</translation>
     </message>
     <message>
       <source>Active contents</source>
-      <translation type="unfinished"/>
+      <translation>Active contents</translation>
     </message>
     <message>
       <source>Apply filters</source>
-      <translation type="unfinished"/>
+      <translation>Apply filters</translation>
     </message>
     <message>
       <source>Found a result</source>
-      <translation type="unfinished"/>
+      <translation>Found a result</translation>
     </message>
     <message>
       <source>Found %count results</source>
-      <translation type="unfinished"/>
+      <translation>Found %count results</translation>
     </message>
     <message>
       <source>No results were found</source>
-      <translation type="unfinished"/>
+      <translation>No results were found</translation>
     </message>
     <message>
       <source>Search only active content</source>
-      <translation type="unfinished"/>
+      <translation>Search only active content</translation>
     </message>
     <message>
       <source>Archived and no longer valid content will be excluded from the search.</source>
-      <translation type="unfinished"/>
+      <translation>Archived and no longer valid content will be excluded from the search.</translation>
     </message>
     <message>
       <source>Start date</source>
-      <translation type="unfinished"/>
+      <translation>Start date</translation>
     </message>
     <message>
       <source>End date</source>
-      <translation type="unfinished"/>
+      <translation>End date</translation>
     </message>
     <message>
       <source>enter the date in dd/mm/yyyy format</source>
-      <translation type="unfinished"/>
+      <translation>enter the date in dd/mm/yyyy format</translation>
     </message>
     <message>
       <source>Sections</source>
-      <translation type="unfinished"/>
+      <translation>Sections</translation>
     </message>
     <message>
       <source>Confirm</source>
-      <translation type="unfinished"/>
+      <translation>Confirm</translation>
     </message>
     <message>
       <source>Search results</source>
-      <translation type="unfinished"/>
+      <translation>Search results</translation>
     </message>
     <message>
       <source>Search results for %searchtext</source>
-      <translation type="unfinished"/>
+      <translation>Search results for %searchtext</translation>
     </message>
     <message>
       <source>All dates</source>
-      <translation type="unfinished"/>
+      <translation>All dates</translation>
     </message>
     <message>
       <source>All</source>
-      <translation type="unfinished"/>
+      <translation>All</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/opening_hours_matrix</name>
     <message>
       <source>monday</source>
-      <translation>lunes</translation>
+      <translation>monday</translation>
     </message>
     <message>
       <source>tuesday</source>
-      <translation>martes</translation>
+      <translation>tuesday</translation>
     </message>
     <message>
       <source>wednesday</source>
-      <translation>miércoles</translation>
+      <translation>wednesday</translation>
     </message>
     <message>
       <source>thursday</source>
-      <translation>jueves</translation>
+      <translation>thursday</translation>
     </message>
     <message>
       <source>friday</source>
-      <translation>viernes</translation>
+      <translation>friday</translation>
     </message>
     <message>
       <source>saturday</source>
-      <translation>sábado</translation>
+      <translation>saturday</translation>
     </message>
     <message>
       <source>sunday</source>
-      <translation>domingo</translation>
+      <translation>sunday</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/opening_hours_matrix_short</name>
     <message>
       <source>monday</source>
-      <translation type="unfinished"/>
+      <translation>monday</translation>
     </message>
     <message>
       <source>tuesday</source>
-      <translation type="unfinished"/>
+      <translation>tuesday</translation>
     </message>
     <message>
       <source>wednesday</source>
-      <translation type="unfinished"/>
+      <translation>wednesday</translation>
     </message>
     <message>
       <source>thursday</source>
-      <translation type="unfinished"/>
+      <translation>thursday</translation>
     </message>
     <message>
       <source>friday</source>
-      <translation type="unfinished"/>
+      <translation>friday</translation>
     </message>
     <message>
       <source>saturday</source>
-      <translation type="unfinished"/>
+      <translation>saturday</translation>
     </message>
     <message>
       <source>sunday</source>
-      <translation type="unfinished"/>
+      <translation>sunday</translation>
     </message>
     <message>
       <source>mon</source>
-      <translation type="unfinished"/>
+      <translation>mon</translation>
     </message>
     <message>
       <source>tue</source>
-      <translation type="unfinished"/>
+      <translation>tue</translation>
     </message>
     <message>
       <source>wed</source>
-      <translation type="unfinished"/>
+      <translation>wed</translation>
     </message>
     <message>
       <source>thu</source>
-      <translation type="unfinished"/>
+      <translation>thu</translation>
     </message>
     <message>
       <source>fri</source>
-      <translation type="unfinished"/>
+      <translation>fri</translation>
     </message>
     <message>
       <source>sat</source>
-      <translation type="unfinished"/>
+      <translation>sat</translation>
     </message>
     <message>
       <source>sun</source>
-      <translation type="unfinished"/>
+      <translation>sun</translation>
     </message>
   </context>
   <context>
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Complete información sobre su lugar</translation>
+      <translation>Fill some information about your place</translation>
     </message>
     <message>
       <source>Select place</source>
-      <translation>Seleccionar lugar</translation>
+      <translation>Select place</translation>
     </message>
     <message>
       <source>Nowhere</source>
-      <translation>En ningún lugar</translation>
+      <translation>Nowhere</translation>
     </message>
     <message>
       <source>Editor choice</source>
-      <translation>Elección del editor</translation>
+      <translation>Editor choice</translation>
     </message>
     <message>
       <source>Shared with other editors</source>
-      <translation>Compartido con otros editores</translation>
+      <translation>Shared with other editors</translation>
     </message>
     <message>
       <source>Your own</source>
-      <translation>Tu propio</translation>
+      <translation>Your own</translation>
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation>Puede arrastrar el marcador en el mapa para seleccionar la ubicación con más precisión.</translation>
+      <translation>You can drag the marker on the map to select the location more precisely.</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation>Agregue esta ubicación a sus lugares</translation>
+      <translation>Add this location to your places</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Hay lugares cerca de la ubicación seleccionada registrada en el sistema. ¿Quieres usar uno de estos?</translation>
+      <translation>There are places near the selected location registered in the system. Do you want to use one of these?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
-      <translation>Continuar con mi ubicación</translation>
+      <translation>Continue with my location</translation>
     </message>
     <message>
       <source>Detect position</source>
-      <translation>Detectar posición</translation>
+      <translation>Detect position</translation>
     </message>
   </context>
   <context>
     <name>editorialstuff/dashboard</name>
     <message>
       <source>Add filter</source>
-      <translation type="unfinished"/>
+      <translation>Add filter</translation>
     </message>
     <message>
       <source>List</source>
-      <translation type="unfinished"/>
+      <translation>List</translation>
     </message>
     <message>
       <source>Published</source>
-      <translation type="unfinished"/>
+      <translation>Published</translation>
     </message>
     <message>
       <source>Translations</source>
-      <translation type="unfinished"/>
+      <translation>Translations</translation>
     </message>
     <message>
       <source>When?</source>
-      <translation type="unfinished"/>
+      <translation>When?</translation>
     </message>
     <message>
       <source>Confirm</source>
-      <translation type="unfinished"/>
+      <translation>Confirm</translation>
     </message>
     <message>
       <source>Start date</source>
-      <translation type="unfinished"/>
+      <translation>Start date</translation>
     </message>
     <message>
       <source>End date</source>
-      <translation type="unfinished"/>
+      <translation>End date</translation>
     </message>
     <message>
       <source>Loading...</source>
-      <translation type="unfinished"/>
+      <translation>Loading...</translation>
     </message>
     <message>
       <source>Collaborative content management</source>
-      <translation type="unfinished"/>
+      <translation>Collaborative content management</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/valuation</name>
     <message>
       <source>Thanks for your feedback</source>
-      <translation type="unfinished"/>
+      <translation>Thanks for your feedback</translation>
     </message>
     <message>
       <source>User feedbacks</source>
-      <translation type="unfinished"/>
+      <translation>User feedbacks</translation>
     </message>
     <message>
       <source>Feedbacks count</source>
-      <translation type="unfinished"/>
+      <translation>Feedbacks count</translation>
     </message>
     <message>
       <source>Is content useful?</source>
-      <translation type="unfinished"/>
+      <translation>Is content useful?</translation>
     </message>
     <message>
       <source>Problems</source>
-      <translation type="unfinished"/>
+      <translation>Problems</translation>
     </message>
     <message>
       <source>Feedback #%id</source>
-      <translation type="unfinished"/>
+      <translation>Feedback #%id</translation>
     </message>
     <message>
       <source>no</source>
-      <translation type="unfinished"/>
+      <translation>no</translation>
     </message>
     <message>
       <source>yes</source>
-      <translation type="unfinished"/>
+      <translation>yes</translation>
     </message>
     <message>
       <source>in no way</source>
-      <translation type="unfinished"/>
+      <translation>in no way</translation>
     </message>
     <message>
       <source>little</source>
-      <translation type="unfinished"/>
+      <translation>little</translation>
     </message>
     <message>
       <source>enough</source>
-      <translation type="unfinished"/>
+      <translation>enough</translation>
     </message>
     <message>
       <source>Very</source>
-      <translation type="unfinished"/>
+      <translation>Very</translation>
     </message>
     <message>
       <source>There are inaccessible content</source>
-      <translation type="unfinished"/>
+      <translation>There are inaccessible content</translation>
     </message>
     <message>
       <source>The contents are not relevant</source>
-      <translation type="unfinished"/>
+      <translation>The contents are not relevant</translation>
     </message>
     <message>
       <source>The language is not easy to understand</source>
-      <translation type="unfinished"/>
+      <translation>The language is not easy to understand</translation>
     </message>
     <message>
       <source>The information is not up to date</source>
-      <translation type="unfinished"/>
+      <translation>The information is not up to date</translation>
     </message>
   </context>
   <context>
@@ -865,222 +865,222 @@
     <name>bootstrapitalia/documents</name>
     <message>
       <source>Search text</source>
-      <translation type="unfinished"/>
+      <translation>Search text</translation>
     </message>
     <message>
       <source>Document number</source>
-      <translation type="unfinished"/>
+      <translation>Document number</translation>
     </message>
     <message>
       <source>Date</source>
-      <translation type="unfinished"/>
+      <translation>Date</translation>
     </message>
     <message>
       <source>Office</source>
-      <translation type="unfinished"/>
+      <translation>Office</translation>
     </message>
     <message>
       <source>Administrative area</source>
-      <translation type="unfinished"/>
+      <translation>Administrative area</translation>
     </message>
     <message>
       <source>Submit</source>
-      <translation type="unfinished"/>
+      <translation>Submit</translation>
     </message>
     <message>
       <source>Reset</source>
-      <translation type="unfinished"/>
+      <translation>Reset</translation>
     </message>
     <message>
       <source>Document type</source>
-      <translation type="unfinished"/>
+      <translation>Document type</translation>
     </message>
     <message>
       <source>Loading...</source>
-      <translation type="unfinished"/>
+      <translation>Loading...</translation>
     </message>
     <message>
       <source>Subject</source>
-      <translation type="unfinished"/>
+      <translation>Subject</translation>
     </message>
     <message>
       <source>No documents were found</source>
-      <translation type="unfinished"/>
+      <translation>No documents were found</translation>
     </message>
     <message>
       <source>Questioners</source>
-      <translation type="unfinished"/>
+      <translation>Questioners</translation>
     </message>
     <message>
       <source>From</source>
-      <translation type="unfinished"/>
+      <translation>From</translation>
     </message>
     <message>
       <source>to</source>
-      <translation type="unfinished"/>
+      <translation>to</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/forgotpassword</name>
     <message>
       <source>If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user.</source>
-      <translation type="unfinished"/>
+      <translation>If the email address is registered in the system, a message will be sent to you with a link that you must click to confirm that you are the right user.</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/places</name>
     <message>
       <source>Search</source>
-      <translation type="unfinished"/>
+      <translation>Search</translation>
     </message>
     <message>
       <source>Filter by type</source>
-      <translation type="unfinished"/>
+      <translation>Filter by type</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/menu</name>
     <message>
       <source>Administration</source>
-      <translation type="unfinished"/>
+      <translation>Administration</translation>
     </message>
     <message>
       <source>Services</source>
-      <translation type="unfinished"/>
+      <translation>Services</translation>
     </message>
     <message>
       <source>Announcements</source>
-      <translation type="unfinished"/>
+      <translation>Announcements</translation>
     </message>
     <message>
       <source>Papers</source>
-      <translation type="unfinished"/>
+      <translation>Papers</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/cookieconsent</name>
     <message>
       <source>Cookie policy</source>
-      <translation type="unfinished"/>
+      <translation>Cookie policy</translation>
     </message>
     <message>
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
-      <translation type="unfinished"/>
+      <translation>This website uses cookies to ensure you get the best experience on our website.</translation>
     </message>
     <message>
       <source>Accept all cookies</source>
-      <translation type="unfinished"/>
+      <translation>Accept all cookies</translation>
     </message>
     <message>
       <source>Refuse all cookies</source>
-      <translation type="unfinished"/>
+      <translation>Refuse all cookies</translation>
     </message>
     <message>
       <source>Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity.</source>
-      <translation type="unfinished"/>
+      <translation>Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity.</translation>
     </message>
     <message>
       <source>Cookie information and preferences</source>
-      <translation type="unfinished"/>
+      <translation>Cookie information and preferences</translation>
     </message>
     <message>
       <source>Cookie settings</source>
-      <translation type="unfinished"/>
+      <translation>Cookie settings</translation>
     </message>
     <message>
       <source>Save current settings</source>
-      <translation type="unfinished"/>
+      <translation>Save current settings</translation>
     </message>
     <message>
       <source>Accept all cookies and close</source>
-      <translation type="unfinished"/>
+      <translation>Accept all cookies and close</translation>
     </message>
     <message>
       <source>Refuse all cookies and close</source>
-      <translation type="unfinished"/>
+      <translation>Refuse all cookies and close</translation>
     </message>
     <message>
       <source>Affected solutions:</source>
-      <translation type="unfinished"/>
+      <translation>Affected solutions:</translation>
     </message>
     <message>
       <source>On</source>
-      <translation type="unfinished"/>
+      <translation>On</translation>
     </message>
     <message>
       <source>Off</source>
-      <translation type="unfinished"/>
+      <translation>Off</translation>
     </message>
     <message>
       <source>Watch this content on %provider</source>
-      <translation type="unfinished"/>
+      <translation>Watch this content on %provider</translation>
     </message>
     <message>
       <source>The embedding of multimedia content is not enabled by respecting your cookie preferences.</source>
-      <translation type="unfinished"/>
+      <translation>The embedding of multimedia content is not enabled by respecting your cookie preferences.</translation>
     </message>
     <message>
       <source>Strictly Necessary Cookies</source>
-      <translation type="unfinished"/>
+      <translation>Strictly Necessary Cookies</translation>
     </message>
     <message>
       <source>They are necessary for the proper functioning of the site. They allow the browsing of the pages, the storage of a user's sessions (to keep them active while browsing). Without these cookies, the services for which users access the site could not be provided.</source>
-      <translation type="unfinished"/>
+      <translation>They are necessary for the proper functioning of the site. They allow the browsing of the pages, the storage of a user's sessions (to keep them active while browsing). Without these cookies, the services for which users access the site could not be provided.</translation>
     </message>
     <message>
       <source>Cookie analytics</source>
-      <translation type="unfinished"/>
+      <translation>Cookie analytics</translation>
     </message>
     <message>
       <source>The analytics cookies are used to collect information on the number of users and how they visit the website and then process general statistics on the service and its use. The data is collected anonymously.</source>
-      <translation type="unfinished"/>
+      <translation>The analytics cookies are used to collect information on the number of users and how they visit the website and then process general statistics on the service and its use. The data is collected anonymously.</translation>
     </message>
     <message>
       <source>Automatic embedding of multimedia contents</source>
-      <translation type="unfinished"/>
+      <translation>Automatic embedding of multimedia contents</translation>
     </message>
     <message>
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
-      <translation type="unfinished"/>
+      <translation>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</translation>
     </message>
   </context>
   <context>
     <name>openparoletype</name>
     <message>
       <source>Search for</source>
-      <translation type="unfinished"/>
+      <translation>Search for</translation>
     </message>
     <message>
       <source>Person</source>
-      <translation type="unfinished"/>
+      <translation>Person</translation>
     </message>
     <message>
       <source>View</source>
-      <translation type="unfinished"/>
+      <translation>View</translation>
     </message>
     <message>
       <source>People</source>
-      <translation type="unfinished"/>
+      <translation>People</translation>
     </message>
     <message>
       <source>Sort by</source>
-      <translation type="unfinished"/>
+      <translation>Sort by</translation>
     </message>
     <message>
       <source>Person name</source>
-      <translation type="unfinished"/>
+      <translation>Person name</translation>
     </message>
     <message>
       <source>Filter by type</source>
-      <translation type="unfinished"/>
+      <translation>Filter by type</translation>
     </message>
     <message>
       <source>Structure</source>
-      <translation type="unfinished"/>
+      <translation>Structure</translation>
     </message>
     <message>
       <source>Role type</source>
-      <translation type="unfinished"/>
+      <translation>Role type</translation>
     </message>
   </context>
 </TS>

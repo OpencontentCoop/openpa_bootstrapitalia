@@ -126,7 +126,7 @@
                                             <div id="collapse-{$block.id}-{$index}" class="accordion-collapse collapse show" role="region" aria-labelledby="collapse-{$block.id}-{$index}-title">
                                                 <div class="accordion-body">
                                                     <label for={$block.id}-facet-{$index}" class="visually-hidden">{$facets_parts[0]|wash()}</label>
-                                                    <select data-placeholder="..." data-facets_select="facet-{$index}" id="{$block.id}-facet-{$index}" class="form-control" multiple></select>
+                                                    <select data-placeholder="..." data-facets_select="facet-{$index}" id="{$block.id}-facet-{$index}" class="form-control" style="height: 0" multiple></select>
                                                 </div>
                                             </div>
                                         </div>
