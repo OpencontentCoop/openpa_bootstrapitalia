@@ -6,4 +6,6 @@
 [ContentMetaSettings]
 ContentMetaPropertyFactories[privacy]=PrivacyStatusFactoryProvider
 
+[ClassAttributeSettings]
+ClassAttributePropertyFactories[lotto/id]=InternalIdFactoryProvider
 */ ?>
