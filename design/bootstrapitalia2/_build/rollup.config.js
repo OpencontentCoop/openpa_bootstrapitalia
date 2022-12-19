@@ -117,7 +117,7 @@ export default [
       scss({
         output: '../stylesheets/default.css',
         outputStyle: 'compressed',
-        sourceMap: true,
+        sourceMap: false,
         watch: 'src/scss',
       }),
     ],
@@ -133,7 +133,17 @@ export default [
   {input: 'src/scss/mediterraneo.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/mediterraneo.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {input: 'src/scss/rustico.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/rustico.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {input: 'src/scss/trento.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/trento.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/turquoise.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/turquoise.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {
+    input: 'src/scss/turquoise.scss',
+    output: {dir: '../stylesheets'},
+    plugins: [
+      scss({
+        output: '../stylesheets/turquoise.css',
+        outputStyle: 'compressed',
+        sourceMap: false,
+        watch: 'src/scss'
+      })]
+  },
   {input: 'src/scss/verdone.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/verdone.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {input: 'src/scss/warmred.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/warmred.css',outputStyle: 'compressed',watch: 'src/scss'})]},
 ]
