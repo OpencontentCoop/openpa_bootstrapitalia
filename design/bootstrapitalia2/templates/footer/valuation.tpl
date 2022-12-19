@@ -1,17 +1,20 @@
-{*    <div class="container">*}
-{*        <div class="row d-flex justify-content-center bg-primary">*}
-{*            <div class="col-12 col-lg-6">*}
-{*                {ezscript_require(array('https://satisfy.opencontent.it/widget.js'))}*}
-{*                <div class="bg-white" data-element="feedback">*}
-{*                    <app-widget data-entrypoints="2783a121-063e-4219-bc95-9b4b599316b7"></app-widget>*}
-{*                </div>*}
-{*                <style>*}
-{*                    .satisfy-widget-content .title {ldelim}font-weight: 600;font-size: 1.3rem;{rdelim}*}
-{*                </style>*}
-{*            </div>*}
-{*        </div>*}
-{*    </div>*}
-
+{if openpaini('GeneralSettings','EnableSatisfy', 0)|eq(1)}
+    <div class="bg-primary">
+        <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-lg-6 p-lg-0 px-4">
+                {ezscript_require(array('https://satisfy.opencontent.it/widget.js'))}
+                <div data-element="feedback">
+                    <app-widget data-entrypoints="{openpaini('GeneralSettings','EnableSatisfy','6cff9161-82ed-4964-af5a-0226bfcc4937')}"></app-widget>
+                </div>
+                <style>
+                    .satisfy-widget-content .title {ldelim}font-weight: 600;font-size: 1.3rem;{rdelim}
+                </style>
+            </div>
+        </div>
+        </div>
+    </div>
+{else}
 <div class="bg-primary">
     <div class="container">
         <div class="row d-flex justify-content-center bg-primary">
@@ -20,8 +23,7 @@
                     <div class="card shadow card-wrapper" data-element="feedback">
                         <div class="cmp-rating__card-first">
                             <div class="card-header border-0">
-                                <h2 class="title-medium-2-semi-bold mb-0">Quanto sono chiare le informazioni su questa
-                                    pagina?</h2>
+                                <h2 class="title-medium-2-semi-bold mb-0">Quanto sono chiare le informazioni su questa pagina?</h2>
                             </div>
                             <div class="card-body">
                                 <fieldset class="rating">
@@ -204,3 +206,4 @@
         </div>
     </div>
 </div>
+{/if}
