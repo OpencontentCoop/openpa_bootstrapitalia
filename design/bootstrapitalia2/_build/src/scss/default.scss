@@ -26,6 +26,43 @@ $primary-b: 48 !default;
 @import 'functions';
 @import 'utilities/colors_vars';
 
+$ca-colors: () !default;
+$ca-colors: map-merge(
+(
+        main: (
+                black: #191919,
+                white: #fff,
+                error: #D9364F,
+                alert: #A66300,
+                primary: $primary,
+                secondary: #009966,
+                notice: #D97E00,
+                success: #008758,
+                dark-primary: #00402B
+        ),
+        grey:(
+                card: #EBEEF0,
+                dark: #5A768A,
+                medium: #5C6F82,
+                lighten: #E6E9F2,
+                light: #455A64,
+                light-grey:#E5E5E5,
+                extra-light: #BCC0CC,
+                border: #7D8C9C,
+                primary-grey:#007A520D
+        ),
+        blue:(
+                dark:#17324D,
+                light:#0968B4
+        ),
+        gradient: (
+                black: rgba(25, 25, 25, 0.7),
+                light-black: rgba(0, 0, 0, 0.1)
+        )
+),
+$ca-colors
+);
+
 // color custom variables
 $header-center-bg-color: $primary;
 $header-slim-bg-color: #00402b !default;
@@ -44,7 +81,7 @@ $link-list-hover-color: $primary !default;
 
 $card-comuni-bg-dark: #2c2c2c !default;
 
-  //variables
+//variables
 @import 'variables';
 
 //classi colore
@@ -212,7 +249,7 @@ $card-comuni-bg-dark: #2c2c2c !default;
 
 // start import 'design-comuni-pagine-statiche/styles';
 
-@import "design-comuni-pagine-statiche/base/color";
+//@import "design-comuni-pagine-statiche/base/color";
 @import "design-comuni-pagine-statiche/base/functions";
 @import "design-comuni-pagine-statiche/base/mixins";
 @import "design-comuni-pagine-statiche/base/reset";
