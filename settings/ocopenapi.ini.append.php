@@ -8,4 +8,5 @@ ContentMetaPropertyFactories[privacy]=PrivacyStatusFactoryProvider
 
 [ClassAttributeSettings]
 ClassAttributePropertyFactories[lotto/id]=InternalIdFactoryProvider
+ClassAttributePropertyFactories[openpacomuniitaliani]=OpenPAComuniItalianiFactoryProvider
 */ ?>
