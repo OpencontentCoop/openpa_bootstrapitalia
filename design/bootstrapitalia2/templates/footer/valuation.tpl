@@ -1,9 +1,9 @@
-{if openpaini('GeneralSettings','EnableSatisfy', 0)|eq(1)}
+{if openpaini('GeneralSettings','EnableSatisfy', 1)|eq(1)}
     <div class="bg-primary">
         <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-lg-6 p-lg-0 px-4">
-                {ezscript_require(array('https://satisfy.opencontent.it/widget.js'))}
+                {ezscript_require(array('https://satisfy.opencontent.it/widget_ns.js'))}
                 <div data-element="feedback">
                     <app-widget data-entrypoints="{openpaini('GeneralSettings','EnableSatisfy','6cff9161-82ed-4964-af5a-0226bfcc4937')}"></app-widget>
                 </div>

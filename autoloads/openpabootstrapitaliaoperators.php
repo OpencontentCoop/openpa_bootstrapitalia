@@ -33,6 +33,7 @@ class OpenPABootstrapItaliaOperators
             'parse_attribute_groups',
             'tag_tree_has_contents',
             'edit_attribute_groups',
+            'get_default_integer_value',
         );
     }
 
@@ -97,6 +98,9 @@ class OpenPABootstrapItaliaOperators
                 'class' => array('type' => 'object', 'required' => true),
                 'attributes' => array('type' => 'array', 'required' => true),
             ),
+            'get_default_integer_value' => array(
+                'attribute' => array('type' => 'object', 'required' => true),
+            ),
         );
     }
 
@@ -111,6 +115,23 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+            case 'get_default_integer_value':
+                $value = '';
+                $attribute = $namedParameters['attribute'];
+                if ($attribute instanceof eZContentObjectAttribute){
+                    $value = (int)$attribute->attribute('data_int');
+                    $defaultIntegerAsNull = OpenPAINI::variable('AttributeHandlers', 'DefaultIntegerIsNull');
+                    if ($value === 0 && in_array(
+                        $attribute->object()->attribute('class_identifier').'/'.$attribute->attribute('contentclass_attribute_identifier'),
+                        $defaultIntegerAsNull
+                    )){
+                        $value = '';
+                    }
+                }
+                $operatorValue = $value;
+                break;
+
+
             case 'edit_attribute_groups':
                 $operatorValue = self::getEditAttributesGroups($namedParameters['class'], $namedParameters['attributes']);
                 break;
@@ -1003,7 +1024,7 @@ class OpenPABootstrapItaliaOperators
                 $groups[] = [
                     'label' => '(Campi nascosti)',
                     'identifier' => 'hidden',
-                    'show' => eZUser::currentUser()->hasAccessTo('*'),
+                    'show' => eZUser::currentUser()->hasAccessTo('*')['accessWord'] == 'yes',
                     'attributes' => self::sortAttributes($hiddenObjectAttributeMap, $sortMapper),
                 ];
                 $hasHidden = 1;

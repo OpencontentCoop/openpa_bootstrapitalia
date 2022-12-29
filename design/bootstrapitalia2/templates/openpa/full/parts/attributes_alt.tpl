@@ -36,11 +36,13 @@
                                             <div class="accordion-body">
                                                 <ul class="link-list" data-element="page-index">
                                                     {foreach $summary.items as $index => $item}
+                                                    {if $item.label}
                                                     <li class="nav-item">
                                                         <a class="nav-link{if $index|eq(0)} active{/if}" href="#{$item.slug|wash()}">
                                                             <span class="title-medium">{$item.title|wash()}</span>
                                                         </a>
                                                     </li>
+                                                    {/if}
                                                     {/foreach}
                                                 </ul>
                                             </div>

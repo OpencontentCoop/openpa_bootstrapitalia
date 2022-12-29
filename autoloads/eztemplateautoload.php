@@ -29,6 +29,7 @@ $eZTemplateOperatorArray = [
             'parse_attribute_groups',
             'tag_tree_has_contents',
             'edit_attribute_groups',
+            'get_default_integer_value',
         ],
     ],
 ];
