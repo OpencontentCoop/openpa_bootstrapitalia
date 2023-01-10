@@ -1,8 +1,13 @@
-{def $openpa_valuation = fetch(content, object, hash(remote_id, 'openpa-valuation'))}
-{if and(or( and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation), openpacontext().is_search_page ),$openpa_valuation, $openpa_valuation.can_read)}
-    {include uri='design:footer/valuation.tpl' openpa_valuation=$openpa_valuation}
+{if and(
+    or(
+        and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation),
+        openpacontext().is_search_page
+    ),
+    openpaini('GeneralSettings','EnableSatisfy', 1)|eq(1)
+)}
+    {include uri='design:footer/valuation.tpl'}
 {/if}
-{include uri='design:footer/main_contacts.tpl' openpa_valuation=$openpa_valuation}
+{include uri='design:footer/main_contacts.tpl'}
 
 {def $use_auto_menu = cond(and($pagedata.homepage|attribute('use_auto_footer_menu'), $pagedata.homepage|attribute('use_auto_footer_menu').data_int|eq(1)), true(), false())}
 {def $show_footer_menu = true()}

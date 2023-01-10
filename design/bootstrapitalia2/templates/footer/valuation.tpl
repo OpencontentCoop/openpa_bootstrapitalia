@@ -1,4 +1,4 @@
-{if openpaini('GeneralSettings','EnableSatisfy', 1)|eq(1)}
+{if openpaini('GeneralSettings','EnableSatisfy', 1)|eq(0)}
     <div class="bg-primary">
         <div class="container">
         <div class="row d-flex justify-content-center">

@@ -125,6 +125,10 @@
       jumpTo(elForm.data('attribute_group'), elForm.data('attribute_identifier'));
       e.preventDefault();
     })
+    $('[data-jumpto_group]').on('click', function (e){
+      jumpTo($(this).data('jumpto_group'), $(this).data('jumpto_attribute'));
+      e.preventDefault();
+    });
     $('select#ezwt-create').chosen({width: "300px !important"}).change(function (e) {
       var values = $(e.currentTarget).find('option:selected').data();
       jumpTo(values.group, values.identifier);
