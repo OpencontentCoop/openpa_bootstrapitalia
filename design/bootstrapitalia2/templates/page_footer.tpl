@@ -1,9 +1,6 @@
-{if and(
-    or(
-        and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation),
-        openpacontext().is_search_page
-    ),
-    openpaini('GeneralSettings','EnableSatisfy', 1)|eq(1)
+{if or(
+    and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation),
+    openpacontext().is_search_page
 )}
     {include uri='design:footer/valuation.tpl'}
 {/if}

@@ -4,6 +4,8 @@ class OpenPABootstrapItaliaOperators
 {
     private static $cssData;
 
+    private static $satisfyEntrypoint;
+
     function operatorList()
     {
         return array(
@@ -34,6 +36,7 @@ class OpenPABootstrapItaliaOperators
             'tag_tree_has_contents',
             'edit_attribute_groups',
             'get_default_integer_value',
+            'satisfy_main_entrypoint',
         );
     }
 
@@ -115,6 +118,10 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+            case 'satisfy_main_entrypoint':
+                $operatorValue = self::getSatisfyEntrypoint();
+                break;
+
             case 'get_default_integer_value':
                 $value = '';
                 $attribute = $namedParameters['attribute'];
@@ -705,11 +712,14 @@ class OpenPABootstrapItaliaOperators
                 }
             }
         }
-        $first = array_shift($data);
-        array_unshift($data, $first);
-        $last = array_pop($data);
-        $data[] = $last;
-
+        if (count($data) > 0) {
+            $first = array_shift($data);
+            array_unshift($data, $first);
+            $last = array_pop($data);
+            $data[] = $last;
+        }else{
+            $first = $last = null;
+        }
         return [
             'wrappers' => $data,
             'first' => $first,
@@ -1085,5 +1095,41 @@ class OpenPABootstrapItaliaOperators
             'count' => $count - $hasHidden,
             'groups' => $groups,
         ];
+    }
+
+    public static function getSatisfyEntrypoint()
+    {
+        if (self::$satisfyEntrypoint === null){
+            self::$satisfyEntrypoint = false;
+            $siteData = eZSiteData::fetchByName('satisfy_entrypoint');
+            if ($siteData instanceof eZSiteData){
+                self::$satisfyEntrypoint = $siteData->attribute('value');
+            }
+        }
+
+        return self::$satisfyEntrypoint;
+    }
+
+    public static function setSatisfyEntrypoint($id)
+    {
+        $siteData = eZSiteData::fetchByName('satisfy_entrypoint');
+        if (!$siteData instanceof eZSiteData){
+            $siteData = eZSiteData::create('satisfy_entrypoint', '');
+        }
+        $siteData->setAttribute('value', $id);
+        $siteData->store();
+        eZCache::clearByTag('template');
+        try {
+            eZExtension::getHandlerClass(
+                new ezpExtensionOptions([
+                    'iniFile' => 'site.ini',
+                    'iniSection' => 'ContentSettings',
+                    'iniVariable' => 'StaticCacheHandler'
+                ])
+            )->generateCache(true, true);
+        }catch (Exception $e){
+            eZDebug::writeError($e->getMessage(), __METHOD__);
+        }
+        self::$satisfyEntrypoint = $id;
     }
 }
