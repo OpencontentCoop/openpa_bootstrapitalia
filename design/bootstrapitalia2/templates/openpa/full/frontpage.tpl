@@ -4,8 +4,8 @@
 {def $current_view_tag = $openpa.content_tag_menu.current_view_tag}
 {def $has_layout = cond(and($current_view_tag|not(), $node|has_attribute('layout')), true(), false())}
 {def $blocks = cond($has_layout, parse_layout_blocks($node|attribute('layout').content.zones), false())}
-{def $first_block_has_bg = cond(and($has_layout, $blocks.first.has_bg), true(), false())}
-{def $last_block_has_bg = cond(and($has_layout, $blocks.last.has_bg), true(), false())}
+{def $first_block_has_bg = cond(and($has_layout, is_set($blocks.first.has_bg), $blocks.first.has_bg), true(), false())}
+{def $last_block_has_bg = cond(and($has_layout, is_set($blocks.last.has_bg), $blocks.last.has_bg), true(), false())}
 
 {if $openpa.content_tag_menu.has_tag_menu}
     {if $openpa.content_tag_menu.current_view_tag}
