@@ -104,12 +104,12 @@
         {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
             'Amministrazione'|i18n('bootstrapitalia/menu'),
-            "ListaPaginata",
-            "lista_paginata",
+            "ListaAutomatica",
+            "lista_card_teaser",
             hash(
                 "limite", "9",
-                "elementi_per_riga", "auto",
-                "includi_classi", "employee,private_organization,public_organization,office",
+                "elementi_per_riga", "3",
+                "includi_classi", "employee,private_organization,organization",
                 "escludi_classi", "",
                 "ordinamento", "modificato",
                 "state_id", "",
@@ -126,11 +126,11 @@
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
             'Servizi'|i18n('bootstrapitalia/menu'),
-            "ListaPaginata",
-            "lista_paginata",
+            "ListaAutomatica",
+            "lista_card_teaser",
             hash(
                 "limite", "9",
-                "elementi_per_riga", "auto",
+                "elementi_per_riga", "3",
                 "includi_classi", "public_service",
                 "escludi_classi", "",
                 "ordinamento", "modificato",
@@ -149,11 +149,11 @@
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
             'Novità'|i18n('bootstrapitalia/menu'),
-            "ListaPaginata",
-            "lista_paginata",
+            "ListaAutomatica",
+            "lista_card_teaser",
             hash(
                 "limite", "9",
-                "elementi_per_riga", "auto",
+                "elementi_per_riga", "3",
                 "includi_classi", "event,article",
                 "escludi_classi", "",
                 "ordinamento", "modificato",
@@ -172,11 +172,11 @@
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
             'Documenti'|i18n('bootstrapitalia/menu'),
-            "ListaPaginata",
-            "lista_paginata",
+            "ListaAutomatica",
+            "lista_card_teaser",
             hash(
                 "limite", "9",
-                "elementi_per_riga", "auto",
+                "elementi_per_riga", "3",
                 "includi_classi", "document",
                 "escludi_classi", "",
                 "ordinamento", "modificato",
