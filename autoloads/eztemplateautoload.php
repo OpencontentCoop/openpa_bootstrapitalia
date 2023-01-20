@@ -31,6 +31,9 @@ $eZTemplateOperatorArray = [
             'edit_attribute_groups',
             'get_default_integer_value',
             'satisfy_main_entrypoint',
+            'user_token_url',
+            'user_profile_url',
+            'user_api_base_url',
         ],
     ],
 ];
