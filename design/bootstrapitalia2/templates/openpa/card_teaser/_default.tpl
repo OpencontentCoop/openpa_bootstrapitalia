@@ -3,9 +3,10 @@
     'show_category', true(),
     'image_class', 'medium',
     'custom_css_class', '',
-    'view_variation', 'border-light',
+    'view_variation', '',
     'hide_title', false()
 ))}
+
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
 {def $has_image = cond(and($attributes.show|contains('image'), $node|has_attribute('image')), true(), false())}
 <div data-object_id="{$node.contentobject_id}"
@@ -13,7 +14,7 @@
     {if $has_image}
     <div class="card-image-wrapper{if $attributes.show|contains('content_show_read_more')} with-read-more{/if}">
     {/if}
-        <div class="card-body {if $has_image}p-3 {/if}pb-5">
+        <div class="card-body {if $has_image}p-3 {/if}pb-5 {$view_variation}">
         {if and($show_category, $openpa.content_icon.context_icon.node)}
         <div class="category-top">
             {if $show_icon}{display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon icon-sm')}{/if}

@@ -7,8 +7,18 @@
   'parent_node', $node,
   'items_per_row', 3,
   'view_variation', '',
-  'view', 'card_simple'
+  'view', 'card_teaser'
 ))}
+
+{if and(
+    array('ea708fa69006941b4dc235a348f1431d', '16a65071f99a1be398a677e5e4bef93f', '9a1756e11164d0d550ee950657154db8')|contains($node.object.remote_id)|not(),
+    or(
+        openpaini( 'TopMenu', 'NodiCustomMenu', array() )|contains($node.parent_node_id),
+        openpaini( 'TopMenu', 'NodiCustomMenu', array() )|contains($node.node_id)
+    )
+)}
+    {set $view = 'card_simple'}
+{/if}
 
 {if $openpa.content_tag_menu.current_view_tag}
     {def $blocks = array()}
@@ -102,6 +112,7 @@
                          items_per_row=$items_per_row
                          i_view=cond($openpa.content_tag_menu.current_view_tag, 'card_teaser', $view)
                          image_class=cond($children_count|eq(2), 'reference', 'large')
+                         view_variation='w-100'
                          grid_wrapper_class='row g-4'
                          show_icon = false()
                          show_category = false()
