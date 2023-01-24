@@ -131,7 +131,9 @@ class OpenPABootstrapItaliaOperators
                     $operatorValueOriginal = $operatorValue;
                     $operatorValue = false;
                     $url = parse_url($operatorValueOriginal, PHP_URL_HOST);
-                    if ($url && str_replace('www.', 'servizi.', $currentHost) === $url) {
+                    if ($url
+                        && OpenPAINI::variable('GeneralSettings', 'AutoDiscoverProfileLinks', 'disabled') === 'enabled'
+                        && str_replace('www.', 'servizi.', $currentHost) === $url) {
                         $operatorValue = "https://{$url}{$path}";
                     }
                 }
