@@ -8,7 +8,8 @@
     'telegram', 'Telegram',
     'tiktok', 'TikTok',
 )}
-{def $has_socials = false()}
+{def $has_newsletter = cond(ezini('GeneralSettings', 'EnableSendy', 'sendy.ini')|eq('enabled'), true(), false())
+     $has_socials = false()}
 {foreach $socials as $social => $name}
     {if is_set($pagedata.contacts[$social])}
         {set $has_socials = true()}
@@ -18,8 +19,9 @@
 {if and($has_socials|not(), openpaini('GeneralSettings','ShowRssInSocialList', 'disabled')|eq('enabled'))}
     {set $has_socials = true()}
 {/if}
-{if $has_socials}
+{if or($has_newsletter, $has_socials)}
 <div class="col-md-3 mt-md-4 footer-items-wrapper">
+    {if $has_socials}
     <h3 class="footer-heading-title">{'Follow us'|i18n('openpa/footer')}</h3>
     <ul class="list-inline text-start social">
         {foreach $socials as $social => $name}
@@ -53,5 +55,10 @@
             </li>
         {/if}
     </ul>
+    {/if}
+    {if $has_newsletter}
+        <h3 class="footer-heading-title">Newsletter</h3>
+        {include uri='design:footer/newsletter_subscribe.tpl'}
+    {/if}
 </div>
 {/if}
