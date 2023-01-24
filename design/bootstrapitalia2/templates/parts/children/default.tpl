@@ -14,7 +14,8 @@
     array('ea708fa69006941b4dc235a348f1431d', '16a65071f99a1be398a677e5e4bef93f', '9a1756e11164d0d550ee950657154db8')|contains($node.object.remote_id)|not(),
     or(
         openpaini( 'TopMenu', 'NodiCustomMenu', array() )|contains($node.parent_node_id),
-        openpaini( 'TopMenu', 'NodiCustomMenu', array() )|contains($node.node_id)
+            openpaini( 'TopMenu', 'NodiCustomMenu', array() )|contains($node.node_id),
+            $node.object.remote_id|eq('topics')
     )
 )}
     {set $view = 'card_simple'}
