@@ -15,8 +15,9 @@ export default [
     input: 'src/js/bootstrap-italia.entry.js',
     output: {
       file: '../javascript/bootstrap-italia.bundle.min.js',
-      compact: true,
-      format: 'iife',
+      format: 'umd',
+      generatedCode: 'es2015',
+      name: "bootstrap"
     },
     plugins: [
       babel({
