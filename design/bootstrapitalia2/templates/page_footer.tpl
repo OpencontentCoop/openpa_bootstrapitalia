@@ -124,7 +124,7 @@
                                 {if is_set($pagedata.contacts.indirizzo)}
                                     <li style="display: flex;align-items: center;">
                                         {display_icon('it-pa', 'svg', 'icon icon-sm icon-white')}
-                                        <small class="ms-2">{$pagedata.contacts.indirizzo|wash()}</small>
+                                        <small class="ms-2" style="word-wrap: anywhere;">{$pagedata.contacts.indirizzo|wash()}</small>
                                     </li>
                                 {/if}
                                 {if is_set($pagedata.contacts.telefono)}
@@ -132,7 +132,7 @@
                                     {def $tel = strReplace($pagedata.contacts.telefono,array(" ",""))}
                                     <a style="display: flex;align-items: center;" class="text-decoration-none" href="tel:{$tel}">
                                         {display_icon('it-telephone', 'svg', 'icon icon-sm icon-white')}
-                                        <small class="ms-2">{$pagedata.contacts.telefono}</small>
+                                        <small class="ms-2" style="word-wrap: anywhere;">{$pagedata.contacts.telefono}</small>
                                     </a>
                                 </li>
                                 {/if}
@@ -141,7 +141,7 @@
                                         {def $fax = strReplace($pagedata.contacts.fax,array(" ",""))}
                                         <a style="display: flex;align-items: center;" class="text-decoration-none" href="tel:{$fax}">
                                             {display_icon('it-file', 'svg', 'icon icon-sm icon-white')}
-                                            <small class="ms-2">{$pagedata.contacts.fax}</small>
+                                            <small class="ms-2" style="word-wrap: anywhere;">{$pagedata.contacts.fax}</small>
                                         </a>
                                     </li>
                                 {/if}
@@ -149,7 +149,7 @@
                                     <li>
                                         <a style="display: flex;align-items: center;" class="text-decoration-none" href="mailto:{$pagedata.contacts.email}">
                                             {display_icon('it-mail', 'svg', 'icon icon-sm icon-white')}
-                                            <small class="ms-2">{$pagedata.contacts.email}</small>
+                                            <small class="ms-2" style="word-wrap: anywhere;">{$pagedata.contacts.email}</small>
                                         </a>
                                     </li>
                                 {/if}
@@ -157,7 +157,7 @@
                                     <li>
                                         <a style="display: flex;align-items: center;" class="text-decoration-none" href="mailto:{$pagedata.contacts.pec}">
                                             {display_icon('it-mail', 'svg', 'icon icon-sm icon-warning')}
-                                            <small class="ms-2">{$pagedata.contacts.pec}</small>
+                                            <small class="ms-2" style="word-wrap: anywhere;">{$pagedata.contacts.pec}</small>
                                         </a>
                                     </li>
                                 {/if}
@@ -167,7 +167,7 @@
                                         <li>
                                             <a style="display: flex;align-items: center;" class="text-decoration-none" href="{$link|wash()}">
                                                 {display_icon('it-link', 'svg', 'icon icon-sm icon-white')}
-                                                <small class="ms-2">{$name|wash()}</small>
+                                                <small class="ms-2" style="word-wrap: anywhere;">{$name|wash()}</small>
                                             </a>
                                         </li>
                                     {/foreach}
@@ -177,7 +177,7 @@
                                     <li>
                                         <a style="display: flex;align-items: center;" class="text-decoration-none" href="#">
                                             {display_icon('it-card', 'svg', 'icon icon-sm icon-white')}
-                                            <small class="ms-2">P.IVA {$pagedata.contacts.partita_iva}</small>
+                                            <small class="ms-2" style="word-wrap: anywhere;">P.IVA {$pagedata.contacts.partita_iva}</small>
                                         </a>
                                     </li>
                                 {/if}
@@ -185,7 +185,7 @@
                                     <li>
                                         <a style="display: flex;align-items: center;" class="text-decoration-none" href="#">
                                             {display_icon('it-card', 'svg', 'icon icon-sm icon-white')}
-                                            <small class="ms-2">C.F. {$pagedata.contacts.codice_fiscale}</small>
+                                            <small class="ms-2" style="word-wrap: anywhere;">C.F. {$pagedata.contacts.codice_fiscale}</small>
                                         </a>
                                     </li>
                                 {/if}
@@ -193,7 +193,7 @@
                                     <li>
                                         <a style="display: flex;align-items: center;" class="text-decoration-none" href="#">
                                             {display_icon('it-card', 'svg', 'icon icon-sm icon-white')}
-                                            <small class="ms-2">SDI {$pagedata.contacts.codice_sdi}</small>
+                                            <small class="ms-2" style="word-wrap: anywhere;">SDI {$pagedata.contacts.codice_sdi}</small>
                                         </a>
                                     </li>
                                 {/if}
