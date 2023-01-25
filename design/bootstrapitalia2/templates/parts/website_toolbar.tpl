@@ -224,7 +224,8 @@
                 and(fetch( 'user', 'has_access_to', hash( 'module', 'newsletter', 'function', 'index' ) ), ezmodule('newsletter','subscribe')),
                 fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'roles' ) ),
                 fetch( 'user', 'has_access_to', hash( 'module', 'valuation', 'function', 'dashboard' ) ),
-                fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'list' ) )
+                fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'list' ) ),
+                fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'edit' ) )
             )}
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
@@ -241,6 +242,14 @@
                                         <a class="list-item left-icon" href="{ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )|explode('user/login')[0]}{$current_node.url_alias}" rel="noopener noreferrer" target="_blank" title="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}">
                                             <i aria-hidden="true" class="fa fa-wrench"></i>
                                             Backend
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'edit' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{"content/draft"|ezurl(no)}" title="{"My drafts"|i18n("design/ocbootstrap/user/edit")}">
+                                            <i aria-hidden="true" class="fa fa-pencil-square"></i>
+                                            {"My drafts"|i18n("design/ocbootstrap/user/edit")}
                                         </a>
                                     </li>
                                 {/if}

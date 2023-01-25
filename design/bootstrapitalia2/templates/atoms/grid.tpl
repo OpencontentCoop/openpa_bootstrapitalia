@@ -39,7 +39,13 @@
 
     {def $col = 12|div($items_per_row)}
     {if $grid_wrapper}<div class="{$grid_wrapper_class}">{/if}
-        {foreach $items as $child }
+        {foreach $items as $child}
+        {if and(fetch('user', 'current_user').is_logged_in|not(),$child.class_identifier|eq('topic'), fetch(content, reverse_related_objects_count, hash('object_id', $child.contentobject_id, 'all_relations', true()))|eq(0))}
+            {skip}
+        {/if}
+        {if and(fetch('user', 'current_user').is_logged_in|not(),$child.object.remote_id|eq('custom_topics'), $child.children_count|eq(0))}
+            {skip}
+        {/if}
         <div class="col-md-6 col-lg-{$col} mb-4{if $need_card_wrapper} card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{/if}">
             {node_view_gui content_node=$child view=$i_view image_class=$image_class show_icon=$show_icon view_variation=$view_variation exclude_classes=$exclude_classes}
         </div>
