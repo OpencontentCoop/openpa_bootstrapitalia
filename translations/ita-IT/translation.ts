@@ -271,6 +271,18 @@
       <source>Trouble in the city</source>
       <translation>Problemi in città</translation>
     </message>
+    <message>
+      <source>Support</source>
+      <translation>Assistenza</translation>
+    </message>
+    <message>
+      <source>Booking</source>
+      <translation>Prenotazioni</translation>
+    </message>
+    <message>
+      <source>Inefficiency reporting</source>
+      <translation>Segnalazione disservizio</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

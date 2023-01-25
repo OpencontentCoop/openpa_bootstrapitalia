@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>FREE</source>
-      <translation>LIBRE</translation>
+      <translation>GRATIS</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>days</source>
-      <translation>días</translation>
+      <translation>dias</translation>
     </message>
     <message>
       <source>Share</source>
@@ -89,7 +89,7 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Todos</translation>
+      <translation>Todas</translation>
     </message>
     <message>
       <source>Read more</source>
@@ -271,6 +271,18 @@
       <source>Trouble in the city</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Support</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Booking</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Inefficiency reporting</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -367,7 +379,7 @@
     </message>
     <message>
       <source>little</source>
-      <translation>poco</translation>
+      <translation>pequeña</translation>
     </message>
     <message>
       <source>enough</source>
@@ -394,7 +406,7 @@
     </message>
     <message>
       <source>Search</source>
-      <translation>Búsqueda</translation>
+      <translation>Buscar</translation>
     </message>
     <message>
       <source>Advanced search</source>

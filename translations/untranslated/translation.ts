@@ -271,6 +271,18 @@
       <source>Trouble in the city</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Support</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Booking</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Inefficiency reporting</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

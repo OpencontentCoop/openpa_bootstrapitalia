@@ -5,95 +5,95 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>Ce site utilise des cookies techniques, analytiques et tiers.</translation>
+      <translation>To spletno mesto uporablja tehnične, analitične in piškotke drugih proizvajalcev.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
-      <translation>En continuant à parcourir, vous acceptez l'utilisation de cookies.</translation>
+      <translation>Z nadaljnjim brskanjem sprejemate uporabo piškotkov.</translation>
     </message>
     <message>
       <source>Informations</source>
-      <translation>Informations</translation>
+      <translation>Informacije</translation>
     </message>
     <message>
       <source>Accept</source>
-      <translation>Accepter</translation>
+      <translation>Sprejeti</translation>
     </message>
     <message>
       <source>Jump to main content</source>
-      <translation>Sauter au contenu principal</translation>
+      <translation>Skočite na glavno vsebino</translation>
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Sautez au menu de la section</translation>
+      <translation>Skočite na meni</translation>
     </message>
     <message>
       <source>Jump to footer</source>
-      <translation>Sauter au pied de page</translation>
+      <translation>Skoči na nogo</translation>
     </message>
     <message>
       <source>Table of contents</source>
-      <translation>Table des matières</translation>
+      <translation>Kazalo</translation>
     </message>
     <message>
       <source>Close</source>
-      <translation>Fermer</translation>
+      <translation>Blizu</translation>
     </message>
     <message>
       <source>FREE</source>
-      <translation>LIBRE</translation>
+      <translation>PROST</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Entrée gratuite pour tous les participants</translation>
+      <translation>Brezplačen vstop za vse udeležence</translation>
     </message>
     <message>
       <source>Download</source>
-      <translation>Télécharger</translation>
+      <translation>Prenesi</translation>
     </message>
     <message>
       <source>Download file</source>
-      <translation>Télécharger un fichier</translation>
+      <translation>Prenos datoteke</translation>
     </message>
     <message>
       <source>File type</source>
-      <translation>Type de fichier</translation>
+      <translation>Vrsta datoteke</translation>
     </message>
     <message>
       <source>days</source>
-      <translation>journées</translation>
+      <translation>dnevi</translation>
     </message>
     <message>
       <source>Share</source>
-      <translation>Partager</translation>
+      <translation>Deliti</translation>
     </message>
     <message>
       <source>Actions</source>
-      <translation>Actions</translation>
+      <translation>Dejanja</translation>
     </message>
     <message>
       <source>Send</source>
-      <translation>Envoyer</translation>
+      <translation>Pošlji</translation>
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Contenu connexe</translation>
+      <translation>Povezane vsebine</translation>
     </message>
     <message>
       <source>Search in</source>
-      <translation>Rechercher dans</translation>
+      <translation>Iskanje</translation>
     </message>
     <message>
       <source>Filters</source>
-      <translation>Filtres</translation>
+      <translation>Filtri</translation>
     </message>
     <message>
       <source>All</source>
-      <translation>Tous</translation>
+      <translation>Vse</translation>
     </message>
     <message>
       <source>Read more</source>
-      <translation>Lire la suite</translation>
+      <translation>Preberi več</translation>
     </message>
     <message>
       <source>Visit</source>
@@ -101,87 +101,87 @@
     </message>
     <message>
       <source>Go to page</source>
-      <translation>Aller à la page</translation>
+      <translation>Pojdi na stran</translation>
     </message>
     <message>
       <source>Explore topic</source>
-      <translation>Explorer le sujet</translation>
+      <translation>Raziščite temo</translation>
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Aller au calendrier des événements</translation>
+      <translation>Pojdite na koledar dogodka</translation>
     </message>
     <message>
       <source>Event start</source>
-      <translation>Début de l'événement</translation>
+      <translation>Začnite dogodek</translation>
     </message>
     <message>
       <source>Event end</source>
-      <translation>Fin de l'événement</translation>
+      <translation>Konec dogodka</translation>
     </message>
     <message>
       <source>Jump to field</source>
-      <translation>Sauter sur le terrain</translation>
+      <translation>Skoči na polje</translation>
     </message>
     <message>
       <source>Upload file</source>
-      <translation>Téléverser un fichier</translation>
+      <translation>Naloži datoteko</translation>
     </message>
     <message>
       <source>Select from library</source>
-      <translation>Sélectionnez dans la bibliothèque</translation>
+      <translation>Izberite iz knjižnice</translation>
     </message>
     <message>
       <source>Create</source>
-      <translation>Créer</translation>
+      <translation>Ustvari</translation>
     </message>
     <message>
       <source>Create new</source>
-      <translation>Créer un nouveau</translation>
+      <translation>Ustvari novo</translation>
     </message>
     <message>
       <source>Reading time</source>
-      <translation>Temps de lecture</translation>
+      <translation>Čas branja</translation>
     </message>
     <message>
       <source>Topics</source>
-      <translation>Sujets</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Last modified</source>
-      <translation>Dernière modifié</translation>
+      <translation>Nazadnje spremenjeno</translation>
     </message>
     <message>
       <source>Editor tools</source>
-      <translation>Outils d'éditeur</translation>
+      <translation>Orodja za urejanje</translation>
     </message>
     <message>
       <source>See previous versions</source>
-      <translation>Voir les versions précédentes</translation>
+      <translation>Glej prejšnje različice</translation>
     </message>
     <message>
       <source>Go to the history of this content</source>
-      <translation>Aller à l'histoire de ce contenu</translation>
+      <translation>Pojdite v zgodovino te vsebine</translation>
     </message>
     <message>
       <source>Further details</source>
-      <translation>Plus de détails</translation>
+      <translation>Nadaljne podrobnosti</translation>
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Aller au contenu</translation>
+      <translation>Pojdi v vsebino</translation>
     </message>
     <message>
       <source>View all</source>
-      <translation>Voir tout</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Other topics</source>
-      <translation>Autres sujets</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>All topics...</source>
-      <translation>Tous les sujets ...</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Access the personal area</source>
@@ -288,253 +288,253 @@
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>Tags EZ</translation>
+      <translation>EZ oznake</translation>
     </message>
     <message>
       <source>Apps</source>
-      <translation>applications</translation>
+      <translation>Aplikacije</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
-      <translation>Administration transparente</translation>
+      <translation>Prozorna uporaba</translation>
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Listes par classe</translation>
+      <translation>Sezname po razredu</translation>
     </message>
     <message>
       <source>Import management</source>
-      <translation>Gestion des importations</translation>
+      <translation>Uvozno upravljanje</translation>
     </message>
   </context>
   <context>
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Position dans le tableau des organisations</translation>
+      <translation>Položaj v organizacijski lestvici</translation>
     </message>
     <message>
       <source>Add objects</source>
-      <translation>Ajouter des objets</translation>
+      <translation>Dodajte predmete</translation>
     </message>
   </context>
   <context>
     <name>openpa/tools</name>
     <message>
       <source>Info</source>
-      <translation>Info</translation>
+      <translation>Informacije</translation>
     </message>
   </context>
   <context>
     <name>openpa/sidebar</name>
     <message>
       <source>Related information</source>
-      <translation>Informations connexes</translation>
+      <translation>Povezane informacije</translation>
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Référable à</translation>
+      <translation>Sklicevanje na</translation>
     </message>
     <message>
       <source>Classification</source>
-      <translation>Classification</translation>
+      <translation>Klasifikacija</translation>
     </message>
     <message>
       <source>References</source>
-      <translation>Références</translation>
+      <translation>Reference</translation>
     </message>
   </context>
   <context>
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>Informations</translation>
+      <translation>Informacije</translation>
     </message>
     <message>
       <source>Contacts</source>
-      <translation>Contacts</translation>
+      <translation>Stiki</translation>
     </message>
     <message>
       <source>Links</source>
-      <translation>Liens</translation>
+      <translation>Povezave</translation>
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Suivez nous</translation>
+      <translation>Sledi nam</translation>
     </message>
     <message>
       <source>back to top</source>
-      <translation>retour au sommet</translation>
+      <translation>nazaj na vrh</translation>
     </message>
   </context>
   <context>
     <name>openpa/valuation</name>
     <message>
       <source>Rate this site</source>
-      <translation>Évaluez ce site</translation>
+      <translation>Ocenite to spletno mesto</translation>
     </message>
     <message>
       <source>in no way</source>
-      <translation>en aucun cas</translation>
+      <translation>na noben način</translation>
     </message>
     <message>
       <source>little</source>
-      <translation>Petit</translation>
+      <translation>malo</translation>
     </message>
     <message>
       <source>enough</source>
-      <translation>assez</translation>
+      <translation>dovolj</translation>
     </message>
     <message>
       <source>Very</source>
-      <translation>Très</translation>
+      <translation>Zelo</translation>
     </message>
     <message>
       <source>Submit your rating</source>
-      <translation>Soumettez votre note</translation>
+      <translation>Oddajte svojo oceno</translation>
     </message>
   </context>
   <context>
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Aller à la recherche de filtres</translation>
+      <translation>Pojdite na iskalne filtre</translation>
     </message>
     <message>
       <source>Link to</source>
-      <translation>Lié à</translation>
+      <translation>Povezava do</translation>
     </message>
     <message>
       <source>Search</source>
-      <translation>Rechercher</translation>
+      <translation>Iskanje</translation>
     </message>
     <message>
       <source>Advanced search</source>
-      <translation>Recherche Avancée</translation>
+      <translation>Napredno iskanje</translation>
     </message>
     <message>
       <source>in</source>
-      <translation>dans</translation>
+      <translation>v</translation>
     </message>
     <message>
       <source>all website</source>
-      <translation>tout site Web</translation>
+      <translation>vse spletno mesto</translation>
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Seules les informations de type</translation>
+      <translation>Samo informacije o vrsti</translation>
     </message>
     <message>
       <source>Sorting by</source>
-      <translation>Tri</translation>
+      <translation>Razvrščanje</translation>
     </message>
     <message>
       <source>Sorting</source>
-      <translation>Tri</translation>
+      <translation>Razvrščanje</translation>
     </message>
     <message>
       <source>Descending</source>
-      <translation>Descendant</translation>
+      <translation>Spuščanje</translation>
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Ascendant</translation>
+      <translation>Vzpona</translation>
     </message>
     <message>
       <source>Score</source>
-      <translation>Score</translation>
+      <translation>Rezultat</translation>
     </message>
     <message>
       <source>Publication date</source>
-      <translation>Date de publication</translation>
+      <translation>Datum objave</translation>
     </message>
     <message>
       <source>Content type</source>
-      <translation>Type de contenu</translation>
+      <translation>Vrsta vsebine</translation>
     </message>
     <message>
       <source>Name</source>
-      <translation>Nom</translation>
+      <translation>Ime</translation>
     </message>
     <message>
       <source>from</source>
-      <translation>à partir de</translation>
+      <translation>od</translation>
     </message>
     <message>
       <source>to</source>
-      <translation>pour</translation>
+      <translation>do</translation>
     </message>
     <message>
       <source>Year</source>
-      <translation>Année</translation>
+      <translation>Leto</translation>
     </message>
     <message>
       <source>Any year</source>
-      <translation>N'importe quelle année</translation>
+      <translation>Katero koli leto</translation>
     </message>
     <message>
       <source>Logical conditions</source>
-      <translation>Conditions logiques</translation>
+      <translation>Logični pogoji</translation>
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Peut-être que vous vouliez rechercher</translation>
+      <translation>Mogoče ste želeli iskati</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
-      <translation>Les mots suivants ont été exclus de la recherche:</translation>
+      <translation>Naslednje besede so bile izključene iz iskanja:</translation>
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>Aucun résultat n'a été trouvé lors de la recherche de "% 1".</translation>
+      <translation>Pri iskanju "%1" ni bilo mogoče najti rezultatov.</translation>
     </message>
     <message>
       <source>Search tips</source>
-      <translation>Astuces de recherche</translation>
+      <translation>Nasveti za iskanje</translation>
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Vérifiez l'orthographe des mots clés.</translation>
+      <translation>Preverite črkovanje ključnih besed.</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Essayez de changer certains mots clés (par exemple, "voiture" au lieu de "voitures").</translation>
+      <translation>Poskusite spremeniti nekatere ključne besede (npr. "Avto" namesto "avtomobilov").</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
-      <translation>Essayez de rechercher avec des mots clés moins spécifiques.</translation>
+      <translation>Poskusite iskati z manj specifičnimi ključnimi besedami.</translation>
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
-      <translation>Réduisez le nombre de mots clés pour obtenir plus de résultats.</translation>
+      <translation>Zmanjšajte število ključnih besed, da dosežete več rezultatov.</translation>
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Rechercher "% 1" retourné% 2 Matchs</translation>
+      <translation>Iskanje " %1" je vrnilo %2 tekme</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Recherche de recherche% 2 Matchs</translation>
+      <translation>Iskanje se je vrnilo %2 tekma</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Pour plus d'options, essayez le% de recherche AADvanced% 2</translation>
+      <translation>Za več možnosti poskusite z %1 invalidsko iskanje %2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
-      <translation>Réduire le nombre de filtres appliqués</translation>
+      <translation>Zmanjšajte število uporabljenih filtrov</translation>
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Supprimer tous les filtres</translation>
+      <translation>Odstranite vse filtre</translation>
     </message>
     <message>
       <source>Refine your search</source>
-      <translation>précisez votre recherche</translation>
+      <translation>Izpolnite iskanje</translation>
     </message>
     <message>
       <source>You are filtering for</source>
-      <translation>Vous filtrez pour</translation>
+      <translation>Filtrirate za</translation>
     </message>
     <message>
       <source>Options</source>
@@ -609,31 +609,31 @@
     <name>bootstrapitalia/opening_hours_matrix</name>
     <message>
       <source>monday</source>
-      <translation>Lundi</translation>
+      <translation>Ponedeljek</translation>
     </message>
     <message>
       <source>tuesday</source>
-      <translation>mardi</translation>
+      <translation>Torek</translation>
     </message>
     <message>
       <source>wednesday</source>
-      <translation>mercredi</translation>
+      <translation>Sreda</translation>
     </message>
     <message>
       <source>thursday</source>
-      <translation>jeudi</translation>
+      <translation>Četrtek</translation>
     </message>
     <message>
       <source>friday</source>
-      <translation>Vendredi</translation>
+      <translation>petek</translation>
     </message>
     <message>
       <source>saturday</source>
-      <translation>samedi</translation>
+      <translation>Sobota</translation>
     </message>
     <message>
       <source>sunday</source>
-      <translation>dimanche</translation>
+      <translation>nedelja</translation>
     </message>
   </context>
   <context>
@@ -699,47 +699,47 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Remplissez des informations sur votre place</translation>
+      <translation>Izpolnite nekaj informacij o svojem mestu</translation>
     </message>
     <message>
       <source>Select place</source>
-      <translation>Sélectionner un endroit</translation>
+      <translation>Izberite mesto</translation>
     </message>
     <message>
       <source>Nowhere</source>
-      <translation>Nulle part</translation>
+      <translation>Nikjer</translation>
     </message>
     <message>
       <source>Editor choice</source>
-      <translation>Choix de l'éditeur</translation>
+      <translation>Izbira urednika</translation>
     </message>
     <message>
       <source>Shared with other editors</source>
-      <translation>Partagé avec d'autres éditeurs</translation>
+      <translation>V skupni rabi z drugimi uredniki</translation>
     </message>
     <message>
       <source>Your own</source>
-      <translation>Le tien</translation>
+      <translation>Lastne</translation>
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation>Vous pouvez faire glisser le marqueur sur la carte pour sélectionner l'emplacement plus précisément.</translation>
+      <translation>Označevalec lahko povlečete na zemljevidu, da natančneje izberete lokacijo.</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation>Ajoutez cet emplacement à vos lieux</translation>
+      <translation>Dodajte to lokacijo na svoja mesta</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Il y a des endroits près de l'emplacement sélectionné enregistré dans le système. Voulez-vous en utiliser un?</translation>
+      <translation>V bližini izbrane lokacije, registrirane v sistemu, so mesta. Ali želite uporabiti eno od teh?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
-      <translation>Continuer avec ma position</translation>
+      <translation>Nadaljujte z mojo lokacijo</translation>
     </message>
     <message>
       <source>Detect position</source>
-      <translation>Détecter la position</translation>
+      <translation>Zaznati položaj</translation>
     </message>
   </context>
   <context>
