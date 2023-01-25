@@ -63,6 +63,13 @@ button.close {
   position: static;
 }
 
+.buitinapp .form-group label{
+  position: absolute;
+  &.active {
+    transform: translateY(-75%) !important;
+  }
+}
+
 /*
     Renamed .left-* and .right-* to .start-* and .end-*.
     Renamed .float-left and .float-right to .float-start and .float-end.

@@ -208,27 +208,21 @@
                                         </li>
                                     {/if}
                                     {undef $faq_system}
-                                    {if or(is_set($pagedata.contacts['link_prenotazione_appuntamento']), is_set($pagedata.contacts['email']))}
                                         <li>
-                                            <a data-element="appointment-booking" href="{if is_set($pagedata.contacts['link_prenotazione_appuntamento'])}{$pagedata.contacts['link_prenotazione_appuntamento']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}">
+                                            <a data-element="appointment-booking" href="{if is_set($pagedata.contacts['link_prenotazione_appuntamento'])}{$pagedata.contacts['link_prenotazione_appuntamento']|wash()}{else}{'prenota_appuntamento'|ezurl(no)}{/if}">
                                                 {'Book an appointment'|i18n('bootstrapitalia')}
                                             </a>
                                         </li>
-                                    {/if}
-                                    {if or(is_set($pagedata.contacts['link_segnalazione_disservizio']), is_set($pagedata.contacts['email']))}
                                         <li>
-                                            <a data-element="report-inefficiency" href="{if is_set($pagedata.contacts['link_segnalazione_disservizio'])}{$pagedata.contacts['link_segnalazione_disservizio']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}">
+                                            <a data-element="report-inefficiency" href="{if is_set($pagedata.contacts['link_segnalazione_disservizio'])}{$pagedata.contacts['link_segnalazione_disservizio']|wash()}{else}{'segnala_disservizio'|ezurl(no)}{/if}">
                                                 {'Report a disservice'|i18n('bootstrapitalia')}
                                             </a>
                                         </li>
-                                    {/if}
-                                    {if or(is_set($pagedata.contacts['link_assistenza']), is_set($pagedata.contacts['email']))}
                                         <li>
-                                            <a href="{if is_set($pagedata.contacts['link_assistenza'])}{$pagedata.contacts['link_assistenza']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}">
+                                            <a data-element="contacts" href="{if is_set($pagedata.contacts['link_assistenza'])}{$pagedata.contacts['link_assistenza']|wash()}{else}{'richiedi_assistenza'|ezurl(no)}{/if}">
                                                 {'Request assistance'|i18n('bootstrapitalia')}
                                             </a>
                                         </li>
-                                    {/if}
                                 </ul>
                             </div>
                             <div class="col-md-4">

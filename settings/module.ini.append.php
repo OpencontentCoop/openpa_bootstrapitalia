@@ -7,4 +7,7 @@ ModuleList[]=join
 ModuleList[]=image
 ModuleList[]=valuation
 ModuleList[]=extraindex
+ModuleList[]=prenota_appuntamento
+ModuleList[]=richiedi_assistenza
+ModuleList[]=segnala_disservizio
 */ ?>

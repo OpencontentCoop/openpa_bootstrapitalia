@@ -25,6 +25,10 @@
     {if or(and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation),openpacontext().is_search_page)}
         {set $has_valuation = '1'}
     {/if}
+    {def $current_built_in_app = ''}
+    {if is_set($module_result.content_info.persistent_variable.built_in_app)}
+        {set $current_built_in_app = $module_result.content_info.persistent_variable.built_in_app}
+    {/if}
 
     {def $theme = current_theme()
          $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
@@ -93,7 +97,7 @@
 
 {if and(openpacontext().is_login_page|not(), openpacontext().is_edit|not())}
     {debug-accumulator id=page_footer name=page_footer}
-    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $has_valuation )}
+    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $has_valuation, $current_built_in_app)}
     {def $pagedata = openpapagedata()}
         {include uri='design:page_extra.tpl'}
         {include uri='design:page_footer.tpl'}

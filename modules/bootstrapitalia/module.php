@@ -37,3 +37,4 @@ $FunctionList['permissions'] = [];
 $FunctionList['edit_tag_description'] = [];
 $FunctionList['advanced_editor_tools'] = [];
 $FunctionList['avatar'] = [];
+$FunctionList['config_built_in_apps'] = [];
