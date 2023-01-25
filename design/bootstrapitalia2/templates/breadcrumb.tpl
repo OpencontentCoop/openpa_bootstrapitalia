@@ -2,7 +2,7 @@
     <div class="row{if $has_sidemenu|not()} justify-content-center{/if}">
         <div class="{if and($has_container, $has_sidemenu|not())}col-12 {if is_set($module_result.content_info.persistent_variable.has_sidemenu)} col-lg-10{else} px-lg-4{/if}{else}col px-lg-4{/if}">
             <div class="cmp-breadcrumbs" role="navigation">
-                <nav class="breadcrumb-container">
+                <nav class="breadcrumb-container" aria-label="breadcrumb">
                     <ol class="breadcrumb p-0" data-element="breadcrumb">
                     {def $root_node_depth = cond(ezini_hasvariable( 'SiteSettings', 'RootNodeDepth', 'site.ini' ), ezini( 'SiteSettings', 'RootNodeDepth', 'site.ini' ), 1)}
                     {def $_index = 1}
