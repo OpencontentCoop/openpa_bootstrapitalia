@@ -10,11 +10,7 @@
   'leaflet/Control.Loading.js',
   'leaflet/Leaflet.MakiMarkers.js',
   'leaflet/leaflet.activearea.js',
-  'leaflet/leaflet.markercluster.js'
-)}
-
-{if $is_logged_in}
-{set $scripts = $scripts|merge(array(
+  'leaflet/leaflet.markercluster.js',
   'chosen.jquery.js',
   'jquery.opendataDataTable.js',
   'stacktable.js',
@@ -24,12 +20,17 @@
   'jquery.dataTables.js',
   'dataTables.bootstrap4.min.js',
   'jquery.blueimp-gallery.min.js',
-  'ezjsc::jqueryUI',
+  'ezjsc::jqueryUI'
+)}
+
+{if $is_logged_in}
+{set $scripts = $scripts|merge(array(
   'handlebars.min.js',
   'alpaca.js',
   'jquery.opendataform.js'
 ))}
 {/if}
+
 
 {ezscript_load($scripts)}
 
