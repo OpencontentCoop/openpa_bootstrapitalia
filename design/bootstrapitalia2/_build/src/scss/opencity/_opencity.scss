@@ -513,3 +513,9 @@ ul.link-list,
     }
   }
 }
+
+@media print {
+  #cconsent-bar {
+    display: none;
+  }
+}

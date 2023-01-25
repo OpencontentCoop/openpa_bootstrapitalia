@@ -105,7 +105,8 @@ DefaultIntegerIsNull[]=public_service/has_processing_time
 ShowEditorRoles=disabled
 
 [GeneralSettings]
-AnnounceKit=BvwBO
+#AnnounceKit=BvwBO
+AnnounceKit=disabled
 Valuation=1
 ShowRssInSocialList=disabled
 ShowUeLogo=enabled

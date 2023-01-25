@@ -16,8 +16,6 @@ $primary-h: 160 !default;
 $primary-s: 100 !default;
 $primary-b: 48 !default;
 
-//buttons custom vars
-
 // bootstrap italia version variable
 // useful to check for the current version
 @import 'custom/version';
@@ -211,6 +209,7 @@ $card-comuni-bg-dark: #2c2c2c !default;
 @import 'custom/images';
 @import 'custom/just-validate';
 @import 'custom/accessible-autocomplete';
+@import 'custom/page-scroll';
 
 // datepicker
 @import 'custom/form-datepicker';
@@ -331,7 +330,8 @@ $card-comuni-bg-dark: #2c2c2c !default;
 @import "design-comuni-pagine-statiche/components/cmp-card-radio-list/cmp-card-radio-list";
 @import "design-comuni-pagine-statiche/components/cmp-tot/cmp-tot";
 
-
+@import "design-comuni-pagine-statiche/components/cmp-card-teaser/cmp-card-teaser";
+@import "design-comuni-pagine-statiche/general/print";
 // end import 'design-comuni-pagine-statiche/styles';
 
 $image-path: "../images/" !default;
@@ -350,8 +350,10 @@ $image-path: "../images/" !default;
 @import 'opencity/websitetoolbar';
 @import 'opencity/rating';
 
+$font-path: "../fonts";
 $fa-font-path: "../fonts/FontAwesome" !default;
 @import 'node_modules/font-awesome/scss/font-awesome.scss';
+@import 'opencity/fonts';
 
 $icon-font-path: "../fonts/Glyphicons-Halflings/";
 $icon-font-name: "glyphicons-halflings-regular";

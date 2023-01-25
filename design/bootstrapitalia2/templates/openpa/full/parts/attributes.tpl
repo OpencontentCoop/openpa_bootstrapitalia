@@ -61,7 +61,7 @@
             {foreach $summary.items as $index => $item}
                 <article id="{$item.slug|wash()}" class="it-page-section anchor-offset{if $item.evidence} has-bg-grey p-3{/if}">
                     {if and(count($summary.items)|gt(1), $item.label)}
-                        <h2 class="h4 mt-3">{$item.label|wash()}</h2>
+                        <h2 class="my-3">{$item.label|wash()}</h2>
                     {else}
                         <h2 class="visually-hidden">{$item.title|wash()}</h2>
                     {/if}

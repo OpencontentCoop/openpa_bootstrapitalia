@@ -1,4 +1,15 @@
 .card-teaser-wrapper {
+  .card-teaser {
+    height: auto;
+  }
+
+  &.card-teaser-block-3 {
+    @include media-breakpoint-up(md) {
+      justify-content: flex-start !important;
+      column-gap: 2%;
+    }
+  }
+  
   .card-image {
     height: 100%;
     width: 130px;
@@ -116,19 +127,6 @@
 .home-carousel-title {
   @include font(18, 20);
   line-height: 1.5;
-}
-
-.card .card-body {
-  .category-top {
-    @include font(14, 14);
-    line-height: 1.3;
-    letter-spacing: 1.1px;
-  }
-  // h5.card-title{
-  //   a{
-  //     color: get-color(primary, main)
-  //   }
-  // }
 }
 
 a.read-more {
@@ -327,21 +325,6 @@ a.read-more {
 
     &.active {
       transform: translateY(-150%);
-    }
-  }
-}
-
-.chip {
-  &.chip-simple {
-    border-color: #007a52;
-    margin-bottom: 5px;
-
-    .chip-label {
-      color: #007A52;
-    }
-
-    &:hover {
-      background-color: #007A52;
     }
   }
 }

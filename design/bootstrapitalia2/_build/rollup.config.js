@@ -2,7 +2,7 @@
 
 import { babel } from '@rollup/plugin-babel'
 import copy from 'rollup-plugin-copy'
-import svgSprite from 'rollup-plugin-svg-sprite'
+import svgSprite from 'rollup-plugin-svg-sprite-deterministic'
 import scss from 'rollup-plugin-scss'
 import uglify from '@lopatnov/rollup-plugin-uglify'
 import legacy from '@rollup/plugin-legacy'
@@ -11,68 +11,62 @@ import injectProcessEnv from 'rollup-plugin-inject-process-env'
 import commonjs from 'rollup-plugin-commonjs'
 
 export default [
-  // {
-  //   input: 'src/js/bootstrap-italia.entry.js',
-  //   output: {
-  //     file: '../javascript/bootstrap-italia.bundle.min.js',
-  //     compact: true,
-  //     format: 'iife',
-  //   },
-  //   plugins: [
-  //     babel({
-  //       babelHelpers: 'bundled',
-  //       exclude: 'node_modules/**',
-  //     }),
-  //     copy({
-  //       targets: [
-  //         { src: 'src/assets', dest: '../images' },
-  //         { src: 'src/fonts', dest: '..' },
-  //       ],
-  //     }),
-  //     svgSprite({
-  //       outputFolder: '../images/svg',
-  //     }),
-  //     scss({
-  //       output: '../stylesheets/bootstrap-italia.min.css',
-  //       outputStyle: 'compressed',
-  //       sourceMap: true,
-  //       watch: 'src/scss',
-  //     }),
-  //     nodeResolve({
-  //       // use "jsnext:main" if possible
-  //       // see https://github.com/rollup/rollup/wiki/jsnext:main
-  //       jsnext: true,
-  //       main: true,
-  //     }),
-  //     commonjs(),
-  //     injectProcessEnv({
-  //       NODE_ENV: 'production',
-  //     }),
-  //     uglify(),
-  //   ],
-  // },
-  // ESM and CJS
-  // {
-  //   input: 'src/js/bootstrap-italia.esm.js',
-  //   output: [
-  //     {
-  //       format: 'es',
-  //       exports: 'named',
-  //       sourcemap: true,
-  //       dir: '../javascript',
-  //       // chunkFileNames: '[name].js'
-  //       preserveModules: true,
-  //       // // Optionally strip useless path from source
-  //       // preserveModulesRoot: 'lib',
-  //     },
-  //   ],
-  //   // plugins: [
-  //   //   injectProcessEnv({
-  //   //     NODE_ENV: 'production',
-  //   //   }),
-  //   // ],
-  //   // manualChunks: id => path.parse(id).name
-  // },
+  {
+    input: 'src/js/bootstrap-italia.entry.js',
+    output: {
+      file: '../javascript/bootstrap-italia.bundle.min.js',
+      compact: true,
+      format: 'iife',
+    },
+    plugins: [
+      babel({
+        babelHelpers: 'bundled',
+        exclude: 'node_modules/**',
+      }),
+      copy({
+        targets: [
+          { src: 'src/assets', dest: '../images' },
+          { src: 'src/fonts', dest: '..' },
+        ],
+      }),
+      svgSprite({
+        outputFolder: '../images/svg',
+      }),
+      scss({
+        output: '../stylesheets/bootstrap-italia.min.css',
+        outputStyle: 'compressed',
+        sourceMap: true,
+        watch: 'src/scss',
+      }),
+      nodeResolve(),
+      commonjs(),
+      injectProcessEnv({
+        NODE_ENV: 'production',
+      }),
+      uglify(),
+    ],
+  },
+  {
+    input: 'src/js/bootstrap-italia.esm.js',
+    output: [
+      {
+        format: 'es',
+        exports: 'named',
+        sourcemap: true,
+        dir: '../javascript',
+        // chunkFileNames: '[name].js'
+        preserveModules: true,
+        // // Optionally strip useless path from source
+        // preserveModulesRoot: 'lib',
+      },
+    ],
+    // plugins: [
+    //   injectProcessEnv({
+    //     NODE_ENV: 'production',
+    //   }),
+    // ],
+    // manualChunks: id => path.parse(id).name
+  },
   // {
   //   input: 'docs/assets/src/js/docs-entry.js',
   //   output: {

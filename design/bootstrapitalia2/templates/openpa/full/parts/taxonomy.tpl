@@ -3,7 +3,6 @@
     'container_class', 'mt-4 mb-4'
 ))}
 
-
 {def $current_topics = array()}
 {if and($node|has_attribute('topics'), $node|attribute('topics').data_type_string|eq('ezobjectrelationlist'))}
     {foreach $node|attribute('topics').content.relation_list as $item}
@@ -19,46 +18,62 @@
 <div class="{$container_class}">
     {if $current_topics|count()}
         {if $show_title}
-            <p class="h6 mb-0"><small>{'Topics'|i18n('bootstrapitalia')}</small></p>
+            <div class="row">
+                <span class="mb-2 small">{'Topics'|i18n('bootstrapitalia')}</span>
+            </div>
         {/if}
+        <ul class="d-flex flex-wrap gap-1 mb-2">
         {foreach $current_topics as $object}
-            <a class="text-decoration-none text-nowrap d-inline-block "
-               {if $node.class_identifier|eq('public_service')}data-element="service-topic"{/if}
-               href="{$object.main_node.url_alias|ezurl(no)}">
-                <div class="chip chip-simple chip-{if $object.section_id|eq(1)}primary{else}danger{/if}"><span class="chip-label">{$object.name|wash()}</span>
-                </div>
-            </a>
+            <li>
+                <a class="chip chip-simple {if $object.section_id|ne(1)}bg-danger{/if}"
+                   {if $node.class_identifier|eq('public_service')}data-element="service-topic"{/if}
+                   href="{$object.main_node.url_alias|ezurl(no)}">
+                    <span class="chip-label {if $object.section_id|ne(1)}text-white{/if}">{$object.name|wash()}</span>
+                </a>
+            </li>
         {/foreach}
+        </ul>
     {/if}
+    {if $show_title}
     {foreach array('has_public_event_typology', 'content_type', 'document_type', 'announcement_type') as $identifier}
     {if $node|has_attribute($identifier)}
         {if $show_title}
-            <p class="h6 mb-0{if $current_topics|count()} mt-1{/if}"><small>{$node|attribute($identifier).contentclass_attribute_name}</small></p>
+            <div class="row">
+                <span class="mb-2 small">{$node|attribute($identifier).contentclass_attribute_name}</span>
+            </div>
         {/if}
         {if $node|attribute($identifier).data_type_string|eq('eztags')}
+            <ul class="d-flex flex-wrap gap-1 mb-2">
             {foreach $node|attribute($identifier).content.tags as $tag}
-                <div class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></div>
+                <li class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></li>
             {/foreach}
+            </ul>
         {else}
             {attribute_view_gui attribute=$node|attribute($identifier)}
         {/if}
     {/if}
     {/foreach}
+    {/if}
 </div>
 {/if}
 
-{if and($node|has_attribute('type'), $node|attribute('type').data_type_string|eq('eztags'), is_set($parent_openpa), $parent_openpa.content_tag_menu.has_tag_menu)}
+{if and($show_title, $node|has_attribute('type'), $node|attribute('type').data_type_string|eq('eztags'), is_set($parent_openpa), $parent_openpa.content_tag_menu.has_tag_menu)}
 <div class="{$container_class}">
     {if $show_title}
-        <p class="h6 mb-0"><small>{$node|attribute('type').contentclass_attribute_name|wash()}</small></p>
+        <div class="row">
+            <span class="mb-2 small">{$node|attribute('type').contentclass_attribute_name|wash()}</span>
+        </div>
     {/if}
-
+    <ul class="d-flex flex-wrap gap-1">
     {foreach $node|attribute('type').content.tags as $tag}
-        <a class="text-decoration-none text-sans-serif mr-1 me-1 text-nowrap d-inline-block"
-           href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
-           <div class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></div>
-       </a>
+        <li>
+            <a class="chip chip-simple"
+               href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
+               <span class="chip-label">{$tag.keyword|wash}</span>
+           </a>
+        </li>
     {/foreach}
+    </ul>
 </div>
 {/if}
 

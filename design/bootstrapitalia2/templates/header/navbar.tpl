@@ -82,7 +82,7 @@
                             </ul>
                             {if $show_topic_menu}
                                 {if or(count($topic_list)|gt(0), count($selected_topic_list)|gt(0))}
-                                <ul class="navbar-nav navbar-secondary">
+                                <ul class="navbar-nav navbar-secondary" aria-label="{'Secondary menu'|i18n('bootstrapitalia')}">
                                     {if count($selected_topic_list)|gt(0)}
                                         {foreach $selected_topic_list as $selected_topic max 3}
                                         <li class="nav-item">
