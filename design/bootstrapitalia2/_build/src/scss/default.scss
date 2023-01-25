@@ -16,6 +16,9 @@ $primary-h: 160 !default;
 $primary-s: 100 !default;
 $primary-b: 48 !default;
 
+$font-path: "../fonts";
+@import 'opencity/fonts';
+
 // bootstrap italia version variable
 // useful to check for the current version
 @import 'custom/version';
@@ -78,6 +81,10 @@ $link-list-comuni-color: #455a64 !default;
 $link-list-hover-color: $primary !default;
 
 $card-comuni-bg-dark: #2c2c2c !default;
+
+$font-family-serif: 'Lora', serif !default;
+$font-family-sans-serif: 'Titillium Web', sans-serif !default;
+$font-family-monospace: 'Roboto Mono', monospace !default;
 
 //variables
 @import 'variables';
@@ -350,10 +357,9 @@ $image-path: "../images/" !default;
 @import 'opencity/websitetoolbar';
 @import 'opencity/rating';
 
-$font-path: "../fonts";
 $fa-font-path: "../fonts/FontAwesome" !default;
 @import 'node_modules/font-awesome/scss/font-awesome.scss';
-@import 'opencity/fonts';
+
 
 $icon-font-path: "../fonts/Glyphicons-Halflings/";
 $icon-font-name: "glyphicons-halflings-regular";

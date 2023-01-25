@@ -2,6 +2,7 @@
 
 /** @var eZModule $Module */
 $Module = $Params['Module'];
+$Module->setExitStatus(eZModule::STATUS_IDLE);
 $tpl = eZTemplate::factory();
 $http = eZHTTPTool::instance();
 
