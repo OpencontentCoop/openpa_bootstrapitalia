@@ -15,6 +15,9 @@ PolicyOmitList[]=valuation/send
 PolicyOmitList[]=valuation/form
 PolicyOmitList[]=tags/treemenu
 PolicyOmitList[]=bootstrapitalia/avatar
+PolicyOmitList[]=prenota_appuntamento
+PolicyOmitList[]=richiedi_assistenza
+PolicyOmitList[]=segnala_disservizio
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login

@@ -9,9 +9,8 @@
                             <ul class="contact-list p-0">
                                 {def $context = ezpagedata()}
                                 {def $current_app = cond(is_set($context.persistent_variable.built_in_app), $context.persistent_variable.built_in_app, false())}
-                                {def $context_class_identifier = cond(is_set($context.class_identifier), $context.class_identifier, false())}
                                 {def $faq_system = fetch(content, object, hash(remote_id, 'faq_system'))}
-                                {if and($faq_system, $context_class_identifier|ne('faq_root'))}
+                                {if and($faq_system, $current_app|ne('faq'))}
                                 <li>
                                     <a class="list-item" href="{object_handler($faq_system).content_link.full_link}" data-element="faq">
                                         {display_icon('it-help-circle', 'svg', 'icon icon-primary')}<span>{'Read the FAQ'|i18n('bootstrapitalia')}</span>
@@ -40,7 +39,7 @@
                                     </a>
                                 </li>
                                 {/if}
-                                {undef $context $context_class_identifier}
+                                {undef $context}
                             </ul>
 
                             {if $current_app|ne('inefficiency')}

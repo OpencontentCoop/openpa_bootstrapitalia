@@ -1,5 +1,6 @@
 {ezpagedata_set( 'has_container', true() )}
 {ezpagedata_set( 'has_sidemenu', false() )}
+{ezpagedata_set( 'built_in_app', 'faq' )}
 
 <div class="container">
     <div class="row justify-content-center">

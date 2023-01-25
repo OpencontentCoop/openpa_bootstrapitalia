@@ -1,4 +1,5 @@
 {ezpagedata_set( 'has_container', true() )}
+{ezpagedata_set( 'built_in_app', 'faq' )}
 
 {def $parent = $node.parent}
 {if $parent.class_identifier|ne('faq_section')}
