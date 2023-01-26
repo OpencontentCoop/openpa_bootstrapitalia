@@ -58,7 +58,7 @@
                 <li>
                     <div class="input-group">
                         <select name="ClassID" id="ezwt-create" class="custom-select" data-placeholder="{"Create here"||i18n('design/admin/node/view/full')}">
-                            <option></option>
+                            {if count($can_create_class_list)|gt(1)}<option></option>{/if}
                             {foreach $can_create_class_list as $class}
                                 <option value="{$class.id}" data-class="{$class.id|class_identifier_by_id()}">{$class.name|wash}</option>
                             {/foreach}

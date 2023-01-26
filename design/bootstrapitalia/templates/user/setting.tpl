@@ -1,7 +1,17 @@
 <div class="row">
     <div class="col-12">
-        <h3>{'User settings for <%user_name>'|i18n( 'design/admin/user/setting',, hash( '%user_name', $user.contentobject.name ) )|wash}</h3>
-
+        {if fetch(user, has_access_to, hash( 'module', 'switch', 'function', 'user' ) )}
+            <p class="pull-right pull-end">
+                <a class="btn btn-outline-primary"
+                   href="{concat('/switch/user/', $user.login)|ezurl(no)}">Impersona utente</a></p>
+        {/if}
+        <h3>
+            {'User settings for <%user_name>'|i18n( 'design/admin/user/setting',, hash( '%user_name', $user.contentobject.name ) )|wash}
+        </h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
         <form name="Setting" method="post" action={concat( $module.functions.setting.uri, '/', $userID )|ezurl}>
 
             {if or( $max_failed_login_attempts, $failed_login_attempts )}
@@ -13,11 +23,14 @@
 
                     {if or( $max_failed_login_attempts, $failed_login_attempts )}
                         <ul class="list-unstyled mb-0">
-                            <li>{'Maximum number of failed login attempts'|i18n( 'design/admin/user/setting' )}: {$max_failed_login_attempts}</li>
+                            <li>{'Maximum number of failed login attempts'|i18n( 'design/admin/user/setting' )}
+                                : {$max_failed_login_attempts}</li>
                             <li>
-                                {'Number of failed login attempts for this user'|i18n( 'design/admin/user/setting' )}: {$failed_login_attempts}
+                                {'Number of failed login attempts for this user'|i18n( 'design/admin/user/setting' )}
+                                : {$failed_login_attempts}
                                 {if $failed_login_attempts}
-                                    <button class="btn btn-warning btn-xs" type="submit" name="ResetFailedLoginButton">{'Reset'|i18n( 'design/admin/user/setting' )}</button>
+                                    <button class="btn btn-warning btn-xs" type="submit"
+                                            name="ResetFailedLoginButton">{'Reset'|i18n( 'design/admin/user/setting' )}</button>
                                 {/if}
                             </li>
                         </ul>
