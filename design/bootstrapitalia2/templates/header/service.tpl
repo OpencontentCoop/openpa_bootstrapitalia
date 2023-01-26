@@ -95,7 +95,7 @@
                                 <div class="link-list-wrapper collapse" id="service-menu">
                                     <ul class="link-list">
                                         {foreach $header_service_list as $item}
-                                            <li class="list-item d-block d-md-none"><a href="{$item.url}" aria-label="{'Go to page'|i18n('bootstrapitalia')} {$item.name|wash()}">{$item.name|wash()}</a></li>
+                                            <li class="list-item d-block d-md-none"><a href="{$item.url}">{$item.name|wash()}</a></li>
                                         {/foreach}
                                         {foreach $header_links as $header_link max openpaini('Menu','HeaderLinksLimit', 3)}
                                             <li class="list-item text-nowrap">{node_view_gui content_node=$header_link view=text_linked}</li>
@@ -276,84 +276,52 @@
 </script>
 {/literal}
 
+{literal}
 <script>
-    var baseUrl = "{$link_area_personale|user_api_base_url()}";
-    var tokenUrl = "{$link_area_personale|user_token_url()}";
-    var profileUrl = "{$link_area_personale|user_profile_url()}";
-    {literal}
-    $(document).ready(function () {
-      if (typeof LanguageUrlAliasList !== 'undefined') {
-        $('[data-switch_locale]').each(function () {
-          var self = $(this);
-          var locale = self.data('switch_locale');
-          $.each(LanguageUrlAliasList, function () {
-            if (this.locale === locale) {
-              self.attr('href', this.uri);
-            }
-          })
-        });
-      }
-      var trimmedPrefix = UriPrefix.replace(/~+$/g, "");
-      if (trimmedPrefix === '/') trimmedPrefix = '';
-      var injectUserInfo = function (data) {
-        if (data.error_text || !data.content) {
-          console.log(data.error_text);
-        } else {
-          var response = data.content;
-          response.id = CurrentUserId;
-          response.prefix = trimmedPrefix;
-          response.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
-          var renderData = $($.templates('#tpl-user-access').render(response));
-          $('[data-element="personal-area-login"]').replaceWith(renderData)
-        }
-      };
-      var injectProfileInfo = function (data) {
-        data.prefix = trimmedPrefix;
-        data.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
-        data.baseUrl = baseUrl;
-        var renderData = $($.templates('#tpl-user-profile').render(data));
+  $(document).ready(function () {
+    if (typeof LanguageUrlAliasList !== 'undefined') {
+      $('[data-switch_locale]').each(function () {
+        var self = $(this);
+        var locale = self.data('switch_locale');
+        $.each(LanguageUrlAliasList, function () {
+          if (this.locale === locale) {
+            self.attr('href', this.uri);
+          }
+        })
+      });
+    }
+    var trimmedPrefix = UriPrefix.replace(/~+$/g, "");
+    if (trimmedPrefix === '/') trimmedPrefix = '';
+    var injectUserInfo = function (data) {
+      if (data.error_text || !data.content) {
+        console.log(data.error_text);
+      } else {
+        var response = data.content;
+        response.id = CurrentUserId;
+        response.prefix = trimmedPrefix;
+        response.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
+        ;
+        var renderData = $($.templates('#tpl-user-access').render(response));
         $('[data-element="personal-area-login"]').replaceWith(renderData)
       }
-      var getProfile = function (token, cb, context) {
-        function parseJwt(token) {
-          var base64Url = token.split('.')[1];
-          var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-          var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-          }).join(''));
-          return JSON.parse(jsonPayload);
-        }
-        var tokenData = parseJwt(token);
-        jQuery.ajax({
-          url: profileUrl+'/'+tokenData.id,
-          dataType: 'json',
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
-          success: function (data) {
-            if ($.isFunction(cb)) {
-              cb.call(context, data);
-            }
-          }
-        });
-      }
-      if (CurrentUserIsLoggedIn) {
-        $.ez('openpaajax::userInfo', null, function (data) {
-          injectUserInfo(data);
-        });
-      } else if (profileUrl) {
-        jQuery.ajax({
-          url: tokenUrl,
-          dataType: 'json',
-          xhrFields: {withCredentials: true},
-          success: function (data) {
-            if (data.token && profileUrl) {
-              getProfile(data.token, injectProfileInfo);
-            }
-          }
-        });
-      }
-    });
-    {/literal}
-</script>
+    };
+    var injectProfileInfo = function (data) {
+      data.prefix = trimmedPrefix;
+      data.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
+      data.baseUrl = baseUrl;
+      var renderData = $($.templates('#tpl-user-profile').render(data));
+      $('[data-element="personal-area-login"]').replaceWith(renderData)
+    };
 
+    if (CurrentUserIsLoggedIn) {
+      $.ez('openpaajax::userInfo', null, function (data) {
+        injectUserInfo(data);
+      });
+    }else{
+      $.ez('sso::profile', null, function (data) {
+        console.log(data);
+      });
+    }
+  });
+</script>
+{/literal}

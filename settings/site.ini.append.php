@@ -22,6 +22,7 @@ PolicyOmitList[]=segnala_disservizio
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login
 LoginRedirectionUriAttribute[group]=redirect_after_login
+SingleSignOnHandlerArray[]=SDC
 
 [ContentSettings]
 RedirectAfterPublish=node

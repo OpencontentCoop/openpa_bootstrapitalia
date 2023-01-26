@@ -37,9 +37,6 @@ class OpenPABootstrapItaliaOperators
             'edit_attribute_groups',
             'get_default_integer_value',
             'satisfy_main_entrypoint',
-            'user_token_url',
-            'user_profile_url',
-            'user_api_base_url',
         );
     }
 
@@ -121,23 +118,6 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
-
-            case 'user_api_base_url':
-            case 'user_profile_url':
-            case 'user_token_url':
-                $currentHost = eZSys::hostname();
-                $path = $operatorName === 'user_api_base_url' ? '' : ($operatorName === 'user_token_url' ? '/lang/api/session-auth' : '/lang/api/users');
-                if ($operatorValue) {
-                    $operatorValueOriginal = $operatorValue;
-                    $operatorValue = false;
-                    $url = parse_url($operatorValueOriginal, PHP_URL_HOST);
-                    if ($url
-                        && OpenPAINI::variable('GeneralSettings', 'AutoDiscoverProfileLinks', 'disabled') === 'enabled'
-                        && str_replace('www.', 'servizi.', $currentHost) === $url) {
-                        $operatorValue = "https://{$url}{$path}";
-                    }
-                }
-                break;
 
             case 'satisfy_main_entrypoint':
                 $operatorValue = self::getSatisfyEntrypoint();
