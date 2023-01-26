@@ -1,0 +1,110 @@
+/*!
+Text Domain: design_comuni_italia
+*/
+// color custom variables
+
+/*figma color
+primary: #007A52;
+primary dark: #00402B;
+primary light: #56D6AB;
+primary lighter: #F0F8F5;
+*/
+
+// primary
+// #007A52
+$primary-h: 160 !default;
+$primary-s: 100 !default;
+$primary-b: 48 !default;
+
+//$font-path: "../fonts";
+//@import 'opencity/fonts';
+
+// bootstrap italia version variable
+// useful to check for the current version
+@import 'custom/version';
+
+// funzioni e variabili colore
+@import 'functions';
+@import 'utilities/colors_vars';
+
+$ca-colors: () !default;
+$ca-colors: map-merge(
+(
+        main: (
+                black: #191919,
+                white: #fff,
+                error: #D9364F,
+                alert: #A66300,
+                primary: $primary,
+                secondary: #009966,
+                notice: #D97E00,
+                success: #008758,
+                dark-primary: #00402B
+        ),
+        grey:(
+                card: #EBEEF0,
+                dark: #5A768A,
+                medium: #5C6F82,
+                lighten: #E6E9F2,
+                light: #455A64,
+                light-grey:#E5E5E5,
+                extra-light: #BCC0CC,
+                border: #7D8C9C,
+                primary-grey:#007A520D
+        ),
+        blue:(
+                dark:#17324D,
+                light:#0968B4
+        ),
+        gradient: (
+                black: rgba(25, 25, 25, 0.7),
+                light-black: rgba(0, 0, 0, 0.1)
+        )
+),
+$ca-colors
+);
+
+// color custom variables
+$header-center-bg-color: $primary;
+$header-slim-bg-color: #00402b !default;
+
+$section-header-background-color: $primary-a10;
+$section-user-header-background-color: #f0f8f5 !default;
+
+$card-link-color: $primary;
+
+$btn-comuni-primary-hover: #fff;
+
+$footer-comuni-bg-color: #202a2e !default;
+
+$link-list-comuni-color: #455a64 !default;
+$link-list-hover-color: $primary !default;
+
+$card-comuni-bg-dark: #2c2c2c !default;
+
+$font-family-serif: 'Lora', serif !default;
+$font-family-sans-serif: 'Titillium Web', sans-serif !default;
+$font-family-monospace: 'Roboto Mono', monospace !default;
+
+@import 'variables';
+@import 'utilities/colors';
+@import 'node_modules/bootstrap/scss/mixins';
+@import "design-comuni-pagine-statiche/base/functions";
+@import "design-comuni-pagine-statiche/base/mixins";
+
+@import 'opencity/chosen';
+@import 'opencity/leaflet';
+@import 'opencity/audio';
+@import 'opencity/datatable';
+@import 'opencity/gallery';
+@import 'opencity/rating';
+
+$fa-font-path: "../fonts/FontAwesome" !default;
+@import 'node_modules/font-awesome/scss/font-awesome.scss';
+
+
+$icon-font-path: "../fonts/Glyphicons-Halflings/";
+$icon-font-name: "glyphicons-halflings-regular";
+$icon-font-svg-id: "glyphicons_halflingsregular";
+@import "opencity/glyphicons";
+@import 'opencity/alpaca';

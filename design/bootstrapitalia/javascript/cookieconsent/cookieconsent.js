@@ -2743,11 +2743,11 @@ function () {
       }, (0, _redom.el)("i.fa.fa-times"), (0, _redom.el)("span.d-none", _Language.default.getTranslation(window.CookieConsent.config, window.CookieConsent.config.language.current, 'barBtnRefuseAll'))), (0, _redom.el)("div.ccb__wrapper", (0, _redom.el)('div.ccb__left', (0, _redom.el)('div.cc-text', (0, _redom.el)('p.mb-1', _Language.default.getTranslation(window.CookieConsent.config, window.CookieConsent.config.language.current, 'barMainText')), (0, _redom.el)('p.m-0.cookie-policy-link', window.CookieConsent.config.modalMainTextMoreLink ? (0, _redom.el)('a', {
         href: window.CookieConsent.config.modalMainTextMoreLink
       }, _Language.default.getTranslation(window.CookieConsent.config, window.CookieConsent.config.language.current, 'learnMore')) : null))), (0, _redom.el)('div.ccb__right', (0, _redom.el)('div.ccb__button.row', (0, _redom.el)('div.col-xs-12.col-md-4.text-center.mt-4', (0, _redom.el)('button.consent-refuse', {
-        tabindex: 1
+        tabindex: 0
       }, _Language.default.getTranslation(window.CookieConsent.config, window.CookieConsent.config.language.current, 'barBtnRefuseAll'))), (0, _redom.el)('div.col-xs-12.col-md-4.text-center.mt-4', (0, _redom.el)('a.ccb__edit', {
-        tabindex: 2
+        tabindex: 0
       }, _Language.default.getTranslation(window.CookieConsent.config, window.CookieConsent.config.language.current, 'barLinkSetting'))), (0, _redom.el)('div.col-xs-12.col-md-4.text-center.mt-4', (0, _redom.el)('button.consent-give', {
-        tabindex: 3
+        tabindex: 0
       }, _Language.default.getTranslation(window.CookieConsent.config, window.CookieConsent.config.language.current, 'barBtnAcceptAll')))))));
     }
   }, {

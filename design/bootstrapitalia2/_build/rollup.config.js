@@ -118,6 +118,20 @@ export default [
       }),
     ],
   },
+  {
+    input: 'src/scss/default-override.scss',
+    output: {
+      dir: '../stylesheets',
+    },
+    plugins: [
+      scss({
+        output: '../stylesheets/default-override.css',
+        outputStyle: 'compressed',
+        sourceMap: false,
+        watch: 'src/scss',
+      }),
+    ],
+  },
   {input: 'src/scss/acqua.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/acqua.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {input: 'src/scss/acquamarina.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/acquamarina.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {input: 'src/scss/amaranto.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/amaranto.css',outputStyle: 'compressed',watch: 'src/scss'})]},
