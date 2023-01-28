@@ -17,12 +17,10 @@
             {if class_extra_parameters($node.object.class_identifier, 'line_view').show|contains('disable_video_player')|not()}
                 {$oembed.html}
             {else}
-                <a style="border: 0;" href="{$openpa.content_link.full_link}">
-                    <img class="rounded-top img-fluid img-responsive" src="{$oembed.thumbnail_url}" alt="{$oembed.title|wash()}" />
-                </a>
+                <img class="rounded-top img-fluid img-responsive" src="{$oembed.thumbnail_url}" alt="{$oembed.title|wash()}" />
             {/if}
         {elseif $node|has_attribute('image')}
-            {attribute_view_gui image_css_class="rounded-top img-fluid img-responsive" attribute=$node|attribute('image') image_class=$image_class href=$openpa.content_link.full_link alt_text=$node.name}
+            {attribute_view_gui image_css_class="rounded-top img-fluid img-responsive" attribute=$node|attribute('image') image_class=$image_class alt_text=$node.name}
         {/if}
 
     </div>

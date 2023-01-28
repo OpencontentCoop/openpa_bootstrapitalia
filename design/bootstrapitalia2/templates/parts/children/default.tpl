@@ -112,7 +112,7 @@
                 {include uri='design:atoms/grid.tpl'
                          items_per_row=$items_per_row
                          i_view=cond($openpa.content_tag_menu.current_view_tag, 'card_teaser', $view)
-                         image_class=cond($children_count|eq(2), 'reference', 'large')
+                         image_class='large'
                          view_variation='w-100'
                          grid_wrapper_class='row g-4'
                          show_icon = false()
