@@ -829,6 +829,9 @@ class OpenPABootstrapItaliaOperators
 
         $tableView = $extraManager->getHandler('table_view');
         $hiddenList = $attributeGroups->attribute('hidden_list');
+        if (!$showAll && !$attributeGroups->attribute('enabled')){
+            $showAll = true;
+        }
         if ($showAll){
             foreach ($dataMap as $identifier => $attribute){
                 if ($openpa->hasAttribute($identifier)){
