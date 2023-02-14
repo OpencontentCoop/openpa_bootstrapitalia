@@ -366,4 +366,13 @@ class OpenPABootstrapItaliaModerationPost extends OpenPABootstrapItaliaAbstractP
                 break;
         }
     }
+
+    public function onChangeState(eZContentObjectState $beforeState, eZContentObjectState $afterState)
+    {
+        if ($afterState->attribute('identifier') === 'accepted') {
+            $this->emitPostPublishWebhook();
+        }
+
+        return parent::onChangeState($beforeState, $afterState);
+    }
 }

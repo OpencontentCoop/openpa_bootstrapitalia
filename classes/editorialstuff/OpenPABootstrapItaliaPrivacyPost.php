@@ -96,6 +96,7 @@ class OpenPABootstrapItaliaPrivacyPost extends OpenPABootstrapItaliaAbstractPost
         } elseif ($afterState->attribute('identifier') == 'public') {
             $this->enableUser();
             $this->flushObject();
+            $this->emitPostPublishWebhook();
         }
 
         if ($beforeState->attribute('identifier') != $afterState->attribute('identifier')) {
@@ -128,7 +129,7 @@ class OpenPABootstrapItaliaPrivacyPost extends OpenPABootstrapItaliaAbstractPost
     public function attribute($property)
     {
         if ($property == 'is_published') {
-            return $this->is('accepted');
+            return $this->is('public');
         }
 
         return parent::attribute($property);
