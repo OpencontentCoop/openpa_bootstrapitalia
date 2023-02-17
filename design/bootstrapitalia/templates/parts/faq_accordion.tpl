@@ -53,6 +53,10 @@ $(document).ready(function(){
 
 {run-once}
 {literal}
+<script>
+$.opendataTools.settings('language', "{/literal}{ezini('RegionalSettings','Locale')}{literal}");
+$.opendataTools.settings('languages', ['{/literal}{ezini('RegionalSettings','SiteLanguageList')|implode("','")}{literal}']);
+</script>
 <script id="tpl-faq-spinner" type="text/x-jsrender">
 <div class="col-xs-12 spinner text-center">
     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
