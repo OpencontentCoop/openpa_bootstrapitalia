@@ -28,5 +28,6 @@ RedirectAfterPublish=node
 
 [Event]
 Listeners[]=oembed/html@OpenPABootstrapItaliaOperators::filterOembedHtml
+Listeners[]=response/output@OpenPABootstrapItaliaOperators::minifyHtml
 
 */ ?>
