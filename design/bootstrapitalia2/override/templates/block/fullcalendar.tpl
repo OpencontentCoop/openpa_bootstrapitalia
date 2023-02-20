@@ -33,9 +33,9 @@ $classes = array()}
 {if and(is_set($block.custom_attributes.max_events), $block.custom_attributes.max_events|int()|gt(0))}
     {set $max_events = $block.custom_attributes.max_events}
 {/if}
-{ezcss_require(array('fullcalendar/main.min.css'))}
 {run-once}
-{ezscript(array('fullcalendar/main.min.js','fullcalendar/locales-all.min.js', 'fullcalendar/init.js'))}
+{ezcss_require(array('fullcalendar/main.min.css'))}
+{ezscript_require(array('fullcalendar/main.min.js','fullcalendar/locales-all.min.js', 'fullcalendar/init.js'))}
 {run-once}
 <script>
 document.addEventListener('DOMContentLoaded', function () {ldelim}

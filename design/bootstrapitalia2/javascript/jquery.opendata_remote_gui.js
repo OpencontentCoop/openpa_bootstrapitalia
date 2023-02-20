@@ -131,7 +131,7 @@
                     let facetSelect = plugin.container.find('select[data-facets_select="facet-'+index+'"]');
                     let values = facetSelect.val();
                     let type = facetSelect.data('datatype') || 'string';
-                    if (values.length > 0) {
+                    if (values && values.length > 0) {
                         if (type === 'string') {
                             baseQuery = facetField + ' in [\'"' + values.join('"\',\'"') + '"\'] and ' + baseQuery;
                             queryParams.facets[facetField] = values;
