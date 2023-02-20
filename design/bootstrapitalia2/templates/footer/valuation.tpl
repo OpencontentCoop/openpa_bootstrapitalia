@@ -3,7 +3,7 @@
         <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-lg-6 p-lg-0 px-4">
-                {ezscript_require(array('https://satisfy.opencontent.it/widget_ns.js'))}
+                <script type="text/javascript" src="https://satisfy.opencontent.it/widget_ns.js" charset="utf-8" defer></script>
                 <div data-element="feedback">
                     <app-widget data-entrypoints="{satisfy_main_entrypoint()}"></app-widget>
                 </div>
