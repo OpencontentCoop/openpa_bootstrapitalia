@@ -1,0 +1,16 @@
+$image-path: "../images/" !default;
+
+@import 'opencity/datatable';
+@import 'opencity/gallery';
+@import 'opencity/leaflet';
+@import 'opencity/audio';
+@import 'opencity/chosen';
+
+$fa-font-path: "../fonts/FontAwesome" !default;
+@import 'node_modules/font-awesome/scss/font-awesome.scss';
+
+$icon-font-path: "../fonts/Glyphicons-Halflings/";
+$icon-font-name: "glyphicons-halflings-regular";
+$icon-font-svg-id: "glyphicons_halflingsregular";
+@import "opencity/glyphicons";
+@import 'opencity/alpaca';

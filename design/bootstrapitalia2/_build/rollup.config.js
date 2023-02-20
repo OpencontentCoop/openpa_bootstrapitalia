@@ -142,4 +142,18 @@ export default [
   },
   {input: 'src/scss/verdone.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/verdone.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {input: 'src/scss/warmred.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/warmred.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {
+    input: 'src/scss/common.scss',
+    output: {
+      dir: '../stylesheets',
+    },
+    plugins: [
+      scss({
+        output: '../stylesheets/common.css',
+        outputStyle: 'compressed',
+        sourceMap: false,
+        watch: 'src/scss',
+      }),
+    ],
+  },
 ]

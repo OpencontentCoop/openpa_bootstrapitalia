@@ -5,34 +5,26 @@
   'ezjsc::jqueryio',
   'moment-with-locales.min.js',
   'jquery.opendataTools.js',
-  'leaflet/leaflet.0.7.2.js',
-  'leaflet/Control.Geocoder.js',
-  'leaflet/Control.Loading.js',
-  'leaflet/Leaflet.MakiMarkers.js',
-  'leaflet/leaflet.activearea.js',
-  'leaflet/leaflet.markercluster.js',
   'chosen.jquery.js',
-  'jquery.opendataDataTable.js',
   'stacktable.js',
-  'jsrender.js',
-  'jquery.faqs.js',
-  'jquery.sharedlink.js',
+  'jquery.opendataDataTable.js',
   'jquery.dataTables.js',
   'dataTables.bootstrap4.min.js',
+  'jquery.sharedlink.js',
   'jquery.blueimp-gallery.min.js',
   'ezjsc::jqueryUI'
 )}
-
 {if $is_logged_in}
-{set $scripts = $scripts|merge(array(
-  'handlebars.min.js',
-  'alpaca.js',
-  'jquery.opendataform.js'
-))}
+  {set $scripts = $scripts|merge(array(
+    'jsrender.js',
+    'handlebars.min.js',
+    'alpaca.js',
+    'jquery.opendataform.js'
+  ))}
+  {ezscript_load($scripts)}
+{else}
+  {ezscript($scripts)}
 {/if}
-
-
-{ezscript_load($scripts)}
 
 {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', ezini('RegionalSettings', 'Locale') ))}
 {def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}

@@ -343,26 +343,12 @@ $font-family-monospace: 'Roboto Mono', monospace !default;
 
 $image-path: "../images/" !default;
 
-@import 'opencity/mixins';
-@import 'opencity/colors';
+//@import 'opencity/mixins';
+//@import 'opencity/colors';
 @import 'opencity/opencity';
 @import 'opencity/ezcompat';
 @import 'opencity/compat';
 @import 'opencity/calendar';
-@import 'opencity/chosen';
-@import 'opencity/leaflet';
-@import 'opencity/audio';
-@import 'opencity/datatable';
-@import 'opencity/gallery';
 @import 'opencity/websitetoolbar';
 @import 'opencity/rating';
 
-$fa-font-path: "../fonts/FontAwesome" !default;
-@import 'node_modules/font-awesome/scss/font-awesome.scss';
-
-
-$icon-font-path: "../fonts/Glyphicons-Halflings/";
-$icon-font-name: "glyphicons-halflings-regular";
-$icon-font-svg-id: "glyphicons_halflingsregular";
-@import "opencity/glyphicons";
-@import 'opencity/alpaca';
