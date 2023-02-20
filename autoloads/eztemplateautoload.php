@@ -34,6 +34,7 @@ $eZTemplateOperatorArray = [
             'user_token_url',
             'user_profile_url',
             'user_api_base_url',
+            'decode_banner_color',
         ],
     ],
 ];

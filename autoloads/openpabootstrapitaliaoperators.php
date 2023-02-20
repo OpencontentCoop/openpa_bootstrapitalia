@@ -40,6 +40,7 @@ class OpenPABootstrapItaliaOperators
             'user_token_url',
             'user_profile_url',
             'user_api_base_url',
+            'decode_banner_color',
         );
     }
 
@@ -107,6 +108,9 @@ class OpenPABootstrapItaliaOperators
             'get_default_integer_value' => array(
                 'attribute' => array('type' => 'object', 'required' => true),
             ),
+            'decode_banner_color' => array(
+                'content' => array('type' => 'object', 'required' => true),
+            ),
         );
     }
 
@@ -121,6 +125,66 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'decode_banner_color':
+                $content = $namedParameters['content'];
+                $operatorValue = [
+                    'background_color_class' => 'bg-primary',
+                    'text_color_class' => 'text-white'
+                ];
+                if ($content instanceof eZContentObject || $content instanceof eZContentObjectTreeNode){
+                    $selected = false;
+
+                    $staticSelection = [
+                        'primary' => [
+                            'background_color_class' => 'bg-primary',
+                            'text_color_class' => 'text-white'
+                        ],
+                        'dark' => [
+                            'background_color_class' => 'card-bg-dark',
+                            'text_color_class' => 'text-white'
+                        ],
+                        'warning' => [
+                            'background_color_class' => 'card-bg-warning',
+                            'text_color_class' => 'text-white'
+                        ],
+                        'blue' => [
+                            'background_color_class' => 'card-bg-blue',
+                            'text_color_class' => 'text-white'
+                        ],
+                    ];
+
+                    $attributeidentifier = 'background_color';
+                    /** @var eZContentObjectAttribute[] $dataMap */
+                    $dataMap = $content->attribute('data_map');
+                    if (isset($dataMap[$attributeidentifier]) && $dataMap[$attributeidentifier]->hasContent()){
+                        foreach ($dataMap[$attributeidentifier]->classContent()['options'] as $option){
+                            if (in_array($option['id'], $dataMap[$attributeidentifier]->content())){
+                                $selected = $option['name'];
+                            }
+                        }
+                        if ($selected){
+                            if (!isset($staticSelection[$selected])){
+                                if (strpos($selected, 'primary') !== false){
+                                    $selected = 'primary';
+                                }
+                                if (strpos($selected, 'neutral') !== false){
+                                    $selected = 'dark';
+                                }
+                                if (strpos($selected, 'complementary') !== false){
+                                    $selected = 'warning';
+                                }
+                                if (strpos($selected, 'analogue') !== false){
+                                    $selected = 'blue';
+                                }
+                            }
+                            if (isset($staticSelection[$selected])){
+                                $operatorValue = $staticSelection[$selected];
+                            }
+                        }
+                    }
+                }
+                break;
 
             case 'user_api_base_url':
             case 'user_profile_url':
