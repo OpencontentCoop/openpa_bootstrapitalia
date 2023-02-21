@@ -19,7 +19,14 @@
     'jsrender.js',
     'handlebars.min.js',
     'alpaca.js',
-    'jquery.opendataform.js'
+    'jquery.opendataform.js',
+    'leaflet/leaflet.0.7.2.js',
+    'leaflet/Control.Geocoder.js',
+    'leaflet/Control.Loading.js',
+    'leaflet/Leaflet.MakiMarkers.js',
+    'leaflet/leaflet.activearea.js',
+    'leaflet/leaflet.markercluster.js',
+    'jsrender.js'
   ))}
   {ezscript_load($scripts)}
 {else}

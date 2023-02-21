@@ -109,7 +109,7 @@ class OpenPABootstrapItaliaOperators
                 'attribute' => array('type' => 'object', 'required' => true),
             ),
             'decode_banner_color' => array(
-                'content' => array('type' => 'object', 'required' => true),
+                'content' => array('type' => 'object', 'required' => false, 'default' => false),
             ),
         );
     }
@@ -132,27 +132,32 @@ class OpenPABootstrapItaliaOperators
                     'background_color_class' => 'bg-primary',
                     'text_color_class' => 'text-white'
                 ];
+
+                $staticSelection = [
+                    'Nessuno' => [
+                        'background_color_class' => '',
+                        'text_color_class' => ''
+                    ],
+                    'primary' => [
+                        'background_color_class' => 'bg-primary',
+                        'text_color_class' => 'text-white'
+                    ],
+                    'dark' => [
+                        'background_color_class' => 'card-bg-dark',
+                        'text_color_class' => 'text-white'
+                    ],
+                    'warning' => [
+                        'background_color_class' => 'card-bg-warning',
+                        'text_color_class' => 'text-white'
+                    ],
+                    'blue' => [
+                        'background_color_class' => 'card-bg-blue',
+                        'text_color_class' => 'text-white'
+                    ],
+                ];
+
                 if ($content instanceof eZContentObject || $content instanceof eZContentObjectTreeNode){
                     $selected = false;
-
-                    $staticSelection = [
-                        'primary' => [
-                            'background_color_class' => 'bg-primary',
-                            'text_color_class' => 'text-white'
-                        ],
-                        'dark' => [
-                            'background_color_class' => 'card-bg-dark',
-                            'text_color_class' => 'text-white'
-                        ],
-                        'warning' => [
-                            'background_color_class' => 'card-bg-warning',
-                            'text_color_class' => 'text-white'
-                        ],
-                        'blue' => [
-                            'background_color_class' => 'card-bg-blue',
-                            'text_color_class' => 'text-white'
-                        ],
-                    ];
 
                     $attributeidentifier = 'background_color';
                     /** @var eZContentObjectAttribute[] $dataMap */
@@ -183,6 +188,8 @@ class OpenPABootstrapItaliaOperators
                             }
                         }
                     }
+                }else{
+                    $operatorValue = $staticSelection;
                 }
                 break;
 

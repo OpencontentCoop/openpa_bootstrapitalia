@@ -11,7 +11,7 @@
                 {foreach $edit_attribute_groups.groups as $index => $attribute_group}
                     {if $attribute_group.show}
                         <li class="nav-item">
-                            <a class="nav-link ps-0{if $index|eq(0)} active{/if}" data-bs-toggle="tab"  data-bs-target="#attribute-group-{$attribute_group.identifier}"
+                            <a class="nav-link ps-0{if $index|eq(0)} active{/if}" data-bs-toggle="tab" data-toggle="tab" data-bs-target="#attribute-group-{$attribute_group.identifier}"
                                href="#attribute-group-{$attribute_group.identifier}">{$attribute_group.label|wash()}</a>
                         </li>
                     {/if}
