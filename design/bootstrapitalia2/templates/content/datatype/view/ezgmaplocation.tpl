@@ -29,6 +29,7 @@
 <div class="map-wrapper map-column mt-4 mb-5">
   <div id="map-{$attribute.id}" style="width: 100%; height: 320px;"></div>
 
+  {ezscript_require(array('leaflet/leaflet.0.7.2.js','leaflet/Leaflet.MakiMarkers.js'))}
   {run-once}
   {literal}
     <script type="text/javascript">
