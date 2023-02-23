@@ -57,7 +57,9 @@
         }
         {/literal}
         {/run-once}
-        drowRelationMap({$attribute.id},[{foreach $markers as $marker}[{$marker.latitude},{$marker.longitude}]{delimiter},{/delimiter}{/foreach}]);
+        $(document).ready(function () {ldelim}
+            drowRelationMap({$attribute.id},[{foreach $markers as $marker}[{$marker.latitude},{$marker.longitude}]{delimiter},{/delimiter}{/foreach}]);
+        {rdelim});
     </script>
 
 {/if}

@@ -49,7 +49,9 @@
   {/run-once}
 
   <script type="text/javascript">
+  $(document).ready(function () {ldelim}
     drawMap([{$attribute.content.latitude},{$attribute.content.longitude}],{$attribute.id});
+  {rdelim});
   </script>
 </div>
 {/if}
