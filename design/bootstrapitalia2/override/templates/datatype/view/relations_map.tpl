@@ -34,7 +34,7 @@
     <div class="map-wrapper map-column mt-4 mb-5">
         <div id="relations-map-{$attribute.id}" style="width: 100%; height: 400px;"></div>
     </div>
-
+    {ezscript_require(array('leaflet/leaflet.0.7.2.js','leaflet/Leaflet.MakiMarkers.js', 'leaflet/leaflet.markercluster.js'))}
     <script type="text/javascript">
         {run-once}
         {literal}
