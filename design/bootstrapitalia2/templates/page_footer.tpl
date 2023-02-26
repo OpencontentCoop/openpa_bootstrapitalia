@@ -4,7 +4,9 @@
 )}
     {include uri='design:footer/valuation.tpl'}
 {/if}
+{if openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled')}
 {include uri='design:footer/main_contacts.tpl'}
+{/if}
 
 {def $use_auto_menu = cond(and($pagedata.homepage|attribute('use_auto_footer_menu'), $pagedata.homepage|attribute('use_auto_footer_menu').data_int|eq(1)), true(), false())}
 {def $show_footer_menu = true()}
