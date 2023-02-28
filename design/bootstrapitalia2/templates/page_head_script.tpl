@@ -12,11 +12,11 @@
   'dataTables.bootstrap4.min.js',
   'jquery.sharedlink.js',
   'jquery.blueimp-gallery.min.js',
-  'ezjsc::jqueryUI',
-  'jsrender.js'
+  'ezjsc::jqueryUI'
 )}
 {if $is_logged_in}
   {set $scripts = $scripts|merge(array(
+    'jsrender.js',
     'handlebars.min.js',
     'alpaca.js',
     'jquery.opendataform.js',
