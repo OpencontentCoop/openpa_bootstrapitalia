@@ -197,7 +197,7 @@ class OpenPABootstrapItaliaOperators
             case 'user_profile_url':
             case 'user_token_url':
                 $currentHost = eZSys::hostname();
-                $path = $operatorName === 'user_api_base_url' ? '' : ($operatorName === 'user_token_url' ? '/lang/api/session-auth' : '/lang/api/users');
+                $path = $operatorName === 'user_api_base_url' ? '' : ($operatorName === 'user_token_url' ? '/lang/api/session-auth?with-cookie=1' : '/lang/api/users');
                 if ($operatorValue) {
                     $operatorValueOriginal = $operatorValue;
                     $operatorValue = false;
@@ -1227,6 +1227,7 @@ class OpenPABootstrapItaliaOperators
 
     public static function minifyHtml($templateResult)
     {
+        return $templateResult;
         //remove redundant (white-space) characters
         $replace = array(
             //remove tabs before and after HTML tags
