@@ -12,11 +12,11 @@
   'dataTables.bootstrap4.min.js',
   'jquery.sharedlink.js',
   'jquery.blueimp-gallery.min.js',
-  'ezjsc::jqueryUI'
+  'ezjsc::jqueryUI',
+  'jsrender.js'
 )}
 {if $is_logged_in}
   {set $scripts = $scripts|merge(array(
-    'jsrender.js',
     'handlebars.min.js',
     'alpaca.js',
     'jquery.opendataform.js',
@@ -25,8 +25,7 @@
     'leaflet/Control.Loading.js',
     'leaflet/Leaflet.MakiMarkers.js',
     'leaflet/leaflet.activearea.js',
-    'leaflet/leaflet.markercluster.js',
-    'jsrender.js'
+    'leaflet/leaflet.markercluster.js'
   ))}
   {ezscript_load($scripts)}
 {else}
