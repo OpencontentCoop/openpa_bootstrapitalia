@@ -1,3 +1,4 @@
+{def $show_slim_header = cond(openpaini('GeneralSettings','HideSlimHeaderIfUseless', 'disabled')|eq('enabled'), false(), true())}
 {def $header_service = openpaini('GeneralSettings','header_service', 1)
      $header_service_list = array()
      $is_area_tematica = is_area_tematica()}
@@ -74,7 +75,12 @@
     {set $hide_access = true()}
 {/if}
 
-<div class="it-header-slim-wrapper{if current_theme_has_variation('light_slim')} theme-light{/if}">
+{if or($header_service_list|count()|gt(0), $header_links|count()|gt(0), $hide_access|not(), $lang_selector|count()|gt(0))}
+    {set $show_slim_header = true()}
+{/if}
+
+
+<div class="it-header-slim-wrapper{if current_theme_has_variation('light_slim')} theme-light{/if}{if $show_slim_header|not()} d-none{/if}">
     <div class="container">
         <div class="row">
             <div class="col-12">

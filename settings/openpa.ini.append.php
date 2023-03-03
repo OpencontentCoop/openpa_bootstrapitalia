@@ -110,6 +110,7 @@ AnnounceKit=disabled
 Valuation=1
 ShowRssInSocialList=disabled
 ShowUeLogo=enabled
+HideSlimHeaderIfUseless=disabled
 
 [RelationsBrowse]
 AllowAllBrowse=enabled
