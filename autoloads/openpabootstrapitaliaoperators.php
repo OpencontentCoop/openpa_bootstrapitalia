@@ -114,6 +114,58 @@ class OpenPABootstrapItaliaOperators
         );
     }
 
+    public static function getBannerColorStaticSelection(): array
+    {
+        return [
+            'Nessuno' => [
+                'background_color_class' => '',
+                'text_color_class' => ''
+            ],
+            'primary' => [
+                'background_color_class' => 'bg-primary',
+                'text_color_class' => 'text-white'
+            ],
+            'dark' => [
+                'background_color_class' => 'card-bg-dark',
+                'text_color_class' => 'text-white'
+            ],
+            'warning' => [
+                'background_color_class' => 'card-bg-warning',
+                'text_color_class' => 'text-white'
+            ],
+            'blue' => [
+                'background_color_class' => 'card-bg-blue',
+                'text_color_class' => 'text-white'
+            ],
+        ];
+    }
+
+    public static function decodeBannerColorSelection($selected): ?string
+    {
+        $staticSelection = self::getBannerColorStaticSelection();
+        if (!empty($selected)){
+            if (!isset($staticSelection[$selected])){
+                if (strpos($selected, 'primary') !== false){
+                    $selected = 'primary';
+                }
+                if (strpos($selected, 'neutral') !== false){
+                    $selected = 'dark';
+                }
+                if (strpos($selected, 'complementary') !== false){
+                    $selected = 'warning';
+                }
+                if (strpos($selected, 'analogue') !== false){
+                    $selected = 'blue';
+                }
+            }
+            if (isset($staticSelection[$selected])){
+                return $selected;
+            }
+        }
+
+        return null;
+    }
+
     function modify(
         $tpl,
         $operatorName,
@@ -133,29 +185,6 @@ class OpenPABootstrapItaliaOperators
                     'text_color_class' => 'text-white'
                 ];
 
-                $staticSelection = [
-                    'Nessuno' => [
-                        'background_color_class' => '',
-                        'text_color_class' => ''
-                    ],
-                    'primary' => [
-                        'background_color_class' => 'bg-primary',
-                        'text_color_class' => 'text-white'
-                    ],
-                    'dark' => [
-                        'background_color_class' => 'card-bg-dark',
-                        'text_color_class' => 'text-white'
-                    ],
-                    'warning' => [
-                        'background_color_class' => 'card-bg-warning',
-                        'text_color_class' => 'text-white'
-                    ],
-                    'blue' => [
-                        'background_color_class' => 'card-bg-blue',
-                        'text_color_class' => 'text-white'
-                    ],
-                ];
-
                 if ($content instanceof eZContentObject || $content instanceof eZContentObjectTreeNode){
                     $selected = false;
 
@@ -166,30 +195,15 @@ class OpenPABootstrapItaliaOperators
                         foreach ($dataMap[$attributeidentifier]->classContent()['options'] as $option){
                             if (in_array($option['id'], (array)$dataMap[$attributeidentifier]->content())){
                                 $selected = $option['name'];
+                                break;
                             }
                         }
-                        if ($selected){
-                            if (!isset($staticSelection[$selected])){
-                                if (strpos($selected, 'primary') !== false){
-                                    $selected = 'primary';
-                                }
-                                if (strpos($selected, 'neutral') !== false){
-                                    $selected = 'dark';
-                                }
-                                if (strpos($selected, 'complementary') !== false){
-                                    $selected = 'warning';
-                                }
-                                if (strpos($selected, 'analogue') !== false){
-                                    $selected = 'blue';
-                                }
-                            }
-                            if (isset($staticSelection[$selected])){
-                                $operatorValue = $staticSelection[$selected];
-                            }
+                        if ($selected = self::decodeBannerColorSelection($selected)){
+                            $operatorValue = self::getBannerColorStaticSelection()[$selected];
                         }
                     }
                 }else{
-                    $operatorValue = $staticSelection;
+                    $operatorValue = self::getBannerColorStaticSelection();
                 }
                 break;
 
@@ -1257,4 +1271,5 @@ class OpenPABootstrapItaliaOperators
         );
         return preg_replace(array_keys($replace), array_values($replace), $templateResult);
     }
+
 }
