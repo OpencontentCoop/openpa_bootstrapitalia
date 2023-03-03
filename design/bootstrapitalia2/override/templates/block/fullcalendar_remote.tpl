@@ -44,7 +44,7 @@
 </script>
 
 {include uri='design:parts/block_name.tpl' no_margin=true()}
-<div class="mt-2 position-relative block-calendar-{$block.view} block-calendar block-calendar-{$size}" {if $show_facets|not()}data-query="{$query}"{/if} data-topics="{$topics_filter}">
+<div class="mt-2 position-relative block-calendar-{$block.view} block-calendar block-calendar-{$size}" data-topics="">
     <div id='calendar-{$block.id}'></div>
 </div>
 
