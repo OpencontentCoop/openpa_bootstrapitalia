@@ -38,8 +38,8 @@
                 "show_search", "1",
                 "limit", "4",
                 "items_per_row", "2",
-                "facets", "Ufficio:holds_role_in_time_ufficio.name,Argomenti:topics.name",
-                "view_api", "card_teaser",
+                "facets", "Ufficio:holds_role_in_time.name,Argomenti:topics.name",
+                "view_api", "latest_messages_item",
                 "color_style", "bg-100",
                 "fields", "",
                 "template", "",
@@ -146,20 +146,21 @@
     {else}
         {set $tag_menu_children = $openpa.content_tag_menu.tag_menu_root.children}
     {/if}
-    {def $clean_tag_menu_children = array()}
+    {*def $clean_tag_menu_children = array()}
     {foreach $tag_menu_children as $tag}
         {if tag_tree_has_contents($tag)}
             {set $clean_tag_menu_children = $clean_tag_menu_children|append($tag)}
         {/if}
     {/foreach}
-    {if $clean_tag_menu_children|count()}
+    {set $tag_menu_children = $clean_tag_menu_children*}
+    {if $tag_menu_children|count()}
         <section id="{if $node|has_attribute('menu_name')}{$node|attribute('menu_name').content|slugize}{else}{$parent_node.name|slugize}{/if}">
             <div class="container {$view_variation}">
                 {if $node|has_attribute('menu_name')}
                     <h2 class="title-xxlarge mb-4">{$node|attribute('menu_name').content|wash()}</h2>
                 {/if}
                 <div class="row g-4">
-                    {foreach $clean_tag_menu_children as $tag}
+                    {foreach $tag_menu_children as $tag}
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="cmp-card-simple card-wrapper pb-0 rounded border border-light">
                                 <div class="card shadow-sm rounded">
@@ -230,7 +231,8 @@
             {/literal}</script>
         {/if}
     {/if}
-    {undef $tag_menu_children $locale $clean_tag_menu_children}
+{*    {undef $tag_menu_children $locale $clean_tag_menu_children}*}
+    {undef $tag_menu_children $locale}
 {/if}
 
 {unset_defaults( array(

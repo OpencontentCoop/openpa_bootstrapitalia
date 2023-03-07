@@ -925,6 +925,7 @@ class OpenPABootstrapItaliaOperators
                         'is_grouped' => false,
                         'wrap' => false,
                         'evidence' => false,
+                        'data_element' => false,
                     ];
                 }
             }
@@ -973,7 +974,8 @@ class OpenPABootstrapItaliaOperators
                             'attributes' => $attributes,
                             'is_grouped' => true,
                             'wrap' => $wrapped && count($attributes) > 1,
-                            'evidence' => in_array($slug, $attributeGroups->attribute('evidence_list'))
+                            'evidence' => in_array($slug, $attributeGroups->attribute('evidence_list')),
+                            'data_element' => $attributeGroups->attribute('translations')[$slug]['ita-PA'] ?? false,
                         ];
                     }
                 }
@@ -995,6 +997,7 @@ class OpenPABootstrapItaliaOperators
                             'is_grouped' => false,
                             'wrap' => false,
                             'evidence' => false,
+                            'data_element' => false,
                         ];
                     }
                 }
@@ -1253,7 +1256,7 @@ class OpenPABootstrapItaliaOperators
             '/^([\t ])+/m' => '',
             '/([\t ])+$/m' => '',
             // remove JS line comments (simple only); do NOT remove lines containing URL (e.g. 'src="http://server.com/"')!!!
-            '~//[a-zA-Z0-9 ]+$~m' => '',
+//            '~//[a-zA-Z0-9 ]+$~m' => '',
             //remove empty lines (sequence of line-end and white-space characters)
             '/[\r\n]+([\t ]?[\r\n]+)+/s'  => "\n",
             //remove empty lines (between HTML tags); cannot remove just any line-end characters because in inline JS they can matter!

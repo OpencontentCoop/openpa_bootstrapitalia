@@ -8,8 +8,8 @@
 </script>
 {literal}
 <script id="tpl-remote-gui-spinner" type="text/x-jsrender">
-<div class="col-xs-12 spinner text-center py-5">
-    <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw py-5"></i>
+<div class="col-xs-12 spinner{{if paginationStyle == 'reload'}} text-center py-5{{/if}}">
+    <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-fw {{if paginationStyle == 'reload'}}fa-3x py-5{{else}}fa-2x{{/if}}"></i>
     <span class="sr-only">{'Loading...'|i18n('editorialstuff/dashboard')}</span>
 </div>
 </script>
@@ -20,7 +20,24 @@
                 <i aria-hidden="true" class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
             </div>
         </div>
+	{{else view === 'latest_messages_item'}}
+
+	    {{if currentPage == 0}}
+			<p class="mb-4 results-count"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contenuti trovati'|i18n('bootstrapitalia/list_widget')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia/list_widget')}{literal}{{/if}}</p>
+		{{/if}}
+		{{for searchHits}}
+          {{include tmpl="#tpl-remote-gui-item"/}}
+		{{/for}}
+		{{if nextPageQuery}}
+			<button type="button" data-page="{{>nextPage}}" class="nextPage btn btn-outline-primary pt-15 pb-15 pl-90 pr-90 mb-30 mt-3 mb-lg-50 full-mb text-button" data-element="load-other-cards">
+			   <span class="">{/literal}{'Carica altri risultati'|i18n('bootstrapitalia')}{literal}</span>
+			</button>
+		{{else}}
+			<p class="text-paragraph-regular-medium mt-4 mb-0">{/literal}{'Nessun altro risultato'|i18n('bootstrapitalia')}{literal}</p>
+		{{/if}}
+
 	{{else}}
+
 	    <div class="row mx-lg-n3{{if !autoColumn && itemsPerRow != 'auto'}} row-cols-1 row-cols-md-2 row-cols-lg-{{:itemsPerRow}}{{/if}}"{{if itemsPerRow == 'auto'}} data-bs-toggle="masonry"{{/if}}>
             {{if autoColumn}}<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{{:itemsPerRow}}">{{/if}}
             {{for searchHits ~contentIcon=icon ~itemsPerRow=itemsPerRow ~autoColumn=autoColumn}}
@@ -36,35 +53,37 @@
             {{/for}}
             {{if autoColumn}}</div>{{/if}}
         </div>
-	{{/if}}
-	{{if pageCount > 1}}
-	<div class="row mt-lg-4">
-	    <div class="col">
-	        <nav class="pagination-wrapper justify-content-center" aria-label="Pagination">
-	            <ul class="pagination">
-	                <li class="page-item {{if !prevPageQuery}}disabled{{/if}}">
-	                    <a class="page-link prevPage" {{if prevPageQuery}}data-page="{{>prevPage}}"{{/if}} href="#">
-	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
-	                        </svg>
-	                        <span class="sr-only">Pagina precedente</span>
-	                    </a>
-	                </li>
-	                {{for pages ~current=currentPage}}
-						<li class="page-item"><a href="#" class="page-link page" data-page_number="{{:page}}" data-page="{{:query}}"{{if ~current == query}} data-current aria-current="page"{{/if}}>{{:page}}</a></li>
-					{{/for}}
-	                <li class="page-item {{if !nextPageQuery}}disabled{{/if}}">
-	                    <a class="page-link nextPage" {{if nextPageQuery}}data-page="{{>nextPage}}"{{/if}} href="#">
-	                        <span class="sr-only">Pagina successiva</span>
-	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
-	                        </svg>
-	                    </a>
-	                </li>
-	            </ul>
-	        </nav>
-	    </div>
-	</div>
+
+        {{if pageCount > 1}}
+        <div class="row mt-lg-4">
+            <div class="col">
+                <nav class="pagination-wrapper justify-content-center" aria-label="Pagination">
+                    <ul class="pagination">
+                        <li class="page-item {{if !prevPageQuery}}disabled{{/if}}">
+                            <a class="page-link prevPage" {{if prevPageQuery}}data-page="{{>prevPage}}"{{/if}} href="#">
+                                <svg class="icon icon-primary">
+                                    <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
+                                </svg>
+                                <span class="sr-only">Pagina precedente</span>
+                            </a>
+                        </li>
+                        {{for pages ~current=currentPage}}
+                            <li class="page-item"><a href="#" class="page-link page" data-page_number="{{:page}}" data-page="{{:query}}"{{if ~current == query}} data-current aria-current="page"{{/if}}>{{:page}}</a></li>
+                        {{/for}}
+                        <li class="page-item {{if !nextPageQuery}}disabled{{/if}}">
+                            <a class="page-link nextPage" {{if nextPageQuery}}data-page="{{>nextPage}}"{{/if}} href="#">
+                                <span class="sr-only">Pagina successiva</span>
+                                <svg class="icon icon-primary">
+                                    <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        {{/if}}
+
 	{{/if}}
 </script>
 {/literal}

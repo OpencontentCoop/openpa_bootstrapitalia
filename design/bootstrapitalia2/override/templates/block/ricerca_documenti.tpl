@@ -1,4 +1,4 @@
-{ezscript_require(array(    
+{ezscript_require(array(
     'jsrender.js',
     'handlebars.min.js',
     'bootstrap-datetimepicker.min.js',
@@ -297,20 +297,20 @@
 </script>
 
 <script>
-$.opendataTools.settings('language', "{/literal}{ezini('RegionalSettings','Locale')}{literal}");
-$.opendataTools.settings('languages', ['{/literal}{ezini('RegionalSettings','SiteLanguageList')|implode("','")}{literal}']);
-$.views.helpers($.extend({}, $.opendataTools.helpers, {
-	'stripTag': function (value) {
-		var element = $('<div>'+value+'</div>');
-		element.find('*').each(function() {
-			var content = $(this).contents();
-			$(this).replaceWith(content);
-		});
-
-		return element.html()
-	}
-}));
 $(document).ready(function () {
+	$.opendataTools.settings('language', "{/literal}{ezini('RegionalSettings','Locale')}{literal}");
+	$.opendataTools.settings('languages', ['{/literal}{ezini('RegionalSettings','SiteLanguageList')|implode("','")}{literal}']);
+	$.views.helpers($.extend({}, $.opendataTools.helpers, {
+		'stripTag': function (value) {
+			var element = $('<div>'+value+'</div>');
+			element.find('*').each(function() {
+				var content = $(this).contents();
+				$(this).replaceWith(content);
+			});
+
+			return element.html()
+		}
+	}));
 	$('[data-block_document_subtree]').each(function(){
         var baseUrl = '/';
         if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){

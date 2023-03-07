@@ -28,6 +28,9 @@
             <img style="max-width:none" src="/share/icons/flags/{$locale}.gif" />
             <input style="border: 1px solid #ccc;padding: 0 3px;height: auto;font-weight: normal;" name="extra_handler_{$handler.identifier}[class][{$class.identifier}][{$locale}::{$identifier}]" value="{if is_set($handler.translations[$identifier][$locale])}{$handler.translations[$identifier][$locale]}{else}{$name|wash()}{/if}" />
         </div>
+        <div class="col">
+            <input style="border: 1px solid #ccc;padding: 0 3px;height: auto;font-weight: normal;" placeholder="data-element" name="extra_handler_{$handler.identifier}[class][{$class.identifier}][ita-PA::{$identifier}]" value="{if is_set($handler.translations[$identifier][ita-PA])}{$handler.translations[$identifier][ita-PA]}{/if}" />
+        </div>
         {/foreach}
         <div class="col">
             <div class="checkbox">

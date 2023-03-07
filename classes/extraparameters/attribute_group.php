@@ -145,12 +145,14 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
     {
         if ($this->translationList === null) {
             $this->translationList = array();
+            $languages = eZINI::instance()->variable('RegionalSettings', 'SiteLanguageList');
+            $languages[] = 'ita-PA';
             foreach ($this->parameters as $parameter) {
                 if ($parameter->attribute('attribute_identifier') == '*' && $parameter->attribute('key') != 'enabled') {
                     $key = $parameter->attribute('key');
                     if (strpos($key, '::') !== false) {
                         list ($language, $identifier) = explode('::', $key);
-                        if (in_array($language, eZINI::instance()->variable('RegionalSettings', 'SiteLanguageList'))) {
+                        if (in_array($language, $languages)) {
                             $this->translationList[$identifier][$language] = $parameter->attribute('value');
                         }
                     }
@@ -245,7 +247,7 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
 
     public function storeParameters($data)
     {
-        if ($data['class'][$this->class->attribute('identifier')]['generate_from_class']) {
+        if (isset($data['class'][$this->class->attribute('identifier')]['generate_from_class'])) {
             unset($data['class'][$this->class->attribute('identifier')]['add_group']);
             unset($data['class'][$this->class->attribute('identifier')]['generate_from_class']);
 

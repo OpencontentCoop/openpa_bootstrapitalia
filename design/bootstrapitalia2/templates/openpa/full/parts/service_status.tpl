@@ -5,11 +5,14 @@
     {/foreach}
 {/if}
 
-<div class="d-flex flex-wrap cmp-heading__tag">
-    <div class="cmp-tag">
-        <span class="cmp-tag__tag title-xsmall" data-element="service-status">{$status_tags|implode(', ')|wash()}</span>
-    </div>
-</div>
+<ul class="d-flex flex-wrap gap-1 my-3">
+    <li>
+        <div class="chip chip-simple text-button" href="#" data-element="service-status">
+            <span class="chip-label">{$status_tags|implode(', ')|wash()}</span>
+        </div>
+    </li>
+</ul>
+
 {if $node|has_attribute('status_note')}
     <div class="alert alert-warning my-md-4 my-lg-4">
     {attribute_view_gui attribute=$node|attribute('status_note')}

@@ -32,6 +32,7 @@ AvailableView[]=card_image
 AvailableView[]=banner_color
 AvailableView[]=card_simple
 AvailableView[]=card_teaser_info
+AvailableView[]=latest_messages_item
 
 [ContentMain]
 Identifiers[]=image

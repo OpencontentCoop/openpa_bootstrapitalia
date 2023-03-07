@@ -67,7 +67,7 @@
                         <h2 class="visually-hidden">{$item.title|wash()}</h2>
                     {/if}
 
-                    {if $item.wrap}<div class="card-wrapper card-column my-3" data-bs-toggle="masonry">{/if}
+                    {if or($item.wrap, $item.data_element)}<div{if $item.data_element} data-element="{$item.data_element!wash()}"{/if}{if $item.wrap} class="card-wrapper card-column my-3" data-bs-toggle="masonry"{/if}>{/if}
                     {foreach $item.attributes as $attribute_index => $openpa_attribute}
 
                         {if $openpa_attribute.full.highlight}

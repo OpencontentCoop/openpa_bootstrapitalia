@@ -582,6 +582,7 @@ CustomAttributeSelection_items_per_row[3]=3
 CustomAttributeSelection_view_api[card_teaser]=Card (teaser)
 CustomAttributeSelection_view_api[card]=Card
 CustomAttributeSelection_view_api[banner]=Banner
+CustomAttributeSelection_view_api[latest_messages_item]=Lista
 ViewList[]
 ViewList[]=default
 ViewList[]=datatable
@@ -670,6 +671,7 @@ CustomAttributeSelection_items_per_row[3]=3
 CustomAttributeSelection_view_api[card_teaser]=Card (teaser)
 CustomAttributeSelection_view_api[card]=Card
 CustomAttributeSelection_view_api[banner]=Banner
+CustomAttributeSelection_view_api[latest_messages_item]=Lista
 ViewList[]
 ViewList[]=default
 ViewName[default]=Default
