@@ -33,20 +33,18 @@
             <section class="{if $facets|count()}col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2">
                 {if and($showSearch, count($facets)|eq(0))}<div class="row g-0">{/if}
                 {if $showSearch}
-                    {if count($facets)|eq(0)}<div class="col-10">{/if}
-                        <div class="cmp-input-search">
-                            <div class="form-group autocomplete-wrapper mb-2 mb-lg-4 search-form">
-                                <div class="input-group">
-                                    <label for="{$block.id}-search-input" class="visually-hidden">{$searchPlaceholder|wash()}</label>
-                                    <input type="search" data-search="q" class="autocomplete form-control" placeholder="{$searchPlaceholder|wash()}" id="{$block.id}-search-input">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Submit'|i18n('bootstrapitalia/documents')}</button>
-                                    </div>
-                                    <span class="autocomplete-icon" aria-hidden="true">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
+                    <div class="cmp-input-search">
+                        <div class="form-group autocomplete-wrapper mb-2 mb-lg-4 search-form">
+                            <div class="input-group">
+                                <label for="{$block.id}-search-input" class="visually-hidden">{$searchPlaceholder|wash()}</label>
+                                <input type="search" data-search="q" class="autocomplete form-control" placeholder="{$searchPlaceholder|wash()}" id="{$block.id}-search-input">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Submit'|i18n('bootstrapitalia/documents')}</button>
                                 </div>
+                                <span class="autocomplete-icon" aria-hidden="true">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
                             </div>
                         </div>
-                    {if count($facets)|eq(0)}</div>{/if}
+                    </div>
                 {/if}
                 {if count($facets)|eq(0)}
                     <div class="col">

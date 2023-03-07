@@ -17,8 +17,8 @@
 
 <div data-object_id="{$node.contentobject_id}" class="card card-teaser no-after rounded shadow-sm border border-light">
     <div class="card-body pb-5" style="min-height: 180px;">
-        <h3 class="card-title title-xlarge-card">{$node.name|wash()}</h3>
-        <div class="card-text pb-3">{include uri='design:openpa/card/parts/abstract.tpl'}</div>
+        <h3 class="{*card-title *}text-secondary">{$node.name|wash()}</h3>
+        {include uri='design:openpa/card/parts/abstract.tpl' wrapper_class='card-text'}
         {if $related_items.totalCount|gt(0)}
             <div class="link-list-wrapper mt-4">
                 <ul class="link-list" role="list">
