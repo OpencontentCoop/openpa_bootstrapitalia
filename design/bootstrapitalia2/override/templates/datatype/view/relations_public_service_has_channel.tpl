@@ -19,6 +19,7 @@
 
 {if count($node_list)|gt(0)}
     {foreach $node_list as $index => $child}
+        <div data-element="{if $child|attribute('has_channel_type').content.keywords|contains('Applicazione Web')}service-online-access{elseif $child|attribute('has_channel_type').content.keywords|contains('Sportello Pubblica Amministrazione')}service-booking-access{else}service-generic-access{/if}">
         {if $child|has_attribute('abstract')}
             <div class="text-paragraph lora mb-4">
                 {attribute_view_gui attribute=$child|attribute('abstract')}
@@ -29,6 +30,7 @@
                 {attribute_view_gui attribute=$child|attribute('channel_url') css_class=cond($index|eq(0), "btn btn-success fw-bold mobile-full font-sans-serif", "text-primary btn btn-outline-primary t-primary bg-white mobile-full font-sans-serif")}
             </div>
         {/if}
+        </div>
     {/foreach}
 {/if}
 

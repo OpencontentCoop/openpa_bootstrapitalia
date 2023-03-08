@@ -84,7 +84,7 @@
             </section>
 
             {if $facets|count()}
-                <div class="col-12 col-lg-4 ps-lg-5 order-first order-md-last">
+                <div class="col-12 col-lg-4 ps-lg-5 order-first order-sm-last">
                     <ul class="nav d-block nav-pills text-right{if or($showGrid|not(), $showMap|not())} hide{/if}">
                         {if $showGrid}
                             <li class="nav-item pr-1 pe-1 text-center d-inline-block">
@@ -109,20 +109,19 @@
                     {if $facets|count()}
                         <div class="search-form">
                             <div class="accordion">
-
                                 {foreach $facets as $index => $facet}
                                     {def $facets_parts = $facet|explode(':')}
                                     {if is_set($facets_parts[1])}
                                         <div class="accordion-item bg-none">
                                           <span class="accordion-header" id="collapse-{$block.id}-{$index}-title">
-                                            <button class="accordion-button pb-10 px-3 text-uppercase text-decoration-none" type="button"
+                                            <button class="accordion-button pb-10 px-0 text-uppercase text-decoration-none border-0" type="button"
                                                     data-bs-toggle="collapse" href="#collapse-{$block.id}-{$index}" role="button" aria-expanded="true" aria-controls="collapse-{$block.id}-{$index}"
                                                     data-focus-mouse="false">
                                                 {$facets_parts[0]|wash()}
                                             </button>
                                           </span>
                                             <div id="collapse-{$block.id}-{$index}" class="accordion-collapse collapse show" role="region" aria-labelledby="collapse-{$block.id}-{$index}-title">
-                                                <div class="accordion-body">
+                                                <div class="accordion-body px-0 pb-1">
                                                     <label for={$block.id}-facet-{$index}" class="visually-hidden">{$facets_parts[0]|wash()}</label>
                                                     <select data-placeholder="..." data-facets_select="facet-{$index}" id="{$block.id}-facet-{$index}" class="form-control" style="height: 0" multiple></select>
                                                 </div>

@@ -2,7 +2,7 @@
 {def $main_attributes = class_extra_parameters($node.object.class_identifier, 'table_view').in_overview}
 {def $main_labels = class_extra_parameters($node.object.class_identifier, 'table_view').show_label}
 {if count($main_attributes)}
-<div class="{$wrapper_class}">
+<div class="{$wrapper_class} d-none d-md-block">
 {foreach $main_attributes as $identifier}
 	{if is_set($openpa[$identifier].contentobject_attribute)}
 		{if and($openpa[$identifier].contentobject_attribute.data_type_string|ne('ezimage'), $openpa[$identifier].contentobject_attribute.has_content)}

@@ -3,7 +3,7 @@
     is_set($block.custom_attributes.show_all_link), $block.custom_attributes.show_all_link|eq(1),
     is_set($block_handler.root_node), $block_handler.root_node, $block_handler.root_node.node_id|ne(ezini('NodeSettings', 'RootNode', 'content.ini'))
 )}
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end mt-4">
         <button type="button"
                 href="{$block_handler.root_node.url_alias|ezurl(no)}"
                 onclick="location.href = '{$block_handler.root_node.url_alias|ezurl(no)}';"

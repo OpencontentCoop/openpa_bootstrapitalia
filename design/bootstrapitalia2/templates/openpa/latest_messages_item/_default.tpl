@@ -1,13 +1,11 @@
 <div class="cmp-card-latest-messages mb-3 mb-30">
     <div class="card shadow-sm px-4 pt-4 pb-4 rounded">
-        {if $node|has_attribute('type')}
+        {if $openpa.content_icon.context_icon}
         <span class="visually-hidden">{'Categoria'|i18n('bootstrapitalia')}:</span>
         <div class="card-header border-0 p-0">
-            {foreach $node|attribute('type').content.tags as $tag}
-                <a class="text-decoration-none title-xsmall-bold mb-2 category text-uppercase" href="{concat( '/tags/view/', $tag.url )|explode('tags/view/tags/view')|implode('tags/view')|ezurl(no)}">
-                    {$tag.keyword|wash}
-                </a>
-            {/foreach}
+            <a class="text-decoration-none title-xsmall-bold mb-2 category text-uppercase" href="{$openpa.content_icon.context_icon.node.url_alias|ezurl(no)}">
+                {include uri='design:openpa/card/parts/icon_label.tpl' fallback=$openpa.content_icon.context_icon.node.name}
+            </a>
         </div>
         {/if}
         <div class="card-body p-0 my-2">
