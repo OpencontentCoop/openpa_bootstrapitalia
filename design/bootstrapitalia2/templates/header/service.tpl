@@ -217,7 +217,7 @@
                 <div class="link-list-wrapper">
                     <ul class="link-list">
                         <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/lang/it/user/profile">
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/user/profile">
                                 <svg class="icon icon-sm icon-primary left ">
                                     <use xlink:href="{{:spritePath}}#it-user"></use>
                                 </svg>
@@ -225,7 +225,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/lang/it/user/">
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/user/">
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-pa"></use>
                                 </svg>
@@ -233,7 +233,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/lang/it/pratiche/">
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/pratiche/">
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-files"></use>
                                 </svg>
@@ -241,7 +241,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/lang/it/pratiche/allegati/">
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/pratiche/allegati/">
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-box"></use>
                                 </svg>
@@ -249,7 +249,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/lang/it/documenti/">
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/documenti/">
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-folder"></use>
                                 </svg>
@@ -257,7 +257,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/lang/it/subscriptions/">
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/subscriptions/">
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-pencil"></use>
                                 </svg>
