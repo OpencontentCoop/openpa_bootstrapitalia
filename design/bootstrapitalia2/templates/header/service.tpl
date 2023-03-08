@@ -266,7 +266,7 @@
                         </li>
                         <li><span class="divider"></span></li>
                         <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/lang/logout">
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/logout">
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-link"></use>
                                 </svg>
