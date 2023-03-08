@@ -75,9 +75,9 @@
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
     <div class="slides"></div>
     <h3 class="title"><span class="sr-only">gallery</span></h3>
-    <a class="prev" href="#" title="<">‹</a>
-    <a class="next" href="#" title=">">›</a>
-    <a class="close" href="#" title="x">×</a>
-    <a class="play-pause"></a>
+    <a class="prev" href="#" title="previous">‹</a>
+    <a class="next" href="#" title="next">›</a>
+    <a class="close" href="#" title="close">×</a>
+    <a class="play-pause" href="#" title="play/pause"></a>
     <ol class="indicator"></ol>
 </div>
