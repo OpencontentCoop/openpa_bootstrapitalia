@@ -18,6 +18,7 @@ PolicyOmitList[]=bootstrapitalia/avatar
 PolicyOmitList[]=prenota_appuntamento
 PolicyOmitList[]=richiedi_assistenza
 PolicyOmitList[]=segnala_disservizio
+PolicyOmitList[]=accedi
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login

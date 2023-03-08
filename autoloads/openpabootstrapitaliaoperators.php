@@ -208,19 +208,21 @@ class OpenPABootstrapItaliaOperators
                 break;
 
             case 'user_api_base_url':
+                $operatorValue = false;
+                if (OpenPAINI::variable('GeneralSettings', 'AutoDiscoverProfileLinks', 'disabled') === 'enabled') {
+                    $operatorValue = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
+                }
+                break;
             case 'user_profile_url':
+                $operatorValue = false;
+                if (OpenPAINI::variable('GeneralSettings', 'AutoDiscoverProfileLinks', 'disabled') === 'enabled') {
+                    $operatorValue = StanzaDelCittadinoBridge::factory()->getProfileUri();
+                }
+                break;
             case 'user_token_url':
-                $currentHost = eZSys::hostname();
-                $path = $operatorName === 'user_api_base_url' ? '' : ($operatorName === 'user_token_url' ? '/lang/api/session-auth?with-cookie=1' : '/lang/api/users');
-                if ($operatorValue) {
-                    $operatorValueOriginal = $operatorValue;
-                    $operatorValue = false;
-                    $url = parse_url($operatorValueOriginal, PHP_URL_HOST);
-                    if ($url
-                        && OpenPAINI::variable('GeneralSettings', 'AutoDiscoverProfileLinks', 'disabled') === 'enabled'
-                        && str_replace('www.', 'servizi.', $currentHost) === $url) {
-                        $operatorValue = "https://{$url}{$path}";
-                    }
+                $operatorValue = false;
+                if (OpenPAINI::variable('GeneralSettings', 'AutoDiscoverProfileLinks', 'disabled') === 'enabled') {
+                    $operatorValue = StanzaDelCittadinoBridge::factory()->getTokenUri();
                 }
                 break;
 

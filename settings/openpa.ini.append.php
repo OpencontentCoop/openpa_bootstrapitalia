@@ -1,5 +1,41 @@
 <?php /* #?ini charset="utf-8"?
 
+[StanzaDelCittadinoBridge]
+AutoDiscover=disabled
+
+[AccessPage]
+Title=Accedi
+Intro=Per accedere al sito e ai suoi servizi, utilizza una delle seguenti modalità.
+
+SpidAccess=enabled
+CieAccess=disabled
+
+Others[]
+Others[]=EditorAccess
+Others[]=OperatorAccess
+#Others[]=ExampleAccess
+
+SpidAccess_Title=SPID
+SpidAccess_Intro=Accedi con SPID, il sistema Pubblico di Identità Digitale.
+SpidAccess_ButtonText=Entra con SPID
+SpidAccess_HelpText=Come attivare SPID
+SpidAccess_HelpLink=https://www.spid.gov.it/cos-e-spid/come-attivare-spid/
+
+CieAccess_Title=CIE
+CieAccess_Intro=Accedi con la tua Carta d’Identità Elettronica.
+CieAccess_ButtonText=Entra con CIE
+CieAccess_HelpText=Come richiedere CIE
+CieAccess_HelpLink=https://www.cartaidentita.interno.gov.it/argomenti/richiesta-cie/"
+
+Others_Title=Altre utenze
+Others_Intro=In alternativa puoi utilizzare le seguenti modalità.
+
+EditorAccess_Title=Accedi come redattore del sito
+OperatorAccess_Title=Accedi come operatore comunale
+
+#ExampleAccess_Title=Accedi con esempio
+#ExampleAccess_Link=https://...
+
 [DataHandlers]
 Handlers[remote_calendar]=DataHandlerRemoteCalendar
 Handlers[theme]=DataHandlerTheme

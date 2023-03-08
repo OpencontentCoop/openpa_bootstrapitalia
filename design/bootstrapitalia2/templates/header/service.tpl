@@ -149,7 +149,7 @@
                         {/if}
 
                         {if $hide_access|not()}
-                            <a class="btn btn-primary btn-icon btn-full" href="{$link_area_personale|wash()}" data-element="personal-area-login" title="{$link_area_personale_title|wash()}">
+                            <a class="btn btn-primary btn-icon btn-full" href="{'accedi'|ezurl(no)}" data-element="personal-area-login" title="{$link_area_personale_title|wash()}">
                                   <span class="rounded-icon" aria-hidden="true">
                                     {display_icon('it-user', 'svg', 'icon icon-primary')}
                                   </span>
