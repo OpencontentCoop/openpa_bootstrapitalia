@@ -4,12 +4,36 @@
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-lg-6 p-lg-0 px-4">
                 <script type="text/javascript" src="https://satisfy.opencontent.it/widget_ns.js" charset="utf-8" defer></script>
-                <div data-element="feedback">
+{*                <div data-element="feedback">*}
                     <app-widget data-entrypoints="{satisfy_main_entrypoint()}"></app-widget>
-                </div>
-                <style>
-                    .satisfy-widget-content .title {ldelim}font-weight: 600;font-size: 1.3rem;{rdelim}
-                </style>
+{*                    <form style="display: none !important;">*}
+{*                        <h2 data-element="feedback-title">Quanto sono chiare le informazioni su questa pagina?</h2>*}
+{*                        <fieldset>*}
+{*                            <label data-element="feedback-rate-5"><span>Valuta 5 stelle su 5</span></label>*}
+{*                            <label data-element="feedback-rate-4"><span>Valuta 4 stelle su 5</span></label>*}
+{*                            <label data-element="feedback-rate-3"><span>Valuta 3 stelle su 5</span></label>*}
+{*                            <label data-element="feedback-rate-2"><span>Valuta 2 stelle su 5</span></label>*}
+{*                            <label data-element="feedback-rate-1"><span>Valuta 1 stelle su 5</span></label>*}
+{*                        </fieldset>*}
+{*                        <fieldset data-element="feedback-rating-positive">*}
+{*                            <legend data-element="feedback-rating-question">Quali sono stati gli aspetti che hai preferito?</legend>*}
+{*                            <label data-element="feedback-rating-answer">Le indicazioni erano chiare</label>*}
+{*                            <label data-element="feedback-rating-answer">Le indicazioni erano complete</label>*}
+{*                            <label data-element="feedback-rating-answer">Capivo sempre che stavo procedendo correttamente</label>*}
+{*                            <label data-element="feedback-rating-answer">Non ho avuto problemi tecnici</label>*}
+{*                            <label data-element="feedback-rating-answer">Altro</label>*}
+{*                        </fieldset>*}
+{*                        <fieldset data-element="feedback-rating-negative">*}
+{*                            legend data-element="feedback-rating-question">Dove hai incontrato le maggiori difficoltà?</legend>*}
+{*                            <label data-element="feedback-rating-answer">A volte le indicazioni non erano chiare</label>*}
+{*                            <label data-element="feedback-rating-answer">A volte le indicazioni non erano complete</label>*}
+{*                            <label data-element="feedback-rating-answer">A volte non capivo se stavo procedendo correttamente</label>*}
+{*                            <label data-element="feedback-rating-answer">Ho avuto problemi tecnici</label>*}
+{*                            <label data-element="feedback-rating-answer">Altro</label>*}
+{*                        </fieldset>*}
+{*                        <label>Dettaglio <input type="text" data-element="feedback-input-text"></label>*}
+{*                    </form>*}
+{*                </div>*}
             </div>
         </div>
         </div>
