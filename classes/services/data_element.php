@@ -19,9 +19,13 @@ class ObjectHandlerServiceDataElement extends ObjectHandlerServiceBase
 
     private function mapValue()
     {
-        $value = $this->mapValueByRemoteId($this->container->getContentObject()->attribute('remote_id'));
+        $remoteId = $this->container->getContentObject()->attribute('remote_id');
+        $value = $this->mapValueByRemoteId($remoteId);
         if (!$value){
             $value = $this->mapValueByClassIdentifier($this->container->getContentObject()->attribute('class_identifier'));
+        }
+        if (!$value){
+            $value = $remoteId;
         }
 
         return $value;
@@ -65,7 +69,10 @@ class ObjectHandlerServiceDataElement extends ObjectHandlerServiceBase
             return 'live-button-events';
         }
 
-//'ba268b968e339cca487ce2110c04b924', // Luoghi
+        // Note Legali
+        if ($remoteId === '931779762484010404cf5fa08f77d978'){
+            return 'legal-notes-section';
+        }
 
         if (in_array($remoteId, [
             'b04a731ca8cc79de8b7cf9f6c2f37705', // Servizi (bc)
@@ -93,12 +100,12 @@ class ObjectHandlerServiceDataElement extends ObjectHandlerServiceBase
             case 'political_body':
             case 'office':
             case 'administrative_area':
-                return 'amministration-element';
+                return 'management-category-link';
 
             case 'topic':
                 return 'topic-element';
         }
 
-        return $classIdentifier;
+        return false;
     }
 }
