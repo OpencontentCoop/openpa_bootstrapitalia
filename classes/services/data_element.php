@@ -71,7 +71,7 @@ class ObjectHandlerServiceDataElement extends ObjectHandlerServiceBase
 
         // Note Legali
         if ($remoteId === '931779762484010404cf5fa08f77d978'){
-            return 'legal-notes-section';
+            return 'legal-notes';
         }
 
         if (in_array($remoteId, [
