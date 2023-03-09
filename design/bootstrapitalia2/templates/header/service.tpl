@@ -206,6 +206,11 @@
 <script id="tpl-user-profile" type="text/x-jsrender">
 <div class="it-user-wrapper nav-item dropdown">
     <a aria-expanded="false" class="btn btn-primary btn-icon btn-full" data-bs-toggle="dropdown" href="#" data-focus-mouse="false">
+        <span aria-hidden="true" class="rounded-icon d-lg-none">
+            <svg class="icon icon-primary">
+                <use xlink:href="{{:spritePath}}#it-user"></use>
+           </svg>
+        </span>
         <span class="d-none d-lg-block text-uppercase">{{:nome}} {{:cognome}}</span>
         <svg class="icon icon-white d-none d-lg-block">
             <use xlink:href="{{:spritePath}}#it-expand"></use>

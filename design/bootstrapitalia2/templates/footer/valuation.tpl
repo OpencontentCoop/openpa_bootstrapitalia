@@ -2,7 +2,7 @@
     <div class="bg-primary">
         <div class="container">
             <div class="row d-flex justify-content-center">
-                <div class="col-12 col-lg-6 p-lg-0 px-4" data-satisfy="{satisfy_main_entrypoint()}">
+                <div class="col-12 col-lg-6 p-lg-0 px-4" data-satisfy="{satisfy_main_entrypoint()}" data-element="feedback">
                     <div class="cmp-rating mt-lg-80 mb-lg-80 p-0 bg-white" style="height: 100px"></div>
                 </div>
             </div>

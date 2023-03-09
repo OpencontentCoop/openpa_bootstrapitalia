@@ -16,11 +16,11 @@
 {/if}
 
 <div class="container">
-    <div class="row justify-content-center{if $first_block_has_bg|not()} row-shadow{/if}">
+    <div class="row justify-content-center{if and($first_block_has_bg|not(), $node|has_attribute('description')|not(), $openpa.data_element.value|ne('legal-notes-section'))} row-shadow{/if}">
         <div class="col-12 col-lg-10">
             <div class="cmp-hero">
-                <section class="it-hero-wrapper bg-white align-items-start">
-                    <div class="it-hero-text-wrapper pt-0 ps-0 pb-4 pb-lg-60">
+                <section class="it-hero-wrapper bg-white d-block">
+                    <div class="it-hero-text-wrapper pt-0 ps-0 pb-4 {if and($node|has_attribute('description')|not(), $openpa.data_element.value|ne('legal-notes-section'))}pb-lg-60{/if}">
                         <h1 class="text-black hero-title" data-element="page-name">
                             {if $current_view_tag}
                                 {$current_view_tag.keyword|wash()}
@@ -41,6 +41,30 @@
         </div>
     </div>
 </div>
+
+{if $openpa.data_element.value|eq('legal-notes-section')}
+<section class="page-license">
+    <div class="container">
+        <div class="row justify-content-center{if and($first_block_has_bg|not(), $openpa.data_element.value|ne('legal-notes-section'))} pb-lg-60 row-shadow{/if}">
+            <div class="col-12 col-lg-10">
+                {include uri='design:parts/default_license.tpl'}
+            </div>
+        </div>
+    </div>
+</section>
+{/if}
+
+{if and($current_view_tag|not(), $node|has_attribute('description'))}
+    <section class="page-description">
+        <div class="container">
+            <div class="row justify-content-center{if $first_block_has_bg|not()} pb-lg-60 row-shadow{/if}">
+                <div class="col-12 col-lg-10">
+                    {attribute_view_gui attribute=$node|attribute('description')}
+                </div>
+            </div>
+        </div>
+    </section>
+{/if}
 
 {if and($current_view_tag|not(), $node|has_attribute('layout'))}
     {attribute_view_gui attribute=$node|attribute('layout')}

@@ -1,7 +1,10 @@
 <?php /* #?ini charset="utf-8"?
 
 [StanzaDelCittadinoBridge]
-AutoDiscover=disabled
+AutoDiscover=enabled
+BuiltInWidgetSource_inefficiency=https://download.stanzadelcittadino.it/assets/js/inefficiency/main.js
+BuiltInWidgetSource_support=https://download.stanzadelcittadino.it/assets/js/request/main.js
+BuiltInWidgetSource_booking=https://static.opencityitalia.it/widgets/bookings/version/1.0.0/js/bookings.js
 
 [AccessPage]
 Title=Accedi
