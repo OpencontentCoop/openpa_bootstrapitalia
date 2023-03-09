@@ -1,6 +1,2 @@
-{def $css = array(concat($theme,'.css'))}
-{if ezini('DebugSettings', 'DebugOutput')|eq('enabled')}
-    {set $css = $css|append('debug.css')}
-{/if}
-{ezcss_load($css)}
-{undef $css}
+{ezcss(array(concat($theme,'.css')))}
+{* i css caricati tramite ezcss_require sono in page_footer_script.tpl *}

@@ -1,20 +1,14 @@
 {def $is_logged_in = cond(fetch('user','current_user').is_logged_in, true(), false())}
 {def $scripts = array(
-  'cookieconsent/cookieconsent.min.js',
   'ezjsc::jquery',
   'ezjsc::jqueryio',
   'moment-with-locales.min.js',
   'jquery.opendataTools.js',
-  'chosen.jquery.js',
-  'stacktable.js',
-  'jquery.opendataDataTable.js',
-  'jquery.dataTables.js',
-  'dataTables.bootstrap4.min.js',
-  'jquery.sharedlink.js',
-  'jquery.blueimp-gallery.min.js'
+  'chosen.jquery.js'
 )}
 {if $is_logged_in}
   {set $scripts = $scripts|merge(array(
+    'cookieconsent/cookieconsent.min.js',
     'ezjsc::jqueryUI',
     'jsrender.js',
     'handlebars.min.js',
@@ -25,11 +19,18 @@
     'leaflet/Control.Loading.js',
     'leaflet/Leaflet.MakiMarkers.js',
     'leaflet/leaflet.activearea.js',
-    'leaflet/leaflet.markercluster.js'
+    'leaflet/leaflet.markercluster.js',
+    'jquery.sharedlink.js',
+    'jquery.blueimp-gallery.min.js',
+    'stacktable.js',
+    'jquery.opendataDataTable.js',
+    'jquery.dataTables.js',
+    'dataTables.bootstrap4.min.js'
   ))}
   {ezscript_load($scripts)}
 {else}
   {ezscript($scripts)}
+  {* gli script caricati tramite ezscript_require sono in page_footer_script.tpl *}
 {/if}
 
 {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', ezini('RegionalSettings', 'Locale') ))}

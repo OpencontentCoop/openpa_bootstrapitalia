@@ -1,233 +1,48 @@
 {if satisfy_main_entrypoint()}
     <div class="bg-primary">
         <div class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-12 col-lg-6 p-lg-0 px-4">
-                <script type="text/javascript" src="https://satisfy.opencontent.it/widget_ns.js" charset="utf-8" defer></script>
-{*                <div data-element="feedback">*}
-                    <app-widget data-entrypoints="{satisfy_main_entrypoint()}"></app-widget>
-{*                    <form style="display: none !important;">*}
-{*                        <h2 data-element="feedback-title">Quanto sono chiare le informazioni su questa pagina?</h2>*}
-{*                        <fieldset>*}
-{*                            <label data-element="feedback-rate-5"><span>Valuta 5 stelle su 5</span></label>*}
-{*                            <label data-element="feedback-rate-4"><span>Valuta 4 stelle su 5</span></label>*}
-{*                            <label data-element="feedback-rate-3"><span>Valuta 3 stelle su 5</span></label>*}
-{*                            <label data-element="feedback-rate-2"><span>Valuta 2 stelle su 5</span></label>*}
-{*                            <label data-element="feedback-rate-1"><span>Valuta 1 stelle su 5</span></label>*}
-{*                        </fieldset>*}
-{*                        <fieldset data-element="feedback-rating-positive">*}
-{*                            <legend data-element="feedback-rating-question">Quali sono stati gli aspetti che hai preferito?</legend>*}
-{*                            <label data-element="feedback-rating-answer">Le indicazioni erano chiare</label>*}
-{*                            <label data-element="feedback-rating-answer">Le indicazioni erano complete</label>*}
-{*                            <label data-element="feedback-rating-answer">Capivo sempre che stavo procedendo correttamente</label>*}
-{*                            <label data-element="feedback-rating-answer">Non ho avuto problemi tecnici</label>*}
-{*                            <label data-element="feedback-rating-answer">Altro</label>*}
-{*                        </fieldset>*}
-{*                        <fieldset data-element="feedback-rating-negative">*}
-{*                            legend data-element="feedback-rating-question">Dove hai incontrato le maggiori difficoltà?</legend>*}
-{*                            <label data-element="feedback-rating-answer">A volte le indicazioni non erano chiare</label>*}
-{*                            <label data-element="feedback-rating-answer">A volte le indicazioni non erano complete</label>*}
-{*                            <label data-element="feedback-rating-answer">A volte non capivo se stavo procedendo correttamente</label>*}
-{*                            <label data-element="feedback-rating-answer">Ho avuto problemi tecnici</label>*}
-{*                            <label data-element="feedback-rating-answer">Altro</label>*}
-{*                        </fieldset>*}
-{*                        <label>Dettaglio <input type="text" data-element="feedback-input-text"></label>*}
-{*                    </form>*}
-{*                </div>*}
+            <div class="row d-flex justify-content-center">
+                <div class="col-12 col-lg-6 p-lg-0 px-4" data-satisfy="{satisfy_main_entrypoint()}">
+                    <div class="cmp-rating mt-lg-80 mb-lg-80 p-0 bg-white" style="height: 100px"></div>
+                </div>
             </div>
         </div>
-        </div>
     </div>
-{*{else}*}
-{*<div class="bg-primary">*}
-{*    <div class="container">*}
-{*        <div class="row d-flex justify-content-center bg-primary">*}
-{*            <div class="col-12 col-lg-6">*}
-{*                <div class="cmp-rating pt-lg-80 pb-lg-80" id="">*}
-{*                    <div class="card shadow card-wrapper" data-element="feedback">*}
-{*                        <div class="cmp-rating__card-first">*}
-{*                            <div class="card-header border-0">*}
-{*                                <h2 class="title-medium-2-semi-bold mb-0">Quanto sono chiare le informazioni su questa pagina?</h2>*}
-{*                            </div>*}
-{*                            <div class="card-body">*}
-{*                                <fieldset class="rating">*}
-{*                                    <legend class="visually-hidden">Valuta da 1 a 5 stelle la pagina</legend>*}
-{*                                    <input type="radio" id="star5a" name="ratingA" value="5">*}
-{*                                    <label class="full rating-star active" for="star5a">*}
-{*                                        <svg class="icon icon-sm" role="img" aria-labelledby="first-star"*}
-{*                                             viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">*}
-{*                                            <path d="M12 1.7L9.5 9.2H1.6L8 13.9l-2.4 7.6 6.4-4.7 6.4 4.7-2.4-7.6 6.4-4.7h-7.9L12 1.7z"></path>*}
-{*                                            <path fill="none" d="M0 0h24v24H0z"></path>*}
-{*                                        </svg>*}
-{*                                        <span class="visually-hidden" id="first-star">Valuta 5 stelle su 5</span>*}
-{*                                    </label>*}
-{*                                    <input type="radio" id="star4a" name="ratingA" value="4">*}
-{*                                    <label class="full rating-star active" for="star4a">*}
-{*                                        <svg class="icon icon-sm" role="img" aria-labelledby="second-star"*}
-{*                                             viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">*}
-{*                                            <path d="M12 1.7L9.5 9.2H1.6L8 13.9l-2.4 7.6 6.4-4.7 6.4 4.7-2.4-7.6 6.4-4.7h-7.9L12 1.7z"></path>*}
-{*                                            <path fill="none" d="M0 0h24v24H0z"></path>*}
-{*                                        </svg>*}
-{*                                        <span class="visually-hidden" id="second-star">Valuta 4 stelle su 5</span>*}
-{*                                    </label>*}
-{*                                    <input type="radio" id="star3a" name="ratingA" value="3">*}
-{*                                    <label class="full rating-star active" for="star3a">*}
-{*                                        <svg class="icon icon-sm" role="img" aria-labelledby="third-star"*}
-{*                                             viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">*}
-{*                                            <path d="M12 1.7L9.5 9.2H1.6L8 13.9l-2.4 7.6 6.4-4.7 6.4 4.7-2.4-7.6 6.4-4.7h-7.9L12 1.7z"></path>*}
-{*                                            <path fill="none" d="M0 0h24v24H0z"></path>*}
-{*                                        </svg>*}
-{*                                        <span class="visually-hidden" id="third-star">Valuta 3 stelle su 5</span>*}
-{*                                    </label>*}
-{*                                    <input type="radio" id="star2a" name="ratingA" value="2">*}
-{*                                    <label class="full rating-star active" for="star2a">*}
-{*                                        <svg class="icon icon-sm" role="img" aria-labelledby="fourth-star"*}
-{*                                             viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">*}
-{*                                            <path d="M12 1.7L9.5 9.2H1.6L8 13.9l-2.4 7.6 6.4-4.7 6.4 4.7-2.4-7.6 6.4-4.7h-7.9L12 1.7z"></path>*}
-{*                                            <path fill="none" d="M0 0h24v24H0z"></path>*}
-{*                                        </svg>*}
-{*                                        <span class="visually-hidden" id="fourth-star">Valuta 2 stelle su 5</span>*}
-{*                                    </label>*}
-{*                                    <input type="radio" id="star1a" name="ratingA" value="1">*}
-{*                                    <label class="full rating-star active" for="star1a">*}
-{*                                        <svg class="icon icon-sm" role="img" aria-labelledby="fifth-star"*}
-{*                                             viewBox="0 0 24 24" id="it-star-full" xmlns="http://www.w3.org/2000/svg">*}
-{*                                            <path d="M12 1.7L9.5 9.2H1.6L8 13.9l-2.4 7.6 6.4-4.7 6.4 4.7-2.4-7.6 6.4-4.7h-7.9L12 1.7z"></path>*}
-{*                                            <path fill="none" d="M0 0h24v24H0z"></path>*}
-{*                                        </svg>*}
-{*                                        <span class="visually-hidden" id="fifth-star">Valuta 1 stelle su 5</span>*}
-{*                                    </label>*}
-{*                                </fieldset>*}
-{*                            </div>*}
-{*                        </div>*}
-{*                        <div class="cmp-rating__card-second d-none" data-step="3">*}
-{*                            <div class="card-header border-0 mb-0">*}
-{*                                <h2 class="title-medium-2-bold mb-0" id="rating-feedback">Grazie, il tuo parere ci*}
-{*                                    aiuterà a migliorare il*}
-{*                                    servizio!</h2>*}
-{*                            </div>*}
-{*                        </div>*}
-{*                        <div class="form-rating d-none">*}
-{*                            <div class="d-none" data-step="1">*}
-{*                                <div class="cmp-steps-rating">*}
-{*                                    <fieldset class="fieldset-rating-one d-none">*}
-{*                                        <div class="iscrizioni-header w-100">*}
-{*                                            <h3 class="step-title d-flex align-items-center justify-content-between drop-shadow">*}
-{*                                                <legend class="d-block d-lg-inline">*}
-{*                                                    Quali sono stati gli aspetti che hai preferito?*}
-{*                                                </legend>*}
-{*                                                <span class="step">1/2</span>*}
-{*                                            </h3>*}
-{*                                        </div>*}
-{*                                        <div class="cmp-steps-rating__body">*}
-{*                                            <div class="cmp-radio-list">*}
-{*                                                <div class="card card-teaser shadow-rating">*}
-{*                                                    <div class="card-body">*}
-{*                                                        <div class="form-check m-0">*}
-{*                                                            <div class="radio-body border-bottom border-light cmp-radio-list__item">*}
-{*                                                                <input name="rating1" type="radio" id="radio-1">*}
-{*                                                                <label for="radio-1" class="active">Le indicazioni erano*}
-{*                                                                    chiare</label>*}
-{*                                                            </div>*}
-{*                                                            <div class="radio-body border-bottom border-light cmp-radio-list__item">*}
-{*                                                                <input name="rating1" type="radio" id="radio-2">*}
-{*                                                                <label for="radio-2" class="active">Le indicazioni erano*}
-{*                                                                    complete</label>*}
-{*                                                            </div>*}
-{*                                                            <div class="radio-body border-bottom border-light cmp-radio-list__item">*}
-{*                                                                <input name="rating1" type="radio" id="radio-3">*}
-{*                                                                <label for="radio-3" class="active">Capivo sempre che*}
-{*                                                                    stavo procedendo correttamente</label>*}
-{*                                                            </div>*}
-{*                                                            <div class="radio-body border-bottom border-light cmp-radio-list__item">*}
-{*                                                                <input name="rating1" type="radio" id="radio-4">*}
-{*                                                                <label for="radio-4" class="active">Non ho avuto*}
-{*                                                                    problemi tecnici</label>*}
-{*                                                            </div>*}
-{*                                                        </div>*}
-{*                                                    </div>*}
-{*                                                </div>*}
-{*                                            </div>*}
-{*                                        </div>*}
-{*                                    </fieldset>*}
-{*                                    <fieldset class="fieldset-rating-two d-none">*}
-{*                                        <div class="iscrizioni-header w-100">*}
-{*                                            <h3 class="step-title d-flex align-items-center justify-content-between drop-shadow">*}
-{*                                                <legend class="d-block d-lg-inline">*}
-{*                                                    Dove hai incontrato le maggiori difficoltà?*}
-{*                                                </legend>*}
-{*                                                <span class="step">1/2</span>*}
-{*                                            </h3>*}
-{*                                        </div>*}
-{*                                        <div class="cmp-steps-rating__body">*}
-{*                                            <div class="cmp-radio-list">*}
-{*                                                <div class="card card-teaser shadow-rating">*}
-{*                                                    <div class="card-body">*}
-{*                                                        <div class="form-check m-0">*}
-{*                                                            <div class="radio-body border-bottom border-light cmp-radio-list__item">*}
-{*                                                                <input name="rating2" type="radio" id="radio-5">*}
-{*                                                                <label for="radio-5" class="active">A volte le*}
-{*                                                                    indicazioni non erano chiare</label>*}
-{*                                                            </div>*}
-{*                                                            <div class="radio-body border-bottom border-light cmp-radio-list__item">*}
-{*                                                                <input name="rating2" type="radio" id="radio-6">*}
-{*                                                                <label for="radio-6" class="active">A volte le*}
-{*                                                                    indicazioni non erano complete</label>*}
-{*                                                            </div>*}
-{*                                                            <div class="radio-body border-bottom border-light cmp-radio-list__item">*}
-{*                                                                <input name="rating2" type="radio" id="radio-7">*}
-{*                                                                <label for="radio-7" class="active">A volte non capivo*}
-{*                                                                    se stavo procedendo correttamente</label>*}
-{*                                                            </div>*}
-{*                                                            <div class="radio-body border-bottom border-light cmp-radio-list__item">*}
-{*                                                                <input name="rating2" type="radio" id="radio-8">*}
-{*                                                                <label for="radio-8" class="active">Ho avuto problemi*}
-{*                                                                    tecnici</label>*}
-{*                                                            </div>*}
-{*                                                        </div>*}
-{*                                                    </div>*}
-{*                                                </div>*}
-{*                                            </div>*}
-{*                                        </div>*}
-{*                                    </fieldset>*}
-{*                                </div>*}
-{*                            </div>*}
-{*                            <div class="d-none" data-step="2">*}
-{*                                <div class="cmp-steps-rating">*}
-{*                                    <fieldset>*}
-{*                                        <div class="iscrizioni-header w-100">*}
-{*                                            <h3 class="step-title d-flex align-items-center justify-content-between drop-shadow mb-3">*}
-{*                                                <legend class="d-block d-lg-inline">*}
-{*                                                    Vuoi aggiungere altri dettagli?*}
-{*                                                </legend>*}
-{*                                                <span class="step">2/2</span>*}
-{*                                            </h3>*}
-{*                                        </div>*}
-{*                                        <div class="cmp-steps-rating__body">*}
-{*                                            <div class="form-group">*}
-{*                                                <label for="formGroupExampleInputWithHelp" class="">Dettaglio</label>*}
-{*                                                <input type="text" class="form-control"*}
-{*                                                       id="formGroupExampleInputWithHelp"*}
-{*                                                       aria-describedby="formGroupExampleInputWithHelpDescription"*}
-{*                                                       maxlength="200">*}
-{*                                                <small id="formGroupExampleInputWithHelpDescription" class="form-text">*}
-{*                                                    Inserire massimo 200 caratteri</small>*}
-{*                                            </div>*}
-{*                                        </div>*}
-{*                                    </fieldset>*}
-{*                                </div>*}
-{*                            </div>*}
-{*                            <div class="d-flex flex-nowrap pt-4 w-100 justify-content-center button-shadow">*}
-{*                                <button class="btn btn-outline-primary fw-bold me-4 btn-back" type="button">Indietro*}
-{*                                </button>*}
-{*                                <button class="btn btn-primary fw-bold btn-next" type="submit" form="rating">Avanti*}
-{*                                </button>*}
-{*                            </div>*}
-{*                        </div>*}
-{*                    </div>*}
-{*                </div>*}
-{*            </div>*}
-{*        </div>*}
-{*    </div>*}
-{*</div>*}
+{literal}
+    <script>
+      $(document).ready(function () {
+        let isInViewport = function(el) {
+          var elementTop = el.offset().top;
+          var elementBottom = elementTop + el.outerHeight();
+          var viewportTop = $(window).scrollTop();
+          var viewportBottom = viewportTop + $(window).height();
+
+          return elementBottom > viewportTop && elementTop < viewportBottom;
+        };
+        let satisfyIsLoaded = false;
+        let loadWidget = function(){
+          if (!satisfyIsLoaded) {
+            let needLoadWidget = false;
+            $('[data-satisfy]').each(function () {
+              if (isInViewport($(this))) {
+                // console.log('Start satisfy at entrypoint ' + $(this).data('satisfy'));
+                $(this).html('<app-widget data-entrypoints="' + $(this).data('satisfy') + '"></app-widget>');
+                needLoadWidget = true;
+              }
+            });
+            if (needLoadWidget) {
+              $.getScript("https://satisfy.opencontent.it/widget_ns.js", function () {
+                // console.log('Satisfy widget is loaded');
+              });
+              satisfyIsLoaded = true;
+            }
+          }
+        }
+        $(window).on('resize scroll', function () {
+          loadWidget();
+        });
+        loadWidget();
+      });
+    </script>
+{/literal}
 {/if}

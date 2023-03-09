@@ -2,6 +2,7 @@
 ## Build css e js
 
 ```
+#nvm use 18
 cd ${OPENCITY_DIRECTORY}/html/extension/openpa_bootstrapitalia/design/bootstrapitalia2/_build/
 npm i
 npm run build

@@ -47,7 +47,12 @@ if ($id == 'satisfy' || !empty(OpenPABootstrapItaliaOperators::getSatisfyEntrypo
 
     $object = eZContentObject::fetchByRemoteID('openpa-valuation');
     if (!$object) {
-        return $module->handleError(eZError::KERNEL_NOT_AVAILABLE, 'kernel');
+        if (eZINI::instance()->variable('DesignSettings', 'SiteDesign') === 'bootstrapitalia2'){
+            $module->redirectTo('/valuation/dashboard/satisfy');
+        }else{
+            return $module->handleError(eZError::KERNEL_NOT_AVAILABLE, 'kernel');
+        }
+        return;
     }
 
     if ($id > 0 && $collection = eZInformationCollection::fetch($id)) {
