@@ -6,7 +6,7 @@
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
                 <div class="bg-light rounded p-4">
-                    {if is_set($built_in_app_variables)}
+                    {if is_set($built_in_app_api_base_url)}
                         <pre>{*
                             *}{'<div id="root"></div>'|wash()}<br /><br />{*
                             *}{'<script>'|wash()}<br />{foreach $built_in_app_variables as $key => $value}window.{$key} = '{$value}';{delimiter}<br />{/delimiter}{/foreach}<br />{'</script>'|wash()}<br /><br />{*
@@ -29,29 +29,27 @@
         </div>
     </div>
 {else}
-    {if is_set($built_in_app_src)}
+    {if and(is_set($built_in_app_script), $built_in_app_script|ne(''))}
+        <div class="buitinapp">
+            {$built_in_app_script}
+        </div>
+    {elseif is_set($built_in_app_api_base_url)}
         <div class="buitinapp">
             <div id="root"></div>
             <script>{foreach $built_in_app_variables as $key => $value}window.{$key} = '{$value}';{/foreach}</script>
             <script src="{$built_in_app_src}"></script>
         </div>
-    {elseif is_set($built_in_app_script)}
-        {if $built_in_app_script}
-            <div class="buitinapp">
-                {$built_in_app_script}
-            </div>
-        {else}
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 col-lg-10">
-                        <div class="cmp-heading pb-3 pb-lg-4">
-                            <div class="alert alert-danger">
-                                <p class="lead m-0">Servizio momentaneamente non disponibile</p>
-                            </div>
+    {else}
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="cmp-heading pb-3 pb-lg-4">
+                        <div class="alert alert-danger">
+                            <p class="lead m-0">Servizio momentaneamente non disponibile</p>
                         </div>
                     </div>
                 </div>
             </div>
-        {/if}
+        </div>
     {/if}
 {/if}

@@ -87,15 +87,12 @@ class BuiltinApp
 
     public function getModuleResult(): array
     {
-        $apiBaseUri = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
         $tpl = eZTemplate::factory();
         $tpl->setVariable('built_in_app', $this->getAppIdentifier());
         $tpl->setVariable('built_in_app_variables', $this->getVariables());
-        if (empty($apiBaseUri)) {
-            $tpl->setVariable('built_in_app_script', $this->getCustomConfig());
-        } else {
-            $tpl->setVariable('built_in_app_src', $this->getWidgetSrc());
-        }
+        $tpl->setVariable('built_in_app_script', $this->getCustomConfig());
+        $tpl->setVariable('built_in_app_src', $this->getWidgetSrc());
+        $tpl->setVariable('built_in_app_api_base_url', StanzaDelCittadinoBridge::factory()->getApiBaseUri());
 
         $Result = [];
         $Result['content'] = $tpl->fetch('design:openpa/built_in_app.tpl');
