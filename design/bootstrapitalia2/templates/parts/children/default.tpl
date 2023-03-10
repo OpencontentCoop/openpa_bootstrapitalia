@@ -18,6 +18,7 @@
         $node.object.remote_id|eq('topics'),
         ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' )|eq($node.node_id),
         ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' )|eq($node.parent_node_id),
+        $node.object.remote_id|eq('punti_di_contatto')
     )
 )}
     {set $view = 'card_simple'}

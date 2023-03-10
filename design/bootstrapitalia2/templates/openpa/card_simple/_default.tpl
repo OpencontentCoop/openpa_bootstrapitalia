@@ -15,7 +15,11 @@
                     {/if}
                 </h3>
             </a>
-            {include uri='design:openpa/card/parts/abstract.tpl' wrapper_class="titillium text-paragraph mb-0"}
+            <div class="m-0">
+                {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
+                {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
+                {undef $attributes}
+            </div>
         </div>
     </div>
 </div>
