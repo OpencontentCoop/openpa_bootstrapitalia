@@ -2,7 +2,7 @@
 {def $main_attributes = class_extra_parameters($node.object.class_identifier, 'table_view').in_overview}
 {def $main_labels = class_extra_parameters($node.object.class_identifier, 'table_view').show_label}
 
-{def $custom_datetime_attributes = array('content_show_published','content_show_modified','reading_time')}
+{def $custom_datetime_attributes = array('content_show_published','content_show_modified','reading_time', 'protocollo')}
 {def $datetime_attributes = array()}
 {def $alt_name_identifier = array('alternative_name', 'alt_name')}
 {def $skip_identifiers = array('topics', 'has_public_event_typology', 'type', 'content_type', 'document_type', 'announcement_type')}
@@ -60,10 +60,12 @@
 <div class="row {$dates_container_class}">
 {foreach $datetime_attributes as $identifier}
 	{if and(is_set($openpa[$identifier].contentobject_attribute), $openpa[$identifier].has_content)}
-		<div class="col-6">
+		<div class="col">
 			<small class="d-block text-nowrap font-sans-serif">{$openpa[$identifier].contentclass_attribute.name|wash()}:</small>
-			<p class="fw-semibold font-monospace text-nowrap">
-				{if $identifier|eq('reading_time')}
+			<p class="fw-semibold font-monospace text-{if $identifier|ne('protocollo')}nowrap{else}truncate" style="max-width: 300px;" title="{$openpa[$identifier].contentobject_attribute.content|wash()}{/if}">
+				{if $identifier|eq('protocollo')}
+					{$openpa[$identifier].contentobject_attribute.content|wash()}
+				{elseif $identifier|eq('reading_time')}
 					{$openpa[$identifier].contentobject_attribute.content|wash()} min
 				{else}
 					{$openpa[$identifier].contentobject_attribute.content.timestamp|l10n( 'shortdate' )}
@@ -71,7 +73,7 @@
 			</p>
 		</div>
 	{elseif is_set($openpa[$identifier])}
-		<div class="col-6">
+		<div class="col">
 			{include uri=$openpa[$identifier].template}
 		</div>
 	{/if}

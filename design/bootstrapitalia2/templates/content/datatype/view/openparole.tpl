@@ -111,33 +111,38 @@
 			{* versione estesa per il full *}
 			{if and(is_set($view_context), $view_context|eq('full_attributes'))}
 				{def $roles = $attribute.content.roles}
-				<ul>
+
+				<ul{if $attribute_group.slug|ne('content')} class="d-none"{/if}>
+					{def $current_entities = array()}
 					{foreach $roles as $role}
 					<li class="mb-2 lora">
 						{def $entity = $attribute.content.entities[$role|attribute('for_entity').content.relation_list[0].contentobject_id]}
-						<h3 class="h5 mt-4 font-sans-serif">
-						{if $role|has_attribute('label')}
-							<a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$role|attribute('label').content|wash()}</a>
-						{else}
-							{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach} {'at'|i18n('bootstrapitalia')} <a href="{object_handler($entity).content_link.full_link}" title="Link {$entity.name|wash()}">{$entity.name|wash()}</a>
-						{/if}
+						{set $current_entities = $current_entities|append($entity)}
+						<h3 class="h4 mt-4 font-sans-serif">
+							{if $role|has_attribute('label')}
+								{$role|attribute('label').content|wash()}
+							{else}
+								{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach} {'at'|i18n('bootstrapitalia')} {$entity.name|wash()}
+							{/if}
+							{if $role|has_attribute('start_time')}
+								<small>{'from'|i18n("openpa/search")} {attribute_view_gui attribute=$role|attribute('start_time')}</small>
+							{/if}
 						</h3>
-						{if $role|has_attribute('competences')}
-							<h4 class="h6 mt-1 mb-0">{$role|attribute('competences').contentclass_attribute_name}:</h4>
+						{if and($role|has_attribute('competences'), $role|attribute('competences').content.cells|implode('')|trim()|ne(''))}
+							<h4 class="h5 mt-4 font-sans-serif">{$role|attribute('competences').contentclass_attribute_name}:</h4>
 							<ul class="list-unstyled">
 								<li>{$role|attribute('competences').content.cells|implode('</li><li>')}</li>
 							</ul>
-
 						{/if}
-						{if $role|has_attribute('delegations')}
-							<h4 class="h6 mt-1 mb-0">{$role|attribute('delegations').contentclass_attribute_name}:</h4>
+						{if and($role|has_attribute('delegations'), $role|attribute('delegations').content.cells|implode('')|trim()|ne(''))}
+							<h4 class="h5 mt-4 font-sans-serif">{$role|attribute('delegations').contentclass_attribute_name}:</h4>
 							<ul class="list-unstyled">
 								<li>{$role|attribute('delegations').content.cells|implode('</li><li>')}</li>
 							</ul>
 						{/if}
 						{foreach array('compensi', 'importi', 'atto_nomina', 'notes') as $attribute_identifier}
 						{if $role|has_attribute($attribute_identifier)}
-							<h4 class="h6 mt-1 mb-0">{$role|attribute($attribute_identifier).contentclass_attribute_name}:</h4>
+							<h4 class="h5 mt-4 font-sans-serif">{$role|attribute($attribute_identifier).contentclass_attribute_name}:</h4>
 							<ul class="list-unstyled">
 								<li>{attribute_view_gui attribute=$role|attribute($attribute_identifier)}</li>
 							</ul>
@@ -147,7 +152,15 @@
 					</li>
 					{/foreach}
 				</ul>
-				{undef $roles}
+
+				{if $attribute_group.slug|eq('details')}
+					<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
+						{foreach $current_entities as $child }
+							{node_view_gui content_node=$child.main_node view=card_teaser show_icon=false() show_category=false() image_class=widemedium}
+						{/foreach}
+					</div>
+				{/if}
+				{undef $roles $current_entities}
 
 			{* versione compatta per abstract *}
 			{else}

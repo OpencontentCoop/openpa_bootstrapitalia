@@ -167,7 +167,9 @@ $(document).ready(function () {
                         }
                     }
                 }
-                container.removeClass('hide');
+                if (response.totalCount > 0) {
+                    container.removeClass('hide');
+                }
             });
         };
 

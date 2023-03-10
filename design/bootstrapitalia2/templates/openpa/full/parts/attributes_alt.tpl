@@ -98,6 +98,7 @@
                             {if $need_container}<div class="richtext-wrapper lora">{/if}
                             {attribute_view_gui attribute=$openpa_attribute.contentobject_attribute
                                                 view_context=full_attributes
+                                                attribute_group=$item
                                                 image_class=medium
                                                 attribute_index=$attribute_index
                                                 context_class=$node.class_identifier

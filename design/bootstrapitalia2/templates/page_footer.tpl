@@ -255,7 +255,7 @@
                         {/if}
 
                         {undef $needCookieConsent}
-                        <a href="#">Media policy</a> {*@todo*}
+                        {*<a href="#">Media policy</a> @todo*}
                         <a href={"/content/view/sitemap/2/"|ezurl}>{"Sitemap"|i18n("design/standard/layout")}</a>
                     </div>
                 </div>

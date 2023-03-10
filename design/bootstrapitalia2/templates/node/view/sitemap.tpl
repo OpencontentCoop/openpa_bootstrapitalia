@@ -72,27 +72,26 @@
                     </li>
                 {/if}
                 {undef $faq_system}
-                {if or(is_set($pagedata.contacts['link_assistenza']), is_set($pagedata.contacts['email']))}
-                    <li>
-                        <a href="{if is_set($pagedata.contacts['link_assistenza'])}{$pagedata.contacts['link_assistenza']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}" data-element="contacts">
-                            <span>{'Request assistance'|i18n('bootstrapitalia')}</span>
-                        </a>
-                    </li>
-                {/if}
-                {if or(is_set($pagedata.contacts['numero_verde']), is_set($pagedata.contacts['telefono']))}
-                    <li>
-                        <a href="{if is_set($pagedata.contacts['numero_verde'])}{$pagedata.contacts['numero_verde']|wash()}{else}{$pagedata.contacts['telefono']|wash()}{/if}">
-                            <span>{'Call the municipality'|i18n('bootstrapitalia')}</span>
-                        </a>
-                    </li>
-                {/if}
-                {if or(is_set($pagedata.contacts['link_prenotazione_appuntamento']), is_set($pagedata.contacts['email']))}
-                    <li>
-                        <a href="{if is_set($pagedata.contacts['link_prenotazione_appuntamento'])}{$pagedata.contacts['link_prenotazione_appuntamento']|wash()}{else}mailto:{$pagedata.contacts['email']|wash()}{/if}" data-element="appointment-booking">
-                            <span>{'Book an appointment'|i18n('bootstrapitalia')}</span>
-                        </a>
-                    </li>
-                {/if}
+                <li>
+                    <a href="{if is_set($pagedata.contacts['link_assistenza'])}{$pagedata.contacts['link_assistenza']|wash()}{else}{'richiedi_assistenza'|ezurl(no)}{/if}" data-element="contacts">
+                        <span>{'Request assistance'|i18n('bootstrapitalia')}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{if is_set($pagedata.contacts['numero_verde'])}{$pagedata.contacts['numero_verde']|wash()}{else}{$pagedata.contacts['telefono']|wash()}{/if}">
+                        <span>{'Call the municipality'|i18n('bootstrapitalia')}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{if is_set($pagedata.contacts['link_prenotazione_appuntamento'])}{$pagedata.contacts['link_prenotazione_appuntamento']|wash()}{else}{'prenota_appuntamento'|ezurl(no)}{/if}" data-element="appointment-booking">
+                        <span>{'Book an appointment'|i18n('bootstrapitalia')}</span>
+                    </a>
+                </li>
+                <li>
+                    <a data-element="report-inefficiency" href="{if is_set($pagedata.contacts['link_segnalazione_disservizio'])}{$pagedata.contacts['link_segnalazione_disservizio']|wash()}{else}{'segnala_disservizio'|ezurl(no)}{/if}">
+                        <span>{'Report a disservice'|i18n('bootstrapitalia')}</span>
+                    </a>
+                </li>
                 {foreach $footer_links as $item}
                     <li>{node_view_gui content_node=$item view=text_linked span_class='fm'}</li>
                 {/foreach}

@@ -227,6 +227,7 @@ ViewName[default]=Default
 ViewName[card]=Card
 ItemsPerRow[]
 ContainerStyle[default]=py-5
+ContainerStyle[card]=py-5
 CanAddShowAllLink=disabled
 CanAddIntroText=enabled
 
