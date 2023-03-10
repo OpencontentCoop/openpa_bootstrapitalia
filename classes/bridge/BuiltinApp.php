@@ -34,7 +34,7 @@ class BuiltinApp
     {
         if ($this->siteData === null || $config) {
             $name = "built_in_{$this->appIdentifier}_config";
-            $this->siteData = eZSiteData::fetchByName($name) ?? false;
+            $this->siteData = eZSiteData::fetchByName($name) ?? null;
             if ($config !== null) {
                 if (!$this->siteData instanceof eZSiteData) {
                     $this->siteData = eZSiteData::create($name, '');

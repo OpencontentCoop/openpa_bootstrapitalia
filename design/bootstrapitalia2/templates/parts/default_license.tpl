@@ -1,5 +1,5 @@
 {set_defaults(hash('header_tag', 'h2'))}
-<{$header_tag} class="text-black h3 my-2" data-element="legal-notes-section">
+<{$header_tag} class="text-black h6 my-2" data-element="legal-notes-section">
     Licenza dei contenuti
 </{$header_tag}>
 <p data-element="legal-notes-body" class="mb-2">
