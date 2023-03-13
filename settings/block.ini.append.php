@@ -222,7 +222,9 @@ CustomAttributeSelection_calendar_view[day_grid]=Settimana
 CustomAttributeSelection_calendar_view[month]=Mese
 ViewList[]
 ViewList[]=default
+ViewList[]=card
 ViewName[default]=Default
+ViewName[card]=Card
 ItemsPerRow[]
 ContainerStyle[default]=py-5
 CanAddShowAllLink=disabled

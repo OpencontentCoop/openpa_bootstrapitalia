@@ -523,6 +523,12 @@ Subdir=templates
 Match[type]=EventiRemoti
 Match[view]=default
 
+[block_eventi_card]
+Source=block/view/view.tpl
+MatchFile=block/eventi_card.tpl
+Subdir=templates
+Match[type]=Eventi
+Match[view]=card
 
 #### Argomenti
 

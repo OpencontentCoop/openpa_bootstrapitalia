@@ -4,7 +4,7 @@
 {def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
 
 {def $query = 'facets [class]'
-$classes = array()}
+     $classes = array()}
 {if and(is_set($block.custom_attributes.includi_classi), $block.custom_attributes.includi_classi|ne(''))}
     {set $query = concat('classes [', $block.custom_attributes.includi_classi, ']')}
     {set $classes = fetch(class, list, hash(class_filter, $block.custom_attributes.includi_classi|explode(',')))}
