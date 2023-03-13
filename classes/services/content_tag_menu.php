@@ -80,7 +80,16 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
             if ($this->hasTagMenu() && $userView){
                 $rootTag = $this->getTagMenuRootTag();
                 if ($rootTag instanceof eZTagsObject) {
-                    $currentViewTag = eZTagsObject::fetchByUrl($rootTag->getUrl(true) . '/' . $userView);
+                    $userView = str_replace(' / ', '$', $userView);
+                    $url = explode('/', $userView);
+                    foreach ($url as $index => $item){
+                        $url[$index] = str_replace('$', ' / ', $item);
+                    }
+                    $rootUrl = array_reverse(explode('/', $rootTag->getCleanUrl()));
+                    foreach ($rootUrl as $item){
+                        array_unshift($url, $item);
+                    }
+                    $currentViewTag = eZTagsObject::fetchByUrl($url);
                     if ($currentViewTag instanceof eZTagsObject){
                         $pathArray = explode('/', trim($currentViewTag->attribute('path_string'), '/'));
                         if (in_array($rootTag->attribute('id'), $pathArray)){

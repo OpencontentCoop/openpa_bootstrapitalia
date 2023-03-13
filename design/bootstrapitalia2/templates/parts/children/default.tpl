@@ -2,7 +2,6 @@
   'page_limit', 24,
   'exclude_classes', openpaini( 'ExcludedClassesAsChild', 'FromFolder', array( 'image', 'infobox', 'global_layout' ) ),
   'include_classes', array(),
-  'type', 'exclude',
   'fetch_type', 'list',
   'parent_node', $node,
   'items_per_row', 3,
@@ -22,6 +21,10 @@
     )
 )}
     {set $view = 'card_simple'}
+{/if}
+
+{if and($openpa.content_tag_menu.current_view_tag|not(), or(openpaini( 'TopMenu', 'NodiCustomMenu', array() )|contains($node.node_id), $node.object.remote_id|eq('cb945b1cdaad4412faaa3a64f7cdd065')))}
+    {set $include_classes = array('pagina_sito', 'frontpage')}
 {/if}
 
 {if $openpa.content_tag_menu.current_view_tag}
@@ -80,10 +83,11 @@
 {/if}
 
 {if or($openpa.content_tag_menu.show_tag_cards|not(), $openpa.content_tag_menu.current_view_tag)}
-    {if $type|eq( 'exclude' )}
-        {def $params = hash( 'class_filter_type', 'exclude', 'class_filter_array', $exclude_classes )}
-    {else}
+    {if count($include_classes)}
         {def $params = hash( 'class_filter_type', 'include', 'class_filter_array', $include_classes )}
+    {elseif count($exclude_classes)}
+        {set $exclude_classes = array('image')} {* bc *}
+        {def $params = hash( 'class_filter_type', 'exclude', 'class_filter_array', $exclude_classes )}
     {/if}
 
     {if $openpa.content_tag_menu.current_view_tag}
@@ -143,7 +147,7 @@
          $prefix = ''}
     {if $openpa.content_tag_menu.current_view_tag}
         {set $tag_menu_children = $openpa.content_tag_menu.current_view_tag.children
-             $prefix = concat($openpa.content_tag_menu.current_view_tag.keyword, '/')}
+             $prefix = concat($openpa.content_tag_menu.current_view_tag.clean_url|explode(concat($openpa.content_tag_menu.tag_menu_root.clean_url, '/'))[1], '/')}
     {else}
         {set $tag_menu_children = $openpa.content_tag_menu.tag_menu_root.children}
     {/if}
@@ -244,7 +248,6 @@
     'page_limit',
     'exclude_classes',
     'include_classes',
-    'type',
     'fetch_type',
     'parent_node',
     'items_per_row'
