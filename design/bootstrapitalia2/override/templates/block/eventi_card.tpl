@@ -16,7 +16,7 @@
 	<div class="hide"
 		 data-view="{$view}"
 		 data-block_subtree_query="{$query}"
-		 data-limit="9"
+		 data-limit="3"
 		 data-items_per_row="3">
 		<div class="row row-title">
 			{if $block.name|ne('')}
