@@ -23,7 +23,7 @@
     {set $view = 'card_simple'}
 {/if}
 
-{if and($openpa.content_tag_menu.current_view_tag|not(), or(openpaini( 'TopMenu', 'NodiCustomMenu', array() )|contains($node.node_id), $node.object.remote_id|eq('cb945b1cdaad4412faaa3a64f7cdd065')))}
+{if $node.object.remote_id|eq('cb945b1cdaad4412faaa3a64f7cdd065')} {*documenti e dati*}
     {set $include_classes = array('pagina_sito', 'frontpage')}
 {/if}
 
@@ -86,7 +86,6 @@
     {if count($include_classes)}
         {def $params = hash( 'class_filter_type', 'include', 'class_filter_array', $include_classes )}
     {elseif count($exclude_classes)}
-        {set $exclude_classes = array('image')} {* bc *}
         {def $params = hash( 'class_filter_type', 'exclude', 'class_filter_array', $exclude_classes )}
     {/if}
 
