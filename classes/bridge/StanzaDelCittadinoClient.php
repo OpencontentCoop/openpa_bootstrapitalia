@@ -55,7 +55,7 @@ class StanzaDelCittadinoClient
 
     public function getTenantInfo()
     {
-        return $this->request('GET', '/api/tenantsd/info');
+        return $this->request('GET', '/api/tenants/info');
     }
 
     public function request($method, $path, $data = null)

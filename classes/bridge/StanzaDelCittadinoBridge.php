@@ -104,6 +104,8 @@ class StanzaDelCittadinoBridge
                 $this->apiBaseUrl = $siteData->attribute('value');
             }
         }
+
+        eZDebug::writeDebug('Get api base url: ' .  $this->apiBaseUrl, __METHOD__);
     }
 
     public function getUserLoginUri(): ?string
@@ -113,6 +115,7 @@ class StanzaDelCittadinoBridge
 
     public function setUserLoginUri(?string $accessUrl): void
     {
+        eZDebug::writeDebug('Set access url: ' .  $accessUrl, __METHOD__);
         $this->accessUrl = $accessUrl;
     }
 
