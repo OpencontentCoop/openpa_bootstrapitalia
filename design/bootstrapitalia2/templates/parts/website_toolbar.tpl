@@ -245,7 +245,7 @@
                                         </a>
                                     </li>
                                 {/if}
-                                {if fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'edit' ) )}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'draft' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{"content/draft"|ezurl(no)}" title="{"My drafts"|i18n("design/ocbootstrap/user/edit")}">
                                             <i aria-hidden="true" class="fa fa-pencil-square"></i>
