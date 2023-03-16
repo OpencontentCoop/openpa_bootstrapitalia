@@ -11,6 +11,7 @@
 {literal}
     <script>
       $(document).ready(function () {
+        var scriptSource = "{/literal}{openpaini('StanzaDelCittadinoBridge', 'BuiltInWidgetSource_satisfy', 'https://satisfy.opencontent.it/widget_ns.js')}{literal}";
         let isInViewport = function(el) {
           var elementTop = el.offset().top;
           var elementBottom = elementTop + el.outerHeight();
@@ -31,7 +32,7 @@
               }
             });
             if (needLoadWidget) {
-              $.getScript("https://satisfy.opencontent.it/widget_ns.js", function () {
+              $.getScript(scriptSource, function () {
                 // console.log('Satisfy widget is loaded');
               });
               satisfyIsLoaded = true;
