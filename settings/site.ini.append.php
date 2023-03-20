@@ -19,6 +19,7 @@ PolicyOmitList[]=prenota_appuntamento
 PolicyOmitList[]=richiedi_assistenza
 PolicyOmitList[]=segnala_disservizio
 PolicyOmitList[]=accedi
+PolicyOmitList[]=segnalazioni
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login
