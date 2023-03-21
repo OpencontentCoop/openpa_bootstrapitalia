@@ -28,7 +28,7 @@
                     </form>
                 </div>
                 {if count($block.valid_nodes)|gt(0)}
-                <div class="link-list-wrapper{if $background_image} p-3 bg-white position-relative{/if}">
+                <div class="link-list-wrapper bg-white p-3 position-relative">
                     <div class="link-list-heading text-uppercase mb-3 ps-0">Link utili</div>
                     <ul class="link-list" role="list">
                         {foreach $block.valid_nodes as $valid_node}

@@ -115,6 +115,7 @@ IncludiClassi[]=event
 IncludiClassi[]=place
 IncludiClassi[]=organization
 IncludiClassi[]=person
+IncludiClassi[]=public_person
 IncludiClassi[]=private_organization
 IncludiClassi[]=public_organization
 IncludiClassi[]=pagina_sito
@@ -152,6 +153,9 @@ Valuation=1
 ShowRssInSocialList=disabled
 ShowUeLogo=enabled
 HideSlimHeaderIfUseless=disabled
+
+[InstanceSettings]
+InstallerDirectory=./extension/openpa_bootstrapitalia/data/installer
 
 [RelationsBrowse]
 AllowAllBrowse=enabled

@@ -23,4 +23,8 @@
     {if $jsonld}<script data-element="metatag" type="application/ld+json">{$jsonld}</script>{/if}
 {/if}
 
+{if $node.object.state_identifier_array|contains('opencity_lock/locked')}
+    {ezpagedata_set('is_opencity_locked', true())}
+{/if}
+
 {undef $openpa}

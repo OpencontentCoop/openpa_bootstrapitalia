@@ -84,6 +84,19 @@
                         <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
                     </button>
                 </li>
+            {elseif and(
+                $content_object.state_identifier_array|contains('opencity_lock/locked'),
+                fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_locked_editor' ) )
+            )}
+                <li>
+                    <button class="btn" type="button"
+                            data-class="{$content_object.class_identifier}"
+                            data-object="{$content_object.id}"
+                            name="LockEditButton" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
+                        <i aria-hidden="true" class="fa fa-pencil"></i>
+                        <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
+                    </button>
+                </li>
             {/if}
 
             {if and(
@@ -346,6 +359,14 @@
                                         <a class="list-item left-icon" href="{'webhook/list'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-external-link-square"></i>
                                             Webhooks
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_locked_editor' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'bootstrapitalia/info'|ezurl(no)}">
+                                            <i aria-hidden="true" class="fa fa-phone-square"></i>
+                                            Gestione informazioni generali
                                         </a>
                                     </li>
                                 {/if}

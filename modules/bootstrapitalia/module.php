@@ -30,6 +30,12 @@ $ViewList['avatar'] = [
     'params' => ['ID'],
     'unordered_params' => [],
 ];
+$ViewList['info'] = [
+    'functions' => ['opencity_locked_editor'],
+    'script' => 'info.php',
+    'params' => [],
+    'unordered_params' => [],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];
@@ -38,3 +44,4 @@ $FunctionList['edit_tag_description'] = [];
 $FunctionList['advanced_editor_tools'] = [];
 $FunctionList['avatar'] = [];
 $FunctionList['config_built_in_apps'] = [];
+$FunctionList['opencity_locked_editor'] = [];

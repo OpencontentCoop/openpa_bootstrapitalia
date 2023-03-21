@@ -16,11 +16,11 @@
 {/if}
 
 <div class="container">
-    <div class="row justify-content-center{if and($first_block_has_bg|not(), $node|has_attribute('description')|not(), $openpa.data_element.value|ne('legal-notes'))} row-shadow{/if}">
+    <div class="row justify-content-center{if and($first_block_has_bg|not(), $node|has_attribute('description')|not(), $openpa.data_element.value|ne('legal-notes'), $node|has_attribute('image')|not())} row-shadow{/if}">
         <div class="col-12 col-lg-10">
             <div class="cmp-hero">
                 <section class="it-hero-wrapper bg-white d-block">
-                    <div class="it-hero-text-wrapper pt-0 ps-0 pb-4 {if and($node|has_attribute('description')|not(), $openpa.data_element.value|ne('legal-notes'))}pb-lg-60{/if}">
+                    <div class="it-hero-text-wrapper pt-0 ps-0 pb-4 {if and($node|has_attribute('description')|not(), $openpa.data_element.value|ne('legal-notes'), $node|has_attribute('image')|not())}pb-lg-60{/if}">
                         <h1 class="text-black hero-title" data-element="page-name">
                             {if $current_view_tag}
                                 {$current_view_tag.keyword|wash()}
@@ -53,6 +53,8 @@
     </div>
 </section>
 {/if}
+
+{include uri='design:openpa/full/parts/main_image.tpl'}
 
 {if and($current_view_tag|not(), $node|has_attribute('description'))}
     <section class="page-description">

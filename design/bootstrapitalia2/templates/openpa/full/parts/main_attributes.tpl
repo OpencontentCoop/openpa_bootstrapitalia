@@ -72,7 +72,7 @@
 				{/if}
 			</p>
 		</div>
-	{elseif is_set($openpa[$identifier])}
+	{elseif is_set($openpa[$identifier].template)}
 		<div class="col">
 			{include uri=$openpa[$identifier].template}
 		</div>

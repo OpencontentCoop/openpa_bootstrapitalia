@@ -104,6 +104,7 @@ export default [
   //     }),
   //   ],
   // },
+
   {
     input: 'src/scss/default.scss',
     output: {
