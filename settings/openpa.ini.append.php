@@ -115,6 +115,7 @@ IncludiClassi[]=event
 IncludiClassi[]=place
 IncludiClassi[]=organization
 IncludiClassi[]=person
+IncludiClassi[]=public_person
 IncludiClassi[]=private_organization
 IncludiClassi[]=public_organization
 IncludiClassi[]=pagina_sito
