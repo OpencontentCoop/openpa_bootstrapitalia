@@ -18,7 +18,7 @@
                   $('#relation-modal').modal('show');
                 },
                 onSuccess: function (data) {
-                  $('main').css('opacity', '.3');
+                  $('body').css('opacity', '.3');
                   window.location.replace("/openpa/object/" + data.content.metadata.id);
                   $('#relation-modal').modal('hide');
                 },
