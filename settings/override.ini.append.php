@@ -311,6 +311,20 @@ MatchFile=datatype/edit/matrix_social.tpl
 Subdir=templates
 Match[attribute_identifier]=social
 
+[datatype_edit_topic_name]
+Source=content/datatype/edit/ezstring.tpl
+MatchFile=datatype/edit/topic_name.tpl
+Subdir=templates
+Match[class_identifier]=topic
+Match[attribute_identifier]=name
+
+[datatype_edit_topic_eu]
+Source=content/datatype/edit/eztext.tpl
+MatchFile=datatype/edit/topic_eu.tpl
+Subdir=templates
+Match[class_identifier]=topic
+Match[attribute_identifier]=eu
+
 ############################################
 ############################################ TEXT-LINKED
 ############################################
