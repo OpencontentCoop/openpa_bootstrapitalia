@@ -100,7 +100,7 @@
 {else}
     {def $blocks = array()}
     {def $has_first_block = false()}
-    {if api_search(concat('classes [employee,private_organization,public_organization,office] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
+    {if api_search(concat('classes [public_person,private_organization,organization] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' limit 1')).totalCount|gt(0)}
         {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
             'Amministrazione'|i18n('bootstrapitalia/menu'),
@@ -189,7 +189,8 @@
         ))}
         {undef $is_first_block}
     {/if}
-    {if fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('topic') ) )|gt(0)}
+
+    {if and($node|has_attribute('show_topic_children'), $node|attribute('show_topic_children').data_int|eq(1), fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('topic') ) ))|gt(0)}
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
