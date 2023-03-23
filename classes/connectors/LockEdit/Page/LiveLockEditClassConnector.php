@@ -73,14 +73,14 @@ class LiveLockEditClassConnector extends PageLockEditClassConnector
         return $schema;
     }
 
-    protected function cleanSourceBlocks($blocks): array
+    protected function cleanSourceBlocks($blocks): ?array
     {
         $stateGroup = eZContentObjectStateGroup::fetchByIdentifier('privacy');
         $dummyReplaces = [
             '$state_privacy_public' => eZContentObjectState::fetchByIdentifier('public', $stateGroup->attribute('id'))->attribute('id'),
         ];
 
-        foreach ($blocks as $index => $block) {
+        foreach ((array)$blocks as $index => $block) {
             if (isset($block['custom_attributes'])) {
                 foreach ($block['custom_attributes'] as $key => $value) {
                     if (isset($dummyReplaces[$value])) {

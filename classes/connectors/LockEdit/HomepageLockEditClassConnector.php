@@ -318,7 +318,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         ];
     }
 
-    protected function cleanSourceBlocks($blocks): array
+    protected function cleanSourceBlocks($blocks): ?array
     {
         $dummyReplaces = [
             '$contenttree_OpenCity_Novita_node' => 'news',
@@ -327,7 +327,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             'node_id_from_remote_id(banners)' => 'banners',
         ];
 
-        foreach ($blocks as $index => $block) {
+        foreach ((array)$blocks as $index => $block) {
             if (isset($block['custom_attributes'])) {
                 foreach ($block['custom_attributes'] as $key => $value) {
                     if (isset($dummyReplaces[$value])) {

@@ -155,7 +155,7 @@ ShowUeLogo=enabled
 HideSlimHeaderIfUseless=disabled
 
 [InstanceSettings]
-InstallerDirectory=../installer
+InstallerDirectory=./extension/openpa_bootstrapitalia/data/installer
 
 [RelationsBrowse]
 AllowAllBrowse=enabled

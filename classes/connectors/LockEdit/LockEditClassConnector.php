@@ -76,7 +76,7 @@ abstract class LockEditClassConnector extends ClassConnector
 
     abstract protected function fetchSourcePathInfo(): array;
 
-    abstract protected function cleanSourceBlocks($blocks): array;
+    abstract protected function cleanSourceBlocks($blocks): ?array;
 
     protected function fetchSourceBlocks(): array
     {

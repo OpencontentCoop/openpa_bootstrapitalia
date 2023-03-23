@@ -157,9 +157,9 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
         return [];
     }
 
-    protected function cleanSourceBlocks($blocks): array
+    protected function cleanSourceBlocks($blocks): ?array
     {
-        return $blocks;
+        return (array)$blocks;
     }
 
     protected function resetEvidenceBlock($block, $blockIndex = 1)
