@@ -105,44 +105,44 @@ export default [
   //   ],
   // },
 
-  // {
-  //   input: 'src/scss/default.scss',
-  //   output: {
-  //     dir: '../stylesheets',
-  //   },
-  //   plugins: [
-  //     scss({
-  //       output: '../stylesheets/default.css',
-  //       outputStyle: 'compressed',
-  //       sourceMap: false,
-  //       watch: 'src/scss',
-  //     }),
-  //   ],
-  // },
-  // {input: 'src/scss/acqua.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/acqua.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/acquamarina.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/acquamarina.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/amaranto.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/amaranto.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/apss.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/apss.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/cagliari.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/cagliari.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/cenerentola.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/cenerentola.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/elegance.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/elegance.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/mare.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/mare.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/mediterraneo.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/mediterraneo.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/rustico.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/rustico.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/trento.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/trento.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {
-  //   input: 'src/scss/turquoise.scss',
-  //   output: {dir: '../stylesheets'},
-  //   plugins: [
-  //     scss({
-  //       output: '../stylesheets/turquoise.css',
-  //       outputStyle: 'compressed',
-  //       sourceMap: false,
-  //       watch: 'src/scss'
-  //     })]
-  // },
-  // {input: 'src/scss/verdone.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/verdone.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  // {input: 'src/scss/warmred.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/warmred.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {
+    input: 'src/scss/default.scss',
+    output: {
+      dir: '../stylesheets',
+    },
+    plugins: [
+      scss({
+        output: '../stylesheets/default.css',
+        outputStyle: 'compressed',
+        sourceMap: false,
+        watch: 'src/scss',
+      }),
+    ],
+  },
+  {input: 'src/scss/acqua.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/acqua.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/acquamarina.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/acquamarina.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/amaranto.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/amaranto.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/apss.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/apss.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/cagliari.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/cagliari.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/cenerentola.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/cenerentola.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/elegance.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/elegance.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/mare.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/mare.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/mediterraneo.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/mediterraneo.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/rustico.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/rustico.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/trento.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/trento.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {
+    input: 'src/scss/turquoise.scss',
+    output: {dir: '../stylesheets'},
+    plugins: [
+      scss({
+        output: '../stylesheets/turquoise.css',
+        outputStyle: 'compressed',
+        sourceMap: false,
+        watch: 'src/scss'
+      })]
+  },
+  {input: 'src/scss/verdone.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/verdone.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/warmred.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/warmred.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {
     input: 'src/scss/common.scss',
     output: {
