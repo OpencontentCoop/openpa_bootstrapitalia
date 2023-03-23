@@ -362,6 +362,14 @@
                                         </a>
                                     </li>
                                 {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_locked_editor' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'bootstrapitalia/info'|ezurl(no)}">
+                                            <i aria-hidden="true" class="fa fa-phone-square"></i>
+                                            Gestione informazioni generali
+                                        </a>
+                                    </li>
+                                {/if}
                             </ul>
                         </div>
                     </div>
