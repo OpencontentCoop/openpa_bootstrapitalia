@@ -43,7 +43,7 @@ class LockEditConnectorFactory
         }
 
         if ($classConnector instanceof LockEditClassConnector){
-            $classConnector->setInstallerDataDir(OpenPAINI::variable('', 'InstallerDirectory', '../installer'); //@todo
+            $classConnector->setInstallerDataDir(OpenPAINI::variable('', 'InstallerDirectory', '../installer'));
             $classConnector->setOriginalObject($object);
         }
 
