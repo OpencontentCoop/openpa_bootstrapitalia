@@ -12,6 +12,11 @@ class LiveLockEditClassConnector extends PageLockEditClassConnector
         return $blockIndex == 1 ? '0d1bb6e2c1f40c5872fa3ed913aff35f' : 'c397de8a43b6f1080290f852f1d2463d';
     }
 
+    protected function getEvidenceBlockMaxItems($blockIndex = 1): int
+    {
+        return 6;
+    }
+
     protected function getEvidenceBlock($blockIndex = 1): array
     {
         $block = $this->findBlockById($this->getEvidenceBlockId($blockIndex));

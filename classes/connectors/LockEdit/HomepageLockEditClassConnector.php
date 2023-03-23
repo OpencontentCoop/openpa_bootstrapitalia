@@ -238,10 +238,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         ];
 
         $bindings = [];
-        $tabs = '<div class="col-3"><ul class="nav nav-tabs nav-tabs-vertical" role="tablist" aria-orientation="vertical"><li class="ps-0 pt-4 pb-2 text-uppercase"><span>' . ezpI18n::tr(
-                'bootstrapitalia',
-                'Table of contents'
-            ) . '</span></li>';
+        $tabs = '<div class="col-3"><ul class="nav nav-tabs nav-tabs-vertical" role="tablist" aria-orientation="vertical">';
+//        $tabs .= '<li class="ps-0 pt-4 pb-2 text-uppercase"><span>' . ezpI18n::tr('bootstrapitalia', 'Table of contents') . '</span></li>';
         $panels = '<div class="col-9 tab-content">';
         $i = 0;
 

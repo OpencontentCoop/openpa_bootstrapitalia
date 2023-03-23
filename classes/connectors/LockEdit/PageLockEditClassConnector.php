@@ -251,10 +251,10 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             foreach (array_reverse($evidenceBlocks) as $evidenceBlock) {
                 array_unshift($layout['global']['blocks'], $evidenceBlock);
             }
-            $blockEvidenceIndex = 0;
+            $firstBlockEvidenceIndex = 0;
         }
-        if ($countBlocks > 0 && $blockEvidenceIndex >= 0) {
-            $layout['global']['blocks'][$blockEvidenceIndex]["custom_attributes"]["color_style"] =
+        if ($countBlocks > 0 && $firstBlockEvidenceIndex >= 0) {
+            $layout['global']['blocks'][$firstBlockEvidenceIndex]["custom_attributes"]["color_style"] =
                 $this->originalObject->attribute('remote_id') !== 'topics' ? '' : 'bg-100';
         }
 
@@ -295,10 +295,8 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
         ];
 
         $bindings = [];
-        $tabs = '<div class="col-3"><ul class="nav nav-tabs nav-tabs-vertical" role="tablist" aria-orientation="vertical"><li class="ps-0 pt-4 pb-2 text-uppercase"><span>' . ezpI18n::tr(
-                'bootstrapitalia',
-                'Table of contents'
-            ) . '</span></li>';
+        $tabs = '<div class="col-3"><ul class="nav nav-tabs nav-tabs-vertical" role="tablist" aria-orientation="vertical">';
+//        $tabs .= '<li class="ps-0 pt-4 pb-2 text-uppercase"><span>' . ezpI18n::tr('bootstrapitalia', 'Table of contents') . '</span></li>';
         $panels = '<div class="col-9 tab-content">';
         $i = 0;
 

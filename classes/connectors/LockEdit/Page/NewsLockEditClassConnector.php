@@ -21,4 +21,5 @@ class NewsLockEditClassConnector extends PageLockEditClassConnector
 
         return $block;
     }
+
 }
