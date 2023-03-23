@@ -185,14 +185,14 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
 
         $evidenceBlock = $this->getEvidenceBlock();
         $evidenceBlock['name'] = $data['title_evidence'] ?? '';
-        if ($hasEvidenceItems) {
-            $remoteIdList = [];
-            foreach ($data['section_evidence'] as $item) {
-                $object = eZContentObject::fetch((int)$item['id']);
-                if ($object instanceof eZContentObject) {
-                    $remoteIdList[] = $object->attribute('remote_id');
-                }
+        $remoteIdList = [];
+        foreach ($data['section_evidence'] as $item) {
+            $object = eZContentObject::fetch((int)$item['id']);
+            if ($object instanceof eZContentObject) {
+                $remoteIdList[] = $object->attribute('remote_id');
             }
+        }
+        if (count($remoteIdList)) {
             $evidenceBlock['valid_items'] = $remoteIdList;
         } else {
             $evidenceBlock = $this->resetEvidenceBlock($evidenceBlock);
@@ -203,14 +203,14 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             for ($i = 2; $i <= $sectionCount; $i++) {
                 $evidenceBlock = $this->getEvidenceBlock($i);
                 $evidenceBlock['name'] = $data['title_evidence_' . $i] ?? '';
-                if ($hasEvidenceItems) {
-                    $remoteIdList = [];
-                    foreach ($data['section_evidence_' . $i] as $item) {
-                        $object = eZContentObject::fetch((int)$item['id']);
-                        if ($object instanceof eZContentObject) {
-                            $remoteIdList[] = $object->attribute('remote_id');
-                        }
+                $remoteIdList = [];
+                foreach ($data['section_evidence_' . $i] as $item) {
+                    $object = eZContentObject::fetch((int)$item['id']);
+                    if ($object instanceof eZContentObject) {
+                        $remoteIdList[] = $object->attribute('remote_id');
                     }
+                }
+                if (count($remoteIdList)) {
                     $evidenceBlock['valid_items'] = $remoteIdList;
                 } else {
                     $evidenceBlock = $this->resetEvidenceBlock($evidenceBlock, $i);

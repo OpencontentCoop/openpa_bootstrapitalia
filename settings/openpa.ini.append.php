@@ -153,6 +153,7 @@ Valuation=1
 ShowRssInSocialList=disabled
 ShowUeLogo=enabled
 HideSlimHeaderIfUseless=disabled
+InstallerDirectory=../installer
 
 [RelationsBrowse]
 AllowAllBrowse=enabled

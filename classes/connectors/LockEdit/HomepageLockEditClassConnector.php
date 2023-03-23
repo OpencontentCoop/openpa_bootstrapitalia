@@ -182,6 +182,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['section_topic']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('topics');
         $options['fields']['background_image']['browse']['subtree'] = $media = 51;
         $options['fields']['background_search']['browse']['subtree'] = $media;
+        $options['fields']['background_topic']['browse']['subtree'] = $media;
+
         $options['fields']['section_search']['browse']['subtree'] = 2;
 
         return $options;
