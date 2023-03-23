@@ -1,6 +1,10 @@
 <?php
 
 use Opencontent\Ocopendata\Forms\Connectors\OpendataConnector\ClassConnector;
+use Opencontent\Opendata\Api\ContentRepository;
+use Opencontent\Opendata\Api\EnvironmentLoader;
+use Opencontent\Opendata\Rest\Client\PayloadBuilder;
+use Symfony\Component\Yaml\Yaml;
 
 abstract class LockEditClassConnector extends ClassConnector
 {
@@ -12,7 +16,7 @@ abstract class LockEditClassConnector extends ClassConnector
     /**
      * @var array
      */
-    protected $currentBlocks;
+    protected $currentBlocks = [];
 
     /**
      * @var string
@@ -26,12 +30,13 @@ abstract class LockEditClassConnector extends ClassConnector
 
     public function setInstallerDataDir($installerDataDir)
     {
-        $this->installerDataDir = rtrim($installerDataDir, '/') . '/';
+        $this->installerDataDir = rtrim($installerDataDir, '/');
     }
 
     public function setOriginalObject(eZContentObject $object)
     {
         $this->originalObject = $object;
+        $this->getHelper()->setParameter('parent', $this->originalObject->mainParentNodeID());
     }
 
     public function getSchema()
@@ -42,11 +47,62 @@ abstract class LockEditClassConnector extends ClassConnector
         return $schema;
     }
 
-    abstract protected function fetchSourceBlocks(): array;
+    public function getView()
+    {
+        $view = parent::getView();
+        $view['layout'] = $this->getLayout();
+        return $view;
+    }
+
+    public function submit()
+    {
+        $contents = $this->mapSubmitData($this->getSubmitData());
+
+        $contentRepository = new ContentRepository();
+        $contentRepository->setEnvironment(EnvironmentLoader::loadPreset('content'));
+
+        $payload = new PayloadBuilder();
+        $payload->setId((int)$this->getHelper()->getParameter('object'));
+        foreach ($contents as $identifier => $value) {
+            $payload->setData($this->helper->getSetting('language'), $identifier, $value);
+        }
+
+        $result = $contentRepository->update($payload->getArrayCopy(), true);
+        $this->cleanup();
+        $result['conversion'] = $contents;
+
+        return $result;
+    }
+
+    abstract protected function fetchSourcePathInfo(): array;
+
+    abstract protected function cleanSourceBlocks($blocks): array;
+
+    protected function fetchSourceBlocks(): array
+    {
+        $filePath = $this->fetchSourcePathInfo()['path'] ?? false;
+        $identifier = $this->fetchSourcePathInfo()['identifier'] ?? 'layout';
+
+        if (!$filePath){
+            return [];
+        }
+        $data = file_get_contents($filePath);
+        $sourceData = Yaml::parse($data);
+
+        $blocks = isset($sourceData['data'][$this->helper->getSetting('language')]) ?
+            $sourceData['data'][$this->helper->getSetting('language')][$identifier]['global']['blocks'] :
+            $sourceData['data']['ita-IT'][$identifier]['global']['blocks'];
+
+        $blocks = $this->cleanSourceBlocks($blocks);
+
+        return $blocks;
+    }
 
     abstract protected function getLayout(): array;
 
     abstract public static function getContentClass(): eZContentClass;
+
+    abstract protected function mapSubmitData($data): array;
 
     protected function findBlockById($id, $strict = false): ?array
     {
@@ -198,10 +254,9 @@ abstract class LockEditClassConnector extends ClassConnector
         return null;
     }
 
-    public function getView()
+    protected function fetchMainNodeIDByObjectRemoteID($remoteId): int
     {
-        $view = parent::getView();
-        $view['layout'] = $this->getLayout();
-        return $view;
+        $object = eZContentObject::fetchByRemoteID($remoteId);
+        return $object instanceof eZContentObject ? (int)$object->mainNodeID() : 1;
     }
 }

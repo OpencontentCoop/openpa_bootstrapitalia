@@ -15,4 +15,19 @@ class RelationField extends BaseRelationField
 
         return $schema;
     }
+
+    public function getOptions()
+    {
+        $options = parent::getOptions();
+
+        $classContent = $this->attribute->dataType()->classAttributeContent($this->attribute);
+        $classConstraintList = (array)$classContent['class_constraint_list'];
+        if (!empty($classConstraintList) && isset($options["browse"])){
+            $options["browse"]["classes"] = $classConstraintList;
+        }
+
+        return $options;
+    }
+
+
 }

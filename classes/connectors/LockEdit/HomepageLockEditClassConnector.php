@@ -1,10 +1,5 @@
 <?php
 
-use Opencontent\Opendata\Api\ContentRepository;
-use Opencontent\Opendata\Api\EnvironmentLoader;
-use Opencontent\Opendata\Rest\Client\PayloadBuilder;
-use Symfony\Component\Yaml\Yaml;
-
 class HomepageLockEditClassConnector extends LockEditClassConnector
 {
     const MAIN_NEWS = '564803b7ce97a9f99e42d0d2ef086164';
@@ -39,40 +34,95 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     public function getData()
     {
         $this->currentBlocks = $this->content['page']['content']['global']['blocks'];
-        return $this->mapOriginalContentToSimplifiedForm();
+
+        return [
+            'main_news' => $this->mapSingoloToRelation(self::MAIN_NEWS),
+            'title_news' => $this->findBlockById(self::SECTION_NEWS)['name'],
+            'section_latest_news' => $hasLatestNews = $this->mapListaAutomaticaToBoolean(self::SECTION_LATEST_NEWS),
+            'section_news' => $hasNews = $this->mapListaManualeToRelations(self::SECTION_NEWS),
+            'section_management' => $this->mapListaManualeToRelations(self::SECTION_MANAGEMENT),
+            'title_events' => $this->findBlockById(self::SECTION_NEXT_EVENTS)['name'],
+            'section_next_events' => $hasNextEvents = $this->mapEventiToBoolean(self::SECTION_NEXT_EVENTS),
+            'section_calendar' => $hasEvents = $this->mapListaManualeToRelations(self::SECTION_CALENDAR),
+            'section_topic' => $this->mapArgomentiToRelations(self::SECTION_TOPIC),
+            'background_topic' => $this->mapCustomAttributeImageToRelation(self::SECTION_TOPIC),
+            'section_gallery' => $this->mapListaManualeToRelations(self::SECTION_GALLERY),
+            'section_place' => $this->mapListaManualeToRelations(self::SECTION_PLACE),
+            'title_banner' => $this->findBlockById(self::SECTION_BANNER)['name'],
+            'section_banner' => $hasBanner = $this->mapListaManualeToRelations(self::SECTION_BANNER),
+            'background_search' => $hasSearchBg = $this->mapCustomAttributeImageToRelation(self::SEARCH),
+            'section_search' => $hasLinks = $this->mapRicercaToRelations(self::SEARCH),
+            'background_image' => $this->mapSingoloToRelation(self::BACKGROUND_IMAGE),
+            'add_section_news' => $hasLatestNews || $hasNews,
+            'add_section_events' => $hasNextEvents || $hasEvents,
+            'add_section_banner' => is_array($hasBanner),
+            'add_section_search' => is_array($hasLinks) || is_array($hasSearchBg),
+        ];
     }
 
-    public function submit()
+    protected function mapSubmitData($data): array
     {
         $this->currentBlocks = $this->content['page']['content']['global']['blocks'];
         $blocks = $this->mapSubmittedFormToBlocks($this->getSubmitData());
 
         $page = $this->content['page']['content'];
         $page['global']['blocks'] = $blocks;
-
-        $contentRepository = new ContentRepository();
-        $contentRepository->setEnvironment(EnvironmentLoader::loadPreset('content'));
-
-        $payload = new PayloadBuilder();
-        $payload->setId((int)$this->getHelper()->getParameter('object'));
-        $payload->setData($this->helper->getSetting('language'), 'page', $page);
-        $result = $contentRepository->update($payload->getArrayCopy(), true);
-        $this->cleanup();
-        $result['conversion'] = $blocks;
-
-        return $result;
+        return [
+            'page' => $page,
+        ];
     }
 
     public function getSchema()
     {
         $schema = parent::getSchema();
+        $properties = [];
+        foreach ($schema['properties'] as $identifier => $property){
+            $properties[$identifier] = $property;
+            if ($identifier === 'main_news'){
+                $properties['add_section_news'] = [
+                    'type' => 'boolean',
+                    'required' => false,
+                ];
+                $properties['add_section_events'] = [
+                    'type' => 'boolean',
+                    'required' => false,
+                ];
+                $properties['add_section_banner'] = [
+                    'type' => 'boolean',
+                    'required' => false,
+                ];$properties['add_section_search'] = [
+                    'type' => 'boolean',
+                    'required' => false,
+                ];
+            }
+        }
+        $schema['properties'] = $properties;
+
         $schema['dependencies'] = [
-            'section_news' => ['section_latest_news'],
-            'section_calendar' => ['section_next_events'],
+            'section_news' => ['section_latest_news', 'add_section_news'],
+            'section_latest_news' => ['add_section_news'],
+            'title_news' => ['add_section_news'],
+
+            'section_calendar' => ['section_next_events', 'add_section_events'],
+            'section_next_events' => ['add_section_events'],
+            'title_events' => ['add_section_events'],
+
+            'section_banner' => ['add_section_banner'],
+            'title_banner' => ['add_section_banner'],
+
+            'section_search' => ['add_section_search'],
+            'background_search' => ['add_section_search'],
         ];
 
         unset($schema['properties']['section_latest_news']['title']);
         unset($schema['properties']['section_next_events']['title']);
+
+        $schema['properties']['section_news']['maxItems'] = 3;
+        $schema['properties']['section_management']['maxItems'] = 3;
+        $schema['properties']['section_calendar']['maxItems'] = 3;
+        $schema['properties']['section_gallery']['maxItems'] = 3;
+        $schema['properties']['section_place']['maxItems'] = 3;
+        $schema['properties']['section_banner']['maxItems'] = 3;
 
         return $schema;
     }
@@ -81,8 +131,58 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     {
         $options = parent::getOptions();
 
-        $options['fields']['section_news']['dependencies'] = ['section_latest_news' => 'false'];
-        $options['fields']['section_calendar']['dependencies'] = ['section_next_events' => 'false'];
+        $options['fields']['add_section_news'] = [
+            'type' => 'checkbox',
+            'rightLabel' => 'Attiva le "Notizie in evidenza"',
+            'helper' => 'La homepage del sito può avere una sezione di 3 notizie in evidenza'
+        ];
+        $options['fields']['section_news']['dependencies'] = [
+            'section_latest_news' => 'false',
+            'add_section_news' => 'true',
+        ];
+        $options['fields']['section_latest_news']['dependencies'] = ['add_section_news' => 'true'];
+        $options['fields']['title_news']['dependencies'] = ['add_section_news' => 'true'];
+
+        $options['fields']['add_section_events'] = [
+            'type' => 'checkbox',
+            'rightLabel' => 'Attiva le "Eventi in evidenza"',
+            'helper' => 'La homepage del sito può avere una sezione di eventi in evidenza'
+        ];
+        $options['fields']['section_calendar']['dependencies'] = [
+            'section_next_events' => 'false',
+            'add_section_events' => 'true',
+        ];
+        $options['fields']['section_next_events']['dependencies'] = ['add_section_events' => 'true'];
+        $options['fields']['title_events']['dependencies'] = ['add_section_events' => 'true'];
+
+        $options['fields']['add_section_banner'] = [
+            'type' => 'checkbox',
+            'rightLabel' => 'Attiva "Siti tematici"',
+            'helper' => 'La homepage del sito può avere una sezione con dei link a siti tematici'
+        ];
+        $options['fields']['section_banner']['dependencies'] = ['add_section_banner' => 'true'];
+        $options['fields']['title_banner']['dependencies'] = ['add_section_banner' => 'true'];
+
+        $options['fields']['add_section_search'] = [
+            'type' => 'checkbox',
+            'rightLabel' => 'Attiva form di ricerca con link',
+            'helper' => ''
+        ];
+        $options['fields']['section_search']['dependencies'] = ['add_section_search' => 'true'];
+        $options['fields']['background_search']['dependencies'] = ['add_section_search' => 'true'];
+
+
+        $options['fields']['section_news']['browse']['subtree'] = $news = $this->fetchMainNodeIDByObjectRemoteID('news');
+        $options['fields']['main_news']['browse']['subtree'] = $news;
+        $options['fields']['section_calendar']['browse']['subtree'] = $allEvents = $this->fetchMainNodeIDByObjectRemoteID('all-events');
+        $options['fields']['section_management']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('management');
+        $options['fields']['section_gallery']['browse']['subtree'] = $allEvents;
+        $options['fields']['section_place']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('all-places');
+        $options['fields']['section_banner']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('banners');
+        $options['fields']['section_topic']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('topics');
+        $options['fields']['background_image']['browse']['subtree'] = $media = 51;
+        $options['fields']['background_search']['browse']['subtree'] = $media;
+        $options['fields']['section_search']['browse']['subtree'] = 2;
 
         return $options;
     }
@@ -91,9 +191,9 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     {
         $categories = [
             [
-                'identifier' => 'news',
-                'name' => 'Notizie',
-                'identifiers' => ['main_news', 'title_news', 'section_latest_news', 'section_news',],
+                'identifier' => 'main_news',
+                'name' => 'In evidenza',
+                'identifiers' => ['main_news'],
             ],
             [
                 'identifier' => 'management',
@@ -101,29 +201,34 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 'identifiers' => ['section_management'],
             ],
             [
+                'identifier' => 'news',
+                'name' => 'Notizie',
+                'identifiers' => ['add_section_news', 'title_news', 'section_latest_news', 'section_news',],
+            ],
+            [
                 'identifier' => 'events',
                 'name' => 'Eventi',
-                'identifiers' => ['title_events', 'section_next_events', 'section_calendar',],
+                'identifiers' => ['add_section_events', 'title_events', 'section_next_events', 'section_calendar',],
             ],
             [
                 'identifier' => 'topic',
                 'name' => 'Argomenti',
                 'identifiers' => ['section_topic', 'background_topic'],
             ],
-            [
-                'identifier' => 'other',
-                'name' => 'Gallerie e luoghi',
-                'identifiers' => ['section_gallery', 'section_place',],
-            ],
+//            [
+//                'identifier' => 'other',
+//                'name' => 'Gallerie e luoghi',
+//                'identifiers' => ['section_gallery', 'section_place',],
+//            ],
             [
                 'identifier' => 'banner',
                 'name' => 'Siti tematici',
-                'identifiers' => ['title_banner', 'section_banner'],
+                'identifiers' => ['add_section_banner', 'title_banner', 'section_banner'],
             ],
             [
                 'identifier' => 'search',
                 'name' => 'Ricerca',
-                'identifiers' => ['background_search', 'section_search'],
+                'identifiers' => ['add_section_search', 'background_search', 'section_search'],
             ],
             [
                 'identifier' => 'flowers',
@@ -155,29 +260,6 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         return [
             'template' => '<div class="container px-4 my-4"><legend class="alpaca-container-label">{{options.label}}</legend><small>{{schema.description}}</small><div class="row mt-4 mb-5">' . $tabs . $panels . '</div></div>',
             'bindings' => $bindings,
-        ];
-    }
-
-    protected function mapOriginalContentToSimplifiedForm(): array
-    {
-        return [
-            'main_news' => $this->mapSingoloToRelation(self::MAIN_NEWS),
-            'title_news' => $this->findBlockById(self::SECTION_NEWS)['name'],
-            'section_latest_news' => $this->mapListaAutomaticaToBoolean(self::SECTION_LATEST_NEWS),
-            'section_news' => $this->mapListaManualeToRelations(self::SECTION_NEWS),
-            'section_management' => $this->mapListaManualeToRelations(self::SECTION_MANAGEMENT),
-            'title_events' => $this->findBlockById(self::SECTION_NEXT_EVENTS)['name'],
-            'section_next_events' => $this->mapEventiToBoolean(self::SECTION_NEXT_EVENTS),
-            'section_calendar' => $this->mapListaManualeToRelations(self::SECTION_CALENDAR),
-            'section_topic' => $this->mapArgomentiToRelations(self::SECTION_TOPIC),
-            'background_topic' => $this->mapCustomAttributeImageToRelation(self::SECTION_TOPIC),
-            'section_gallery' => $this->mapListaManualeToRelations(self::SECTION_GALLERY),
-            'section_place' => $this->mapListaManualeToRelations(self::SECTION_PLACE),
-            'title_banner' => $this->findBlockById(self::SECTION_BANNER)['name'],
-            'section_banner' => $this->mapListaManualeToRelations(self::SECTION_BANNER),
-            'background_search' => $this->mapCustomAttributeImageToRelation(self::SEARCH),
-            'section_search' => $this->mapRicercaToRelations(self::SEARCH),
-            'background_image' => $this->mapSingoloToRelation(self::BACKGROUND_IMAGE),
         ];
     }
 
@@ -228,22 +310,22 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         return $blocks;
     }
 
-    protected function fetchSourceBlocks(): array
+    protected function fetchSourcePathInfo(): array
     {
-        $filePath = $this->installerDataDir . '/contents/OpenCity.yml';
-        $data = file_get_contents($filePath);
-        $sourceData = Yaml::parse($data);
+        return [
+            'path' => $this->installerDataDir . '/contents/OpenCity.yml',
+            'identifier' => 'page',
+        ];
+    }
 
+    protected function cleanSourceBlocks($blocks): array
+    {
         $dummyReplaces = [
             '$contenttree_OpenCity_Novita_node' => 'news',
             '$img-digitale' => 'img-digitale',
             '$img-viale-alberato' => 'img-viale-alberato',
             'node_id_from_remote_id(banners)' => 'banners',
         ];
-
-        $blocks = isset($sourceData['data'][$this->helper->getSetting('language')]) ?
-            $sourceData['data'][$this->helper->getSetting('language')]['page']['global']['blocks'] :
-            $sourceData['data']['ita-IT']['page']['global']['blocks'];
 
         foreach ($blocks as $index => $block) {
             if (isset($block['custom_attributes'])) {
@@ -333,8 +415,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     {
         $originalBlockNews = $this->findBlockById(self::SECTION_NEWS, true);
         $originalBlockNews['name'] = $data['title_news'] ?? '';
+
         if (isset($data['section_latest_news']) && $data['section_latest_news'] === 'true') {
             return $originalBlockNews;
+
         } elseif (isset($data['section_news'][0]['id'])) {
             $block = $this->findBlockById(self::SECTION_MANAGEMENT);
             $block['block_id'] = self::SECTION_NEWS;

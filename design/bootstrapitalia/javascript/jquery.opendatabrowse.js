@@ -62,7 +62,6 @@
         this.subtreeRootList = [];
         this.browseParameters = {};
         this.rootNode = 'undefined';
-
         if (this.settings.classes === false || typeof $.fn.alpaca === 'undefined'){
             this.settings.addCreateButton = false;
         }
