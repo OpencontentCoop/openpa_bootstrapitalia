@@ -36,6 +36,9 @@
          $has_sidemenu = cond(and(is_set($module_result.content_info.persistent_variable.has_sidemenu), $module_result.content_info.persistent_variable.has_sidemenu), true(), false())
          $avail_translation = language_switcher( $site.uri.original_uri )}
 
+    <link rel="preconnect" href="https://static.opencityitalia.it">
+    <link rel="preload" as="style" href="{concat('stylesheets/', $theme,'.css')|ezdesign(no)}"/>
+
     {debug-accumulator id=page_head name=page_head}
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

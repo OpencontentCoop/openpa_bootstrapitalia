@@ -6,10 +6,37 @@ $image-path: "../images/" !default;
 @import 'opencity/audio';
 @import 'opencity/chosen';
 
-$fa-font-path: "../fonts/FontAwesome" !default;
-@import 'node_modules/font-awesome/scss/font-awesome.scss';
+$fa-font-path: "https://static.opencityitalia.it/fonts/FontAwesome" !default;
+//@import 'node_modules/font-awesome/scss/font-awesome.scss';
+@import "node_modules/font-awesome/scss/variables";
+@import "node_modules/font-awesome/scss/mixins";
+//@import "node_modules/font-awesome/scss/path";
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('#{$fa-font-path}/fontawesome-webfont.eot?v=#{$fa-version}');
+  src: url('#{$fa-font-path}/fontawesome-webfont.eot?#iefix&v=#{$fa-version}') format('embedded-opentype'),
+  url('#{$fa-font-path}/fontawesome-webfont.woff2?v=#{$fa-version}') format('woff2'),
+  url('#{$fa-font-path}/fontawesome-webfont.woff?v=#{$fa-version}') format('woff'),
+  url('#{$fa-font-path}/fontawesome-webfont.ttf?v=#{$fa-version}') format('truetype'),
+  url('#{$fa-font-path}/fontawesome-webfont.svg?v=#{$fa-version}#fontawesomeregular') format('svg');
+  //  src: url('#{$fa-font-path}/FontAwesome.otf') format('opentype'); // used when developing fonts
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@import "node_modules/font-awesome/scss/core";
+@import "node_modules/font-awesome/scss/larger";
+@import "node_modules/font-awesome/scss/fixed-width";
+@import "node_modules/font-awesome/scss/list";
+@import "node_modules/font-awesome/scss/bordered-pulled";
+@import "node_modules/font-awesome/scss/animated";
+@import "node_modules/font-awesome/scss/rotated-flipped";
+@import "node_modules/font-awesome/scss/stacked";
+@import "node_modules/font-awesome/scss/icons";
+@import "node_modules/font-awesome/scss/screen-reader";
 
-$icon-font-path: "../fonts/Glyphicons-Halflings/";
+
+$icon-font-path: "https://static.opencityitalia.it/fonts/Glyphicons-Halflings/";
 $icon-font-name: "glyphicons-halflings-regular";
 $icon-font-svg-id: "glyphicons_halflingsregular";
 @import "opencity/glyphicons";
