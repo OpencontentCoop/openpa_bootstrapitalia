@@ -36,8 +36,30 @@
          $has_sidemenu = cond(and(is_set($module_result.content_info.persistent_variable.has_sidemenu), $module_result.content_info.persistent_variable.has_sidemenu), true(), false())
          $avail_translation = language_switcher( $site.uri.original_uri )}
 
-    <link rel="preconnect" href="https://static.opencityitalia.it">
-    <link rel="preload" as="style" href="{concat('stylesheets/', $theme,'.css')|ezdesign(no)}"/>
+
+    {* footer dynamic js be loaded in footer *}
+    {def $footer_script_loader = ''}
+    {if fetch('user','current_user').is_logged_in|not()}
+    {set $footer_script_loader = ezscript_load(array(
+        'jsrender.js',
+        'cookieconsent/cookieconsent.min.js',
+        'jquery.sharedlink.js',
+        'jquery.blueimp-gallery.min.js',
+        'stacktable.js',
+        'jquery.opendataDataTable.js',
+        'jquery.dataTables.js',
+        'dataTables.bootstrap4.min.js'
+    ))}
+    {/if}
+
+    {* dynamic css will be loaded in footer *}
+    {def $css = array('common.css')}
+    {if ezini('DebugSettings', 'DebugOutput')|eq('enabled')}
+        {set $css = $css|append('debug.css')}
+    {/if}
+    {def $footer_css_loader = ezcss_load($css)}
+
+    {include uri="design:preload.tpl"}
 
     {debug-accumulator id=page_head name=page_head}
     <meta charset="utf-8">

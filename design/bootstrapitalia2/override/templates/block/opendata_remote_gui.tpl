@@ -23,7 +23,7 @@
 
 {if or($showGrid, $showMap)}
 <div class="py-5 position-relative">
-    <div class="block-topics-bg" {if $background_image}style="background-image: url({$background_image});"{/if}></div>
+    <div class="block-topics-bg lazyload" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}{/if}></div>
     <div class="container">
 
         {include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', '')}

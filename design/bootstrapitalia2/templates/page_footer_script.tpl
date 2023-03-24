@@ -1,24 +1,13 @@
 <script src="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign( 'no' )}"></script>
 <script>window.__PUBLIC_PATH__ = "https://static.opencityitalia.it/fonts";bootstrap.loadFonts()</script>
 
-{if fetch('user','current_user').is_logged_in|not()}
-    {ezscript_load(array(
-    'jsrender.js',
-    'cookieconsent/cookieconsent.min.js',
-    'jquery.sharedlink.js',
-    'jquery.blueimp-gallery.min.js',
-    'stacktable.js',
-    'jquery.opendataDataTable.js',
-    'jquery.dataTables.js',
-    'dataTables.bootstrap4.min.js'
-    ))}
+{if openpaini('InstanceSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}
+  <script src="{'javascript/lazysizes.min.js'|ezdesign(no)}" async=""></script>
+  <script>document.addEventListener('lazybeforeunveil', function(e){ldelim}var bg = e.target.getAttribute('data-bg');if(bg){ldelim}e.target.style.backgroundImage = 'url(' + bg + ')';{rdelim}{rdelim});</script>
 {/if}
 
-{def $css = array('common.css')}
-{if ezini('DebugSettings', 'DebugOutput')|eq('enabled')}
-    {set $css = $css|append('debug.css')}
-{/if}
-{ezcss_load($css)}
+{if fetch('user','current_user').is_logged_in|not()}{$footer_script_loader}{/if}
+{$footer_css_loader}
 
 {if openpaini( 'Seo', 'GoogleAnalyticsAccountID', false() )}
   <script async src="https://www.googletagmanager.com/gtag/js?id={openpaini( 'Seo', 'GoogleAnalyticsAccountID' )}"></script>

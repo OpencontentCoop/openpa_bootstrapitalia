@@ -63,13 +63,8 @@
                 {if $has_video}
                     <div class="flex-lg-fill video-wrapper">{$oembed.html}</div>
                 {elseif $has_image}
-                    <div class="flex-lg-fill bg-dark" style="background-image:url('{include uri='design:atoms/image_url.tpl' node=$valid_node}'); background-position: center center;background-repeat: no-repeat;background-size: cover;min-height:200px">
-                        <img src="{include uri='design:atoms/image_url.tpl' node=$valid_node image_class=medium}"
-                             title="{include uri='design:atoms/image_alt.tpl' node=$valid_node}"
-                             alt="{include uri='design:atoms/image_alt.tpl' node=$valid_node}"
-                             class="visually-hidden" />
-
-                    </div>
+                    {include name="img" uri='design:atoms/img.tpl' node=$valid_node image_class=reference style="overflow: hidden;object-fit: cover;" classes='flex-lg-fill bg-dark d-none d-lg-flex h-100'}
+                    {include name="img" uri='design:atoms/img.tpl' node=$valid_node image_class=imagelargeoverlay classes='img-fluid d-block d-lg-none'}
                 {/if}
             </div>
             {/if}

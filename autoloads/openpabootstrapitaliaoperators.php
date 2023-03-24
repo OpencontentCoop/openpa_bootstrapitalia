@@ -6,6 +6,8 @@ class OpenPABootstrapItaliaOperators
 
     private static $satisfyEntrypoint;
 
+    private static $imageUrlList = [];
+
     function operatorList()
     {
         return array(
@@ -41,6 +43,9 @@ class OpenPABootstrapItaliaOperators
             'user_profile_url',
             'user_api_base_url',
             'decode_banner_color',
+            'preload_script',
+            'node_image',
+            'preload_image',
         );
     }
 
@@ -111,6 +116,13 @@ class OpenPABootstrapItaliaOperators
             'decode_banner_color' => array(
                 'content' => array('type' => 'object', 'required' => false, 'default' => false),
             ),
+            'preload_script' => array(
+                'script_tag' => array('type' => 'string', 'required' => true, 'default' => ''),
+            ),
+            'node_image' => array(
+                'node' => array('type' => 'objecy', 'required' => true),
+                'alias' => array('type' => 'string', 'required' => false, 'default' => 'reference'),
+            ),
         );
     }
 
@@ -177,6 +189,46 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'preload_image':
+                if (!empty($operatorValue)) {
+                    ezjscPackerTemplateFunctions::setPersistentArray('preload_images', $operatorValue, $tpl, true);
+                }
+                break;
+
+            case 'node_image':
+                $node = $namedParameters['node'];
+                $operatorValue = false;
+                if ($node instanceof eZContentObjectTreeNode){
+                    if (isset(self::$imageUrlList[$node->attribute('contentobject_id')])){
+                        $image = self::$imageUrlList[$node->attribute('contentobject_id')];
+                    }else{
+                        $image = self::getNodeMainImage($node);
+                        self::$imageUrlList[$node->attribute('contentobject_id')] = $image;
+                    }
+                    if ($image instanceof eZImageAliasHandler){
+                        $operatorValue = $image->attribute($namedParameters['alias'] ?? 'reference');
+                    }else{
+                        eZDebug::writeError('Image not found for node ' . $node->attribute('name'), 'node_image');
+                    }
+                }else{
+                    eZDebug::writeError('Node not found', 'node_image');
+                }
+                break;
+
+            case 'preload_script':
+                $operatorValue = '';
+                $tag = $namedParameters['script_tag'];
+                if (trim($tag) !== ''){
+                    $parts = explode(' ', $tag);
+                    foreach ($parts as $part){
+                        if (strpos($part, 'src=') !== false){
+                            $src = trim(substr($part, 4));
+                            $operatorValue = '<link rel="preload" as="script" href=' . $src . '/>';
+                        }
+                    }
+                }
+                break;
 
             case 'decode_banner_color':
                 $content = $namedParameters['content'];
@@ -1246,7 +1298,11 @@ class OpenPABootstrapItaliaOperators
 
     public static function minifyHtml($templateResult)
     {
-        return $templateResult;
+        $currentSa = eZSiteAccess::current();
+        if (!$currentSa || strpos($currentSa['name'], '_frontend') === false){
+            return $templateResult;
+        }
+
         //remove redundant (white-space) characters
         $replace = array(
             //remove tabs before and after HTML tags
@@ -1255,14 +1311,14 @@ class OpenPABootstrapItaliaOperators
             //shorten multiple whitespace sequences; keep new-line characters because they matter in JS!!!
             '/([\t ])+/s'  => ' ',
             //remove leading and trailing spaces
-            '/^([\t ])+/m' => '',
-            '/([\t ])+$/m' => '',
+//            '/^([\t ])+/m' => '',
+//            '/([\t ])+$/m' => '',
             // remove JS line comments (simple only); do NOT remove lines containing URL (e.g. 'src="http://server.com/"')!!!
 //            '~//[a-zA-Z0-9 ]+$~m' => '',
             //remove empty lines (sequence of line-end and white-space characters)
             '/[\r\n]+([\t ]?[\r\n]+)+/s'  => "\n",
             //remove empty lines (between HTML tags); cannot remove just any line-end characters because in inline JS they can matter!
-            '/\>[\r\n\t ]+\</s'    => '><',
+//            '/\>[\r\n\t ]+\</s'    => '><',
             //remove "empty" lines containing only JS's block end character; join with next line (e.g. "}\n}\n</script>" --> "}}</script>"
 //            '/}[\r\n\t ]+/s'  => '}',
 //            '/}[\r\n\t ]+,[\r\n\t ]+/s'  => '},',
@@ -1277,4 +1333,99 @@ class OpenPABootstrapItaliaOperators
         return preg_replace(array_keys($replace), array_values($replace), $templateResult);
     }
 
+    private static function generateScriptPreloadFilename($fileArray)
+    {
+        $cacheNames = eZSys::indexDir() . '/';
+        while (!empty($fileArray)) {
+            $file = array_shift($fileArray);
+
+            // if $file is array, concat it to the file array and continue
+            if ($file && is_array($file)) {
+                $fileArray = array_merge($file, $fileArray);
+                continue;
+            } else {
+                if (!$file) {
+                    continue;
+                } else { // if the file name contains :: it is threated as a custom code genarator
+                    if (strpos($file, '::') !== false) {
+                        $server = ezjscPacker::serverCallHelper(explode('::', $file));
+                        if (!$server instanceof ezjscServerRouter) {
+                            continue;
+                        }
+                        $cacheNames .= $file . '_';
+                        continue;
+                    } else { // is it a http / https url  ?
+                        if (strpos($file, 'http://') === 0 || strpos($file, 'https://') === 0) {
+                            $data['http'][] = $file;
+                            continue;
+                        } else {  // is it a http / https url where protocol is selected dynamically  ?
+                            if (strpos($file, '://') === 0) {
+                                if (!isset($protocol)) {
+                                    $protocol = eZSys::serverProtocol();
+                                }
+                                continue;
+                            } else { // is it a absolute path ?
+                                if (strpos($file, 'var/') === 0) {
+                                    if (substr($file, 0, 2) === '//' || preg_match("#^[a-zA-Z0-9]+:#", $file)) {
+                                        $file = '/';
+                                    } else {
+                                        if (strlen($file) > 0 && $file[0] !== '/') {
+                                            $file = '/' . $file;
+                                        }
+                                    }
+
+                                    eZURI::transformURI($file, true, 'relative');
+                                } else { // or is it a relative path
+                                    // Allow path to be outside subpath if it starts with '/'
+                                    if ($file[0] === '/') {
+                                        $file = ltrim($file, '/');
+                                    }
+                                    $triedFiles = [];
+                                    $match = eZTemplateDesignResource::fileMatch(eZTemplateDesignResource::allDesignBases(), '', $file, $triedFiles);
+                                    if ($match === false) {
+                                        eZDebug::writeWarning("Could not find: $file", __METHOD__);
+                                        continue;
+                                    }
+                                    $file = htmlspecialchars($match['path']);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            $cacheNames .= $file . '_';
+        }
+        return $cacheNames;
+    }
+
+    private static function getNodeMainImage(eZContentObjectTreeNode $node)
+    {
+        try {
+            $mainAttributes = OCClassExtraParametersManager::instance(
+                eZContentClass::fetchByIdentifier($node->classIdentifier())
+            )->getHandler('table_view')->attribute('main_image');
+            $dataMap = $node->dataMap();
+            foreach ($mainAttributes as $identifier) {
+                if (isset($dataMap[$identifier]) && $dataMap[$identifier]->hasContent()) {
+                    if ($dataMap[$identifier]->attribute('data_type_string') === eZImageType::DATA_TYPE_STRING) {
+                        return $dataMap[$identifier]->content();
+                    } elseif ($dataMap[$identifier]->attribute(
+                            'data_type_string'
+                        ) === eZObjectRelationListType::DATA_TYPE_STRING) {
+                        $relations = $dataMap[$identifier]->content();
+                        foreach ($relations['relation_list'] as $relation) {
+                            $relatedNode = eZContentObjectTreeNode::fetch($relation['node_id']);
+                            if ($relatedNode instanceof eZContentObjectTreeNode) {
+                                return self::getNodeMainImage($relatedNode);
+                            }
+                        }
+                    }
+                }
+            }
+        }catch (Throwable $e){
+            eZDebug::writeError($e->getMessage(), __METHOD__);
+        }
+
+        return false;
+    }
 }

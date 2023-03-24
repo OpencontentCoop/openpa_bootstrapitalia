@@ -35,6 +35,10 @@ $eZTemplateOperatorArray = [
             'user_profile_url',
             'user_api_base_url',
             'decode_banner_color',
+            'preload_script',
+            'preload_css',
+            'node_image',
+            'preload_image',
         ],
     ],
 ];

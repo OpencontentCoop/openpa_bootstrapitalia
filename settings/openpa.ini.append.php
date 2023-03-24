@@ -156,6 +156,7 @@ HideSlimHeaderIfUseless=disabled
 
 [InstanceSettings]
 InstallerDirectory=./extension/openpa_bootstrapitalia/data/installer
+LazyLoadImages=enabled
 
 [RelationsBrowse]
 AllowAllBrowse=enabled

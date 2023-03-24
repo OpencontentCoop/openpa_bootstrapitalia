@@ -29,8 +29,11 @@
   ))}
   {ezscript_load($scripts)}
 {else}
-  {ezscript($scripts)}
   {* gli script caricati tramite ezscript_require sono in page_footer_script.tpl *}
+  {def $script_tag = ezscript($scripts)}
+  {preload_script($script_tag)}
+  {$script_tag}
+  {undef $script_tag}
 {/if}
 
 {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', ezini('RegionalSettings', 'Locale') ))}
