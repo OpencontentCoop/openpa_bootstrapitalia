@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-12 footer-items-wrapper logo-wrapper">
                     {if openpaini('GeneralSettings','ShowUeLogo', 'enabled')|eq('enabled')}
-                        <img class="ue-logo lazyload" {if openpaini('InstanceSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}data-{/if}src="{'images/assets/logo-eu-inverted.svg'|ezdesign( 'no' )}" alt="logo Unione Europea" width="178" height="56" />
+                        <img class="ue-logo lazyload" {if openpaini('InstanceSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}src="{'images/placeholder.gif'|ezdesign(no)}" data-{/if}src="{'images/assets/logo-eu-inverted.svg'|ezdesign( 'no' )}" alt="logo Unione Europea" width="178" height="56" />
                     {/if}
                     {include uri='design:logo.tpl'}
                 </div>
