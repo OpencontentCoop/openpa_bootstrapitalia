@@ -84,7 +84,7 @@ Input:
             {set $inline_style = concat( $inline_style, 'margin: ', $margin_size, 'px;' )}
         {/if}
         {if $href}<a title="{$title|wash(xhtml)}" href={$href}{if and( is_set( $link_class ), $link_class )} class="{$link_class}"{/if}{if and( is_set( $link_id ), $link_id )} id="{$link_id}"{/if}{if $target} target="{$target}"{/if}>{/if}
-        <img {if openpaini('InstanceSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}data-{/if}src="{$image.url|ezroot(no)}" {*
+        <img {if openpaini('InstanceSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}src="{'images/placeholder.gif'|ezdesign(no)}" data-{/if}src="{$image.url|ezroot(no)}" {*
              *}width="{$image.width}" height="{$image.height}"{*
              *}class="lazyload{if $image_css_classes|count()|gt(0)} {$image_css_classes|implode(" ")}{/if}" {*
              *}{if and(is_set($inline_style), ne($inline_style, ''))}{concat('style="', $inline_style, '"')}{/if} {*
