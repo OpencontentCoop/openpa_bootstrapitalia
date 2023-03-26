@@ -63,8 +63,8 @@
                 {if $has_video}
                     <div class="flex-lg-fill video-wrapper">{$oembed.html}</div>
                 {elseif $has_image}
-                    {include name="img" uri='design:atoms/img.tpl' node=$valid_node image_class=reference style="overflow: hidden;object-fit: cover;" classes='flex-lg-fill bg-dark d-none d-lg-flex h-100'}
-                    {include name="img" uri='design:atoms/img.tpl' node=$valid_node image_class=imagelargeoverlay classes='img-fluid d-block d-lg-none'}
+                    {include name="img" uri='design:atoms/img.tpl' node=$valid_node image_class=reference style="overflow: hidden;object-fit: cover;" classes='flex-lg-fill bg-dark d-none d-lg-flex h-100' preload=false())}
+                    {include name="img" uri='design:atoms/img.tpl' node=$valid_node image_class=imagelargeoverlay style="overflow: hidden;object-fit: cover;height:250px;width:100%" classes='img-fluid d-block d-lg-none' alias='small'}
                 {/if}
             </div>
             {/if}

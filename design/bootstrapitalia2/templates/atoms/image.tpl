@@ -26,7 +26,7 @@
                 {def $image = $node|attribute($identifier)}
 
                 {if $figure_wrapper}
-                    <figure class="figure px-0 img-full" xmlns="http://www.w3.org/1999/html">
+                    <figure class="figure px-0 img-full d-block" xmlns="http://www.w3.org/1999/html">
                 {/if}
 
                 {if $is_main_image}

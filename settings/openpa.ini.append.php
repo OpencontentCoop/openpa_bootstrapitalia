@@ -156,7 +156,14 @@ HideSlimHeaderIfUseless=disabled
 
 [InstanceSettings]
 InstallerDirectory=./extension/openpa_bootstrapitalia/data/installer
+
+[ImageSettings]
 LazyLoadImages=enabled
+FlyImgBaseUrl=https://flyimg.opencontent.it/upload/
+BackendBaseUrl=
+#FlyImgBaseUrl=http://flyimg.localtest.me/upload/
+#BackendBaseUrl=minio:9000
+FlyImgDefaultFilter=o_auto
 
 [RelationsBrowse]
 AllowAllBrowse=enabled

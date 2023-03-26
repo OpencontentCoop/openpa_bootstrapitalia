@@ -37,7 +37,7 @@
          $avail_translation = language_switcher( $site.uri.original_uri )}
 
 
-    {* footer dynamic js be loaded in footer *}
+    {* dynamic js will be loaded in footer *}
     {def $footer_script_loader = ''}
     {if fetch('user','current_user').is_logged_in|not()}
     {set $footer_script_loader = ezscript_load(array(
@@ -53,11 +53,7 @@
     {/if}
 
     {* dynamic css will be loaded in footer *}
-    {def $css = array('common.css')}
-    {if ezini('DebugSettings', 'DebugOutput')|eq('enabled')}
-        {set $css = $css|append('debug.css')}
-    {/if}
-    {def $footer_css_loader = ezcss_load($css)}
+    {def $footer_css_loader = ezcss_load(array('common.css'))}
 
     {include uri="design:preload.tpl"}
 

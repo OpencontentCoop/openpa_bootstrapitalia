@@ -1,9 +1,18 @@
 <script src="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign( 'no' )}"></script>
 <script>window.__PUBLIC_PATH__ = "https://static.opencityitalia.it/fonts";bootstrap.loadFonts()</script>
 
-{if openpaini('InstanceSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}
+{if openpaini('ImageSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}
+  <script src="{'javascript/ls.rias.min.js'|ezdesign(no)}" async=""></script>
   <script src="{'javascript/lazysizes.min.js'|ezdesign(no)}" async=""></script>
-  <script>document.addEventListener('lazybeforeunveil', function(e){ldelim}var bg = e.target.getAttribute('data-bg');if(bg){ldelim}e.target.style.backgroundImage = 'url(' + bg + ')';{rdelim}{rdelim});</script>
+  <script>
+    window.lazySizesConfig = window.lazySizesConfig || {ldelim}{rdelim};
+    window.lazySizesConfig.rias = window.lazySizesConfig.rias || {ldelim}{rdelim};
+    window.lazySizesConfig.rias.widths = [320, 480, 800, 1200];
+    document.addEventListener('lazybeforeunveil', function(e){ldelim}var bg = e.target.getAttribute('data-bg');if(bg){ldelim}e.target.style.backgroundImage = 'url(' + bg + ')';{rdelim}{rdelim});
+    document.addEventListener('lazyriasmodifyoptions', function(e){ldelim}
+      if (e.target.parentElement.getAttribute("class").includes('img-full')) e.detail.widths = [1200];
+      {rdelim});
+  </script>
 {/if}
 
 {if fetch('user','current_user').is_logged_in|not()}{$footer_script_loader}{/if}
