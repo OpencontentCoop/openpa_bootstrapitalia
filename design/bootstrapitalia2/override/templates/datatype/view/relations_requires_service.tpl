@@ -62,7 +62,7 @@
                                             {/if}
                                             {$temporal_coverage|attribute('valid_from').content.timestamp|l10n( shortdate )}
                                             {if $temporal_coverage|has_attribute('valid_through')}
-                                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                                &#8674;
                                                 {$temporal_coverage|attribute('valid_through').content.timestamp|l10n( shortdate )}
                                             {/if}
                                         </small>

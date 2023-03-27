@@ -29,7 +29,7 @@
   ))}
   {ezscript_load($scripts)}
 {else}
-  {* gli script caricati tramite ezscript_require sono in page_footer_script.tpl *}
+  {* gli script caricati tramite ezscript_require sono in pagelayout -> page_footer_script.tpl *}
   {def $script_tag = ezscript($scripts)}
   {preload_script($script_tag)}
   {$script_tag}

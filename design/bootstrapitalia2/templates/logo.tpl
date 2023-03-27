@@ -7,7 +7,7 @@
     {if $pagedata.header.logo.url}
         <img class="icon {if $colorize_logo}colorize{/if}"
              alt="{ezini('SiteSettings','SiteName')}"
-             src={$pagedata.header.logo.url|ezroot()}
+             src="{image_url($pagedata.header.logo.url|ezroot(no), false(), false())}"
              {if $only_logo}style="width: auto !important;"{/if}/>
     {/if}
     <div class="it-brand-text">

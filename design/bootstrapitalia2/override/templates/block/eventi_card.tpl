@@ -6,11 +6,11 @@
 
 {def $view='card'}
 
-{def $query = 'calendar[time_interval] = [*,now]'}
+{def $query = "calendar[time_interval] = [now,'1 year']"}
 {if and(is_set($block.custom_attributes.includi_classi), $block.custom_attributes.includi_classi|ne(''))}
     {set $query = concat($query, ' and classes [', $block.custom_attributes.includi_classi, ']')}
 {/if}
-
+{set $query = concat($query,
 {def $openpa = object_handler($block)}
 {if $openpa.has_content}
 	<div class="hide"
@@ -82,39 +82,6 @@
 		{{/for}}
 		{{if autoColumn}}</div>{{/if}}
 	</div>
-	{{if pageCount > 1}}
-	<div class="row mt-lg-4">
-	    <div class="col">
-	        <nav class="pagination-wrapper justify-content-center" aria-label="{/literal}{'Navigation'|i18n('design/ocbootstrap/menu')}{literal}">
-	            <ul class="pagination">
-	                {{if prevPageQuery}}
-	                <li class="page-item">
-	                    <a class="page-link prevPage" data-page="{{>prevPage}}" href="#">
-	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
-	                        </svg>
-	                        <span class="sr-only">Pagina precedente</span>
-	                    </a>
-	                </li>
-	                {{/if}}
-	                {{for pages ~current=currentPage}}
-						<li class="page-item"><a href="#" class="page-link page" data-page_number="{{:page}}" data-page="{{:query}}"{{if ~current == query}} data-current aria-current="page"{{/if}}>{{:page}}</a></li>
-					{{/for}}
-					{{if nextPageQuery }}
-	                <li class="page-item">
-	                    <a class="page-link nextPage" data-page="{{>nextPage}}" href="#">
-	                        <span class="sr-only">Pagina successiva</span>
-	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
-	                        </svg>
-	                    </a>
-	                </li>
-	                {{/if}}
-	            </ul>
-	        </nav>
-	    </div>
-	</div>
-	{{/if}}
 </script>
 {/literal}
 {/run-once}

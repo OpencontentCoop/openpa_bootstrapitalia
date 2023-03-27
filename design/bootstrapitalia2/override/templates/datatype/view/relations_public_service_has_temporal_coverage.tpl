@@ -36,7 +36,7 @@
                     {if $child|has_attribute('valid_through')}
                         <small class="d-block">
                             {$child|attribute('valid_from').content.timestamp|l10n('shortdate')}
-                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            &#8674;
                             {$child|attribute('valid_through').content.timestamp|l10n('shortdate')}
                         </small>
                     {/if}
