@@ -41,6 +41,7 @@ $eZTemplateOperatorArray = [
             'preload_image',
             'image_src',
             'image_url',
+            'image_url_list',
         ],
     ],
 ];

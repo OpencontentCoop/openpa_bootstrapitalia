@@ -10,7 +10,6 @@
 {if and(is_set($block.custom_attributes.includi_classi), $block.custom_attributes.includi_classi|ne(''))}
     {set $query = concat($query, ' and classes [', $block.custom_attributes.includi_classi, ']')}
 {/if}
-{set $query = concat($query,
 {def $openpa = object_handler($block)}
 {if $openpa.has_content}
 	<div class="hide"
