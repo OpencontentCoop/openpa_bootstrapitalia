@@ -2,7 +2,9 @@
 
 [StanzaDelCittadinoBridge]
 AutoDiscover=enabled
-BuiltInWidgetSource_inefficiency=https://download.stanzadelcittadino.it/assets/js/inefficiency/main.js
+BuiltInWidgetSource_inefficiency=https://static.opencityitalia.it/widgets/inefficiencies/version/1.1.0/js/inefficiencies.js
+BuiltInWidgetStyle_inefficiency=https://static.opencityitalia.it/widgets/inefficiencies/version/1.1.0/css/inefficiencies.css
+
 BuiltInWidgetSource_support=https://download.stanzadelcittadino.it/assets/js/request/main.js
 BuiltInWidgetSource_booking=https://static.opencityitalia.it/widgets/bookings/version/1.0.0/js/bookings.js
 BuiltInWidgetSource_satisfy=https://satisfy.opencontent.it/widget_ns.js

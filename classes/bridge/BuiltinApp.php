@@ -85,6 +85,11 @@ class BuiltinApp
         return OpenPAINI::variable('StanzaDelCittadinoBridge', 'BuiltInWidgetSource_' . $this->getAppIdentifier(), '');
     }
 
+    public function getWidgetStyle(): string
+    {
+        return OpenPAINI::variable('StanzaDelCittadinoBridge', 'BuiltInWidgetStyle_' . $this->getAppIdentifier(), '');
+    }
+
     public function getModuleResult(): array
     {
         $tpl = eZTemplate::factory();
@@ -92,6 +97,7 @@ class BuiltinApp
         $tpl->setVariable('built_in_app_variables', $this->getVariables());
         $tpl->setVariable('built_in_app_script', $this->getCustomConfig());
         $tpl->setVariable('built_in_app_src', $this->getWidgetSrc());
+        $tpl->setVariable('built_in_app_style', $this->getWidgetStyle());
         $tpl->setVariable('built_in_app_api_base_url', StanzaDelCittadinoBridge::factory()->getApiBaseUri());
 
         $Result = [];

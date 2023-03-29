@@ -7,13 +7,13 @@
             <div class="col-12 col-lg-10">
                 <div class="bg-light rounded p-4">
                     {if is_set($built_in_app_api_base_url)}
-                        <pre>{*
+                        <pre style="white-space: break-spaces;">{*
                             *}{'<div id="root"></div>'|wash()}<br /><br />{*
                             *}{'<script>'|wash()}<br />{foreach $built_in_app_variables as $key => $value}window.{$key} = '{$value}';{delimiter}<br />{/delimiter}{/foreach}<br />{'</script>'|wash()}<br /><br />{*
-                            *}{'<script src="'|wash()}{if is_set($built_in_app_src)}{$built_in_app_src}{else}{openpaini('StanzaDelCittadinoBridge', concat('BuiltInWidgetSource_', $built_in_app))}{/if}{'"/>'|wash()}
+                            *}{'<script src="'|wash()}{if is_set($built_in_app_src)}{$built_in_app_src}{else}{openpaini('StanzaDelCittadinoBridge', concat('BuiltInWidgetSource_', $built_in_app))}{/if}{'"/>'|wash()}{*
+                            *}{if $built_in_app_style|ne('')}<br /><br />{'<link rel="stylesheet" type="text/css" href="'|wash()}{$built_in_app_style}{'" />'|wash()}{/if}
                         </pre>
                     {/if}
-
                     <form method="post">
                         <div class="form-group">
                             <label for="built_in_app_script">Se vuoi inserire uno script custom per <code>{$built_in_app}</code> inserisci qui il codice:</label>
@@ -38,6 +38,7 @@
             <div id="root"></div>
             <script>{foreach $built_in_app_variables as $key => $value}window.{$key} = '{$value}';{/foreach}</script>
             <script src="{$built_in_app_src}"></script>
+            {if $built_in_app_style|ne('')}<link rel="stylesheet" type="text/css" href="{$built_in_app_style}" />{/if}
         </div>
     {else}
         <div class="container">
