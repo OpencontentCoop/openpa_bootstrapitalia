@@ -26,7 +26,7 @@ if ($http->hasPostVariable('Store')) {
     $payload->setLanguages([$locale]);
     $payload->setData($locale, 'contacts', $data);
 
-    if (isset($_FILES['Logo'])) {
+    if (isset($_FILES['Logo']) && eZHTTPFile::canFetch('Logo')) {
         $httpFile = eZHTTPFile::fetch('Logo');
         $payload->setData($locale, 'logo', [
             'filename' => $httpFile->attribute('original_filename'),
