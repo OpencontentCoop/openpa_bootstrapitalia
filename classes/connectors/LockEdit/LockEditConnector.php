@@ -42,6 +42,9 @@ class LockEditConnector extends OpendataConnector
             }
 
             $this->classConnector = LockEditConnectorFactory::load($this->object, $this->getHelper(), $this->language);
+
+//            eZINI::instance('ezflow.ini')->setVariable('eZFlowOperations', 'UpdateOnPublish', 'disabled');
+
             self::$isLoaded = true;
         }
     }

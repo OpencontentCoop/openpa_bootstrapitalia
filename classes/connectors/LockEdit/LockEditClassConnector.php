@@ -66,7 +66,6 @@ abstract class LockEditClassConnector extends ClassConnector
         foreach ($contents as $identifier => $value) {
             $payload->setData($this->helper->getSetting('language'), $identifier, $value);
         }
-
         $result = $contentRepository->update($payload->getArrayCopy(), true);
         $this->cleanup();
         $result['conversion'] = $contents;
@@ -89,13 +88,16 @@ abstract class LockEditClassConnector extends ClassConnector
         $data = file_get_contents($filePath);
         $sourceData = Yaml::parse($data);
 
-        $blocks = isset($sourceData['data'][$this->helper->getSetting('language')]) ?
-            $sourceData['data'][$this->helper->getSetting('language')][$identifier]['global']['blocks'] :
-            $sourceData['data']['ita-IT'][$identifier]['global']['blocks'];
+        $blocks = [];
+        if (isset($sourceData['data'][$this->helper->getSetting('language')][$identifier]['global']['blocks'])){
+            $blocks = $sourceData['data'][$this->helper->getSetting('language')][$identifier]['global']['blocks'];
+        }elseif (isset($sourceData['data']['ita-IT'][$identifier]['global']['blocks'])){
+            $blocks = $sourceData['data']['ita-IT'][$identifier]['global']['blocks'];
+        }
 
         $blocks = $this->cleanSourceBlocks($blocks);
 
-        return $blocks;
+        return $blocks ?? [];
     }
 
     abstract protected function getLayout(): array;

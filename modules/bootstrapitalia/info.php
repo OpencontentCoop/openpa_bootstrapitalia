@@ -9,14 +9,15 @@ $tpl = eZTemplate::factory();
 $http = eZHTTPTool::instance();
 
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
-if ($http->hasPostVariable('Store')){
+if ($http->hasPostVariable('Store')) {
     $home = OpenPaFunctionCollection::fetchHome();
     $contacts = $http->postVariable('Contacts');
+
     $data = [];
-    foreach ($fields as $field){
+    foreach ($fields as $field) {
         $data[] = [
             'media' => $field,
-            'value' => $contacts[$field],
+            'value' => $contacts[$field] ?? '',
         ];
     }
     $locale = eZLocale::currentLocaleCode();
@@ -24,12 +25,21 @@ if ($http->hasPostVariable('Store')){
     $payload->setId($home->attribute('contentobject_id'));
     $payload->setLanguages([$locale]);
     $payload->setData($locale, 'contacts', $data);
+
+    if (isset($_FILES['Logo'])) {
+        $httpFile = eZHTTPFile::fetch('Logo');
+        $payload->setData($locale, 'logo', [
+            'filename' => $httpFile->attribute('original_filename'),
+            'file' => base64_encode(file_get_contents($httpFile->attribute('filename')))
+        ]);
+    }
+
     $contentRepository = new ContentRepository();
     $contentRepository->setEnvironment(EnvironmentLoader::loadPreset('content'));
     try {
         $contentRepository->update($payload->getArrayCopy(), true);
         $module->redirectTo('/bootstrapitalia/info');
-    }catch (Exception $e){
+    } catch (Exception $e) {
         $tpl->setVariable('message', $e->getMessage());
     }
 }
@@ -57,7 +67,7 @@ $sections = [
 
             'latitudine',
             'longitudine',
-        ]
+        ],
     ],
     [
         'label' => 'Social',
@@ -71,7 +81,7 @@ $sections = [
             'telegram',
             'tiktok',
 
-        ]
+        ],
     ],
     [
         'label' => 'Integrazioni',
@@ -81,7 +91,7 @@ $sections = [
             'link_prenotazione_appuntamento',
             'link_segnalazione_disservizio',
             'newsletter',
-        ]
+        ],
     ],
 ];
 $tpl->setVariable('sections', $sections);
@@ -90,7 +100,7 @@ $contacts = [];
 $pagedata = new \OpenPAPageData();
 $contactsHash = $pagedata->getContactsData();
 $trans = eZCharTransform::instance();
-foreach ($fields as $label){
+foreach ($fields as $label) {
     $identifier = $trans->transformByGroup($label, 'identifier');
     $contacts[$identifier] = [
         'label' => $label,
@@ -102,17 +112,20 @@ foreach ($fields as $label){
 $tpl->setVariable('site_title', 'Gestione informazioni');
 $tpl->setVariable('contacts', $contacts);
 
-$Result = array();
+$Result = [];
 $Result['content'] = $tpl->fetch('design:bootstrapitalia/info.tpl');
-$Result['content_info'] = array(
+$Result['content_info'] = [
     'node_id' => null,
     'class_identifier' => null,
-    'persistent_variable' => array(
+    'persistent_variable' => [
         'show_path' => true,
-        'site_title' => 'Gestione informazioni'
-    )
-);
+        'site_title' => 'Gestione informazioni',
+    ],
+];
 if (is_array($tpl->variable('persistent_variable'))) {
-    $Result['content_info']['persistent_variable'] = array_merge($Result['content_info']['persistent_variable'], $tpl->variable('persistent_variable'));
+    $Result['content_info']['persistent_variable'] = array_merge(
+        $Result['content_info']['persistent_variable'],
+        $tpl->variable('persistent_variable')
+    );
 }
-$Result['path'] = array();
+$Result['path'] = [];

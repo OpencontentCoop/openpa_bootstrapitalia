@@ -160,7 +160,7 @@ HideSlimHeaderIfUseless=disabled
 InstallerDirectory=./extension/openpa_bootstrapitalia/data/installer
 
 [ImageSettings]
-LazyLoadImages=enabled
+LazyLoadImages=disabled
 FlyImgBaseUrl=
 BackendBaseUrl=
 #FlyImgBaseUrl=http://flyimg.localtest.me/upload/

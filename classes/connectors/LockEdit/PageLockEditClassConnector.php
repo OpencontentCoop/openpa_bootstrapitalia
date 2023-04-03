@@ -70,6 +70,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
                 $options = $this->filterOptionsByEvidenceBlock($options, $i);
             }
         }
+        $options['fields']['image']['browse']['openInSearchMode'] = true;
 
         return $options;
     }
@@ -186,10 +187,12 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
         $evidenceBlock = $this->getEvidenceBlock();
         $evidenceBlock['name'] = $data['title_evidence'] ?? '';
         $remoteIdList = [];
-        foreach ($data['section_evidence'] as $item) {
-            $object = eZContentObject::fetch((int)$item['id']);
-            if ($object instanceof eZContentObject) {
-                $remoteIdList[] = $object->attribute('remote_id');
+        if (isset($data['section_evidence'])) {
+            foreach ($data['section_evidence'] as $item) {
+                $object = eZContentObject::fetch((int)$item['id']);
+                if ($object instanceof eZContentObject) {
+                    $remoteIdList[] = $object->attribute('remote_id');
+                }
             }
         }
         if (count($remoteIdList)) {
@@ -198,16 +201,23 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             $evidenceBlock = $this->resetEvidenceBlock($evidenceBlock);
         }
 
-        $evidenceBlocks[$evidenceBlock['block_id']] = $evidenceBlock;
+        $evidenceBlocks = [];
+        if (isset($evidenceBlock['block_id']) && !empty($evidenceBlock['block_id'])) {
+            $evidenceBlocks[$evidenceBlock['block_id']] = $evidenceBlock;
+        }
         if ($sectionCount > 1) {
             for ($i = 2; $i <= $sectionCount; $i++) {
                 $evidenceBlock = $this->getEvidenceBlock($i);
-                $evidenceBlock['name'] = $data['title_evidence_' . $i] ?? '';
+                if (!empty($evidenceBlock)) {
+                    $evidenceBlock['name'] = $data['title_evidence_' . $i] ?? '';
+                }
                 $remoteIdList = [];
-                foreach ($data['section_evidence_' . $i] as $item) {
-                    $object = eZContentObject::fetch((int)$item['id']);
-                    if ($object instanceof eZContentObject) {
-                        $remoteIdList[] = $object->attribute('remote_id');
+                if (isset($data['section_evidence_' . $i])) {
+                    foreach ($data['section_evidence_' . $i] as $item) {
+                        $object = eZContentObject::fetch((int)$item['id']);
+                        if ($object instanceof eZContentObject) {
+                            $remoteIdList[] = $object->attribute('remote_id');
+                        }
                     }
                 }
                 if (count($remoteIdList)) {
@@ -216,7 +226,9 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
                     $evidenceBlock = $this->resetEvidenceBlock($evidenceBlock, $i);
                 }
             }
-            $evidenceBlocks[$evidenceBlock['block_id']] = $evidenceBlock;
+            if (isset($evidenceBlock['block_id']) && !empty($evidenceBlock['block_id'])) {
+                $evidenceBlocks[$evidenceBlock['block_id']] = $evidenceBlock;
+            }
         }
 
         $layout = $this->content['layout']['content'];
@@ -243,6 +255,12 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
                     $firstBlockEvidenceIndex = $index;
                 }
                 $hasEvidenceItems = false;
+            }else{
+                for ($i = 1; $i <= $sectionCount; $i++) {
+                    if ($block['block_id'] == $this->getEvidenceBlockId($i)){
+                        unset($layout['global']['blocks'][$index]);
+                    }
+                }
             }
         }
 
@@ -263,7 +281,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
         }
 
         return [
-            'abstract' => $data['abstract'],
+            'abstract' => $data['abstract'] ?? '',
             'image' => isset($data['image']) ? array_column((array)$data['image'], 'id') : [],
             'layout' => $layout,
         ];

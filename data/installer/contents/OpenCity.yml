@@ -22,8 +22,7 @@ data:
                           color_style: ''
                           container_style: ''
                           intro_text: ''
-                      valid_items:
-                          - 4942f12bf4b77e301030878aeba0cbfc
+                      valid_items: { }
                     - block_id: 3213d4722665b8ca7155847fb767eb62
                       name: ''
                       type: ListaManuale
@@ -33,10 +32,7 @@ data:
                           color_style: 'section section-muted section-inset-shadow pb-5'
                           container_style: overlay
                           intro_text: ''
-                      valid_items:
-                          - consiglio_comunale
-                          - giunta_comunale
-                          - commissione
+                      valid_items: { }
                     - block_id: e60d1373e30187166ab36ff0f088d87f
                       name: 'Avvisi, notizie e comunicati'
                       type: ListaAutomatica
@@ -116,10 +112,7 @@ data:
                           color_style: ''
                           container_style: ''
                           image: $img-viale-alberato
-                      valid_items:
-                          - news
-                          - all-services
-                          - organi_politici
+                      valid_items: { }
         logo:
             filename: logo.png
             url: https://s3-eu-west-1.amazonaws.com/static.opencity.opencontent.it/installer/logo.png

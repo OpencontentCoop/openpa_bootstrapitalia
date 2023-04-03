@@ -9,7 +9,7 @@ class LiveLockEditClassConnector extends PageLockEditClassConnector
 
     protected function getEvidenceBlockId($blockIndex = 1): string
     {
-        return $blockIndex == 1 ? '0d1bb6e2c1f40c5872fa3ed913aff35f' : 'c397de8a43b6f1080290f852f1d2463d';
+        return $blockIndex == 1 ? 'evd1events' : 'evd1places';
     }
 
     protected function getEvidenceBlockMaxItems($blockIndex = 1): int
@@ -24,6 +24,8 @@ class LiveLockEditClassConnector extends PageLockEditClassConnector
             $block = $this->getEmptyEvidenceBlock($blockIndex);
         }
         $block['type'] = 'ListaManuale';
+        $block['custom_attributes']['show_all_link'] = '1';
+        $block['custom_attributes']['show_all_text'] = $blockIndex == 1 ? 'Tutti gli eventi' : 'Tutti i luoghi';
 
         return $block;
     }

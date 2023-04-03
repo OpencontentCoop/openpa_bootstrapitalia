@@ -566,32 +566,33 @@ class OpenPABootstrapItaliaOperators
                 $alias = $namedParameters['alias'] ?? false;
                 $preload = $namedParameters['preload'] ?? false;
                 if ($url) {
-                    $url = self::getImageUrl($url);
+                    $urlList = self::getImageUrl($url);
                     if ($operatorName === 'image_url_list') {
-                        $operatorValue = $url;
+                        $operatorValue = $urlList;
                     } elseif ($operatorName == 'image_url') {
                         if ($preload) {
-                            ezjscPackerTemplateFunctions::setPersistentArray('preload_images', $url['default'], $tpl, true);
+                            ezjscPackerTemplateFunctions::setPersistentArray('preload_images', $urlList['default'], $tpl, true);
                         }
-                        $operatorValue = $url['default'];
+                        $operatorValue = $urlList['default'];
                     } else {
                         if (OpenPAINI::variable('ImageSettings', 'LazyLoadImages', 'disabled') === 'enabled'
                             && !eZUser::currentUser()->isRegistered()) {
                             if ($alias) {
                                 if ($preload) {
-                                    ezjscPackerTemplateFunctions::setPersistentArray('preload_images', $url[$alias], $tpl, true);
+                                    ezjscPackerTemplateFunctions::setPersistentArray('preload_images', $urlList[$alias], $tpl, true);
                                 }
-                                $operatorValue = 'data-src="' . $url[$alias] . '" ';
+                                $operatorValue = 'data-src="' . $urlList[$alias] . '" ';
                             } else {
                                 if ($preload) {
-                                    ezjscPackerTemplateFunctions::setPersistentArray('preload_images', $url['default'], $tpl, true);
+                                    ezjscPackerTemplateFunctions::setPersistentArray('preload_images', $urlList['default'], $tpl, true);
                                 }
-                                $operatorValue = 'data-sizes="auto" ' . 'data-src="' . $url['dynamic'] . '" ';
+                                $operatorValue = 'data-sizes="auto" ' . 'data-src="' . $urlList['dynamic'] . '" ';
                             }
                         } else {
-                            $operatorValue = 'src="' . $url['default'] . '" srcset="' . $url['data-srcset'] . '" ' . '" sizes="' . $url['sizes'] . '" ';
+                            $operatorValue = 'src="' . $urlList['default'] . '" srcset="' . $urlList['data-srcset'] . '" ' . '" sizes="' . $urlList['sizes'] . '" ';
                         }
                     }
+//                    eZDebug::writeDebug(var_export($urlList, true), $url);
                 }
                 break;
         }
@@ -602,6 +603,7 @@ class OpenPABootstrapItaliaOperators
         $urlList = [];
         $urlList['default'] = $url;
         $urlList['data-srcset'] = '';
+        $urlList['sizes'] = '';
         if (OpenPAINI::variable('ImageSettings', 'FlyImgBaseUrl', '') !== '') {
             if (OpenPAINI::variable('ImageSettings', 'BackendBaseUrl', '') !== '') {
                 $replaceBaseUrl = OpenPAINI::variable('ImageSettings', 'BackendBaseUrl', '');

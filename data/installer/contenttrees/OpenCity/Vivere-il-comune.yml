@@ -14,53 +14,7 @@ data:
         description: ''
         image: {  }
         show_children: 1
-        layout:
-            zone_layout: desItaGlobal
-            global:
-                zone_id: 58164b555d33db7cb78320ca56019669
-                blocks:
-                    - block_id: 0d1bb6e2c1f40c5872fa3ed913aff35f
-                      name: Eventi in evidenza
-                      type: ListaAutomatica
-                      view: lista_card
-                      custom_attributes:
-                          limite: '6'
-                          elementi_per_riga: '3'
-                          includi_classi: event
-                          escludi_classi: ''
-                          ordinamento: pubblicato
-                          livello_profondita: ''
-                          state_id: ''
-                          topic_node_id: ''
-                          tags: ''
-                          color_style: bg-100
-                          container_style: ''
-                          show_all_link: '1'
-                          show_all_text: Tutti gli eventi
-                          intro_text: ''
-                          node_id: '90'
-                      valid_items: [ ]
-                    - block_id: c397de8a43b6f1080290f852f1d2463d
-                      name: Luoghi in evidenza
-                      type: ListaAutomatica
-                      view: lista_card
-                      custom_attributes:
-                          limite: '6'
-                          elementi_per_riga: '3'
-                          includi_classi: place
-                          escludi_classi: ''
-                          ordinamento: pubblicato
-                          livello_profondita: ''
-                          state_id: $state_privacy_public
-                          topic_node_id: ''
-                          tags: ''
-                          color_style: ''
-                          container_style: ''
-                          show_all_link: '1'
-                          show_all_text: Tutti i luoghi
-                          intro_text: ''
-                          node_id: '91'
-                      valid_items: [ ]
+        layout: {  }
         icon: null
         show_topics: 0
         show_search_form: 1

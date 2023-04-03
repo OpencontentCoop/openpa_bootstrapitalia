@@ -26,6 +26,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
     const SEARCH = '2813cdb2a2aa1271e299b1905160c1b4';
 
+    private $menuTopics = [];
+
     public static function getContentClass(): eZContentClass
     {
         return eZContentClass::fetchByIdentifier('edit_homepage');
@@ -67,8 +69,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $page = $this->content['page']['content'];
         $page['global']['blocks'] = $blocks;
+
         return [
             'page' => $page,
+            'topics' => $this->menuTopics,
         ];
     }
 
@@ -183,6 +187,9 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['background_image']['browse']['subtree'] = $media = 51;
         $options['fields']['background_search']['browse']['subtree'] = $media;
         $options['fields']['background_topic']['browse']['subtree'] = $media;
+        $options['fields']['background_image']['browse']['openInSearchMode'] = true;
+        $options['fields']['background_search']['browse']['openInSearchMode'] = true;
+        $options['fields']['background_topic']['browse']['openInSearchMode'] = true;
 
         $options['fields']['section_search']['browse']['subtree'] = 2;
 
@@ -287,7 +294,9 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             $blocks[] = $block;
         }
 
+        $this->menuTopics = [];
         if ($block = $this->mapSectionTopics($data)) {
+            $this->menuTopics = array_slice($block['valid_items'], 0, 3);
             $blocks[] = $block;
         }
 
@@ -370,8 +379,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 'ClassFilterType' => 'include',
                 'ClassFilterArray' => ['article'],
                 'Limit' => 1,
-                'SortBy' => ['published', 'desc'],
-            ]);
+                'SortBy' => [['published', false]],
+            ], 1);
             if (count($newsList) > 0) {
                 $newsRemoteId = $newsList[0]->attribute('object')->attribute('remote_id');
             }
