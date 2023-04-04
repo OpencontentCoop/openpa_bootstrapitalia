@@ -125,7 +125,7 @@
 								{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach} {'at'|i18n('bootstrapitalia')} {$entity.name|wash()}
 							{/if}
 							{if $role|has_attribute('start_time')}
-								<small>{'from'|i18n("openpa/search")} {attribute_view_gui attribute=$role|attribute('start_time')}</small>
+								<small> {'from'|i18n("openpa/search")} {attribute_view_gui attribute=$role|attribute('start_time')}</small>
 							{/if}
 						</h3>
 						{if and($role|has_attribute('competences'), $role|attribute('competences').content.cells|implode('')|trim()|ne(''))}
