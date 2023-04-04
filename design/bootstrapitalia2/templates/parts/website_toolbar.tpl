@@ -86,7 +86,7 @@
                 </li>
             {elseif and(
                 $content_object.state_identifier_array|contains('opencity_lock/locked'),
-                fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_locked_editor' ) )
+                current_user_can_lock_edit($content_object)
             )}
                 <li>
                     <button class="btn" type="button"
@@ -238,7 +238,8 @@
                 fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'roles' ) ),
                 fetch( 'user', 'has_access_to', hash( 'module', 'valuation', 'function', 'dashboard' ) ),
                 fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'list' ) ),
-                fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'edit' ) )
+                fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'edit' ) ),
+                fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_info_editor' ) )
             )}
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
@@ -362,7 +363,7 @@
                                         </a>
                                     </li>
                                 {/if}
-                                {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_locked_editor' ) )}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_info_editor' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/info'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-phone-square"></i>

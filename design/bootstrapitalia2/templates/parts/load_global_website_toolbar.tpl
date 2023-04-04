@@ -57,6 +57,7 @@
     <script async src="https://cdn.announcekit.app/widget-v2.js"></script>
     {/if}
 {/if}
-{if and(is_set($module_result.content_info.persistent_variable.is_opencity_locked), fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_locked_editor' ) ))}
-{include uri='design:load_ocopendata_forms.tpl'}
+
+{if and(is_set($module_result.content_info.persistent_variable.is_opencity_locked), current_user_can_lock_edit())}
+  {include uri='design:load_ocopendata_forms.tpl'}
 {/if}

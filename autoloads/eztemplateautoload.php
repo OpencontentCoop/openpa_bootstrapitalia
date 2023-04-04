@@ -42,6 +42,7 @@ $eZTemplateOperatorArray = [
             'image_src',
             'image_url',
             'image_url_list',
+            'current_user_can_lock_edit',
         ],
     ],
 ];

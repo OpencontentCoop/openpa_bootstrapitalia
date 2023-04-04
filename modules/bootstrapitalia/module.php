@@ -31,7 +31,7 @@ $ViewList['avatar'] = [
     'unordered_params' => [],
 ];
 $ViewList['info'] = [
-    'functions' => ['opencity_locked_editor'],
+    'functions' => ['opencity_info_editor'],
     'script' => 'info.php',
     'params' => [],
     'unordered_params' => [],
@@ -44,4 +44,14 @@ $FunctionList['edit_tag_description'] = [];
 $FunctionList['advanced_editor_tools'] = [];
 $FunctionList['avatar'] = [];
 $FunctionList['config_built_in_apps'] = [];
-$FunctionList['opencity_locked_editor'] = [];
+$FunctionList['opencity_locked_editor'] = [
+    'Node' => [
+        'name'=> 'Node',
+        'values'=> []
+    ],
+    'Subtree' => [
+        'name'=> 'Subtree',
+        'values'=> []
+    ],
+];
+$FunctionList['opencity_info_editor'] = [];

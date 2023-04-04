@@ -50,6 +50,7 @@ class OpenPABootstrapItaliaOperators
             'image_src',
             'image_url',
             'image_url_list',
+            'current_user_can_lock_edit',
         );
     }
 
@@ -78,7 +79,7 @@ class OpenPABootstrapItaliaOperators
                 'type' => array("type" => "string", "required" => true, "default" => false),
                 'view' => array("type" => "string", "required" => true, "default" => false),
                 'custom_attributes' => array("type" => "array", "required" => false, "default" => array()),
-                'valid_nodes' => array("type" => "array", "required" => false, "default" => array())
+                'valid_nodes' => array("type" => "array", "required" => false, "default" => array()),
             ),
             'is_bookmark' => array(
                 'node_id' => array('type' => 'integer', 'required' => true),
@@ -91,8 +92,8 @@ class OpenPABootstrapItaliaOperators
                 'siteaccess' => array(
                     'type' => 'string',
                     'required' => true,
-                    'default' => ''
-                )
+                    'default' => '',
+                ),
             ),
             'valuation_translation' => array(
                 'string' => array('type' => 'string', 'required' => true),
@@ -137,59 +138,10 @@ class OpenPABootstrapItaliaOperators
             ),
             'image_url' => $imgSrc,
             'image_url_list' => $imgSrc,
+            'current_user_can_lock_edit' =>  array(
+                'object' => array('type' => 'object', 'required' => false, 'default' => false),
+            ),
         );
-    }
-
-    public static function getBannerColorStaticSelection(): array
-    {
-        return [
-            'Nessuno' => [
-                'background_color_class' => '',
-                'text_color_class' => ''
-            ],
-            'primary' => [
-                'background_color_class' => 'bg-primary',
-                'text_color_class' => 'text-white'
-            ],
-            'dark' => [
-                'background_color_class' => 'card-bg-dark',
-                'text_color_class' => 'text-white'
-            ],
-            'warning' => [
-                'background_color_class' => 'card-bg-warning',
-                'text_color_class' => 'text-white'
-            ],
-            'blue' => [
-                'background_color_class' => 'card-bg-blue',
-                'text_color_class' => 'text-white'
-            ],
-        ];
-    }
-
-    public static function decodeBannerColorSelection($selected): ?string
-    {
-        $staticSelection = self::getBannerColorStaticSelection();
-        if (!empty($selected)){
-            if (!isset($staticSelection[$selected])){
-                if (strpos($selected, 'primary') !== false){
-                    $selected = 'primary';
-                }
-                if (strpos($selected, 'neutral') !== false){
-                    $selected = 'dark';
-                }
-                if (strpos($selected, 'complementary') !== false){
-                    $selected = 'warning';
-                }
-                if (strpos($selected, 'analogue') !== false){
-                    $selected = 'blue';
-                }
-            }
-            if (isset($staticSelection[$selected])){
-                return $selected;
-            }
-        }
-
-        return null;
     }
 
     function modify(
@@ -203,6 +155,11 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+            case 'current_user_can_lock_edit':
+                $object = $namedParameters['object'];
+                $operatorValue = LockEditConnector::canLockEdit($object);
+                break;
+
             case 'preload_image':
                 if (!empty($operatorValue)) {
                     ezjscPackerTemplateFunctions::setPersistentArray('preload_images', $operatorValue, $tpl, true);
@@ -596,6 +553,58 @@ class OpenPABootstrapItaliaOperators
                 }
                 break;
         }
+    }
+
+    public static function getBannerColorStaticSelection(): array
+    {
+        return [
+            'Nessuno' => [
+                'background_color_class' => '',
+                'text_color_class' => ''
+            ],
+            'primary' => [
+                'background_color_class' => 'bg-primary',
+                'text_color_class' => 'text-white'
+            ],
+            'dark' => [
+                'background_color_class' => 'card-bg-dark',
+                'text_color_class' => 'text-white'
+            ],
+            'warning' => [
+                'background_color_class' => 'card-bg-warning',
+                'text_color_class' => 'text-white'
+            ],
+            'blue' => [
+                'background_color_class' => 'card-bg-blue',
+                'text_color_class' => 'text-white'
+            ],
+        ];
+    }
+
+    public static function decodeBannerColorSelection($selected): ?string
+    {
+        $staticSelection = self::getBannerColorStaticSelection();
+        if (!empty($selected)){
+            if (!isset($staticSelection[$selected])){
+                if (strpos($selected, 'primary') !== false){
+                    $selected = 'primary';
+                }
+                if (strpos($selected, 'neutral') !== false){
+                    $selected = 'dark';
+                }
+                if (strpos($selected, 'complementary') !== false){
+                    $selected = 'warning';
+                }
+                if (strpos($selected, 'analogue') !== false){
+                    $selected = 'blue';
+                }
+            }
+            if (isset($staticSelection[$selected])){
+                return $selected;
+            }
+        }
+
+        return null;
     }
 
     private static function getImageUrl($url)

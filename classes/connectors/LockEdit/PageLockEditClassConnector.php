@@ -123,7 +123,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
     protected function getEvidenceBlockId($blockIndex = 1): string
     {
         $suffix = $blockIndex > 1 ? $blockIndex . '' : '';
-        return substr('evd'. $suffix . $this->originalObject->attribute('remote_id'), 0, 32);
+        return substr('evd'. $suffix . $this->originalObject->attribute('id'), 0, 32);
     }
 
     protected function getEmptyEvidenceBlock($blockIndex = 1): array

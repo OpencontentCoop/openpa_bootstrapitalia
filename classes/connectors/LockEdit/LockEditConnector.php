@@ -15,8 +15,7 @@ class LockEditConnector extends OpendataConnector
 
     protected function load()
     {
-        if (!self::$isLoaded){
-
+        if (!self::$isLoaded) {
             $this->language = \eZLocale::currentLocaleCode();
 
             $this->getHelper()->setSetting('language', $this->language);
@@ -36,7 +35,7 @@ class LockEditConnector extends OpendataConnector
                 if (!$this->object->canRead()) {
                     throw new Exception("User can not read object #" . $this->object->attribute('id'));
                 }
-                if (eZUser::currentUser()->hasAccessTo('bootstrapitalia', 'opencity_locked_editor')['accessWord'] === 'no') {
+                if (!self::canLockEdit($this->object)) {
                     throw new \Exception("User can not edit object #" . $this->object->attribute('id'));
                 }
             }
@@ -47,5 +46,39 @@ class LockEditConnector extends OpendataConnector
 
             self::$isLoaded = true;
         }
+    }
+
+    public static function canLockEdit($object)
+    {
+        $capabilities = eZUser::currentUser()->hasAccessTo('bootstrapitalia', 'opencity_locked_editor');
+
+        if ($capabilities['accessWord'] === 'yes') {
+            return true;
+        }
+
+        if ($capabilities['accessWord'] === 'limited') {
+            if (!$object instanceof eZContentObject){
+                return true;
+            }
+
+            $policies = $capabilities['policies'];
+            foreach ($policies as $limitations) {
+                foreach ($limitations as $type => $values) {
+                    if ($type === 'Node') {
+                        if (in_array($object->mainNodeID(), $values)) {
+                            return true;
+                        }
+                    } elseif ($type === 'Subtree') {
+                        foreach ($values as $value) {
+                            if (strpos($object->mainNode()->attribute('path_string'), $value) !== false) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

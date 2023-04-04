@@ -29,7 +29,7 @@ if ($http->hasPostVariable('Store')) {
     if (isset($_FILES['Logo']) && eZHTTPFile::canFetch('Logo')) {
         $httpFile = eZHTTPFile::fetch('Logo');
         $payload->setData($locale, 'logo', [
-            'filename' => $httpFile->attribute('original_filename'),
+            'filename' => uniqid() . $httpFile->attribute('original_filename'),
             'file' => base64_encode(file_get_contents($httpFile->attribute('filename')))
         ]);
     }
@@ -43,6 +43,8 @@ if ($http->hasPostVariable('Store')) {
         $tpl->setVariable('message', $e->getMessage());
     }
 }
+
+OpenPAPageData::clearOnModifyHomepage();
 
 $sections = [
     [
