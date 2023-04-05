@@ -8,9 +8,15 @@
   'view_variation', '',
   'view', 'card_teaser'
 ))}
-{* notizie, comunicati, avvisi*}
+{* notizie, comunicati, avvisi, politici, personale*}
 {if and(
-    array('ea708fa69006941b4dc235a348f1431d', '16a65071f99a1be398a677e5e4bef93f', '9a1756e11164d0d550ee950657154db8')|contains($node.object.remote_id)|not(),
+    array(
+        'ea708fa69006941b4dc235a348f1431d',
+        '16a65071f99a1be398a677e5e4bef93f',
+        '9a1756e11164d0d550ee950657154db8',
+        '50f295ca2a57943b195fa8ffc6b909d8',
+        '3da91bfec50abc9740f0f3d62c8aaac4'
+    )|contains($node.object.remote_id)|not(),
     or(
         openpaini( 'TopMenu', 'NodiCustomMenu', array() )|contains($node.parent_node_id),
         openpaini( 'TopMenu', 'NodiCustomMenu', array() )|contains($node.node_id),
