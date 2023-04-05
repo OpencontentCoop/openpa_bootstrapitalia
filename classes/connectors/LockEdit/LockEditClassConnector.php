@@ -63,6 +63,7 @@ abstract class LockEditClassConnector extends ClassConnector
 
         $payload = new PayloadBuilder();
         $payload->setId((int)$this->getHelper()->getParameter('object'));
+        $payload->setLanguages([$this->helper->getSetting('language')]);
         foreach ($contents as $identifier => $value) {
             $payload->setData($this->helper->getSetting('language'), $identifier, $value);
         }

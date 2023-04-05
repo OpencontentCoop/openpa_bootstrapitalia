@@ -17,7 +17,6 @@ class LockEditConnector extends OpendataConnector
     {
         if (!self::$isLoaded) {
             $this->language = \eZLocale::currentLocaleCode();
-
             $this->getHelper()->setSetting('language', $this->language);
 
             if (!$this->hasParameter('object')) {
