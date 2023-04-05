@@ -109,6 +109,10 @@ class OpenPARoles
      */
     public function hasContent()
     {
+        if ($this->attributeSettings['pagination'] == 0){
+            return false;
+        }
+
         try {
             $contentSearch = new ContentSearch();
             $contentSearch->setEnvironment(new FullEnvironmentSettings());
@@ -123,6 +127,10 @@ class OpenPARoles
 
     public function getContent()
     {
+        if ($this->attributeSettings['pagination'] == 0){
+            return false;
+        }
+        
         if ($this->searchData === null) {
             $contentSearch = new ContentSearch();
             try {
@@ -140,6 +148,9 @@ class OpenPARoles
 
     public function getRoles()
     {
+        if ($this->attributeSettings['pagination'] == 0){
+            return [];
+        }
         if ($this->roles === null) {
             $this->roles = [];
             $idList = [];
@@ -170,6 +181,9 @@ class OpenPARoles
 
     public function getRolesPerPerson()
     {
+        if ($this->attributeSettings['pagination'] == 0){
+            return [];
+        }
         if ($this->rolesPerPerson === null) {
             $this->rolesPerPerson = [];
             $contents = $this->getContent();
@@ -191,6 +205,9 @@ class OpenPARoles
 
     public function getPeople()
     {
+        if ($this->attributeSettings['pagination'] == 0){
+            return [];
+        }
         if ($this->people === null) {
             $this->people = [];
             $contents = $this->getContent();
@@ -216,6 +233,9 @@ class OpenPARoles
 
     public function getEntities()
     {
+        if ($this->attributeSettings['pagination'] == 0){
+            return [];
+        }
         if ($this->entities === null) {
             $this->entities = [];
             $contents = $this->getContent();
@@ -241,6 +261,9 @@ class OpenPARoles
 
     public function getRolesPerEntity()
     {
+        if ($this->attributeSettings['pagination'] == 0){
+            return [];
+        }
         if ($this->rolesPerEntity === null) {
             $this->rolesPerEntity = [];
             $contents = $this->getContent();
@@ -262,6 +285,9 @@ class OpenPARoles
 
     public function getTypesPerEntity()
     {
+        if ($this->attributeSettings['pagination'] == 0){
+            return [];
+        }
         if ($this->typePerEntities === null) {
             $this->typePerEntities = [];
             $contents = $this->getContent();
