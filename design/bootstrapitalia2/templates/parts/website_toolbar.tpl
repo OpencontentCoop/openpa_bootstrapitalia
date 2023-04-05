@@ -239,7 +239,8 @@
                 fetch( 'user', 'has_access_to', hash( 'module', 'valuation', 'function', 'dashboard' ) ),
                 fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'list' ) ),
                 fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'edit' ) ),
-                fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_info_editor' ) )
+                fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_info_editor' ) ),
+                fetch( 'user', 'has_access_to', hash( 'module', 'migration', 'function', 'dasboard' ) )
             )}
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
@@ -368,6 +369,14 @@
                                         <a class="list-item left-icon" href="{'bootstrapitalia/info'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-phone-square"></i>
                                             Gestione informazioni generali
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'migration', 'function', 'dashboard' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'migration/dashboard'|ezurl(no)}">
+                                            <i aria-hidden="true" class="fa fa-cloud-upload"></i>
+                                            Assistente migrazione
                                         </a>
                                     </li>
                                 {/if}
