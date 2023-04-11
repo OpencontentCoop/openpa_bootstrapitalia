@@ -1,0 +1,1 @@
+<li><a class="has-tooltip" href={$event.main_url_alias|ezurl()} title="{$item.name|wash()}" data-toggle="tooltip" data-placement="top">{$item.name|wash()}</a></li>

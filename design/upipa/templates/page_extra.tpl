@@ -1,0 +1,169 @@
+{def $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )}
+<div class="modal modal-fullscreen fade modal-search" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true" id="searchModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header my-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="offset-md-12 col-sm-12 text-center pb12 search-gui-header">
+                            <button class="close float-left mt-1" type="button" data-dismiss="modal" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
+                                {display_icon('it-arrow-left-circle', 'svg', 'icon')}
+                            </button>
+                            <button class="back-to-search hide float-left mt-1" type="button">
+                                {display_icon('it-arrow-left-circle', 'svg', 'icon')}
+                                <span class="close-help">{'Search'|i18n('openpa/search')}</span>
+                            </button>
+                            <h1 id="searchModalLabel" class="d-none d-sm-block">{'Search'|i18n('openpa/search')}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body p-0">
+                <form action="{'content/search'|ezurl(no)}" method="get">
+                    <div class="container search-gui">
+                        <div class="row">
+                            <div class="offset-lg-2 col-lg-8 offset-md-1 col-md-10 col-sm-12">
+                                <div class="form-group">
+                                    <div class="form-label-group">
+                                        <label class="sr-only" for="search-gui-text">
+                                            {'Search'|i18n('openpa/search')}
+                                        </label>
+                                        <input type="text"
+                                               autocomplete="off"
+                                               class="form-control"
+                                               id="search-gui-text"
+                                               name="SearchText"
+                                               placeholder="{'Search'|i18n('openpa/search')}"/>
+                                        <button type="submit" class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
+                                            {display_icon('it-search', 'svg', 'icon icon-sm')}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="search-filter-by-section mt-4">
+                                    <h6 class="small">{'Sections'|i18n('openpa/search')}</h6>
+                                    <a href="#" class="btn btn-outline-primary btn-icon btn-xs mr-2 mb-2 selected"
+                                       data-subtree_group="all">{'All'|i18n('bootstrapitalia')}</a>
+                                    {foreach $top_menu_node_ids as $id}
+                                        {def $top_menu_node = fetch(content, node, hash(node_id, $id))}
+                                        <a href="#"
+                                           class="btn btn-outline-primary btn-icon btn-xs mr-2 mb-2"
+                                           data-subtree_group="{$id}">
+                                            {if $top_menu_node|has_attribute('icon')}
+                                                {display_icon($top_menu_node|attribute('icon').content|wash(), 'svg', 'icon icon-primary mr-1')}
+                                            {/if}
+                                            {$top_menu_node.name|wash()}
+                                        </a>
+                                        {undef $top_menu_node}
+                                    {/foreach}
+                                    <a href="#"
+                                       class="btn btn-outline-primary btn-icon btn-xs mr-2 mb-2 px-3 trigger-subtree">...</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filters-gui hide container position-relative">
+                        <div class="nav-tabs-hidescroll w-100">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="nav nav-tabs auto">
+                                        <li class="nav-item">
+                                            <a data-toggle="tab" class="nav-link active"
+                                               href="#filter-by-section">
+                                                {'Sections'|i18n('openpa/search')}
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a data-toggle="tab" class="nav-link"
+                                               href="#filter-by-option">
+                                                {'Options'|i18n('openpa/search')}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="do-search btn btn-outline-primary btn-icon btn-sm mt-3" style="position: absolute;top: -84px;z-index: 100;right: 10px;" type="submit">{'Confirm'|i18n('openpa/search')}</button>
+                        <div class="tab-content my-5">
+                            <div class="tab-pane active" id="filter-by-section">
+                                <div class="row">
+                                    <div class="offset-lg-2 col-lg-8 offset-md-1 col-md-10 col-11 offset-1">
+                                        <div class="row">
+                                    {foreach $top_menu_node_ids as $id}
+                                        {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'side_menu'))}
+                                        <div class="col-md-6 mb-5" data-subtree_group="{$tree_menu.item.node_id}">
+                                            <div class="form-check custom-control custom-checkbox">
+                                                <input id="subtree-filter-{$tree_menu.item.node_id}"
+                                                       type="checkbox"
+                                                       name="Subtree[]"
+                                                       value="{$tree_menu.item.node_id|wash()}"
+                                                       class="custom-control-input"
+                                                       data-subtree="{$tree_menu.item.node_id}">
+                                                <label for="subtree-filter-{$tree_menu.item.node_id}" class="custom-control-label">
+                                                    <strong class="text-primary">{$tree_menu.item.name|wash()}</strong>
+                                                </label>
+                                            </div>
+                                            {if $tree_menu.has_children}
+                                                {foreach $tree_menu.children as $child}
+                                                    {if $child.item.node_id|eq($tree_menu.item.node_id)}{skip}{/if} {*tag menu*}
+                                                    <div class="form-check">
+                                                        <input id="subtree-filter-{$child.item.node_id}"
+                                                               type="checkbox"
+                                                               class="form-check-input"
+                                                               name="Subtree[]"
+                                                               value="{$child.item.node_id|wash()}"
+                                                               data-subtree="{$child.item.node_id}"
+                                                               data-main_subtree="{$tree_menu.item.node_id}">
+                                                        <label for="subtree-filter-{$child.item.node_id}" class="form-check-label">
+                                                            {$child.item.name|wash()}
+                                                        </label>
+                                                    </div>
+                                                {/foreach}
+                                            {/if}
+                                        </div>
+                                        {undef $tree_menu}
+                                    {/foreach}
+                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{literal}
+<script>
+$(document).ready(function () {
+    $('#searchModal').searchGui({
+        'spritePath': '{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}',
+        'i18n': {
+            search: '{/literal}{'Search'|i18n('openpa/search')}{literal}',
+            filters: '{/literal}{'Filters'|i18n('bootstrapitalia')}{literal}',
+            sections: '{/literal}{'Sections'|i18n('openpa/search')}{literal}',
+            remove: '{/literal}{'Reset'|i18n('bootstrapitalia/documents')}{literal}',
+            from: '{/literal}{'from'|i18n('openpa/search')}{literal}',
+            to: '{/literal}{'to'|i18n('openpa/search')}{literal}'
+        }
+    });
+});
+</script>
+{/literal}
+
+{undef $top_menu_node_ids}
+
+
+{* https://github.com/blueimp/Gallery vedi atom/gallery.tpl *}
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+    <div class="slides"></div>
+    <h3 class="title"><span class="sr-only">gallery</span></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>

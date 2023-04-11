@@ -17,11 +17,21 @@ class BootstrapItaliaTheme implements JsonSerializable
         $this->identifier = $identifier;
         $parts = explode('::', $identifier);
         $this->baseIdentifier = array_shift($parts);
+        $path = ltrim(
+            eZURLOperator::eZDesign(eZTemplate::factory(), "stylesheets/{$this->baseIdentifier}.css", 'ezdesign'),
+            '/'
+        );
+        if (!file_exists($path)) {
+            $this->baseIdentifier = 'default';
+        }
         $this->variations = $parts;
     }
 
     public static function fromString($string)
     {
+        if (empty($string)){
+            return new BootstrapItaliaTheme($string);
+        }
         if (!isset(self::$instances[$string])) {
             self::$instances[$string] = new BootstrapItaliaTheme($string);
         }

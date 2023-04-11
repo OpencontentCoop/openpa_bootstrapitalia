@@ -1,0 +1,63 @@
+.owl-theme .owl-dots,
+.owl-theme .control-buttons {
+    width: 80%;
+    display: inline-block;
+}
+.owl-theme .control-buttons {
+    line-height: 38px;
+    width: 20%;
+    float: right;
+    text-align: right;
+}
+
+
+@media (min-width: 992px) {
+    .owl-theme .it-hero-wrapper{
+        min-height: 500px !important;
+    }
+    .owl-theme .owl-dots,
+    .owl-theme .control-buttons {
+        width: 50%;
+    }
+    .owl-theme .control-buttons {
+        border-left: 1px solid #ccc;
+        text-align: left;
+    }
+    .owl-theme .owl-dots{
+        text-align: right;
+    }
+}
+
+.owl-theme .owl-dots .owl-dot span {
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border: 2px solid #ccc;
+    display: block;
+    border-radius: 100%;
+    padding: 0;
+    margin: 11px 7px 3px;
+}
+
+.owl-theme .control-buttons a {
+    margin: 0 10px;
+    font-size: 1rem !important;
+}
+
+.owl-theme .owl-dots .owl-dot:hover span,
+.owl-theme .owl-dots .owl-dot.active span{
+    background: #ccc;
+}
+
+.owl-theme .owl-dots .owl-dot {
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    cursor: pointer;
+}
+
+.img-e-m{
+    max-width: none !important;
+    width: auto !important;
+    margin: 0 auto;
+}
