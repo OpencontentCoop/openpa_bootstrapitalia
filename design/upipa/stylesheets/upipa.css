@@ -1,13 +1,15 @@
 .owl-theme .owl-dots,
 .owl-theme .control-buttons {
-    width: 80%;
+    width: 100%;
     display: inline-block;
+    text-align: center;
 }
 .owl-theme .control-buttons {
     line-height: 38px;
     width: 20%;
     float: right;
     text-align: right;
+    margin-top: -38px;
 }
 
 
@@ -15,15 +17,16 @@
     .owl-theme .it-hero-wrapper{
         min-height: 500px !important;
     }
-    .owl-theme .owl-dots,
-    .owl-theme .control-buttons {
+    .lista_carousel .owl-theme .owl-dots,
+    .lista_carousel .owl-theme .control-buttons {
         width: 50%;
     }
-    .owl-theme .control-buttons {
+    .lista_carousel .owl-theme .control-buttons {
         border-left: 1px solid #ccc;
         text-align: left;
+        margin-top: 0;
     }
-    .owl-theme .owl-dots{
+    .lista_carousel .owl-theme .owl-dots{
         text-align: right;
     }
 }

@@ -3,6 +3,6 @@
     <h3 class="openpa-widget-title">{node_view_gui content_node=$valid_node view=text_linked text=$block.name}</h3>
     <div class="openpa-widget-content">
         {node_view_gui content_node=$valid_node view=accordion_content image_class=small}
-        <a class="readmore" href="{object_handler($valid_node).content_link.full_link}" title="{$valid_node.name|wash()}">{'Read more'|i18n('openpa/widget')}</a>
+        {include uri='design:parts/block_show_all.tpl' link=object_handler($valid_node).content_link.full_link title=$valid_node.name|wash()}
     </div>
 </div>

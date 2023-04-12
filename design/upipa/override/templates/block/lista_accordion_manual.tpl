@@ -14,7 +14,7 @@
           </h2>
           <div id="accordion-panel-{$block.id}-{$item.node_id}" class="Accordion-panel fr-accordion__panel js-fr-accordion__panel">
               {node_view_gui content_node=$item view=accordion_content}
-              <a class="readmore" href="{object_handler($item).content_link.full_link}" title="{$item.name|wash()}">{'Read more'|i18n('openpa/widget')}</a>
+              <a class="readmore" href="{object_handler($item).content_link.full_link}" title="{$item.name|wash()}">{'Read more'|i18n('bootstrapitalia')}</a>
           </div>
       {/foreach}
     </div>

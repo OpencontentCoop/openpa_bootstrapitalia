@@ -47,15 +47,15 @@
                 {if and( $day_events_count|gt(0), $prossimi_count|gt(0) )}
                     <ul class="nav nav-tabs" role="tablist">
                         {if $day_events_count|ne(0)}
-                            <li class="nav-tab active eventi-oggi">
-                                <a href="#oggi" data-toggle="tab">
+                            <li class="nav-tab nav-item active eventi-oggi">
+                                <a class="nav-link" href="#oggi" data-toggle="tab">
                                     Oggi
                                 </a>
                             </li>
                         {/if}
                         {if $prossimi_count|gt(0)}
-                            <li class="nav-tab {if $day_events_count|eq(0)}active{/if} eventi-{$block.custom_attributes.tab_title|slugize}">
-                                <a href="#{$block.custom_attributes.tab_title|slugize}" data-toggle="tab">
+                            <li class="nav-tab nav-item {if $day_events_count|eq(0)}active{/if} eventi-{$block.custom_attributes.tab_title|slugize}">
+                                <a class="nav-link" href="#{$block.custom_attributes.tab_title|slugize}" data-toggle="tab">
                                     {$block.custom_attributes.tab_title}
                                 </a>
                             </li>
@@ -65,7 +65,7 @@
 
                 <div class="tab-content widget">
                     {if $day_events_count|ne(0)}
-                        <div class="tab-pane active" id="oggi">
+                        <div class="tab-pane active p-4" id="oggi">
                           <div class="event-carousel owl-carousel owl-theme">
                             <div class="events">
                               {foreach $day_events as $i => $child}
@@ -78,7 +78,7 @@
                     {/if}
 
                     {if $prossimi_count|gt(0)}
-                        <div id="{$block.custom_attributes.tab_title|slugize}" class="tab-pane {if $day_events_count|eq(0)}active{/if} no-js-hide">
+                        <div id="{$block.custom_attributes.tab_title|slugize}" class="tab-pane p-4 {if $day_events_count|eq(0)}active{/if} no-js-hide">
                           <div class="event-carousel owl-carousel owl-theme">
                             <div class="events">
                               {foreach $prossimi as $i => $child}

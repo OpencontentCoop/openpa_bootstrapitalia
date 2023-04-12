@@ -62,16 +62,24 @@
             <a href="#filtersCollapse" role="button" class="btn btn-default btn-md text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="filtersCollapse">Open/close search filters</a>
         </div>
 
+        {def $has_filters = false()}
+        {foreach $search_attributes as $type => $attributes}
+            {if $attributes|count()}
+                {set $has_filters = true()}
+                {break}
+            {/if}
+        {/foreach}
+
         <section class="bg-100 border-top">
             <div class="container">
-                <div class="row row-column-border row-column-menu-left attribute-list border-0 mt-0">
+                <div class="row{if $has_filters} row-column-border row-column-menu-left attribute-list border-0 mt-0{/if}">
 
+                    {if $has_filters}
                     <aside class="col-lg-3 d-lg-flex d-xl-flex collapse" style="position: relative;" id="filtersCollapse">
                         <div class="pt-lg-5 card px-3">
 
                             {foreach $search_attributes as $type => $attributes}
                                 {foreach $attributes as $attribute}
-
                                     {if array('ezstring', 'ezemail', 'eztext', 'ezinteger')|contains($attribute.data_type_string)}
                                         <div class="form-group floating-labels mb-1 {$type}">
                                             <div class="form-label-group">
@@ -240,26 +248,27 @@
                             {/foreach}
                         </div>
                     </aside>
-                    <div class="col-lg-9 pr-0">
-                        <div class="sorters row">
+                    {/if}
+                    <div class="col{if $has_filters}-lg-9 pr-0{/if}">
+                        <div class="sorters row"{if $has_filters|not()} style="margin-top: 50px;"{/if}>
                             <div class="col col-lg-2">
                                 <div class="bootstrap-select-wrapper">
-                                    <label>Results</label>
+                                    <label>Totale risultati</label>
                                     <div class="pl-2 pt-2 font-weight-bold" data-count></div>
                                 </div>
                             </div>
-                            <div class="col col-lg-4">
+                            <div class="col col-lg-{if $has_filters|not()}2{else}4{/if}">
                                 <div class="bootstrap-select-wrapper">
-                                    <label>Sort by</label>
+                                    <label>Ordina per</label>
                                     <select data-param="sort">
-                                        <option value="published">Publication date</option>
-                                        <option selected="selected" value="name">Name</option>
+                                        <option value="published">Data di pubblicazione</option>
+                                        <option selected="selected" value="name">Titolo</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col col-lg-2">
                                 <div class="bootstrap-select-wrapper">
-                                    <label class="invisible">Direction</label>
+                                    <label{if $has_filters} class="invisible"{/if}>Ordinamento</label>
                                     <select data-param="direction">
                                         <option value="desc">Z-A</option>
                                         <option selected="selected" value="asc">A-Z</option>

@@ -19,13 +19,13 @@ $valid_nodes_count = $valid_nodes|count()}
                 <h4 class="openpa-widget-title-lev2">{node_view_gui content_node=$valid_nodes[0] view=text_linked}</h4>
                 {node_view_gui content_node=$valid_nodes[0] view=accordion_content image_class=small}
                 <a class="readmore" href="{object_handler($valid_nodes[0]).content_link.full_link}"
-                   title="{$valid_nodes[0].name|wash()}">{'Read more'|i18n('openpa/widget')}</a>
+                   title="{$valid_nodes[0].name|wash()}">{'Read more'|i18n('bootstrapitalia')}</a>
             </div>
             <div class="Grid-cell u-md-size1of2 u-lg-size1of2">
                 <h4 class="openpa-widget-title-lev2">{node_view_gui content_node=$valid_nodes[1] view=text_linked}</h4>
                 {node_view_gui content_node=$valid_nodes[1] view=accordion_content image_class=small}
                 <a class="readmore" href="{object_handler($valid_nodes[1]).content_link.full_link}"
-                   title="{$valid_nodes[1].name|wash()}">{'Read more'|i18n('openpa/widget')}</a>
+                   title="{$valid_nodes[1].name|wash()}">{'Read more'|i18n('bootstrapitalia')}</a>
             </div>
         </div>
     {elseif $valid_nodes_count|ge(3)}
@@ -39,7 +39,7 @@ $valid_nodes_count = $valid_nodes|count()}
                 <h4 class="openpa-widget-title-lev2">{node_view_gui content_node=$__valid_node view=text_linked}</h4>
                 {node_view_gui content_node=$__valid_node view=accordion_content image_class=small}
                 <a class="readmore" href="{object_handler($__valid_node).content_link.full_link}"
-                   title="{$__valid_node.name|wash()}">{'Read more'|i18n('openpa/widget')}</a>
+                   title="{$__valid_node.name|wash()}">{'Read more'|i18n('bootstrapitalia')}</a>
             </div>
             {delimiter modulo=$modulo}</div><div class="Grid">{/delimiter}
         {/foreach}

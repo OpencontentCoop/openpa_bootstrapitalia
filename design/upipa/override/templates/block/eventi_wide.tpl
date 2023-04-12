@@ -42,35 +42,33 @@
     <div id="{$block.id}" class="openpa-widget {$block.view} color">
 
       <div class="events_wide_wrapper">
-          <div class="u-layout-wide u-layoutCenter u-layout-r-withGutter Grid">
+          <div class="row">
 
-            {if and( $show_title, $block.name|ne('') )}
-                <div class="Grid-cell u-size1Full u-sm-size2of5 u-md-size2of5 u-lg-size2of5">
-                  <h3 class="openpa-widget-title u-margin-top-s">{if and($valid_node, $link_top_title)}<a href={$valid_node.url_alias|ezurl()}>{/if}{$block.name|wash()}{if and($valid_node, $link_top_title)}</a>{/if}</h3>
-                </div>
-              {/if}
+              <div class="col col-md-6">
+              {include uri='design:parts/block_name.tpl'}
+              </div>
 
-              <div class="Grid-cell u-size1Full u-sm-size3of5 u-md-size3of5 u-lg-size3of5 events_toolbar u-hidden u-sm-block u-md-block u-lg-block">
+              <div class="col col-md-6">
                   {if and( $day_events_count|gt(0), $prossimi_count|gt(0) )}
-                      <ul role="tablist" class="u-floatRight">
+                      <ul role="tablist" class="nav nav-tabs float-right border-0">
                           {if $day_events_count|ne(0)}
-                              <li class="eventi-oggi">
-                                  <a href="#oggi" data-toggle="tab">
-                                      <i class="fa fa-clock-o"></i> Oggi
+                              <li class="nav-item eventi-oggi">
+                                  <a class="nav-link" href="#oggi" data-toggle="tab">
+                                      <i class="fa fa-clock-o mr-2"></i> Oggi
                                   </a>
                               </li>
                           {/if}
                           {if $prossimi_count|gt(0)}
-                              <li class="eventi-futuri eventi-{$block.custom_attributes.tab_title|slugize}">
-                                  <a href="#{$block.custom_attributes.tab_title|slugize}" data-toggle="tab">
-                                      <i class="fa fa-calendar-o"></i> {$block.custom_attributes.tab_title}
+                              <li class="nav-item eventi-futuri eventi-{$block.custom_attributes.tab_title|slugize}">
+                                  <a class="nav-link"  href="#{$block.custom_attributes.tab_title|slugize}" data-toggle="tab">
+                                      <i class="fa fa-calendar-o  mr-2"></i> {$block.custom_attributes.tab_title}
                                   </a>
                               </li>
                           {/if}
 
                           {if $show_link}
-                              <li class="jump-to-calendar">
-                                  <a href="{$valid_node.url_alias|ezurl(no)}" title="{'Go to calendar'|i18n('openpa_designitalia')}">
+                              <li class="nav-item  jump-to-calendar">
+                                  <a class="nav-link"  href="{$valid_node.url_alias|ezurl(no)}" title="{'Go to calendar'|i18n('openpa_designitalia')}">
                                       <i class="fa fa-calendar"></i> Tutti
                                   </a>
                               </li>
@@ -81,13 +79,13 @@
           </div>
       </div>
 
-      <div class="events_wide_tabs_wrapper">
+      <div class="events_wide_tabs_wrapper mt-3">
         {if $day_events_count|ne(0)}
             <div class="openpa-widget-content u-layout-centerContent u-cf" id="oggi">
-                <section class="js-Masonry-container u-layout-wide" data-columns>
+                <section class="row">
                     {foreach $day_events as $i => $child max 10}
-                    <div class="Masonry-item js-Masonry-item">
-                        {node_view_gui content_node=$child.node view=panel image_class=agid_panel show_image=false() event=$child}
+                    <div class="col col-md-4">
+                        {node_view_gui content_node=$child.node view=card image_class=agid_panel view_variation=big show_image=false() event=$child}
                     </div>
                     {/foreach}
                 </section>
@@ -96,10 +94,10 @@
 
         {if $prossimi_count|gt(0)}
             <div id="{$block.custom_attributes.tab_title|slugize}" class="lista_masonry openpa-widget-content u-layout-centerContent u-cf">
-                <section class="js-Masonry-container u-layout-wide" data-columns>
+                <section class="row">
                     {foreach $prossimi as $i => $child max 10}
-                    <div class="Masonry-item js-Masonry-item">
-                        {node_view_gui content_node=$child.node view=panel image_class=agid_panel show_image=false() event=$child}
+                    <div class="col col-md-4">
+                        {node_view_gui content_node=$child.node view=card view_variation=big image_class=agid_panel show_image=false() event=$child}
                     </div>
                     {/foreach}
                 </section>

@@ -9,6 +9,7 @@
         {include name="carousel"
                  uri='design:atoms/carousel.tpl'
                  items=$openpa.content
+                 autoplay=1
                  css_id=$block.id
                  root_node=$openpa.root_node
                  pagination=false()
