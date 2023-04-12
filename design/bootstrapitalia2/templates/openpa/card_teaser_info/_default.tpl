@@ -22,6 +22,9 @@
         <div class="card-text u-main-black">
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
         </div>
+        {if and($hide_title, $attributes.show|contains('content_show_read_more'), $node.object.state_identifier_array|contains('privacy/public'))}
+            <p class="mt-3"><a href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">{'Further details'|i18n('bootstrapitalia')}</a></p>
+        {/if}
     </div>
     {if $has_image}
     <div class="avatar size-xl">
