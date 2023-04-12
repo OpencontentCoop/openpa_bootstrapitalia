@@ -104,12 +104,21 @@ class OpenPARoles
         return null;
     }
 
+    private function getPagination()
+    {
+        if (isset($this->attributeSettings['pagination'])){
+            return (int)$this->attributeSettings['pagination'];
+        }
+
+        return 6;
+    }
+
     /**
      * @return bool
      */
     public function hasContent()
     {
-        if ($this->attributeSettings['pagination'] == 0){
+        if ($this->getPagination() == 0){
             return false;
         }
 
@@ -127,7 +136,7 @@ class OpenPARoles
 
     public function getContent()
     {
-        if ($this->attributeSettings['pagination'] == 0){
+        if ($this->getPagination() == 0){
             return false;
         }
         
@@ -148,7 +157,7 @@ class OpenPARoles
 
     public function getRoles()
     {
-        if ($this->attributeSettings['pagination'] == 0){
+        if ($this->getPagination() == 0){
             return [];
         }
         if ($this->roles === null) {
@@ -181,7 +190,7 @@ class OpenPARoles
 
     public function getRolesPerPerson()
     {
-        if ($this->attributeSettings['pagination'] == 0){
+        if ($this->getPagination() == 0){
             return [];
         }
         if ($this->rolesPerPerson === null) {
@@ -205,7 +214,7 @@ class OpenPARoles
 
     public function getPeople()
     {
-        if ($this->attributeSettings['pagination'] == 0){
+        if ($this->getPagination() == 0){
             return [];
         }
         if ($this->people === null) {
@@ -233,7 +242,7 @@ class OpenPARoles
 
     public function getEntities()
     {
-        if ($this->attributeSettings['pagination'] == 0){
+        if ($this->getPagination() == 0){
             return [];
         }
         if ($this->entities === null) {
@@ -261,7 +270,7 @@ class OpenPARoles
 
     public function getRolesPerEntity()
     {
-        if ($this->attributeSettings['pagination'] == 0){
+        if ($this->getPagination() == 0){
             return [];
         }
         if ($this->rolesPerEntity === null) {
@@ -285,7 +294,7 @@ class OpenPARoles
 
     public function getTypesPerEntity()
     {
-        if ($this->attributeSettings['pagination'] == 0){
+        if ($this->getPagination() == 0){
             return [];
         }
         if ($this->typePerEntities === null) {
