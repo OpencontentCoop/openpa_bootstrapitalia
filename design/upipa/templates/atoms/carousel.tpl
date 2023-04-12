@@ -55,7 +55,7 @@
                     autoHeight : false,
                     loop:{cond( $loop|gt(0), 'true', 'false')},
                     autoplaySpeed: 1000,
-                    autoplay: {cond( $autoplay|gt(0), 'true', 'false')},
+                    autoplay: false{*cond( $autoplay|gt(0), 'true', 'false')*},
                     navText: {cond( $navigation_text|ne(false()), $navigation_text, false )}
                     {if $top_pagination_position}, onInitialized: function(e){ldelim}
                       var owl = $(e.target);
