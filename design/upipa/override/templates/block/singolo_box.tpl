@@ -5,7 +5,7 @@
       <h3 class="openpa-widget-title"><span>{$block.name|wash()}</span></h3>
     {/if}
     <div class="openpa-widget-content">
-        {node_view_gui content_node=$valid_node view=panel image_class=large}
+        {node_view_gui content_node=$valid_node view=card view_variation=big image_class=large}
     </div>
   </div>
 

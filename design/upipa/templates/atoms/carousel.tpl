@@ -13,7 +13,7 @@
     'top_pagination_position', true(),
     'show_items_preview', false(),
     'wide_items_preview', false(),
-    'navigation_text', concat( "['", '<span class="u-alignMiddle Icon Icon-arrow-left" role="presentation"></span>', "','", '<span class="u-alignMiddle Icon Icon-arrow-right" role="presentation"></span>', "']"),
+    'navigation_text', concat( "['", '<i class="fa fa-arrow-circle-left" role="presentation"></i>', "','", '<i class="fa fa-arrow-circle-right" role="presentation"></i>', "']"),
     'css_id', $root_node.node_id
 ))}
 

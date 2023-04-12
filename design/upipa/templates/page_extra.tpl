@@ -46,6 +46,7 @@
                                        data-subtree_group="all">{'All'|i18n('bootstrapitalia')}</a>
                                     {foreach $top_menu_node_ids as $id}
                                         {def $top_menu_node = fetch(content, node, hash(node_id, $id))}
+                                        {if $top_menu_node}
                                         <a href="#"
                                            class="btn btn-outline-primary btn-icon btn-xs mr-2 mb-2"
                                            data-subtree_group="{$id}">
@@ -54,6 +55,7 @@
                                             {/if}
                                             {$top_menu_node.name|wash()}
                                         </a>
+                                        {/if}
                                         {undef $top_menu_node}
                                     {/foreach}
                                     <a href="#"
@@ -91,6 +93,7 @@
                                         <div class="row">
                                     {foreach $top_menu_node_ids as $id}
                                         {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'side_menu'))}
+                                        {if is_set($tree_menu.item)}
                                         <div class="col-md-6 mb-5" data-subtree_group="{$tree_menu.item.node_id}">
                                             <div class="form-check custom-control custom-checkbox">
                                                 <input id="subtree-filter-{$tree_menu.item.node_id}"
@@ -121,6 +124,7 @@
                                                 {/foreach}
                                             {/if}
                                         </div>
+                                        {/if}
                                         {undef $tree_menu}
                                     {/foreach}
                                 </div>

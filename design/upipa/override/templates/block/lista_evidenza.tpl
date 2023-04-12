@@ -9,12 +9,13 @@
         {include name="carousel"
                  uri='design:atoms/carousel.tpl'
                  items=$openpa.content
-                 autoplay=1
+                 autoplay=0
                  css_id=$block.id
                  root_node=$openpa.root_node
+                 control_buttons=false()
                  pagination=false()
                  top_pagination_position=true()
-                 navigation= and( $show_title, $block.name|ne(''), $items_per_row|gt(1) )
+                 navigation=true()
                  items_per_row=1
                  i_view=carousel
                  show_items_preview=true()

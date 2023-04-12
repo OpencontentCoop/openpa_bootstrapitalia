@@ -66,10 +66,12 @@
                             <ul class="navbar-nav">
                             {foreach $top_menu_node_ids as $id}
                                 {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'top_menu'))}
+                                {if is_set($tree_menu.item)}
                                 {include name=top_menu
                                          uri='design:header/menu_item.tpl'
                                          show_children=$show_children
                                          menu_item=$tree_menu}
+                                {/if}
                                 {undef $tree_menu}
                             {/foreach}
                             </ul>

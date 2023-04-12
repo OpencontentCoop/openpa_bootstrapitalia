@@ -57,11 +57,11 @@
     {/foreach}
 {/if}
 
-{def $hide_access = false()}
+{def $hide_access = true()}
 {if $pagedata.homepage|has_attribute('hide_access_menu')}
     {set $hide_access = cond($pagedata.homepage|attribute('hide_access_menu').data_int|eq(1), true(), false())}
 {/if}
-{def $editor_access_in_footer = false()}
+{def $editor_access_in_footer = true()}
 {if $pagedata.homepage|has_attribute('editor_access_in_footer')}
     {set $editor_access_in_footer = cond($pagedata.homepage|attribute('editor_access_in_footer').data_int|eq(1), true(), false())}
 {/if}

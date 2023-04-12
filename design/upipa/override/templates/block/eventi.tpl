@@ -68,7 +68,7 @@
                         <div class="tab-pane active p-4" id="oggi">
                           <div class="event-carousel owl-carousel owl-theme">
                             <div class="events">
-                              {foreach $day_events as $i => $child}
+                              {foreach $day_events|merge($day_events)|merge($day_events)|merge($day_events)|merge($day_events) as $i => $child}
                                 {include uri="design:calendar/block_list_item.tpl" item=$child}
                                 {delimiter modulo=4}</div><div class="events">{/delimiter}
                               {/foreach}

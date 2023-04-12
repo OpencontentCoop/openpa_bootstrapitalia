@@ -64,3 +64,24 @@
     width: auto !important;
     margin: 0 auto;
 }
+
+.owl-prev{
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    z-index: 100;
+    color: #fff !important;
+    font-size: 2em !important;
+}
+.owl-next{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 100;
+    color: #fff !important;
+    font-size: 2em !important;
+}
+.owl-prev.disabled,
+.owl-next.disabled{
+    display: none !important;
+}

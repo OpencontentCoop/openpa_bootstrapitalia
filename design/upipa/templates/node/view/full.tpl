@@ -4,15 +4,18 @@
 {/if}
 {include uri=$openpa.control_template.full}
 
-{include uri=$openpa.content_attachment.template}
+{def $homepage = fetch('openpa', 'homepage')}
 
-{include uri=$openpa.content_gallery.template}
+{if $homepage.node_id|ne($node.node_id)}
+    {include uri=$openpa.content_attachment.template}
+    {include uri=$openpa.content_gallery.template}
+{/if}
 
 {if and($openpa.content_tools.editor_tools, module_params().function_name|ne('versionview'))}
     {include uri=$openpa.content_tools.template}
 {/if}
 
-{def $homepage = fetch('openpa', 'homepage')}
+
 {if $homepage.node_id|eq($node.node_id)}
     {ezpagedata_set('is_homepage', true())}
 {/if}

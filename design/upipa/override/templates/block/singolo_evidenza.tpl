@@ -1,36 +1,38 @@
-{def $valid_node = $block.valid_nodes[0]
-     $image_attribute = $valid_node|attribute('image')
-     $image = false()}
+{if count($block.valid_nodes)|gt(0)}
+    {def $valid_node = $block.valid_nodes[0]}
+    {def $openpa = object_handler($valid_node)}
 
-{if and($image_attribute, $image_attribute.content['agid_wide_carousel'])}
-  {set $image = $image_attribute.content['agid_wide_carousel'].url|ezroot(no)}
-{/if}
+    {def $has_image = false()}
+    {foreach class_extra_parameters($valid_node.object.class_identifier, 'table_view').main_image as $identifier}
+        {if $valid_node|has_attribute($identifier)}
+            {set $has_image = true()}
+            {break}
+        {/if}
+    {/foreach}
 
-{def $openpa_valid_node = object_handler($valid_node)}
-<div class="Hero openpa-widget {$block.view} {if and(is_set($block.custom_attributes.color_style), $block.custom_attributes.color_style|ne(''))}color color-{$block.custom_attributes.color_style}{/if}" style="background-image:url({$image});">
-
-  {if $image}
-      <div class="Hero-image u-sm-hidden u-md-hidden u-lg-hidden">
-        {*attribute_view_gui attribute=$image_attribute image_class="agid_panel" fluid=$fluid*}
-          <a href="{$openpa_valid_node.content_link.full_link}" aria-hidden="true" tabindex="-1">
-              <img src="{$image}"
-                   alt="Immagine decorativa per il contenuto {$valid_node.name|wash()}"
-                   class="u-sizeFull"
-                   role="presentation" />
-          </a>
-      </div>
-  {/if}
-
-    <div class="Hero-content">
-      {if array('link','banner')|contains($valid_node.class_identifier)|not()}
-        <p class="u-padding-r-bottom u-padding-r-top u-text-r-xs u-xs-hidden">
-          <a href="{$valid_node.parent.url_alias|ezurl(no)}" class="u-textClean u-color-60 u-text-h4"><span class="Dot u-background-60"></span>{$valid_node.parent.name|wash()}</a>
-        </p>
-      {/if}
-      <h2 class="u-text-h2"><a href="{$openpa_valid_node.content_link.full_link}" class="u-color-95 u-textClean">{$valid_node.name|wash()}</a></h2>
-      {if $valid_node|has_abstract()}
-        <p class="u-padding-r-bottom u-padding-r-top u-text-p u-margin-r-bottom">{$valid_node|abstract()|oc_shorten(150)}</p>
-      {/if}
+    <div class="block-evidence">
+        <div class="container position-relative overflow-hidden">
+            {if $has_image}
+                <div class="d-none d-lg-block position-absolute h-100 w-50"
+                     style="right: 0;background-image:url('{include uri='design:atoms/image_url.tpl' node=$valid_node}'); background-position: center center;background-repeat: no-repeat;background-size: cover;min-height:200px">
+                </div>
+            {/if}
+            <div class="row">
+                <div class="col">
+                    <div class="py-4 px-2">
+                        <h4 class="mt-0 mb-2">
+                            <a href="{$openpa.content_link.full_link}" title="Link a {$valid_node.name|wash()}" class="text-white text-decoration-none font-weight-bold">
+                                {$valid_node.name|wash()}
+                            </a>
+                        </h4>
+                        <div class="text-white lead evidence-text">
+                            {include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-{undef $openpa_valid_node}
+
+    {undef $valid_node $openpa $has_image}
+{/if}
