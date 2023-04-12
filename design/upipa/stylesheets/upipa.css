@@ -68,17 +68,17 @@
 .owl-prev{
     position: absolute;
     left: 10px;
-    bottom: 10px;
+    bottom: 30%;
     z-index: 100;
-    color: #fff !important;
+    color: #eee !important;
     font-size: 2em !important;
 }
 .owl-next{
     position: absolute;
     right: 10px;
-    bottom: 10px;
+    bottom: 30%;
     z-index: 100;
-    color: #fff !important;
+    color: #eee !important;
     font-size: 2em !important;
 }
 .owl-prev.disabled,
