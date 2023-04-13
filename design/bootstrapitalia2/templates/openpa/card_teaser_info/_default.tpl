@@ -23,7 +23,10 @@
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
         </div>
         {if and($hide_title, $attributes.show|contains('content_show_read_more'), $node.object.state_identifier_array|contains('privacy/public'))}
-            <p class="mt-3"><a href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">{'Further details'|i18n('bootstrapitalia')}</a></p>
+            <a class="read-more mt-4 mb-3 position-relative" style="bottom: unset" href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}">
+                <span class="text">{if $openpa.content_link.is_node_link}{'Further details'|i18n('bootstrapitalia')}{else}{'Visit'|i18n('bootstrapitalia')}{/if}</span>
+                {display_icon('it-arrow-right', 'svg', 'icon')}
+            </a>
         {/if}
     </div>
     {if $has_image}

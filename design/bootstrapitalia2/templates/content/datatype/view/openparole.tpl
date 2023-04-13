@@ -118,7 +118,7 @@
 					<li class="mb-2 lora">
 						{def $entity = $attribute.content.entities[$role|attribute('for_entity').content.relation_list[0].contentobject_id]}
 						{set $current_entities = $current_entities|append($entity)}
-						<h3 class="h4 mt-4 font-sans-serif">
+						<h3 class="h5 mt-4 font-sans-serif">
 							{if $role|has_attribute('label')}
 								{$role|attribute('label').content|wash()}
 							{else}
@@ -129,20 +129,20 @@
 							{/if}
 						</h3>
 						{if and($role|has_attribute('competences'), $role|attribute('competences').content.cells|implode('')|trim()|ne(''))}
-							<h4 class="h5 mt-4 font-sans-serif">{$role|attribute('competences').contentclass_attribute_name}:</h4>
+							<h4 class="h6 mt-4 font-sans-serif">{$role|attribute('competences').contentclass_attribute_name}:</h4>
 							<ul class="list-unstyled">
 								<li>{$role|attribute('competences').content.cells|implode('</li><li>')}</li>
 							</ul>
 						{/if}
 						{if and($role|has_attribute('delegations'), $role|attribute('delegations').content.cells|implode('')|trim()|ne(''))}
-							<h4 class="h5 mt-4 font-sans-serif">{$role|attribute('delegations').contentclass_attribute_name}:</h4>
+							<h4 class="h6 mt-4 font-sans-serif">{$role|attribute('delegations').contentclass_attribute_name}:</h4>
 							<ul class="list-unstyled">
 								<li>{$role|attribute('delegations').content.cells|implode('</li><li>')}</li>
 							</ul>
 						{/if}
 						{foreach array('compensi', 'importi', 'atto_nomina', 'notes') as $attribute_identifier}
 						{if $role|has_attribute($attribute_identifier)}
-							<h4 class="h5 mt-4 font-sans-serif">{$role|attribute($attribute_identifier).contentclass_attribute_name}:</h4>
+							<h4 class="h6 mt-4 font-sans-serif">{$role|attribute($attribute_identifier).contentclass_attribute_name}:</h4>
 							<ul class="list-unstyled">
 								<li>{attribute_view_gui attribute=$role|attribute($attribute_identifier)}</li>
 							</ul>

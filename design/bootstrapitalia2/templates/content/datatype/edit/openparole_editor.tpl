@@ -1,6 +1,7 @@
 {def $parent_node_id = openpa_roles_parent_node_id()
 	 $parent_node = fetch(content, node, hash(node_id, $parent_node_id))
-	 $can_create = cond($parent_node.can_create, true(), false())}
+	 $can_create = cond($parent_node.can_create, true(), false())
+	 $can_remove = cond(fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'advanced_editor_tools' )), true(), false())}
 
 <div id="roles-gui-{$attribute.id}"
 	 data-openparole-editor
@@ -208,7 +209,9 @@ $(document).ready(function () {
 	<td style="white-space: nowrap;">
     {/literal}{if $can_create}{literal}
 		<a href="#" class="edit-object" data-object="{{:metadata.id}}"><span class="fa-stack"><i aria-hidden="true" class="fa fa-square fa-stack-2x"></i><i aria-hidden="true" class="fa fa-pencil fa-stack-1x fa-inverse"></i></span></a>
+		{/literal}{if $can_remove}{literal}
 		<a href="#" class="delete-object" data-object="{{:metadata.id}}"><span class="fa-stack text-danger"><i aria-hidden="true" class="fa fa-square fa-stack-2x"></i><i aria-hidden="true" class="fa fa-trash-o fa-stack-1x fa-inverse"></i></span></a>
+		{/literal}{/if}{literal}
 	{/literal}{/if}{literal}
 	</td>
 </tr>
