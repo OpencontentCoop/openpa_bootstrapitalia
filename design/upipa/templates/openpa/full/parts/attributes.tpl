@@ -1,10 +1,10 @@
 {def $summary_text = 'Table of contents'|i18n('bootstrapitalia')
      $close_text = 'Close'|i18n('bootstrapitalia')}
+{def $attribute_groups = class_extra_parameters($object.class_identifier, 'attribute_group')}
 {if is_set($show_all_attributes)|not()}
-    {def $show_all_attributes = cond($attribute_groups.enabled, false(), true())}
+    {def $show_all_attributes = cond(class_extra_parameters($object.class_identifier, 'table_view').enabled, false(), true())}
 {/if}
 {def $summary_items = array()}
-{def $attribute_groups = class_extra_parameters($object.class_identifier, 'attribute_group')}
 {def $hide_index = $attribute_groups.hide_index}
 {if $show_all_attributes}
     {foreach $object.data_map as $attribute_identifier => $attribute}
