@@ -252,14 +252,15 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownToolbar">
                         <div class="link-list-wrapper">
                             <ul class="link-list">
-                                {if ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )}{* has_access_to_limitation('user', 'login', hash('SiteAccess', '<!-- SiteAccessName -->')) *}
+                                {* has_access_to_limitation('user', 'login', hash('SiteAccess', '<!-- SiteAccessName -->')) *}
+                                {*if ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )}
                                     <li>
                                         <a class="list-item left-icon" href="{ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )|explode('user/login')[0]}{$current_node.url_alias}" rel="noopener noreferrer" target="_blank" title="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}">
                                             <i aria-hidden="true" class="fa fa-wrench"></i>
                                             Backend
                                         </a>
                                     </li>
-                                {/if}
+                                {/if*}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'draft' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{"content/draft"|ezurl(no)}" title="{"My drafts"|i18n("design/ocbootstrap/user/edit")}">

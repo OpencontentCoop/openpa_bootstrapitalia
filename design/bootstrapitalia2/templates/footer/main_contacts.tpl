@@ -47,7 +47,7 @@
                             <ul class="contact-list p-0">
                                 <li>
                                     <a class="list-item" data-element="report-inefficiency" href="{if is_set($pagedata.contacts['link_segnalazione_disservizio'])}{$pagedata.contacts['link_segnalazione_disservizio']|wash()}{else}{'segnala_disservizio'|ezurl(no)}{/if}">
-                                        {display_icon('it-map-marker-circle', 'svg', 'icon icon-primary')}<span>{'Report a disservice'|i18n('bootstrapitalia')}</span>
+                                        {display_icon('it-map-marker-circle', 'svg', 'icon icon-primary')}<span>{'Report a inefficiency'|i18n('bootstrapitalia')}</span>
                                     </a>
                                 </li>
                             </ul>
