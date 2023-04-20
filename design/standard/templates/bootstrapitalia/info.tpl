@@ -45,6 +45,44 @@
             </div>
         </div>
 
+        <div class="border border-light rounded p-3 mb-3">
+            <h5>Favicon</h5>
+            <div class="row mb-3">
+                <label for="Favicon" class="col-sm-3 col-form-label">
+                    {def $_favicon_attribute = cond(
+                        and( $pagedata.homepage|has_attribute('favicon'), $pagedata.homepage|attribute('favicon').has_content ),
+                            $pagedata.homepage|attribute('favicon'),
+                            false()
+                    )}
+                    {def $_favicon = openpaini('GeneralSettings','favicon', 'favicon.ico')}
+                    {def $_favicon_src = openpaini('GeneralSettings','favicon_src', 'ezimage')}
+                    <!-- favicon -->
+                    {if $_favicon_attribute}
+                        <img alt="{ezini('SiteSettings','SiteName')}"
+                             width="16"
+                             height="16"
+                             class="bg-primary"
+                             src="{concat("content/download/",$_favicon_attribute.contentobject_id,"/",$_favicon_attribute.id,"/file/favicon.ico")|ezurl(no)}?v={$_favicon_attribute.version}" />
+                    {elseif $_favicon_src|eq('ezimage')}
+                        <img alt="{ezini('SiteSettings','SiteName')}"
+                             width="16"
+                             height="16"
+                             class="bg-primary"
+                             src="{$favicon|ezimage(no)}" />
+                    {else}
+                        <img alt="{ezini('SiteSettings','SiteName')}"
+                             width="16"
+                             height="16"
+                             class="bg-primary"
+                             src="{$favicon}" />
+                    {/if}
+                </label>
+                <div class="col-sm-9">
+                    <input type="file" name="Favicon" class="form-control" id="Favicon" value="">
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-12 text-right mt-3">
                 <input type="submit" class="btn btn-success" name="Store" value="Salva"/>

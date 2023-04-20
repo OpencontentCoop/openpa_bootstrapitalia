@@ -34,6 +34,14 @@ if ($http->hasPostVariable('Store')) {
         ]);
     }
 
+    if (isset($_FILES['Favicon']) && eZHTTPFile::canFetch('Favicon')) {
+        $httpFile = eZHTTPFile::fetch('Favicon');
+        $payload->setData($locale, 'favicon', [
+            'filename' => uniqid() . $httpFile->attribute('original_filename'),
+            'file' => base64_encode(file_get_contents($httpFile->attribute('filename')))
+        ]);
+    }
+
     $contentRepository = new ContentRepository();
     $contentRepository->setEnvironment(EnvironmentLoader::loadPreset('content'));
     try {
