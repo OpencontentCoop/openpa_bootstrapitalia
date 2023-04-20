@@ -61,11 +61,11 @@
     </message>
     <message>
       <source>days</source>
-      <translation>dias</translation>
+      <translation>días</translation>
     </message>
     <message>
       <source>Share</source>
-      <translation>Cuota</translation>
+      <translation>Compartir</translation>
     </message>
     <message>
       <source>Actions</source>
@@ -89,11 +89,11 @@
     </message>
     <message>
       <source>All</source>
-      <translation>Todas</translation>
+      <translation>Todo</translation>
     </message>
     <message>
       <source>Read more</source>
-      <translation>Lee mas</translation>
+      <translation>Leer más</translation>
     </message>
     <message>
       <source>Visit</source>
@@ -169,7 +169,7 @@
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Ir al contenido</translation>
+      <translation>Ir a contenido</translation>
     </message>
     <message>
       <source>View all</source>
@@ -268,6 +268,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Trouble in the city</source>
       <translation type="unfinished"/>
     </message>
@@ -288,7 +292,7 @@
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>Ez etiquetas EZ</translation>
+      <translation>Etelas EZ</translation>
     </message>
     <message>
       <source>Apps</source>
@@ -379,7 +383,7 @@
     </message>
     <message>
       <source>little</source>
-      <translation>pequeña</translation>
+      <translation>pequeño</translation>
     </message>
     <message>
       <source>enough</source>
@@ -422,7 +426,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Solo información del tipo</translation>
+      <translation>Solo información de tipo</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -478,7 +482,7 @@
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Quizás quisiste buscar</translation>
+      <translation>Tal vez quisiste buscar</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
@@ -498,7 +502,7 @@
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Intente cambiar algunas palabras clave (por ejemplo, "automóvil" en lugar de "automóviles").</translation>
+      <translation>Intente cambiar algunas palabras clave (por ejemplo, "automóvil" en lugar de "autos").</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
@@ -518,7 +522,7 @@
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Para obtener más opciones, pruebe el %1 Advanced Search %2</translation>
+      <translation>Para obtener más opciones, pruebe la búsqueda %1Advanced %2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -723,7 +727,7 @@
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation>Puede arrastrar el marcador en el mapa para seleccionar la ubicación con más precisión.</translation>
+      <translation>Puede arrastrar el marcador en el mapa para seleccionar la ubicación con mayor precisión.</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
@@ -1092,6 +1096,124 @@
     </message>
     <message>
       <source>Role type</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/signin</name>
+    <message>
+      <source>Sign in</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>To access the site and its services, use one of the following methods.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with SPID, the public digital identity system.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with SPID</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>How to activate SPID?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with your Electronic Identity Card.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with CIE</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>How to request CIE?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Other types</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Alternatively you can use the following methods.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Access reserved only for staff</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login as website editor</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login to manage digital services</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/editor-gui</name>
+    <message>
+      <source>Activate the "News in evidence" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The homepage of the site can have a section of 3 news in evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Events in evidence" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The site homepage can have a section of events in evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Thematic sites" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The site homepage can have a section with links to thematic sites</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Search" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>In evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Administration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>News</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Events</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Topics</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Thematic sites</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Research</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Other settings</source>
       <translation type="unfinished"/>
     </message>
   </context>

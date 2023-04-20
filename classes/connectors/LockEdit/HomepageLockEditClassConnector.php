@@ -126,7 +126,9 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $schema['properties']['section_calendar']['maxItems'] = 3;
         $schema['properties']['section_gallery']['maxItems'] = 3;
         $schema['properties']['section_place']['maxItems'] = 3;
-        $schema['properties']['section_banner']['maxItems'] = 3;
+        $schema['properties']['section_banner']['maxItems'] = 9;
+        $schema['properties']['section_search']['maxItems'] = 5;
+        $schema['properties']['section_topic']['minItems'] = 3;
 
         return $schema;
     }
@@ -137,7 +139,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $options['fields']['add_section_news'] = [
             'type' => 'checkbox',
-            'rightLabel' => 'Attiva le "Notizie in evidenza"',
+            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Notizie in evidenza"'),
             'helper' => 'La homepage del sito può avere una sezione di 3 notizie in evidenza'
         ];
         $options['fields']['section_news']['dependencies'] = [
@@ -149,8 +151,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $options['fields']['add_section_events'] = [
             'type' => 'checkbox',
-            'rightLabel' => 'Attiva le "Eventi in evidenza"',
-            'helper' => 'La homepage del sito può avere una sezione di eventi in evidenza'
+            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Eventi in evidenza"'),
+            'helper' => ezpI18n::tr('bootstrapitalia/editor-gui', 'La homepage del sito può avere una sezione di eventi in evidenza')
         ];
         $options['fields']['section_calendar']['dependencies'] = [
             'section_next_events' => 'false',
@@ -161,15 +163,15 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $options['fields']['add_section_banner'] = [
             'type' => 'checkbox',
-            'rightLabel' => 'Attiva "Siti tematici"',
-            'helper' => 'La homepage del sito può avere una sezione con dei link a siti tematici'
+            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Siti tematici"'),
+            'helper' => ezpI18n::tr('bootstrapitalia/editor-gui', 'La homepage del sito può avere una sezione con dei link a siti tematici')
         ];
         $options['fields']['section_banner']['dependencies'] = ['add_section_banner' => 'true'];
         $options['fields']['title_banner']['dependencies'] = ['add_section_banner' => 'true'];
 
         $options['fields']['add_section_search'] = [
             'type' => 'checkbox',
-            'rightLabel' => 'Attiva form di ricerca con link',
+            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Ricerca"'),
             'helper' => ''
         ];
         $options['fields']['section_search']['dependencies'] = ['add_section_search' => 'true'];
@@ -177,6 +179,14 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
 
         $options['fields']['section_news']['browse']['subtree'] = $news = $this->fetchMainNodeIDByObjectRemoteID('news');
+        $options['fields']['main_news']['actionbar'] = [
+            'showLabels' => true,
+            'actions' => [
+                ['action' => 'add', 'enabled' => false],
+                ['action' => 'up', 'enabled' => false],
+                ['action' => 'down', 'enabled' => false],
+            ]
+        ];
         $options['fields']['main_news']['browse']['subtree'] = $news;
         $options['fields']['section_calendar']['browse']['subtree'] = $allEvents = $this->fetchMainNodeIDByObjectRemoteID('all-events');
         $options['fields']['section_management']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('management');
@@ -184,12 +194,23 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['section_place']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('all-places');
         $options['fields']['section_banner']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('banners');
         $options['fields']['section_topic']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('topics');
+
         $options['fields']['background_image']['browse']['subtree'] = $media = 51;
-        $options['fields']['background_search']['browse']['subtree'] = $media;
-        $options['fields']['background_topic']['browse']['subtree'] = $media;
         $options['fields']['background_image']['browse']['openInSearchMode'] = true;
-        $options['fields']['background_search']['browse']['openInSearchMode'] = true;
-        $options['fields']['background_topic']['browse']['openInSearchMode'] = true;
+        $options['fields']['background_image']['actionbar'] = $actionbar = [
+            'showLabels' => true,
+            'actions' => [
+                ['action' => 'add', 'enabled' => false],
+                ['action' => 'up', 'enabled' => false],
+                ['action' => 'down', 'enabled' => false],
+            ]
+        ];
+
+        $options['fields']['background_search']['browse']['subtree'] = $media;
+        $options['fields']['background_search']['actionbar'] = $actionbar;
+
+        $options['fields']['background_topic']['browse']['subtree'] = $media;
+        $options['fields']['background_topic']['actionbar'] = $actionbar;
 
         $options['fields']['section_search']['browse']['subtree'] = 2;
 
@@ -201,27 +222,27 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $categories = [
             [
                 'identifier' => 'main_news',
-                'name' => 'In evidenza',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'In evidenza'),
                 'identifiers' => ['main_news'],
             ],
             [
                 'identifier' => 'management',
-                'name' => 'Amministrazione',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Amministrazione'),
                 'identifiers' => ['section_management'],
             ],
             [
                 'identifier' => 'news',
-                'name' => 'Notizie',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Notizie'),
                 'identifiers' => ['add_section_news', 'title_news', 'section_latest_news', 'section_news',],
             ],
             [
                 'identifier' => 'events',
-                'name' => 'Eventi',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Eventi'),
                 'identifiers' => ['add_section_events', 'title_events', 'section_next_events', 'section_calendar',],
             ],
             [
                 'identifier' => 'topic',
-                'name' => 'Argomenti',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Argomenti'),
                 'identifiers' => ['section_topic', 'background_topic'],
             ],
 //            [
@@ -231,19 +252,19 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 //            ],
             [
                 'identifier' => 'banner',
-                'name' => 'Siti tematici',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Siti tematici'),
                 'identifiers' => ['add_section_banner', 'title_banner', 'section_banner'],
             ],
             [
                 'identifier' => 'search',
-                'name' => 'Ricerca',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Ricerca'),
                 'identifiers' => ['add_section_search', 'background_search', 'section_search'],
             ],
-            [
-                'identifier' => 'flowers',
-                'name' => 'Altre impostazioni',
-                'identifiers' => ['background_image'],
-            ],
+//            [
+//                'identifier' => 'flowers',
+//                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Altre impostazioni'),
+//                'identifiers' => ['background_image'],
+//            ],
         ];
 
         $bindings = [];

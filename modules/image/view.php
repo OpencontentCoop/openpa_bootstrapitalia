@@ -3,6 +3,10 @@
 
 $tpl = eZTemplate::factory();
 $ObjectId = $Params['ID'];
+$Alias = $Params['Alias'] ?? 'large';
+if (!in_array($Alias, ['small', 'medium', 'large'])){
+    $Alias = 'large';
+}
 $object = eZContentObject::fetch($ObjectId);
 if ($object instanceof eZContentObject && $object->canRead()) {
 
@@ -23,7 +27,7 @@ if ($object instanceof eZContentObject && $object->canRead()) {
     if ($attribute) {
         /** @var eZImageAliasHandler $image */
         $image = $attribute->content();
-        $alias = $image->imageAlias('large');
+        $alias = $image->imageAlias($Alias);
         if (isset($alias['full_path'])) {
             $file = eZClusterFileHandler::instance($alias['full_path']);
             if ($file->exists()) {

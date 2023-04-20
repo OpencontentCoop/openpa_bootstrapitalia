@@ -268,6 +268,10 @@
       <translation>Segnala disservizio</translation>
     </message>
     <message>
+      <source>Report a inefficiency</source>
+      <translation>Segnala disservizio</translation>
+    </message>
+    <message>
       <source>Trouble in the city</source>
       <translation>Problemi in città</translation>
     </message>
@@ -1097,6 +1101,124 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Role type</source>
       <translation>Tipo di ruolo</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/signin</name>
+    <message>
+      <source>Sign in</source>
+      <translation>Accedi</translation>
+    </message>
+    <message>
+      <source>To access the site and its services, use one of the following methods.</source>
+      <translation>Per accedere al sito e ai suoi servizi, utilizza una delle seguenti modalità.</translation>
+    </message>
+    <message>
+      <source>Log in with SPID, the public digital identity system.</source>
+      <translation>Accedi con SPID, il sistema Pubblico di Identità Digitale.</translation>
+    </message>
+    <message>
+      <source>Log in with SPID</source>
+      <translation>Entra con SPID</translation>
+    </message>
+    <message>
+      <source>How to activate SPID?</source>
+      <translation>Come attivare SPID</translation>
+    </message>
+    <message>
+      <source>Log in with your Electronic Identity Card.</source>
+      <translation>Accedi con la tua Carta d’Identità Elettronica.</translation>
+    </message>
+    <message>
+      <source>Log in with CIE</source>
+      <translation>Entra con CIE</translation>
+    </message>
+    <message>
+      <source>How to request CIE?</source>
+      <translation>Come richiedere CIE</translation>
+    </message>
+    <message>
+      <source>Other types</source>
+      <translation>Altre utenze</translation>
+    </message>
+    <message>
+      <source>Alternatively you can use the following methods.</source>
+      <translation>In alternativa puoi utilizzare le seguenti modalità.</translation>
+    </message>
+    <message>
+      <source>Access reserved only for staff</source>
+      <translation>Accesso riservato al personale autorizzato</translation>
+    </message>
+    <message>
+      <source>Login as website editor</source>
+      <translation>Accedi come redattore del sito web</translation>
+    </message>
+    <message>
+      <source>Login to manage digital services</source>
+      <translation>Gestisci i servizi digitali</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/editor-gui</name>
+    <message>
+      <source>Activate the "News in evidence" section</source>
+      <translation>Attiva la sezione "Notizie in evidenza"</translation>
+    </message>
+    <message>
+      <source>The homepage of the site can have a section of 3 news in evidence</source>
+      <translation>La homepage del sito può avere una sezione di 3 notizie in evidenza</translation>
+    </message>
+    <message>
+      <source>Activate the "Events in evidence" section</source>
+      <translation>Attiva la sezione "Eventi in evidenza"</translation>
+    </message>
+    <message>
+      <source>The site homepage can have a section of events in evidence</source>
+      <translation>La homepage del sito può avere una sezione di eventi in evidenza</translation>
+    </message>
+    <message>
+      <source>Activate the "Thematic sites" section</source>
+      <translation>Attiva la sezione "Siti tematici"</translation>
+    </message>
+    <message>
+      <source>The site homepage can have a section with links to thematic sites</source>
+      <translation>La homepage del sito può avere una sezione con dei link a siti tematici</translation>
+    </message>
+    <message>
+      <source>Activate the "Search" section</source>
+      <translation>Attiva la sezione "Ricerca"</translation>
+    </message>
+    <message>
+      <source>In evidence</source>
+      <translation>In evidenza</translation>
+    </message>
+    <message>
+      <source>Administration</source>
+      <translation>Amministrazione</translation>
+    </message>
+    <message>
+      <source>News</source>
+      <translation>Notizie</translation>
+    </message>
+    <message>
+      <source>Events</source>
+      <translation>Eventi</translation>
+    </message>
+    <message>
+      <source>Topics</source>
+      <translation>Argomenti</translation>
+    </message>
+    <message>
+      <source>Thematic sites</source>
+      <translation>Siti tematici</translation>
+    </message>
+    <message>
+      <source>Research</source>
+      <translation>Ricerca</translation>
+    </message>
+    <message>
+      <source>Other settings</source>
+      <translation>Altre impostazioni</translation>
     </message>
   </context>
 </TS>

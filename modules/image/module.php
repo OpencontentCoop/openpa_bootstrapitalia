@@ -6,7 +6,7 @@ $ViewList = array();
 $ViewList['view'] = array(
     'functions' => array('view'),
     'script' => 'view.php',
-    'params' => array('ID'),
+    'params' => array('ID', 'Alias'),
 );
 
 $FunctionList = array();

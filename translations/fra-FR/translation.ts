@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>FREE</source>
-      <translation>LIBRE</translation>
+      <translation>GRATUIT</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -61,7 +61,7 @@
     </message>
     <message>
       <source>days</source>
-      <translation>journées</translation>
+      <translation>jours</translation>
     </message>
     <message>
       <source>Share</source>
@@ -93,7 +93,7 @@
     </message>
     <message>
       <source>Read more</source>
-      <translation>Lire la suite</translation>
+      <translation>En savoir plus</translation>
     </message>
     <message>
       <source>Visit</source>
@@ -121,7 +121,7 @@
     </message>
     <message>
       <source>Jump to field</source>
-      <translation>Sauter sur le terrain</translation>
+      <translation>Sauter au champ</translation>
     </message>
     <message>
       <source>Upload file</source>
@@ -268,6 +268,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Trouble in the city</source>
       <translation type="unfinished"/>
     </message>
@@ -304,7 +308,7 @@
     </message>
     <message>
       <source>Import management</source>
-      <translation>Gestion des importations</translation>
+      <translation>Gestion de l'importation</translation>
     </message>
   </context>
   <context>
@@ -341,7 +345,7 @@
     </message>
     <message>
       <source>References</source>
-      <translation>Références</translation>
+      <translation>Les références</translation>
     </message>
   </context>
   <context>
@@ -360,7 +364,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Suivez nous</translation>
+      <translation>Suivez-nous</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -379,7 +383,7 @@
     </message>
     <message>
       <source>little</source>
-      <translation>Petit</translation>
+      <translation>petit</translation>
     </message>
     <message>
       <source>enough</source>
@@ -398,7 +402,7 @@
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Aller à la recherche de filtres</translation>
+      <translation>Allez dans des filtres de recherche</translation>
     </message>
     <message>
       <source>Link to</source>
@@ -406,7 +410,7 @@
     </message>
     <message>
       <source>Search</source>
-      <translation>Rechercher</translation>
+      <translation>Recherche</translation>
     </message>
     <message>
       <source>Advanced search</source>
@@ -422,7 +426,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Seules les informations de type</translation>
+      <translation>Seulement des informations de type</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -458,7 +462,7 @@
     </message>
     <message>
       <source>from</source>
-      <translation>à partir de</translation>
+      <translation>depuis</translation>
     </message>
     <message>
       <source>to</source>
@@ -514,11 +518,11 @@
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Recherche de recherche% 2 Matchs</translation>
+      <translation>La recherche est retournée% 2 correspondances</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Pour plus d'options, essayez le% de recherche AADvanced% 2</translation>
+      <translation>Pour plus d'options, essayez le% de recherche AFVanced% 2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -609,27 +613,27 @@
     <name>bootstrapitalia/opening_hours_matrix</name>
     <message>
       <source>monday</source>
-      <translation>Lundi</translation>
+      <translation>lundi</translation>
     </message>
     <message>
       <source>tuesday</source>
-      <translation>mardi</translation>
+      <translation>Mardi</translation>
     </message>
     <message>
       <source>wednesday</source>
-      <translation>mercredi</translation>
+      <translation>Mercredi</translation>
     </message>
     <message>
       <source>thursday</source>
-      <translation>jeudi</translation>
+      <translation>Jeudi</translation>
     </message>
     <message>
       <source>friday</source>
-      <translation>Vendredi</translation>
+      <translation>vendredi</translation>
     </message>
     <message>
       <source>saturday</source>
-      <translation>samedi</translation>
+      <translation>Samedi</translation>
     </message>
     <message>
       <source>sunday</source>
@@ -699,7 +703,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Remplissez des informations sur votre place</translation>
+      <translation>Remplissez quelques informations sur votre place</translation>
     </message>
     <message>
       <source>Select place</source>
@@ -735,7 +739,7 @@
     </message>
     <message>
       <source>Continue with my location</source>
-      <translation>Continuer avec ma position</translation>
+      <translation>Continuez avec ma position</translation>
     </message>
     <message>
       <source>Detect position</source>
@@ -1092,6 +1096,124 @@
     </message>
     <message>
       <source>Role type</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/signin</name>
+    <message>
+      <source>Sign in</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>To access the site and its services, use one of the following methods.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with SPID, the public digital identity system.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with SPID</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>How to activate SPID?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with your Electronic Identity Card.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with CIE</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>How to request CIE?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Other types</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Alternatively you can use the following methods.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Access reserved only for staff</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login as website editor</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login to manage digital services</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/editor-gui</name>
+    <message>
+      <source>Activate the "News in evidence" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The homepage of the site can have a section of 3 news in evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Events in evidence" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The site homepage can have a section of events in evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Thematic sites" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The site homepage can have a section with links to thematic sites</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Search" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>In evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Administration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>News</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Events</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Topics</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Thematic sites</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Research</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Other settings</source>
       <translation type="unfinished"/>
     </message>
   </context>

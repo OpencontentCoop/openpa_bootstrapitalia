@@ -268,6 +268,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Trouble in the city</source>
       <translation type="unfinished"/>
     </message>
@@ -1092,6 +1096,124 @@
     </message>
     <message>
       <source>Role type</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/signin</name>
+    <message>
+      <source>Sign in</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>To access the site and its services, use one of the following methods.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with SPID, the public digital identity system.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with SPID</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>How to activate SPID?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with your Electronic Identity Card.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with CIE</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>How to request CIE?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Other types</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Alternatively you can use the following methods.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Access reserved only for staff</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login as website editor</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login to manage digital services</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/editor-gui</name>
+    <message>
+      <source>Activate the "News in evidence" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The homepage of the site can have a section of 3 news in evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Events in evidence" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The site homepage can have a section of events in evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Thematic sites" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The site homepage can have a section with links to thematic sites</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Search" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>In evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Administration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>News</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Events</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Topics</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Thematic sites</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Research</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Other settings</source>
       <translation type="unfinished"/>
     </message>
   </context>
