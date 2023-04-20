@@ -20,6 +20,7 @@ PolicyOmitList[]=richiedi_assistenza
 PolicyOmitList[]=segnala_disservizio
 PolicyOmitList[]=accedi
 PolicyOmitList[]=segnalazioni
+PolicyOmitList[]=accesso_redazione
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login

@@ -11,5 +11,5 @@ ModuleList[]=prenota_appuntamento
 ModuleList[]=richiedi_assistenza
 ModuleList[]=segnala_disservizio
 ModuleList[]=segnalazioni
-
+ModuleList[]=accesso_redazione
 */ ?>

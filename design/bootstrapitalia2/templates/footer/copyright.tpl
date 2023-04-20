@@ -19,10 +19,10 @@
                         if(trimmedPrefix === '/') trimmedPrefix = '';
                         var login = $('[data-login-bottom-button]');
                         if(CurrentUserIsLoggedIn) {
-                            login.attr('href', trimmedPrefix+'/user/logout');
+                            login.attr('href', trimmedPrefix+'/accesso_redazione');
                             login.html('{/literal}{'Logout'|i18n('bootstrapitalia')}{literal}');
                         }else{
-                            login.attr('href', trimmedPrefix+'/user/login');
+                            login.attr('href', trimmedPrefix+'/accesso_redazione');
                             login.html('{/literal}{'Site editors access'|i18n('bootstrapitalia')}{literal}');
                         }
                     });

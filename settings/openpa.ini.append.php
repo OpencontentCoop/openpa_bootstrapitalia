@@ -10,34 +10,37 @@ BuiltInWidgetSource_booking=https://static.opencityitalia.it/widgets/bookings/ve
 BuiltInWidgetSource_satisfy=https://satisfy.opencontent.it/widget_ns.js
 
 [AccessPage]
-Title=Accedi
-Intro=Per accedere al sito e ai suoi servizi, utilizza una delle seguenti modalità.
+Title=Sign in
+Intro=To access the site and its services, use one of the following methods.
+EditorAccessTitle=Access reserved only for staff
+EditorAccessIntro=
 
 SpidAccess=enabled
 CieAccess=disabled
 
-Others[]
-Others[]=EditorAccess
-Others[]=OperatorAccess
-#Others[]=ExampleAccess
-
 SpidAccess_Title=SPID
-SpidAccess_Intro=Accedi con SPID, il sistema Pubblico di Identità Digitale.
-SpidAccess_ButtonText=Entra con SPID
-SpidAccess_HelpText=Come attivare SPID
+SpidAccess_Intro=Log in with SPID, the public digital identity system.
+SpidAccess_ButtonText=Log in with SPID
+SpidAccess_HelpText=How to activate SPID?
 SpidAccess_HelpLink=https://www.spid.gov.it/cos-e-spid/come-attivare-spid/
 
 CieAccess_Title=CIE
-CieAccess_Intro=Accedi con la tua Carta d’Identità Elettronica.
-CieAccess_ButtonText=Entra con CIE
-CieAccess_HelpText=Come richiedere CIE
+CieAccess_Intro=Log in with your Electronic Identity Card.
+CieAccess_ButtonText=Log in with CIE
+CieAccess_HelpText=How to request CIE?
 CieAccess_HelpLink=https://www.cartaidentita.interno.gov.it/argomenti/richiesta-cie/"
 
-Others_Title=Altre utenze
-Others_Intro=In alternativa puoi utilizzare le seguenti modalità.
+Others[]
+#Others[]=ExampleAccess
 
-EditorAccess_Title=Accedi come redattore del sito
-OperatorAccess_Title=Accedi come operatore comunale
+Others_Title=Other types
+Others_Intro=Alternatively you can use the following methods.
+
+EditorAccessList[]
+EditorAccessList[]=EditorAccess
+EditorAccessList[]=OperatorAccess
+EditorAccess_Title=Login as website editor
+OperatorAccess_Title=Login to manage digital services
 
 #ExampleAccess_Title=Accedi con esempio
 #ExampleAccess_Link=https://...

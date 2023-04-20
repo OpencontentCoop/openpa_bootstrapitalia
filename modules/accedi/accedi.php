@@ -54,7 +54,7 @@ $path[] = [
     'url' => '/',
 ];
 $path[] = [
-    'text' => ezpI18n::tr('bootstrapitalia', 'Accedi'),
+    'text' => ezpI18n::tr('bootstrapitalia', ezpI18n::tr('bootstrapitalia/signin', 'Sign in')),
     'url' => false,
 ];
 $Result['path'] = $path;
