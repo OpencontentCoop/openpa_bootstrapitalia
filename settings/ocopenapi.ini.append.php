@@ -1,7 +1,7 @@
 <?php /* #?ini charset="utf-8"?
 
-#[EndpointFactoryProvider]
-#ProviderList[]=TrasparenzaEndpointFactoryProvider
+[EndpointFactoryProvider]
+ProviderList[]=TrasparenzaEndpointFactoryProvider
 
 [ContentMetaSettings]
 ContentMetaPropertyFactories[privacy]=PrivacyStatusFactoryProvider
