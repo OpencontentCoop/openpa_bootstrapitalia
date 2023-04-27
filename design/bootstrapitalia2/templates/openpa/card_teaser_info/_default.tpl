@@ -6,7 +6,7 @@
     'view_variation', '',
     'data_element', $openpa.data_element.value
 ))}
-<div data-object_id="{$node.contentobject_id}" class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 {$view_variation}" style="z-index: {100|sub($attribute_index)}">
+<div data-object_id="{$node.contentobject_id}" class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3 {$view_variation}" style="z-index: {100|sub($attribute_index)}">
     <div class="card-body {if $has_image}pe-3{/if}">
         {if $hide_title|not()}
         <p class="card-title text-paragraph-regular-medium-semi mb-3">

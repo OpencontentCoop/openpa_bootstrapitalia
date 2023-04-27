@@ -51,6 +51,7 @@ class OpenPABootstrapItaliaOperators
             'image_url',
             'image_url_list',
             'current_user_can_lock_edit',
+            'parse_documento_trasparenza_info',
         );
     }
 
@@ -141,6 +142,10 @@ class OpenPABootstrapItaliaOperators
             'current_user_can_lock_edit' =>  array(
                 'object' => array('type' => 'object', 'required' => false, 'default' => false),
             ),
+            'parse_documento_trasparenza_info' => array(
+                'info' => array('type' => 'object', 'required' => true),
+                'files' => array('type' => 'object', 'required' => true),
+            ),
         );
     }
 
@@ -155,6 +160,10 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+            case 'parse_documento_trasparenza_info':
+                $operatorValue = self::parseDocumentoTrasparenzaInfo($namedParameters['info'], $namedParameters['files']);
+                break;
+
             case 'current_user_can_lock_edit':
                 $object = $namedParameters['object'];
                 $operatorValue = LockEditConnector::canLockEdit($object);
@@ -1060,6 +1069,89 @@ class OpenPABootstrapItaliaOperators
             }
         }
         return $blockWrapper;
+    }
+
+    private static function parseDocumentoTrasparenzaInfo($attribute, $fileAttribute)
+    {
+        $items = [];
+        $showIndex = false;
+        if ($attribute instanceof eZContentObjectAttribute
+            && $attribute->attribute('data_type_string') === eZMatrixType::DATA_TYPE_STRING) {
+            /** @var \eZMatrix $attributeContents */
+            $attributeContents = $attribute->content();
+            $columns = (array)$attributeContents->attribute('columns');
+            $rows = (array)$attributeContents->attribute('rows');
+
+            $keys = [];
+            foreach ($columns['sequential'] as $column) {
+                $keys[] = $column['identifier'];
+            }
+            $data = [];
+            foreach ($rows['sequential'] as $row) {
+                $data[] = array_combine($keys, $row['columns']);
+            }
+
+            foreach ($data as $element){
+                if (in_array($element['label'], ['Tipo', 'Visualizza elementi contenuti'])){
+                    continue;
+                }
+                $element['value'] = Markdown_Parser::parse($element['value']);
+                $items[] = [
+                    'slug' => eZCharTransform::instance()->transformByGroup($element['label'], 'identifier'),
+                    'title' => $element['label'],
+                    'label' => $element['label'],
+                    'attributes' => [$element],
+                    'is_grouped' => false,
+                    'wrap' => false,
+                    'evidence' => false,
+                    'data_element' => false,
+                ];
+                $showIndex = true;
+            }
+        }
+
+        if ($fileAttribute instanceof eZContentObjectAttribute && $fileAttribute->hasContent()){
+            $items[] = [
+                'slug' => '_files',
+                'title' => $fileAttribute->attribute('contentclass_attribute_name'),
+                'label' => $fileAttribute->attribute('contentclass_attribute_name'),
+                'attributes' => [$fileAttribute],
+                'is_grouped' => false,
+                'wrap' => false,
+                'evidence' => false,
+                'data_element' => false,
+            ];
+            $showIndex = true;
+        }
+
+        if ($attribute instanceof eZContentObjectAttribute){
+            $mainNode = $attribute->object()->mainNode();
+            if ($mainNode instanceof eZContentObjectTreeNode){
+                $count = $mainNode->childrenCount();
+                if ($count > 0) {
+                    $items[] = [
+                        'slug' => '_document',
+                        'title' => false,
+                        'label' => false,
+                        'attributes' => [
+                            [
+                                'children_count' => $count,
+                            ]
+                        ],
+                        'is_grouped' => false,
+                        'wrap' => false,
+                        'evidence' => false,
+                        'data_element' => false,
+                    ];
+                }
+            }
+        }
+
+        return [
+            'has_items' => count($items) > 0,
+            'show_index' => $showIndex,
+            'items' => $items,
+        ];
     }
 
     private static function parseAttributeGroups($object, $showAll = false)

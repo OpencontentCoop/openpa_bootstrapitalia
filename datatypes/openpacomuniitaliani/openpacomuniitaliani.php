@@ -62,6 +62,11 @@ class OpenPAComuniItaliani extends eZPersistentObject implements JsonSerializabl
         return $def;
     }
 
+    public static function __set_state($data)
+    {
+        return new OpenPAComuniItaliani($data);
+    }
+
     function getCode()
     {
         return $this->attribute('pro_com_t');
