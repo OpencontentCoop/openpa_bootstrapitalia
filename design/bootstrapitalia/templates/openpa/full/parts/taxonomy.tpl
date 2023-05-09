@@ -4,7 +4,11 @@
 ))}
 
 {def $current_topics = array()}
-{if and($node|has_attribute('topics'), $node|attribute('topics').data_type_string|eq('ezobjectrelationlist'))}
+{if and(
+    openpaini('ContentMain','ShowTopicsInOverview','enabled')|eq('enabled'),
+    $node|has_attribute('topics'),
+    $node|attribute('topics').data_type_string|eq('ezobjectrelationlist')
+)}
     {foreach $node|attribute('topics').content.relation_list as $item}
         {def $object = fetch(content, object, hash(object_id, $item.contentobject_id))}
         {if and($object.can_read, $object.class_identifier|eq('topic'))}
@@ -13,6 +17,7 @@
         {undef $object}
     {/foreach}
 {/if}
+
 
 {if or($current_topics|count(), $node|has_attribute('has_public_event_typology'))}
 <div class="{$container_class}">

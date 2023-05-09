@@ -92,6 +92,7 @@ AbstractIdentifiers[]=abstract
 AbstractIdentifiers[]=short_description
 AbstractIdentifiers[]=oggetto
 AbstractIdentifiers[]=event_abstract
+ShowTopicsInOverview=enabled
 
 [Attributi]
 AttributiAbstract[]=event_abstract
