@@ -19,6 +19,9 @@ class ObjectHandlerServiceDataElement extends ObjectHandlerServiceBase
 
     private function mapValue()
     {
+        if (!$this->container->getContentObject() instanceof eZContentObject){
+            return false;
+        }
         $remoteId = $this->container->getContentObject()->attribute('remote_id');
         $value = $this->mapValueByRemoteId($remoteId);
         if (!$value){
