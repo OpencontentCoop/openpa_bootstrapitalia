@@ -2,12 +2,30 @@
 
 use Opencontent\Opendata\Api\ContentRepository;
 use Opencontent\Opendata\Api\EnvironmentLoader;
+use Opencontent\Opendata\Rest\Client\PayloadBuilder;
 
 /** @var eZModule $module */
 $module = $Params['Module'];
 $tpl = eZTemplate::factory();
 $http = eZHTTPTool::instance();
+$locale = eZLocale::currentLocaleCode();
 
+/** only admin can view import form */
+$canImport = eZUser::currentUser()->attribute('login') === 'admin';
+$tpl->setVariable('can_import', $canImport);
+
+if ($http->hasPostVariable('From') && $canImport) {
+    $remoteUrl = $http->postVariable('From', '');
+    try {
+        eZDebug::writeDebug('Copy data from ' . $remoteUrl, __FILE__);
+        SiteInfo::importFromUrl($remoteUrl);
+        $module->redirectTo('/bootstrapitalia/info');
+        return;
+    } catch (Exception $e) {
+        eZDebug::writeError($e->getMessage(), __FILE__);
+        $tpl->setVariable('message', $e->getMessage());
+    }
+}
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {
     $home = OpenPaFunctionCollection::fetchHome();
@@ -20,8 +38,7 @@ if ($http->hasPostVariable('Store')) {
             'value' => $contacts[$field] ?? '',
         ];
     }
-    $locale = eZLocale::currentLocaleCode();
-    $payload = new \Opencontent\Opendata\Rest\Client\PayloadBuilder();
+    $payload = new PayloadBuilder();
     $payload->setId($home->attribute('contentobject_id'));
     $payload->setLanguages([$locale]);
     $payload->setData($locale, 'contacts', $data);
@@ -30,7 +47,7 @@ if ($http->hasPostVariable('Store')) {
         $httpFile = eZHTTPFile::fetch('Logo');
         $payload->setData($locale, 'logo', [
             'filename' => uniqid() . $httpFile->attribute('original_filename'),
-            'file' => base64_encode(file_get_contents($httpFile->attribute('filename')))
+            'file' => base64_encode(file_get_contents($httpFile->attribute('filename'))),
         ]);
     }
 
@@ -38,7 +55,7 @@ if ($http->hasPostVariable('Store')) {
         $httpFile = eZHTTPFile::fetch('Favicon');
         $payload->setData($locale, 'favicon', [
             'filename' => uniqid() . $httpFile->attribute('original_filename'),
-            'file' => base64_encode(file_get_contents($httpFile->attribute('filename')))
+            'file' => base64_encode(file_get_contents($httpFile->attribute('filename'))),
         ]);
     }
 
@@ -47,6 +64,7 @@ if ($http->hasPostVariable('Store')) {
     try {
         $contentRepository->update($payload->getArrayCopy(), true);
         $module->redirectTo('/bootstrapitalia/info');
+        return;
     } catch (Exception $e) {
         $tpl->setVariable('message', $e->getMessage());
     }

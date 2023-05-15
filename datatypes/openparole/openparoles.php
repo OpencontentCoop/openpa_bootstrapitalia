@@ -106,8 +106,8 @@ class OpenPARoles
 
     private function getPagination()
     {
-        if (isset($this->attributeSettings['pagination'])){
-            return (int)$this->attributeSettings['pagination'];
+        if (isset($this->attributeSettings['pagination']) && is_numeric($this->attributeSettings['pagination'])){
+            return $this->attributeSettings['pagination'];
         }
 
         return 6;

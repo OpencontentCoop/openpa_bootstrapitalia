@@ -68,13 +68,13 @@
                              width="16"
                              height="16"
                              class="bg-primary"
-                             src="{$favicon|ezimage(no)}" />
+                             src="{$_favicon|ezimage(no)}" />
                     {else}
                         <img alt="{ezini('SiteSettings','SiteName')}"
                              width="16"
                              height="16"
                              class="bg-primary"
-                             src="{$favicon}" />
+                             src="{$_favicon}" />
                     {/if}
                 </label>
                 <div class="col-sm-9">
