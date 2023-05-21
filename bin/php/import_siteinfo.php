@@ -23,6 +23,9 @@ $script->initialize();
 $script->setUseDebugAccumulators(true);
 $cli = eZCLI::instance();
 
+$user = eZUser::fetchByName('admin');
+eZUser::setCurrentlyLoggedInUser($user, $user->attribute('contentobject_id'));
+
 try {
     $url = $options['url'];
     $cli->output('Importo da ' . $url, false);
@@ -33,7 +36,7 @@ try {
         $import = false;
         $error = $e->getMessage();
     }
-    if (SiteInfo::importFromUrl($url)) {
+    if ($import) {
         $cli->output(' OK!');
     } else {
         $cli->error(' ERROR! ' . $error);
