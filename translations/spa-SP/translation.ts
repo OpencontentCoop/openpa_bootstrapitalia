@@ -426,7 +426,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Solo información de tipo</translation>
+      <translation>Solo información del tipo</translation>
     </message>
     <message>
       <source>Sorting by</source>

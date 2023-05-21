@@ -25,7 +25,7 @@
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Sautez au menu de la section</translation>
+      <translation>Menu de section sauter dans la section</translation>
     </message>
     <message>
       <source>Jump to footer</source>
@@ -514,7 +514,7 @@
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Rechercher "% 1" retourné% 2 Matchs</translation>
+      <translation>Rechercher "% 1" RETOURNÉ% 2 Matchs</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>

@@ -45,7 +45,7 @@
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Freier Eintritt für alle Teilnehmer</translation>
+      <translation>Freier Eintritt</translation>
     </message>
     <message>
       <source>Download</source>
@@ -113,11 +113,11 @@
     </message>
     <message>
       <source>Event start</source>
-      <translation>Veranstaltungsbeginn</translation>
+      <translation>Beginn</translation>
     </message>
     <message>
       <source>Event end</source>
-      <translation>Veranstaltungsende</translation>
+      <translation>Ende</translation>
     </message>
     <message>
       <source>Jump to field</source>

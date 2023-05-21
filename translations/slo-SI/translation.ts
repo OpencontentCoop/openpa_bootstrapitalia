@@ -490,7 +490,7 @@
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>Pri iskanju "%1" ni bilo ugotovljenih rezultatov.</translation>
+      <translation>Pri iskanju "%1" ni bilo mogoče najti rezultatov.</translation>
     </message>
     <message>
       <source>Search tips</source>

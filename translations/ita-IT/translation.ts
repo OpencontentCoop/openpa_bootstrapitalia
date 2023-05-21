@@ -45,7 +45,7 @@
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Ingresso gratuito per tutti i partecipanti</translation>
+      <translation>Ingresso gratuito</translation>
     </message>
     <message>
       <source>Download</source>
