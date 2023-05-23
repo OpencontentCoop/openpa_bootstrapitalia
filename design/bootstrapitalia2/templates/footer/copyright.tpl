@@ -19,7 +19,7 @@
                         if(trimmedPrefix === '/') trimmedPrefix = '';
                         var login = $('[data-login-bottom-button]');
                         if(CurrentUserIsLoggedIn) {
-                            login.attr('href', trimmedPrefix+'/accesso_redazione');
+                            login.attr('href', trimmedPrefix+'/user/logout');
                             login.html('{/literal}{'Logout'|i18n('bootstrapitalia')}{literal}');
                         }else{
                             login.attr('href', trimmedPrefix+'/accesso_redazione');
