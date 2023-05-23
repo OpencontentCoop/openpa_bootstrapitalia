@@ -100,7 +100,138 @@
           }
         }
       };
-      var CookieConsentServices = {};
+      var CookieConsentServices = {
+        ezsessid: {
+          category: 'necessary',
+          language: {
+            locale: {
+              i18n: {
+                name: 'Individuazione dell’utente che ha effettuato un’autenticazione o un’interazione con il sito: `eZSESSID` e/o `PHPSESSID` scade alla chiusura del browser'
+              }
+            }
+          }
+        },
+        cconsent: {
+          category: 'necessary',
+          language: {
+            locale: {
+              i18n: {
+                name: 'Salvataggio delle scelte dell’utente in merito ai cookie: `cconsent` scade dopo un anno dal primo salvataggio'
+              }
+            }
+          }
+        },
+        google: {
+          category: 'analytics',
+          type: 'dynamic-script',
+          cookies: [
+            {
+              name: /^_gid/,
+              domain: `.${window.location.hostname}`
+            },
+            {
+              name: /^_gat/,
+              domain: `.${window.location.hostname}`
+            },
+            {
+              name: /^_ga/,
+              domain: `.${window.location.hostname}`
+            },
+            {
+              name: /^_gid/,
+              domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
+            },
+            {
+              name: /^_gat/,
+              domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
+            },
+            {
+              name: /^_ga/,
+              domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
+            }
+          ],
+          language: {
+            locale: {
+              i18n: {
+                name: 'Google Analytics'
+              }
+            }
+          }
+        },
+        piwik:  {
+          category: 'analytics',
+          type: 'dynamic-script',
+          cookies: [
+            {
+              name: '__utma',
+              domain: `${window.location.hostname}`
+            },
+            {
+              name: /^_pk/,
+              domain: `${window.location.hostname}`
+            },
+            {
+              name: /^_pk_id/,
+              domain: `${window.location.hostname}`
+            },
+            {
+              name: /^_pk_ses/,
+              domain: `${window.location.hostname}`
+            },
+            {
+              name: '__utma',
+              domain: `.${window.location.hostname}`
+            },
+            {
+              name: /^_pk/,
+              domain: `.${window.location.hostname}`
+            },
+            {
+              name: /^_pk_id/,
+              domain: `.${window.location.hostname}`
+            },
+            {
+              name: /^_pk_ses/,
+              domain: `.${window.location.hostname}`
+            },
+            {
+              name: '__utma',
+              domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
+            },
+            {
+              name: /^_pk/,
+              domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
+            },
+            {
+              name: /^_pk_id/,
+              domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
+            },
+            {
+              name: /^_pk_ses/,
+              domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
+            },
+          ],
+          language: {
+            locale: {
+              i18n: {
+                name: 'Web Analytics Italia'
+              }
+            }
+          }
+        },
+        multimedia: {
+          category: 'multimedia',
+          type: 'wrapped',
+          search: 'wrapped',
+          language: {
+            locale: {
+              i18n: {
+                name: CookieConsentServicesForMultimedia
+              }
+            }
+          }
+        }
+      };
       if (NeedCookieConsentForAnalytics){
         CookieConsentCategories.analytics = {
           needed: false,
@@ -112,108 +243,6 @@
             }
           }
         };
-        if (HasGoogleAnalytics){
-          CookieConsentServices.google = {
-            category: 'analytics',
-            type: 'dynamic-script',
-            cookies: [
-              {
-                name: /^_gid/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_gat/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_ga/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_gid/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_gat/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_ga/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              }
-            ],
-            language: {
-              locale: {
-                i18n: {
-                  name: 'Google Analytics'
-                }
-              }
-            }
-          };
-        }
-        if (HasWebAnalyticsItalia){
-          CookieConsentServices.piwik = {
-            category: 'analytics',
-            type: 'dynamic-script',
-            cookies: [
-              {
-                name: '__utma',
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: /^_pk/,
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: /^_pk_id/,
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: /^_pk_ses/,
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: '__utma',
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_pk/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_pk_id/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_pk_ses/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: '__utma',
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_pk/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_pk_id/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_pk_ses/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-            ],
-            language: {
-              locale: {
-                i18n: {
-                  name: 'Web Analytics Italia'
-                }
-              }
-            }
-          };
-        }
       }
       if (NeedCookieConsentForMultimedia){
         CookieConsentCategories.multimedia = {
@@ -223,18 +252,6 @@
           language: {
             locale: {
               i18n: CookieConsentText.multimedia
-            }
-          }
-        };
-        CookieConsentServices.multimedia= {
-          category: 'multimedia',
-          type: 'wrapped',
-          search: 'wrapped',
-          language: {
-            locale: {
-              i18n: {
-                name: CookieConsentServicesForMultimedia
-              }
             }
           }
         };
