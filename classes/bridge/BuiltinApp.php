@@ -69,31 +69,48 @@ class BuiltinApp
 
     public function getVariables(): array
     {
-        $appIdentifier = strtoupper($this->appIdentifier);
         $privacy = eZContentObject::fetchByRemoteID('privacy-policy-link');
         $privacyUrl = $privacy ? $privacy->mainNode()->attribute('url_alias') : '/';
         eZURI::transformURI($privacyUrl, false, 'full');
+        $baseUrl = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
+        $authUrl = StanzaDelCittadinoBridge::factory()->buildApiUrl('/login');
         return [
-            'OC_' . $appIdentifier . '_APIURL' => StanzaDelCittadinoBridge::factory()->getApiBaseUri(),
-            'OC_' . $appIdentifier . '_PRIVACYURL' => $privacyUrl,
-            'OC_' . $appIdentifier . '_AUTHURL' => StanzaDelCittadinoBridge::factory()->buildApiUrl('/login'),
+            'OC_BASE_URL' => $baseUrl,
+            'OC_PRIVACY_URL' => $privacyUrl,
+            'OC_AUTH_URL' => $authUrl,
         ];
     }
 
     public function getWidgetSrc(): string
     {
-        return OpenPAINI::variable('StanzaDelCittadinoBridge', 'BuiltInWidgetSource_' . $this->getAppIdentifier(), '');
+        $path = OpenPAINI::variable('StanzaDelCittadinoBridge', 'BuiltInWidgetSource_' . $this->getAppIdentifier(), '');
+        if (empty($path)){
+            return '';
+        }
+        $host = StanzaDelCittadinoBridge::factory()->getHost();
+        return str_replace('%host%', $host, $path);
     }
 
     public function getWidgetStyle(): string
     {
-        return OpenPAINI::variable('StanzaDelCittadinoBridge', 'BuiltInWidgetStyle_' . $this->getAppIdentifier(), '');
+        $path = OpenPAINI::variable('StanzaDelCittadinoBridge', 'BuiltInWidgetStyle_' . $this->getAppIdentifier(), '');
+        if (empty($path)){
+            return '';
+        }
+        $host = StanzaDelCittadinoBridge::factory()->getHost();
+        return str_replace('%host%', $host, $path);
+    }
+
+    public function getAppRootId(): string
+    {
+        return OpenPAINI::variable('StanzaDelCittadinoBridge', 'RootId_' . $this->getAppIdentifier(), 'root');
     }
 
     public function getModuleResult(): array
     {
         $tpl = eZTemplate::factory();
         $tpl->setVariable('built_in_app', $this->getAppIdentifier());
+        $tpl->setVariable('built_in_app_root_id', $this->getAppRootId());
         $tpl->setVariable('built_in_app_variables', $this->getVariables());
         $tpl->setVariable('built_in_app_script', $this->getCustomConfig());
         $tpl->setVariable('built_in_app_src', $this->getWidgetSrc());

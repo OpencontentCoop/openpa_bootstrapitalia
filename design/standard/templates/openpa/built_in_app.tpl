@@ -8,7 +8,7 @@
                 <div class="bg-light rounded p-4">
                     {if is_set($built_in_app_api_base_url)}
                         <pre style="white-space: break-spaces;">{*
-                            *}{'<div id="root"></div>'|wash()}<br /><br />{*
+                            *}{concat('<div id="',$built_in_app_root_id,'"></div>')|wash()}<br /><br />{*
                             *}{'<script>'|wash()}<br />{foreach $built_in_app_variables as $key => $value}window.{$key} = '{$value}';{delimiter}<br />{/delimiter}{/foreach}<br />{'</script>'|wash()}<br /><br />{*
                             *}{'<script src="'|wash()}{if is_set($built_in_app_src)}{$built_in_app_src}{else}{openpaini('StanzaDelCittadinoBridge', concat('BuiltInWidgetSource_', $built_in_app))}{/if}{'"/>'|wash()}{*
                             *}{if $built_in_app_style|ne('')}<br /><br />{'<link rel="stylesheet" type="text/css" href="'|wash()}{$built_in_app_style}{'" />'|wash()}{/if}
@@ -35,7 +35,7 @@
         </div>
     {elseif is_set($built_in_app_api_base_url)}
         <div class="buitinapp">
-            <div id="root"></div>
+            <div id="{$built_in_app_root_id}"></div>
             <script>{foreach $built_in_app_variables as $key => $value}window.{$key} = '{$value}';{/foreach}</script>
             <script src="{$built_in_app_src}"></script>
             {if $built_in_app_style|ne('')}<link rel="stylesheet" type="text/css" href="{$built_in_app_style}" />{/if}

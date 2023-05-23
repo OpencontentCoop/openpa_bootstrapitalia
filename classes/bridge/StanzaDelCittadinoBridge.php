@@ -66,6 +66,12 @@ class StanzaDelCittadinoBridge
         return $this->apiBaseUrl;
     }
 
+    public function getHost(): ?string
+    {
+        $url = $this->getApiBaseUri();
+        return parse_url($url, PHP_URL_HOST);
+    }
+
     public function buildApiUrl(string $path): ?string
     {
         $base = $this->getApiBaseUri();
