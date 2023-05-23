@@ -126,7 +126,7 @@ class BootstrapItaliaTheme implements JsonSerializable
                     break;
             }
 
-            return $fallback;
+            return str_replace(' !important', '', $fallback);
         }
 
         return $this->cssData;

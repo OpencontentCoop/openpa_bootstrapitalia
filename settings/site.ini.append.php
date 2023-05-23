@@ -21,6 +21,8 @@ PolicyOmitList[]=segnala_disservizio
 PolicyOmitList[]=accedi
 PolicyOmitList[]=segnalazioni
 PolicyOmitList[]=accesso_redazione
+PolicyOmitList[]=manifest.json
+PolicyOmitList[]=service-worker.js
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login

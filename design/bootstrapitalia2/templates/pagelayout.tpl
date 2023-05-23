@@ -63,6 +63,8 @@
     <meta http-equiv="Content-Language" content="{$site.http_equiv.Content-language|wash}">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="manifest" href="/manifest.json" crossorigin = "use-credentials">
+    <meta name="theme-color" content="{primary_color()}">
     {no_index_if_needed()}
     {include uri='design:page_head.tpl' canonical_url=openpacontext().canonical_url}
     {/debug-accumulator}

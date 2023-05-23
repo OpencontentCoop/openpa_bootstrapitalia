@@ -67,6 +67,16 @@
   var MomentDateFormat = "{'DD/MM/YYYY'|i18n('openpa/moment_date_format')}";
   var MomentDateTimeFormat = "{'DD/MM/YYYY HH:mm'|i18n('openpa/moment_datetime_format')}";
   moment.locale("{$moment_language}");
+  {literal}
+  if ('serviceWorker' in navigator) {
+    if (!navigator.serviceWorker.controller) {
+      navigator.serviceWorker.register('/service-worker.js', {scope: '/'}).then(
+        function (registration) {},
+        function (err) {console.warn('Failed to register Service Worker:\n', err);}
+      );
+    }
+  }
+  {/literal}
   //]]>
 </script>
 {undef $scripts $current_locale $moment_language}

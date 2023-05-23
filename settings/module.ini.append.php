@@ -12,4 +12,6 @@ ModuleList[]=richiedi_assistenza
 ModuleList[]=segnala_disservizio
 ModuleList[]=segnalazioni
 ModuleList[]=accesso_redazione
+ModuleList[]=manifest.json
+ModuleList[]=service-worker.js
 */ ?>
