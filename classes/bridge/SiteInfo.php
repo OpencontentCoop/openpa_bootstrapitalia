@@ -6,7 +6,7 @@ use Opencontent\Opendata\Rest\Client\PayloadBuilder;
 
 class SiteInfo
 {
-    public static function importFromUrl($remoteUrl)
+    public static function importFromUrl($remoteUrl, $overrideLogo = false)
     {
         if (filter_var($remoteUrl, FILTER_VALIDATE_URL)) {
             $remoteHost = parse_url($remoteUrl, PHP_URL_HOST);
@@ -55,6 +55,25 @@ class SiteInfo
                         }
                     }
 
+                    if ($overrideLogo) {
+                        $standardLogoPath = strtolower(
+                            eZCharTransform::instance()->transformByGroup(
+                                eZINI::instance()->variable('SiteSettings', 'SiteName'),
+                                'urlalias'
+                            )
+                        );
+                        $standardLogo = "https://s3.eu-west-1.amazonaws.com/download.stanzadelcittadino.it/{$standardLogoPath}/logo.png";
+                        if (file_get_contents($standardLogo)) {
+                            $payload->setData(null, 'logo', [
+                                'filename' => basename($standardLogo),
+                                'url' => $standardLogo,
+                            ]);
+                            $payload->setData(null, 'stemma', [
+                                'filename' => basename($standardLogo),
+                                'url' => $standardLogo,
+                            ]);
+                        }
+                    }
                     if (!empty($payload->getData())) {
                         $contentRepository = new ContentRepository();
                         $contentRepository->setEnvironment(EnvironmentLoader::loadPreset('content'));

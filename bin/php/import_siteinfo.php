@@ -31,7 +31,7 @@ try {
     $cli->output('Importo da ' . $url, false);
     $error = false;
     try {
-        $import = SiteInfo::importFromUrl($url);
+        $import = SiteInfo::importFromUrl($url, true);
     } catch (Exception $e) {
         $import = false;
         $error = $e->getMessage();
