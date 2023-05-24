@@ -15,6 +15,8 @@ $(document).ready(function () {
         let currentPage = 0;
         let queryPerPage = [];
         let template = $.templates('#tpl-results');
+        let searchType = container.data('search_type') || 'search';
+        let searchEndpoint = searchType === 'calendar' ? '/opendata/api/calendar/search' : $.opendataTools.settings('endpoint').search;
 
         let filters = container.find('[data-block_subtree_filter]').on('click', function (e) {
             let self = $(this);
@@ -81,8 +83,12 @@ $(document).ready(function () {
         let find = function (query, cb, context) {
             $.ajax({
                 type: 'GET',
-                url: $.opendataTools.settings('endpoint').search,
-                data: {q: query, view: view},
+                url: searchEndpoint,
+                data: {
+                    q: query,
+                    start: moment().format('YYYY-MM-DD'),
+                    end: moment().add(180, 'days').format('YYYY-MM-DD'),
+                    view: view},
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
                 success: function (data, textStatus, jqXHR) {
@@ -105,6 +111,16 @@ $(document).ready(function () {
             let paginatedQuery = baseQuery + ' and limit ' + limitPagination + ' offset ' + currentPage * limitPagination;
 
             find(paginatedQuery, function (response) {
+                if (searchType === 'calendar'){
+                    var hits = [];
+                    $.each(response, function (){
+                        hits.push(this.content);
+                    });
+                    response = {
+                        searchHits: hits,
+                        totalCount: hits.length,
+                    };
+                }
                 queryPerPage[currentPage] = paginatedQuery;
                 response.view = view;
                 response.autoColumn = itemsPerRow !== 'auto' && $.inArray(view, ['card_teaser', 'banner_color', 'card_children']) > -1;

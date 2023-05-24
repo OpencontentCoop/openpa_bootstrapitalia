@@ -6,15 +6,16 @@
 
 {def $view='card'}
 
-{def $query = "calendar[time_interval] = [now,'1 year']"}
+{def $query = "classes [event] limit 3"}
 {if and(is_set($block.custom_attributes.includi_classi), $block.custom_attributes.includi_classi|ne(''))}
-    {set $query = concat($query, ' and classes [', $block.custom_attributes.includi_classi, ']')}
+    {set $query = concat('classes [', $block.custom_attributes.includi_classi, '] limit 3')}
 {/if}
 {def $openpa = object_handler($block)}
 {if $openpa.has_content}
 	<div class="hide"
 		 data-view="{$view}"
 		 data-block_subtree_query="{$query}"
+		 data-search_type="calendar"
 		 data-limit="3"
 		 data-items_per_row="3">
 		<div class="row row-title">
