@@ -32,6 +32,7 @@ PHPClass=OpenPABootstrapItaliaDatatableEnvironmentSettings
 [AttributeConverters]
 Converters[has_temporal_coverage]=FullRelationsAttributeConverter
 Converters[opening_hours_specification]=FullRelationsAttributeConverter
+Converters[openpacomuniitaliani]=OpenPAComuniItalianiAttributeConverter
 
 [ExtraDataProviders]
 Class[event]=ezfIndexSubAttributeGeo

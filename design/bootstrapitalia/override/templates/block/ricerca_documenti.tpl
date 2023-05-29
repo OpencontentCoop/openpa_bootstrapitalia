@@ -50,7 +50,7 @@
 	 data-number_identifier="{$number|wash()}">
 	{if $filters|count()}
 	<div class="d-block d-lg-none d-xl-none text-center mb-2">
-		<a href="#filters" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="filters">{'Filters'|i18n('bootstrapitalia')}</a>
+		<a href="#filters" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="filters">{'Filters'|i18n('bootstrapitalia')}</a>
 	</div>
 	<div class="d-lg-block d-xl-block collapse" id="filters">
 		<form class="form">
@@ -139,7 +139,7 @@
 	    {if and($root_tags|count(), $root_tags[0]|ne(''))}
 		    <aside class="col-lg-4{if $hide_tag_select} d-none{/if}">
 				<div class="d-block d-lg-none d-xl-none text-center mb-2">
-					<a href="#types" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" aria-expanded="false" aria-controls="types">{'Document type'|i18n('bootstrapitalia/documents')}</a>
+					<a href="#types" role="button" class="btn btn-primary btn-md text-uppercase collapsed" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="types">{'Document type'|i18n('bootstrapitalia/documents')}</a>
 				</div>
 				<div class="link-list-wrapper menu-link-list d-lg-block d-xl-block collapse" id="types">
 					<ul class="link-list">
@@ -154,18 +154,18 @@
 								{foreach $tag_tree.children as $index => $tag}
 									{if and($root_index|gt(0), $index|eq(0))}<li class="border-top my-2"></li>{/if}
 									<li data-level="1">
-										<a class="list-item pr-0" data-tag_id="{$tag.id|wash()}" href="#"><span>{$tag.keyword|wash()} <small></small></span></a>
+										<a class="list-item pr-0 pe-0" data-tag_id="{$tag.id|wash()}" href="#"><span>{$tag.keyword|wash()} <small></small></span></a>
 
 										{if $tag.hasChildren}
 											<ul class="link-sublist">
 											{foreach $tag.children as $childTag}
 												<li data-level="2">
-													<a class="list-item pr-0" data-tag_id="{$childTag.id|wash()}" href="#"><span>{$childTag.keyword|wash()} <small></small></span></a>
+													<a class="list-item pr-0 pe-0" data-tag_id="{$childTag.id|wash()}" href="#"><span>{$childTag.keyword|wash()} <small></small></span></a>
 													{if $childTag.hasChildren}
 														<ul class="link-sublist">
 														{foreach $childTag.children as $subChildTag}
 															<li data-level="3">
-																<a class="list-item pr-0" data-tag_id="{$subChildTag.id|wash()}" href="#"><span>{$subChildTag.keyword|wash()} <small></small></span></a>
+																<a class="list-item pr-0 pe-0" data-tag_id="{$subChildTag.id|wash()}" href="#"><span>{$subChildTag.keyword|wash()} <small></small></span></a>
 															</li>
 														{/foreach}
 														</ul>

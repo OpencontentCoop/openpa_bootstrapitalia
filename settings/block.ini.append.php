@@ -222,9 +222,12 @@ CustomAttributeSelection_calendar_view[day_grid]=Settimana
 CustomAttributeSelection_calendar_view[month]=Mese
 ViewList[]
 ViewList[]=default
+ViewList[]=card
 ViewName[default]=Default
+ViewName[card]=Card
 ItemsPerRow[]
 ContainerStyle[default]=py-5
+ContainerStyle[card]=py-5
 CanAddShowAllLink=disabled
 CanAddIntroText=enabled
 
@@ -582,6 +585,7 @@ CustomAttributeSelection_items_per_row[3]=3
 CustomAttributeSelection_view_api[card_teaser]=Card (teaser)
 CustomAttributeSelection_view_api[card]=Card
 CustomAttributeSelection_view_api[banner]=Banner
+CustomAttributeSelection_view_api[latest_messages_item]=Lista
 ViewList[]
 ViewList[]=default
 ViewList[]=datatable
@@ -670,6 +674,7 @@ CustomAttributeSelection_items_per_row[3]=3
 CustomAttributeSelection_view_api[card_teaser]=Card (teaser)
 CustomAttributeSelection_view_api[card]=Card
 CustomAttributeSelection_view_api[banner]=Banner
+CustomAttributeSelection_view_api[latest_messages_item]=Lista
 ViewList[]
 ViewList[]=default
 ViewName[default]=Default

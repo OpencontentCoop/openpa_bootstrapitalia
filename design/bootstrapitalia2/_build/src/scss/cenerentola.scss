@@ -1,0 +1,17 @@
+//usando http://colorizer.org/
+
+$colore-header: #4472C4;
+
+$primary-a7: darken($colore-header, 3);
+$primary-a6: darken($colore-header, 0);
+$primary-a10: darken($colore-header, 1);
+$primary-a12: darken($colore-header, 2);
+
+$primary-h: 218;
+$primary-s: 65;
+$primary-b: 77;
+
+$header-slim-bg-color: $primary-a7;
+$footer-comuni-bg-color: $primary-a10;
+
+@import "default";

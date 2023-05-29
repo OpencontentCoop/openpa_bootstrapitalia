@@ -18,7 +18,7 @@
     {if count($classes)}
     <div class="btn-group create-relation-buttons">
         {if count($classes)|gt(1)}
-        <button type="button" class="btn btn-sm btn-info ml-2 dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-sm btn-info ml-2 ms-2 dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             {'Create new'|i18n('bootstrapitalia')}
             {display_icon('it-expand', 'svg', 'icon-expand icon icon-xs')}
         </button>
@@ -36,7 +36,7 @@
             </div>
         </div>
         {else}
-            <a class="btn btn-sm btn-info ml-1" href="#" data-create-relation data-attribute="{$attribute.id}" data-class="{$classes[0].identifier}" data-parent="{$browse_object_start_node}">
+            <a class="btn btn-sm btn-info ml-1 ms-1" href="#" data-create-relation data-attribute="{$attribute.id}" data-class="{$classes[0].identifier}" data-parent="{$browse_object_start_node}">
                 {'Create'|i18n('bootstrapitalia')} {$classes[0].name|downcase|wash()}
             </a>
         {/if}

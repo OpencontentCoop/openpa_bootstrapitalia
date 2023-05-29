@@ -45,7 +45,7 @@
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Freier Eintritt für alle Teilnehmer</translation>
+      <translation>Freier Eintritt</translation>
     </message>
     <message>
       <source>Download</source>
@@ -113,11 +113,11 @@
     </message>
     <message>
       <source>Event start</source>
-      <translation>Veranstaltungsbeginn</translation>
+      <translation>Beginn</translation>
     </message>
     <message>
       <source>Event end</source>
-      <translation>Veranstaltungsende</translation>
+      <translation>Ende</translation>
     </message>
     <message>
       <source>Jump to field</source>
@@ -243,6 +243,50 @@
       <source>Add note</source>
       <translation>Transparenzhinweis hinzufügen</translation>
     </message>
+    <message>
+      <source>Contact the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Read the FAQ</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Call the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Report a disservice</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Trouble in the city</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Support</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Booking</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Inefficiency reporting</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -255,7 +299,7 @@
       <translation>Apps</translation>
     </message>
     <message>
-      <source>Amministrazione Trasparente</source>
+      <source>Transparent Administration</source>
       <translation>Transparente Verwaltung</translation>
     </message>
     <message>
@@ -330,27 +374,27 @@
   <context>
     <name>openpa/valuation</name>
     <message>
-      <source>Valuta questo sito</source>
+      <source>Rate this site</source>
       <translation>Diese Seite bewerten</translation>
     </message>
     <message>
-      <source>per nulla</source>
+      <source>in no way</source>
       <translation>überhaupt nicht</translation>
     </message>
     <message>
-      <source>poco</source>
+      <source>little</source>
       <translation>wenig</translation>
     </message>
     <message>
-      <source>abbastanza</source>
+      <source>enough</source>
       <translation>ausreichend</translation>
     </message>
     <message>
-      <source>molto</source>
+      <source>Very</source>
       <translation>viel</translation>
     </message>
     <message>
-      <source>Invia la valutazione</source>
+      <source>Submit your rating</source>
       <translation>Sende die Bewertung</translation>
     </message>
   </context>
@@ -776,39 +820,39 @@
       <translation>nein</translation>
     </message>
     <message>
-      <source>si</source>
+      <source>yes</source>
       <translation>ja</translation>
     </message>
     <message>
-      <source>per nulla</source>
+      <source>in no way</source>
       <translation>überhaupt nicht</translation>
     </message>
     <message>
-      <source>poco</source>
+      <source>little</source>
       <translation>nicht so zufrieden</translation>
     </message>
     <message>
-      <source>abbastanza</source>
+      <source>enough</source>
       <translation>zufrieden</translation>
     </message>
     <message>
-      <source>molto</source>
+      <source>Very</source>
       <translation>sehr zufrieden</translation>
     </message>
     <message>
-      <source>Sono presenti contenuti non accessibili</source>
+      <source>There are inaccessible content</source>
       <translation>Die Inhalte sind nicht zugänglich</translation>
     </message>
     <message>
-      <source>I contenuti non sono pertinenti</source>
+      <source>The contents are not relevant</source>
       <translation>Die Inhalte sind nicht relevant</translation>
     </message>
     <message>
-      <source>Il linguaggio non è di facile comprensione</source>
+      <source>The language is not easy to understand</source>
       <translation>Die Texte sind nicht leicht verständlich</translation>
     </message>
     <message>
-      <source>Le informazioni non sono aggiornate</source>
+      <source>The information is not up to date</source>
       <translation>Die Informationen werden nicht aktualisiert</translation>
     </message>
   </context>
@@ -913,19 +957,19 @@
   <context>
     <name>bootstrapitalia/menu</name>
     <message>
-      <source>Amministrazione</source>
+      <source>Administration</source>
       <translation>Politik und Verwaltung</translation>
     </message>
     <message>
-      <source>Servizi</source>
+      <source>Services</source>
       <translation>Serviceportal</translation>
     </message>
     <message>
-      <source>Novità</source>
+      <source>Announcements</source>
       <translation>Aktuelles</translation>
     </message>
     <message>
-      <source>Documenti</source>
+      <source>Papers</source>
       <translation>Formulare und Dokumente</translation>
     </message>
   </context>
@@ -1018,6 +1062,163 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
       <translation>Cookies von Drittanbietern werden verwendet, um die Eigenschaften des Navigationsverhaltens des Nutzers zu analysieren, um Dienste zum Aufrufen oder Teilen von Inhalten bereitzustellen und um Profile auf der Grundlage des Verhaltens des Nutzers auf der Website zu erstellen. Auf dieser Website werden Medieninhalte von Drittanbietern (z. B. YouTube oder Facebook) unter Verwendung von oEmbed-Spezifikationen oder Integrationswidgets eingebunden. Jeder Inhaltsanbieter kann technische, analytische und profilbildende Cookies gemäß seinen eigenen Einstellungen setzen. Wenn diese Einstellung deaktiviert ist, werden die Medieninhalte nicht automatisch in die Website eingebettet, sondern es wird ein Link angezeigt, über den sie direkt von der Quelle abgerufen werden können.</translation>
+    </message>
+  </context>
+  <context>
+    <name>openparoletype</name>
+    <message>
+      <source>Search for</source>
+      <translation>Cerca per</translation>
+    </message>
+    <message>
+      <source>Person</source>
+      <translation>Persona</translation>
+    </message>
+    <message>
+      <source>View</source>
+      <translation>Visualizza</translation>
+    </message>
+    <message>
+      <source>People</source>
+      <translation>Persone</translation>
+    </message>
+    <message>
+      <source>Sort by</source>
+      <translation>Ordina per</translation>
+    </message>
+    <message>
+      <source>Person name</source>
+      <translation>Nome persona</translation>
+    </message>
+    <message>
+      <source>Filter by type</source>
+      <translation>Filtra per tipo</translation>
+    </message>
+    <message>
+      <source>Structure</source>
+      <translation>Struttura</translation>
+    </message>
+    <message>
+      <source>Role type</source>
+      <translation>Tipo di ruolo</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/signin</name>
+    <message>
+      <source>Sign in</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>To access the site and its services, use one of the following methods.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with SPID, the public digital identity system.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with SPID</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>How to activate SPID?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with your Electronic Identity Card.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with CIE</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>How to request CIE?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Other types</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Alternatively you can use the following methods.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Access reserved only for staff</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login as website editor</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login to manage digital services</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/editor-gui</name>
+    <message>
+      <source>Activate the "News in evidence" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The homepage of the site can have a section of 3 news in evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Events in evidence" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The site homepage can have a section of events in evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Thematic sites" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The site homepage can have a section with links to thematic sites</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Activate the "Search" section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>In evidence</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Administration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>News</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Events</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Topics</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Thematic sites</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Research</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Other settings</source>
+      <translation type="unfinished"/>
     </message>
   </context>
 </TS>

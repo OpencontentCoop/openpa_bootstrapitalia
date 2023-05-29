@@ -30,7 +30,7 @@
     {if and($show_icon, $openpa.content_icon.icon)}
         {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon')}
     {/if}
-    <div class="card-body{if $node|has_attribute('image')} pr-3{/if}">
+    <div class="card-body{if $node|has_attribute('image')} pr-3 pe-3{/if}">
         {if and($person, $hide_title|not())}
         <h5 class="card-title mb-1">            
             {$person.name|wash()}

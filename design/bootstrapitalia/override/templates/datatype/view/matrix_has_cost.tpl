@@ -8,11 +8,11 @@
             {if $row.columns[0]|ne('')}{$row.columns[0]|wash()}{/if} {if $row.columns[1]|ne('')}{if $row.columns[0]|ne('')}({/if}{$row.columns[1]|wash()}{if $row.columns[0]|ne('')}){/if}{/if}
         </dt>
         <dd class="col-4 col-sm-3 text-center">
-            <span style="font-size: 1em" class="badge badge-light font-weight-normal ml-2">{if or($row.columns[2]|eq(''), $row.columns[2]|eq('0'))}{'FREE'|i18n('bootstrapitalia')}{else}{$row.columns[2]|wash()} {$row.columns[3]|wash()}{/if}</span>
+            <span style="font-size: 1em" class="badge badge-light bg-light font-weight-normal ml-2 ms-2">{if or($row.columns[2]|eq(''), $row.columns[2]|eq('0'))}{'FREE'|i18n('bootstrapitalia')}{else}{$row.columns[2]|wash()} {$row.columns[3]|wash()}{/if}</span>
         </dd>
         {else}
         <dd class="col">
-            <span style="font-size: 1em" class="badge badge-light font-weight-normal mt-1">{if or($row.columns[2]|eq(''), $row.columns[2]|eq('0'))}{'FREE'|i18n('bootstrapitalia')}{else}{$row.columns[2]|wash()} {$row.columns[3]|wash()}{/if}</span>
+            <span style="font-size: 1em" class="badge badge-light bg-light font-weight-normal mt-1">{if or($row.columns[2]|eq(''), $row.columns[2]|eq('0'))}{'FREE'|i18n('bootstrapitalia')}{else}{$row.columns[2]|wash()} {$row.columns[3]|wash()}{/if}</span>
         </dd>
         {/if}
     </dl>

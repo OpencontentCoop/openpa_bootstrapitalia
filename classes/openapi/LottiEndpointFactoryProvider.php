@@ -38,21 +38,23 @@ class LottiEndpointFactoryProvider extends AbstractSlugClassesEntryPointFactoryP
         if ($containerRoot instanceof eZContentObject) {
             if (self::$nodeIdMap === null) {
                 self::$nodeIdMap = [];
-                /** @var eZContentObjectTreeNode[] $datasetList */
-                $datasetList = eZContentObjectTreeNode::subTreeByNodeID([
-                    'ClassFilterType' => 'include',
-                    'ClassFilterArray' => ['dataset_lotto'],
-                    'SortBy' => [['published', true]],
-                ], $containerRoot->mainNodeID());
-                foreach ($datasetList as $dataset){
-                    $dataMap = $dataset->dataMap();
-                    $slug = "".$dataMap['anno_riferimento']->toString();
-                    if (strlen($slug) > 100) {
-                        $substr = substr($slug, 0, 100);
-                        $lastUnderscore = strrpos($substr, " ");
-                        $slug = substr($substr, 0, $lastUnderscore);
+                if (eZContentClass::classIDByIdentifier('dataset_lotto')) {
+                    /** @var eZContentObjectTreeNode[] $datasetList */
+                    $datasetList = eZContentObjectTreeNode::subTreeByNodeID([
+                        'ClassFilterType' => 'include',
+                        'ClassFilterArray' => ['dataset_lotto'],
+                        'SortBy' => [['published', true]],
+                    ], $containerRoot->mainNodeID());
+                    foreach ($datasetList as $dataset) {
+                        $dataMap = $dataset->dataMap();
+                        $slug = "" . $dataMap['anno_riferimento']->toString();
+                        if (strlen($slug) > 100) {
+                            $substr = substr($slug, 0, 100);
+                            $lastUnderscore = strrpos($substr, " ");
+                            $slug = substr($substr, 0, $lastUnderscore);
+                        }
+                        self::$nodeIdMap[$slug] = (int)$dataset->attribute('node_id');
                     }
-                    self::$nodeIdMap[$slug] = (int)$dataset->attribute('node_id');
                 }
             }
         }
@@ -69,7 +71,7 @@ class LottiEndpointFactoryProvider extends AbstractSlugClassesEntryPointFactoryP
 
     protected function build()
     {
-        if ($this->getContainerRoot()){
+        if ($this->getContainerRoot() && eZContentClass::classIDByIdentifier('dataset_lotto')){
             $prefix = $this->getPrefix();
             $this->endpoints[] = (new \Opencontent\OpenApi\EndpointFactory\NodeClassesEndpointFactory(
                 $this->getContainerRoot()->mainNodeID(),

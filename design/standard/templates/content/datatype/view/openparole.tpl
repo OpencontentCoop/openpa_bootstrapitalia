@@ -29,18 +29,18 @@
 		{/case}
 
 		{case match=3} {* Persone: per i ruoli afferenti a una struttura *}
-			{def $index = 1}
+			{def $role_index = 1}
 			{def $total = count($attribute.content.people)}
 			{def $items_per_page = cond(is_set($attribute.content.settings.pagination), $attribute.content.settings.pagination, 6)}
 			<div data-people_pagination="1" data-people_pages="{div($total,$items_per_page)|ceil()}">
 				<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
 					{foreach $attribute.content.people as $child }
-						{def $css = concat('page-', div($index,$items_per_page)|ceil())}
-						{if $index|gt($items_per_page)}
+						{def $css = concat('page-', div($role_index,$items_per_page)|ceil())}
+						{if $role_index|gt($items_per_page)}
 							{set $css = concat($css, '" style="display:none !important')}
 						{/if}
 						{node_view_gui content_node=$child.main_node view=card_teaser show_icon=true() image_class=widemedium view_variation=$css}
-						{set $index = $index|inc()}
+						{set $role_index = $role_index|inc()}
 						{undef $css}
 					{/foreach}
 				</div>

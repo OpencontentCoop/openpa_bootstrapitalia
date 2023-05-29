@@ -19,7 +19,7 @@
 {/if}
 
 <div class="dropdown d-inline">
-    <button class="btn btn-dropdown dropdown-toggle" type="button" id="shareActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button class="btn btn-dropdown dropdown-toggle" type="button" id="shareActions" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {display_icon('it-share', 'svg', 'icon')}
         <small>{'Share'|i18n('bootstrapitalia')}</small>
     </button>
@@ -55,7 +55,7 @@
     </div>
 </div>
 <div class="dropdown d-inline">
-    <button class="btn btn-dropdown dropdown-toggle" type="button" id="viewActions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <button class="btn btn-dropdown dropdown-toggle" type="button" id="viewActions" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {display_icon('it-more-items', 'svg', 'icon')}
         <small>{'Actions'|i18n('bootstrapitalia')}</small>
     </button>

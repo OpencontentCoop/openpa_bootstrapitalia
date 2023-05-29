@@ -4,7 +4,11 @@
 ))}
 
 {def $current_topics = array()}
-{if and($node|has_attribute('topics'), $node|attribute('topics').data_type_string|eq('ezobjectrelationlist'))}
+{if and(
+    openpaini('ContentMain','ShowTopicsInOverview','enabled')|eq('enabled'),
+    $node|has_attribute('topics'),
+    $node|attribute('topics').data_type_string|eq('ezobjectrelationlist')
+)}
     {foreach $node|attribute('topics').content.relation_list as $item}
         {def $object = fetch(content, object, hash(object_id, $item.contentobject_id))}
         {if and($object.can_read, $object.class_identifier|eq('topic'))}
@@ -13,6 +17,7 @@
         {undef $object}
     {/foreach}
 {/if}
+
 
 {if or($current_topics|count(), $node|has_attribute('has_public_event_typology'))}
 <div class="{$container_class}">
@@ -40,7 +45,7 @@
     {/if}
 
     {foreach $node|attribute('type').content.tags as $tag}
-        <a class="text-decoration-none text-sans-serif mr-1 text-nowrap d-inline-block"
+        <a class="text-decoration-none text-sans-serif mr-1 me-1 text-nowrap d-inline-block"
            href="{if $openpa.content_tag_menu.has_tag_menu}{concat( $openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
            <div class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></div>
        </a>

@@ -10,6 +10,8 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
 
     private $currentViewTag;
 
+    private $currentViewTagSubtree;
+
     private $showTagCards;
 
     function run()
@@ -18,6 +20,9 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
         $this->fnData['tag_menu_root'] = 'getTagMenuRootTag';
         $this->fnData['tag_menu_root_node'] = 'getTagMenuRootNode';
         $this->fnData['current_view_tag'] = 'getCurrentViewTag';
+        $this->fnData['current_view_tag_tree_list'] = 'getCurrentViewTagTreeIdList';
+        $this->fnData['current_view_tag_subtree'] = 'getCurrentViewTagSubtree';
+        $this->fnData['current_view_keywords_subtree'] = 'getCurrentViewKeywordsSubtree';
         $this->fnData['show_tag_cards'] = 'showTagCards';
     }
 
@@ -75,10 +80,20 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
             if ($this->hasTagMenu() && $userView){
                 $rootTag = $this->getTagMenuRootTag();
                 if ($rootTag instanceof eZTagsObject) {
-                    foreach ($rootTag->attribute('children') as $child) {
-                        if ($child->attribute('keyword') == $userView) {
-                            $this->currentViewTag = $child;
-                            break;
+                    $userView = str_replace(' / ', '$', $userView);
+                    $url = explode('/', $userView);
+                    foreach ($url as $index => $item){
+                        $url[$index] = str_replace('$', ' / ', $item);
+                    }
+                    $rootUrl = array_reverse(explode('/', $rootTag->getCleanUrl()));
+                    foreach ($rootUrl as $item){
+                        array_unshift($url, $item);
+                    }
+                    $currentViewTag = eZTagsObject::fetchByUrl($url);
+                    if ($currentViewTag instanceof eZTagsObject){
+                        $pathArray = explode('/', trim($currentViewTag->attribute('path_string'), '/'));
+                        if (in_array($rootTag->attribute('id'), $pathArray)){
+                            $this->currentViewTag = $currentViewTag;
                         }
                     }
                 }
@@ -88,6 +103,64 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
         return $this->currentViewTag;
     }
 
+    protected function getCurrentViewTagTreeIdList()
+    {
+        $idList = false;
+        if ($this->currentViewTag instanceof eZTagsObject) {
+            $tagId = (int)$this->currentViewTag->attribute('id');
+            $path = $this->currentViewTag->attribute('path_string');
+            $db = eZDB::instance();
+            $result = $db->arrayQuery("SELECT id FROM eztags WHERE id = $tagId OR path_string LIKE '{$path}%'");
+
+            $idList = array_column($result, 'id');
+        }
+
+        return $idList;
+    }
+
+    protected function getCurrentViewTagSubtree()
+    {
+        if ($this->currentViewTagSubtree === null) {
+            $this->currentViewTagSubtree = false;
+
+            $rootTag = $this->getTagMenuRootTag();
+            $currentViewTag = $this->getCurrentViewTag();
+            if ($rootTag instanceof eZTagsObject && $currentViewTag instanceof eZTagsObject) {
+                $this->currentViewTagSubtree = [];
+                if ($currentViewTag->attribute( 'parent_id' ) == $rootTag->attribute('id')){
+                    $this->currentViewTagSubtree = [$currentViewTag];
+                }else{
+                    $path = $currentViewTag->getPath();
+                    $collect = false;
+                    foreach ($path as $item){
+                        if ($collect){
+                            $this->currentViewTagSubtree[] = $item;
+                        }
+                        if ($item->attribute('id') == $rootTag->attribute('id')){
+                            $collect = true;
+                        }
+                    }
+                    $this->currentViewTagSubtree[] = $currentViewTag;
+                }
+            }
+        }
+
+        return $this->currentViewTagSubtree;
+    }
+
+    protected function getCurrentViewKeywordsSubtree()
+    {
+        $data = [];
+        $currentViewTagSubtree = $this->getCurrentViewTagSubtree();
+        if ($currentViewTagSubtree){
+            foreach ($currentViewTagSubtree as $item){
+                $data[] = $item->attribute('keyword');
+            }
+        }
+
+        return $data;
+    }
+
     protected function showTagCards()
     {
         if ($this->showTagCards === null){
@@ -95,7 +168,7 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
             $this->getTagMenuRootTag();
         }
         if ($this->showTagCards && $this->getCurrentViewTag()){
-            $this->showTagCards = false;
+            $this->showTagCards = $this->getCurrentViewTag()->attribute('children_count') > 1;
         }
         return $this->showTagCards;
     }

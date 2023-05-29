@@ -21,14 +21,14 @@
 
         this.spritePath = this.settings.spritePath;
 
-        this.fromDateInput = this.searchGui.find('#datepicker_start').datepicker({
+        this.fromDateInput = $.isFunction('$.fn.datepicker') ? this.searchGui.find('#datepicker_start').datepicker({
             inputFormat: ['dd/MM/yyyy'],
             outputFormat: 'dd/MM/yyyy',
-        });
-        this.toDateInput = this.searchGui.find('#datepicker_end').datepicker({
+        }) : this.searchGui.find('#datepicker_start');
+        this.toDateInput = $.isFunction('$.fn.datepicker') ? this.searchGui.find('#datepicker_end').datepicker({
             inputFormat: ['dd/MM/yyyy'],
             outputFormat: 'dd/MM/yyyy',
-        });
+        }) : this.searchGui.find('#datepicker_end');
 
         this.allChipToggle = $('.dashboard-search-form-filters a:first');
 

@@ -84,7 +84,8 @@ class BootstrapItaliaTheme implements JsonSerializable
             $theme = $this->baseIdentifier;
             $path = ltrim(eZURLOperator::eZDesign($tpl, "stylesheets/{$theme}.css", 'ezdesign'), '/');
             if (!file_exists($path)) {
-                $path = "extension/openpa_bootstrapitalia/design/bootstrapitalia/stylesheets/default.css";
+                $currentDesign = eZINI::instance()->variable('DesignSettings', 'SiteDesign');
+                $path = "extension/openpa_bootstrapitalia/design/{$currentDesign}/stylesheets/default.css";
             }
             $this->cssData = $this->parseCss($path);
         }
@@ -135,7 +136,7 @@ class BootstrapItaliaTheme implements JsonSerializable
                     break;
             }
 
-            return $fallback;
+            return str_replace(' !important', '', $fallback);
         }
 
         return $this->cssData;

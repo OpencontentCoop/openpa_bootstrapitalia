@@ -91,7 +91,7 @@
                             <nav>
                                 {if $header_links|count()}
                                 <a class="d-lg-none navbar-brand"
-                                   data-toggle="collapse"
+                                   data-toggle="collapse" data-bs-toggle="collapse"
                                    href="#service-menu"
                                    role="button"
                                    aria-expanded="false"
@@ -121,7 +121,7 @@
                         <div class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle"
                                href="#"
-                               data-toggle="dropdown"
+                               data-toggle="dropdown" data-bs-toggle="dropdown"
                                aria-expanded="false">
                                 <span>{$current_language.text|wash|upcase}</span>
                                 {display_icon('it-expand', 'svg', 'icon d-none d-lg-block')}
@@ -155,7 +155,7 @@
                                 {if $editor_access_in_footer|not()}
                                     <div data-login-top-button class="dropdown" data-icon="it-user" style="display: none;">
                                         <a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: none; font-size: 1rem">
+                                           data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="text-transform: none; font-size: 1rem">
                                             <span class="rounded-icon">
                                                 {display_icon('it-user', 'svg', 'icon icon-primary notrasform')}
                                             </span>
@@ -204,7 +204,7 @@
                         <div class="it-access-top-wrapper{if $link_area_personale} d-flex{/if}">
                             {if is_set($link_area_personale)}
                                 <a class="btn btn-primary btn-icon btn-full" href="{$link_area_personale}"
-                                   data-toggle="tooltip" data-placement="bottom" title="Accesso area personale">
+                                   data-toggle="tooltip" data-bs-toggle="tooltip" data-placement="bottom" title="Accesso area personale">
                                      <span class="rounded-icon">
                                          {display_icon('it-user', 'svg', 'icon icon-primary')}
                                     </span>
@@ -212,7 +212,7 @@
                                 </a>
                                 <a data-login-top-button class="btn btn-primary btn-icon btn-full ez-login rounded-0" href="{"/user/login"|ezurl(no)}"
                                    data-icon="it-pencil"
-                                   data-toggle="tooltip" data-placement="bottom" title="Accesso per i redattori del sito"
+                                   data-toggle="tooltip" data-bs-toggle="tooltip" data-placement="bottom" title="Accesso per i redattori del sito"
                                    style="display: none;max-width: 72px;">
                                      <span class="rounded-icon">
                                          {display_icon('it-pencil', 'svg', 'icon-primary')}
@@ -266,7 +266,7 @@
                 var dropdownListWrapper = $('<div class="link-list-wrapper"></div>');
                 var dropdownList = $('<ul class="link-list"></ul>');
 
-                $('<a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="rounded-icon"><svg class="icon icon-primary notrasform"><use xlink:href="'+spritePath+'#'+icon+'"></use></svg></span><span class="d-none d-lg-block text-nowrap">'+data.content.name+' </span><svg class="icon-expand icon icon-white"><use xlink:href="'+spritePath+'#it-expand"></use></svg></a>')
+                $('<a href="#" class="btn btn-primary btn-icon btn-full dropdown-toggle" id="dropdown-user" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="rounded-icon"><svg class="icon icon-primary notrasform"><use xlink:href="'+spritePath+'#'+icon+'"></use></svg></span><span class="d-none d-lg-block text-nowrap">'+data.content.name+' </span><svg class="icon-expand icon icon-white"><use xlink:href="'+spritePath+'#it-expand"></use></svg></a>')
                     .appendTo(dropdownWrapper);
 
                 $('<li><a class="list-item" href="'+trimmedPrefix+'/user/edit/" title="{/literal}{'User profile'|i18n('bootstrapitalia')}{literal}"><span>{/literal}{'User profile'|i18n('bootstrapitalia')}{literal}</span></a></li>')

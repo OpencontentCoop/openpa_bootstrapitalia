@@ -55,12 +55,12 @@
 {if count($bookmark_list)}
     <ul class="nav nav-tabs nav-fill overflow-hidden">
         <li role="presentation" class="nav-item">
-            <a class="text-decoration-none nav-link active" data-toggle="tab" href="#structure">
+            <a class="text-decoration-none nav-link active" data-toggle="tab" data-bs-toggle="tab" href="#structure">
                 <span style="font-size: 1.2em">{'Content structure'|i18n( 'design/admin/parts/content/menu' )}</span>
             </a>
         </li>
         <li role="presentation" class="nav-item">
-            <a class="text-decoration-none nav-link" data-toggle="tab" href="#bookmarks">
+            <a class="text-decoration-none nav-link" data-toggle="tab" data-bs-toggle="tab" href="#bookmarks">
                 <span style="font-size: 1.2em">{"Bookmarks"|i18n("design/standard/content/browse")}</span>
             </a>
         </li>
@@ -100,7 +100,7 @@
             {if $browse.start_node|gt( 1 )}
                 <div class="card-header px-2">
                     {if is_set($main_node)}
-                        <a class="mr-3" href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><i aria-hidden="true" class="fa fa-arrow-circle-up fa-2x"></i></a>
+                        <a class="mr-3 me-3" href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><i aria-hidden="true" class="fa fa-arrow-circle-up fa-2x"></i></a>
                     {/if}
                     <h5 class="d-inline">{$current_node.name|wash}</h5>
                     {if and(
@@ -114,7 +114,7 @@
             {/if}
         {else}
             <div class="card-header px-2">
-                <a class="ml-3 pull-right" href={'/content/browse/'|ezurl}><i aria-hidden="true" class="fa fa-close fa-2x"></i></a>
+                <a class="ml-3 ms-3 pull-right" href={'/content/browse/'|ezurl}><i aria-hidden="true" class="fa fa-close fa-2x"></i></a>
                 <h5 class="d-inline">
                     {'Search results for %searchtext'|i18n('openpa/search',,hash('%searchtext',concat('<em>',$search_text|wash(),'</em>')))}
                 </h5>
@@ -144,7 +144,7 @@
                         <tr>
                             <th class="tight">
                                 {section show=eq( $select_type, 'checkbox' )}
-                                    <a href="#" data-toggle="tooltip" data-placement="top" title="{'Invert selection'|i18n( 'design/ocbootstrap/content/browse_mode_list' )}" onclick="ezjs_toggleCheckboxes( document.browse, '{$select_name}[]' ); return false;">
+                                    <a href="#" data-toggle="tooltip" data-bs-toggle="tooltip" data-placement="top" title="{'Invert selection'|i18n( 'design/ocbootstrap/content/browse_mode_list' )}" onclick="ezjs_toggleCheckboxes( document.browse, '{$select_name}[]' ); return false;">
                                         <i aria-hidden="true" class="fa fa-check-circle"></i>
                                     </a>
                                 {/section}

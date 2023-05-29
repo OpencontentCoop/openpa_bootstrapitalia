@@ -24,6 +24,7 @@ General[]=ezfIndexExtraGeo
 [SolrFieldMapSettings]
 DatatypeMap[openparestrictedarea]=lckeyword
 CustomMap[eztags]=BootstrapItaliaSolrDocumentFieldeZTags
+DatatypeMap[openpacomuniitaliani]=lckeyword
 
 [IndexBoost]
 Class[topic]=4.0

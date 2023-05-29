@@ -41,7 +41,7 @@ $(document).ready(function(){
         <div class="modal-content">
             <div class="modal-body">
                 <div class="clearfix">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-hidden="true" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
                 </div>
                 <div id="faq-form" class="clearfix p-4"></div>
             </div>
@@ -53,6 +53,10 @@ $(document).ready(function(){
 
 {run-once}
 {literal}
+<script>
+$.opendataTools.settings('language', "{/literal}{ezini('RegionalSettings','Locale')}{literal}");
+$.opendataTools.settings('languages', ['{/literal}{ezini('RegionalSettings','SiteLanguageList')|implode("','")}{literal}']);
+</script>
 <script id="tpl-faq-spinner" type="text/x-jsrender">
 <div class="col-xs-12 spinner text-center">
     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
@@ -63,9 +67,9 @@ $(document).ready(function(){
     <div class="collapse-div collapse-right-icon">
     {{for searchHits}}
         <div class="collapse-header" id="heading-{{:metadata.id}}">
-            <button class="px-1" data-toggle="collapse" data-target="#collapse-{{:metadata.id}}" aria-expanded="false" aria-controls="collapse-{{:metadata.id}}">
-                {{if metadata.userAccess && metadata.userAccess.canEdit}}<a href="#" class="pr-2" data-edit={{:metadata.id}}><i class="fa fa-pencil"></i></a>{{/if}}
-                {{if metadata.userAccess && metadata.userAccess.canRemove}}<a href="#" class="pr-2" data-remove={{:metadata.id}}><i class="fa fa-trash"></i></a>{{/if}}
+            <button class="px-1" data-toggle="collapse" data-bs-toggle="collapse" data-target="#collapse-{{:metadata.id}}" data-bs-target="#collapse-{{:metadata.id}}" aria-expanded="false" aria-controls="collapse-{{:metadata.id}}">
+                {{if metadata.userAccess && metadata.userAccess.canEdit}}<a href="#" class="pr-2 pe-2 pe-2" data-edit={{:metadata.id}}><i class="fa fa-pencil"></i></a>{{/if}}
+                {{if metadata.userAccess && metadata.userAccess.canRemove}}<a href="#" class="pr-2 pe-2 pe-2" data-remove={{:metadata.id}}><i class="fa fa-trash"></i></a>{{/if}}
                 {{if ~i18n(data, 'question')}}{{:~i18n(data, 'question')}}{{/if}}
             </button>
         </div>

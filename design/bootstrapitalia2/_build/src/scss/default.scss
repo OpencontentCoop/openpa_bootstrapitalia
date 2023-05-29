@@ -1,0 +1,354 @@
+/*!
+Text Domain: design_comuni_italia
+*/
+// color custom variables
+
+/*figma color
+primary: #007A52;
+primary dark: #00402B;
+primary light: #56D6AB;
+primary lighter: #F0F8F5;
+*/
+
+// primary
+// #007A52
+$primary-h: 160 !default;
+$primary-s: 100 !default;
+$primary-b: 48 !default;
+
+//$font-path: "../fonts";
+//@import 'opencity/fonts';
+
+// bootstrap italia version variable
+// useful to check for the current version
+@import 'custom/version';
+
+// funzioni e variabili colore
+@import 'functions';
+@import 'utilities/colors_vars';
+
+$ca-colors: () !default;
+$ca-colors: map-merge(
+(
+        main: (
+                black: #191919,
+                white: #fff,
+                error: #D9364F,
+                alert: #A66300,
+                primary: $primary,
+                secondary: #009966,
+                notice: #D97E00,
+                success: #008758,
+                dark-primary: #00402B
+        ),
+        grey:(
+                card: #EBEEF0,
+                dark: #5A768A,
+                medium: #5C6F82,
+                lighten: #E6E9F2,
+                light: #455A64,
+                light-grey:#E5E5E5,
+                extra-light: #BCC0CC,
+                border: #7D8C9C,
+                primary-grey:#007A520D
+        ),
+        blue:(
+                dark:#17324D,
+                light:#0968B4
+        ),
+        gradient: (
+                black: rgba(25, 25, 25, 0.7),
+                light-black: rgba(0, 0, 0, 0.1)
+        )
+),
+$ca-colors
+);
+
+// color custom variables
+$header-center-bg-color: $primary;
+$header-slim-bg-color: #00402b !default;
+
+$section-header-background-color: $primary-a10;
+$section-user-header-background-color: #f0f8f5 !default;
+
+$card-link-color: $primary;
+
+$btn-comuni-primary-hover: #fff;
+
+$footer-comuni-bg-color: #202a2e !default;
+
+$link-list-comuni-color: #455a64 !default;
+$link-list-hover-color: $primary !default;
+
+$card-comuni-bg-dark: #2c2c2c !default;
+
+$font-family-serif: 'Lora', serif !default;
+$font-family-sans-serif: 'Titillium Web', sans-serif !default;
+$font-family-monospace: 'Roboto Mono', monospace !default;
+
+//variables
+@import 'variables';
+
+//classi colore
+@import 'utilities/colors';
+
+// BS5 Configuration
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+//@import 'node_modules/bootstrap/scss/maps';
+@import 'node_modules/bootstrap/scss/mixins';
+// mixins custom
+@import 'custom/mixins/buttons';
+@import 'custom/mixins/text-emphasis';
+//
+@import 'node_modules/bootstrap/scss/utilities';
+
+// BS5 Layout & components
+@import 'node_modules/bootstrap/scss/root';
+@import 'node_modules/bootstrap/scss/reboot';
+@import 'node_modules/bootstrap/scss/type';
+@import 'node_modules/bootstrap/scss/images';
+@import 'node_modules/bootstrap/scss/containers';
+@import 'node_modules/bootstrap/scss/grid';
+@import 'node_modules/bootstrap/scss/tables';
+@import 'node_modules/bootstrap/scss/forms';
+@import 'node_modules/bootstrap/scss/buttons';
+@import 'node_modules/bootstrap/scss/transitions';
+@import 'node_modules/bootstrap/scss/dropdown';
+@import 'node_modules/bootstrap/scss/button-group';
+@import 'node_modules/bootstrap/scss/nav';
+@import 'node_modules/bootstrap/scss/navbar';
+@import 'node_modules/bootstrap/scss/card';
+@import 'node_modules/bootstrap/scss/accordion';
+@import 'node_modules/bootstrap/scss/breadcrumb';
+@import 'node_modules/bootstrap/scss/pagination';
+@import 'node_modules/bootstrap/scss/badge';
+@import 'node_modules/bootstrap/scss/alert';
+@import 'node_modules/bootstrap/scss/progress';
+@import 'node_modules/bootstrap/scss/list-group';
+@import 'node_modules/bootstrap/scss/close';
+@import 'node_modules/bootstrap/scss/toasts';
+@import 'node_modules/bootstrap/scss/modal';
+@import 'node_modules/bootstrap/scss/tooltip';
+@import 'node_modules/bootstrap/scss/popover';
+@import 'node_modules/bootstrap/scss/carousel';
+@import 'node_modules/bootstrap/scss/spinners';
+@import 'node_modules/bootstrap/scss/offcanvas';
+@import 'node_modules/bootstrap/scss/placeholders';
+
+// Helpers
+@import 'node_modules/bootstrap/scss/helpers';
+
+// Utilities
+@import 'node_modules/bootstrap/scss/utilities/api';
+// scss-docs-end import-stack
+
+// Customizzazioni e nuovi componenti
+@import 'utilities/text-colors';
+@import 'custom/type';
+@import 'custom/grid';
+@import 'custom/tables';
+@import 'custom/breadcrumb';
+@import 'custom/modal';
+@import 'custom/accordion';
+@import 'custom/carousel';
+@import 'custom/calendar';
+@import 'custom/alert';
+@import 'custom/buttons';
+@import 'custom/font';
+@import 'custom/forms';
+@import 'custom/form-input-file';
+@import 'custom/form-input-number';
+@import 'custom/form-input-upload';
+@import 'custom/form-toggles';
+@import 'custom/form-password';
+@import 'custom/form-select';
+@import 'custom/form-transfer';
+@import 'custom/dropdown';
+@import 'custom/pager';
+@import 'custom/tab';
+@import 'custom/cookiebar';
+@import 'custom/hero';
+@import 'custom/forward';
+@import 'custom/back-to-top';
+@import 'custom/autocomplete';
+@import 'custom/linklist';
+@import 'custom/navigation';
+@import 'custom/skiplinks';
+@import 'custom/affix';
+@import 'custom/sidebar';
+@import 'custom/sidebarthemes';
+@import 'custom/megamenu';
+@import 'custom/bottomnav';
+@import 'custom/navscroll';
+@import 'custom/navscrolltheme';
+@import 'custom/callout';
+@import 'custom/toolbar';
+@import 'custom/sections';
+@import 'custom/dialog';
+@import 'custom/notifications';
+@import 'custom/avatar';
+@import 'custom/thumbnav';
+@import 'custom/steppers';
+@import 'custom/card';
+@import 'custom/imgresponsive';
+@import 'custom/overlay-panel';
+@import 'custom/progress-donuts';
+@import 'custom/progress-bars';
+@import 'custom/progress-spinners';
+@import 'custom/gridlist';
+@import 'custom/popover';
+@import 'custom/tooltip';
+@import 'custom/list';
+@import 'custom/chips';
+@import 'custom/rating';
+@import 'custom/dimmer';
+@import 'custom/timeline';
+@import 'custom/anchor';
+@import 'custom/map';
+@import 'custom/point-list';
+@import 'custom/rating-list';
+@import 'custom/badge';
+@import 'custom/figcaption';
+@import 'custom/sticky';
+@import 'custom/print';
+@import 'custom/code';
+@import 'custom/images';
+@import 'custom/just-validate';
+@import 'custom/accessible-autocomplete';
+@import 'custom/page-scroll';
+
+// datepicker
+@import 'custom/form-datepicker';
+
+// timepicker
+@import 'custom/timepicker';
+
+// header
+@import 'custom/headerslim';
+@import 'custom/headerslimtheme';
+@import 'custom/headercenter';
+@import 'custom/headercentertheme';
+@import 'custom/headernavbar';
+@import 'custom/headernavbartheme';
+@import 'custom/header';
+
+// footer
+@import 'custom/footer';
+
+//colors theme
+@import 'custom/navigationtheme';
+
+// componente di esempio
+@import 'custom/componente-base';
+
+//gestione dei focus
+@import 'utilities/focus';
+@import 'utilities/icons';
+
+// splide carousel
+@import '../../node_modules/@splidejs/splide/src/css/core/index';
+
+// override comuni
+@import 'override-comuni';
+
+
+// start import 'design-comuni-pagine-statiche/styles';
+
+//@import "design-comuni-pagine-statiche/base/color";
+@import "design-comuni-pagine-statiche/base/functions";
+@import "design-comuni-pagine-statiche/base/mixins";
+@import "design-comuni-pagine-statiche/base/reset";
+@import "design-comuni-pagine-statiche/base/fonts";
+@import "design-comuni-pagine-statiche/elements/headings/all";
+@import "design-comuni-pagine-statiche/base/global";
+
+@import "design-comuni-pagine-statiche/general/splide";
+@import "design-comuni-pagine-statiche/general/public-templates";
+
+
+//components
+// @import "design-comuni-pagine-statiche/components/documents-alert/documents-alert";
+@import "design-comuni-pagine-statiche/components/header/header";
+@import "design-comuni-pagine-statiche/components/cmp-footer/cmp-footer";
+@import "design-comuni-pagine-statiche/components/cmp-breadcrumbs/cmp-breadcrumbs";
+@import "design-comuni-pagine-statiche/components/cmp-heading/cmp-heading";
+@import "design-comuni-pagine-statiche/components/cmp-card/cmp-card";
+//@import "design-comuni-pagine-statiche/components/cmp-steps-header/cmp-steps-header";
+@import "design-comuni-pagine-statiche/components/cmp-info-button-card/cmp-info-button-card";
+@import "design-comuni-pagine-statiche/components/cmp-alert-box/cmp-alert-box";
+@import "design-comuni-pagine-statiche/components/cmp-modal/cmp-modal";
+@import "design-comuni-pagine-statiche/components/cmp-modal/cmp-modal-header-search";
+@import "design-comuni-pagine-statiche/components/cmp-modal/modal-categories";
+@import "design-comuni-pagine-statiche/components/cmp-modal/modal-address";
+@import "design-comuni-pagine-statiche/components/cmp-card-radio/cmp-card-radio";
+@import "design-comuni-pagine-statiche/components/cmp-nav-steps/cmp-nav-steps";
+@import "design-comuni-pagine-statiche/components/cmp-info-progress/cmp-info-progress";
+@import "design-comuni-pagine-statiche/components/cmp-icon-card/cmp-icon-card";
+@import "design-comuni-pagine-statiche/components/cmp-info-summary/cmp-info-summary";
+@import "design-comuni-pagine-statiche/components/cmp-ul-list/cmp-ul-list";
+@import "design-comuni-pagine-statiche/components/cmp-card-img/cmp-card-img";
+@import "design-comuni-pagine-statiche/components/cmp-navscroll/cmp-navscroll";
+@import "design-comuni-pagine-statiche/components/cmp-card-latest-messages/cmp-card-latest-message";
+@import "design-comuni-pagine-statiche/components/cmp-icon-link/cmp-icon-link";
+//@import "design-comuni-pagine-statiche/components/cmp-steps-rating/cmp-steps-rating";
+@import "design-comuni-pagine-statiche/components/cmp-radio-list/cmp-radio-list";
+
+@import "design-comuni-pagine-statiche/components/cmp-contacts/cmp-contacts";
+@import "design-comuni-pagine-statiche/components/cmp-rating/cmp-rating";
+@import "design-comuni-pagine-statiche/components/cmp-carousel/cmp-carousel";
+@import "design-comuni-pagine-statiche/components/cmp-disclaimer/cmp-disclaimer";
+
+@import "design-comuni-pagine-statiche/components/button/button";
+@import "design-comuni-pagine-statiche/components/cmp-timeline/cmp-timeline";
+@import "design-comuni-pagine-statiche/components/link-list/link-list";
+
+@import "design-comuni-pagine-statiche/components/partials/button/button";
+@import "design-comuni-pagine-statiche/components/partials/cmp-tag/cmp-tag";
+@import "design-comuni-pagine-statiche/components/partials/input/input";
+@import "design-comuni-pagine-statiche/components/partials/checkbox/checkbox";
+@import "design-comuni-pagine-statiche/components/cmp-text-button/cmp-text-button";
+@import "design-comuni-pagine-statiche/components/cmp-icon-list/cmp-icon-list";
+@import "design-comuni-pagine-statiche/components/partials/select/select";
+//@import "design-comuni-pagine-statiche/components/partials/cmp-upload/cmp-upload";
+@import "design-comuni-pagine-statiche/components/cmp-nav-tab/cmp-nav-tab";
+//@import "design-comuni-pagine-statiche/components/partials/cmp-accordion/cmp-accordion";
+//@import "design-comuni-pagine-statiche/components/cmp-accordion/cmp-accordion";
+@import "design-comuni-pagine-statiche/components/cmp-filter/cmp-filter";
+@import "design-comuni-pagine-statiche/components/partials/input-search/input-search";
+@import "design-comuni-pagine-statiche/components/partials/dropdown/dropdown";
+@import "design-comuni-pagine-statiche/components/partials/input-autocomplete/input-autocomplete";
+@import "design-comuni-pagine-statiche/components/partials/text-area/text.area";
+@import "design-comuni-pagine-statiche/components/cmp-map/cmp-map";
+@import "design-comuni-pagine-statiche/components/cmp-hero/cmp-hero";
+@import "design-comuni-pagine-statiche/components/cmp-hero-img/cmp-hero-img";
+@import "design-comuni-pagine-statiche/components/cmp-list-card-img/cmp-list-card-img";
+
+
+@import "design-comuni-pagine-statiche/components/cmp-info-radio/cmp-info-radio";
+@import "design-comuni-pagine-statiche/components/cmp-tab/cmp-tab";
+@import "design-comuni-pagine-statiche/components/cmp-input-search-button/cmp-input-search-button";
+@import "design-comuni-pagine-statiche/components/cmp-category-list/category-list";
+@import "design-comuni-pagine-statiche/components/partials/input-calendar/input-calendar";
+@import "design-comuni-pagine-statiche/components/partials/toggle/toggle";
+@import "design-comuni-pagine-statiche/components/cmp-info-checkbox/cmp-info-checkbox";
+//@import "design-comuni-pagine-statiche/components/cmp-callout/callout";
+@import "design-comuni-pagine-statiche/components/cmp-modal/cmp-modal-scrollable";
+@import "design-comuni-pagine-statiche/components/cmp-card-radio-list/cmp-card-radio-list";
+@import "design-comuni-pagine-statiche/components/cmp-tot/cmp-tot";
+
+@import "design-comuni-pagine-statiche/components/cmp-card-teaser/cmp-card-teaser";
+@import "design-comuni-pagine-statiche/general/print";
+// end import 'design-comuni-pagine-statiche/styles';
+
+$image-path: "../images/" !default;
+
+//@import 'opencity/mixins';
+//@import 'opencity/colors';
+@import 'opencity/opencity';
+@import 'opencity/ezcompat';
+@import 'opencity/compat';
+@import 'opencity/calendar';
+@import 'opencity/websitetoolbar';
+@import 'opencity/rating';
+

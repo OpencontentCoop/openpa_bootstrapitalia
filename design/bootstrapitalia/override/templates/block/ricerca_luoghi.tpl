@@ -35,13 +35,13 @@
 							data-facets_select="facet-0"
 							multiple>
 						{foreach $tag_tree.children as $tag}
-							{if $block.custom_attributes.hide_first_level|not}<option value="{$tag.id|wash()}" class="pl-1">{$tag.keyword|wash()}</option>{/if}
+							{if $block.custom_attributes.hide_first_level|not}<option value="{$tag.id|wash()}" class="pl-1 ps-1">{$tag.keyword|wash()}</option>{/if}
 							{if $tag.hasChildren}
 								{foreach $tag.children as $childTag}
-									<option value="{$childTag.id|wash()}" class="{if $block.custom_attributes.hide_first_level|not}pl-3{else}pl-1{/if}">{$childTag.keyword|wash()}</option>
+									<option value="{$childTag.id|wash()}" class="{if $block.custom_attributes.hide_first_level|not}pl-3 ps-3{else}pl-1 ps-1{/if}">{$childTag.keyword|wash()}</option>
 									{if $childTag.hasChildren}
 										{foreach $childTag.children as $subChildTag}
-											<option value="{$subChildTag.id|wash()}" class="{if $block.custom_attributes.hide_first_level|not}pl-5{else}pl-3{/if}">{$subChildTag.keyword|wash()}</option>
+											<option value="{$subChildTag.id|wash()}" class="{if $block.custom_attributes.hide_first_level|not}pl-5 ps-5{else}pl-3 ps-3{/if}">{$subChildTag.keyword|wash()}</option>
 										{/foreach}
 									{/if}
 								{/foreach}
@@ -55,13 +55,13 @@
 	<div class="col-12 col-sm-4 col-md-3 col-lg-2 mb-3">
 		<ul class="nav d-block nav-pills text-center text-sm-right">
 			<li class="nav-item text-center d-inline-block">
-				<a data-toggle="tab"
+				<a data-toggle="tab" data-bs-toggle="tab"
 				   class="nav-link active rounded-0 view-selector"
 				   href="#remote-gui-{$block.id}-geo">
 					<i aria-hidden="true" class="fa fa-map"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
 				</a>
-			</li><li class="nav-item pr-1 text-center d-inline-block">
-				<a data-toggle="tab"
+			</li><li class="nav-item pr-1 pe-1 text-center d-inline-block">
+				<a data-toggle="tab" data-bs-toggle="tab"
 				   class="nav-link rounded-0 view-selector"
 				   href="#remote-gui-{$block.id}-list">
 					<i aria-hidden="true" class="fa fa-th"></i> <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>

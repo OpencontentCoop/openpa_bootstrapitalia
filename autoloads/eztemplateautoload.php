@@ -1,8 +1,9 @@
 <?php
-$eZTemplateOperatorArray = array(
-    array(
+
+$eZTemplateOperatorArray = [
+    [
         'class' => 'OpenPABootstrapItaliaOperators',
-        'operator_names' => array(
+        'operator_names' => [
             'display_icon',
             'parse_search_get_params',
             'filtered_search_params_query_string',
@@ -26,6 +27,25 @@ $eZTemplateOperatorArray = array(
             'cookie_consent_config_translations',
             'subtree_classes',
             'find_common_class_attributes',
-        )
-    )
-);
+            'parse_layout_blocks',
+            'parse_attribute_groups',
+            'tag_tree_has_contents',
+            'edit_attribute_groups',
+            'get_default_integer_value',
+            'satisfy_main_entrypoint',
+            'user_token_url',
+            'user_profile_url',
+            'user_api_base_url',
+            'decode_banner_color',
+            'preload_script',
+            'preload_css',
+            'node_image',
+            'preload_image',
+            'image_src',
+            'image_url',
+            'image_url_list',
+            'current_user_can_lock_edit',
+            'parse_documento_trasparenza_info',
+        ],
+    ],
+];

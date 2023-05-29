@@ -256,6 +256,14 @@ MatchFile=datatype/view/matrix_social.tpl
 Subdir=templates
 Match[attribute_identifier]=social
 
+[datatype_view_public_service_has_channel]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_public_service_has_channel.tpl
+Subdir=templates
+Match[class_identifier]=public_service
+Match[attribute_identifier]=has_channel
+
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################
@@ -302,6 +310,20 @@ Source=content/datatype/edit/ezmatrix.tpl
 MatchFile=datatype/edit/matrix_social.tpl
 Subdir=templates
 Match[attribute_identifier]=social
+
+[datatype_edit_topic_name]
+Source=content/datatype/edit/ezstring.tpl
+MatchFile=datatype/edit/topic_name.tpl
+Subdir=templates
+Match[class_identifier]=topic
+Match[attribute_identifier]=name
+
+[datatype_edit_topic_eu]
+Source=content/datatype/edit/eztext.tpl
+MatchFile=datatype/edit/topic_eu.tpl
+Subdir=templates
+Match[class_identifier]=topic
+Match[attribute_identifier]=eu
 
 ############################################
 ############################################ TEXT-LINKED
@@ -515,6 +537,12 @@ Subdir=templates
 Match[type]=EventiRemoti
 Match[view]=default
 
+[block_eventi_card]
+Source=block/view/view.tpl
+MatchFile=block/eventi_card.tpl
+Subdir=templates
+Match[type]=Eventi
+Match[view]=card
 
 #### Argomenti
 

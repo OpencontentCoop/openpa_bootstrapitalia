@@ -62,7 +62,6 @@
         this.subtreeRootList = [];
         this.browseParameters = {};
         this.rootNode = 'undefined';
-
         if (this.settings.classes === false || typeof $.fn.alpaca === 'undefined'){
             this.settings.addCreateButton = false;
         }
@@ -182,7 +181,7 @@
             var panelHeading = $('<div class="card-header clearfix" style="padding:15px"></div>').appendTo(panel);
 
             if (self.settings.addCloseButton) {
-                var closeButton = $('<a class="btn btn-xs btn-link pull-right" href="#" data-toggle="tooltip" title="'+self.settings.i18n.clickToClose+'"><span class="glyphicon glyphicon-remove"></span></a>');
+                var closeButton = $('<a class="btn btn-xs btn-link pull-right" href="#" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToClose+'"><span class="glyphicon glyphicon-remove"></span></a>');
                 if (self.settings.useTooltip) closeButton.tooltip();
                 closeButton.bind('click', function (e) {
                     if (isCreate){
@@ -202,7 +201,7 @@
             }
 
             if (isTree || isCreate) {
-                var searchButton = $('<a class="btn btn-xs btn-primary pull-right mr-2" href="#" data-toggle="tooltip" title="'+self.settings.i18n.clickToOpenSearch+'"><span class="glyphicon glyphicon-search"></span> '+self.settings.i18n.search+'</a>');
+                var searchButton = $('<a class="btn btn-xs btn-primary pull-right mr-2 me-2" href="#" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToOpenSearch+'"><span class="glyphicon glyphicon-search"></span> '+self.settings.i18n.search+'</a>');
                 if (self.settings.useTooltip) searchButton.tooltip();
                 searchButton.bind('click', function (e) {
                     self.resetBrowseParameters();
@@ -213,7 +212,7 @@
             }
 
             if (isSearch || isCreate){
-                var treeButton = $('<a class="btn btn-xs btn-primary pull-right mr-2" href="#" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowse+'"><span class="glyphicon glyphicon-th-list"></span> '+self.settings.i18n.browse+'</a>');
+                var treeButton = $('<a class="btn btn-xs btn-primary pull-right mr-2 me-2" href="#" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowse+'"><span class="glyphicon glyphicon-th-list"></span> '+self.settings.i18n.browse+'</a>');
                 if (self.settings.useTooltip){
                     treeButton.tooltip();
                 }
@@ -233,8 +232,8 @@
                     }
                     return false;
                 };
-                var createButtonGroup = $('<div class="dropdown pull-right mr-2"></div>');
-                createButtonGroup.append($('<button type="button" class="btn btn-xs btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span> '+self.settings.i18n.create+'</button>'));
+                var createButtonGroup = $('<div class="dropdown pull-right mr-2 me-2"></div>');
+                createButtonGroup.append($('<button type="button" class="btn btn-xs btn-link dropdown-toggle" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-plus"></span> '+self.settings.i18n.create+'</button>'));
                 var list = $('<div class="dropdown-menu"></div>');
                 $.each(self.settings.classes, function(){
                     var classIdentifier = this;
@@ -397,7 +396,7 @@
 
                     if(data.content.offset > 0){
                         var prevPaginationOffset = self.browseParameters.offset - self.browseParameters.limit;
-                        var prevButton = $('<a href="#" class="pull-left" data-toggle="tooltip" title="'+self.settings.i18n.goToPreviousPage+'"><span class="glyphicon glyphicon-chevron-left"></span></a>')
+                        var prevButton = $('<a href="#" class="pull-left" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.goToPreviousPage+'"><span class="glyphicon glyphicon-chevron-left"></span></a>')
                             .bind('click', function(e){
                                 self.browseParameters.offset = prevPaginationOffset;
                                 self.buildTreeSelect();
@@ -410,7 +409,7 @@
 
                     if(data.content.total_count > data.content.list.length + self.browseParameters.offset){
                         var nextPaginationOffset = self.browseParameters.offset + self.browseParameters.limit;
-                        var nextButton = $('<a href="#" class="pull-right" data-toggle="tooltip" title="'+self.settings.i18n.goToNextPage+'"><span class="glyphicon glyphicon-chevron-right"></span></a>')
+                        var nextButton = $('<a href="#" class="pull-right" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.goToNextPage+'"><span class="glyphicon glyphicon-chevron-right"></span></a>')
                             .bind('click', function(e){
                                 self.browseParameters.offset = nextPaginationOffset;
                                 self.buildTreeSelect();
@@ -642,7 +641,7 @@
 
                         if(self.browseParameters.offset > 0){
                             var prevPaginationOffset = self.browseParameters.offset - self.browseParameters.limit;
-                            var prevButton = $('<a href="#" class="pull-left" data-toggle="tooltip" title="'+self.settings.i18n.goToPreviousPage+'"><span class="glyphicon glyphicon-chevron-left"></span></a>')
+                            var prevButton = $('<a href="#" class="pull-left" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.goToPreviousPage+'"><span class="glyphicon glyphicon-chevron-left"></span></a>')
                                 .bind('click', function(e){                                    
                                     self.browseParameters.offset = prevPaginationOffset;
                                     var query = self.buildQuery();
@@ -655,7 +654,7 @@
                         }
 
                         if(data.nextPageQuery){                            
-                            var nextButton = $('<a href="#" class="pull-right" data-toggle="tooltip" title="'+self.settings.i18n.goToNextPage+'"><span class="glyphicon glyphicon-chevron-right"></span></a>')
+                            var nextButton = $('<a href="#" class="pull-right" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.goToNextPage+'"><span class="glyphicon glyphicon-chevron-right"></span></a>')
                                 .bind('click', function(e){                                    
                                     self.browseParameters.offset += self.browseParameters.limit;
                                     self.doSearch(data.nextPageQuery, panelContent, panelFooter);
@@ -682,7 +681,7 @@
             var self = this;
             var name;
             if (item.is_container){
-                name = $('<a data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" style="display:table-cell;"> '+item.name+ ' <small>' +item.class_name + '</small></a>');
+                name = $('<a data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" style="display:table-cell;"> '+item.name+ ' <small>' +item.class_name + '</small></a>');
                 if (self.settings.useTooltip) name.tooltip();
                 name.bind('click', function(e){
                     self.browseParameters.subtree = $(this).data('node_id');
@@ -695,7 +694,7 @@
             }
             var listItem = $('<li class="list-group-item"></li>');
             if (typeof $.fn.alpaca != 'undefined') {
-                var detail = $('<a href="#" data-object_id="' + item.contentobject_id + '" style="display:table-cell;" class="btn btn-xs btn-info pull-right" data-toggle="tooltip" title="'+self.settings.i18n.clickToPreview+'"><small>'+self.settings.i18n.preview+'</small></a>');
+                var detail = $('<a href="#" data-object_id="' + item.contentobject_id + '" style="display:table-cell;" class="btn btn-xs btn-info pull-right" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToPreview+'"><small>'+self.settings.i18n.preview+'</small></a>');
                 if (self.settings.useTooltip) detail.tooltip();
                 detail.bind('click', function (e) {
                     var objectId = $(this).data('object_id');
@@ -734,7 +733,7 @@
             var input = '';
             if (self.isSelectable(item)){
                 if (!self.isInSelection(item)){
-                    input = $('<a href="#"  title="'+self.settings.i18n.addToSelection+'" class="btn btn-xs btn-success pull-right mr-2" data-selection="'+item.contentobject_id+'"><small>'+self.settings.i18n.addItem+'</small></a>');
+                    input = $('<a href="#"  title="'+self.settings.i18n.addToSelection+'" class="btn btn-xs btn-success pull-right mr-2 me-2" data-selection="'+item.contentobject_id+'"><small>'+self.settings.i18n.addItem+'</small></a>');
                     input.data('item', item);
                     input.bind('click', function(e){
                         e.preventDefault();
@@ -792,7 +791,7 @@
                 $.each(this.selection, function(){
                     var name = '<span style="display: table-cell;">' + this.name + ' <small>' +this.class_name + '</small></span>';
                     var listItem = $('<li class="list-group-item"></li>');                        
-                    var input = $('<span class="glyphicon glyphicon-remove pull-left" data-toggle="tooltip" title="'+self.settings.i18n.removeFromSelection+'" style="cursor:pointer;'+self.iconStyle+'"></span>');
+                    var input = $('<span class="glyphicon glyphicon-remove pull-left" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.removeFromSelection+'" style="cursor:pointer;'+self.iconStyle+'"></span>');
                     input.data('item', this);
                     input.bind('click', function(e){
                         self.removeFromSelection($(this).data('item'));

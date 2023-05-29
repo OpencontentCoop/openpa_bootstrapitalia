@@ -29,11 +29,11 @@
             <div class="col-12 col-md-9">
                 {include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', '') no_margin=cond(and($showGrid, $showMap, $showSearch), true(), false())}
             </div>
-            <div class="col-12 col-md-3 pr-0">
+            <div class="col-12 col-md-3 pr-0 pe-0">
                 <ul class="nav d-block nav-pills border-bottom border-primary text-right{if or($showGrid|not(), $showMap|not())} hide{/if}">
                     {if $showGrid}
-                    <li class="nav-item pr-1 text-center d-inline-block">
-                        <a data-toggle="tab"
+                    <li class="nav-item pr-1 pe-1 text-center d-inline-block">
+                        <a data-toggle="tab" data-bs-toggle="tab"
                            class="nav-link active rounded-0 view-selector"
                            href="#remote-gui-{$block.id}-list">
                             <i aria-hidden="true" class="fa fa-list"></i> <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
@@ -42,7 +42,7 @@
                     {/if}
                     {if $showMap}
                     <li class="nav-item text-center d-inline-block">
-                        <a data-toggle="tab"
+                        <a data-toggle="tab" data-bs-toggle="tab"
                            class="nav-link{if $showGrid|not} active{/if} rounded-0 view-selector"
                            href="#remote-gui-{$block.id}-geo">
                             <i aria-hidden="true" class="fa fa-map"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
@@ -101,7 +101,7 @@
             <div class="col-12">
                 <div class="items tab-content">
                     {if $showGrid}
-                    <section id="remote-gui-{$block.id}-list" class="tab-pane active pt-0 pl-0"></section>
+                    <section id="remote-gui-{$block.id}-list" class="tab-pane active pt-0 pl-0 ps-0"></section>
                     {/if}
                     {if $showMap}
                     <section id="remote-gui-{$block.id}-geo" class="tab-pane{if $showGrid|not} active{/if} p-0">

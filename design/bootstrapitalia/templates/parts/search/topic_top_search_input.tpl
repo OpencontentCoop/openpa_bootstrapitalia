@@ -9,13 +9,13 @@
         {$topic.item.name|wash()}
     </label>
     {if $topic.has_children}
-        <a href="#search-more-topic-{$topic.item.node_id}" data-toggle="collapse" aria-expanded="false" aria-controls="search-more-topic-{$topic.item.node_id}" aria-label="More items">
+        <a href="#search-more-topic-{$topic.item.node_id}" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="search-more-topic-{$topic.item.node_id}" aria-label="More items">
             {display_icon('it-more-items', 'svg', 'icon icon-primary right icon-sm')}
         </a>
     {/if}
 </div>
 {if $topic.has_children}
-    <div class="pl-4 collapse" id="search-more-topic-{$topic.item.node_id}">
+    <div class="pl-4 ps-4 collapse" id="search-more-topic-{$topic.item.node_id}">
         {foreach $topic.children as $child}
             {include uri='design:parts/search/topic_top_search_input.tpl' topic=$child}
         {/foreach}

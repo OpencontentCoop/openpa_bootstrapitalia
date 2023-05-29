@@ -130,7 +130,6 @@ $(document).ready(function () {
                 });
                 let renderData = $(template.render(response));
                 resultsContainer.html(renderData);
-
                 resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {
                     currentPage = $(this).data('page');
                     loadContents();

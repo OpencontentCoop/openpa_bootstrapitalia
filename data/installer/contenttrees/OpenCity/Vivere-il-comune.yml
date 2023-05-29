@@ -1,0 +1,42 @@
+metadata:
+    remoteId: live
+    classIdentifier: frontpage
+    sectionIdentifier: standard
+    languages:
+        - ita-IT
+        - ger-DE
+data:
+    ita-IT:
+        name: 'Vivere il comune'
+        short_name: null
+        menu_name: Esplora il comune
+        abstract: ''
+        description: ''
+        image: {  }
+        show_children: 1
+        layout: {  }
+        icon: null
+        show_topics: 0
+        show_search_form: 1
+        tag_menu: {  }
+        publish_date: null
+        show_tag_cards: 0
+    ger-DE:
+        name: 'Lebe deine Stadt'
+        short_name: null
+        menu_name: null
+        abstract: ''
+        description: ''
+        image: {  }
+        show_children: 1
+        layout: {  }
+        icon: null
+        show_topics: 0
+        show_search_form: 0
+        tag_menu: {  }
+        publish_date: null
+        show_tag_cards: 0
+sort_data:
+    sort_field: 8
+    sort_order: 0
+    priority: 0

@@ -123,6 +123,14 @@ class OpenPARoleType extends eZDataType
         return false;
     }
 
+    function fromString($objectAttribute, $string)
+    {
+        if (is_numeric($string)) {
+            $objectAttribute->setAttribute('data_text', json_encode(['pagination' => (int)$string]));
+            $objectAttribute->store();
+        }
+    }
+
     /**
      * Deletes $objectAttribute datatype data, optionally in version $version.
      *

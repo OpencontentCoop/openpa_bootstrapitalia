@@ -14,6 +14,15 @@ PolicyOmitList[]=image/view
 PolicyOmitList[]=valuation/send
 PolicyOmitList[]=valuation/form
 PolicyOmitList[]=tags/treemenu
+PolicyOmitList[]=bootstrapitalia/avatar
+PolicyOmitList[]=prenota_appuntamento
+PolicyOmitList[]=richiedi_assistenza
+PolicyOmitList[]=segnala_disservizio
+PolicyOmitList[]=accedi
+PolicyOmitList[]=segnalazioni
+PolicyOmitList[]=accesso_redazione
+PolicyOmitList[]=manifest.json
+PolicyOmitList[]=service-worker.js
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login
@@ -24,5 +33,6 @@ RedirectAfterPublish=node
 
 [Event]
 Listeners[]=oembed/html@OpenPABootstrapItaliaOperators::filterOembedHtml
+Listeners[]=response/output@OpenPABootstrapItaliaOperators::minifyHtml
 
 */ ?>

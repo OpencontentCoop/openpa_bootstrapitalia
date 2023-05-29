@@ -151,7 +151,7 @@
             {* Custom templates inclusion *}
             <li>
                 <div class="dropdown">
-                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownOther" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownOther" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
                         <span class="toolbar-label">{'Other'|i18n( 'bootstrapitalia' )}</span>
                     </button>
@@ -186,7 +186,7 @@
                                             <div class="list-item left-icon">
                                                 <i aria-hidden="true" class="fa fa-code"></i> Linked Data
                                                 {foreach $onto_links as $slug => $link}
-                                                    <a href="{$link}" target="_blank" rel="noopener noreferrer"  title="{$slug|wash()}" class="badge badge-dark text-white d-inline px-1">{$slug|wash()}</a>
+                                                    <a href="{$link}" target="_blank" rel="noopener noreferrer"  title="{$slug|wash()}" class="badge badge-dark bg-dark text-white d-inline px-1">{$slug|wash()}</a>
                                                 {/foreach}
                                             </div>
                                         </li>
@@ -209,7 +209,7 @@
             {if is_set($content_object.id)}
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
-                <a class="btn" href="#" id="ezwt-help" data-toggle="modal" data-target="#editor_tools">
+                <a class="btn" href="#" id="ezwt-help" data-toggle="modal" data-bs-toggle="modal" data-target="#editor_tools" data-bs-target="#editor_tools">
                     <i aria-hidden="true" class="fa fa-info-circle"></i>
                     <span class="toolbar-label">Info</span>
                 </a>
@@ -229,7 +229,7 @@
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
                 <div class="dropdown">
-                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownToolbar" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i aria-hidden="true" class="fa fa-sliders"></i>
                         <span class="toolbar-label">{'Manage'|i18n( 'bootstrapitalia' )}</span>
                     </button>
@@ -350,7 +350,7 @@
             {if openpaini('GeneralSettings', 'AnnounceKit')|ne('disabled')}
             <li>
                 <a class="btn position-relative" href="#" id="announce-news">
-                    <span class="badge badge-warning position-absolute pulsate" style="display: none;top: 0;right: 0;"></span>
+                    <span class="badge badge-warning bg-warning position-absolute pulsate" style="display: none;top: 0;right: 0;"></span>
                     <i aria-hidden="true" class="fa fa-bell"></i>
                     <span class="toolbar-label">{'News'|i18n( 'bootstrapitalia' )}</span>
                 </a>

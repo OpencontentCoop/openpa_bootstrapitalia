@@ -38,7 +38,7 @@
                             {def $icon = class_extra_parameters($item.metadata.classIdentifier, 'bootstrapitalia_icon').icon}                 
                             <a class="d-flex" href="{concat('content/view/full/', $item.metadata.mainNodeId)|ezurl(no)}">
                                 {if $icon}
-                                    {display_icon($icon, 'svg', 'icon icon-sm mr-2')}
+                                    {display_icon($icon, 'svg', 'icon icon-sm mr-2 me-2')}
                                 {/if}
                                 <span style="flex:1">
                                     {if is_set($item.metadata.name[$language])}
