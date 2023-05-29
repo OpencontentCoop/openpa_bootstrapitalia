@@ -110,6 +110,7 @@ class OpenPABootstrapItaliaOperators
             'find_common_class_attributes' => array(
                 'classes' => array( 'type' => 'array', 'required' => true ),
                 'extra_identifier' => array( 'type' => 'string', 'required' => false, 'default' => false ),
+            ),
             'parse_layout_blocks' => array(
                 'zones' => array('type' => 'array', 'required' => true),
             ),
