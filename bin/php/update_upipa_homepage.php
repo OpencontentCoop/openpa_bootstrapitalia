@@ -41,8 +41,28 @@ $headerLinkList = [];
 /** @var eZContentObjectTreeNode[] $nodes */
 $nodes = eZContentObjectTreeNode::subTreeByNodeID([
     'ClassFilterType' => 'include',
-    'ClassFilterArray' => ['trasparenza', 'albotelematicotrentino'],
+    'ClassFilterArray' => ['trasparenza'],
 ], 1);
+foreach ($nodes as $node){
+    $headerLinkList[] = $node->attribute('contentobject_id');
+}
+/** @var eZContentObjectTreeNode[] $nodes */
+$nodes = eZContentObjectTreeNode::subTreeByNodeID([
+    'ClassFilterType' => 'include',
+    'ClassFilterArray' => ['albotelematicotrentino'],
+], 1);
+if (empty($nodes)){
+    /** @var eZContentObjectTreeNode[] $frontpages */
+    $frontpages = eZContentObjectTreeNode::subTreeByNodeID([
+        'ClassFilterType' => 'include',
+        'ClassFilterArray' => ['frontpage'],
+    ], 1);
+    foreach ($frontpages as $frontpage){
+        if (stripos($frontpage->attribute('name'), 'albo pretorio') !== false){
+            $nodes[] = $frontpage;
+        }
+    }
+}
 foreach ($nodes as $node){
     $headerLinkList[] = $node->attribute('contentobject_id');
 }
