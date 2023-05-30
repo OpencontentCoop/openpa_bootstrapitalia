@@ -59,7 +59,7 @@
                 {if $openpa.content_tag_menu.has_tag_menu|not()}
                     {include uri='design:openpa/full/parts/side_menu.tpl' }
                 {else}
-                    {include uri='design:openpa/full/parts/tag_side_menu.tpl'}
+                    {*include uri='design:openpa/full/parts/tag_side_menu.tpl'*}
                 {/if}
             {/if}
             {include uri='design:openpa/full/parts/taxonomy.tpl'}                
