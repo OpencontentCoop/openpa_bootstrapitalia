@@ -52,6 +52,7 @@ class OpenPABootstrapItaliaOperators
             'image_url_list',
             'current_user_can_lock_edit',
             'parse_documento_trasparenza_info',
+            'node_id_from_object_remote_id',
         );
     }
 
@@ -160,6 +161,16 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'node_id_from_object_remote_id':
+                $object = eZContentObject::fetchByRemoteID($operatorValue);
+                if ($object instanceof eZContentObject){
+                    $operatorValue = $object->mainNodeID();
+                }else{
+                    $operatorValue = eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode');
+                }
+                break;
+
             case 'parse_documento_trasparenza_info':
                 $operatorValue = self::parseDocumentoTrasparenzaInfo($namedParameters['info'], $namedParameters['files']);
                 break;
@@ -831,6 +842,7 @@ class OpenPABootstrapItaliaOperators
 
     public static function cleanFileName($filename)
     {
+        $filename = urldecode($filename);
         $parts = explode('.', $filename);
         if (count($parts) > 1) {
             array_pop($parts);

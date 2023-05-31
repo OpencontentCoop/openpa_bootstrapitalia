@@ -44,6 +44,7 @@ $eZTemplateOperatorArray = [
             'image_url_list',
             'current_user_can_lock_edit',
             'parse_documento_trasparenza_info',
+            'node_id_from_object_remote_id',
         ],
     ],
 ];

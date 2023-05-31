@@ -10,9 +10,9 @@
 {*<link rel="preload" as="script" href="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign('no')}" />*}
 
 <link rel="preload" href="https://static.opencityitalia.it/fonts/Titillium_Web/titillium-web-v10-latin-ext_latin-300.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="https://static.opencityitalia.it/fonts/Titillium_Web/titillium-web-v10-latin-ext_latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+{*<link rel="preload" href="https://static.opencityitalia.it/fonts/Titillium_Web/titillium-web-v10-latin-ext_latin-regular.woff2" as="font" type="font/woff2" crossorigin>*}
 <link rel="preload" href="https://static.opencityitalia.it/fonts/Titillium_Web/titillium-web-v10-latin-ext_latin-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="https://static.opencityitalia.it/fonts/Lora/lora-v20-latin-ext_latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+{*<link rel="preload" href="https://static.opencityitalia.it/fonts/Lora/lora-v20-latin-ext_latin-regular.woff2" as="font" type="font/woff2" crossorigin>*}
 <link rel="preload" href="https://static.opencityitalia.it/fonts/Roboto_Mono/roboto-mono-v13-latin-ext_latin-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://static.opencityitalia.it/fonts/Roboto_Mono/roboto-mono-v13-latin-ext_latin-regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="https://static.opencityitalia.it/fonts/Titillium_Web/titillium-web-v10-latin-ext_latin-600.woff2" as="font" type="font/woff2" crossorigin>

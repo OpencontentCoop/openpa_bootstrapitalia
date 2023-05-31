@@ -44,7 +44,7 @@
 					href="{$calendar.main_node.url_alias|ezurl(no)}"
 					onclick="location.href = '{$calendar.main_node.url_alias|ezurl(no)}';"
 					data-element="{object_handler($calendar).data_element.value|wash()}"
-					class="btn btn-primary px-5 py-3 full-mb">
+					class="btn btn-primary px-5 py-3 full-mb text-button">
             <span>{'Go to event calendar'|i18n('bootstrapitalia')}</span>
 			</button>
 		</div>

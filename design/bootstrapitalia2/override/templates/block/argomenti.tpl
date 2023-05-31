@@ -52,8 +52,8 @@
 			</div>
 			{undef $line_topics}
 			{/if}
-			<div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2 text-center">
-				<a href="{$parent.url_alias|ezurl(no)}" class="btn btn-primary mt-40">{'View all'|i18n('bootstrapitalia')}</a>
+			<div class="col-lg-10 col-xl-8 offset-lg-1 offset-xl-2 text-center mb-4">
+				<a href="{$parent.url_alias|ezurl(no)}" class="btn btn-primary mt-40 text-button">{'View all'|i18n('bootstrapitalia')}</a>
 			</div>
 		</div>
 		{undef $others_count}

@@ -11,6 +11,10 @@ $script->startup();
 $options = $script->getOptions();
 $script->initialize();
 $script->setUseDebugAccumulators( true );
+
+$user = eZUser::fetchByName('admin');
+eZUser::setCurrentlyLoggedInUser($user, $user->attribute('contentobject_id'));
+
 $cli = eZCLI::instance();
 try
 {

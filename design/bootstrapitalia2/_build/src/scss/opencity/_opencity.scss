@@ -461,14 +461,11 @@ ul.link-list,
 
 .page-topic {
   h2.block-title {
-    @extend .border-semi-dark;
-    @extend .u-grey-light;
-    @extend .h3;
+    @extend .text-secondary;
     @extend .border-bottom;
     @extend .pb-2;
     @extend .pb-lg-3;
     @extend .mt-lg-3;
-    @extend .title-large-semi-bold;
   }
   .filters-wrapper{
     margin-top: 28px;

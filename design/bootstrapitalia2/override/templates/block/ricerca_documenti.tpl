@@ -47,6 +47,8 @@
 	{undef $tag_tree}
 {/foreach}
 
+{def $show_filters = cond(or(count($filters)|gt(1), and($root_tag_id_list|count()|gt(0), $hide_tag_select|not())), true(), false())}
+
 {include uri='design:parts/block_name.tpl'}
 
 <div data-block_document_subtree="{cond(is_set($block.custom_attributes.node_id), $block.custom_attributes.node_id, 1)}"
@@ -61,7 +63,7 @@
 	 data-number_identifier="{$number|wash()}">
 
 	<form class="row">
-	    <section class="{if or(count($filters)|gt(1), and($root_tag_id_list|count()|gt(0), $hide_tag_select|not()))}col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2">
+	    <section class="{if $show_filters}col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2">
 			{if $filters|contains('search_text')}
 			<div class="cmp-input-search">
 				<div class="form-group autocomplete-wrapper mb-2 mb-lg-4">
@@ -80,7 +82,7 @@
 			<div class="results" data-root_tags="{$root_tag_id_list|implode(',')}"></div>
 	    </section>
 
-		{if or(count($filters)|gt(1), and($root_tag_id_list|count()|gt(0), $hide_tag_select|not()))}
+		{if $show_filters}
 			<div class="col-12 col-lg-4 ps-lg-5 order-first order-md-last">
 
 				<div class="accordion">

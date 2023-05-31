@@ -616,8 +616,11 @@
                                 if (data.hasOwnProperty('image')) {
                                     if (data.image.hasOwnProperty('url')) {
                                         thumbnail = data.image.url;
-                                    }else{
-                                        thumbnail = '/image/view/'+data.image[0].id+'/small';
+                                    } else if (data.image.length > 0) {
+                                        let imageId = data.image[0].id || null;
+                                        if (imageId) {
+                                            thumbnail = '/image/view/' + imageId + '/small';
+                                        }
                                     }
                                 }
                                 var item = {

@@ -8,7 +8,7 @@
                 href="{$block_handler.root_node.url_alias|ezurl(no)}"
                 onclick="location.href = '{$block_handler.root_node.url_alias|ezurl(no)}';"
                 data-element="{object_handler($block_handler.root_node).data_element.value|wash()}"
-                class="btn btn-primary px-5 py-3 full-mb">
+                class="btn btn-primary px-5 py-3 full-mb text-button">
             <span>
                 {if and(is_set($block.custom_attributes.show_all_text), $block.custom_attributes.show_all_text|ne(''))}
                     {$block.custom_attributes.show_all_text|wash()}
