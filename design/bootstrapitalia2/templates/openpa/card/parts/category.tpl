@@ -20,7 +20,16 @@
     {/if}
 {elseif $show_date}
     <div class="category-top cmp-list-card-img__body">
-        <span class="data">{$node.object.published|l10n( 'date' )}</span>
+        <span class="data">
+        {if $node|has_attribute('time_interval')}
+            {def $events = $node|attribute('time_interval').content.events}
+            {def $is_recurrence = cond(count($events)|gt(1), true(), false())}
+            {if $is_recurrence}{'from'|i18n('openpa/search')} {/if}{recurrences_strtotime($events[0].start)|l10n( 'date' )}
+            {undef $events $is_recurrence}
+        {else}
+        {$node.object.published|l10n( 'date' )}
+        {/if}
+        </span>
     </div>
 {/if}
 {undef $show_date}

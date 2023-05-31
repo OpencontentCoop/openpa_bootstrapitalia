@@ -17,6 +17,7 @@ $(document).ready(function () {
         let template = $.templates('#tpl-results');
         let searchType = container.data('search_type') || 'search';
         let searchEndpoint = searchType === 'calendar' ? '/opendata/api/calendar/search' : $.opendataTools.settings('endpoint').search;
+        let dayLimit = container.data('day_limit') || 7;
 
         let filters = container.find('[data-block_subtree_filter]').on('click', function (e) {
             let self = $(this);
@@ -87,7 +88,7 @@ $(document).ready(function () {
                 data: {
                     q: query,
                     start: moment().format('YYYY-MM-DD'),
-                    end: moment().add(180, 'days').format('YYYY-MM-DD'),
+                    end: moment().add(dayLimit, 'days').format('YYYY-MM-DD'),
                     view: view},
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
@@ -113,8 +114,14 @@ $(document).ready(function () {
             find(paginatedQuery, function (response) {
                 if (searchType === 'calendar'){
                     var hits = [];
+                    var avoidDuplication = [];
                     $.each(response, function (){
-                        hits.push(this.content);
+                        let start = moment(this.start);
+                        let end = moment(this.end);
+                        if ($.inArray(this.id, avoidDuplication) === -1) {
+                            avoidDuplication.push(this.id);
+                            hits.push(this.content);
+                        }
                     });
                     response = {
                         searchHits: hits,
