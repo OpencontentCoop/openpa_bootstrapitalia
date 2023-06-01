@@ -12,7 +12,11 @@
     {set $_redirect = concat( $_redirect, '/(tab)/', ezhttp( 'tab', 'get' ) )}
 {/if}
 
-<form class="edit" enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl}>
+<form class="edit"
+      enctype="multipart/form-data"
+      method="post"
+      data-original_action="{concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl(no)}"
+      action="{concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(concat($edit_language,"/"),''))|ezurl(no)}">
     
     {include uri='design:parts/website_toolbar_edit.tpl'}
     <div class="clearfix">

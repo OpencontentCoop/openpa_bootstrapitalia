@@ -115,10 +115,27 @@
 {include uri='design:parts/websitetoolbar/floating_toolbar.tpl'}
 <script>{literal}
   $(document).ready(function () {
+    var formEdit = $('form.edit');
+    function appendCurrentaPagetoFormAction(hash) {
+      var originalAction = formEdit.data('original_action');
+      if (originalAction) {
+        formEdit.attr('action', originalAction+hash);
+      }
+    }
+    formEdit.find('[data-bs-toggle="tab"]').on('shown.bs.tab', function (event) {
+      appendCurrentaPagetoFormAction($(this).attr('href'))
+    })
+
+    if(location.hash && location.hash.includes('attribute-group')){
+      var triggerFirstTabEl = document.querySelector('[data-bs-target="' + location.hash + '"]')
+      bootstrap.Tab.getOrCreateInstance(triggerFirstTabEl).show();
+      appendCurrentaPagetoFormAction(location.hash);
+    }
     function jumpTo(group,identifier){
       var triggerFirstTabEl = document.querySelector('[data-bs-target="#attribute-group-' + group + '"]')
       bootstrap.Tab.getOrCreateInstance(triggerFirstTabEl).show()
       $('html,body').animate({scrollTop: ($('#edit-' + identifier).offset().top - 100)}, 400);
+      appendCurrentaPagetoFormAction('#attribute-group-' + group);
     }
     $('[data-invalid_identifier]').on('click', function (e){
       var elForm = $('[data-attribute_identifier="'+$(this).data('invalid_identifier')+'"]');
