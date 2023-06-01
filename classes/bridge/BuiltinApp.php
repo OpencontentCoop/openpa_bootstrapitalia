@@ -17,7 +17,7 @@ class BuiltinApp
     /**
      * @return string
      */
-    public function getAppIdentifier(): string
+    protected function getAppIdentifier(): string
     {
         return $this->appIdentifier;
     }
@@ -47,12 +47,12 @@ class BuiltinApp
         return $this->siteData;
     }
 
-    public function hasCustomConfig(): bool
+    protected function hasCustomConfig(): bool
     {
         return $this->getSiteData() instanceof eZSiteData && !empty($this->getSiteData()->attribute('value'));
     }
 
-    public function getCustomConfig(): string
+    protected function getCustomConfig(): string
     {
         return $this->hasCustomConfig() ? $this->getSiteData()->attribute('value') : '';
     }
@@ -67,7 +67,7 @@ class BuiltinApp
         }
     }
 
-    public function getVariables(): array
+    protected function getVariables(): array
     {
         $privacy = eZContentObject::fetchByRemoteID('privacy-policy-link');
         $privacyUrl = $privacy ? $privacy->mainNode()->attribute('url_alias') : '/';
@@ -81,7 +81,7 @@ class BuiltinApp
         ];
     }
 
-    public function getWidgetSrc(): string
+    protected function getWidgetSrc(): string
     {
         $path = OpenPAINI::variable('StanzaDelCittadinoBridge', 'BuiltInWidgetSource_' . $this->getAppIdentifier(), '');
         if (empty($path)){
@@ -91,7 +91,7 @@ class BuiltinApp
         return str_replace('%host%', $host, $path);
     }
 
-    public function getWidgetStyle(): string
+    protected function getWidgetStyle(): string
     {
         $path = OpenPAINI::variable('StanzaDelCittadinoBridge', 'BuiltInWidgetStyle_' . $this->getAppIdentifier(), '');
         if (empty($path)){
@@ -101,14 +101,24 @@ class BuiltinApp
         return str_replace('%host%', $host, $path);
     }
 
-    public function getAppRootId(): string
+    protected function getAppRootId(): string
     {
         return OpenPAINI::variable('StanzaDelCittadinoBridge', 'RootId_' . $this->getAppIdentifier(), 'root');
+    }
+
+    protected function isAppEnabled(): bool
+    {
+        $pagedata = new \OpenPAPageData();
+        $contacts = $pagedata->getContactsData();
+        $field = OpenPAINI::variable('StanzaDelCittadinoBridge', 'ContactsField_' . $this->getAppIdentifier(), 'empty');
+
+        return !(isset($contacts[$field]) && !empty($contacts[$field]));
     }
 
     public function getModuleResult(): array
     {
         $tpl = eZTemplate::factory();
+        $tpl->setVariable('built_in_app_is_enabled', $this->isAppEnabled());
         $tpl->setVariable('built_in_app', $this->getAppIdentifier());
         $tpl->setVariable('built_in_app_root_id', $this->getAppRootId());
         $tpl->setVariable('built_in_app_variables', $this->getVariables());

@@ -29,11 +29,11 @@
         </div>
     </div>
 {else}
-    {if and(is_set($built_in_app_script), $built_in_app_script|ne(''))}
+    {if and($built_in_app_is_enabled, is_set($built_in_app_script), $built_in_app_script|ne(''))}
         <div class="buitinapp">
             {$built_in_app_script}
         </div>
-    {elseif is_set($built_in_app_api_base_url)}
+    {elseif and($built_in_app_is_enabled, is_set($built_in_app_api_base_url))}
         <div class="buitinapp">
             <div id="{$built_in_app_root_id}"></div>
             <script>{foreach $built_in_app_variables as $key => $value}window.{$key} = '{$value}';{/foreach}</script>
