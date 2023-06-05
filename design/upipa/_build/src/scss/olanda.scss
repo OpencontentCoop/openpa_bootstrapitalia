@@ -1,0 +1,22 @@
+//modificando
+// - html/extension/openpa_bootstrapitalia/node_modules/bootstrap-italia/src/scss/utilities/colors_vars.scss#202-2014
+//usando http://colorizer.org/
+// colore arancione: #f78f30
+// l'arancione ha un contrasto basso relativamente al bianco, questo tema non può essere utilizzato su siti pubblici
+
+$colore-header: #E0611F;
+
+$primary-a7: darken($colore-header, 10);
+$primary-a6: darken($colore-header, 8);
+$primary-a10: darken($colore-header, 10);
+$primary-a12: darken($colore-header, 15);
+
+$primary-h: 28.64;
+$primary-s: 92.56;
+$primary-b: 57.84;
+
+@import "default";
+
+.it-footer-main {
+  box-shadow: inset 0 10px 9px rgba(0, 0, 0, 0.1);
+}

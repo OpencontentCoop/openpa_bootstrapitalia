@@ -1,0 +1,66 @@
+.navbar .close-div {
+  left: auto;
+  background: transparent;
+  padding: 15px;
+
+  .icon {
+    fill: $primary;
+  }
+}
+
+.menu-wrapper .dropdown-menu .link-list-wrapper ul li a {
+  white-space: nowrap;
+}
+
+.navbar .navbar-collapsable {
+  &.expanded {
+    .it-brand-wrapper.cloned {
+
+      .icon {
+        &.colorize {
+          filter: none;
+          fill: $primary;
+        }
+      }
+    }
+
+    .navbar-nav li a.main-nav-link {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+  }
+
+  &:not(.expanded) {
+    .icon.colorize {
+      filter: brightness(100);
+      fill: #fff;
+    }
+  }
+}
+
+.theme-light .custom-navbar-toggler svg {
+  fill: $primary;
+}
+
+.breadcrumb-container .breadcrumb {
+  padding: 24px 1px;
+  display: block;
+  .breadcrumb-item{
+    display: inline !important;
+  }
+  .breadcrumb-item + .breadcrumb-item::before{
+    float:none;
+    display: inline-block !important;
+    padding: 0 0.1em;
+    content: "/";
+  }
+}
+
+#main-menu.expanded .it-search-wrapper.cloned,
+#main-menu.expanded .it-brand-wrapper.cloned{
+  display:none !important;
+}
+
+.it-header-wrapper.it-header-sticky.is-sticky .it-header-navbar-wrapper.theme-light-desk .menu-wrapper .it-search-wrapper{
+  color: $navigation-light-text-color;
+}

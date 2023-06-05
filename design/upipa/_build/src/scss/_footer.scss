@@ -1,0 +1,29 @@
+.it-footer-main {
+  font-size: 1rem;
+  h4 span {
+    color: $white;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 1rem;
+  }
+  h4 a{
+    font-size: 1rem;
+  }
+  a {
+    color: $white !important;
+  }
+}
+
+.it-footer-small-prints {
+  a,
+  a:hover:not(.disabled) {
+    font-size: 0.9375rem;
+  }
+}
+
+.it-brand-wrapper .text-center {
+  .icon, .it-brand-text {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}

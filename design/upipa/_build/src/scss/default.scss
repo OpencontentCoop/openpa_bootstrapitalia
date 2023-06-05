@@ -1,0 +1,33 @@
+
+$image-path: "../images/" !default;
+$icon-font-path: "../fonts/";
+$icon-font-name: "glyphicons-halflings-regular";
+$icon-font-svg-id: "glyphicons_halflingsregular";
+$btn-font-size: 1rem !default;
+$btn-font-size-sm: 0.82496rem !default;
+$btn-font-size-lg: 1.06066rem !default;
+$link-list-font-size: 0.778em;
+$header-center-text-size: 0.778em;
+
+//modifica html/extension/openpa_bootstrapitalia/node_modules/bootstrap-italia/src/scss/_variables.scss#595
+$chips-background-hover: #5c6f82;
+
+@import "bootstrap-italia";
+@import 'font-awesome.scss';
+@import 'glyphicons';
+@import "ezcompat";
+@import "header";
+@import "search";
+@import "navigation";
+@import "footer";
+@import "websitetoolbar";
+@import "card-utilities";
+@import "leaflet";
+@import "audio";
+@import "datatable";
+@import "chosen";
+@import "banner";
+@import "sections";
+@import "custom";
+@import "gallery";
+
