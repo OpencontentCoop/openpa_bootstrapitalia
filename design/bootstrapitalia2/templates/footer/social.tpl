@@ -47,8 +47,8 @@
             {/if}
         {/foreach}
         {if openpaini('GeneralSettings','ShowRssInSocialList', 'disabled')|eq('enabled')}
-            <li>
-                <a href="{'/feed/list'}" aria-label="RSS" target="_blank" rel="noopener noreferrer" title="RSS">
+            <li class="list-inline-item mb-3">
+                <a href="{'/feed/list'}" aria-label="RSS"  title="RSS">
                     {display_icon('it-rss', 'svg', 'icon icon-sm icon-white align-top')}
                     <span class="visually-hidden">RSS</span>
                 </a>
