@@ -19,9 +19,12 @@ class SiteInfo
                         break;
                     }
                 }
-            }elseif (!$rootNode){
-                $rootNode = json_decode(file_get_contents("https://$remoteHost/api/opendata/v2/content/browse/2"), true);
-                if ($rootNode){
+            } elseif (!$rootNode) {
+                $rootNode = json_decode(
+                    file_get_contents("https://$remoteHost/api/opendata/v2/content/browse/2"),
+                    true
+                );
+                if ($rootNode) {
                     $rootObjectId = $rootNode['id'];
                 }
             }
@@ -86,5 +89,241 @@ class SiteInfo
         }
 
         return false;
+    }
+
+    public static function getCurrent()
+    {
+        $home = OpenPaFunctionCollection::fetchHome();
+        $homeDataMap = $home->dataMap();
+
+        if (isset($homeDataMap['service_url']) && $homeDataMap['service_url']->hasContent()) {
+            $amministrazioneAfferente = [
+                'text' => $homeDataMap['service_url']->attribute('content'),
+                'url' => $homeDataMap['service_url']->attribute('data_text'),
+            ];
+        } else {
+            $amministrazioneAfferente = [
+                'text' => OpenPAINI::variable('InstanceSettings', 'NomeAmministrazioneAfferente', ''),
+                'url' => OpenPAINI::variable('InstanceSettings', 'UrlAmministrazioneAfferente', ''),
+            ];
+        }
+
+        $nav = [];
+        if (isset($homeDataMap['link_nell_header']) && $homeDataMap['link_nell_header']->hasContent()) {
+            $navObjects = OpenPABase::fetchObjects(explode('-', $homeDataMap['link_nell_header']->toString()));
+            foreach ($navObjects as $navObject) {
+                $navNode = $navObject->mainNode();
+                if ($navNode instanceof eZContentObjectTreeNode) {
+                    $navUrl = $navNode->attribute('url_alias');
+                    eZURI::transformURI($navUrl, false, 'full');
+                    $nav[] = [
+                        'text' => $navObject->attribute('name'),
+                        'url' => $navUrl,
+                    ];
+                }
+            }
+        }
+
+        $main = [];
+        $topMenuNodeIdList = OpenPAINI::variable('TopMenu', 'NodiCustomMenu', []);
+        foreach ($topMenuNodeIdList as $topMenuNodeId) {
+            $topMenu = (array)OpenPAMenuTool::getTreeMenu(['root_node_id' => $topMenuNodeId, 'scope' => 'top_menu']);
+            eZURI::transformURI($topMenu['item']['url'], false, 'full');
+            $menuItem = [
+                'text' => $topMenu['item']['name'],
+                'url' => $topMenu['item']['url'],
+            ];
+            if (isset($topMenu['children']) && count($topMenu['children'])) {
+                $menuItem['children'] = [];
+                foreach ($topMenu['children'] as $topMenuChild) {
+                    eZURI::transformURI($topMenuChild['item']['url'], false, 'full');
+                    $menuItem['children'][] = [
+                        'text' => $topMenuChild['item']['name'],
+                        'url' => $topMenuChild['item']['url'],
+                    ];
+                }
+            }
+            $main[] = $menuItem;
+        }
+
+        $topics = [];
+        if (isset($homeDataMap['topics']) && $homeDataMap['topics']->hasContent()) {
+            $topicsObjects = OpenPABase::fetchObjects(explode('-', $homeDataMap['topics']->toString()));
+            foreach ($topicsObjects as $topicsObject) {
+                $topicNode = $topicsObject->mainNode();
+                if ($topicNode instanceof eZContentObjectTreeNode) {
+                    $topicUrl = $topicNode->attribute('url_alias');
+                    eZURI::transformURI($topicUrl, false, 'full');
+                    $topics[] = [
+                        'text' => $topicsObject->attribute('name'),
+                        'url' => $topicUrl,
+                    ];
+                }
+            }
+        }
+
+        $allTopics = null;
+        $allTopicsObject = eZContentObject::fetchByRemoteID('topics');
+        if ($allTopicsObject instanceof eZContentObject) {
+            $allTopicsNode = $allTopicsObject->mainNode();
+            if ($allTopicsNode instanceof eZContentObjectTreeNode) {
+                $allTopics = $allTopicsNode->attribute('url_alias');
+                eZURI::transformURI($allTopics, false, 'full');
+            }
+        }
+
+        $noteFooter = '<p>' . eZINI::instance()->variable('SiteSettings', 'SiteName') . '</p>';
+        if (isset($homeDataMap['note_footer']) && $homeDataMap['note_footer']->hasContent()) {
+            $noteFooter .= str_replace(
+                '&nbsp;',
+                ' ',
+                $homeDataMap['note_footer']->content()->attribute('output')->attribute('output_text')
+            );
+        }
+
+        $pagedata = new \OpenPAPageData();
+        $contacts = $pagedata->getContactsData();
+
+        $logoUrl = '';
+        $logo = OpenPaFunctionCollection::fetchHeaderLogo();
+        if (isset($logo['full_path'])) {
+            $logoUrl = $logo['full_path'];
+            eZURI::transformURI($logoUrl, true, 'full');
+        }
+
+        $faviconUrl = '';
+        if (isset($homeDataMap['favicon']) && $homeDataMap['favicon']->hasContent()) {
+            /** @var \eZBinaryFile $favicon */
+            $favicon = $homeDataMap['favicon']->content();
+            $faviconUrl = 'content/download/' . $homeDataMap['favicon']->attribute('contentobject_id')
+                . '/' . $homeDataMap['favicon']->attribute('id')
+                . '/' . $homeDataMap['favicon']->attribute('version')
+                . '/' . urlencode($favicon->attribute('original_filename'));
+            eZURI::transformURI($faviconUrl, true, 'full');
+        }
+
+        $trasparenzaUrl = '';
+        $trasparenza = eZContentObject::fetchByRemoteID(
+            OpenPAINI::variable('SitemapSettings', 'TrasaprenzaRemoteId', '5399ef12f98766b90f1804e5d52afd75')
+        );
+        if ($trasparenza instanceof eZContentObject) {
+            $trasparenzaNode = $trasparenza->mainNode();
+            if ($trasparenzaNode instanceof eZContentObjectTreeNode) {
+                $trasparenzaUrl = $trasparenzaNode->attribute('url_alias');
+                eZURI::transformURI($trasparenzaUrl, false, 'full');
+            }
+        }
+
+        $privacyUrl = '';
+        $privacy = eZContentObject::fetchByRemoteID('privacy-policy-link');
+        if ($privacy instanceof eZContentObject) {
+            $privacyNode = $privacy->mainNode();
+            if ($privacyNode instanceof eZContentObjectTreeNode) {
+                $privacyUrl = $privacyNode->attribute('url_alias');
+                eZURI::transformURI($privacyUrl, false, 'full');
+            }
+        }
+
+        $legalNotesUrl = '';
+        $legalNotes = eZContentObject::fetchByRemoteID('931779762484010404cf5fa08f77d978');
+        if ($legalNotes instanceof eZContentObject) {
+            $legalNotesNode = $legalNotes->mainNode();
+            if ($legalNotesNode instanceof eZContentObjectTreeNode) {
+                $legalNotesUrl = $legalNotesNode->attribute('url_alias');
+                eZURI::transformURI($legalNotesUrl, false, 'full');
+            }
+        }
+
+        $accessibilityUrl = '';
+        $accessibility = eZContentObject::fetchByRemoteID('accessibility-link');
+        if ($accessibility instanceof eZContentObject) {
+            $accessibilityDataMap = $accessibility->dataMap();
+            if (isset($accessibilityDataMap['location'])) {
+                $accessibilityUrl = $accessibilityDataMap['location']->attribute('content');
+            }
+        }
+
+        $faqUrl = '';
+        $faq = eZContentObject::fetchByRemoteID('faq_system');
+        if ($faq instanceof eZContentObject) {
+            $faqNode = $faq->mainNode();
+            if ($faqNode instanceof eZContentObjectTreeNode) {
+                $faqUrl = $faqNode->attribute('url_alias');
+                eZURI::transformURI($faqUrl, false, 'full');
+            }
+        }
+
+        $bookingUrl = $contacts['link_prenotazione_appuntamento'] ?? false;
+        if (!$bookingUrl) {
+            $bookingUrl = '/prenota_appuntamento';
+            eZURI::transformURI($bookingUrl, false, 'full');
+        }
+
+        $inefficiencyUrl = $contacts['link_segnalazione_disservizio'] ?? false;
+        if (!$inefficiencyUrl) {
+            $inefficiencyUrl = '/segnala_disservizio';
+            eZURI::transformURI($inefficiencyUrl, false, 'full');
+        }
+
+        $supportUrl = $contacts['link_assistenza'] ?? false;
+        if (!$supportUrl) {
+            $supportUrl = '/richiedi_assistenza';
+            eZURI::transformURI($supportUrl, false, 'full');
+        }
+
+        $siteInfo = [
+//            'tenant_type' => 'comune',
+//            'enable_search_and_catalogue' => false,
+            'favicon' => $faviconUrl,
+            'logo' => $logoUrl,
+            'theme' => 'default', //@todo
+            'service' => [
+                'amministrazione_afferente' => $amministrazioneAfferente,
+                'nav' => $nav,
+            ],
+            'main' => $main,
+            'topics' => $topics,
+            'all_topics' => $allTopics,
+            'info' => $noteFooter,
+            'contacts' => [
+                'address' => $contacts['indirizzo'] ?? '',
+                'phone' => $contacts['telefono'] ?? '',
+                'email' => $contacts['email'] ?? '',
+                'legal_email' => $contacts['pec'] ?? '',
+                'piva' => $contacts['partita_iva'] ?? '',
+                'cf' => $contacts['codice_fiscale'] ?? '',
+            ],
+            'social' => [
+                'facebook' => $contacts['facebook'] ?? '',
+                'twitter' => $contacts['twitter'] ?? '',
+                'youtube' => $contacts['youtube'] ?? '',
+                'telegram' => $contacts['telegram'] ?? '',
+                'whatsapp' => $contacts['whatsapp'] ?? '',
+                'tiktok' => $contacts['tiktok'] ?? '',
+                'rss' => OpenpaBootstrapItaliaNewsRssHandler::isEnabled() ?
+                    (new OpenpaBootstrapItaliaNewsRssHandler())->getFeedAccessUrl() : '',
+            ],
+            'legals' => [
+                'transparent_administration' => $trasparenzaUrl,
+                'privacy_info' => $privacyUrl,
+                'legal_notes' => $legalNotesUrl,
+                'accessibility' => $accessibilityUrl,
+            ],
+            'builtin_services' => [
+                'faq' => $faqUrl,
+                'appointment_booking' => $bookingUrl,
+                'report_inefficiency' => $inefficiencyUrl,
+                'support' => $supportUrl,
+            ],
+            'utils' => [
+                [
+                    'text' => '',
+                    'url' => '',
+                ],
+            ],
+            'theme_info' => OpenPABootstrapItaliaOperators::getCurrentTheme(),
+        ];
+
+        return $siteInfo;
     }
 }

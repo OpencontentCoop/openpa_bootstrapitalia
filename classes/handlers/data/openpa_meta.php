@@ -4,6 +4,9 @@ use Opencontent\Opendata\Api\EnvironmentLoader;
 use Opencontent\Opendata\Api\ContentRepository;
 use Opencontent\Opendata\Api\ContentSearch;
 
+/**
+ * @depracated
+ */
 class OpenPAMeta implements JsonSerializable
 {
     const DEBUG = true;

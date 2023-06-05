@@ -8,7 +8,8 @@ class DataHandlerMeta implements OpenPADataHandlerInterface
 
     public function getData()
     {
-        return OpenPAMeta::instanceFromGlobals();
+//        return OpenPAMeta::instanceFromGlobals();
+        return SiteInfo::getCurrent();
     }
 
 }
