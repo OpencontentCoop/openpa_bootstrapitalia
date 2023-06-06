@@ -29,6 +29,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                 'image',
                 'text_linked',
                 'latest_messages_item',
+                'point_list',
             ])) {
                 $NodeID = $content->metadata->mainNodeId;
                 $Module = new eZModule("", "", 'opendata');

@@ -19,7 +19,7 @@
 
 {if count($node_list)|gt(0)}
     {foreach $node_list as $index => $child}
-        <div data-element="{if $child|attribute('has_channel_type').content.keywords|contains('Applicazione Web')}service-online-access{elseif $child|attribute('has_channel_type').content.keywords|contains('Sportello Pubblica Amministrazione')}service-booking-access{else}service-generic-access{/if}">
+        <div data-element="{if and($child|has_attribute('has_channel_type'), $child|attribute('has_channel_type').content.keywords|contains('Applicazione Web'))}service-online-access{elseif and($child|has_attribute('has_channel_type'), $child|attribute('has_channel_type').content.keywords|contains('Sportello Pubblica Amministrazione'))}service-booking-access{else}service-generic-access{/if}">
         {if $child|has_attribute('abstract')}
             <div class="text-paragraph lora mb-4">
                 {attribute_view_gui attribute=$child|attribute('abstract')}
