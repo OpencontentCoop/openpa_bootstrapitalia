@@ -1,7 +1,6 @@
 {def $sdc_href = 'https://developers.italia.it/it/software/opencontent-stanza-del-cittadino-core-410a6e'}
 {def $site_href = 'https://developers.italia.it/it/software/opencity-labs-sito-istituzionale-cms-ff4ed2'}
 {def $product_link = concat('https://link.opencitylabs.it/footer-credits?utm_source=', openpa_instance_identifier(), '&utm_medium=footer')}
-{def $version = openpaini('CreditsSettings', 'CodeVersion', false())}
 {def $partner = current_partner()}
 
 <div class="container text-secondary x-small mt-1 mb-1">
