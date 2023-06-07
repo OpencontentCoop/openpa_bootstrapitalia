@@ -130,4 +130,38 @@ class StanzaDelCittadinoBridge
         $userAccessUrl = $this->getUserLoginUri();
         return $userAccessUrl ? str_replace('/user', '/operatori', $userAccessUrl) : null;
     }
+
+    /**
+     * @return void
+     * @throws Exception
+     */
+    public function updateSiteInfo($user, $password): void
+    {
+        $client = $this->instanceNewClient();
+        $client->setBearerToken($client->getBearerToken($user, $password));
+        $info = $client->getTenantInfo();
+        if (!isset($info['slug'])) {
+            throw new Exception("L'istanza collegata non espone lo slug nell'api tenant/info: non è possibile eseguire l'aggiornamento");
+        }
+        $meta = isset($info['meta'][0]) ? json_decode($info['meta'][0], true) : null;
+        if (!$meta){
+            throw new Exception("L'istanza collegata non espone correttamente il campo meta: non è possibile eseguire l'aggiornamento");
+        }
+        $data = SiteInfo::getCurrent();
+
+        $preserveKeys = [
+            'tenant_type',
+            'enable_search_and_catalogue',
+            'favicon',
+            'logo',
+            'theme',
+        ];
+        foreach ($preserveKeys as $preserveKey){
+            $data[$preserveKey] = $meta[$preserveKey] ?? '';
+        }
+        unset($data['theme_info']);
+        unset($data['topics']); //@todo
+
+        $client->patchTenant($info['slug'], ['meta' => $data]);
+    }
 }

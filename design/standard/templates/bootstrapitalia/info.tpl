@@ -56,7 +56,6 @@
                     )}
                     {def $_favicon = openpaini('GeneralSettings','favicon', 'favicon.ico')}
                     {def $_favicon_src = openpaini('GeneralSettings','favicon_src', 'ezimage')}
-                    <!-- favicon -->
                     {if $_favicon_attribute}
                         <img alt="{ezini('SiteSettings','SiteName')}"
                              width="16"
@@ -88,4 +87,73 @@
                 <input type="submit" class="btn btn-success" name="Store" value="Salva"/>
             </div>
         </div>
+
     </form>
+
+    {if $has_access_to_hot_zone}
+
+        <div class="border border-light bg-danger rounded p-3 my-5">
+            <h5 class="text-white mb-4">Impostazioni avanzate</h5>
+            <div class="row">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
+                <div class="form-group">
+                    <label for="ImportFrom" class="text-white p-0">Importa contatti e informazioni generali da un'altra istanza OpenCity</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="ImportFrom" name="ImportFrom"
+                               placeholder="https://www.comune.bugliano.pi.it" />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Importa</button>
+                        </div>
+                    </div>
+                    <small class="form-text text-white">
+                        Inserisci l'indirizzo di un'altra istanza OpenCity da cui importare le informazioni. Ad esempio: https://www.comune.bugliano.pi.it
+                    </small>
+                </div>
+                </form>
+            </div>
+
+            {if $bridge_connection}
+            <div class="row">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
+                <div class="form-group">
+                    <label for="UpdateBridgeTargetUser" class="text-white p-0">Aggiorna contatti e informazioni generali nell'area personale collegata {$bridge_connection|wash()}</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control border-right" id="UpdateBridgeTargetUser" name="UpdateBridgeTargetUser" placeholder="Inserisci il nome utente" />
+                        <div class="input-group-append" style="flex: 1 1 auto;">
+                            <input type="text" class="form-control" id="UpdateBridgeTargetPassword" name="UpdateBridgeTargetPassword" placeholder="e la password dell'istanza collegata" />
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+            {/if}
+
+            {if count($partners)}
+            <div class="row">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
+                <div class="form-group">
+                    <label for="SelectPartner" class="text-white p-0">Imposta partner/distributore</label>
+                    <div class="input-group">
+                        <select class="form-control" id="SelectPartner" name="SelectPartner">
+                            <option></option>
+                            {foreach $partners as $partner}
+                               <option value="{$partner.identifier|wash()}"{if and($current_partner, $current_partner.identifier|eq($partner.identifier))} selected="selected"{/if}>{$partner.name|wash()} - {$partner.url|wash()}</option>
+                            {/foreach}
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Seleziona</button>
+                        </div>
+                    </div>
+                    <small class="form-text text-white">
+                        Il nome e l'url compaiono nel footer della pagina
+                    </small>
+                </div>
+                </form>
+            </div>
+            {/if}
+
+        </div>
+    {/if}

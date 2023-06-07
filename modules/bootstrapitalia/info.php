@@ -10,12 +10,28 @@ $tpl = eZTemplate::factory();
 $http = eZHTTPTool::instance();
 $locale = eZLocale::currentLocaleCode();
 
-/** only admin can view import form */
-$canImport = eZUser::currentUser()->attribute('login') === 'admin';
-$tpl->setVariable('can_import', $canImport);
+/** only admin can view and edit hot zone */
+$hasAdminAccess = eZUser::currentUser()->attribute('login') === 'admin';
+$tpl->setVariable('has_access_to_hot_zone', $hasAdminAccess);
+$tpl->setVariable('bridge_connection', StanzaDelCittadinoBridge::factory()->getApiBaseUri());
+$tpl->setVariable('server_url', eZSys::instance()->serverURL());
 
-if ($http->hasPostVariable('From') && $canImport) {
-    $remoteUrl = $http->postVariable('From', '');
+$partnersItems = [];
+$partners = OpenPAINI::variable('CreditsSettings', 'Partners', []);
+ksort($partners);
+foreach ($partners as $identifier => $partner){
+    [$name, $url] = explode('|', $partner, 2);
+    $partnersItems[] = [
+        'identifier' => $identifier,
+        'name' => $name,
+        'url' => $url,
+    ];
+}
+$tpl->setVariable('partners', $partnersItems);
+$tpl->setVariable('current_partner', OpenPABootstrapItaliaOperators::getCurrentPartner());
+
+if ($http->hasPostVariable('ImportFrom') && $hasAdminAccess) {
+    $remoteUrl = $http->postVariable('ImportFrom', '');
     try {
         eZDebug::writeDebug('Copy data from ' . $remoteUrl, __FILE__);
         SiteInfo::importFromUrl($remoteUrl);
@@ -26,6 +42,32 @@ if ($http->hasPostVariable('From') && $canImport) {
         $tpl->setVariable('message', $e->getMessage());
     }
 }
+
+if ($http->hasPostVariable('UpdateBridgeTargetUser') && $http->hasPostVariable('UpdateBridgeTargetPassword') && $hasAdminAccess) {
+    $user = $http->postVariable('UpdateBridgeTargetUser', '');
+    $password = $http->postVariable('UpdateBridgeTargetPassword', '');
+    try {
+        StanzaDelCittadinoBridge::factory()->updateSiteInfo($user, $password);
+        $module->redirectTo('/bootstrapitalia/info');
+        return;
+    } catch (Exception $e) {
+        eZDebug::writeError($e->getMessage(), __FILE__);
+        $tpl->setVariable('message', $e->getMessage());
+    }
+}
+
+if ($http->hasPostVariable('SelectPartner') && $hasAdminAccess) {
+    $selectedPartner = $http->postVariable('SelectPartner', '');
+    if (isset($partners[$selectedPartner])){
+        OpenPABootstrapItaliaOperators::setCurrentPartner($selectedPartner);
+        $module->redirectTo('/bootstrapitalia/info');
+        return;
+    }else{
+        eZDebug::writeError("Partner $selectedPartner not found", __FILE__);
+        $tpl->setVariable('message', "Partner $selectedPartner not found");
+    }
+}
+
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {
     $home = OpenPaFunctionCollection::fetchHome();

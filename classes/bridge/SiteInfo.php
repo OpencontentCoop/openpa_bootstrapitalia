@@ -91,7 +91,7 @@ class SiteInfo
         return false;
     }
 
-    public static function getCurrent()
+    public static function getCurrent($baseUrl = null)
     {
         $home = OpenPaFunctionCollection::fetchHome();
         $homeDataMap = $home->dataMap();
@@ -115,7 +115,7 @@ class SiteInfo
                 $navNode = $navObject->mainNode();
                 if ($navNode instanceof eZContentObjectTreeNode) {
                     $navUrl = $navNode->attribute('url_alias');
-                    eZURI::transformURI($navUrl, false, 'full');
+                    self::makeAbsoluteUrl($navUrl, $baseUrl);
                     $nav[] = [
                         'text' => $navObject->attribute('name'),
                         'url' => $navUrl,
@@ -128,7 +128,7 @@ class SiteInfo
         $topMenuNodeIdList = OpenPAINI::variable('TopMenu', 'NodiCustomMenu', []);
         foreach ($topMenuNodeIdList as $topMenuNodeId) {
             $topMenu = (array)OpenPAMenuTool::getTreeMenu(['root_node_id' => $topMenuNodeId, 'scope' => 'top_menu']);
-            eZURI::transformURI($topMenu['item']['url'], false, 'full');
+            self::makeAbsoluteUrl($topMenu['item']['url'], $baseUrl);
             $menuItem = [
                 'text' => $topMenu['item']['name'],
                 'url' => $topMenu['item']['url'],
@@ -136,7 +136,7 @@ class SiteInfo
             if (isset($topMenu['children']) && count($topMenu['children'])) {
                 $menuItem['children'] = [];
                 foreach ($topMenu['children'] as $topMenuChild) {
-                    eZURI::transformURI($topMenuChild['item']['url'], false, 'full');
+                    self::makeAbsoluteUrl($topMenuChild['item']['url'], $baseUrl);
                     $menuItem['children'][] = [
                         'text' => $topMenuChild['item']['name'],
                         'url' => $topMenuChild['item']['url'],
@@ -153,7 +153,7 @@ class SiteInfo
                 $topicNode = $topicsObject->mainNode();
                 if ($topicNode instanceof eZContentObjectTreeNode) {
                     $topicUrl = $topicNode->attribute('url_alias');
-                    eZURI::transformURI($topicUrl, false, 'full');
+                    self::makeAbsoluteUrl($topicUrl, $baseUrl);
                     $topics[] = [
                         'text' => $topicsObject->attribute('name'),
                         'url' => $topicUrl,
@@ -168,7 +168,7 @@ class SiteInfo
             $allTopicsNode = $allTopicsObject->mainNode();
             if ($allTopicsNode instanceof eZContentObjectTreeNode) {
                 $allTopics = $allTopicsNode->attribute('url_alias');
-                eZURI::transformURI($allTopics, false, 'full');
+                self::makeAbsoluteUrl($allTopics, $baseUrl);
             }
         }
 
@@ -188,7 +188,8 @@ class SiteInfo
         $logo = OpenPaFunctionCollection::fetchHeaderLogo();
         if (isset($logo['full_path'])) {
             $logoUrl = $logo['full_path'];
-            eZURI::transformURI($logoUrl, true, 'full');
+            self::makeAbsoluteUrl($logoUrl, $baseUrl);
+
         }
 
         $faviconUrl = '';
@@ -199,7 +200,7 @@ class SiteInfo
                 . '/' . $homeDataMap['favicon']->attribute('id')
                 . '/' . $homeDataMap['favicon']->attribute('version')
                 . '/' . urlencode($favicon->attribute('original_filename'));
-            eZURI::transformURI($faviconUrl, true, 'full');
+            self::makeAbsoluteUrl($faviconUrl, $baseUrl);
         }
 
         $trasparenzaUrl = '';
@@ -210,7 +211,7 @@ class SiteInfo
             $trasparenzaNode = $trasparenza->mainNode();
             if ($trasparenzaNode instanceof eZContentObjectTreeNode) {
                 $trasparenzaUrl = $trasparenzaNode->attribute('url_alias');
-                eZURI::transformURI($trasparenzaUrl, false, 'full');
+                self::makeAbsoluteUrl($trasparenzaUrl, $baseUrl);
             }
         }
 
@@ -220,7 +221,7 @@ class SiteInfo
             $privacyNode = $privacy->mainNode();
             if ($privacyNode instanceof eZContentObjectTreeNode) {
                 $privacyUrl = $privacyNode->attribute('url_alias');
-                eZURI::transformURI($privacyUrl, false, 'full');
+                self::makeAbsoluteUrl($privacyUrl, $baseUrl);
             }
         }
 
@@ -230,7 +231,7 @@ class SiteInfo
             $legalNotesNode = $legalNotes->mainNode();
             if ($legalNotesNode instanceof eZContentObjectTreeNode) {
                 $legalNotesUrl = $legalNotesNode->attribute('url_alias');
-                eZURI::transformURI($legalNotesUrl, false, 'full');
+                self::makeAbsoluteUrl($legalNotesUrl, $baseUrl);
             }
         }
 
@@ -249,31 +250,37 @@ class SiteInfo
             $faqNode = $faq->mainNode();
             if ($faqNode instanceof eZContentObjectTreeNode) {
                 $faqUrl = $faqNode->attribute('url_alias');
-                eZURI::transformURI($faqUrl, false, 'full');
+                self::makeAbsoluteUrl($faqUrl, $baseUrl);
             }
         }
 
         $bookingUrl = $contacts['link_prenotazione_appuntamento'] ?? false;
         if (!$bookingUrl) {
             $bookingUrl = '/prenota_appuntamento';
-            eZURI::transformURI($bookingUrl, false, 'full');
+            self::makeAbsoluteUrl($bookingUrl, $baseUrl);
         }
 
         $inefficiencyUrl = $contacts['link_segnalazione_disservizio'] ?? false;
         if (!$inefficiencyUrl) {
             $inefficiencyUrl = '/segnala_disservizio';
-            eZURI::transformURI($inefficiencyUrl, false, 'full');
+            self::makeAbsoluteUrl($inefficiencyUrl, $baseUrl);
         }
 
         $supportUrl = $contacts['link_assistenza'] ?? false;
         if (!$supportUrl) {
             $supportUrl = '/richiedi_assistenza';
-            eZURI::transformURI($supportUrl, false, 'full');
+            self::makeAbsoluteUrl($supportUrl, $baseUrl);
+        }
+
+        $rssUrl = '';
+        if (OpenpaBootstrapItaliaNewsRssHandler::isEnabled()){
+            $rssUrl = (new OpenpaBootstrapItaliaNewsRssHandler())->getFeedAccessUrl();
+            self::makeAbsoluteUrl($rssUrl, $baseUrl);
         }
 
         $siteInfo = [
-//            'tenant_type' => 'comune',
-//            'enable_search_and_catalogue' => false,
+            'tenant_type' => 'comune',
+            'enable_search_and_catalogue' => false,
             'favicon' => $faviconUrl,
             'logo' => $logoUrl,
             'theme' => 'default', //@todo
@@ -300,8 +307,7 @@ class SiteInfo
                 'telegram' => $contacts['telegram'] ?? '',
                 'whatsapp' => $contacts['whatsapp'] ?? '',
                 'tiktok' => $contacts['tiktok'] ?? '',
-                'rss' => OpenpaBootstrapItaliaNewsRssHandler::isEnabled() ?
-                    (new OpenpaBootstrapItaliaNewsRssHandler())->getFeedAccessUrl() : '',
+                'rss' => $rssUrl,
             ],
             'legals' => [
                 'transparent_administration' => $trasparenzaUrl,
@@ -325,5 +331,15 @@ class SiteInfo
         ];
 
         return $siteInfo;
+    }
+
+    private static function makeAbsoluteUrl(&$url, $baseUrl = null)
+    {
+        eZURI::transformURI($url, false, 'full');
+        if (strpos($baseUrl, 'http') !== false) {
+            $url = str_replace(eZSys::instance()->serverURL(), $baseUrl, $url);
+        }
+
+        return $url;
     }
 }

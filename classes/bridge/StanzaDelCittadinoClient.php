@@ -29,8 +29,15 @@ class StanzaDelCittadinoClient
         return $this;
     }
 
-    public function getBearerToken(): string
+    public function getBearerToken(string $username, string $password): string
     {
+        if ($this->bearerToken === null){
+            $reponse = $this->request('POST', '/api/auth', [
+                'username' => $username,
+                'password' => $password,
+            ]);
+            $this->bearerToken = $reponse['token'];
+        }
         return $this->bearerToken;
     }
 
@@ -58,6 +65,12 @@ class StanzaDelCittadinoClient
         return $this->request('GET', '/api/tenants/info');
     }
 
+    public function patchTenant($slug, $data)
+    {
+        $info = $this->getTenantInfo();
+        return $this->request('PATCH', '/api/tenants/' . $slug, $data);
+    }
+
     public function request($method, $path, $data = null)
     {
         $url = $this->apiEndPointBaseUrl . $path;
@@ -73,8 +86,11 @@ class StanzaDelCittadinoClient
         $ch = curl_init();
         if ($method == "POST") {
             curl_setopt($ch, CURLOPT_POST, 1);
+        } elseif ($method == "PATCH") {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
         }
         if ($data !== null) {
+            $data = json_encode($data);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
             $headers[] = 'Content-Type: application/json';
             $headers[] = 'Content-Length: ' . strlen($data);
@@ -110,13 +126,12 @@ class StanzaDelCittadinoClient
             $body = substr($data, $info['header_size']);
         }
 
-        return $this->parseResponse($info, $headers, $body);
+        return $this->parseResponse($info, $headers, $body, $method . ' ' . $url);
     }
 
-    protected function parseResponse($info, $headers, $body)
+    protected function parseResponse($info, $headers, $body, $requestUrl)
     {
         $data = json_decode($body);
-
         if (isset( $data->error_message )) {
             $errorMessage = '';
             if (isset( $data->error_type )) {
@@ -129,9 +144,12 @@ class StanzaDelCittadinoClient
         if ($info['http_code'] == 401) {
             throw new \Exception("Authorization Required");
         }
+        if ($info['http_code'] == 403) {
+            throw new \Exception("Forbidden");
+        }
 
         if (!in_array($info['http_code'], array(100, 200, 201, 202))) {
-            throw new \Exception("Unknown error", $info['http_code']);
+            throw new \Exception("$requestUrl: Reponse code is " .  $info['http_code'], $info['http_code']);
         }
 
         return json_decode($body, true);

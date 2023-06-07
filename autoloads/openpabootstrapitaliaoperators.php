@@ -6,6 +6,8 @@ class OpenPABootstrapItaliaOperators
 
     private static $satisfyEntrypoint;
 
+    private static $currentPartner;
+
     private static $imageUrlList = [];
 
     function operatorList()
@@ -53,6 +55,8 @@ class OpenPABootstrapItaliaOperators
             'current_user_can_lock_edit',
             'parse_documento_trasparenza_info',
             'node_id_from_object_remote_id',
+            'has_bridge_connection',
+            'current_partner',
         );
     }
 
@@ -161,6 +165,14 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'current_partner':
+                $operatorValue = self::getCurrentPartner();
+                break;
+
+            case 'has_bridge_connection':
+                $operatorValue = !empty(StanzaDelCittadinoBridge::factory()->getApiBaseUri());
+                break;
 
             case 'node_id_from_object_remote_id':
                 $object = eZContentObject::fetchByRemoteID($operatorValue);
@@ -1641,4 +1653,57 @@ class OpenPABootstrapItaliaOperators
         return false;
     }
 
+    public static function getCurrentPartner()
+    {
+        if (self::$currentPartner === null){
+            self::$currentPartner = false;
+            $siteData = eZSiteData::fetchByName('opencity_partner');
+            if ($siteData instanceof eZSiteData){
+                self::$currentPartner = $siteData->attribute('value');
+            }
+        }
+
+        if (self::$currentPartner) {
+            $partners = OpenPAINI::variable('CreditsSettings', 'Partners', []);
+            if (isset($partners[self::$currentPartner])){
+                [$name, $url] = explode('|', $partners[self::$currentPartner], 2);
+                return [
+                    'identifier' => self::$currentPartner,
+                    'name' => $name,
+                    'url' => $url,
+                ];
+            }else{
+                return [
+                    'identifier' => self::$currentPartner,
+                    'name' => self::$currentPartner,
+                    'url' => '#',
+                ];
+            }
+        }
+
+        return false;
+    }
+
+    public static function setCurrentPartner($identifier)
+    {
+        $siteData = eZSiteData::fetchByName('opencity_partner');
+        if (!$siteData instanceof eZSiteData){
+            $siteData = eZSiteData::create('opencity_partner', '');
+        }
+        $siteData->setAttribute('value', $identifier);
+        $siteData->store();
+        eZCache::clearByTag('template');
+        try {
+            eZExtension::getHandlerClass(
+                new ezpExtensionOptions([
+                    'iniFile' => 'site.ini',
+                    'iniSection' => 'ContentSettings',
+                    'iniVariable' => 'StaticCacheHandler'
+                ])
+            )->generateCache(true, true);
+        }catch (Exception $e){
+            eZDebug::writeError($e->getMessage(), __METHOD__);
+        }
+        self::$currentPartner = $identifier;
+    }
 }

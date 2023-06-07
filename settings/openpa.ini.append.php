@@ -197,6 +197,8 @@ SyncTrasparenza=disabled
 
 [CreditsSettings]
 ShowCredits=enabled
+Partners[opencontent]=OpenContent|https://www.opencontent.it
+Partners[opencitylabs]=OpenCity Labs|https://www.opencontent.it
 
 [CookiesSettings]
 #simple or advanced
