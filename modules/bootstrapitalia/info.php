@@ -58,7 +58,11 @@ if ($http->hasPostVariable('UpdateBridgeTargetUser') && $http->hasPostVariable('
 
 if ($http->hasPostVariable('SelectPartner') && $hasAdminAccess) {
     $selectedPartner = $http->postVariable('SelectPartner', '');
-    if (isset($partners[$selectedPartner])){
+    if (empty($selectedPartner)){
+        OpenPABootstrapItaliaOperators::removeCurrentPartner();
+        $module->redirectTo('/bootstrapitalia/info');
+        return;
+    }elseif (isset($partners[$selectedPartner])){
         OpenPABootstrapItaliaOperators::setCurrentPartner($selectedPartner);
         $module->redirectTo('/bootstrapitalia/info');
         return;

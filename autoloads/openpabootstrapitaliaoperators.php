@@ -1706,4 +1706,12 @@ class OpenPABootstrapItaliaOperators
         }
         self::$currentPartner = $identifier;
     }
+
+    public static function removeCurrentPartner()
+    {
+        $siteData = eZSiteData::fetchByName('opencity_partner');
+        if ($siteData instanceof eZSiteData){
+            $siteData->remove();
+        }
+    }
 }
