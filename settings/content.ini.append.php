@@ -38,4 +38,6 @@ CategoryList[resource]=Risorse
 CategoryList[concorsi]=Concorsi
 CategoryList[bandi_progetti]=Bandi/Progetti
 
+[ActionSettings]
+ExtensionDirectories[]=openpa_bootstrapitalia
 */

@@ -29,7 +29,8 @@
                 <a href="{$partner.url|wash()}" title="{$partner.name|wash()}">{$partner.name|wash()}</a>
             {/if}
             {if openpaini('CreditsSettings', 'CodeVersion', false())}
-            <svg data-bs-toggle="tooltip"
+            <svg id="product-version"
+                 data-bs-toggle="tooltip"
                  data-bs-html="false"
                  class="icon icon-xs"
                  title="{openpaini('CreditsSettings', 'CodeVersion', false())}">
@@ -41,10 +42,7 @@
             {literal}
                 <script>
                     $(document).ready(function(){
-                      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-                      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                        return new bootstrap.Tooltip(tooltipTriggerEl)
-                      })
+                      new bootstrap.Tooltip(document.getElementById('product-version'));
 
                       var trimmedPrefix = UriPrefix.replace(/~+$/g,"");
                         if(trimmedPrefix === '/') trimmedPrefix = '';

@@ -57,7 +57,7 @@ class LockEditConnector extends OpendataConnector
 
         if ($capabilities['accessWord'] === 'limited') {
             if (!$object instanceof eZContentObject){
-                return true;
+                return true; // senza oggetto apri tutto
             }
 
             $policies = $capabilities['policies'];

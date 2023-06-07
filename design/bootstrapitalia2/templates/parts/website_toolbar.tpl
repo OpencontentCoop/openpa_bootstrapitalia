@@ -85,6 +85,7 @@
                     </button>
                 </li>
             {elseif and(
+                is_set($content_object.state_identifier_array),
                 $content_object.state_identifier_array|contains('opencity_lock/locked'),
                 current_user_can_lock_edit($content_object)
             )}
