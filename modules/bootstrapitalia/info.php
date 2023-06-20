@@ -15,6 +15,8 @@ $hasAdminAccess = eZUser::currentUser()->attribute('login') === 'admin';
 $tpl->setVariable('has_access_to_hot_zone', $hasAdminAccess);
 $tpl->setVariable('bridge_connection', StanzaDelCittadinoBridge::factory()->getApiBaseUri());
 $tpl->setVariable('server_url', eZSys::instance()->serverURL());
+$home = OpenPaFunctionCollection::fetchHome();
+$tpl->setVariable('homepage', $home);
 
 $partnersItems = [];
 $partners = OpenPAINI::variable('CreditsSettings', 'Partners', []);
@@ -74,7 +76,6 @@ if ($http->hasPostVariable('SelectPartner') && $hasAdminAccess) {
 
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {
-    $home = OpenPaFunctionCollection::fetchHome();
     $contacts = $http->postVariable('Contacts');
 
     $data = [];
@@ -105,10 +106,70 @@ if ($http->hasPostVariable('Store')) {
         ]);
     }
 
+    $dataMap = $home->dataMap();
+    $headerLinks = $dataMap['link_nell_header'] ?? null;
+    $relationsPriority = $http->hasPostVariable('ContentObjectAttribute_priority') ? $http->postVariable('ContentObjectAttribute_priority') : [];
+    if ($headerLinks){
+        $headerLinksClassId = $headerLinks->attribute('id');
+        if ($http->hasPostVariable('ContentObjectAttribute_data_object_relation_list_' . $headerLinksClassId)) {
+            $values = (array)$http->postVariable('ContentObjectAttribute_data_object_relation_list_' . $headerLinksClassId);
+            if (isset($relationsPriority[$headerLinksClassId])){
+                $pValues = [];
+                foreach ($values as $index => $value){
+                    $p = $relationsPriority[$headerLinksClassId][$index];
+                    $pValues[$p][] = $value;
+                }
+                ksort($pValues);
+                $values = [];
+                foreach ($pValues as $pValue){
+                    $values = array_merge($values, $pValue);
+                }
+            }
+            foreach ($values as $index => $value){
+                if ($value == 'no_relation'){
+                    unset($values[$index]);
+                }
+            }
+            $payload->setData($locale, 'link_nell_header', $values);
+        }
+    }
+    $footerLinks = $dataMap['link_nel_footer'] ?? null;
+    if ($footerLinks){
+        $footerLinksClassId = $footerLinks->attribute('id');
+        if ($http->hasPostVariable('ContentObjectAttribute_data_object_relation_list_' . $footerLinksClassId)) {
+            $values = (array)$http->postVariable('ContentObjectAttribute_data_object_relation_list_' . $footerLinksClassId);
+            if (isset($relationsPriority[$footerLinksClassId])){
+                $pValues = [];
+                foreach ($values as $index => $value){
+                    $p = $relationsPriority[$footerLinksClassId][$index];
+                    $pValues[$p][] = $value;
+                }
+                ksort($pValues);
+                $values = [];
+                foreach ($pValues as $pValue){
+                    $values = array_merge($values, $pValue);
+                }
+            }
+            $originalValues = explode('-', $footerLinks->toString());
+            foreach ($values as $index => $value){
+                if ($value == 'no_relation'){
+                    unset($values[$index]);
+                }
+            }
+            $missingValues = array_diff($originalValues, $values);
+            if (!empty($missingValues)){
+                $values = array_merge($values, $missingValues);
+            }
+            $values = array_unique($values);
+            $payload->setData($locale, 'link_nel_footer', $values);
+        }
+    }
+
     $contentRepository = new ContentRepository();
     $contentRepository->setEnvironment(EnvironmentLoader::loadPreset('content'));
     try {
         $contentRepository->update($payload->getArrayCopy(), true);
+
         $module->redirectTo('/bootstrapitalia/info');
         return;
     } catch (Exception $e) {

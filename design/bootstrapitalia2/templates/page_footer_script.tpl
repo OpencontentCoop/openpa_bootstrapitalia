@@ -16,7 +16,7 @@
 {/if}
 
 {if fetch('user','current_user').is_logged_in|not()}{$footer_script_loader}{/if}
-{$footer_css_loader}
+{if is_set($footer_css_loader)}{$footer_css_loader}{/if}
 
 {if openpaini( 'Seo', 'GoogleAnalyticsAccountID', false() )}
   <script async src="https://www.googletagmanager.com/gtag/js?id={openpaini( 'Seo', 'GoogleAnalyticsAccountID' )}"></script>

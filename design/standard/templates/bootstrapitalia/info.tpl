@@ -50,8 +50,8 @@
             <div class="row mb-3">
                 <label for="Favicon" class="col-sm-3 col-form-label">
                     {def $_favicon_attribute = cond(
-                        and( $pagedata.homepage|has_attribute('favicon'), $pagedata.homepage|attribute('favicon').has_content ),
-                            $pagedata.homepage|attribute('favicon'),
+                        and( $homepage|has_attribute('favicon'), $homepage|attribute('favicon').has_content ),
+                            $homepage|attribute('favicon'),
                             false()
                     )}
                     {def $_favicon = openpaini('GeneralSettings','favicon', 'favicon.ico')}
@@ -81,6 +81,22 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="border border-light rounded p-3 mb-3">
+            <h5>Link header</h5>
+            <div class="row mb-3 ezcca-edit-datatype-ezobjectrelationlist">
+                {attribute_edit_gui attribute=$homepage.data_map.link_nell_header attribute_base=ContentObjectAttribute}
+            </div>
+        </div>
+
+        <div class="border border-light rounded p-3 mb-3">
+            <h5>Link footer</h5>
+            <div class="row mb-3 ezcca-edit-datatype-ezobjectrelationlist">
+                {attribute_edit_gui attribute=$homepage.data_map.link_nel_footer attribute_base=ContentObjectAttribute}
+            </div>
+        </div>
+
 
         <div class="row">
             <div class="col-12 text-right mt-3">
@@ -157,3 +173,14 @@
 
         </div>
     {/if}
+
+    <script>{literal}
+        $(document).ready(function (){
+          $('.ezobject-relation-remove-button').on('click', function(e){
+            e.preventDefault();
+            $(this).parents('table').find('input[type="checkbox"]:checked').each(function (){
+                $(this).parents('tr').remove();
+            });
+          })
+        })
+    {/literal}</script>

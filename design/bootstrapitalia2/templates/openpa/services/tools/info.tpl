@@ -52,7 +52,7 @@
     <div class="col-md-3 text-right text-primary">Sezione:</div>
     <div class="col-md-9">
         {def $sections = $node.object.allowed_assign_section_list}
-        {if and($node.depth|gt(3), count($sections)|gt(1))}
+        {if and($node.can_edit, count($sections)|gt(1))}
             <form name="changesection" id="changesection" method="post" action={concat( 'content/edit/', $node.object.id )|ezurl}>
                 <input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias|wash}" />
                 <input type="hidden" name="ChangeSectionOnly" value="1" />
