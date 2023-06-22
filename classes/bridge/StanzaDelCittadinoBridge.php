@@ -316,7 +316,7 @@ class StanzaDelCittadinoBridge
         $client = new HttpClient($prototypeBaseUrl);
         $publicServicePayload = $client->getPayload($contentRemoteId ?? $this->getPrototypeServiceContentRemoteId($identifier));
         $publicServicePayload->setRemoteId($identifier);
-        $publicServicePayload->setParentNode(eZContentObject::fetchByRemoteID('all-services')->mainNodeID());
+        $publicServicePayload->setParentNodes([eZContentObject::fetchByRemoteID('all-services')->mainNodeID()]);
         $publicServicePayload->setData(
             null,
             'produces_output',
@@ -508,7 +508,7 @@ class StanzaDelCittadinoBridge
         $idList = [];
         foreach ($remoteIdList as $remoteId) {
             $payload = $client->getPayload($remoteId);
-            $payload->setParentNode($containerNodeId);
+            $payload->setParentNodes([$containerNodeId]);
             if (is_callable($payloadModifier)) {
                 $payload = call_user_func($payloadModifier, $payload);
             }
