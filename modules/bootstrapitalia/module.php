@@ -36,6 +36,12 @@ $ViewList['info'] = [
     'params' => [],
     'unordered_params' => [],
 ];
+$ViewList['service_tools'] = [
+    'functions' => ['service_tools'],
+    'script' => 'service_tools.php',
+    'params' => ['Page'],
+    'unordered_params' => [],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];
@@ -55,3 +61,4 @@ $FunctionList['opencity_locked_editor'] = [
     ],
 ];
 $FunctionList['opencity_info_editor'] = [];
+$FunctionList['service_tools'] = [];

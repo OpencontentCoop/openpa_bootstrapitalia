@@ -65,6 +65,34 @@ class StanzaDelCittadinoClient
         return $this->request('GET', '/api/tenants/info');
     }
 
+    public function getServiceList()
+    {
+        StanzaDelCittadinoClient::$connectionTimeout = 10;
+        StanzaDelCittadinoClient::$processTimeout = 10;
+        return $this->request('GET', '/api/services');
+    }
+
+    public function getService($id)
+    {
+        StanzaDelCittadinoClient::$connectionTimeout = 10;
+        StanzaDelCittadinoClient::$processTimeout = 10;
+        return $this->request('GET', '/api/services/' . $id);
+    }
+
+    public function getServiceByIdentifier($identifier)
+    {
+        StanzaDelCittadinoClient::$connectionTimeout = 10;
+        StanzaDelCittadinoClient::$processTimeout = 10;
+        $serviceList = $this->getServiceList();
+        foreach ($serviceList as $service){
+            if ($service['identifier'] == $identifier){
+                return $service;
+            }
+        }
+
+        throw new Exception("Service by identifier not found");
+    }
+
     public function patchTenant($slug, $data)
     {
         $info = $this->getTenantInfo();
@@ -74,7 +102,7 @@ class StanzaDelCittadinoClient
     public function request($method, $path, $data = null)
     {
         $url = $this->apiEndPointBaseUrl . $path;
-
+        eZDebug::writeDebug($method . ' ' . $url, __METHOD__);
         $headers = [];
         if ($this->bearerToken) {
             $headers[] = "Authorization: Bearer " . $this->bearerToken;
