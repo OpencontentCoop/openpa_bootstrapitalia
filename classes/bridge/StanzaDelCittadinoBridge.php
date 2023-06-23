@@ -161,6 +161,44 @@ class StanzaDelCittadinoBridge
         return $this->serviceList;
     }
 
+    public function getServiceListMergedWithPrototype()
+    {
+        $serviceList = $this->getServiceList();
+        $prototypeServiceList = (new StanzaDelCittadinoClient(self::getServiceOperationPrototypeBaseUrl()))->getServiceList();
+        $prototypeServiceListBySlug = [];
+        foreach ($prototypeServiceList as $prototypeService){
+            $prototypeServiceListBySlug[$prototypeService['slug']] = $prototypeService;
+        }
+        foreach ($serviceList as $index => $service){
+            $identifier = $service['identifier'] ?? null;
+            if (!$identifier && isset($prototypeServiceListBySlug[$service['slug']])){
+                $serviceList[$index]['identifier'] = $prototypeServiceListBySlug[$service['slug']]['identifier'];
+                $serviceList[$index]['_is_prototype_identifier'] = true;
+                $serviceList[$index]['_prototype_id'] = $prototypeServiceListBySlug[$service['slug']]['id'];;
+            }
+        }
+
+        return $serviceList;
+    }
+
+    public static function getServiceContentPrototypeBaseUrl()
+    {
+        return OpenPAINI::variable(
+            'StanzaDelCittadinoBridge',
+            'ServiceContentPrototypeBaseUrl',
+            'https://www.comune.bugliano.pi.it'
+        );
+    }
+
+    public static function getServiceOperationPrototypeBaseUrl()
+    {
+        return OpenPAINI::variable(
+            'StanzaDelCittadinoBridge',
+            'ServiceOperationPrototypeBaseUrl',
+            'https://servizi.comune.bugliano.pi.it/lang'
+        );
+    }
+
     public function getServiceByIdentifier($identifier)
     {
         return $this->instanceNewClient()->getServiceByIdentifier($identifier);
@@ -236,7 +274,7 @@ class StanzaDelCittadinoBridge
         if (!$service){
             throw new ServiceToolsException('Remote service not found');
         }
-        if ($identifier && $service['identifier'] != $identifier){
+        if ($identifier && !empty($service['identifier']) && $service['identifier'] != $identifier){
             throw new ServiceToolsException('Service identifier mismatch');
         }
         $identifier = $service['identifier'];
@@ -290,7 +328,7 @@ class StanzaDelCittadinoBridge
         }catch (Throwable $e){
             throw new ServiceToolsException('Remote service not found in ' . $this->getApiBaseUri() . ' Error: ' . $e->getMessage(), 404);
         }
-        if ($identifier && $service['identifier'] != $identifier){
+        if ($identifier && !empty($service['identifier']) && $service['identifier'] != $identifier){
             throw new ServiceToolsException('Service identifier mismatch');
         }
         $identifier = $service['identifier'];
@@ -307,11 +345,7 @@ class StanzaDelCittadinoBridge
             }
         }
 
-        $prototypeBaseUrl = OpenPAINI::variable(
-            'StanzaDelCittadinoBridge',
-            'ServicePrototypeBaseUrl',
-            'https://www.comune.bugliano.pi.it'
-        );
+        $prototypeBaseUrl = self::getServiceContentPrototypeBaseUrl();
         $locale = 'ita-IT';
         $client = new HttpClient($prototypeBaseUrl);
         $publicServicePayload = $client->getPayload($contentRemoteId ?? $this->getPrototypeServiceContentRemoteId($identifier));
@@ -438,11 +472,7 @@ class StanzaDelCittadinoBridge
 
     private function getPrototypeServiceContentRemoteId($identifier)
     {
-        $prototypeBaseUrl = OpenPAINI::variable(
-            'StanzaDelCittadinoBridge',
-            'ServicePrototypeBaseUrl',
-            'https://www.comune.bugliano.pi.it'
-        );
+        $prototypeBaseUrl = self::getServiceContentPrototypeBaseUrl();
         $locale = 'ita-IT';
         $client = new HttpClient($prototypeBaseUrl);
         $searchResponse = $client->find("classes [public_service] and identifier = '\"{$identifier}\"'");

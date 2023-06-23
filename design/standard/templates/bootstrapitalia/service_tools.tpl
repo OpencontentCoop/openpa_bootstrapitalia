@@ -3,6 +3,11 @@
     <div class="row my-5">
         <div class="col">
             <h2>{$title|wash()} <small class="d-block text-muted">{$base_url|wash()}</small></h2>
+            <p class="my-5">
+                Elenco dei servizi installati in <b>{$base_url|wash()}</b> con identificativo popolato.<br />
+                Se non è popolato l'identificativo, esso viene dedotto dal prototipo <em>{$prototype_operation_base_url}</em> in base allo slug.<br />
+                È possibile importare i dati presenti nelle schede servizio del prototipo delle schede servizio<em>{$prototype_content_base_url}.</em>
+            </p>
             {if is_set($error)}
                 <div class="alert alert-danger">
                     {$error|wash()}
@@ -23,19 +28,22 @@
                     <table class="table table-hover">
                         <tr>
                             <th>Titolo</th>
-                            <th>ID</th>
                             <th>Identificativo</th>
                             <th></th>
                         </tr>
                     {foreach $services as $service}
-                        {if $service.identifier|not()}{skip}{/if}
                         <tr style="opacity:.5">
-                            <td>{$service.name|wash()}</td>
-                            <td><code class="size-sm">{$service.id|wash()}</code></td>
-                            <td><code class="size-sm">{$service.identifier|wash()}</code></td>
+                            <td><strong>{$service.name|wash()}</strong><code style="font-size: small" class="d-block">{$service.id|wash()}</code></td>
+                            <td>
+                                <code class="size-sm">{$service.identifier|wash()}</code>
+                                {if is_set($service._is_prototype_identifier)}
+                                    <small style="font-size: small" class="d-block">Identificativo dedotto dal <a href="{$prototype_operation_base_url}/it/admin/servizio/{$service._prototype_id}/edit" target="_blank" title="{$prototype_operation_base_url}">prototipo</a> <small
+                                {/if}
+                            </td>
                             <td style="white-space:nowrap;text-align:right">
+                                <span data-id="{$service.id|wash()}" class="load" href="#" data-identifier="{$service.identifier|wash()}"><i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i></span>
+                                {if $service.identifier}
                                 <form method="post" action="{'bootstrapitalia/service_tools'|ezurl(no)}" enctype="multipart/form-data" class="form">
-                                    <span data-id="{$service.id|wash()}" class="load" href="#" data-identifier="{$service.identifier|wash()}"><i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i></span>
                                     <input data-identifier="{$service.identifier|wash()}" type="hidden" name="identifier" value="{$service.identifier|wash()}" />
                                     <input data-identifier="{$service.identifier|wash()}" type="hidden" name="content_remote_id" value="" />
                                     <input data-identifier="{$service.identifier|wash()}" type="hidden" name="service_id" value="{$service.id|wash()}" />
@@ -44,6 +52,7 @@
                                     <button data-identifier="{$service.identifier|wash()}" type="submit" name="ReImportService" data-id="{$service.id|wash()}" class="hide update btn btn-xs btn-warning text-nowrap"><i aria-hidden="true" class="fa fa-refresh"></i> Reimporta</button>
                                     <button data-identifier="{$service.identifier|wash()}" type="submit" name="UpdateService" data-id="{$service.id|wash()}" class="hide update btn btn-xs btn-success text-nowrap"><i aria-hidden="true" class="fa fa-refresh"></i> Aggiorna stato</button>
                                 </form>
+                                {/if}
                             </td>
                         </tr>
                     {/foreach}
@@ -56,64 +65,83 @@
 </section>
 
 <script>
-    var prototypeBaseUrl = '{openpaini('StanzaDelCittadinoBridge', 'ServicePrototypeBaseUrl', 'https://www.comune.bugliano.pi.it')}';
+    var prototypeBaseUrl = '{$prototype_content_base_url}';
 {literal}
-  $(document).ready(function () {
-    let stateMessage = $('#loading-helper');
-    let = resultsContainer = $('.items');
-    $('span.load').each(function () {
-      var self = $(this);
-      var serviceId = self.data('id');
-      var identifier = self.data('identifier');
-      stateMessage.text('Cerco i servizi nel sito prototipo ' + prototypeBaseUrl);
-      $.ajax({
-        type: "GET",
-        url: prototypeBaseUrl+'/api/opendata/v2/content/search/classes [public_service] and identifier = \'"' + identifier + '"\'',
-        dataType: "jsonp",
-        cache: true,
-        success: function (data, textStatus, jqXHR) {
-          if (typeof data.error_message === 'string' || data.totalCount === 0) {
-            self.parents('tr').remove();
-          } else {
-            stateMessage.text('Cerco i servizi locali con identificatore ' + identifier);
-            $.ajax({
-              type: "GET",
-              url: '/opendata/api/content/search/classes [public_service] and identifier = \'"' + identifier + '"\'',
-              contentType: "application/json; charset=utf-8",
-              dataType: "json",
-              cache: true,
-              success: function (localData, textStatus, jqXHR) {
-                resultsContainer.find('span.load[data-identifier="' + identifier + '"]').hide();
-                resultsContainer.find('input[name="content_remote_id"][data-identifier="' + identifier + '"]').val(data.searchHits[0].metadata.remoteId);
-                if (typeof localData.error_message === 'string' || localData.totalCount === 0) {
-                  resultsContainer.find('button.import[data-identifier="' + identifier + '"]').removeClass('hide');
-                } else {
-                  resultsContainer.find('button.update[data-identifier="' + identifier + '"]').removeClass('hide');
-                  resultsContainer.find('a.link[data-identifier="' + identifier + '"]').removeClass('hide').attr('href', '/openpa/object/'+localData.searchHits[0].metadata.remoteId)
-                }
-                self.parents('tr').css('opacity', 1);
-                stateMessage.text('');
-              },
-              error: function (jqXHR) {
-                console.log(jqXHR);
-                self.parents('tr').remove();
-                stateMessage.text('');
-              }
-            });
-          }
-        },
-        error: function (jqXHR) {
-          console.log(jqXHR);
+    $(document).ready(function () {
+      let stateMessage = $('#loading-helper');
+      let =
+      resultsContainer = $('.items');
+      $('span.load').each(function () {
+        var self = $(this);
+        var serviceId = self.data('id');
+        var identifier = self.data('identifier');
+        if (identifier.length === 0) {
           self.parents('tr').remove();
+          return;
         }
+        if (identifier.startsWith('http') === true) {
+          self.css('font-size', 'small').text('Formato identificativo non valido');
+          return;
+        }
+        stateMessage.text('Cerco i servizi nel sito prototipo ' + prototypeBaseUrl);
+        $.ajax({
+          type: "GET",
+          url: prototypeBaseUrl + '/api/opendata/v2/content/search/classes [public_service] and identifier = \'"' + identifier + '"\'',
+          dataType: "jsonp",
+          tryCount: 0,
+          retryLimit: 3,
+          success: function (data, textStatus, jqXHR) {
+            if (typeof data.error_message === 'string' || data.totalCount === 0) {
+              self.css('font-size', 'small').text('Identificativo non trovato nel prototipo delle schede');
+            } else {
+              stateMessage.text('Cerco i servizi locali con identificatore ' + identifier);
+              $.ajax({
+                type: "GET",
+                url: '/opendata/api/content/search/classes [public_service] and identifier = \'"' + identifier + '"\'',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                tryCount: 0,
+                retryLimit: 3,
+                success: function (localData, textStatus, jqXHR) {
+                  resultsContainer.find('span.load[data-identifier="' + identifier + '"]').hide();
+                  resultsContainer.find('input[name="content_remote_id"][data-identifier="' + identifier + '"]').val(data.searchHits[0].metadata.remoteId);
+                  if (typeof localData.error_message === 'string' || localData.totalCount === 0) {
+                    resultsContainer.find('button.import[data-identifier="' + identifier + '"]').removeClass('hide');
+                  } else {
+                    resultsContainer.find('button.update[data-identifier="' + identifier + '"]').removeClass('hide');
+                    resultsContainer.find('a.link[data-identifier="' + identifier + '"]').removeClass('hide').attr('href', '/openpa/object/' + localData.searchHits[0].metadata.remoteId)
+                  }
+                  self.parents('tr').css('opacity', 1);
+                  stateMessage.text('');
+                },
+                error: function (jqXHR) {
+                  this.tryCount++;
+                  if (this.tryCount <= this.retryLimit) {
+                    console.log('try again');
+                    $.ajax(this);
+                    return;
+                  }
+                  console.log(jqXHR);
+                  // self.parents('tr').remove();
+                  stateMessage.text('');
+                }
+              });
+            }
+          },
+          error: function (jqXHR) {
+            this.tryCount++;
+            if (this.tryCount <= this.retryLimit) {
+              console.log('try again');
+              $.ajax(this);
+              return;
+            }
+            console.log(jqXHR);
+            // self.parents('tr').remove();
+          }
+        });
       });
+      stateMessage.text('');
     });
-    resultsContainer.find('a.import').on('click', function (e){
-      e.preventDefault();
-      console.log($(this).data())
-    })
-    stateMessage.text('');
-  });
 {/literal}</script>
 {*
 

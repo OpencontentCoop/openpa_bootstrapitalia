@@ -36,13 +36,14 @@ if ($Params['Page'] === 'doc') {
     return;
 }
 
-
+$tpl->setVariable('prototype_content_base_url', StanzaDelCittadinoBridge::getServiceContentPrototypeBaseUrl());
+$tpl->setVariable('prototype_operation_base_url', StanzaDelCittadinoBridge::getServiceOperationPrototypeBaseUrl());
 $services = [];
 $tenant = ['name' => '?'];
 $bridge = StanzaDelCittadinoBridge::factory();
 try {
     $tenant = $bridge->getTenantInfo();
-    $services = $bridge->getServiceList();
+    $services = $bridge->getServiceListMergedWithPrototype();
 }catch (Throwable $e){
     $tpl->setVariable('error', $e->getMessage());
 }
@@ -79,6 +80,7 @@ if ($http->hasPostVariable('UpdateService')){
 $tpl->setVariable('title', 'Sincronizzazione schede servizio da ' . $tenant['name']);
 $tpl->setVariable('services', $services);
 $tpl->setVariable('base_url', $bridge->getApiBaseUri());
+$tpl->setVariable('tenant', $tenant);
 
 $Result = [];
 $Result['content'] = $tpl->fetch('design:bootstrapitalia/service_tools.tpl');

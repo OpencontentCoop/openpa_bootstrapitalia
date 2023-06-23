@@ -121,6 +121,7 @@ export default [
   },
   {input: 'src/scss/acqua.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/acqua.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {input: 'src/scss/acquamarina.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/acquamarina.css',outputStyle: 'compressed',watch: 'src/scss'})]},
+  {input: 'src/scss/amalfi.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/amalfi.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {input: 'src/scss/amaranto.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/amaranto.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {input: 'src/scss/apss.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/apss.css',outputStyle: 'compressed',watch: 'src/scss'})]},
   {input: 'src/scss/cagliari.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/cagliari.css',outputStyle: 'compressed',watch: 'src/scss'})]},
