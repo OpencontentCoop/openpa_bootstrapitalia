@@ -41,7 +41,12 @@
                                 {/if}
                             </td>
                             <td style="white-space:nowrap;text-align:right">
-                                <span data-id="{$service.id|wash()}" class="load" href="#" data-identifier="{$service.identifier|wash()}"><i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i></span>
+                                <span data-id="{$service.id|wash()}"
+                                      class="load" href="#"
+                                      data-remote_identifier="{$service._content_prototype_remote_id|wash()}"
+                                      data-identifier="{$service.identifier|wash()}">
+                                    <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i>
+                                </span>
                                 {if $service.identifier}
                                 <form method="post" action="{'bootstrapitalia/service_tools'|ezurl(no)}" enctype="multipart/form-data" class="form">
                                     <input data-identifier="{$service.identifier|wash()}" type="hidden" name="identifier" value="{$service.identifier|wash()}" />
@@ -84,61 +89,43 @@
           return;
         }
         stateMessage.text('Cerco i servizi nel sito prototipo ' + prototypeBaseUrl);
-        $.ajax({
-          type: "GET",
-          url: prototypeBaseUrl + '/api/opendata/v2/content/search/classes [public_service] and identifier = \'"' + identifier + '"\'',
-          dataType: "jsonp",
-          tryCount: 0,
-          retryLimit: 3,
-          success: function (data, textStatus, jqXHR) {
-            if (typeof data.error_message === 'string' || data.totalCount === 0) {
-              self.css('font-size', 'small').text('Identificativo non trovato nel prototipo delle schede');
-            } else {
-              stateMessage.text('Cerco i servizi locali con identificatore ' + identifier);
-              $.ajax({
-                type: "GET",
-                url: '/opendata/api/content/search/classes [public_service] and identifier = \'"' + identifier + '"\'',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                tryCount: 0,
-                retryLimit: 3,
-                success: function (localData, textStatus, jqXHR) {
-                  resultsContainer.find('span.load[data-identifier="' + identifier + '"]').hide();
-                  resultsContainer.find('input[name="content_remote_id"][data-identifier="' + identifier + '"]').val(data.searchHits[0].metadata.remoteId);
-                  if (typeof localData.error_message === 'string' || localData.totalCount === 0) {
-                    resultsContainer.find('button.import[data-identifier="' + identifier + '"]').removeClass('hide');
-                  } else {
-                    resultsContainer.find('button.update[data-identifier="' + identifier + '"]').removeClass('hide');
-                    resultsContainer.find('a.link[data-identifier="' + identifier + '"]').removeClass('hide').attr('href', '/openpa/object/' + localData.searchHits[0].metadata.remoteId)
-                  }
-                  self.parents('tr').css('opacity', 1);
-                  stateMessage.text('');
-                },
-                error: function (jqXHR) {
-                  this.tryCount++;
-                  if (this.tryCount <= this.retryLimit) {
-                    console.log('try again');
-                    $.ajax(this);
-                    return;
-                  }
-                  console.log(jqXHR);
-                  // self.parents('tr').remove();
-                  stateMessage.text('');
-                }
-              });
+
+        if (self.data('remote_identifier')){
+          stateMessage.text('Cerco i servizi locali con identificatore ' + identifier);
+          $.ajax({
+            type: "GET",
+            url: '/opendata/api/content/search/classes [public_service] and identifier = \'"' + identifier + '"\' limit 1',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            tryCount: 0,
+            retryLimit: 3,
+            success: function (localData, textStatus, jqXHR) {
+              resultsContainer.find('span.load[data-identifier="' + identifier + '"]').hide();
+              resultsContainer.find('input[name="content_remote_id"][data-identifier="' + identifier + '"]').val(self.data('remote_identifier'));
+              if (typeof localData.error_message === 'string' || localData.totalCount === 0) {
+                resultsContainer.find('button.import[data-identifier="' + identifier + '"]').removeClass('hide');
+              } else {
+                resultsContainer.find('button.update[data-identifier="' + identifier + '"]').removeClass('hide');
+                resultsContainer.find('a.link[data-identifier="' + identifier + '"]').removeClass('hide').attr('href', '/openpa/object/' + localData.searchHits[0].metadata.remoteId)
+              }
+              self.parents('tr').css('opacity', 1);
+              stateMessage.text('');
+            },
+            error: function (jqXHR) {
+              // this.tryCount++;
+              // if (this.tryCount <= this.retryLimit) {
+              //   console.log('try again');
+              //   $.ajax(this);
+              //   return;
+              // }
+              console.log(jqXHR);
+              // self.parents('tr').remove();
+              stateMessage.text('');
             }
-          },
-          error: function (jqXHR) {
-            this.tryCount++;
-            if (this.tryCount <= this.retryLimit) {
-              console.log('try again');
-              $.ajax(this);
-              return;
-            }
-            console.log(jqXHR);
-            // self.parents('tr').remove();
-          }
-        });
+          });
+        }else{
+          self.css('font-size', 'small').text('Identificativo non trovato nel prototipo delle schede');
+        }
       });
       stateMessage.text('');
     });

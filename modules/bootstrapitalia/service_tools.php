@@ -43,7 +43,7 @@ $tenant = ['name' => '?'];
 $bridge = StanzaDelCittadinoBridge::factory();
 try {
     $tenant = $bridge->getTenantInfo();
-    $services = $bridge->getServiceListMergedWithPrototype();
+    $services = $bridge->getServiceListMergedWithPrototypes();
 }catch (Throwable $e){
     $tpl->setVariable('error', $e->getMessage());
 }

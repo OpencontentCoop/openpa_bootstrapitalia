@@ -161,7 +161,7 @@ class StanzaDelCittadinoBridge
         return $this->serviceList;
     }
 
-    public function getServiceListMergedWithPrototype()
+    public function getServiceListMergedWithPrototypes()
     {
         $serviceList = $this->getServiceList();
         $prototypeServiceList = (new StanzaDelCittadinoClient(self::getServiceOperationPrototypeBaseUrl()))->getServiceList();
@@ -169,13 +169,18 @@ class StanzaDelCittadinoBridge
         foreach ($prototypeServiceList as $prototypeService){
             $prototypeServiceListBySlug[$prototypeService['slug']] = $prototypeService;
         }
+        $prototypeBaseUrl = self::getServiceContentPrototypeBaseUrl();
+        $client = new HttpClient($prototypeBaseUrl);
+        $contentServiceLists = $client->find("select-fields [data.identifier => metadata.remoteId] classes [public_service] limit 100");
+
         foreach ($serviceList as $index => $service){
             $identifier = $service['identifier'] ?? null;
             if (!$identifier && isset($prototypeServiceListBySlug[$service['slug']])){
                 $serviceList[$index]['identifier'] = $prototypeServiceListBySlug[$service['slug']]['identifier'];
                 $serviceList[$index]['_is_prototype_identifier'] = true;
-                $serviceList[$index]['_prototype_id'] = $prototypeServiceListBySlug[$service['slug']]['id'];;
+                $serviceList[$index]['_prototype_id'] = $prototypeServiceListBySlug[$service['slug']]['id'];
             }
+            $serviceList[$index]['_content_prototype_remote_id'] = $contentServiceLists[$serviceList[$index]['identifier']] ?? null;
         }
 
         return $serviceList;
