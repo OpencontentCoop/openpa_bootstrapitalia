@@ -2,11 +2,13 @@
 <section class="container">
     <div class="row my-5">
         <div class="col">
-            <h2>{$title|wash()} <small class="d-block text-muted">{$base_url|wash()}</small></h2>
-            <p class="my-5">
+            <h2>{$title|wash()} <span class="badge bg-primary"">beta</span> <small class="d-block text-muted">{$tenant.name|wash()} - {$base_url|wash()}</small></h2>
+            <p class="mt-5">
                 Elenco dei servizi installati in <b>{$base_url|wash()}</b> con identificativo popolato.<br />
-                Se non è popolato l'identificativo, esso viene dedotto dal prototipo <em>{$prototype_operation_base_url}</em> in base allo slug.<br />
-                È possibile importare i dati presenti nelle schede servizio del prototipo delle schede servizio<em>{$prototype_content_base_url}.</em>
+                (Se l'identificativo non è popolato, esso viene recuperato dal servizio con il medesimo slug in <em>{$prototype_operation_base_url}</em>, se presente)
+            </p>
+            <p class="mb-5">
+                È possibile importare le schede dei servizi: i contenuti sono clonati dai prototipi delle schede presenti in <em>{$prototype_content_base_url}.</em>
             </p>
             {if is_set($error)}
                 <div class="alert alert-danger">

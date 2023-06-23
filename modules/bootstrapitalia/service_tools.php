@@ -77,7 +77,7 @@ if ($http->hasPostVariable('UpdateService')){
     }
 }
 
-$tpl->setVariable('title', 'Sincronizzazione schede servizio da ' . $tenant['name']);
+$tpl->setVariable('title', 'Sincronizzazione schede servizio');
 $tpl->setVariable('services', $services);
 $tpl->setVariable('base_url', $bridge->getApiBaseUri());
 $tpl->setVariable('tenant', $tenant);
