@@ -98,14 +98,14 @@ var MomentDateTimeFormat = "{'DD/MM/YYYY HH:mm'|i18n('openpa/moment_datetime_for
     {/debug-accumulator}
 
     {if and(openpacontext().is_edit|not(),openpacontext().is_browse|not())}
-    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $extra_cache_key, openpaini('GeneralSettings','theme', 'default') )}
     {debug-accumulator id=page_header_and_offcanvas_menu name=page_header_and_offcanvas_menu}
+    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $extra_cache_key, openpaini('GeneralSettings','theme', 'default') )}
         {def $pagedata = openpapagedata()}
         {include uri='design:page_notifications.tpl'}
         {include uri='design:page_header.tpl'}
         {undef $pagedata}
-    {/debug-accumulator}
     {/cache-block}
+    {/debug-accumulator}
     {/if}
 
     <main id="main-content"{if $main_content_class|ne('')} class="{$main_content_class}"{/if}>
