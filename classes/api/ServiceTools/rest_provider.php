@@ -13,19 +13,47 @@ class ServiceToolsProvider implements ezpRestProviderInterface
                 [],
                 'http-get'
             ), $version),
-            'syncServiceTools' => new ezpRestVersionedRoute(new OpenApiRailsRoute(
-                '/sync_service',
+            'readServiceTools' => new ezpRestVersionedRoute(new OpenApiRailsRoute(
+                '/service/:identifier',
                 'ServiceToolsController',
-                'syncService',
+                'getServiceByIdentifier',
+                [],
+                'http-get'
+            ), $version),
+            'installServiceTools' => new ezpRestVersionedRoute(new OpenApiRailsRoute(
+                '/service/:identifier',
+                'ServiceToolsController',
+                'installServiceByIdentifier',
                 [],
                 'http-post'
             ), $version),
-            'installServiceTools' => new ezpRestVersionedRoute(new OpenApiRailsRoute(
-                '/install_service',
+            'reinstallServiceTools' => new ezpRestVersionedRoute(new OpenApiRailsRoute(
+                '/service/:identifier',
                 'ServiceToolsController',
-                'installService',
+                'reinstallServiceByIdentifier',
                 [],
-                'http-post'
+                'http-put'
+            ), $version),
+            'syncStatusServiceTools' => new ezpRestVersionedRoute(new OpenApiRailsRoute(
+                '/service/:identifier/status',
+                'ServiceToolsController',
+                'syncServiceStatusByIdentifier',
+                [],
+                'http-put'
+            ), $version),
+            'syncAccessUrlServiceTools' => new ezpRestVersionedRoute(new OpenApiRailsRoute(
+                '/service/:identifier/access_url',
+                'ServiceToolsController',
+                'syncServiceAccessUrlByIdentifier',
+                [],
+                'http-put'
+            ), $version),
+            'syncBookingUrlServiceTools' => new ezpRestVersionedRoute(new OpenApiRailsRoute(
+                '/service/:identifier/booking_call_to_action',
+                'ServiceToolsController',
+                'syncServiceBookingUrlByIdentifier',
+                [],
+                'http-put'
             ), $version),
             'getTenantInfo' => new ezpRestVersionedRoute(new OpenApiRailsRoute(
                 '/tenant_info',

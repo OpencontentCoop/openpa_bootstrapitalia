@@ -3,12 +3,10 @@
     <div class="row my-5">
         <div class="col">
             <h2>{$title|wash()} <span class="badge bg-primary"">beta</span> <small class="d-block text-muted">{$tenant.name|wash()} - {$base_url|wash()}</small></h2>
-            <p class="mt-5">
+            <p class="my-5">
                 Elenco dei servizi installati in <b>{$base_url|wash()}</b> con identificativo popolato.<br />
-                (Se l'identificativo non è popolato, esso viene recuperato dal servizio con il medesimo slug in <em>{$prototype_operation_base_url}</em>, se presente)
-            </p>
-            <p class="mb-5">
-                È possibile importare le schede dei servizi: i contenuti sono clonati dai prototipi delle schede presenti in <em>{$prototype_content_base_url}.</em>
+                {*(Se l'identificativo non è popolato, esso viene recuperato dal servizio con il medesimo slug in <em>{$prototype_operation_base_url}</em>, se presente)*}
+                È possibile importare le schede dei servizi: i contenuti sono clonati dai prototipi delle schede presenti in <em>{$prototype_content_base_url}</em> in base all'identificativo
             </p>
             {if is_set($error)}
                 <div class="alert alert-danger">
@@ -57,7 +55,6 @@
                                     <button data-identifier="{$service.identifier|wash()}" type="submit" name="ImportService" data-id="{$service.id|wash()}" class="hide import btn btn-xs btn-warning text-nowrap"><i aria-hidden="true" class="fa fa-arrow-up"></i> Importa</button>
                                     <a data-identifier="{$service.identifier|wash()}" data-id="{$service.id|wash()}" class="hide link btn btn-xs btn-success text-nowrap" target="_blank" href="#" data-remote="#"><i aria-hidden="true" class="fa fa-link"></i> Vedi</a>
                                     <button data-identifier="{$service.identifier|wash()}" type="submit" name="ReImportService" data-id="{$service.id|wash()}" class="hide update btn btn-xs btn-warning text-nowrap"><i aria-hidden="true" class="fa fa-refresh"></i> Reimporta</button>
-                                    <button data-identifier="{$service.identifier|wash()}" type="submit" name="UpdateService" data-id="{$service.id|wash()}" class="hide update btn btn-xs btn-success text-nowrap"><i aria-hidden="true" class="fa fa-refresh"></i> Aggiorna stato</button>
                                 </form>
                                 {/if}
                             </td>
@@ -84,6 +81,7 @@
         var identifier = self.data('identifier');
         if (identifier.length === 0) {
           self.parents('tr').remove();
+          //self.css('font-size', 'small').text('Identificativo non trovato');
           return;
         }
         if (identifier.startsWith('http') === true) {
@@ -92,7 +90,8 @@
         }
         stateMessage.text('Cerco i servizi nel sito prototipo ' + prototypeBaseUrl);
 
-        if (self.data('remote_identifier')){
+        var remoteIdentifier = self.data('remote_identifier')
+        if (remoteIdentifier.length > 0){
           stateMessage.text('Cerco i servizi locali con identificatore ' + identifier);
           $.ajax({
             type: "GET",
@@ -103,7 +102,7 @@
             retryLimit: 3,
             success: function (localData, textStatus, jqXHR) {
               resultsContainer.find('span.load[data-identifier="' + identifier + '"]').hide();
-              resultsContainer.find('input[name="content_remote_id"][data-identifier="' + identifier + '"]').val(self.data('remote_identifier'));
+              resultsContainer.find('input[name="content_remote_id"][data-identifier="' + identifier + '"]').val(remoteIdentifier);
               if (typeof localData.error_message === 'string' || localData.totalCount === 0) {
                 resultsContainer.find('button.import[data-identifier="' + identifier + '"]').removeClass('hide');
               } else {

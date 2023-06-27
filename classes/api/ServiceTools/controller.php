@@ -4,6 +4,7 @@ use Opencontent\OpenApi\Exception as OpenApiException;
 use Opencontent\OpenApi\Exceptions\InvalidPayloadException;
 use Opencontent\Opendata\Api\Exception\BaseException;
 use Opencontent\Opendata\Api\Exception\ForbiddenException;
+use Opencontent\Opendata\Api\Exception\NotFoundException;
 
 class ServiceToolsController extends ezpRestMvcController
 {
@@ -14,6 +15,12 @@ class ServiceToolsController extends ezpRestMvcController
 
     protected $solr;
 
+    private static $statuses = [
+        'Servizio attivo',
+        'Servizio non attivo',
+        'In fase di sviluppo',
+    ];
+
     public function __construct($action, ezcMvcRequest $request)
     {
         $this->solr = new eZSolrExternalDataAware();
@@ -23,52 +30,23 @@ class ServiceToolsController extends ezpRestMvcController
     private function checkAccess()
     {
         $access = eZUser::currentUser()->hasAccessTo('bootstrapitalia', 'service_tools');
-        if ($access['accessWord'] === 'no'){
-            throw new ForbiddenException( 'about service tools', 'edit');
+        if ($access['accessWord'] === 'no') {
+            throw new ForbiddenException('about service tools', 'edit');
         }
     }
 
-    public function doPut()
-    {
-        try {
-            $this->checkAccess();
-            $selected = ExternalDataDocument::fromSolrResult($this->solr->findExternalDocumentByGuid($this->item));
-            $externalData = $this->parseInput();
-            $externalData->setGuid($selected->getGuid());
-            if (!$this->solr->addExternalDataDocument($externalData)) {
-                throw new RuntimeException("Error committing to solr", 1);
-            }
-
-            $result = new ezpRestMvcResult();
-            $result->variables = ExternalDataDocument::fromSolrResult($this->solr->findExternalDocumentByGuid($selected->getGuid()))
-                ->jsonSerialize();
-
-        } catch (Exception $e) {
-            $result = $this->doExceptionResult($e);
-        }
-
-        return $result;
-    }
-
-    private function getUuidPayload()
+    private function getPayload()
     {
         $input = $this->request->body;
         $data = json_decode($input, true);
         if (json_last_error() != JSON_ERROR_NONE) {
             throw new InvalidPayloadException("Invalid json: " . json_last_error_msg(), 1);
         }
-        if (!isset($data['uuid']) && !isset($data['identifier'])){
-            throw new InvalidPayloadException('uuid or identifier', 'missing value');
-        }
-        if (!isset($data['uuid'])){
-            $service = StanzaDelCittadinoBridge::factory()->getServiceByIdentifier($data['identifier']);
-            $data['uuid'] = $service['id'];
-        }
 
-        return $data['uuid'];
+        return $data;
     }
 
-    private function doExceptionResult(Exception $exception)
+    private function doExceptionResult(Throwable $exception)
     {
         $result = new ezcMvcResult;
         $result->variables['message'] = $exception->getMessage();
@@ -84,7 +62,7 @@ class ServiceToolsController extends ezpRestMvcController
             $serverErrorCode,
             $exception->getMessage(),
             $errorType,
-            $exception
+            $exception instanceof Exception ? $exception : null
         );
 
         return $result;
@@ -97,7 +75,6 @@ class ServiceToolsController extends ezpRestMvcController
             $bridge = StanzaDelCittadinoBridge::factory();
             $result = new ezpRestMvcResult();
             $result->variables = $bridge->getTenantInfo();
-
         } catch (Throwable $e) {
             $result = $this->doExceptionResult($e);
         }
@@ -111,6 +88,29 @@ class ServiceToolsController extends ezpRestMvcController
             $this->checkAccess();
             $result = new ezpRestMvcResult();
             $result->variables = StanzaDelCittadinoBridge::factory()->getSiteInfoToUpdate();
+        } catch (Throwable $e) {
+            $result = $this->doExceptionResult($e);
+        }
+
+        return $result;
+    }
+
+    public function doGetServiceByIdentifier()
+    {
+        try {
+            $this->checkAccess();
+            $bridge = StanzaDelCittadinoBridge::factory();
+            $result = new ezpRestMvcResult();
+
+            $publicServiceObject = eZContentObject::fetchByRemoteID($this->request->variables['identifier']);
+            if ($publicServiceObject instanceof eZContentObject) {
+                $url = $publicServiceObject->mainNode()->urlAlias();
+                eZURI::transformURI($url, false, 'full');
+                $result->variables = ['url' => $url];
+            }else{
+                throw new NotFoundException('service', $this->request->variables['identifier']);
+            }
+
 
         } catch (Throwable $e) {
             $result = $this->doExceptionResult($e);
@@ -119,14 +119,13 @@ class ServiceToolsController extends ezpRestMvcController
         return $result;
     }
 
-    public function doSyncService()
+    public function doInstallServiceByIdentifier()
     {
         try {
             $this->checkAccess();
             $bridge = StanzaDelCittadinoBridge::factory();
             $result = new ezpRestMvcResult();
-            $result->variables = ['url' => $bridge->updateServiceStatus($this->getUuidPayload())];
-
+            $result->variables = ['url' => $bridge->importServiceByIdentifier($this->request->variables['identifier'])];
         } catch (Throwable $e) {
             $result = $this->doExceptionResult($e);
         }
@@ -134,19 +133,84 @@ class ServiceToolsController extends ezpRestMvcController
         return $result;
     }
 
-    public function doInstallService()
+    public function doReinstallServiceByIdentifier()
     {
         try {
             $this->checkAccess();
             $bridge = StanzaDelCittadinoBridge::factory();
             $result = new ezpRestMvcResult();
-            $result->variables = ['url' => $bridge->importService($this->getUuidPayload())];
-
+            $result->variables = ['url' => $bridge->importServiceByIdentifier($this->request->variables['identifier'], true)];
         } catch (Throwable $e) {
             $result = $this->doExceptionResult($e);
         }
 
         return $result;
+    }
+
+    public function doSyncServiceStatusByIdentifier()
+    {
+        try {
+            $this->checkAccess();
+            $bridge = StanzaDelCittadinoBridge::factory();
+            $result = new ezpRestMvcResult();
+            $payload = $this->getPayload();
+            $status = $payload['status'] ?? null;
+            if (!$status) {
+                throw new InvalidPayloadException('status', 'missing value');
+            }
+            if (!in_array($status, self::$statuses)) {
+                throw new InvalidPayloadException('status', $status);
+            }
+            $message = $payload['message'] ?? null;
+            $result->variables = [
+                'url' => $bridge->updateServiceStatusByIdentifier(
+                    $this->request->variables['identifier'],
+                    $status,
+                    $message
+                ),
+            ];
+        } catch (Throwable $e) {
+            $result = $this->doExceptionResult($e);
+        }
+
+        return $result;
+    }
+
+    private function updateServiceChannelByIdentifier($type)
+    {
+        try {
+            $this->checkAccess();
+            $bridge = StanzaDelCittadinoBridge::factory();
+            $result = new ezpRestMvcResult();
+            $payload = $this->getPayload();
+            $url = $payload['url'] ?? null;
+            if (!$url) {
+                throw new InvalidPayloadException('url', 'missing value');
+            }
+            $label = $payload['label'] ?? null;
+            $result->variables = [
+                'url' => $bridge->updateServiceChannelByIdentifier(
+                    $this->request->variables['identifier'],
+                    $type,
+                    $url,
+                    $label
+                ),
+            ];
+        } catch (Throwable $e) {
+            $result = $this->doExceptionResult($e);
+        }
+
+        return $result;
+    }
+
+    public function doSyncServiceBookingUrlByIdentifier()
+    {
+        return $this->updateServiceChannelByIdentifier('booking');
+    }
+
+    public function doSyncServiceAccessUrlByIdentifier()
+    {
+        return $this->updateServiceChannelByIdentifier('access');
     }
 
     public function doEndpoint()
@@ -170,13 +234,13 @@ class ServiceToolsController extends ezpRestMvcController
         $errorHeaders = [
             'x-Api-Error-Type' => [
                 'schema' => [
-                    'type' => 'string'
-                ]
+                    'type' => 'string',
+                ],
             ],
             'x-Api-Error-Message' => [
                 'schema' => [
-                    'type' => 'string'
-                ]
+                    'type' => 'string',
+                ],
             ],
         ];
         $responses = [
@@ -184,49 +248,36 @@ class ServiceToolsController extends ezpRestMvcController
                 'description' => 'Restituisce l\'url del servizio presente in questo sito',
                 'content' => [
                     'application/json' => [
-                        'schema' => ['$ref' => '#/components/schemas/PublicServiceUrl']
-                    ]
-                ]
+                        'schema' => ['$ref' => '#/components/schemas/Url'],
+                    ],
+                ],
             ],
             400 => [
                 'description' => 'Invalid payload',
-                'headers' => $errorHeaders
+                'headers' => $errorHeaders,
             ],
             403 => [
                 'description' => 'Forbidden',
-                'headers' => $errorHeaders
+                'headers' => $errorHeaders,
+            ],
+            404 => [
+                'description' => 'Not found',
+                'headers' => $errorHeaders,
             ],
             500 => [
                 'description' => 'Internal error',
-                'headers' => $errorHeaders
+                'headers' => $errorHeaders,
             ],
         ];
-        $requestBody = [
-            'content' => [
-                'application/json' => [
-                    'schema' => [
-                        'oneOf' => [
-                            ['$ref' => '#/components/schemas/ServiceUuid'],
-                            ['$ref' => '#/components/schemas/ServiceIdentifier'],
-                        ]
-                    ],
-                    'examples' => [
-                        'by-identifier' => [
-                            'summary' => 'Request by identifier',
-                            'value' => [
-                                'identifier' => 'oc-pnrr-xxx'
-                            ]
-                        ],
-                        'by-uuid' => [
-                            'summary' => 'Request by uuid',
-                            'value' => [
-                                'uuid' => '1977f7ee-dbc2-4a0f-bb0a-36b00fc1fcac'
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+        $inPathParams = [
+            'in' => 'path',
+            'name' => 'identifier',
+            'required' => true,
+            'schema' => [
+                'type' => 'string',
+            ],
         ];
+
         return [
             'openapi' => '3.0.1',
             'info' => [
@@ -237,36 +288,95 @@ class ServiceToolsController extends ezpRestMvcController
                 'description' => 'Servizio ad uso interno per la sincronizzazione delle schede dei servizi',
                 'termsOfService' => '',
                 'contact' => [
-                    'email' => 'support@opencontent.it'
+                    'email' => 'support@opencontent.it',
                 ],
                 'license' => [
                     'name' => 'GNU General Public License, version 2',
-                    'url' => 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'
-                ]
+                    'url' => 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html',
+                ],
             ],
             'tags' => [
                 ['name' => 'Tenant'],
                 ['name' => 'Servizi'],
             ],
             'paths' => [
-                '/sync_service' => [
-                    'post' => [
+                '/service/{identifier}' => [
+                    'get' => [
                         'tags' => ['Servizi'],
-                        'description' => 'Aggiorna lo stato del servizio dopo aver verificato che l\'area personale collegata al sito  offra il servizio.',
-                        'operationId' => 'syncServiceTools',
+                        'description' => 'Restituisce l\'url del servizio in base all\'identificatore',
+                        'operationId' => 'readServiceTools',
                         'responses' => $responses,
-                        'parameters' => [],
-                        'requestBody' => $requestBody
+                        'parameters' => [$inPathParams],
                     ],
-                ],
-                '/install_service' => [
                     'post' => [
                         'tags' => ['Servizi'],
-                        'description' => 'Installa la scheda del servizio dopo aver verificato che il sito prototipo offra il servizio e che l\'area personale collegata al sito offra il servizio.',
+                        'description' => 'Installa la scheda del servizio clonandola dal sito prototipo ' . StanzaDelCittadinoBridge::getServiceContentPrototypeBaseUrl(
+                            ),
                         'operationId' => 'installServiceTools',
                         'responses' => $responses,
-                        'parameters' => [],
-                        'requestBody' => $requestBody
+                        'parameters' => [$inPathParams],
+                    ],
+                    'put' => [
+                        'tags' => ['Servizi'],
+                        'description' => 'Reinstalla la scheda del servizio clonandola dal sito prototipo ' . StanzaDelCittadinoBridge::getServiceContentPrototypeBaseUrl(
+                            ),
+                        'operationId' => 'reinstallServiceTools',
+                        'responses' => $responses,
+                        'parameters' => [$inPathParams],
+                    ],
+                ],
+                '/service/{identifier}/status' => [
+                    'put' => [
+                        'tags' => ['Servizi'],
+                        'description' => 'Aggiorna lo stato del servizio',
+                        'operationId' => 'syncStatusServiceTools',
+                        'responses' => $responses,
+                        'parameters' => [$inPathParams],
+                        'requestBody' => [
+                            'content' => [
+                                'application/json' => [
+                                    'schema' => [
+                                        '$ref' => '#/components/schemas/ServiceStatus',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                '/service/{identifier}/access_url' => [
+                    'put' => [
+                        'tags' => ['Servizi'],
+                        'description' => 'Aggiorna il canale digitale con l\'url di accesso al servizio',
+                        'operationId' => 'syncAccessUrlServiceTools',
+                        'responses' => $responses,
+                        'parameters' => [$inPathParams],
+                        'requestBody' => [
+                            'content' => [
+                                'application/json' => [
+                                    'schema' => [
+                                        '$ref' => '#/components/schemas/Link',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+                '/service/{identifier}/booking_call_to_action' => [
+                    'put' => [
+                        'tags' => ['Servizi'],
+                        'description' => 'Aggiorna il canale digitale con l\'url di accesso alla prenotazione di un appuntamento per il servizio',
+                        'operationId' => 'syncBookingUrlServiceTools',
+                        'responses' => $responses,
+                        'parameters' => [$inPathParams],
+                        'requestBody' => [
+                            'content' => [
+                                'application/json' => [
+                                    'schema' => [
+                                        '$ref' => '#/components/schemas/Link',
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                 ],
                 '/tenant_info' => [
@@ -280,18 +390,18 @@ class ServiceToolsController extends ezpRestMvcController
                                 'content' => [
                                     'application/json' => [
                                         'schema' => [
-                                            'type' => 'object'
-                                        ]
-                                    ]
-                                ]
+                                            'type' => 'object',
+                                        ],
+                                    ],
+                                ],
                             ],
                             403 => [
                                 'description' => 'Forbidden',
-                                'headers' => $errorHeaders
+                                'headers' => $errorHeaders,
                             ],
                             500 => [
                                 'description' => 'Internal error',
-                                'headers' => $errorHeaders
+                                'headers' => $errorHeaders,
                             ],
                         ],
                         'parameters' => [],
@@ -308,18 +418,18 @@ class ServiceToolsController extends ezpRestMvcController
                                 'content' => [
                                     'application/json' => [
                                         'schema' => [
-                                            'type' => 'object'
-                                        ]
-                                    ]
-                                ]
+                                            'type' => 'object',
+                                        ],
+                                    ],
+                                ],
                             ],
                             403 => [
                                 'description' => 'Forbidden',
-                                'headers' => $errorHeaders
+                                'headers' => $errorHeaders,
                             ],
                             500 => [
                                 'description' => 'Internal error',
-                                'headers' => $errorHeaders
+                                'headers' => $errorHeaders,
                             ],
                         ],
                         'parameters' => [],
@@ -328,12 +438,12 @@ class ServiceToolsController extends ezpRestMvcController
             ],
             'components' => [
                 'schemas' => [
-                    'PublicServiceUrl' => [
-                        'title' => 'PublicServiceUrl',
+                    'Url' => [
+                        'title' => 'Url',
                         'type' => 'object',
                         'properties' => [
                             'url' => [
-                                'description' => 'Service url',
+                                'description' => 'Url string',
                                 'type' => 'string',
                                 'format' => 'uri',
                             ],
@@ -342,67 +452,57 @@ class ServiceToolsController extends ezpRestMvcController
                             'url',
                         ],
                     ],
-                    'ServiceUuid' => [
-                        'title' => 'ServiceUuid',
+                    'Link' => [
+                        'title' => 'Link',
                         'type' => 'object',
                         'properties' => [
-                            'uuid' => [
-                                'description' => 'Service uuid',
+                            'url' => [
+                                'description' => 'Link url',
                                 'type' => 'string',
-                                'format' => 'uuid',
+                                'format' => 'uri',
                             ],
-                        ],
-                        'required' => [
-                            'uuid',
-                        ],
-                    ],
-                    'ServiceIdentifier' => [
-                        'title' => 'ServiceIdentifier',
-                        'type' => 'object',
-                        'properties' => [
-                            'identifier' => [
-                                'description' => 'Service unique identifier',
+                            'label' => [
+                                'description' => 'Link label',
                                 'type' => 'string',
                             ],
                         ],
                         'required' => [
-                            'identifier',
+                            'url',
+                            'label',
                         ],
-                    ]
-                ],
-                'requestBodies' => [
-                    'ServiceUuid' => [
-                        'content' => [
-                            'application/json' => [
-                                'schema' => [
-                                    '$ref' => '#/components/schemas/ServiceUuid'
-                                ]
-                            ]
-                        ]
                     ],
-                    'ServiceIdentifier' => [
-                        'content' => [
-                            'application/json' => [
-                                'schema' => [
-                                    '$ref' => '#/components/schemas/ServiceIdentifier'
-                                ]
-                            ]
-                        ]
-                    ]
+                    'ServiceStatus' => [
+                        'title' => 'ServiceStatus',
+                        'type' => 'object',
+                        'properties' => [
+                            'status' => [
+                                'description' => 'Status string',
+                                'type' => 'string',
+                                'enum' => self::$statuses,
+                            ],
+                            'message' => [
+                                'description' => 'Status message',
+                                'type' => 'string',
+                            ],
+                        ],
+                        'required' => [
+                            'status',
+                        ],
+                    ],
                 ],
                 'securitySchemes' => [
                     'basicAuth' => [
                         'type' => 'http',
-                        'scheme'=> 'basic'
-                    ]
-                ]
+                        'scheme' => 'basic',
+                    ],
+                ],
             ],
             'security' => [
-                ['basicAuth' => []]
+                ['basicAuth' => []],
             ],
             'servers' => [
-                ['url' => self::getServerUrl(), 'description' => 'Production server']
-            ]
+                ['url' => self::getServerUrl(), 'description' => 'Production server'],
+            ],
         ];
     }
 }

@@ -128,7 +128,7 @@
                 </form>
             </div>
 
-            {if $bridge_connection}
+            {*if $bridge_connection}
             <div class="row">
                 <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
                 <div class="form-group">
@@ -145,7 +145,7 @@
                 </div>
                 </form>
             </div>
-            {/if}
+            {/if*}
 
             {if count($partners)}
             <div class="row">

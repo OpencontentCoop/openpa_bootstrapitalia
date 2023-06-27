@@ -67,22 +67,16 @@ class StanzaDelCittadinoClient
 
     public function getServiceList()
     {
-        StanzaDelCittadinoClient::$connectionTimeout = 10;
-        StanzaDelCittadinoClient::$processTimeout = 10;
         return $this->request('GET', '/api/services');
     }
 
     public function getService($id)
     {
-        StanzaDelCittadinoClient::$connectionTimeout = 10;
-        StanzaDelCittadinoClient::$processTimeout = 10;
         return $this->request('GET', '/api/services/' . $id);
     }
 
     public function getServiceByIdentifier($identifier)
     {
-        StanzaDelCittadinoClient::$connectionTimeout = 10;
-        StanzaDelCittadinoClient::$processTimeout = 10;
         $serviceList = $this->getServiceList();
         foreach ($serviceList as $service){
             if ($service['identifier'] == $identifier){

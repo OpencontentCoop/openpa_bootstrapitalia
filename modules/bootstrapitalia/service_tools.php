@@ -11,7 +11,7 @@ if ($Params['Page'] === 'doc') {
     $tpl->setVariable('load_page', false);
     $contentInfoArray = [
         'node_id' => null,
-        'class_identifier' => null
+        'class_identifier' => null,
     ];
     $contentInfoArray['persistent_variable'] = [
         'show_path' => false,
@@ -27,8 +27,8 @@ if ($Params['Page'] === 'doc') {
         [
             'text' => 'Service tools Api Doc',
             'url' => false,
-            'url_alias' => false
-        ]
+            'url_alias' => false,
+        ],
     ];
     $Result['content_info'] = $contentInfoArray;
     $Result['content'] = $tpl->fetch('design:openapi.tpl');
@@ -42,38 +42,28 @@ $services = [];
 $tenant = ['name' => '?'];
 $bridge = StanzaDelCittadinoBridge::factory();
 try {
-    $tenant = $bridge->getTenantInfo();
+    StanzaDelCittadinoClient::$connectionTimeout = 60;
+    StanzaDelCittadinoClient::$processTimeout = 60;
+    try {
+        $tenant = $bridge->getTenantInfo();
+    } catch (Throwable $e) {
+        eZDebug::writeError($e->getMessage());
+    }
     $services = $bridge->getServiceListMergedWithPrototypes();
-}catch (Throwable $e){
+} catch (Throwable $e) {
     $tpl->setVariable('error', $e->getMessage());
 }
 
-if ($http->hasPostVariable('ImportService') || $http->hasPostVariable('ReImportService')){
+if ($http->hasPostVariable('ImportService')) {
     try {
-        $bridge->importService(
-            $http->postVariable('service_id'),
+        $bridge->importServiceByIdentifier(
             $http->postVariable('identifier'),
-            $http->postVariable('content_remote_id'),
             $http->hasPostVariable('ReImportService')
         );
         $Module->redirectTo('bootstrapitalia/service_tools');
         return;
-    }catch (Throwable $e){
+    } catch (Throwable $e) {
         $tpl->setVariable('error', 'Import failed:' . $e->getMessage());
-    }
-}
-
-if ($http->hasPostVariable('UpdateService')){
-    try {
-        $bridge->updateServiceStatus(
-            $http->postVariable('service_id'),
-            $http->postVariable('identifier'),
-            $http->postVariable('content_remote_id')
-        );
-        $Module->redirectTo('bootstrapitalia/service_tools');
-        return;
-    }catch (Throwable $e){
-        $tpl->setVariable('error', 'Update failed:' . $e->getMessage());
     }
 }
 
