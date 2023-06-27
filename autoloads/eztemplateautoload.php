@@ -48,6 +48,7 @@ $eZTemplateOperatorArray = [
             'has_bridge_connection',
             'current_partner',
             'header_selected_topics',
+            'built_in_app',
         ],
     ],
 ];

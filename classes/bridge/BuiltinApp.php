@@ -67,6 +67,31 @@ class BuiltinApp
         }
     }
 
+    public function attributes()
+    {
+        return [
+            'vars',
+            'src',
+            'root_id',
+        ];
+    }
+
+    public function hasAttribute($name)
+    {
+        return in_array($name, $this->attributes());
+    }
+
+    public function attribute($name)
+    {
+        switch ($name){
+            case 'vars': return $this->getVariables();
+            case 'src': return $this->getWidgetSrc();
+            case 'root_id': return $this->getAppRootId();
+        }
+        eZDebug::writeError("Var $name not found", __METHOD__);
+        return null;
+    }
+
     protected function getVariables(): array
     {
         $privacy = eZContentObject::fetchByRemoteID('privacy-policy-link');

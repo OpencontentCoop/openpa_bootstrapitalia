@@ -68,10 +68,10 @@
   var MomentDateTimeFormat = "{'DD/MM/YYYY HH:mm'|i18n('openpa/moment_datetime_format')}";
   moment.locale("{$moment_language}");
   {if fetch('user','current_user').is_logged_in|not()}
-  {literal}
-  if ('serviceWorker' in navigator) {if (!navigator.serviceWorker.controller) {navigator.serviceWorker.register('/service-worker.js', {scope: '/'}).then(function (registration) {}, function (err) {console.warn('Failed to register Service Worker:\n', err);});}}
-  {/literal}
+  {literal}if ('serviceWorker' in navigator) {if (!navigator.serviceWorker.controller) {navigator.serviceWorker.register('/service-worker.js', {scope: '/'}).then(function (registration) {}, function (err) {console.warn('Failed to register Service Worker:\n', err);});}}{/literal}
   {/if}
   //]]>
 </script>
+<script>{foreach built_in_app('loginbox').vars as $key => $value}window.{$key} = '{$value}';{/foreach}</script>
+<script src="https://static.opencityitalia.it/widgets/login-box/version/1.2.0/bootstrap-italia@2/js/login-box.js"></script>
 {undef $scripts $current_locale $moment_language}

@@ -79,6 +79,7 @@
     {set $show_slim_header = true()}
 {/if}
 
+{def $loginbox = built_in_app('loginbox')}
 
 <div class="it-header-slim-wrapper{if current_theme_has_variation('light_slim')} theme-light{/if}{if $show_slim_header|not()} d-none{/if}">
     <div class="container">
@@ -149,12 +150,13 @@
                         {/if}
 
                         {if $hide_access|not()}
-                            <a class="btn btn-primary btn-icon btn-full" href="{'accedi'|ezurl(no)}" data-element="personal-area-login" title="{$link_area_personale_title|wash()}">
+                            <a id="editor-login" class="btn btn-primary btn-icon btn-full"  href="{'accedi'|ezurl(no)}" data-element="personal-area-login" title="{$link_area_personale_title|wash()}">
                                   <span class="rounded-icon" aria-hidden="true">
                                     {display_icon('it-user', 'svg', 'icon icon-primary')}
                                   </span>
                                 <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
                             </a>
+                            <div class="d-none" id="{$loginbox.root_id}"></div>
                         {/if}
 
                     </div>
@@ -203,94 +205,11 @@
     </div>
 </div>
 </script>
-<script id="tpl-user-profile" type="text/x-jsrender">
-<div class="it-user-wrapper nav-item dropdown">
-    <a aria-expanded="false" class="btn btn-primary btn-icon btn-full" data-bs-toggle="dropdown" href="#" data-focus-mouse="false">
-        <span aria-hidden="true" class="rounded-icon d-lg-none">
-            <svg class="icon icon-primary">
-                <use xlink:href="{{:spritePath}}#it-user"></use>
-           </svg>
-        </span>
-        <span class="d-none d-lg-block text-uppercase">{{:nome}} {{:cognome}}</span>
-        <svg class="icon icon-white d-none d-lg-block">
-            <use xlink:href="{{:spritePath}}#it-expand"></use>
-        </svg>
-    </a>
-    <div class="dropdown-menu">
-        <div class="row">
-            <div class="col-12">
-                <div class="link-list-wrapper">
-                    <ul class="link-list">
-                        <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/user/profile">
-                                <svg class="icon icon-sm icon-primary left ">
-                                    <use xlink:href="{{:spritePath}}#it-user"></use>
-                                </svg>
-                                <span class="text-nowrap">{/literal}{'Profilo'|i18n('bootstrapitalia')}{literal}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/user/">
-                                <svg class="icon icon-sm icon-primary left">
-                                    <use xlink:href="{{:spritePath}}#it-pa"></use>
-                                </svg>
-                                <span>{/literal}{'La mia stanza'|i18n('bootstrapitalia')}{literal}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/pratiche/">
-                                <svg class="icon icon-sm icon-primary left">
-                                    <use xlink:href="{{:spritePath}}#it-files"></use>
-                                </svg>
-                                <span>{/literal}{'Le mie pratiche'|i18n('bootstrapitalia')}{literal}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/pratiche/allegati/">
-                                <svg class="icon icon-sm icon-primary left">
-                                    <use xlink:href="{{:spritePath}}#it-box"></use>
-                                </svg>
-                                <span>{/literal}{'I miei allegati'|i18n('bootstrapitalia')}{literal}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/documenti/">
-                                <svg class="icon icon-sm icon-primary left">
-                                    <use xlink:href="{{:spritePath}}#it-folder"></use>
-                                </svg>
-                                <span>{/literal}{'I miei documenti'|i18n('bootstrapitalia')}{literal}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/subscriptions/">
-                                <svg class="icon icon-sm icon-primary left">
-                                    <use xlink:href="{{:spritePath}}#it-pencil"></use>
-                                </svg>
-                                <span>{/literal}{'Le mie iscrizioni'|i18n('bootstrapitalia')}{literal}</span>
-                            </a>
-                        </li>
-                        <li><span class="divider"></span></li>
-                        <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/logout">
-                                <svg class="icon icon-sm icon-primary left">
-                                    <use xlink:href="{{:spritePath}}#it-link"></use>
-                                </svg>
-                                <span>{/literal}{'Logout'|i18n('bootstrapitalia')}{literal}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</script>
 {/literal}
 
 <script>
-    var baseUrl = "{$link_area_personale|user_api_base_url()}";
-    var tokenUrl = "{$link_area_personale|user_token_url()}";
-    var profileUrl = "{$link_area_personale|user_profile_url()}";
+    var profileSource = "https://static.opencityitalia.it/widgets/login-box/version/1.2.0/bootstrap-italia@2/js/login-box.js";
+    var profileRootId = "{$loginbox.root_id}";
     {literal}
     $(document).ready(function () {
       if (typeof LanguageUrlAliasList !== 'undefined') {
@@ -316,55 +235,24 @@
           response.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
           var renderData = $($.templates('#tpl-user-access').render(response));
           $('[data-element="personal-area-login"]').replaceWith(renderData)
+          console.log('Current editor infos loaded');
         }
       };
-      var injectProfileInfo = function (data) {
-        data.prefix = trimmedPrefix;
-        data.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
-        data.baseUrl = baseUrl;
-        var renderData = $($.templates('#tpl-user-profile').render(data));
-        $('[data-element="personal-area-login"]').replaceWith(renderData)
-      }
-      var getProfile = function (token, cb, context) {
-        function parseJwt(token) {
-          var base64Url = token.split('.')[1];
-          var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-          var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-          }).join(''));
-          return JSON.parse(jsonPayload);
-        }
-        var tokenData = parseJwt(token);
-        jQuery.ajax({
-          url: profileUrl+'/'+tokenData.id,
-          dataType: 'json',
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
-          success: function (data) {
-            if ($.isFunction(cb)) {
-              cb.call(context, data);
-            }
-          }
-        });
-      }
       if (CurrentUserIsLoggedIn) {
+        console.log('Load current editor infos');
         $.ez('openpaajax::userInfo', null, function (data) {
           injectUserInfo(data);
         });
-      } else if (profileUrl) {
-        jQuery.ajax({
-          url: tokenUrl,
-          dataType: 'json',
-          xhrFields: {withCredentials: true},
-          success: function (data) {
-            if (data.token && profileUrl) {
-              getProfile(data.token, injectProfileInfo);
-            }
-          }
-        });
+      } else if (profileSource) {
+        console.log('Load current user infos');
+        $('#editor-login').addClass('d-none');
+        $('#'+profileRootId).removeClass('d-none');
+        // $.getScript(profileSource, function (response, status) {
+        //   console.log('Current user infos loaded', response, status);
+        // });
       }
     });
     {/literal}
 </script>
 
+{undef $loginbox}

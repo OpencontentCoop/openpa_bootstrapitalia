@@ -58,6 +58,7 @@ class OpenPABootstrapItaliaOperators
             'has_bridge_connection',
             'current_partner',
             'header_selected_topics',
+            'built_in_app',
         );
     }
 
@@ -152,6 +153,10 @@ class OpenPABootstrapItaliaOperators
                 'info' => array('type' => 'object', 'required' => true),
                 'files' => array('type' => 'object', 'required' => true),
             ),
+            'built_in_app' => array(
+                'identifier' => array('type' => 'string', 'required' => true),
+                'label' => array('type' => 'string', 'required' => false, 'default' => ''),
+            )
         );
     }
 
@@ -166,6 +171,10 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'built_in_app':
+                $operatorValue = new BuiltinApp($namedParameters['identifier'], $namedParameters['label']);
+                break;
 
             case 'header_selected_topics':
                 $normalizedList = [];
@@ -313,18 +322,21 @@ class OpenPABootstrapItaliaOperators
                 }
                 break;
 
+            //@deprecated
             case 'user_api_base_url':
                 $operatorValue = false;
                 if (OpenPAINI::variable('GeneralSettings', 'AutoDiscoverProfileLinks', 'disabled') === 'enabled') {
                     $operatorValue = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
                 }
                 break;
+            //@deprecated
             case 'user_profile_url':
                 $operatorValue = false;
                 if (OpenPAINI::variable('GeneralSettings', 'AutoDiscoverProfileLinks', 'disabled') === 'enabled') {
                     $operatorValue = StanzaDelCittadinoBridge::factory()->getProfileUri();
                 }
                 break;
+            //@deprecated
             case 'user_token_url':
                 $operatorValue = false;
                 if (OpenPAINI::variable('GeneralSettings', 'AutoDiscoverProfileLinks', 'disabled') === 'enabled') {
