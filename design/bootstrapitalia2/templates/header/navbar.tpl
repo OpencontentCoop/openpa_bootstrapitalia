@@ -84,18 +84,18 @@
                                 {if or(count($topic_list)|gt(0), count($selected_topic_list)|gt(0))}
                                 <ul class="navbar-nav navbar-secondary" aria-label="{'Secondary menu'|i18n('bootstrapitalia')}">
                                     {if count($selected_topic_list)|gt(0)}
-                                        {foreach $selected_topic_list as $selected_topic max 3}
+                                        {foreach $selected_topic_list|header_selected_topics() as $selected_topic}
                                         <li class="nav-item">
-                                            <a class="nav-link text-truncate" href="{$selected_topic.url_alias|ezurl(no)}">
+                                            <a class="nav-link text-truncate {$selected_topic.css_class}" href="{$selected_topic.url|ezurl(no)}">
                                                 <span>{$selected_topic.name|wash()}</span>
                                             </a>
                                         </li>
                                         {/foreach}
                                     {elseif $pagedata.homepage|has_attribute('topic_menu_label')|not()}
-                                        {foreach $topic_list.children as $child max 3}
+                                        {foreach $topic_list.children|header_selected_topics() as $child}
                                         <li class="nav-item">
-                                            <a class="nav-link text-truncate" href="{$child.item.url|ezurl(no)}">
-                                                <span>{$child.item.name|wash()}</span>
+                                            <a class="nav-link text-truncate {$child.css_class}" href="{$child.url|ezurl(no)}">
+                                                <span>{$child.name|wash()}</span>
                                             </a>
                                         </li>
                                         {/foreach}

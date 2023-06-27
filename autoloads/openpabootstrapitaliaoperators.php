@@ -57,6 +57,7 @@ class OpenPABootstrapItaliaOperators
             'node_id_from_object_remote_id',
             'has_bridge_connection',
             'current_partner',
+            'header_selected_topics',
         );
     }
 
@@ -165,6 +166,44 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'header_selected_topics':
+                $normalizedList = [];
+                $selectedTopics = $operatorValue;
+                foreach ($selectedTopics as $item){
+                    if (count($normalizedList) >= 3){
+                        break;
+                    }
+                    if ($item instanceof eZContentObjectTreeNode){
+                        $textCount = mb_strlen($item->attribute('name'));
+                        $normalizedList[] = [
+                            'name' => $item->attribute('name'),
+                            'url' => $item->attribute('url_alias'),
+                            'css_class' => $textCount > 20 ? 'truncate-topic' : '',
+                            'truncate' => $textCount > 20 ? 1 : 0,
+                        ];
+
+                    }elseif (isset($item['item'])){
+                        $textCount = mb_strlen($item['item']['name']);
+                        $normalizedList[] = [
+                            'name' => $item['item']['name'],
+                            'url' => $item['item']['url'],
+                            'css_class' => $textCount > 20 ? 'truncate-topic' : '',
+                            'truncate' => $textCount > 20 ? 1 : 0,
+                        ];
+                    }
+                }
+
+                // fino a due elementi con testo lungo
+                $countTruncate = array_sum(array_column($normalizedList, 'truncate'));
+                if ($countTruncate <= 2){
+                    foreach ($normalizedList as $index => $normalized){
+                        $normalizedList[$index]['css_class'] = '';
+                    }
+                }
+
+                $operatorValue = $normalizedList;
+                break;
 
             case 'current_partner':
                 $operatorValue = self::getCurrentPartner();

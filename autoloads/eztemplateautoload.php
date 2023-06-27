@@ -47,6 +47,7 @@ $eZTemplateOperatorArray = [
             'node_id_from_object_remote_id',
             'has_bridge_connection',
             'current_partner',
+            'header_selected_topics',
         ],
     ],
 ];

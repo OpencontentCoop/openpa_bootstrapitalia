@@ -1,3 +1,16 @@
+.satisfy-placeholder{
+  min-height: 200px;
+}
+@media (min-width: #{map-get($grid-breakpoints, lg)}) {
+  .navbar-secondary .truncate-topic {
+    max-width: 200px;
+    display: block !important;
+  }
+  .satisfy-placeholder{
+    min-height: 300px;
+  }
+}
+
 .video-wrapper {
   max-width: 100%;
   width: 100%;
