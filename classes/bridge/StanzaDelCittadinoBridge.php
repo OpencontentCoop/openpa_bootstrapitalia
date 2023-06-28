@@ -581,6 +581,15 @@ class StanzaDelCittadinoBridge
                 $default = eZContentObject::fetchByRemoteID($fallbackRemoteId);
                 if ($default instanceof eZContentObject) {
                     $idList[] = $default->attribute('id');
+                }else{
+                    $nodeList = eZContentObjectTreeNode::subTreeByNodeID([
+                        'ClassFilterType' => 'include',
+                        'ClassFilterArray' => $classIdentifiers,
+                        'Limit' => 1,
+                    ], $containerNodeId);
+                    if (isset($nodeList[0]) && $nodeList[0] instanceof eZContentObjectTreeNode) {
+                        $idList[] = $nodeList[0]->attribute('contentobject_id');
+                    }
                 }
             }
         }
