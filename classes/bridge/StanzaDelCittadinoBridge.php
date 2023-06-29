@@ -157,13 +157,13 @@ class StanzaDelCittadinoBridge
         if ($this->serviceList === null) {
             $this->serviceList = (array)$this->instanceNewClient()->getServiceList();
         }
-
         return $this->serviceList;
     }
 
     public function getServiceListMergedWithPrototypes()
     {
         $serviceList = $this->getServiceList();
+
 //        $prototypeServiceList = (new StanzaDelCittadinoClient(self::getServiceOperationPrototypeBaseUrl()))->getServiceList();
 //        $prototypeServiceListBySlug = [];
 //        foreach ($prototypeServiceList as $prototypeService){
@@ -174,13 +174,13 @@ class StanzaDelCittadinoBridge
         $contentServiceLists = $client->find("select-fields [data.identifier => metadata.remoteId] classes [public_service] limit 100");
 
         foreach ($serviceList as $index => $service){
-            $identifier = $service['identifier'] ?? null;
+//            $identifier = $service['identifier'] ?? null;
 //            if (!$identifier && isset($prototypeServiceListBySlug[$service['slug']])){
 //                $serviceList[$index]['identifier'] = $prototypeServiceListBySlug[$service['slug']]['identifier'];
 //                $serviceList[$index]['_is_prototype_identifier'] = true;
 //                $serviceList[$index]['_prototype_id'] = $prototypeServiceListBySlug[$service['slug']]['id'];
 //            }
-            $serviceList[$index]['_content_prototype_remote_id'] = $contentServiceLists[$serviceList[$index]['identifier']] ?? null;
+            $serviceList[$index]['_content_prototype_remote_id'] = $contentServiceLists[$service['identifier']] ?? null;
         }
 
         return $serviceList;
@@ -499,6 +499,7 @@ class StanzaDelCittadinoBridge
                 }
             }
         }
+
         foreach ($topicList as $locale => $topics){
             $publicServicePayload->setData($locale, 'topics', $topics);
         }
@@ -529,7 +530,12 @@ class StanzaDelCittadinoBridge
         }catch (Throwable $e){
             $service = [];
         }
-        return $this->cloneServiceFromPrototype($identifier, $doUpdate, $service);
+        $response = $this->cloneServiceFromPrototype($identifier, $doUpdate, $service);
+        if (isset($service['status']) && $service['status'] != 1){
+            $status = self::$mapServiceStatus[$service['status']] ?? self::$mapServiceStatus['fallback'];
+            $response = $this->updateServiceStatusByIdentifier($identifier, $status, $status);
+        }
+        return $response;
     }
 
     private function getPrototypeServiceContentRemoteId($identifier)

@@ -32,7 +32,7 @@
                             <th></th>
                         </tr>
                     {foreach $services as $service}
-                        <tr style="opacity:.5">
+                        <tr style="opacity:.5"{if $service.status|ne(1)} class="bg-light"{/if}>
                             <td><strong>{$service.name|wash()}</strong><code style="font-size: small" class="d-block">{$service.id|wash()}</code></td>
                             <td>
                                 <code class="size-sm">{$service.identifier|wash()}</code>

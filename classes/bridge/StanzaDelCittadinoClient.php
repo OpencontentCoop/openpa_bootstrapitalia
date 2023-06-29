@@ -67,7 +67,7 @@ class StanzaDelCittadinoClient
 
     public function getServiceList()
     {
-        return $this->request('GET', '/api/services');
+        return $this->request('GET', '/api/services?_=' . time());
     }
 
     public function getService($id)
@@ -97,7 +97,9 @@ class StanzaDelCittadinoClient
     {
         $url = $this->apiEndPointBaseUrl . $path;
         eZDebug::writeDebug($method . ' ' . $url, __METHOD__);
-        $headers = [];
+        $headers = [
+            "Cache-Control: no-cache"
+        ];
         if ($this->bearerToken) {
             $headers[] = "Authorization: Bearer " . $this->bearerToken;
         }
@@ -136,11 +138,9 @@ class StanzaDelCittadinoClient
         }
 
         $info = curl_getinfo($ch);
-//        eZDebug::writeDebug($info['request_header'], __METHOD__);
         eZDebug::writeDebug($method . ' ' . $url . ' ' . $info['http_code'], __METHOD__);
 
         curl_close($ch);
-
         $headers = substr($data, 0, $info['header_size']);
         if ($info['download_content_length'] > 0) {
             $body = substr($data, -$info['download_content_length']);

@@ -80,13 +80,18 @@
 
     <div class="col-md-3 text-right text-primary">Tipo:</div>
     <div class="col-md-9">
+        {def $info_link = concat('classlists/list/', $node.class_identifier)|ezurl(no)}
+        {if fetch( 'user', 'has_access_to', hash( 'module', 'classtools', 'function', 'definition' ) )}
+            {set $info_link = concat('classtools/classes/', $node.class_identifier)|ezurl(no)}
+        {/if}
         <a target="_blank" rel="noopener noreferrer"
-           href="{concat('classtools/classes/', $node.class_identifier)|ezurl(no)}">
+           href="{$info_link}">
             {if $openpa.content_icon.class_icon}
                 {display_icon($openpa.content_icon.class_icon.icon_text, 'svg', 'icon icon-sm')}
             {/if}
             {$node.class_name} ({$node.class_identifier} {$node.object.contentclass_id})
         </a>
+        {undef $info_link}
     </div>
 
     {if $openpa.content_virtual.folder}
