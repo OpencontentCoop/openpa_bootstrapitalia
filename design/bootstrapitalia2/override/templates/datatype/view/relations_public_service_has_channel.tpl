@@ -5,7 +5,7 @@
 ))}
 
 {def $node_list = array()}
-{if $attribute.has_content}
+{if and(is_active_public_service($attribute.object), $attribute.has_content)}
     {foreach $attribute.content.relation_list as $relation_item}
         {if $relation_item.in_trash|not()}
             {def $content_object = fetch( content, object, hash( object_id, $relation_item.contentobject_id ) )}

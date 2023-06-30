@@ -4,6 +4,8 @@ class OpenPABootstrapItaliaOperators
 {
     private static $cssData;
 
+    private static $serviceStatuses;
+
     private static $satisfyEntrypoint;
 
     private static $currentPartner;
@@ -58,6 +60,7 @@ class OpenPABootstrapItaliaOperators
             'has_bridge_connection',
             'current_partner',
             'header_selected_topics',
+            'is_active_public_service',
         );
     }
 
@@ -152,6 +155,9 @@ class OpenPABootstrapItaliaOperators
                 'info' => array('type' => 'object', 'required' => true),
                 'files' => array('type' => 'object', 'required' => true),
             ),
+            'is_active_public_service' =>  array(
+                'object' => array('type' => 'object', 'required' => false, 'default' => false),
+            ),
         );
     }
 
@@ -166,6 +172,41 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'is_active_public_service':
+                $object = $namedParameters['object'];
+                $operatorValue = false;
+                if ($object instanceof eZContentObject || $object instanceof eZContentObjectTreeNode){
+
+                    if (isset(self::$serviceStatuses[$object->attribute('remote_id')])){
+                        $operatorValue = self::$serviceStatuses[$object->attribute('remote_id')];
+                    }else {
+                        $dataMap = $object->dataMap();
+                        if (isset($dataMap['has_service_status'])
+                            && $dataMap['has_service_status']->hasContent()
+                            && $dataMap['has_service_status']->attribute(
+                                'data_type_string'
+                            ) === eZTagsType::DATA_TYPE_STRING) {
+
+                            $activeService = eZTagsObject::fetchByKeyword('Servizio attivo');
+                            $activeServiceId = isset($activeService[0]) ? $activeService[0]->attribute('remote_id') : false;
+                            if ($activeServiceId) {
+                                /** @var eZTags $content */
+                                $content = $dataMap['has_service_status']->content();
+                                foreach ($content->tags() as $tag) {
+                                    if ($tag->attribute('remote_id') === $activeServiceId) {
+                                        $operatorValue = true;
+                                        self::$serviceStatuses[$object->attribute('remote_id')] = true;
+                                        break;
+                                    }
+                                }
+                            }else{
+                                self::$serviceStatuses[$object->attribute('remote_id')] = false;
+                            }
+                        }
+                    }
+                }
+                break;
 
             case 'header_selected_topics':
                 $normalizedList = [];
