@@ -111,7 +111,7 @@
         {if $class_identifier}{$current_class.name|wash()} - {/if}
         {'%count objects'|i18n( 'classlists/list', , hash( '%count', $nodes_count ) )}
     </h1>
-
+{$required_fields|attribute(show,2)}
     <table class="table" cellspacing="0">
         <thead>
             <tr>
@@ -138,7 +138,11 @@
             {def $missing = array()}
             {if count($required_fields)|gt(0)}
                 {foreach $required_fields as $required_field}
-                    {if $node|has_attribute($required_field)|not()}
+                    {if $node.data_map[$required_field].has_content|not()}
+                        {set $missing = $missing|append($required_field)}
+                    {elseif and($node.data_map[$required_field].data_type_string|eq('ezinteger'), $node.data_map[$required_field].content|eq(0))}
+                        {set $missing = $missing|append($required_field)}
+                    {elseif and($node.data_map[$required_field].data_type_string|eq('ezxmltext'), $node.data_map[$required_field].content.output.output_text|strip_tags()|shorten(10)|trim()|eq('...'))}
                         {set $missing = $missing|append($required_field)}
                     {/if}
                 {/foreach}
@@ -149,9 +153,16 @@
                            type="checkbox"{if $node.can_remove|not()} disabled="disabled"{/if} />
                 </td>
                 <td>
+
+                    {foreach $required_fields as $required_field}
+                        {if $node.data_map[$required_field].data_type_string|eq('ezxmltext')}
+                            $node.data_map[$required_field].content.output.output_text|strip_tags()|shorten(10)|trim()
+                        {/if}
+                    {/foreach}
+
                     <a href={$node.url_alias|ezurl()}>{$node.name|wash()}</a>
                     {if $node|has_attribute('identifier')}
-                        <code class="d-block">{$node|has_attribute('identifier').content|wash()}</code>
+                        <code class="d-block">{$node|attribute('identifier').content|wash()}</code>
                     {/if}
                     {if count($missing)}
                         <small class="d-block text-muted">Missing required fields: {foreach $missing as $m}{$required_labels[$m]}{delimiter}, {/delimiter}{/foreach}</small>

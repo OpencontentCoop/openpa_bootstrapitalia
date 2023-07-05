@@ -77,14 +77,7 @@ class StanzaDelCittadinoClient
 
     public function getServiceByIdentifier($identifier)
     {
-        $serviceList = $this->getServiceList();
-        foreach ($serviceList as $service){
-            if ($service['identifier'] == $identifier){
-                return $service;
-            }
-        }
-
-        throw new Exception("Service by identifier not found");
+        return $this->getService($identifier);
     }
 
     public function patchTenant($slug, $data)
