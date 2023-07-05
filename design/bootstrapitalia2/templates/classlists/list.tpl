@@ -9,7 +9,8 @@
      $move_to_trash = ezini( 'DeleteSettings', 'DefaultMoveToTrash', 'lists.ini' )
      $current_class = false()
      $required_fields = array()
-     $required_labels = hash()}
+     $required_labels = hash()
+     $relations = array()}
 
 {if $class_identifier}
     {set $filter_count_hash = hash( 'parent_node_id', 1,'main_node_only', true(),'class_filter_type', include,'class_filter_array', array( $class_identifier ) )}
@@ -19,6 +20,9 @@
         {if $class_attribute.is_required}
             {set $required_fields = $required_fields|append($identifier)}
             {set $required_labels = $required_labels|merge(hash($identifier, $class_attribute.name))}
+        {/if}
+        {if $class_attribute.data_type_string|eq('ezobjectrelationlist')}
+            {set $relations = $relations|append($class_attribute)}
         {/if}
     {/foreach}
 {/if}
@@ -119,6 +123,7 @@
                 <th class="name">{'Name'|i18n( 'design/admin/node/view/full' )}</th>
                 {if count($required_fields)|gt(0)}
                     <th class="class"></th>
+                    <th>{'Related contents'|i18n('bootstrapitalia')}</th>
                 {else}
                     <th class="class">{'Type'|i18n( 'design/admin/node/view/full' )}</th>
                 {/if}
@@ -145,6 +150,9 @@
                 </td>
                 <td>
                     <a href={$node.url_alias|ezurl()}>{$node.name|wash()}</a>
+                    {if $node|has_attribute('identifier')}
+                        <code class="d-block">{$node|has_attribute('identifier').content|wash()}</code>
+                    {/if}
                     {if count($missing)}
                         <small class="d-block text-muted">Missing required fields: {foreach $missing as $m}{$required_labels[$m]}{delimiter}, {/delimiter}{/foreach}</small>
                     {/if}
@@ -161,6 +169,20 @@
                         {else}
                             <i class="fa fa-check"></i>
                         {/if}
+                    </td>
+                    <td style="font-size: .8em">
+                        {foreach $relations as $relation}
+                        {if $node|has_attribute($relation.identifier)}
+                        <div class="m-0">
+                            <strong>{$relation.name|wash()}:</strong>
+                            <ul>
+                            {foreach $node.data_map[$relation.identifier].content.relation_list as $related}
+                                <li>{fetch(content,object,hash(object_id, $related.contentobject_id)).name|wash()}</li>
+                            {/foreach}
+                            </ul>
+                        </div>
+                        {/if}
+                        {/foreach}
                     </td>
                 {else}
                 <td class="class">
