@@ -111,7 +111,18 @@
         {if $class_identifier}{$current_class.name|wash()} - {/if}
         {'%count objects'|i18n( 'classlists/list', , hash( '%count', $nodes_count ) )}
     </h1>
-{$required_fields|attribute(show,2)}
+    <div class="row">
+        <div class="col">
+            <div class="toggles">
+                <label for="only-alert" style="line-height: 1px;text-align:center">
+                    <input type="checkbox" id="only-alert" name="ShowOnlyAlert" />
+                    <span class="lever" style="margin-top: 5px;display: block;float:left"></span>
+                    <span style="margin-top: 12px;display: block;float:left">Visualizza solo i contenuti non validi di questa pagina</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
     <table class="table" cellspacing="0">
         <thead>
             <tr>
@@ -147,19 +158,12 @@
                     {/if}
                 {/foreach}
             {/if}
-            <tr{if count($missing)} class="bg-light"{/if}>
+            <tr{if count($missing)} class="bg-light with-alert"{/if}>
                 <td>
                     <input name="DeleteIDArray[]" value="{$node.node_id}"
                            type="checkbox"{if $node.can_remove|not()} disabled="disabled"{/if} />
                 </td>
                 <td>
-
-                    {foreach $required_fields as $required_field}
-                        {if $node.data_map[$required_field].data_type_string|eq('ezxmltext')}
-                            $node.data_map[$required_field].content.output.output_text|strip_tags()|shorten(10)|trim()
-                        {/if}
-                    {/foreach}
-
                     <a href={$node.url_alias|ezurl()}>{$node.name|wash()}</a>
                     {if $node|has_attribute('identifier')}
                         <code class="d-block">{$node|attribute('identifier').content|wash()}</code>
@@ -235,5 +239,19 @@
     {include name=navigator uri='design:navigator/google.tpl' page_uri=$page_uri item_count=$nodes_count view_parameters=$view_parameters item_limit=$limit}
 
 </form>
+
+<script>{literal}
+    $(document).ready(function (){
+      $('[name="ShowOnlyAlert"]').on('change', function (e) {
+        var table = $('table');
+        var self = $(this);
+        if (self.is(':checked')){
+          table.find('tr').not('.with-alert').hide();
+        }else{
+          table.find('tr').show();
+        }
+      });
+    })
+{/literal}</script>
 
 {undef $filter_hash $filter_count_hash $nodes_count $nodes_list $confirm_js $move_to_trash}
