@@ -151,8 +151,6 @@
                 {foreach $required_fields as $required_field}
                     {if $node.data_map[$required_field].has_content|not()}
                         {set $missing = $missing|append($required_field)}
-                    {elseif and($node.data_map[$required_field].data_type_string|eq('ezinteger'), $node.data_map[$required_field].content|eq(0))}
-                        {set $missing = $missing|append($required_field)}
                     {elseif and($node.data_map[$required_field].data_type_string|eq('ezxmltext'), $node.data_map[$required_field].content.output.output_text|strip_tags()|shorten(10)|trim()|eq('...'))}
                         {set $missing = $missing|append($required_field)}
                     {/if}
