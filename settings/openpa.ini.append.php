@@ -105,6 +105,7 @@ ShowTopicsInOverview=enabled
 [Attributi]
 AttributiAbstract[]=event_abstract
 AttributiAbstract[]=description
+GeoMapLink=google
 
 [Menu]
 IgnoraVirtualizzazione=enabled
