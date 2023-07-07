@@ -69,6 +69,13 @@ class ServiceToolsProvider implements ezpRestProviderInterface
                 [],
                 'http-get'
             ), $version),
+            'setTenantUrl' => new ezpRestVersionedRoute(new OpenApiRailsRoute(
+                '/tenant_url',
+                'ServiceToolsController',
+                'setTenantUrl',
+                [],
+                'http-post'
+            ), $version),
         ];
     }
 

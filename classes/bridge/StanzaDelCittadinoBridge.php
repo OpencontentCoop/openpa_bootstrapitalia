@@ -6,7 +6,7 @@ use Opencontent\Opendata\Rest\Client\PayloadBuilder;
 
 class StanzaDelCittadinoBridge
 {
-    private static $instanceByPal;
+    private static $instance;
 
     /**
      * @var ?string
@@ -35,19 +35,21 @@ class StanzaDelCittadinoBridge
 
     public static function factory(): StanzaDelCittadinoBridge
     {
-        return static::instanceByPersonalAreaLogin(PersonalAreaLogin::instance());
-    }
-
-    protected static function instanceByPersonalAreaLogin(PersonalAreaLogin $pal): StanzaDelCittadinoBridge
-    {
-        if (self::$instanceByPal === null) {
-            self::$instanceByPal = new static();
-            if ($pal->getUri()) {
-                self::$instanceByPal->setUserLoginUri($pal->getUri());
-            }
+        if (self::$instance === null) {
+            self::$instance = static::instanceByPersonalAreaLogin(PersonalAreaLogin::instance());
         }
 
-        return self::$instanceByPal;
+        return self::$instance;
+    }
+
+    public static function instanceByPersonalAreaLogin(PersonalAreaLogin $pal): StanzaDelCittadinoBridge
+    {
+        $instance = new StanzaDelCittadinoBridge();
+        if ($pal->getUri()) {
+            $instance->setUserLoginUri($pal->getUri());
+        }
+
+        return $instance;
     }
 
     /**
@@ -171,9 +173,11 @@ class StanzaDelCittadinoBridge
 //        }
         $prototypeBaseUrl = self::getServiceContentPrototypeBaseUrl();
         $client = new HttpClient($prototypeBaseUrl);
-        $contentServiceLists = $client->find("select-fields [data.identifier => metadata.remoteId] classes [public_service] limit 100");
+        $contentServiceLists = $client->find(
+            "select-fields [data.identifier => metadata.remoteId] classes [public_service] limit 100"
+        );
 
-        foreach ($serviceList as $index => $service){
+        foreach ($serviceList as $index => $service) {
 //            $identifier = $service['identifier'] ?? null;
 //            if (!$identifier && isset($prototypeServiceListBySlug[$service['slug']])){
 //                $serviceList[$index]['identifier'] = $prototypeServiceListBySlug[$service['slug']]['identifier'];
@@ -213,6 +217,16 @@ class StanzaDelCittadinoBridge
     {
         $client = $this->instanceNewClient();
         return $client->getTenantInfo();
+    }
+
+    public function setTenantByUrl(string $url): array
+    {
+        $loginUrl = rtrim($url, '/') . '/it/user/';
+        $pal = PersonalAreaLogin::instance();
+        $info = $pal->resetUriTo($loginUrl, false);
+        self::$instance = static::instanceByPersonalAreaLogin($pal);
+
+        return $info;
     }
 
     /**
@@ -271,8 +285,12 @@ class StanzaDelCittadinoBridge
      * @return string
      * @throws ServiceToolsException
      */
-    public function updateServiceStatusByIdentifier($identifier, string $status, ?string $message = null, $locale = 'ita-IT')
-    {
+    public function updateServiceStatusByIdentifier(
+        $identifier,
+        string $status,
+        ?string $message = null,
+        $locale = 'ita-IT'
+    ) {
         $publicServiceObject = null;
         if (!$publicServiceObject instanceof eZContentObject) {
             $publicServiceObject = eZContentObject::fetchByRemoteID($identifier);
@@ -281,7 +299,7 @@ class StanzaDelCittadinoBridge
             throw new ServiceToolsException('Local service not found');
         }
 
-        if ($status !== self::$mapServiceStatus['active'] && empty($message)){
+        if ($status !== self::$mapServiceStatus['active'] && empty($message)) {
             throw new ServiceToolsException('Message is required in inactive service');
         }
 
@@ -292,14 +310,14 @@ class StanzaDelCittadinoBridge
         $publicServicePayload->setData($locale, 'status_note', $message);
         if ($status !== self::$mapServiceStatus['active']) {
             $publicServicePayload->setData($locale, 'has_channel', []);
-        }else {
+        } else {
             $channels = [];
-            $accessChannel = eZContentObject::fetchByRemoteID('access-'.$identifier);
-            if ($accessChannel instanceof eZContentObject){
+            $accessChannel = eZContentObject::fetchByRemoteID('access-' . $identifier);
+            if ($accessChannel instanceof eZContentObject) {
                 $channels[] = $accessChannel->attribute('id');
             }
-            $bookingChannel = eZContentObject::fetchByRemoteID('booking-'.$identifier);
-            if ($bookingChannel instanceof eZContentObject){
+            $bookingChannel = eZContentObject::fetchByRemoteID('booking-' . $identifier);
+            if ($bookingChannel instanceof eZContentObject) {
                 $channels[] = $bookingChannel->attribute('id');
             }
             $publicServicePayload->setData($locale, 'has_channel', $channels);
@@ -309,7 +327,8 @@ class StanzaDelCittadinoBridge
         $repository->setEnvironment(new DefaultEnvironmentSettings());
 
         $repository->update((array)$publicServicePayload);
-        $url = eZContentObject::fetchByRemoteID($publicServicePayload->getMetadaData('remoteId'))->mainNode()->urlAlias();
+        $url = eZContentObject::fetchByRemoteID($publicServicePayload->getMetadaData('remoteId'))->mainNode()->urlAlias(
+        );
         eZURI::transformURI($url, false, 'full');
 
 
@@ -323,9 +342,14 @@ class StanzaDelCittadinoBridge
      * @return string
      * @throws ServiceToolsException
      */
-    public function updateServiceChannelByIdentifier($identifier, string $type, string $url, ?string $label = null, $locale = 'ita-IT'): string
-    {
-        $remoteId = $type.'-'.$identifier;
+    public function updateServiceChannelByIdentifier(
+        $identifier,
+        string $type,
+        string $url,
+        ?string $label = null,
+        $locale = 'ita-IT'
+    ): string {
+        $remoteId = $type . '-' . $identifier;
         $channelObject = null;
         if (!$channelObject instanceof eZContentObject) {
             $channelObject = eZContentObject::fetchByRemoteID($remoteId);
@@ -333,16 +357,16 @@ class StanzaDelCittadinoBridge
         if (!$channelObject instanceof eZContentObject) {
             throw new ServiceToolsException('Local service channel not found');
         }
-        if (empty($label)){
+        if (empty($label)) {
             $dataMap = $channelObject->dataMap();
-            if (isset($dataMap['channel_url'])){
+            if (isset($dataMap['channel_url'])) {
                 $label = $dataMap['channel_url']->attribute('data_text');
             }
         }
         $channelPayload = new PayloadBuilder();
         $channelPayload->setRemoteId($remoteId);
         $channelPayload->setLanguages([$locale]);
-        $channelPayload->setData($locale, 'channel_url', $url . '|'. $label);
+        $channelPayload->setData($locale, 'channel_url', $url . '|' . $label);
 
         $repository = new ContentRepository();
         $repository->setEnvironment(new DefaultEnvironmentSettings());
@@ -375,7 +399,9 @@ class StanzaDelCittadinoBridge
         $prototypeBaseUrl = self::getServiceContentPrototypeBaseUrl();
         $locale = 'ita-IT';
         $client = new HttpClient($prototypeBaseUrl);
-        $publicServicePayload = $client->getPayload($contentRemoteId ?? $this->getPrototypeServiceContentRemoteId($identifier));
+        $publicServicePayload = $client->getPayload(
+            $contentRemoteId ?? $this->getPrototypeServiceContentRemoteId($identifier)
+        );
 
         $publicServicePayload->setRemoteId($identifier);
         $publicServicePayload->setParentNodes([eZContentObject::fetchByRemoteID('all-services')->mainNodeID()]);
@@ -410,14 +436,14 @@ class StanzaDelCittadinoBridge
                     $channelUrlParts = explode('|', $channelUrl);
                     if (stripos($name, 'online') !== false) {
                         $linkLabel = $channelUrlParts[1] ?? 'Accedi al servizio';
-                        $payload->setRemoteId('access-'.$identifier);
+                        $payload->setRemoteId('access-' . $identifier);
                         $payload->setData(null, 'has_channel_type', ['Applicazione Web']);
                         $callToAction = isset($service['slug']) ?
                             $this->getApiBaseUri() . '/it/servizi/' . $service['slug'] . '/access' : '#';
-                        $payload->setData(null, 'channel_url', $callToAction . '|'. $linkLabel);
+                        $payload->setData(null, 'channel_url', $callToAction . '|' . $linkLabel);
                     }
                     if (stripos($name, 'prenota') !== false) {
-                        $payload->setRemoteId('booking-'.$identifier);
+                        $payload->setRemoteId('booking-' . $identifier);
                         $linkLabel = $channelUrlParts[1] ?? 'Prenota appuntamento';
                         $callToAction = '#';
                         if (!empty($service)) {
@@ -431,7 +457,7 @@ class StanzaDelCittadinoBridge
                             }
                         }
                         $payload->setData(null, 'has_channel_type', ['Sportello Pubblica Amministrazione']);
-                        $payload->setData(null, 'channel_url', $callToAction. '|'. $linkLabel);
+                        $payload->setData(null, 'channel_url', $callToAction . '|' . $linkLabel);
                     }
                     return $payload;
                 }
@@ -491,7 +517,7 @@ class StanzaDelCittadinoBridge
 
         $topicList = [];
         $topics = $publicServicePayload->getData('topics');
-        foreach ($topics as $locale => $topicLocalized){
+        foreach ($topics as $locale => $topicLocalized) {
             foreach ($topicLocalized as $topic) {
                 $topicRemoteId = $topic['remoteId'];
                 if (eZContentObject::fetchByRemoteID($topicRemoteId)) {
@@ -500,7 +526,7 @@ class StanzaDelCittadinoBridge
             }
         }
 
-        foreach ($topicList as $locale => $topics){
+        foreach ($topicList as $locale => $topics) {
             $publicServicePayload->setData($locale, 'topics', $topics);
         }
 
@@ -508,7 +534,8 @@ class StanzaDelCittadinoBridge
         $repository->setEnvironment(new DefaultEnvironmentSettings());
 
         $repository->createUpdate((array)$publicServicePayload);
-        $url = eZContentObject::fetchByRemoteID($publicServicePayload->getMetadaData('remoteId'))->mainNode()->urlAlias();
+        $url = eZContentObject::fetchByRemoteID($publicServicePayload->getMetadaData('remoteId'))
+            ->mainNode()->urlAlias();
         eZURI::transformURI($url, false, 'full');
 
         return $url;
@@ -522,16 +549,16 @@ class StanzaDelCittadinoBridge
      */
     public function importServiceByIdentifier(string $identifier, bool $doUpdate = false): string
     {
-        if (empty($identifier)){
+        if (empty($identifier)) {
             throw new ServiceToolsException('Missing identifier');
         }
         try {
             $service = StanzaDelCittadinoBridge::factory()->getServiceByIdentifier($identifier);
-        }catch (Throwable $e){
+        } catch (Throwable $e) {
             $service = [];
         }
         $response = $this->cloneServiceFromPrototype($identifier, $doUpdate, $service);
-        if (isset($service['status']) && $service['status'] != 1){
+        if (isset($service['status']) && $service['status'] != 1) {
             $status = self::$mapServiceStatus[$service['status']] ?? self::$mapServiceStatus['fallback'];
             $response = $this->updateServiceStatusByIdentifier($identifier, $status, $status);
         }
@@ -543,7 +570,7 @@ class StanzaDelCittadinoBridge
         $prototypeBaseUrl = self::getServiceContentPrototypeBaseUrl();
         $client = new HttpClient($prototypeBaseUrl);
         $searchResponse = $client->find("classes [public_service] and identifier = '\"{$identifier}\"'");
-        if ($searchResponse['totalCount'] > 0){
+        if ($searchResponse['totalCount'] > 0) {
             return $searchResponse['searchHits'][0];
         }
 
@@ -587,7 +614,7 @@ class StanzaDelCittadinoBridge
                 $default = eZContentObject::fetchByRemoteID($fallbackRemoteId);
                 if ($default instanceof eZContentObject) {
                     $idList[] = $default->attribute('id');
-                }else{
+                } else {
                     $nodeList = eZContentObjectTreeNode::subTreeByNodeID([
                         'ClassFilterType' => 'include',
                         'ClassFilterArray' => $classIdentifiers,

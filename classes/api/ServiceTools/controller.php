@@ -221,6 +221,25 @@ class ServiceToolsController extends ezpRestMvcController
         return $result;
     }
 
+    public function doSetTenantUrl()
+    {
+        try {
+            $this->checkAccess();
+            $bridge = StanzaDelCittadinoBridge::factory();
+            $result = new ezpRestMvcResult();
+            $payload = $this->getPayload();
+            $url = $payload['url'] ?? null;
+            if (!$url) {
+                throw new InvalidPayloadException('url', 'missing value');
+            }
+            $result->variables = $bridge->setTenantByUrl($url);
+        } catch (Throwable $e) {
+            $result = $this->doExceptionResult($e);
+        }
+
+        return $result;
+    }
+
     public static function getServerUrl()
     {
         $endoint = '/api/servicetools/v1/';
@@ -433,6 +452,43 @@ class ServiceToolsController extends ezpRestMvcController
                             ],
                         ],
                         'parameters' => [],
+                    ],
+                ],
+                '/tenant_url' => [
+                    'post' => [
+                        'tags' => ['Tenant'],
+                        'description' => 'Aggiorna il collegamento a area personale. L\'url inserito deve comprendere il suffisso (esempio: https://servizi.comune.bugliano.pi.it/lang)',
+                        'operationId' => 'setTenantUrl',
+                        'responses' => [
+                            200 => [
+                                'description' => 'Successful response',
+                                'content' => [
+                                    'application/json' => [
+                                        'schema' => [
+                                            'type' => 'object',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            403 => [
+                                'description' => 'Forbidden',
+                                'headers' => $errorHeaders,
+                            ],
+                            500 => [
+                                'description' => 'Internal error',
+                                'headers' => $errorHeaders,
+                            ],
+                        ],
+                        'parameters' => [],
+                        'requestBody' => [
+                            'content' => [
+                                'application/json' => [
+                                    'schema' => [
+                                        '$ref' => '#/components/schemas/Url',
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
                 ],
             ],
