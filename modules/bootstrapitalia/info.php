@@ -106,6 +106,14 @@ if ($http->hasPostVariable('Store')) {
         ]);
     }
 
+    if (isset($_FILES['LogoFooter']) && eZHTTPFile::canFetch('LogoFooter')) {
+        $httpFile = eZHTTPFile::fetch('LogoFooter');
+        $payload->setData($locale, 'footer_logo', [
+            'filename' => uniqid() . $httpFile->attribute('original_filename'),
+            'file' => base64_encode(file_get_contents($httpFile->attribute('filename'))),
+        ]);
+    }
+
     $dataMap = $home->dataMap();
     $headerLinks = $dataMap['link_nell_header'] ?? null;
     $relationsPriority = $http->hasPostVariable('ContentObjectAttribute_priority') ? $http->postVariable('ContentObjectAttribute_priority') : [];

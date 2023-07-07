@@ -15,3 +15,4 @@ I seguenti attributi, non disponibili per default, possono essere aggiunti modif
  - string `footer_info_label`: permette di personalizzare l'etichetta Informazioni nel footer
  - boolean `editor_access_in_footer`: permette di posizionare sul footer il menu di accesso dei redattori
  - file `favicon`: permette di customizzare la favicon
+ - image `footer_logo`: permette di customizzare il logo nel footer (only for bootstrapitalia2)

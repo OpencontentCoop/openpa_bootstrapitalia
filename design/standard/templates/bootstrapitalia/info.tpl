@@ -82,6 +82,26 @@
             </div>
         </div>
 
+        {if is_set($homepage.data_map.footer_logo)}
+            <div class="border border-light rounded p-3 mb-3">
+                <h5>Logo footer</h5>
+                <div class="row mb-3">
+                    <label for="LogoFooter" class="col-sm-3 col-form-label">
+                        {if $homepage.data_map.footer_logo.has_content}
+                            <img alt="{ezini('SiteSettings','SiteName')}"
+                                 width="82"
+                                 class="bg-primary"
+                                 src="{$pagedata.homepage|attribute('footer_logo').content['header_logo'].full_path|ezroot(no)}" />
+                        {/if}
+                    </label>
+                    <div class="col-sm-9">
+                        <input type="file" name="LogoFooter" class="form-control" id="LogoFooter" value="">
+                    </div>
+                </div>
+            </div>
+
+        {/if}
+
 
         <div class="border border-light rounded p-3 mb-3">
             <h5>Link header</h5>
@@ -96,7 +116,6 @@
                 {attribute_edit_gui attribute=$homepage.data_map.link_nel_footer attribute_base=ContentObjectAttribute}
             </div>
         </div>
-
 
         <div class="row">
             <div class="col-12 text-right mt-3">

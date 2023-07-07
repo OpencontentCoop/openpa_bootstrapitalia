@@ -22,7 +22,19 @@
                     {if openpaini('GeneralSettings','ShowUeLogo', 'enabled')|eq('enabled')}
                         <img class="ue-logo lazyload" {if openpaini('ImageSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}data-{/if}src="{'images/assets/logo-eu-inverted.svg'|ezdesign( 'no' )}" alt="logo Unione Europea" width="178" height="56" />
                     {/if}
-                    {include uri='design:logo.tpl'}
+                    {if $pagedata.homepage|has_attribute('footer_logo')}
+                        <div class="it-brand-wrapper">
+                            <a href="{'/'|ezurl(no)}"
+                               title="{ezini('SiteSettings','SiteName')}">
+                                <img class="icon" style="width: auto !important;"
+                                     alt="{ezini('SiteSettings','SiteName')}"
+                                     src="{image_url($pagedata.homepage|attribute('footer_logo').content['header_logo'].full_path|ezroot(no,full), false(), false())}" />
+                            </a>
+                        </div>
+                    {else}
+                        {include uri='design:logo.tpl'}
+                    {/if}
+
                 </div>
             </div>
 
