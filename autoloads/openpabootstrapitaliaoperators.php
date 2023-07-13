@@ -940,7 +940,8 @@ class OpenPABootstrapItaliaOperators
             array_pop($parts);
         }
         $filename = implode('.', $parts);
-        $filename = str_replace(array('_', '-', '+'), ' ', $filename);
+        $filename = str_replace('%25', '%', $filename);
+        $filename = str_replace(array('_', '-', '+', '%20'), ' ', $filename);
         $filename = str_replace(':', '/', $filename);
         for ($i = 1; $i <= 100; $i++) {
             $filename = str_replace('('.$i.')', '', $filename);
