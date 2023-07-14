@@ -245,6 +245,11 @@
                                     {foreach $footer_links as $item}
                                         <li>{node_view_gui content_node=$item view=text_linked}</li>
                                     {/foreach}
+                                    {if openpaini('GeneralSettings', 'PerformanceLink', false())}
+                                        <li>
+                                            <a href="{openpaini('GeneralSettings', 'PerformanceLink', '#')}" title="Piano di miglioramento delle performance">Piano di miglioramento delle performance</a>
+                                        </li>
+                                    {/if}
                                 </ul>
                             </div>
                         </div>
