@@ -158,6 +158,7 @@ DefaultIntegerIsNull[]
 DefaultIntegerIsNull[]=public_service/average_processing_time
 #DefaultIntegerIsNull[]=public_service/has_processing_time
 #DefaultContent_has_processing_time=I tempi e le scadenze non sono al momento disponibili
+DefaultContent_status_note=Il servizio online è al momento non disponibile
 
 [WebsiteToolbar]
 ShowEditorRoles=disabled

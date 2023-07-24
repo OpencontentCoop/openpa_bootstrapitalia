@@ -70,8 +70,7 @@
     {set $link_area_personale = $link_area_personale_parts[0]}
     {set $link_area_personale_title = $link_area_personale_parts[1]}
 {/if}
-
-{if $link_area_personale|not}
+{if and($link_area_personale|not, fetch(user,current_user).is_logged_in|not())}
     {set $hide_access = true()}
 {/if}
 
