@@ -6,6 +6,8 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
 
     const UNIQUE_FIELD_ERROR_MESSAGE = "Il valore del campo '%s' è già presente a sistema (%s)";
 
+    const SERVICE_STATUS_ERROR_MESSAGE = "Inserire un testo nel campo 'Motivo dello stato' dal momento che il servizio non è attivo";
+
     /**
      * @param eZHTTPTool $http
      * @param eZModule $module
@@ -71,9 +73,40 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
             }
         }
 
+        if ($class->attribute('identifier') == 'public_service') {
+            $serviceStatus = $statusNote = false;
+            foreach ($contentObjectAttributes as $contentObjectAttribute) {
+                $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
+                if ($contentClassAttribute->attribute('identifier') == 'has_service_status') {
+                    $serviceStatus = $contentObjectAttribute;
+                }elseif ($contentClassAttribute->attribute('identifier') == 'status_note') {
+                    $statusNote = $contentObjectAttribute;
+                }
+            }
+            if ($serviceStatus && $statusNote){
+                $serviceStatusPostVar = 'ContentObjectAttribute_eztags_data_text3_' . $serviceStatus->attribute('id');
+                $statusNotePostVar = 'ContentObjectAttribute_data_text_' . $statusNote->attribute('id');
+                $isActive = true;
+                $activeService = OpenPABootstrapItaliaOperators::getActiveServiceTag();
+                if ($activeService) {
+                    $isActive = false;
+                    if ($http->hasPostVariable($serviceStatusPostVar)){
+                        $isActive = $activeService->attribute('id') == $http->postVariable($serviceStatusPostVar);
+                    }
+                }
+                $statusNoteHasContent = $http->hasPostVariable($statusNotePostVar) && !empty($http->postVariable($statusNotePostVar));
+                if (!$isActive && !$statusNoteHasContent){
+                    $result['is_valid'] = false;
+                    $result['warnings'][] = [
+                        'text' => self::SERVICE_STATUS_ERROR_MESSAGE
+                    ];
+                }
+            }
+        }
+
         $uniqueStringCheckList = OpenPAINI::variable('AttributeHandlers', 'UniqueStringCheck', []);
         foreach ($uniqueStringCheckList as $uniqueStringCheck){
-            list($classIdentifier, $attributeIdentifier) = explode('/', $uniqueStringCheck);
+            [$classIdentifier, $attributeIdentifier] = explode('/', $uniqueStringCheck);
             $uniqueResult = $this->checkUniqueStringField($classIdentifier, $attributeIdentifier, $http, $class, $contentObjectAttributes);
             if (!$uniqueResult['is_valid']) {
                 $result['is_valid'] = false;

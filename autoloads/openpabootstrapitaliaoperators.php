@@ -12,6 +12,8 @@ class OpenPABootstrapItaliaOperators
 
     private static $imageUrlList = [];
 
+    private static $activeServiceTag;
+
     function operatorList()
     {
         return array(
@@ -188,13 +190,12 @@ class OpenPABootstrapItaliaOperators
                                 'data_type_string'
                             ) === eZTagsType::DATA_TYPE_STRING) {
 
-                            $activeService = eZTagsObject::fetchByKeyword('Servizio attivo');
-                            $activeServiceId = isset($activeService[0]) ? $activeService[0]->attribute('remote_id') : false;
-                            if ($activeServiceId) {
+                            $activeService = self::getActiveServiceTag();
+                            if ($activeService) {
                                 /** @var eZTags $content */
                                 $content = $dataMap['has_service_status']->content();
                                 foreach ($content->tags() as $tag) {
-                                    if ($tag->attribute('remote_id') === $activeServiceId) {
+                                    if ($tag->attribute('remote_id') === $activeService->attribute('remote_id')) {
                                         $operatorValue = true;
                                         self::$serviceStatuses[$object->attribute('remote_id')] = true;
                                         break;
@@ -1794,5 +1795,15 @@ class OpenPABootstrapItaliaOperators
         if ($siteData instanceof eZSiteData){
             $siteData->remove();
         }
+    }
+
+    public static function getActiveServiceTag()
+    {
+        if (self::$activeServiceTag === null) {
+            $activeService = eZTagsObject::fetchByKeyword('Servizio attivo');
+            self::$activeServiceTag = $activeService[0] ?? false;
+        }
+
+        return self::$activeServiceTag;
     }
 }
