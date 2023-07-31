@@ -37,6 +37,12 @@
 {def $start_date = cond(and(is_set($block.custom_attributes.start_date), $block.custom_attributes.start_date|ne(''), array('start_time','publication_start_time','data_di_firma','data_protocollazione')|contains($block.custom_attributes.start_date)), $block.custom_attributes.start_date, 'publication_start_time')}
 {def $end_date = cond(and(is_set($block.custom_attributes.end_date), $block.custom_attributes.end_date|ne(''), array('end_time','publication_end_time','expiration_time','data_di_scadenza_delle_iscrizioni','data_di_conclusione')|contains($block.custom_attributes.end_date)), $block.custom_attributes.end_date, 'publication_end_time')}
 {def $number = cond(and(is_set($block.custom_attributes.number), $block.custom_attributes.number|ne(''), array('has_code','protocollo')|contains($block.custom_attributes.number)), $block.custom_attributes.number, 'has_code')}
+{* controllo sulla tipologia del numero selezionato *}
+{def $number_is_string = true()}
+{def $document_class = fetch(content, class, hash(class_id, 'document'))}
+{if and(is_set($document_class.data_map[$number]), $document_class.data_map[$number].data_type_string|eq('ezinteger'))}
+	{set $number_is_string = false()}
+{/if}
 
 <div data-block_document_subtree="{cond(is_set($block.custom_attributes.node_id), $block.custom_attributes.node_id, 1)}"
 	 data-hide_publication_end_time="{cond(and(is_set($block.custom_attributes.hide_publication_end_time), $block.custom_attributes.hide_publication_end_time|eq('1')), 'true','false')}"
@@ -47,6 +53,7 @@
 	 data-hide_first_level="{cond($block.custom_attributes.hide_first_level, 'true', 'false')}"
 	 data-start_identifier="{$start_date|wash()}"
 	 data-end_identifier="{$end_date|wash()}"
+	 data-number_as_string="{cond($number_is_string, 'enabled', 'disabled')}"
 	 data-number_identifier="{$number|wash()}">
 	{if $filters|count()}
 	<div class="d-block d-lg-none d-xl-none text-center mb-2">
@@ -190,7 +197,6 @@
 	</div>
 </div>
 
-
 {run-once}
 {literal}
 <script id="tpl-document-spinner" type="text/x-jsrender">
@@ -304,6 +310,7 @@ $(document).ready(function () {
 		var startIdentifier = container.data('start_identifier');
 		var endIdentifier = container.data('end_identifier');
 		var numberIdentifier = container.data('number_identifier');
+		var numberAsString = container.data('number_as_string') === 'enabled';
 
 		if (hideFirstLevel){
 			container.find('[data-level="1"]').each(function(){
@@ -383,7 +390,11 @@ $(document).ready(function () {
 			if (container.find('[data-search="has_code"]').length > 0) {
 				var hasCodeFilter = container.find('[data-search="has_code"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
 				if (hasCodeFilter.length > 0) {
-					query += ' and raw[attr_'+numberIdentifier+'_t] = \'"' + hasCodeFilter + '"\'';
+					if (numberAsString) {
+						query += ' and raw[attr_' + numberIdentifier + '_t] = \'"' + hasCodeFilter + '"\'';
+					}else{
+						query += ' and ' + numberIdentifier + ' = \'' + hasCodeFilter + '\'';
+					}
 				}
 			}
 			if (container.find('[data-search="year"]').length > 0) {
