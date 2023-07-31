@@ -20,8 +20,7 @@
         </div>
     {else}
         <div class="alert alert-warning my-md-4 my-lg-4">
-            {$status_tags|implode(', ')|wash()}
-            {openpaini('AttributeHandlers', 'DefaultContent_status_note', 'Il servizio online è al momento non disponibile')}
+            {openpaini('AttributeHandlers', 'DefaultContent_status_note', 'Il servizio online al momento non è disponibile')}
         </div>
     {/if}
 {/if}

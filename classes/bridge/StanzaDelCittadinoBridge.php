@@ -292,6 +292,19 @@ class StanzaDelCittadinoBridge
         $locale = 'ita-IT'
     ) {
         $publicServiceObject = null;
+
+        $parentIdentifier = $this->getParentServiceIdentifier($identifier);
+        if ($parentIdentifier){
+            $publicServiceObject = eZContentObject::fetchByRemoteID($parentIdentifier);
+            if (!$publicServiceObject instanceof eZContentObject) {
+                throw new ServiceToolsException('Local parent service not found');
+            }
+            $url = $publicServiceObject->mainNode()->urlAlias(
+            );
+            eZURI::transformURI($url, false, 'full');
+            return $url;
+        }
+
         if (!$publicServiceObject instanceof eZContentObject) {
             $publicServiceObject = eZContentObject::fetchByRemoteID($identifier);
         }
@@ -303,14 +316,16 @@ class StanzaDelCittadinoBridge
             throw new ServiceToolsException('Message is required in inactive service');
         }
 
+        $publicServiceObjectDataMap = $publicServiceObject->dataMap();
+
         $publicServicePayload = new PayloadBuilder();
         $publicServicePayload->setRemoteId($identifier);
         $publicServicePayload->setLanguages([$locale]);
         $publicServicePayload->setData($locale, 'has_service_status', [$status]);
         $publicServicePayload->setData($locale, 'status_note', $message);
-        if ($status !== self::$mapServiceStatus['active']) {
-            $publicServicePayload->setData($locale, 'has_channel', []);
-        } else {
+
+        if (isset($publicServiceObjectDataMap['has_channel'])
+            && !$publicServiceObjectDataMap['has_channel']->hasContent()) {
             $channels = [];
             $accessChannel = eZContentObject::fetchByRemoteID('access-' . $identifier);
             if ($accessChannel instanceof eZContentObject) {
@@ -355,6 +370,10 @@ class StanzaDelCittadinoBridge
             $channelObject = eZContentObject::fetchByRemoteID($remoteId);
         }
         if (!$channelObject instanceof eZContentObject) {
+            $parentIdentifier = $this->getParentServiceIdentifier($identifier);
+            if ($parentIdentifier){
+                return "Warning: $type channel of $identifier (child of $parentIdentifier) service not found";
+            }
             throw new ServiceToolsException('Local service channel not found');
         }
         if (empty($label)) {
@@ -400,7 +419,7 @@ class StanzaDelCittadinoBridge
         $locale = 'ita-IT';
         $client = new HttpClient($prototypeBaseUrl);
         $publicServicePayload = $client->getPayload(
-            $contentRemoteId ?? $this->getPrototypeServiceContentRemoteId($identifier)
+            $contentRemoteId ?? $this->getPrototypeServiceContent($identifier)
         );
 
         $publicServicePayload->setRemoteId($identifier);
@@ -431,9 +450,9 @@ class StanzaDelCittadinoBridge
                 $this->getIdList($publicServicePayload, 'has_channel', $locale),
                 eZContentObject::fetchByRemoteID('3bb4f45279e3c4efe2ac84630e53a7b4')->mainNodeID(),
                 function (PayloadBuilder $payload) use ($service, $locale, $identifier) {
-                    $name = $payload->getData('object', $locale);
                     $channelUrl = $payload->getData('channel_url', $locale);
                     $channelUrlParts = explode('|', $channelUrl);
+                    $name = $channelUrlParts[1] ?? $payload->getData('object', $locale);
                     if (stripos($name, 'online') !== false) {
                         $linkLabel = $channelUrlParts[1] ?? 'Accedi al servizio';
                         $payload->setRemoteId('access-' . $identifier);
@@ -557,15 +576,48 @@ class StanzaDelCittadinoBridge
         } catch (Throwable $e) {
             $service = [];
         }
-        $response = $this->cloneServiceFromPrototype($identifier, $doUpdate, $service);
-        if (isset($service['status']) && $service['status'] != 1) {
-            $status = self::$mapServiceStatus[$service['status']] ?? self::$mapServiceStatus['fallback'];
-            $response = $this->updateServiceStatusByIdentifier($identifier, $status, $status);
+        try {
+            $response = $this->cloneServiceFromPrototype($identifier, $doUpdate, $service);
+            if (isset($service['status']) && $service['status'] != 1) {
+                $status = self::$mapServiceStatus[$service['status']] ?? self::$mapServiceStatus['fallback'];
+                $response = $this->updateServiceStatusByIdentifier($identifier, $status, $status);
+            }
+        } catch (ServiceToolsException $e) {
+            if ($parentIdentifier = $this->getParentServiceIdentifier($identifier)) {
+                $response = $this->importPseudoServiceByIdentifier(
+                    $identifier,
+                    $parentIdentifier
+                );
+            } else {
+                throw $e;
+            }
         }
         return $response;
     }
 
-    private function getPrototypeServiceContentRemoteId($identifier)
+    private function getParentServiceIdentifier($identifier)
+    {
+        if (strpos($identifier, 'bis') !== false) {
+            return str_replace('bis', '', $identifier);
+        }
+
+        return false;
+    }
+
+    private function importPseudoServiceByIdentifier($identifier, $parentIdentifier)
+    {
+        $publicServiceObject = eZContentObject::fetchByRemoteID($parentIdentifier);
+        if (!$publicServiceObject instanceof eZContentObject) {
+            throw new ServiceToolsException("Service $parentIdentifier not yet installed as parent service of $identifier");
+        }
+
+        $url = $publicServiceObject->mainNode()->urlAlias();
+        eZURI::transformURI($url, false, 'full');
+
+        return $url;
+    }
+
+    private function getPrototypeServiceContent($identifier)
     {
         $prototypeBaseUrl = self::getServiceContentPrototypeBaseUrl();
         $client = new HttpClient($prototypeBaseUrl);
