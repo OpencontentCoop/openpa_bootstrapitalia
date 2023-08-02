@@ -101,17 +101,7 @@ class ServiceToolsController extends ezpRestMvcController
             $this->checkAccess();
             $bridge = StanzaDelCittadinoBridge::factory();
             $result = new ezpRestMvcResult();
-
-            $publicServiceObject = eZContentObject::fetchByRemoteID($this->request->variables['identifier']);
-            if ($publicServiceObject instanceof eZContentObject) {
-                $url = $publicServiceObject->mainNode()->urlAlias();
-                eZURI::transformURI($url, false, 'full');
-                $result->variables = ['url' => $url];
-            }else{
-                throw new NotFoundException('service', $this->request->variables['identifier']);
-            }
-
-
+            $result->variables = ['url' => $bridge->hasServiceByIdentifier((string)$this->request->variables['identifier'])];
         } catch (Throwable $e) {
             $result = $this->doExceptionResult($e);
         }

@@ -1,5 +1,6 @@
 <?php
 
+use Opencontent\Opendata\Api\Exception\NotFoundException;
 use Opencontent\Opendata\Rest\Client\HttpClient;
 use Opencontent\Opendata\Api\ContentRepository;
 use Opencontent\Opendata\Rest\Client\PayloadBuilder;
@@ -560,6 +561,26 @@ class StanzaDelCittadinoBridge
         return $url;
     }
 
+    public function hasServiceByIdentifier(string $identifier): string
+    {
+        if (empty($identifier)) {
+            throw new ServiceToolsException('Missing identifier');
+        }
+
+        $parentIdentifier = $this->getParentServiceIdentifier($identifier);
+        if ($parentIdentifier){
+            $identifier = $parentIdentifier;
+        }
+        $publicServiceObject = eZContentObject::fetchByRemoteID($identifier);
+        if ($publicServiceObject instanceof eZContentObject) {
+            $url = $publicServiceObject->mainNode()->urlAlias();
+            eZURI::transformURI($url, false, 'full');
+            return $url;
+        }
+
+        throw new NotFoundException('service', $identifier);
+    }
+
     /**
      * @param string $identifier
      * @param bool $doUpdate
@@ -601,7 +622,7 @@ class StanzaDelCittadinoBridge
             return str_replace('bis', '', $identifier);
         }
 
-        return false;
+        return null;
     }
 
     private function importPseudoServiceByIdentifier($identifier, $parentIdentifier)
