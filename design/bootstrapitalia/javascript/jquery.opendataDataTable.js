@@ -196,7 +196,7 @@ var opendataDataTableRenderField = function opendataDataTableRenderField(dataTyp
 
         case 'file':
             if (data.url) {
-                return '<a href="' + data.url + '">' + data.filename + '</a>';
+                return '<a href="' + data.url.replace('http://', 'https://') + '">' + data.filename + '</a>';
             }
             break;
 
@@ -204,7 +204,7 @@ var opendataDataTableRenderField = function opendataDataTableRenderField(dataTyp
             var files = [];
             if (data.length > 0) {
                 $.each(data, function () {
-                    files.push('<a href="' + this.url + '">' + this.filename + '</a>');
+                    files.push('<a href="' + this.url.replace('http://', 'https://') + '">' + this.filename + '</a>');
                 });
             }
             return files.join(', ');
