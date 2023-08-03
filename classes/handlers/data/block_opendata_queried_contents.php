@@ -46,7 +46,7 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                 }
             }
         }
-        $view = $blockAttributes['view_api'];
+        $view = $http->hasGetVariable('view') ? $http->getVariable('view') : $blockAttributes['view_api'];
         $useSimpleGeoApi = (bool)$blockAttributes['simple_geo_api'];
         $queryStringIsAllowed = (bool)$blockAttributes['show_search'];
         $maxLimit = (int)$blockAttributes['limit'];

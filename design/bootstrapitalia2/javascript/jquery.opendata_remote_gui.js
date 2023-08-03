@@ -164,7 +164,7 @@
             if (plugin.settings.queryBuilder === 'browser') {
                 return 'id = ' + id;
             }else{
-                return '?limit=1&id=' + id + '&' + plugin.buildQuery();
+                return '?limit=1&id=' + id + '&view=banner&' + plugin.buildQuery();
             }
         },
 
