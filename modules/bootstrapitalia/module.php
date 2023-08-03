@@ -42,6 +42,18 @@ $ViewList['service_tools'] = [
     'params' => ['Page'],
     'unordered_params' => [],
 ];
+$ViewList['version_revert'] = [
+    'functions' => ['opencity_locked_editor'],
+    'script' => 'version_revert.php',
+    'params' => ['Id', 'Version', 'Locale'],
+    'unordered_params' => [],
+];
+$ViewList['version_remove'] = [
+    'functions' => ['opencity_locked_editor'],
+    'script' => 'version_remove.php',
+    'params' => ['Id', 'Version', 'Locale'],
+    'unordered_params' => [],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];
