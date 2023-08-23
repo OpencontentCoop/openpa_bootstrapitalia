@@ -6,7 +6,7 @@
 
 {def $homepage = fetch('openpa', 'homepage')}
 
-{if $homepage.node_id|ne($node.node_id)}
+{if and($homepage.node_id|ne($node.node_id),array('image', 'gallery')|contains($node.class_identifier)|not())}
     {include uri=$openpa.content_attachment.template}
     {include uri=$openpa.content_gallery.template}
 {/if}

@@ -14,10 +14,10 @@
                         {foreach $openpa.content_gallery.galleries as $gallery}
                             <div class="widget">
                                 <div class="widget_content">
-                                    {include uri='design:atoms/gallery.tpl' items=fetch( content, list, hash( 'parent_node_id', $gallery.node_id, 'class_filter_type', 'include', 'class_filter_array', array( 'image' ), limit, 3)) title=false()}
-                                    <small><a class="text-decoration-none text-muted" href="{$gallery.url_alias|ezurl(no)}" title="Visualizza tutta la galleria">Visualizza tutta la galleria</a></small>
+                                    {include uri='design:atoms/gallery.tpl' items=fetch( content, list, hash( 'parent_node_id', $gallery.node_id, 'class_filter_type', 'include', 'class_filter_array', array( 'image' ))) title=false()}
                                 </div>
                             </div>
+                            {undef $add_link}
                         {/foreach}
                     {/if}
                 {/if}
