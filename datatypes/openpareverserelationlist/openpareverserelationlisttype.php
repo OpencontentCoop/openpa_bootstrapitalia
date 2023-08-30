@@ -244,6 +244,7 @@ class OpenPAReverseRelationListType extends eZDataType
                 self::$content[$objectAttributeId]['objects'] = $objects;
                 self::$content[$objectAttributeId]['count'] = $data->totalCount;
                 self::$content[$objectAttributeId]['pages'] = ceil($data->totalCount/$limit);
+                self::$content[$objectAttributeId]['items_per_page'] = $limit;
             }
         }
 

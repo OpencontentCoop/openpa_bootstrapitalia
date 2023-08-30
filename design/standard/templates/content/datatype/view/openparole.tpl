@@ -29,81 +29,24 @@
 		{/case}
 
 		{case match=3} {* Persone: per i ruoli afferenti a una struttura *}
-			{def $role_index = 1}
-			{def $total = count($attribute.content.people)}
-			{def $items_per_page = cond(is_set($attribute.content.settings.pagination), $attribute.content.settings.pagination, 6)}
-			<div data-people_pagination="1" data-people_pages="{div($total,$items_per_page)|ceil()}">
+			{def $total = fetch('bootstrapitalia', 'openparole_people_count', hash('attribute', $attribute))}
+			{def $items_per_page = 2}
+			{def $people = fetch('bootstrapitalia', 'openparole_people', hash('attribute', $attribute, 'limit', $items_per_page, 'offset', cond(is_set($#view_parameters[$attribute.contentclass_attribute_identifier]), $#view_parameters[$attribute.contentclass_attribute_identifier], 0)))}
+			<div>
 				<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
-					{foreach $attribute.content.people as $child }
-						{def $css = concat('page-', div($role_index,$items_per_page)|ceil())}
-						{if $role_index|gt($items_per_page)}
-							{set $css = concat($css, '" style="display:none !important')}
-						{/if}
-						{node_view_gui content_node=$child.main_node view=card_teaser show_icon=true() image_class=widemedium view_variation=$css}
-						{set $role_index = $role_index|inc()}
-						{undef $css}
+					{foreach $people as $child }
+						{node_view_gui content_node=$child view=card_teaser show_icon=false() show_category=false() image_class=widemedium}
 					{/foreach}
 				</div>
-				{if $total|gt($items_per_page)}
-					<ul class="pagination justify-content-center">
-						<li class="page-item disabled">
-							<a class="page-link" data-direction="prev" href="#" tabindex="-1" aria-hidden="true">
-								{display_icon('it-chevron-left', 'svg', 'icon')}
-								<span class="text sr-only">{"Previous"|i18n("design/admin/navigator")}</span>
-							</a>
-						</li>
-						<li class="page-item">
-							<span class="page-link"><span class="counter">1</span>/{div($total,$items_per_page)|ceil()}</span>
-						</li>
-						<li class="page-item ">
-							<a class="page-link" data-direction="next" href="#" tabindex="-1" aria-hidden="true">
-								<span class="sr-only">{"Next"|i18n("design/admin/navigator")}</span>
-								{display_icon('it-chevron-right', 'svg', 'icon')}
-							</a>
-						</li>
-					</ul>
-				{/if}
+				{include name=navigator
+                       uri='design:navigator/google.tpl'
+                       page_uri=$attribute.object.main_node.url_alias
+                       item_count=$total
+					   variable_name=$attribute.contentclass_attribute_identifier
+                       view_parameters=$#view_parameters
+                       item_limit=$items_per_page}
 			</div>
-			{run-once}
-			<script>
-			{literal}
-				$(document).ready(function (){
-					$('[data-people_pagination] a.page-link').on('click', function (e){
-						var self = $(this);
-						var container = self.parents('[data-people_pagination]');
-						var currentPage = container.data('people_pagination');
-						var total = container.data('people_pages');
-						var direction = self.data('direction');
-						if (!self.parent().hasClass('disabled')){
-							if (direction === 'next'){
-								if ((currentPage + 1) <= total) {
-									container.find('.page-'+currentPage).removeClass('card-teaser').addClass('d-none');
-									currentPage++;
-									if (currentPage === total) {
-										self.parent().addClass('disabled')
-									}
-									container.find('[data-direction="prev"]').parent().removeClass('disabled');
-								}
-							}else if (direction === 'prev'){
-								if ((currentPage - 1) > 0) {
-									container.find('.page-'+currentPage).removeClass('card-teaser').addClass('d-none');
-									currentPage--;
-									if (currentPage === 1) {
-										self.parent().addClass('disabled')
-									}
-									container.find('[data-direction="next"]').parent().removeClass('disabled');
-								}
-							}
-							container.data('people_pagination', currentPage);
-							container.find('.counter').text(currentPage);
-							container.find('.page-'+currentPage).removeClass('d-none').addClass('card-teaser').removeAttr('style');
-						}
-						e.preventDefault();
-					});
-				});
-			{/literal}
-			</script>
-			{/run-once}
+			{undef $people $items_per_page $total}
 		{/case}
 
 		{case match=2} {* Lista Strutture: per i ruoli afferenti a una persona *}

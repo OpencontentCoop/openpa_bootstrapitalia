@@ -113,6 +113,8 @@ class OpenPARoleType extends eZDataType
             if ($http->hasPostVariable($filtersVarName)) {
                 $filters = $http->postVariable($filtersVarName);
                 $settings['filters'] = $filters;
+            }else{
+                $settings['filters'] = [];
             }
             $contentObjectAttribute->setAttribute('data_text', json_encode($settings));
             $contentObjectAttribute->store();

@@ -104,7 +104,7 @@ class OpenPARoles
         return null;
     }
 
-    private function getPagination()
+    public function getPagination()
     {
         if (isset($this->attributeSettings['pagination']) && is_numeric($this->attributeSettings['pagination'])){
             return $this->attributeSettings['pagination'];
@@ -150,7 +150,7 @@ class OpenPARoles
                 $data->searchHits = [];
                 eZDebug::writeError($e->getMessage(), __METHOD__);
             }
-            $this->searchData = $this->sortContents($data->searchHits);
+            $this->searchData = $this->sortRoles($data->searchHits);
         }
         return $this->searchData;
     }
@@ -331,11 +331,12 @@ class OpenPARoles
     }
 
     /**
-     * @param int $limit
+     * @param ?int $limit
+     * @param ?int $offset
      * @return string
      * @throws Exception
      */
-    private function buildQuery($limit = 1)
+    public function buildQuery($limit = 1, $offset = 0)
     {
         if ($this->searchQuery === null) {
             $this->searchQuery = array();
@@ -361,7 +362,8 @@ class OpenPARoles
         }
         $queryParts = $this->searchQuery;
         $limit = (int)$limit;
-        if ($limit > 0) $queryParts[] = 'limit ' . $limit;
+        if ($limit > 0) $queryParts[] = 'limit ' . (int)$limit;
+        if ($offset > 0) $queryParts[] = 'offset ' . (int)$offset;
 
         return implode(' and ', $queryParts);
     }
@@ -413,7 +415,7 @@ class OpenPARoles
         }
     }
 
-    private function sortContents($contents)
+    public function sortRoles($contents)
     {
         $sortValue = $this->classSettings['sort'];
         if (count($contents) > 1) {
