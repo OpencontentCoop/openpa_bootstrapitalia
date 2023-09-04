@@ -937,7 +937,7 @@ class OpenPABootstrapItaliaOperators
     {
         $filename = urldecode($filename);
         $parts = explode('.', $filename);
-        if (count($parts) > 1) {
+        if (count($parts) > 1 && mb_strlen($parts[1]) <= 4) {
             array_pop($parts);
         }
         $filename = implode('.', $parts);
