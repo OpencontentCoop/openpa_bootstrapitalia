@@ -6,7 +6,7 @@ class OpenPARolesFunctionCollection
 {
     public static function fetchPeopleCount($attribute)
     {
-        $result = ['result' => []];
+        $result = ['result' => 0];
         if (!$attribute instanceof eZContentObjectAttribute) {
             return $result;
         }

@@ -30,7 +30,7 @@
 
 		{case match=3} {* Persone: per i ruoli afferenti a una struttura *}
 			{def $total = fetch('bootstrapitalia', 'openparole_people_count', hash('attribute', $attribute))}
-			{def $items_per_page = 2}
+			{def $items_per_page = cond(is_set($attribute.content.settings.pagination), $attribute.content.settings.pagination, 6)}
 			{def $people = fetch('bootstrapitalia', 'openparole_people', hash('attribute', $attribute, 'limit', $items_per_page, 'offset', cond(is_set($#view_parameters[$attribute.contentclass_attribute_identifier]), $#view_parameters[$attribute.contentclass_attribute_identifier], 0)))}
 			<div>
 				<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">

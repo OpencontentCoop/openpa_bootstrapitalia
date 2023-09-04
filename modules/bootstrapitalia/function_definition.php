@@ -83,5 +83,53 @@ $FunctionList['openparole_people_count'] = [
     ],
 ];
 
+$FunctionList['openpareverse_list'] = [
+    'name' => 'openpareverse_list',
+    'operation_types' => ['read'],
+    'call_method' => [
+        'class' => 'OpenPAReverseRelationListFunctionCollection',
+        'method' => 'fetch',
+    ],
+    'parameter_type' => 'standard',
+    'parameters' => [
+        [
+            'name' => 'attribute',
+            'type' => 'object',
+            'required' => true,
+            'default' => false,
+        ],
+        [
+            'name' => 'offset',
+            'type' => 'integer',
+            'required' => false,
+            'default' => false,
+        ],
+        [
+            'name' => 'limit',
+            'type' => 'integer',
+            'required' => false,
+            'default' => false,
+        ],
+    ],
+];
+
+$FunctionList['openpareverse_count'] = [
+    'name' => 'openpareverse_count',
+    'operation_types' => ['read'],
+    'call_method' => [
+        'class' => 'OpenPAReverseRelationListFunctionCollection',
+        'method' => 'fetchCount',
+    ],
+    'parameter_type' => 'standard',
+    'parameters' => [
+        [
+            'name' => 'attribute',
+            'type' => 'object',
+            'required' => true,
+            'default' => false,
+        ]
+    ],
+];
+
 
 

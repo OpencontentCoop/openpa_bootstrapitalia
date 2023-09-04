@@ -167,7 +167,7 @@ class OpenPAReverseRelationListType extends eZDataType
     {
         if (!isset(self::$hasContent[$contentObjectAttribute->attribute('id')])) {
 
-            $query = $this->buildQuery($contentObjectAttribute, 1);
+            $query = self::buildQuery($contentObjectAttribute, 1);
             eZDebug::writeDebug($contentObjectAttribute->contentClassAttributeIdentifier() . ' ' . $query, __METHOD__);
 
             if (!$query) {
@@ -205,19 +205,17 @@ class OpenPAReverseRelationListType extends eZDataType
 
             $uri = eZURI::instance(eZSys::requestURI());
             if (isset($uri->UserArray[$objectAttribute->attribute('contentclass_attribute_identifier')])){
-            	$currentPage = $uri->UserArray[$objectAttribute->attribute('contentclass_attribute_identifier')];
+                $offset = $uri->UserArray[$objectAttribute->attribute('contentclass_attribute_identifier')];
             }else{
-            	$currentPage = 1;
+                $offset = 1;
             }
             $limit = $classContent['limit'];
-            $offset = $currentPage == 1 ? 0 : $limit * ($currentPage - 1);
-            $query = $this->buildQuery($objectAttribute, $limit, $offset);
+            $query = self::buildQuery($objectAttribute, $limit, $offset);
 
             self::$content[$objectAttributeId]['query'] = $query;
             self::$content[$objectAttributeId]['limit'] = $limit;
             self::$content[$objectAttributeId]['offset'] = $offset;
             self::$content[$objectAttributeId]['pages'] = 0;
-            self::$content[$objectAttributeId]['current_page'] = $currentPage;
 
             if (!$query) {
                 self::$content[$objectAttributeId]['objects'] = array();
@@ -285,7 +283,7 @@ class OpenPAReverseRelationListType extends eZDataType
         $classAttribute->setAttribute('data_text5', $dataKey);
     }
 
-    private function buildQuery($contentObjectAttribute, $limit, $offset = 0)
+    public static function buildQuery($contentObjectAttribute, $limit, $offset = 0)
     {
         $data = (array)$contentObjectAttribute->attribute('class_content');
         if (count($data['attribute_id_list']) > 0) {
@@ -309,8 +307,8 @@ class OpenPAReverseRelationListType extends eZDataType
                 $sort = $data['sort'];
                 $order = $data['order'] == 'desc' ? 'desc' : 'asc';
                 $queryParts[] = "sort [{$sort}=>{$order}]";
-                $queryParts[] = 'limit ' . $limit;
-                $queryParts[] = 'offset ' . $offset;
+                $queryParts[] = 'limit ' . (int)$limit;
+                $queryParts[] = 'offset ' . (int)$offset;
 
                 return implode(' and ', $queryParts);
             }

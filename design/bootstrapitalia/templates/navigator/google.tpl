@@ -31,7 +31,7 @@
         {switch match=$:item_previous|lt(0) }
         {case match=0}
             <li class="page-item">
-                <a class="page-link" href={concat($page_uri,$:item_previous|gt(0)|choose('',concat($:offset_text,$:item_previous)),$:view_parameter_text,$page_uri_suffix)|ezurl}>
+                <a class="page-link text-sans-serif" href={concat($page_uri,$:item_previous|gt(0)|choose('',concat($:offset_text,$:item_previous)),$:view_parameter_text,$page_uri_suffix)|ezurl}>
                     {display_icon('it-chevron-left', 'svg', 'icon')}
                     <span class="text sr-only">{"Previous"|i18n("design/admin/navigator")}</span>
                 </a>
@@ -41,7 +41,7 @@
             <li class="page-item disabled">
                 <a class="page-link" href="#">
                     {display_icon('it-chevron-left', 'svg', 'icon')}
-                    <span class="page-link text sr-only disabled">{"Previous"|i18n("design/admin/navigator")}</span>
+                    <span class="page-link text-sans-serif text sr-only disabled">{"Previous"|i18n("design/admin/navigator")}</span>
                 </a>
             </li>
         {/case}
@@ -50,11 +50,11 @@
 
         {if $:current_page|gt($:left_max)}
             <li class="page-item">
-                <a class="page-link" href={concat($page_uri,$:view_parameter_text,$page_uri_suffix)|ezurl}>1</a>
+                <a class="page-link text-sans-serif" href={concat($page_uri,$:view_parameter_text,$page_uri_suffix)|ezurl}>1</a>
             </li>
             {if sub($:current_page,$:left_length)|gt(1)}
                 <li class="page-item other">
-                    <a class="page-link">...</a>
+                    <a class="page-link text-sans-serif">...</a>
                 </li>
             {/if}
         {/if}
@@ -62,7 +62,7 @@
         {section loop=$:left_length}
             {let page_offset=sum(sub($ViewParameter:current_page,$ViewParameter:left_length),$:index)}
                 <li class="page-item">
-                    <a class="page-link" href={concat($page_uri,$:page_offset|gt(0)|choose('',concat($:offset_text,mul($:page_offset,$item_limit))),$ViewParameter:view_parameter_text,$page_uri_suffix)|ezurl}>
+                    <a class="page-link text-sans-serif" href={concat($page_uri,$:page_offset|gt(0)|choose('',concat($:offset_text,mul($:page_offset,$item_limit))),$ViewParameter:view_parameter_text,$page_uri_suffix)|ezurl}>
                         {$:page_offset|inc}
                     </a>
                 </li>
@@ -70,13 +70,13 @@
         {/section}
 
         <li class="page-item active">
-            <a class="page-link" href="#">{$:current_page|inc}</a>
+            <a class="page-link text-sans-serif" href="#">{$:current_page|inc}</a>
         </li>
 
         {section loop=$:right_length}
             {let page_offset=sum($ViewParameter:current_page,1,$:index)}
                 <li class="page-item">
-                    <a class="page-link next" href={concat($page_uri,$:page_offset|gt(0)|choose('',concat($:offset_text,mul($:page_offset,$item_limit))),$ViewParameter:view_parameter_text,$page_uri_suffix)|ezurl}>
+                    <a class="page-link text-sans-serif next" href={concat($page_uri,$:page_offset|gt(0)|choose('',concat($:offset_text,mul($:page_offset,$item_limit))),$ViewParameter:view_parameter_text,$page_uri_suffix)|ezurl}>
                         {$:page_offset|inc}
                     </a>
                 </li>
@@ -86,11 +86,11 @@
         {if $:page_count|gt(sum($:current_page,$:right_max,1))}
             {if sum($:current_page,$:right_max,2)|lt($:page_count)}
                 <li class="page-item other">
-                    <a class="page-link">...</a>
+                    <a class="page-link text-sans-serif">...</a>
                 </li>
             {/if}
             <li class="page-item">
-                <a class="page-link" href={concat($page_uri,$:page_count|dec|gt(0)|choose('',concat($:offset_text,mul($:page_count|dec,$item_limit))),$:view_parameter_text,$page_uri_suffix)|ezurl}>
+                <a class="page-link text-sans-serif" href={concat($page_uri,$:page_count|dec|gt(0)|choose('',concat($:offset_text,mul($:page_count|dec,$item_limit))),$:view_parameter_text,$page_uri_suffix)|ezurl}>
                     {$:page_count}
                 </a>
             </li>
@@ -99,7 +99,7 @@
         {switch match=$:item_next|lt($item_count)}
         {case match=1}
             <li class="page-item">
-                <a class="page-link" href={concat($page_uri,$:offset_text,$:item_next,$:view_parameter_text,$page_uri_suffix)|ezurl}>
+                <a class="page-link text-sans-serif" href={concat($page_uri,$:offset_text,$:item_next,$:view_parameter_text,$page_uri_suffix)|ezurl}>
                     {display_icon('it-chevron-right', 'svg', 'icon')}
                     <span class="text sr-only">{"Next"|i18n("design/admin/navigator")}</span>
                 </a>
@@ -107,7 +107,7 @@
         {/case}
         {case}
             <li class="page-item disabled">
-                <a class="page-link" href="#">
+                <a class="page-link text-sans-serif" href="#">
                     {display_icon('it-chevron-right', 'svg', 'icon')}
                     <span class="page-link text sr-only disabled">{"Next"|i18n("design/admin/navigator")}</span>
                 </a>
