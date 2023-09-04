@@ -5,13 +5,10 @@ RepositoryNodes[]
 AttributeIdentifiers[]
 StateGroup=moderation
 States[draft]=Bozza
-States[waiting]=Bozza
+States[waiting]=In attesa di moderazione
 States[accepted]=Accettato
 States[refused]=Rifiutato
 States[skipped]=Non necessita di moderazione
-Actions[]
-Actions[waiting-accepted]=NotifyOwner
-Actions[waiting-refused]=NotifyOwner
 Actions[accepted-draft]=NotifyOwner
 NotificationAttributeIdentifiers[]
 
@@ -37,6 +34,21 @@ Identifiers[]=place
 Name=Gestisci luoghi
 ClassIdentifier=place
 ClassName=OpenPABootstrapItaliaPrivacyFactory
+
+[services]
+Name=Gestisci servizi
+ClassIdentifier=public_service
+#all-services
+CreationRepositoryNode=73
+CreationButtonText=Crea nuovo servizio
+ClassName=OpenPABootstrapItaliaModerationFactory
+WhiteListGroupRemoteId=editors_servizi
+Actions[]
+Actions[waiting-accepted]=NotifyOwner
+Actions[waiting-refused]=NotifyOwner
+Actions[accepted-refused]=NotifyOwner
+Actions[draft-waiting]=NotifyGroup;212
+Actions[refused-waiting]=NotifyGroup;212
 
 ### Esempi di configurazione:
 #[AvailableFactories]
