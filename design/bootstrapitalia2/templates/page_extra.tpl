@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="form-group autocomplete-wrapper">
                                     <label for="autocomplete-two" class="visually-hidden">{'Search in all content'|i18n('design/admin/pagelayout')}</label>
-                                    <input type="search" class="autocomplete ps-5" placeholder="Cerca nel sito"
+                                    <input type="search" class="autocomplete ps-5" placeholder="{'Search in the site'|i18n( 'bootstrapitalia' )}"
                                            id="autocomplete-two" name="SearchText" data-bs-autocomplete="[]">
                                     <span class="autocomplete-icon" aria-hidden="true">
                                         {display_icon('it-search', 'svg', 'icon')}

@@ -206,8 +206,8 @@
                                         </li>
                                     {else}
                                         <li>
-                                            <a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="Visualizza in JSON">
-                                                <i aria-hidden="true" class="fa fa-code"></i> Visualizza in JSON
+                                            <a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="{'View in json'|i18n( 'bootstrapitalia' )}">
+                                                <i aria-hidden="true" class="fa fa-code"></i> {'View in json'|i18n( 'bootstrapitalia' )}
                                             </a>
                                         </li>
                                     {/if}
@@ -275,7 +275,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{concat('content/view/full/',ezini('NodeSettings', 'MediaRootNode', 'content.ini'))|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-image"></i>
-                                            Libreria Media
+                                            {'Media library'|i18n( 'bootstrapitalia' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -283,7 +283,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{concat('content/view/full/',ezini('NodeSettings', 'UserRootNode', 'content.ini'))|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-users"></i>
-                                            Account utenti
+                                            {'Users'|i18n( 'design/admin/setup/session' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -292,14 +292,14 @@
                                 <li>
                                     <a class="list-item left-icon" href="{'opendata/console/1'|ezurl(no)}">
                                         <i aria-hidden="true" class="fa fa-code"></i>
-                                        Console api
+                                        {'API console'|i18n( 'bootstrapitalia' )}
                                     </a>
                                 </li>
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'roles' ) )}
                                 <li>
                                     <a class="list-item left-icon" href="{'openpa/roles'|ezurl(no)}">
                                         <i aria-hidden="true" class="fa fa-user-o"></i>
-                                        Gestione ruoli amministrativi
+                                        {'Administrative roles'|i18n( 'bootstrapitalia' )}
                                     </a>
                                 </li>
                                 {/if}
@@ -307,7 +307,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/permissions'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-user-secret"></i>
-                                            Gestione accessi redazione
+                                            {'Access Management'|i18n( 'bootstrapitalia' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -315,7 +315,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/theme'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-television"></i>
-                                            Gestione tema
+                                            {'Theme management'|i18n( 'bootstrapitalia' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -323,7 +323,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'openpa/seo'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-google"></i>
-                                            Gestione S.E.O.
+                                            {'S.E.O.'|i18n( 'bootstrapitalia' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -331,7 +331,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'openpa/recaptcha'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-key"></i>
-                                            Gestione chiavi recaptcha
+                                            {'Recapetcha key management'|i18n( 'bootstrapitalia' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -339,7 +339,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'rss/list'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-rss-square"></i>
-                                            Esportazioni RSS
+                                            {'RSS exports'|i18n( 'bootstrapitalia' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -347,7 +347,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'content/trash'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-trash"></i>
-                                            Cestino
+                                            {'Trash'|i18n( 'design/standard/content/trash' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -363,7 +363,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'webhook/list'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-external-link-square"></i>
-                                            Webhooks
+                                            {'Webhooks'|i18n( 'bootstrapitalia' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -371,7 +371,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/info'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-phone-square"></i>
-                                            Gestione informazioni generali
+                                            {'General information management'|i18n( 'bootstrapitalia' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -379,7 +379,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'migration/dashboard'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-cloud-upload"></i>
-                                            Assistente migrazione
+                                            {'Migration assistant'|i18n( 'bootstrapitalia' )}
                                         </a>
                                     </li>
                                 {/if}
@@ -387,7 +387,7 @@
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/service_tools'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-share-alt"></i>
-                                            Sync schede servizi
+                                            {'Public service sync tool'|i18n( 'bootstrapitalia' )}
                                         </a>
                                     </li>
                                 {/if}
