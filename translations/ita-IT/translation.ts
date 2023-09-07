@@ -287,6 +287,146 @@
       <source>Inefficiency reporting</source>
       <translation>Segnalazione disservizio</translation>
     </message>
+    <message>
+      <source>Public service sync tool</source>
+      <translation>Sync schede servizi</translation>
+    </message>
+    <message>
+      <source>The whole administration</source>
+      <translation>Tutta l'amministrazione</translation>
+    </message>
+    <message>
+      <source>contents found</source>
+      <translation>contenuti trovati</translation>
+    </message>
+    <message>
+      <source>Load more results</source>
+      <translation>Carica altri risultati</translation>
+    </message>
+    <message>
+      <source>Search in the site</source>
+      <translation>Cerca nel sito</translation>
+    </message>
+    <message>
+      <source>Financed by the European Union</source>
+      <translation>Finanziato dall'Unione Europea</translation>
+    </message>
+    <message>
+      <source>Performance improvement plan</source>
+      <translation>Piano di miglioramento delle performance</translation>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation>Tipologia</translation>
+    </message>
+    <message>
+      <source>Last modification by</source>
+      <translation>Ultima modifica di</translation>
+    </message>
+    <message>
+      <source>Created by</source>
+      <translation>Creato da</translation>
+    </message>
+    <message>
+      <source>Node</source>
+      <translation>Nodo</translation>
+    </message>
+    <message>
+      <source>Object</source>
+      <translation>Oggetto</translation>
+    </message>
+    <message>
+      <source>Locations</source>
+      <translation>Collocazioni</translation>
+    </message>
+    <message>
+      <source>Section</source>
+      <translation>Sezione</translation>
+    </message>
+    <message>
+      <source>Content type</source>
+      <translation>Tipo</translation>
+    </message>
+    <message>
+      <source>States</source>
+      <translation>Stati</translation>
+    </message>
+    <message>
+      <source>Create a copy</source>
+      <translation>Crea una copia dell'oggetto</translation>
+    </message>
+    <message>
+      <source>Check indexing</source>
+      <translation>Controlla indicizzazione</translation>
+    </message>
+    <message>
+      <source>View settings</source>
+      <translation>Impostazioni visualizzazione</translation>
+    </message>
+    <message>
+      <source>Regenerate menu</source>
+      <translation>Rigenera menù</translation>
+    </message>
+    <message>
+      <source>View in json</source>
+      <translation>Visualizza in JSON</translation>
+    </message>
+    <message>
+      <source>Media library</source>
+      <translation>Libreria Media</translation>
+    </message>
+    <message>
+      <source>API console</source>
+      <translation>Console api</translation>
+    </message>
+    <message>
+      <source>Administrative roles</source>
+      <translation>Gestione ruoli amministrativi</translation>
+    </message>
+    <message>
+      <source>Access Management</source>
+      <translation>Gestione accessi redazione</translation>
+    </message>
+    <message>
+      <source>Theme management</source>
+      <translation>Gestione tema</translation>
+    </message>
+    <message>
+      <source>S.E.O.</source>
+      <translation>Gestione S.E.O.</translation>
+    </message>
+    <message>
+      <source>Recapetcha key management</source>
+      <translation>Gestione chiavi recaptcha</translation>
+    </message>
+    <message>
+      <source>RSS exports</source>
+      <translation>Esportazioni RSS</translation>
+    </message>
+    <message>
+      <source>Webhooks</source>
+      <translation>Webhooks</translation>
+    </message>
+    <message>
+      <source>General information management</source>
+      <translation>Gestione informazioni generali</translation>
+    </message>
+    <message>
+      <source>Migration assistant</source>
+      <translation>Assistente migrazione</translation>
+    </message>
+    <message>
+      <source>All the services</source>
+      <translation>Tutti i servizi</translation>
+    </message>
+    <message>
+      <source>All documents</source>
+      <translation>Tutti i documenti</translation>
+    </message>
+    <message>
+      <source>No other results</source>
+      <translation>Nessun altro risultato</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

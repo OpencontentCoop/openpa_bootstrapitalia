@@ -1,6 +1,6 @@
 <div class="row mb-3">
 
-    <div class="col-md-3 text-right text-primary">Ultima modifica di:</div>
+    <div class="col-md-3 text-right text-primary">{'Last modification by'|i18n( 'bootstrapitalia' )}:</div>
     <div class="col-md-9">
         {if is_set($node.creator.main_node)}
             <a href={$node.creator.main_node.url_alias|ezurl}>{$node.creator.name}</a>
@@ -10,7 +10,7 @@
         {/if}
     </div>
 
-    <div class="col-md-3 text-right text-primary">Creato da:</div>
+    <div class="col-md-3 text-right text-primary">{'Created by'|i18n( 'bootstrapitalia' )}:</div>
     <div class="col-md-9">
         {if and( $node.object.owner, $node.object.owner.main_node )}
             <a href={$node.object.owner.main_node.url_alias|ezurl}>{$node.object.owner.name}</a>
@@ -20,7 +20,7 @@
         {/if}
     </div>
 
-    <div class="col-md-3 text-right text-primary">Nodo:</div>
+    <div class="col-md-3 text-right text-primary">{'Node'|i18n( 'bootstrapitalia' )}:</div>
     <div class="col-md-9">
         {if $openpa.content_icon.context_icon}
             {display_icon($openpa.content_icon.context_icon.icon_text, 'svg', 'icon icon-sm')}
@@ -28,7 +28,7 @@
         {$node.node_id}
     </div>
 
-    <div class="col-md-3 text-right text-primary">Oggetto</div>
+    <div class="col-md-3 text-right text-primary">{'Object'|i18n( 'bootstrapitalia' )}:</div>
     <div class="col-md-9">
         {if $openpa.content_icon.object_icon}
             {display_icon($openpa.content_icon.object_icon.icon_text, 'svg', 'icon icon-sm')}
@@ -36,7 +36,7 @@
         {$node.contentobject_id} ({$node.object.remote_id})
     </div>
 
-    <div class="col-md-3 text-right text-primary">Collocazioni:</div>
+    <div class="col-md-3 text-right text-primary">{'Locations'|i18n( 'bootstrapitalia' )}:</div>
     <div class="col-md-9">
         <ul class="list-unstyled">
             {foreach $node.object.assigned_nodes as $item}
@@ -49,7 +49,7 @@
         </ul>
     </div>
 
-    <div class="col-md-3 text-right text-primary">Sezione:</div>
+    <div class="col-md-3 text-right text-primary">{'Section'|i18n( 'bootstrapitalia' )}:</div>
     <div class="col-md-9">
         {def $sections = $node.object.allowed_assign_section_list}
         {if and($node.can_edit, count($sections)|gt(1))}
@@ -78,7 +78,7 @@
         {undef $sections}
     </div>
 
-    <div class="col-md-3 text-right text-primary">Tipo:</div>
+    <div class="col-md-3 text-right text-primary">{'Content type'|i18n( 'bootstrapitalia' )}:</div>
     <div class="col-md-9">
         {def $info_link = concat('classlists/list/', $node.class_identifier)|ezurl(no)}
         {if fetch( 'user', 'has_access_to', hash( 'module', 'classtools', 'function', 'definition' ) )}
@@ -137,7 +137,7 @@
 
     {def $states = $node.object.allowed_assign_state_list}
     {if $states|count}
-        <div class="col-md-3 text-right text-primary">Stati:</div>
+        <div class="col-md-3 text-right text-primary">{'States'|i18n( 'bootstrapitalia' )}:</div>
         <div class="col-md-9">
 
             {foreach $states as $allowed_assign_state_info}{foreach $allowed_assign_state_info.states as $state}{if $node.object.state_id_array|contains($state.id)}{$allowed_assign_state_info.group.current_translation.name|wash()}/{$state.current_translation.name|wash}{/if}{/foreach}{delimiter}, {/delimiter}{/foreach}

@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-12 footer-items-wrapper logo-wrapper">
                     {if openpaini('GeneralSettings','ShowUeLogo', 'enabled')|eq('enabled')}
-                        <img class="ue-logo lazyload" {if openpaini('ImageSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}data-{/if}src="{'images/assets/logo-eu-inverted.svg'|ezdesign( 'no' )}" alt="logo Unione Europea" width="178" height="56" />
+                        <img class="ue-logo lazyload" {if openpaini('ImageSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}data-{/if}src="{'images/assets/logo-eu-inverted.svg'|ezdesign( 'no' )}" alt="{'Financed by the European Union'|i18n( 'bootstrapitalia' )}" width="178" height="56" />
                     {/if}
                     {if $pagedata.homepage|has_attribute('footer_logo')}
                         <div class="it-brand-wrapper">
@@ -247,7 +247,7 @@
                                     {/foreach}
                                     {if openpaini('GeneralSettings', 'PerformanceLink', false())}
                                         <li>
-                                            <a href="{openpaini('GeneralSettings', 'PerformanceLink', '#')}" title="Piano di miglioramento delle performance">Piano di miglioramento delle performance</a>
+                                            <a href="{openpaini('GeneralSettings', 'PerformanceLink', '#')}" title="{'Performance improvement plan'|i18n( 'bootstrapitalia' )}">{'Performance improvement plan'|i18n( 'bootstrapitalia' )}</a>
                                         </li>
                                     {/if}
                                 </ul>

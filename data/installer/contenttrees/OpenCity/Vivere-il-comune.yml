@@ -24,7 +24,7 @@ data:
     ger-DE:
         name: 'Lebe deine Stadt'
         short_name: null
-        menu_name: null
+        menu_name: Erkunden Sie die Gemeinde
         abstract: ''
         description: ''
         image: {  }

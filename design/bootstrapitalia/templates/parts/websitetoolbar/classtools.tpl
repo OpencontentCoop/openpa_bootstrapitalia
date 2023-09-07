@@ -2,9 +2,9 @@
     <li>
         <a class="list-item left-icon"
            href="{concat( "classtools/extra/", $content_object.class_identifier )|ezurl(no)}"
-           title="Impostazioni visualizzazione">
+           title="{'View settings'|i18n( 'bootstrapitalia' )}">
             <i aria-hidden="true" class="fa fa-window-restore"></i>
-            Impostazioni visualizzazione
+            {'View settings'|i18n( 'bootstrapitalia' )}
         </a>
     </li>
 {/if}

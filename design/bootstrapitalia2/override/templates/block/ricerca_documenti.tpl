@@ -290,7 +290,7 @@
 		{{/for}}
 		{{if nextPageQuery}}
 			<button type="button" data-page="{{>nextPage}}" class="nextPage btn btn-outline-primary pt-15 pb-15 pl-90 pr-90 mb-30 mt-3 mb-lg-50 full-mb text-button">
-			   <span class="">{/literal}{'Carica altri risultati'|i18n('bootstrapitalia')}{literal}</span>
+			   <span class="">{/literal}{'Load more results'|i18n('bootstrapitalia')}{literal}</span>
 			</button>
 		{{else}}
 			<p class="text-paragraph-regular-medium mt-4 mb-0">{/literal}{'Nessun altro risultato'|i18n('bootstrapitalia')}{literal}</p>

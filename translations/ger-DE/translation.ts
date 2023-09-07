@@ -245,47 +245,187 @@
     </message>
     <message>
       <source>Contact the municipality</source>
-      <translation type="unfinished"/>
+      <translation>Kontakt zur Gemeinde aufnehmen</translation>
     </message>
     <message>
       <source>Read the FAQ</source>
-      <translation type="unfinished"/>
+      <translation>Lesen Sie die häufig gestellten Fragen</translation>
     </message>
     <message>
       <source>Request assistance</source>
-      <translation type="unfinished"/>
+      <translation>Hilfe anfordern</translation>
     </message>
     <message>
       <source>Call the municipality</source>
-      <translation type="unfinished"/>
+      <translation>Rufen Sie die Gemeinde an</translation>
     </message>
     <message>
       <source>Book an appointment</source>
-      <translation type="unfinished"/>
+      <translation>Termine buchen</translation>
     </message>
     <message>
       <source>Report a disservice</source>
-      <translation type="unfinished"/>
+      <translation>Bärendienst melden</translation>
     </message>
     <message>
       <source>Report a inefficiency</source>
-      <translation type="unfinished"/>
+      <translation>Ineffizienz melden</translation>
     </message>
     <message>
       <source>Trouble in the city</source>
-      <translation type="unfinished"/>
+      <translation>Probleme in der Stadt</translation>
     </message>
     <message>
       <source>Support</source>
-      <translation type="unfinished"/>
+      <translation>Unterstützung</translation>
     </message>
     <message>
       <source>Booking</source>
-      <translation type="unfinished"/>
+      <translation>Buchungen</translation>
     </message>
     <message>
       <source>Inefficiency reporting</source>
-      <translation type="unfinished"/>
+      <translation>Ineffizienz melden</translation>
+    </message>
+    <message>
+      <source>Public service sync tool</source>
+      <translation>Sync Diensteblatten</translation>
+    </message>
+    <message>
+      <source>The whole administration</source>
+      <translation>Politik und Verwaltung</translation>
+    </message>
+    <message>
+      <source>contents found</source>
+      <translation>Gefundene Inhalte</translation>
+    </message>
+    <message>
+      <source>Load more results</source>
+      <translation>Weitere Ergebnisse hochladen</translation>
+    </message>
+    <message>
+      <source>Search in the site</source>
+      <translation>Website durchsuchen</translation>
+    </message>
+    <message>
+      <source>Financed by the European Union</source>
+      <translation>Europäischen Union finanziert</translation>
+    </message>
+    <message>
+      <source>Performance improvement plan</source>
+      <translation>Leistungsverbesserungsplan</translation>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation>Typologie</translation>
+    </message>
+    <message>
+      <source>Last modification by</source>
+      <translation>Letze Änderung von</translation>
+    </message>
+    <message>
+      <source>Created by</source>
+      <translation>Erstellt von</translation>
+    </message>
+    <message>
+      <source>Node</source>
+      <translation>Knoten</translation>
+    </message>
+    <message>
+      <source>Object</source>
+      <translation>Objekt</translation>
+    </message>
+    <message>
+      <source>Locations</source>
+      <translation>Platzierung</translation>
+    </message>
+    <message>
+      <source>Section</source>
+      <translation>Abschnitt</translation>
+    </message>
+    <message>
+      <source>Content type</source>
+      <translation>Typ</translation>
+    </message>
+    <message>
+      <source>States</source>
+      <translation>Status</translation>
+    </message>
+    <message>
+      <source>Create a copy</source>
+      <translation>Erstellt eine Kopie des Objekts</translation>
+    </message>
+    <message>
+      <source>Check indexing</source>
+      <translation>Kontrolle der Indexierung</translation>
+    </message>
+    <message>
+      <source>View settings</source>
+      <translation>Anzeigeeinstellungen</translation>
+    </message>
+    <message>
+      <source>Regenerate menu</source>
+      <translation>Menü erneuern</translation>
+    </message>
+    <message>
+      <source>View in json</source>
+      <translation>Zeigt in JSON an</translation>
+    </message>
+    <message>
+      <source>Media library</source>
+      <translation>Medienbibliothek</translation>
+    </message>
+    <message>
+      <source>API console</source>
+      <translation>API Console</translation>
+    </message>
+    <message>
+      <source>Administrative roles</source>
+      <translation>Verwaltung der administrativen Funktionen</translation>
+    </message>
+    <message>
+      <source>Access Management</source>
+      <translation>Verwaltung der redaktionelle Zugänge</translation>
+    </message>
+    <message>
+      <source>Theme management</source>
+      <translation>Themenvwerwaltung</translation>
+    </message>
+    <message>
+      <source>S.E.O.</source>
+      <translation>SEO-Verwaltung</translation>
+    </message>
+    <message>
+      <source>Recapetcha key management</source>
+      <translation>Re-CAPTCHA-Schlüsselverwaltung</translation>
+    </message>
+    <message>
+      <source>RSS exports</source>
+      <translation>RSS exportieren</translation>
+    </message>
+    <message>
+      <source>Webhooks</source>
+      <translation>Webhooks</translation>
+    </message>
+    <message>
+      <source>General information management</source>
+      <translation>Allgemeines Informationsverwaltung</translation>
+    </message>
+    <message>
+      <source>Migration assistant</source>
+      <translation>Migrationsassistent</translation>
+    </message>
+    <message>
+      <source>All the services</source>
+      <translation>Alle Dienstleistungen</translation>
+    </message>
+    <message>
+      <source>All documents</source>
+      <translation>Alle Dokumente</translation>
+    </message>
+    <message>
+      <source>No other results</source>
+      <translation>Keine weiteren Ergebnisse</translation>
     </message>
   </context>
   <context>
@@ -352,7 +492,7 @@
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>Information</translation>
+      <translation>Infos</translation>
     </message>
     <message>
       <source>Contacts</source>
@@ -1068,157 +1208,157 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <name>openparoletype</name>
     <message>
       <source>Search for</source>
-      <translation>Cerca per</translation>
+      <translation>Suche nach</translation>
     </message>
     <message>
       <source>Person</source>
-      <translation>Persona</translation>
+      <translation>Person</translation>
     </message>
     <message>
       <source>View</source>
-      <translation>Visualizza</translation>
+      <translation>Anzeigen</translation>
     </message>
     <message>
       <source>People</source>
-      <translation>Persone</translation>
+      <translation>Personen</translation>
     </message>
     <message>
       <source>Sort by</source>
-      <translation>Ordina per</translation>
+      <translation>Sortieren nach</translation>
     </message>
     <message>
       <source>Person name</source>
-      <translation>Nome persona</translation>
+      <translation>Name der Person</translation>
     </message>
     <message>
       <source>Filter by type</source>
-      <translation>Filtra per tipo</translation>
+      <translation>Nach Typ filtern</translation>
     </message>
     <message>
       <source>Structure</source>
-      <translation>Struttura</translation>
+      <translation>Struktur</translation>
     </message>
     <message>
       <source>Role type</source>
-      <translation>Tipo di ruolo</translation>
+      <translation>Art der Funktion</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/signin</name>
     <message>
       <source>Sign in</source>
-      <translation type="unfinished"/>
+      <translation>Anmeldung</translation>
     </message>
     <message>
       <source>To access the site and its services, use one of the following methods.</source>
-      <translation type="unfinished"/>
+      <translation>Um auf die Website und ihre Dienste zuzugreifen, verwenden Sie eine der folgenden Methoden.</translation>
     </message>
     <message>
       <source>Log in with SPID, the public digital identity system.</source>
-      <translation type="unfinished"/>
+      <translation>Melden Sie sich mit SPID an, dem Public Digital Identity System.</translation>
     </message>
     <message>
       <source>Log in with SPID</source>
-      <translation type="unfinished"/>
+      <translation>Loggen Sie sich mit SPID ein</translation>
     </message>
     <message>
       <source>How to activate SPID?</source>
-      <translation type="unfinished"/>
+      <translation>SPID einrichten</translation>
     </message>
     <message>
       <source>Log in with your Electronic Identity Card.</source>
-      <translation type="unfinished"/>
+      <translation>Melden Sie sich mit Ihrem elektronische Identitätskarte an.</translation>
     </message>
     <message>
       <source>Log in with CIE</source>
-      <translation type="unfinished"/>
+      <translation>Loggen Sie sich mit CIE ein</translation>
     </message>
     <message>
       <source>How to request CIE?</source>
-      <translation type="unfinished"/>
+      <translation>CIE beantragen</translation>
     </message>
     <message>
       <source>Other types</source>
-      <translation type="unfinished"/>
+      <translation>Andere Benutzer</translation>
     </message>
     <message>
       <source>Alternatively you can use the following methods.</source>
-      <translation type="unfinished"/>
+      <translation>Alternativ können Sie die folgenden Methoden verwenden.</translation>
     </message>
     <message>
       <source>Access reserved only for staff</source>
-      <translation type="unfinished"/>
+      <translation>Zugriff nur für autorisiertes Personal</translation>
     </message>
     <message>
       <source>Login as website editor</source>
-      <translation type="unfinished"/>
+      <translation>Melden Sie sich als Site-Editoren an</translation>
     </message>
     <message>
       <source>Login to manage digital services</source>
-      <translation type="unfinished"/>
+      <translation>Verwalten Sie Ihre digitalen Dienste</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/editor-gui</name>
     <message>
       <source>Activate the "News in evidence" section</source>
-      <translation type="unfinished"/>
+      <translation>Sektion "hervorgehobenen Nachrichten" einrichten</translation>
     </message>
     <message>
       <source>The homepage of the site can have a section of 3 news in evidence</source>
-      <translation type="unfinished"/>
+      <translation>Die Homepage der Website kann einen Sektion mit 3 hervorgehobenen Nachrichten haben</translation>
     </message>
     <message>
       <source>Activate the "Events in evidence" section</source>
-      <translation type="unfinished"/>
+      <translation>Sektion "hervorgehobenen Veranstaltungen" einrichten</translation>
     </message>
     <message>
       <source>The site homepage can have a section of events in evidence</source>
-      <translation type="unfinished"/>
+      <translation>Die Homepage der Website kann einen Sektion mit Veranstaltungen haben</translation>
     </message>
     <message>
       <source>Activate the "Thematic sites" section</source>
-      <translation type="unfinished"/>
+      <translation>Sektion "Tematischen Websites" einrichten</translation>
     </message>
     <message>
       <source>The site homepage can have a section with links to thematic sites</source>
-      <translation type="unfinished"/>
+      <translation>Die Homepage der Website kann einen Sektion mit Links von Tematischen Websites haben</translation>
     </message>
     <message>
       <source>Activate the "Search" section</source>
-      <translation type="unfinished"/>
+      <translation>Sektion "Suche" einrichten</translation>
     </message>
     <message>
       <source>In evidence</source>
-      <translation type="unfinished"/>
+      <translation>Höhepunkte</translation>
     </message>
     <message>
       <source>Administration</source>
-      <translation type="unfinished"/>
+      <translation>Politik und Verwaltung</translation>
     </message>
     <message>
       <source>News</source>
-      <translation type="unfinished"/>
+      <translation>Nachrichten</translation>
     </message>
     <message>
       <source>Events</source>
-      <translation type="unfinished"/>
+      <translation>Veranstaltungen</translation>
     </message>
     <message>
       <source>Topics</source>
-      <translation type="unfinished"/>
+      <translation>Themen</translation>
     </message>
     <message>
       <source>Thematic sites</source>
-      <translation type="unfinished"/>
+      <translation>Tematischen Websites</translation>
     </message>
     <message>
       <source>Research</source>
-      <translation type="unfinished"/>
+      <translation>Suche</translation>
     </message>
     <message>
       <source>Other settings</source>
-      <translation type="unfinished"/>
+      <translation>Andere Einstellungen</translation>
     </message>
   </context>
 </TS>

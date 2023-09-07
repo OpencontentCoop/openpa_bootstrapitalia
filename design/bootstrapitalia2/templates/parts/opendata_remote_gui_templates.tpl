@@ -23,17 +23,17 @@
 	{{else view === 'latest_messages_item'}}
 
 	    {{if currentPage == 0}}
-			<p class="mb-4 results-count"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contenuti trovati'|i18n('bootstrapitalia/list_widget')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia/list_widget')}{literal}{{/if}}</p>
+			<p class="mb-4 results-count"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia/list_widget')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia/list_widget')}{literal}{{/if}}</p>
 		{{/if}}
 		{{for searchHits}}
           {{include tmpl="#tpl-remote-gui-item"/}}
 		{{/for}}
 		{{if nextPageQuery}}
 			<button type="button" data-page="{{>nextPage}}" class="nextPage btn btn-outline-primary pt-15 pb-15 pl-90 pr-90 mb-30 mt-3 mb-lg-50 full-mb text-button" data-element="load-other-cards">
-			   <span class="">{/literal}{'Carica altri risultati'|i18n('bootstrapitalia')}{literal}</span>
+			   <span class="">{/literal}{'Load more results'|i18n('bootstrapitalia')}{literal}</span>
 			</button>
 		{{else}}
-			<p class="text-paragraph-regular-medium mt-4 mb-0">{/literal}{'Nessun altro risultato'|i18n('bootstrapitalia')}{literal}</p>
+			<p class="text-paragraph-regular-medium mt-4 mb-0">{/literal}{'No other results'|i18n('bootstrapitalia')}{literal}</p>
 		{{/if}}
 
 	{{else}}

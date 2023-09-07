@@ -29,7 +29,7 @@
                 </div>
                 {if count($block.valid_nodes)|gt(0)}
                 <div class="link-list-wrapper bg-white p-3 position-relative">
-                    <div class="link-list-heading text-uppercase mb-3 ps-0">Link utili</div>
+                    <div class="link-list-heading text-uppercase mb-3 ps-0">{'Useful links'|i18n( 'bootstrapitalia' )}</div>
                     <ul class="link-list" role="list">
                         {foreach $block.valid_nodes as $valid_node}
                         <li role="listitem">

@@ -149,7 +149,7 @@
                 "container_style", "",
                 "node_id", $root_management,
                 "show_all_link", "1",
-                "show_all_text", "Tutta l'amministrazione"
+                "show_all_text", 'The whole administration'|i18n( 'bootstrapitalia' )
             )
         ))}
     {/if}
@@ -175,7 +175,7 @@
                 "container_style", "",
                 "node_id", $root_services,
                 "show_all_link", "1",
-                "show_all_text", "Tutti i servizi"
+                "show_all_text", 'All the services'|i18n( 'bootstrapitalia' )
             )
         ))}
         {undef $is_first_block}
@@ -202,7 +202,7 @@
                 "container_style", "",
                 "node_id", $root_docs,
                 "show_all_link", "1",
-                "show_all_text", "Tutti i documenti"
+                "show_all_text", "All documents"|i18n( 'bootstrapitalia' )
             )
         ))}
         {undef $is_first_block}

@@ -2,9 +2,9 @@
 <li>
     <a class="list-item left-icon"
        href="{'/openpa/refreshmenu/'|ezurl(no)}"
-       title="Aggiorna i menu">
+       title="{'Regenerate menu'|i18n( 'bootstrapitalia' )}">
         <i aria-hidden="true" class="fa fa-bars"></i>
-        Rigenera menu
+        {'Regenerate menu'|i18n( 'bootstrapitalia' )}
     </a>
 </li>
 {/if}

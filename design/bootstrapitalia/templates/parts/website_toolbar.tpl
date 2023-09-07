@@ -192,8 +192,8 @@
                                         </li>
                                     {else}
                                         <li>
-                                            <a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="Visualizza in JSON">
-                                                <i aria-hidden="true" class="fa fa-code"></i> Visualizza in JSON
+                                            <a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="{'View in json'|i18n( 'bootstrapitalia' )}">
+                                                <i aria-hidden="true" class="fa fa-code"></i> {'View in json'|i18n( 'bootstrapitalia' )}
                                             </a>
                                         </li>
                                     {/if}

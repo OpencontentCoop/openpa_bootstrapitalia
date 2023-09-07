@@ -287,6 +287,146 @@
       <source>Inefficiency reporting</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Public service sync tool</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The whole administration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>contents found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Load more results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search in the site</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Financed by the European Union</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Performance improvement plan</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Last modification by</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Created by</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Node</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Object</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Locations</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Content type</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>States</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Create a copy</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Check indexing</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>View settings</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Regenerate menu</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>View in json</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Media library</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>API console</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Administrative roles</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Access Management</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Theme management</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>S.E.O.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Recapetcha key management</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>RSS exports</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Webhooks</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>General information management</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Migration assistant</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>All the services</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>All documents</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>No other results</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -426,7 +566,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Solo información del tipo</translation>
+      <translation>Solo información de tipo</translation>
     </message>
     <message>
       <source>Sorting by</source>
