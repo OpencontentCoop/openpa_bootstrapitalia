@@ -131,7 +131,7 @@
                     </div>
 
                     <div class="col-md-9 mt-md-4 footer-items-wrapper">
-                        <h3 class="footer-heading-title">Contatti</h3>
+                        <h3 class="footer-heading-title">{'Contacts'|i18n('openpa/footer')}</h3>
                         <div class="row">
                             <div class="col-md-4">
                                 <ul class="contact-list p-0 footer-info">

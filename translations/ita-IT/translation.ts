@@ -427,6 +427,54 @@
       <source>No other results</source>
       <translation>Nessun altro risultato</translation>
     </message>
+    <message>
+      <source>Extra menu</source>
+      <translation>Extra menu</translation>
+    </message>
+    <message>
+      <source>Profile</source>
+      <translation>Profilo</translation>
+    </message>
+    <message>
+      <source>Personal Area</source>
+      <translation>Scrivania</translation>
+    </message>
+    <message>
+      <source>Practices</source>
+      <translation>Pratiche</translation>
+    </message>
+    <message>
+      <source>Attachments</source>
+      <translation>Allegati</translation>
+    </message>
+    <message>
+      <source>Documents</source>
+      <translation>Documenti</translation>
+    </message>
+    <message>
+      <source>Subscriptions</source>
+      <translation>Iscrizioni</translation>
+    </message>
+    <message>
+      <source>Main menu</source>
+      <translation>Menù principale</translation>
+    </message>
+    <message>
+      <source>Toggle navigation</source>
+      <translation>Attiva/disattiva la navigazione</translation>
+    </message>
+    <message>
+      <source>hide navigation</source>
+      <translation>nascondi la navigazione</translation>
+    </message>
+    <message>
+      <source>Secondary menu</source>
+      <translation>Menù secondario</translation>
+    </message>
+    <message>
+      <source>Useful links</source>
+      <translation>Link utili</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -449,6 +497,22 @@
     <message>
       <source>Import management</source>
       <translation>Gestione importazioni</translation>
+    </message>
+    <message>
+      <source>eZFind</source>
+      <translation>eZFind</translation>
+    </message>
+    <message>
+      <source>Amministrazione Trasparente</source>
+      <translation>Amministrazione Trasparente</translation>
+    </message>
+    <message>
+      <source>varnish</source>
+      <translation>varnish</translation>
+    </message>
+    <message>
+      <source>ocinigui</source>
+      <translation>ocinigui</translation>
     </message>
   </context>
   <context>
@@ -1359,6 +1423,17 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Other settings</source>
       <translation>Altre impostazioni</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/header</name>
+    <message>
+      <source>Current language</source>
+      <translation>Lingua corrente</translation>
+    </message>
+    <message>
+      <source>selected</source>
+      <translation>selezionata</translation>
     </message>
   </context>
 </TS>

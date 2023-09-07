@@ -427,6 +427,54 @@
       <source>No other results</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Extra menu</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Profile</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Personal Area</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Practices</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Attachments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Documents</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Subscriptions</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Main menu</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Toggle navigation</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>hide navigation</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Secondary menu</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Useful links</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -448,6 +496,22 @@
     </message>
     <message>
       <source>Import management</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>eZFind</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Amministrazione Trasparente</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>varnish</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>ocinigui</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -1354,6 +1418,17 @@
     </message>
     <message>
       <source>Other settings</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/header</name>
+    <message>
+      <source>Current language</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>selected</source>
       <translation type="unfinished"/>
     </message>
   </context>

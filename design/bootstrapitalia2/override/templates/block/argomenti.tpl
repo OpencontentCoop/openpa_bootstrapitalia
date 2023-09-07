@@ -22,7 +22,7 @@
 <div class="section pt-5 pb-0 px-lg-5 position-relative">
 <div class="block-bg bg-primary lazyload" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}{/if}></div>
 	<div class="container">
-		{include uri='design:parts/block_name.tpl' h_level=2 css_class=cond($background_image, 'text-white bg-primary d-inline-block px-2 rounded title-xlarge mb-3 position-relative', 'text-white title-xlarge mb-3 position-relative')}
+		{include uri='design:parts/block_name.tpl' h_level=2 css_class=cond($background_image, 'text-white bg-primary d-inline-block px-2 rounded mb-3 position-relative', 'text-white title-xlarge mb-3 position-relative')}
 		<div>
 			{include uri='design:atoms/grid.tpl'
 		             items_per_row=3

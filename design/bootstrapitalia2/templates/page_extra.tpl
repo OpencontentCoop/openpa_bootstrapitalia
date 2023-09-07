@@ -14,7 +14,7 @@
                                             <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-arrow-left"></use>
                                         </svg>
                                     </button>
-                                    <h2>Cerca</h2>
+                                    <h2>{'Search'|i18n('openpa/search')}</h2>
                                     <button class="search-link d-none d-md-block" type="button"
                                             data-bs-toggle="modal"
                                             data-bs-target="#search-modal"

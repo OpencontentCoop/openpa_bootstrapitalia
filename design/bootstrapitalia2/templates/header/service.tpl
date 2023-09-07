@@ -134,7 +134,7 @@
                                                            class="dropdown-item list-item">
                                                             <span lang="{fetch(content, locale, hash(locale_code, $lang_selector_item.lang.locale)).http_locale_code|explode('-')[0]}">
                                                                 {$lang_selector_item.lang.text|wash|upcase}
-                                                                {if $lang_selector_item.is_current}<span class="visually-hidden">{'selezionata'|i18n('bootstrapitalia/header')}</span>{/if}
+                                                                {if $lang_selector_item.is_current}<span class="visually-hidden">{'selected'|i18n('bootstrapitalia/header')}</span>{/if}
                                                             </span>
                                                         </a>
                                                     </li>
@@ -225,7 +225,7 @@
                                 <svg class="icon icon-sm icon-primary left ">
                                     <use xlink:href="{{:spritePath}}#it-user"></use>
                                 </svg>
-                                <span class="text-nowrap">{/literal}{'Profilo'|i18n('bootstrapitalia')}{literal}</span>
+                                <span class="text-nowrap">{/literal}{'Profile'|i18n('bootstrapitalia')}{literal}</span>
                             </a>
                         </li>
                         <li>
@@ -233,7 +233,7 @@
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-pa"></use>
                                 </svg>
-                                <span>{/literal}{'La mia stanza'|i18n('bootstrapitalia')}{literal}</span>
+                                <span>{/literal}{'Personal Area'|i18n('bootstrapitalia')}{literal}</span>
                             </a>
                         </li>
                         <li>
@@ -241,7 +241,7 @@
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-files"></use>
                                 </svg>
-                                <span>{/literal}{'Le mie pratiche'|i18n('bootstrapitalia')}{literal}</span>
+                                <span>{/literal}{'Practices'|i18n('bootstrapitalia')}{literal}</span>
                             </a>
                         </li>
                         <li>
@@ -249,7 +249,7 @@
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-box"></use>
                                 </svg>
-                                <span>{/literal}{'I miei allegati'|i18n('bootstrapitalia')}{literal}</span>
+                                <span>{/literal}{'Attachments'|i18n('bootstrapitalia')}{literal}</span>
                             </a>
                         </li>
                         <li>
@@ -257,7 +257,7 @@
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-folder"></use>
                                 </svg>
-                                <span>{/literal}{'I miei documenti'|i18n('bootstrapitalia')}{literal}</span>
+                                <span>{/literal}{'Documents'|i18n('bootstrapitalia')}{literal}</span>
                             </a>
                         </li>
                         <li>
@@ -265,7 +265,7 @@
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-pencil"></use>
                                 </svg>
-                                <span>{/literal}{'Le mie iscrizioni'|i18n('bootstrapitalia')}{literal}</span>
+                                <span>{/literal}{'Subscriptions'|i18n('bootstrapitalia')}{literal}</span>
                             </a>
                         </li>
                         <li><span class="divider"></span></li>

@@ -5,7 +5,7 @@
         <div class="col-12">
             {if $block.name|ne('')}
                 {if $block_index|gt(3)}
-                    <h2 class="h3 mb-3 u-grey-light block-title{if is_set($css_class)} {$css_class}{/if}">{$block.name|wash()}</h2>
+                    <h2 class="block-title{if is_set($css_class)} {$css_class}{/if}">{$block.name|wash()}</h2>
                 {else}
                     <h2 class="{if and($intro|eq(''), and(is_set($no_margin), $no_margin)|not())}mb-2 {/if}block-title title-xxlarge{if is_set($css_class)} {$css_class}{/if} ">{$block.name|wash()}</h2>
                 {/if}
