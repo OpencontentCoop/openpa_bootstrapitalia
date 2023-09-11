@@ -33,10 +33,10 @@
     {set $include_classes = array('pagina_sito', 'frontpage')}
 {/if}
 
+{def $search_blocks = array()}
 {if $openpa.content_tag_menu.current_view_tag}
-    {def $blocks = array()}
     {if and($node.object.remote_id|eq('all-services'), $openpa.content_tag_menu.current_view_tag)}
-        {set $blocks = array(page_block(
+        {set $search_blocks = array(page_block(
             "",
             "OpendataRemoteContents",
             "default",
@@ -59,7 +59,7 @@
             )
         )}
     {elseif and($node.object.remote_id|eq('all-places'), $openpa.content_tag_menu.current_view_tag)}
-        {set $blocks = array(page_block(
+        {set $search_blocks = array(page_block(
             "",
             "OpendataRemoteContents",
             "default",
@@ -82,13 +82,12 @@
             )
         )}
     {/if}
-    {if count($blocks)}
-        {include uri='design:zone/default.tpl' zones=array(hash('blocks', $blocks))}
+    {if count($search_blocks)}
+        {include uri='design:zone/default.tpl' zones=array(hash('blocks', $search_blocks))}
     {/if}
-    {undef $blocks}
 {/if}
 
-{if or($openpa.content_tag_menu.show_tag_cards|not(), $openpa.content_tag_menu.current_view_tag)}
+{if and(count($search_blocks)|eq(0), or($openpa.content_tag_menu.show_tag_cards|not(), $openpa.content_tag_menu.current_view_tag))}
     {if count($include_classes)}
         {def $params = hash( 'class_filter_type', 'include', 'class_filter_array', $include_classes )}
     {elseif count($exclude_classes)}
@@ -252,6 +251,7 @@
     {/if}
     {undef $tag_menu_children $locale $clean_tag_menu_children $show_all_tag_grid}
 {/if}
+{undef $search_blocks}
 
 {unset_defaults( array(
     'page_limit',
