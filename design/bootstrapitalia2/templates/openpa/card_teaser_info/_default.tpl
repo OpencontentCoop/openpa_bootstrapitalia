@@ -25,7 +25,7 @@
         {if and($hide_title, $attributes.show|contains('content_show_read_more'), $node.object.state_identifier_array|contains('privacy/public'))}
             <a class="read-more mt-4 mb-3 position-relative" style="bottom: unset" href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}">
                 <span class="text">{if $openpa.content_link.is_node_link}{'Further details'|i18n('bootstrapitalia')}{else}{'Visit'|i18n('bootstrapitalia')}{/if}</span>
-                {display_icon('it-arrow-right', 'svg', 'icon')}
+                {display_icon('it-arrow-right', 'svg', 'icon', 'Read more'|i18n('bootstrapitalia'))}
             </a>
         {/if}
     </div>

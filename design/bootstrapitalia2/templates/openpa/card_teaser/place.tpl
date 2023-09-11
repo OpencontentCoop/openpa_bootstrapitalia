@@ -42,7 +42,7 @@
     {if $attributes.show|contains('content_show_read_more')}
         <a class="read-more{if $has_image} ps-3 position-absolute bottom-0 mb-3{/if}" href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">
             <span class="text">{'Further details'|i18n('bootstrapitalia')}</span>
-            {display_icon('it-arrow-right', 'svg', 'icon ms-0')}
+            {display_icon('it-arrow-right', 'svg', 'icon ms-0', 'Read more'|i18n('bootstrapitalia'))}
         </a>
     {/if}
 </div>

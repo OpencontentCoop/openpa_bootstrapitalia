@@ -475,6 +475,10 @@
       <source>Useful links</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Go to footer</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

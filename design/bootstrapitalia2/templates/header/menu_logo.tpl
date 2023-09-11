@@ -3,9 +3,10 @@
 <a href="#" aria-label="home Nome del Comune" class="logo-hamburger">
     {if $pagedata.header.logo.url}
         <img class="icon {if $colorize_logo}colorize{/if}"
+             title="{ezini('SiteSettings','SiteName')}"
              alt="{ezini('SiteSettings','SiteName')}"
              src="{image_url($pagedata.header.logo.url|ezroot(no,full), false(), false())}"
-             {if $only_logo}style="width: auto !important;"{/if}/>
+             style="width: auto !important;"/>
     {/if}
     <div class="it-brand-text">
         <div class="it-brand-title">{ezini('SiteSettings','SiteName')}</div>

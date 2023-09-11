@@ -46,7 +46,7 @@
     <a class="read-more pt-0" href="{$openpa.content_link.full_link}">
         <span class="list-item-title-icon-wrapper">
             <span class="text">{'Explore topic'|i18n('bootstrapitalia')}</span>
-            {display_icon('it-arrow-right', 'svg', 'icon')}
+            {display_icon('it-arrow-right', 'svg', 'icon', 'Read more'|i18n('bootstrapitalia'))}
         </span>
     </a>
 </div>

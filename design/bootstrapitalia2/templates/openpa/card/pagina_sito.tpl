@@ -20,7 +20,7 @@
 
                 <a class="read-more" href="{$openpa.content_link.full_link}#page-content">
                     <span class="text">{'Read more'|i18n('bootstrapitalia')}</span>
-                    {display_icon('it-arrow-right', 'svg', 'icon')}
+                    {display_icon('it-arrow-right', 'svg', 'icon', 'Read more'|i18n('bootstrapitalia'))}
                 </a>
 
         </div>

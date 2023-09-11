@@ -45,7 +45,7 @@
                         {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false() container_class=''}
                         <a class="read-more mb-3" href="{$openpa.content_link.full_link}#page-content">
                             <span class="text">{if $openpa.content_link.is_node_link}{'Read more'|i18n('bootstrapitalia')}{else}{'Visit'|i18n('bootstrapitalia')}{/if}</span>
-                            {display_icon('it-arrow-right', 'svg', 'icon')}
+                            {display_icon('it-arrow-right', 'svg', 'icon', 'Read more'|i18n('bootstrapitalia'))}
                         </a>
                         {if and($openpa.content_link.is_node_link|not(), $valid_node.can_edit)}
                             <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$valid_node.url_alias|ezurl(no)}">

@@ -5,10 +5,11 @@
    title="{ezini('SiteSettings','SiteName')}"
    {if and($only_logo, openpaini('GeneralSettings','tag_line', false()))} class="d-block text-center"{/if}>
     {if $pagedata.header.logo.url}
-        <img class="icon {if $colorize_logo}colorize{/if}"
+        <img class="icon{if $colorize_logo} colorize{/if}"
+             title="{ezini('SiteSettings','SiteName')}"
              alt="{ezini('SiteSettings','SiteName')}"
              src="{image_url($pagedata.header.logo.url|ezroot(no,full), false(), false())}"
-             {if $only_logo}style="width: auto !important;"{/if}/>
+             style="width: auto !important;" />
     {/if}
     <div class="it-brand-text">
         {if $only_logo|not()}<div class="it-brand-title">{ezini('SiteSettings','SiteName')}</div>{/if}

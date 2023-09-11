@@ -475,6 +475,10 @@
       <source>Useful links</source>
       <translation>Link utili</translation>
     </message>
+    <message>
+      <source>Go to footer</source>
+      <translation>Vai al footer</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -833,11 +837,11 @@
     </message>
     <message>
       <source>friday</source>
-      <translation>Venerdì</translation>
+      <translation>Sabato</translation>
     </message>
     <message>
       <source>saturday</source>
-      <translation>Sabato</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>sunday</source>

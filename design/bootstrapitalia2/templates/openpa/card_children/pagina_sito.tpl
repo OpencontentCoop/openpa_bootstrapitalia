@@ -36,7 +36,7 @@
 
         <a class="read-more" href="{$openpa.content_link.full_link}#page-content">
             <span class="text">{if $node|has_attribute('menu_name')}{$node|attribute('menu_name').content|wash()}{else}{'Go to page'|i18n('bootstrapitalia')}{/if}</span>
-            {display_icon('it-arrow-right', 'svg', 'icon')}
+            {display_icon('it-arrow-right', 'svg', 'icon', 'Read more'|i18n('bootstrapitalia'))}
         </a>
 
     </div>

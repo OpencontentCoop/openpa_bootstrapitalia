@@ -475,6 +475,10 @@
       <source>Useful links</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Go to footer</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -606,7 +610,7 @@
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Ir a los filtros de búsqueda</translation>
+      <translation>Ir a filtros de búsqueda</translation>
     </message>
     <message>
       <source>Link to</source>

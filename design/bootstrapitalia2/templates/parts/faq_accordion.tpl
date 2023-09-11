@@ -10,7 +10,7 @@
                     <button class="btn btn-primary faqSearchSubmit" type="button" id="button-3">{'Submit'|i18n('survey')}</button>
                 </div>
                 <span class="autocomplete-icon" aria-hidden="true">
-                {display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}
+                {display_icon('it-search', 'svg', 'icon icon-sm icon-primary', 'Search'|i18n('openpa/search'))}
             </span>
             </div>
         </div>

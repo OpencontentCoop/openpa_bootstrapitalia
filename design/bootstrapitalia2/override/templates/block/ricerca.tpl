@@ -22,7 +22,7 @@
                             </div>
 
                             <span class="autocomplete-icon" aria-hidden="true">
-                                {display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}
+                                {display_icon('it-search', 'svg', 'icon icon-sm icon-primary', 'Search'|i18n('design/base'))}
                             </span>
                         </div>
                     </form>

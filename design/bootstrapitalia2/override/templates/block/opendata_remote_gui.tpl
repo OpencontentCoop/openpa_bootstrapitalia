@@ -41,7 +41,7 @@
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Submit'|i18n('bootstrapitalia/documents')}</button>
                                 </div>
-                                <span class="autocomplete-icon" aria-hidden="true">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
+                                <span class="autocomplete-icon" aria-hidden="true" aria-labelledby="{$block.id}">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
                             </div>
                         </div>
                     </div>
@@ -216,7 +216,7 @@ $(document).ready(function () {ldelim}
             </div>
             <a class="read-more" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">
                 <span class="text">{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}</span>
-                <svg class="icon"><use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-arrow-right"></use></svg>
+                <svg class="icon"><use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-arrow-right" aria-label="{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}"></use></svg>
             </a>
         </div>
     </div>

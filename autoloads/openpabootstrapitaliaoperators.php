@@ -78,6 +78,7 @@ class OpenPABootstrapItaliaOperators
                 'icon_text' => array('type' => 'string', 'required' => true),
                 'icon_type' => array('type' => 'string', 'required' => true),
                 'icon_class' => array('type' => 'string', 'required' => false, 'default' => null),
+                'aria_label' => array('type' => 'string', 'required' => false, 'default' => null),
             ),
             'decode_search_params' => array(
                 'data' => array('type' => 'array', 'required' => true),
@@ -210,6 +211,7 @@ class OpenPABootstrapItaliaOperators
                 break;
 
             case 'header_selected_topics':
+                $charLimit = 15;
                 $normalizedList = [];
                 $selectedTopics = $operatorValue;
                 foreach ($selectedTopics as $item){
@@ -221,8 +223,8 @@ class OpenPABootstrapItaliaOperators
                         $normalizedList[] = [
                             'name' => $item->attribute('name'),
                             'url' => $item->attribute('url_alias'),
-                            'css_class' => $textCount > 20 ? 'truncate-topic' : '',
-                            'truncate' => $textCount > 20 ? 1 : 0,
+                            'css_class' => $textCount > $charLimit ? 'truncate-topic' : '',
+                            'truncate' => $textCount > $charLimit ? 1 : 0,
                         ];
 
                     }elseif (isset($item['item'])){
@@ -230,8 +232,8 @@ class OpenPABootstrapItaliaOperators
                         $normalizedList[] = [
                             'name' => $item['item']['name'],
                             'url' => $item['item']['url'],
-                            'css_class' => $textCount > 20 ? 'truncate-topic' : '',
-                            'truncate' => $textCount > 20 ? 1 : 0,
+                            'css_class' => $textCount > $charLimit ? 'truncate-topic' : '',
+                            'truncate' => $textCount > $charLimit ? 1 : 0,
                         ];
                     }
                 }
@@ -589,11 +591,17 @@ class OpenPABootstrapItaliaOperators
                 $iconText = $namedParameters['icon_text'];
                 $iconType = $namedParameters['icon_type'];
                 $iconClass = $namedParameters['icon_class'];
+                $ariaLabel = $namedParameters['aria_label'];
 
                 if ($iconType == 'svg') {
                     $cssClass = '';
                     if ($iconClass) {
                         $cssClass = ' class="' . $iconClass . '"';
+                    }
+                    if ($ariaLabel) {
+                        $cssClass .= ' aria-label="' . $ariaLabel . '"';
+                    } else {
+                        $cssClass .= ' aria-hidden="true" focusable="false"';
                     }
                     $path = eZURLOperator::eZDesign($tpl, 'images/svg/sprite.svg', 'ezdesign');
                     $operatorValue = '<svg' . $cssClass . '><use xlink:href="' . $path . '#' . $iconText . '"></use></svg>';

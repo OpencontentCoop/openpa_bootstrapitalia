@@ -91,8 +91,8 @@
 <body>
 
 <div class="skiplink">
-    <a class="visually-hidden-focusable" href="#main-container">Vai ai contenuti</a>
-    <a class="visually-hidden-focusable" href="#footer">Vai al footer</a>
+    <a class="visually-hidden-focusable" href="#main-container" aria-label="{'Go to content'|i18n('bootstrapitalia')}">{'Go to content'|i18n('bootstrapitalia')}</a>
+    <a class="visually-hidden-focusable" href="#footer" aria-label="{'Go to footer'|i18n('bootstrapitalia')}">{'Go to footer'|i18n('bootstrapitalia')}</a>
 </div>
 
 {if and(openpacontext().is_edit|not(),openpacontext().is_browse|not())}

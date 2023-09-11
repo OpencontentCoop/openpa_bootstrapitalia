@@ -95,7 +95,7 @@
                             <nav aria-label="{'Extra menu'|i18n('bootstrapitalia')}">
                                 <a class="it-opener d-lg-none" data-bs-toggle="collapse" href="#service-menu" role="button" aria-expanded="false" aria-controls="service-menu">
                                     <span>{'Links'|i18n('openpa/footer')}</span>
-                                    {display_icon('it-expand', 'svg', 'icon')}
+                                    {display_icon('it-expand', 'svg', 'icon', 'Expand menu')}
                                 </a>
                                 <div class="link-list-wrapper collapse" id="service-menu">
                                     <ul class="link-list">
@@ -119,7 +119,7 @@
                                     aria-expanded="false" aria-controls="languages" aria-haspopup="true">
                                 <span class="visually-hidden">{'Current language'|i18n('bootstrapitalia/header')}:</span>
                                 <span>{$current_language.text|wash|upcase}</span>
-                                {display_icon('it-expand', 'svg', 'icon')}
+                                {display_icon('it-expand', 'svg', 'icon', 'Expand menu')}
                             </button>
                             <div class="dropdown-menu">
                                 <div class="row">
@@ -150,7 +150,7 @@
                         {if $hide_access|not()}
                             <a class="btn btn-primary btn-icon btn-full" href="{'accedi'|ezurl(no)}" data-element="personal-area-login" title="{$link_area_personale_title|wash()}">
                                   <span class="rounded-icon" aria-hidden="true">
-                                    {display_icon('it-user', 'svg', 'icon icon-primary')}
+                                    {display_icon('it-user', 'svg', 'icon icon-primary', $link_area_personale_title|wash())}
                                   </span>
                                 <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
                             </a>

@@ -23,7 +23,7 @@
                         {if $parent}
                         <a class="read-more" href="{$parent.url_alias|ezurl(no)}">
                             <span class="text">{'Further details'|i18n('bootstrapitalia')}</span>
-                            {display_icon('it-arrow-right', 'svg', 'icon')}
+                            {display_icon('it-arrow-right', 'svg', 'icon', 'Read more'|i18n('bootstrapitalia'))}
                         </a>
                         {/if}
                     </div>

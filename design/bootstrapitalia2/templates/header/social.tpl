@@ -29,7 +29,7 @@
         {if $split_at|eq($social_count)}</ul><ul>{/if}
         {set $social_count = $social_count|inc()}
         <li>
-            <a href="{$pagedata.contacts.[$social]}" aria-label="{$name|wash()}" target="_blank" rel="noopener noreferrer"  title="{$name|wash()}">
+            <a href="{$pagedata.contacts.[$social]}" aria-label="{$name|wash()}" target="_blank" rel="noopener noreferrer" title="{$name|wash()}">
                 {if $social|eq('tiktok')}
                     <svg class="icon icon-sm align-top" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
                         <g fill="none" fill-rule="evenodd">
@@ -41,7 +41,7 @@
                         </g>
                     </svg>
                 {else}
-                    {display_icon(concat('it-', $social), 'svg', 'icon icon-sm align-top')}
+                    {display_icon(concat('it-', $social), 'svg', 'icon icon-sm align-top', $name|wash())}
                 {/if}
                 <span class="visually-hidden">{$name|wash()}</span>
             </a>
@@ -51,7 +51,7 @@
         {if openpaini('GeneralSettings','ShowRssInSocialList', 'disabled')|eq('enabled')}
             <li>
                 <a href="{'/feed/list'}" aria-label="RSS" target="_blank" rel="noopener noreferrer" title="RSS">
-                    {display_icon('it-rss', 'svg', 'icon icon-sm align-top')}
+                    {display_icon('it-rss', 'svg', 'icon icon-sm align-top', 'RSS')}
                     <span class="visually-hidden">RSS</span>
                 </a>
             </li>

@@ -333,7 +333,7 @@
         </div>
         <a class="read-more" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">
             <span class="text">{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}</span>
-            <svg class="icon"><use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-arrow-right"></use></svg>
+            <svg class="icon"><use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-arrow-right" aria-label="{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}"></use></svg>
         </a>
     </div>
 </div>

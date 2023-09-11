@@ -32,6 +32,7 @@
                  data-bs-toggle="tooltip"
                  data-bs-html="false"
                  class="icon icon-xs"
+                 aria-label="{openpaini('CreditsSettings', 'CodeVersion', false())}"
                  title="{openpaini('CreditsSettings', 'CodeVersion', false())}">
                 <use href="{'images/svg/sprites.svg'|ezdesign('no')}#it-info-circle"></use>
             </svg>

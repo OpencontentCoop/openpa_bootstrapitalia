@@ -64,7 +64,7 @@
                                     <li class="it-more">
                                         <a class="list-item medium" href="{$href}">
                                             <span>{'See more'|i18n('bootstrapitalia')}</span>
-                                            {display_icon('it-arrow-right', 'svg', 'icon icon-sm icon-primary right')}
+                                            {display_icon('it-arrow-right', 'svg', 'icon icon-sm icon-primary right', 'Read more'|i18n('bootstrapitalia'))}
                                         </a>
                                     </li>
                                 {/if}

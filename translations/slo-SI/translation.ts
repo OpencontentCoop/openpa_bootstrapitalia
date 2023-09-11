@@ -17,7 +17,7 @@
     </message>
     <message>
       <source>Accept</source>
-      <translation>Sprejeti</translation>
+      <translation>Sprejemati</translation>
     </message>
     <message>
       <source>Jump to main content</source>
@@ -473,6 +473,10 @@
     </message>
     <message>
       <source>Useful links</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Go to footer</source>
       <translation type="unfinished"/>
     </message>
   </context>

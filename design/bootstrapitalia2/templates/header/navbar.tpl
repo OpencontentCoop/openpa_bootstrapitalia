@@ -58,14 +58,14 @@
                             title="{'Toggle navigation'|i18n('bootstrapitalia')}"
                             data-bs-target="#main-menu"
                             data-bs-toggle="navbarcollapsible">
-                        {display_icon('it-burger', 'svg', 'icon')}
+                        {display_icon('it-burger', 'svg', 'icon', 'Toggle navigation'|i18n('bootstrapitalia'))}
                     </button>
                     <div class="navbar-collapsable" id="main-menu">
                         <div class="overlay" style="display: none;"></div>
                         <div class="close-div">
                             <button class="btn close-menu" type="button">
                                 <span class="visually-hidden">{'hide navigation'|i18n('bootstrapitalia')}</span>
-                                {display_icon('it-close-big', 'svg', 'icon')}
+                                {display_icon('it-close-big', 'svg', 'icon', 'hide navigation'|i18n('bootstrapitalia'))}
                             </button>
                         </div>
                         <div class="menu-wrapper">

@@ -117,8 +117,12 @@
                                                            'limit', $page_limit )|merge( $params ) )}
         <section id="{if $node|has_attribute('menu_name')}{$node|attribute('menu_name').content|slugize}{else}{$parent_node.name|slugize}{/if}">
             <div class="container {$view_variation}">
-                {if and($openpa.content_tag_menu.current_view_tag|not(), $node|has_attribute('menu_name'))}
-                    <h2 class="title-xxlarge mb-4">{$node|attribute('menu_name').content|wash()}</h2>
+                {if $openpa.content_tag_menu.current_view_tag|not()}
+                    {if $node|has_attribute('menu_name')}
+                        <h2 class="title-xxlarge mb-4">{$node|attribute('menu_name').content|wash()}</h2>
+                    {else}
+                        <h2 class="d-none">{$node.name|wash()}</h2>
+                    {/if}
                 {/if}
 
                 {include uri='design:atoms/grid.tpl'
