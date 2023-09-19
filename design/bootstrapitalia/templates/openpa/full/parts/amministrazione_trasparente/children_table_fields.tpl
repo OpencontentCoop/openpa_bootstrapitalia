@@ -76,7 +76,7 @@
                         var result = '<ul class="list-unstyled">'
                         if (data.length > 0) {ldelim}
                           $.each(data, function () {ldelim}
-                              result += '<li><a href="' + this.url + '">' + this.filename + '</a></li>';
+                              result += '<li><a href="' + this.url.replace('http://', 'https://') + '">' + this.filename + '</a></li>';
                           {rdelim});
                         {rdelim}
                         result += '</ul>';
