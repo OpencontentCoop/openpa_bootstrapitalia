@@ -3,7 +3,9 @@
         {if $relation_item.in_trash|not()}
             {def $content_object = fetch( content, object, hash( object_id, $relation_item.contentobject_id ) )}
             {if and($content_object.can_read, $content_object.data_map.channel_url.has_content)}
-                {attribute_view_gui attribute=$content_object|attribute('channel_url')}
+                <div data-element="service-main-access">
+                    {attribute_view_gui attribute=$content_object|attribute('channel_url')}
+                </div>
                 {break}
             {/if}
             {undef $content_object}

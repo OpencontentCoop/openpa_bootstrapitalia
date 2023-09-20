@@ -178,36 +178,7 @@ class OpenPABootstrapItaliaOperators
 
             case 'is_active_public_service':
                 $object = $namedParameters['object'];
-                $operatorValue = false;
-                if ($object instanceof eZContentObject || $object instanceof eZContentObjectTreeNode){
-
-                    if (isset(self::$serviceStatuses[$object->attribute('remote_id')])){
-                        $operatorValue = self::$serviceStatuses[$object->attribute('remote_id')];
-                    }else {
-                        $dataMap = $object->dataMap();
-                        if (isset($dataMap['has_service_status'])
-                            && $dataMap['has_service_status']->hasContent()
-                            && $dataMap['has_service_status']->attribute(
-                                'data_type_string'
-                            ) === eZTagsType::DATA_TYPE_STRING) {
-
-                            $activeService = self::getActiveServiceTag();
-                            if ($activeService) {
-                                /** @var eZTags $content */
-                                $content = $dataMap['has_service_status']->content();
-                                foreach ($content->tags() as $tag) {
-                                    if ($tag->attribute('remote_id') === $activeService->attribute('remote_id')) {
-                                        $operatorValue = true;
-                                        self::$serviceStatuses[$object->attribute('remote_id')] = true;
-                                        break;
-                                    }
-                                }
-                            }else{
-                                self::$serviceStatuses[$object->attribute('remote_id')] = false;
-                            }
-                        }
-                    }
-                }
+                $operatorValue = self::isActivePublicService($object);
                 break;
 
             case 'header_selected_topics':
@@ -1799,4 +1770,38 @@ class OpenPABootstrapItaliaOperators
 
         return self::$activeServiceTag;
     }
+
+    public static function isActivePublicService($object)
+    {
+        if ($object instanceof eZContentObject || $object instanceof eZContentObjectTreeNode){
+            if (isset(self::$serviceStatuses[$object->attribute('remote_id')])){
+                return self::$serviceStatuses[$object->attribute('remote_id')];
+            }else {
+                $dataMap = $object->dataMap();
+                if (isset($dataMap['has_service_status'])
+                    && $dataMap['has_service_status']->hasContent()
+                    && $dataMap['has_service_status']->attribute('data_type_string') === eZTagsType::DATA_TYPE_STRING
+                ) {
+
+                    $activeService = self::getActiveServiceTag();
+                    if ($activeService) {
+                        /** @var eZTags $content */
+                        $content = $dataMap['has_service_status']->content();
+                        foreach ($content->tags() as $tag) {
+                            if ($tag->attribute('remote_id') === $activeService->attribute('remote_id')) {
+                                self::$serviceStatuses[$object->attribute('remote_id')] = true;
+                                return self::$serviceStatuses[$object->attribute('remote_id')];
+                            }
+                        }
+                    }else{
+                        self::$serviceStatuses[$object->attribute('remote_id')] = false;
+                        return self::$serviceStatuses[$object->attribute('remote_id')];
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
 }

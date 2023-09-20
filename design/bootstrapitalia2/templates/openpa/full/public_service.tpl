@@ -42,3 +42,22 @@
 {/if}
 
 {undef $parent_openpa}
+
+<script>
+  var serviceIdentifier = "{$node|attribute('identifier').content}";
+  var serviceId = {$node.contentobject_id};
+  {literal}
+  $.ez('ezjscbridge::check::' + serviceId + '::' + serviceIdentifier, null, function (response) {
+    var inSync = response?.content?.is_status_in_sync === true;
+    var isRemoteStatusActive = response?.content?.is_remote_status_active === true;
+    if (!inSync && !isRemoteStatusActive) {
+      $('[data-element="service-status"] span').text(response?.content?.remote_status_message || 'Servizio non attivo')
+      $('[data-element="service-main-access"], ' +
+        '[data-element="service-generic-access"] > [data-element="service-online-access"], ' +
+        '[data-element="service-generic-access"] > [data-element="service-booking-access"], ' +
+        '[data-element="service-generic-access"] >[data-element="service-generic-access"]').hide();
+      $('#status-note-placeholder').show();
+    }
+  });
+  {/literal}
+</script>

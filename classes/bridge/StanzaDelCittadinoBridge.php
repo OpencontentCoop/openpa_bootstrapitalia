@@ -20,7 +20,7 @@ class StanzaDelCittadinoBridge
 
     private $serviceList;
 
-    private static $mapServiceStatus = [
+    public static $mapServiceStatus = [
         0 => 'Servizio non attivo',
         1 => 'Servizio attivo',
         2 => 'Servizio non attivo',

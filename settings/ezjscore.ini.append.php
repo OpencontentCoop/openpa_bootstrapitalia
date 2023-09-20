@@ -4,6 +4,7 @@
 Packer=2
 LoadFromCDN=disabled
 LocalScripts[jqueryUI]=jquery-ui.min.js
+FunctionList[]=ezjscbrowse
 
 [ezjscServer_ezjsctags]
 Class=ezjscCachedTags
@@ -13,6 +14,9 @@ Class=ezjscEditTagDescription
 
 [ezjscServer_ezjscbrowse]
 Class=ezjscBrowse
+
+[ezjscServer_ezjscbridge]
+Class=ezjscBridge
 
 [Packer]
 AppendLastModifiedTime=disabled

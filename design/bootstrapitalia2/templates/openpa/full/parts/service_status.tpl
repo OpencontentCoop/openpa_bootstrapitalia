@@ -23,4 +23,8 @@
             {openpaini('AttributeHandlers', 'DefaultContent_status_note', 'Il servizio online al momento non è disponibile')}
         </div>
     {/if}
+{else}
+    <div class="alert alert-warning my-md-4 my-lg-4" style="display: none" id="status-note-placeholder">
+        {openpaini('AttributeHandlers', 'DefaultContent_status_note', 'Il servizio online al momento non è disponibile')}
+    </div>
 {/if}

@@ -36,6 +36,13 @@
         {$node.contentobject_id} ({$node.object.remote_id})
     </div>
 
+    {if $node|has_attribute('identifier')}
+        <div class="col-md-3 text-right text-primary">{$node|attribute('identifier').contentclass_attribute_name|wash()}:</div>
+        <div class="col-md-9">
+            {$node|attribute('identifier').content|wash()}
+        </div>
+    {/if}
+
     <div class="col-md-3 text-right text-primary">{'Locations'|i18n( 'bootstrapitalia' )}:</div>
     <div class="col-md-9">
         <ul class="list-unstyled">
