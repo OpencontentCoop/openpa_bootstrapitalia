@@ -13,7 +13,8 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
 
         $image = isset($this->content['image']['content'][0]) ? [[
             'id' => $this->content['image']['content'][0]['id'],
-            'name' => $this->content['image']['content'][0]['name'][$this->getHelper()->getSetting('language')] ?? current($this->content['image']['content'][0]['name']),
+            'name' => $this->content['image']['content'][0]['name'][$this->getHelper()->getSetting('language')]
+                ?? current($this->content['image']['content'][0]['name']),
             'class' => $this->content['image']['content'][0]['classIdentifier'],
         ]] : null;
 
@@ -75,13 +76,12 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
         return $options;
     }
 
-
     protected function filterOptionsByEvidenceBlock($options, $blockIndex = 1): array
     {
-        if ($blockIndex > 1){
+        if ($blockIndex > 1) {
             $options['fields']['title_evidence_' . $blockIndex]['helper'] = '';
             $options['fields']['section_evidence_' . $blockIndex]['browse']['subtree'] = '';
-        }else{
+        } else {
             $options['fields']['title_evidence']['helper'] = '';
             $options['fields']['section_evidence']['browse']['subtree'] = (int)$this->originalObject->mainNodeID();
         }
@@ -123,7 +123,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
     protected function getEvidenceBlockId($blockIndex = 1): string
     {
         $suffix = $blockIndex > 1 ? $blockIndex . '' : '';
-        return substr('evd'. $suffix . $this->originalObject->attribute('id'), 0, 32);
+        return substr('evd' . $suffix . $this->originalObject->attribute('id'), 0, 32);
     }
 
     protected function getEmptyEvidenceBlock($blockIndex = 1): array
@@ -150,7 +150,8 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
 
     protected function getEvidenceBlock($blockIndex = 1): array
     {
-        return $this->findBlockById($this->getEvidenceBlockId($blockIndex)) ?? $this->getEmptyEvidenceBlock($blockIndex);
+        return $this->findBlockById($this->getEvidenceBlockId($blockIndex))
+            ?? $this->getEmptyEvidenceBlock($blockIndex);
     }
 
     protected function fetchSourcePathInfo(): array
@@ -174,64 +175,10 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
     {
         $this->currentBlocks = $this->content['layout']['content']['global']['blocks'] ?? [];
 
-        $hasEvidenceItems = isset($data['section_evidence'][0]['id']);
-        $sectionCount = $this->getEvidenceBlockSetupCount();
-        if ($sectionCount > 1) {
-            for ($i = 2; $i <= $sectionCount; $i++) {
-                if (!$hasEvidenceItems){
-                    $hasEvidenceItems = isset($data['section_evidence_' . $i][0]['id']);
-                }
-            }
-        }
-
-        $evidenceBlock = $this->getEvidenceBlock();
-        $evidenceBlock['name'] = $data['title_evidence'] ?? '';
-        $remoteIdList = [];
-        if (isset($data['section_evidence'])) {
-            foreach ($data['section_evidence'] as $item) {
-                $object = eZContentObject::fetch((int)$item['id']);
-                if ($object instanceof eZContentObject) {
-                    $remoteIdList[] = $object->attribute('remote_id');
-                }
-            }
-        }
-        if (count($remoteIdList)) {
-            $evidenceBlock['valid_items'] = $remoteIdList;
-        } else {
-            $evidenceBlock = $this->resetEvidenceBlock($evidenceBlock);
-        }
-
-        $evidenceBlocks = [];
-        if (isset($evidenceBlock['block_id']) && !empty($evidenceBlock['block_id'])) {
-            $evidenceBlocks[$evidenceBlock['block_id']] = $evidenceBlock;
-        }
-        if ($sectionCount > 1) {
-            for ($i = 2; $i <= $sectionCount; $i++) {
-                $evidenceBlock = $this->getEvidenceBlock($i);
-                if (!empty($evidenceBlock)) {
-                    $evidenceBlock['name'] = $data['title_evidence_' . $i] ?? '';
-                }
-                $remoteIdList = [];
-                if (isset($data['section_evidence_' . $i])) {
-                    foreach ($data['section_evidence_' . $i] as $item) {
-                        $object = eZContentObject::fetch((int)$item['id']);
-                        if ($object instanceof eZContentObject) {
-                            $remoteIdList[] = $object->attribute('remote_id');
-                        }
-                    }
-                }
-                if (count($remoteIdList)) {
-                    $evidenceBlock['valid_items'] = $remoteIdList;
-                } else {
-                    $evidenceBlock = $this->resetEvidenceBlock($evidenceBlock, $i);
-                }
-            }
-            if (isset($evidenceBlock['block_id']) && !empty($evidenceBlock['block_id'])) {
-                $evidenceBlocks[$evidenceBlock['block_id']] = $evidenceBlock;
-            }
-        }
+        $evidenceBlocks = $this->retrieveEvidenceBlocksFromSubmitData($data);
 
         $layout = $this->content['layout']['content'];
+
         if (empty($layout)) {
             $layout = [
                 "zone_layout" => "desItaGlobal",
@@ -242,42 +189,30 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             ];
         }
 
-        $blocks = $layout['global']['blocks'];
-        $firstBlockEvidenceIndex = -1;
-        foreach ($blocks as $index => $block) {
-            if ($block['type'] === 'HTML' && $block['custom_attributes']['html'] === '') {
-                unset($layout['global']['blocks'][$index]);
-                continue;
-            }
-            if (isset($evidenceBlocks[$block['block_id']])) {
-                $layout['global']['blocks'][$index] = $evidenceBlocks[$block['block_id']];
-                if ($firstBlockEvidenceIndex === -1) {
-                    $firstBlockEvidenceIndex = $index;
+        $currentBlockIdList = array_column($layout['global']['blocks'], 'block_id');
+        $sectionCount = $this->getEvidenceBlockSetupCount();
+        $evidenceBlockIdList = [];
+        for ($i = 1; $i <= $sectionCount; $i++) {
+            $evidenceBlockIdList[] = $this->getEvidenceBlockId($i);
+        }
+        foreach (array_reverse($evidenceBlockIdList) as $index => $evidenceBlockId){
+            if (isset($evidenceBlocks[$evidenceBlockId])) {
+                if (!in_array($evidenceBlockId, $currentBlockIdList)) {
+                    $this->insertEvidenceBlockLayout(
+                        $evidenceBlocks[$evidenceBlockId],
+                        $layout,
+                        $index
+                    );
+                } else {
+                    $this->updateEvidenceBlockLayout(
+                        $evidenceBlocks[$evidenceBlockId],
+                        $layout,
+                        $index
+                    );
                 }
-                $hasEvidenceItems = false;
-            }else{
-                for ($i = 1; $i <= $sectionCount; $i++) {
-                    if ($block['block_id'] == $this->getEvidenceBlockId($i)){
-                        unset($layout['global']['blocks'][$index]);
-                    }
-                }
+            } else {
+                $this->removeEvidenceBlockFromLayout($evidenceBlockId, $layout);
             }
-        }
-
-        $countBlocks = count($layout['global']['blocks']);
-        if ($hasEvidenceItems) {
-            foreach (array_reverse($evidenceBlocks) as $evidenceBlock) {
-                array_unshift($layout['global']['blocks'], $evidenceBlock);
-            }
-            $firstBlockEvidenceIndex = 0;
-        }
-        if ($countBlocks > 0 && $firstBlockEvidenceIndex >= 0) {
-            $layout['global']['blocks'][$firstBlockEvidenceIndex]["custom_attributes"]["color_style"] =
-                $this->originalObject->attribute('remote_id') !== 'topics' ? '' : 'bg-100';
-        }
-
-        if (count($layout['global']['blocks']) === 0) {
-            $layout = [];
         }
 
         return [
@@ -303,7 +238,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             [
                 'identifier' => 'abstract',
                 'name' => 'Descrizione',
-                'identifiers' => ['abstract', 'description', 'image', ],
+                'identifiers' => ['abstract', 'description', 'image',],
             ],
             [
                 'identifier' => 'evidence',
@@ -334,5 +269,85 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             'template' => '<div class="container px-4 my-4"><legend class="alpaca-container-label">{{options.label}}</legend><small>{{schema.description}}</small><div class="row mt-4 mb-5">' . $tabs . $panels . '</div></div>',
             'bindings' => $bindings,
         ];
+    }
+
+    private function retrieveEvidenceBlocksFromSubmitData($data): array
+    {
+        $evidenceBlocks = [];
+
+        $evidenceBlock = $this->getEvidenceBlock();
+        if (!empty($evidenceBlock['block_id'])) {
+            $evidenceBlock['name'] = $data['title_evidence'] ?? '';
+            $remoteIdList = [];
+            if (isset($data['section_evidence'])) {
+                foreach ($data['section_evidence'] as $item) {
+                    $object = eZContentObject::fetch((int)$item['id']);
+                    if ($object instanceof eZContentObject) {
+                        $remoteIdList[] = $object->attribute('remote_id');
+                    }
+                }
+            }
+            if (count($remoteIdList)) {
+                $evidenceBlock['valid_items'] = $remoteIdList;
+                $evidenceBlocks[$evidenceBlock['block_id']] = $evidenceBlock;
+            }
+        }
+
+        $sectionCount = $this->getEvidenceBlockSetupCount();
+        if ($sectionCount > 1) {
+            for ($i = 2; $i <= $sectionCount; $i++) {
+                $evidenceBlock = $this->getEvidenceBlock($i);
+                if (!empty($evidenceBlock['block_id'])) {
+                    $evidenceBlock['name'] = $data['title_evidence_' . $i] ?? '';
+                    $remoteIdList = [];
+                    if (isset($data['section_evidence_' . $i])) {
+                        foreach ($data['section_evidence_' . $i] as $item) {
+                            $object = eZContentObject::fetch((int)$item['id']);
+                            if ($object instanceof eZContentObject) {
+                                $remoteIdList[] = $object->attribute('remote_id');
+                            }
+                        }
+                    }
+                    if (count($remoteIdList)) {
+                        $evidenceBlock['valid_items'] = $remoteIdList;
+                        $evidenceBlocks[$evidenceBlock['block_id']] = $evidenceBlock;
+                    }
+                }
+            }
+        }
+
+
+        return $evidenceBlocks;
+    }
+
+    protected function applyBackgroundToEvidenceBlock(&$evidenceBlock, $blockIndex)
+    {
+        $evidenceBlock["custom_attributes"]["color_style"] =
+            $this->originalObject->attribute('remote_id') !== 'topics' ? '' : 'bg-100';
+    }
+
+    protected function insertEvidenceBlockLayout($evidenceBlock, &$layout, $blockIndex)
+    {
+        $this->applyBackgroundToEvidenceBlock($evidenceBlock, $blockIndex);
+        array_unshift($layout['global']['blocks'], $evidenceBlock);
+    }
+
+    protected function updateEvidenceBlockLayout($evidenceBlock, &$layout, $blockIndex)
+    {
+        $this->applyBackgroundToEvidenceBlock($evidenceBlock, $blockIndex);
+        foreach ($layout['global']['blocks'] as $index => $block) {
+            if ($block['block_id'] == $evidenceBlock['block_id']) {
+                $layout['global']['blocks'][$index] = $evidenceBlock;
+            }
+        }
+    }
+
+    protected function removeEvidenceBlockFromLayout($blockId, &$layout)
+    {
+        foreach ($layout['global']['blocks'] as $index => $block) {
+            if ($block['block_id'] == $blockId) {
+                unset($layout['global']['blocks'][$index]);
+            }
+        }
     }
 }

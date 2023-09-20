@@ -95,4 +95,10 @@ class LiveLockEditClassConnector extends PageLockEditClassConnector
         return $blocks;
     }
 
+    protected function applyBackgroundToEvidenceBlock(&$evidenceBlock, $blockIndex)
+    {
+        $evidenceBlock["custom_attributes"]["color_style"] =
+            strpos($evidenceBlock['block_id'], 'events') === false ? '' : 'bg-100';
+    }
+
 }
