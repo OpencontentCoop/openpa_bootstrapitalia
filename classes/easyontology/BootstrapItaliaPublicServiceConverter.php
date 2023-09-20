@@ -29,6 +29,9 @@ class BootstrapItaliaPublicServiceConverter extends \Opencontent\Easyontology\Ab
 
     protected function convert()
     {
+        $pagedata = new \OpenPAPageData();
+        $contacts = $pagedata->getContactsData();
+
         $this->doc = [
             "@context" => "https://schema.org",
             "@id" => $this->getId(),
@@ -36,7 +39,7 @@ class BootstrapItaliaPublicServiceConverter extends \Opencontent\Easyontology\Ab
             "name" => '',
             "serviceType" => '',
             "serviceOperator" => [
-                'name' => '',
+                'name' => eZINI::instance()->variable('SiteSettings', 'SiteName'),
             ],
             "areaServed" => [
                 'name' => '',
@@ -47,11 +50,11 @@ class BootstrapItaliaPublicServiceConverter extends \Opencontent\Easyontology\Ab
             "availableChannel" => [
                 "serviceUrl" => '',
                 "serviceLocation" => [
-                    'name' => '',
+                    'name' => eZINI::instance()->variable('SiteSettings', 'SiteName'),
                     'address' => [
-                        "streetAddress" => '',
-                        "postalCode" => '',
-                        "addressLocality" => '',
+                        "streetAddress" => $contacts['indirizzo'] ?? '',
+                        "postalCode" => $contacts['cap'] ?? '',
+                        "addressLocality" => $contacts['comune'] ?? '',
                     ],
                 ],
             ],
@@ -81,7 +84,7 @@ class BootstrapItaliaPublicServiceConverter extends \Opencontent\Easyontology\Ab
                 }
             }
             if (isset($dataMap['audience']) && $dataMap['audience']->hasContent()) {
-                $this->doc['audience']['name'] = strip_tags($dataMap['audience']->toString());
+                $this->doc['audience']['name'] = trim(strip_tags($dataMap['audience']->toString()));
             }
             $this->doc['availableChannel']['serviceUrl'] = rtrim(\eZSys::serverURL(), '/')
                 . '/' . $this->content->mainNode()->attribute('url_alias');
