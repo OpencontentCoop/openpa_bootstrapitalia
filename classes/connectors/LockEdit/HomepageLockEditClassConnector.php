@@ -28,6 +28,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
     private $menuTopics = [];
 
+    private $editLockSettings = [];
+
     public static function getContentClass(): eZContentClass
     {
         return eZContentClass::fetchByIdentifier('edit_homepage');
@@ -80,9 +82,9 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     {
         $schema = parent::getSchema();
         $properties = [];
-        foreach ($schema['properties'] as $identifier => $property){
+        foreach ($schema['properties'] as $identifier => $property) {
             $properties[$identifier] = $property;
-            if ($identifier === 'main_news'){
+            if ($identifier === 'main_news') {
                 $properties['add_section_news'] = [
                     'type' => 'boolean',
                     'required' => false,
@@ -94,7 +96,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 $properties['add_section_banner'] = [
                     'type' => 'boolean',
                     'required' => false,
-                ];$properties['add_section_search'] = [
+                ];
+                $properties['add_section_search'] = [
                     'type' => 'boolean',
                     'required' => false,
                 ];
@@ -140,7 +143,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['add_section_news'] = [
             'type' => 'checkbox',
             'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Notizie in evidenza"'),
-            'helper' => 'La homepage del sito può avere una sezione di 3 notizie in evidenza'
+            'helper' => 'La homepage del sito può avere una sezione di 3 notizie in evidenza',
         ];
         $options['fields']['section_news']['dependencies'] = [
             'section_latest_news' => 'false',
@@ -152,7 +155,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['add_section_events'] = [
             'type' => 'checkbox',
             'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Eventi in evidenza"'),
-            'helper' => ezpI18n::tr('bootstrapitalia/editor-gui', 'La homepage del sito può avere una sezione di eventi in evidenza')
+            'helper' => ezpI18n::tr(
+                'bootstrapitalia/editor-gui',
+                'La homepage del sito può avere una sezione di eventi in evidenza'
+            ),
         ];
         $options['fields']['section_calendar']['dependencies'] = [
             'section_next_events' => 'false',
@@ -164,7 +170,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['add_section_banner'] = [
             'type' => 'checkbox',
             'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Siti tematici"'),
-            'helper' => ezpI18n::tr('bootstrapitalia/editor-gui', 'La homepage del sito può avere una sezione con dei link a siti tematici')
+            'helper' => ezpI18n::tr(
+                'bootstrapitalia/editor-gui',
+                'La homepage del sito può avere una sezione con dei link a siti tematici'
+            ),
         ];
         $options['fields']['section_banner']['dependencies'] = ['add_section_banner' => 'true'];
         $options['fields']['title_banner']['dependencies'] = ['add_section_banner' => 'true'];
@@ -172,24 +181,30 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['add_section_search'] = [
             'type' => 'checkbox',
             'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Ricerca"'),
-            'helper' => ''
+            'helper' => '',
         ];
         $options['fields']['section_search']['dependencies'] = ['add_section_search' => 'true'];
         $options['fields']['background_search']['dependencies'] = ['add_section_search' => 'true'];
 
 
-        $options['fields']['section_news']['browse']['subtree'] = $news = $this->fetchMainNodeIDByObjectRemoteID('news');
+        $options['fields']['section_news']['browse']['subtree'] = $news = $this->fetchMainNodeIDByObjectRemoteID(
+            'news'
+        );
         $options['fields']['main_news']['actionbar'] = [
             'showLabels' => true,
             'actions' => [
                 ['action' => 'add', 'enabled' => false],
                 ['action' => 'up', 'enabled' => false],
                 ['action' => 'down', 'enabled' => false],
-            ]
+            ],
         ];
         $options['fields']['main_news']['browse']['subtree'] = $news;
-        $options['fields']['section_calendar']['browse']['subtree'] = $allEvents = $this->fetchMainNodeIDByObjectRemoteID('all-events');
-        $options['fields']['section_management']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('management');
+        $options['fields']['section_calendar']['browse']['subtree'] = $allEvents = $this->fetchMainNodeIDByObjectRemoteID(
+            'all-events'
+        );
+        $options['fields']['section_management']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID(
+            'management'
+        );
         $options['fields']['section_gallery']['browse']['subtree'] = $allEvents;
         $options['fields']['section_place']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('all-places');
         $options['fields']['section_banner']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('banners');
@@ -203,7 +218,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 ['action' => 'add', 'enabled' => false],
                 ['action' => 'up', 'enabled' => false],
                 ['action' => 'down', 'enabled' => false],
-            ]
+            ],
         ];
 
         $options['fields']['background_search']['browse']['subtree'] = $media;
@@ -260,12 +275,15 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Ricerca'),
                 'identifiers' => ['add_section_search', 'background_search', 'section_search'],
             ],
-//            [
-//                'identifier' => 'flowers',
-//                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Altre impostazioni'),
-//                'identifiers' => ['background_image'],
-//            ],
         ];
+
+        if ($this->canAttachBackgroundImage()) {
+            $categories[] = [
+                'identifier' => 'flowers',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Altre impostazioni'),
+                'identifiers' => ['background_image'],
+            ];
+        }
 
         $bindings = [];
         $tabs = '<div class="col-3"><ul class="nav nav-tabs nav-tabs-vertical" role="tablist" aria-orientation="vertical">';
@@ -295,8 +313,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     {
         $blocks = [];
 
-        if ($block = $this->mapBackgroundImage($data)) {
-            $blocks[] = $block;
+        if ($this->canAttachBackgroundImage()) {
+            if ($block = $this->mapBackgroundImage($data)) {
+                $blocks[] = $block;
+            }
         }
 
         if ($block = $this->mapMainNews($data)) {
@@ -416,7 +436,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             $block['valid_items'] = [$newsRemoteId];
         }
 
-        if (isset($data['background_image'][0]['id'])) {
+        if (isset($data['background_image'][0]['id']) && $this->canAttachBackgroundImage()) {
             $block['custom_attributes']['container_style'] = 'overlay';
         }
 
@@ -448,7 +468,6 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         if (isset($data['section_latest_news']) && $data['section_latest_news'] === 'true') {
             return $originalBlockNews;
-
         } elseif (isset($data['section_news'][0]['id'])) {
             $block = $this->findBlockById(self::SECTION_MANAGEMENT);
             $block['block_id'] = self::SECTION_NEWS;
@@ -575,5 +594,23 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         }
 
         return null;
+    }
+
+    private function getEditLockSettings(?string $key = null)
+    {
+        if (empty($this->editLockSettings)) {
+            $this->editLockSettings = eZINI::instance('openpa.ini')->group('LockEdit_homepage');
+        }
+
+        if ($key) {
+            return $this->editLockSettings[$key] ?? null;
+        }
+
+        return $this->editLockSettings;
+    }
+
+    private function canAttachBackgroundImage(): bool
+    {
+        return $this->getEditLockSettings('EnableBackgroundImage') !== 'disabled';
     }
 }

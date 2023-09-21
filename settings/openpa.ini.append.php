@@ -207,4 +207,7 @@ Partners[opencitylabs]=OpenCity Labs|https://www.opencontent.it
 [CookiesSettings]
 #simple or advanced
 Consent=advanced
+
+[LockEdit_homepage]
+EnableBackgroundImage=disabled
 */ ?>
