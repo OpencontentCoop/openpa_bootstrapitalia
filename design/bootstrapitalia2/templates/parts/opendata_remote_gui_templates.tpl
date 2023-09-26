@@ -23,7 +23,7 @@
 	{{else view === 'latest_messages_item'}}
 
 	    {{if currentPage == 0}}
-			<p class="mb-4 results-count"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia/list_widget')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia/list_widget')}{literal}{{/if}}</p>
+			<p class="mb-4 results-count"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
 		{{/if}}
 		{{for searchHits}}
           {{include tmpl="#tpl-remote-gui-item"/}}
