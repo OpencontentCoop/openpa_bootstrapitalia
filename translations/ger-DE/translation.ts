@@ -477,7 +477,7 @@
     </message>
     <message>
       <source>Go to footer</source>
-      <translation type="unfinished"/>
+      <translation>Weiter zur Fußzeile</translation>
     </message>
   </context>
   <context>

@@ -17,7 +17,7 @@
     </message>
     <message>
       <source>Accept</source>
-      <translation>Sprejemati</translation>
+      <translation>Sprejeti</translation>
     </message>
     <message>
       <source>Jump to main content</source>
@@ -496,7 +496,7 @@
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Seznami po razredu</translation>
+      <translation>Sezname po razredu</translation>
     </message>
     <message>
       <source>Import management</source>
@@ -650,7 +650,7 @@
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Vzbujanje</translation>
+      <translation>Vzpona</translation>
     </message>
     <message>
       <source>Score</source>

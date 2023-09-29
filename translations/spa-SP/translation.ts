@@ -610,7 +610,7 @@
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Ir a filtros de búsqueda</translation>
+      <translation>Ir a los filtros de búsqueda</translation>
     </message>
     <message>
       <source>Link to</source>
@@ -634,7 +634,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Solo información de tipo</translation>
+      <translation>Solo información del tipo</translation>
     </message>
     <message>
       <source>Sorting by</source>

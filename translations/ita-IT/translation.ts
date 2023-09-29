@@ -837,11 +837,11 @@
     </message>
     <message>
       <source>friday</source>
-      <translation>Sabato</translation>
+      <translation>Venerdì</translation>
     </message>
     <message>
       <source>saturday</source>
-      <translation type="unfinished"/>
+      <translation>Sabato</translation>
     </message>
     <message>
       <source>sunday</source>
