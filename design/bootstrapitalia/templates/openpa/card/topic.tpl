@@ -1,37 +1,39 @@
-{set_defaults(hash(
-    'show_icon', true(),
-    'image_class', 'large',
-    'view_variation', ''    
-))}
+{if openpaini('ViewSettings','TopicCard','custom')|eq('default')}
+    {include uri='design:openpa/card/_default.tpl' view_variation=$view_variation}
+{else}
+    {set_defaults(hash(
+        'show_icon', true(),
+        'image_class', 'large',
+        'view_variation', ''
+    ))}
+    {def $has_media = false()}
+    {if $node|has_attribute('image')}
+        {set $has_media = true()}
+    {/if}
+    <div data-object_id="{$node.contentobject_id}" class="card-wrapper {if $view_variation|eq('big')}card-space{/if} {$node|access_style}">
+        <div class="card {if $node|has_attribute('image')} card-img{/if} {if $view_variation|eq('big')}card-bg rounded shadow{/if}">
 
-{def $has_media = false()}
-{if $node|has_attribute('image')}
-    {set $has_media = true()}
-{/if}
+            <div class="card-body">
 
-<div data-object_id="{$node.contentobject_id}" class="card-wrapper {if $view_variation|eq('big')}card-space{/if} {$node|access_style}">
-    <div class="card {if $node|has_attribute('image')} card-img{/if} {if $view_variation|eq('big')}card-bg rounded shadow{/if}">
+                {if $openpa.content_icon.icon}
+                    <div class="card-icon mb-3">
+                        {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon m-0')}
+                    </div>
+                {/if}
 
-        <div class="card-body">
+                <h5 class="card-title big-heading">
+                    {$node.name|wash()}
+                </h5>
 
-            {if $openpa.content_icon.icon}
-                <div class="card-icon mb-3">
-                    {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon m-0')}
-                </div>
-            {/if}
+                {include uri='design:openpa/card/parts/abstract.tpl'}
 
-            <h5 class="card-title big-heading">
-                {$node.name|wash()}
-            </h5>
+                <a class="read-more" href="{$openpa.content_link.full_link}#page-content">
+                    <span class="text">{'Explore topic'|i18n('bootstrapitalia')}</span>
+                    {display_icon('it-arrow-right', 'svg', 'icon')}
+                </a>
 
-            {include uri='design:openpa/card/parts/abstract.tpl'}  
-
-            <a class="read-more" href="{$openpa.content_link.full_link}#page-content">
-                <span class="text">{'Explore topic'|i18n('bootstrapitalia')}</span>
-                {display_icon('it-arrow-right', 'svg', 'icon')}
-            </a>
-
+            </div>
         </div>
     </div>
-</div>
-{unset_defaults(array('show_icon', 'image_class', 'view_variation'))}
+    {unset_defaults(array('show_icon', 'image_class', 'view_variation'))}
+{/if}
