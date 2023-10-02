@@ -119,6 +119,7 @@ IdentificatoriMenu_trasparenza[]=pagina_trasparenza
 
 [Trasparenza]
 MostraAvvisoPaginaVuota=disabled
+UseCustomTemplate=disabled
 
 [MotoreRicerca]
 IncludiClassi[]=administrative_area

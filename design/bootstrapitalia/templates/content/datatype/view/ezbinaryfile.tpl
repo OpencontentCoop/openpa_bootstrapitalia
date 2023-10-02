@@ -1,11 +1,12 @@
 {set_defaults( hash(    
-    'icon',true()
+    'icon',true(),
+	'wide', false()
 ))}
 
 {if $attribute.has_content}
 	{if $attribute.content}
 	<div class="row mx-lg-n3">
-		<div class="col-md-6 px-lg-3 pb-lg-3">
+		<div class="col{if $wide|not()}-md-6{/if} px-lg-3 pb-lg-3">
 			<div class="card card-teaser shadow p-4 mt-3 rounded border">
 				{if $icon}
 				{display_icon('it-clip', 'svg', 'icon')}		

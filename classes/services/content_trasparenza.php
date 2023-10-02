@@ -17,6 +17,8 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
     const SUGGESTED_CLASSES_ATTRIBUTE = 'suggested_classes';
 
+    const CLASS_GROUP_NAME = 'Amministrazione trasparente';
+
     function run()
     {
         $this->fnData['has_nota_trasparenza'] = 'hasNotaTrasparenza';
@@ -45,6 +47,44 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         $this->fnData['children_extra_exclude_classes'] = 'getExcludeClassesForExtraChildren';
 
         $this->fnData['remote_id_map'] = 'getRemoteIdMap';
+
+        $this->fnData['use_custom_template'] = 'isUseCustomTemplate';
+    }
+
+    protected function isUseCustomTemplate(): bool
+    {
+        if (OpenPAINI::variable('Trasparenza', 'UseCustomTemplate', 'disabled') === 'enabled'
+            && $this->container->hasContentObject()) {
+
+            $relatedContainer = eZContentObject::fetchByRemoteID('relazioni-trasparenza');
+            if ($relatedContainer instanceof eZContentObject
+                && strpos(
+                    $this->container->getContentNode()->attribute('path_string'),
+                    '/' . $relatedContainer->attribute('main_node_id')
+                ) !== false
+            ){
+                return true;
+            }
+
+            $rootNode = $this->container->attribute('control_menu')->attribute('side_menu')->attribute('root_node');
+            $isInTrasparenza = $rootNode instanceof eZContentObjectTreeNode
+                && $rootNode->attribute('class_identifier') === 'trasparenza';
+
+            $contentClass = $this->container->getContentObject()->contentClass();
+            if ($contentClass instanceof eZContentClass) {
+                if (in_array($contentClass->attribute('identifier'), ['folder', 'link', 'file'])){
+                    return $isInTrasparenza;
+                }
+                $groupList = $contentClass->fetchGroupList();
+                foreach ($groupList as $group){
+                    if ($group->attribute('group_name') === self::CLASS_GROUP_NAME){
+                        return $isInTrasparenza;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     protected function getCountFolderChildren()

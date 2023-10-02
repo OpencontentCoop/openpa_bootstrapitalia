@@ -2,7 +2,11 @@
 {if $openpa.control_cache.no_cache}
     {set-block scope=root variable=cache_ttl}0{/set-block}
 {/if}
-{include uri=$openpa.control_template.full}
+{if $openpa.content_trasparenza.use_custom_template}
+    {include uri="design:openpa/full/_custom_trasparenza.tpl"}
+{else}
+    {include uri=$openpa.control_template.full}
+{/if}
 
 {if and($openpa.content_tools.editor_tools, module_params().function_name|ne('versionview'))}
     {include uri=$openpa.content_tools.template}

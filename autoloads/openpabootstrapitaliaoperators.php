@@ -1239,6 +1239,44 @@ class OpenPABootstrapItaliaOperators
         ];
     }
 
+    private static function getDeepHasContent($openpaAttribute, $identifier, $tableView): bool
+    {
+
+        if (
+            // workaround per ezboolean
+            (
+                $openpaAttribute->hasAttribute('contentobject_attribute')
+                && $openpaAttribute->attribute('contentobject_attribute')->attribute('data_type_string') == eZBooleanType::DATA_TYPE_STRING
+                && $openpaAttribute->attribute('contentobject_attribute')->attribute('data_int') != '1'
+            )
+            ||
+            // workaround per ezxmltext
+            (
+                $openpaAttribute->hasAttribute('contentobject_attribute')
+                && $openpaAttribute->attribute('contentobject_attribute')
+                    ->attribute('data_type_string') == eZXMLTextType::DATA_TYPE_STRING
+                && trim(
+                    $openpaAttribute->attribute('contentobject_attribute')->content()
+                        ->attribute('output')
+                        ->attribute('output_text')
+                ) == ''
+            )
+            ||
+            // evita di duplicare l'immagine principale nella galleria
+            (
+                in_array($identifier, $tableView->attribute('main_image'))
+                && !in_array($identifier, $tableView->attribute('show_link'))
+                && $openpaAttribute->hasAttribute('contentobject_attribute')
+                && $openpaAttribute->attribute('contentobject_attribute')->attribute('data_type_string') == eZObjectRelationListType::DATA_TYPE_STRING
+                && count($openpaAttribute->attribute('contentobject_attribute')->attribute('content')['relation_list']) <= 1
+            )
+        ){
+            return false;
+        }
+
+        return true;
+    }
+
     private static function parseAttributeGroups($object, $showAll = false)
     {
         if (!$object instanceof eZContentObject){
@@ -1256,16 +1294,24 @@ class OpenPABootstrapItaliaOperators
         if ($showAll){
             foreach ($dataMap as $identifier => $attribute){
                 if ($openpa->hasAttribute($identifier)){
-                    $items[] = [
-                        'slug' => $identifier,
-                        'title' => $openpa->attribute($identifier)->attribute('label'),
-                        'label' => $openpa->attribute($identifier)->attribute('label'),
-                        'attributes' => [$openpa->attribute($identifier)],
-                        'is_grouped' => false,
-                        'wrap' => false,
-                        'evidence' => false,
-                        'data_element' => false,
-                    ];
+                    $openpaAttribute = $openpa->attribute($identifier);
+                    if ($openpaAttribute->attribute('has_content')
+                        || $openpaAttribute->attribute('full')['show_empty']
+                    ) {
+                        if (!self::getDeepHasContent($openpaAttribute, $identifier, $tableView)){
+                            continue;
+                        }
+                        $items[] = [
+                            'slug' => $identifier,
+                            'title' => $openpa->attribute($identifier)->attribute('label'),
+                            'label' => $openpa->attribute($identifier)->attribute('label'),
+                            'attributes' => [$openpa->attribute($identifier)],
+                            'is_grouped' => false,
+                            'wrap' => false,
+                            'evidence' => false,
+                            'data_element' => false,
+                        ];
+                    }
                 }
             }
         }elseif($attributeGroups->attribute('enabled')){
@@ -1278,23 +1324,7 @@ class OpenPABootstrapItaliaOperators
                             $openpaAttribute = $openpa->attribute($identifier);
                             if (!$openpaAttribute->attribute('full')['exclude']
                                 && ($openpaAttribute->attribute('has_content') || $openpaAttribute->attribute('full')['show_empty'])) {
-                                if (
-                                    // workaround per ezboolean
-                                    (
-                                        $openpaAttribute->hasAttribute('contentobject_attribute')
-                                        && $openpaAttribute->attribute('contentobject_attribute')->attribute('data_type_string') == eZBooleanType::DATA_TYPE_STRING
-                                        && $openpaAttribute->attribute('contentobject_attribute')->attribute('data_int') != '1'
-                                    )
-                                    ||
-                                    // evita di duplicare l'immagine principale nella galleria
-                                    (
-                                        in_array($identifier, $tableView->attribute('main_image'))
-                                        && !in_array($identifier, $tableView->attribute('show_link'))
-                                        && $openpaAttribute->hasAttribute('contentobject_attribute')
-                                        && $openpaAttribute->attribute('contentobject_attribute')->attribute('data_type_string') == eZObjectRelationListType::DATA_TYPE_STRING
-                                        && count($openpaAttribute->attribute('contentobject_attribute')->attribute('content')['relation_list']) <= 1
-                                    )
-                                ){
+                                if (!self::getDeepHasContent($openpaAttribute, $identifier, $tableView)){
                                     continue;
                                 }
 
@@ -1328,6 +1358,9 @@ class OpenPABootstrapItaliaOperators
                             || $openpaAttribute->attribute('full')['show_empty']
                         )
                     ) {
+                        if (!self::getDeepHasContent($openpaAttribute, $identifier, $tableView)){
+                            continue;
+                        }
                         $items[] = [
                             'slug' => $identifier,
                             'title' => $openpa->attribute($identifier)->attribute('label'),

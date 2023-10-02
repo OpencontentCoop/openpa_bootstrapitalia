@@ -2,7 +2,8 @@
     'relation_view', 'list',
     'relation_has_wrapper', false(),
     'context_class', false(),
-    'attribute_index', 0
+    'attribute_index', 0,
+    'show_link', true()
 ))}
 
 {def $node_list = array()}
@@ -23,7 +24,7 @@
         {if $attribute.contentclass_attribute_identifier|eq('topics')}
             {include uri='design:atoms/chip_list.tpl' items=$node_list data_element=cond($attribute.object.class_identifier|eq('public_service'), 'service-topic', false())}
         {else}
-            {include uri='design:atoms/list_with_icon.tpl' items=$node_list}
+            {include uri='design:atoms/list_with_icon.tpl' items=$node_list show_link=$show_link}
         {/if}
     {else}
         {if $relation_has_wrapper|not()}<div class="card-wrapper card-column my-3" data-bs-toggle="masonry">{/if}
@@ -45,4 +46,4 @@
 
 {undef $node_list}
 
-{unset_defaults(array('relation_view', 'relation_has_wrapper', 'attribute_index'))}
+{unset_defaults(array('relation_view', 'relation_has_wrapper', 'attribute_index', 'show_link'))}
