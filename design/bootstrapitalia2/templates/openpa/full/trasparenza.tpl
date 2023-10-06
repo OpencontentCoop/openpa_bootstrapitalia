@@ -20,10 +20,7 @@
 <section class="container pt-5">
     <div class="row">
         <div class="col-lg-8 px-lg-4 py-lg-2">
-            <h1>{$node.name|wash()}</h1>
-
-            {include uri='design:openpa/full/parts/main_attributes.tpl'}
-
+            {include uri='design:openpa/full/parts/amministrazione_trasparente/intro.tpl' node=$node}
             {include uri='design:openpa/full/parts/info.tpl'}
 
         </div>

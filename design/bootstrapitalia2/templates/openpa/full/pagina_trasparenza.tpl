@@ -47,10 +47,7 @@
 <section class="container">
     <div class="row">
         <div class="col-lg-8 px-lg-4 py-lg-2">
-            <h1>{$root_node.name|wash()}</h1>
-
-            {attribute_view_gui attribute=$root_node|attribute('intro') image_class=reference alignment=center}
-
+            {include uri='design:openpa/full/parts/amministrazione_trasparente/intro.tpl' node=$root_node}
             {include uri='design:openpa/full/parts/info.tpl'}
 
         </div>
