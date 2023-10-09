@@ -211,5 +211,5 @@ Partners[opencitylabs]=OpenCity Labs|https://www.opencontent.it
 Consent=advanced
 
 [LockEdit_homepage]
-EnableBackgroundImage=disabled
+EnableBackgroundImage=enabled
 */ ?>
