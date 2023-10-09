@@ -66,7 +66,7 @@
     <link rel="manifest" href="/manifest.json" crossorigin = "use-credentials">
     <link rel="apple-touch-icon" href="/extension/openpa_bootstrapitalia/design/standard/images/svg/icon.png">
     <meta name="theme-color" content="{primary_color()}">
-    {no_index_if_needed()}
+    {openpa_no_index_if_needed()}
     {include uri='design:page_head.tpl' canonical_url=openpacontext().canonical_url}
     {/debug-accumulator}
 
