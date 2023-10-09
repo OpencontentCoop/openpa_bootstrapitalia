@@ -33,7 +33,7 @@
                     <ul class="link-list" role="list">
                         {foreach $block.valid_nodes as $valid_node}
                         <li role="listitem">
-                            {node_view_gui content_node=$valid_node a_class="list-item mb-3 active ps-0" span_class="text-button-normal" view=text_linked show_icon=true())}
+                            {node_view_gui content_node=$valid_node a_class="list-item mb-3 active ps-0" span_class="text-button-normal" view=text_linked show_icon=true()}
                         </li>
                         {/foreach}
                     </ul>

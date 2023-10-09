@@ -79,7 +79,11 @@ class OpenPAComuniItaliani extends eZPersistentObject implements JsonSerializabl
 
     public static function import()
     {
-        $csvSource = 'https://raw.githubusercontent.com/opendatasicilia/comuni-italiani/main/dati/comuni.csv';
+        if (file_exists('comuni.csv')){
+            $csvSource = 'comuni.csv';
+        }else {
+            $csvSource = 'https://raw.githubusercontent.com/opendatasicilia/comuni-italiani/main/dati/comuni.csv';
+        }
         $csvData = file_get_contents($csvSource);
         if (empty($csvData)) {
             throw new Exception("Data not found in $csvSource");
