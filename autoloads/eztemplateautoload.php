@@ -49,6 +49,8 @@ $eZTemplateOperatorArray = [
             'current_partner',
             'header_selected_topics',
             'is_active_public_service',
+            'can_instantiate_class_list_in_parent_node',
+            'topics_tree',
         ],
     ],
 ];

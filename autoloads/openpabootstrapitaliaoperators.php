@@ -14,6 +14,8 @@ class OpenPABootstrapItaliaOperators
 
     private static $activeServiceTag;
 
+    private static $canInstantiate = [];
+
     function operatorList()
     {
         return array(
@@ -63,6 +65,8 @@ class OpenPABootstrapItaliaOperators
             'current_partner',
             'header_selected_topics',
             'is_active_public_service',
+            'can_instantiate_class_list_in_parent_node',
+            'topics_tree',
         );
     }
 
@@ -161,6 +165,10 @@ class OpenPABootstrapItaliaOperators
             'is_active_public_service' =>  array(
                 'object' => array('type' => 'object', 'required' => false, 'default' => false),
             ),
+            'can_instantiate_class_list_in_parent_node'  =>  array(
+                'parent' => array('type' => 'mixed', 'required' => true, 'default' => 0),
+                'classes' => array('type' => 'array', 'required' => true, 'default' => []),
+            ),
         );
     }
 
@@ -175,6 +183,36 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'topics_tree':
+                $operatorValue = self::getTopicsTree();
+                break;
+
+            case 'can_instantiate_class_list_in_parent_node':
+                $operatorValue = [];
+                $parent = $namedParameters['parent'];
+                $classes = (array)$namedParameters['classes'];
+                sort($classes);
+                $key = md5($parent . implode('', $classes));
+                if (!isset(self::$canInstantiate[$key])) {
+                    if (!$parent instanceof eZContentObjectTreeNode) {
+                        $parent = eZContentObjectTreeNode::fetch((int)$parent);
+                    }
+                    if ($parent instanceof eZContentObjectTreeNode && count($classes)) {
+                        $canCreateClassList = $parent->canCreateClassList(true);
+                        if (count($canCreateClassList)) {
+                            foreach ($canCreateClassList as $class) {
+                                if (in_array($class->attribute('identifier'), $classes)) {
+                                    $operatorValue[] = $class;
+                                }
+                            }
+                        }
+                    }
+                    self::$canInstantiate[$key] = $operatorValue;
+                }else{
+                    $operatorValue = self::$canInstantiate[$key];
+                }
+                break;
 
             case 'is_active_public_service':
                 $object = $namedParameters['object'];
@@ -1837,4 +1875,62 @@ class OpenPABootstrapItaliaOperators
         return false;
     }
 
+    private static function getTopicsTreeCache()
+    {
+        $locale = eZLocale::currentLocaleCode();
+        $cacheFilePath = eZSys::cacheDirectory() . '/openpa/topics_tree/' . $locale . '.cache';
+        return eZClusterFileHandler::instance($cacheFilePath);
+    }
+
+    public static function getTopicsTree()
+    {
+        return self::getTopicsTreeCache()->processCache(
+            function ($file) {
+                $content = include($file);
+                return $content;
+            },
+            function () {
+                eZDebug::writeNotice(
+                    "Regenerate topics tree cache",
+                    'OpenPABootstrapItaliaOperators::getTopicsTree'
+                );
+                eZDebug::accumulatorStart('topics_tree', 'Debug-Accumulator', 'Regenerate topics tree cache');
+                $topics = [];
+                $parentObject = eZContentObject::fetchByRemoteID('topics');
+                if ($parentObject instanceof eZContentObject) {
+                    $parentNode = $parentObject->mainNode();
+                    if ($parentNode instanceof eZContentObjectTreeNode) {
+                        $children = $parentNode->children();
+                        foreach ($children as $child) {
+                            $topics[] = self::getTopicsTreeItem($child);
+                        }
+                    }
+                }
+                eZDebug::accumulatorStop('topics_tree');
+
+                return [
+                    'content' => $topics,
+                    'scope' => 'cache',
+                    'datatype' => 'php',
+                    'store' => true,
+                ];
+            }
+        );
+    }
+
+    public static function getTopicsTreeItem(eZContentObjectTreeNode $node)
+    {
+        $item = [
+            'contentobject_id' => $node->attribute('contentobject_id'),
+            'node_id' => $node->attribute('node_id'),
+            'name' => $node->attribute('name'),
+            'children' => [],
+        ];
+        $children = $node->children();
+        foreach ($children as $child){
+            $item['children'][] = self::getTopicsTreeItem($child);
+        }
+
+        return $item;
+    }
 }

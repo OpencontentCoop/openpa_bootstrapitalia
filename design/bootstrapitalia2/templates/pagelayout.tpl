@@ -127,10 +127,15 @@
         {include uri='design:page_footer.tpl'}
     {undef $pagedata}
     {/cache-block}
-{/debug-accumulator}
+    {/debug-accumulator}
 {/if}
 
 {include uri='design:page_footer_script.tpl'}
+{debug-accumulator id=advanced_cookie_consent name=advanced_cookie_consent}
+{cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name )}
+    {include uri='design:advanced_cookie_consent.tpl'}
+{/cache-block}
+{/debug-accumulator}
 
 {include uri='design:parts/load_global_website_toolbar.tpl' current_user=fetch(user, current_user)}
 
