@@ -439,11 +439,18 @@
                     panelHeading.find('h5').append(' in ' + itemName);
                 }
             });
-
-            var inputGroup = $('<div class="input-group"></div>');
-            this.searchInput = $('<input class="form-control" type="text" placeholder="" value=""/>').appendTo(inputGroup);
             var inputGroupButtonContainer = $('<div class="input-group-append"></div>');
-            var searchButton = $('<button type="button" class="btn btn-info">'+self.settings.i18n.search+'</button>').appendTo(inputGroupButtonContainer);
+            var searchButton = $('<button type="button" class="btn btn-info">'+self.settings.i18n.search+'</button>')
+              .appendTo(inputGroupButtonContainer);
+            var inputGroup = $('<div class="input-group"></div>');
+            this.searchInput = $('<input class="form-control" type="text" placeholder="" value=""/>')
+              .on('keydown', function(event) {
+                  if (event.key === 'Enter') {
+                      searchButton.trigger('click');
+                      event.preventDefault();
+                  }
+              })
+              .appendTo(inputGroup);
             inputGroupButtonContainer.appendTo(inputGroup);
             inputGroup.appendTo(panel);
             this.searchInput.focus();
