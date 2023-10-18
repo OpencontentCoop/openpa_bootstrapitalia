@@ -9,4 +9,7 @@ Scripts[]=sqliimport_run.php
 Scripts[]=sqliimport_cleanup.php
 Scripts[]=indexcontent.php
 
+[CronjobPart-staticcache]
+Scripts[]=staticcache.php
+
 */ ?>

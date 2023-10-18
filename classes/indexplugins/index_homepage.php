@@ -19,8 +19,9 @@ class ezfIndexHomepage implements ezfIndexPlugin
                         'iniSection' => 'ContentSettings',
                         'iniVariable' => 'StaticCacheHandler'
                     ]);
+                    /** @var ezpStaticCache $staticCacheHandler */
                     $staticCacheHandler = eZExtension::getHandlerClass($options);
-                    $staticCacheHandler->generateCache(true, false, false, false);
+                    $staticCacheHandler->generateCache(true, false, false, true);
                 }catch (Exception $e){
                     eZDebug::writeError($e->getMessage(), __METHOD__);
                 }
