@@ -133,7 +133,7 @@
 {include uri='design:page_footer_script.tpl'}
 {debug-accumulator id=advanced_cookie_consent name=advanced_cookie_consent}
 {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name )}
-    {include uri='design:advanced_cookie_consent.tpl'}
+    {include uri='design:footer/advanced_cookie_consent.tpl'}
 {/cache-block}
 {/debug-accumulator}
 
