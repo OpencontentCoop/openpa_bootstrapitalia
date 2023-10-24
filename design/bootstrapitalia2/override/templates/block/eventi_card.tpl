@@ -68,7 +68,7 @@
 						{{if ~contentIcon && subtree}}
 						<div class="category-top">
 							<svg class="icon">
-								<use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#{{:~contentIcon}}"></use>
+								<use xlink:href="{/literal}{sprite_svg_href()}{literal}#{{:~contentIcon}}"></use>
 							</svg>
 							<span class="category" href="{{:subtree.url}}">{{:subtree.text}}</span>
 						</div>

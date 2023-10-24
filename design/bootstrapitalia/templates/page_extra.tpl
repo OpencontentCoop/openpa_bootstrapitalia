@@ -255,7 +255,7 @@
 <script>
 $(document).ready(function () {
     $('#searchModal').searchGui({
-        'spritePath': '{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}',
+        'spritePath': '{/literal}{sprite_svg_href()}{literal}',
         'i18n': {
             search: '{/literal}{'Search'|i18n('openpa/search')}{literal}',
             filters: '{/literal}{'Filters'|i18n('bootstrapitalia')}{literal}',

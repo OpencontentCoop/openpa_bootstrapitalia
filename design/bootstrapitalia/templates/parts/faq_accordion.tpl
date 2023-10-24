@@ -90,7 +90,7 @@ $.opendataTools.settings('languages', ['{/literal}{ezini('RegionalSettings','Sit
                 <li class="page-item">
                     <a class="page-link prevPage" data-page="{{>prevPage}}" href="#">
                         <svg class="icon icon-primary">
-                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
+                            <use xlink:href="{/literal}{sprite_svg_href()}{literal}#it-chevron-left"></use>
                         </svg>
                         <span class="sr-only">Pagina precedente</span>
                     </a>
@@ -104,7 +104,7 @@ $.opendataTools.settings('languages', ['{/literal}{ezini('RegionalSettings','Sit
                     <a class="page-link nextPage" data-page="{{>nextPage}}" href="#">
                         <span class="sr-only">Pagina successiva</span>
                         <svg class="icon icon-primary">
-                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
+                            <use xlink:href="{/literal}{sprite_svg_href()}{literal}#it-chevron-right"></use>
                         </svg>
                     </a>
                 </li>

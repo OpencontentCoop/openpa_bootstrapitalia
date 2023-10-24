@@ -67,6 +67,8 @@ class OpenPABootstrapItaliaOperators
             'is_active_public_service',
             'can_instantiate_class_list_in_parent_node',
             'topics_tree',
+            'shared_asset',
+            'sprite_svg_href',
         );
     }
 
@@ -183,6 +185,15 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'sprite_svg_href':
+                $operatorValue = self::getSpriteSvgPath();
+                break;
+
+            case 'shared_asset':
+                $sharedAssetsHandler = new BootstrapItaliaSharedAssetsHandler();
+                $operatorValue = $sharedAssetsHandler->applyServerUrl($operatorValue);
+                break;
 
             case 'topics_tree':
                 $operatorValue = self::getTopicsTree();
@@ -612,7 +623,7 @@ class OpenPABootstrapItaliaOperators
                     } else {
                         $cssClass .= ' aria-hidden="true" focusable="false"';
                     }
-                    $path = eZURLOperator::eZDesign($tpl, 'images/svg/sprite.svg', 'ezdesign');
+                    $path = self::getSpriteSvgPath();
                     $operatorValue = '<svg' . $cssClass . '><use xlink:href="' . $path . '#' . $iconText . '"></use></svg>';
                 }
 
@@ -683,6 +694,11 @@ class OpenPABootstrapItaliaOperators
                 }
                 break;
         }
+    }
+
+    private static function getSpriteSvgPath(): string
+    {
+        return eZURLOperator::eZDesign(eZTemplate::factory(), 'images/svg/sprite.svg', 'ezdesign');
     }
 
     public static function getBannerColorStaticSelection(): array

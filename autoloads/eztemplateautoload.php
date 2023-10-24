@@ -51,6 +51,8 @@ $eZTemplateOperatorArray = [
             'is_active_public_service',
             'can_instantiate_class_list_in_parent_node',
             'topics_tree',
+            'shared_asset',
+            'sprite_svg_href',
         ],
     ],
 ];

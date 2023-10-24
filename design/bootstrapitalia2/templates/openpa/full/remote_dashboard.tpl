@@ -239,7 +239,7 @@
 	                <li class="page-item {{if !prevPageQuery}}disabled{{/if}}">
 	                    <a class="page-link prevPage" {{if prevPageQuery}}data-page="{{>prevPage}}"{{/if}} href="#">
 	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
+	                            <use xlink:href="{/literal}{sprite_svg_href()}{literal}#it-chevron-left"></use>
 	                        </svg>
 	                        <span class="sr-only">Pagina precedente</span>
 	                    </a>
@@ -251,7 +251,7 @@
 	                    <a class="page-link nextPage" {{if nextPageQuery}}data-page="{{>nextPage}}"{{/if}} href="#">
 	                        <span class="sr-only">Pagina successiva</span>
 	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
+	                            <use xlink:href="{/literal}{sprite_svg_href()}{literal}#it-chevron-right"></use>
 	                        </svg>
 	                    </a>
 	                </li>
@@ -298,7 +298,7 @@
 	                <li class="page-item {{if !prevPageQuery}}disabled{{/if}}">
 	                    <a class="page-link prevPage" {{if prevPageQuery}}data-page="{{>prevPage}}"{{/if}} href="#">
 	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
+	                            <use xlink:href="{/literal}{sprite_svg_href()}{literal}#it-chevron-left"></use>
 	                        </svg>
 	                        <span class="sr-only">Pagina precedente</span>
 	                    </a>
@@ -310,7 +310,7 @@
 	                    <a class="page-link nextPage" {{if nextPageQuery}}data-page="{{>nextPage}}"{{/if}} href="#">
 	                        <span class="sr-only">Pagina successiva</span>
 	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
+	                            <use xlink:href="{/literal}{sprite_svg_href()}{literal}#it-chevron-right"></use>
 	                        </svg>
 	                    </a>
 	                </li>
@@ -333,7 +333,7 @@
         </div>
         <a class="read-more" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">
             <span class="text">{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}</span>
-            <svg class="icon"><use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-arrow-right" aria-label="{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}"></use></svg>
+            <svg class="icon"><use xlink:href="{/literal}{sprite_svg_href()}{literal}#it-arrow-right" aria-label="{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}"></use></svg>
         </a>
     </div>
 </div>

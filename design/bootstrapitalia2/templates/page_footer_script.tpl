@@ -1,4 +1,4 @@
-<script src="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign( 'no' )}"></script>
+<script src="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign( 'no' )|shared_asset()}"></script>
 <script>window.__PUBLIC_PATH__ = "https://static.opencityitalia.it/fonts";bootstrap.loadFonts()</script>
 
 {if openpaini('ImageSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}

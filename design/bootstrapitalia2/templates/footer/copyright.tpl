@@ -34,7 +34,7 @@
                  class="icon icon-xs"
                  aria-label="{openpaini('CreditsSettings', 'CodeVersion', false())}"
                  title="{openpaini('CreditsSettings', 'CodeVersion', false())}">
-                <use href="{'images/svg/sprites.svg'|ezdesign('no')}#it-info-circle"></use>
+                <use href="{sprite_svg_href()}#it-info-circle"></use>
             </svg>
             {/if}
         {/if}

@@ -27,7 +27,7 @@
         var preview = container.find('svg.icon');
         function displayIconSelect() {
             if (select.val() !== '')
-                preview.html('<use xlink:href={/literal}"{'images/svg/sprite.svg'|ezdesign(no)}{literal}#'+select.val()+'"></use>')
+                preview.html('<use xlink:href="{/literal}{sprite_svg_href()}{literal}#'+select.val()+'"></use>')
             else
                 preview.html('');
         }
