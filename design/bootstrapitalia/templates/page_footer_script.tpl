@@ -1,5 +1,5 @@
-<script>window.__PUBLIC_PATH__ = "{'fonts'|ezdesign(no)}"</script>
-<script src="{'javascript/app.min.js'|ezdesign(no)}"></script>
+<script>window.__PUBLIC_PATH__ = "{'fonts'|ezdesign(no)|shared_asset()}"</script>
+<script src="{'javascript/app.min.js'|ezdesign(no)|shared_asset()}"></script>
 
 {if openpaini( 'Seo', 'GoogleAnalyticsAccountID', false() )}
     {* see https://goenning.net/2021/02/01/cookieless-google-analytics/ *}

@@ -199,7 +199,7 @@
                 geo: "{concat('/customgeo/',$custom_repository)|ezurl(no)}/",
                 search: "{concat('/customfind/',$custom_repository)|ezurl(no)}/",
                 datatable: "{concat('/customdatatable/',$custom_repository)|ezurl(no)}/",
-                datatableLanguage: "{concat('javascript/datatable/',$current_language,'.json')|ezdesign(no)}",
+                datatableLanguage: "{concat('javascript/datatable/',$current_language,'.json')|ezdesign(no)|shared_asset()}",
                 calendar: "{concat('/customcalendar/',$custom_repository)|ezurl(no)}/",
                 csv: "{concat('/customexport/',$custom_repository)|ezurl(no)}/",
                 counter: "{concat('/customcount/',$custom_repository)|ezurl(no)}/"

@@ -6,8 +6,8 @@
 
 {*{preload_css($footer_css_loader)}*}
 
-<link rel="preload" as="style" href="{concat('stylesheets/', $theme,'.css')|ezdesign(no)}"/>
-{*<link rel="preload" as="script" href="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign('no')}" />*}
+<link rel="preload" as="style" href="{concat('stylesheets/', $theme,'.css')|ezdesign(no)|shared_asset()}"/>
+{*<link rel="preload" as="script" href="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign('no')|shared_asset()}" />*}
 
 <link rel="preload" href="https://static.opencityitalia.it/fonts/Titillium_Web/titillium-web-v10-latin-ext_latin-300.woff2" as="font" type="font/woff2" crossorigin>
 {*<link rel="preload" href="https://static.opencityitalia.it/fonts/Titillium_Web/titillium-web-v10-latin-ext_latin-regular.woff2" as="font" type="font/woff2" crossorigin>*}
@@ -23,4 +23,4 @@
 {/foreach}{/if}
 
 <link rel="preload" href="https://static.opencityitalia.it/fonts/FontAwesome/fontawesome-webfont.woff2?v=4.7.0" as="font" type="font/woff2" crossorigin>
-{*<link rel="preload" href="{'images/svg/sprites.svg'|ezdesign('no')}" as="image" type="image/svg+xml" />*}
+{*<link rel="preload" href="{sprite_svg_href()}" as="image" type="image/svg+xml" />*}

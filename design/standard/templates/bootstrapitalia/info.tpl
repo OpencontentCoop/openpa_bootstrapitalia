@@ -67,7 +67,7 @@
                              width="16"
                              height="16"
                              class="bg-primary"
-                             src="{$_favicon|ezimage(no)}" />
+                             src="{$_favicon|ezimage(no)|shared_asset()}" />
                     {else}
                         <img alt="{ezini('SiteSettings','SiteName')}"
                              width="16"

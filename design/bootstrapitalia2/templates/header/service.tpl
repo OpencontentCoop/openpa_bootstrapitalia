@@ -315,14 +315,14 @@
           var response = data.content;
           response.id = CurrentUserId;
           response.prefix = trimmedPrefix;
-          response.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
+          response.spritePath = "{/literal}{sprite_svg_href()}{literal}";
           var renderData = $($.templates('#tpl-user-access').render(response));
           $('[data-element="personal-area-login"]').replaceWith(renderData)
         }
       };
       var injectProfileInfo = function (data) {
         data.prefix = trimmedPrefix;
-        data.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
+        data.spritePath = "{/literal}{sprite_svg_href()}{literal}";
         data.baseUrl = baseUrl;
         var renderData = $($.templates('#tpl-user-profile').render(data));
         $('[data-element="personal-area-login"]').replaceWith(renderData)

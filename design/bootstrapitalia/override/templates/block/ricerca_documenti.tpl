@@ -246,7 +246,7 @@
 	                <li class="page-item {{if !prevPageQuery}}disabled{{/if}}">
 	                    <a class="page-link prevPage" {{if prevPageQuery}}data-page="{{>prevPage}}"{{/if}} href="#">
 	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
+	                            <use xlink:href="{/literal}{sprite_svg_href()}{literal}#it-chevron-left"></use>
 	                        </svg>
 	                        <span class="sr-only">{/literal}{"Previous"|i18n("design/admin/navigator")}{literal}</span>
 	                    </a>
@@ -260,7 +260,7 @@
 	                    <a class="page-link nextPage" {{if nextPageQuery}}data-page="{{>nextPage}}"{{/if}} href="#">
 	                        <span class="sr-only">{/literal}{"Next"|i18n("design/admin/navigator")}{literal}</span>
 	                        <svg class="icon icon-primary">
-	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
+	                            <use xlink:href="{/literal}{sprite_svg_href()}{literal}#it-chevron-right"></use>
 	                        </svg>
 	                    </a>
 	                </li>

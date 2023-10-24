@@ -1,9 +1,9 @@
-<script src="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign( 'no' )}"></script>
+<script src="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign( 'no' )|shared_asset()}"></script>
 <script>window.__PUBLIC_PATH__ = "https://static.opencityitalia.it/fonts";bootstrap.loadFonts()</script>
 
 {if openpaini('ImageSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}
-  <script src="{'javascript/ls.rias.min.js'|ezdesign(no)}" async=""></script>
-  <script src="{'javascript/lazysizes.min.js'|ezdesign(no)}" async=""></script>
+  <script src="{'javascript/ls.rias.min.js'|ezdesign(no)|shared_asset()}" async=""></script>
+  <script src="{'javascript/lazysizes.min.js'|ezdesign(no)|shared_asset()}" async=""></script>
   <script>
     window.lazySizesConfig = window.lazySizesConfig || {ldelim}{rdelim};
     window.lazySizesConfig.rias = window.lazySizesConfig.rias || {ldelim}{rdelim};

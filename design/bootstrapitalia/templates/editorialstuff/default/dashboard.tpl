@@ -135,7 +135,7 @@
 <script>
     $(document).ready(function () {
         $('#dashboardSearchModal').dashboardSearchGui({
-            'spritePath': '{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}',
+            'spritePath': '{/literal}{sprite_svg_href()}{literal}',
             'factory': '{/literal}{$factory_identifier}{literal}',
             'stateGroup': '{/literal}{$state_group_identifier}{literal}',
         });

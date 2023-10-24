@@ -10,7 +10,7 @@
 {if $favicon_attribute}
     <link rel="icon" href="{concat("content/download/",$favicon_attribute.contentobject_id,"/",$favicon_attribute.id,"/file/favicon.ico")|ezurl(no)}?v={$favicon_attribute.version}" type="image/x-icon" />
 {elseif $favicon_src|eq('ezimage')}
-    <link rel="icon" href="{$favicon|ezimage(no)}" type="image/x-icon" />
+    <link rel="icon" href="{$favicon|ezimage(no)|shared_asset()}" type="image/x-icon" />
 {else}
     <link rel="icon" href="{$favicon}" type="image/x-icon" />
 {/if}

@@ -8,7 +8,7 @@
                                     data-bs-target="#search-modal"
                                     aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
                                 <svg class="icon icon-md" aria-label="{'Close'|i18n('bootstrapitalia')}">
-                                    <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-arrow-left"></use>
+                                    <use href="{sprite_svg_href()}#it-arrow-left"></use>
                                 </svg>
                             </button>
                             <h2>{'Search'|i18n('openpa/search')}</h2>
@@ -17,7 +17,7 @@
                                     data-bs-target="#search-modal"
                                     aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
                                 <svg class="icon icon-md" aria-label="{'Close'|i18n('bootstrapitalia')}">
-                                    <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-close-big"></use>
+                                    <use href="{sprite_svg_href()}#it-close-big"></use>
                                 </svg>
                             </button>
                         </div>

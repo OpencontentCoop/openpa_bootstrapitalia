@@ -54,6 +54,8 @@ $eZTemplateOperatorArray = [
             'sentry_script_loader',
             'built_in_app_variables',
             'built_in_app',
+            'shared_asset',
+            'sprite_svg_href',
         ],
     ],
 ];

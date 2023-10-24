@@ -106,7 +106,7 @@
                         columns: columns,
                         columnDefs: columnDefs,
                         language:{
-                            url: "{/literal}{concat('javascript/datatable/',$current_language,'.json')|ezdesign(no)}{literal}"
+                            url: "{/literal}{concat('javascript/datatable/',$current_language,'.json')|ezdesign(no)|shared_asset()}{literal}"
                         },
                     }
                 }).on('xhr.dt', function ( e, settings, json, xhr ) {

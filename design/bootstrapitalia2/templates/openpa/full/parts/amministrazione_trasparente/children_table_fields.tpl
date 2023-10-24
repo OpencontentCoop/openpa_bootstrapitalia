@@ -30,7 +30,7 @@
           "responsive": true,
           "order": {$fields.order},
           "language":{ldelim}
-              "url": "{concat('javascript/datatable/',$current_language,'.json')|ezdesign(no)}"
+              "url": "{concat('javascript/datatable/',$current_language,'.json')|ezdesign(no)|shared_asset()}"
           {rdelim},
           "ajax": {ldelim}url: "{'opendata/api/datatable/search'|ezurl(no,full)}/"{rdelim},
           "lengthMenu": [ 30, 60, 90, 120 ],
