@@ -54,6 +54,12 @@ $ViewList['version_remove'] = [
     'params' => ['Id', 'Version', 'Locale'],
     'unordered_params' => [],
 ];
+$ViewList['edit'] = [
+    'functions' => ['opencity_locked_editor'],
+    'script' => 'edit.php',
+    'params' => ['Identifier'],
+    'unordered_params' => [],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];
