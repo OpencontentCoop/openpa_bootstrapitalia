@@ -330,7 +330,7 @@
                                     )
                                   {/if}
                             <input class="block-control" type="hidden" name="ContentObjectAttribute_ezpage_item_ts_published_value_{$attribute.id}[{$zone_id}][{$block_id}][{$item.object_id}]" value="{$item.ts_publication}" />
-                            <img class="schedule-handler" src="{'ezpage/clock_ico.gif'|ezimage(no)}" alt="{concat( 'Publishing schedule for: '|i18n( 'design/standard/block/edit' ), $item_object.name|wash() )|shorten( '50' )}" title="{concat( 'Publishing schedule for: '|i18n( 'design/standard/block/edit' ), $item_object.name|wash() )|shorten( '50' )}" />
+                            <img class="schedule-handler" src="{'ezpage/clock_ico.gif'|ezimage(no)|shared_asset()}" alt="{concat( 'Publishing schedule for: '|i18n( 'design/standard/block/edit' ), $item_object.name|wash() )|shorten( '50' )}" title="{concat( 'Publishing schedule for: '|i18n( 'design/standard/block/edit' ), $item_object.name|wash() )|shorten( '50' )}" />
                         {/if}
                     </td>
             </tr>

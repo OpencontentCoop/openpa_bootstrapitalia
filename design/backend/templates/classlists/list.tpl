@@ -124,7 +124,7 @@
     {$node.object.modified|l10n(shortdatetime)}
 </td>
 <td class="edit">
-    <a href={concat( '/content/edit/', $node.object.id )|ezurl()}><img src={'edit.gif'|ezimage()} alt="{'Modify'|i18n( 'classlists/list')}" /></a>
+    <a href={concat( '/content/edit/', $node.object.id )|ezurl()}><img src={'edit.gif'|ezimage()|shared_asset()} alt="{'Modify'|i18n( 'classlists/list')}" /></a>
 </td>
 </tr>
 {/foreach}

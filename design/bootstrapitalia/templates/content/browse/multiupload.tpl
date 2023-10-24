@@ -221,7 +221,7 @@
 {ezscript( array( 'ezjsc::jqueryio', 'jcookie.js' ) )}
 
 <script type="text/javascript">
-    var previewIcon = {'websitetoolbar/ezwt-icon-preview.png'|ezimage()};
+    var previewIcon = {'websitetoolbar/ezwt-icon-preview.png'|ezimage()|shared_asset()};
     {literal}
     $(document).ready(function () {
 

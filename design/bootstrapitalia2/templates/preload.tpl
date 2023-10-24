@@ -7,7 +7,7 @@
 {*{preload_css($footer_css_loader)}*}
 
 <link rel="preload" as="style" href="{concat('stylesheets/', $theme,'.css')|ezdesign(no)|shared_asset()}"/>
-{*<link rel="preload" as="script" href="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign('no')}" />*}
+{*<link rel="preload" as="script" href="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign('no')|shared_asset()}" />*}
 
 <link rel="preload" href="https://static.opencityitalia.it/fonts/Titillium_Web/titillium-web-v10-latin-ext_latin-300.woff2" as="font" type="font/woff2" crossorigin>
 {*<link rel="preload" href="https://static.opencityitalia.it/fonts/Titillium_Web/titillium-web-v10-latin-ext_latin-regular.woff2" as="font" type="font/woff2" crossorigin>*}
