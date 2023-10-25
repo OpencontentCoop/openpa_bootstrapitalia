@@ -5,7 +5,10 @@
 ))}
 
 {def $view='card'}
-
+{def $max_events = 3}
+{if and(is_set($block.custom_attributes.max_events), $block.custom_attributes.max_events|int()|gt(0))}
+	{set $max_events = $block.custom_attributes.max_events}
+{/if}
 {def $query = "classes [event] sort [time_interval=>asc]"}
 {*if and(is_set($block.custom_attributes.includi_classi), $block.custom_attributes.includi_classi|ne(''))}
     {set $query = concat('classes [', $block.custom_attributes.includi_classi, '] limit 3')}
@@ -17,7 +20,7 @@
 		 data-block_subtree_query="{$query}"
 		 data-search_type="calendar"
 		 data-day_limit="180"
-		 data-limit="3"
+		 data-limit="{$max_events}"
 		 data-items_per_row="3">
 		<div class="row row-title">
 			{if $block.name|ne('')}
@@ -37,6 +40,7 @@
 		{undef $intro}
 		<div class="{if $block.name|ne('')}py-4{else}pb-4{/if} results"></div>
 
+		{if and(is_set($#node), $#node.object.remote_id|ne('all-events'))}
 		{def $calendar = fetch(content, object, hash('remote_id', 'all-events'))}
 		{if $calendar}
 		<div class="d-flex justify-content-end mt-4">
@@ -50,6 +54,7 @@
 		</div>
 		{/if}
 		{undef $calendar}
+		{/if}
 	</div>
 {/if}
 
