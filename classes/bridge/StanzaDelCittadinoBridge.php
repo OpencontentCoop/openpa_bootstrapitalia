@@ -7,6 +7,20 @@ use Opencontent\Opendata\Rest\Client\PayloadBuilder;
 
 class StanzaDelCittadinoBridge
 {
+    const CHANNELS_REMOTE_ID = '3bb4f45279e3c4efe2ac84630e53a7b4';
+
+    const SERVICES_REMOTE_ID = 'all-services';
+
+    const OUTPUTS_REMOTE_ID = 'f1c1c3e7404f162fa27d7accbe742f3d';
+
+    const SERVICE_HOURS_REMOTE_ID = 'f10a85a4ddd1810f10f655785dd84e75';
+
+    const PLACES_REMOTE_ID = 'all-places';
+
+    const CONTACTS_REMOTE_ID = 'punti_di_contatto';
+
+    const OFFICES_REMOTE_ID = 'a9d783ef0712ac3e37edb23796990714';
+
     private static $instance;
 
     /**
@@ -141,6 +155,13 @@ class StanzaDelCittadinoBridge
     public function getUserLoginUri(): ?string
     {
         return $this->accessUrl;
+    }
+
+    public function getTenantUri(): ?string
+    {
+        return rtrim(
+            str_replace('/it/user', '', $this->accessUrl), '/'
+        );
     }
 
     public function setUserLoginUri(?string $accessUrl): void
@@ -375,25 +396,61 @@ class StanzaDelCittadinoBridge
             if ($parentIdentifier){
                 return "Warning: $type channel of $identifier (child of $parentIdentifier) service not found";
             }
-            throw new ServiceToolsException('Local service channel not found');
+//            throw new ServiceToolsException('Local service channel not found');
         }
-        if (empty($label)) {
+        if (empty($label) && $channelObject instanceof eZContentObject) {
             $dataMap = $channelObject->dataMap();
             if (isset($dataMap['channel_url'])) {
                 $label = $dataMap['channel_url']->attribute('data_text');
             }
         }
+
+        if (empty($label)) {
+            $label = $type === 'access' ? 'Accedi al servizio' : 'Prenota appuntamento';
+        }
+
         $channelPayload = new PayloadBuilder();
         $channelPayload->setRemoteId($remoteId);
         $channelPayload->setLanguages([$locale]);
+        $channelPayload->setClassIdentifier('channel');
         $channelPayload->setData($locale, 'channel_url', $url . '|' . $label);
 
         $repository = new ContentRepository();
         $repository->setEnvironment(new DefaultEnvironmentSettings());
 
-        $repository->update((array)$channelPayload);
+        if (!$channelObject instanceof eZContentObject){
+            $channelPayload->setData($locale, 'object', $label);
+            $channelPayload->setData($locale, 'abstract', $label);
+            $channelPayload->setParentNodes(
+                [eZContentObject::fetchByRemoteID(self::CHANNELS_REMOTE_ID)->mainNodeID()]
+            );
+            $channelPayload->setData($locale, 'has_channel_type',
+                $type === 'access' ? ['Applicazione Web'] : ['Sportello Pubblica Amministrazione']
+            );
+            $channel = $repository->create((array)$channelPayload);
+            $channelId = $channel['content']['metadata']['id'];
+        }else{
+            $repository->update((array)$channelPayload);
+            $channelId = $channelObject->attribute('id');
+        }
+
         $url = eZContentObject::fetchByRemoteID($channelPayload->getMetadaData('remoteId'))->mainNode()->urlAlias();
         eZURI::transformURI($url, false, 'full');
+
+        $publicServiceObject = eZContentObject::fetchByRemoteID($identifier);
+        if ($publicServiceObject instanceof eZContentObject){
+            $publicServiceObjectDataMap = $publicServiceObject->dataMap();
+            if (isset($publicServiceObjectDataMap['has_channel'])){
+                $currentItems = explode('-', $publicServiceObjectDataMap['has_channel']->toString());
+                if (!in_array($channelId, $currentItems)) {
+                    $currentItems[] = $channelId;
+                    $publicServiceObjectDataMap['has_channel']->fromString(
+                        implode('-', array_unique($currentItems))
+                    );
+                    $publicServiceObjectDataMap['has_channel']->store();
+                }
+            }
+        }
 
         return $url;
     }
@@ -424,14 +481,14 @@ class StanzaDelCittadinoBridge
         );
 
         $publicServicePayload->setRemoteId($identifier);
-        $publicServicePayload->setParentNodes([eZContentObject::fetchByRemoteID('all-services')->mainNodeID()]);
+        $publicServicePayload->setParentNodes([eZContentObject::fetchByRemoteID(self::SERVICES_REMOTE_ID)->mainNodeID()]);
         $publicServicePayload->setData(
             null,
             'produces_output',
             $this->getIdListFromRemoteIdList(
                 $client,
                 $this->getIdList($publicServicePayload, 'produces_output', $locale),
-                eZContentObject::fetchByRemoteID('f1c1c3e7404f162fa27d7accbe742f3d')->mainNodeID()
+                eZContentObject::fetchByRemoteID(self::OUTPUTS_REMOTE_ID)->mainNodeID()
             )
         );
         $publicServicePayload->setData(
@@ -440,7 +497,7 @@ class StanzaDelCittadinoBridge
             $this->getIdListFromRemoteIdList(
                 $client,
                 $this->getIdList($publicServicePayload, 'has_temporal_coverage', $locale),
-                eZContentObject::fetchByRemoteID('f10a85a4ddd1810f10f655785dd84e75')->mainNodeID()
+                eZContentObject::fetchByRemoteID(self::SERVICE_HOURS_REMOTE_ID)->mainNodeID()
             )
         );
         $publicServicePayload->setData(
@@ -449,7 +506,7 @@ class StanzaDelCittadinoBridge
             $this->getIdListFromRemoteIdList(
                 $client,
                 $this->getIdList($publicServicePayload, 'has_channel', $locale),
-                eZContentObject::fetchByRemoteID('3bb4f45279e3c4efe2ac84630e53a7b4')->mainNodeID(),
+                eZContentObject::fetchByRemoteID(self::CHANNELS_REMOTE_ID)->mainNodeID(),
                 function (PayloadBuilder $payload) use ($service, $locale, $identifier) {
                     $channelUrl = $payload->getData('channel_url', $locale);
                     $channelUrlParts = explode('|', $channelUrl);
@@ -490,7 +547,7 @@ class StanzaDelCittadinoBridge
             $this->getIdListFromRemoteNameList(
                 $client,
                 $this->getNameList($publicServicePayload, 'is_physically_available_at', $locale),
-                eZContentObject::fetchByRemoteID('all-places')->mainNodeID(),
+                eZContentObject::fetchByRemoteID(self::PLACES_REMOTE_ID)->mainNodeID(),
                 ['place'],
                 '4c246236f96f06a1a73a8ca05ebf71e7'
             )
@@ -501,7 +558,7 @@ class StanzaDelCittadinoBridge
             $this->getIdListFromRemoteNameList(
                 $client,
                 $this->getNameList($publicServicePayload, 'has_online_contact_point', $locale),
-                eZContentObject::fetchByRemoteID('punti_di_contatto')->mainNodeID(),
+                eZContentObject::fetchByRemoteID(self::CONTACTS_REMOTE_ID)->mainNodeID(),
                 ['online_contact_point'],
                 '68aa77e31ed4a7483c13abb96454c24e'
             )
@@ -512,7 +569,7 @@ class StanzaDelCittadinoBridge
             $this->getIdListFromRemoteNameList(
                 $client,
                 $this->getNameList($publicServicePayload, 'holds_role_in_time', $locale),
-                eZContentObject::fetchByRemoteID('a9d783ef0712ac3e37edb23796990714')->mainNodeID(),
+                eZContentObject::fetchByRemoteID(self::OFFICES_REMOTE_ID)->mainNodeID(),
                 ['organization'],
                 '7527419b2d5fde514875e35da20bfe1e'
             )

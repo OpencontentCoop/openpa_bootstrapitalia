@@ -230,6 +230,20 @@ class ServiceToolsController extends ezpRestMvcController
         return $result;
     }
 
+    public function doGetTenantUrl()
+    {
+        try {
+            $this->checkAccess();
+            $bridge = StanzaDelCittadinoBridge::factory();
+            $result = new ezpRestMvcResult();
+            $result->variables = ['url' => $bridge->getTenantUri()];
+        } catch (Throwable $e) {
+            $result = $this->doExceptionResult($e);
+        }
+
+        return $result;
+    }
+
     public static function getServerUrl()
     {
         $endoint = '/api/servicetools/v1/';
@@ -445,6 +459,32 @@ class ServiceToolsController extends ezpRestMvcController
                     ],
                 ],
                 '/tenant_url' => [
+                    'get' => [
+                        'tags' => ['Tenant'],
+                        'description' => 'Ottiene le informazioni sul collegamento a area personale.',
+                        'operationId' => 'getTenantUrl',
+                        'responses' => [
+                            200 => [
+                                'description' => 'Successful response',
+                                'content' => [
+                                    'application/json' => [
+                                        'schema' => [
+                                            'type' => 'object',
+                                        ],
+                                    ],
+                                ],
+                            ],
+                            403 => [
+                                'description' => 'Forbidden',
+                                'headers' => $errorHeaders,
+                            ],
+                            500 => [
+                                'description' => 'Internal error',
+                                'headers' => $errorHeaders,
+                            ],
+                        ],
+                        'parameters' => [],
+                    ],
                     'post' => [
                         'tags' => ['Tenant'],
                         'description' => 'Aggiorna il collegamento a area personale. L\'url inserito deve comprendere il suffisso (esempio: https://servizi.comune.bugliano.pi.it/lang)',
