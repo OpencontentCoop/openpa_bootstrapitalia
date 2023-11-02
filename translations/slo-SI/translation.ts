@@ -304,6 +304,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Search by keyword</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Search in the site</source>
       <translation type="unfinished"/>
     </message>
@@ -479,6 +483,34 @@
       <source>Go to footer</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Explore the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Explore documents</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>All documents and data</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Explore by category</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Evidence topics</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search for services, information, people</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Legal notices</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -650,7 +682,7 @@
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Vzpona</translation>
+      <translation>Vzbujanje</translation>
     </message>
     <message>
       <source>Score</source>
@@ -1141,6 +1173,10 @@
     </message>
     <message>
       <source>to</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>%count documents found</source>
       <translation type="unfinished"/>
     </message>
   </context>

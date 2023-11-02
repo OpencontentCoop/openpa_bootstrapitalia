@@ -304,6 +304,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Search by keyword</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Search in the site</source>
       <translation type="unfinished"/>
     </message>
@@ -479,6 +483,34 @@
       <source>Go to footer</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Explore the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Explore documents</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>All documents and data</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Explore by category</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Evidence topics</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search for services, information, people</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Legal notices</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -634,7 +666,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Seulement des informations de type</translation>
+      <translation>Seules les informations de type</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -726,7 +758,7 @@
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>La recherche est retournée% 2 correspondances</translation>
+      <translation>Recherche de recherche% 2 Matchs</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
@@ -1141,6 +1173,10 @@
     </message>
     <message>
       <source>to</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>%count documents found</source>
       <translation type="unfinished"/>
     </message>
   </context>

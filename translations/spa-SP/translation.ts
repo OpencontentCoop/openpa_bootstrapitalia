@@ -169,7 +169,7 @@
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Ir a contenido</translation>
+      <translation>Ir al contenido</translation>
     </message>
     <message>
       <source>View all</source>
@@ -301,6 +301,10 @@
     </message>
     <message>
       <source>Load more results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search by keyword</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -477,6 +481,34 @@
     </message>
     <message>
       <source>Go to footer</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Explore the municipality</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Explore documents</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>All documents and data</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Explore by category</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Evidence topics</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Search for services, information, people</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Legal notices</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -1141,6 +1173,10 @@
     </message>
     <message>
       <source>to</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>%count documents found</source>
       <translation type="unfinished"/>
     </message>
   </context>

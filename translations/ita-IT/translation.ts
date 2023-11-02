@@ -304,6 +304,10 @@
       <translation>Carica altri risultati</translation>
     </message>
     <message>
+      <source>Search by keyword</source>
+      <translation>Cerca per parola chiave</translation>
+    </message>
+    <message>
       <source>Search in the site</source>
       <translation>Cerca nel sito</translation>
     </message>
@@ -478,6 +482,34 @@
     <message>
       <source>Go to footer</source>
       <translation>Vai al footer</translation>
+    </message>
+    <message>
+      <source>Explore the municipality</source>
+      <translation>Esplora il comune</translation>
+    </message>
+    <message>
+      <source>Explore documents</source>
+      <translation>Esplora i documenti</translation>
+    </message>
+    <message>
+      <source>All documents and data</source>
+      <translation>Tutti i documenti e dati</translation>
+    </message>
+    <message>
+      <source>Explore by category</source>
+      <translation>Esplora per categoria</translation>
+    </message>
+    <message>
+      <source>Evidence topics</source>
+      <translation>Argomenti in evidenza</translation>
+    </message>
+    <message>
+      <source>Search for services, information, people</source>
+      <translation>Cerca servizi, informazioni, persone</translation>
+    </message>
+    <message>
+      <source>Legal notices</source>
+      <translation>Note legali</translation>
     </message>
   </context>
   <context>
@@ -1142,6 +1174,10 @@
     <message>
       <source>to</source>
       <translation>al</translation>
+    </message>
+    <message>
+      <source>%count documents found</source>
+      <translation>%count documenti trovati</translation>
     </message>
   </context>
   <context>

@@ -260,7 +260,7 @@
 		</div>
 	{{else}}
 		{{if currentPage == 0}}
-			<p class="mb-4 results-count"><strong>{{:totalCount}}</strong> {/literal}{'documenti trovati'|i18n('bootstrapitalia/documents')}{literal}</p>
+			<p class="mb-4 results-count">{{:documentsFound}}</p>
 		{{/if}}
 		{{for searchHits}}
 		<div class="cmp-card-latest-messages mb-3 mb-30">
@@ -314,7 +314,8 @@ $(document).ready(function () {
 		}
 	}));
 	$('[data-block_document_subtree]').each(function(){
-        var baseUrl = '/';
+        var documentsFound = '{/literal}{'%count documents found'|i18n('bootstrapitalia/documents')}{/literal}';
+		var baseUrl = '/';
         if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
             baseUrl = UriPrefix + '/';
         }
@@ -491,6 +492,7 @@ $(document).ready(function () {
 			$.opendataTools.find(paginatedQuery, function (response) {				
 				loadFacetsCount(response.facets);
 				queryPerPage[currentPage] = paginatedQuery;				
+				response.documentsFound = documentsFound.replace('%count', '<strong>'+response.totalCount+'</strong>');
 				response.currentPage = currentPage;
 				response.prevPage = currentPage - 1;
 				response.nextPage = currentPage + 1;

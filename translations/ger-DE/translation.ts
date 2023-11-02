@@ -304,6 +304,10 @@
       <translation>Weitere Ergebnisse hochladen</translation>
     </message>
     <message>
+      <source>Search by keyword</source>
+      <translation>Suche nach Schlüsselwort</translation>
+    </message>
+    <message>
       <source>Search in the site</source>
       <translation>Website durchsuchen</translation>
     </message>
@@ -478,6 +482,34 @@
     <message>
       <source>Go to footer</source>
       <translation>Weiter zur Fußzeile</translation>
+    </message>
+    <message>
+      <source>Explore the municipality</source>
+      <translation>Erkunden Sie die Gemeinde</translation>
+    </message>
+    <message>
+      <source>Explore documents</source>
+      <translation>Erkunden Sie die Dokumente</translation>
+    </message>
+    <message>
+      <source>All documents and data</source>
+      <translation>Alle Dokumente und Daten</translation>
+    </message>
+    <message>
+      <source>Explore by category</source>
+      <translation>Erkunden Sie nach Kategorie</translation>
+    </message>
+    <message>
+      <source>Evidence topics</source>
+      <translation>Hervorgehobene Themen</translation>
+    </message>
+    <message>
+      <source>Search for services, information, people</source>
+      <translation>Suche nach Dienste, Informationen, Personen</translation>
+    </message>
+    <message>
+      <source>Legal notices</source>
+      <translation>Rechtliche Hinweise</translation>
     </message>
   </context>
   <context>
@@ -1142,6 +1174,10 @@
     <message>
       <source>to</source>
       <translation>bis</translation>
+    </message>
+    <message>
+      <source>%count documents found</source>
+      <translation>Suche ergab %count Dokumente</translation>
     </message>
   </context>
   <context>
