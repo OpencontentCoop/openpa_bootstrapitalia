@@ -19,7 +19,8 @@
                 },
                 onSuccess: function (data) {
                   $('body').css('opacity', '.3');
-                  window.location.replace("/openpa/object/" + data.content.metadata.id);
+                  var prefix = UriPrefix === '/' ? '' : UriPrefix
+                  window.location.replace(prefix+"/openpa/object/" + data.content.metadata.id);
                   $('#relation-modal').modal('hide');
                 },
                 connector: 'lock_edit'

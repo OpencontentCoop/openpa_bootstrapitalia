@@ -9,6 +9,7 @@ $http = eZHTTPTool::instance();
 $bridge = StanzaDelCittadinoBridge::factory();
 
 $localUserLoginUri = '/user/login';
+eZURI::transformURI($localUserLoginUri);
 $editorAccessList = OpenPAINI::variable('AccessPage', 'EditorAccessList', []);
 $accessLinks = [];
 foreach ($editorAccessList as $index => $editorAccess){
