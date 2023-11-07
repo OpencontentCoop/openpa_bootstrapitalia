@@ -15,7 +15,15 @@
   </script>
 {/if}
 
-{if fetch('user','current_user').is_logged_in|not()}{$footer_script_loader}{/if}
+{if fetch('user','current_user').is_logged_in|not()}
+{$footer_script_loader}
+{else}
+    {def $sentry_script_loader = sentry_script_loader()}
+    {if $sentry_script_loader}
+        <script src="{$sentry_script_loader}" crossorigin="anonymous"></script>
+    {/if}
+    {undef $sentry_script_loader}
+{/if}
 {if is_set($footer_css_loader)}{$footer_css_loader}{/if}
 
 {if openpaini( 'Seo', 'GoogleAnalyticsAccountID', false() )}
@@ -45,3 +53,4 @@
   </script>
   <!-- End Matomo Code -->
 {/if}
+

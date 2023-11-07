@@ -67,6 +67,7 @@ class OpenPABootstrapItaliaOperators
             'is_active_public_service',
             'can_instantiate_class_list_in_parent_node',
             'topics_tree',
+            'sentry_script_loader',
         );
     }
 
@@ -183,6 +184,10 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'sentry_script_loader':
+                $operatorValue = self::getSentryScriptLoader();
+                break;
 
             case 'topics_tree':
                 $operatorValue = self::getTopicsTree();
@@ -1932,5 +1937,25 @@ class OpenPABootstrapItaliaOperators
         }
 
         return $item;
+    }
+
+    public static function getSentryScriptLoader()
+    {
+        $sentryScriptLoaderSiteData = eZSiteData::fetchByName('sentry_script_loader');
+        if (!$sentryScriptLoaderSiteData instanceof eZSiteData){
+            $sentryScriptLoaderSiteData = eZSiteData::create('sentry_script_loader', null);
+        }
+
+        return $sentryScriptLoaderSiteData->attribute('value');
+    }
+
+    public static function setSentryScriptLoader($value)
+    {
+        $sentryScriptLoaderSiteData = eZSiteData::fetchByName('sentry_script_loader');
+        if (!$sentryScriptLoaderSiteData instanceof eZSiteData){
+            $sentryScriptLoaderSiteData = eZSiteData::create('sentry_script_loader', null);
+        }
+        $sentryScriptLoaderSiteData->setAttribute('value', $value);
+        $sentryScriptLoaderSiteData->store();
     }
 }

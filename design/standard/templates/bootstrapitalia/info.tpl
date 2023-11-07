@@ -190,6 +190,21 @@
             </div>
             {/if}
 
+            <div class="row">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
+                    <div class="form-group">
+                        <label for="UpdateBridgeTargetUser" class="text-white p-0">Monitoraggio performance redazione</label>
+                        <small class="form-text text-white">Inserisci il valore di `src` del <a class="text-white" href="https://docs.sentry.io/platforms/javascript/install/loader/">Sentry JavaScript Loader</a></small>
+                        <div class="input-group">
+                            <input type="text" class="form-control border-right" id="EditorPerformanceMonitor" name="EditorPerformanceMonitor" placeholder="https://js.sentry-cdn.com/xyz...min.js" value="{$sentry_script_loader}"/>
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Aggiorna</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
         </div>
     {/if}
 

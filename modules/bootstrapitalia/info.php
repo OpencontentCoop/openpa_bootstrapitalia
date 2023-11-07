@@ -74,6 +74,12 @@ if ($http->hasPostVariable('SelectPartner') && $hasAdminAccess) {
     }
 }
 
+if ($http->hasPostVariable('EditorPerformanceMonitor') && $hasAdminAccess) {
+    OpenPABootstrapItaliaOperators::setSentryScriptLoader($http->postVariable('EditorPerformanceMonitor'));
+}
+$sentryScriptLoader = OpenPABootstrapItaliaOperators::getSentryScriptLoader();
+$tpl->setVariable('sentry_script_loader', $sentryScriptLoader);
+
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {
     $contacts = $http->postVariable('Contacts');
