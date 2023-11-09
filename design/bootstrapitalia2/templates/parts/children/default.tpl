@@ -33,6 +33,7 @@
     {set $include_classes = array('pagina_sito', 'frontpage')}
 {/if}
 
+{def $topic_filter = concat('Topics'i18n('bootstrapitalia'), ':topics.name')}
 {def $search_blocks = array()}
 {if $openpa.content_tag_menu.current_view_tag}
     {if and($node.object.remote_id|eq('all-services'), $openpa.content_tag_menu.current_view_tag)}
@@ -48,7 +49,7 @@
                 "show_search", "1",
                 "limit", "4",
                 "items_per_row", "2",
-                "facets", "Ufficio:holds_role_in_time.name,Argomenti:topics.name",
+                "facets", $topic_filter,
                 "view_api", "latest_messages_item",
                 "color_style", "bg-100",
                 "fields", "",
@@ -71,7 +72,7 @@
                 "show_search", "1",
                 "limit", "4",
                 "items_per_row", "2",
-                "facets", "Argomenti:topics.name",
+                "facets", $topic_filter,
                 "view_api", "card_teaser",
                 "color_style", "bg-100",
                 "fields", "",
