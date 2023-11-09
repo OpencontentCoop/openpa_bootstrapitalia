@@ -1,6 +1,11 @@
 <?php
 
 use Opencontent\OpenApi\Exceptions\NotFoundException;
+use Opencontent\Opendata\Api\EnvironmentSettings;
+use Opencontent\Opendata\Api\Values\Content;
+use Opencontent\Opendata\Api\Values\ContentData;
+use Opencontent\Opendata\Api\Values\ExtraData;
+use Opencontent\Opendata\Api\Values\Metadata;
 
 class ExternalDataDocument extends OpenPATempletizable implements JsonSerializable
 {
@@ -15,8 +20,11 @@ class ExternalDataDocument extends OpenPATempletizable implements JsonSerializab
 
     private $version;
 
-    public function __construct($data = null)
+    private $raw;
+
+    public function __construct($data = null, $raw = null)
     {
+        $this->raw = $raw;
         if (isset($data['version'])) {
             $this->version = $data['version'];
             unset($data['version']);
@@ -56,13 +64,29 @@ class ExternalDataDocument extends OpenPATempletizable implements JsonSerializab
             $this->data['published_at'] = time();
         }
 
+        if (!is_numeric($this->data['published_at'])){
+            $this->data['published_at'] = strtotime($this->data['published_at']);
+        }
+
         if (!isset($this->data['modified_at'])) {
             $this->data['modified_at'] = time();
+        }
+
+        if (!is_numeric($this->data['modified_at'])){
+            $this->data['modified_at'] = strtotime($this->data['modified_at']);
         }
 
         // validate $data['attachments']
         if (isset($this->data['attachments'])) {
             $this->setAttachments($this->data['attachments']);
+        }
+
+        if (isset($this->data['types'])) {
+
+        }
+
+        if (isset($this->data['topics'])) {
+
         }
 
         $this->data['abstract'] = $this->cleanHtml($this->data['abstract']);
@@ -96,46 +120,78 @@ class ExternalDataDocument extends OpenPATempletizable implements JsonSerializab
         return $richContent;
     }
 
-    public static function fromSolrResult($resultArray)
+    public static function filterEngineClass(string $className): string
     {
-        if (!isset($resultArray['attr_source_name_s'])) {
-            try {
-                $resultArray = (new eZSolrExternalDataAware())->findExternalDocumentByGuid($resultArray['meta_guid_ms']);
-            } catch (NotFoundException $e) {
+        return $className === eZSolr::class ? eZSolrExternalDataAware::class : $className;
+    }
+
+    public static function filterOpendataSearchResult($extraDocument, $limitation): ?Content
+    {
+        if ($extraDocument instanceof ExternalDataDocument){
+            $locale = $extraDocument->getLanguage();
+            $content = new Content();
+            $content->metadata = new Metadata([
+                'id' => 0,
+                'currentVersion' => 0,
+                'remoteId' => $extraDocument->getGuid(),
+                'classIdentifier' => $extraDocument->getClassIdentifier(),
+                'languages' => [$locale],
+                'name' => [$locale => $extraDocument->getName()],
+                'ownerId' => 0,
+                'ownerName' => 'External',
+                'mainNodeId' => 0,
+                'mainNodeRemoteId' => '',
+                'parentNodes' => [],
+                'assignedNodes' => [],
+                'sectionIdentifier' => 'standard',
+                'sectionId' => '1',
+                'stateIdentifiers' => [],
+                'stateIds' => [],
+                'published' => date( 'c', (int)$extraDocument->getPublished()),
+                'modified' => date( 'c', (int)$extraDocument->getModified()),
+            ]);
+            $extraDocumentArray = (array)$extraDocument->jsonSerialize();
+            $extraContent = [];
+            $class = $extraDocument->getClass();
+            if ($class instanceof eZContentClass){
+                foreach ($class->dataMap() as $identifier => $attribute){
+                    $extraContent[$identifier] = [
+                        'identifier' => $extraDocument->getClassIdentifier() . '/' . $identifier,
+                        'content' => null,
+                        'datatype' => $attribute->attribute('data_type_string'),
+                    ];
+                }
             }
+            $extraContent['external-document'] = [
+                'identifier' => $extraDocument->getClassIdentifier() . '/external-document',
+                'content' => $extraDocumentArray,
+                'datatype' => 'object',
+            ];
+            $content->data = new ContentData([
+                $locale => $extraContent
+            ]);
+            $content->extradata = new ExtraData(['is_external_document' => $extraDocument]);
+            return $content;
         }
 
-        $data = [
-            'guid' => str_replace('ext_', '', $resultArray['meta_guid_ms']),
-            'published_at' => strtotime($resultArray['meta_published_dt']),
-            'modified_at' => strtotime($resultArray['meta_modified_dt']),
-            'image' => isset($resultArray['attr_image_s']) ? $resultArray['attr_image_s'] : '',
-            'source_name' => $resultArray['attr_source_name_s'],
-            'source_uri' => $resultArray['attr_source_uri_s'],
-            'uri' => $resultArray['attr_uri_s'],
-            'name' => $resultArray['meta_name_t'],
-            'abstract' => $resultArray['attr_abstract_t'],
-            'attachments' => [],
-        ];
+        return null;
+    }
 
-        if (isset($resultArray['meta_contentclass_id_si'])) {
-            $data['class_identifier'] = eZContentClass::classIdentifierByID((int)$resultArray['meta_contentclass_id_si']);
-        }
+    public static function filterSearchContent(Content $content, EnvironmentSettings $environmentSettings)
+    {
+        return $environmentSettings instanceof EnvironmentExternalDataAwareInterface ?
+            $environmentSettings->filterContent($content) :
+            $content;
+    }
 
-        if (isset($resultArray['subattr_extradata__attachment_uri____s'])) {
-            foreach ($resultArray['subattr_extradata__attachment_uri____s'] as $index => $url) {
-                $data['attachments'][] = [
-                    'name' => $resultArray['subattr_extradata__attachment_name____s'][$index],
-                    'uri' => $url
-                ];
-            }
-        }
-
-        if (isset($resultArray['_version_'])) {
-            $data['version'] = $resultArray['_version_'];
-        }
-
-        return new ExternalDataDocument($data);
+    public static function generateView($content, $ViewMode): string
+    {
+        $currentErrorReporting = error_reporting();
+        $templateUri = "design:extraindex/{$ViewMode}.tpl";
+        $tpl = eZTemplate::factory();
+        $tpl->setVariable('content', $content->jsonSerialize());
+//        echo '<pre>';echo $tpl->fetch($templateUri);eZDisplayDebug();eZExecution::cleanExit();
+        return $tpl->fetch($templateUri);
     }
 
     public function hasValidData()
@@ -204,7 +260,7 @@ class ExternalDataDocument extends OpenPATempletizable implements JsonSerializab
      */
     public function getClassIdentifier()
     {
-        return $this->data['class_identifier'];
+        return $this->data['class_identifier'] ?? '';
     }
 
     /**
@@ -213,6 +269,13 @@ class ExternalDataDocument extends OpenPATempletizable implements JsonSerializab
     public function setClassIdentifier($sourceName)
     {
         $this->data['class_identifier'] = $sourceName;
+    }
+
+    public function getClass()
+    {
+        $identifier = $this->getClassIdentifier();
+
+        return !empty($identifier) ? eZContentClass::fetch(eZContentClass::classIDByIdentifier($identifier)) : null;
     }
 
     public function hasClassIdentifier()
@@ -310,10 +373,10 @@ class ExternalDataDocument extends OpenPATempletizable implements JsonSerializab
 
     public function jsonSerialize()
     {
-        $data = $this->data;
-        unset($data['is_external_data']);
-
-        return $data;
+        $this->data['language'] = $this->getLanguage();
+        $this->data['published_at'] = date('c', $this->getPublished());
+        $this->data['modified_at'] = date('c', $this->getModified());
+        return $this->data;
     }
 
     /**
@@ -351,5 +414,31 @@ class ExternalDataDocument extends OpenPATempletizable implements JsonSerializab
     public function getVersion()
     {
         return (string)$this->version;
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function getRaw()
+    {
+        return $this->raw;
+    }
+
+    /**
+     * @param mixed $raw
+     */
+    public function setRaw($raw): void
+    {
+        $this->raw = $raw;
+    }
+
+    public function getTypes()
+    {
+        return $this->data['types'] ?? [];
+    }
+
+    public function getTopics()
+    {
+        return $this->data['topics'] ?? [];
     }
 }

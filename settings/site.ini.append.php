@@ -34,5 +34,7 @@ RedirectAfterPublish=node
 [Event]
 Listeners[]=oembed/html@OpenPABootstrapItaliaOperators::filterOembedHtml
 Listeners[]=response/output@OpenPABootstrapItaliaOperators::minifyHtml
-
+Listeners[]=opendata/buildSearchResult@ExternalDataDocument::filterOpendataSearchResult
+Listeners[]=opendata/instanceEngine@ExternalDataDocument::filterEngineClass
+Listeners[]=opendata/filterSearchContent@ExternalDataDocument::filterSearchContent
 */ ?>

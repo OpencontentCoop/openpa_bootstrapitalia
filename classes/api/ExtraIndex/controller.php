@@ -2,8 +2,11 @@
 
 use Opencontent\OpenApi\Exception as OpenApiException;
 use Opencontent\OpenApi\Exceptions\InvalidPayloadException;
+use Opencontent\OpenApi\Exceptions\NotFoundException;
 use Opencontent\Opendata\Api\Exception\BaseException;
+use Opencontent\Opendata\Api\Exception\DuplicateRemoteIdException;
 use Opencontent\Opendata\Api\Exception\ForbiddenException;
+use Opencontent\Opendata\Api\Exception\InvalidInputException;
 
 class ExtraIndexController extends ezpRestMvcController
 {
@@ -32,7 +35,7 @@ class ExtraIndexController extends ezpRestMvcController
     {
         try {
             $this->checkAccess();
-            $selected = ExternalDataDocument::fromSolrResult($this->solr->findExternalDocumentByGuid($this->item));
+            $selected = $this->solr->findExternalDocumentByGuid($this->item);
             $externalData = $this->parseInput();
             $externalData->setGuid($selected->getGuid());
             if (!$this->solr->addExternalDataDocument($externalData)) {
@@ -40,8 +43,7 @@ class ExtraIndexController extends ezpRestMvcController
             }
 
             $result = new ezpRestMvcResult();
-            $result->variables = ExternalDataDocument::fromSolrResult($this->solr->findExternalDocumentByGuid($selected->getGuid()))
-                ->jsonSerialize();
+            $result->variables = $this->solr->findExternalDocumentByGuid($selected->getGuid())->jsonSerialize();
 
         } catch (Exception $e) {
             $result = $this->doExceptionResult($e);
@@ -58,6 +60,15 @@ class ExtraIndexController extends ezpRestMvcController
             throw new InvalidPayloadException("Invalid json: " . json_last_error_msg(), 1);
         }
         $externalData = new ExternalDataDocument($data);
+        $languageList = \eZINI::instance()->variable('RegionalSettings', 'SiteLanguageList');
+        if (isset($data['language'])){
+            if (!in_array($data['language'], $languageList)){
+                throw new InvalidInputException(sprintf('Language %s not supported', $data['language']), 'language');
+            }
+        }else{
+            $data['language'] = eZLocale::currentLocaleCode();
+        }
+        $externalData->setLanguage($data['language']);
         if (!$externalData instanceof ExternalDataDocument || !$externalData->hasValidData()) {
             throw new InvalidPayloadException("Invalid payload", 1);
         }
@@ -91,13 +102,18 @@ class ExtraIndexController extends ezpRestMvcController
         try {
             $this->checkAccess();
             $externalData = $this->parseInput();
-            if (!$this->solr->addExternalDataDocument($externalData)) {
-                throw new RuntimeException("Error committing to solr", 1);
+            try{
+                $this->solr->findExternalDocumentByGuid($externalData->getGuid());
+                throw new DuplicateRemoteIdException(sprintf('Guid %s already exixts', $externalData->getGuid()));
+            }catch (NotFoundException $e){
+                if (!$this->solr->addExternalDataDocument($externalData)) {
+                    throw new RuntimeException("Error committing to solr", 1);
+                }
+
+                $result = new ezpRestMvcResult();
+                $result->variables = $this->solr->findExternalDocumentByGuid($externalData->getGuid())->jsonSerialize();
             }
 
-            $result = new ezpRestMvcResult();
-            $result->variables = ExternalDataDocument::fromSolrResult($this->solr->findExternalDocumentByGuid($externalData->getGuid()))
-                ->jsonSerialize();
 
         } catch (Exception $e) {
             $result = $this->doExceptionResult($e);
@@ -111,10 +127,9 @@ class ExtraIndexController extends ezpRestMvcController
         try {
 //            $this->checkAccess();
             $result = new ezpRestMvcResult();
-            $raw = $this->solr->findExternalDocumentByGuid($this->item);
-            $data = ExternalDataDocument::fromSolrResult($raw);
+            $data = $this->solr->findExternalDocumentByGuid($this->item);
             $result->variables = isset($this->request->get['raw']) ?
-                $raw : $data->jsonSerialize();
+                $data->getRaw() : $data->jsonSerialize();
             header('cache-control: private no-cache no-store');
         } catch (Exception $e) {
             $result = $this->doExceptionResult($e);
@@ -135,11 +150,11 @@ class ExtraIndexController extends ezpRestMvcController
         try {
             $this->checkAccess();
             try {
-                $externalData = ExternalDataDocument::fromSolrResult($this->solr->findExternalDocumentByGuid($this->item));
+                $externalData = $this->solr->findExternalDocumentByGuid($this->item);
                 if (!$this->solr->removeExternalDataDocument($externalData->getGuid())) {
                     throw new RuntimeException("Error committing to solr", 1);
                 }
-            } catch (\Opencontent\OpenApi\Exceptions\NotFoundException $e) {
+            } catch (NotFoundException $e) {
             }
             $result = new ezpRestMvcResult();
             $result->variables = [];
@@ -181,6 +196,9 @@ class ExtraIndexController extends ezpRestMvcController
                 ]
             ],
         ];
+
+        $languageList = \eZINI::instance()->variable('RegionalSettings', 'SiteLanguageList');
+
         return [
             'openapi' => '3.0.1',
             'info' => [
@@ -378,6 +396,12 @@ class ExtraIndexController extends ezpRestMvcController
                             'class_identifier' => [
                                 'description' => 'Content class identifier',
                                 'type' => 'string',
+                            ],
+                            'language' => [
+                                'description' => 'Content language',
+                                'type' => 'string',
+                                'default' => current($languageList),
+                                'enum' => $languageList
                             ],
                         ],
                         'required' => [

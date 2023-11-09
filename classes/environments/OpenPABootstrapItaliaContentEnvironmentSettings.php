@@ -7,7 +7,7 @@ use Opencontent\Opendata\Api\Values\Content;
 use Opencontent\Opendata\Api\Values\ContentData;
 use Opencontent\Opendata\Api\Values\ExtraData;
 
-class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironmentSettings
+class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironmentSettings implements EnvironmentExternalDataAwareInterface
 {
     protected static $classDefinition = array();
 
@@ -16,7 +16,6 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
     public function filterContent(Content $content)
     {
         if (isset($this->request->get['view'])) {
-
             $viewData = false;
             $ViewMode = $this->request->get['view'];
             if (in_array($ViewMode, [
@@ -31,47 +30,60 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                 'latest_messages_item',
                 'point_list',
             ])) {
-                $NodeID = $content->metadata->mainNodeId;
-                $Module = new eZModule("", "", 'opendata');
-                $tpl = eZTemplate::factory();
-                $LanguageCode = null;
-                $Offset = 0;
-                $ini = eZINI::instance();
-                $viewParameters = [];
-                $collectionAttributes = false;
-                $validation = [];
+                $NodeID = (int)$content->metadata->mainNodeId;
+                if (isset($content->extradata['is_external_document'])){
+                    $viewData = ExternalDataDocument::generateView($content->extradata['is_external_document'], $ViewMode);
+                }elseif ($NodeID > 0) {
+                    $Module = new eZModule("", "", 'opendata');
+                    $tpl = eZTemplate::factory();
+                    $LanguageCode = null;
+                    $Offset = 0;
+                    $ini = eZINI::instance();
+                    $viewParameters = [];
+                    $collectionAttributes = false;
+                    $validation = [];
 
-                if ($ViewMode == 'card') {
-                    $viewParameters['_custom'] = ['view_variation' => 'big'];
-                }
-                if ($ViewMode == 'banner' || $ViewMode == 'banner_color') {
-                    $viewParameters['_custom'] = ['view_variation' => 'banner-round banner-shadow h-100'];
-                }
+                    if ($ViewMode == 'card') {
+                        $viewParameters['_custom'] = ['view_variation' => 'big'];
+                    }
+                    if ($ViewMode == 'banner' || $ViewMode == 'banner_color') {
+                        $viewParameters['_custom'] = ['view_variation' => 'banner-round banner-shadow h-100'];
+                    }
 
-                $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile(
-                    eZUser::currentUser(),
-                    $NodeID,
-                    $Offset,
-                    false,
-                    $LanguageCode,
-                    $ViewMode
-                );
-
-                $args = compact([
-                    "NodeID", "Module", "tpl", "LanguageCode", "ViewMode", "Offset", "ini", "viewParameters", "collectionAttributes", "validation"
-                ]);
-                eZURI::setTransformURIMode('full');
-                $result = eZClusterFileHandler::instance($cacheFileArray['cache_path'])
-                    ->processCache(
-                        array('OpenPABootstrapItaliaNodeViewFunctions', 'contentViewRetrieve'),
-                        array('OpenPABootstrapItaliaNodeViewFunctions', 'contentViewGenerate'),
-                        null,
-                        null,
-                        $args
+                    $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile(
+                        eZUser::currentUser(),
+                        $NodeID,
+                        $Offset,
+                        false,
+                        $LanguageCode,
+                        $ViewMode
                     );
 
-                if (is_array($result)) {
-                    $viewData = $result['content'];
+                    $args = compact([
+                        "NodeID",
+                        "Module",
+                        "tpl",
+                        "LanguageCode",
+                        "ViewMode",
+                        "Offset",
+                        "ini",
+                        "viewParameters",
+                        "collectionAttributes",
+                        "validation"
+                    ]);
+                    eZURI::setTransformURIMode('full');
+                    $result = eZClusterFileHandler::instance($cacheFileArray['cache_path'])
+                        ->processCache(
+                            ['OpenPABootstrapItaliaNodeViewFunctions', 'contentViewRetrieve'],
+                            ['OpenPABootstrapItaliaNodeViewFunctions', 'contentViewGenerate'],
+                            null,
+                            null,
+                            $args
+                        );
+
+                    if (is_array($result)) {
+                        $viewData = $result['content'];
+                    }
                 }
             }
 
@@ -124,6 +136,9 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
 
     protected function getClassDefinition($classIdentifier)
     {
+        if (empty($classIdentifier)){
+            return [];
+        }
         if (!isset(self::$classDefinition[$classIdentifier])) {
             $classRepository = new ClassRepository();
             $class = $classRepository->load($classIdentifier);
@@ -161,28 +176,34 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
         foreach ($content->data as $language => $data) {
             foreach ($data as $identifier => $value) {
                 $valueContent = $value['content'];
-                if ($value['datatype'] == 'ezobjectrelationlist'
-                    || $value['datatype'] == 'ezobjectrelation') {
-                    $converter = AttributeConverterLoader::load(
-                        $content->metadata->classIdentifier,
-                        $identifier,
-                        $value['datatype']
-                    );
+                if (isset($value['datatype'])) {
+                    if ($value['datatype'] == 'ezobjectrelationlist'
+                        || $value['datatype'] == 'ezobjectrelation') {
+                        $converter = AttributeConverterLoader::load(
+                            $content->metadata->classIdentifier,
+                            $identifier,
+                            $value['datatype']
+                        );
 
-                    if ($converter instanceof FullRelationsAttributeConverter) {
-                        $valueContent = $this->flatFullRelation($value, $language);
-                    } else {
-                        $valueContent = $this->flatDefaultRelation($value, $language);
+                        if ($converter instanceof FullRelationsAttributeConverter) {
+                            $valueContent = $this->flatFullRelation($value, $language);
+                        } else {
+                            $valueContent = $this->flatDefaultRelation($value, $language);
+                        }
                     }
-                }
 
-                if ($value['datatype'] == 'ezbinaryfile' && !empty($valueContent['filename'])) {
-                    $valueContent['filename'] = OpenPABootstrapItaliaOperators::cleanFileName($valueContent['filename']);
-                }
+                    if ($value['datatype'] == 'ezbinaryfile' && !empty($valueContent['filename'])) {
+                        $valueContent['filename'] = OpenPABootstrapItaliaOperators::cleanFileName(
+                            $valueContent['filename']
+                        );
+                    }
 
-                if ($value['datatype'] == 'ocmultibinary' && !empty($valueContent)) {
-                    foreach ($valueContent as $key => $value) {
-                        $valueContent[$key]['filename'] = OpenPABootstrapItaliaOperators::cleanFileName($valueContent[$key]['filename']);
+                    if ($value['datatype'] == 'ocmultibinary' && !empty($valueContent)) {
+                        foreach ($valueContent as $key => $value) {
+                            $valueContent[$key]['filename'] = OpenPABootstrapItaliaOperators::cleanFileName(
+                                $valueContent[$key]['filename']
+                            );
+                        }
                     }
                 }
 
