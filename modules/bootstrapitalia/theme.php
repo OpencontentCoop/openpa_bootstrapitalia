@@ -50,7 +50,7 @@ $tpl->setVariable('use_light_center', OpenPABootstrapItaliaOperators::getCurrent
 $tpl->setVariable('use_light_navbar', OpenPABootstrapItaliaOperators::getCurrentTheme()->hasVariation('light_navbar'));
 $tpl->setVariable('theme_list', $themeList);
 if (count($themeList) == 0) {
-    $tpl->setVariable('message', 'Impostazione non configurabile per il tema grafico corrente');
+    $tpl->setVariable('message', 'Impostazione non configurabile per il tema grafico corrente ' . $currentDesign);
 }
 
 $tpl->setVariable('site_title', 'Impostazioni tema');
