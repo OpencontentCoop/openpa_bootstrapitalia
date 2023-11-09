@@ -127,7 +127,7 @@
                 {{:~i18n(metadata.name)}} <br /><small>{{:~i18n(metadata.classDefinition.name)}}</small>
             {{/if}}
             <p style="white-space: nowrap;">
-                <a title="User settings" target="_blank" href="/user/setting/{{:metadata.id}}"><i aria-hidden="true" class="fa fa-gear"></i></a>
+                <a title="User settings" target="_blank" href="{{:baseUrl}}user/setting/{{:metadata.id}}"><i aria-hidden="true" class="fa fa-gear"></i></a>
                 <a title="Activate all" href="#" data-user="{{:metadata.mainNodeId}}" class="ActivateAllUserPermission text-decoration-none pl-2 ps-2"><i class="fa fa-toggle-on"></i></a>
                 <a title="Deactivate all" href="#" data-user="{{:metadata.mainNodeId}}" class="DeactivateAllUserPermission text-decoration-none pl-2 ps-2"><i class="fa fa-toggle-off"></i></a>
             </p>
