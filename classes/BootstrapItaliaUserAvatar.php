@@ -44,7 +44,7 @@ class BootstrapItaliaUserAvatar
                 }
                 $avatar->size(20);
                 $content = $avatar->generate()->stream('png', 100);
-                eZLog::write("Create avatar for user $id", 'sensor.log');
+                eZLog::write("Create avatar for user $id", 'avatar.log');
                 return array(
                     'binarydata' => $content,
                     'scope' => 'avatar-cache',
