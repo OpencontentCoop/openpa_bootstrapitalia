@@ -169,7 +169,7 @@
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Ir al contenido</translation>
+      <translation>Ir a contenido</translation>
     </message>
     <message>
       <source>View all</source>
@@ -182,6 +182,10 @@
     <message>
       <source>All topics...</source>
       <translation>Todos los temas ...</translation>
+    </message>
+    <message>
+      <source>All news</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Access the personal area</source>
@@ -666,7 +670,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Solo información del tipo</translation>
+      <translation>Solo información de tipo</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -1209,11 +1213,19 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>News</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Announcements</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <source>Papers</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Documents</source>
       <translation type="unfinished"/>
     </message>
   </context>

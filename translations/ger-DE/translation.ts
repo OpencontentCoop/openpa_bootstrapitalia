@@ -184,6 +184,10 @@
       <translation>Alle Themen ...</translation>
     </message>
     <message>
+      <source>All news</source>
+      <translation>Alle Aktuelles</translation>
+    </message>
+    <message>
       <source>Access the personal area</source>
       <translation>Persönlicher Bereich</translation>
     </message>
@@ -1209,11 +1213,19 @@
       <translation>Serviceportal</translation>
     </message>
     <message>
+      <source>News</source>
+      <translation>Aktuelles</translation>
+    </message>
+    <message>
       <source>Announcements</source>
       <translation>Aktuelles</translation>
     </message>
     <message>
       <source>Papers</source>
+      <translation>Formulare und Dokumente</translation>
+    </message>
+    <message>
+      <source>Documents</source>
       <translation>Formulare und Dokumente</translation>
     </message>
   </context>

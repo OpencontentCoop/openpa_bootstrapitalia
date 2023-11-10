@@ -184,6 +184,10 @@
       <translation>All topics...</translation>
     </message>
     <message>
+      <source>All news</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Access the personal area</source>
       <translation>Access the personal area</translation>
     </message>
@@ -1209,12 +1213,20 @@
       <translation>Services</translation>
     </message>
     <message>
-      <source>Announcements</source>
+      <source>News</source>
       <translation>Announcements</translation>
+    </message>
+    <message>
+      <source>Announcements</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Papers</source>
       <translation>Papers</translation>
+    </message>
+    <message>
+      <source>Documents</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>

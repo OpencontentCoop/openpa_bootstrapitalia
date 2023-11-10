@@ -184,6 +184,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>All news</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Access the personal area</source>
       <translation type="unfinished"/>
     </message>
@@ -682,7 +686,7 @@
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Vzbujanje</translation>
+      <translation>Vzpona</translation>
     </message>
     <message>
       <source>Score</source>
@@ -1209,11 +1213,19 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>News</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Announcements</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <source>Papers</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Documents</source>
       <translation type="unfinished"/>
     </message>
   </context>

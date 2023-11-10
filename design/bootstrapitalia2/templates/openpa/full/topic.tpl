@@ -108,7 +108,7 @@
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
-            'Novità'|i18n('bootstrapitalia/menu'),
+            'News'|i18n('bootstrapitalia/menu'),
             "ListaAutomatica",
             "lista_card_teaser",
             hash(
@@ -123,7 +123,7 @@
                 "container_style", "",
                 "node_id", $root_news,
                 "show_all_link", "1",
-                "show_all_text", "Tutte le novità"
+                "show_all_text", 'All news'|i18n('bootstrapitalia')
             )
         ))}
         {undef $is_first_block}
@@ -134,7 +134,7 @@
     {if api_search(concat('classes [public_person,private_organization,organization] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, '  and subtree [', $root_management, '] limit 1')).totalCount|gt(0)}
         {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
-            'Amministrazione'|i18n('bootstrapitalia/menu'),
+            'Administration'|i18n('bootstrapitalia/menu'),
             "ListaAutomatica",
             "lista_card_teaser",
             hash(
@@ -160,7 +160,7 @@
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
-            'Servizi'|i18n('bootstrapitalia/menu'),
+            'Services'|i18n('bootstrapitalia/menu'),
             "ListaAutomatica",
             "lista_card_teaser",
             hash(
@@ -187,7 +187,7 @@
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
-            'Documenti'|i18n('bootstrapitalia/menu'),
+            'Documents'|i18n('bootstrapitalia/menu'),
             "ListaAutomatica",
             "lista_card_teaser",
             hash(

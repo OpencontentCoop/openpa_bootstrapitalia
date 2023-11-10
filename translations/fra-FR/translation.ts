@@ -184,6 +184,10 @@
       <translation>Tous les sujets ...</translation>
     </message>
     <message>
+      <source>All news</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Access the personal area</source>
       <translation type="unfinished"/>
     </message>
@@ -666,7 +670,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Seules les informations de type</translation>
+      <translation>Seulement des informations de type</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -758,7 +762,7 @@
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Recherche de recherche% 2 Matchs</translation>
+      <translation>La recherche est retournée% 2 correspondances</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
@@ -1209,11 +1213,19 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>News</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Announcements</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <source>Papers</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Documents</source>
       <translation type="unfinished"/>
     </message>
   </context>
