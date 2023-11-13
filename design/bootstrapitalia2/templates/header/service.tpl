@@ -148,12 +148,16 @@
                         {/if}
 
                         {if $hide_access|not()}
-                            <a class="btn btn-primary btn-icon btn-full" href="{'accedi'|ezurl(no)}" data-element="personal-area-login" title="{$link_area_personale_title|wash()}">
-                                  <span class="rounded-icon" aria-hidden="true">
-                                    {display_icon('it-user', 'svg', 'icon icon-primary', $link_area_personale_title|wash())}
-                                  </span>
-                                <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
-                            </a>
+                            {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}
+                                <div id="{openpaini( 'StanzaDelCittadinoBridge', 'RootId_login', 'oc-login-box' )}"></div>
+                            {else}
+                                <a class="btn btn-primary btn-icon btn-full" href="{'accedi'|ezurl(no)}" data-element="personal-area-login" title="{$link_area_personale_title|wash()}">
+                                      <span class="rounded-icon" aria-hidden="true">
+                                        {display_icon('it-user', 'svg', 'icon icon-primary', $link_area_personale_title|wash())}
+                                      </span>
+                                    <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
+                                </a>
+                            {/if}
                         {/if}
 
                     </div>
@@ -285,11 +289,10 @@
 </div>
 </script>
 {/literal}
-
 <script>
     var baseUrl = "{$link_area_personale|user_api_base_url()}";
     var tokenUrl = "{$link_area_personale|user_token_url()}";
-    var profileUrl = "{$link_area_personale|user_profile_url()}";
+    var profileUrl = {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}false{else}"{$link_area_personale|user_profile_url()}"{/if};
     {literal}
     $(document).ready(function () {
       if (typeof LanguageUrlAliasList !== 'undefined') {

@@ -1,6 +1,6 @@
 <?php
 
-class BuiltinApp
+class BuiltinApp extends OpenPATempletizable
 {
     private $appIdentifier;
 
@@ -12,6 +12,10 @@ class BuiltinApp
     {
         $this->appIdentifier = $appName;
         $this->appLabel = $appLabel;
+
+        parent::__construct([
+            'src' => $this->getWidgetSrc()
+        ]);
     }
 
     /**
@@ -67,18 +71,24 @@ class BuiltinApp
         }
     }
 
-    protected function getVariables(): array
+    public static function getWindowVariables(): array
     {
-        $privacy = eZContentObject::fetchByRemoteID('privacy-policy-link');
-        $privacyUrl = $privacy ? $privacy->mainNode()->attribute('url_alias') : '/';
+//        $privacy = eZContentObject::fetchByRemoteID('privacy-policy-link');
+//        $privacyUrl = $privacy ? $privacy->mainNode()->attribute('url_alias') : '/Privacy';
+        $privacyUrl = '/Privacy';
         eZURI::transformURI($privacyUrl, false, 'full');
         $baseUrl = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
         $authUrl = StanzaDelCittadinoBridge::factory()->buildApiUrl('/login');
-        return [
+        $window = [
             'OC_BASE_URL' => $baseUrl,
             'OC_PRIVACY_URL' => $privacyUrl,
             'OC_AUTH_URL' => $authUrl,
         ];
+        if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled') !== 'modal'){
+            $window['OC_SPID_BUTTON'] = 'true';
+        }
+
+        return $window;
     }
 
     protected function getWidgetSrc(): string
@@ -121,7 +131,6 @@ class BuiltinApp
         $tpl->setVariable('built_in_app_is_enabled', $this->isAppEnabled());
         $tpl->setVariable('built_in_app', $this->getAppIdentifier());
         $tpl->setVariable('built_in_app_root_id', $this->getAppRootId());
-        $tpl->setVariable('built_in_app_variables', $this->getVariables());
         $tpl->setVariable('built_in_app_script', $this->getCustomConfig());
         $tpl->setVariable('built_in_app_src', $this->getWidgetSrc());
         $tpl->setVariable('built_in_app_style', $this->getWidgetStyle());

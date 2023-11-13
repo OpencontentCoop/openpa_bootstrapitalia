@@ -52,6 +52,8 @@ $eZTemplateOperatorArray = [
             'can_instantiate_class_list_in_parent_node',
             'topics_tree',
             'sentry_script_loader',
+            'built_in_app_variables',
+            'built_in_app',
         ],
     ],
 ];

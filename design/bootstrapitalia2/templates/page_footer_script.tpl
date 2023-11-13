@@ -33,6 +33,10 @@
 {/if}
 {if is_set($footer_css_loader)}{$footer_css_loader}{/if}
 
+{if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}
+  <script src="{built_in_app('login').src}"></script>
+{/if}
+
 {if openpaini( 'Seo', 'GoogleAnalyticsAccountID', false() )}
   <script async src="https://www.googletagmanager.com/gtag/js?id={openpaini( 'Seo', 'GoogleAnalyticsAccountID' )}"></script>
   <script>

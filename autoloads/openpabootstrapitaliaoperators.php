@@ -68,6 +68,8 @@ class OpenPABootstrapItaliaOperators
             'can_instantiate_class_list_in_parent_node',
             'topics_tree',
             'sentry_script_loader',
+            'built_in_app_variables',
+            'built_in_app',
         );
     }
 
@@ -170,6 +172,9 @@ class OpenPABootstrapItaliaOperators
                 'parent' => array('type' => 'mixed', 'required' => true, 'default' => 0),
                 'classes' => array('type' => 'array', 'required' => true, 'default' => []),
             ),
+            'built_in_app' =>  array(
+                'alias' => array('type' => 'string', 'required' => true),
+            ),
         );
     }
 
@@ -184,6 +189,14 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'built_in_app':
+                $operatorValue = new BuiltinApp($namedParameters['alias'], $namedParameters['alias']);
+                break;
+
+            case 'built_in_app_variables':
+                $operatorValue = BuiltinApp::getWindowVariables();
+                break;
 
             case 'sentry_script_loader':
                 $operatorValue = self::getSentryScriptLoader();

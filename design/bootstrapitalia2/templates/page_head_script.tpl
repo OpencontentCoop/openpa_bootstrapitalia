@@ -72,6 +72,7 @@
   if ('serviceWorker' in navigator) {if (!navigator.serviceWorker.controller) {navigator.serviceWorker.register('/service-worker.js', {scope: '/'}).then(function (registration) {}, function (err) {console.warn('Failed to register Service Worker:\n', err);});}}
   {/literal}
   {/if}
+  {foreach built_in_app_variables() as $key => $value}window.{$key} = '{$value}';{/foreach}
   //]]>
 </script>
 {undef $scripts $current_locale $moment_language}
