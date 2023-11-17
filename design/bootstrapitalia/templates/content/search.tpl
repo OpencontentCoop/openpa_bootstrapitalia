@@ -185,15 +185,26 @@
 
                 </div>
 
-
                 {if count($classes)}
                     <div class="pt-4 pt-lg-5">
                         <h6 class="text-uppercase">{'Content type'|i18n('openpa/search')}</h6>
                         {foreach $classes as $class}
+                            {def $count_by_class = 0}
+                            {if is_set($class_facets[$class.id])}
+                                {set $count_by_class = $class_facets[$class.id]}
+                            {/if}
+                            {if is_set($params['_class_alias'][$class.id])}
+                                {foreach $params['_class_alias'][$class.id] as $add_class_id}
+                                    {if is_set($class_facets[$add_class_id])}
+                                        {set $count_by_class = $count_by_class|sum($class_facets[$add_class_id])}
+                                    {/if}
+                                {/foreach}
+                            {/if}
                             <div class="form-check custom-control custom-checkbox m-0">
                                 <input name="Class[]" id="class-{$class.id}" value={$class.id|wash()} {if $params.class|contains($class.id)}checked="checked"{/if} class="custom-control-input" type="checkbox">
-                                <label class="custom-control-label" for="class-{$class.id}">{$class.name|wash()} {if is_set($class_facets[$class.id])}<small>({$class_facets[$class.id]})</small>{/if}</label>
+                                <label class="custom-control-label" for="class-{$class.id}">{$class.name|wash()} {if $count_by_class|gt(0)}<small>({$count_by_class|wash()})</small>{/if}</label>
                             </div>
+                            {undef $count_by_class}
                         {/foreach}
                     </div>
                 {/if}

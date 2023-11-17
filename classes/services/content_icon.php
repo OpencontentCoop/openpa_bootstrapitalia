@@ -53,7 +53,7 @@ class ObjectHandlerServiceContentIcon extends ObjectHandlerServiceBase
         $contextNode = false;
         $currentDesign = eZINI::instance()->variable('DesignSettings', 'SiteDesign');
         if ($currentDesign === 'bootstrapitalia2') {
-            if ($node->attribute('class_identifier') == 'public_service') {
+            if (in_array($node->attribute('class_identifier'), ['public_service','public_service_link'])) {
                 $dataMap = $node->dataMap();
                 if (isset($dataMap['type']) && $dataMap['type']->hasContent()
                     && $dataMap['type']->attribute('data_type_string') === eZTagsType::DATA_TYPE_STRING) {

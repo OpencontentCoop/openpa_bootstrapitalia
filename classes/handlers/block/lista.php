@@ -114,6 +114,9 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
             if (!$ezFindQueryObject instanceof ArrayObject) {
                 throw new \RuntimeException("Query builder did not return a valid query");
             }
+
+            $env = new OpenPABootstrapItaliaContentEnvironmentSettings();
+            $ezFindQueryObject = $env->filterQuery($ezFindQueryObject, $queryBuilder);
             if ($ezFindQueryObject->getArrayCopy() === array("_query" => null) && !empty($this->query)){
                 throw new \RuntimeException("Inconsistent query");
             }

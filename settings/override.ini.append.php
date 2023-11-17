@@ -263,6 +263,12 @@ Subdir=templates
 Match[class_identifier]=public_service
 Match[attribute_identifier]=has_channel
 
+[datatype_view_public_service_link_location_as_button]
+Source=content/datatype/view/ezurl.tpl
+MatchFile=datatype/view/url_as_button.tpl
+Subdir=templates
+Match[class_identifier]=public_service_link
+Match[attribute_identifier]=location
 
 ############################################
 ############################################ DATATYPE EDIT

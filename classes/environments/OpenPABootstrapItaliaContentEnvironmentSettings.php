@@ -6,6 +6,7 @@ use Opencontent\Opendata\Api\EnvironmentLoader;
 use Opencontent\Opendata\Api\Values\Content;
 use Opencontent\Opendata\Api\Values\ContentData;
 use Opencontent\Opendata\Api\Values\ExtraData;
+use Opencontent\QueryLanguage\QueryBuilder;
 
 class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironmentSettings
 {
@@ -247,5 +248,18 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
         }
 
         return $valueContent;
+    }
+
+    public function filterQuery(\ArrayObject $query, QueryBuilder $builder)
+    {
+        $publicServiceLinkClassId = eZContentClass::classIDByIdentifier('public_service_link');
+        if ($publicServiceLinkClassId && isset($query['SearchContentClassID'])){
+            $publicServiceClassId = eZContentClass::classIDByIdentifier('public_service');
+            if (in_array($publicServiceClassId, $query['SearchContentClassID'])){
+                $query['SearchContentClassID'][] = $publicServiceLinkClassId;
+            }
+        }
+
+        return parent::filterQuery($query, $builder);
     }
 }

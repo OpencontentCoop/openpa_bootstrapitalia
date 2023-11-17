@@ -933,6 +933,17 @@ class OpenPABootstrapItaliaOperators
             $searchHash['class_id'] = OpenPAINI::variable('MotoreRicerca', 'IncludiClassi', null);
         }
 
+        $publicServiceLinkClassId = eZContentClass::classIDByIdentifier('public_service_link');
+        if ($publicServiceLinkClassId) {
+            $publicServiceClassId = eZContentClass::classIDByIdentifier('public_service');
+            if (in_array($publicServiceClassId, $searchHash['class_id'])
+                || in_array('public_service', $searchHash['class_id'])
+            ) {
+                $data['_class_alias'][$publicServiceClassId] = [$publicServiceLinkClassId];
+                $searchHash['class_id'][] = $publicServiceLinkClassId;
+            }
+        }
+
         $data['_search_hash'] = $searchHash;
 
 //        eZDebug::writeDebug(print_r($data, 1), __METHOD__);
