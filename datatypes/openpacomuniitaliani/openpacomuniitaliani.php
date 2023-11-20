@@ -74,7 +74,9 @@ class OpenPAComuniItaliani extends eZPersistentObject implements JsonSerializabl
 
     function getName()
     {
-        return $this->attribute('comune');
+        $name = $this->attribute('comune');
+        $aliasList = OpenPAINI::variable('ComuniItaliani', 'Alias', []);
+        return $aliasList[$name] ?? $name;
     }
 
     public static function import()
