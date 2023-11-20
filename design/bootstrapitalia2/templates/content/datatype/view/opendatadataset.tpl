@@ -39,6 +39,9 @@
     'leaflet/Leaflet.MakiMarkers.js',
     'leaflet/leaflet.activearea.js',
     'leaflet/leaflet.markercluster.js',
+    'jquery.fileupload.js',
+    'jquery.fileupload-process.js',
+    'jquery.fileupload-ui.js',
     'alpaca.js',
     'fields/SimpleOpenStreetMap.js',
     'jquery.opendataform.js',
@@ -69,6 +72,7 @@
     'fullcalendar/core/main.css',
     'fullcalendar/daygrid/main.css',
     'fullcalendar/list/main.css',
+    'jquery.fileupload.css',
     'alpaca-custom.css',
     'opendatadataset.css'
 ))}
