@@ -92,6 +92,7 @@ AvailableView[]=card_teaser_info
 AvailableView[]=latest_messages_item
 AvailableView[]=point_list
 TopicCard=custom
+ForceCurrentSiteUrl=disabled
 
 [ContentMain]
 Identifiers[]=image

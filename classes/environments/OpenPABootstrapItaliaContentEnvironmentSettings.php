@@ -72,7 +72,19 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                     );
 
                 if (is_array($result)) {
-                    $viewData = $result['content'];
+                    $resultContent = $result['content'] ?? '';
+                    if (OpenPAINI::variable('ViewSettings', 'ForceCurrentSiteUrl', 'disabled') === 'enabled') {
+                        $hostName = eZSys::hostname();
+                        $siteName = parse_url(
+                            "https://" . eZINI::instance()->variable('SiteSettings', 'SiteURL'),
+                            PHP_URL_HOST
+                        );
+                        if ($hostName !== $siteName) {
+                            $resultContent = str_replace('//'.$hostName, '//'.$siteName, $resultContent);
+                        }
+                    }
+
+                    $viewData = $resultContent;
                 }
             }
 
