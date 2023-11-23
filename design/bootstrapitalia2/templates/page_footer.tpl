@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-12 footer-items-wrapper logo-wrapper">
                     {if openpaini('GeneralSettings','ShowUeLogo', 'enabled')|eq('enabled')}
-                        <img class="ue-logo lazyload" {if openpaini('ImageSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}data-{/if}src="{'images/assets/logo-eu-inverted.svg'|ezdesign( 'no' )}"
+                        <img class="ue-logo lazyload" {if openpaini('ImageSettings', 'LazyLoadImages', 'disabled')|eq('enabled')}data-{/if}src="{concat('images/assets/logo-eu/',ezini('RegionalSettings', 'Locale'),'.svg')|ezdesign( 'no' )}"
                              title="{'Financed by the European Union'|i18n( 'bootstrapitalia' )}"
                              alt="{'Financed by the European Union'|i18n( 'bootstrapitalia' )}" width="178" height="56" />
                     {/if}
