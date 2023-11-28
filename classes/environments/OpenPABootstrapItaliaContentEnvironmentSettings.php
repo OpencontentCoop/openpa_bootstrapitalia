@@ -14,83 +14,91 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
 
     protected $maxSearchLimit = 300;
 
+    public static function generateView($NodeID, $ViewMode)
+    {
+        $viewData = false;
+        if (in_array($ViewMode, [
+            'accordion_content',
+            'banner',
+            'banner_color',
+            'card',
+            'card_image',
+            'card_teaser',
+            'image',
+            'text_linked',
+            'latest_messages_item',
+            'point_list',
+        ])) {
+            $Module = new eZModule("", "", 'opendata');
+            $tpl = eZTemplate::factory();
+            $LanguageCode = null;
+            $Offset = 0;
+            $ini = eZINI::instance();
+            $viewParameters = [];
+            $collectionAttributes = false;
+            $validation = [];
+
+            if ($ViewMode == 'card') {
+                $viewParameters['_custom'] = ['view_variation' => 'big'];
+            }
+            if ($ViewMode == 'banner' || $ViewMode == 'banner_color') {
+                $viewParameters['_custom'] = ['view_variation' => 'banner-round banner-shadow h-100'];
+            }
+
+            $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile(
+                eZUser::currentUser(),
+                $NodeID,
+                $Offset,
+                false,
+                $LanguageCode,
+                $ViewMode
+            );
+
+            $args = compact([
+                "NodeID", "Module", "tpl", "LanguageCode", "ViewMode", "Offset", "ini", "viewParameters", "collectionAttributes", "validation"
+            ]);
+            eZURI::setTransformURIMode('full');
+            $result = eZClusterFileHandler::instance($cacheFileArray['cache_path'])
+                ->processCache(
+                    array('OpenPABootstrapItaliaNodeViewFunctions', 'contentViewRetrieve'),
+                    array('OpenPABootstrapItaliaNodeViewFunctions', 'contentViewGenerate'),
+                    null,
+                    null,
+                    $args
+                );
+
+            if (is_array($result)) {
+                $resultContent = $result['content'] ?? '';
+                if (OpenPAINI::variable('ViewSettings', 'ForceCurrentSiteUrl', 'disabled') === 'enabled') {
+                    $hostName = eZSys::hostname();
+                    $siteName = parse_url(
+                        "https://" . eZINI::instance()->variable('SiteSettings', 'SiteURL'),
+                        PHP_URL_HOST
+                    );
+                    if ($hostName !== $siteName) {
+                        $resultContent = str_replace('//'.$hostName, '//'.$siteName, $resultContent);
+                    }
+                }
+
+                $viewData = $resultContent;
+            }
+        }
+
+        return $viewData;
+    }
+
     public function filterContent(Content $content)
     {
         if (isset($this->request->get['view'])) {
-
-            $viewData = false;
             $ViewMode = $this->request->get['view'];
-            if (in_array($ViewMode, [
-                'accordion_content',
-                'banner',
-                'banner_color',
-                'card',
-                'card_image',
-                'card_teaser',
-                'image',
-                'text_linked',
-                'latest_messages_item',
-                'point_list',
-            ])) {
-                $NodeID = $content->metadata->mainNodeId;
-                $Module = new eZModule("", "", 'opendata');
-                $tpl = eZTemplate::factory();
-                $LanguageCode = null;
-                $Offset = 0;
-                $ini = eZINI::instance();
-                $viewParameters = [];
-                $collectionAttributes = false;
-                $validation = [];
+            $NodeID = $content->metadata->mainNodeId;
 
-                if ($ViewMode == 'card') {
-                    $viewParameters['_custom'] = ['view_variation' => 'big'];
-                }
-                if ($ViewMode == 'banner' || $ViewMode == 'banner_color') {
-                    $viewParameters['_custom'] = ['view_variation' => 'banner-round banner-shadow h-100'];
-                }
-
-                $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile(
-                    eZUser::currentUser(),
-                    $NodeID,
-                    $Offset,
-                    false,
-                    $LanguageCode,
-                    $ViewMode
-                );
-
-                $args = compact([
-                    "NodeID", "Module", "tpl", "LanguageCode", "ViewMode", "Offset", "ini", "viewParameters", "collectionAttributes", "validation"
-                ]);
-                eZURI::setTransformURIMode('full');
-                $result = eZClusterFileHandler::instance($cacheFileArray['cache_path'])
-                    ->processCache(
-                        array('OpenPABootstrapItaliaNodeViewFunctions', 'contentViewRetrieve'),
-                        array('OpenPABootstrapItaliaNodeViewFunctions', 'contentViewGenerate'),
-                        null,
-                        null,
-                        $args
-                    );
-
-                if (is_array($result)) {
-                    $resultContent = $result['content'] ?? '';
-                    if (OpenPAINI::variable('ViewSettings', 'ForceCurrentSiteUrl', 'disabled') === 'enabled') {
-                        $hostName = eZSys::hostname();
-                        $siteName = parse_url(
-                            "https://" . eZINI::instance()->variable('SiteSettings', 'SiteURL'),
-                            PHP_URL_HOST
-                        );
-                        if ($hostName !== $siteName) {
-                            $resultContent = str_replace('//'.$hostName, '//'.$siteName, $resultContent);
-                        }
-                    }
-
-                    $viewData = $resultContent;
-                }
+            $viewData = self::generateView($NodeID, $ViewMode);
+            if ($viewData) {
+                $extra = new ExtraData();
+                $extra->set('view', $viewData);
+                $content->extradata = $extra;
             }
-
-            $extra = new ExtraData();
-            $extra->set('view', $viewData);
-            $content->extradata = $extra;
         }
 
         return parent::filterContent($content);
