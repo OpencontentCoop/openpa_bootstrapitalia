@@ -4,6 +4,14 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Upcoming appointments</source>
+      <translation>I prossimi eventi</translation>
+    </message>
+    <message>
+      <source>Local associations</source>
+      <translation>Associazioni locali</translation>
+    </message>
+    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Questo sito utilizza cookie tecnici, analytics e di terze parti.</translation>
     </message>

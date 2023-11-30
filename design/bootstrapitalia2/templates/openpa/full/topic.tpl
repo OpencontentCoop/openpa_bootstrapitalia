@@ -94,14 +94,25 @@
     </div>
 </div>
 
-
 {if $node|has_attribute('layout')}
+    {include uri='design:bridge/openagenda/embed_remote_contents.tpl' parameters=hash('color_style', 'section section-muted section-inset-shadow pb-5')}
     <div style="min-height: 80px">
         {attribute_view_gui attribute=$node|attribute('layout')}
     </div>
 {else}
     {def $blocks = array()}
     {def $has_first_block = false()}
+
+    {def $openagenda_next_events = openagenda_next_events($node.object)}
+    {if $openagenda_next_events.is_enabled}
+        {set $has_first_block = true()}
+        {set $blocks = $blocks|append(page_block(
+            $openagenda_next_events.view.block_name,
+            $openagenda_next_events.view.block_type,
+            $openagenda_next_events.view.block_view,
+            $openagenda_next_events.view.parameters
+        ))}
+    {/if}
 
     {def $root_news = 'news'|node_id_from_object_remote_id()}
     {if api_search(concat('classes [article] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' and subtree [', $root_news, '] limit 1')).totalCount|gt(0)}

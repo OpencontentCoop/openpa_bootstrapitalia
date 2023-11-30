@@ -212,6 +212,15 @@
                                         </li>
                                     {/if}
                                     {undef $onto_links}
+
+                                    {if and($content_object.class_identifier|eq('place'), openagenda_can_push_place())}
+                                        <li><span class="divider"></span></li>
+                                        <li>
+                                            <a class="list-item left-icon" href="{concat('bootstrapitalia/bridge/push-openagenda-place/',$content_object.id)|ezurl(no)}" title="{'Push to openagenda'|i18n( 'bootstrapitalia' )}">
+                                                <i aria-hidden="true" class="fa fa-external-link-square"></i> {'Push place on OpenAgenda'|i18n( 'bootstrapitalia' )}
+                                            </a>
+                                        </li>
+                                    {/if}
                                 {/if}
 
                             </ul>

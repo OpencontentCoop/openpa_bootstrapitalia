@@ -54,6 +54,12 @@ $ViewList['version_remove'] = [
     'params' => ['Id', 'Version', 'Locale'],
     'unordered_params' => [],
 ];
+$ViewList['bridge'] = [
+    'functions' => ['opencity_locked_editor'],
+    'script' => 'bridge.php',
+    'params' => ['Action', 'Parameter'],
+    'unordered_params' => [],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];

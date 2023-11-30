@@ -13,6 +13,9 @@
 {*if and(is_set($block.custom_attributes.includi_classi), $block.custom_attributes.includi_classi|ne(''))}
     {set $query = concat('classes [', $block.custom_attributes.includi_classi, '] limit 3')}
 {/if*}
+{if and(is_set($block.custom_attributes.tag_id), $block.custom_attributes.tag_id|int()|gt(0))}
+	{set $query = concat("raw[ezf_df_tag_ids] = ", $block.custom_attributes.tag_id, " and ", $query)}
+{/if}
 {def $openpa = object_handler($block)}
 {if $openpa.has_content}
 	<div class="hide"

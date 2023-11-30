@@ -8,6 +8,14 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Upcoming appointments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Local associations</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
       <translation type="unfinished"/>
     </message>

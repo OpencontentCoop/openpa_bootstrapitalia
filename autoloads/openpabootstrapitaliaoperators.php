@@ -70,6 +70,9 @@ class OpenPABootstrapItaliaOperators
             'sentry_script_loader',
             'built_in_app_variables',
             'built_in_app',
+            'openagenda_is_enabled',
+            'openagenda_next_events',
+            'openagenda_can_push_place',
         );
     }
 
@@ -175,6 +178,9 @@ class OpenPABootstrapItaliaOperators
             'built_in_app' =>  array(
                 'alias' => array('type' => 'string', 'required' => true),
             ),
+            'openagenda_next_events' =>  array(
+                'context' => array('type' => 'object', 'required' => true),
+            ),
         );
     }
 
@@ -189,6 +195,18 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'openagenda_can_push_place':
+                $operatorValue = OpenAgendaBridge::factory()->getEnablePushPlace();
+                break;
+
+            case 'openagenda_is_enabled':
+                $operatorValue = OpenAgendaBridge::factory()->isEnabled();
+                break;
+
+            case 'openagenda_next_events':
+                $operatorValue = OpenAgendaBridge::factory()->getNextEventsInfo($namedParameters['context']);
+                break;
 
             case 'built_in_app':
                 $operatorValue = new BuiltinApp($namedParameters['alias'], $namedParameters['alias']);

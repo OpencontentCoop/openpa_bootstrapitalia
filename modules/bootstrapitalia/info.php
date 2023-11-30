@@ -16,7 +16,10 @@ $tpl->setVariable('has_access_to_hot_zone', $hasAdminAccess);
 $tpl->setVariable('bridge_connection', StanzaDelCittadinoBridge::factory()->getApiBaseUri());
 $tpl->setVariable('server_url', eZSys::instance()->serverURL());
 $home = OpenPaFunctionCollection::fetchHome();
-$tpl->setVariable('homepage', $home);
+
+$tpl->setVariable('homepage',
+    $home->attribute('class_identifier') === 'homepage' ? $home:  null
+);
 
 $partnersItems = [];
 $partners = OpenPAINI::variable('CreditsSettings', 'Partners', []);
@@ -78,7 +81,24 @@ if ($http->hasPostVariable('EditorPerformanceMonitor') && $hasAdminAccess) {
     OpenPABootstrapItaliaOperators::setSentryScriptLoader($http->postVariable('EditorPerformanceMonitor'));
 }
 $sentryScriptLoader = OpenPABootstrapItaliaOperators::getSentryScriptLoader();
-$tpl->setVariable('sentry_script_loader', $sentryScriptLoader);
+$tpl->setVariable('sentry_script_loader_url', $sentryScriptLoader);
+
+if ($http->hasPostVariable('OpenAgendaBridge') && $hasAdminAccess) {
+    OpenAgendaBridge::factory()->setOpenAgendaUrl($http->postVariable('OpenAgendaUrl'));
+    OpenAgendaBridge::factory()->setEnableMainCalendar($http->hasPostVariable('OpenAgendaMainCalendar'));
+    OpenAgendaBridge::factory()->setEnableTopicCalendar($http->hasPostVariable('OpenAgendaTopicCalendar'));
+    OpenAgendaBridge::factory()->setEnablePlaceCalendar($http->hasPostVariable('OpenAgendaPlaceCalendar'));
+    OpenAgendaBridge::factory()->setEnableOrganization($http->hasPostVariable('OpenAgendaOrganization'));
+    OpenAgendaBridge::factory()->setEnablePushPlace($http->hasPostVariable('OpenAgendaPushPlace'));
+    $module->redirectTo('/bootstrapitalia/info');
+    return;
+}
+$tpl->setVariable('openagenda_url', OpenAgendaBridge::factory()->getOpenAgendaUrl());
+$tpl->setVariable('openagenda_embed_main', OpenAgendaBridge::factory()->getEnableMainCalendar());
+$tpl->setVariable('openagenda_embed_topic', OpenAgendaBridge::factory()->getEnableTopicCalendar());
+$tpl->setVariable('openagenda_embed_place', OpenAgendaBridge::factory()->getEnablePlaceCalendar());
+$tpl->setVariable('openagenda_embed_organization', OpenAgendaBridge::factory()->getEnableOrganization());
+$tpl->setVariable('openagenda_push_place', OpenAgendaBridge::factory()->getEnablePushPlace());
 
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {

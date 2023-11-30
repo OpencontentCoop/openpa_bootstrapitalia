@@ -7,6 +7,14 @@ $http = eZHTTPTool::instance();
 $themeList = array();
 $currentDesign = eZINI::instance()->variable('DesignSettings', 'SiteDesign');
 $files = eZDir::findSubitems("extension/openpa_bootstrapitalia/design/$currentDesign/_build/src/scss", 'f');
+if (empty($files)){
+    $additionalSiteDesignList = eZINI::instance()->variable('DesignSettings', 'AdditionalSiteDesignList');
+    foreach ($additionalSiteDesignList as $additionalSiteDesign){
+        if (strpos($additionalSiteDesign, 'bootstrapitalia') === 0){
+            $files = eZDir::findSubitems("extension/openpa_bootstrapitalia/design/$additionalSiteDesign/_build/src/scss", 'f');
+        }
+    }
+}
 foreach ($files as $file) {
     $filename = basename($file);
     $parts = explode('.', $filename);

@@ -59,6 +59,25 @@
                 )
             )
         )}
+    {elseif and($node.object.remote_id|eq('all-events'), $openpa.content_tag_menu.current_view_tag)}
+        {set $search_blocks = array(page_block(
+            "",
+            "Eventi",
+            "card",
+            hash(
+                "includi_classi", "event",
+                "show_facets", "0",
+                "topic_node_id", "",
+                "tag_id", $openpa.content_tag_menu.current_view_tag.id,
+                "size", "big",
+                "calendar_view", "month",
+                "color_style", "",
+                "container_style", "",
+                "max_events", "9",
+                "intro_text", "",
+                )
+            )
+        )}
     {elseif and($node.object.remote_id|eq('all-places'), $openpa.content_tag_menu.current_view_tag)}
         {set $search_blocks = array(page_block(
             "",

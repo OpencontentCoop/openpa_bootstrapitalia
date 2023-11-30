@@ -1,4 +1,4 @@
-{if and($view_variation|eq('big'), $show_icon, $has_media|not())}
+{if and($view_variation|eq('big'), $show_icon, $has_media|not(), $node|has_attribute('time_interval')|not())}
 
     <div class="flag-icon invisible"></div>
 

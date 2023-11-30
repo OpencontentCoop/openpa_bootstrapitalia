@@ -10,7 +10,8 @@
         </div>
     {/if}
 
-    <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" enctype="multipart/form-data" class="form">
+    {if $homepage}
+        <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" enctype="multipart/form-data" class="form">
         {foreach $sections as $section}
             <div class="border border-light rounded p-3 mb-3">
                 <h5>{$section.label}</h5>
@@ -124,6 +125,7 @@
         </div>
 
     </form>
+    {/if}
 
     {if $has_access_to_hot_zone}
 
@@ -196,11 +198,74 @@
                         <label for="UpdateBridgeTargetUser" class="text-white p-0">Monitoraggio performance redazione</label>
                         <small class="form-text text-white">Inserisci il valore di `src` del <a class="text-white" href="https://docs.sentry.io/platforms/javascript/install/loader/">Sentry JavaScript Loader</a></small>
                         <div class="input-group">
-                            <input type="text" class="form-control border-right" id="EditorPerformanceMonitor" name="EditorPerformanceMonitor" placeholder="https://js.sentry-cdn.com/xyz...min.js" value="{$sentry_script_loader}"/>
+                            <input type="text" class="form-control border-right" id="EditorPerformanceMonitor" name="EditorPerformanceMonitor" placeholder="https://js.sentry-cdn.com/xyz...min.js" value="{$sentry_script_loader_url}"/>
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">Aggiorna</button>
                             </div>
                         </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
+                    <input type="hidden" name="OpenAgendaBridge" value="1">
+                    <div class="form-group mb-0">
+                        <label for="OpenAgendaUrl" class="text-white p-0">URL OpenAgenda</label>
+                        <input type="text" class="form-control border-right" id="OpenAgendaUrl" name="OpenAgendaUrl" placeholder="https://openagenda.opencontent.it" value="{$openagenda_url}"/>
+                    </div>
+                    <div class="form-group form-check m-0 ps-1 bg-white">
+                        <input id="OpenAgendaMainCalendar"
+                               class="form-check-input"
+                               type="checkbox"
+                               name="OpenAgendaMainCalendar" {$openagenda_embed_main|choose( '', 'checked="checked"' )}
+                               value="" />
+                        <label class="form-check-label mb-0" for="OpenAgendaMainCalendar">
+                            Visualizza i prossimi eventi di OpenAgenda in /Vivere-il-comune/Eventi
+                        </label>
+                    </div>
+                    <div class="form-group form-check m-0 ps-1 bg-white">
+                        <input id="OpenAgendaTopicCalendar"
+                               class="form-check-input"
+                               type="checkbox"
+                               name="OpenAgendaTopicCalendar" {$openagenda_embed_topic|choose( '', 'checked="checked"' )}
+                               value="" />
+                        <label class="form-check-label mb-0" for="OpenAgendaTopicCalendar">
+                            Visualizza i prossimi eventi di OpenAgenda nelle pagine argomento
+                        </label>
+                    </div>
+                    <div class="form-group form-check m-0 ps-1 bg-white">
+                        <input id="OpenAgendaOrganization"
+                               class="form-check-input"
+                               type="checkbox"
+                               name="OpenAgendaOrganization" {$openagenda_embed_organization|choose( '', 'checked="checked"' )}
+                               value="" />
+                        <label class="form-check-label mb-0" for="OpenAgendaOrganization">
+                            Visualizza le associazioni in /Amministrazione/Enti-e-fondazioni
+                        </label>
+                    </div>
+                    <div class="form-group form-check m-0 ps-1 bg-white">
+                        <input id="OpenAgendaPushPlace"
+                               class="form-check-input"
+                               type="checkbox"
+                               name="OpenAgendaPushPlace" {$openagenda_push_place|choose( '', 'checked="checked"' )}
+                               value="" />
+                        <label class="form-check-label mb-0" for="OpenAgendaPushPlace">
+                            Abilita il bottone di invio dei luoghi in OpenAgenda
+                        </label>
+                    </div>
+                    {*<div class="form-group form-check m-0 ps-1 bg-white">
+                        <input id="OpenAgendaPlaceCalendar"
+                               class="form-check-input"
+                               type="checkbox"
+                               name="OpenAgendaPlaceCalendar" {$openagenda_embed_place|choose( '', 'checked="checked"' )}
+                               value="" />
+                        <label class="form-check-label mb-0" for="OpenAgendaPlaceCalendar">
+                            Visualizza i prossimi eventi di OpenAgenda nelle pagine luogo
+                        </label>
+                    </div>*}
+                    <div class="text-right mt-1">
+                        <button class="btn btn-primary" type="submit">Aggiorna</button>
                     </div>
                 </form>
             </div>

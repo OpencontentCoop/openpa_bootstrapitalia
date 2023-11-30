@@ -68,6 +68,8 @@
     </section>
 {/if}
 
+{include uri='design:bridge/openagenda/embed_remote_contents.tpl'}
+
 {if and($current_view_tag|not(), $node|has_attribute('layout'))}
     {attribute_view_gui attribute=$node|attribute('layout')}
 {/if}
