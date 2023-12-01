@@ -43,6 +43,7 @@
 
 {undef $parent_openpa}
 
+{if can_check_remote_public_service()}
 <script>
   var serviceIdentifier = "{$node|attribute('identifier').content}";
   var serviceId = {$node.contentobject_id};
@@ -61,3 +62,4 @@
   });
   {/literal}
 </script>
+{/if}

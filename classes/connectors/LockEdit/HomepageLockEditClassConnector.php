@@ -142,8 +142,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $options['fields']['add_section_news'] = [
             'type' => 'checkbox',
-            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Notizie in evidenza"'),
-            'helper' => 'La homepage del sito può avere una sezione di 3 notizie in evidenza',
+            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Activate the "News in evidence" section'),
+            'helper' => ezpI18n::tr('bootstrapitalia/editor-gui', 'The homepage of the site can have a section of 3 news in evidence'),
         ];
         $options['fields']['section_news']['dependencies'] = [
             'section_latest_news' => 'false',
@@ -154,10 +154,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $options['fields']['add_section_events'] = [
             'type' => 'checkbox',
-            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Eventi in evidenza"'),
+            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Activate the "Events in evidence" section'),
             'helper' => ezpI18n::tr(
                 'bootstrapitalia/editor-gui',
-                'La homepage del sito può avere una sezione di eventi in evidenza'
+                'The site homepage can have a section of events in evidence'
             ),
         ];
         $options['fields']['section_calendar']['dependencies'] = [
@@ -169,10 +169,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $options['fields']['add_section_banner'] = [
             'type' => 'checkbox',
-            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Siti tematici"'),
+            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Activate the "Thematic sites" section'),
             'helper' => ezpI18n::tr(
                 'bootstrapitalia/editor-gui',
-                'La homepage del sito può avere una sezione con dei link a siti tematici'
+                'The site homepage can have a section with links to thematic sites'
             ),
         ];
         $options['fields']['section_banner']['dependencies'] = ['add_section_banner' => 'true'];
@@ -180,7 +180,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $options['fields']['add_section_search'] = [
             'type' => 'checkbox',
-            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Attiva la sezione "Ricerca"'),
+            'rightLabel' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Activate the "Search" section'),
             'helper' => '',
         ];
         $options['fields']['section_search']['dependencies'] = ['add_section_search' => 'true'];
@@ -237,27 +237,27 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $categories = [
             [
                 'identifier' => 'main_news',
-                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'In evidenza'),
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'In evidence'),
                 'identifiers' => ['main_news'],
             ],
             [
                 'identifier' => 'management',
-                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Amministrazione'),
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Administration'),
                 'identifiers' => ['section_management'],
             ],
             [
                 'identifier' => 'news',
-                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Notizie'),
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'News'),
                 'identifiers' => ['add_section_news', 'title_news', 'section_latest_news', 'section_news',],
             ],
             [
                 'identifier' => 'events',
-                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Eventi'),
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Events'),
                 'identifiers' => ['add_section_events', 'title_events', 'section_next_events', 'section_calendar',],
             ],
             [
                 'identifier' => 'topic',
-                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Argomenti'),
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Topics'),
                 'identifiers' => ['section_topic', 'background_topic'],
             ],
 //            [
@@ -267,12 +267,12 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 //            ],
             [
                 'identifier' => 'banner',
-                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Siti tematici'),
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Thematic sites'),
                 'identifiers' => ['add_section_banner', 'title_banner', 'section_banner'],
             ],
             [
                 'identifier' => 'search',
-                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Ricerca'),
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Research'),
                 'identifiers' => ['add_section_search', 'background_search', 'section_search'],
             ],
         ];
@@ -280,7 +280,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         if ($this->canAttachBackgroundImage()) {
             $categories[] = [
                 'identifier' => 'flowers',
-                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Altre impostazioni'),
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Other settings'),
                 'identifiers' => ['background_image'],
             ];
         }

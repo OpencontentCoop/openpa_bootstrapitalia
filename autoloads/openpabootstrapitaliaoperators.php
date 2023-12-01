@@ -73,6 +73,7 @@ class OpenPABootstrapItaliaOperators
             'openagenda_is_enabled',
             'openagenda_next_events',
             'openagenda_can_push_place',
+            'can_check_remote_public_service',
         );
     }
 
@@ -195,6 +196,10 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'can_check_remote_public_service':
+                $operatorValue = StanzaDelCittadinoBridge::factory()->getEnableRuntimeServiceStatusCheck();
+                break;
 
             case 'openagenda_can_push_place':
                 $operatorValue = OpenAgendaBridge::factory()->getEnablePushPlace();

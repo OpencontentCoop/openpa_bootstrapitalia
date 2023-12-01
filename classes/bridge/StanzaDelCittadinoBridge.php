@@ -7,6 +7,10 @@ use Opencontent\Opendata\Rest\Client\PayloadBuilder;
 
 class StanzaDelCittadinoBridge
 {
+    use SiteDataStorageTrait;
+
+    const RUNTIME_STATUS_CACHE_KEY = 'sdc_runtime_check_status';
+
     const CHANNELS_REMOTE_ID = '3bb4f45279e3c4efe2ac84630e53a7b4';
 
     const SERVICES_REMOTE_ID = 'all-services';
@@ -34,6 +38,8 @@ class StanzaDelCittadinoBridge
 
     private $serviceList;
 
+    private $enableRuntimeServiceStatusCheck;
+
     public static $mapServiceStatus = [
         0 => 'Servizio non attivo',
         1 => 'Servizio attivo',
@@ -55,6 +61,20 @@ class StanzaDelCittadinoBridge
         }
 
         return self::$instance;
+    }
+
+    public function getEnableRuntimeServiceStatusCheck()
+    {
+        if ($this->enableRuntimeServiceStatusCheck === null) {
+            $this->enableRuntimeServiceStatusCheck = $this->getStorage(self::RUNTIME_STATUS_CACHE_KEY);
+        }
+        return $this->enableRuntimeServiceStatusCheck;
+    }
+
+    public function setEnableRuntimeServiceStatusCheck($enableRuntimeServiceStatusCheck)
+    {
+        $this->enableRuntimeServiceStatusCheck = $enableRuntimeServiceStatusCheck;
+        $this->setStorage(self::RUNTIME_STATUS_CACHE_KEY, (int)$enableRuntimeServiceStatusCheck);
     }
 
     public static function instanceByPersonalAreaLogin(PersonalAreaLogin $pal): StanzaDelCittadinoBridge

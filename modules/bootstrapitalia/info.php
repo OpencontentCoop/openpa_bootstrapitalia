@@ -100,6 +100,13 @@ $tpl->setVariable('openagenda_embed_place', OpenAgendaBridge::factory()->getEnab
 $tpl->setVariable('openagenda_embed_organization', OpenAgendaBridge::factory()->getEnableOrganization());
 $tpl->setVariable('openagenda_push_place', OpenAgendaBridge::factory()->getEnablePushPlace());
 
+if ($http->hasPostVariable('StanzadelcittadinoBridge') && $hasAdminAccess) {
+    StanzaDelCittadinoBridge::factory()->setEnableRuntimeServiceStatusCheck($http->hasPostVariable('RuntimeServiceStatusCheck'));
+    $module->redirectTo('/bootstrapitalia/info');
+    return;
+}
+$tpl->setVariable('sdc_status_check', StanzaDelCittadinoBridge::factory()->getEnableRuntimeServiceStatusCheck());
+
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {
     $contacts = $http->postVariable('Contacts');

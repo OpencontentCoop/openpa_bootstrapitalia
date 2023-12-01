@@ -130,22 +130,25 @@
     {if $has_access_to_hot_zone}
 
         <div class="border border-light bg-danger rounded p-3 my-5">
-            <h5 class="text-white mb-4">Impostazioni avanzate</h5>
+            <h4 class="text-white mb-4">Impostazioni avanzate</h4>
             <div class="row">
                 <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
-                <div class="form-group">
-                    <label for="ImportFrom" class="text-white p-0">Importa contatti e informazioni generali da un'altra istanza OpenCity</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="ImportFrom" name="ImportFrom"
-                               placeholder="https://www.comune.bugliano.pi.it" />
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Importa</button>
+                    <fieldset>
+                        <legend class="text-white h5 px-0">Importa informazioni</legend>
+                        <div class="form-group">
+                            <label for="ImportFrom" class="text-white p-0">Importa contatti e informazioni generali da un'altra istanza OpenCity</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="ImportFrom" name="ImportFrom"
+                                       placeholder="https://www.comune.bugliano.pi.it" />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Importa</button>
+                                </div>
+                            </div>
+                            <small class="form-text text-white">
+                                Inserisci l'indirizzo di un'altra istanza OpenCity da cui importare le informazioni. Ad esempio: https://www.comune.bugliano.pi.it
+                            </small>
                         </div>
-                    </div>
-                    <small class="form-text text-white">
-                        Inserisci l'indirizzo di un'altra istanza OpenCity da cui importare le informazioni. Ad esempio: https://www.comune.bugliano.pi.it
-                    </small>
-                </div>
+                    </fieldset>
                 </form>
             </div>
 
@@ -171,102 +174,133 @@
             {if count($partners)}
             <div class="row">
                 <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
-                <div class="form-group">
-                    <label for="SelectPartner" class="text-white p-0">Imposta partner/distributore</label>
-                    <div class="input-group">
-                        <select class="form-control" id="SelectPartner" name="SelectPartner">
-                            <option></option>
-                            {foreach $partners as $partner}
-                               <option value="{$partner.identifier|wash()}"{if and($current_partner, $current_partner.identifier|eq($partner.identifier))} selected="selected"{/if}>{$partner.name|wash()} - {$partner.url|wash()}</option>
-                            {/foreach}
-                        </select>
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Seleziona</button>
+                    <fieldset>
+                        <legend class="text-white h5 px-0">Partner/distributore</legend>
+                        <div class="form-group">
+                            <label for="SelectPartner" class="text-white p-0">Imposta partner/distributore</label>
+                            <div class="input-group">
+                                <select class="form-control" id="SelectPartner" name="SelectPartner">
+                                    <option></option>
+                                    {foreach $partners as $partner}
+                                       <option value="{$partner.identifier|wash()}"{if and($current_partner, $current_partner.identifier|eq($partner.identifier))} selected="selected"{/if}>{$partner.name|wash()} - {$partner.url|wash()}</option>
+                                    {/foreach}
+                                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Seleziona</button>
+                                </div>
+                            </div>
+                            <small class="form-text text-white">
+                                Il nome e l'url compaiono nel footer della pagina
+                            </small>
                         </div>
-                    </div>
-                    <small class="form-text text-white">
-                        Il nome e l'url compaiono nel footer della pagina
-                    </small>
-                </div>
+                    </fieldset>
                 </form>
             </div>
             {/if}
 
             <div class="row">
                 <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
-                    <div class="form-group">
-                        <label for="UpdateBridgeTargetUser" class="text-white p-0">Monitoraggio performance redazione</label>
-                        <small class="form-text text-white">Inserisci il valore di `src` del <a class="text-white" href="https://docs.sentry.io/platforms/javascript/install/loader/">Sentry JavaScript Loader</a></small>
-                        <div class="input-group">
-                            <input type="text" class="form-control border-right" id="EditorPerformanceMonitor" name="EditorPerformanceMonitor" placeholder="https://js.sentry-cdn.com/xyz...min.js" value="{$sentry_script_loader_url}"/>
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">Aggiorna</button>
+                    <fieldset>
+                        <legend class="text-white h5 px-0">Performance interfaccia di redazione</legend>
+                        <div class="form-group">
+                            <label for="UpdateBridgeTargetUser" class="text-white p-0">Monitoraggio performance redazione</label>
+                            <small class="form-text text-white">Inserisci il valore di `src` del <a class="text-white" href="https://docs.sentry.io/platforms/javascript/install/loader/">Sentry JavaScript Loader</a></small>
+                            <div class="input-group">
+                                <input type="text" class="form-control border-right" id="EditorPerformanceMonitor" name="EditorPerformanceMonitor" placeholder="https://js.sentry-cdn.com/xyz...min.js" value="{$sentry_script_loader_url}"/>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Aggiorna</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </fieldset>
                 </form>
             </div>
 
+            {if has_bridge_connection()}
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
+                    <fieldset>
+                        <legend class="text-white h5 px-0">Area personale</legend>
+                        <input type="hidden" name="StanzadelcittadinoBridge" value="1" />
+                        <div class="form-group form-check m-0 ps-1 pt-1 bg-white">
+                            <input id="RuntimeServiceStatusCheck"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="RuntimeServiceStatusCheck" {$sdc_status_check|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0" for="RuntimeServiceStatusCheck">
+                                Mostra/nasconde i canali di erogazione nelle schede di servizio in base allo stato del servizio corrispondente in area personale
+                            </label>
+                        </div>
+                        <div class="text-right mt-1">
+                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                        </div>
+                    </fieldset>
+                </form>
+            {/if}
+
             <div class="row">
                 <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
-                    <input type="hidden" name="OpenAgendaBridge" value="1">
-                    <div class="form-group mb-0">
-                        <label for="OpenAgendaUrl" class="text-white p-0">URL OpenAgenda</label>
-                        <input type="text" class="form-control border-right" id="OpenAgendaUrl" name="OpenAgendaUrl" placeholder="https://openagenda.opencontent.it" value="{$openagenda_url}"/>
-                    </div>
-                    <div class="form-group form-check m-0 ps-1 bg-white">
-                        <input id="OpenAgendaMainCalendar"
-                               class="form-check-input"
-                               type="checkbox"
-                               name="OpenAgendaMainCalendar" {$openagenda_embed_main|choose( '', 'checked="checked"' )}
-                               value="" />
-                        <label class="form-check-label mb-0" for="OpenAgendaMainCalendar">
-                            Visualizza i prossimi eventi di OpenAgenda in /Vivere-il-comune/Eventi
-                        </label>
-                    </div>
-                    <div class="form-group form-check m-0 ps-1 bg-white">
-                        <input id="OpenAgendaTopicCalendar"
-                               class="form-check-input"
-                               type="checkbox"
-                               name="OpenAgendaTopicCalendar" {$openagenda_embed_topic|choose( '', 'checked="checked"' )}
-                               value="" />
-                        <label class="form-check-label mb-0" for="OpenAgendaTopicCalendar">
-                            Visualizza i prossimi eventi di OpenAgenda nelle pagine argomento
-                        </label>
-                    </div>
-                    <div class="form-group form-check m-0 ps-1 bg-white">
-                        <input id="OpenAgendaOrganization"
-                               class="form-check-input"
-                               type="checkbox"
-                               name="OpenAgendaOrganization" {$openagenda_embed_organization|choose( '', 'checked="checked"' )}
-                               value="" />
-                        <label class="form-check-label mb-0" for="OpenAgendaOrganization">
-                            Visualizza le associazioni in /Amministrazione/Enti-e-fondazioni
-                        </label>
-                    </div>
-                    <div class="form-group form-check m-0 ps-1 bg-white">
-                        <input id="OpenAgendaPushPlace"
-                               class="form-check-input"
-                               type="checkbox"
-                               name="OpenAgendaPushPlace" {$openagenda_push_place|choose( '', 'checked="checked"' )}
-                               value="" />
-                        <label class="form-check-label mb-0" for="OpenAgendaPushPlace">
-                            Abilita il bottone di invio dei luoghi in OpenAgenda
-                        </label>
-                    </div>
-                    {*<div class="form-group form-check m-0 ps-1 bg-white">
-                        <input id="OpenAgendaPlaceCalendar"
-                               class="form-check-input"
-                               type="checkbox"
-                               name="OpenAgendaPlaceCalendar" {$openagenda_embed_place|choose( '', 'checked="checked"' )}
-                               value="" />
-                        <label class="form-check-label mb-0" for="OpenAgendaPlaceCalendar">
-                            Visualizza i prossimi eventi di OpenAgenda nelle pagine luogo
-                        </label>
-                    </div>*}
-                    <div class="text-right mt-1">
-                        <button class="btn btn-primary" type="submit">Aggiorna</button>
-                    </div>
+                    <fieldset>
+                        <legend class="text-white h5 px-0">OpenAgenda</legend>
+                        <input type="hidden" name="OpenAgendaBridge" value="1">
+                        <div class="form-group mb-0">
+                            <label for="OpenAgendaUrl" class="text-white p-0">URL OpenAgenda</label>
+                            <input type="text" class="form-control border-right" id="OpenAgendaUrl" name="OpenAgendaUrl" placeholder="https://openagenda.opencontent.it" value="{$openagenda_url}"/>
+                        </div>
+                        <div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="OpenAgendaMainCalendar"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="OpenAgendaMainCalendar" {$openagenda_embed_main|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0" for="OpenAgendaMainCalendar">
+                                Visualizza i prossimi eventi di OpenAgenda in /Vivere-il-comune/Eventi
+                            </label>
+                        </div>
+                        <div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="OpenAgendaTopicCalendar"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="OpenAgendaTopicCalendar" {$openagenda_embed_topic|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0" for="OpenAgendaTopicCalendar">
+                                Visualizza i prossimi eventi di OpenAgenda nelle pagine argomento
+                            </label>
+                        </div>
+                        <div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="OpenAgendaOrganization"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="OpenAgendaOrganization" {$openagenda_embed_organization|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0" for="OpenAgendaOrganization">
+                                Visualizza le associazioni in /Amministrazione/Enti-e-fondazioni
+                            </label>
+                        </div>
+                        <div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="OpenAgendaPushPlace"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="OpenAgendaPushPlace" {$openagenda_push_place|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0" for="OpenAgendaPushPlace">
+                                Abilita il bottone di invio dei luoghi in OpenAgenda
+                            </label>
+                        </div>
+                        {*<div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="OpenAgendaPlaceCalendar"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="OpenAgendaPlaceCalendar" {$openagenda_embed_place|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0" for="OpenAgendaPlaceCalendar">
+                                Visualizza i prossimi eventi di OpenAgenda nelle pagine luogo
+                            </label>
+                        </div>*}
+                        <div class="text-right mt-1">
+                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                        </div>
+                    </fieldset>
                 </form>
             </div>
 

@@ -13,7 +13,8 @@ if ($action === 'push-openagenda-place') {
     } catch (Throwable $e) {
         $error = $e->getMessage();
         $Result = [];
-        $Result['content'] = '<div class="alert alert-danger my-5">' . $error . '</div>';
+        $errorTitle = ezpI18n::tr("design/admin/contentstructuremenu", 'Internal error');
+        $Result['content'] = '<h2>' . $errorTitle . '</h2><div class="alert alert-danger my-5">' . $error . '</div>';
         $Result['path'] = [];
         $Result['content_info'] = [
             'node_id' => null,

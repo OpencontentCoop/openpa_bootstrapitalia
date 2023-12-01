@@ -5,6 +5,7 @@ use Opencontent\Opendata\Rest\Client\HttpClient;
 
 class OpenAgendaBridge
 {
+    use SiteDataStorageTrait;
     const URL_CACHE_KEY = 'openagenda_url';
 
     const MAIN_CALENDAR_CACHE_KEY = 'openagenda_main';
@@ -250,33 +251,6 @@ class OpenAgendaBridge
         return rtrim($this->agendaUrl, '/');
     }
 
-    private function getStorage($key)
-    {
-        $siteData = eZSiteData::fetchByName($key);
-        if (!$siteData instanceof eZSiteData) {
-            return false;
-        }
-        return $siteData->attribute('value');
-    }
-
-    private function removeStorage($key)
-    {
-        $siteData = eZSiteData::fetchByName($key);
-        if ($siteData instanceof eZSiteData) {
-            $siteData->remove();
-        }
-    }
-
-    private function setStorage($key, $value)
-    {
-        $siteData = eZSiteData::fetchByName($key);
-        if (!$siteData instanceof eZSiteData) {
-            $siteData = eZSiteData::create($key, $value);
-        }
-        $siteData->setAttribute('value', $value);
-        $siteData->store();
-    }
-
     public function setOpenAgendaUrl($url)
     {
         if (empty($url)) {
@@ -407,11 +381,18 @@ class OpenAgendaBridge
             throw new Exception('Content type selected is not a place');
         }
 
+        $remoteInstance = json_decode(file_get_contents($this->getOpenAgendaUrl() . '/openpa/data/instance'), true);
+        $remoteInstanceIdentifier = $remoteInstance['identifier'] ?? null;
+
+        if (empty($remoteInstanceIdentifier)){
+            throw new Exception('Remote instance identifier not found');
+        }
+
         try {
             $builder = new SharedLinkedPayloadBuilder(
                 $this->getOpenAgendaUrl(),
                 $placeId,
-                'openagendavicenza_openpa_agenda_locations'
+                $remoteInstanceIdentifier . '_openpa_agenda_locations'
             );
             $payloads = $builder->build();
         } catch (Throwable $e) {
