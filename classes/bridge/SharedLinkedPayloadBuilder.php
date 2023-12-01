@@ -40,10 +40,8 @@ class SharedLinkedPayloadBuilder
      */
     public function build(): array
     {
-        $this->payloads[] = [
-            $this->buildPayload($this->sourceData, $this->remoteParentNodeId),
-        ];
-
+        $this->payloads = [];
+        $this->payloads[] = $this->buildPayload($this->sourceData, $this->remoteParentNodeId);
         return $this->payloads;
     }
 
@@ -159,18 +157,14 @@ class SharedLinkedPayloadBuilder
         $classIdentifier = $item['classIdentifier'] ?? '?';
         if ($classIdentifier == 'image') {
             $remoteImage = $this->getLocalContent($remoteId);
-            $this->payloads[] = [
-                $this->buildPayload(
-                    $remoteImage,
-                    self::IMAGES_PARENT_NODE_ID
-                ),
-            ];
+            $this->payloads[] = $this->buildPayload(
+                $remoteImage,
+                self::IMAGES_PARENT_NODE_ID
+            );
         } else {
             $payload = $this->buildSharedLinkPayload($item);
             $remoteId = $payload['metadata']['remoteId'];
-            $this->payloads[] = [
-                $payload,
-            ];
+            $this->payloads[] = $payload;
         }
 
         return $remoteId;
