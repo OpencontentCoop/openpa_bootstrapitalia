@@ -429,12 +429,12 @@ class OpenAgendaBridge
         try {
             $this->push(
                 $this->getOpenAgendaUrl() . '/content/api/opendata/v2/upsert',
-                json_encode($payload->getArrayCopy()),
+                json_encode($payload),
                 ["Authorization: Bearer " . JWTManager::issueInternalJWTToken($user)]
             );
         } catch (Throwable $e) {
             $this->removeStorage('place_' . $placeId);
-            throw new Exception('Fail upserting content: ' . $payload->getMetadaData('remoteId'));
+            throw new Exception('Fail upserting content: ' . $payload['metadata']['remoteId']);
         }
         $this->setStorage('place_' . $placeId, json_encode($payloads));
         return count($payloads);
