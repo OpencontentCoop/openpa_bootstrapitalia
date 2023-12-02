@@ -27,6 +27,7 @@ $data = [
 ];
 
 header('Content-Type: application/json');
-//header('Cache-Control: public, must-revalidate, max-age=10, s-maxage=259200');
+#header('Cache-Control: public, must-revalidate, max-age=10, s-maxage=259200');
+header('Cache-Control: private, must-revalidate');
 echo json_encode($data);
 eZExecution::cleanExit();

@@ -7,18 +7,37 @@ $action = $Params['Action'];
 $parameter = $Params['Parameter'];
 
 if ($action === 'push-openagenda-place') {
-    try {
-        OpenAgendaBridge::factory()->pushPlace((int)$parameter);
-        $module->redirectTo('/openpa/object/' . (int)$parameter);
-    } catch (Throwable $e) {
-        $error = $e->getMessage();
-        $Result = [];
-        $errorTitle = ezpI18n::tr("design/admin/contentstructuremenu", 'Internal error');
-        $Result['content'] = '<h2>' . $errorTitle . '</h2><div class="alert alert-danger my-5">' . $error . '</div>';
-        $Result['path'] = [];
-        $Result['content_info'] = [
-            'node_id' => null,
-            'class_identifier' => null,
-        ];
+    $tpl->setVariable('place', eZContentObject::fetch((int)$parameter));
+    $tpl->setVariable('error', false);
+    $tpl->setVariable('openageda_url', '#');
+
+    if (OpenAgendaBridge::factory()->isEnabled()) {
+        $tpl->setVariable('openageda_url', OpenAgendaBridge::factory()->getOpenAgendaUrl());
+        try {
+            if (eZHTTPTool::instance()->hasGetVariable('push')) {
+                header('Content-Type: application/json');
+                try {
+                    echo json_encode(['payloads' => OpenAgendaBridge::factory()->pushPlacePayloads((int)$parameter)]);
+                } catch (Throwable $e) {
+                    echo json_encode(['payloads' => 0, 'error' => $e->getMessage()]);
+                }
+                eZExecution::cleanExit();
+            }
+
+            $payloadCount = OpenAgendaBridge::factory()->getPlacePayloads((int)$parameter);
+            $tpl->setVariable('payloads_count', $payloadCount);
+        } catch (Throwable $e) {
+            $tpl->setVariable('error', $e->getMessage());
+        }
+    }else{
+        $tpl->setVariable('error', 'Connector not enabled');
     }
+
+    $Result = [];
+    $Result['content'] = $tpl->fetch("design:bootstrapitalia/bridge/push_openagenda_place.tpl");
+    $Result['path'] = [];
+    $Result['content_info'] = [
+        'node_id' => null,
+        'class_identifier' => null,
+    ];
 }

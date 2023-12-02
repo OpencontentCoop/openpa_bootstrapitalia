@@ -6,7 +6,12 @@ use Opencontent\Opendata\Rest\Client\HttpClient;
 class OpenAgendaBridge
 {
     use SiteDataStorageTrait;
+
     const URL_CACHE_KEY = 'openagenda_url';
+
+    const IDENTIFIER_CACHE_KEY = 'openagenda_identifier';
+
+    const NAME_CACHE_KEY = 'openagenda_name';
 
     const MAIN_CALENDAR_CACHE_KEY = 'openagenda_main';
 
@@ -90,6 +95,8 @@ class OpenAgendaBridge
                         'input_search_placeholder' => "",
                         'intro_text' => "",
                         'show_all_link' => "1",
+                        'show_all_text' => ezpI18n::tr('bootstrapitalia', 'Go to event calendar') .
+                            ' ' . $this->getStorage(self::NAME_CACHE_KEY),
                     ],
                 ],
             ];
@@ -131,6 +138,8 @@ class OpenAgendaBridge
                         'input_search_placeholder' => "",
                         'intro_text' => "",
                         'show_all_link' => "1",
+                        'show_all_text' => ezpI18n::tr('bootstrapitalia', 'Go to event calendar') .
+                            ' ' . $this->getStorage(self::NAME_CACHE_KEY),
                     ],
                 ],
             ];
@@ -176,7 +185,7 @@ class OpenAgendaBridge
             ];
         }
 
-        if ($context->attribute('remote_id') === '10742bd28e405f0e83ae61223aea80cb') {
+        if ($context->attribute('remote_id') === '10742bd28e405f0e83ae61223aea80cb') { //enti e fondazioni
             if (!$this->getEnableOrganization()) {
                 return $isDisabled;
             }
@@ -204,6 +213,8 @@ class OpenAgendaBridge
                         'input_search_placeholder' => "",
                         'intro_text' => "",
                         'show_all_link' => "1",
+                        'show_all_text' => ezpI18n::tr('bootstrapitalia', 'Go to event calendar') .
+                            ' ' . $this->getStorage(self::NAME_CACHE_KEY),
                     ],
                 ],
             ];
@@ -255,10 +266,17 @@ class OpenAgendaBridge
     {
         if (empty($url)) {
             $this->removeStorage(self::URL_CACHE_KEY);
+            $this->removeStorage(self::IDENTIFIER_CACHE_KEY);
+            $this->removeStorage(self::NAME_CACHE_KEY);
             $this->agendaUrl = null;
         } else {
-            $this->agendaUrl = $url;
+            $this->agendaUrl = rtrim($url, '/');
             $this->setStorage(self::URL_CACHE_KEY, $this->agendaUrl);
+            $remoteInstance = json_decode(file_get_contents($this->agendaUrl . '/openpa/data/instance'), true);
+            $remoteInstanceIdentifier = $remoteInstance['identifier'] ?? null;
+            $remoteInstanceName = $remoteInstance['name'] ?? null;
+            $this->setStorage(self::IDENTIFIER_CACHE_KEY, $remoteInstanceIdentifier);
+            $this->setStorage(self::NAME_CACHE_KEY, $remoteInstanceName);
         }
     }
 
@@ -367,13 +385,13 @@ class OpenAgendaBridge
      * @param $placeId
      * @throws Exception
      */
-    public function pushPlace($placeId)
+    public function getPlacePayloads($placeId): int
     {
         if (!$this->isEnabled()) {
             throw new Exception('OpenAgenda bridge is not enabled');
         }
-
-        $place = eZContentObject::fetch((int)$placeId);
+        $placeId = (int)$placeId;
+        $place = eZContentObject::fetch($placeId);
         if (!$place instanceof eZContentObject) {
             throw new Exception('Place not found');
         }
@@ -381,10 +399,8 @@ class OpenAgendaBridge
             throw new Exception('Content type selected is not a place');
         }
 
-        $remoteInstance = json_decode(file_get_contents($this->getOpenAgendaUrl() . '/openpa/data/instance'), true);
-        $remoteInstanceIdentifier = $remoteInstance['identifier'] ?? null;
-
-        if (empty($remoteInstanceIdentifier)){
+        $remoteInstanceIdentifier = $this->getStorage(self::IDENTIFIER_CACHE_KEY);
+        if (empty($remoteInstanceIdentifier)) {
             throw new Exception('Remote instance identifier not found');
         }
 
@@ -399,19 +415,29 @@ class OpenAgendaBridge
             throw new Exception('Error creating payloads: ' . $e->getMessage());
         }
 
+        $this->setStorage('place_' . $placeId, json_encode($payloads));
+        return count($payloads);
+    }
+
+    public function pushPlacePayloads($placeId): int
+    {
+        $placeId = (int)$placeId;
+        $payloads = json_decode($this->getStorage('place_' . $placeId), true);
+        $payload = array_shift($payloads);
         /** @var eZUser $user */
         $user = eZUser::fetchByName('admin');
-        foreach ($payloads as $payload) {
-            try {
-                $this->push(
-                    $this->getOpenAgendaUrl() . '/content/api/opendata/v2/upsert',
-                    json_encode($payload->getArrayCopy()),
-                    ["Authorization: Bearer " . JWTManager::issueInternalJWTToken($user)]
-                );
-            } catch (Throwable $e) {
-                throw new Exception('Fail upserting content: ' . $payload->getMetadaData('remoteId'));
-            }
+        try {
+            $this->push(
+                $this->getOpenAgendaUrl() . '/content/api/opendata/v2/upsert',
+                json_encode($payload->getArrayCopy()),
+                ["Authorization: Bearer " . JWTManager::issueInternalJWTToken($user)]
+            );
+        } catch (Throwable $e) {
+            $this->removeStorage('place_' . $placeId);
+            throw new Exception('Fail upserting content: ' . $payload->getMetadaData('remoteId'));
         }
+        $this->setStorage('place_' . $placeId, json_encode($payloads));
+        return count($payloads);
     }
 
     private function push($url, $data = null, $headers = [])
