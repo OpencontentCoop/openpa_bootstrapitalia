@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Push place on OpenAgenda</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation type="unfinished"/>
     </message>

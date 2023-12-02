@@ -426,6 +426,9 @@ class OpenAgendaBridge
         $payload = array_shift($payloads);
         /** @var eZUser $user */
         $user = eZUser::fetchByName('admin');
+        if ($payload['metadata']['classIdentifier'] === 'place') {
+            $payload['metadata']['stateIdentifiers'] = ['privacy.public'];
+        }
         try {
             $this->push(
                 $this->getOpenAgendaUrl() . '/api/opendata/v2/content/upsert',
@@ -434,7 +437,7 @@ class OpenAgendaBridge
             );
         } catch (Throwable $e) {
             $this->removeStorage('place_' . $placeId);
-            throw new Exception('Fail upserting content: ' . $payload['metadata']['remoteId']);
+            throw new Exception('Fail upserting content: ' . $payload['metadata']['remoteId'] . ' ' . $e->getMessage());
         }
         $this->setStorage('place_' . $placeId, json_encode($payloads));
         return count($payloads);

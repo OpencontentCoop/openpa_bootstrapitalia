@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Push place on OpenAgenda</source>
+      <translation>Sincronizza luogo su OpenAgenda</translation>
+    </message>
+    <message>
       <source>Upcoming appointments</source>
       <translation>I prossimi eventi</translation>
     </message>

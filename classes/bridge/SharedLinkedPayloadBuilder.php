@@ -80,8 +80,12 @@ class SharedLinkedPayloadBuilder
                         }
                         $builder->setData($language, $identifier, $relations);
                     } elseif ($dataType === 'ezimage') {
+                        $url = $attributeData['url'];
+                        if (strpos($url, 'http') === false){
+                            $url = $this->getSourceUrl() . $attributeData['url'];
+                        }
                         $builder->setData($language, $identifier, [
-                            'url' => $this->getSourceUrl() . $attributeData['url'],
+                            'url' => $url,
                             'filename' => $attributeData['filename'],
                         ]);
                     } elseif ($dataType === 'ocmultibinary') {
