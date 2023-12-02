@@ -428,7 +428,7 @@ class OpenAgendaBridge
         $user = eZUser::fetchByName('admin');
         try {
             $this->push(
-                $this->getOpenAgendaUrl() . '/content/api/opendata/v2/upsert',
+                $this->getOpenAgendaUrl() . '/api/opendata/v2/content/upsert',
                 json_encode($payload),
                 ["Authorization: Bearer " . JWTManager::issueInternalJWTToken($user)]
             );
@@ -494,7 +494,7 @@ class OpenAgendaBridge
         }
 
         if (!in_array($info['http_code'], [100, 200, 201, 202])) {
-            throw new \Exception("Unknown error");
+            throw new \Exception("Unknown error with status " . $info['http_code']);
         }
 
         return json_decode($body, true);
