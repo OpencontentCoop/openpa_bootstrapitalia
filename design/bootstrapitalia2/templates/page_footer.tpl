@@ -8,7 +8,10 @@
 {include uri='design:footer/main_contacts.tpl'}
 {/if}
 
-{def $use_auto_menu = cond(and($pagedata.homepage|attribute('use_auto_footer_menu'), $pagedata.homepage|attribute('use_auto_footer_menu').data_int|eq(1)), true(), false())}
+{def $use_auto_menu = cond(openpaini('GeneralSettings','FooterAutoMenu', 'disabled')|eq('enabled'), true(), false())}
+{if $pagedata.homepage|attribute('use_auto_footer_menu')}
+    {set $use_auto_menu = cond($pagedata.homepage|attribute('use_auto_footer_menu').data_int|eq(1), true(), false())}
+{/if}
 {def $show_footer_menu = true()}
 {if $pagedata.homepage|has_attribute('hide_footer_menu')}
     {set $show_footer_menu = cond($pagedata.homepage|attribute('hide_footer_menu').data_int|eq(1), false(), true())}
@@ -50,88 +53,86 @@
                 {/if}
                 {undef $top_menu_node_ids}
 
-                {if and(count($top_menu_tree), $use_auto_menu)}
                 <div class="row">
-                    {foreach $top_menu_tree as $tree_menu}
+                    {if and(count($top_menu_tree), $use_auto_menu)}
+                        {foreach $top_menu_tree as $tree_menu}
+                            <div class="col-md-3 footer-items-wrapper">
+                                {include recursion=0
+                                        name=top_menu
+                                        uri='design:footer/menu_item.tpl'
+                                        menu_item=$tree_menu
+                                        show_main_link=true()
+                                        show_more=true()
+                                        max=5
+                                        offset=0}
+                            </div>
+                        {/foreach}
+                    {elseif count($top_menu_tree)}
                         <div class="col-md-3 footer-items-wrapper">
+                            <h3 class="footer-heading-title">
+                                {$top_menu_tree[0].item.name|wash()}
+                            </h3>
                             {include recursion=0
-                                    name=top_menu
-                                    uri='design:footer/menu_item.tpl'
-                                    menu_item=$tree_menu
-                                    show_main_link=true()
-                                    show_more=true()
-                                    max=5
-                                    offset=0}
+                                     name=top_menu
+                                     uri='design:footer/menu_item.tpl'
+                                     menu_item=$top_menu_tree[0]
+                                     show_main_link=false()
+                                     show_more=true()
+                                     max=8
+                                     offset=0}
                         </div>
-                    {/foreach}
-                </div>
-                {elseif count($top_menu_tree)}
-                <div class="row">
-                    <div class="col-md-3 footer-items-wrapper">
-                        <h3 class="footer-heading-title">
-                            {$top_menu_tree[0].item.name|wash()}
-                        </h3>
-                        {include recursion=0
-                                 name=top_menu
-                                 uri='design:footer/menu_item.tpl'
-                                 menu_item=$top_menu_tree[0]
-                                 show_main_link=false()
-                                 show_more=true()
-                                 max=8
-                                 offset=0}
-                    </div>
-                    <div class="col-md-6 footer-items-wrapper">
-                        <h3 class="footer-heading-title">
-                            {$top_menu_tree[2].item.name|wash()}
-                        </h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                {include recursion=0
-                                         name=top_menu
-                                         uri='design:footer/menu_item.tpl'
-                                         menu_item=$top_menu_tree[2]
-                                         show_main_link=false()
-                                         show_more=false()
-                                         max=8
-                                         offset=0}
-                            </div>
-                            <div class="col-md-6">
-                                {include recursion=0
-                                         name=top_menu
-                                         uri='design:footer/menu_item.tpl'
-                                         menu_item=$top_menu_tree[2]
-                                         show_main_link=false()
-                                         show_more=true()
-                                         max=8
-                                         offset=8}
+                        <div class="col-md-6 footer-items-wrapper">
+                            <h3 class="footer-heading-title">
+                                {$top_menu_tree[2].item.name|wash()}
+                            </h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {include recursion=0
+                                             name=top_menu
+                                             uri='design:footer/menu_item.tpl'
+                                             menu_item=$top_menu_tree[2]
+                                             show_main_link=false()
+                                             show_more=false()
+                                             max=8
+                                             offset=0}
+                                </div>
+                                <div class="col-md-6">
+                                    {include recursion=0
+                                             name=top_menu
+                                             uri='design:footer/menu_item.tpl'
+                                             menu_item=$top_menu_tree[2]
+                                             show_main_link=false()
+                                             show_more=true()
+                                             max=8
+                                             offset=8}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-3 footer-items-wrapper">
-                        <h3 class="footer-heading-title">
-                            {$top_menu_tree[1].item.name|wash()}
-                        </h3>
-                        {include recursion=0
-                                 name=top_menu
-                                 uri='design:footer/menu_item.tpl'
-                                 menu_item=$top_menu_tree[1]
-                                 show_main_link=false()
-                                 show_more=true()
-                                 max=3
-                                 offset=0}
-                        <h3 class="footer-heading-title">
-                            {$top_menu_tree[3].item.name|wash()}
-                        </h3>
-                        {include recursion=0
-                                 name=top_menu
-                                 uri='design:footer/menu_item.tpl'
-                                 menu_item=$top_menu_tree[3]
-                                 show_main_link=false()
-                                 show_more=true()
-                                 max=2
-                                 offset=0}
-                    </div>
-
+                        <div class="col-md-3 footer-items-wrapper">
+                            <h3 class="footer-heading-title">
+                                {$top_menu_tree[1].item.name|wash()}
+                            </h3>
+                            {include recursion=0
+                                     name=top_menu
+                                     uri='design:footer/menu_item.tpl'
+                                     menu_item=$top_menu_tree[1]
+                                     show_main_link=false()
+                                     show_more=true()
+                                     max=3
+                                     offset=0}
+                            <h3 class="footer-heading-title">
+                                {$top_menu_tree[3].item.name|wash()}
+                            </h3>
+                            {include recursion=0
+                                     name=top_menu
+                                     uri='design:footer/menu_item.tpl'
+                                     menu_item=$top_menu_tree[3]
+                                     show_main_link=false()
+                                     show_more=true()
+                                     max=2
+                                     offset=0}
+                        </div>
+                    {/if}
                     <div class="col-md-9 mt-md-4 footer-items-wrapper">
                         <h3 class="footer-heading-title">{'Contacts'|i18n('openpa/footer')}</h3>
                         <div class="row">
@@ -209,7 +210,8 @@
                                 {/if}
                                 </ul>
                             </div>
-                            <div class="col-md-4">
+                            {if openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled')}
+                                <div class="col-md-4">
                                 <ul class="footer-list"> {*@todo*}
                                     {def $faq_system = fetch(content, object, hash(remote_id, 'faq_system'))}
                                     {if $faq_system}
@@ -233,26 +235,54 @@
                                                 {'Request assistance'|i18n('bootstrapitalia')}
                                             </a>
                                         </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-4">
-                                {def $footer_links = fetch( 'openpa', 'footer_links' )}
-                                <ul class="footer-list">
-                                    {foreach $footer_links as $item}
-                                        <li>{node_view_gui content_node=$item view=text_linked}</li>
-                                    {/foreach}
-                                    {if openpaini('GeneralSettings', 'PerformanceLink', false())}
-                                        <li>
-                                            <a href="{openpaini('GeneralSettings', 'PerformanceLink', '#')}" title="{'Performance improvement plan'|i18n( 'bootstrapitalia' )}">{'Performance improvement plan'|i18n( 'bootstrapitalia' )}</a>
-                                        </li>
-                                    {/if}
-                                </ul>
-                            </div>
+                                    </ul>
+                                </div>
+                            {/if}
+                            {def $footer_links = fetch( 'openpa', 'footer_links' )}
+                            {if openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled')}
+                                <div class="col-md-4">
+                                    <ul class="footer-list">
+                                        {foreach $footer_links as $item}
+                                            <li>{node_view_gui content_node=$item view=text_linked}</li>
+                                        {/foreach}
+                                        {if openpaini('GeneralSettings', 'PerformanceLink', false())}
+                                            <li>
+                                                <a href="{openpaini('GeneralSettings', 'PerformanceLink', '#')}" title="{'Performance improvement plan'|i18n( 'bootstrapitalia' )}">{'Performance improvement plan'|i18n( 'bootstrapitalia' )}</a>
+                                            </li>
+                                        {/if}
+                                    </ul>
+                                </div>
+                            {else}
+                                {def $max = count($footer_links)|div(2)|int()
+                                     $offset = count($footer_links)|sub($max)}
+                                <div class="col-md-4">
+                                    <ul class="footer-list">
+                                        {foreach $footer_links as $item max $max}
+                                            <li>{node_view_gui content_node=$item view=text_linked}</li>
+                                        {/foreach}
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="footer-list">
+                                        {if $offset|gt(0)}
+                                        {foreach $footer_links as $item offset $offset}
+                                            <li>{node_view_gui content_node=$item view=text_linked}</li>
+                                        {/foreach}
+                                        {/if}
+                                        {if openpaini('GeneralSettings', 'PerformanceLink', false())}
+                                            <li>
+                                                <a href="{openpaini('GeneralSettings', 'PerformanceLink', '#')}" title="{'Performance improvement plan'|i18n( 'bootstrapitalia' )}">{'Performance improvement plan'|i18n( 'bootstrapitalia' )}</a>
+                                            </li>
+                                        {/if}
+                                    </ul>
+                                </div>
+                                {undef $max $offset}
+                            {/if}
+                            {undef $footer_links}
                         </div>
                     </div>
                     {include uri='design:footer/social.tpl'}
                 </div>
-                {/if}
             {/if}
 
             <div class="row">

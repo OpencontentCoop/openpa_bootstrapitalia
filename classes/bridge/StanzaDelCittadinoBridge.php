@@ -50,6 +50,8 @@ class StanzaDelCittadinoBridge
         'active' => 'Servizio attivo',
     ];
 
+    private $apiUrlDiscovered;
+
     private function __construct()
     {
     }
@@ -137,39 +139,42 @@ class StanzaDelCittadinoBridge
 
     public function discoverApiBaseUrl(): void
     {
-        $userLoginUri = $this->getUserLoginUri();
-        $url = parse_url($userLoginUri, PHP_URL_HOST);
-        if (strpos($userLoginUri, $this->prefix) !== false) {
-            $this->apiBaseUrl = 'https://' . $url . '/' . $this->prefix;
-        } else {
-            $cacheKey = 'sdc_api_base_url_for_' . md5($userLoginUri);
-            $siteData = eZSiteData::fetchByName($cacheKey);
-            if (!$siteData instanceof eZSiteData) {
-                $path = parse_url($userLoginUri, PHP_URL_PATH);
-                if ($path) {
-                    $parts = explode('/', trim($path, '/'));
-                    if (isset($parts[0])) {
-                        $prefix = $parts[0];
-                        $apiBaseUrl = 'https://' . $url . '/' . $prefix;
-                        try {
-                            if ((new StanzaDelCittadinoClient($apiBaseUrl))->getTenantInfo()) {
-                                $siteData = eZSiteData::create($cacheKey, $apiBaseUrl);
+        if (!$this->apiUrlDiscovered) {
+            $userLoginUri = $this->getUserLoginUri();
+            $url = parse_url($userLoginUri, PHP_URL_HOST);
+            if (strpos($userLoginUri, $this->prefix) !== false) {
+                $this->apiBaseUrl = 'https://' . $url . '/' . $this->prefix;
+            } else {
+                $cacheKey = 'sdc_api_base_url_for_' . md5($userLoginUri);
+                $siteData = eZSiteData::fetchByName($cacheKey);
+                if (!$siteData instanceof eZSiteData) {
+                    $path = parse_url($userLoginUri, PHP_URL_PATH);
+                    if ($path) {
+                        $parts = explode('/', trim($path, '/'));
+                        if (isset($parts[0])) {
+                            $prefix = $parts[0];
+                            $apiBaseUrl = 'https://' . $url . '/' . $prefix;
+                            try {
+                                if ((new StanzaDelCittadinoClient($apiBaseUrl))->getTenantInfo()) {
+                                    $siteData = eZSiteData::create($cacheKey, $apiBaseUrl);
+                                    $siteData->store();
+                                }
+                            } catch (Exception $e) {
+                                eZDebug::writeError($e->getMessage(), __METHOD__);
+                                $siteData = eZSiteData::create($cacheKey, '');
                                 $siteData->store();
                             }
-                        } catch (Exception $e) {
-                            eZDebug::writeError($e->getMessage(), __METHOD__);
-                            $siteData = eZSiteData::create($cacheKey, '');
-                            $siteData->store();
                         }
                     }
                 }
+                if ($siteData instanceof eZSiteData) {
+                    $this->apiBaseUrl = $siteData->attribute('value');
+                }
             }
-            if ($siteData instanceof eZSiteData) {
-                $this->apiBaseUrl = $siteData->attribute('value');
-            }
-        }
 
-        eZDebug::writeDebug('Get api base url: ' . $this->apiBaseUrl, __METHOD__);
+            eZDebug::writeDebug('Get api base url: ' . $this->apiBaseUrl, __METHOD__);
+            $this->apiUrlDiscovered = true;
+        }
     }
 
     public function getUserLoginUri(): ?string

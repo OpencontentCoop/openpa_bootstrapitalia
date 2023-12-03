@@ -44,7 +44,7 @@
 					<div class="col-lg-9 argomenti">
 						{foreach $line_topics as $topic}
 						<div class="chip chip-simple pb-0 mb-2">
-							<a data-element="{object_handler($topic).data_element.value|wash()}" href="{$topic.url_alias|ezurl(no)}" class="chip-label">{$topic.name|wash()}</a>
+							<a data-element="{object_handler($topic).data_element.value|wash()}" href="{$topic.url_alias|ezurl(no)}" class="chip-label text-nowrap">{$topic.name|wash()}</a>
 						</div>
 						{/foreach}
 					</div>

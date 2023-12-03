@@ -7,7 +7,7 @@
                         <div class="card-body">
                             <h2 class="title-medium-2-semi-bold">{'Contact the municipality'|i18n('bootstrapitalia')}</h2>
                             <ul class="contact-list p-0">
-                                {def $context = ezpagedata()}
+                                {def $context = openpapagedata()}
                                 {def $current_app = cond(is_set($context.persistent_variable.built_in_app), $context.persistent_variable.built_in_app, false())}
                                 {def $faq_system = fetch(content, object, hash(remote_id, 'faq_system'))}
                                 {if and($faq_system, $current_app|ne('faq'))}

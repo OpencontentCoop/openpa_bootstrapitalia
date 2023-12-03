@@ -72,6 +72,7 @@
                     </li>
                 {/if}
                 {undef $faq_system}
+                {if openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled')}
                 <li>
                     <a href="{if is_set($pagedata.contacts['link_assistenza'])}{$pagedata.contacts['link_assistenza']|wash()}{else}{'richiedi_assistenza'|ezurl(no)}{/if}" data-element="contacts">
                         <span>{'Request assistance'|i18n('bootstrapitalia')}</span>
@@ -92,6 +93,7 @@
                         <span>{'Report a disservice'|i18n('bootstrapitalia')}</span>
                     </a>
                 </li>
+                {/if}
                 {foreach $footer_links as $item}
                     <li>{node_view_gui content_node=$item view=text_linked span_class='fm'}</li>
                 {/foreach}

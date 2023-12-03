@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="row sport-wrapper justify-content-between mt-lg-2">
-                        <div class="col-12 col-lg-5 pl-lg-5">
+                        <div class="col-12{if $has_managed} col-lg-5 pl-lg-5{else} col-lg-10 pl-lg-10{/if}">
                             <h1 class="mb-3">{$node.name|wash()}</h1>
                             <div class="u-main-black text-secondary mb-5">
                                 {include uri='design:openpa/full/parts/main_attributes.tpl'}

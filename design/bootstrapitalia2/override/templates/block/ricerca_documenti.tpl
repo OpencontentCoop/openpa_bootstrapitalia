@@ -200,7 +200,10 @@
 									<label for="searchFormOffice-{$block.id}" class="visually-hidden"><small>{'Office'|i18n('bootstrapitalia/documents')}</small></label>
 									<select class="form-control border-bottom" id="searchFormOffice-{$block.id}" data-search="has_organization">
 										<option value=""></option>
-										{foreach fetch(content, tree, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('organization'), load_data_map, false(), sort_by, array('name', true()))) as $office}
+										{foreach fetch(content, tree, hash( parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'),
+																			class_filter_type, 'include', class_filter_array, array('organization', 'office'),
+																			load_data_map, false(),
+																			sort_by, array('name', true()))) as $office}
 											<option value="{$office.contentobject_id}">{$office.name|wash()}</option>
 										{/foreach}
 									</select>
