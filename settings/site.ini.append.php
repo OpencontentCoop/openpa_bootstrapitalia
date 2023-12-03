@@ -35,4 +35,15 @@ RedirectAfterPublish=node
 Listeners[]=oembed/html@OpenPABootstrapItaliaOperators::filterOembedHtml
 Listeners[]=response/output@OpenPABootstrapItaliaOperators::minifyHtml
 
+[Cache]
+CacheItems[]=opencity_topics_tree
+
+[Cache_opencity_topics_tree]
+name=Cache dell'alberatura degli argomenti
+id=opencity_topics_tree
+tags[]=openpa
+path=openpa/topics_tree
+isClustered=true
+class=OpenPABootstrapItaliaOperators
+
 */ ?>

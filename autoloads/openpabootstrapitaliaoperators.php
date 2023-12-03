@@ -1930,9 +1930,21 @@ class OpenPABootstrapItaliaOperators
         return false;
     }
 
-    private static function getTopicsTreeCache()
+    public static function clearCache()
     {
-        $locale = eZLocale::currentLocaleCode();
+        eZDebug::writeDebug('Clear topics_tree cache', __METHOD__);
+        $languages = eZContentLanguage::fetchLocaleList();
+        foreach ($languages as $locale){
+            self::getTopicsTreeCache($locale)->delete();
+            self::getTopicsTreeCache($locale)->purge();
+        }
+    }
+
+    private static function getTopicsTreeCache($locale = null)
+    {
+        if (!$locale) {
+            $locale = eZLocale::currentLocaleCode();
+        }
         $cacheFilePath = eZSys::cacheDirectory() . '/openpa/topics_tree/' . $locale . '.cache';
         return eZClusterFileHandler::instance($cacheFilePath);
     }
