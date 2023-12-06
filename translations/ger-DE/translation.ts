@@ -1544,7 +1544,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Priority</source>
-      <translation>Prioritaetb</translation>
+      <translation>Prioritaet</translation>
     </message>
     <message>
       <source>Show only expired roles</source>
