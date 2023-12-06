@@ -7,14 +7,14 @@
 
     <div class="row">
         <div class="col-12">
-            <h3>Gestione accessi redazione</h3>
+            <h3>{'Access Management'|i18n( 'bootstrapitalia' )}</h3>
         </div>
         <div class="col-11">
             <div class="input-group">
                 <input type="text" class="form-control" id="name">
                 <div class="input-group-append">
                     <button class="btn btn-info rounded-0" type="button" id="FindContents">{'Search'|i18n('openpa/search')}</button>
-                    <button class="btn btn-danger rounded-0" type="button" style="display: none;" id="ResetContents">Annulla ricerca</button>
+                    <button class="btn btn-danger rounded-0" type="button" style="display: none;" id="ResetContents">{'Reset'|i18n('bootstrapitalia/documents')}</button>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
             </div>
         </div>*}
         <div class="col-12">
-            <p class="font-weight-bold m-0">Filtra per assegnazione del ruolo:</p>
+            <p class="font-weight-bold m-0">{'Filter by role assignment'|i18n('openpa/search')}:</p>
             {foreach $available_groups as $group}
             <div class="form-check form-check-inline">
                 <input class="filter" id="path-{$group.node_id}" data-filterpath="{$group.node_id}" type="checkbox">
@@ -51,7 +51,7 @@
             <table class="table table-striped mt-2" id="data">
                 <thead>
                 <tr style="font-size: .7em">
-                    <th>Utente</th>
+                    <th>{'User'|i18n('design/standard/node/view')}</th>
                     {foreach $available_groups as $group}
                         <th style="text-align: center" data-node="{$group.node_id}">{$group.name|wash()}</th>
                     {/foreach}

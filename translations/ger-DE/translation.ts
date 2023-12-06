@@ -4,14 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Bevorstehende Termine</source>
-      <translation>Lokale Assoziationen</translation>
-    </message>
-    <message>
-      <source>Local associations</source>
-      <translation>Associazioni locali</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Diese Website verwendet technische, analytische und Drittanbieter-Cookies.</translation>
     </message>
@@ -522,6 +514,34 @@
     <message>
       <source>Legal notices</source>
       <translation>Rechtliche Hinweise</translation>
+    </message>
+    <message>
+      <source>Upcoming appointments</source>
+      <translation>Bevorstehende Termine</translation>
+    </message>
+    <message>
+      <source>Local associations</source>
+      <translation>Lokale Assoziationen</translation>
+    </message>
+    <message>
+      <source>Push place on OpenAgenda</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Managing administrative and political roles</source>
+      <translation>Verwaltung der administrativen und politischen Funktionen</translation>
+    </message>
+    <message>
+      <source>Assignment title</source>
+      <translation>Titel des Auftrags</translation>
+    </message>
+    <message>
+      <source>Map</source>
+      <translation>Mappe</translation>
+    </message>
+    <message>
+      <source>Filter by role assignment</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>
@@ -1457,6 +1477,10 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Höhepunkte</translation>
     </message>
     <message>
+      <source>Description</source>
+      <translation>Beschreibung</translation>
+    </message>
+    <message>
       <source>Administration</source>
       <translation>Politik und Verwaltung</translation>
     </message>
@@ -1494,6 +1518,44 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>selected</source>
       <translation>ausgewählt</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/role_editor</name>
+    <message>
+      <source>Role</source>
+      <translation>Rolle</translation>
+    </message>
+    <message>
+      <source>Subject</source>
+      <translation>Person</translation>
+    </message>
+    <message>
+      <source>Structure</source>
+      <translation>Abteilung</translation>
+    </message>
+    <message>
+      <source>Valid from</source>
+      <translation>gueltig ab</translation>
+    </message>
+    <message>
+      <source>Valid until</source>
+      <translation>gueltig bis</translation>
+    </message>
+    <message>
+      <source>Priority</source>
+      <translation>Prioritaetb</translation>
+    </message>
+    <message>
+      <source>Show only expired roles</source>
+      <translation>Nur abgelaufene Rollen anzeigen</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/edit-group</name>
+    <message>
+      <source>Main contents</source>
+      <translation>Wichtigste Inhalte</translation>
     </message>
   </context>
 </TS>

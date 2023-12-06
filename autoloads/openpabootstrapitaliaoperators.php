@@ -1557,7 +1557,7 @@ class OpenPABootstrapItaliaOperators
 
             if (!empty($defaultObjectAttributeMap)) {
                 $groups[] = [
-                    'label' => $attributeCategories[$attributeDefaultCategory],
+                    'label' => ezpI18n::tr('bootstrapitalia/edit-group', 'Main contents'),
                     'identifier' => '_default',
                     'show' => true,
                     'attributes' => self::sortAttributes($defaultObjectAttributeMap, $sortMapper),

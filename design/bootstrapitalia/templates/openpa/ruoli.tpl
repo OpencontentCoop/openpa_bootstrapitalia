@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<h3>
-			Gestione dei ruoli amministrativi e politici
+			{'Administrative roles'|i18n( 'bootstrapitalia' )}
 			{*<a class="btn btn-xs btn-primary rounded-0" href="{'bootstrapitalia/role_list'|ezurl(no)}">
 				Ruoli
 			</a>*}
@@ -28,14 +28,14 @@
 				   name="OnlyExpired"
 				   value="" />
 			<label class="form-check-label" for="OnlyExpired">
-				Mostra solo ruoli scaduti
+				{'Show only expired roles'|i18n('bootstrapitalia/role_editor')}
 			</label>
 		</div>
 	</div>
 	{if $can_create}
 	<div class="col-md-2">
-		<button type="submit" class="btn btn-success rounded-0 py-2" id="AddContent">
-		  Crea nuovo
+		<button type="submit" class="btn btn-success rounded-0 py-2" id="AddContent" style="padding:10px 24px !important">
+		  {'Create new'|i18n('bootstrapitalia')}
 		</button>	          
 	</div>
 	{/if}
@@ -44,12 +44,12 @@
 			<thead>
 				<tr>				
 					<th width="1"></th>
-					<th>Ruolo</th>
-					<th>Persona</th>
-					<th>Struttura</th>
-					<th class="text-nowrap">Valido dal</th>
-					<th class="text-nowrap">Valido al</th>
-					<th>Priorità</th>
+					<th>{'Role'|i18n('bootstrapitalia/role_editor')}</th>
+					<th>{'Subject'|i18n('bootstrapitalia/role_editor')}</th>
+					<th>{'Structure'|i18n('bootstrapitalia/role_editor')}</th>
+					<th class="text-nowrap">{'Valid from'|i18n('bootstrapitalia/role_editor')}</th>
+					<th class="text-nowrap">{'Valid until'|i18n('bootstrapitalia/role_editor')}</th>
+					<th>{'Priority'|i18n('bootstrapitalia/role_editor')}</th>
 					{if $can_create}<th width="1"></th>{/if}
 		        </tr>
 			</thead>

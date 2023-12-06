@@ -13,12 +13,12 @@
 			<thead>
 			<tr>
 				<th width="1"></th>
-				<th>Ruolo</th>
-				<th>Persona</th>
-				<th>Struttura</th>
-				<th class="text-nowrap">Valido dal</th>
-				<th class="text-nowrap">Valido al</th>
-				<th>Priorità</th>
+				<th>{'Role'|i18n('bootstrapitalia/role_editor')}</th>
+				<th>{'Subject'|i18n('bootstrapitalia/role_editor')}</th>
+				<th>{'Structure'|i18n('bootstrapitalia/role_editor')}</th>
+				<th class="text-nowrap">{'Valid from'|i18n('bootstrapitalia/role_editor')}</th>
+				<th class="text-nowrap">{'Valid until'|i18n('bootstrapitalia/role_editor')}</th>
+				<th>{'Priority'|i18n('bootstrapitalia/role_editor')}</th>
 				{if $can_create}<th width="1" class="text-end">
 					<a href="#" data-role_add>
 						<span class="fa-stack">

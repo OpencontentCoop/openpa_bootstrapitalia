@@ -4,18 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Push place on OpenAgenda</source>
-      <translation>Sincronizza luogo su OpenAgenda</translation>
-    </message>
-    <message>
-      <source>Upcoming appointments</source>
-      <translation>I prossimi eventi</translation>
-    </message>
-    <message>
-      <source>Local associations</source>
-      <translation>Associazioni locali</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Questo sito utilizza cookie tecnici, analytics e di terze parti.</translation>
     </message>
@@ -301,7 +289,7 @@
     </message>
     <message>
       <source>Inefficiency reporting</source>
-      <translation>Segnalazione disservizio</translation>
+      <translation>Ineffizienz melden Link</translation>
     </message>
     <message>
       <source>Public service sync tool</source>
@@ -526,6 +514,34 @@
     <message>
       <source>Legal notices</source>
       <translation>Note legali</translation>
+    </message>
+    <message>
+      <source>Upcoming appointments</source>
+      <translation>I prossimi eventi</translation>
+    </message>
+    <message>
+      <source>Local associations</source>
+      <translation>Associazioni locali</translation>
+    </message>
+    <message>
+      <source>Push place on OpenAgenda</source>
+      <translation>Sincronizza luogo su OpenAgenda</translation>
+    </message>
+    <message>
+      <source>Managing administrative and political roles</source>
+      <translation>Gestione dei ruoli amministrativi e politici</translation>
+    </message>
+    <message>
+      <source>Assignment title</source>
+      <translation>Titolo dell'incarico</translation>
+    </message>
+    <message>
+      <source>Map</source>
+      <translation>Mappa</translation>
+    </message>
+    <message>
+      <source>Filter by role assignment</source>
+      <translation>Filtra per assegnazione del ruolo</translation>
     </message>
   </context>
   <context>
@@ -1461,6 +1477,10 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>In evidenza</translation>
     </message>
     <message>
+      <source>Description</source>
+      <translation>Descrizione</translation>
+    </message>
+    <message>
       <source>Administration</source>
       <translation>Amministrazione</translation>
     </message>
@@ -1498,6 +1518,44 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>selected</source>
       <translation>selezionata</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/role_editor</name>
+    <message>
+      <source>Role</source>
+      <translation>Ruolo</translation>
+    </message>
+    <message>
+      <source>Subject</source>
+      <translation>Persona</translation>
+    </message>
+    <message>
+      <source>Structure</source>
+      <translation>Struttura</translation>
+    </message>
+    <message>
+      <source>Valid from</source>
+      <translation>Valido dal</translation>
+    </message>
+    <message>
+      <source>Valid until</source>
+      <translation>Valido al</translation>
+    </message>
+    <message>
+      <source>Priority</source>
+      <translation>Priorità</translation>
+    </message>
+    <message>
+      <source>Show only expired roles</source>
+      <translation>Mostra solo ruoli scaduti</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/edit-group</name>
+    <message>
+      <source>Main contents</source>
+      <translation>Contenuti principali</translation>
     </message>
   </context>
 </TS>

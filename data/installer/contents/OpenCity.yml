@@ -147,7 +147,7 @@ data:
                 color_style: 'section section-muted section-inset-shadow pb-5'
                 container_style: ''
                 show_all_link: '1'
-                show_all_text: 'Tutte le novità'
+                show_all_text: 'Aktuelle Meldungen'
                 intro_text: ''
                 node_id: $contenttree_OpenCity_Novita_node
               valid_items: { }
@@ -167,7 +167,7 @@ data:
                 intro_text: ''
               valid_items: { }
             - block_id: a419663d8c23c8e9239dc6813b845538
-              name: 'Hervorgehobene Themen'
+              name: 'Besondere Themen'
               type: Argomenti
               view: lista_card
               custom_attributes:
@@ -198,7 +198,7 @@ data:
                 intro_text: ''
               valid_items: { }
             - block_id: 2813cdb2a2aa1271e299b1905160c1b4
-              name: 'Suche nach Dienste, Informationen, Personen'
+              name: 'Suche nach Dienstleistungen, Informationen, Personen'
               type: Ricerca
               view: default
               custom_attributes:

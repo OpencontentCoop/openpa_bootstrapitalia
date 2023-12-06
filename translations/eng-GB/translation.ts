@@ -185,7 +185,7 @@
     </message>
     <message>
       <source>All news</source>
-      <translation type="unfinished"/>
+      <translation>All news</translation>
     </message>
     <message>
       <source>Access the personal area</source>
@@ -513,6 +513,34 @@
     </message>
     <message>
       <source>Legal notices</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Upcoming appointments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Local associations</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Push place on OpenAgenda</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Managing administrative and political roles</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Assignment title</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Map</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Filter by role assignment</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -1214,11 +1242,11 @@
     </message>
     <message>
       <source>News</source>
-      <translation>Announcements</translation>
+      <translation>News</translation>
     </message>
     <message>
       <source>Announcements</source>
-      <translation type="unfinished"/>
+      <translation>Announcements</translation>
     </message>
     <message>
       <source>Papers</source>
@@ -1226,7 +1254,7 @@
     </message>
     <message>
       <source>Documents</source>
-      <translation type="unfinished"/>
+      <translation>Documents</translation>
     </message>
   </context>
   <context>
@@ -1445,6 +1473,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Description</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Administration</source>
       <translation type="unfinished"/>
     </message>
@@ -1481,6 +1513,44 @@
     </message>
     <message>
       <source>selected</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/role_editor</name>
+    <message>
+      <source>Role</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Subject</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Structure</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Valid from</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Valid until</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Priority</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Show only expired roles</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/edit-group</name>
+    <message>
+      <source>Main contents</source>
       <translation type="unfinished"/>
     </message>
   </context>
