@@ -1887,9 +1887,9 @@ class OpenPABootstrapItaliaOperators
     public static function getActiveServiceTag()
     {
         if (self::$activeServiceTag === null) {
-            $activeService = eZTagsObject::fetchByKeyword('Servizio attivo');
+            $activeService = eZTagsObject::fetchByKeyword('Servizio attivo', true);
             if (!isset($activeService[0])){
-                $activeService = eZTagsObject::fetchByKeyword('Attivo');
+                $activeService = eZTagsObject::fetchByKeyword('Attivo', true);
             }
             self::$activeServiceTag = $activeService[0] ?? false;
         }
