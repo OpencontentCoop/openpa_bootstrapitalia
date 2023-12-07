@@ -179,7 +179,7 @@
                                     {include uri='design:parts/websitetoolbar/reindex.tpl'}
                                     {include uri='design:parts/websitetoolbar/classtools.tpl'}
                                     {include uri='design:parts/websitetoolbar/ckan_push.tpl'}
-                                    {include uri='design:parts/websitetoolbar/ezmultiupload.tpl'}
+                                    {*include uri='design:parts/websitetoolbar/ezmultiupload.tpl'*}
                                     {*include uri='design:parts/websitetoolbar/ezflip.tpl'*}
                                     {*include uri='design:parts/websitetoolbar/ngpush.tpl'*}
                                     {include uri='design:parts/websitetoolbar/refreshorgnigramma.tpl'}
