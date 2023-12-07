@@ -159,6 +159,7 @@ class OpenPABootstrapItaliaOperators
                 'url' => array('type' => 'string', 'required' => true, 'default' => false),
                 'alias' => array('type' => 'string', 'required' => false, 'default' => 'reference'),
                 'preload' => array('type' => 'boolean', 'required' => false, 'default' => false),
+                'lazy' => array('type' => 'boolean', 'required' => false, 'default' => true),
             ),
             'image_url' => $imgSrc,
             'image_url_list' => $imgSrc,
@@ -703,7 +704,8 @@ class OpenPABootstrapItaliaOperators
                         }
                         $operatorValue = $urlList['default'];
                     } else {
-                        if (OpenPAINI::variable('ImageSettings', 'LazyLoadImages', 'disabled') === 'enabled'
+                        if ($namedParameters['lazy']
+                            && OpenPAINI::variable('ImageSettings', 'LazyLoadImages', 'disabled') === 'enabled'
                             && !eZUser::currentUser()->isRegistered()) {
                             if ($alias) {
                                 if ($preload) {
