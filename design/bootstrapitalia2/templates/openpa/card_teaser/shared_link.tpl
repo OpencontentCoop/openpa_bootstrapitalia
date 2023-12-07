@@ -8,10 +8,8 @@
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
 {def $has_image = false()}
 <div data-object_id="{$node.contentobject_id}"
-     class="font-sans-serif card card-teaser{if $has_image} card-teaser-image card-flex{/if} no-after rounded shadow-sm mb-0 border border-light {$node|access_style} {$custom_css_class}">
-    {if $has_image}
-    <div class="shared_link-card_teaser card-image-wrapper{if $attributes.show|contains('content_show_read_more')} with-read-more{/if}">
-    {/if}
+     class="font-sans-serif card card-teaser shared_link-card_teaser no-after rounded shadow-sm mb-0 border border-light {$node|access_style} {$custom_css_class}">
+
         <div class="card-body {if $has_image}p-3 {/if}pb-5">
         {if $openpa.content_icon.context_icon.node}
         <div class="category-top">
@@ -29,12 +27,7 @@
             </a>
         </div>
     </div>
-    {if $has_image}
-        <div class="card-image card-image-rounded pb-5">
-            {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
-        </div>
-    </div>
-    {/if}
+
     {if $attributes.show|contains('content_show_read_more')}
         <a class="read-more{if $has_image} ps-3 position-absolute bottom-0 mb-3{/if}" href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">
             <span class="text">{'Further details'|i18n('bootstrapitalia')}</span>

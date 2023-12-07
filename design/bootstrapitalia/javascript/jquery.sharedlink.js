@@ -1,9 +1,17 @@
 $(document).ready(function () {
+    $('.card-text .collapse').on('shown.bs.collapse hidden.bs.collapse', function (){
+        let wrapper = $(this).parents('[data-bs-toggle="masonry"]');
+        if (wrapper.length > 0) {
+            bootstrap.Masonry.getOrCreateInstance(wrapper[0]).dispose()
+            bootstrap.Masonry.getOrCreateInstance(wrapper[0])
+        }
+    });
     $('[data-shared_link]').each(function () {
         let element = $(this);
         let link = new URL(element.attr('href'));
         let view = element.data('shared_link_view');
         let container = $('[data-object_id="'+element.data('shared_link')+'"].shared_link-'+view);
+        let wrapper = container.parents('[data-bs-toggle="masonry"]');
         function loadRemoteView(objectId){
             let remoteApi = link.protocol + '//' + link.hostname + '/api/opendata/v2/content/read/' + objectId + '?view=' + view;
             $.ajax({
@@ -20,6 +28,10 @@ $(document).ready(function () {
                                 $(this).attr('target','_blank');
                             });
                             container.replaceWith(data);
+                            if (wrapper.length > 0) {
+                                bootstrap.Masonry.getOrCreateInstance(wrapper[0]).dispose()
+                                bootstrap.Masonry.getOrCreateInstance(wrapper[0])
+                            }
                         }
                     }
                 },
