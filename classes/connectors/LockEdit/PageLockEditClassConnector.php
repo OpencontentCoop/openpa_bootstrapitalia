@@ -130,7 +130,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
     {
         return [
             'block_id' => $this->getEvidenceBlockId($blockIndex),
-            'name' => 'In evidenza',
+            'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'In evidence'),
             "type" => "ListaManuale",
             "view" => "lista_card",
             "custom_attributes" => [
@@ -237,12 +237,12 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
         $categories = [
             [
                 'identifier' => 'abstract',
-                'name' => 'Descrizione',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Description'),
                 'identifiers' => ['abstract', 'description', 'image',],
             ],
             [
                 'identifier' => 'evidence',
-                'name' => 'In evidenza',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'In evidence'),
                 'identifiers' => $evidences,
             ],
         ];
