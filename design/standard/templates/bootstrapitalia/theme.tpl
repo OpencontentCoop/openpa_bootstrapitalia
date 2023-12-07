@@ -12,15 +12,36 @@
         <form method="post" action="{'bootstrapitalia/theme'|ezurl(no)}" class="form">
             <div class="row">
                 <div class="col-8 col-md-6">
-                    <div class="form-group">
+                    <div class="form-group mb-0">
                         <label for="theme">Tema</label>
                         <select id="theme" class="Form-input u-color-black form-control" name="Theme">
                             {foreach $theme_list as $item}
+                                {if $item|eq('common')}{skip}{/if}
                                 <option value="{$item|wash()}"{if $current_base_theme|eq($item)} selected="selected"{/if}>{$item|wash()}</option>
                             {/foreach}
                         </select>
                     </div>
-                    <div class="form-group form-check">
+                    <div class="border bg-100 mb-4 p-2">
+                        <div class="row">
+                            <div class="col-3">
+                                <div><code>primary</code></div>
+                                <div><code>header</code></div>
+                                <div><code>service</code></div>
+                                <div><code>main_menu</code></div>
+{*                                <div><code>footer_main</code></div>*}
+                                <div><code>footer</code></div>
+                            </div>
+                            <div class="col-6">
+                                <div id="info-primary"><div class="sample border rounded" style="display:inline-block; height: 20px; width: 20px"></div> <code></code></div>
+                                <div id="info-header"><div class="sample border rounded" style="display:inline-block; height: 20px; width: 20px"></div> <code></code></div>
+                                <div id="info-service"><div class="sample border rounded" style="display:inline-block; height: 20px; width: 20px"></div> <code></code></div>
+                                <div id="info-main_menu"><div class="sample border rounded" style="display:inline-block; height: 20px; width: 20px"></div> <code></code></div>
+{*                                <div id="info-footer_main"><div class="sample border rounded" style="display:inline-block; height: 20px; width: 20px"></div> <code></code></div>*}
+                                <div id="info-footer"><div class="sample border rounded" style="display:inline-block; height: 20px; width: 20px"></div> <code></code></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-check mb-0">
                         <input id="use_light_slim"
                                class="form-check-input"
                                type="checkbox"
@@ -31,7 +52,7 @@
                             Slim header in versione chiara
                         </label>
                     </div>
-                    <div class="form-group form-check">
+                    <div class="form-group form-check mb-0">
                         <input id="use_light_center"
                                class="form-check-input"
                                type="checkbox"
@@ -42,7 +63,7 @@
                             Header center in versione chiara
                         </label>
                     </div>
-                    <div class="form-group form-check">
+                    <div class="form-group form-check mb-0">
                         <input id="use_light_navbar"
                                class="form-check-input"
                                type="checkbox"
@@ -62,7 +83,7 @@
                             <div id="preview-main_menu" class="w-100 border-bottom position-relative" style="height: 15px"><code style="font-size: 9px;position:absolute">Header nav</code></div>
                             <div id="preview-main" class="w-100" style="height: 200px"></div>
                             <div id="preview-footer_main" class="w-100" style="height: 50px"></div>
-                            <div id="preview-footer" class="w-100" style="height: 15px"></div>
+                            <div id="preview-footer" class="w-100" style="height: 15px;"></div>
                         </div>
                     </div>
                 </div>
@@ -94,6 +115,8 @@
             $.getJSON('/openpa/data/theme?identifier='+identifier, function (response){
                 $.each(response.colors, function (id, value){
                     $('#theme-preview #preview-'+id).css('background', value);
+                    $('#info-'+id+' .sample').css('background', value);
+                    $('#info-'+id+' code').text(value);
                 });
             })
         }
