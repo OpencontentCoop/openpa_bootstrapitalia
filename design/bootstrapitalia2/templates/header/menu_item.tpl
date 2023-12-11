@@ -83,7 +83,7 @@
                             {def $child_href = $child.item.url}
                         {/if}
                         <li>
-                            <a class="list-item"
+                            <a class="list-item text-nowrap"
                                data-node="{$child.item.node_id}"
                                {if $child.item.target}target="{$child.item.target}"{/if}
                                href="{$child_href}">

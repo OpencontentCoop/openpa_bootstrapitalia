@@ -1,7 +1,9 @@
 {def $colors = decode_banner_color($node)}
 {def $background_color_class = $colors.background_color_class}
 {def $text_color_class = $colors.text_color_class}
-
+{if $view_variation|eq('bg-white')}
+    {set $text_color_class = 'text-primary'}
+{/if}
 <div data-object_id="{$node.contentobject_id}"
    class="opencity-banner-color card card-teaser rounded mt-0 p-3 {$background_color_class} {$view_variation}">
     {if $node|has_attribute('image')}
