@@ -26,6 +26,10 @@
                 {foreach $attribute_group.attributes as $attribute_identifier => $attribute}
 
                     {def $contentclass_attribute = $attribute.contentclass_attribute}
+                    {def $contentclass_attribute_category = $contentclass_attribute.category}
+                    {if $contentclass_attribute_category|eq('')}
+                        {set $contentclass_attribute_category = ezini('ClassAttributeSettings', 'DefaultCategory', 'content.ini')}
+                    {/if}
                     <div id="edit-{$attribute_identifier}"
                          data-attribute_group="{$attribute_group.identifier}"
                          data-attribute_identifier="{$attribute_identifier}"
@@ -69,7 +73,7 @@
                                 <div class="col-12">
                                     <div class="card bg-light mb-2">
                                         <div class="card-body">
-                                            {attribute_view_gui attribute_base=$attribute_base attribute=$from_content_attributes_grouped_data_map[$contentclass_attribute.category][$attribute_identifier] view_parameters=$view_parameters image_class=medium}
+                                            {attribute_view_gui attribute_base=$attribute_base attribute=$from_content_attributes_grouped_data_map[$contentclass_attribute_category][$attribute_identifier] view_parameters=$view_parameters image_class=medium}
                                         </div>
                                     </div>
                                     <div>
@@ -136,7 +140,7 @@
                             {/if}
                         {/if}
                     </div>
-                    {undef $contentclass_attribute}
+                    {undef $contentclass_attribute $contentclass_attribute_category}
                 {/foreach}
 
                 {if and($attribute_group.show, $edit_attribute_groups.count|gt(1))}
