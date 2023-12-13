@@ -1,19 +1,31 @@
 {if or(ezini_hasvariable('RegionalSettings', 'TranslationSA')|not(), and(ezini_hasvariable('RegionalSettings', 'TranslationSA'), ezini('RegionalSettings', 'TranslationSA')|count()|eq(0)))}
 {def $node_languages = $node.object.languages}
 {if $node_languages|count()|gt(1)}
-    <div class="link-list-wrapper">
-        <ul class="link-list">
-            {foreach $node_languages as $language}
-                {if $node.object.available_languages|contains($language.locale)}
-                    <li>
-                        <a class="list-item p-0" {if $language.locale|ne($node.object.current_language)}href="{concat( $node.url_alias, '/(language)/', $language.locale )|ezurl(no)}"{/if}>
-                            <img src="{$language.locale|flag_icon}" width="18" height="12" alt="{$language.locale}" /> {$language.name|wash()}
-                        </a>
-                    </li>
-                {/if}
-            {/foreach}
-        </ul>
+<div>
+    <div class="dropdown mb-1">
+        <button class="btn btn-dropdown dropdown-toggle text-decoration-underline d-inline-flex align-items-center fs-0" type="button" id="shareActions" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="condividi sui social">
+            {display_icon('it-more-actions', 'svg', 'icon')}
+            <small>{'Translations'|i18n('design/admin/class/view')}</small>
+        </button>
+        <div class="dropdown-menu shadow-lg" aria-labelledby="shareActions">
+            <div class="link-list-wrapper">
+                <ul class="link-list" role="menu">
+                    {foreach $node_languages as $language}
+                        {if $node.object.available_languages|contains($language.locale)}
+                            {if $language.locale|ne($node.object.current_language)}
+                                <li>
+                                    <a role="menuitem" class="list-item text-nowrap" href="{concat( $node.url_alias, '/(language)/', $language.locale )|ezurl(no)}">
+                                        <span>{$language.name|wash()}</span>
+                                    </a>
+                                </li>
+                            {/if}
+                        {/if}
+                    {/foreach}
+                </ul>
+            </div>
+        </div>
     </div>
+</div>
 {/if}
 {undef $node_languages}
 {/if}
