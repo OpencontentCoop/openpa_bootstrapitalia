@@ -1481,17 +1481,21 @@ class OpenPABootstrapItaliaOperators
         if ($tag instanceof eZTagsObject) {
             $tagId = (int)$tag->attribute('id');
             $path = $tag->attribute('path_string');
-
+            $locale = eZLocale::currentLocaleCode();
             $db = eZDB::instance();
             $query = "SELECT COUNT(DISTINCT o.id) AS count FROM eztags_attribute_link l
                                    INNER JOIN ezcontentobject o ON l.object_id = o.id
-                                   AND l.objectattribute_version = o.current_version
-                                   AND o.status = " . eZContentObject::STATUS_PUBLISHED . "
-                                   WHERE l.keyword_id IN (SELECT id FROM eztags WHERE id = $tagId OR path_string LIKE '{$path}%')";
+                                       AND l.objectattribute_version = o.current_version
+                                       AND o.status = " . eZContentObject::STATUS_PUBLISHED . "
+                                   INNER JOIN ezcontentobject_attribute a ON l.objectattribute_id = a.id
+                                      AND l.objectattribute_version = o.current_version
+                                      AND l.objectattribute_version = a.version
+                                   WHERE l.keyword_id IN (SELECT id FROM eztags WHERE id = $tagId OR path_string LIKE '{$path}%')
+                                      AND a.language_code = '$locale'";
             $result = $db->arrayQuery($query);
 
             $count = (is_array($result) && !empty($result)) ? (int)$result[0]['count'] : 0;
-//            eZDebug::writeDebug($count . ' ' . $query, __METHOD__);
+            eZDebug::writeDebug($tag->attribute('keyword') . ' ' . $count . ' ' . $query, __METHOD__);
         }
 
         return $count > 0;

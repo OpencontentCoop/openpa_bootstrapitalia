@@ -134,6 +134,20 @@
                                                            'offset', $view_parameters.offset,
                                                            'sort_by', $parent_node.sort_array,
                                                            'limit', $page_limit )|merge( $params ) )}
+
+        {if $node.object.remote_id|eq('topics')}
+            {def $filtered_children = array()}
+            {foreach $children as $child}
+                {if $child.class_identifier|eq('topic')}
+                    {if api_search(concat('topics.id = ', $child.contentobject_id, ' limit 1')).totalCount|gt(0)}
+                        {set $filtered_children = $filtered_children|append($child)}
+                    {/if}
+                {/if}
+            {/foreach}
+            {set $children = $filtered_children}
+        {/if}
+
+
         <section id="{if $node|has_attribute('menu_name')}{$node|attribute('menu_name').content|slugize}{else}{$parent_node.name|slugize}{/if}">
             <div class="container {$view_variation}">
                 {if $openpa.content_tag_menu.current_view_tag|not()}
@@ -180,9 +194,9 @@
         {set $tag_menu_children = $openpa.content_tag_menu.tag_menu_root.children}
     {/if}
 
-    {def $clean_tag_menu_children = array()}
     {def $show_all_tag_grid = array()} {*'all-services'*}
     {if $show_all_tag_grid|contains($node.object.remote_id)|not()}
+        {def $clean_tag_menu_children = array()}
         {foreach $tag_menu_children as $tag}
             {if tag_tree_has_contents($tag)}
                 {set $clean_tag_menu_children = $clean_tag_menu_children|append($tag)}

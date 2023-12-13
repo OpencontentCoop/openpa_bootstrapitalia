@@ -2,7 +2,7 @@
 {def $node_languages = $node.object.languages}
 {if $node_languages|count()|gt(1)}
 <div>
-    <div class="dropdown mb-1">
+    <div class="dropdown mb-2">
         <button class="btn btn-dropdown dropdown-toggle text-decoration-underline d-inline-flex align-items-center fs-0" type="button" id="shareActions" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="condividi sui social">
             {display_icon('it-more-actions', 'svg', 'icon')}
             <small>{'Translations'|i18n('design/admin/class/view')}</small>
@@ -15,6 +15,7 @@
                             {if $language.locale|ne($node.object.current_language)}
                                 <li>
                                     <a role="menuitem" class="list-item text-nowrap" href="{concat( $node.url_alias, '/(language)/', $language.locale )|ezurl(no)}">
+                                        <img src="{$language.locale|flag_icon}" width="18" height="12" alt="{$language.locale}" />
                                         <span>{$language.name|wash()}</span>
                                     </a>
                                 </li>
