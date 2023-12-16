@@ -10,7 +10,7 @@
 
         <div class="row">
             <div class="col text-right">
-                <input class="btn btn-success" type="submit" value="{'Save'|i18n( 'design/admin/settings' )}" />
+                <input class="btn btn-primary" type="submit" value="{'Save'|i18n( 'design/admin/settings' )}" />
             </div>
         </div>
     </form>

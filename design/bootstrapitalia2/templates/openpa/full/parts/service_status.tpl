@@ -7,7 +7,7 @@
 
 <ul class="d-flex flex-wrap gap-1 my-3">
     <li>
-        <div class="chip chip-simple text-button" href="#" data-element="service-status">
+        <div class="chip chip-simple chip-primary text-button" href="#" data-element="service-status">
             <span class="chip-label">{$status_tags|implode(', ')|wash()}</span>
         </div>
     </li>

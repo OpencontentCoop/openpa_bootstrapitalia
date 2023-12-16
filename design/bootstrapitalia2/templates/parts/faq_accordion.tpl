@@ -21,7 +21,7 @@
 {ezscript_require(array('jquery.faqs.js'))}
 {if or($node.can_edit, $node.can_create)}
     <div class="my-2 text-right">
-        <a href="#" data-create_faq="{$node.node_id}" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> {'Add item'|i18n( 'design/standard/block/edit' )}</a>
+        <a href="#" data-create_faq="{$node.node_id}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> {'Add item'|i18n( 'design/standard/block/edit' )}</a>
     </div>
 {run-once}
     {ezscript_require(array(

@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="col-1">
-            <button type="submit" class="btn btn-success rounded-0" id="AddContent" title="Crea nuovo utente">
+            <button type="submit" class="btn btn-primary rounded-0" id="AddContent" title="Crea nuovo utente">
                 <i aria-hidden="true" class="fa fa-plus"></i>
             </button>
         </div>

@@ -254,7 +254,7 @@
                   let editContainer = $('<div></div>');
                   let textarea = $('<textarea rows="6" class="form-control form-control-sm text-sans-serif">'+$.trim(text)+'</textarea>')
                     .appendTo(editContainer);
-                  let submitButton = $('<a href="#" data-tag="'+tagId+'" data-locale="'+locale+'" class="pull-right btn btn-xs btn-success py-1 px-2 text-sans-serif mt-2">Salva</a>')
+                  let submitButton = $('<a href="#" data-tag="'+tagId+'" data-locale="'+locale+'" class="pull-right btn btn-xs btn-primary py-1 px-2 text-sans-serif mt-2">Salva</a>')
                     .appendTo(editContainer)
                     .on('click', function (e) {
                       let tagId = $(this).data('tag');

@@ -15,7 +15,7 @@
 
 {else}
 
-  <a class="btn btn-success mb-3" href="{'openpa/block/'|ezurl(no)}">Seleziona nuovo oggetto</a>
+  <a class="btn btn-primary mb-3" href="{'openpa/block/'|ezurl(no)}">Seleziona nuovo oggetto</a>
 
   <div class="row">
     <div class="col-md-3">

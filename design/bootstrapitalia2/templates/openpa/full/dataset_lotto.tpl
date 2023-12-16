@@ -30,7 +30,7 @@
 
 <div class="container">
     {if $node.children_count}
-        <a class="btn btn-success btn-sm my-2" href={concat("exportas/avpc/lotto/",$node.node_id)|ezurl()}>Esporta in formato <abbr title="Xtensible Markup Language">ANAC XML</abbr></a>
+        <a class="btn btn-primary btn-sm my-2" href={concat("exportas/avpc/lotto/",$node.node_id)|ezurl()}>Esporta in formato <abbr title="Xtensible Markup Language">ANAC XML</abbr></a>
     {/if}
     {if $node.can_create}
         <a class="btn btn-info btn-sm my-2 mr-2 me-2" href='#' id="AddLotto"><i class="fa fa-plus"></i> {'Add item'|i18n( 'design/standard/block/edit' )}</a>

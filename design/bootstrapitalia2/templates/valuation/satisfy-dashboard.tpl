@@ -17,7 +17,7 @@
                 </div>
 
                 <p class="text-right">
-                    <input type="submit" class="defaultbutton btn btn-success btn-lg" name="Store" value="Salva"/>
+                    <input type="submit" class="defaultbutton btn btn-primary btn-lg" name="Store" value="Salva"/>
                 </p>
             </fieldset>
         </form>

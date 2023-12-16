@@ -25,7 +25,7 @@
         <ul class="d-flex flex-wrap gap-1 mb-2">
         {foreach $current_topics as $object}
             <li>
-                <a class="chip chip-simple {if $object.section_id|ne(1)}bg-danger{/if}"
+                <a class="chip chip-simple {if $object.section_id|ne(1)}bg-danger{else}chip-primary{/if}"
                    {if $node.class_identifier|eq('public_service')}data-element="service-topic"{/if}
                    href="{$object.main_node.url_alias|ezurl(no)}">
                     <span class="chip-label text-nowrap {if $object.section_id|ne(1)}text-white{/if}">{$object.name|wash()}</span>
@@ -67,7 +67,7 @@
     <ul class="d-flex flex-wrap gap-1">
     {foreach $node|attribute('type').content.tags as $tag}
         <li>
-            <a class="chip chip-simple"
+            <a class="chip chip-simple chip-primary"
                href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
                <span class="chip-label text-nowrap">{$tag.keyword|wash}</span>
            </a>
