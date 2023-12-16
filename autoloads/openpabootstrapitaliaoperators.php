@@ -1,5 +1,9 @@
 <?php
 
+use Opencontent\Opendata\Api\EnvironmentLoader;
+use Opencontent\Opendata\Api\ContentSearch;
+
+
 class OpenPABootstrapItaliaOperators
 {
     private static $cssData;
@@ -134,6 +138,7 @@ class OpenPABootstrapItaliaOperators
             ),
             'tag_tree_has_contents' => array(
                 'tag' => array('type' => 'object', 'required' => true),
+                'node' => array('type' => 'object', 'required' => true),
             ),
             'edit_attribute_groups' => array(
                 'class' => array('type' => 'object', 'required' => true),
@@ -453,7 +458,7 @@ class OpenPABootstrapItaliaOperators
                 break;
 
             case 'tag_tree_has_contents':
-                $operatorValue = self::tagTreeHasContents($namedParameters['tag']);
+                $operatorValue = self::tagTreeHasContents($namedParameters['tag'], $namedParameters['node']);
                 break;
 
             case 'parse_attribute_groups':
@@ -1475,8 +1480,29 @@ class OpenPABootstrapItaliaOperators
         ];
     }
 
-    private static function tagTreeHasContents($tag)
+    private static function tagTreeHasContents($tag, $node)
     {
+        if ($node instanceof eZContentObjectTreeNode && $tag instanceof eZTagsObject){
+            $remoteId = $node->object()->attribute('remote_id');
+            if ($remoteId === 'all-events'){
+                $query = 'raw[ezf_df_tag_ids] = ' . $tag->attribute('id') . ' and classes [event] sort [time_interval=>asc] limit 1';
+
+                $contentSearch = new ContentSearch();
+                $currentEnvironment = EnvironmentLoader::loadPreset('calendar');
+                $contentSearch->setEnvironment($currentEnvironment);
+                $parser = new ezpRestHttpRequestParser();
+                $request = $parser->createRequest();
+                $now = new DateTimeImmutable();
+                $dayLimit = 180;
+                $request->get['start'] = $now->format('Y-m-d');
+                $request->get['end'] = $now->add(new DateInterval('P' . $dayLimit . 'D'))->format('Y-m-d');
+                $currentEnvironment->__set('request', $request);
+                $data = (array)$contentSearch->search($query);
+//                eZDebug::writeDebug($tag->attribute('keyword') . ' ' . count($data) . ' ' . $query, __METHOD__);
+
+                return count($data) > 0;
+            }
+        }
         $count = 0;
         if ($tag instanceof eZTagsObject) {
             $tagId = (int)$tag->attribute('id');
@@ -1495,7 +1521,7 @@ class OpenPABootstrapItaliaOperators
             $result = $db->arrayQuery($query);
 
             $count = (is_array($result) && !empty($result)) ? (int)$result[0]['count'] : 0;
-            eZDebug::writeDebug($tag->attribute('keyword') . ' ' . $count . ' ' . $query, __METHOD__);
+//            eZDebug::writeDebug($tag->attribute('keyword') . ' ' . $count . ' ' . $query, __METHOD__);
         }
 
         return $count > 0;

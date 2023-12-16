@@ -147,7 +147,6 @@
             {set $children = $filtered_children}
         {/if}
 
-
         <section id="{if $node|has_attribute('menu_name')}{$node|attribute('menu_name').content|slugize}{else}{$parent_node.name|slugize}{/if}">
             <div class="container {$view_variation}">
                 {if $openpa.content_tag_menu.current_view_tag|not()}
@@ -198,7 +197,7 @@
     {if $show_all_tag_grid|contains($node.object.remote_id)|not()}
         {def $clean_tag_menu_children = array()}
         {foreach $tag_menu_children as $tag}
-            {if tag_tree_has_contents($tag)}
+            {if tag_tree_has_contents($tag, $node)}
                 {set $clean_tag_menu_children = $clean_tag_menu_children|append($tag)}
             {/if}
         {/foreach}
