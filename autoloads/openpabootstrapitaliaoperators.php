@@ -724,7 +724,7 @@ class OpenPABootstrapItaliaOperators
                                 $operatorValue = 'data-sizes="auto" ' . 'data-src="' . $urlList['dynamic'] . '" ';
                             }
                         } else {
-                            $operatorValue = 'src="' . $urlList['default'] . '" srcset="' . $urlList['data-srcset'] . '" ' . '" sizes="' . $urlList['sizes'] . '" ';
+                            $operatorValue = 'src="' . $urlList['default'] . '" srcset="' . $urlList['data-srcset'] . '" sizes="' . $urlList['sizes'] . '" ';
                         }
                     }
 //                    eZDebug::writeDebug(var_export($urlList, true), $url);
