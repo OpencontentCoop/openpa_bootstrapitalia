@@ -268,10 +268,6 @@
       <translation>Prenota appuntamento</translation>
     </message>
     <message>
-      <source>Report a disservice</source>
-      <translation>Segnala disservizio</translation>
-    </message>
-    <message>
       <source>Report a inefficiency</source>
       <translation>Segnala disservizio</translation>
     </message>
@@ -289,7 +285,7 @@
     </message>
     <message>
       <source>Inefficiency reporting</source>
-      <translation>Ineffizienz melden Link</translation>
+      <translation>Segnalazioni</translation>
     </message>
     <message>
       <source>Public service sync tool</source>
@@ -1385,6 +1381,13 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Role type</source>
       <translation>Tipo di ruolo</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/temp</name>
+    <message>
+      <source>Report a disservice</source>
+      <translation>Segnala disservizio</translation>
     </message>
   </context>
   <context>

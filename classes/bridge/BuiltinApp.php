@@ -1,5 +1,8 @@
 <?php
 
+use Opencontent\Opendata\Api\EnvironmentLoader;
+use Opencontent\Opendata\Api\ContentSearch;
+
 class BuiltinApp extends OpenPATempletizable
 {
     private $appIdentifier;
@@ -125,6 +128,31 @@ class BuiltinApp extends OpenPATempletizable
         return !(isset($contacts[$field]) && !empty($contacts[$field]));
     }
 
+    protected function getCategory(): ?string
+    {
+        $identifier = OpenPAINI::variable('StanzaDelCittadinoBridge', 'ServiceIdentifier_' . $this->getAppIdentifier(), '');
+        if (empty($identifier)){
+            return null;
+        }
+
+        $contentSearch = new ContentSearch();
+        $currentEnvironment = EnvironmentLoader::loadPreset('content');
+        $contentSearch->setEnvironment($currentEnvironment);
+        try{
+            $data = (array)$contentSearch->search(
+                'select-fields [data.type] classes [public_service] ' .
+                'and identifier = "' . $identifier . '" ' .
+                'and raw[meta_language_code_ms] = "' . eZLocale::currentLocaleCode() . '" ' .
+                'limit 1',
+                []
+            );
+        }catch (Exception $e){
+            eZDebug::writeError($e->getMessage(), __METHOD__);
+        }
+
+        return $data[0][0] ?? null;
+    }
+
     public function getModuleResult(): array
     {
         $tpl = eZTemplate::factory();
@@ -145,10 +173,19 @@ class BuiltinApp extends OpenPATempletizable
         ];
         $allServices = eZContentObject::fetchByRemoteID('all-services');
         if ($allServices instanceof eZContentObject) {
+            $allServiceUrl = $allServices->mainNode()->urlAlias();
+            eZURI::transformURI($allServiceUrl);
             $path[] = [
                 'text' => $allServices->attribute('name'),
-                'url' => $allServices->mainNode()->urlAlias(),
+                'url' => $allServiceUrl,
             ];
+            $category = $this->getCategory();
+            if ($category){
+                $path[] = [
+                    'text' => $category,
+                    'url' => $allServiceUrl . '/(view)/' . $category,
+                ];
+            }
         }
         $path[] = [
             'text' => ezpI18n::tr('bootstrapitalia', $this->getAppLabel()),

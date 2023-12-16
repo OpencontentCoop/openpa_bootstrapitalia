@@ -1,9 +1,13 @@
 {ezpagedata_set( 'has_container', true() )}
 {ezpagedata_set( 'has_sidemenu', false() )}
 
-{def $parent_openpa = object_handler($node.parent)}
+{def $parent = $node.parent}
+{def $parent_openpa = object_handler($parent)}
 {if and($parent_openpa.content_tag_menu.has_tag_menu, $node|has_attribute('type'))}
-    {ezpagedata_set( 'current_view_tag_keyword', $node|attribute('type').content.tags[0].keyword )}
+    {def $keyword = $node|attribute('type').content.tags[0].keyword|wash()}
+    {ezpagedata_set( 'current_content_tagged_keyword', $keyword )}
+    {ezpagedata_set( 'current_content_tagged_keyword_url', concat($parent.url_alias, '/(view)/', $keyword))}
+    {undef $keyword}
 {/if}
 
 <div class="container">
@@ -41,7 +45,7 @@
 {include uri='design:openpa/full/parts/related.tpl' object=$node.object}
 {/if}
 
-{undef $parent_openpa}
+{undef $parent $parent_openpa}
 
 {if can_check_remote_public_service()}
 <script>

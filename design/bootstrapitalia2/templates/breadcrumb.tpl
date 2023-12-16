@@ -9,12 +9,18 @@
                     {foreach openpacontext().path_array as $path}
                         {if $_index|ge($root_node_depth)}
                             {if $path.url}
-                                {if $path.text|eq('Media')}{skip}{/if}
-                                {if $path.text|eq('Classificazioni')}{skip}{/if}
-                                {if $path.text|eq('Applicazioni')}{skip}{/if}
-                                <li class="breadcrumb-item">
-                                    <a href={cond( is_set( $path.url_alias ), $path.url_alias, $path.url )|ezurl}>{if $_index|gt(1)}<span class="separator">/</span>{/if}{$path.text|wash}</a>
-                                </li>
+                                {if and(openpaini('GeneralSettings','ShowMainContacts', 'enabled'), or( and(is_set($path.url_alias), $path.url_alias|eq('/'|ezurl(no))), $path.url|eq('/content/view/full/2')))}
+                                    <li class="breadcrumb-item">
+                                        <a href={cond( is_set( $path.url_alias ), $path.url_alias, $path.url )|ezurl}>{if $_index|gt(1)}<span class="separator">/</span>{/if}Home</a>
+                                    </li>
+                                {else}
+                                    {if $path.text|eq('Media')}{skip}{/if}
+                                    {if $path.text|eq('Classificazioni')}{skip}{/if}
+                                    {if $path.text|eq('Applicazioni')}{skip}{/if}
+                                    <li class="breadcrumb-item">
+                                        <a href={cond( is_set( $path.url_alias ), $path.url_alias, $path.url )|ezurl}>{if $_index|gt(1)}<span class="separator">/</span>{/if}{$path.text|wash}</a>
+                                    </li>
+                                {/if}
                             {else}
                                 {if is_set($module_result.content_info.persistent_variable.current_view_keywords_subtree)}
                                     {if is_set($module_result.content_info.persistent_variable.view_tag_root_node_url)}
@@ -43,6 +49,11 @@
                                         {if $_index|gt(1)}<span class="separator">/</span>{/if}{$module_result.content_info.persistent_variable.current_view_tag_keyword|wash}
                                     </li>
                                 {else}
+                                    {if is_set($module_result.content_info.persistent_variable.current_content_tagged_keyword)}
+                                        <li class="breadcrumb-item">
+                                            <a href={$module_result.content_info.persistent_variable.current_content_tagged_keyword_url|ezurl}>{if $_index|gt(1)}<span class="separator">/</span>{/if}{$module_result.content_info.persistent_variable.current_content_tagged_keyword|wash}</a>
+                                        </li>
+                                    {/if}
                                     <li class="breadcrumb-item active" aria-current="page">
                                         {if $_index|gt(1)}<span class="separator">/</span>{/if}{$path.text|wash}
                                     </li>

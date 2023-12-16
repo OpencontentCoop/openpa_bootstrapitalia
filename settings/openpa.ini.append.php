@@ -17,6 +17,10 @@ RootId_support=oc-helpdesk
 RootId_booking=oc-bookings
 RootId_login=oc-login-box
 
+ServiceIdentifier_support=helpdesk
+ServiceIdentifier_booking=bookings
+ServiceIdentifier_inefficiency=inefficiencies
+
 ContactsField_inefficiency=link_segnalazione_disservizio
 ContactsField_support=link_assistenza
 ContactsField_booking=link_prenotazione_appuntamento

@@ -268,10 +268,6 @@
       <translation>Termine buchen</translation>
     </message>
     <message>
-      <source>Report a disservice</source>
-      <translation>Bärendienst melden</translation>
-    </message>
-    <message>
       <source>Report a inefficiency</source>
       <translation>Ineffizienz melden</translation>
     </message>
@@ -541,7 +537,7 @@
     </message>
     <message>
       <source>Filter by role assignment</source>
-      <translation type="unfinished"/>
+      <translation>Filtern Sie nach Rollenzuweisung</translation>
     </message>
   </context>
   <context>
@@ -1385,6 +1381,13 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>Role type</source>
       <translation>Art der Funktion</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/temp</name>
+    <message>
+      <source>Report a disservice</source>
+      <translation>Bärendienst melden</translation>
     </message>
   </context>
   <context>

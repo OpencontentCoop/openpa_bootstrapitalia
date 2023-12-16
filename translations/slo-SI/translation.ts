@@ -268,10 +268,6 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Report a disservice</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
       <source>Report a inefficiency</source>
       <translation type="unfinished"/>
     </message>
@@ -560,7 +556,7 @@
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Seznami po razredu</translation>
+      <translation>Sezname po razredu</translation>
     </message>
     <message>
       <source>Import management</source>
@@ -762,7 +758,7 @@
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>Pri iskanju "%1" ni bilo ugotovljenih rezultatov.</translation>
+      <translation>Pri iskanju "%1" ni bilo mogoče najti rezultatov.</translation>
     </message>
     <message>
       <source>Search tips</source>
@@ -1380,6 +1376,13 @@
     </message>
     <message>
       <source>Role type</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/temp</name>
+    <message>
+      <source>Report a disservice</source>
       <translation type="unfinished"/>
     </message>
   </context>

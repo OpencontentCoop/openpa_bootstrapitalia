@@ -169,7 +169,7 @@
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Ir a contenido</translation>
+      <translation>Ir al contenido</translation>
     </message>
     <message>
       <source>View all</source>
@@ -265,10 +265,6 @@
     </message>
     <message>
       <source>Book an appointment</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
-      <source>Report a disservice</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -674,7 +670,7 @@
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Ir a los filtros de búsqueda</translation>
+      <translation>Ir a filtros de búsqueda</translation>
     </message>
     <message>
       <source>Link to</source>
@@ -794,7 +790,7 @@
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Para obtener más opciones, pruebe la búsqueda %1Advanced %2</translation>
+      <translation>Para obtener más opciones, pruebe el %1 de búsqueda de Aadvanced %2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -1380,6 +1376,13 @@
     </message>
     <message>
       <source>Role type</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/temp</name>
+    <message>
+      <source>Report a disservice</source>
       <translation type="unfinished"/>
     </message>
   </context>

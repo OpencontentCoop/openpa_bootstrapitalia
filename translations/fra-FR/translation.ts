@@ -268,10 +268,6 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Report a disservice</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
       <source>Report a inefficiency</source>
       <translation type="unfinished"/>
     </message>
@@ -698,7 +694,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Seulement des informations de type</translation>
+      <translation>Seules les informations de type</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -1380,6 +1376,13 @@
     </message>
     <message>
       <source>Role type</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/temp</name>
+    <message>
+      <source>Report a disservice</source>
       <translation type="unfinished"/>
     </message>
   </context>

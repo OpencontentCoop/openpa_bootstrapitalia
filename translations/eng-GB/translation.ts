@@ -268,10 +268,6 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Report a disservice</source>
-      <translation type="unfinished"/>
-    </message>
-    <message>
       <source>Report a inefficiency</source>
       <translation type="unfinished"/>
     </message>
@@ -1381,6 +1377,13 @@
     <message>
       <source>Role type</source>
       <translation>Role type</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/temp</name>
+    <message>
+      <source>Report a disservice</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>
