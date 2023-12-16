@@ -100,6 +100,10 @@
                 </li>
             {/if}
 
+            {if and($content_object.can_translate, fetch( 'user', 'has_access_to', hash( 'module', 'translate', 'function', 'content' ) ))}
+                {include uri='design:parts/websitetoolbar/translate.tpl' content_object=$content_object}
+            {/if}
+
             {if and(
                 $content_object.can_move,
                 not( $top_menu_node_ids|contains( $current_node.node_id ) )

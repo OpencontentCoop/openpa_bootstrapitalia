@@ -168,7 +168,7 @@ class OpenPAReverseRelationListType extends eZDataType
         if (!isset(self::$hasContent[$contentObjectAttribute->attribute('id')])) {
 
             $query = self::buildQuery($contentObjectAttribute, 1);
-            eZDebug::writeDebug($contentObjectAttribute->contentClassAttributeIdentifier() . ' ' . $query, __METHOD__);
+//            eZDebug::writeDebug($contentObjectAttribute->contentClassAttributeIdentifier() . ' ' . $query, __METHOD__);
 
             if (!$query) {
                 self::$hasContent[$contentObjectAttribute->attribute('id')] = false;
