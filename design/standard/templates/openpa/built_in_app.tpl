@@ -2,7 +2,7 @@
 {ezpagedata_set( 'has_sidemenu', false() )}
 
 <script>
-  localStorage.removeItem('defaultLocale'); //temp
+  if (localStorage) localStorage.removeItem('defaultLocale'); //temp
 </script>
 
 {if and(ezhttp_hasvariable( 'edit', 'get' ), fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'config_built_in_apps' ) ))}
