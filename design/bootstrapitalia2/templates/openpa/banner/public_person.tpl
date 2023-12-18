@@ -5,7 +5,7 @@
     <div class="card-body {if $has_image}pe-3{/if}">
         <p class="card-title text-paragraph-regular-medium-semi mb-3">
             <a class="text-decoration-none" href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}" data-focus-mouse="false">
-                {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
+                {$node.data_map.given_name.content|wash()} {$node.data_map.family_name.content|wash()}{include uri='design:parts/card_title_suffix.tpl'}
             </a>
         </p>
         {if $node|has_attribute('has_role')}
