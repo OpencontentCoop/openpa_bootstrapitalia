@@ -254,7 +254,7 @@
                                 </div>
                             {else}
                                 {def $max = count($footer_links)|div(2)|int()
-                                     $offset = count($footer_links)|sub($max)}
+                                     $_offset = count($footer_links)|sub($max)}
                                 <div class="col-md-4">
                                     <ul class="footer-list">
                                         {foreach $footer_links as $item max $max}
@@ -264,8 +264,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <ul class="footer-list">
-                                        {if $offset|gt(0)}
-                                        {foreach $footer_links as $item offset $offset}
+                                        {if $_offset|gt(0)}
+                                        {foreach $footer_links as $item offset $_offset}
                                             <li>{node_view_gui content_node=$item view=text_linked}</li>
                                         {/foreach}
                                         {/if}
@@ -276,7 +276,7 @@
                                         {/if}
                                     </ul>
                                 </div>
-                                {undef $max $offset}
+                                {undef $max $_offset}
                             {/if}
                             {undef $footer_links}
                         </div>
