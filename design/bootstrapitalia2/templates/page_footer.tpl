@@ -227,7 +227,7 @@
                                         </li>
                                         <li>
                                             <a data-element="report-inefficiency" href="{if is_set($pagedata.contacts['link_segnalazione_disservizio'])}{$pagedata.contacts['link_segnalazione_disservizio']|wash()}{else}{'segnala_disservizio'|ezurl(no)}{/if}">
-                                                {'Report a disservice'|i18n('bootstrapitalia')}
+                                                {'Report a inefficiency'|i18n('bootstrapitalia')}
                                             </a>
                                         </li>
                                         <li>
