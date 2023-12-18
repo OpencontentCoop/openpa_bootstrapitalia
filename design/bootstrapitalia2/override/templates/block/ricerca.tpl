@@ -14,8 +14,8 @@
                 <div class="cmp-input-search">
                     <form action="{'/content/search/'|ezurl(no)}" method="get" class="form-group autocomplete-wrapper{if $background_image|not()} mb-2 mb-lg-4{/if}">
                         <div class="input-group">
-                            <label for="autocomplete-autocomplete-three" class="visually-hidden">{'Search'|i18n('design/base')}</label>
-                            <input type="search" class="autocomplete form-control" placeholder="{$block.name|wash()}" id="autocomplete-autocomplete-three" name="autocomplete-three" data-bs-autocomplete="[]" data-focus-mouse="false">
+                            <label for="{$block.id}-search" class="visually-hidden">{'Search'|i18n('design/base')}</label>
+                            <input type="search" class="autocomplete form-control" placeholder="{$block.name|wash()}" id="{$block.id}-search" name="SearchText" data-bs-autocomplete="[]" data-focus-mouse="false">
 
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit" id="button-3">{'Search'|i18n('design/base')}</button>
