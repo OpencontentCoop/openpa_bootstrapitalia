@@ -340,3 +340,23 @@
     {/if}
 
 </div>
+
+{literal}
+    <style>
+    ins {
+        text-decoration: underline;
+        text-decoration-style: wavy;
+    }
+    del {
+        text-decoration: line-through;
+    }
+    .attribute-view-diff-old label{
+        margin-right: 5px;
+        font-size: .8em;
+    }
+    .attribute-view-diff-new label{
+        margin-right: 5px;
+        font-size: .8em;
+    }
+    </style>
+{/literal}
