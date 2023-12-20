@@ -18,13 +18,16 @@
                 </h3>
             </a>
             {include uri='design:openpa/card/parts/abstract.tpl' wrapper_class="titillium text-paragraph mb-0"}
-            {if and( $node.children_count, $node|has_attribute('show_topic_children'), $node|attribute('show_topic_children').data_int|eq(1) )}
+
+            {if and($node|has_attribute('show_topic_children'), $node|attribute('show_topic_children').data_int|eq(1))}
                 <div class="mt-4">
                     {foreach $node.children as $child}
+                        {if topic_has_contents($child.contentobject_id)}
                         <a class="text-decoration-none text-nowrap d-inline-block " href="{$child.url_alias|ezurl(no)}"
                            data-eurovoc="{$child|attribute('eu').data_text|wash()}" data-element="{object_handler($child).data_element.value|wash()}">
                             <div class="chip chip-simple chip-{if $child.object.section_id|eq(1)}primary{else}danger{/if}"><span class="chip-label">{$child.name|wash()}</span></div>
                         </a>
+                        {/if}
                     {/foreach}
                 </div>
             {/if}

@@ -58,6 +58,7 @@ $eZTemplateOperatorArray = [
             'openagenda_next_events',
             'openagenda_can_push_place',
             'can_check_remote_public_service',
+            'topic_has_contents',
         ],
     ],
 ];

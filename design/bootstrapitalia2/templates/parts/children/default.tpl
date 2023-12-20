@@ -139,7 +139,7 @@
             {def $filtered_children = array()}
             {foreach $children as $child}
                 {if $child.class_identifier|eq('topic')}
-                    {if api_search(concat('topics.id = ', $child.contentobject_id, ' limit 1')).totalCount|gt(0)}
+                    {if topic_has_contents($child.contentobject_id)}
                         {set $filtered_children = $filtered_children|append($child)}
                     {/if}
                 {/if}

@@ -20,6 +20,8 @@ class OpenPABootstrapItaliaOperators
 
     private static $canInstantiate = [];
 
+    private static $topicsContentsCount;
+
     function operatorList()
     {
         return array(
@@ -78,6 +80,7 @@ class OpenPABootstrapItaliaOperators
             'openagenda_next_events',
             'openagenda_can_push_place',
             'can_check_remote_public_service',
+            'topic_has_contents',
         );
     }
 
@@ -188,6 +191,9 @@ class OpenPABootstrapItaliaOperators
             'openagenda_next_events' =>  array(
                 'context' => array('type' => 'object', 'required' => true),
             ),
+            'topic_has_contents' =>  array(
+                'topic_id' => array('type' => 'integer', 'required' => true),
+            ),
         );
     }
 
@@ -202,6 +208,10 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'topic_has_contents':
+                $operatorValue = self::topicHasContents($namedParameters['topic_id']);
+                break;
 
             case 'can_check_remote_public_service':
                 $operatorValue = StanzaDelCittadinoBridge::factory()->getEnableRuntimeServiceStatusCheck();
@@ -1478,6 +1488,34 @@ class OpenPABootstrapItaliaOperators
             'show_index' => count($items) > 1 && !$attributeGroups->attribute('hide_index'),
             'items' => $items,
         ];
+    }
+
+    private static function topicHasContents($topicId): bool
+    {
+        $count = self::topicsContentsCount();
+        $topicCount = $count[$topicId] ?? 0;
+
+        return $topicCount > 0;
+    }
+
+    private static function topicsContentsCount()
+    {
+        if (self::$topicsContentsCount === null) {
+            $query = "classes [article,public_person,private_organization,organization,public_service,document] facets [topics.id|alpha|300] limit 1";
+            eZDebug::writeDebug($query, __METHOD__);
+            try {
+                $contentSearch = new ContentSearch();
+                $currentEnvironment = EnvironmentLoader::loadPreset('content');
+                $contentSearch->setEnvironment($currentEnvironment);
+                $search = $contentSearch->search($query);
+                self::$topicsContentsCount = $search->facets[0]['data'];
+            } catch (Exception $e) {
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+                self::$topicsContentsCount = [];
+            }
+        }
+
+        return self::$topicsContentsCount;
     }
 
     private static function tagTreeHasContents($tag, $node)
