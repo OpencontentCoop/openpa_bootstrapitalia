@@ -9,7 +9,7 @@ BuiltInWidgetSource_support=https://%host%/widgets/helpdesk/bootstrap-italia@2/j
 BuiltInWidgetSource_booking=https://%host%/widgets/bookings/bootstrap-italia@2/js/bookings.js
 #BuiltInWidgetSource_satisfy=https://satisfy.opencontent.it/widget_ns.js
 #BuiltInWidgetSource_satisfy=https://%host%/widgets/satisfy/js/satisfy.js
-BuiltInWidgetSource_satisfy=https://static.opencityitalia.it/widgets/satisfy/version/1.4.8/js/satisfy.js
+BuiltInWidgetSource_satisfy=https://static.opencityitalia.it/widgets/satisfy/version/1.5.2/js/satisfy.js
 BuiltInWidgetSource_login=https://%host%/widgets/login-box/bootstrap-italia@2/js/login-box.js
 
 RootId_inefficiency=oc-inefficiencies
