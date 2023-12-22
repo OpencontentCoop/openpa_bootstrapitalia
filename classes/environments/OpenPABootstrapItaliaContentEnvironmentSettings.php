@@ -28,7 +28,20 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
             'text_linked',
             'latest_messages_item',
             'point_list',
+            'fullpage',
         ])) {
+
+            $moduleINI = eZINI::instance('module.ini');
+            $globalModuleRepositories = $moduleINI->variable('ModuleSettings', 'ModuleRepositories');
+            eZModule::setGlobalPathList($globalModuleRepositories);
+            if (!isset($GLOBALS['eZRequestedModuleParams'])) {
+                $GLOBALS['eZRequestedModuleParams'] = [
+                    'module_name' => null,
+                    'function_name' => null,
+                    'parameters' => null,
+                ];
+            }
+
             $Module = new eZModule("", "", 'opendata');
             $tpl = eZTemplate::factory();
             $LanguageCode = null;
