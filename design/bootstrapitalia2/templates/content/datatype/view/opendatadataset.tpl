@@ -28,28 +28,33 @@
         {/foreach}
     </div>
 {else}
-{ezscript_require(array(
-    'dataTables.responsive.min.js',
-    'handlebars.min.js',
-    'moment-with-locales.min.js',
-    'bootstrap-datetimepicker.min.js',
-    'leaflet/leaflet.0.7.2.js',
-    'leaflet/Control.Geocoder.js',
-    'leaflet/Control.Loading.js',
-    'leaflet/Leaflet.MakiMarkers.js',
-    'leaflet/leaflet.activearea.js',
-    'leaflet/leaflet.markercluster.js',
+{def $scripts = array()}
+{if fetch('user','current_user').is_logged_in}
+    {set $scripts = $scripts|merge(array(
     'jquery.fileupload.js',
     'jquery.fileupload-process.js',
     'jquery.fileupload-ui.js',
     'alpaca.js',
     'fields/SimpleOpenStreetMap.js',
     'jquery.opendataform.js',
+    'bootstrap-datetimepicker.min.js',
+    'ec.min.js'
+    ))}
+{/if}
+{set $scripts = $scripts|merge(array(
+    'dataTables.responsive.min.js',
+    'handlebars.min.js',
+    'moment-with-locales.min.js',
+    'leaflet/leaflet.0.7.2.js',
+    'leaflet/Control.Geocoder.js',
+    'leaflet/Control.Loading.js',
+    'leaflet/Leaflet.MakiMarkers.js',
+    'leaflet/leaflet.activearea.js',
+    'leaflet/leaflet.markercluster.js',
     'fullcalendar/core/main.js',
     'fullcalendar/core/locales/it.js',
     'fullcalendar/daygrid/main.js',
     'fullcalendar/list/main.js',
-    'ec.min.js',
     'highcharts/highcharts.js',
     'highcharts/highcharts-3d.js',
     'highcharts/highcharts-more.js',
@@ -62,6 +67,7 @@
     'highcharts/modules/no-data-to-display.js',
     'jquery.opendatadatasetview.js'
 ))}
+{ezscript_require($scripts)}
 {ezcss_require(array(
     'datatable.responsive.bootstrap4.min.css',
     'leaflet/leaflet.0.7.2.css',
@@ -151,9 +157,6 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body pb-3">
-                    <div class="clearfix">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
                     <div class="dataset-form clearfix"></div>
                 </div>
             </div>
