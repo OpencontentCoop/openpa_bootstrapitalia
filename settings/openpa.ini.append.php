@@ -96,6 +96,7 @@ AvailableView[]=card_simple
 AvailableView[]=card_teaser_info
 AvailableView[]=latest_messages_item
 AvailableView[]=point_list
+AvailableView[]=fullpage
 TopicCard=custom
 ForceCurrentSiteUrl=disabled
 
