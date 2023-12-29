@@ -1,4 +1,4 @@
-<div class="cmp-card-simple card-wrapper pb-0 rounded bg-white border border-light">
+<div class="cmp-card-simple card-wrapper pb-0 rounded bg-white border border-light {$node|access_style}">
     <div class="card shadow-sm rounded">
         <div class="card-body">
             {if or($openpa.data_element.value|eq('live-button-locations'), $openpa.data_element.value|eq('live-button-events'))}

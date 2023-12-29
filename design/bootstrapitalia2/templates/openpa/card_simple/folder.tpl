@@ -2,7 +2,7 @@
 {if $node.object.remote_id|eq('OpenPaRuoli')}
     {set $link = '/openpa/roles'|ezurl(no)}
 {/if}
-<div class="cmp-card-simple card-wrapper pb-0 rounded bg-white border border-light">
+<div class="cmp-card-simple card-wrapper pb-0 rounded bg-white border border-light {$node|access_style}">
     <div class="card shadow-sm rounded">
         <div class="card-body">
             <a href="{$link}" data-element="{$openpa.data_element.value|wash()}" class="text-decoration-none">

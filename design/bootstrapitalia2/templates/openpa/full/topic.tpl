@@ -142,7 +142,7 @@
             hash(
                 "limite", "9",
                 "elementi_per_riga", "3",
-                "includi_classi", "employee,private_organization,organization",
+                "includi_classi", "public_person,private_organization,organization",
                 "escludi_classi", "",
                 "ordinamento", "modificato",
                 "state_id", "",
