@@ -54,6 +54,7 @@
 		        </tr>
 			</thead>
 			<tbody></tbody>
+			<tfoot></tfoot>
 		</table>
 	</div>
 </div>
@@ -171,14 +172,16 @@
 	</td>
 </tr>	
 {{/for}}
+</script>
+<script id="tpl-footer" type="text/x-jsrender">
 {{if prevPageQuery || nextPageQuery }}
-<tr>
-	<td colspan="{/literal}{if $can_create}8{else}7{/if}{literal}">
+<tr class="bg-white">
+	<td class="bg-white" colspan="{/literal}{if $can_create}8{else}7{/if}{literal}">
 		{{if prevPageQuery}}
-			<div class="pull-left"><a href="#" id="prevPage" data-query="{{>prevPageQuery}}">Pagina precedente</a></div>
+			<div class="pull-left"><a href="#" id="prevPage" data-query="{{>prevPageQuery}}"><i class="fa fa-arrow-left"></i> {/literal}{"Previous"|i18n("design/admin/navigator")}{literal}</a></div>
 		{{/if}}
 		{{if nextPageQuery }}
-			<div class="pull-right"><a href="#" id="nextPage" data-query="{{>nextPageQuery}}">Pagina successiva</a></div>		
+			<div class="pull-right"><a href="#" id="nextPage" data-query="{{>nextPageQuery}}">{/literal}{"Next"|i18n("design/admin/navigator")}{literal} <i class="fa fa-arrow-right"></i></a></div>
 		{{/if}}
 	</td>
 </tr>	
@@ -197,6 +200,16 @@
 
 	$(document).ready(function () {
 
+		$.opendataFormSetup({
+			i18n: {{/literal}
+				'store': "{'Store'|i18n('opendata_forms')}",
+				'cancel': "{'Cancel'|i18n('opendata_forms')}",
+				'storeLoading': "{'Loading...'|i18n('opendata_forms')}",
+				'cancelDelete': "{'Cancel deletion'|i18n('opendata_forms')}",
+				'confirmDelete': "{'Confirm deletion'|i18n('opendata_forms')}"
+			{literal}}
+		});
+
         var baseUrl = '/';
         if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
             baseUrl = UriPrefix + '/';
@@ -207,11 +220,13 @@
 
 	    var pageLimit = 50;
 	    var template = $.templates('#tpl-results');
+		var footer = $.templates('#tpl-footer');
 	    var classQuery = '';
 	    if (ClassIdentifier){
 	    	classQuery = 'classes ['+ClassIdentifier+'] ';
 	    }
 	    var $container = $(ContainerSelector).find('tbody');
+		var $pagination = $(ContainerSelector).find('tfoot');
 		var onlyExpired = $('#OnlyExpired')
 		var reset = $('#ResetContents');
 
@@ -263,7 +278,6 @@
 					this.translations = translations;
                 });
 	            var renderData = $(template.render(response));
-
 	            renderData.find('.edit-object').on('click', function (e) {
 	                var object = $(this).data('object');
 	                $(FormSelector).opendataFormEdit({'object': object},{
@@ -284,17 +298,19 @@
 
 	            $container.html(renderData);
 
-	            $container.find('#nextPage').on('click', function (e) {
+				$pagination.html(footer.render(response));
+				$pagination.find('#nextPage').on('click', function (e) {
 	                currentPage++;
 	                runQuery($(this).data('query'));
 	                e.preventDefault();
 	            });
 
-	            $container.find('#prevPage').on('click', function (e) {
+				$pagination.find('#prevPage').on('click', function (e) {
 	                currentPage--;
 	                runQuery($(this).data('query'));
 	                e.preventDefault();
 	            });
+
 	        });
 	    };
 

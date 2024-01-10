@@ -1169,7 +1169,7 @@
     </message>
     <message>
       <source>Submit</source>
-      <translation>einreichen</translation>
+      <translation>Suche</translation>
     </message>
     <message>
       <source>Reset</source>
@@ -1234,7 +1234,7 @@
     </message>
     <message>
       <source>Services</source>
-      <translation>Serviceportal</translation>
+      <translation>Dienste</translation>
     </message>
     <message>
       <source>News</source>
@@ -1539,15 +1539,15 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Valid from</source>
-      <translation>gueltig ab</translation>
+      <translation>gültig ab</translation>
     </message>
     <message>
       <source>Valid until</source>
-      <translation>gueltig bis</translation>
+      <translation>gültig bis</translation>
     </message>
     <message>
       <source>Priority</source>
-      <translation>Prioritaet</translation>
+      <translation>Priorität</translation>
     </message>
     <message>
       <source>Show only expired roles</source>
@@ -1559,6 +1559,13 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>Main contents</source>
       <translation>Wichtigste Inhalte</translation>
+    </message>
+  </context>
+  <context>
+    <name>design/standard/block/edit</name>
+    <message>
+      <source>Add item</source>
+      <translation>Element hinzufügen</translation>
     </message>
   </context>
 </TS>

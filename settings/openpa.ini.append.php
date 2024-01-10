@@ -224,4 +224,7 @@ Consent=advanced
 
 [LockEdit_homepage]
 EnableBackgroundImage=enabled
+
+[OpenpaAgenda]
+EnableDiscussion=enabled
 */ ?>

@@ -694,7 +694,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Seules les informations de type</translation>
+      <translation>Seulement des informations de type</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -971,7 +971,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Remplissez des informations sur votre place</translation>
+      <translation>Remplissez quelques informations sur votre place</translation>
     </message>
     <message>
       <source>Select place</source>
@@ -1555,6 +1555,13 @@
     <message>
       <source>Main contents</source>
       <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>design/standard/block/edit</name>
+    <message>
+      <source>Add item</source>
+      <translation>Ajouter un élément</translation>
     </message>
   </context>
 </TS>

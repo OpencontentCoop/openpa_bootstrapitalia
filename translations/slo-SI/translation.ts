@@ -556,7 +556,7 @@
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Sezname po razredu</translation>
+      <translation>Seznami po razredu</translation>
     </message>
     <message>
       <source>Import management</source>
@@ -758,7 +758,7 @@
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>Pri iskanju "%1" ni bilo mogoče najti rezultatov.</translation>
+      <translation>Pri iskanju "%1" ni bilo ugotovljenih rezultatov.</translation>
     </message>
     <message>
       <source>Search tips</source>
@@ -1554,6 +1554,13 @@
     <name>bootstrapitalia/edit-group</name>
     <message>
       <source>Main contents</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>design/standard/block/edit</name>
+    <message>
+      <source>Add item</source>
       <translation type="unfinished"/>
     </message>
   </context>

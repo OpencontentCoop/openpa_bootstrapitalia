@@ -1557,4 +1557,11 @@
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>design/standard/block/edit</name>
+    <message>
+      <source>Add item</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
 </TS>

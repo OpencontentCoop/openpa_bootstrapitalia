@@ -60,7 +60,7 @@
 				<a data-toggle="tab" data-bs-toggle="tab"
 				   class="nav-link active rounded-0 view-selector"
 				   href="#remote-gui-{$block.id}-geo">
-					<i aria-hidden="true" class="fa fa-map"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
+					<i aria-hidden="true" class="fa fa-map"></i> <span class="sr-only">{'Map'|i18n('bootstrapitalia')}</span>
 				</a>
 			</li><li class="nav-item pr-1 pe-1 text-center d-inline-block">
 				<a data-toggle="tab" data-bs-toggle="tab"

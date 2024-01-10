@@ -1561,4 +1561,11 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Contenuti principali</translation>
     </message>
   </context>
+  <context>
+    <name>design/standard/block/edit</name>
+    <message>
+      <source>Add item</source>
+      <translation>Aggiungi elemento</translation>
+    </message>
+  </context>
 </TS>

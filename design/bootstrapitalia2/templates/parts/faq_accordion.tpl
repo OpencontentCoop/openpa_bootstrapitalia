@@ -7,7 +7,7 @@
                 <label for="autocomplete-autocomplete-three" class="visually-hidden">{'Search'|i18n('openpa/search')}</label>
                 <input type="search" class="autocomplete form-control faqSearchInput" placeholder="{'Search'|i18n('openpa/search')}" id="autocomplete-autocomplete-three" name="autocomplete-three" data-bs-autocomplete="[]">
                 <div class="input-group-append">
-                    <button class="btn btn-primary faqSearchSubmit" type="button" id="button-3">{'Submit'|i18n('survey')}</button>
+                    <button class="btn btn-primary faqSearchSubmit" type="button" id="button-3">{'Submit'|i18n('bootstrapitalia/documents')}</button>
                 </div>
                 <span class="autocomplete-icon" aria-hidden="true">
                 {display_icon('it-search', 'svg', 'icon icon-sm icon-primary', 'Search'|i18n('openpa/search'))}

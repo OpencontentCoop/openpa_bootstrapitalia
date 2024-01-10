@@ -45,7 +45,7 @@
                         <a data-toggle="tab" data-bs-toggle="tab"
                            class="nav-link{if $showGrid|not} active{/if} rounded-0 view-selector"
                            href="#remote-gui-{$block.id}-geo">
-                            <i aria-hidden="true" class="fa fa-map"></i> <span class="sr-only">{'Map'|i18n('extension/ezgmaplocation/datatype')}</span>
+                            <i aria-hidden="true" class="fa fa-map"></i> <span class="sr-only">{'Map'|i18n('bootstrapitalia')}</span>
                         </a>
                     </li>
                     {/if}
