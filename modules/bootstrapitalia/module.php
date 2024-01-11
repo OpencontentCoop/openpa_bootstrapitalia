@@ -60,6 +60,12 @@ $ViewList['bridge'] = [
     'params' => ['Action', 'Parameter'],
     'unordered_params' => [],
 ];
+$ViewList['privacy'] = [
+    'functions' => ['opencity_locked_editor'],
+    'script' => 'privacy.php',
+    'params' => ['Action', 'Parameter'],
+    'unordered_params' => [],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];

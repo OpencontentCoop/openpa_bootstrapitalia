@@ -539,6 +539,14 @@
       <source>Filter by role assignment</source>
       <translation>Filtra per assegnazione del ruolo</translation>
     </message>
+    <message>
+      <source>Set as private</source>
+      <translation>Imposta come privato</translation>
+    </message>
+    <message>
+      <source>Set as public</source>
+      <translation>Imposta come pubblico</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

@@ -163,6 +163,7 @@
             {/if}
 
             {if is_set($content_object.id)}
+            {include uri='design:parts/websitetoolbar/privacy.tpl'}
             <li class="toolbar-divider" aria-hidden="true"></li>
             {/if}
 

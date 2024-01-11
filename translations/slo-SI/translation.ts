@@ -17,7 +17,7 @@
     </message>
     <message>
       <source>Accept</source>
-      <translation>Sprejeti</translation>
+      <translation>Sprejemati</translation>
     </message>
     <message>
       <source>Jump to main content</source>
@@ -539,6 +539,14 @@
       <source>Filter by role assignment</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Set as private</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Set as public</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -556,7 +564,7 @@
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Seznami po razredu</translation>
+      <translation>Sezname po razredu</translation>
     </message>
     <message>
       <source>Import management</source>
@@ -710,7 +718,7 @@
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Vzbujanje</translation>
+      <translation>Vzpona</translation>
     </message>
     <message>
       <source>Score</source>

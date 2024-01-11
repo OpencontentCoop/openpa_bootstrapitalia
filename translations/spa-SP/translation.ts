@@ -539,6 +539,14 @@
       <source>Filter by role assignment</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Set as private</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Set as public</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -694,7 +702,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Solo información de tipo</translation>
+      <translation>Solo información del tipo</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -790,7 +798,7 @@
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Para obtener más opciones, pruebe la búsqueda %1Advanced %2</translation>
+      <translation>Para obtener más opciones, pruebe el %1 de búsqueda de Aadvanced %2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>

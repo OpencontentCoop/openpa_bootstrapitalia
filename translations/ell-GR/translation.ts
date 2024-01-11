@@ -539,6 +539,14 @@
       <source>Filter by role assignment</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Set as private</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Set as public</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
