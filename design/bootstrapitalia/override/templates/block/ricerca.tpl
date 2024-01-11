@@ -15,7 +15,7 @@
                     <form action="{'/content/search/'|ezurl(no)}" method="get">
                         <div class="input-group mb-3">
                             <label for="block-search-input-{$block.id}" class="sr-only">
-                                {'Search'|i18n('design/base')}
+                                {'Search'|i18n('design/plain/layout')}
                             </label>
                             <input type="text"
                                    autocomplete="off"
@@ -25,7 +25,7 @@
                                    placeholder="{$block.name|wash()}">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit" id="block-search-button-{$block.id}" aria-label="{$block.name|wash()}">
-                                    {display_icon('it-search', 'svg', 'icon icon-sm')} <span class="sr-only">{'Search'|i18n('design/base')}</span>
+                                    {display_icon('it-search', 'svg', 'icon icon-sm')} <span class="sr-only">{'Search'|i18n('design/plain/layout')}</span>
                                 </button>
                             </div>
                         </div>
