@@ -13,10 +13,6 @@
       if (e.target.parentElement.getAttribute("class").includes('img-full')) e.detail.widths = [1200];
       {rdelim});
   </script>
-  <style>
-    img {ldelim} opacity: 1;transition: opacity 0.3s;{rdelim}
-    img[data-src] {ldelim} opacity: 0;{rdelim}
-  </style>
 {/if}
 
 {if fetch('user','current_user').is_logged_in|not()}
