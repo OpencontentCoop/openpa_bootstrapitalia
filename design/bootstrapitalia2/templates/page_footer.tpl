@@ -37,7 +37,7 @@
                             </a>
                         </div>
                     {else}
-                        {include uri='design:logo.tpl'}
+                        {include uri='design:logo.tpl' in_footer=true()}
                     {/if}
 
                 </div>

@@ -33,7 +33,7 @@ if (file_exists($argument)){
     $instance = eZCharTransform::instance()->transformByGroup($argument, 'identifier');
     $env = $options['env'] ?? 'frontend';
     $isVerboseOpt = $isVerbose ? '-v ' : '';
-    $clearType = '--clear-tag=openpamenu,openpa,template,content ';
+    $clearType = '--clear-tag=user-info,openpamenu,openpa,template,content ';
     if ($options['all']){
         $clearType = '--clear-all ';
     }

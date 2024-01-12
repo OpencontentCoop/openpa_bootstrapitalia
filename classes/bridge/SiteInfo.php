@@ -139,7 +139,7 @@ class SiteInfo
                     self::makeAbsoluteUrl($topMenuChild['item']['url'], $baseUrl);
                     $menuItem['children'][] = [
                         'text' => $topMenuChild['item']['name'],
-                        'url' => $topMenuChild['item']['url'],
+                        'url' => str_replace(' ', '+', $topMenuChild['item']['url']),
                     ];
                 }
             }

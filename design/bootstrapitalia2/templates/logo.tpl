@@ -12,7 +12,13 @@
              style="width: auto !important;" />
     {/if}
     <div class="it-brand-text">
-        {if $only_logo|not()}<div class="it-brand-title">{ezini('SiteSettings','SiteName')}</div>{/if}
+        {if $only_logo|not()}
+            {if and(is_set($in_footer),$in_footer)}
+                <h2>{ezini('SiteSettings','SiteName')}</h2>
+            {else}
+                <div class="it-brand-title">{ezini('SiteSettings','SiteName')}</div>
+            {/if}
+        {/if}
         {if openpaini('GeneralSettings','tag_line', false())}
             <div class="it-brand-tagline d-none d-md-block">{openpaini('GeneralSettings','tag_line')|wash()}</div>
         {/if}
