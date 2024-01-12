@@ -10,11 +10,11 @@
 	{switch match=$attribute.class_content.view}
 
 		{case match=1} {* Lista Persone: per i ruoli afferenti a una struttura*}
-			<ul class="list-unstyled ">
+			<ul class="list-unstyled">
 				{foreach $attribute.content.people as $person}
 					{def $openpa_person = object_handler($person)}
 						<li>
-							<a href="{$openpa_person.content_link.full_link}" title="Link {$person.name|wash()}">{$person.name|wash()}</a>
+							<a class="d-inline" href="{$openpa_person.content_link.full_link}" title="Link {$person.name|wash()}">{$person.name|wash()}</a>
 							{foreach $attribute.content.roles_per_person[$person.id] as $role}{*
 								*}{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach}{*
 								*}{if $role|has_attribute('delegations')}
