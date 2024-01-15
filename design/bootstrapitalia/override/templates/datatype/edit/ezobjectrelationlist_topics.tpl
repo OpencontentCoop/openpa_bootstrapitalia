@@ -10,6 +10,9 @@
 <label>{$placeholder}</label>
 {/if}
 
+{def $has_custom_topics = false()}
+{def $custom_topic_container = false()}
+
 {* If current selection mode is not 'browse'. *}
 {if $class_content.selection_type|ne( 0 )}
         {default attribute_base=ContentObjectAttribute}
@@ -93,8 +96,8 @@
         {* check boxes list *}
         {if array(3,5)|contains($class_content.selection_type)}
 
-            {def $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))}
-            {def $has_custom_topics = cond(and($custom_topic_container, $custom_topic_container.main_node.children_count))}
+            {set $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))}
+            {set $has_custom_topics = cond(and($custom_topic_container, $custom_topic_container.main_node.children_count))}
 
             {ezscript_require(array( 'ezjsc::jquery' ))}
             {literal}

@@ -13,6 +13,8 @@ class OpenAgendaBridge
 
     const NAME_CACHE_KEY = 'openagenda_name';
 
+    const VERSION_CACHE_KEY = 'openagenda_version';
+
     const MAIN_CALENDAR_CACHE_KEY = 'openagenda_main';
 
     const TOPIC_CACHE_KEY = 'openagenda_topic';
@@ -107,11 +109,10 @@ class OpenAgendaBridge
                 return $isDisabled;
             }
 
-            $remoteTopicIdList = OpenAgendaTopicMapper::findTopicRemoteIdList($context);
-            if (empty($remoteTopicIdList)) {
+            $topicsFilter = OpenAgendaTopicMapper::generateTopicQueryFilter($context, $this->getStorage(self::VERSION_CACHE_KEY));
+            if (empty($topicsFilter)) {
                 return $isDisabled;
             }
-            eZDebug::writeDebug($this->getQuery($remoteTopicIdList), __METHOD__);
 
             return [
                 'is_enabled' => true,
@@ -122,7 +123,7 @@ class OpenAgendaBridge
                     'parameters' => [
                         'remote_url' => $this->getOpenAgendaUrl(),
                         'query' => $this->getQuery(
-                            ["raw[submeta_topics___remote_id____ms] in ['" . implode("','", $remoteTopicIdList) . "']"]
+                            [$topicsFilter]
                         ),
                         'show_grid' => "1",
                         'show_map' => "0",
@@ -275,8 +276,10 @@ class OpenAgendaBridge
             $remoteInstance = json_decode(file_get_contents($this->agendaUrl . '/openpa/data/instance'), true);
             $remoteInstanceIdentifier = $remoteInstance['identifier'] ?? null;
             $remoteInstanceName = $remoteInstance['name'] ?? null;
+            $remoteInstanceVersion = $remoteInstance['version'] ?? null;
             $this->setStorage(self::IDENTIFIER_CACHE_KEY, $remoteInstanceIdentifier);
             $this->setStorage(self::NAME_CACHE_KEY, $remoteInstanceName);
+            $this->setStorage(self::VERSION_CACHE_KEY, $remoteInstanceVersion);
         }
     }
 

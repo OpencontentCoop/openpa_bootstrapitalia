@@ -5,13 +5,31 @@
  */
 class OpenAgendaTopicMapper
 {
+    public static function generateTopicQueryFilter(eZContentObject $websiteTopic, $openagendaVersion)
+    {
+        $useName = version_compare((string)$openagendaVersion, '2.0.3', 'gt') or
+        OpenPAINI::variable('OpenpaAgenda', 'UseTopicMapper', 'enabled') === 'disabled';
+
+        if ($useName) {
+            $topicsFilter = 'topics.name = "' . addcslashes($websiteTopic->attribute('name'), "')(") . '"';
+        } else {
+            $remoteTopicIdList = OpenAgendaTopicMapper::findTopicRemoteIdList($websiteTopic);
+            if (empty($remoteTopicIdList)) {
+                return false;
+            }
+            $topicsFilter = "raw[submeta_topics___remote_id____ms] in ['" . implode("','", $remoteTopicIdList) . "']";
+        }
+
+        return $topicsFilter;
+    }
+
     public static function findTopicRemoteIdList(eZContentObject $websiteTopic): array
     {
         $name = trim($websiteTopic->attribute('name'));
         $agendaIdList = [];
-        if (in_array($name, self::$agendaToWebsite)){
-            foreach (self::$agendaToWebsite as $agendaName => $websiteName){
-                if ($websiteName === $name && isset(self::$agenda[$agendaName])){
+        if (in_array($name, self::$agendaToWebsite)) {
+            foreach (self::$agendaToWebsite as $agendaName => $websiteName) {
+                if ($websiteName === $name && isset(self::$agenda[$agendaName])) {
                     $agendaIdList[] = self::$agenda[$agendaName];
                 }
             }
@@ -105,7 +123,6 @@ class OpenAgendaTopicMapper
         "Turismo" => "158a858d0fe4b8a9d0fe5d50c3605cb2",
         "Urbanistica ed edilizia" => "topic_39",
     ];
-
 
     private static $website = [
         "Accesso all'informazione" => "30308859ca4274ad266ae1b38666ae1e",
@@ -205,5 +222,52 @@ class OpenAgendaTopicMapper
         "Zone pedonali" => "fdfafe70890f994101c6a56d9928ef69",
         "ZTL" => "abc9ab5b22d6f4a06ba477b75dafd075",
     ];
+
+    public static function migrateAgendaTopicNames($logToCli = true)
+    {
+        $cli = $logToCli ? eZCLI::instance() : false;
+
+        $mergeDuplicates = [];
+        foreach (self::$agenda as $name => $remoteId) {
+            $newName = self::$agendaToWebsite[$name] ?? false;
+            if ($newName) {
+                $object = eZContentObject::fetchByRemoteID($remoteId);
+                if ($object instanceof eZContentObject) {
+                    $mergeDuplicates[$newName][] = $object->mainNodeID();
+                    if ($object instanceof eZContentObject) {
+                        if ($cli) {
+                            $cli->output("$name => $newName");
+                        }
+                        if ($object->attribute('name') != $name) {
+                            eZContentFunctions::updateAndPublishObject($object, [
+                                'attributes' => [
+                                    'name' => $newName,
+                                ],
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+        foreach ($mergeDuplicates as $name => $nodeIdList) {
+            $countNodeIdList = count($nodeIdList);
+            if ($countNodeIdList > 1) {
+                if ($cli) {
+                    $cli->output("Merge $countNodeIdList duplicates of $name");
+                }
+                $masterNodeId = array_shift($nodeIdList);
+                foreach ($nodeIdList as $slaveNodeId) {
+                    try {
+                        $mergeTool = new \Opencontent\Installer\MergeTool((int)$masterNodeId, (int)$slaveNodeId);
+                        $mergeTool->run();
+                    } catch (Throwable $e) {
+                        if ($cli) {
+                            $cli->error($e->getMessage());
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }
