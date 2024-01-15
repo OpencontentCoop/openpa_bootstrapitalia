@@ -238,7 +238,7 @@ class OpenAgendaTopicMapper
                         if ($cli) {
                             $cli->output("$name => $newName");
                         }
-                        if ($object->attribute('name') != $name) {
+                        if ($object->attribute('name') != $newName) {
                             eZContentFunctions::updateAndPublishObject($object, [
                                 'attributes' => [
                                     'name' => $newName,
