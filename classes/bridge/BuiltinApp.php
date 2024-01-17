@@ -167,9 +167,11 @@ class BuiltinApp extends OpenPATempletizable
         $Result = [];
         $Result['content'] = $tpl->fetch('design:openpa/built_in_app.tpl');
         $path = [];
+        $homeUrl = '/';
+        eZURI::transformURI($homeUrl);
         $path[] = [
-            'text' => OpenPaFunctionCollection::fetchHome()->getName(),
-            'url' => '/',
+            'text' => OpenPAINI::variable('GeneralSettings','ShowMainContacts', 'enabled') == 'enabled' ? 'Home' : OpenPaFunctionCollection::fetchHome()->getName(),
+            'url' => $homeUrl,
         ];
         $allServices = eZContentObject::fetchByRemoteID('all-services');
         if ($allServices instanceof eZContentObject) {

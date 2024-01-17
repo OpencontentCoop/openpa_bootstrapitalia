@@ -9,7 +9,7 @@
                     {foreach openpacontext().path_array as $path}
                         {if $_index|ge($root_node_depth)}
                             {if $path.url}
-                                {if and(openpaini('GeneralSettings','ShowMainContacts', 'enabled'), or( and(is_set($path.url_alias), $path.url_alias|eq('/'|ezurl(no))), $path.url|eq('/content/view/full/2')))}
+                                {if and(openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled'), or( and(is_set($path.url_alias), $path.url_alias|eq('/'|ezurl(no))), $path.url|eq('/content/view/full/2')))}
                                     <li class="breadcrumb-item">
                                         <a href={cond( is_set( $path.url_alias ), $path.url_alias, $path.url )|ezurl}>{if $_index|gt(1)}<span class="separator">/</span>{/if}Home</a>
                                     </li>
