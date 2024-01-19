@@ -292,7 +292,7 @@ class StanzaDelCittadinoBridge
         }
 
         $data = $this->getSiteInfoToUpdate();
-        $client->patchTenant($info['slug'], ['meta' => $data]);
+        $client->patchTenant($info['slug'], $data);
     }
 
     public function getSiteInfoToUpdate()
@@ -322,7 +322,12 @@ class StanzaDelCittadinoBridge
         unset($data['theme_info']);
         unset($data['topics']); //@todo
 
-        return $data;
+        return [
+            'site_url' => 'https://' . eZSiteAccess::getIni(
+                    OpenPABase::getFrontendSiteaccessName()
+                )->variable('SiteSettings', 'SiteURL'),
+            'meta' => $data
+        ];
     }
 
     /**
