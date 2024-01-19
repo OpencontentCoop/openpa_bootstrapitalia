@@ -114,8 +114,13 @@ class SiteInfo
             foreach ($navObjects as $navObject) {
                 $navNode = $navObject->mainNode();
                 if ($navNode instanceof eZContentObjectTreeNode) {
-                    $navUrl = $navNode->attribute('url_alias');
-                    self::makeAbsoluteUrl($navUrl, $baseUrl);
+                    $openpaObject = OpenPAObjectHandler::instanceFromObject($navNode);
+                    if ($openpaObject->hasAttribute('content_link') && !$openpaObject->attribute('content_link')->attribute('is_internal')){
+                        $navUrl = $openpaObject->attribute('content_link')->attribute('full_link');
+                    }else {
+                        $navUrl = $navNode->attribute('url_alias');
+                        self::makeAbsoluteUrl($navUrl, $baseUrl);
+                    }
                     $nav[] = [
                         'text' => $navObject->attribute('name'),
                         'url' => $navUrl,
@@ -328,6 +333,10 @@ class SiteInfo
                 ],
             ],
             'theme_info' => OpenPABootstrapItaliaOperators::getCurrentTheme(),
+            'external_categories_url' => [
+                'type' => 'opencity',
+                'preview' => '/Servizi/(view)/Anagrafe e stato civile'
+            ]
         ];
 
         return $siteInfo;

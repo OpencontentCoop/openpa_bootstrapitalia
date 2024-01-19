@@ -310,8 +310,8 @@ class StanzaDelCittadinoBridge
         $data = SiteInfo::getCurrent();
 
         $preserveKeys = [
-            'tenant_type',
-            'enable_search_and_catalogue',
+//            'tenant_type',
+//            'enable_search_and_catalogue',
             'favicon',
             'logo',
             'theme',
