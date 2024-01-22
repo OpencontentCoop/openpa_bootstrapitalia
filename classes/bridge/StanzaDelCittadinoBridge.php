@@ -512,6 +512,7 @@ class StanzaDelCittadinoBridge
 
         $publicServicePayload->setRemoteId($identifier);
         $publicServicePayload->setParentNodes([eZContentObject::fetchByRemoteID(self::SERVICES_REMOTE_ID)->mainNodeID()]);
+        $publicServicePayload->unSetData('image');
         $publicServicePayload->setData(
             null,
             'produces_output',
@@ -541,12 +542,13 @@ class StanzaDelCittadinoBridge
                     $channelUrl = $payload->getData('channel_url', $locale);
                     $channelUrlParts = explode('|', $channelUrl);
                     $name = $channelUrlParts[1] ?? $payload->getData('object', $locale);
+                    $link = $channelUrlParts[0] ?? '#';
                     if (stripos($name, 'online') !== false) {
                         $linkLabel = $channelUrlParts[1] ?? 'Accedi al servizio';
                         $payload->setRemoteId('access-' . $identifier);
                         $payload->setData(null, 'has_channel_type', ['Applicazione Web']);
                         $callToAction = isset($service['slug']) ?
-                            $this->getApiBaseUri() . '/it/servizi/' . $service['slug'] . '/access' : '#';
+                            $this->getApiBaseUri() . '/it/servizi/' . $service['slug'] . '/access' : $link;
                         $payload->setData(null, 'channel_url', $callToAction . '|' . $linkLabel);
                     }
                     if (stripos($name, 'prenota') !== false) {
