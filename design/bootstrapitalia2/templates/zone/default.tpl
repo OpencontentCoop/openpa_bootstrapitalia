@@ -31,7 +31,7 @@
     {if $block_wrapper_container_style}<div class="{$block_wrapper_container_style}">{/if}
     {if $block_wrapper.is_wide|not()}<div class="container">{/if}
 
-    {block_view_gui block_index=$index block=$block_wrapper.block items_per_row=$block_wrapper.items_per_row container_styles=$block_wrapper_container_style|explode(' ')}
+    {block_view_gui block_index=$index block=$block_wrapper.block items_per_row=$block_wrapper.items_per_row container_styles=$block_wrapper_container_style|explode(' ') is_homepage=cond(fetch('openpa', 'homepage').node_id|eq($#node.node_id), true(), false())}
 
     {if $block_wrapper.is_wide|not()}</div>{/if}
     {if $block_wrapper_container_style}</div>{/if}
