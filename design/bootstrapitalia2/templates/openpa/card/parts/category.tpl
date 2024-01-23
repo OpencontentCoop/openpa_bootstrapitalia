@@ -22,10 +22,14 @@
     <div class="category-top cmp-list-card-img__body">
         <span class="data">
         {if $node|has_attribute('time_interval')}
-            {def $events = $node|attribute('time_interval').content.events}
+            {def $attribute_content = $node|attribute('time_interval').content}
+            {def $events = $attribute_content.events}
+            {if recurrences_strtotime($attribute_content.input.startDateTime)|datetime( 'custom', '%j%m%Y' )|ne(recurrences_strtotime($attribute_content.input.endDateTime)|datetime( 'custom', '%j%m%Y' ))}
+                {set $is_recurrence = true()}
+            {/if}
             {def $is_recurrence = cond(count($events)|gt(1), true(), false())}
             {if $is_recurrence}{'from'|i18n('openpa/search')} {/if}{recurrences_strtotime($events[0].start)|l10n( 'date' )}
-            {undef $events $is_recurrence}
+            {undef $events $is_recurrence $attribute_content}
         {else}
         {$node.object.published|l10n( 'date' )}
         {/if}

@@ -99,6 +99,7 @@ class OpenAgendaBridge
                         'show_all_link' => "1",
                         'show_all_text' => ezpI18n::tr('bootstrapitalia', 'Go to event calendar') .
                             ' ' . $this->getStorage(self::NAME_CACHE_KEY),
+                        'hide_if_empty' => true
                     ],
                 ],
             ];
@@ -141,6 +142,7 @@ class OpenAgendaBridge
                         'show_all_link' => "1",
                         'show_all_text' => ezpI18n::tr('bootstrapitalia', 'Go to event calendar') .
                             ' ' . $this->getStorage(self::NAME_CACHE_KEY),
+                        'hide_if_empty' => true
                     ],
                 ],
             ];
@@ -181,6 +183,7 @@ class OpenAgendaBridge
                         'input_search_placeholder' => "",
                         'intro_text' => "",
                         'show_all_link' => "1",
+                        'hide_if_empty' => true
                     ],
                 ],
             ];
@@ -216,6 +219,7 @@ class OpenAgendaBridge
                         'show_all_link' => "1",
                         'show_all_text' => ezpI18n::tr('bootstrapitalia', 'Go to event calendar') .
                             ' ' . $this->getStorage(self::NAME_CACHE_KEY),
+                        'hide_if_empty' => true
                     ],
                 ],
             ];

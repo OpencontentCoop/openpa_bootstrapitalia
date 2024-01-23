@@ -19,7 +19,8 @@
             'fields': [],
             'facets': [],
             'responseCallback': null,
-            'view': 'card_teaser'
+            'view': 'card_teaser',
+            'hideIfEmpty': false
         };
 
     function Plugin(element, options) {
@@ -107,7 +108,9 @@
                 e.preventDefault();
             }
         });
-
+        if (plugin.settings.hideIfEmpty){
+            plugin.container.parents('.remote-gui-wrapper').hide();
+        }
         plugin.buildFacets();
         plugin.runSearch();
     }
@@ -401,6 +404,11 @@
                                 }
                             }
                         }
+
+                        if (plugin.settings.hideIfEmpty && response.totalCount > 0){
+                            plugin.container.parents('.remote-gui-wrapper').show();
+                        }
+
                         if ($.isFunction(plugin.settings.responseCallback)) {
                             plugin.settings.responseCallback(response, resultsContainer);
                         }

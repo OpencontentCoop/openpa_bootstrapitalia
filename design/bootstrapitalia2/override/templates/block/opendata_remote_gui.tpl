@@ -22,7 +22,7 @@
 {/if}
 
 {if or($showGrid, $showMap)}
-<div class="py-5 position-relative">
+<div class="py-5 position-relative remote-gui-wrapper"{cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), ' style="display:none"', '  ')}>
     <div class="block-topics-bg lazyload" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}{/if}></div>
     <div class="container">
 
@@ -187,6 +187,7 @@ $(document).ready(function () {ldelim}
         'itemsPerRow': '{cond(and($facets|count(), $itemsPerRow|eq('3')), '2', $itemsPerRow)}',
         'limitPagination': {$limit},
         'query': "{$query|wash(javascript)}",
+        'hideIfEmpty': {cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), 'true', 'false')},
         'customTpl': "{concat('#tpl-remote-gui-item-inner-', $block.id)}",
         'useCustomTpl': {cond(and(is_set($block.custom_attributes.template), $block.custom_attributes.template|ne('')), 'true', 'false')},
         'view': '{cond(and(is_set($block.custom_attributes.view_api), $block.custom_attributes.view_api|ne('')), $block.custom_attributes.view_api, 'card_teaser')}'

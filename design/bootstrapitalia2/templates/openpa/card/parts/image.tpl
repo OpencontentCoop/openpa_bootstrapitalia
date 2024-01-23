@@ -2,15 +2,19 @@
     <div class="col-4 order-2 order-md-1 position-relative">
 
         {if $node|has_attribute('time_interval')}
-            {def $events = $node|attribute('time_interval').content.events}
+            {def $attribute_content = $node|attribute('time_interval').content}
+            {def $events = $attribute_content.events}
             {def $is_recurrence = cond(count($events)|gt(1), true(), false())}
+            {if recurrences_strtotime($attribute_content.input.startDateTime)|datetime( 'custom', '%j%m%Y' )|ne(recurrences_strtotime($attribute_content.input.endDateTime)|datetime( 'custom', '%j%m%Y' ))}
+                {set $is_recurrence = true()}
+            {/if}
             {if count($events)|gt(0)}
                 <div class="card-calendar d-flex flex-column justify-content-center">
                     <span class="card-date">{if $is_recurrence}<small>{'from'|i18n('openpa/search')}</small> {/if}{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )}</span>
                     <span class="card-day">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</span>
                 </div>
             {/if}
-            {undef $events $is_recurrence}
+            {undef $events $is_recurrence $attribute_content}
         {/if}
 
         {if and(is_set($oembed), is_array($oembed))}
