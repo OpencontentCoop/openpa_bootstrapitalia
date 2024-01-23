@@ -100,7 +100,10 @@ class BootstrapItaliaPublicServiceConverter extends \Opencontent\Easyontology\Ab
                         $address = $itemDataMap['has_address']->content();
                         $lng = number_format($address->attribute('longitude'), 8);
                         $lat = number_format($address->attribute('latitude'), 8);
-                        $this->doc['availableChannel']['serviceLocation']['address']['streetAddress'] = $address->attribute('address');
+                        if (!empty($address->attribute('address'))) {
+                            $this->doc['availableChannel']['serviceLocation']['address']['streetAddress'] =
+                                $address->attribute('address');
+                        }
 //                        $this->doc['availableChannel']['serviceLocation']['geo']['longitude'] = $lng;
 //                        $this->doc['availableChannel']['serviceLocation']['geo']['latitude'] = $lat;
 
