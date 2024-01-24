@@ -4,8 +4,10 @@
         	 $contact = $row.columns[2]
         	 $value = $row.columns[1]}
         <p class="mb-1 text-truncate">
-            <strong>{$type|wash()}{if $contact|ne('')} - {$contact|wash()}{/if}:</strong> 
+            {if or($type|ne(''), $contact|ne(''))}
+            <strong>{$type|wash()}{if $contact|ne('')} - {$contact|wash()}{/if}:</strong>
             <br/>
+            {/if}
             {if $value|begins_with('http')}
             	<a href="{$value|wash()}">{$value|wash()}</a>
             {elseif $value|contains('@')}
