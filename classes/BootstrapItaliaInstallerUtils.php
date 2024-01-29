@@ -52,4 +52,51 @@ class BootstrapItaliaInstallerUtils
             }
         }
     }
+
+    public static function convertDocumentAuthorDatatype()
+    {
+        $class = eZContentClass::fetchByIdentifier('document');
+        if ($class instanceof eZContentClass) {
+            /** @var eZContentClassAttribute[] $attributes */
+            $attributes = $class->dataMap();
+            $attributeClass = $attributes['author'];
+
+            if ($attributeClass->attribute('data_type_string') !== eZAuthorType::DATA_TYPE_STRING) {
+                return;
+            }
+
+            $db = eZDB::instance();
+            /** @var eZContentObjectAttribute[] $attributeObjects */
+            $attributeObjects = eZContentObjectAttribute::fetchObjectList(
+                eZContentObjectAttribute::definition(),
+                null,
+                ['contentclassattribute_id' => $attributeClass->attribute('id')]
+            );
+
+            $db->begin();
+            $attributeClass->setAttribute('data_type_string', eZXMLTextType::DATA_TYPE_STRING);
+            $attributeClass->store();
+            foreach ($attributeObjects as $attributeObject) {
+                if ($attributeObject->hasContent()) {
+                    /** @var eZTags $content */
+                    $content = $attributeObject->attribute('content');
+                    $authorList = [];
+                    foreach ($content->attribute('author_list') as $author) {
+                        $authorList[] = '<li>' . $author['name'] . '</li>';
+                    }
+                    $authorAsEzXml = '';
+                    if (count($authorList)){
+                        $authorAsEzXml = '<ul>' . implode('', $authorList) . '</ul>';
+                    }
+                    $attributeObject->setAttribute('data_text', SQLIContentUtils::getRichContent($authorAsEzXml));
+                    $attributeObject->setAttribute(
+                        'data_type_string',
+                        eZXMLTextType::DATA_TYPE_STRING
+                    );
+                    $attributeObject->store();
+                }
+            }
+            $db->commit();
+        }
+    }
 }
