@@ -164,6 +164,7 @@ $(document).ready(function () {
                 }
                 resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {
                     currentPage = $(this).data('page');
+                    $(this).html('<i class="ms-1 loading fa fa-circle-o-notch fa-spin fa-fw"></i>')
                     loadContents();
                     e.preventDefault();
                 });

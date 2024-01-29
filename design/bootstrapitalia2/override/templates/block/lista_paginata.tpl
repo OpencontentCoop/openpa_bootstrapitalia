@@ -18,8 +18,9 @@
 {/switch}
 {def $openpa = object_handler($block)}
 {def $lista_paginata_items_per_row = cond(is_set($block.custom_attributes.elementi_per_riga), $block.custom_attributes.elementi_per_riga, 3)}
+{def $has_loading_count = cond(is_set($block.custom_attributes.loading_count), $block.custom_attributes.loading_count, false())}
 {if $openpa.has_content}
-	<div class="hide"
+	<div{if $has_loading_count|not()} class="hide"{/if}
 		 data-view="{$view}"
 		 data-block_subtree_query="{$openpa.query}"
 		 data-subtree_filter="{$openpa.subtree_facet_filter}"
@@ -30,7 +31,7 @@
 			{if $block.name|ne('')}
 				<div class="col ">
 					<div class="border-bottom d-md-flex justify-content-between">
-						<h2>{$block.name|wash()}</h2>
+						<h2 class="mb-3">{$block.name|wash()}</h2>
 						{if and($openpa.root_node, object_handler($openpa.root_node).content_tag_menu.has_tag_menu|not())}
 							{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
 							<div class="filters-wrapper mt-0 mb-3 ms-3 text-end hide">
@@ -55,13 +56,86 @@
 			</div>
 		{/if}
 		{undef $intro}
-		<div class="{if $block.name|ne('')}py-4{else}pb-4{/if} results"></div>
+		<div class="{if $block.name|ne('')}py-4{else}pb-4{/if} results">
+			{if $has_loading_count}
+			<div class="row mx-lg-n3">
+				<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-3">
+				{for 1 to $has_loading_count as $counter}
+					{if $counter|gt($openpa.limit)}{skip}{/if}
+					<div class="font-sans-serif card card-teaser no-after rounded shadow-sm mb-0 border border-light">
+						<div class="card-body pb-5 ">
+							<div class="category-top">
+								<span class="title-xsmall-semi-bold fw-semibold"><span class="category-placeholder"></span></span>
+							</div>
+							<h3 class="card-title text-paragraph-medium u-grey-light"><span class="title-placeholder"></span></h3>
+							<div class="text-paragraph-card u-grey-light m-0">
+								<div class="mt-1"><span class="text-placeholder"></span></div>
+							</div>
+						</div>
+						<a class="read-more" href="#">
+							<span class="text"><span class="link-placeholder"></span></span>
+						</a>
+					</div>
+				{/for}
+				</div>
+			</div>
+			{/if}
+		</div>
 		{include uri='design:parts/block_show_all.tpl'}
 	</div>
 {/if}
 
 {run-once}
 {literal}
+<style>
+	.category-placeholder{
+		width:150px;
+		height: 16px;
+	}
+	.title-placeholder{
+		width:300px;
+		height: 50px;
+	}
+	.text-placeholder{
+		width:350px;
+		height: 130px;
+	}
+	.link-placeholder{
+		width:180px;
+		height: 16px;
+	}
+	.category-placeholder, .title-placeholder, .text-placeholder, .link-placeholder {
+		border-radius: 3px;
+		display: inline-block;
+		background: #ebeef0;
+		animation: hintloading 1s ease-in-out 0s infinite reverse;
+		-webkit-animation: hintloading 1s ease-in-out 0s infinite reverse;
+	}
+	@keyframes hintloading
+	{
+		0% {
+			opacity: 0.5;
+		}
+		50%  {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0.5;
+		}
+	}
+	@-webkit-keyframes hintloading
+	{
+		0% {
+			opacity: 0.5;
+		}
+		50%  {
+			opacity: 1;
+		}
+		100% {
+			opacity: 0.5;
+		}
+	}
+</style>
 <script id="tpl-results" type="text/x-jsrender">    	
 	<div class="row mx-lg-n3{{if !autoColumn && itemsPerRow != 'auto'}} row-cols-1 row-cols-md-2 g-4 row-cols-lg-{{:itemsPerRow}}{{/if}}"{{if itemsPerRow == 'auto'}} data-bs-toggle="masonry"{{/if}}>
 		{{if autoColumn}}<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{{:itemsPerRow}}">{{/if}}
@@ -128,4 +202,4 @@
 {/run-once}
 
 
-{undef $openpa $lista_paginata_items_per_row}
+{undef $openpa $lista_paginata_items_per_row $has_loading_count}

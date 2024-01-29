@@ -106,7 +106,8 @@
     {def $has_first_block = false()}
 
     {def $root_news = 'news'|node_id_from_object_remote_id()}
-    {if api_search(concat('classes [article] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' and subtree [', $root_news, '] limit 1')).totalCount|gt(0)}
+    {def $news_count = api_search(concat('classes [article] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' and subtree [', $root_news, '] limit 1')).totalCount}
+    {if $news_count|gt(0)}
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
@@ -125,15 +126,17 @@
                 "container_style", "",
                 "node_id", $root_news,
                 "show_all_link", "1",
-                "show_all_text", 'All news'|i18n('bootstrapitalia')
+                "show_all_text", 'All news'|i18n('bootstrapitalia'),
+                "loading_count", $news_count
             )
         ))}
         {undef $is_first_block}
     {/if}
-    {undef $root_news}
+    {undef $root_news $news_count}
 
     {def $root_management = 'management'|node_id_from_object_remote_id()}
-    {if api_search(concat('classes [public_person,private_organization,organization] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, '  and subtree [', $root_management, '] limit 1')).totalCount|gt(0)}
+    {def $management_count = api_search(concat('classes [public_person,private_organization,organization] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, '  and subtree [', $root_management, '] limit 1')).totalCount}
+    {if $management_count|gt(0)}
         {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
             'Administration'|i18n('bootstrapitalia/menu'),
@@ -151,14 +154,16 @@
                 "container_style", "",
                 "node_id", $root_management,
                 "show_all_link", "1",
-                "show_all_text", 'The whole administration'|i18n( 'bootstrapitalia' )
+                "show_all_text", 'The whole administration'|i18n( 'bootstrapitalia' ),
+                "loading_count", $management_count
             )
         ))}
     {/if}
-    {undef $root_management}
+    {undef $root_management $management_count}
 
     {def $root_services = 'all-services'|node_id_from_object_remote_id()}
-    {if api_search(concat('classes [public_service] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' and subtree [', $root_services, '] limit 1')).totalCount|gt(0)}
+    {def $services_count = api_search(concat('classes [public_service] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, ' and subtree [', $root_services, '] limit 1')).totalCount}
+    {if $services_count|gt(0)}
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
@@ -177,15 +182,17 @@
                 "container_style", "",
                 "node_id", $root_services,
                 "show_all_link", "1",
-                "show_all_text", 'All the services'|i18n( 'bootstrapitalia' )
+                "show_all_text", 'All the services'|i18n( 'bootstrapitalia' ),
+                "loading_count", $services_count
             )
         ))}
-        {undef $is_first_block}
+        {undef $is_first_block $services_count}
     {/if}
     {undef $root_services}
 
     {def $root_docs = 'cb945b1cdaad4412faaa3a64f7cdd065'|node_id_from_object_remote_id()}
-    {if api_search(concat('classes [document] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, '  and subtree [', $root_docs, '] limit 1')).totalCount|gt(0)}
+    {def $docs_count = api_search(concat('classes [document] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, '  and subtree [', $root_docs, '] limit 1')).totalCount}
+    {if $docs_count|gt(0)}
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
@@ -204,10 +211,11 @@
                 "container_style", "",
                 "node_id", $root_docs,
                 "show_all_link", "1",
-                "show_all_text", "All documents"|i18n( 'bootstrapitalia' )
+                "show_all_text", "All documents"|i18n( 'bootstrapitalia' ),
+                "loading_count", $docs_count
             )
         ))}
-        {undef $is_first_block}
+        {undef $is_first_block $docs_count}
     {/if}
     {undef $root_docs}
 
