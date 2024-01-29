@@ -1,7 +1,4 @@
 {def $block_handler = object_handler($block)}
-{if is_set($is_homepage)|not()}
-    {def $is_homepage = false()}
-{/if}
 {if and(
     is_set($block.custom_attributes.show_all_link), $block.custom_attributes.show_all_link|eq(1),
     is_set($block_handler.root_node), $block_handler.root_node, $block_handler.root_node.node_id|ne(ezini('NodeSettings', 'RootNode', 'content.ini'))

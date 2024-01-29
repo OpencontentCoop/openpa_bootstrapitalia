@@ -137,6 +137,10 @@ class OpenPAComuniItaliani extends eZPersistentObject implements JsonSerializabl
 
     public static function convertClassAttributeFromEzTags(eZContentClassAttribute $attributeClass)
     {
+        if ($attributeClass->attribute('data_type_string') == OpenPAComuniItalianiType::DATA_TYPE_STRING){
+            return false;
+        }
+
         $db = eZDB::instance();
         /** @var eZContentObjectAttribute[] $attributeObjects */
         $attributeObjects = eZContentObjectAttribute::fetchObjectList(
@@ -163,6 +167,8 @@ class OpenPAComuniItaliani extends eZPersistentObject implements JsonSerializabl
             }
         }
         $db->commit();
+
+        return true;
     }
 
     public static function getNamesFromCodes(array $data)
