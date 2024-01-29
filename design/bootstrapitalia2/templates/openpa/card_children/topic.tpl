@@ -26,7 +26,7 @@
                         <li>
                             <a class="list-item active icon-left mb-2"
                                {if $item.metadata.classIdentifier|eq('public_service')}data-element="service-link"{/if}
-                               href="{concat('content/view/full/', $item.metadata.mainNodeId)|ezurl(no)}">
+                               href="{concat('openpa/object/', $item.metadata.id)|ezurl(no)}">
                                 <span class="list-item-title-icon-wrapper">
                                     <span class="text-success">
                                       {if is_set($item.metadata.name[$language])}

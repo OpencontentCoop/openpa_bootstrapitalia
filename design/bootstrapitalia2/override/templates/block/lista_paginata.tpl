@@ -26,21 +26,23 @@
 		 data-limit="{$openpa.limit}"
 		 data-items_per_row="{$lista_paginata_items_per_row}"
 		 {if and($openpa.root_node, $openpa.root_node|has_attribute('icon'))}data-icon="{$openpa.root_node|attribute('icon').content}"{/if}>
-		<div class="row row-title">
+		<div class="row row-title g-0">
 			{if $block.name|ne('')}
-				<div class="col">
-					<h2 class="m-0 block-title">{$block.name|wash()}</h2>
-				</div>
-			{/if}
-			{if and($openpa.root_node, object_handler($openpa.root_node).content_tag_menu.has_tag_menu|not())}
-				{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
-				<div class="col text-right mb-2 mb-md-0 filters-wrapper hide">
-					<button type="button" title="{'All'|i18n('design/standard/ezoe')}" class="btn btn-secondary btn-xs mb-1" data-block_subtree_filter>{'All'|i18n('design/standard/ezoe')}</button>
-					{foreach $tree_menu.children as $child}
-						{if $openpa.tree_facets.subtree|contains($child.item.node_id)}
-							<button type="button" title="{$child.item.name|wash()}" data-block_subtree_filter="{$child.item.node_id}" class="btn btn-outline-secondary btn-xs mb-1">{$child.item.name|wash()}</button>
+				<div class="col ">
+					<div class="border-bottom d-md-flex justify-content-between">
+						<h2>{$block.name|wash()}</h2>
+						{if and($openpa.root_node, object_handler($openpa.root_node).content_tag_menu.has_tag_menu|not())}
+							{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
+							<div class="filters-wrapper mt-0 mb-3 ms-3 text-end hide">
+								<button type="button" title="{'All'|i18n('design/standard/ezoe')}" class="btn btn-secondary btn-sm mb-1 me-1 py-1 px-2" data-block_subtree_filter>{'All'|i18n('design/standard/ezoe')}</button>
+								{foreach $tree_menu.children as $index => $child}
+									{if $openpa.tree_facets.subtree|contains($child.item.node_id)}
+										<button type="button" title="{$child.item.name|wash()}" data-block_subtree_filter="{$child.item.node_id}" class="btn btn-outline-secondary btn-sm mb-1 me-1 py-1 px-2">{$child.item.name|wash()}</button>
+									{/if}
+								{/foreach}
+							</div>
 						{/if}
-					{/foreach}
+					</div>
 				</div>
 			{/if}
 		</div>
@@ -68,7 +70,7 @@
 			{{if ~i18n(extradata, 'view')}}
 				{{:~i18n(extradata, 'view')}}
 			{{else}}
-				<a href="{{:baseUrl}}content/view/full/{{:metadata.mainNodeId}}" class="card card-teaser rounded shadow" style="text-decoration:none !important">
+				<a href="{{:baseUrl}}openpa/object/{{:metadata.id}}" class="card card-teaser rounded shadow" style="text-decoration:none !important">
 					<div class="card-body">
 						{{if ~contentIcon && subtree}}
 						<div class="category-top">

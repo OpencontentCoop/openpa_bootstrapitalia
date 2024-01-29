@@ -85,9 +85,9 @@
                           var link = null;
                           {if $index|eq(0)}
                               {if $fields.class_identifier|eq('time_indexed_role')}
-                                link = "{'/content/view/full/'|ezurl(no)}/"+row.data['{$current_language}'].person[0].mainNodeId;
+                                link = "{'/openpa/object/'|ezurl(no)}/"+row.data['{$current_language}'].person[0].id;
                               {else}
-                                link = "{'/content/view/full/'|ezurl(no)}/"+row.metadata.mainNodeId;
+                                link = "{'/openpa/object/'|ezurl(no)}/"+row.metadata.id;
                               {/if}
                           {/if}
                           return opendataDataTableRenderField('{$field.dataType}', '{$field.template.type}', '{$current_language}', data, type, row, meta, link);

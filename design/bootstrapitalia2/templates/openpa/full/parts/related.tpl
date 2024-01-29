@@ -48,7 +48,7 @@
                                             <div class="link-list-wrapper">
                                                 <ul class="card-body__list">
                                                     {foreach $item.contents as $item}
-                                                        <li><a class="list-item px-0" href="{concat('content/view/full/',$item.metadata.mainNodeId )|ezurl(no)}">
+                                                        <li><a class="list-item px-0" href="{concat('openpa/object/',$item.metadata.id )|ezurl(no)}">
                                                             <span>
                                                             {if is_set($item.metadata.name[ezini('RegionalSettings','Locale')])}
                                                                 {$item.metadata.name[ezini('RegionalSettings','Locale')]|wash()}
