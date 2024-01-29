@@ -19,6 +19,10 @@ $(document).ready(function () {
         let searchEndpoint = searchType === 'calendar' ? '/opendata/api/calendar/search' : $.opendataTools.settings('endpoint').search;
         let dayLimit = container.data('day_limit') || 7;
 
+        let removeFilterLoader = function() {
+            container.find('[data-block_subtree_filter] i.loading').remove();
+        }
+
         let filters = container.find('[data-block_subtree_filter]').on('click', function (e) {
             let self = $(this);
             if (self.hasClass('btn-secondary')) {
@@ -26,6 +30,7 @@ $(document).ready(function () {
             } else {
                 filters.removeClass('btn-secondary').addClass('btn-outline-secondary');
                 self.addClass('btn-secondary').removeClass('btn-outline-secondary');
+                self.append('<i class="ms-1 loading fa fa-circle-o-notch fa-spin fa-fw"></i>')
             }
             currentPage = 0;
             loadContents();
@@ -193,6 +198,7 @@ $(document).ready(function () {
                 if (response.totalCount > 0) {
                     container.removeClass('hide');
                 }
+                removeFilterLoader();
             });
         };
 

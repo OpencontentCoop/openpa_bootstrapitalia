@@ -111,8 +111,8 @@
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
             'News'|i18n('bootstrapitalia/menu'),
-            "ListaAutomatica",
-            "lista_card_teaser",
+            "ListaPaginata",
+            "lista_paginata",
             hash(
                 "limite", "9",
                 "elementi_per_riga", "3",
@@ -137,8 +137,8 @@
         {set $has_first_block = true()}
         {set $blocks = $blocks|append(page_block(
             'Administration'|i18n('bootstrapitalia/menu'),
-            "ListaAutomatica",
-            "lista_card_teaser",
+            "ListaPaginata",
+            "lista_paginata",
             hash(
                 "limite", "9",
                 "elementi_per_riga", "3",
@@ -163,8 +163,8 @@
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
             'Services'|i18n('bootstrapitalia/menu'),
-            "ListaAutomatica",
-            "lista_card_teaser",
+            "ListaPaginata",
+            "lista_paginata",
             hash(
                 "limite", "9",
                 "elementi_per_riga", "3",
@@ -190,8 +190,8 @@
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
             'Documents'|i18n('bootstrapitalia/menu'),
-            "ListaAutomatica",
-            "lista_card_teaser",
+            "ListaPaginata",
+            "lista_paginata",
             hash(
                 "limite", "9",
                 "elementi_per_riga", "3",
