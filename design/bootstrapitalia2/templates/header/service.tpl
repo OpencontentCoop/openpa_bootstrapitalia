@@ -151,7 +151,7 @@
                             {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}
                                 <div id="{openpaini( 'StanzaDelCittadinoBridge', 'RootId_login', 'oc-login-box' )}"></div>
                             {else}
-                                <a class="btn btn-primary btn-icon btn-full" href="{'accedi'|ezurl(no)}" data-element="personal-area-login" title="{$link_area_personale_title|wash()}">
+                                <a class="btn btn-primary btn-icon btn-full" style="visibility: hidden" href="{'accedi'|ezurl(no)}" data-element="personal-area-login" title="{$link_area_personale_title|wash()}">
                                       <span class="rounded-icon" aria-hidden="true">
                                         {display_icon('it-user', 'svg', 'icon icon-primary', $link_area_personale_title|wash())}
                                       </span>
@@ -223,6 +223,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="link-list-wrapper">
+                    {{if role == 'user'}}
                     <ul class="link-list">
                         <li>
                             <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/user/profile">
@@ -282,6 +283,35 @@
                             </a>
                         </li>
                     </ul>
+                    {{else}}
+                    <ul class="link-list">
+                        <li>
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/operatori/profile">
+                                <svg class="icon icon-sm icon-primary left ">
+                                    <use xlink:href="{{:spritePath}}#it-user"></use>
+                                </svg>
+                                <span class="text-nowrap">{/literal}{'Profile'|i18n('bootstrapitalia')}{literal}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/operatori/">
+                                <svg class="icon icon-sm icon-primary left">
+                                    <use xlink:href="{{:spritePath}}#it-software"></use>
+                                </svg>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li><span class="divider"></span></li>
+                        <li>
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/operatori/logout">
+                                <svg class="icon icon-sm icon-primary left">
+                                    <use xlink:href="{{:spritePath}}#it-link"></use>
+                                </svg>
+                                <span>{/literal}{'Logout'|i18n('bootstrapitalia')}{literal}</span>
+                            </a>
+                        </li>
+                    </ul>
+                    {{/if}}
                 </div>
             </div>
         </div>
@@ -295,6 +325,7 @@
     var profileUrl = {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}false{else}"{$link_area_personale|user_profile_url()}"{/if};
     {literal}
     $(document).ready(function () {
+      let userAccessContainer = $('[data-element="personal-area-login"]');
       if (typeof LanguageUrlAliasList !== 'undefined') {
         $('[data-switch_locale]').each(function () {
           var self = $(this);
@@ -311,21 +342,23 @@
       var injectUserInfo = function (data) {
         if (data.error_text || !data.content) {
           console.log(data.error_text);
+          userAccessContainer.removeAttr('style');
         } else {
           var response = data.content;
           response.id = CurrentUserId;
           response.prefix = trimmedPrefix;
           response.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
           var renderData = $($.templates('#tpl-user-access').render(response));
-          $('[data-element="personal-area-login"]').replaceWith(renderData)
+          userAccessContainer.replaceWith(renderData)
         }
       };
       var injectProfileInfo = function (data) {
+        console.log(data);
         data.prefix = trimmedPrefix;
         data.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
         data.baseUrl = baseUrl;
         var renderData = $($.templates('#tpl-user-profile').render(data));
-        $('[data-element="personal-area-login"]').replaceWith(renderData)
+        userAccessContainer.replaceWith(renderData)
       }
       var getProfile = function (token, cb, context) {
         function parseJwt(token) {
@@ -338,7 +371,7 @@
         }
         var tokenData = parseJwt(token);
         jQuery.ajax({
-          url: profileUrl+'/'+tokenData.id,
+          url: profileUrl + '/' + tokenData.id,
           dataType: 'json',
           headers: {
             Authorization: 'Bearer ' + token
@@ -347,6 +380,9 @@
             if ($.isFunction(cb)) {
               cb.call(context, data);
             }
+          },
+          error: function (){
+            userAccessContainer.removeAttr('style');
           }
         });
       }
@@ -363,8 +399,13 @@
             if (data.token && profileUrl) {
               getProfile(data.token, injectProfileInfo);
             }
+          },
+          error: function (){
+            userAccessContainer.removeAttr('style');
           }
         });
+      } else {
+        userAccessContainer.removeAttr('style');
       }
     });
     {/literal}
