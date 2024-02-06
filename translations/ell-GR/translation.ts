@@ -1395,6 +1395,25 @@
     </message>
   </context>
   <context>
+    <name>bootstrapitalia/footer</name>
+    <message>
+      <source>Read the FAQ</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
     <name>bootstrapitalia/signin</name>
     <message>
       <source>Sign in</source>

@@ -149,7 +149,7 @@
     </message>
     <message>
       <source>Last modified</source>
-      <translation>Ultima modifica</translation>
+      <translation>Ultimo aggiornamento</translation>
     </message>
     <message>
       <source>Editor tools</source>
@@ -726,7 +726,7 @@
     </message>
     <message>
       <source>Publication date</source>
-      <translation>Data di pubblicazione</translation>
+      <translation>Data</translation>
     </message>
     <message>
       <source>Content type</source>
@@ -1396,6 +1396,25 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Report a disservice</source>
       <translation>Segnala disservizio</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/footer</name>
+    <message>
+      <source>Read the FAQ</source>
+      <translation>Leggi le FAQ</translation>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation>Richiesta d'assistenza</translation>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation>Prenotazione appuntamento</translation>
+    </message>
+    <message>
+      <source>Report a inefficiency</source>
+      <translation>Segnalazione disservizio</translation>
     </message>
   </context>
   <context>

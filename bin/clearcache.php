@@ -51,7 +51,7 @@ if (file_exists($argument)){
 
     $command = "php bin/php/makestaticcache.php {$isVerboseOpt}-s{$instance}_{$env};";
     if ($isVerbose){
-        $result = $cli->output($command);
+        $cli->output($command);
     }
     $result = $isDryRun ? '' : shell_exec("$command");
     if ($isVerbose){

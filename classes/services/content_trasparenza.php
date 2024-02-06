@@ -429,6 +429,11 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
     protected function getTableFieldsParameter($string)
     {
+        return self::parseTableFieldsParameter($string, $this->container->getContentNode());
+    }
+
+    public static function parseTableFieldsParameter($string, eZContentObjectTreeNode $containerNode = null)
+    {
         $index = 0;
         $fieldsParts = explode('|', $string);
 
@@ -510,13 +515,13 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 $node = eZContentObjectTreeNode::fetch((int)$parentNodeId);
             }
             if (!$node instanceof eZContentObjectTreeNode) {
-                $node = $this->container->getContentNode();
+                $node = $containerNode;
             }
 
-            $nodeId = $node->attribute('node_id');
+            $nodeId = $node instanceof eZContentObjectTreeNode ? $node->attribute('node_id') : 1;
 
             $depthQueryPart = '';
-            if (is_numeric($depth)) {
+            if (is_numeric($depth) && $node instanceof eZContentObjectTreeNode) {
                 $nodeDepth = (int)$node->attribute('depth');
                 $queryDepth = $nodeDepth + $depth;
                 $depthQueryPart = "raw[meta_depth_si] range [{$nodeDepth},{$queryDepth}] and ";
@@ -569,7 +574,8 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $error = $e->getMessage();
 
             return array(
-                'error' => $error
+                'error' => $error,
+                'string' => $string,
             );
         }
     }

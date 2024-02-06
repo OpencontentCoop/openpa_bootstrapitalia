@@ -702,7 +702,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Solo información del tipo</translation>
+      <translation>Solo información de tipo</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -798,7 +798,7 @@
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Para obtener más opciones, pruebe el %1 de búsqueda de Aadvanced %2</translation>
+      <translation>Para obtener más opciones, pruebe la búsqueda %1Advanced %2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -1391,6 +1391,25 @@
     <name>bootstrapitalia/temp</name>
     <message>
       <source>Report a disservice</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/footer</name>
+    <message>
+      <source>Read the FAQ</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Report a inefficiency</source>
       <translation type="unfinished"/>
     </message>
   </context>

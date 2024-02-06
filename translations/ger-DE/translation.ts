@@ -1399,6 +1399,25 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
   </context>
   <context>
+    <name>bootstrapitalia/footer</name>
+    <message>
+      <source>Read the FAQ</source>
+      <translation>Lesen Sie die häufig gestellten Fragen</translation>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation>Hilfe anfordern</translation>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation>Termine buchen</translation>
+    </message>
+    <message>
+      <source>Report a inefficiency</source>
+      <translation>Bärendienst melden</translation>
+    </message>
+  </context>
+  <context>
     <name>bootstrapitalia/signin</name>
     <message>
       <source>Sign in</source>

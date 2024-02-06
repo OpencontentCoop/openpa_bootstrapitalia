@@ -17,7 +17,7 @@
     </message>
     <message>
       <source>Accept</source>
-      <translation>Sprejemati</translation>
+      <translation>Sprejeti</translation>
     </message>
     <message>
       <source>Jump to main content</source>
@@ -718,7 +718,7 @@
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Vzpona</translation>
+      <translation>Vzbujanje</translation>
     </message>
     <message>
       <source>Score</source>
@@ -1391,6 +1391,25 @@
     <name>bootstrapitalia/temp</name>
     <message>
       <source>Report a disservice</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/footer</name>
+    <message>
+      <source>Read the FAQ</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Report a inefficiency</source>
       <translation type="unfinished"/>
     </message>
   </context>

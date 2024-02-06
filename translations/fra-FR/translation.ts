@@ -794,7 +794,7 @@
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>La recherche est retournée% 2 correspondances</translation>
+      <translation>Recherche de recherche% 2 Matchs</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
@@ -1391,6 +1391,25 @@
     <name>bootstrapitalia/temp</name>
     <message>
       <source>Report a disservice</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/footer</name>
+    <message>
+      <source>Read the FAQ</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request assistance</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Report a inefficiency</source>
       <translation type="unfinished"/>
     </message>
   </context>

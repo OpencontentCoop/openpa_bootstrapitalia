@@ -109,7 +109,7 @@
                             {if $need_container}</div>{/if}
                             {undef $need_container}
                         {elseif and(is_set($openpa_attribute.template), $openpa_attribute.template)}
-                            {include uri=$openpa_attribute.template}
+                            {include uri=$openpa_attribute.template context=attributes}
                         {/if}
 
                         {if $openpa_attribute.full.highlight}
