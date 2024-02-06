@@ -145,7 +145,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
 
     protected function getEvidenceBlockMaxItems($blockIndex = 1): int
     {
-        return 3;
+        return 6;
     }
 
     protected function getEvidenceBlock($blockIndex = 1): array
