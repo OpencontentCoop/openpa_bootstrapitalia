@@ -100,7 +100,7 @@
                 </li>
             {/if}
 
-            {if and($content_object.can_translate, fetch( 'user', 'has_access_to', hash( 'module', 'translate', 'function', 'content' ) ))}
+            {if and($content_object.can_translate, ezini('ExtensionSettings','ActiveAccessExtensions')|contains('octranslate'), fetch( 'user', 'has_access_to', hash( 'module', 'translate', 'function', 'content' ) ))}
                 {include uri='design:parts/websitetoolbar/translate.tpl' content_object=$content_object}
             {/if}
 

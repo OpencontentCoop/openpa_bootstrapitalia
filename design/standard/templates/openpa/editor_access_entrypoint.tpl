@@ -1,19 +1,10 @@
 {ezpagedata_set( 'has_container', true() )}
 {ezpagedata_set( 'has_sidemenu', false() )}
-{ezpagedata_set( 'show_path', false() )}
+{ezpagedata_set( 'show_path', true() )}
 
 <div class="container" id="main-container">
     <div class="row">
         <div class="col-12 col-lg-10 offset-lg-1">
-            <div class="cmp-breadcrumbs" role="navigation">
-                <nav class="breadcrumb-container" aria-label="breadcrumb">
-                    <ol class="breadcrumb p-0" data-element="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Home</a><span class="separator">/</span></li>
-                        <li class="breadcrumb-item active"
-                            aria-current="page">{openpaini('AccessPage', 'EditorAccessTitle', 'Access reserved only for staff')|i18n('bootstrapitalia/signin')|wash()}</li>
-                    </ol>
-                </nav>
-            </div>
             <div class="cmp-heading pb-3 pb-lg-4">
                 <h1 class="title-xxxlarge">{openpaini('AccessPage', 'EditorAccessTitle', 'Access reserved only for staff')|i18n('bootstrapitalia/signin')|wash()}</h1>
                 <p class="subtitle-small">{openpaini('AccessPage', 'EditorAccessIntro', '')|i18n('bootstrapitalia/signin')|wash()}</p>

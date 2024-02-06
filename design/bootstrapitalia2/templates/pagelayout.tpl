@@ -21,6 +21,8 @@
         {set $extra_cache_key = concat($extra_cache_key, 'areatematica_', openpacontext().is_area_tematica)}
     {/if}
 
+    {def $access_hash = concat($access_type.name, $access_type.uri_part|implode('.'))}
+
     {def $has_valuation = '0'}
     {if or(and(is_set($module_result.content_info.persistent_variable.show_valuation),$module_result.content_info.persistent_variable.show_valuation),openpacontext().is_search_page)}
         {set $has_valuation = '1'}
@@ -70,7 +72,7 @@
     {include uri='design:page_head.tpl' canonical_url=openpacontext().canonical_url}
     {/debug-accumulator}
 
-    {cache-block expiry=86400 ignore_content_expiry keys=array( 'favicon' )}
+    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, 'favicon' )}
     {def $pagedata = openpapagedata()}
     {include uri="design:favicon.tpl"}
     {undef $pagedata}
@@ -89,14 +91,13 @@
 </head>
 
 <body>
-
 <div class="skiplink">
     <a class="visually-hidden-focusable" href="#main-container" aria-label="{'Go to content'|i18n('bootstrapitalia')}">{'Go to content'|i18n('bootstrapitalia')}</a>
     <a class="visually-hidden-focusable" href="#footer" aria-label="{'Go to footer'|i18n('bootstrapitalia')}">{'Go to footer'|i18n('bootstrapitalia')}</a>
 </div>
 
 {if and(openpacontext().is_edit|not(),openpacontext().is_browse|not())}
-    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $extra_cache_key, openpaini('GeneralSettings','theme', 'default') )}
+    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, $extra_cache_key, openpaini('GeneralSettings','theme', 'default') )}
         {debug-accumulator id=page_header_and_offcanvas_menu name=page_header_and_offcanvas_menu}
         {def $pagedata = openpapagedata()}
         {include uri='design:page_notifications.tpl'}
@@ -121,7 +122,7 @@
 
 {if and(openpacontext().is_login_page|not(), openpacontext().is_edit|not())}
     {debug-accumulator id=page_footer name=page_footer}
-    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name, $has_valuation, $current_built_in_app)}
+    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, $has_valuation, $current_built_in_app)}
     {def $pagedata = openpapagedata()}
         {include uri='design:page_extra.tpl'}
         {include uri='design:page_footer.tpl'}
@@ -132,7 +133,7 @@
 
 {include uri='design:page_footer_script.tpl'}
 {debug-accumulator id=advanced_cookie_consent name=advanced_cookie_consent}
-{cache-block expiry=86400 ignore_content_expiry keys=array( $access_type.name )}
+{cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash )}
     {include uri='design:footer/advanced_cookie_consent.tpl'}
 {/cache-block}
 {/debug-accumulator}

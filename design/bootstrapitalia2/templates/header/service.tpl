@@ -173,7 +173,7 @@
 <div class="it-user-wrapper nav-item dropdown">
     <a aria-expanded="false" class="btn btn-primary btn-icon btn-full" data-bs-toggle="dropdown" href="#" data-focus-mouse="false">
         <span class="rounded-icon">
-            <img src="/bootstrapitalia/avatar/{{:id}}" class="border rounded-circle icon-white" alt="{{:name}}">
+            <img src="{{:prefix}}/bootstrapitalia/avatar/{{:id}}" class="border rounded-circle icon-white" alt="{{:name}}">
         </span>
         <span class="d-none d-lg-block">{{:name}}</span>
         <svg class="icon icon-white d-none d-lg-block">

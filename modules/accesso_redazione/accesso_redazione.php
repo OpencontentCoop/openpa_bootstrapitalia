@@ -12,17 +12,17 @@ $localUserLoginUri = '/user/login';
 eZURI::transformURI($localUserLoginUri);
 $editorAccessList = OpenPAINI::variable('AccessPage', 'EditorAccessList', []);
 $accessLinks = [];
-foreach ($editorAccessList as $index => $editorAccess){
-    if ($editorAccess === 'EditorAccess'){
+foreach ($editorAccessList as $index => $editorAccess) {
+    if ($editorAccess === 'EditorAccess') {
         $link = $localUserLoginUri;
-    }elseif ($editorAccess === 'OperatorAccess'){
+    } elseif ($editorAccess === 'OperatorAccess') {
         $link = $bridge->getOperatorLoginUri() ?? OpenPAINI::variable('AccessPage', $editorAccess . '_Link', null);
-    }else{
+    } else {
         $link = OpenPAINI::variable('AccessPage', $editorAccess . '_Link', null);
     }
-    if ($link){
+    if ($link) {
         $accessLinks[$editorAccess] = $link;
-    }else{
+    } else {
         unset($editorAccessList[$index]);
     }
 }
@@ -30,18 +30,24 @@ foreach ($editorAccessList as $index => $editorAccess){
 $tpl->setVariable('access_list', $editorAccessList);
 $tpl->setVariable('access_links', $accessLinks);
 
+$homeUrl = '/';
+eZURI::transformURI($homeUrl);
 $Result = [];
 $Result['content'] = $tpl->fetch('design:openpa/editor_access_entrypoint.tpl');
-$path = [];
-$path[] = [
-    'text' => OpenPaFunctionCollection::fetchHome()->getName(),
-    'url' => '/',
+$Result['path'] = [
+    [
+        'text' => OpenPAINI::variable('GeneralSettings', 'ShowMainContacts', 'enabled') == 'enabled' ?
+            'Home' : OpenPaFunctionCollection::fetchHome()->getName(),
+        'url' => $homeUrl,
+    ],
+    [
+        'text' => ezpI18n::tr('bootstrapitalia', ezpI18n::tr('bootstrapitalia/signin',
+            OpenPAINI::variable('AccessPage', 'EditorAccessTitle', 'Access reserved only for staff')
+        )),
+        'url' => false,
+    ]
 ];
-$path[] = [
-    'text' => ezpI18n::tr('bootstrapitalia', ezpI18n::tr('bootstrapitalia/signin', 'Editor login')),
-    'url' => false,
-];
-$Result['path'] = $path;
+
 $contentInfoArray = [
     'node_id' => null,
     'class_identifier' => null,

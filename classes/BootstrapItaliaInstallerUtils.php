@@ -78,11 +78,13 @@ class BootstrapItaliaInstallerUtils
             $attributeClass->store();
             foreach ($attributeObjects as $attributeObject) {
                 if ($attributeObject->hasContent()) {
-                    /** @var eZTags $content */
+                    /** @var eZAuthor $content */
                     $content = $attributeObject->attribute('content');
                     $authorList = [];
                     foreach ($content->attribute('author_list') as $author) {
-                        $authorList[] = '<li>' . $author['name'] . '</li>';
+                        if (!eZUser::fetchByEmail($author['email'])) {
+                            $authorList[] = '<li>' . $author['name'] . '</li>';
+                        }
                     }
                     $authorAsEzXml = '';
                     if (count($authorList)){

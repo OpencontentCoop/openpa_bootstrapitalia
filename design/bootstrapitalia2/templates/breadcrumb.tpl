@@ -7,6 +7,7 @@
                     {def $root_node_depth = cond(ezini_hasvariable( 'SiteSettings', 'RootNodeDepth', 'site.ini' ), ezini( 'SiteSettings', 'RootNodeDepth', 'site.ini' ), 1)}
                     {def $_index = 1}
                     {foreach openpacontext().path_array as $path}
+                        {if is_set($module_result.errorCode)}{skip}{/if}
                         {if $_index|ge($root_node_depth)}
                             {if $path.url}
                                 {if and(openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled'), or( and(is_set($path.url_alias), $path.url_alias|eq('/'|ezurl(no))), $path.url|eq('/content/view/full/2')))}
