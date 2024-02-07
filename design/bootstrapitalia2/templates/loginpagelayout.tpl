@@ -4,12 +4,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {include uri='design:page_head.tpl'}
     <link rel="stylesheet" href="{concat('stylesheets/', current_theme(),'.css')|ezdesign(no)}" media="all"/>
-    <style>#debug{ldelim}display:none !important{rdelim}html, body {ldelim}height: 100%;{rdelim}</style>
+    <style>#debug{ldelim}display:none !important{rdelim}html, body {ldelim}height: 100%;background:#f0f0f1{rdelim}</style>
     {ezcss_load(array('common.css'))}
     {ezscript_load(array('ezjsc::jquery','ezjsc::jqueryio','moment-with-locales.min.js','jquery.opendataTools.js','chosen.jquery.js'))}
 </head>
 <body class='d-flex align-items-center py-4' style="overflow-x: hidden">
-    <div class="form-signin w-100 m-auto">
+    <div class="form-signin w-100 m-auto text-center p-5">
       <h4 class="text-center">{ezini('SiteSettings', 'SiteName')}</h4>
       {$module_result.content}
     </div>
