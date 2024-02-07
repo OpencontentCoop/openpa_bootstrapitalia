@@ -2,7 +2,7 @@
     {if ezini_hasvariable(concat('LoginTemplate_', $login_module_setting), 'Title', 'app.ini')}
         {ezini(concat('LoginTemplate_', $login_module_setting), 'Title', 'app.ini')|wash()}
     {else}
-        {"Login"|i18n("design/ocbootstrap/user/login")}
+        {'Site editors access'|i18n('bootstrapitalia')}
     {/if}
 </h1>
 
@@ -24,7 +24,7 @@
     </div>
 {/if}
 
-<form style="max-width: 400px;margin: 0 auto;" class="validate-form border px-4 pt-5 pb-4 rounded bg-white" method="post" action='{"/user/login/"|ezurl(no)}' name="loginform">
+<form style="max-width: 400px;margin: 0 auto;" class="validate-form border px-4 pt-5 pb-4 rounded bg-white text-center" method="post" action='{"/user/login/"|ezurl(no)}' name="loginform">
     <div class='form-group'>
         <div class='controls with-icon-over-input'>
             <input type="text" autofocus="" autocomplete="off" name="Login"
@@ -62,12 +62,6 @@
 <div class='text-center mt-3'>
     <a class="text-decoration-none" href={'/user/forgotpassword'|ezurl}>{'Forgot your password?'|i18n( 'design/ocbootstrap/user/login' )}</a>
 </div>
-<div class='text-center mt-3'>
-    <a class="text-decoration-none" href="https://{ezini('SiteSettings', 'SiteURL')}">
-        ← {'Return to site'|i18n( 'design/ocbootstrap/collectedinfo/form' )}
-    </a>
-</div>
-
 {ezscript_require(array("password-score/password.js"))}
 {literal}
 <script type="text/javascript">

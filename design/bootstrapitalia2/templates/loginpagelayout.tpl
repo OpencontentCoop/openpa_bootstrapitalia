@@ -10,8 +10,13 @@
 </head>
 <body class='d-flex align-items-center py-4' style="overflow-x: hidden">
     <div class="form-signin w-100 m-auto text-center p-5">
-      <h4 class="text-center">{ezini('SiteSettings', 'SiteName')}</h4>
-      {$module_result.content}
+        <h4 class="text-center">{ezini('SiteSettings', 'SiteName')}</h4>
+        {$module_result.content}
+        <div class='text-center mt-3'>
+            <a class="text-decoration-none" href="https://{ezini('SiteSettings', 'SiteURL')}">
+                ← {'Return to site'|i18n( 'design/ocbootstrap/collectedinfo/form' )}
+            </a>
+        </div>
     </div>
     <script src="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign( 'no' )}"></script>
     <script>window.__PUBLIC_PATH__ = "https://static.opencityitalia.it/fonts";bootstrap.loadFonts()</script>
