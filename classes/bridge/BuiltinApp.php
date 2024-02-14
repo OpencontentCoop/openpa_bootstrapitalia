@@ -76,9 +76,14 @@ class BuiltinApp extends OpenPATempletizable
 
     public static function getWindowVariables(): array
     {
-//        $privacy = eZContentObject::fetchByRemoteID('privacy-policy-link');
-//        $privacyUrl = $privacy ? $privacy->mainNode()->attribute('url_alias') : '/Privacy';
+        $privacy = eZContentObject::fetchByRemoteID('83c7315f6a2fd9cee569e4cf5e73139d');
         $privacyUrl = '/Privacy';
+        if ($privacy) {
+            $privacyNode = $privacy->mainNode();
+            if ($privacyNode instanceof eZContentObjectTreeNode) {
+                $privacyUrl = $privacyNode->attribute('url_alias');
+            }
+        }
         eZURI::transformURI($privacyUrl, false, 'full');
         $baseUrl = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
         $authUrl = StanzaDelCittadinoBridge::factory()->buildApiUrl('/login');
