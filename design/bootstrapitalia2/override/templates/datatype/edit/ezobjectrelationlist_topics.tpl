@@ -133,6 +133,7 @@
             {/if}
             <ul class="list-unstyled incremental-select">
             {foreach $topics_tree as $topic}
+                {if $topic.contentobject_id|eq($custom_topic_container.id)}{skip}{/if}
             <li>
                 <div class="form-check">
                   <input id="check-{$attribute.id}-{$topic.contentobject_id}"
