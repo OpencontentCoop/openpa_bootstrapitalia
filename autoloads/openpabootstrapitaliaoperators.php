@@ -818,7 +818,7 @@ class OpenPABootstrapItaliaOperators
 
             $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_480/';
             $urlList['small'] = $baseUrl . $filter . $url;
-            $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_1000/';
+            $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_2000/';
             $urlList['large'] = $baseUrl . $filter . $url;
 
             $srcSetSmall = $urlList['small'] . ' 480w';
@@ -2090,5 +2090,21 @@ class OpenPABootstrapItaliaOperators
         }
         $sentryScriptLoaderSiteData->setAttribute('value', $value);
         $sentryScriptLoaderSiteData->store();
+    }
+
+    public static function avoidWrongSiteaccess()
+    {
+        $siteaccess = eZSiteAccess::current();
+        if ($siteaccess['type'] === eZSiteAccess::TYPE_DEFAULT && !is_dir('settings/siteaccess/' . $siteaccess['name'])){
+            header( 'HTTP/1.x 500 Internal Server Error' );
+            header( 'Content-Type: text/html' );
+            echo "<html>
+<head><title>Not Found</title></head>
+<body style=\"padding:5px 15px 5px 15px; font-family: myriad-pro-1,myriad-pro-2,corbel,sans-serif;\"><h3>Site not found</h3></body>
+</html>";
+            eZExecution::cleanup();
+            eZExecution::setCleanExit();
+            exit( 1 );
+        }
     }
 }
