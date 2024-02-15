@@ -63,17 +63,17 @@
         {set $search_blocks = array(page_block(
             "",
             "Eventi",
-            "card",
+            "default",
             hash(
                 "includi_classi", "event",
                 "show_facets", "0",
                 "topic_node_id", "",
                 "tag_id", $openpa.content_tag_menu.current_view_tag.id,
-                "size", "big",
-                "calendar_view", "month",
+                "size", "medium",
+                "calendar_view", "day_grid",
                 "color_style", "",
                 "container_style", "",
-                "max_events", "9",
+                "max_events", "6",
                 "intro_text", "",
                 )
             )
