@@ -21,7 +21,7 @@ $script->setUseDebugAccumulators(true);
 $cli = eZCLI::instance();
 $isVerbose = $options['verbose'];
 $isDryRun = $options['dry-run'];
-$argument = $options['arguments'][0];
+$argument = $options['arguments'][0] ?? null;
 $command = $GLOBALS['argv'][0];
 
 $classIdentifier = $options['class'];
@@ -36,23 +36,26 @@ if (file_exists($argument)) {
     $content = file_get_contents($argument);
     $instances = explode(PHP_EOL, $content);
     foreach ($instances as $instance) {
-        $cmd = "php $command -s{$instance}_frontend --class=$classIdentifier --handler=$handlerIdentifier --attribute=$attributeIdentifier --key=$key --value=$value $dryRunArgument";
-        $result = $isDryRun ? '' : shell_exec($cmd);
-        if ($isVerbose) {
-            $cli->output($cmd);
+        if (!empty($instance)) {
+            $cmd = "php $command -s{$instance}_frontend --class=$classIdentifier --handler=$handlerIdentifier --attribute=$attributeIdentifier --key=$key --value=$value $dryRunArgument";
+            if ($isVerbose) {
+                $cli->output($cmd);
+            }
+            $result = $isDryRun ? '' : shell_exec($cmd);
         }
     }
 } else {
+    $cli->warning(OpenPABase::getCurrentSiteaccessIdentifier(), false);
     $contentClass = eZContentClass::fetchByIdentifier($classIdentifier);
     if ($contentClass) {
         $currentExtras = OCClassExtraParametersManager::instance($contentClass);
         $handler = $currentExtras->getHandler($handlerIdentifier);
-        $cli->warning("Upsert $value in {$classIdentifier}/{$attributeIdentifier} {$handlerIdentifier}/{$key }");
+        $cli->warning(" -> upsert {$classIdentifier}/{$attributeIdentifier}/{$handlerIdentifier}/{$key} to {$value}");
         $extra = new OCClassExtraParameters([
             'class_identifier' => $classIdentifier,
             'attribute_identifier' => $attributeIdentifier,
             'handler' => $handlerIdentifier,
-            'key' => $key,
+            OCClassExtraParameters::getKeyDefinitionName() => $key,
             'value' => $value,
         ]);
         if ($dryRun) {

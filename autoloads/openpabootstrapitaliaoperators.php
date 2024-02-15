@@ -1349,6 +1349,9 @@ class OpenPABootstrapItaliaOperators
 
     private static function getDeepHasContent($openpaAttribute, $identifier, $tableView): bool
     {
+        if ($openpaAttribute->attribute('full')['show_empty']) {
+            return true;
+        }
 
         if (
             // workaround per ezboolean

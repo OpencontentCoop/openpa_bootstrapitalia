@@ -21,10 +21,31 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
      * @param array $validationParameters
      * @return array
      */
-    function validateInput($http, &$module, &$class, $object, &$version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters)
-    {
+    function validateInput(
+        $http,
+        &$module,
+        &$class,
+        $object,
+        &$version,
+        $contentObjectAttributes,
+        $editVersion,
+        $editLanguage,
+        $fromLanguage,
+        $validationParameters
+    ) {
         $base = 'ContentObjectAttribute';
-        $result = parent::validateInput($http, $module, $class, $object, $version, $contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage, $validationParameters);
+        $result = parent::validateInput(
+            $http,
+            $module,
+            $class,
+            $object,
+            $version,
+            $contentObjectAttributes,
+            $editVersion,
+            $editLanguage,
+            $fromLanguage,
+            $validationParameters
+        );
 
         if ($class->attribute('identifier') == 'document') {
             $file = eZHTTPFile::UPLOADEDFILE_OK;
@@ -42,23 +63,28 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                         $file = eZHTTPFile::UPLOADEDFILE_OK;
                     } else {
                         $httpFileName = $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute("id");
-                        $maxSize = 1024 * 1024 * $contentClassAttribute->attribute(eZBinaryFileType::MAX_FILESIZE_FIELD);
+                        $maxSize = 1024 * 1024 * $contentClassAttribute->attribute(
+                                eZBinaryFileType::MAX_FILESIZE_FIELD
+                            );
                         $file = eZHTTPFile::canFetch($httpFileName, $maxSize);
                     }
                     $fileName = $contentClassAttribute->attribute('name');
-
                 } elseif ($contentClassAttribute->attribute('identifier') == 'link') {
                     $link = false;
                     if ($contentObjectAttribute->hasContent()) {
                         $link = $contentObjectAttribute->content();
-                    } elseif ($http->hasPostVariable($base . "_ezurl_url_" . $contentObjectAttribute->attribute("id"))) {
+                    } elseif ($http->hasPostVariable(
+                        $base . "_ezurl_url_" . $contentObjectAttribute->attribute("id")
+                    )) {
                         $link = $http->postVariable($base . "_ezurl_url_" . $contentObjectAttribute->attribute("id"));
                     }
                     $linkName = $contentClassAttribute->attribute('name');
-
                 } elseif ($contentClassAttribute->attribute('identifier') == 'attachments') {
                     if ($contentClassAttribute->attribute('data_type_string') == OCMultiBinaryType::DATA_TYPE_STRING) {
-                        $attachments = eZMultiBinaryFile::fetch($contentObjectAttribute->attribute('id'), $contentObjectAttribute->attribute('version'));
+                        $attachments = eZMultiBinaryFile::fetch(
+                            $contentObjectAttribute->attribute('id'),
+                            $contentObjectAttribute->attribute('version')
+                        );
                     } else {
                         $attachments = $contentObjectAttribute->toString();
                     }
@@ -67,9 +93,12 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
             }
 
             if ($file == eZHTTPFile::UPLOADEDFILE_DOES_NOT_EXIST && empty($link) && empty($attachments)) {
-                $result = ['is_valid' => false, 'warnings' => [
-                    ['text' => sprintf(self::FILE_ERROR_MESSAGE, $fileName, $linkName, $attachmentsName)],
-                ]];
+                $result = [
+                    'is_valid' => false,
+                    'warnings' => [
+                        ['text' => sprintf(self::FILE_ERROR_MESSAGE, $fileName, $linkName, $attachmentsName)],
+                    ],
+                ];
             }
         }
 
@@ -79,39 +108,85 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
                 if ($contentClassAttribute->attribute('identifier') == 'has_service_status') {
                     $serviceStatus = $contentObjectAttribute;
-                }elseif ($contentClassAttribute->attribute('identifier') == 'status_note') {
+                } elseif ($contentClassAttribute->attribute('identifier') == 'status_note') {
                     $statusNote = $contentObjectAttribute;
                 }
             }
-            if ($serviceStatus && $statusNote){
+            if ($serviceStatus && $statusNote) {
                 $serviceStatusPostVar = 'ContentObjectAttribute_eztags_data_text3_' . $serviceStatus->attribute('id');
                 $statusNotePostVar = 'ContentObjectAttribute_data_text_' . $statusNote->attribute('id');
                 $isActive = true;
                 $activeService = OpenPABootstrapItaliaOperators::getActiveServiceTag();
                 if ($activeService) {
                     $isActive = false;
-                    if ($http->hasPostVariable($serviceStatusPostVar)){
+                    if ($http->hasPostVariable($serviceStatusPostVar)) {
                         $isActive = $activeService->attribute('id') == $http->postVariable($serviceStatusPostVar);
                     }
                 }
-                $statusNoteHasContent = $http->hasPostVariable($statusNotePostVar) && !empty($http->postVariable($statusNotePostVar));
-                if (!$isActive && !$statusNoteHasContent){
+                $statusNoteHasContent = $http->hasPostVariable($statusNotePostVar) && !empty(
+                    $http->postVariable(
+                        $statusNotePostVar
+                    )
+                    );
+                if (!$isActive && !$statusNoteHasContent) {
                     $result['is_valid'] = false;
                     $result['warnings'][] = [
-                        'text' => self::SERVICE_STATUS_ERROR_MESSAGE
+                        'text' => self::SERVICE_STATUS_ERROR_MESSAGE,
                     ];
                 }
             }
         }
 
         $uniqueStringCheckList = OpenPAINI::variable('AttributeHandlers', 'UniqueStringCheck', []);
-        foreach ($uniqueStringCheckList as $uniqueStringCheck){
+        foreach ($uniqueStringCheckList as $uniqueStringCheck) {
             [$classIdentifier, $attributeIdentifier] = explode('/', $uniqueStringCheck);
-            $uniqueResult = $this->checkUniqueStringField($classIdentifier, $attributeIdentifier, $http, $class, $contentObjectAttributes);
+            $uniqueResult = $this->checkUniqueStringField(
+                $classIdentifier,
+                $attributeIdentifier,
+                $http,
+                $class,
+                $contentObjectAttributes
+            );
             if (!$uniqueResult['is_valid']) {
                 $result['is_valid'] = false;
                 $result['warnings'][] = [
-                    'text' => $uniqueResult['message']
+                    'text' => $uniqueResult['message'],
+                ];
+            }
+        }
+
+        if ($class->attribute('identifier') == 'event' && eZContentObject::fetchByRemoteID('all-events')) {
+            $isAccessibleForFree = false;
+            $costNotes = false;
+            $hasOffer = false;
+            
+            $isAccessibleForFreeName = 'is_accessible_for_free';
+            $costNotesName = 'cost_notes';
+            $hasOfferName = 'has_offer';
+
+            foreach ($contentObjectAttributes as $contentObjectAttribute) {
+                $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
+                if ($contentClassAttribute->attribute('identifier') == 'is_accessible_for_free') {
+                    $isAccessibleForFree = $http->hasPostVariable($base . "_data_boolean_" . $contentObjectAttribute->attribute("id"));
+                    $isAccessibleForFreeName = $contentClassAttribute->attribute('name');
+                } elseif ($contentClassAttribute->attribute('identifier') == 'cost_notes') {
+                    $costNotesData = $http->postVariable($base . "_data_text_" . $contentObjectAttribute->attribute("id"));
+                    $costNotesData = strip_tags($costNotesData);
+                    $costNotesData = trim($costNotesData);
+                    $costNotes = !empty($costNotesData);
+                    $costNotesName = $contentClassAttribute->attribute('name');
+                } elseif ($contentClassAttribute->attribute('identifier') == 'has_offer') {
+                    $hasOfferData = $http->postVariable($base . "_data_object_relation_list_" . $contentObjectAttribute->attribute("id"));
+                    $hasOffer = is_array($hasOfferData) && (count($hasOfferData) > 1 || $hasOfferData[0] !== 'no_relation');
+                    $hasOfferName = $contentClassAttribute->attribute('name');
+                }
+            }
+            if (!$isAccessibleForFree && !$costNotes && !$hasOffer) {
+                $result = [
+                    'is_valid' => false,
+                    'warnings' => [
+                        ['text' => sprintf(self::FILE_ERROR_MESSAGE, $isAccessibleForFreeName, $costNotesName, $hasOfferName)],
+                    ],
                 ];
             }
         }
@@ -119,8 +194,13 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
         return $result;
     }
 
-    private function checkUniqueStringField($classIdentifier, $attributeIdentifier, $http, $class, $contentObjectAttributes)
-    {
+    private function checkUniqueStringField(
+        $classIdentifier,
+        $attributeIdentifier,
+        $http,
+        $class,
+        $contentObjectAttributes
+    ) {
         $result = [
             'is_valid' => true,
             'message' => '',
@@ -135,7 +215,9 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
                 if ($contentClassAttribute->attribute('identifier') == $attributeIdentifier
                     && $contentClassAttribute->attribute('data_type_string') == eZStringType::DATA_TYPE_STRING) {
-                    $inputData = $http->postVariable('ContentObjectAttribute_ezstring_data_text_' . $contentObjectAttribute->attribute('id'));
+                    $inputData = $http->postVariable(
+                        'ContentObjectAttribute_ezstring_data_text_' . $contentObjectAttribute->attribute('id')
+                    );
                     $duplicates = $this->getObjectIdListByAttributeDataText($contentObjectAttribute, $inputData);
                     if ($contentObjectAttribute->hasContent() && count($duplicates) > 0) {
                         $hasUniqueValue = false;
@@ -146,15 +228,21 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
             }
         }
 
-        if (!$hasUniqueValue){
+        if (!$hasUniqueValue) {
             $duplicateLinks = [];
-            foreach ($duplicates as $duplicate){
+            foreach ($duplicates as $duplicate) {
                 $duplicateObject = eZContentObject::fetch((int)$duplicate);
-                $duplicateName = $duplicateObject instanceof eZContentObject ? $duplicateObject->attribute('name') : $duplicate;
+                $duplicateName = $duplicateObject instanceof eZContentObject ? $duplicateObject->attribute(
+                    'name'
+                ) : $duplicate;
                 $duplicateLinks[] = '<a href="/openpa/object/' . $duplicate . '" target="_blank">' . $duplicateName . '</a>';
             }
             $result['is_valid'] = false;
-            $result['message'] = sprintf(self::UNIQUE_FIELD_ERROR_MESSAGE, $attributeName, implode(', ', $duplicateLinks));
+            $result['message'] = sprintf(
+                self::UNIQUE_FIELD_ERROR_MESSAGE,
+                $attributeName,
+                implode(', ', $duplicateLinks)
+            );
         }
 
         return $result;

@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="Prose u-padding-left-s">
-                        {attribute_view_gui attribute=$attribute show_newline=true()}
+                        {attribute_view_gui attribute=$attribute show_newline=true() confirmpublish=true()}
                     </div>
                 </div>
             </div>

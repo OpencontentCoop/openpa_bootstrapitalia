@@ -11,7 +11,7 @@
     {/if}
 {/if}
 
-<div class="calendar-vertical font-sans-serif">
+<div class="calendar-vertical font-sans-serif mb-4">
 
     {foreach $events as $event}
 
