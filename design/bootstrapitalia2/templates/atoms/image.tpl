@@ -36,7 +36,7 @@
                 {/if}
 
                     {attribute_view_gui attribute=$image
-                                        image_class=$image_class
+                                        image_class='original'
                                         image_css_class=$image_css_class
                                         fluid=$fluid}
 

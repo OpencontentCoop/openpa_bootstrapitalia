@@ -818,7 +818,7 @@ class OpenPABootstrapItaliaOperators
 
             $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_480/';
             $urlList['small'] = $baseUrl . $filter . $url;
-            $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_2000/';
+            $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_2500/';
             $urlList['large'] = $baseUrl . $filter . $url;
 
             $srcSetSmall = $urlList['small'] . ' 480w';
