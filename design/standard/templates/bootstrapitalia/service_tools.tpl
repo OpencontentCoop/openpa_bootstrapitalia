@@ -2,7 +2,7 @@
 <section class="container">
     <div class="row my-5">
         <div class="col">
-            <h2>{$title|wash()} <span class="badge bg-primary"">beta</span> <small class="d-block text-muted">{$tenant.name|wash()} - {$base_url|wash()}</small></h2>
+            <h2>{$title|wash()} <span class="badge bg-primary">beta</span> <small class="d-block text-muted">{$tenant.name|wash()} - {$base_url|wash()}</small></h2>
             <p class="my-5">
                 Elenco dei servizi installati in <b>{$base_url|wash()}</b> con identificativo popolato.<br />
                 {*(Se l'identificativo non è popolato, esso viene recuperato dal servizio con il medesimo slug in <em>{$prototype_operation_base_url}</em>, se presente)*}

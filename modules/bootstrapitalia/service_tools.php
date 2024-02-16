@@ -36,6 +36,42 @@ if ($Params['Page'] === 'doc') {
     return;
 }
 
+if (is_numeric($Params['Page'])){
+    $object = eZContentObject::fetch((int)$Params['Page']);
+    if ($object instanceof eZContentObject && $object->attribute('class_identifier') == 'public_service'){
+        $data = $data = StanzaDelCittadinoBridge::factory()->checkServiceSync($object->mainNode());
+        $tpl->setVariable('service', $object);
+        $tpl->setVariable('info', $data['info']);
+        $tpl->setVariable('errors', $data['errors']);
+        $contentInfoArray = [
+            'node_id' => null,
+            'class_identifier' => null,
+        ];
+        $contentInfoArray['persistent_variable'] = [
+            'show_path' => false,
+            'has_container' => true,
+        ];
+        if (is_array($tpl->variable('persistent_variable'))) {
+            $contentInfoArray['persistent_variable'] = array_merge(
+                $contentInfoArray['persistent_variable'],
+                $tpl->variable('persistent_variable')
+            );
+        }
+        $Result['title_path'] = $Result['path'] = [
+            [
+                'text' => 'Service tools',
+                'url' => false,
+                'url_alias' => false,
+            ],
+        ];
+        $Result['content_info'] = $contentInfoArray;
+        $Result['content'] = $tpl->fetch('design:bootstrapitalia/service_sync_status.tpl');
+    }else{
+        $Module->redirectTo('bootstrapitalia/service_tools');
+    }
+    return;
+}
+
 $tpl->setVariable('prototype_content_base_url', StanzaDelCittadinoBridge::getServiceContentPrototypeBaseUrl());
 $tpl->setVariable('prototype_operation_base_url', StanzaDelCittadinoBridge::getServiceOperationPrototypeBaseUrl());
 $services = [];

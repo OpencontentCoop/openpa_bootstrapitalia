@@ -185,7 +185,8 @@ class StanzaDelCittadinoBridge
     public function getTenantUri(): ?string
     {
         return rtrim(
-            str_replace('/it/user', '', $this->accessUrl), '/'
+            str_replace('/it/user', '', $this->accessUrl),
+            '/'
         );
     }
 
@@ -326,7 +327,7 @@ class StanzaDelCittadinoBridge
             'site_url' => 'https://' . eZSiteAccess::getIni(
                     OpenPABase::getFrontendSiteaccessName()
                 )->variable('SiteSettings', 'SiteURL'),
-            'meta' => $data
+            'meta' => $data,
         ];
     }
 
@@ -346,13 +347,12 @@ class StanzaDelCittadinoBridge
         $publicServiceObject = null;
 
         $parentIdentifier = $this->getParentServiceIdentifier($identifier);
-        if ($parentIdentifier){
+        if ($parentIdentifier) {
             $publicServiceObject = eZContentObject::fetchByRemoteID($parentIdentifier);
             if (!$publicServiceObject instanceof eZContentObject) {
                 throw new ServiceToolsException('Local parent service not found');
             }
-            $url = $publicServiceObject->mainNode()->urlAlias(
-            );
+            $url = $publicServiceObject->mainNode()->urlAlias();
             eZURI::transformURI($url, false, 'full');
             return $url;
         }
@@ -423,7 +423,7 @@ class StanzaDelCittadinoBridge
         }
         if (!$channelObject instanceof eZContentObject) {
             $parentIdentifier = $this->getParentServiceIdentifier($identifier);
-            if ($parentIdentifier){
+            if ($parentIdentifier) {
                 return "Warning: $type channel of $identifier (child of $parentIdentifier) service not found";
             }
 //            throw new ServiceToolsException('Local service channel not found');
@@ -448,18 +448,20 @@ class StanzaDelCittadinoBridge
         $repository = new ContentRepository();
         $repository->setEnvironment(new DefaultEnvironmentSettings());
 
-        if (!$channelObject instanceof eZContentObject){
+        if (!$channelObject instanceof eZContentObject) {
             $channelPayload->setData($locale, 'object', $label);
             $channelPayload->setData($locale, 'abstract', $label);
             $channelPayload->setParentNodes(
                 [eZContentObject::fetchByRemoteID(self::CHANNELS_REMOTE_ID)->mainNodeID()]
             );
-            $channelPayload->setData($locale, 'has_channel_type',
+            $channelPayload->setData(
+                $locale,
+                'has_channel_type',
                 $type === 'access' ? ['Applicazione Web'] : ['Sportello Pubblica Amministrazione']
             );
             $channel = $repository->create((array)$channelPayload);
             $channelId = $channel['content']['metadata']['id'];
-        }else{
+        } else {
             $repository->update((array)$channelPayload);
             $channelId = $channelObject->attribute('id');
         }
@@ -468,9 +470,9 @@ class StanzaDelCittadinoBridge
         eZURI::transformURI($url, false, 'full');
 
         $publicServiceObject = eZContentObject::fetchByRemoteID($identifier);
-        if ($publicServiceObject instanceof eZContentObject){
+        if ($publicServiceObject instanceof eZContentObject) {
             $publicServiceObjectDataMap = $publicServiceObject->dataMap();
-            if (isset($publicServiceObjectDataMap['has_channel'])){
+            if (isset($publicServiceObjectDataMap['has_channel'])) {
                 $currentItems = explode('-', $publicServiceObjectDataMap['has_channel']->toString());
                 if (!in_array($channelId, $currentItems)) {
                     $currentItems[] = $channelId;
@@ -511,7 +513,9 @@ class StanzaDelCittadinoBridge
         );
 
         $publicServicePayload->setRemoteId($identifier);
-        $publicServicePayload->setParentNodes([eZContentObject::fetchByRemoteID(self::SERVICES_REMOTE_ID)->mainNodeID()]);
+        $publicServicePayload->setParentNodes(
+            [eZContentObject::fetchByRemoteID(self::SERVICES_REMOTE_ID)->mainNodeID()]
+        );
         $publicServicePayload->unSetData('image');
         $publicServicePayload->setData(
             null,
@@ -657,7 +661,7 @@ class StanzaDelCittadinoBridge
         }
 
         $parentIdentifier = $this->getParentServiceIdentifier($identifier);
-        if ($parentIdentifier){
+        if ($parentIdentifier) {
             $identifier = $parentIdentifier;
         }
         $publicServiceObject = eZContentObject::fetchByRemoteID($identifier);
@@ -718,7 +722,9 @@ class StanzaDelCittadinoBridge
     {
         $publicServiceObject = eZContentObject::fetchByRemoteID($parentIdentifier);
         if (!$publicServiceObject instanceof eZContentObject) {
-            throw new ServiceToolsException("Service $parentIdentifier not yet installed as parent service of $identifier");
+            throw new ServiceToolsException(
+                "Service $parentIdentifier not yet installed as parent service of $identifier"
+            );
         }
 
         $url = $publicServiceObject->mainNode()->urlAlias();
@@ -811,5 +817,220 @@ class StanzaDelCittadinoBridge
             $idList[] = $creationResult['content']['metadata']['remoteId'];
         }
         return $idList;
+    }
+
+    public function checkServiceSync(eZContentObjectTreeNode $service): array
+    {
+        $errors = $info = [];
+        $info['name'] = $service->attribute('name');
+
+        $object = $service->object();
+        $dataMap = $object->dataMap();
+
+        $serviceIdentifier = '';
+        if (isset($dataMap['identifier']) && $dataMap['identifier']->hasContent()) {
+            $serviceIdentifier = trim($dataMap['identifier']->toString());
+        }
+        $info['identifier'] = $serviceIdentifier;
+        if ($object->remoteID() != $serviceIdentifier) {
+            $errors['OBJECT_REMOTE_ID_MISMATCH'] = [
+                'topic' => 'strict',
+                'message' => 'Object remote_id does not match with attribute identifier: ' . $object->remoteID() . ' ' . $serviceIdentifier,
+            ];
+        }
+
+        $channelsIdList = isset($dataMap['has_channel']) ? explode('-', $dataMap['has_channel']->toString()) : [];
+        $channels = OpenPABase::fetchObjects($channelsIdList);
+        if (count($channels) === 0) {
+            $errors['EMPTY_CHANNELS'] = [
+                'topic' => 'strict',
+                'message' => 'HasChannel relation is empty',
+            ];
+        }
+
+        $accessUrl = $bookingUrl = false;
+        $channelUrls = [];
+        foreach ($channels as $channel) {
+            $channelRemoteId = $channel->remoteID();
+            $channelDataMap = $channel->dataMap();
+            $url = isset($channelDataMap['channel_url']) ? $channelDataMap['channel_url']->content() : '';
+            $channelUrls[] = $url;
+            if (strpos($channelRemoteId, 'access-') !== false) {
+                $accessUrl = $url;
+                $info['access_url'][] = $accessUrl;
+            } elseif (strpos($channelRemoteId, 'booking-') !== false) {
+                $bookingUrl = $url;
+                $info['booking_url'][] = $bookingUrl;
+            } else {
+                $info['channel_urls'][] = $url;
+            }
+        }
+
+        StanzaDelCittadinoClient::$connectionTimeout = 10;
+        StanzaDelCittadinoClient::$processTimeout = 10;
+        $remoteService = false;
+        try {
+            $remoteService = $this->getServiceByIdentifier($serviceIdentifier);
+        } catch (Throwable $e) {
+            $errors['REMOTE_BY_IDENTIFIER_NOT_FOUND'] = [
+                'topic' => 'strict',
+                'message' => 'Remote service by identifier not found ' . $e->getMessage(),
+            ];
+        }
+
+        if (!$remoteService) {
+            try {
+                foreach ($channelUrls as $url) {
+                    if (strpos($url, 'prenota_appuntamento?service_id=') != false) {
+                        $parts = explode('prenota_appuntamento?service_id=', $url);
+                        if (isset($parts[1]) && preg_match(
+                                '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/',
+                                $parts[1]
+                            )) {
+                            $remoteService = $this->instanceNewClient()->getService($parts[1]);
+                        }
+                    }
+                }
+            } catch (Throwable $e) {
+                $errors['REMOTE_BY_ID_NOT_FOUND'] = [
+                    'topic' => 'strict',
+                    'message' => 'Remote service by booking url service_id not found ' . $e->getMessage(),
+                ];
+            }
+        }
+        if ($remoteService) {
+            $remoteServiceUUID = $remoteService['id'];
+            $info['digital_service_id'] = $remoteServiceUUID;
+
+            if (!empty($remoteService['identifier']) && $serviceIdentifier != $remoteService['identifier']) {
+                $errors['IDENTIFIER_MISMATCH'] = [
+                    'topic' => 'sync',
+                    'message' => 'Service identifier does not match with remote service identifier',
+                    'locale' => $serviceIdentifier,
+                    'remote' => $remoteService['identifier'],
+                ];
+            }
+
+            if ($service->remoteID() != $remoteServiceUUID) {
+                $errors['NODE_REMOTE_ID_MISMATCH'] = [
+                    'topic' => 'sync',
+                    'message' => 'Node remote_id does not match with remote service UUID',
+                    'locale' => $service->remoteID(),
+                    'remote' => $remoteServiceUUID,
+                ];
+            }
+
+            if ($remoteService['name'] != $service->attribute('name')) {
+                $errors['NAME_MISMATCH'] = [
+                    'topic' => 'sync',
+                    'message' => 'Name does not match',
+                    'locale' => $service->attribute('name'),
+                    'remote' => $remoteService['name'],
+                ];
+            }
+
+            $urlAlias = $service->attribute('url_alias');
+            $availableUrls = [
+                '/' . $urlAlias,
+                '/openpa/object/' . $object->attribute('id'),
+                '/openpa/object/' . $object->remoteID(),
+            ];
+            //external_card_url
+            $externalCardPath = parse_url($remoteService['external_card_url'], PHP_URL_PATH);
+            if (!in_array($externalCardPath, $availableUrls)) {
+                $errors['EXTERNAL_CARD_URL_MISMATCH'] = [
+                    'topic' => 'sync',
+                    'message' => 'External card url does not match',
+                    'locale' => implode(' or ', $availableUrls),
+                    'remote' => $externalCardPath ?? $remoteService['external_card_url'],
+                ];
+            }
+
+            //access_url
+            if ($remoteService['access_url'] != $accessUrl) {
+                $errors['ACCESS_URL_MISMATCH'] = [
+                    'topic' => 'sync',
+                    'message' => 'Access url does not match',
+                    'locale' => $accessUrl,
+                    'remote' => $remoteService['access_url'],
+                ];
+            }
+
+            //booking_call_to_action
+            if ($remoteService['booking_call_to_action'] != $bookingUrl) {
+                $errors['BOOKING_URL_MISMATCH'] = [
+                    'topic' => 'sync',
+                    'message' => 'Booking url does not match',
+                    'locale' => $bookingUrl,
+                    'remote' => $remoteService['booking_call_to_action'],
+                ];
+            }
+
+            $inSync = true;
+            $remoteStatus = $remoteService['status'];
+            $isActivePublicService = OpenPABootstrapItaliaOperators::isActivePublicService($object);
+            $remoteIsActive = (isset(StanzaDelCittadinoBridge::$mapServiceStatus[$remoteStatus])
+                && StanzaDelCittadinoBridge::$mapServiceStatus[$remoteStatus] == StanzaDelCittadinoBridge::$mapServiceStatus['active']);
+            if (!$remoteIsActive && $isActivePublicService) {
+                $inSync = false;
+            }
+            if (!$inSync) {
+                $statusError[] = [
+                    'topic' => 'sync',
+                    'message' => 'Status does not match',
+                    'locale' => '?',
+                    'remote' => $remoteService['status'],
+                ];
+                if (isset($dataMap['has_service_status'])) {
+                    $status = $dataMap['has_service_status']->content();
+                    $statusError['locale'] = $status instanceof eZTags ? $status->keywordString(
+                        ' '
+                    ) : $dataMap['has_service_status']->toString();
+                }
+                $errors['STATUS_MISMATCH'] = $statusError;
+            }
+
+            $localMaxResponseTime = isset($dataMap['has_processing_time']) ?
+                (int)$dataMap['has_processing_time']->toString() : 0;
+            $remoteMaxResponseTime = (int)$remoteService['max_response_time'];
+            if ($localMaxResponseTime != $remoteMaxResponseTime) {
+                $errors['MAX_RESPONSE_TIME_MISMATCH'] = [
+                    'topic' => 'sync',
+                    'message' => 'Max response time does not match',
+                    'locale' => $localMaxResponseTime,
+                    'remote' => $remoteMaxResponseTime,
+                ];
+            }
+
+            $messages = $remoteService['feedback_messages'];
+            foreach ($messages as $messageId => $values) {
+                $text = $values['message'] ?? false;
+                $isActive = $values['is_active'] ?? false;
+                if ($isActive && strpos($text, 'Entro 30 giorni') !== false && $localMaxResponseTime != 30) {
+                    $errors['WRONG_NOTIFICATION:' . strtoupper($messageId)] = [
+                        'topic' => 'strict',
+                        'message' => "Notification text for status change \"$messageId\" contains wrong max response time",
+                    ];
+                }
+            }
+
+            $topicId = $remoteService['topics_id'];
+            $remoteCategory = $this->instanceNewClient()->getCategory($topicId);
+            $categoryName = $remoteCategory['name'];
+            $type = isset($dataMap['type']) ? $dataMap['type']->content()->keywordString(' ') : '?';
+            if ($categoryName !== $type) {
+                $errors['CATEGORY_MISMATCH'] = [
+                    'topic' => 'sync',
+                    'message' => 'Service category does not match',
+                    'locale' => $type,
+                    'remote' => $categoryName,
+                ];
+            }
+        }
+
+        return [
+            'info' => $info,
+            'errors' => $errors,
+        ];
     }
 }
