@@ -87,7 +87,9 @@
                     'parent_node_id', $node.main_node_id,
                     'class_filter_type', 'exclude',
                     'class_filter_array', array('nota_trasparenza'),
-                    'limit', openpaini( 'GestioneFigli', 'limite_paginazione', 25 )
+                    'limit', openpaini( 'GestioneFigli', 'limite_paginazione', 25 ),
+                    'offset', $view_parameters.offset,
+                    'sort_by', $node.sort_array
                 ))
                 nodes_count=$node_children_count}
             </div>
