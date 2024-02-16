@@ -848,7 +848,7 @@ class StanzaDelCittadinoBridge
             ];
         }
 
-        $accessUrl = $bookingUrl = false;
+        $accessUrlList = $bookingUrlList = [];
         $channelUrls = [];
         foreach ($channels as $channel) {
             $channelRemoteId = $channel->remoteID();
@@ -856,11 +856,11 @@ class StanzaDelCittadinoBridge
             $url = isset($channelDataMap['channel_url']) ? $channelDataMap['channel_url']->content() : '';
             $channelUrls[] = $url;
             if (strpos($channelRemoteId, 'access-') !== false) {
-                $accessUrl = $url;
-                $info['access_url'][] = $accessUrl;
+                $accessUrlList[] = $url;
+                $info['access_url'][] = $url;
             } elseif (strpos($channelRemoteId, 'booking-') !== false) {
-                $bookingUrl = $url;
-                $info['booking_url'][] = $bookingUrl;
+                $bookingUrlList[] = $url;
+                $info['booking_url'][] = $url;
             } else {
                 $info['channel_urls'][] = $url;
             }
@@ -947,21 +947,21 @@ class StanzaDelCittadinoBridge
             }
 
             //access_url
-            if ($remoteService['access_url'] != $accessUrl) {
+            if (!in_array($remoteService['access_url'], $accessUrlList)) {
                 $errors['ACCESS_URL_MISMATCH'] = [
                     'topic' => 'sync',
                     'message' => 'Access url does not match',
-                    'locale' => $accessUrl,
+                    'locale' => implode(', ', $accessUrlList),
                     'remote' => $remoteService['access_url'],
                 ];
             }
 
             //booking_call_to_action
-            if ($remoteService['booking_call_to_action'] != $bookingUrl) {
+            if (!in_array($remoteService['booking_call_to_action'], $bookingUrlList)) {
                 $errors['BOOKING_URL_MISMATCH'] = [
                     'topic' => 'sync',
                     'message' => 'Booking url does not match',
-                    'locale' => $bookingUrl,
+                    'locale' => implode(', ', $bookingUrlList),
                     'remote' => $remoteService['booking_call_to_action'],
                 ];
             }
