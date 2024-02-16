@@ -33,6 +33,7 @@ if ($object instanceof eZContentObject && $stateId) {
     } else {
         eZContentOperationCollection::updateObjectState($parameter, [$stateId]);
     }
+    eZContentCacheManager::clearContentCache($parameter);
     $module->redirectTo($object->mainNode()->attribute('url_alias'));
 } else {
     return $module->handleError(eZError::KERNEL_NOT_AVAILABLE, 'kernel');

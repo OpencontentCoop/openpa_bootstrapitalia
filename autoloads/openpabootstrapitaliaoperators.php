@@ -1547,10 +1547,19 @@ class OpenPABootstrapItaliaOperators
         }
         $count = 0;
         if ($tag instanceof eZTagsObject) {
+            $privacyStatuses = OpenPABase::initStateGroup('privacy', ['public', 'private']);
+            $publicStatusId = $privacyStatuses['privacy.public'] instanceof eZContentObjectState ?
+                (int)$privacyStatuses['privacy.public']->attribute('id') : 0;
             $tagId = (int)$tag->attribute('id');
             $path = $tag->attribute('path_string');
             $locale = eZLocale::currentLocaleCode();
             $db = eZDB::instance();
+            $joinStatus = '';
+            $andWhereIsPublic = '';
+            if ($publicStatusId > 0){
+                $joinStatus = 'INNER JOIN ezcobj_state_link sl ON l.object_id = sl.contentobject_id';
+                $andWhereIsPublic = 'AND sl.contentobject_state_id = ' . $publicStatusId;
+            }
             $query = "SELECT COUNT(DISTINCT o.id) AS count FROM eztags_attribute_link l
                                    INNER JOIN ezcontentobject o ON l.object_id = o.id
                                        AND l.objectattribute_version = o.current_version
@@ -1558,7 +1567,10 @@ class OpenPABootstrapItaliaOperators
                                    INNER JOIN ezcontentobject_attribute a ON l.objectattribute_id = a.id
                                       AND l.objectattribute_version = o.current_version
                                       AND l.objectattribute_version = a.version
+                                   $joinStatus   
                                    WHERE l.keyword_id IN (SELECT id FROM eztags WHERE id = $tagId OR path_string LIKE '{$path}%')
+                                      AND o.section_id = 1
+                                      $andWhereIsPublic
                                       AND a.language_code = '$locale'";
             $result = $db->arrayQuery($query);
 

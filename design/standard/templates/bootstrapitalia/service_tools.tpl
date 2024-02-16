@@ -73,8 +73,8 @@
 {literal}
     $(document).ready(function () {
       let stateMessage = $('#loading-helper');
-      let =
-      resultsContainer = $('.items');
+      let resultsContainer = $('.items');
+      var prefix = UriPrefix === '/' ? '' : UriPrefix;
       $('span.load').each(function () {
         var self = $(this);
         var serviceId = self.data('id');
@@ -95,7 +95,7 @@
           stateMessage.text('Cerco i servizi locali con identificatore ' + identifier);
           $.ajax({
             type: "GET",
-            url: '/opendata/api/content/search/classes [public_service] and identifier = \'"' + identifier + '"\' limit 1',
+            url: prefix+'/opendata/api/content/search/classes [public_service] and identifier = \'"' + identifier + '"\' limit 1',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             tryCount: 0,
@@ -107,7 +107,7 @@
                 resultsContainer.find('button.import[data-identifier="' + identifier + '"]').removeClass('hide');
               } else {
                 resultsContainer.find('button.update[data-identifier="' + identifier + '"]').removeClass('hide');
-                resultsContainer.find('a.link[data-identifier="' + identifier + '"]').removeClass('hide').attr('href', '/openpa/object/' + localData.searchHits[0].metadata.remoteId)
+                resultsContainer.find('a.link[data-identifier="' + identifier + '"]').removeClass('hide').attr('href', prefix+'/openpa/object/' + localData.searchHits[0].metadata.remoteId)
               }
               self.parents('tr').css('opacity', 1);
               stateMessage.text('');
