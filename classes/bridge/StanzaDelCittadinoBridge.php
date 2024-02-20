@@ -137,7 +137,7 @@ class StanzaDelCittadinoBridge
         return $base ? $base . $path : null;
     }
 
-    public function discoverApiBaseUrl(): void
+    private function discoverApiBaseUrl(): void
     {
         if (!$this->apiUrlDiscovered) {
             $userLoginUri = $this->getUserLoginUri();
@@ -819,10 +819,13 @@ class StanzaDelCittadinoBridge
         return $idList;
     }
 
-    public function checkServiceSync(eZContentObjectTreeNode $service): array
+    public function checkServiceSync(eZContentObjectTreeNode $service, array $serviceList = [], StanzaDelCittadinoClient $client = null): array
     {
+        $client = $client ?? $this->instanceNewClient();
         $errors = $info = [];
         $info['name'] = $service->attribute('name');
+        $info['node_id'] = $service->attribute('node_id');
+        $info['object_id'] = $service->attribute('contentobject_id');
 
         $object = $service->object();
         $dataMap = $object->dataMap();
@@ -835,7 +838,8 @@ class StanzaDelCittadinoBridge
         if ($object->remoteID() != $serviceIdentifier) {
             $errors['OBJECT_REMOTE_ID_MISMATCH'] = [
                 'topic' => 'strict',
-                'message' => 'Object remote_id does not match with attribute identifier: ' . $object->remoteID() . ' ' . $serviceIdentifier,
+                'message' => 'Object remote_id does not match with attribute identifier: ' . $object->remoteID(
+                    ) . ' ' . $serviceIdentifier,
             ];
         }
 
@@ -853,12 +857,14 @@ class StanzaDelCittadinoBridge
         foreach ($channels as $channel) {
             $channelRemoteId = $channel->remoteID();
             $channelDataMap = $channel->dataMap();
-            $url = isset($channelDataMap['channel_url']) ? $channelDataMap['channel_url']->content() : '';
+            $url = isset($channelDataMap['channel_url']) ? trim($channelDataMap['channel_url']->content()) : '';
             $channelUrls[] = $url;
-            if (strpos($channelRemoteId, 'access-') !== false) {
+            if (strpos($channelRemoteId, 'access-') !== false
+                || strpos($url, '/access') !== false) {
                 $accessUrlList[] = $url;
                 $info['access_url'][] = $url;
-            } elseif (strpos($channelRemoteId, 'booking-') !== false) {
+            } elseif (strpos($channelRemoteId, 'booking-') !== false
+                || strpos($url, '/prenota_appuntamento') !== false) {
                 $bookingUrlList[] = $url;
                 $info['booking_url'][] = $url;
             } else {
@@ -869,6 +875,18 @@ class StanzaDelCittadinoBridge
         StanzaDelCittadinoClient::$connectionTimeout = 10;
         StanzaDelCittadinoClient::$processTimeout = 10;
         $remoteService = false;
+
+        if (self::isUUid($service->remoteID())) {
+            try {
+                $remoteService = $client->getService($service->remoteID());
+            } catch (Throwable $e) {
+                $errors['REMOTE_BY_ID_NOT_FOUND'] = [
+                    'topic' => 'strict',
+                    'message' => 'Remote service by id not found ' . $e->getMessage(),
+                ];
+            }
+        }
+
         try {
             $remoteService = $this->getServiceByIdentifier($serviceIdentifier);
         } catch (Throwable $e) {
@@ -879,25 +897,56 @@ class StanzaDelCittadinoBridge
         }
 
         if (!$remoteService) {
-            try {
-                foreach ($channelUrls as $url) {
-                    if (strpos($url, 'prenota_appuntamento?service_id=') != false) {
-                        $parts = explode('prenota_appuntamento?service_id=', $url);
-                        if (isset($parts[1]) && preg_match(
-                                '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/',
-                                $parts[1]
-                            )) {
-                            $remoteService = $this->instanceNewClient()->getService($parts[1]);
+            $msg = [];
+            foreach ($channelUrls as $url) {
+                if (strpos($url, 'prenota_appuntamento?service_id=') !== false) {
+                    $parts = explode('prenota_appuntamento?service_id=', $url);
+                    if (isset($parts[1]) && self::isUUid($parts[1])) {
+                        try {
+                            $remoteService = $client->getService($parts[1]);
+                        } catch (Throwable $e) {
+                            $msg[] = $e->getMessage();
                         }
                     }
                 }
-            } catch (Throwable $e) {
-                $errors['REMOTE_BY_ID_NOT_FOUND'] = [
+            }
+            if (!$remoteService) {
+                $errors['REMOTE_BY_BOOKING_ID_NOT_FOUND'] = [
                     'topic' => 'strict',
-                    'message' => 'Remote service by booking url service_id not found ' . $e->getMessage(),
+                    'message' => 'Remote service by booking url service_id not found ' . implode(' ', $msg),
                 ];
             }
         }
+
+        if (!$remoteService && !empty($serviceList)) {
+            $msg = [];
+            foreach ($channelUrls as $url) {
+                if (strpos($url, '/access') !== false) {
+                    $parts = explode('/', $url);
+                    array_pop($parts);
+                    $slug = array_pop($parts);
+                    if ($slug) {
+                        foreach ($serviceList as $s) {
+                            if ($s['slug'] == $slug) {
+                                try {
+                                    $remoteService = $client->getService($s['id']);
+                                    break;
+                                } catch (Throwable $e) {
+                                    $msg[] = $e->getMessage();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (!$remoteService) {
+                $errors['REMOTE_BY_SLUG_NOT_FOUND'] = [
+                    'topic' => 'strict',
+                    'message' => 'Remote service by slug not found' . implode(' ', $msg),
+                ];
+            }
+        }
+
         if ($remoteService) {
             $remoteServiceUUID = $remoteService['id'];
             $info['digital_service_id'] = $remoteServiceUUID;
@@ -947,7 +996,7 @@ class StanzaDelCittadinoBridge
             }
 
             //access_url
-            if (!in_array($remoteService['access_url'], $accessUrlList)) {
+            if (!in_array(trim($remoteService['access_url']), $accessUrlList)) {
                 $errors['ACCESS_URL_MISMATCH'] = [
                     'topic' => 'sync',
                     'message' => 'Access url does not match',
@@ -957,7 +1006,7 @@ class StanzaDelCittadinoBridge
             }
 
             //booking_call_to_action
-            if (!in_array($remoteService['booking_call_to_action'], $bookingUrlList)) {
+            if (!in_array(trim($remoteService['booking_call_to_action']), $bookingUrlList)) {
                 $errors['BOOKING_URL_MISMATCH'] = [
                     'topic' => 'sync',
                     'message' => 'Booking url does not match',
@@ -1015,7 +1064,7 @@ class StanzaDelCittadinoBridge
             }
 
             $topicId = $remoteService['topics_id'];
-            $remoteCategory = $this->instanceNewClient()->getCategory($topicId);
+            $remoteCategory = $client->getCategory($topicId);
             $categoryName = $remoteCategory['name'];
             $type = isset($dataMap['type']) ? $dataMap['type']->content()->keywordString(' ') : '?';
             if ($categoryName !== $type) {
@@ -1032,5 +1081,13 @@ class StanzaDelCittadinoBridge
             'info' => $info,
             'errors' => $errors,
         ];
+    }
+
+    private static function isUuid(string $string)
+    {
+        return preg_match(
+            '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/',
+            $string
+        );
     }
 }

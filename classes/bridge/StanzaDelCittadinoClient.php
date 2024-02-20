@@ -70,6 +70,36 @@ class StanzaDelCittadinoClient
         return $this->request('GET', '/api/services?_=' . time());
     }
 
+    public function getCalendarList()
+    {
+        return $this->request('GET', '/api/calendars?_=' . time());
+    }
+
+    public function getCalendar(string $calendarId)
+    {
+        return $this->request('GET', '/api/calendars/' . $calendarId);
+    }
+
+    public function getCalendarOpeningHours(string $calendarId)
+    {
+        return $this->request('GET', '/api/calendars/' . $calendarId . '/opening-hours');
+    }
+
+    public function getCalendarAvailabilities(string $calendarId, string $fromTime, string $toTime = null)
+    {
+        if ($toTime) {
+            return $this->request(
+                'GET',
+                '/api/calendars/' . $calendarId . "/availabilities?available=true&from_time=$fromTime&to_time=$toTime"
+            );
+        }else{
+            return $this->request(
+                'GET',
+                '/api/calendars/' . $calendarId . "/availabilities/$fromTime?available=true"
+            );
+        }
+    }
+
     public function getService($id)
     {
         return $this->request('GET', '/api/services/' . $id);

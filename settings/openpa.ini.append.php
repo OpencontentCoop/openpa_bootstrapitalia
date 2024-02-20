@@ -31,6 +31,9 @@ ContactsField_inefficiency=link_segnalazione_disservizio
 ContactsField_support=link_assistenza
 ContactsField_booking=link_prenotazione_appuntamento
 
+UseCustomBuiltin_booking=disabled
+
+
 [AccessPage]
 Title=Sign in
 Intro=To access the site and its services, use one of the following methods.
@@ -73,6 +76,7 @@ Handlers[theme]=DataHandlerTheme
 Handlers[block_opendata_queried_contents]=DataHandlerOpendataQueriedContents
 Handlers[meta]=DataHandlerMeta
 Handlers[instance]=DataHandlerInstance
+Handlers[booking_config]=DataHandlerBookingConfig
 
 [BlockHandlers]
 Handlers[ListaManuale/*]=OpenPABootstrapItaliaBlockHandlerListaManuale
