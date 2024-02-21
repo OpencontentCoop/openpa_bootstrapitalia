@@ -66,7 +66,7 @@
         <tr>
             <td align="right" style="font-size:0px;padding:10px 25px;word-break:break-word;">
                 <div style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;line-height:1;text-align:right;text-transform:uppercase;color:#000000;">
-                    <a href="{concat($site_url, '/', $content.object.main_node.url_alias)}">Leggi tutto ></a>
+                    <a href="{concat($site_url, '/', $content.object.main_node.url_alias)}">{'Read more'|i18n('bootstrapitalia')} ></a>
                 </div>
             </td>
         </tr>
