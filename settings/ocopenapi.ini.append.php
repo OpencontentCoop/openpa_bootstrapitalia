@@ -5,6 +5,7 @@ ProviderList[]=TrasparenzaEndpointFactoryProvider
 
 [ContentMetaSettings]
 ContentMetaPropertyFactories[privacy]=PrivacyStatusFactoryProvider
+ContentMetaPropertyFactories[pagina_trasparenza/page]=PagineTrasparenzaPageFactoryProvider
 
 [ClassAttributeSettings]
 ClassAttributePropertyFactories[lotto/id]=InternalIdFactoryProvider

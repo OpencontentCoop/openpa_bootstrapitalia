@@ -1,8 +1,13 @@
 <?php
 
+namespace Lotti;
+
+use eZContentClass;
+use eZContentObject;
+use eZContentObjectTreeNode;
 use Opencontent\OpenApi\EndpointDiscover\AbstractSlugClassesEntryPointFactoryProvider;
-use Opencontent\OpenApi\OperationFactoryCollection;
 use Opencontent\OpenApi\OperationFactory;
+use Opencontent\OpenApi\OperationFactoryCollection;
 
 class LottiEndpointFactoryProvider extends AbstractSlugClassesEntryPointFactoryProvider
 {
@@ -63,7 +68,7 @@ class LottiEndpointFactoryProvider extends AbstractSlugClassesEntryPointFactoryP
 
     private function getContainerRoot()
     {
-        if (!$this->containerRoot){
+        if (!$this->containerRoot) {
             $this->containerRoot = eZContentObject::fetchByRemoteID(self::CONTAINER_REMOTE_ID);
         }
         return $this->containerRoot;
@@ -71,7 +76,7 @@ class LottiEndpointFactoryProvider extends AbstractSlugClassesEntryPointFactoryP
 
     protected function build()
     {
-        if ($this->getContainerRoot() && eZContentClass::classIDByIdentifier('dataset_lotto')){
+        if ($this->getContainerRoot() && eZContentClass::classIDByIdentifier('dataset_lotto')) {
             $prefix = $this->getPrefix();
             $this->endpoints[] = (new \Opencontent\OpenApi\EndpointFactory\NodeClassesEndpointFactory(
                 $this->getContainerRoot()->mainNodeID(),
@@ -79,9 +84,11 @@ class LottiEndpointFactoryProvider extends AbstractSlugClassesEntryPointFactoryP
             ))
                 ->setPath($prefix)
                 ->addTag($this->getTag())
-                ->setOperationFactoryCollection(new OperationFactoryCollection([
-                    (new OperationFactory\ContentObject\CreateOperationFactory()),
-                ]));
+                ->setOperationFactoryCollection(
+                    new OperationFactoryCollection([
+                        (new LottiCreateOperationFactory()),
+                    ])
+                );
         }
 
         parent::build();
