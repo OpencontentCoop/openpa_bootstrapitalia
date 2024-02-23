@@ -469,7 +469,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         if (isset($data['section_latest_news']) && $data['section_latest_news'] === 'true') {
             return $originalBlockNews;
         } elseif (isset($data['section_news'][0]['id'])) {
-            $block = $this->findBlockById(self::SECTION_MANAGEMENT);
+            $block = $this->findBlockById(self::SECTION_MANAGEMENT, true);
             $block['block_id'] = self::SECTION_NEWS;
             $block['name'] = $originalBlockNews['name'];
             $block['custom_attributes']['container_style'] = false;
