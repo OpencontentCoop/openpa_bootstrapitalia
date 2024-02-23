@@ -37,35 +37,29 @@
     {/if}
 </div>
 
-{if $node.children_count}
-    {include uri='design:zone/default.tpl' zones=array(hash('blocks', array(page_block(
-        "",
-        "OpendataRemoteContents",
-        "datatable",
-        hash(
-            "remote_url", "",
-            "query", concat("classes [lotto] and subtree [", $node.node_id, "]"),
-            "show_grid", "0",
-            "show_map", "0",
-            "show_search", "0",
-            "input_search_placeholder", "",
-            "limit", "10",
-            "items_per_row", "auto",
-            "fields", "_link,data_inizio,data_ultimazione,cig,oggetto,sceltacontraente",
-            "facets", "",
-            "simple_geo_api", "0",
-            "template", "",
-            "color_style", "",
-            "container_style", "",
-            "show_all_link", "",
-            "show_all_text", ""
-        )
-    ))))}
-{/if}
-
-{if $openpa['content_tree_related'].full.exclude|not()}
-    {include uri='design:openpa/full/parts/related.tpl' object=$node.object}
-{/if}
+{include uri='design:zone/default.tpl' zones=array(hash('blocks', array(page_block(
+    "",
+    "OpendataRemoteContents",
+    "datatable",
+    hash(
+        "remote_url", "",
+        "query", concat("classes [lotto] and subtree [", $node.node_id, "]"),
+        "show_grid", "0",
+        "show_map", "0",
+        "show_search", "0",
+        "input_search_placeholder", "",
+        "limit", "10",
+        "items_per_row", "auto",
+        "fields", "_link,data_inizio,data_ultimazione,cig,oggetto,sceltacontraente",
+        "facets", "",
+        "simple_geo_api", "0",
+        "template", "",
+        "color_style", "",
+        "container_style", "",
+        "show_all_link", "",
+        "show_all_text", ""
+    )
+))))}
 
 {if $node.can_create}
     {ezscript_require(array(
