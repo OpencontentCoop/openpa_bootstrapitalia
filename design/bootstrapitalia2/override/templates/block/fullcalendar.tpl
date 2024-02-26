@@ -9,7 +9,10 @@
     {set $query = concat('classes [', $block.custom_attributes.includi_classi, ']')}
     {set $classes = fetch(class, list, hash(class_filter, $block.custom_attributes.includi_classi|explode(',')))}
 {/if}
-
+{if and(is_set($block.custom_attributes.tag_id), $block.custom_attributes.tag_id|ne(''))}
+    {set $query = concat($query, ' and raw[ezf_df_tag_ids] in [', $block.custom_attributes.tag_id, '] ')}
+    {set $classes = fetch(class, list, hash(class_filter, $block.custom_attributes.includi_classi|explode(',')))}
+{/if}
 {def $calendar_view = 'day_grid_4'}
 {if and(is_set($block.custom_attributes.calendar_view), $block.custom_attributes.calendar_view|ne(''))}
     {set $calendar_view = $block.custom_attributes.calendar_view}

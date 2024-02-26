@@ -90,6 +90,12 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
                         array_unshift($url, $item);
                     }
                     $currentViewTag = eZTagsObject::fetchByUrl($url);
+                    if (!$currentViewTag instanceof eZTagsObject){
+                        $currentViewTags = eZTagsObject::fetchByKeyword($userView);
+                        if (count($currentViewTags)){
+                            $currentViewTag = $currentViewTags[0];
+                        }
+                    }
                     if ($currentViewTag instanceof eZTagsObject){
                         $pathArray = explode('/', trim($currentViewTag->attribute('path_string'), '/'));
                         if (in_array($rootTag->attribute('id'), $pathArray)){
