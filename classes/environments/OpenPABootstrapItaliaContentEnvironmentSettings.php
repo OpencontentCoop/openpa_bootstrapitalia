@@ -285,11 +285,9 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
 
     public function filterQuery(\ArrayObject $query, QueryBuilder $builder)
     {
-        $publicServiceLinkClassId = eZContentClass::classIDByIdentifier('public_service_link');
-        if ($publicServiceLinkClassId && isset($query['SearchContentClassID'])){
-            $publicServiceClassId = eZContentClass::classIDByIdentifier('public_service');
-            if (in_array($publicServiceClassId, $query['SearchContentClassID'])){
-                $query['SearchContentClassID'][] = $publicServiceLinkClassId;
+        foreach (BootstrapItaliaClassAlias::getAliasIdList() as $realId => $maskedId){
+            if (in_array($realId, $query['SearchContentClassID'])){
+                $query['SearchContentClassID'][] = $maskedId;
             }
         }
 

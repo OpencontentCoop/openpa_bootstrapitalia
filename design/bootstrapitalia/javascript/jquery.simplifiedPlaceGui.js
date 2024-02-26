@@ -46,10 +46,14 @@
             var plugin = this;
 
             plugin.container.find('input').val('');
+
+            let startViewPoint = plugin.selectorWrapper.find('[data-lng]').first().data() || new L.LatLng(0, 0);
+            let startViewZoom = startViewPoint.lat === 0 ? 5 : 13;
+
             plugin.map = new L.Map(this.mapId, {
                 loadingControl: true,
                 closePopupOnClick: false
-            }).setView(new L.LatLng(0, 0), 1);
+            }).setView(startViewPoint, startViewZoom);
             L.Control.geocoder({
                 collapsed: false,
                 placeholder: plugin.settings.i18n.search,
@@ -93,8 +97,14 @@
                         plugin.setMarker(target);
                     }
                 });
-            }).on('click', function (event) {
-                plugin.setMarker(event.target.getLatLng());
+            })
+            plugin.map.on('click', function (event) {
+                  if (event.latlng !== undefined) {
+                      plugin.setMarker({
+                          lat: event.latlng.lat,
+                          lng: event.latlng.lng
+                      });
+                  }
             });
 
             plugin.myLocationButton.on('click', function (e) {
@@ -208,7 +218,7 @@
             plugin.selectWindow.hide();
             plugin.editWindow.html('');
 
-            var container = $('<form class="p-2"></form>').appendTo(plugin.editWindow);
+            var container = $('<div></div>').appendTo(plugin.editWindow);
             container.opendataFormCreate({
                     class: plugin.settings.class,
                     parent: plugin.settings.parent,

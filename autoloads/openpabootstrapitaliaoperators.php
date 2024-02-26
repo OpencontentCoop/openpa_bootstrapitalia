@@ -76,6 +76,7 @@ class OpenPABootstrapItaliaOperators
             'sentry_script_loader',
             'built_in_app_variables',
             'built_in_app',
+            'openagenda_name',
             'openagenda_is_enabled',
             'openagenda_next_events',
             'openagenda_can_push_place',
@@ -221,8 +222,13 @@ class OpenPABootstrapItaliaOperators
                 $operatorValue = OpenAgendaBridge::factory()->getEnablePushPlace();
                 break;
 
+            case 'openagenda_name':
+                $operatorValue = OpenAgendaBridge::factory()->getOpenAgendaName();
+                break;
+
             case 'openagenda_is_enabled':
-                $operatorValue = OpenAgendaBridge::factory()->isEnabled();
+                $operatorValue = OpenAgendaBridge::factory()->isEnabled() ?
+                    OpenAgendaBridge::factory()->getOpenAgendaUrl() : false;
                 break;
 
             case 'openagenda_next_events':
@@ -974,14 +980,14 @@ class OpenPABootstrapItaliaOperators
             $searchHash['class_id'] = OpenPAINI::variable('MotoreRicerca', 'IncludiClassi', null);
         }
 
-        $publicServiceLinkClassId = eZContentClass::classIDByIdentifier('public_service_link');
-        if ($publicServiceLinkClassId) {
-            $publicServiceClassId = eZContentClass::classIDByIdentifier('public_service');
-            if (in_array($publicServiceClassId, $searchHash['class_id'])
-                || in_array('public_service', $searchHash['class_id'])
-            ) {
-                $data['_class_alias'][$publicServiceClassId] = [$publicServiceLinkClassId];
-                $searchHash['class_id'][] = $publicServiceLinkClassId;
+        foreach (BootstrapItaliaClassAlias::getAliasIdList() as $realId => $maskedId){
+            if (in_array($realId, $searchHash['class_id'])){
+                $searchHash['class_id'][] = $maskedId;
+                $data['_class_alias'][$realId] = [$maskedId];
+            }
+            if (in_array(eZContentClass::classIdentifierByID($realId), $searchHash['class_id'])){
+                $searchHash['class_id'][] = eZContentClass::classIdentifierByID($maskedId);
+                $data['_class_alias'][$realId] = [$maskedId];
             }
         }
 

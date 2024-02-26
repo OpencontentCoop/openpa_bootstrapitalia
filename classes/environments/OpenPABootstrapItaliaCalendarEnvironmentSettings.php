@@ -244,7 +244,10 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
     private function getFirstLocale($value)
     {
         $language = eZLocale::currentLocaleCode();
-        return isset($value[$language]) ? $value[$language] : array_shift($value);
+        if (is_object($value)){
+            $value = json_decode(json_encode($value), true);
+        }
+        return $value[$language] ?? array_shift($value);
     }
 
     /**
@@ -260,6 +263,11 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
         \Opencontent\QueryLanguage\QueryBuilder $builder
     )
     {
+        foreach (BootstrapItaliaClassAlias::getAliasIdList() as $realId => $maskedId){
+            if (in_array($realId, $query['SearchContentClassID'])){
+                $query['SearchContentClassID'][] = $maskedId;
+            }
+        }
         $calendarFilter = $this->buildCalendarFilter($query, $builder);
 
         $currentFilter = isset($query['Filter']) ? $query['Filter'] : [];

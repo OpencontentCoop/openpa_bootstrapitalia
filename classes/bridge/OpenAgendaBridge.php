@@ -267,6 +267,11 @@ class OpenAgendaBridge
         return rtrim($this->agendaUrl, '/');
     }
 
+    public function getOpenAgendaName()
+    {
+        return $this->getStorage(self::NAME_CACHE_KEY);
+    }
+
     public function setOpenAgendaUrl($url)
     {
         if (empty($url)) {

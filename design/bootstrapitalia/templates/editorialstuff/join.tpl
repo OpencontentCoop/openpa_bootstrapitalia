@@ -92,7 +92,7 @@
                         {if $bypass_captcha|not}
                             <div class="py-3 mb-4">
                                 <h5>Antispam</h5>
-                                <small class="form-text text-muted mb-1">{'Confirm us that you are not a robot'|i18n( 'social_user/signup' )}</small>
+                                <small class="form-text text-muted mb-1">{'Confirm us that you are not a robot'|i18n( 'agenda/signupassociazione' )}</small>
                                 {if $recaptcha_public_key|not()}
                                     <div class="message-warning">ReCAPTCHA API key not found</div>
                                 {else}

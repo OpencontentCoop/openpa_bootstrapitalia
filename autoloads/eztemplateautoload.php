@@ -54,6 +54,7 @@ $eZTemplateOperatorArray = [
             'sentry_script_loader',
             'built_in_app_variables',
             'built_in_app',
+            'openagenda_name',
             'openagenda_is_enabled',
             'openagenda_next_events',
             'openagenda_can_push_place',

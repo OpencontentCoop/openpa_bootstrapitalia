@@ -95,6 +95,7 @@ class AddPlaceClassConnector extends ClassConnector
     {
         $options = parent::getOptions();
         $options['fields']['has_address']['type'] = 'hidden';
+        $options['fields']['topics']['hideNone'] = true;
 
         return $options;
     }
