@@ -1,12 +1,6 @@
 <?php
 
-namespace Lotti;
-
-use eZContentClass;
-use eZContentObject;
-use eZContentObjectTreeNode;
 use Opencontent\OpenApi\EndpointDiscover\AbstractSlugClassesEntryPointFactoryProvider;
-use Opencontent\OpenApi\OperationFactory;
 use Opencontent\OpenApi\OperationFactoryCollection;
 
 class LottiEndpointFactoryProvider extends AbstractSlugClassesEntryPointFactoryProvider

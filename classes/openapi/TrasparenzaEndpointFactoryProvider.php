@@ -1,6 +1,5 @@
 <?php
 
-use Lotti\LottiEndpointFactoryProvider;
 use Opencontent\OpenApi\EndpointDiscover\ChainEndpointFactoryDiscover;
 
 class TrasparenzaEndpointFactoryProvider extends ChainEndpointFactoryDiscover

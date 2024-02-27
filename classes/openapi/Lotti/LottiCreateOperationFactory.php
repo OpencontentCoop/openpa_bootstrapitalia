@@ -1,7 +1,5 @@
 <?php
 
-namespace Lotti;
-
 use Opencontent\OpenApi\EndpointFactory;
 use Opencontent\OpenApi\OperationFactory\ContentObject\CreateOperationFactory;
 
