@@ -110,6 +110,11 @@ class StanzaDelCittadinoClient
         return $this->request('GET', '/api/categories/' . $id);
     }
 
+    public function getCategories()
+    {
+        return $this->request('GET', '/api/categories');
+    }
+
     public function getServiceByIdentifier($identifier)
     {
         return $this->getService($identifier);
@@ -117,8 +122,12 @@ class StanzaDelCittadinoClient
 
     public function patchTenant($slug, $data)
     {
-        $info = $this->getTenantInfo();
         return $this->request('PATCH', '/api/tenants/' . $slug, $data);
+    }
+
+    public function patchService($id, $data)
+    {
+        return $this->request('PATCH', '/api/services/' . $id, $data);
     }
 
     public function request($method, $path, $data = null)
@@ -134,7 +143,6 @@ class StanzaDelCittadinoClient
         if ($this->basicAuth) {
             $headers[] = "Authorization: Basic " . $this->basicAuth;
         }
-
         $ch = curl_init();
         if ($method == "POST") {
             curl_setopt($ch, CURLOPT_POST, 1);
