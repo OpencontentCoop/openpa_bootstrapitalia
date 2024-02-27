@@ -308,12 +308,12 @@ class ServiceSync
                     'message' => 'Max response time does not match',
                     'locale' => $localMaxResponseTime,
                     'remote' => $remoteMaxResponseTime,
-                    'fix_question' => "Fix remote has_processing_time with value '$localMaxResponseTime'? ",
+                    'fix_question' => "Fix remote max_response_time with value '$localMaxResponseTime'? ",
                     'fix' => function () use ($remoteService, $localMaxResponseTime) {
                         try {
                             $this->client->patchService(
                                 $remoteService['id'],
-                                ['has_processing_time' => $localMaxResponseTime]
+                                ['max_response_time' => $localMaxResponseTime]
                             );
                         } catch (Throwable $e) {
                             eZCLI::instance()->error($e->getMessage());
@@ -326,8 +326,8 @@ class ServiceSync
             foreach ($messages as $messageId => $values) {
                 $text = $values['message'] ?? false;
                 $isActive = $values['is_active'] ?? false;
-                if ($isActive && strpos($text, 'Entro 30 giorni') !== false && $localMaxResponseTime != 30) {
-                    $newText = str_replace('Entro 30 giorni', 'Entro 30 giorni', $text);
+                if ($isActive && strpos($text, 'Entro 30 giorni') !== false && $localMaxResponseTime > 0) {
+                    $newText = str_replace('Entro 30 giorni', 'Entro %max_response_time% giorni', $text);
                     $this->errors['REMOTE_WRONG_NOTIFICATION:' . strtoupper($messageId)] = [
                         'topic' => 'strict',
                         'message' => "Notification text for status change \"$messageId\" contains wrong max response time",
