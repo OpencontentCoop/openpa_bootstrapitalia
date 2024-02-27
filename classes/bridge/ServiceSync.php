@@ -18,6 +18,10 @@ class ServiceSync
 
     private static $syncServiceName = false;
 
+    private static $findServiceByAccessUrl = false;
+
+    private static $findServiceByBookingUrl = false;
+
     private $localDomain;
 
     public function __construct(eZContentObjectTreeNode $service, StanzaDelCittadinoClient $client, $localDomain = null)
@@ -62,24 +66,6 @@ class ServiceSync
         }
         $this->info['identifier'] = $serviceIdentifier;
 
-        if ($object->remoteID() != $serviceIdentifier) {
-            $this->errors['LOCAL_OBJECT_REMOTE_ID_MISMATCH'] = [
-                'topic' => 'strict',
-                'message' => 'Object remote_id does not match with attribute identifier: '
-                    . $object->remoteID() . ' ' . $serviceIdentifier,
-                'fix_question' => 'Fix locale object remote id? ',
-                'fix' => function () use ($object, $serviceIdentifier) {
-                    eZDB::setErrorHandling(eZDB::ERROR_HANDLING_EXCEPTIONS);
-                    try {
-                        $object->setAttribute('remote_id', $serviceIdentifier);
-                        $object->store();
-                    } catch (Throwable $e) {
-                        eZCLI::instance()->error($e->getMessage());
-                    }
-                },
-            ];
-        }
-
         $channelsIdList = isset($dataMap['has_channel']) ? explode('-', $dataMap['has_channel']->toString()) : [];
         $channels = OpenPABase::fetchObjects($channelsIdList);
         if (count($channels) === 0) {
@@ -114,6 +100,25 @@ class ServiceSync
             ?? $this->getRemoteServiceByBookingUrl($bookingUrlList);
 
         if ($remoteService) {
+
+            if ($object->remoteID() != $serviceIdentifier) {
+                $this->errors['LOCAL_OBJECT_REMOTE_ID_MISMATCH'] = [
+                    'topic' => 'strict',
+                    'message' => 'Object remote_id does not match with attribute identifier: '
+                        . $object->remoteID() . ' ' . $serviceIdentifier,
+                    'fix_question' => 'Fix locale object remote id? ',
+                    'fix' => function () use ($object, $serviceIdentifier) {
+                        eZDB::setErrorHandling(eZDB::ERROR_HANDLING_EXCEPTIONS);
+                        try {
+                            $object->setAttribute('remote_id', $serviceIdentifier);
+                            $object->store();
+                        } catch (Throwable $e) {
+                            eZCLI::instance()->error($e->getMessage());
+                        }
+                    },
+                ];
+            }
+
             $remoteServiceUUID = $remoteService['id'];
             $this->info['digital_service_id'] = $remoteServiceUUID;
 
@@ -256,7 +261,7 @@ class ServiceSync
             }
 
             //booking_call_to_action
-            if (!in_array(trim($remoteService['booking_call_to_action']), [$rightBookingUrl])) {
+            if (trim($remoteService['booking_call_to_action']) != $rightBookingUrl) {
                 $this->errors['REMOTE_BOOKING_URL_MISMATCH'] = [
                     'topic' => 'sync',
                     'message' => 'Booking url does not match',
@@ -370,19 +375,18 @@ class ServiceSync
                         try {
                             $localCategoryId = null;
                             $categories = $this->getCategoryList();
-                            foreach ($categories as $c){
-                                if ($c['name'] == $localCategory){
+                            foreach ($categories as $c) {
+                                if ($c['name'] == $localCategory) {
                                     $localCategoryId = $c['slug'];
                                 }
                             }
-                            if (!$localCategoryId){
+                            if (!$localCategoryId) {
                                 throw new Exception("Remote topic $localCategory not found");
                             }
                             $this->client->patchService(
                                 $remoteService['id'],
                                 ['topics' => $localCategoryId]
                             );
-
                         } catch (Throwable $e) {
                             eZCLI::instance()->error($e->getMessage());
                         }
@@ -396,8 +400,9 @@ class ServiceSync
     {
         if (self::$syncNodeRemoteIdWithServiceUuid && self::isUUid($this->service->remoteID())) {
             try {
+                $remoteService = $this->client->getService($this->service->remoteID());
                 $this->info['digital_service_found_by'] = 'node_remote_id';
-                return $this->client->getService($this->service->remoteID());
+                return $remoteService;
             } catch (Throwable $e) {
                 $this->errors['REMOTE_BY_ID_NOT_FOUND'] = [
                     'topic' => 'strict',
@@ -412,8 +417,9 @@ class ServiceSync
     private function getRemoteServiceByIdentifier($serviceIdentifier)
     {
         try {
+            $remoteService = $this->client->getServiceByIdentifier($serviceIdentifier);
             $this->info['digital_service_found_by'] = 'identifier';
-            return $this->client->getServiceByIdentifier($serviceIdentifier);
+            return $remoteService;
         } catch (Throwable $e) {
             $this->errors['REMOTE_BY_IDENTIFIER_NOT_FOUND'] = [
                 'topic' => 'strict',
@@ -426,6 +432,9 @@ class ServiceSync
 
     private function getRemoteServiceByAccessUrl($channelUrls)
     {
+        if (!self::$findServiceByAccessUrl) {
+            return null;
+        }
         $remoteService = null;
         $msg = [];
         foreach ($channelUrls as $url) {
@@ -471,7 +480,7 @@ class ServiceSync
 
     private function getCategoryList()
     {
-        if ($this->categoryList === null){
+        if ($this->categoryList === null) {
             $this->categoryList = $this->client->getCategories();
         }
 
@@ -480,6 +489,9 @@ class ServiceSync
 
     private function getRemoteServiceByBookingUrl($channelUrls)
     {
+        if (!self::$findServiceByBookingUrl) {
+            return null;
+        }
         $remoteService = null;
         $msg = [];
         foreach ($channelUrls as $url) {

@@ -220,8 +220,12 @@ class SiteInfo
             }
         }
 
+
         $privacyUrl = '';
-        $privacy = eZContentObject::fetchByRemoteID('privacy-policy-link');
+        $privacy = eZContentObject::fetchByRemoteID('83c7315f6a2fd9cee569e4cf5e73139d');
+        if (!$privacy instanceof eZContentObject) {
+            $privacy = eZContentObject::fetchByRemoteID('privacy-policy-link');
+        }
         if ($privacy instanceof eZContentObject) {
             $privacyNode = $privacy->mainNode();
             if ($privacyNode instanceof eZContentObjectTreeNode) {
