@@ -3,7 +3,6 @@
 use Opencontent\Opendata\Api\EnvironmentLoader;
 use Opencontent\Opendata\Api\ContentSearch;
 
-
 class OpenPABootstrapItaliaOperators
 {
     private static $cssData;
@@ -21,6 +20,8 @@ class OpenPABootstrapItaliaOperators
     private static $canInstantiate = [];
 
     private static $topicsContentsCount;
+
+    private static $serviceTagMenuIdList;
 
     function operatorList()
     {
@@ -1528,7 +1529,7 @@ class OpenPABootstrapItaliaOperators
         return self::$topicsContentsCount;
     }
 
-    private static function tagTreeHasContents($tag, $node)
+    public static function tagTreeHasContents($tag, $node = null): bool
     {
         if ($node instanceof eZContentObjectTreeNode && $tag instanceof eZTagsObject){
             $remoteId = $node->object()->attribute('remote_id');
@@ -1551,40 +1552,70 @@ class OpenPABootstrapItaliaOperators
                 return count($data) > 0;
             }
         }
+
         $count = 0;
         if ($tag instanceof eZTagsObject) {
-            $privacyStatuses = OpenPABase::initStateGroup('privacy', ['public', 'private']);
-            $publicStatusId = $privacyStatuses['privacy.public'] instanceof eZContentObjectState ?
-                (int)$privacyStatuses['privacy.public']->attribute('id') : 0;
-            $tagId = (int)$tag->attribute('id');
-            $path = $tag->attribute('path_string');
-            $locale = eZLocale::currentLocaleCode();
-            $db = eZDB::instance();
-            $joinStatus = '';
-            $andWhereIsPublic = '';
-            if ($publicStatusId > 0){
-                $joinStatus = 'INNER JOIN ezcobj_state_link sl ON l.object_id = sl.contentobject_id';
-                $andWhereIsPublic = 'AND sl.contentobject_state_id = ' . $publicStatusId;
-            }
-            $query = "SELECT COUNT(DISTINCT o.id) AS count FROM eztags_attribute_link l
-                                   INNER JOIN ezcontentobject o ON l.object_id = o.id
-                                       AND l.objectattribute_version = o.current_version
-                                       AND o.status = " . eZContentObject::STATUS_PUBLISHED . "
-                                   INNER JOIN ezcontentobject_attribute a ON l.objectattribute_id = a.id
-                                      AND l.objectattribute_version = o.current_version
-                                      AND l.objectattribute_version = a.version
-                                   $joinStatus   
-                                   WHERE l.keyword_id IN (SELECT id FROM eztags WHERE id = $tagId OR path_string LIKE '{$path}%')
-                                      AND o.section_id = 1
-                                      $andWhereIsPublic
-                                      AND a.language_code = '$locale'";
-            $result = $db->arrayQuery($query);
 
-            $count = (is_array($result) && !empty($result)) ? (int)$result[0]['count'] : 0;
-//            eZDebug::writeDebug($tag->attribute('keyword') . ' ' . $count . ' ' . $query, __METHOD__);
+            $tagId = (int)$tag->attribute('id');
+            $serviceMenuList = self::getServiceTagMenuIdList();
+            $serviceMenuIdList = array_column($serviceMenuList, 'id');
+            $count = in_array($tagId, $serviceMenuIdList) ? 1 : 0;
         }
 
         return $count > 0;
+    }
+
+    public static function getServiceTagMenuIdList(): array
+    {
+        if (self::$serviceTagMenuIdList === null) {
+            self::$serviceTagMenuIdList = [];
+            $allService = eZContentObject::fetchByRemoteID('all-services');
+            if ($allService instanceof eZContentObject) {
+                $rootNode = $allService->mainNode();
+                if ($rootNode instanceof eZContentObjectTreeNode) {
+                    self::$serviceTagMenuIdList = self::getTagMenuIdList($rootNode);
+                }
+            }
+        }
+
+        return self::$serviceTagMenuIdList;
+    }
+
+    public static function getTagMenuIdList(eZContentObjectTreeNode $rootNode): array
+    {
+        $handlerObject = OpenPAObjectHandler::instanceFromObject($rootNode);
+        if ($handlerObject->hasAttribute('content_tag_menu')
+            && $handlerObject->attribute('content_tag_menu')->attribute('has_tag_menu')) {
+            /** @var eZTagsObject $tagRoot */
+            $tagRoot = $handlerObject->attribute('content_tag_menu')->attribute('tag_menu_root');
+            if ($tagRoot instanceof eZTagsObject) {
+                $privacyStatuses = OpenPABase::initStateGroup('privacy', ['public', 'private']);
+                $publicStatusId = $privacyStatuses['privacy.public'] instanceof eZContentObjectState ?
+                    (int)$privacyStatuses['privacy.public']->attribute('id') : 0;
+                $tagId = (int)$tagRoot->attribute('id');
+                $localeFilter = eZContentLanguage::sqlFilter('a', 'o');
+                $db = eZDB::instance();
+                $joinStatus = '';
+                $andWhereIsPublic = '';
+                if ($publicStatusId > 0) {
+                    $joinStatus = 'INNER JOIN ezcobj_state_link sl ON l.object_id = sl.contentobject_id';
+                    $andWhereIsPublic = 'AND sl.contentobject_state_id = ' . $publicStatusId;
+                }
+                $statusPublished = (int)eZContentObject::STATUS_PUBLISHED;
+                $query = "SELECT t.id, COUNT(DISTINCT o.id) as count 
+                      FROM eztags t
+                      INNER JOIN eztags_attribute_link l ON l.keyword_id = t.id
+                      INNER JOIN ezcontentobject o ON l.object_id = o.id AND l.objectattribute_version = o.current_version AND o.status = $statusPublished 
+                      INNER JOIN ezcontentobject_attribute a ON l.objectattribute_id = a.id AND l.objectattribute_version = o.current_version AND l.objectattribute_version = a.version 
+                      $joinStatus   
+                      WHERE t.parent_id = $tagId AND t.main_tag_id = 0 AND o.section_id = 1 $andWhereIsPublic AND $localeFilter
+                      GROUP BY t.id";
+
+                return $db->arrayQuery($query);
+            }
+        }
+
+        return [];
     }
 
     /**

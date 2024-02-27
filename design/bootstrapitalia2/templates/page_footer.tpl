@@ -48,7 +48,7 @@
                 {def $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array())}
                 {if count($top_menu_node_ids)|gt(0)}
                     {foreach $top_menu_node_ids as $id}
-                        {set $top_menu_tree = $top_menu_tree|append(tree_menu( hash( 'root_node_id', $id, 'scope', 'side_menu')))}
+                        {set $top_menu_tree = $top_menu_tree|append(tree_menu( hash( 'root_node_id', $id, 'scope', 'side_menu', 'hide_empty_tag', true(), 'hide_empty_tag_callback', array('OpenPABootstrapItaliaOperators', 'tagTreeHasContents'))))}
                     {/foreach}
                 {/if}
                 {undef $top_menu_node_ids}
@@ -97,6 +97,7 @@
                                              offset=0}
                                 </div>
                                 <div class="col-md-6">
+                                    {if count($top_menu_tree[2].children)|gt(8)}
                                     {include recursion=0
                                              name=top_menu
                                              uri='design:footer/menu_item.tpl'
@@ -105,6 +106,7 @@
                                              show_more=true()
                                              max=8
                                              offset=8}
+                                    {/if}
                                 </div>
                             </div>
                         </div>
@@ -300,6 +302,7 @@
                         {undef $needCookieConsent}
                         {*<a href="#">Media policy</a> @todo*}
                         <a href={"/content/view/sitemap/2/"|ezurl}>{"Sitemap"|i18n("design/standard/layout")}</a>
+{*                        <a href={"/openapi/doc/"|ezurl}>API</a>*}
                     </div>
                 </div>
             </div>
