@@ -1,7 +1,5 @@
 <?php
 
-use TrasparenzaEndpointFactoryProvider;
-
 class PagineTrasparenzaMergePatchOperationFactory extends
     \Opencontent\OpenApi\OperationFactory\Slug\MergePatchOperationFactory
 {

@@ -1,12 +1,10 @@
 <?php
 
-use eZContentObject;
 use Opencontent\OpenApi\EndpointDiscover\AbstractSlugClassesEntryPointFactoryProvider;
 use Opencontent\OpenApi\EndpointDiscover\Utils;
 use Opencontent\OpenApi\EndpointFactory;
 use Opencontent\OpenApi\OperationFactory\ContentObject\ReadOperationFactory;
 use Opencontent\OpenApi\OperationFactoryCollection;
-use OpenPAMenuTool;
 
 class PagineTrasparenzaEndpointFactoryProvider extends AbstractSlugClassesEntryPointFactoryProvider
 {

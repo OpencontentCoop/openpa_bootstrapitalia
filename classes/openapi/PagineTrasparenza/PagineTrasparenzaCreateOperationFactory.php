@@ -1,7 +1,5 @@
 <?php
 
-use TrasparenzaEndpointFactoryProvider;
-
 class PagineTrasparenzaCreateOperationFactory extends \Opencontent\OpenApi\OperationFactory\Slug\CreateOperationFactory
 {
     public function __construct($nodeIdMap, $pageLabel, $enum)
