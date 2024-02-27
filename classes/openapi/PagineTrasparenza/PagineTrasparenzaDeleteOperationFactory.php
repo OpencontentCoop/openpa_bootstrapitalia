@@ -1,7 +1,5 @@
 <?php
 
-namespace PagineTrasparenza;
-
 use TrasparenzaEndpointFactoryProvider;
 
 class PagineTrasparenzaDeleteOperationFactory extends \Opencontent\OpenApi\OperationFactory\Slug\DeleteOperationFactory

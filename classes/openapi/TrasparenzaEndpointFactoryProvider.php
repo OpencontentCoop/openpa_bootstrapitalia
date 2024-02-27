@@ -2,7 +2,6 @@
 
 use Lotti\LottiEndpointFactoryProvider;
 use Opencontent\OpenApi\EndpointDiscover\ChainEndpointFactoryDiscover;
-use PagineTrasparenza\PagineTrasparenzaEndpointFactoryProvider;
 
 class TrasparenzaEndpointFactoryProvider extends ChainEndpointFactoryDiscover
 {
@@ -41,14 +40,15 @@ class TrasparenzaEndpointFactoryProvider extends ChainEndpointFactoryDiscover
                 'scope' => 'side_menu',
             ];
             $menu = new OpenPATreeMenuHandler($parameters);
-            $fileHandler = eZClusterFileHandler::instance(eZDir::path(
+            $cachePath = eZDir::path(
                 [
                     eZSys::cacheDirectory(),
                     OpenPAMenuTool::cacheDirectory(),
                     OpenPABase::getFrontendSiteaccessName(),
                     $menu->cacheFileName(),
                 ]
-            ));
+            );
+            $fileHandler = eZClusterFileHandler::instance($cachePath);
             try {
                 eZDB::setErrorHandling(eZDB::ERROR_HANDLING_EXCEPTIONS);
                 eZDB::instance()->query("DELETE FROM ezdfsfile_cache WHERE name = '$cachePath'");
@@ -66,7 +66,6 @@ class TrasparenzaEndpointFactoryProvider extends ChainEndpointFactoryDiscover
 
     public function clearCache()
     {
-        self::regenerateTrasparenzaTree();;
         parent::clearCache();
     }
 

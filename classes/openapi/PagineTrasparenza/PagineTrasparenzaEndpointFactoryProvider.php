@@ -1,7 +1,5 @@
 <?php
 
-namespace PagineTrasparenza;
-
 use eZContentObject;
 use Opencontent\OpenApi\EndpointDiscover\AbstractSlugClassesEntryPointFactoryProvider;
 use Opencontent\OpenApi\EndpointDiscover\Utils;

@@ -1,7 +1,5 @@
 <?php
 
-namespace PagineTrasparenza;
-
 use Opencontent\OpenApi\OperationFactory\ContentObject\PayloadBuilder;
 use Opencontent\OpenApi\SchemaFactory\ContentMetaPropertyFactory;
 use Opencontent\Opendata\Api\Values\Content;

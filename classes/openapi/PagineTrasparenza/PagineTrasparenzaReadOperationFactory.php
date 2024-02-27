@@ -1,7 +1,5 @@
 <?php
 
-namespace PagineTrasparenza;
-
 class PagineTrasparenzaReadOperationFactory extends \Opencontent\OpenApi\OperationFactory\Slug\ReadOperationFactory
 {
 

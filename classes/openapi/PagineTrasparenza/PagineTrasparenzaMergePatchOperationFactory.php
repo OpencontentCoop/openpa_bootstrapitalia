@@ -1,7 +1,5 @@
 <?php
 
-namespace PagineTrasparenza;
-
 use TrasparenzaEndpointFactoryProvider;
 
 class PagineTrasparenzaMergePatchOperationFactory extends
