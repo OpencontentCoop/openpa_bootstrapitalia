@@ -132,7 +132,12 @@ class SiteInfo
         $main = [];
         $topMenuNodeIdList = OpenPAINI::variable('TopMenu', 'NodiCustomMenu', []);
         foreach ($topMenuNodeIdList as $topMenuNodeId) {
-            $topMenu = (array)OpenPAMenuTool::getTreeMenu(['root_node_id' => $topMenuNodeId, 'scope' => 'top_menu']);
+            $topMenu = (array)OpenPAMenuTool::getTreeMenu([
+                'root_node_id' => $topMenuNodeId,
+                'scope' => 'side_menu',
+                'hide_empty_tag' => true,
+                'hide_empty_tag_callback' => ['OpenPABootstrapItaliaOperators', 'tagTreeHasContents']
+            ]);
             self::makeAbsoluteUrl($topMenu['item']['url'], $baseUrl);
             $menuItem = [
                 'text' => $topMenu['item']['name'],
