@@ -1,8 +1,35 @@
 <?php
 
-class StanzaDelCittadinoBooking extends eZPersistentObject
+class StanzaDelCittadinoBooking
 {
-    public static function initDb()
+    use SiteDataStorageTrait;
+
+    const ENABLE_CACHE_KEY = 'sdc_booking_enabled';
+
+    private static $instance;
+
+    private function __construct(){}
+
+    public static function factory(): StanzaDelCittadinoBooking
+    {
+        if (self::$instance === null) {
+            self::$instance = new StanzaDelCittadinoBooking();
+        }
+
+        return self::$instance;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->getStorage(self::ENABLE_CACHE_KEY);
+    }
+
+    public function setEnabled(bool $enable)
+    {
+        $this->setStorage(self::ENABLE_CACHE_KEY, (int)$enable);
+    }
+
+    private static function initDb()
     {
         $db = eZDB::instance();
         eZDB::setErrorHandling(eZDB::ERROR_HANDLING_EXCEPTIONS);
@@ -25,10 +52,10 @@ EOT;
         }
     }
 
-    public static function storeConfig(int $office, int $service, int $place, array $calendars)
+    public function storeConfig(int $office, int $service, int $place, array $calendars): bool
     {
         self::initDb();
-        $capabilities = eZUser::currentUser()->hasAccessTo('bootstrapitalia', 'opencity_locked_editor');
+        $capabilities = eZUser::currentUser()->hasAccessTo('bootstrapitalia', 'booking_config');
         if ($capabilities['accessWord'] === 'yes') {
             $calendarsString = json_encode($calendars);
             $query = "INSERT INTO ocbookingconfig (office_id,service_id,place_id,calendars) VALUES ($office,$service,$place,'$calendarsString') ON CONFLICT (office_id,service_id,place_id) DO UPDATE SET calendars = EXCLUDED.calendars";
@@ -45,7 +72,7 @@ EOT;
         return false;
     }
 
-    public static function getCalendars(int $service, int $office, int $place): array
+    public function getCalendars(int $service, int $office, int $place): array
     {
         $query = "SELECT calendars FROM ocbookingconfig WHERE service_id = $service AND office_id = $office AND place_id = $place";
         $rows = eZDB::instance()->arrayQuery($query);
@@ -56,7 +83,15 @@ EOT;
         return array_unique($calendars);
     }
 
-    public static function getOffices(int $service): array
+    public function isServiceRegistered(int $service): bool
+    {
+        $query = "SELECT count(*) FROM ocbookingconfig WHERE service_id = $service";
+        $rows = eZDB::instance()->arrayQuery($query);
+
+        return $rows[0]['count'] > 0;
+    }
+
+    public function getOffices(int $service): array
     {
         $query = "SELECT office_id, json_agg(json_build_object('place', place_id, 'calendars', calendars)) as data FROM ocbookingconfig WHERE service_id = $service GROUP BY office_id";
         $rows = eZDB::instance()->arrayQuery($query);
@@ -104,12 +139,15 @@ EOT;
         return array_values($offices);
     }
 
-    public static function getConfigs(): array
+    public function getConfigs(): array
     {
         return eZDB::instance()->arrayQuery("SELECT calendars FROM ocbookingconfig");
     }
 
-    public static function getTimeTable(array $calendars, $showCalendarName = false, $showWeekEnd = false): array
+    /**
+     * @throws Exception
+     */
+    public function getTimeTable(array $calendars, $showCalendarName = false, $showWeekEnd = false): array
     {
         if (empty($calendars)) {
             return [];
@@ -141,7 +179,7 @@ EOT;
                 $timeTableItem = [];
                 if ($showCalendarName) {
                     $client->getCalendar($calendar)['title'];
-                };
+                }
                 $openingHours = $client->getCalendarOpeningHours($calendar);
                 for ($i = 1; $i < $countColumns; $i++) {
                     $timeTableItem[$i] = [];
@@ -164,7 +202,10 @@ EOT;
         return $timeTable;
     }
 
-    public static function getAvailabilities(array $calendars, string $month = null): array
+    /**
+     * @throws Exception
+     */
+    public function getAvailabilities(array $calendars, string $month = null): array
     {
         StanzaDelCittadinoClient::$connectionTimeout = 10;
         StanzaDelCittadinoClient::$processTimeout = 10;
@@ -184,19 +225,20 @@ EOT;
         $locale = eZLocale::instance();
         if ($startDateTime instanceof DateTime) {
             $endDateTime = new DateTime(sprintf('last day of %s', $startDateTime->format('Y-m')));
-            if ($endDateTime instanceof DateTime) {
-                $response['to'] = $endDateTime->format('Y-m-d');
-                $remoteAvailabilities = $client->getCalendarsAvailabilities($calendars, $startDate, $endDateTime->format('Y-m-d'));
-                foreach ($remoteAvailabilities['data'] as $index => $availability){
-                    $availability['name'] = $locale->formatDate(DateTime::createFromFormat('Y-m-d', $availability['date'])->format('U'));
-                    $response['availabilities'][$index] = $availability;
-                }
+            $response['to'] = $endDateTime->format('Y-m-d');
+            $remoteAvailabilities = $client->getCalendarsAvailabilities($calendars, $startDate, $endDateTime->format('Y-m-d'));
+            foreach ($remoteAvailabilities['data'] as $index => $availability){
+                $availability['name'] = $locale->formatDate(DateTime::createFromFormat('Y-m-d', $availability['date'])->format('U'));
+                $response['availabilities'][$index] = $availability;
             }
         }
         return $response;
     }
 
-    public static function getAvailabilitiesByDay(array $calendars, string $day = null): array
+    /**
+     * @throws Exception
+     */
+    public function getAvailabilitiesByDay(array $calendars, string $day = null): array
     {
         $availabilities = [];
         if ($day){
@@ -208,16 +250,16 @@ EOT;
         return $availabilities;
     }
 
-    public static function deleteDraftMeeting($meetingId)
-    {
-        try{
-            StanzaDelCittadinoBridge::factory()
-                ->instanceNewClient()
-                ->request('DELETE', '/api/meetings/'.$meetingId);
-        }catch (Throwable $e){
-            eZDebug::writeError($e->getMessage(), __METHOD__);
-        }
-    }
+//    public static function deleteDraftMeeting($meetingId)
+//    {
+//        try{
+//            StanzaDelCittadinoBridge::factory()
+//                ->instanceNewClient()
+//                ->request('DELETE', '/api/meetings/'.$meetingId);
+//        }catch (Throwable $e){
+//            eZDebug::writeError($e->getMessage(), __METHOD__);
+//        }
+//    }
 
     /**
      * @param string $calendar
@@ -228,7 +270,7 @@ EOT;
      * @return array
      * @throws Exception
      */
-    public static function upsertDraftMeeting(string $calendar, string $date, string $opening_hour, string $slot, string $meetingId = null): array
+    public function upsertDraftMeeting(string $calendar, string $date, string $opening_hour, string $slot, string $meetingId = null): array
     {
         $data = [
             'calendar' => $calendar,
@@ -243,7 +285,7 @@ EOT;
 
     }
 
-    public static function getSteps(): array
+    public function getSteps(): array
     {
         return [
             [

@@ -31,9 +31,6 @@ ContactsField_inefficiency=link_segnalazione_disservizio
 ContactsField_support=link_assistenza
 ContactsField_booking=link_prenotazione_appuntamento
 
-UseCustomBuiltin_booking=disabled
-
-
 [AccessPage]
 Title=Sign in
 Intro=To access the site and its services, use one of the following methods.

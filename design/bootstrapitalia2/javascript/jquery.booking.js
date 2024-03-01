@@ -84,6 +84,7 @@
     this.storeErrorMessage = $('#store-error')
     this.user = null;
     this.feedback = $('.feedback-container');
+    this.error = $('.error-container');
 
     this.init()
   }
@@ -99,7 +100,16 @@
     },
 
     displayError: function (error) {
-      alert(error)
+      console.log(error)
+      let self = this
+      self.removeStorage()
+      $(self.element).find('.steppers').hide()
+      $(self.element).find('.row.justify-content-center .cmp-hero').hide()
+      $(self.element).find('.title-xsmall').hide()
+      $(self.element).find('.step.container').hide()
+      self.error.find('.row.justify-content-center .cmp-hero').show()
+      window.scrollTo(0, 0);
+      self.error.show()
     },
 
     init: function () {
@@ -254,7 +264,7 @@
           self.feedback.show()
           console.log(response);
         }, function (error){
-          self.displayError(JSON.stringify(error))
+          self.displayError(error)
         })
 
         e.preventDefault()
@@ -592,7 +602,7 @@
             }
           },
           error: function (jqXHR){
-            self.displayError(jqXHR.statusText)
+            self.displayError(jqXHR)
           }
         });
       }
@@ -620,7 +630,7 @@
             }
           },
           error: function (jqXHR){
-            self.displayError(jqXHR.statusText)
+            self.displayError(jqXHR)
           }
         });
       }

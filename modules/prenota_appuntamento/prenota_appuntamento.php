@@ -16,10 +16,10 @@ if ($http->hasPostVariable('StoreConfig')) {
 
 $Result = $app->getModuleResult();
 
-if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseCustomBuiltin_booking', 'disabled') === 'enabled') {
+if (StanzaDelCittadinoBooking::factory()->isEnabled()) {
     $tpl = eZTemplate::factory();
     $serviceId = $http->hasGetVariable('service_id') ? (int)$http->getVariable('service_id') : 0;
-    $offices = StanzaDelCittadinoBooking::getOffices($serviceId);
+    $offices = StanzaDelCittadinoBooking::factory()->getOffices($serviceId);
     $service = $serviceId > 0 ? eZContentObject::fetch($serviceId) : null;
     $locale = eZLocale::instance();
     $months = [];
@@ -55,7 +55,7 @@ if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseCustomBuiltin_booking', 
     $tpl->setVariable('service', $service);
     $tpl->setVariable('months', $months);
     $tpl->setVariable('offices', $offices);
-    $tpl->setVariable('steps', StanzaDelCittadinoBooking::getSteps());
+    $tpl->setVariable('steps', StanzaDelCittadinoBooking::factory()->getSteps());
 
     $Result['content_info']['persistent_variable']['show_path'] = false;
     $Result['content'] = $tpl->fetch('design:bootstrapitalia/booking.tpl');

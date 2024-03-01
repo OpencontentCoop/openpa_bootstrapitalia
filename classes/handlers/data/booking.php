@@ -14,7 +14,7 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
 
     public function getData()
     {
-        if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseCustomBuiltin_booking', 'disabled') !== 'enabled') {
+        if (!StanzaDelCittadinoBooking::factory()->isEnabled()) {
             return [];
         }
 
@@ -25,7 +25,7 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
                 $calendars = explode(',', $calendars);
             }
             $month = $http->hasGetVariable('month') ? $http->getVariable('month') : null;
-            return StanzaDelCittadinoBooking::getAvailabilities($calendars, $month);
+            return StanzaDelCittadinoBooking::factory()->getAvailabilities($calendars, $month);
         }
 
         if ($this->request === 'availabilities_by_day') {
@@ -34,7 +34,7 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
                 $calendars = explode(',', $calendars);
             }
             $day = $http->hasGetVariable('day') ? $http->getVariable('day') : null;
-            return StanzaDelCittadinoBooking::getAvailabilitiesByDay($calendars, $day);
+            return StanzaDelCittadinoBooking::factory()->getAvailabilitiesByDay($calendars, $day);
         }
 
         if ($this->request === 'draft_meeting' && $_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -49,12 +49,12 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
             if ($meetingId && $meetingExp){
                 $exp = DateTime::createFromFormat('Y m d H:m', $meetingExp, new DateTimeZone('Europe/Rome'));
                 if ($exp > (new DateTime())){
-//                    StanzaDelCittadinoBooking::deleteDraftMeeting($meetingId);
+//                    StanzaDelCittadinoBooking::factory()->deleteDraftMeeting($meetingId);
                     $meetingId = false;
                 }
             }
             try {
-                return StanzaDelCittadinoBooking::upsertDraftMeeting(
+                return StanzaDelCittadinoBooking::factory()->upsertDraftMeeting(
                     $calendar,
                     $date,
                     $opening_hour,

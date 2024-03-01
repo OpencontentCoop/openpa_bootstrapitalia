@@ -27,9 +27,11 @@
         {/if}
         {if $child.data_map.channel_url.has_content}
             <div class="mb-4">
-                {if and(openpaini('StanzaDelCittadinoBridge', 'UseCustomBuiltin_booking', 'disabled')|eq('enabled'), $child|attribute('channel_url').content|contains('/prenota_appuntamento'))}
+                {if has_custom_booking_url($child|attribute('channel_url'), $attribute.object)}
                     <a class="text-primary btn btn-outline-primary t-primary bg-white mobile-full font-sans-serif"
-                       href="{concat('/prenota_appuntamento?service_id=', $attribute.contentobject_id)|ezurl(no)}">{$child|attribute('channel_url').data_text|wash( xhtml )}</a>
+                       href="{concat('/prenota_appuntamento?service_id=', $attribute.contentobject_id)|ezurl(no)}">
+                        {$child|attribute('channel_url').data_text|wash( xhtml )}
+                    </a>
                 {else}
                     {attribute_view_gui attribute=$child|attribute('channel_url') css_class=cond($index|eq(0), "btn btn-primary fw-bold mobile-full font-sans-serif", "text-primary btn btn-outline-primary t-primary bg-white mobile-full font-sans-serif")}
                 {/if}

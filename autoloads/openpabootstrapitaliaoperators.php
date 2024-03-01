@@ -83,6 +83,8 @@ class OpenPABootstrapItaliaOperators
             'openagenda_can_push_place',
             'can_check_remote_public_service',
             'topic_has_contents',
+            'custom_booking_is_enabled',
+            'has_custom_booking_url',
         );
     }
 
@@ -196,6 +198,10 @@ class OpenPABootstrapItaliaOperators
             'topic_has_contents' =>  array(
                 'topic_id' => array('type' => 'integer', 'required' => true),
             ),
+            'has_custom_booking_url' =>  array(
+                'channel_url' => array('type' => 'object', 'required' => true),
+                'service' => array('type' => 'object', 'required' => true),
+            ),
         );
     }
 
@@ -211,8 +217,22 @@ class OpenPABootstrapItaliaOperators
     {
         switch ($operatorName) {
 
-            case 'topic_has_contents':
-                $operatorValue = self::topicHasContents($namedParameters['topic_id']);
+            case 'custom_booking_is_enabled':
+                $operatorValue = StanzaDelCittadinoBooking::factory()->isEnabled();
+                break;
+
+            case 'has_custom_booking_url':
+                $channelUrlAttribute = $namedParameters['channel_url'];
+                $serviceObject = $namedParameters['service'];
+                $operatorValue = ($channelUrlAttribute instanceof eZContentObjectAttribute
+                    && $channelUrlAttribute->attribute('data_type_string') === eZURLType::DATA_TYPE_STRING
+                    && $serviceObject instanceof eZContentObject
+                    && $serviceObject->attribute('class_identifier') === 'public_service'
+                    && StanzaDelCittadinoBooking::factory()->isEnabled()
+                    && $channelUrlAttribute->object()->attribute('class_identifier') === 'channel'
+                    && strpos($channelUrlAttribute->attribute('content'), 'prenota_appuntamento') !== false
+                    && StanzaDelCittadinoBooking::factory()->isServiceRegistered((int)$serviceObject->attribute('id'))
+                );
                 break;
 
             case 'can_check_remote_public_service':

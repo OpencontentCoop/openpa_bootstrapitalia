@@ -10,6 +10,7 @@
         {include uri=concat('design:bootstrapitalia/booking/steps/', $step.id, '.tpl') step=$step hide=true()}
     {/foreach}
     {include uri='design:bootstrapitalia/booking/feedback.tpl'}
+    {include uri='design:bootstrapitalia/booking/error.tpl'}
 </div>
 <style>
     .no-availabilities {ldelim}

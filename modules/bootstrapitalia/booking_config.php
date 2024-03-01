@@ -6,7 +6,7 @@ $tpl = eZTemplate::factory();
 $action = $Params['Action'];
 $parameter = $Params['Parameter'];
 
-if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseCustomBuiltin_booking', 'disabled') !== 'enabled') {
+if (!StanzaDelCittadinoBooking::factory()->isEnabled()) {
     return $module->handleError(eZError::KERNEL_ACCESS_DENIED, 'kernel');
 }
 

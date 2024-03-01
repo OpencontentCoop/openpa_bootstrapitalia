@@ -304,6 +304,28 @@
                 </form>
             </div>
 
+            <div class="row">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
+                    <fieldset>
+                        <legend class="text-white h5 px-0">Calendari e prenotazione appuntamenti</legend>
+                        <input type="hidden" name="StanzaDelCittadinoBooking" value="1">
+                        <div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="StanzaDelCittadinoBookingEnable"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="StanzaDelCittadinoBookingEnable" {$stanzadelcittadino_booking|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0" for="StanzaDelCittadinoBookingEnable">
+                                Abilita la configurazione dei calendari e il relativo widget di prenotazione
+                            </label>
+                        </div>
+                        <div class="text-right mt-1">
+                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
         </div>
     {/if}
 

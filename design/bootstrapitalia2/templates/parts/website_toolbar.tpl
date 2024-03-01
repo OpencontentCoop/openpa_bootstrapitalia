@@ -405,7 +405,7 @@
                                         </a>
                                     </li>
                                 {/if}
-                                {if and(openpaini('StanzaDelCittadinoBridge', 'UseCustomBuiltin_booking', 'disabled')|eq('enabled'), fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'booking_config' ) ))}
+                                {if and(custom_booking_is_enabled(), fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'booking_config' ) ))}
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/booking_config'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-share-alt"></i>

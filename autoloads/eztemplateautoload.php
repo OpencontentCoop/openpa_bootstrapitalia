@@ -60,6 +60,8 @@ $eZTemplateOperatorArray = [
             'openagenda_can_push_place',
             'can_check_remote_public_service',
             'topic_has_contents',
+            'custom_booking_is_enabled',
+            'has_custom_booking_url',
         ],
     ],
 ];

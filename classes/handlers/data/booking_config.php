@@ -14,14 +14,14 @@ class DataHandlerBookingConfig implements OpenPADataHandlerInterface
 
     public function getData()
     {
-        if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseCustomBuiltin_booking', 'disabled') !== 'enabled') {
+        if (!StanzaDelCittadinoBooking::factory()->isEnabled()) {
             return [];
         }
 
         $http = eZHTTPTool::instance();
         if ($http->hasPostVariable('office') && $http->hasPostVariable('service')
             && $http->hasPostVariable('place') && $http->hasPostVariable('calendars')) {
-            return StanzaDelCittadinoBooking::storeConfig(
+            return StanzaDelCittadinoBooking::factory()->storeConfig(
                 (int)$http->postVariable('office'),
                 (int)$http->postVariable('service'),
                 (int)$http->postVariable('place'),
@@ -34,7 +34,7 @@ class DataHandlerBookingConfig implements OpenPADataHandlerInterface
             $service = $http->hasGetVariable('service') ? (int)$http->getVariable('service') : null;
             $place = $http->hasGetVariable('place') ? (int)$http->getVariable('place') : null;
             if ($office !== null && $service !== null && $place !== null) {
-                return StanzaDelCittadinoBooking::getCalendars($service, $office, $place);
+                return StanzaDelCittadinoBooking::factory()->getCalendars($service, $office, $place);
             }
             return [];
         }
@@ -42,17 +42,17 @@ class DataHandlerBookingConfig implements OpenPADataHandlerInterface
         if ($this->request === 'offices') {
             $service = $http->hasGetVariable('service') ? (int)$http->getVariable('service') : null;
             if ($service !== null) {
-                return StanzaDelCittadinoBooking::getOffices($service);
+                return StanzaDelCittadinoBooking::factory()->getOffices($service);
             }
             return [];
         }
 
         if ($this->request === 'timetable') {
             $calendars = $http->hasGetVariable('calendars') ? $http->getVariable('calendars') : [];
-            return StanzaDelCittadinoBooking::getTimeTable($calendars);
+            return StanzaDelCittadinoBooking::factory()->getTimeTable($calendars);
         }
 
-        return StanzaDelCittadinoBooking::getConfigs();
+        return StanzaDelCittadinoBooking::factory()->getConfigs();
     }
 
 }

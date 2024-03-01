@@ -107,6 +107,14 @@ if ($http->hasPostVariable('StanzadelcittadinoBridge') && $hasAdminAccess) {
 }
 $tpl->setVariable('sdc_status_check', StanzaDelCittadinoBridge::factory()->getEnableRuntimeServiceStatusCheck());
 
+if ($http->hasPostVariable('StanzaDelCittadinoBooking') && $hasAdminAccess) {
+    StanzaDelCittadinoBooking::factory()->setEnabled($http->hasPostVariable('StanzaDelCittadinoBookingEnable'));
+    eZContentCacheManager::clearAllContentCache();
+    $module->redirectTo('/bootstrapitalia/info');
+    return;
+}
+$tpl->setVariable('stanzadelcittadino_booking', StanzaDelCittadinoBooking::factory()->isEnabled());
+
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {
     $contacts = $http->postVariable('Contacts');
