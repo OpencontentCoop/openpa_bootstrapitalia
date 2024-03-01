@@ -11,7 +11,7 @@ class PagineTrasparenzaMergePatchOperationFactory extends
     public function handleCurrentRequest(\Opencontent\OpenApi\EndpointFactory $endpointFactory)
     {
         $response = parent::handleCurrentRequest($endpointFactory);
-        TrasparenzaEndpointFactoryProvider::clearTrasparenzaTree();
+        TrasparenzaEndpointFactoryProvider::clearSchemaBuilder();
         return $response;
     }
 

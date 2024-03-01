@@ -34,47 +34,80 @@ class PagineTrasparenzaEndpointFactoryProvider extends AbstractSlugClassesEntryP
 
     public static function generateSlug($name, $id): string
     {
-        $slug = \eZCharTransform::instance()->transformByGroup($name, 'identifier');
-        if (strlen($slug) > 100) {
-            $substr = substr($slug, 0, 100);
-            $lastUnderscore = strrpos($substr, " ");
-            $slug = substr($substr, 0, $lastUnderscore);
-        }
-        if (!empty($slug)) {
-            if (isset(self::$nodeIdMap[$slug]) && self::$nodeIdMap[$slug] != $id) {
-                $slug .= '-' . $id;
-            }
-        }
-
-        return $slug;
+        $treeRows = self::fetchTree((int)$id);
+        return count($treeRows) > 0 ?
+            self::formatSlug($treeRows[0]) :
+            \eZCharTransform::instance()->transformByGroup($name, 'identifier');
     }
 
-    protected function getSlugIdMap()
+    protected function getSlugIdMap(): array
     {
-        $trasparenzaRoot = eZContentObject::fetchByRemoteID(self::TRASPARENZA_REMOTE_ID);
-        if ($trasparenzaRoot instanceof eZContentObject) {
-            if (self::$nodeIdMap === null) {
-                self::$nodeIdMap = [];
-                $menu = OpenPAMenuTool::getTreeMenu([
-                    'root_node_id' => $trasparenzaRoot->mainNodeID(),
-                    'user_hash' => false,
-                    'scope' => 'side_menu',
-                ]);
-                self::recursiveFindNodeIdMap($menu);
-            }
+        if (self::$nodeIdMap !== null) {
+            return self::$nodeIdMap;
         }
+
+        self::$nodeIdMap = [];
+        $treeRows = self::fetchTree();
+        foreach ($treeRows as $row){
+            $slug = self::formatSlug($row);
+            self::$nodeIdMap[$slug] = $row['node_id'];
+        }
+
         return self::$nodeIdMap;
     }
 
-    private static function recursiveFindNodeIdMap($menu)
+    private static function fetchTree(?int $nodeId = null)
     {
-        foreach ($menu['children'] as $item) {
-            $slug = self::generateSlug($item['item']['name'], $item['item']['node_id']);
-            if (!empty($slug)) {
-                self::$nodeIdMap[$slug] = $item['item']['node_id'];
-                self::recursiveFindNodeIdMap($item);
-            }
+        $trasparenzaRoot = eZContentObject::fetchByRemoteID(self::TRASPARENZA_REMOTE_ID);
+        if ($trasparenzaRoot instanceof eZContentObject) {
+            $contentClassId = (int)eZContentClass::classIDByIdentifier('pagina_trasparenza');
+            $trasparenzaRootNode = $trasparenzaRoot->mainNode();
+            $trasparenzaRootPath = $trasparenzaRootNode instanceof eZContentObjectTreeNode ?
+                $trasparenzaRootNode->attribute('path_string') : '/invalid';
+            $nodeIdFilter = $nodeId ? " WHERE node_id = $nodeId" : '';
+            $treeQuery = "WITH tree AS (
+                SELECT 
+                  ezcontentobject.id,
+                  ezcontentobject_tree.node_id,
+                  ezcontentobject_name.name AS name,
+                  ROW_NUMBER () OVER (
+                        PARTITION BY ezcontentobject_name.name
+                        ORDER BY
+                            ezcontentobject.id
+                    ) AS suffix
+                FROM ezcontentobject
+                  INNER JOIN ezcontentobject_name 
+                    ON ( ezcontentobject.id = ezcontentobject_name.contentobject_id AND ezcontentobject.current_version = ezcontentobject_name.content_version )
+                  INNER JOIN ezcontentobject_tree 
+                    ON ( ezcontentobject.id = ezcontentobject_tree.contentobject_id AND ezcontentobject.current_version = ezcontentobject_tree.contentobject_version ) 
+                WHERE ezcontentobject.contentclass_id  IN  ( $contentClassId ) 
+                    AND ezcontentobject_tree.path_string like '$trasparenzaRootPath%' 
+                    AND ezcontentobject_name.language_id = 2
+                    AND ezcontentobject_tree.contentobject_is_published = 1
+                    AND ezcontentobject_tree.is_hidden = 0 
+                    AND ezcontentobject_tree.is_invisible = 0 
+                GROUP BY ezcontentobject.id, ezcontentobject_name.name, ezcontentobject_tree.node_id
+                ORDER BY ezcontentobject_name.name asc
+            ) SELECT * FROM tree $nodeIdFilter";
+            return eZDB::instance()->arrayQuery($treeQuery);
         }
+
+        return [];
+    }
+
+    private static function formatSlug($treeItem)
+    {
+        $slug = \eZCharTransform::instance()->transformByGroup($treeItem['name'], 'identifier');
+        if (strlen($slug) > 100) {
+            $substr = substr($slug, 0, 100);
+            $lastUnderscore = strrpos($substr, "_");
+            $slug = substr($substr, 0, $lastUnderscore);
+        }
+        if ($treeItem['suffix'] > 1){
+            $slug .= '-' .  $treeItem['node_id'];
+        }
+
+        return $slug;
     }
 
     protected function build()

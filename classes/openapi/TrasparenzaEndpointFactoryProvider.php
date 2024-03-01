@@ -13,53 +13,11 @@ class TrasparenzaEndpointFactoryProvider extends ChainEndpointFactoryDiscover
         parent::__construct($providers);
     }
 
-    public static function clearTrasparenzaTree()
-    {
-        self::regenerateTrasparenzaTree();
-        self::clearSchemaBuilder();
-    }
-
     public static function clearSchemaBuilder()
     {
         $schemaBuilder = \Opencontent\OpenApi\Loader::instance()->getSchemaBuilder();
         if ($schemaBuilder instanceof \Opencontent\OpenApi\CachedSchemaBuilder){
             $schemaBuilder->clearCache();
-        }
-    }
-
-    private static function regenerateTrasparenzaTree()
-    {
-        $trasparenzaRoot = eZContentObject::fetchByRemoteID(
-            PagineTrasparenzaEndpointFactoryProvider::TRASPARENZA_REMOTE_ID
-        );
-        if ($trasparenzaRoot instanceof eZContentObject) {
-            $parameters = [
-                'root_node_id' => $trasparenzaRoot->mainNodeID(),
-                'user_hash' => false,
-                'scope' => 'side_menu',
-            ];
-            $menu = new OpenPATreeMenuHandler($parameters);
-            $cachePath = eZDir::path(
-                [
-                    eZSys::cacheDirectory(),
-                    OpenPAMenuTool::cacheDirectory(),
-                    OpenPABase::getFrontendSiteaccessName(),
-                    $menu->cacheFileName(),
-                ]
-            );
-            $fileHandler = eZClusterFileHandler::instance($cachePath);
-            try {
-                eZDB::setErrorHandling(eZDB::ERROR_HANDLING_EXCEPTIONS);
-                eZDB::instance()->query("DELETE FROM ezdfsfile_cache WHERE name = '$cachePath'");
-            } catch (Throwable $e) {
-            }
-            $fileHandler->processCache(
-                null,
-                ['OpenPATreeMenuHandler', 'menuGenerate'],
-                null,
-                null,
-                compact('parameters')
-            );
         }
     }
 
