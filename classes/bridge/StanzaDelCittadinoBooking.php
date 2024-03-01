@@ -69,11 +69,26 @@ EOT;
                 foreach ($data as $datum) {
                     $placeObject = eZContentObject::fetch((int)$datum['place']);
                     if ($placeObject instanceof eZContentObject) {
+                        $dataMap = $placeObject->dataMap();
                         $place = [
                             'id' => $datum['place'],
                             'name' => $placeObject->attribute('name'),
+                            'address' => [
+                                'address' => '',
+                                'latitude' => '',
+                                'longitude' => '',
+                            ],
                             'calendars' => $datum['calendars'],
                         ];
+                        if (isset($dataMap['has_address'])){
+                            /** @var eZGmapLocation $address */
+                            $address = $dataMap['has_address']->content();
+                            $place['address'] = [
+                                'address' => $address->attribute('address'),
+                                'latitude' => $address->attribute('address'),
+                                'longitude' => $address->attribute('address'),
+                            ];
+                        }
                         $places[$place['name']] = $place;
                     }
                 }
@@ -170,12 +185,12 @@ EOT;
         if ($startDateTime instanceof DateTime) {
             $endDateTime = new DateTime(sprintf('last day of %s', $startDateTime->format('Y-m')));
             if ($endDateTime instanceof DateTime) {
-                $availabilities['to'] = $endDateTime->format('Y-m-d');
-                $availabilities = $client->getCalendarAvailabilities($calendars[0], $startDate, $endDateTime->format('Y-m-d'));
-                foreach ($availabilities as $index => $availability){
-                    $availabilities[$index]['name'] = $locale->formatDate(DateTime::createFromFormat('Y-m-d', $availability['date'])->format('U'));
+                $response['to'] = $endDateTime->format('Y-m-d');
+                $remoteAvailabilities = $client->getCalendarsAvailabilities($calendars, $startDate, $endDateTime->format('Y-m-d'));
+                foreach ($remoteAvailabilities['data'] as $index => $availability){
+                    $availability['name'] = $locale->formatDate(DateTime::createFromFormat('Y-m-d', $availability['date'])->format('U'));
+                    $response['availabilities'][$index] = $availability;
                 }
-                $response['availabilities'] = $availabilities;
             }
         }
         return $response;
@@ -183,13 +198,49 @@ EOT;
 
     public static function getAvailabilitiesByDay(array $calendars, string $day = null): array
     {
-        $response = [];
+        $availabilities = [];
         if ($day){
             $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
-            $availabilities = $client->getCalendarAvailabilities($calendars[0], $day);
+            $response = $client->getCalendarsAvailabilities($calendars, $day);
+            $availabilities = $response['data'];
         }
 
         return $availabilities;
+    }
+
+    public static function deleteDraftMeeting($meetingId)
+    {
+        try{
+            StanzaDelCittadinoBridge::factory()
+                ->instanceNewClient()
+                ->request('DELETE', '/api/meetings/'.$meetingId);
+        }catch (Throwable $e){
+            eZDebug::writeError($e->getMessage(), __METHOD__);
+        }
+    }
+
+    /**
+     * @param string $calendar
+     * @param string $date
+     * @param string $opening_hour
+     * @param string $slot
+     * @param string|null $meetingId
+     * @return array
+     * @throws Exception
+     */
+    public static function upsertDraftMeeting(string $calendar, string $date, string $opening_hour, string $slot, string $meetingId = null): array
+    {
+        $data = [
+            'calendar' => $calendar,
+            'date' => $date,
+            'opening_hour' => $opening_hour,
+            'slot' => $slot,
+            'meeting' => $meetingId,
+        ];
+        return StanzaDelCittadinoBridge::factory()
+            ->instanceNewClient()
+            ->request('POST', '/it/meetings/new-draft', $data);
+
     }
 
     public static function getSteps(): array

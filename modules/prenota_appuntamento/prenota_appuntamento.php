@@ -49,7 +49,7 @@ if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseCustomBuiltin_booking', 
     }
     $pageHash = OpenPABase::getCurrentSiteaccessIdentifier() . '-booking:' . $serviceId;
 
-    $tpl->setVariable('link_area_personale', StanzaDelCittadinoBridge::factory()->getProfileUri());
+    $tpl->setVariable('pal', StanzaDelCittadinoBridge::factory()->getProfileUri());
     $tpl->setVariable('page_key', $pageHash);
     $tpl->setVariable('service_id', $serviceId);
     $tpl->setVariable('service', $service);

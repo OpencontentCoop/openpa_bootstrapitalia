@@ -9,7 +9,7 @@
             </p>
             <p class="text-paragraph mb-0">
                 Per i dettagli sul trattamento dei dati personali consulta l'<a class="t-primary"
-                        href="{$built_in_app_variables.OC_PRIVACY_URL}"
+                        href="{built_in_app_variables().OC_PRIVACY_URL}"
                         target="_blank">informativa sulla privacy.</a></p>
             <div class="form-check mt-4 mb-3 mt-md-40 mb-lg-40">
                 <div class="checkbox-body d-flex align-items-center">

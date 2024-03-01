@@ -8,7 +8,7 @@
                         <p class="subtitle-small text-black">
                             I campi contraddistinti dal simbolo asterisco sono obbligatori.</p>
                         <p class="subtitle-small text-black my-3 d-none" id="spid-access">Hai un’identità digitale SPID o CIE?
-                            <a class="title-small-semi-bold t-primary text-decoration-none" href="{$link_area_personale|user_api_base_url()}/login?return-url={concat('prenota_appuntamento?service_id=',$service_id)|ezurl(no,full)}">
+                            <a class="title-small-semi-bold t-primary text-decoration-none" href="{$pal|user_api_base_url()}/login?return-url={concat('prenota_appuntamento?service_id=',$service_id)|ezurl(no,full)}">
                                 Accedi
                             </a>
                         </p>

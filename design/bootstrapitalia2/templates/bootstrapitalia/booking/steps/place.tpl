@@ -20,10 +20,10 @@
 
                                 <div class="card-body p-0">
                                     <div class="select-wrapper p-0 select-partials">
-                                        <label for="office-choice" class="visually-hidden">Tipo di ufficio</label>
+                                        <label for="office-choice" class="visually-hidden">Seleziona un ufficio</label>
                                         <select id="office-choice" class="" data-focus-mouse="false">
                                             {if count($offices)|gt(1)}
-                                            <option selected="selected" value="">Seleziona opzione</option>
+                                            <option selected="selected" value="">Seleziona un ufficio</option>
                                             {/if}
                                             {foreach $offices as $office}
                                                 <option value="{$office.id|wash()}">{$office.name|wash()}</option>
@@ -31,7 +31,7 @@
                                         </select>
                                     </div>
                                     <fieldset class="d-none">
-                                        <legend class="visually-hidden">Seleziona un ufficio</legend>
+                                        <legend class="visually-hidden">Seleziona una sede</legend>
                                         {foreach $offices as $office}
                                             {foreach $office.places as $place}
                                             <div class="cmp-info-radio radio-card d-none" data-office="{$office.id|wash()}" data-place="{$place.id|wash()}">
@@ -39,9 +39,9 @@
                                                     <div class="card-header mb-0 p-0">
                                                         <div class="form-check m-0">
                                                             <input class="radio-input" name="place" type="radio"
-                                                                   id="place-{$place.id|wash()}"
+                                                                   id="place-{$office.id|wash()}-{$place.id|wash()}"
                                                                    data-calendars="{$place.calendars|implode(',')}">
-                                                            <label for="place-{$place.id|wash()}">
+                                                            <label for="place-{$office.id|wash()}-{$place.id|wash()}">
                                                                 <h3 class="big-title" data-title>{$place.name|wash()}</h3>
                                                             </label>
                                                         </div>
@@ -50,15 +50,17 @@
                                                         <div class="info-wrapper">
                                                             <span class="info-wrapper__label">Indirizzo</span>
                                                             <p class="info-wrapper__value" data-address>
-                                                                ...
+                                                                <a href="https://www.google.com/maps/dir//'{$place.address.latitude|wash()},{$place.address.longitude|wash()}'/@{$place.address.latitude|wash()},{$place.address.longitude|wash()},15z?hl=it" target="_blank" rel="noopener noreferrer"  class="text-decoration-none">
+                                                                    <i aria-hidden="true" class="fa fa-map"></i> {$place.address.address|wash()}
+                                                                </a>
                                                             </p>
                                                         </div>
-                                                        <div class="info-wrapper">
-                                                            <span class="info-wrapper__label">Apertura</span>
-                                                            <p class="info-wrapper__value" data-opening>
-                                                                ...
-                                                            </p>
-                                                        </div>
+{*                                                        <div class="info-wrapper">*}
+{*                                                            <span class="info-wrapper__label">Apertura</span>*}
+{*                                                            <p class="info-wrapper__value" data-opening>*}
+{*                                                                ...*}
+{*                                                            </p>*}
+{*                                                        </div>*}
                                                     </div>
                                                 </div>
                                             </div>

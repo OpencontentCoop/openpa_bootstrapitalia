@@ -30,6 +30,7 @@
                                             <div class="text-paragraph-small">Sede</div>
                                             <div class="border-light">
                                                 <p class="data-text" data-placeTitle></p>
+                                                <p class="data-text" data-placeAddress></p>
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +137,7 @@
             </div>
 
             <div class="cmp-nav-steps">
-                <nav class="steppers-nav" aria-label="Step">
+                <nav class="steppers-nav pb-3" aria-label="Step">
                     <button type="button" class="btn btn-sm steppers-btn-prev p-0">
                         {display_icon('it-chevron-left', 'svg', 'icon icon-primary icon-sm')}
                         <span class="text-button-sm t-primary">Indietro</span>
@@ -153,8 +154,11 @@
                         <span class="text-button-sm">Invia</span>
                     </button>
                 </nav>
-                <div id="alert-message" class="alert alert-success cmp-disclaimer rounded d-none" role="alert">
+                <div id="store-message" class="alert alert-success cmp-disclaimer rounded p-3 d-inline-block float-end d-none" role="alert" style="display:none">
                     <span class="d-inline-block text-uppercase cmp-disclaimer__message">Richiesta salvata con successo</span>
+                </div>
+                <div id="store-error" class="alert alert-danger cmp-disclaimer rounded d-inline-block float-end d-none" role="alert">
+                    <span class="d-inline-block text-uppercase cmp-disclaimer__message">Errore salvando la richiesta</span>
                 </div>
             </div>
         </div>

@@ -77,6 +77,7 @@ Handlers[block_opendata_queried_contents]=DataHandlerOpendataQueriedContents
 Handlers[meta]=DataHandlerMeta
 Handlers[instance]=DataHandlerInstance
 Handlers[booking_config]=DataHandlerBookingConfig
+Handlers[booking]=DataHandlerBooking
 
 [BlockHandlers]
 Handlers[ListaManuale/*]=OpenPABootstrapItaliaBlockHandlerListaManuale

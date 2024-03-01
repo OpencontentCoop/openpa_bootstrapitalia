@@ -85,17 +85,28 @@ class StanzaDelCittadinoClient
         return $this->request('GET', '/api/calendars/' . $calendarId . '/opening-hours');
     }
 
-    public function getCalendarAvailabilities(string $calendarId, string $fromTime, string $toTime = null)
+    public function getCalendarsAvailabilities(array $calendarIdList, string $fromTime, string $toTime = null)
     {
+
         if ($toTime) {
+            $query = http_build_query([
+                'available' => 'true',
+                'calendar_ids' => implode(',', $calendarIdList),
+                'from_date' => $fromTime,
+                'to_date' => $toTime,
+            ]);
             return $this->request(
                 'GET',
-                '/api/calendars/' . $calendarId . "/availabilities?available=true&from_time=$fromTime&to_time=$toTime"
+                "/api/availabilities?$query"
             );
         }else{
+            $query = http_build_query([
+                'available' => 'true',
+                'calendar_ids' => implode(',', $calendarIdList),
+            ]);
             return $this->request(
                 'GET',
-                '/api/calendars/' . $calendarId . "/availabilities/$fromTime?available=true"
+                "/api/availabilities/$fromTime?$query"
             );
         }
     }

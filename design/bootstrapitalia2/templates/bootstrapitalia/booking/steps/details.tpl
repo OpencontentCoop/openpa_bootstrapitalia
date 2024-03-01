@@ -22,7 +22,7 @@
                                         <label for="motivo-appuntamento" class="visually-hidden">Motivo dell'appuntamento</label>
                                         {if $service}
                                             <span class="p-1 d-block border-bottom">{$service.name|wash()}</span>
-                                            <input type="hidden" id="motivo-appuntamento" name="subject" value="{$service.name|wash()}">
+                                            <input type="hidden" id="motivo-appuntamento" name="subject-precompiled" value="{$service.name|wash()}">
                                         {else}
                                             <input type="text" id="motivo-appuntamento" name="subject" data-focus-mouse="false" value="">
                                         {/if}
@@ -47,7 +47,8 @@
                                                 Aggiungi ulteriori dettagli
                                             </label>
                                             <textarea name="detail" class="text-area" id="form-details" rows="2"></textarea>
-                                            <span class="label">Inserire massimo 200 caratteri</span>
+                                            <span style="position: absolute;right: 0;bottom: 0;" class="cmp-input__text"><span class="detail-length">200</span>/200</span>
+                                            <span class="form-text cmp-input__text">Inserire massimo 200 caratteri</span>
                                         </div>
                                     </div>
                                 </div>

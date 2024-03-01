@@ -22,6 +22,12 @@ class ServiceSync
 
     private static $findServiceByBookingUrl = false;
 
+    private static $skipIdentifiers = [
+        'bookings',
+        'helpdesk',
+        'inefficiency'
+    ];
+
     private $localDomain;
 
     public function __construct(eZContentObjectTreeNode $service, StanzaDelCittadinoClient $client, $localDomain = null)
@@ -123,7 +129,7 @@ class ServiceSync
             $this->info['digital_service_id'] = $remoteServiceUUID;
 
             if (!empty($remoteService['identifier']) && $serviceIdentifier != $remoteService['identifier']) {
-                $this->errors['IDENTIFIER_MISMATCH'] = [
+                $this->errors['LOCAL_IDENTIFIER_MISMATCH'] = [
                     'topic' => 'sync',
                     'message' => 'Service identifier does not match with remote service identifier',
                     'locale' => $serviceIdentifier,
