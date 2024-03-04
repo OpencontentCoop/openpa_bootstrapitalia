@@ -19,13 +19,12 @@ class DataHandlerBookingConfig implements OpenPADataHandlerInterface
         }
 
         $http = eZHTTPTool::instance();
-        if ($http->hasPostVariable('office') && $http->hasPostVariable('service')
-            && $http->hasPostVariable('place') && $http->hasPostVariable('calendars')) {
+        if ($http->hasPostVariable('office') && $http->hasPostVariable('service') && $http->hasPostVariable('place')) {
             return StanzaDelCittadinoBooking::factory()->storeConfig(
                 (int)$http->postVariable('office'),
                 (int)$http->postVariable('service'),
                 (int)$http->postVariable('place'),
-                (array)$http->postVariable('calendars')
+                $http->hasPostVariable('calendars') ? (array)$http->postVariable('calendars') : []
             );
         }
 
