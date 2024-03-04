@@ -65,8 +65,12 @@ EOT;
         self::initDb();
         $capabilities = eZUser::currentUser()->hasAccessTo('bootstrapitalia', 'booking_config');
         if ($capabilities['accessWord'] === 'yes') {
-            $calendarsString = json_encode($calendars);
-            $query = "INSERT INTO ocbookingconfig (office_id,service_id,place_id,calendars) VALUES ($office,$service,$place,'$calendarsString') ON CONFLICT (office_id,service_id,place_id) DO UPDATE SET calendars = EXCLUDED.calendars";
+            if (count($calendars)) {
+                $calendarsString = json_encode($calendars);
+                $query = "INSERT INTO ocbookingconfig (office_id,service_id,place_id,calendars) VALUES ($office,$service,$place,'$calendarsString') ON CONFLICT (office_id,service_id,place_id) DO UPDATE SET calendars = EXCLUDED.calendars";
+            }else{
+                $query = "DELETE FROM ocbookingconfig WHERE office_id = $office AND service_id = $service AND place_id = $place";
+            }
             eZDB::setErrorHandling(eZDB::ERROR_HANDLING_EXCEPTIONS);
             try {
                 eZDB::instance()->query($query);
