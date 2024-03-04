@@ -235,6 +235,10 @@ class OpenPABootstrapItaliaOperators
                 );
                 break;
 
+            case 'topic_has_contents':
+                $operatorValue = self::topicHasContents($namedParameters['topic_id']);
+                break;
+
             case 'can_check_remote_public_service':
                 $operatorValue = StanzaDelCittadinoBridge::factory()->getEnableRuntimeServiceStatusCheck();
                 break;
