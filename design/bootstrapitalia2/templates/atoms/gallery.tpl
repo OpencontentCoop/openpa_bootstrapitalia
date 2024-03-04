@@ -22,7 +22,8 @@
                                     <div class="img-responsive">
                                         <div class="img-wrapper">
                                             {attribute_view_gui attribute=$item|attribute( 'image' )
-                                                                image_class=$thumbnail_class image_css_class='img-fluid'}
+                                                                image_class=$thumbnail_class
+                                                                image_css_class='img-fluid of-contain bg-light'}
                                         </div>
                                     </div>
                                 </div>
