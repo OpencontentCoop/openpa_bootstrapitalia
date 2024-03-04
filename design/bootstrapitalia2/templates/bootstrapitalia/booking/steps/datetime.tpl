@@ -12,6 +12,8 @@
                                         <h2 class="title-xxlarge mb-2">Appuntamenti disponibili*</h2>
                                     </div>
                                 </div>
+                                <div id="appointment-calendars" class="card-body row mb-4 px-3 py-0">
+                                </div>
                                 <div class="card-body p-0 position-relative appointment-select">
                                     <div class="select-wrapper p-0 mt-1 select-partials">
                                         <label for="appointment-month" class="visually-hidden">Seleziona un mese</label>

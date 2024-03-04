@@ -1,6 +1,16 @@
 <div id="step-{$step.id|wash()}" class="step container"{if $hide} style="display:none"{/if}>
     <div class="row justify-content-center">
         <div class="col-12 col-lg-8">
+
+            <div class="mb-5 warning callout callout-highlight" style="background-image:none">
+                <div class="callout-title">
+                    {display_icon('it-help-circle', 'svg', 'icon')}
+                    <span>Attenzione</span>
+                </div>
+                <p class="titillium text-paragraph">Le informazioni che hai fornito hanno valore di dichiarazione.
+                    <span class="d-lg-block"> Verifica che siano corrette.</span>
+                </p>
+            </div>
             <div class="mt-2">
                 <h2 class="visually-hidden">Dettagli dell'appuntamento</h2>
                 <div class="cmp-card mb-4">
@@ -152,6 +162,7 @@
                     </button>
                     <button type="button" class="btn btn-primary btn-sm send">
                         <span class="text-button-sm">Invia</span>
+                        <span class="text-button-sm load-button" style="display:none"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i></span>
                     </button>
                 </nav>
                 <div id="store-message" class="alert alert-success cmp-disclaimer rounded p-3 d-inline-block float-end d-none" role="alert" style="display:none">

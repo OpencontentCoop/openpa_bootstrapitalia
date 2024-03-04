@@ -13,7 +13,16 @@
                             </p>
                             <br>
                             <p>
-                                Ci scusiamo per l'inconveniente e vi invitiamo a riprovare più tardi
+                                Ci scusiamo per l'inconveniente e vi invitiamo a riprovare più tardi.
+                                <br />
+                                <br />
+                                {if $service}
+                                    <a class="btn btn-outline-primary btn-xs me-3" href="{concat('prenota_appuntamento?service_id=', $service.id)|ezurl(no)}"><strong>Riprova</strong></a>
+                                    <a class="btn btn-outline-primary btn-xs" href="{$service.main_node.url_alias|ezurl(no)}"><strong>Torna alla scheda del servizio</strong></a>
+                                {else}
+                                    <a class="btn btn-outline-primary btn-xs me-3" href="{'prenota_appuntamento'|ezurl(no)}"><strong>Riprova</strong></a>
+                                    <a class="btn btn-outline-primary btn-xs" href="{'/'|ezurl(no)}"><strong>Torna alla home</strong></a>
+                                {/if}
                             </p>
                         </div>
                     </div>

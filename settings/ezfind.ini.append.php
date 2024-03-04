@@ -10,6 +10,7 @@ Class[administrative_area]=ezfIndexSubAttributeGeo
 Class[document]=ezfIndexHasCodeNormalized
 Class[time_indexed_role]=ezfIndexEndlessRole
 Class[homepage]=ezfIndexHomepage
+Class[event_link]=ezfIndexEventLink
 General[]=ezfIndexExtraGeo
 General[]=ezfIndexPublicServiceMenu
 

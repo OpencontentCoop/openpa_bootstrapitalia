@@ -840,18 +840,20 @@ class OpenPABootstrapItaliaOperators
             $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . '/';
             $urlList['default'] = $baseUrl . $filter . $url;
 
-            $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_{width}/';
-            $urlList['dynamic'] = $baseUrl . $filter . $url;
+            if (OpenPAINI::variable('ImageSettings', 'UseSizeAndSrcSet', 'enabled') == 'enabled') {
+                $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_{width}/';
+                $urlList['dynamic'] = $baseUrl . $filter . $url;
 
-            $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_480/';
-            $urlList['small'] = $baseUrl . $filter . $url;
-            $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_2500/';
-            $urlList['large'] = $baseUrl . $filter . $url;
+                $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_480/';
+                $urlList['small'] = $baseUrl . $filter . $url;
+                $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_2500/';
+                $urlList['large'] = $baseUrl . $filter . $url;
 
-            $srcSetSmall = $urlList['small'] . ' 480w';
-            $srcSetLarge = $urlList['large'] . ' 1000w';
-            $urlList['data-srcset'] = "{$srcSetSmall},{$srcSetLarge}";
-            $urlList['sizes'] = '(max-width: 600px) 480w, 1000w';
+                $srcSetSmall = $urlList['small'] . ' 480w';
+                $srcSetLarge = $urlList['large'] . ' 1000w';
+                $urlList['data-srcset'] = "{$srcSetSmall},{$srcSetLarge}";
+                $urlList['sizes'] = '(max-width: 600px) 480w, 1000w';
+            }
         }
 
         return $urlList;

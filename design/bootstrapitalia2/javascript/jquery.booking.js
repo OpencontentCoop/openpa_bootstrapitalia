@@ -3,8 +3,22 @@
 
   "use strict"
 
-  $.fn.resetSelect = function () {
-    $(this).html('<option value="">' + $(this).prev().text() + '</option>')
+  $.fn.resetSelect = function (preserve) {
+    let container = $(this)
+    let options = []
+    if (preserve) {
+      $(this).find('option').each(function () {
+        if ($(this).val().length > 0) {
+          options.push({'name': $(this).text(), 'value': $(this).val()})
+        }
+      })
+    }
+    container.html('<option value="">' + $(this).prev().text() + '</option>')
+    if (preserve) {
+      $.each(options, function () {
+        container.append('<option value="' + this.value + '">' + this.name + '</option>')
+      })
+    }
     return this
   }
 
@@ -15,7 +29,9 @@
       profileUrl: null,
       prefix: null,
       debug: false,
-      user: null,
+      debugUserToken: null,
+      useCalendarFilter: false,
+      forcePreselect: false
     }
 
   function Plugin(element, options) {
@@ -65,6 +81,7 @@
       'step': 0,
       'privacy': null,
       'office': null,
+      'calendarFilter': [],
       'place': null,
       'month': null,
       'day': null,
@@ -77,6 +94,7 @@
       'applicantEmail': null,
       'applicantPhone': null,
       'meeting': null,
+      'userToken': null,
     }
     this.cacheDayAvailabilities = []
     this.avoidApplicantModification = false
@@ -85,6 +103,8 @@
     this.user = null;
     this.feedback = $('.feedback-container');
     this.error = $('.error-container');
+    this.calendarFilterContainer = $('#appointment-calendars');
+    this.cacheCalendars = []
 
     this.init()
   }
@@ -121,36 +141,59 @@
           xhrFields: {withCredentials: true},
           success: function (data) {
             if (data.token) {
-              function parseJwt(token) {
-                let base64Url = token.split('.')[1]
-                let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-                let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
-                  return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-                }).join(''))
-                return JSON.parse(jsonPayload)
-              }
-
-              let tokenData = parseJwt(self.settings.token)
-              $.ajax({
-                url: self.settings.profileUrl + '/' + tokenData.id,
-                dataType: 'json',
-                headers: {Authorization: 'Bearer ' + self.settings.token},
-                success: function (data) {
-                  self.load(data)
-                },
-                error: function () {
-                  self.load(self.settings.user)
-                }
+              self.getUserProfile(data.token, function (user){
+                self.load(user)
               })
+            }else{
+              self.load()
             }
           },
           error: function () {
             self.spidAccess.removeClass('d-none')
-            self.load(self.settings.user)
+            if (self.settings.debugUserToken){
+              self.getUserProfile(self.settings.debugUserToken, function (user){
+                self.load(user)
+              })
+            }else{
+              self.load()
+            }
           }
         })
       } else {
-        self.load(self.settings.user)
+        self.load()
+      }
+    },
+
+    getUserProfile: function (token, callback, context){
+      let self = this
+      if (self.settings.profileUrl){
+        function parseJwt(token) {
+          let base64Url = token.split('.')[1]
+          let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+          let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+          }).join(''))
+          return JSON.parse(jsonPayload)
+        }
+        let tokenData = parseJwt(token)
+        $.ajax({
+          url: self.settings.profileUrl + '/' + tokenData.id,
+          dataType: 'json',
+          headers: {Authorization: 'Bearer ' + token},
+          success: function (data) {
+            data.token = token
+            if ($.isFunction(callback)) {
+              callback.call(context, data)
+            }
+          },
+          error: function () {
+            if ($.isFunction(callback)) {
+              callback.call(context, null)
+            }
+          }
+        })
+      }else if ($.isFunction(callback)) {
+        callback.call(context, null)
       }
     },
 
@@ -221,7 +264,7 @@
       }
     },
 
-    addListeners: function (){
+    addListeners: function () {
       let self = this
       $('[data-goto]').on('click', function (e) {
         let step = $(this).data('goto')
@@ -248,8 +291,10 @@
       })
 
       $('#step-summary button.send').on('click', function (e) {
+        $(this).attr('disabled', 'disabled').find('.text-button-sm').hide();
+        $(this).find('.load-button').show()
         self.debug('send-form')
-        self.saveMeeting(function (response){
+        self.saveMeeting(function (response) {
           self.removeStorage()
           $(self.element).find('.steppers').hide()
           $(self.element).find('.row.justify-content-center .cmp-hero').hide()
@@ -262,8 +307,7 @@
           self.feedback.find('.row.justify-content-center .cmp-hero').show()
           window.scrollTo(0, 0);
           self.feedback.show()
-          console.log(response);
-        }, function (error){
+        }, function (error) {
           self.displayError(error)
         })
 
@@ -271,16 +315,16 @@
       })
       $('#step-summary button.save').on('click', function (e) {
         self.debug('save-form')
-        self.saveMeetingDraft(function (){
+        self.saveMeetingDraft(function () {
           self.storeMessage.removeClass('d-none')
-          setTimeout(function(){
+          setTimeout(function () {
             self.storeMessage.addClass('d-none')
-          },3000)
-        }, function (){
+          }, 3000)
+        }, function () {
           self.storeErrorMessage.removeClass('d-none')
-          setTimeout(function(){
+          setTimeout(function () {
             self.storeErrorMessage.addClass('d-none')
-          },3000)
+          }, 3000)
         })
         e.preventDefault()
       })
@@ -303,7 +347,7 @@
         self.setCurrentData('openingHour', $(this).val())
         self.onChangeOpeningHours()
       })
-      
+
       self.daySelect.on('change', function () {
         self.setCurrentData('day', $(this).val())
         self.showHourAvailabilities()
@@ -311,6 +355,7 @@
 
       self.placeSelect.on('change', function () {
         self.setCurrentData('place', $(this).attr('id'))
+        self.setCurrentData('calendarFilter', [])
         self.onChangePlace()
       })
 
@@ -420,7 +465,7 @@
         }
       })
 
-      $(self.element).find('.no-availabilities a').on('click', function (){
+      $(self.element).find('.no-availabilities a').on('click', function () {
         self.markStepUnconfirmed('datetime', function () {
           self.setCurrentData('place', null)
           self.setCurrentData('day', null)
@@ -568,40 +613,157 @@
       }
     },
 
+    filterCalendars: function () {
+      let calendars = this.settings.useCalendarFilter ? this.getCheckedCalendars(true) : ''
+      if (calendars.length === 0) {
+        calendars = $('#' + this.currentData.place).data('calendars')
+      }
+      return calendars;
+    },
+
+    getCheckedCalendars: function (asString = false) {
+      let cals = []
+      this.calendarFilterContainer.find('input[name="calendars[]"]:checked').each(function () {
+        cals.push($(this).val())
+      })
+      return asString ? cals.join(',') : cals;
+    },
+
+    buildCalendarFilter: function () {
+      if (!this.settings.useCalendarFilter) return
+      let self = this
+      self.calendarFilterContainer.html('')
+      let calendars = $('#' + this.currentData.place).data('calendars').split(',')
+      let currentFilters = self.currentData.calendarFilter || []
+
+      function isSelected(id) {
+        let currentMeetingCalendar = self.currentData.openingHour ? self.currentData.openingHour.split('|')[0] : false
+        if (currentMeetingCalendar && $.inArray(currentMeetingCalendar, calendars) > -1) {
+          return currentMeetingCalendar === id
+        }
+        return currentFilters.length === 0 || $.inArray(id, currentFilters) > -1
+      }
+
+      $.each(calendars, function () {
+        let check = $('<div class="form-check col-md-6 my-0 py-0 calendar-filter"></div>')
+        let input = $('<input class="form-check-input" name="calendars[]" type="checkbox" value="' + this + '" id="calendar-' + this + '">')
+          .prop('checked', isSelected(this))
+          .on('change', function () {
+            let checked = self.getCheckedCalendars()
+            if (checked.length === 0) {
+              self.setCurrentData('calendarFilter', [])
+              self.calendarFilterContainer.find('input[name="calendars[]"]').prop('checked', true)
+            } else {
+              self.setCurrentData('calendarFilter', checked)
+            }
+            if (calendars.length > 1) {
+              self.storeData()
+              self.markStepUnconfirmed('datetime')
+              self.setCurrentData('month', null)
+              self.setCurrentData('day', null)
+              self.setCurrentData('openingHour', null)
+              self.storeData()
+              self.monthSelect.resetSelect(true)
+              self.daySelect.resetSelect()
+              self.openingHoursSelect.resetSelect()
+              self.onChangeMonth()
+            }
+          })
+          .appendTo(check)
+
+        let label = $('<label class="form-check-label" for="calendar-' + this + '"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i></label>').appendTo(check)
+        self.calendarFilterContainer.append(check)
+      })
+    },
+
+    renderCalendarLabel: function (id, label) {
+      let self = this
+
+      function renderLabel(text, id) {
+        let render = text
+        if (self.settings.debug) {
+          render += ' (' + id + ')'
+        }
+        return render
+      }
+
+      let inCache = self.cacheCalendars[id] || null
+      if (inCache) {
+        label.text(renderLabel(inCache.title || '?', id))
+      } else {
+        self.debug('get-calendar', id)
+        $.ajax({
+          dataType: "json",
+          url: self.baseUrl + 'openpa/data/booking/calendar/' + id,
+          success: function (response) {
+            self.cacheCalendars[id] = response
+            label.text(renderLabel(self.cacheCalendars[id].title || '?', id))
+          },
+          error: function (jqXHR) {
+            self.debug(jqXHR)
+          }
+        });
+      }
+    },
+
+    freezeAppointmentSelection: function () {
+      this.stepContainer('datetime').find('.appointment-select').addClass('freeze')
+    },
+
+    unfreezeAppointmentSelection: function () {
+      let self = this
+      this.stepContainer('datetime').find('.appointment-select').removeClass('freeze')
+      if (this.settings.useCalendarFilter) {
+        this.calendarFilterContainer.find('.calendar-filter').each(function () {
+          self.renderCalendarLabel($(this).find('input').val(), $(this).find('label'))
+        })
+      }
+    },
+
     showHourAvailabilities: function () {
       let self = this
       this.openingHoursSelect.resetSelect()
       this.markStepUnconfirmed('datetime')
       if (this.currentData.place && this.currentData.day) {
         this.debug('find-hours-availabilities')
-        this.stepContainer('datetime').find('.appointment-select').addClass('freeze')
+        this.freezeAppointmentSelection()
         $.ajax({
           dataType: "json",
           url: this.baseUrl + 'openpa/data/booking/availabilities_by_day',
           data: {
-            calendars: $('#' + self.currentData.place).data('calendars'),
+            calendars: this.filterCalendars(),
             day: self.currentData.day
           },
           success: function (response) {
-            self.stepContainer('datetime').find('.appointment-select').removeClass('freeze')
+            self.unfreezeAppointmentSelection()
             let hourAvailabilities = []
             $.each(response, function () {
               let slotId = [this.calendar_id, this.opening_hour_id, this.date, this.start_time, this.end_time].join('|')
               hourAvailabilities.push(slotId)
               self.openingHoursSelect.append('<option value="' + slotId + '">' + this.start_time + ' - ' + this.end_time + '</option>')
             })
+            if (self.settings.forcePreselect && self.hasCurrentMeeting() && $.inArray(self.currentData.openingHour, hourAvailabilities) === -1) {
+              self.debug('force preselected openingHour', self.currentData.openingHour)
+              hourAvailabilities.push(self.currentData.openingHour)
+              self.openingHoursSelect.append('<option value="' + self.currentData.openingHour + '">'
+                + self.currentData.openingHour.split('|')[3] + ' - ' + self.currentData.openingHour.split('|')[4] + '</option>')
+              self.openingHoursSelect.html(self.openingHoursSelect.find('option').sort(function (x, y) {
+                if ($(x).attr('value').length === 0) return -1;
+                return $(x).text() > $(y).text() ? 1 : -1;
+              }));
+            }
             self.debug('hours-availabilities', hourAvailabilities)
-            if (self.currentData.openingHour && $.inArray(self.currentData.openingHour, hourAvailabilities) > -1) {
+            if (self.currentData.month && self.currentData.day && self.currentData.openingHour && $.inArray(self.currentData.openingHour, hourAvailabilities) > -1) {
               self.debug('preselected openingHour', self.currentData.openingHour)
               self.openingHoursSelect.val(self.currentData.openingHour).trigger('change')
               self.makeSummary()
             } else {
-              self.debug('invalid or missing preselected openingHour', self.currentData.day)
+              self.debug('invalid or missing preselected openingHour', self.currentData.openingHour)
               self.openingHoursSelect.val('')
               self.forceGoToCurrentStepIfNeeded('datetime')
             }
           },
-          error: function (jqXHR){
+          error: function (jqXHR) {
             self.displayError(jqXHR)
           }
         });
@@ -629,28 +791,35 @@
               callback.call(context, dayAvailabilities)
             }
           },
-          error: function (jqXHR){
+          error: function (jqXHR) {
             self.displayError(jqXHR)
           }
         });
       }
     },
 
-    showDayAvailabilities: function () {
+    showDayAvailabilities: function (callback, context) {
       let self = this
       self.markStepUnconfirmed('datetime', function () {
         self.daySelect.resetSelect()
         self.openingHoursSelect.resetSelect()
       })
-      self.debug('looking-for-day-availabilities', self.currentData.month, self.currentData.place)
+      let calendars = this.filterCalendars()
+      self.debug('looking-for-day-availabilities', self.currentData.month, self.currentData.place, calendars)
       let container = self.stepContainer('datetime').find('.appointment-select');
       if (self.currentData.place && self.currentData.month) {
-        container.addClass('freeze')
+        self.freezeAppointmentSelection()
         self.daySelect.resetSelect()
         self.findDayAvailabilities({
-          calendars: $('#' + self.currentData.place).data('calendars'),
+          calendars: calendars,
           month: self.currentData.month
         }, function (dayAvailabilities) {
+          if (dayAvailabilities.length === 0 && self.hasCurrentMeeting()) {
+            dayAvailabilities.push({
+              'data': self.currentData.day,
+              'name': self.currentData.day
+            })
+          }
           if (dayAvailabilities.length === 0) {
             self.monthSelect.find('[value="' + self.currentData.month + '"]').attr('disabled', 'disabled')
             let next = $('option:selected', self.monthSelect).next().attr('value')
@@ -658,16 +827,25 @@
               self.debug('no-day-for-month-try-next', next)
               self.monthSelect.val(next).trigger('change')
             } else {
-              container.removeClass('freeze')
+              self.unfreezeAppointmentSelection()
               $(self.element).find('.no-availabilities').show()
             }
           } else {
-            container.removeClass('freeze')
+            self.unfreezeAppointmentSelection()
             let dayAvailabilitiesValues = []
             $.each(dayAvailabilities, function () {
               dayAvailabilitiesValues.push(this.date)
               self.daySelect.append('<option value="' + this.date + '">' + this.name + '</option>')
             })
+            if (self.settings.forcePreselect && self.hasCurrentMeeting() && $.inArray(self.currentData.day, dayAvailabilitiesValues) === -1) {
+              self.debug('force preselected day', self.currentData.day)
+              dayAvailabilitiesValues.push(self.currentData.day)
+              self.daySelect.append('<option value="' + self.currentData.day + '">' + self.currentData.day + '</option>')
+              self.daySelect.html(self.daySelect.find('option').sort(function (x, y) {
+                if ($(x).attr('value').length === 0) return -1;
+                return $(x).attr('value') > $(y).attr('value') ? 1 : -1;
+              }));
+            }
             if (self.currentData.day && $.inArray(self.currentData.day, dayAvailabilitiesValues) > -1) {
               self.debug('preselected day', self.currentData.day)
               self.daySelect.val(self.currentData.day).trigger('change')
@@ -678,6 +856,9 @@
               self.showHourAvailabilities()
               self.forceGoToCurrentStepIfNeeded('datetime')
             }
+          }
+          if ($.isFunction(callback)) {
+            callback.call(context, dayAvailabilities)
           }
         })
       }
@@ -744,13 +925,15 @@
     onChangeOpeningHours: function () {
       let self = this
       this.debug('change-openingHour', this.currentData.openingHour)
-      if (this.currentData.openingHour) {
-        this.saveMeetingDraft(function (){
-          self.markStepConfirmed('datetime')
-        }, function (){
-          self.markStepUnconfirmed('datetime')
-          $(self.element).find('.no-availabilities').show()
-        })
+      if (this.currentData.openingHour && this.currentData.day && this.currentData.month) {
+        self.saveMeetingDraft(
+          function () {
+            self.markStepConfirmed('datetime')
+          },
+          function () {
+            self.markStepUnconfirmed('datetime')
+          }
+        )
       }
     },
 
@@ -761,16 +944,19 @@
         [calendar_id, opening_hour_id, day, start_time, end_time] = this.currentData.openingHour.split('|')
         let postData = {
           calendar: calendar_id,
+          opening_hour_id: opening_hour_id,
           date: day,
           to_time: end_time,
           from_time: start_time,
           user: this.user?.id || null,
+          user_token: this.user?.token || this.currentData.userToken || null,
           ezxform_token: this.settings.xtoken,
           meeting: this.currentData.meeting,
           email: this.summary.applicantEmail,
           phone_number: this.summary.applicantPhone,
           fiscal_code: this.summary.applicantFiscalCode,
-          name: this.summary.applicantName + ' ' + this.summary.applicantSurname,
+          name: this.summary.applicantName,
+          surname: this.summary.applicantSurname,
           user_message: this.summary.detailsText,
           motivation_outcome: this.summary.subjectText,
           place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html()
@@ -805,10 +991,11 @@
         let postData = {
           calendar: calendar_id,
           date: day,
-          opening_hour: opening_hour_id,
-          slot: start_time+'-'+end_time,
+          opening_hour_id: opening_hour_id,
+          slot: start_time + '-' + end_time,
           ezxform_token: this.settings.xtoken,
-          meeting: this.currentData.meeting
+          meeting: this.currentData.meeting,
+          user_token: this.user?.token || this.currentData.userToken || null,
         }
         let self = this
         $.ajax({
@@ -817,15 +1004,17 @@
           data: postData,
           dataType: 'json',
           success: function (response) {
-            self.setCurrentData('meeting', response)
+            self.setCurrentData('meeting', response.data)
+            self.setCurrentData('userToken', response.token)
+
             if ($.isFunction(callback)) {
-              callback.call(context)
+              callback.call(context, response)
             }
           },
-          error: function () {
+          error: function (response) {
             self.setCurrentData('meeting', null)
             if ($.isFunction(errorCallback)) {
-              errorCallback.call(context)
+              errorCallback.call(context, response)
             }
           }
         })
@@ -843,6 +1032,7 @@
           $('[data-placeTitle]').html(placeContainer.find('[data-title]').html())
           $('[data-placeAddress]').html(placeContainer.find('[data-address]').html())
           $('[data-placeOpening]').html(placeContainer.find('[data-opening]').html())
+          self.buildCalendarFilter()
           self.showDayAvailabilities()
         })
       }
@@ -900,7 +1090,7 @@
     showCleanInputButton: function (input) {
       if (this.avoidApplicantModification) {
         input.attr('readonly', 'readonly')
-      }else{
+      } else {
         input.next().removeClass('d-none')
       }
     },
@@ -944,6 +1134,27 @@
         applicantPhone: stepContainer.find('[data-applicantPhone]').text(),
       }
       this.debug('make-summary', this.summary)
+    },
+
+    hasCurrentMeeting: function () {
+      let hasValues = this.currentData.meeting?.id && this.currentData.openingHour && this.currentData.day
+      if (hasValues) {
+        let exp = this.currentData.meeting.expiration_time
+        try {
+          if ((new Date(exp)) < (new Date())) {
+            this.debug('current meeting is expired', this.currentData.meeting)
+            return false
+          } else {
+            this.debug('current meeting is valid', this.currentData.meeting)
+            return true
+          }
+        } catch (error) {
+          this.debug('invalid meeting expiration', this.currentData.meeting)
+          return false
+        }
+      }
+      this.debug('no current meeting')
+      return false;
     }
   })
 

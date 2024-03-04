@@ -15,7 +15,7 @@
                             <br>
                             <p>
                                 Abbiamo inviato il riepilogo all’email:<br />
-                                <strong><strong data-applicantEmail></strong></strong>
+                                <strong data-applicantEmail></strong>
                             </p>
                         </div>
                     </div>

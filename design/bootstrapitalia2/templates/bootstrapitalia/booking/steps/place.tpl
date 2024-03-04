@@ -51,7 +51,7 @@
                                                             <span class="info-wrapper__label">Indirizzo</span>
                                                             <p class="info-wrapper__value" data-address>
                                                                 <a href="https://www.google.com/maps/dir//'{$place.address.latitude|wash()},{$place.address.longitude|wash()}'/@{$place.address.latitude|wash()},{$place.address.longitude|wash()},15z?hl=it" target="_blank" rel="noopener noreferrer"  class="text-decoration-none">
-                                                                    <i aria-hidden="true" class="fa fa-map"></i> {$place.address.address|wash()}
+                                                                    {$place.address.address|wash()}
                                                                 </a>
                                                             </p>
                                                         </div>

@@ -104,6 +104,7 @@ class StanzaDelCittadinoClient
                 'available' => 'true',
                 'calendar_ids' => implode(',', $calendarIdList),
             ]);
+
             return $this->request(
                 'GET',
                 "/api/availabilities/$fromTime?$query"
@@ -207,18 +208,18 @@ class StanzaDelCittadinoClient
                 $errorMessage = $data->error_type . ': ';
             }
             $errorMessage .= $data->error_message;
-            throw new \Exception($errorMessage);
+            throw new \Exception($errorMessage . ' ' . json_encode($data));
         }
 
         if ($info['http_code'] == 401) {
-            throw new \Exception("Authorization Required");
+            throw new \Exception("Authorization Required " . json_encode($data));
         }
         if ($info['http_code'] == 403) {
-            throw new \Exception("Forbidden");
+            throw new \Exception("Forbidden ". json_encode($data));
         }
 
         if (!in_array($info['http_code'], array(100, 200, 201, 202))) {
-            throw new \Exception("$requestUrl: Reponse code is " .  $info['http_code'], $info['http_code']);
+            throw new \Exception("$requestUrl: Reponse code is " .  $info['http_code'], $info['http_code'] . ' ' . json_encode($data));
         }
 
         return json_decode($body, true);

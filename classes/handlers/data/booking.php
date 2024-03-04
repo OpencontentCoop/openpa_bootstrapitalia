@@ -7,9 +7,12 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
      */
     private $request;
 
+    private $requestParameter;
+
     public function __construct(array $Params)
     {
         $this->request = $Params['Parameters'][1] ?? null;
+        $this->requestParameter = $Params['Parameters'][2] ?? null;
     }
 
     public function getData()
@@ -19,6 +22,10 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
         }
 
         $http = eZHTTPTool::instance();
+        if ($this->request === 'calendar' && $this->requestParameter) {
+            return StanzaDelCittadinoBooking::factory()->getCalendar($this->requestParameter);
+        }
+
         if ($this->request === 'availabilities') {
             $calendars = $http->hasGetVariable('calendars') ? $http->getVariable('calendars') : [];
             if (is_string($calendars)){
@@ -38,37 +45,30 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
         }
 
         if ($this->request === 'draft_meeting' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $calendar = $http->hasPostVariable('calendar') ? $http->postVariable('calendar') : null;
-            $date = $http->hasPostVariable('date') ? $http->postVariable('date') : null;
-            $opening_hour = $http->hasPostVariable('opening_hour') ? $http->postVariable('opening_hour') : null;
-            $slot = $http->hasPostVariable('slot') ? $http->postVariable('slot') : null;
-            $meeting = $http->hasPostVariable('meeting') ? $http->postVariable('meeting') : false;
-            $meetingId = $meeting['id'] ?? false;
-            $meetingExp = $meeting['$meeting'] ?? false;
-
-            if ($meetingId && $meetingExp){
-                $exp = DateTime::createFromFormat('Y m d H:m', $meetingExp, new DateTimeZone('Europe/Rome'));
-                if ($exp > (new DateTime())){
-//                    StanzaDelCittadinoBooking::factory()->deleteDraftMeeting($meetingId);
-                    $meetingId = false;
-                }
-            }
             try {
-                return StanzaDelCittadinoBooking::factory()->upsertDraftMeeting(
-                    $calendar,
-                    $date,
-                    $opening_hour,
-                    $slot,
-                    $meetingId
-                );
+                $response = StanzaDelCittadinoBooking::factory()->upsertDraftMeeting(StanzaDelCittadinoBookingDTO::fromRequest());
             }catch (Throwable $e){
                 eZDebug::writeError($e->getMessage(), __METHOD__);
                 throw new Exception('Error storing meeting draft: ' . $e->getMessage());
             }
+            if (isset($response['error'])){
+                header('HTTP/1.1 400 Bad Request');
+            }
+            return $response;
         }
 
         if ($this->request === 'meeting' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            return $_POST;
+            try {
+                $response = StanzaDelCittadinoBooking::factory()->bookMeeting(StanzaDelCittadinoBookingDTO::fromRequest());
+            }catch (Throwable $e){
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+                throw new Exception('Error storing meeting: ' . $e->getMessage());
+            }
+            if (isset($response['error'])){
+                header('HTTP/1.1 400 Bad Request');
+            }
+
+            return $response;
         }
 
         return [];

@@ -38,10 +38,10 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceAttribute
         if ($this->contact === null) {
             $this->contact = false;
             $data = $this->getMatrixAsHash('virtual_has_online_contact_point');
-            foreach ($data as $item){
-                if (!empty($item['id'])){
+            foreach ($data as $item) {
+                if (!empty($item['id'])) {
                     $this->contact = eZContentObject::fetchByRemoteID($item['id']);
-                    if ($this->contact instanceof eZContentObject){
+                    if ($this->contact instanceof eZContentObject) {
                         break;
                     }
                 }
@@ -60,6 +60,14 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceAttribute
     protected function getImage()
     {
         $data = $this->getMatrixAsHash('virtual_image');
+        foreach ($data as $index => $image) {
+            $data[$index]['url'] = OpenAgendaBridge::factory()->getOpenAgendaUrl() . $data[$index]['url'];
+            if (isset($data[0]['url']) && OpenPAINI::variable('ImageSettings', 'FlyImgBaseUrl', '') !== '') {
+                $baseUrl = rtrim(OpenPAINI::variable('ImageSettings', 'FlyImgBaseUrl'), '/') . '/';
+                $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . '/';
+                $data[$index]['url'] = $baseUrl . $filter . $data[$index]['url'];
+            }
+        }
         return $data[0] ?? null;
     }
 
@@ -68,10 +76,10 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceAttribute
         if ($this->place === null) {
             $this->place = false;
             $data = $this->getMatrixAsHash('virtual_takes_place_in');
-            foreach ($data as $item){
-                if (!empty($item['id'])){
+            foreach ($data as $item) {
+                if (!empty($item['id'])) {
                     $this->place = eZContentObject::fetchByRemoteID($item['id']);
-                    if ($this->place instanceof eZContentObject){
+                    if ($this->place instanceof eZContentObject) {
                         $this->geo = $item;
                         break;
                     }
@@ -95,7 +103,6 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceAttribute
     {
         $headers = $data = [];
         if ($this->container->hasAttribute($attributeIdentifier)) {
-
             $matrix = $this->container->attribute($attributeIdentifier)
                 ->attribute('contentobject_attribute')->content()->attribute('matrix');
 
@@ -130,10 +137,10 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceAttribute
         if ($this->type === null) {
             $this->type = false;
             $data = $this->getMatrixAsHash('virtual_has_public_event_typology');
-            foreach ($data as $item){
+            foreach ($data as $item) {
                 $name = $item['name'];
                 $tags = eZTagsObject::fetchByKeyword($name);
-                if (count($tags)){
+                if (count($tags)) {
                     $this->type = $tags[0];
                 }
                 break;
@@ -154,10 +161,10 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceAttribute
         if ($this->topic === null) {
             $this->topic = false;
             $data = $this->getMatrixAsHash('virtual_topic');
-            foreach ($data as $item){
-                if (!empty($item['id'])){
+            foreach ($data as $item) {
+                if (!empty($item['id'])) {
                     $this->topic = eZContentObject::fetchByRemoteID($item['id']);
-                    if ($this->topic instanceof eZContentObject){
+                    if ($this->topic instanceof eZContentObject) {
                         break;
                     }
                 }

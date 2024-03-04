@@ -6,9 +6,17 @@ class StanzaDelCittadinoBooking
 
     const ENABLE_CACHE_KEY = 'sdc_booking_enabled';
 
+    const CALENDAR_FILTER_CACHE_KEY = 'sdc_booking_calendar_filter';
+
+    const STORE_AS_APPLICATION_CACHE_KEY = 'sdc_booking_as_application';
+
+    private static $useDraft = false;
+
     private static $instance;
 
-    private function __construct(){}
+    private function __construct()
+    {
+    }
 
     public static function factory(): StanzaDelCittadinoBooking
     {
@@ -72,6 +80,11 @@ EOT;
         return false;
     }
 
+    public function getCalendar($id)
+    {
+        return StanzaDelCittadinoBridge::factory()->instanceNewClient()->getCalendar($id);
+    }
+
     public function getCalendars(int $service, int $office, int $place): array
     {
         $query = "SELECT calendars FROM ocbookingconfig WHERE service_id = $service AND office_id = $office AND place_id = $place";
@@ -96,7 +109,7 @@ EOT;
         $query = "SELECT office_id, json_agg(json_build_object('place', place_id, 'calendars', calendars)) as data FROM ocbookingconfig WHERE service_id = $service GROUP BY office_id";
         $rows = eZDB::instance()->arrayQuery($query);
         $offices = [];
-        foreach ($rows as $row){
+        foreach ($rows as $row) {
             $officeObject = eZContentObject::fetch((int)$row['office_id']);
             if ($officeObject instanceof eZContentObject) {
                 $data = json_decode($row['data'], true);
@@ -115,7 +128,7 @@ EOT;
                             ],
                             'calendars' => $datum['calendars'],
                         ];
-                        if (isset($dataMap['has_address'])){
+                        if (isset($dataMap['has_address'])) {
                             /** @var eZGmapLocation $address */
                             $address = $dataMap['has_address']->content();
                             $place['address'] = [
@@ -211,9 +224,9 @@ EOT;
         StanzaDelCittadinoClient::$processTimeout = 10;
         $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
         $currentMonth = date('Y-m');
-        if (!$month || $month == $currentMonth){
+        if (!$month || $month == $currentMonth) {
             $startDate = date('Y-m-d');
-        }else{
+        } else {
             $startDate = $month . '-01';
         }
         $startDateTime = DateTime::createFromFormat('Y-m-d', $startDate);
@@ -226,9 +239,15 @@ EOT;
         if ($startDateTime instanceof DateTime) {
             $endDateTime = new DateTime(sprintf('last day of %s', $startDateTime->format('Y-m')));
             $response['to'] = $endDateTime->format('Y-m-d');
-            $remoteAvailabilities = $client->getCalendarsAvailabilities($calendars, $startDate, $endDateTime->format('Y-m-d'));
-            foreach ($remoteAvailabilities['data'] as $index => $availability){
-                $availability['name'] = $locale->formatDate(DateTime::createFromFormat('Y-m-d', $availability['date'])->format('U'));
+            $remoteAvailabilities = $client->getCalendarsAvailabilities(
+                $calendars,
+                $startDate,
+                $endDateTime->format('Y-m-d')
+            );
+            foreach ($remoteAvailabilities['data'] as $index => $availability) {
+                $availability['name'] = $locale->formatDate(
+                    DateTime::createFromFormat('Y-m-d', $availability['date'])->format('U')
+                );
                 $response['availabilities'][$index] = $availability;
             }
         }
@@ -241,7 +260,7 @@ EOT;
     public function getAvailabilitiesByDay(array $calendars, string $day = null): array
     {
         $availabilities = [];
-        if ($day){
+        if ($day) {
             $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
             $response = $client->getCalendarsAvailabilities($calendars, $day);
             $availabilities = $response['data'];
@@ -249,17 +268,6 @@ EOT;
 
         return $availabilities;
     }
-
-//    public static function deleteDraftMeeting($meetingId)
-//    {
-//        try{
-//            StanzaDelCittadinoBridge::factory()
-//                ->instanceNewClient()
-//                ->request('DELETE', '/api/meetings/'.$meetingId);
-//        }catch (Throwable $e){
-//            eZDebug::writeError($e->getMessage(), __METHOD__);
-//        }
-//    }
 
     /**
      * @param string $calendar
@@ -270,19 +278,95 @@ EOT;
      * @return array
      * @throws Exception
      */
-    public function upsertDraftMeeting(string $calendar, string $date, string $opening_hour, string $slot, string $meetingId = null): array
+    public function upsertDraftMeeting(StanzaDelCittadinoBookingDTO $dto): array
     {
-        $data = [
-            'calendar' => $calendar,
-            'date' => $date,
-            'opening_hour' => $opening_hour,
-            'slot' => $slot,
-            'meeting' => $meetingId,
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+        if (empty($dto->getUserToken())) {
+            $authResponse = $client->request('POST', '/api/session-auth');
+            $dto->setUserToken($authResponse['token']);
+        }
+        $client->setBearerToken($dto->getUserToken());
+        $endpoint = '/it/meetings/new-draft';
+        $payload = $dto->toMeetingDraft();
+        $response = [
+            'token' => $dto->getUserToken(),
+            'payload' => $payload,
+            'dto' => $dto,
+            'endpoint' => $endpoint,
         ];
-        return StanzaDelCittadinoBridge::factory()
-            ->instanceNewClient()
-            ->request('POST', '/it/meetings/new-draft', $data);
 
+        if (!self::$useDraft){
+            $response['data'] = null;
+            return $response;
+        }
+        try {
+            $response['data'] = $client->request('POST', $endpoint, $payload);
+        }catch (Throwable $e){
+            $response['error'] = $e->getMessage();
+        }
+
+        return $response;
+    }
+
+    public function bookMeeting(StanzaDelCittadinoBookingDTO $dto): array
+    {
+        return $this->isStoreMeetingAsApplication() ? $this->bookAsApplication($dto) : $this->bookAsMeeting($dto);
+    }
+
+    private function bookAsApplication(StanzaDelCittadinoBookingDTO $dto): array
+    {
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+        if (empty($dto->getUserToken())) {
+            $authResponse = $client->request('POST', '/api/session-auth');
+            $dto->setUserToken($authResponse['token']);
+        }
+        $client->setBearerToken($dto->getUserToken());
+        $endpoint = '/api/applications';
+        $payload = $dto->toApplicationPayload();
+        $response = [
+            'token' => $dto->getUserToken(),
+            'payload' => $payload,
+            'dto' => $dto,
+            'endpoint' => $endpoint,
+        ];
+        try {
+            $response['data'] = $client->request('POST', $endpoint, $payload);
+        }catch (Throwable $e){
+            $response['error'] = $e->getMessage();
+        }
+
+        return $response;
+    }
+
+    private function bookAsMeeting(StanzaDelCittadinoBookingDTO $dto): array
+    {
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+        if (empty($dto->getUserToken())) {
+            $authResponse = $client->request('POST', '/api/session-auth');
+            $dto->setUserToken($authResponse['token']);
+        }
+        $client->setBearerToken($dto->getUserToken());
+        if (self::$useDraft) {
+            $method = 'PUT';
+            $endpoint = '/api/meetings/' . $dto->getMeetingId();
+        }else{
+            $method = 'POST';
+            $endpoint = '/api/meetings';
+        }
+        $payload = $dto->toMeetingPayload();
+        $response = [
+            'token' => $dto->getUserToken(),
+            'payload' => $payload,
+            'dto' => $dto,
+            'endpoint' => $endpoint,
+        ];
+        try {
+            $response['data'] = $client->request($method, $endpoint, $payload);
+        }catch (Throwable $e){
+            $response['error'] = $e->getMessage();
+        }
+
+        return $response;
     }
 
     public function getSteps(): array
@@ -347,5 +431,25 @@ EOT;
                 'required' => [],
             ],
         ];
+    }
+
+    public function useCalendarFilter(): bool
+    {
+        return (bool)$this->getStorage(self::CALENDAR_FILTER_CACHE_KEY);
+    }
+
+    public function setUseCalendarFilter($enable)
+    {
+        $this->setStorage(self::CALENDAR_FILTER_CACHE_KEY, (int)$enable);
+    }
+
+    public function isStoreMeetingAsApplication(): bool
+    {
+        return (bool)$this->getStorage(self::STORE_AS_APPLICATION_CACHE_KEY);
+    }
+
+    public function setStoreMeetingAsApplication($enable)
+    {
+        $this->setStorage(self::STORE_AS_APPLICATION_CACHE_KEY, (int)$enable);
     }
 }

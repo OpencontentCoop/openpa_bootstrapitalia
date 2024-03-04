@@ -1,3 +1,18 @@
+{if $offices|count()|eq(0)}
+{include uri='design:bootstrapitalia/booking/breadcrumb.tpl'}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="cmp-heading pb-3 pb-lg-4">
+                <div class="alert alert-danger">
+                    <p class="lead m-0">Servizio momentaneamente non disponibile</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{else}
 <div data-booking>
     {include uri='design:bootstrapitalia/booking/breadcrumb.tpl'}
     {include uri='design:bootstrapitalia/booking/page_title.tpl'}
@@ -42,9 +57,11 @@
       tokenUrl: "{$pal|user_token_url()}",
       profileUrl: "{$pal|user_profile_url()}",
       prefix: UriPrefix,
-      debug: false
+      debug: false,
+      useCalendarFilter: {$use_calendar_filter}
     {rdelim})
   {rdelim})
 </script>
 {*{ezscript(array('jquery.booking.js'))}*}
 <script src={"javascript/jquery.booking.js"|ezdesign}></script>
+{/if}

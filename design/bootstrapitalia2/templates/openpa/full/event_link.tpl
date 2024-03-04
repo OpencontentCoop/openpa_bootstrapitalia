@@ -69,7 +69,7 @@
             </div>
             {if openagenda_is_enabled()}
             <div class="mt-5">
-                <a href="{openagenda_is_enabled()}/openpa/object/{$node.object.remote_id}" class="btn btn-primary btn-icon p-2 px-3">
+                <a href="{openagenda_is_enabled()}/openpa/object/{$node.object.remote_id}" class="btn btn-primary btn-icon p-2 px-3 mobile-full w-100">
                     {display_icon('it-calendar', 'svg', 'icon icon-white icon-lg')}
                     <span class="px-2">{'Go to event calendar'|i18n('bootstrapitalia')}<br />{openagenda_name()}</span>
                 </a>
@@ -83,7 +83,7 @@
 <div class="container-fluid my-3">
     <div class="row">
         <figure class="figure px-0 img-full d-block" xmlns="http://www.w3.org/1999/html">
-            <img src="{openagenda_is_enabled()}{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
+            <img src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
             {if or($openpa.event_link.image.author, $openpa.event_link.image.license)}
             <figcaption class="figure-caption text-center pt-3">
                 <span>
