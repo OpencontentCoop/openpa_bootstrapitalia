@@ -295,12 +295,8 @@ EOT;
             'endpoint' => $endpoint,
         ];
 
-        if (!self::$useDraft){
-            $response['data'] = null;
-            return $response;
-        }
         try {
-            $response['data'] = $client->request('POST', $endpoint, $payload);
+            $response['data'] = self::$useDraft ? $client->request('POST', $endpoint, $payload) : null;
         }catch (Throwable $e){
             $response['error'] = $e->getMessage();
         }
