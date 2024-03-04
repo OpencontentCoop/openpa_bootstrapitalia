@@ -838,9 +838,9 @@ class OpenPABootstrapItaliaOperators
 
             $baseUrl = rtrim(OpenPAINI::variable('ImageSettings', 'FlyImgBaseUrl'), '/') . '/';
             $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . '/';
-            $urlList['default'] = $baseUrl . $filter . $url;
 
             if (OpenPAINI::variable('ImageSettings', 'UseSizeAndSrcSet', 'enabled') == 'enabled') {
+                $urlList['default'] = $baseUrl . $filter . $url;
                 $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_{width}/';
                 $urlList['dynamic'] = $baseUrl . $filter . $url;
 
@@ -853,6 +853,9 @@ class OpenPABootstrapItaliaOperators
                 $srcSetLarge = $urlList['large'] . ' 1000w';
                 $urlList['data-srcset'] = "{$srcSetSmall},{$srcSetLarge}";
                 $urlList['sizes'] = '(max-width: 600px) 480w, 1000w';
+            }else{
+                $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_2500,h_800/';
+                $urlList['default'] = $baseUrl . $filter . $url;
             }
         }
 

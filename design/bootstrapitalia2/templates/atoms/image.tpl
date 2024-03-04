@@ -30,13 +30,13 @@
                 {/if}
 
                 {if $is_main_image}
-                    {if or( $image.content.original.width|lt(600), div($image.content.original.width, $image.content.original.height)|lt(0.7))}
+                    {if or( $image.content.original.width|le(800), div($image.content.original.width, $image.content.original.height)|lt(0.7))}
                         {set $image_css_class = concat($image_css_class, ' of-contain')}
                     {/if}
                 {/if}
 
                     {attribute_view_gui attribute=$image
-                                        image_class='original'
+                                        image_class='reference'
                                         image_css_class=$image_css_class
                                         fluid=$fluid}
 
