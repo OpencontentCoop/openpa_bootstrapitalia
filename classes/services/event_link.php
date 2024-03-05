@@ -61,13 +61,14 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceAttribute
     {
         $data = $this->getMatrixAsHash('virtual_image');
         foreach ($data as $index => $image) {
-            $data[$index]['url'] = OpenAgendaBridge::factory()->getOpenAgendaUrl() . $data[$index]['url'];
-            if (isset($data[0]['url']) && OpenPAINI::variable('ImageSettings', 'FlyImgBaseUrl', '') !== '') {
+            $data[$index]['url'] = OpenAgendaBridge::factory()->getOpenAgendaUrl() . $image['url'];
+            if (OpenPAINI::variable('ImageSettings', 'FlyImgBaseUrl', '') !== '') {
                 $baseUrl = rtrim(OpenPAINI::variable('ImageSettings', 'FlyImgBaseUrl'), '/') . '/';
                 $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . '/';
                 $data[$index]['url'] = $baseUrl . $filter . $data[$index]['url'];
             }
         }
+
         return $data[0] ?? null;
     }
 

@@ -30,8 +30,8 @@ class ezfIndexEventLink implements ezfIndexPlugin
             }
             $type = $link->attribute('has_public_event_typology');
             if ($type instanceof eZTagsObject) {
-                $tagIds = [];
-                $tree = [];
+                $tagIds = [$type->attribute('id')];
+                $tree = [$type->attribute('keyword')];
                 $parentTags = $type->getPath(true);
                 foreach ($parentTags as $parentTag) {
                     $tagIds[] = $parentTag->attribute('id');
