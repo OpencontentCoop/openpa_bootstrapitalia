@@ -145,7 +145,9 @@
                 self.load(user)
               })
             }else{
-              self.load()
+              self.getAnonymousToken(function (){
+                self.load()
+              })
             }
           },
           error: function () {
@@ -155,13 +157,33 @@
                 self.load(user)
               })
             }else{
-              self.load()
+              self.getAnonymousToken(function (){
+                self.load()
+              })
             }
           }
         })
       } else {
-        self.load()
+        self.displayError('profile or token url not found')
       }
+    },
+
+    getAnonymousToken: function (callback, context){
+      let self = this
+      $.ajax({
+        url: self.settings.tokenUrl,
+        dataType: 'json',
+        type: "POST",
+        success: function (data) {
+          if (data.token) {
+            self.setCurrentData('userToken', data.token)
+          }
+          callback.call(context)
+        },
+        error: function () {
+          callback.call(context)
+        }
+      })
     },
 
     getUserProfile: function (token, callback, context){
