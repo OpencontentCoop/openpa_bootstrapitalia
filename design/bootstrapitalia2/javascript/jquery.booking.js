@@ -128,8 +128,14 @@
       $(self.element).find('.title-xsmall').hide()
       $(self.element).find('.step.container').hide()
       self.error.find('.row.justify-content-center .cmp-hero').show()
-      window.scrollTo(0, 0);
+      self.scrollToTop()
       self.error.show()
+    },
+
+    scrollToTop: function (){
+      $('html, body').animate({
+        scrollTop: $("#booking-steppers").offset().top
+      }, 0);
     },
 
     init: function () {
@@ -298,8 +304,8 @@
 
       $(window).on('hashchange', function () {
         let step = location.hash.replace('#step-', '')
-        if (step) {
-          this.gotoStep(this.getStepIndex(step))
+        if (step && self.currentData.step !== self.getStepIndex(step)) {
+          self.gotoStep(self.getStepIndex(step))
         }
       })
 
@@ -570,7 +576,7 @@
       this.currentStepContainer().show()
       this.pushState()
       this.storeData()
-      window.scrollTo(0, 0);
+      this.scrollToTop()
     },
 
     prevStep: function () {
@@ -584,7 +590,7 @@
       this.currentStep().addClass('active')
       this.currentStepContainer().show()
       this.pushState()
-      window.scrollTo(0, 0);
+      this.scrollToTop()
     },
 
     gotoStep: function (index, callback, context) {
@@ -597,7 +603,7 @@
       this.currentStep().addClass('active')
       this.currentStepContainer().show()
       this.pushState()
-      window.scrollTo(0, 0);
+      this.scrollToTop()
       if ($.isFunction(callback)) {
         callback.call(context, this.currentData)
       }

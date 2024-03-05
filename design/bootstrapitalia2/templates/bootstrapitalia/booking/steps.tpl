@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="steppers">
+    <div id="booking-steppers" class="steppers">
         <div class="steppers-header">
             <ul>
                 {foreach $steps as $index => $step}
