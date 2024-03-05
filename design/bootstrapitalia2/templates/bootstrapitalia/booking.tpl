@@ -57,7 +57,7 @@
       tokenUrl: "{$pal|user_token_url()}",
       profileUrl: "{$pal|user_profile_url()}",
       prefix: UriPrefix,
-      debug: false,
+      debug: {$show_debug},
       useCalendarFilter: {$use_calendar_filter}
     {rdelim})
   {rdelim})
