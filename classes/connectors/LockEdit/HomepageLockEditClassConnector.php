@@ -494,7 +494,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         if (isset($data['section_next_events']) && $data['section_next_events'] === 'true') {
             return $originalBlockEvent;
         } elseif (isset($data['section_calendar'][0]['id'])) {
-            $block = $this->findBlockById(self::SECTION_MANAGEMENT);
+            $block = $this->findBlockById(self::SECTION_MANAGEMENT, true);
             $block['block_id'] = self::SECTION_NEXT_EVENTS;
             $block['name'] = $originalBlockEvent['name'];
             $block['custom_attributes']['container_style'] = false;

@@ -18,8 +18,8 @@
 
 {include uri='design:openpa/card/parts/card_wrapper_open.tpl'}
 
+    {if $has_media}
     <div class="col-4 order-2 order-md-1 position-relative">
-
         {if $node|has_attribute('time_interval')}
             {def $attribute_content = $node|attribute('time_interval').content}
             {def $events = $attribute_content.events}
@@ -37,6 +37,7 @@
         {/if}
         <img class="img-fluid rounded-top img-fluid img-responsive" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
     </div>
+    {/if}
 
     <div class="col-{if $has_media}8{else}12{/if} order-1 order-md-2">
         <div class="card-body pb-5">

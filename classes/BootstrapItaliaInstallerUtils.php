@@ -87,7 +87,7 @@ class BootstrapItaliaInstallerUtils
                         }
                     }
                     $authorAsEzXml = '';
-                    if (count($authorList)){
+                    if (count($authorList)) {
                         $authorAsEzXml = '<ul>' . implode('', $authorList) . '</ul>';
                     }
                     $attributeObject->setAttribute('data_text', SQLIContentUtils::getRichContent($authorAsEzXml));
@@ -99,6 +99,38 @@ class BootstrapItaliaInstallerUtils
                 }
             }
             $db->commit();
+        }
+    }
+
+    public static function addEventLinkInSetupHomepage()
+    {
+        $class = eZContentClass::fetchByIdentifier('edit_homepage');
+        if ($class instanceof eZContentClass) {
+            $dataMap = $class->dataMap();
+            $attributeIdentifier = 'section_calendar';
+            $targetClassIdentifier = 'event_link';
+            if (isset($dataMap[$attributeIdentifier])
+                && $dataMap[$attributeIdentifier]->attribute('data_type_string') == eZObjectRelationListType::DATA_TYPE_STRING) {
+                $eventLink = eZContentClass::fetchByIdentifier($targetClassIdentifier);
+                if ($eventLink instanceof eZContentClass) {
+                    $xmlText = $dataMap[$attributeIdentifier]->attribute('data_text5');
+                    if (trim($xmlText) !== '') {
+                        $doc = eZObjectRelationListType::parseXML($xmlText);
+                        $structure = (array)(new eZObjectRelationListType())->createClassContentStructure($doc);
+                        if (!in_array($targetClassIdentifier, $structure['class_constraint_list'])) {
+                            $structure['class_constraint_list'][] = $targetClassIdentifier;
+                            $doc = eZObjectRelationListType::createClassDOMDocument($structure);
+                            $docText = eZObjectRelationListType::domString($doc);
+                            $dataMap[$attributeIdentifier]->setAttribute('data_text5', $docText);
+                            $dataMap[$attributeIdentifier]->store();
+                            $handler = eZExpiryHandler::instance();
+                            $handler->setTimestamp('user-class-cache', time());
+                            $handler->store();
+                            ezpEvent::getInstance()->notify('content/class/cache', [$class->attribute('id')]);
+                        }
+                    }
+                }
+            }
         }
     }
 }

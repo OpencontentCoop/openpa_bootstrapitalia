@@ -285,9 +285,11 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
 
     public function filterQuery(\ArrayObject $query, QueryBuilder $builder)
     {
-        foreach (BootstrapItaliaClassAlias::getAliasIdList() as $realId => $maskedId){
-            if (in_array($realId, $query['SearchContentClassID'])){
-                $query['SearchContentClassID'][] = $maskedId;
+        if (isset($query['SearchContentClassID'])) {
+            foreach (BootstrapItaliaClassAlias::getAliasIdList() as $realId => $maskedId) {
+                if (in_array($realId, $query['SearchContentClassID'])) {
+                    $query['SearchContentClassID'][] = $maskedId;
+                }
             }
         }
 
