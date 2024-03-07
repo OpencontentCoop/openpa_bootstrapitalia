@@ -145,7 +145,7 @@ class AddPlaceClassConnector extends ClassConnector
                 $list[] = $item['text'];
             }
             foreach ($item['children'] as $child) {
-                if (!$child['disabled']) {
+                if (isset($child['disabled']) && !$child['disabled']) {
                     $list[] = $child['text'];
                 }
             }
@@ -174,8 +174,12 @@ class AddPlaceClassConnector extends ClassConnector
             $this->getSchema();
             $bindings = $steps = [];
             $index = 0;
+
             foreach ($this->schema['properties'] as $identifier => $property) {
                 $index++;
+                if (!isset($property['hidden'])){
+                    $property['hidden'] = false;
+                }
                 if (!$property['hidden'] && $identifier !== 'has_address') {
                     $bindings[$identifier] = $index;
                     $steps[] = [
