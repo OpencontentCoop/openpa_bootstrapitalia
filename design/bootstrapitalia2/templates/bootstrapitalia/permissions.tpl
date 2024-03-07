@@ -265,7 +265,7 @@
                         container.hide();
                         spinner.show();
                         $.ajax({
-                            url: '/bootstrapitalia/permissions/'+action+'/'+user+'/'+group,
+                            url: baseUrl+'/bootstrapitalia/permissions/'+action+'/'+user+'/'+group,
                             type: 'post',
                             headers: {"X-CSRF-TOKEN": csrfToken},
                             dataType: 'json',
