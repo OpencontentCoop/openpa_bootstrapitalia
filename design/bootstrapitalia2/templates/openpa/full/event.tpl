@@ -5,7 +5,7 @@
 {if and($parent_openpa.content_tag_menu.has_tag_menu, $node|has_attribute('has_public_event_typology'))}
     {def $keyword = $node|attribute('has_public_event_typology').content.tags[0].keyword|wash()}
     {ezpagedata_set( 'current_content_tagged_keyword', $keyword )}
-    {ezpagedata_set( 'current_content_tagged_keyword_url', concat($parent.url_alias, '/(view)/', $keyword))}
+    {ezpagedata_set( 'current_content_tagged_keyword_url', concat($parent.url_alias, '/(view)/', $keyword|urlencode()))}
     {undef $keyword}
 {/if}
 

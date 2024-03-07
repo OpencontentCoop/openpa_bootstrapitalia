@@ -37,7 +37,6 @@ class OpenPABootstrapItaliaExtrageoEnvironmentSettings extends EnvironmentSettin
             $extraData = array_shift($extraDataArray);
             $name = array_shift($nameArray);
         }
-
         $properties['id'] = $content->metadata->id;
         $properties['name'] = $name;
         $properties['class_identifier'] = $content->metadata->classIdentifier;
@@ -46,9 +45,11 @@ class OpenPABootstrapItaliaExtrageoEnvironmentSettings extends EnvironmentSettin
         $features = [];
         if (isset($extraData['geo'])){
             foreach ($extraData['geo'] as $geo){
-                $geometry->type = 'Point';
-                $geometry->coordinates = array($geo['longitude'], $geo['latitude']);
-                $features[] = new Feature($content->metadata->id, $geometry, new Properties($properties));
+                if (!empty($geo['longitude']) && !empty($geo['latitude'])) {
+                    $geometry->type = 'Point';
+                    $geometry->coordinates = [(float)$geo['longitude'], (float)$geo['latitude']];
+                    $features[] = new Feature($content->metadata->id, $geometry, new Properties($properties));
+                }
             }
         }
 

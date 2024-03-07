@@ -130,7 +130,62 @@
 
     {ezcss_require('leaflet/geocoder/Control.Geocoder.css')}
     {ezscript_require(array('leaflet/geocoder/Control.Geocoder.js', 'jquery.simplifiedPlaceGui.js'))}
-
+{literal}
+    <style>
+    .badge {
+        display: inline-block;
+        padding: .25em .4em;
+        font-size: 75%;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 4px;
+        transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;
+    }
+    .badge-secondary {
+        color: #fff;
+        background-color: #5c6f82;
+    }
+    .badge-danger {
+        color: #fff;
+        background-color: #d9364f;
+    }
+    .map-label {
+        position: absolute;
+        bottom: 0;
+        left: -50%;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+    .map-label-content {
+        order: 1;
+        position: relative;
+        left: -50%;
+        background-color: #5c6f82;
+        border-radius: 5px;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #5c6f82;
+        padding: 3px;
+        white-space: nowrap;
+        color: #fff;
+        font-weight: bold;
+    }
+    .map-label-arrow {
+        order: 2;
+        width: 0;
+        height: 0;
+        left: 50%;
+        border-style: solid;
+        border-color: #5c6f82 transparent transparent transparent;
+        border-width: 10px 6px 0 6px;
+        margin-left: -6px;
+    }
+    </style>
+{/literal}
     <script>
     $.opendataTools.settings('accessPath', "{''|ezurl(no,full)}");
 {literal}

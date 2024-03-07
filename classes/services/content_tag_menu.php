@@ -91,6 +91,7 @@ class ObjectHandlerServiceContentTagMenu extends ObjectHandlerServiceBase
                     }
                     $currentViewTag = eZTagsObject::fetchByUrl($url);
                     if (!$currentViewTag instanceof eZTagsObject){
+                        $userView = str_replace('$', ' / ', $userView);
                         $currentViewTags = eZTagsObject::fetchByKeyword($userView);
                         if (count($currentViewTags)){
                             $currentViewTag = $currentViewTags[0];
