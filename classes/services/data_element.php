@@ -98,6 +98,7 @@ class ObjectHandlerServiceDataElement extends ObjectHandlerServiceBase
     {
         switch ($classIdentifier) {
             case 'public_service':
+            case 'public_service_link':
                 return 'service-link';
 
             case 'political_body':

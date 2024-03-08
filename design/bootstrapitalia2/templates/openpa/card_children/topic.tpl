@@ -25,7 +25,7 @@
                     {foreach $related_items.searchHits as $item}
                         <li>
                             <a class="list-item active icon-left mb-2"
-                               {if $item.metadata.classIdentifier|eq('public_service')}data-element="service-link"{/if}
+                               {if $item.metadata.classIdentifier|begins_with('public_service')}data-element="service-link"{/if}
                                href="{concat('openpa/object/', $item.metadata.id)|ezurl(no)}">
                                 <span class="list-item-title-icon-wrapper">
                                     <span class="text-success">
