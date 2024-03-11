@@ -858,7 +858,7 @@ class OpenPABootstrapItaliaOperators
                 $urlList['data-srcset'] = "{$srcSetSmall},{$srcSetLarge}";
                 $urlList['sizes'] = '(max-width: 600px) 480w, 1000w';
             }else{
-                $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_2500,h_800/';
+                $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . ',w_2500,h_2500/';
                 $urlList['default'] = $baseUrl . $filter . $url;
             }
         }
