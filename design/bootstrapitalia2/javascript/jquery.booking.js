@@ -133,7 +133,7 @@
       self.error.show()
     },
 
-    scrollToTop: function (){
+    scrollToTop: function () {
       $('html, body').animate({
         scrollTop: $("#booking-steppers").offset().top
       }, 0);
@@ -148,23 +148,23 @@
           xhrFields: {withCredentials: true},
           success: function (data) {
             if (data.token) {
-              self.getUserProfile(data.token, function (user){
+              self.getUserProfile(data.token, function (user) {
                 self.load(user)
               })
-            }else{
-              self.getAnonymousToken(function (){
+            } else {
+              self.getAnonymousToken(function () {
                 self.load()
               })
             }
           },
           error: function () {
             self.spidAccess.removeClass('d-none')
-            if (self.settings.debugUserToken){
-              self.getUserProfile(self.settings.debugUserToken, function (user){
+            if (self.settings.debugUserToken) {
+              self.getUserProfile(self.settings.debugUserToken, function (user) {
                 self.load(user)
               })
-            }else{
-              self.getAnonymousToken(function (){
+            } else {
+              self.getAnonymousToken(function () {
                 self.load()
               })
             }
@@ -175,7 +175,7 @@
       }
     },
 
-    getAnonymousToken: function (callback, context){
+    getAnonymousToken: function (callback, context) {
       let self = this
       $.ajax({
         url: self.settings.tokenUrl,
@@ -193,9 +193,9 @@
       })
     },
 
-    getUserProfile: function (token, callback, context){
+    getUserProfile: function (token, callback, context) {
       let self = this
-      if (self.settings.profileUrl){
+      if (self.settings.profileUrl) {
         function parseJwt(token) {
           let base64Url = token.split('.')[1]
           let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
@@ -221,7 +221,7 @@
             }
           }
         })
-      }else if ($.isFunction(callback)) {
+      } else if ($.isFunction(callback)) {
         callback.call(context, null)
       }
     },
@@ -961,6 +961,7 @@
           },
           function () {
             self.markStepUnconfirmed('datetime')
+            $(self.element).find('.no-availabilities').show()
           }
         )
       }
