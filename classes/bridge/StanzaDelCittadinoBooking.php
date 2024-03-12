@@ -16,6 +16,9 @@ class StanzaDelCittadinoBooking
 
     private function __construct()
     {
+        if ($this->isStoreMeetingAsApplication()){
+            self::$useDraft = true;
+        }
     }
 
     public static function factory(): StanzaDelCittadinoBooking
