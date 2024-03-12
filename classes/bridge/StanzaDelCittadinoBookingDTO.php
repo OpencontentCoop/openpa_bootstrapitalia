@@ -439,7 +439,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
                 ],
                 'user_message' => $this->getUserMessage(),
                 'privacy' => true,
-                'place' => $this->getPlace(),
+                'location' => $this->getPlace(),
             ],
             'status' => 1900,
         ];
@@ -460,7 +460,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'user_message' => $this->getUserMessage(),
             'motivation_outcome' => $this->getMotivationOutcome(),
             'status' => 0,
-//            'place' => $place,
+//            'location' => $this->getPlace(),
         ];
 
         return $data;

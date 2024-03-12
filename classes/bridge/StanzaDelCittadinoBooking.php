@@ -74,6 +74,9 @@ EOT;
             eZDB::setErrorHandling(eZDB::ERROR_HANDLING_EXCEPTIONS);
             try {
                 eZDB::instance()->query($query);
+                if ($service > 0){
+                    eZContentCacheManager::clearContentCache($service);
+                }
                 return true;
             } catch (Throwable $e) {
                 eZDebug::writeError($e->getMessage(), __METHOD__);
@@ -116,43 +119,54 @@ EOT;
         foreach ($rows as $row) {
             $officeObject = eZContentObject::fetch((int)$row['office_id']);
             if ($officeObject instanceof eZContentObject) {
-                $data = json_decode($row['data'], true);
-                $places = [];
-                foreach ($data as $datum) {
-                    $placeObject = eZContentObject::fetch((int)$datum['place']);
-                    if ($placeObject instanceof eZContentObject) {
-                        $dataMap = $placeObject->dataMap();
-                        $place = [
-                            'id' => $datum['place'],
-                            'name' => $placeObject->attribute('name'),
-                            'address' => [
-                                'address' => '',
-                                'latitude' => '',
-                                'longitude' => '',
-                            ],
-                            'calendars' => $datum['calendars'],
-                        ];
-                        if (isset($dataMap['has_address'])) {
-                            /** @var eZGmapLocation $address */
-                            $address = $dataMap['has_address']->content();
-                            $place['address'] = [
-                                'address' => $address->attribute('address'),
-                                'latitude' => $address->attribute('address'),
-                                'longitude' => $address->attribute('address'),
+                $officeDataMap = $officeObject->dataMap();
+                $officeRelatedPlaceIdList = [];
+                if (isset($officeDataMap['has_spatial_coverage'])
+                    && $officeDataMap['has_spatial_coverage']->attribute('data_type_string') === eZObjectRelationListType::DATA_TYPE_STRING
+                    && $officeDataMap['has_spatial_coverage']->hasContent()){
+                    $officeRelatedPlaceIdList = explode('-', $officeDataMap['has_spatial_coverage']->toString());
+                }
+                if (!empty($officeRelatedPlaceIdList)) {
+                    $data = json_decode($row['data'], true);
+                    $places = [];
+                    foreach ($data as $datum) {
+                        $placeObject = eZContentObject::fetch((int)$datum['place']);
+                        if ($placeObject instanceof eZContentObject && in_array($datum['place'], $officeRelatedPlaceIdList)) {
+                            $dataMap = $placeObject->dataMap();
+                            $place = [
+                                'id' => $datum['place'],
+                                'name' => $placeObject->attribute('name'),
+                                'address' => [
+                                    'address' => '',
+                                    'latitude' => '',
+                                    'longitude' => '',
+                                ],
+                                'calendars' => $datum['calendars'],
                             ];
+                            if (isset($dataMap['has_address'])) {
+                                /** @var eZGmapLocation $address */
+                                $address = $dataMap['has_address']->content();
+                                $place['address'] = [
+                                    'address' => $address->attribute('address'),
+                                    'latitude' => $address->attribute('address'),
+                                    'longitude' => $address->attribute('address'),
+                                ];
+                            }
+                            $places[$place['name']] = $place;
                         }
-                        $places[$place['name']] = $place;
+                    }
+                    if (!empty($places)) {
+                        $office = [
+                            'id' => $row['office_id'],
+                            'name' => $officeObject->attribute('name'),
+                            'places' => array_values($places),
+                        ];
+                        $offices[$office['name']] = $office;
                     }
                 }
-                $office = [
-                    'id' => $row['office_id'],
-                    'name' => $officeObject->attribute('name'),
-                    'places' => array_values($places),
-                ];
-                $offices[$office['name']] = $office;
             }
         }
-        ksort($office);
+        ksort($offices);
         return array_values($offices);
     }
 
@@ -164,7 +178,7 @@ EOT;
     /**
      * @throws Exception
      */
-    public function getTimeTable(array $calendars, $showCalendarName = false, $showWeekEnd = false): array
+    public function getTimeTable(array $calendars, $showCalendarName = false, $showWeekEnd = true): array
     {
         if (empty($calendars)) {
             return [];
