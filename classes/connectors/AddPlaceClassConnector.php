@@ -129,6 +129,7 @@ class AddPlaceClassConnector extends ClassConnector
             unset($options['fields']['type']['type']);
             unset($options['fields']['type']['tree']);
             $options['fields']['topics']['multiple'] = false;
+            $options['fields']['type']['hideNone'] = false;
         }
         unset($options['helper']);
 
