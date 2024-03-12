@@ -218,6 +218,41 @@ if ($http->hasPostVariable('Store')) {
         }
     }
 
+    $footerBanner = $dataMap['footer_banner'] ?? null;
+    if ($footerBanner){
+        $footerBannerClassId = $footerBanner->attribute('id');
+        if ($http->hasPostVariable('ContentObjectAttribute_data_object_relation_list_' . $footerBannerClassId)) {
+            $values = (array)$http->postVariable('ContentObjectAttribute_data_object_relation_list_' . $footerBannerClassId);
+            if (isset($relationsPriority[$footerBannerClassId])){
+                $pValues = [];
+                foreach ($values as $index => $value){
+                    $p = $relationsPriority[$footerBannerClassId][$index];
+                    $pValues[$p][] = $value;
+                }
+                ksort($pValues);
+                $values = [];
+                foreach ($pValues as $pValue){
+                    $values = array_merge($values, $pValue);
+                }
+            }
+            $originalValues = explode('-', $footerBanner->toString());
+            foreach ($values as $index => $value){
+                if ($value == 'no_relation'){
+                    unset($values[$index]);
+                }
+            }
+            $missingValues = array_diff($originalValues, $values);
+            if (!empty($missingValues)){
+                $values = array_merge($values, $missingValues);
+            }
+            $values = array_unique($values);
+            if (!empty($values)){
+                $values = (array)array_shift($values);
+            }
+            $payload->setData($locale, 'footer_banner', $values);
+        }
+    }
+
     $contentRepository = new ContentRepository();
     $contentRepository->setEnvironment(EnvironmentLoader::loadPreset('content'));
     try {

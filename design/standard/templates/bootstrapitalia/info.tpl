@@ -100,9 +100,7 @@
                     </div>
                 </div>
             </div>
-
         {/if}
-
 
         <div class="border border-light rounded p-3 mb-3">
             <h5>Link header</h5>
@@ -117,6 +115,16 @@
                 {attribute_edit_gui attribute=$homepage.data_map.link_nel_footer attribute_base=ContentObjectAttribute}
             </div>
         </div>
+
+        {if and( openpaini('GeneralSettings', 'ShowFooterBanner', 'disabled')|eq('enabled'), is_set($homepage.data_map.footer_banner) )}
+            <div class="border border-light rounded p-3 mb-3">
+                <h5>Banner footer</h5>
+                <p class="text-muted">Viene visualizzato nel footer sulla destra il primo banner selezionato in questa sezione</p>
+                <div class="row mb-3 ezcca-edit-datatype-ezobjectrelationlist">
+                    {attribute_edit_gui attribute=$homepage.data_map.footer_banner attribute_base=ContentObjectAttribute}
+                </div>
+            </div>
+        {/if}
 
         <div class="row">
             <div class="col-12 text-right mt-3">

@@ -193,6 +193,7 @@ ShowRssInSocialList=disabled
 ShowUeLogo=enabled
 HideSlimHeaderIfUseless=disabled
 PerformanceLink=https://link.opencontent.it/piano-di-miglioramento-delle-performance
+ShowFooterBanner=disabled
 
 [InstanceSettings]
 InstallerDirectory=./extension/openpa_bootstrapitalia/data/installer

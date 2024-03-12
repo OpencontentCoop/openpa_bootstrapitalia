@@ -39,7 +39,16 @@
                     {else}
                         {include uri='design:logo.tpl' in_footer=true()}
                     {/if}
-
+                    {if and( openpaini('GeneralSettings', 'ShowFooterBanner', 'disabled')|eq('enabled'), $pagedata.homepage|has_attribute('footer_banner') )}
+                        {def $footer_banner = object_handler(fetch(content, object, hash( object_id, $pagedata.homepage|attribute('footer_banner').content.relation_list[0].contentobject_id)))}
+                        <a href="{$footer_banner.content_link.full_link}" class="ms-md-auto"
+                           title="{$footer_banner.name.contentobject_attribute.content|wash()}">
+                            <img class="icon" style="width: auto !important;height: 50px"
+                                 alt="{$footer_banner.name|wash()}"
+                                 src="{image_url($footer_banner.image.contentobject_attribute.content['header_logo'].full_path|ezroot(no,full), false(), false())}" />
+                        </a>
+                        {undef $footer_banner}
+                    {/if}
                 </div>
             </div>
 
