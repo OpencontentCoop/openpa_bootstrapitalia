@@ -31,7 +31,8 @@
       debug: false,
       debugUserToken: null,
       useCalendarFilter: false,
-      forcePreselect: false
+      forcePreselect: false,
+      useAvailabilitiesCache: false
     }
 
   function Plugin(element, options) {
@@ -802,7 +803,7 @@
       let self = this
       let cacheKey = JSON.stringify(data)
       let inCache = self.cacheDayAvailabilities[cacheKey] || null
-      if (inCache && $.isFunction(callback)) {
+      if (self.settings.useAvailabilitiesCache && inCache && $.isFunction(callback)) {
         self.debug('get-day-availabilities-from-cache', cacheKey)
         callback.call(context, inCache)
       } else {
