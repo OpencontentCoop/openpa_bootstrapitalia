@@ -15,6 +15,15 @@
 
             {attribute_view_gui attribute=$node|attribute('event_abstract')}
 
+            {if openagenda_is_enabled()}
+                <div class="my-5">
+                    <a href="{openagenda_is_enabled()}/openpa/object/{$node.object.remote_id}" class="btn btn-primary btn-icon p-2 px-3 mobile-full">
+                        {display_icon('it-calendar', 'svg', 'icon icon-white icon-lg')}
+                        <span class="px-2">{'Discover the details of the event on'|i18n('bootstrapitalia')}<br />{openagenda_name()}</span>
+                    </a>
+                </div>
+            {/if}
+
         </div>
         <div class="col-lg-3 offset-lg-1">
             {include uri='design:openpa/full/parts/actions.tpl'}
@@ -67,14 +76,6 @@
                     </ul>
                 {/if}
             </div>
-            {if openagenda_is_enabled()}
-            <div class="mt-5">
-                <a href="{openagenda_is_enabled()}/openpa/object/{$node.object.remote_id}" class="btn btn-primary btn-icon p-2 px-3 mobile-full w-100">
-                    {display_icon('it-calendar', 'svg', 'icon icon-white icon-lg')}
-                    <span class="px-2">{'Go to event calendar'|i18n('bootstrapitalia')}<br />{openagenda_name()}</span>
-                </a>
-            </div>
-            {/if}
         </div>
     </div>
 </section>

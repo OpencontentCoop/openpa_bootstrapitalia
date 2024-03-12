@@ -547,6 +547,10 @@
       <source>Set as public</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Discover the details of the event on</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -646,6 +650,22 @@
       <source>back to top</source>
       <translation>retour au sommet</translation>
     </message>
+    <message>
+      <source>Transparent Administration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Privacy disclaimer</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Legal notices</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Accessibility statement</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>openpa/valuation</name>
@@ -702,7 +722,7 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Seulement des informations de type</translation>
+      <translation>Seules les informations de type</translation>
     </message>
     <message>
       <source>Sorting by</source>
@@ -794,7 +814,7 @@
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Recherche de recherche% 2 Matchs</translation>
+      <translation>La recherche est retournée% 2 correspondances</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>

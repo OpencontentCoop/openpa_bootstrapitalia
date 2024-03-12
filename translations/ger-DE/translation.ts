@@ -547,6 +547,10 @@
       <source>Set as public</source>
       <translation>Als öffentlich festlegen</translation>
     </message>
+    <message>
+      <source>Discover the details of the event on</source>
+      <translation>Entdecken Sie die Details der Veranstaltung auf</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -645,6 +649,22 @@
     <message>
       <source>back to top</source>
       <translation>Zurück nach oben</translation>
+    </message>
+    <message>
+      <source>Transparent Administration</source>
+      <translation>Transparente Verwaltung</translation>
+    </message>
+    <message>
+      <source>Privacy disclaimer</source>
+      <translation>Der Datenschutz</translation>
+    </message>
+    <message>
+      <source>Legal notices</source>
+      <translation>Rechtliche Hinweise</translation>
+    </message>
+    <message>
+      <source>Accessibility statement</source>
+      <translation>Erklärung zur Zugänglichkeit</translation>
     </message>
   </context>
   <context>

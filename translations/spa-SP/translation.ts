@@ -547,6 +547,10 @@
       <source>Set as public</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Discover the details of the event on</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -645,6 +649,22 @@
     <message>
       <source>back to top</source>
       <translation>volver arriba</translation>
+    </message>
+    <message>
+      <source>Transparent Administration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Privacy disclaimer</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Legal notices</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Accessibility statement</source>
+      <translation type="unfinished"/>
     </message>
   </context>
   <context>
@@ -798,7 +818,7 @@
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Para obtener más opciones, pruebe la búsqueda %1Advanced %2</translation>
+      <translation>Para obtener más opciones, pruebe el %1 de búsqueda de Aadvanced %2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>

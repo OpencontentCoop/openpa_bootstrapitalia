@@ -269,7 +269,8 @@ class OpenAgendaBridge
 
     public function getOpenAgendaName()
     {
-        return $this->getStorage(self::NAME_CACHE_KEY);
+        $name = $this->getStorage(self::NAME_CACHE_KEY);
+        return empty($name) ? parse_url($this->getOpenAgendaUrl(), PHP_URL_HOST) : $name;
     }
 
     public function setOpenAgendaUrl($url)
