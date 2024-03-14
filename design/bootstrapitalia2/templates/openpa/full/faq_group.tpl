@@ -45,7 +45,7 @@
             </div>
             <div class="d-lg-block d-xl-block collapse" id="toogle-sidemenu">
                 {foreach $siblings as $sibling}
-                    {node_view_gui content_node=$sibling view=banner_color image_class=medium view_variation=cond($sibling.node_id|ne($node.node_id), 'bg-white', '')}
+                    {node_view_gui content_node=$sibling view=banner_color image_class=large view_variation=cond($sibling.node_id|ne($node.node_id), 'bg-white', '')}
                 {/foreach}
             </div>
         </aside>

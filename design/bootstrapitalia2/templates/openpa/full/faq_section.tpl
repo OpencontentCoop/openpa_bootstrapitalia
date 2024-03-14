@@ -33,7 +33,7 @@
             </div>
             <div class="d-lg-block d-xl-block collapse" id="toogle-sidemenu">
                 {foreach $faq_groups as $index => $faq_group}
-                    {node_view_gui content_node=$faq_group view=banner_color image_class=medium view_variation=cond($index|ne(0), 'bg-white', '')}
+                    {node_view_gui content_node=$faq_group view=banner_color image_class=large view_variation=cond($index|ne(0), 'bg-white', '')}
                 {/foreach}
             </div>
         </aside>

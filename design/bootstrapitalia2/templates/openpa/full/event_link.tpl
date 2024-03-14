@@ -176,7 +176,7 @@
                         {def $markers = array()}
                         {if $openpa.event_link.takes_place_in}
                             <div class="card-wrapper card-column">
-                                {node_view_gui content_node=$openpa.event_link.takes_place_in.main_node view=card_teaser_info show_icon=true() image_class=widemedium}
+                                {node_view_gui content_node=$openpa.event_link.takes_place_in.main_node view=card_teaser_info show_icon=true() image_class=large}
                             </div>
                             {set $markers = $markers|append(hash('latitude', $openpa.event_link.geo.latitude, 'longitude', $openpa.event_link.geo.longitude))}
                         {elseif $openpa.event_link.geo}
@@ -271,7 +271,7 @@
                                 hide_title=true()
                                 attribute_index=1
                                 data_element=false()
-                                image_class=widemedium}
+                                image_class=large}
                         </div>
                         {elseif $openpa.event_link.has_online_contact_info}
                         <div class="card-wrapper card-column my-3" data-bs-toggle="masonry">

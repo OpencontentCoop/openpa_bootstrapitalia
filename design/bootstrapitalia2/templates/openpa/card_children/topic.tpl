@@ -1,6 +1,6 @@
 {set_defaults(hash(
     'show_icon', true(),
-    'image_class', 'large',
+    'image_class', 'imagelargeoverlay',
     'view_variation', '',
     'limit', 7
 ))}

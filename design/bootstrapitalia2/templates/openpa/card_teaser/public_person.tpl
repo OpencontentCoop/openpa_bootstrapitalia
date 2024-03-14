@@ -1,7 +1,7 @@
 {set_defaults(hash(
     'show_icon', false(),
     'show_category', true(),
-    'image_class', 'medium',
+    'image_class', 'imagelargeoverlay',
     'custom_css_class', '',
     'view_variation', '',
     'hide_title', false()
@@ -39,7 +39,7 @@
         </div>
     </div>
     {if $has_image}
-        <div class="card-image card-image-rounded pb-5">
+        <div class="card-image card-image-rounded pb-5" style="width: 130px;">
             {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
         </div>
     </div>

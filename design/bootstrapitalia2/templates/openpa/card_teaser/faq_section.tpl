@@ -1,6 +1,6 @@
 {set_defaults(hash(
     'show_icon', true(),
-    'image_class', 'medium',
+    'image_class', 'imagelargeoverlay',
     'view_variation', false(),
     'custom_css_class', '',
     'hide_title', false()

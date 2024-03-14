@@ -1,4 +1,4 @@
-{set_defaults(hash('show_icon', true(), 'image_class', 'large', 'view_variation', ''))}
+{set_defaults(hash('show_icon', true(), 'image_class', 'imagelargeoverlay', 'view_variation', ''))}
 
 {def $has_media = false()}
 {if $node|has_attribute('image')}

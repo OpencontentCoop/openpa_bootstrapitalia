@@ -25,7 +25,7 @@
     </div>
     {if $has_image}
     <div class="avatar size-xl">
-        {attribute_view_gui attribute=$node|attribute('image') image_class=medium}
+        {attribute_view_gui attribute=$node|attribute('image') image_class=large}
     </div>
     {/if}
 </div>

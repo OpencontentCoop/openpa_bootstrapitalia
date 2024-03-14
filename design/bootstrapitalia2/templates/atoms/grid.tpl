@@ -1,7 +1,7 @@
 {set_defaults(hash(
     'items_per_row', 3,
     'i_view', 'card',
-    'image_class', 'large',
+    'image_class', 'imagelargeoverlay',
     'show_icon', false(),
     'show_category', true(),
     'view_variation', false(),

@@ -1,7 +1,7 @@
 {set_defaults(hash(
     'show_icon', false(),
     'show_category', false(),
-    'image_class', 'medium',
+    'image_class', 'imagelargeoverlay',
     'view_variation', 'border-light',
     'custom_css_class', '',
     'hide_title', false()
@@ -54,7 +54,7 @@
         </div>
     </div>
     {if $person|has_attribute('image')}
-        <div class="card-image card-image-rounded pb-5">
+        <div class="card-image card-image-rounded pb-5" style="width: 130px;">
             {attribute_view_gui attribute=$person|attribute('image') image_class=$image_class}
         </div>
     </div>

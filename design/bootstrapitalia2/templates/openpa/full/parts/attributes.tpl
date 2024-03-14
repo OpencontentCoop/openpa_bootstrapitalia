@@ -99,7 +99,7 @@
                             {attribute_view_gui attribute=$openpa_attribute.contentobject_attribute
                                                 view_context=full_attributes
                                                 attribute_group=$item
-                                                image_class=medium
+                                                image_class=imagelargeoverlay
                                                 attribute_index=$attribute_index
                                                 context_class=$node.class_identifier
                                                 relation_view=cond($openpa_attribute.full.show_link|not, 'list', 'banner')

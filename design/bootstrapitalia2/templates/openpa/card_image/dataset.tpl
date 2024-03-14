@@ -1,4 +1,4 @@
-{set_defaults(hash('image_class', 'large', 'view_variation', ''))}
+{set_defaults(hash('image_class', 'imagelargeoverlay', 'view_variation', ''))}
 
 {def $chart = false()}
 {foreach $node.data_map as $identifier => $attribute}

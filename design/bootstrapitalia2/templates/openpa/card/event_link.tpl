@@ -1,4 +1,4 @@
-{set_defaults(hash('show_icon', false(), 'image_class', 'large', 'view_variation', ''))}
+{set_defaults(hash('show_icon', false(), 'image_class', 'imagelargeoverlay', 'view_variation', ''))}
 
 {if class_extra_parameters($node.object.class_identifier, 'line_view').show|contains('show_icon')}
     {set $show_icon = true()}

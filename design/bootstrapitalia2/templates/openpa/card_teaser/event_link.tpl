@@ -42,7 +42,7 @@
         </div>
     </div>
     {if $has_image}
-        <div class="card-image card-image-rounded pb-5">
+        <div class="card-image card-image-rounded pb-5" style="width: 130px;">
             <img class="img-fluid img-responsive" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
         </div>
     </div>
