@@ -30,7 +30,7 @@
                 {/if}
 
                 {if $is_main_image}
-                    {if or( $image.content.original.width|le(800), div($image.content.original.width, $image.content.original.height)|lt(0.7))}
+                    {if or( $image.content.original.width|lt(1440), div($image.content.original.width, $image.content.original.height)|lt(0.7))}
                         {set $image_css_class = concat($image_css_class, ' of-contain')}
                     {/if}
                 {/if}

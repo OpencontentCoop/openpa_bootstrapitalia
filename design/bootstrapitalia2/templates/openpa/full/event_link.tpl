@@ -84,7 +84,7 @@
 <div class="container-fluid my-3">
     <div class="row">
         <figure class="figure px-0 img-full d-block" xmlns="http://www.w3.org/1999/html">
-            <img class="{if and( is_set($openpa.event_link.image.width), or( $openpa.event_link.image.width|le(800), div($openpa.event_link.image.width, $openpa.event_link.image.height)|lt(0.7)))}of-contain{/if}" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
+            <img class="{if and( is_set($openpa.event_link.image.width), or( $openpa.event_link.image.width|le(1440), div($openpa.event_link.image.width, $openpa.event_link.image.height)|lt(0.7)))}of-contain{/if}" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
             {if or($openpa.event_link.image.author, $openpa.event_link.image.license)}
             <figcaption class="figure-caption text-center pt-3">
                 <span>
