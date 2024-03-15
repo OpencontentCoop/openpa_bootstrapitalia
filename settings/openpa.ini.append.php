@@ -205,6 +205,7 @@ BackendBaseUrl=
 #FlyImgBaseUrl=http://flyimg.localtest.me/upload/
 #BackendBaseUrl=minio:9000
 FlyImgDefaultFilter=o_auto
+UseSizeAndSrcSet=disabled
 
 [RelationsBrowse]
 AllowAllBrowse=enabled
