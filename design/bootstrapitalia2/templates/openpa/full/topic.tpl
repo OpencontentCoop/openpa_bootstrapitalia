@@ -219,7 +219,7 @@
     {/if}
     {undef $root_docs}
 
-    {if and($node|has_attribute('show_topic_children'), $node|attribute('show_topic_children').data_int|eq(1), fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('topic') ) ))|gt(0)}
+    {*if and($node|has_attribute('show_topic_children'), $node|attribute('show_topic_children').data_int|eq(1), fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('topic') ) ))|gt(0)}
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
         {set $blocks = $blocks|append(page_block(
@@ -241,7 +241,7 @@
             )
         ))}
         {undef $is_first_block}
-    {/if}
+    {/if*}
 
     {def $openagenda_next_events = openagenda_next_events($node.object)}
     {if $openagenda_next_events.is_enabled}
