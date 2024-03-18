@@ -237,19 +237,24 @@ if ($http->hasPostVariable('Store')) {
             }
             $originalValues = explode('-', $footerBanner->toString());
             foreach ($values as $index => $value){
-                if ($value == 'no_relation'){
+                if ($value == 'no_relation' || empty($value)){
                     unset($values[$index]);
                 }
             }
-            $missingValues = array_diff($originalValues, $values);
-            if (!empty($missingValues)){
-                $values = array_merge($values, $missingValues);
+            if (empty($values)) {
+                $dataMap['footer_banner']->fromString('');
+                $dataMap['footer_banner']->store();
+            }else {
+                $missingValues = array_diff($originalValues, $values);
+                if (!empty($missingValues)) {
+                    $values = array_merge($values, $missingValues);
+                }
+                $values = array_unique($values);
+                if (!empty($values)) {
+                    $values = (array)array_shift($values);
+                }
+                $payload->setData($locale, 'footer_banner', $values);
             }
-            $values = array_unique($values);
-            if (!empty($values)){
-                $values = (array)array_shift($values);
-            }
-            $payload->setData($locale, 'footer_banner', $values);
         }
     }
 
