@@ -7,7 +7,6 @@
 {def $has_image = false()}
 {if $openpa.event_link.image}
     {set $has_image = true()}
-    {break}
 {/if}
 {def $has_video = false()}
 
