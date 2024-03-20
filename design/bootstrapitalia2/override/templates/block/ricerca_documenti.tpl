@@ -31,8 +31,7 @@
 {def $topics = fetch(content, object, hash(remote_id, 'topics'))
 	 $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'user_hash', false(), 'scope', 'side_menu'))
 	 $topic_list_children = $topic_list.children}
-{def $area_count = fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('administrative_area')))}
-{def $office_count = fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('office')))}
+{def $office_count = fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('organization')))}
 
 {def $start_date = cond(and(is_set($block.custom_attributes.start_date), $block.custom_attributes.start_date|ne(''), array('start_time','publication_start_time','data_di_firma','data_protocollazione')|contains($block.custom_attributes.start_date)), $block.custom_attributes.start_date, 'publication_start_time')}
 {def $end_date = cond(and(is_set($block.custom_attributes.end_date), $block.custom_attributes.end_date|ne(''), array('end_time','publication_end_time','expiration_time','data_di_scadenza_delle_iscrizioni','data_di_conclusione')|contains($block.custom_attributes.end_date)), $block.custom_attributes.end_date, 'publication_end_time')}
@@ -186,7 +185,7 @@
 						</div>
 					{/if}
 
-					{if and($filters|contains('has_organization'), or($office_count|gt(-1), $area_count|gt(-1)))}
+					{if and($filters|contains('has_organization'), $office_count|gt(0))}
 						<div class="accordion-item bg-none">
 						  <span class="accordion-header" id="collapseOffice-{$block.id}-title">
 							<button class="accordion-button collapsed pb-10 px-3 text-uppercase text-decoration-none" type="button"
@@ -201,7 +200,8 @@
 									<select class="form-control border-bottom" id="searchFormOffice-{$block.id}" data-search="has_organization">
 										<option value=""></option>
 										{foreach fetch(content, tree, hash( parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'),
-																			class_filter_type, 'include', class_filter_array, array('organization', 'office'),
+																			class_filter_type, 'include', class_filter_array, array('organization'),
+																			main_node_only, true(),
 																			load_data_map, false(),
 																			sort_by, array('name', true()))) as $office}
 											<option value="{$office.contentobject_id}">{$office.name|wash()}</option>
