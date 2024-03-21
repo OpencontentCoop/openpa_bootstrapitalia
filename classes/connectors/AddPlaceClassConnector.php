@@ -60,6 +60,11 @@ class AddPlaceClassConnector extends ClassConnector
 
         if (isset($this->osmData['reverse']['address'])) {
             $addressParts = [];
+            if (isset($this->osmData['reverse']['address']['tourism'])) {
+                $addressParts[] = $this->osmData['reverse']['address']['tourism'] . ', ';
+            } elseif (isset($this->osmData['reverse']['address']['amenity'])) {
+                $addressParts[] = $this->osmData['reverse']['address']['amenity'] . ', ';
+            }
             if (isset($this->osmData['reverse']['address']['road'])) {
                 $addressParts[] = $this->osmData['reverse']['address']['road'];
             } elseif (isset($this->osmData['reverse']['address']['pedestrian'])) {
