@@ -1022,9 +1022,11 @@
           calendar: calendar_id,
           date: day,
           opening_hour_id: opening_hour_id,
-          slot: start_time + '-' + end_time,
+          to_time: end_time,
+          from_time: start_time,
           ezxform_token: this.settings.xtoken,
           meeting: this.currentData.meeting,
+          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html(),
           user_token: this.user?.token || this.currentData.userToken || null,
         }
         let self = this

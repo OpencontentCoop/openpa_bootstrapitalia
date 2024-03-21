@@ -160,6 +160,8 @@ class StanzaDelCittadinoClient
             curl_setopt($ch, CURLOPT_POST, 1);
         } elseif ($method == "PATCH") {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
+        } elseif ($method == "PUT") {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
         }
         if ($data !== null) {
             $data = json_encode($data);

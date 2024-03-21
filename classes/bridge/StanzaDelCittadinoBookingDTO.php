@@ -159,6 +159,9 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
     public function setUserToken($userToken)
     {
         $this->userToken = $userToken;
+        if (!empty($userToken) && empty($this->getUser())){
+            $this->setUser($this->getUserProperties()['id'] ?? null);
+        }
         return $this;
     }
 
@@ -424,7 +427,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
                         ],
                     ],
                 ],
-                'calendar' => "$dateFormatted @ {$this->getFromTime()}-{$this->getToTime()} ({$this->getCalendar()}#{$this->getOpeningHourId()}#{$this->getMeetingId()})",
+                'calendar' => "$dateFormatted @ {$this->getFromTime()}-{$this->getToTime()} ({$this->getCalendar()}#{$this->getMeetingId()}#{$this->getOpeningHourId()})",
                 'user_group' => [],
                 'day' => $this->getDate(),
                 'meeting_id' => $this->getMeetingId(),
@@ -445,8 +448,14 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         ];
     }
 
-    public function toMeetingPayload(): array
+    public function toMeetingPayload(int $withStatus = 0): array
     {
+        if (empty($this->getFromTime()) || empty($this->getToTime())){
+            [$fromTime, $toTime] = explode('-', $this->getSlot());
+            $this->setFromTime($fromTime);
+            $this->setToTime($toTime);
+        }
+        
         $data = [
             'calendar' => $this->getCalendar(),
             'user' => $this->getUser(),
@@ -459,21 +468,8 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'to_time' => DateTime::createFromFormat('Y-m-d H:i', $this->getDate() . ' ' . $this->getToTime())->format('c'),
             'user_message' => $this->getUserMessage(),
             'motivation_outcome' => $this->getMotivationOutcome(),
-            'status' => 0,
-//            'location' => $this->getPlace(),
-        ];
-
-        return $data;
-    }
-
-    public function toMeetingDraft(): array
-    {
-        $data = [
-            'calendar' => $this->getCalendar(),
-            'date' => $this->getDate(),
-            'opening_hour' => $this->getOpeningHourId(),
-            'slot' => $this->getSlot(),
-            'meeting' => $this->getMeetingId(),
+            'status' => $withStatus,
+            'location' => $this->getPlace(),
         ];
 
         return $data;
@@ -484,5 +480,13 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         return get_object_vars($this);
     }
 
+    private function getUserProperties(): ?array
+    {
+        if (!empty($this->getUserToken())) {
+            [$header, $payload, $signature] = explode(".", $this->getUserToken());
+            return json_decode(base64_decode($payload), true);
+        }
 
+        return null;
+    }
 }

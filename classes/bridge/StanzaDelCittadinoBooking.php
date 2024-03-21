@@ -10,16 +10,7 @@ class StanzaDelCittadinoBooking
 
     const STORE_AS_APPLICATION_CACHE_KEY = 'sdc_booking_as_application';
 
-    private static $useDraft = false;
-
     private static $instance;
-
-    private function __construct()
-    {
-        if ($this->isStoreMeetingAsApplication()){
-            self::$useDraft = true;
-        }
-    }
 
     public static function factory(): StanzaDelCittadinoBooking
     {
@@ -307,17 +298,26 @@ EOT;
             $dto->setUserToken($authResponse['token']);
         }
         $client->setBearerToken($dto->getUserToken());
-        $endpoint = '/it/meetings/new-draft';
-        $payload = $dto->toMeetingDraft();
+
+        if ($dto->getMeetingId()) {
+            $method = 'PUT';
+            $endpoint = '/api/meetings/' . $dto->getMeetingId();
+        }else{
+            $method = 'POST';
+            $endpoint = '/api/meetings';
+        }
+        $payload = $dto->toMeetingPayload(0);
         $response = [
             'token' => $dto->getUserToken(),
             'payload' => $payload,
             'dto' => $dto,
             'endpoint' => $endpoint,
         ];
-
         try {
-            $response['data'] = self::$useDraft ? $client->request('POST', $endpoint, $payload) : null;
+            $response['data'] = $client->request($method, $endpoint, $payload);
+            if ($dto->getMeetingId()){
+                $response['data'] = ['id' => $dto->getMeetingId()];
+            }
         }catch (Throwable $e){
             $response['error'] = $e->getMessage();
         }
@@ -363,14 +363,9 @@ EOT;
             $dto->setUserToken($authResponse['token']);
         }
         $client->setBearerToken($dto->getUserToken());
-        if (self::$useDraft) {
-            $method = 'PUT';
-            $endpoint = '/api/meetings/' . $dto->getMeetingId();
-        }else{
-            $method = 'POST';
-            $endpoint = '/api/meetings';
-        }
-        $payload = $dto->toMeetingPayload();
+        $method = 'PUT';
+        $endpoint = '/api/meetings/' . $dto->getMeetingId();
+        $payload = $dto->toMeetingPayload(1);
         $response = [
             'token' => $dto->getUserToken(),
             'payload' => $payload,
