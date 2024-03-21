@@ -61,7 +61,7 @@
 					<li class="mb-2 lora">
 						{def $entity = $attribute.content.entities[$role|attribute('for_entity').content.relation_list[0].contentobject_id]}
 						{set $current_entities = $current_entities|append($entity)}
-						<h3 class="h5 mt-4 font-sans-serif">
+						<h3 class="h5 mt-4">
 							{if $role|has_attribute('label')}
 								{$role|attribute('label').content|wash()}
 							{else}
@@ -131,7 +131,7 @@
 							{if $type|begins_with('#')}
 								{$type|extract(1)|wash()}
 							{else}
-								{$type} {foreach $entities as $id => $name}<a href="{concat('openpa/object/', $id)|ezurl(no)}">{$name|wash()}</a>{delimiter}, {/delimiter}{/foreach}
+								{$type} {foreach $entities as $id => $name}<a class="d-inline" href="{concat('openpa/object/', $id)|ezurl(no)}">{$name|wash()}</a>{delimiter}, {/delimiter}{/foreach}
 							{/if}
 						</li>
 					{/foreach}

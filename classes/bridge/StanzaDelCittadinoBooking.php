@@ -62,13 +62,13 @@ EOT;
             if (count($calendars)) {
                 $calendarsString = json_encode($calendars);
                 $query = "INSERT INTO ocbookingconfig (office_id,service_id,place_id,calendars) VALUES ($office,$service,$place,'$calendarsString') ON CONFLICT (office_id,service_id,place_id) DO UPDATE SET calendars = EXCLUDED.calendars";
-            }else{
+            } else {
                 $query = "DELETE FROM ocbookingconfig WHERE office_id = $office AND service_id = $service AND place_id = $place";
             }
             eZDB::setErrorHandling(eZDB::ERROR_HANDLING_EXCEPTIONS);
             try {
                 eZDB::instance()->query($query);
-                if ($service > 0){
+                if ($service > 0) {
                     eZContentCacheManager::clearContentCache($service);
                 }
                 return true;
@@ -116,8 +116,10 @@ EOT;
                 $officeDataMap = $officeObject->dataMap();
                 $officeRelatedPlaceIdList = [];
                 if (isset($officeDataMap['has_spatial_coverage'])
-                    && $officeDataMap['has_spatial_coverage']->attribute('data_type_string') === eZObjectRelationListType::DATA_TYPE_STRING
-                    && $officeDataMap['has_spatial_coverage']->hasContent()){
+                    && $officeDataMap['has_spatial_coverage']->attribute(
+                        'data_type_string'
+                    ) === eZObjectRelationListType::DATA_TYPE_STRING
+                    && $officeDataMap['has_spatial_coverage']->hasContent()) {
                     $officeRelatedPlaceIdList = explode('-', $officeDataMap['has_spatial_coverage']->toString());
                 }
                 if (!empty($officeRelatedPlaceIdList)) {
@@ -125,7 +127,10 @@ EOT;
                     $places = [];
                     foreach ($data as $datum) {
                         $placeObject = eZContentObject::fetch((int)$datum['place']);
-                        if ($placeObject instanceof eZContentObject && in_array($datum['place'], $officeRelatedPlaceIdList)) {
+                        if ($placeObject instanceof eZContentObject && in_array(
+                                $datum['place'],
+                                $officeRelatedPlaceIdList
+                            )) {
                             $dataMap = $placeObject->dataMap();
                             $place = [
                                 'id' => $datum['place'],
@@ -302,11 +307,12 @@ EOT;
         if ($dto->getMeetingId()) {
             $method = 'PUT';
             $endpoint = '/api/meetings/' . $dto->getMeetingId();
-        }else{
+            $meeting = $client->request('GET', $endpoint);
+        } else {
             $method = 'POST';
             $endpoint = '/api/meetings';
         }
-        $payload = $dto->toMeetingPayload(0);
+        $payload = $dto->toMeetingPayload(6);
         $response = [
             'token' => $dto->getUserToken(),
             'payload' => $payload,
@@ -315,14 +321,40 @@ EOT;
         ];
         try {
             $response['data'] = $client->request($method, $endpoint, $payload);
-            if ($dto->getMeetingId()){
-                $response['data'] = ['id' => $dto->getMeetingId()];
+            if ($dto->getMeetingId()) {
+                $response['data'] = $meeting;
             }
-        }catch (Throwable $e){
+        } catch (Throwable $e) {
             $response['error'] = $e->getMessage();
         }
 
         return $response;
+    }
+
+    public function restoreDraftMeeting($prevToken, $currentToken, $meeting)
+    {
+        $meetingId = $meeting['id'];
+        if ($meetingId) {
+            $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+            $client->setBearerToken($prevToken);
+            $endpoint = '/api/meetings/' . $meetingId;
+            $client->request('DELETE', $endpoint);
+
+            $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+            $client->setBearerToken($currentToken);
+            $method = 'POST';
+            $endpoint = '/api/meetings';
+            $payload = [
+                'calendar' => $meeting['calendar'] ?? null,
+                'opening_hour' => $meeting['opening_hour'] ?? null,
+                'from_time' => $meeting['from_time'] ?? null,
+                'to_time' => $meeting['to_time'] ?? null,
+                'status' => 6,
+            ];
+            return $client->request($method, $endpoint, $payload);
+        }
+
+        return null;
     }
 
     public function bookMeeting(StanzaDelCittadinoBookingDTO $dto): array
@@ -348,7 +380,7 @@ EOT;
         ];
         try {
             $response['data'] = $client->request('POST', $endpoint, $payload);
-        }catch (Throwable $e){
+        } catch (Throwable $e) {
             $response['error'] = $e->getMessage();
         }
 
@@ -374,7 +406,7 @@ EOT;
         ];
         try {
             $response['data'] = $client->request($method, $endpoint, $payload);
-        }catch (Throwable $e){
+        } catch (Throwable $e) {
             $response['error'] = $e->getMessage();
         }
 

@@ -455,12 +455,12 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             $this->setFromTime($fromTime);
             $this->setToTime($toTime);
         }
-        
+
         $data = [
             'calendar' => $this->getCalendar(),
             'user' => $this->getUser(),
             'opening_hour' => $this->getOpeningHourId(),
-            'email' => $this->getOpeningHourId(),
+            'email' => $this->getEmail(),
             'fiscal_code' => $this->getFiscalCode(),
             'name' => $this->getName() . ' ' . $this->getSurname(),
             'phone_number' => $this->getPhoneNumber(),

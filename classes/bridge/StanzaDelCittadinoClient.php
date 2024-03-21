@@ -162,6 +162,8 @@ class StanzaDelCittadinoClient
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PATCH');
         } elseif ($method == "PUT") {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        } elseif ($method == "DELETE") {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         }
         if ($data !== null) {
             $data = json_encode($data);
@@ -220,7 +222,7 @@ class StanzaDelCittadinoClient
             throw new \Exception("Forbidden ". json_encode($data));
         }
 
-        if (!in_array($info['http_code'], array(100, 200, 201, 202))) {
+        if (intval($info['http_code']) > 299) {
             throw new \Exception("$requestUrl: Reponse code is " .  $info['http_code'], $info['http_code'] . ' ' . json_encode($data));
         }
 

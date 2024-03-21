@@ -31,7 +31,7 @@
       debug: false,
       debugUserToken: null,
       useCalendarFilter: false,
-      forcePreselect: false,
+      forcePreselect: true,
       useAvailabilitiesCache: false
     }
 
@@ -103,7 +103,7 @@
     this.storeErrorMessage = $('#store-error')
     this.user = null;
     this.feedback = $('.feedback-container');
-    this.error = $('.error-container');
+    this.errorContainer = $('.error-container');
     this.calendarFilterContainer = $('#appointment-calendars');
     this.cacheCalendars = []
 
@@ -116,7 +116,28 @@
     debug: function (...data) {
       if (this.settings.debug) {
         let msg = data.shift()
+        console.log("%c" + msg, "color:White;font-weight:bold; background-color: grey;", data)
+      }
+    },
+
+    info: function (...data) {
+      if (this.settings.debug) {
+        let msg = data.shift()
         console.log("%c" + msg, "color:White;font-weight:bold; background-color:RoyalBlue;", data)
+      }
+    },
+
+    warning: function (...data) {
+      if (this.settings.debug) {
+        let msg = data.shift()
+        console.log("%c" + msg, "color:Black;font-weight:bold; background-color: yellow;", data)
+      }
+    },
+
+    error: function (...data) {
+      if (this.settings.debug) {
+        let msg = data.shift()
+        console.log("%c" + msg, "color:White;font-weight:bold; background-color:Red;", data)
       }
     },
 
@@ -128,9 +149,9 @@
       $(self.element).find('.row.justify-content-center .cmp-hero').hide()
       $(self.element).find('.title-xsmall').hide()
       $(self.element).find('.step.container').hide()
-      self.error.find('.row.justify-content-center .cmp-hero').show()
+      self.errorContainer.find('.row.justify-content-center .cmp-hero').show()
       self.scrollToTop()
-      self.error.show()
+      self.errorContainer.show()
     },
 
     scrollToTop: function () {
@@ -141,29 +162,38 @@
 
     init: function () {
       let self = this
+
+      let data = self.getStoredData() || JSON.stringify(self.currentData)
+      self.setCurrentData(JSON.parse(data))
+      let currentToken = self.currentData.userToken ?? null
       if (self.settings.profileUrl && self.settings.tokenUrl) {
+        self.debug('init', 'get auth token')
         $.ajax({
           url: self.settings.tokenUrl,
           dataType: 'json',
           xhrFields: {withCredentials: true},
           success: function (data) {
-            if (data.token) {
+            self.restoreDraftIfNeeded(currentToken, data.token, function () {
               self.getUserProfile(data.token, function (user) {
                 self.load(user)
               })
-            } else {
-              self.getAnonymousToken(function () {
-                self.load()
-              })
-            }
+            })
           },
           error: function () {
             self.spidAccess.removeClass('d-none')
             if (self.settings.debugUserToken) {
-              self.getUserProfile(self.settings.debugUserToken, function (user) {
-                self.load(user)
+              self.info('init', 'set debug token')
+              self.restoreDraftIfNeeded(currentToken, self.settings.debugUserToken, function () {
+                self.getUserProfile(self.settings.debugUserToken, function (user) {
+                  self.load(user)
+                })
               })
+            } else if (currentToken && currentToken.length > 0) {
+              self.info('init', 'set browser session token')
+              self.setCurrentData('userToken', currentToken)
+              self.load()
             } else {
+              self.debug('init', 'get anonym token')
               self.getAnonymousToken(function () {
                 self.load()
               })
@@ -175,6 +205,41 @@
       }
     },
 
+    restoreDraftIfNeeded: function (prevToken, currentToken, callback, context) {
+      let self = this
+      let meeting = self.currentData.meeting || null
+      if (meeting
+        && prevToken
+        && prevToken.length > 0
+        && prevToken !== currentToken) {
+        self.info('init', 'refresh meeting draft')
+        $.ajax({
+          type: "POST",
+          url: self.baseUrl + 'openpa/data/booking/restore_meeting',
+          data: {
+            previousToken: prevToken,
+            currentToken: currentToken,
+            meeting: meeting
+          },
+          dataType: 'json',
+          success: function (response) {
+            self.setCurrentData('meeting', response.meeting)
+            if ($.isFunction(callback)) {
+              callback.call(context, response)
+            }
+          },
+          error: function (jqXHR) {
+            self.setCurrentData('meeting', null)
+            if ($.isFunction(callback)) {
+              callback.call(context, response)
+            }
+          }
+        })
+      } else {
+        callback.call(context)
+      }
+    },
+
     getAnonymousToken: function (callback, context) {
       let self = this
       $.ajax({
@@ -183,6 +248,7 @@
         type: "POST",
         success: function (data) {
           if (data.token) {
+            self.info('init', 'set anonym token')
             self.setCurrentData('userToken', data.token)
           }
           callback.call(context)
@@ -204,6 +270,7 @@
           }).join(''))
           return JSON.parse(jsonPayload)
         }
+
         let tokenData = parseJwt(token)
         $.ajax({
           url: self.settings.profileUrl + '/' + tokenData.id,
@@ -231,8 +298,6 @@
       let self = this
       self.addListeners()
 
-      let data = self.getStoredData() || JSON.stringify(self.currentData)
-      self.setCurrentData(JSON.parse(data))
       if (userData) {
         self.avoidApplicantModification = true
         self.debug('user-data', userData)
@@ -322,7 +387,7 @@
       $('#step-summary button.send').on('click', function (e) {
         $(this).attr('disabled', 'disabled').find('.text-button-sm').hide();
         $(this).find('.load-button').show()
-        self.debug('send-form')
+        self.info('send-form')
         self.saveMeeting(function (response) {
           self.removeStorage()
           $(self.element).find('.steppers').hide()
@@ -343,7 +408,7 @@
         e.preventDefault()
       })
       $('#step-summary button.save').on('click', function (e) {
-        self.debug('save-form')
+        self.info('save-form')
         self.saveMeetingDraft(function () {
           self.storeMessage.removeClass('d-none')
           setTimeout(function () {
@@ -550,14 +615,14 @@
     storeData: function () {
       if (typeof (Storage) !== "undefined") {
         sessionStorage.setItem(this.settings.storageKey, JSON.stringify(this.currentData))
-        this.debug('store-data', this.settings.storageKey, this.currentData)
+        this.info('store-data', this.settings.storageKey, this.currentData)
       }
     },
 
     removeStorage: function () {
       if (typeof (Storage) !== "undefined") {
         sessionStorage.removeItem(this.settings.storageKey)
-        this.debug('remove-stored-data', this.settings.storageKey)
+        this.info('remove-stored-data', this.settings.storageKey)
       }
     },
 
@@ -619,7 +684,7 @@
     },
 
     markStepConfirmed: function (id, callback, context) {
-      this.debug('mark-step-as-confirmed', id)
+      this.info('mark-step-as-confirmed', id)
       this.stepper.find('li[data-step="' + id + '"]')
         .addClass('confirmed')
         .find('.steppers-success').removeClass('invisible')
@@ -632,7 +697,7 @@
     },
 
     markStepUnconfirmed: function (id, callback, context) {
-      this.debug('mark-step-as-unconfirmed', id)
+      this.info('mark-step-as-unconfirmed', id)
       this.stepper.find('li[data-step="' + id + '"]')
         .removeClass('confirmed')
         .find('.steppers-success').addClass('invisible')
@@ -729,7 +794,7 @@
             label.text(renderLabel(self.cacheCalendars[id].title || '?', id))
           },
           error: function (jqXHR) {
-            self.debug(jqXHR)
+            self.error(jqXHR)
           }
         });
       }
@@ -772,7 +837,7 @@
               self.openingHoursSelect.append('<option value="' + slotId + '">' + this.start_time + ' - ' + this.end_time + '</option>')
             })
             if (self.settings.forcePreselect && self.hasCurrentMeeting() && $.inArray(self.currentData.openingHour, hourAvailabilities) === -1) {
-              self.debug('force preselected openingHour', self.currentData.openingHour)
+              self.info('force preselected openingHour', self.currentData.openingHour)
               hourAvailabilities.push(self.currentData.openingHour)
               self.openingHoursSelect.append('<option value="' + self.currentData.openingHour + '">'
                 + self.currentData.openingHour.split('|')[3] + ' - ' + self.currentData.openingHour.split('|')[4] + '</option>')
@@ -867,7 +932,7 @@
               self.daySelect.append('<option value="' + this.date + '">' + this.name + '</option>')
             })
             if (self.settings.forcePreselect && self.hasCurrentMeeting() && $.inArray(self.currentData.day, dayAvailabilitiesValues) === -1) {
-              self.debug('force preselected day', self.currentData.day)
+              self.info('force preselected day', self.currentData.day)
               dayAvailabilitiesValues.push(self.currentData.day)
               self.daySelect.append('<option value="' + self.currentData.day + '">' + self.currentData.day + '</option>')
               self.daySelect.html(self.daySelect.find('option').sort(function (x, y) {
@@ -968,7 +1033,7 @@
     },
 
     saveMeeting: function (callback, errorCallback, context) {
-      this.debug('save-meeting', this.currentData.openingHour)
+      this.warning('save-meeting', this.currentData.openingHour)
       if (this.currentData.openingHour) {
         let calendar_id, opening_hour_id, day, start_time, end_time
         [calendar_id, opening_hour_id, day, start_time, end_time] = this.currentData.openingHour.split('|')
@@ -1014,7 +1079,7 @@
     },
 
     saveMeetingDraft: function (callback, errorCallback, context) {
-      this.debug('save-meeting-draft', this.currentData.openingHour)
+      this.warning('save-meeting-draft', this.currentData.openingHour)
       if (this.currentData.openingHour) {
         let calendar_id, opening_hour_id, day, start_time, end_time
         [calendar_id, opening_hour_id, day, start_time, end_time] = this.currentData.openingHour.split('|')
@@ -1038,13 +1103,13 @@
           success: function (response) {
             self.setCurrentData('meeting', response.data)
             self.setCurrentData('userToken', response.token)
-
             if ($.isFunction(callback)) {
               callback.call(context, response)
             }
           },
           error: function (response) {
             self.setCurrentData('meeting', null)
+            self.error('error-save-meeting-draft', response.responseJSON.error || response);
             if ($.isFunction(errorCallback)) {
               errorCallback.call(context, response)
             }
@@ -1171,17 +1236,26 @@
     hasCurrentMeeting: function () {
       let hasValues = this.currentData.meeting?.id && this.currentData.openingHour && this.currentData.day
       if (hasValues) {
-        let exp = this.currentData.meeting.expiration_time
+        let exp = this.currentData.meeting.expiration_time || this.currentData.meeting.draft_expiration || null
+        if (!exp){
+          let updatedAt = this.currentData.meeting.updated_at || null
+          if (updatedAt){
+            exp = new Date(updatedAt)
+            exp.setMinutes(exp.getMinutes() + 10);
+          }
+        } else {
+          exp = new Date(exp);
+        }
         try {
-          if ((new Date(exp)) < (new Date())) {
-            this.debug('current meeting is expired', this.currentData.meeting)
+          if (!exp || exp < (new Date())) {
+            this.error('current meeting is expired', this.currentData.meeting, exp)
             return false
           } else {
-            this.debug('current meeting is valid', this.currentData.meeting)
+            this.warning('current meeting is valid', this.currentData.meeting, exp)
             return true
           }
         } catch (error) {
-          this.debug('invalid meeting expiration', this.currentData.meeting)
+          this.error('invalid meeting expiration', this.currentData.meeting, exp)
           return false
         }
       }

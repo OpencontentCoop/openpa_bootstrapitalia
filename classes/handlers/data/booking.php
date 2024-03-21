@@ -28,7 +28,7 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
 
         if ($this->request === 'availabilities') {
             $calendars = $http->hasGetVariable('calendars') ? $http->getVariable('calendars') : [];
-            if (is_string($calendars)){
+            if (is_string($calendars)) {
                 $calendars = explode(',', $calendars);
             }
             $month = $http->hasGetVariable('month') ? $http->getVariable('month') : null;
@@ -37,7 +37,7 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
 
         if ($this->request === 'availabilities_by_day') {
             $calendars = $http->hasGetVariable('calendars') ? $http->getVariable('calendars') : [];
-            if (is_string($calendars)){
+            if (is_string($calendars)) {
                 $calendars = explode(',', $calendars);
             }
             $day = $http->hasGetVariable('day') ? $http->getVariable('day') : null;
@@ -46,25 +46,50 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
 
         if ($this->request === 'draft_meeting' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
-                $response = StanzaDelCittadinoBooking::factory()->upsertDraftMeeting(StanzaDelCittadinoBookingDTO::fromRequest());
-            }catch (Throwable $e){
+                $response = StanzaDelCittadinoBooking::factory()->upsertDraftMeeting(
+                    StanzaDelCittadinoBookingDTO::fromRequest()
+                );
+            } catch (Throwable $e) {
                 eZDebug::writeError($e->getMessage(), __METHOD__);
                 throw new Exception('Error storing meeting draft: ' . $e->getMessage());
             }
-            if (isset($response['error'])){
+            if (isset($response['error'])) {
                 header('HTTP/1.1 400 Bad Request');
             }
             return $response;
         }
 
+        if ($this->request === 'restore_meeting' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            $prevToken = $http->postVariable('previousToken');
+            $currentToken = $http->postVariable('currentToken');
+            $meeting = $http->postVariable('meeting');
+            $response = ['meeting' => $meeting];
+            if ($prevToken && $currentToken && isset($meeting['id'])) {
+                try {
+                    $response['meeting'] = StanzaDelCittadinoBooking::factory()->restoreDraftMeeting(
+                        $prevToken,
+                        $currentToken,
+                        $meeting
+                    );
+                } catch (Throwable $e) {
+                    eZDebug::writeError($e->getMessage(), __METHOD__);
+                    $response['error'] = $e->getMessage();
+                }
+            }
+
+            return $response;
+        }
+
         if ($this->request === 'meeting' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
-                $response = StanzaDelCittadinoBooking::factory()->bookMeeting(StanzaDelCittadinoBookingDTO::fromRequest());
-            }catch (Throwable $e){
+                $response = StanzaDelCittadinoBooking::factory()->bookMeeting(
+                    StanzaDelCittadinoBookingDTO::fromRequest()
+                );
+            } catch (Throwable $e) {
                 eZDebug::writeError($e->getMessage(), __METHOD__);
                 throw new Exception('Error storing meeting: ' . $e->getMessage());
             }
-            if (isset($response['error'])){
+            if (isset($response['error'])) {
                 header('HTTP/1.1 400 Bad Request');
             }
 
