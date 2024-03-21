@@ -70,7 +70,15 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
         if ($http->hasGetVariable('search') && $queryStringIsAllowed) {
             $searchString = $http->getVariable('search');
             if (!empty($searchString)) {
-                $query = 'q = \'' . addcslashes($searchString, '"()[]\'') . '\' and ' . $baseQuery;
+                $encodedString = trim(addcslashes($searchString, '"()[]\''));
+                if ($this->api === 'geo') {
+                    $field = 'raw[meta_name_t]';
+                    $strings = explode(' ', $encodedString);
+                    $query = $field . ' contains [\'"' . implode('"\',\'"', $strings) . '"\'] and ' . $baseQuery;
+                } else {
+                    $query = 'q = \'' . $encodedString . '\' and ' . $baseQuery;
+                }
+
             }
         }
         $requestFacets = [];
