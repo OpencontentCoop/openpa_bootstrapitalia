@@ -415,20 +415,22 @@
                     url: plugin.searchUrl + facetedQuery,
                     dataType: plugin.ajaxDatatype,
                     success: function (response, textStatus, jqXHR) {
-                        var getFacetType = function(facet) {
-                            let date = moment(new Date(facet));
-                            if (date.isValid()){
+                        var getFacetType = function(facet, name) {
+                            if (!name.includes('name')
+                              && moment(new Date(facet)).isValid()) {
                                 return 'date';
                             }
                             return 'string';
                         };
-                        var getFacetOptionText = function(facet) {
-                            let date = moment(new Date(facet));
-                            if (date.isValid()){
-                                if (facet.indexOf('-01-01T00:00:00Z') > -1){
-                                    return date.format('YYYY');
+                        var getFacetOptionText = function(facet, name) {
+                            if (name.includes('name') === false) {
+                                let date = moment(new Date(facet));
+                                if (date.isValid()) {
+                                    if (facet.indexOf('-01-01T00:00:00Z') > -1) {
+                                        return date.format('YYYY');
+                                    }
+                                    return date.format(MomentDateFormat);
                                 }
-                                return date.format(MomentDateFormat);
                             }
                             return facet;
                         };
@@ -437,10 +439,10 @@
                                 var facetContainer = plugin.container.find('select[data-facets_select="facet-'+index+'"]');
                                 var notEmpty = facetContainer.find('option').length === 0;
                                 $.each(value.data, function (facet, count) {
-                                    let datatype = getFacetType(facet);
+                                    let datatype = getFacetType(facet, value.name);
                                     if (notEmpty) {
                                         facetContainer
-                                            .append('<option value="' + facet.replace(/"/g, '').replace(/'/g, "\\'").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "") + '">' + getFacetOptionText(facet) + '</option>');
+                                            .append('<option value="' + facet.replace(/"/g, '').replace(/'/g, "\\'").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "") + '">' + getFacetOptionText(facet, value.name) + '</option>');
                                     }else if (plugin.settings.removeExistingEmptyFacets){
                                         plugin.container.find('select[data-facets_select="facet-' + index + '"] option[value="'+ facet+'"]').show();
                                     }
