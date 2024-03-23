@@ -9,84 +9,82 @@
                             <div class="card has-bkg-grey shadow-sm p-big">
                                 <div class="card-header border-0 p-0 mb-lg-30 m-0">
                                     <div class="d-flex">
-                                        <h2 class="title-xxlarge mb-3">Richiedente</h2>
+                                        <h2 class="title-xxlarge mb-3">{'Applicant'|i18n('bootstrapitalia/booking')}</h2>
                                     </div>
                                 </div>
                                 <div class="card-body p-0">
                                     <div class="form-wrapper bg-white p-4">
                                         <div class="form-group cmp-input mb-0">
-                                            <label class="cmp-input__label active" for="name">Nome*</label>
+                                            <label class="cmp-input__label active" for="name">{'Name'|i18n('bootstrapitalia/booking')}*</label>
                                             <input type="text" class="form-control" id="name" name="name" required=""
                                                    data-focus-mouse="false">
                                             <button type="button" class="clean-input d-none"
-                                                    aria-label="Elimina testo">
+                                                    aria-label="{'Delete the text'|i18n('bootstrapitalia/booking')}">
                                                     {display_icon('it-close', 'svg', 'icon')}
                                             </button>
                                             <div class="d-flex">
                                                 <span class="form-text cmp-input__text">
-                                                Inserisci il tuo nome
+                                                {'Insert your name'|i18n('bootstrapitalia/booking')}
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="form-group cmp-input mb-0">
-                                            <label class="cmp-input__label active" for="surname">Cognome*</label>
+                                            <label class="cmp-input__label active" for="surname">{'Surname'|i18n('bootstrapitalia/booking')}*</label>
                                             <input type="text" class="form-control" id="surname" name="surname"
                                                    required="" data-focus-mouse="false">
                                             <button type="button" class="clean-input d-none"
-                                                    aria-label="Elimina testo">
+                                                    aria-label="{'Delete the text'|i18n('bootstrapitalia/booking')}">
                                                 {display_icon('it-close', 'svg', 'icon')}
                                             </button>
                                             <div class="d-flex">
                                                 <span class="form-text cmp-input__text">
-                                                    Inserisci il tuo cognome
+                                                    {'Insert your surname'|i18n('bootstrapitalia/booking')}
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="form-group cmp-input mb-0">
-                                            <label class="cmp-input__label active" for="fiscalcode">Codice Fiscale*</label>
+                                            <label class="cmp-input__label active" for="fiscalcode">{'Fiscal code'|i18n('bootstrapitalia/booking')}*</label>
                                             <input type="text" class="form-control" id="fiscalcode" name="fiscalcode"
                                                    required="" data-focus-mouse="false">
                                             <button type="button" class="clean-input d-none"
-                                                    aria-label="Elimina testo">
+                                                    aria-label="{'Delete the text'|i18n('bootstrapitalia/booking')}">
                                                 {display_icon('it-close', 'svg', 'icon')}
                                             </button>
                                             <div class="d-flex">
                                                 <span class="form-text cmp-input__text">
-                                                    Inserisci il tuo codice fiscale
+                                                    {'Enter your fiscal code'|i18n('bootstrapitalia/booking')}
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="form-group cmp-input mb-0">
-                                            <label class="cmp-input__label active" for="email">Email*</label>
+                                            <label class="cmp-input__label active" for="email">{'Email'|i18n('bootstrapitalia/booking')}*</label>
                                             <input type="email" class="form-control" id="email" name="email" required=""
                                                    data-focus-mouse="false">
                                             <button type="button" class="clean-input d-none"
-                                                    aria-label="Elimina testo">
+                                                    aria-label="{'Delete the text'|i18n('bootstrapitalia/booking')}">
                                                 {display_icon('it-close', 'svg', 'icon')}
                                             </button>
                                             <div class="d-flex">
                                                 <span class="form-text cmp-input__text">
-                                                    Inseriscila tua email
+                                                    {'Enter a valid email'|i18n('bootstrapitalia/booking')}
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="form-group cmp-input mb-0">
-                                            <label class="cmp-input__label active" for="phone">Recapito telefonico*</label>
+                                            <label class="cmp-input__label active" for="phone">{'Telephone number'|i18n('bootstrapitalia/booking')}*</label>
                                             <input type="text" class="form-control" id="phone" name="phone" required=""
                                                    data-focus-mouse="false">
                                             <button type="button" class="clean-input d-none"
-                                                    aria-label="Elimina testo">
+                                                    aria-label="{'Delete the text'|i18n('bootstrapitalia/booking')}">
                                                 {display_icon('it-close', 'svg', 'icon')}
                                             </button>
                                             <div class="d-flex">
                                                 <span class="form-text cmp-input__text">
-                                                    Inserisci un recapito telefonico valido (sono consentite solo cifre, inserire almeno 8 caratteri)
+                                                    {'Please enter a valid phone number (only digits are allowed, enter at least 8 characters)'|i18n('bootstrapitalia/booking')}
                                                 </span>
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>

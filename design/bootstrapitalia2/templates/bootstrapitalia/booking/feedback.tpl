@@ -6,15 +6,17 @@
                     <div class="it-hero-text-wrapper pt-0 ps-0 pb-40 pb-lg-60">
                         <div class="categoryicon-top d-flex">
                             {display_icon('it-mail', 'svg', 'icon mr-10 icon-lg')}
-                            <h1 class="text-black hero-title py-2">Appuntamento confermato</h1></div>
+                            <h1 class="text-black hero-title py-2">{'Appointment confirmed'|i18n('bootstrapitalia/booking')}</h1></div>
                         <div class="hero-text">
                             <p class="pt-3 pt-lg-4">
-                                L’appuntamento è fissato per <strong data-openinghourDay></strong> dalle <strong data-openinghourFrom></strong> alle <strong data-openinghourTo></strong>
-                                presso <strong data-placeTitle></strong> <strong data-placeAddress></strong>
+                                {'The appointment is set for'|i18n('bootstrapitalia/booking')} <strong data-openinghourDay></strong>
+                                {'from'|i18n('bootstrapitalia/booking')} <strong data-openinghourFrom></strong>
+                                {'to'|i18n('bootstrapitalia/booking')} <strong data-openinghourTo></strong>
+                                {'at'|i18n('bootstrapitalia/booking')} <strong data-placeTitle></strong> <strong data-placeAddress></strong>
                             </p>
                             <br>
                             <p>
-                                Abbiamo inviato il riepilogo all’email:<br />
+                                {'We sent the summary to the email'|i18n('bootstrapitalia/booking')}:<br />
                                 <strong data-applicantEmail></strong>
                             </p>
                         </div>

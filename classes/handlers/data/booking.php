@@ -60,10 +60,12 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
         }
 
         if ($this->request === 'restore_meeting' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $prevToken = $http->postVariable('previousToken');
+            $prevToken = $http->hasSessionVariable('booking_user_token') ? $http->sessionVariable('booking_user_token') : null;
             $currentToken = $http->postVariable('currentToken');
             $meeting = $http->postVariable('meeting');
-            $response = ['meeting' => $meeting];
+            $response = [
+                'meeting' => $meeting,
+            ];
             if ($prevToken && $currentToken && isset($meeting['id'])) {
                 try {
                     $response['meeting'] = StanzaDelCittadinoBooking::factory()->restoreDraftMeeting(
@@ -76,6 +78,7 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
                     $response['error'] = $e->getMessage();
                 }
             }
+            $http->setSessionVariable('booking_user_token', $currentToken);
 
             return $response;
         }
@@ -85,6 +88,7 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
                 $response = StanzaDelCittadinoBooking::factory()->bookMeeting(
                     StanzaDelCittadinoBookingDTO::fromRequest()
                 );
+                $http->removeSessionVariable('booking_user_token');
             } catch (Throwable $e) {
                 eZDebug::writeError($e->getMessage(), __METHOD__);
                 throw new Exception('Error storing meeting: ' . $e->getMessage());

@@ -5,7 +5,7 @@
         <div class="col-12 col-lg-10">
             <div class="cmp-heading pb-3 pb-lg-4">
                 <div class="alert alert-danger">
-                    <p class="lead m-0">Servizio momentaneamente non disponibile</p>
+                    <p class="lead m-0">{'Service temporarily unavailable'|i18n('bootstrapitalia/booking')}</p>
                 </div>
             </div>
         </div>
@@ -57,6 +57,7 @@
       tokenUrl: "{$pal|user_token_url()}",
       profileUrl: "{$pal|user_profile_url()}",
       prefix: UriPrefix,
+      hasSession: {cond($has_session, 'true', 'false')},
       debug: {$show_debug},
       useCalendarFilter: {$use_calendar_filter}
     {rdelim})

@@ -10,16 +10,16 @@
                                 <div class="card-header border-0 p-0 mb-lg-30 mb-3">
                                     <div class="d-flex">
                                         <h2 class="title-xxlarge mb-0">
-                                            Motivo*
+                                            {'Reason'|i18n('bootstrapitalia/booking')}*
                                         </h2>
                                     </div>
                                     <p class="subtitle-small mb-0">
-                                        Scegli il motivo dell’appuntamento
+                                        {'Choose reason for appointment'|i18n('bootstrapitalia/booking')}
                                     </p>
                                 </div>
                                 <div class="card-body p-0">
                                     <div class="select-wrapper p-0 select-partials">
-                                        <label for="motivo-appuntamento" class="visually-hidden">Motivo dell'appuntamento</label>
+                                        <label for="motivo-appuntamento" class="visually-hidden">{'Reason for the appointment'|i18n('bootstrapitalia/booking')}</label>
                                         {if $service}
                                             <span class="p-1 d-block border-bottom">{$service.name|wash()}</span>
                                             <input type="hidden" id="motivo-appuntamento" name="subject-precompiled" value="{$service.name|wash()}">
@@ -36,19 +36,19 @@
                             <div class="card has-bkg-grey shadow-sm p-big">
                                 <div class="card-header border-0 p-0 mb-lg-30 m-0">
                                     <div class="d-flex">
-                                        <h2 class="title-xxlarge mb-0">Dettagli*</h2>
+                                        <h2 class="title-xxlarge mb-0">{'Detail'|i18n('bootstrapitalia/booking')}*</h2>
                                     </div>
-                                    <p class="subtitle-small mb-0 mb-3">Aggiungi ulteriori dettagli</p>
+                                    <p class="subtitle-small mb-0 mb-3">{'Add more details'|i18n('bootstrapitalia/booking')}</p>
                                 </div>
                                 <div class="card-body p-0">
                                     <div class="cmp-text-area p-0">
                                         <div class="form-group">
                                             <label for="form-details" class="visually-hidden">
-                                                Aggiungi ulteriori dettagli
+                                                {'Add more details'|i18n('bootstrapitalia/booking')}
                                             </label>
                                             <textarea name="detail" class="text-area" id="form-details" rows="2"></textarea>
                                             <span style="position: absolute;right: 0;bottom: 0;" class="cmp-input__text"><span class="detail-length">200</span>/200</span>
-                                            <span class="form-text cmp-input__text">Inserire massimo 200 caratteri</span>
+                                            <span class="form-text cmp-input__text">{'Enter up to 200 characters'|i18n('bootstrapitalia/booking')}</span>
                                         </div>
                                     </div>
                                 </div>

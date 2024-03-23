@@ -9,7 +9,7 @@
                             <li class="breadcrumb-item"><a href="{$service.main_node.parent.url_alias|ezurl(no)}">{$service.main_node.parent.name|wash()}</a><span class="separator">/</span></li>
                             <li class="breadcrumb-item"><a href="{$service.main_node.url_alias|ezurl(no)}">{$service.name|wash()}</a><span class="separator">/</span></li>
                         {/if}
-                        <li class="breadcrumb-item active" aria-current="page">Prenotazione appuntamento</li>
+                        <li class="breadcrumb-item active" aria-current="page">{'Appointment booking'|i18n('bootstrapitalia/booking')}</li>
                     </ol>
                 </nav>
             </div>

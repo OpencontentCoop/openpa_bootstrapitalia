@@ -50,6 +50,7 @@ if (StanzaDelCittadinoBooking::factory()->isEnabled()) {
     $pageHash = OpenPABase::getCurrentSiteaccessIdentifier() . '-booking:' . $serviceId;
 
     $tpl->setVariable('pal', StanzaDelCittadinoBridge::factory()->getProfileUri());
+    $tpl->setVariable('has_session', $http->hasSessionVariable('booking_user_token'));
     $tpl->setVariable('page_key', $pageHash);
     $tpl->setVariable('service_id', $serviceId);
     $tpl->setVariable('service', $service);

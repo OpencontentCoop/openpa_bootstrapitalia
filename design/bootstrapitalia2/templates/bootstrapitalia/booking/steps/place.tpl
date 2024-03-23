@@ -10,20 +10,20 @@
                                 <div class="card-header border-0 p-0 mb-lg-30">
                                     <div class="d-flex">
                                         <h2 class="title-xxlarge mb-0">
-                                            Ufficio*
+                                            {'Office'|i18n('bootstrapitalia/booking')}*
                                         </h2>
                                     </div>
                                     <p class="subtitle-small mb-0">
-                                        Scegli l’ufficio a cui vuoi richiedere l’appuntamento
+                                        {'Select the office where you would like to make an appointment'|i18n('bootstrapitalia/booking')}
                                     </p>
                                 </div>
 
                                 <div class="card-body p-0">
                                     <div class="select-wrapper p-0 select-partials">
-                                        <label for="office-choice" class="visually-hidden">Seleziona un ufficio</label>
+                                        <label for="office-choice" class="visually-hidden">{'Select an office'|i18n('bootstrapitalia/booking')}</label>
                                         <select id="office-choice" class="" data-focus-mouse="false">
                                             {if count($offices)|gt(1)}
-                                            <option selected="selected" value="">Seleziona un ufficio</option>
+                                            <option selected="selected" value="">{'Select an office'|i18n('bootstrapitalia/booking')}</option>
                                             {/if}
                                             {foreach $offices as $office}
                                                 <option value="{$office.id|wash()}">{$office.name|wash()}</option>
@@ -31,7 +31,7 @@
                                         </select>
                                     </div>
                                     <fieldset class="d-none">
-                                        <legend class="visually-hidden">Seleziona una sede</legend>
+                                        <legend class="visually-hidden">{'Location '|i18n('bootstrapitalia/booking')}</legend>
                                         {foreach $offices as $office}
                                             {foreach $office.places as $place}
                                             <div class="cmp-info-radio radio-card d-none" data-office="{$office.id|wash()}" data-place="{$place.id|wash()}">
@@ -48,7 +48,7 @@
                                                     </div>
                                                     <div class="card-body p-0">
                                                         <div class="info-wrapper">
-                                                            <span class="info-wrapper__label">Indirizzo</span>
+                                                            <span class="info-wrapper__label">{'Address'|i18n('bootstrapitalia/booking')}</span>
                                                             <p class="info-wrapper__value" data-address>
                                                                 <a href="https://www.google.com/maps/dir//'{$place.address.latitude|wash()},{$place.address.longitude|wash()}'/@{$place.address.latitude|wash()},{$place.address.longitude|wash()},15z?hl=it" target="_blank" rel="noopener noreferrer"  class="text-decoration-none">
                                                                     {$place.address.address|wash()}

@@ -418,60 +418,60 @@ EOT;
         return [
             [
                 'id' => 'auth',
-                'title' => 'Autorizzazioni e condizioni',
+                'title' => ezpI18n::tr('bootstrapitalia/booking', 'Permissions and conditions'),
                 'required' => [],
             ],
             [
                 'id' => 'place',
-                'title' => 'Luogo',
+                'title' => ezpI18n::tr('bootstrapitalia/booking', 'Place'),
                 'required' => [
                     [
                         'id' => 'office',
-                        'title' => 'Ufficio',
+                        'title' => ezpI18n::tr('bootstrapitalia/booking', 'Office'),
                     ],
                 ],
             ],
             [
                 'id' => 'datetime',
-                'title' => 'Data e orario',
+                'title' => ezpI18n::tr('bootstrapitalia/booking', 'Date and time'),
                 'required' => [
                     [
                         'id' => 'availabilities',
-                        'title' => 'Appuntamenti disponibili',
+                        'title' => ezpI18n::tr('bootstrapitalia/booking', 'Appointments available'),
                     ],
                     [
                         'id' => 'office',
-                        'title' => 'Ufficio',
+                        'title' => ezpI18n::tr('bootstrapitalia/booking', 'Office'),
                     ],
                 ],
             ],
             [
                 'id' => 'details',
-                'title' => 'Dettagli appuntamento',
+                'title' => ezpI18n::tr('bootstrapitalia/booking', 'Appointment details'),
                 'required' => [
                     [
                         'id' => 'service_detail',
-                        'title' => 'Motivo',
+                        'title' => ezpI18n::tr('bootstrapitalia/booking', 'Reason'),
                     ],
                     [
                         'id' => 'user_details',
-                        'title' => 'Dettagli',
+                        'title' => ezpI18n::tr('bootstrapitalia/booking', 'Detail'),
                     ],
                 ],
             ],
             [
                 'id' => 'applicant',
-                'title' => 'Richiedente',
+                'title' => ezpI18n::tr('bootstrapitalia/booking', 'Applicant'),
                 'required' => [
                     [
                         'id' => 'applicant',
-                        'title' => 'Richiedente',
+                        'title' => ezpI18n::tr('bootstrapitalia/booking', 'Applicant'),
                     ],
                 ],
             ],
             [
                 'id' => 'summary',
-                'title' => 'Riepilogo',
+                'title' => ezpI18n::tr('bootstrapitalia/booking', 'Summary'),
                 'required' => [],
             ],
         ];

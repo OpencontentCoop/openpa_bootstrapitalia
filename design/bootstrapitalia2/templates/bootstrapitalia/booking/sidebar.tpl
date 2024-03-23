@@ -9,7 +9,7 @@
                                 <span class="accordion-header" id="accordion-{$step.id|wash()}">
                                     <button class="accordion-button pb-10 px-3" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapse-{$step.id|wash()}" aria-expanded="true" aria-controls="collapse-{$step.id|wash()}">
-                                        INFORMAZIONI RICHIESTE
+                                        {'INFORMATION REQUIRED'|i18n('bootstrapitalia/booking')}
                                         {display_icon('it-expand', 'svg', 'icon icon-xs right')}
                                     </button>
                                 </span>

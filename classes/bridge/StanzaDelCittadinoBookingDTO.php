@@ -30,7 +30,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
 
     private $userMessage;
 
-    private $motivationOutcome;
+    private $reason;
 
     private $place;
 
@@ -294,18 +294,18 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getMotivationOutcome()
+    public function getReason()
     {
-        return $this->motivationOutcome;
+        return $this->reason;
     }
 
     /**
-     * @param mixed $motivationOutcome
+     * @param mixed $reason
      * @return StanzaDelCittadinoBookingDTO
      */
-    public function setMotivationOutcome($motivationOutcome)
+    public function setReason($reason)
     {
-        $this->motivationOutcome = $motivationOutcome;
+        $this->reason = $reason;
         return $this;
     }
 
@@ -349,6 +349,11 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
     {
         $dto = new static();
         $http = eZHTTPTool::instance();
+
+        if ($http->hasSessionVariable('booking_user_token')) {
+            $dto->setUserToken($http->sessionVariable('booking_user_token'));
+        }
+
         if ($http->hasPostVariable('calendar')) {
             $dto->setCalendar($http->postVariable('calendar'));
         }
@@ -366,9 +371,6 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         }
         if ($http->hasPostVariable('user')) {
             $dto->setUser($http->postVariable('user'));
-        }
-        if ($http->hasPostVariable('user_token')) {
-            $dto->setUserToken($http->postVariable('user_token'));
         }
         if ($http->hasPostVariable('meeting')) {
             $dto->setMeetingId($http->postVariable('meeting'));
@@ -391,8 +393,8 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         if ($http->hasPostVariable('user_message')) {
             $dto->setUserMessage($http->postVariable('user_message'));
         }
-        if ($http->hasPostVariable('motivation_outcome')) {
-            $dto->setMotivationOutcome($http->postVariable('motivation_outcome'));
+        if ($http->hasPostVariable('reason')) {
+            $dto->setReason($http->postVariable('reason'));
         }
         if ($http->hasPostVariable('place')) {
             $dto->setPlace($http->postVariable('place'));
@@ -431,7 +433,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
                 'user_group' => [],
                 'day' => $this->getDate(),
                 'meeting_id' => $this->getMeetingId(),
-                'service' => $this->getMotivationOutcome(),
+                'service' => $this->getReason(),
                 'time' => [
                     'availability' => true,
                     'date' => $this->getDate(),
@@ -466,8 +468,8 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'phone_number' => $this->getPhoneNumber(),
             'from_time' => DateTime::createFromFormat('Y-m-d H:i', $this->getDate() . ' ' . $this->getFromTime())->format('c'),
             'to_time' => DateTime::createFromFormat('Y-m-d H:i', $this->getDate() . ' ' . $this->getToTime())->format('c'),
-            'user_message' => $this->getUserMessage(),
-            'motivation_outcome' => $this->getMotivationOutcome(),
+            'user_message' => $this->getReason() . ' ' . $this->getUserMessage(),
+            //'reason' => $this->getReason(),
             'status' => $withStatus,
             'location' => $this->getPlace(),
         ];

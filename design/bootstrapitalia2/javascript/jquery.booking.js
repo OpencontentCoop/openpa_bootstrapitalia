@@ -28,6 +28,7 @@
       tokenUrl: null,
       profileUrl: null,
       prefix: null,
+      hasSession: false,
       debug: false,
       debugUserToken: null,
       useCalendarFilter: false,
@@ -94,8 +95,7 @@
       'applicantFiscalCode': null,
       'applicantEmail': null,
       'applicantPhone': null,
-      'meeting': null,
-      'userToken': null,
+      'meeting': null
     }
     this.cacheDayAvailabilities = []
     this.avoidApplicantModification = false
@@ -156,7 +156,7 @@
 
     scrollToTop: function () {
       $('html, body').animate({
-        scrollTop: $("#booking-steppers").offset().top
+        scrollTop: $("#booking-steppers").offset().top - 100
       }, 0);
     },
 
@@ -165,37 +165,44 @@
 
       let data = self.getStoredData() || JSON.stringify(self.currentData)
       self.setCurrentData(JSON.parse(data))
-      let currentToken = self.currentData.userToken ?? null
+
       if (self.settings.profileUrl && self.settings.tokenUrl) {
         self.debug('init', 'get auth token')
         $.ajax({
           url: self.settings.tokenUrl,
           dataType: 'json',
           xhrFields: {withCredentials: true},
+
           success: function (data) {
-            self.restoreDraftIfNeeded(currentToken, data.token, function () {
+            self.restoreDraftIfNeeded(data.token, function () {
               self.getUserProfile(data.token, function (user) {
                 self.load(user)
               })
             })
           },
+
           error: function () {
             self.spidAccess.removeClass('d-none')
+
             if (self.settings.debugUserToken) {
               self.info('init', 'set debug token')
-              self.restoreDraftIfNeeded(currentToken, self.settings.debugUserToken, function () {
+              self.restoreDraftIfNeeded(self.settings.debugUserToken, function () {
                 self.getUserProfile(self.settings.debugUserToken, function (user) {
                   self.load(user)
                 })
               })
-            } else if (currentToken && currentToken.length > 0) {
-              self.info('init', 'set browser session token')
-              self.setCurrentData('userToken', currentToken)
+
+            } else if (self.settings.hasSession) {
+              self.info('init', 'use current session')
               self.load()
+
             } else {
+
               self.debug('init', 'get anonym token')
-              self.getAnonymousToken(function () {
-                self.load()
+              self.getAnonymousToken(function (token) {
+                self.restoreDraftIfNeeded(token, function () {
+                  self.load()
+                })
               })
             }
           }
@@ -205,39 +212,31 @@
       }
     },
 
-    restoreDraftIfNeeded: function (prevToken, currentToken, callback, context) {
+    restoreDraftIfNeeded: function (currentToken, callback, context) {
       let self = this
       let meeting = self.currentData.meeting || null
-      if (meeting
-        && prevToken
-        && prevToken.length > 0
-        && prevToken !== currentToken) {
-        self.info('init', 'refresh meeting draft')
-        $.ajax({
-          type: "POST",
-          url: self.baseUrl + 'openpa/data/booking/restore_meeting',
-          data: {
-            previousToken: prevToken,
-            currentToken: currentToken,
-            meeting: meeting
-          },
-          dataType: 'json',
-          success: function (response) {
-            self.setCurrentData('meeting', response.meeting)
-            if ($.isFunction(callback)) {
-              callback.call(context, response)
-            }
-          },
-          error: function (jqXHR) {
-            self.setCurrentData('meeting', null)
-            if ($.isFunction(callback)) {
-              callback.call(context, response)
-            }
+      self.info('init', 'refresh meeting draft')
+      $.ajax({
+        type: "POST",
+        url: self.baseUrl + 'openpa/data/booking/restore_meeting',
+        data: {
+          currentToken: currentToken,
+          meeting: meeting
+        },
+        dataType: 'json',
+        success: function (response) {
+          self.setCurrentData('meeting', response.meeting)
+          if ($.isFunction(callback)) {
+            callback.call(context, response)
           }
-        })
-      } else {
-        callback.call(context)
-      }
+        },
+        error: function (jqXHR) {
+          self.setCurrentData('meeting', null)
+          if ($.isFunction(callback)) {
+            callback.call(context, response)
+          }
+        }
+      })
     },
 
     getAnonymousToken: function (callback, context) {
@@ -247,14 +246,10 @@
         dataType: 'json',
         type: "POST",
         success: function (data) {
-          if (data.token) {
-            self.info('init', 'set anonym token')
-            self.setCurrentData('userToken', data.token)
-          }
-          callback.call(context)
+          callback.call(context, data.token)
         },
         error: function () {
-          callback.call(context)
+          callback.call(context, null)
         }
       })
     },
@@ -1044,7 +1039,6 @@
           to_time: end_time,
           from_time: start_time,
           user: this.user?.id || null,
-          user_token: this.user?.token || this.currentData.userToken || null,
           ezxform_token: this.settings.xtoken,
           meeting: this.currentData.meeting,
           email: this.summary.applicantEmail,
@@ -1053,7 +1047,7 @@
           name: this.summary.applicantName,
           surname: this.summary.applicantSurname,
           user_message: this.summary.detailsText,
-          motivation_outcome: this.summary.subjectText,
+          reason: this.summary.subjectText,
           place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html()
         }
         let self = this
@@ -1091,8 +1085,7 @@
           from_time: start_time,
           ezxform_token: this.settings.xtoken,
           meeting: this.currentData.meeting,
-          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html(),
-          user_token: this.user?.token || this.currentData.userToken || null,
+          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html()
         }
         let self = this
         $.ajax({
@@ -1102,7 +1095,6 @@
           dataType: 'json',
           success: function (response) {
             self.setCurrentData('meeting', response.data)
-            self.setCurrentData('userToken', response.token)
             if ($.isFunction(callback)) {
               callback.call(context, response)
             }
