@@ -1615,4 +1615,286 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Aggiungi elemento</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/booking</name>
+    <message>
+      <source>Service temporarily unavailable</source>
+      <translation>Servizio momentaneamente non disponibile</translation>
+    </message>
+    <message>
+      <source>Appointment booking</source>
+      <translation>Prenotazione appuntamento</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Avanti</translation>
+    </message>
+    <message>
+      <source>Back</source>
+      <translation>Indietro</translation>
+    </message>
+    <message>
+      <source>Error</source>
+      <translation>Errore</translation>
+    </message>
+    <message>
+      <source>An error was detected while searching for calendar availability or processing your request.</source>
+      <translation>È stato rilevato un errore nella ricerca delle disponibilità del calendario o nell'elaborazione della richiesta.</translation>
+    </message>
+    <message>
+      <source>We apologize for the inconvenience and invite you to try again later.</source>
+      <translation>Ci scusiamo per l'inconveniente e vi invitiamo a riprovare più tardi.</translation>
+    </message>
+    <message>
+      <source>Retry</source>
+      <translation>Riprova</translation>
+    </message>
+    <message>
+      <source>Back to service guide</source>
+      <translation>Torna alla scheda del servizio</translation>
+    </message>
+    <message>
+      <source>Back to homepage</source>
+      <translation>Torna alla home</translation>
+    </message>
+    <message>
+      <source>Appointment confirmed</source>
+      <translation>Appuntamento confermato</translation>
+    </message>
+    <message>
+      <source>The appointment is set for</source>
+      <translation>L’appuntamento è fissato per</translation>
+    </message>
+    <message>
+      <source>from</source>
+      <translation>dalle</translation>
+    </message>
+    <message>
+      <source>to</source>
+      <translation>alle</translation>
+    </message>
+    <message>
+      <source>at</source>
+      <translation>presso</translation>
+    </message>
+    <message>
+      <source>We sent the summary to the email</source>
+      <translation>Abbiamo inviato il riepilogo all’email</translation>
+    </message>
+    <message>
+      <source>INFORMATION REQUIRED</source>
+      <translation>INFORMAZIONI RICHIESTE</translation>
+    </message>
+    <message>
+      <source>The fields characterized by the asterisk symbol are mandatory</source>
+      <translation>I campi contraddistinti dal simbolo asterisco sono obbligatori</translation>
+    </message>
+    <message>
+      <source>Applicant</source>
+      <translation>Richiedente</translation>
+    </message>
+    <message>
+      <source>Name</source>
+      <translation>Nome</translation>
+    </message>
+    <message>
+      <source>Insert your name</source>
+      <translation>Inserisci il tuo nome</translation>
+    </message>
+    <message>
+      <source>Delete the text</source>
+      <translation>Elimina testo</translation>
+    </message>
+    <message>
+      <source>Surname</source>
+      <translation>Cognome</translation>
+    </message>
+    <message>
+      <source>Insert your surname</source>
+      <translation>Inserisci il tuo cognome</translation>
+    </message>
+    <message>
+      <source>Fiscal code</source>
+      <translation>Codice Fiscale</translation>
+    </message>
+    <message>
+      <source>Enter your fiscal code</source>
+      <translation>Inserisci il tuo codice fiscale</translation>
+    </message>
+    <message>
+      <source>Email</source>
+      <translation>Email</translation>
+    </message>
+    <message>
+      <source>Enter a valid email</source>
+      <translation>Inseriscila tua email</translation>
+    </message>
+    <message>
+      <source>Telephone number</source>
+      <translation>Recapito telefonico</translation>
+    </message>
+    <message>
+      <source>Please enter a valid phone number (only digits are allowed, enter at least 8 characters)</source>
+      <translation>Inserisci un recapito telefonico valido (sono consentite solo cifre, inserire almeno 8 caratteri)</translation>
+    </message>
+    <message>
+      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
+      <translation>Il %site_name gestisce i dati personali forniti e liberamente comunicati sulla base dell’articolo 13 del Regolamento UE 2016/679 General data protection regulation (Gdpr) e dell'articolo 13 e successive modifiche e integrazioni del decreto legislativo (di seguito d.lgs) 267/2000 (Testo unico enti locali).</translation>
+    </message>
+    <message>
+      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
+      <translation>Per i dettagli sul trattamento dei dati personali consulta l'%open_privacy_link_tag informativa sulla privacy.%close_privacy_link_tag</translation>
+    </message>
+    <message>
+      <source>I have read and understood the privacy policy</source>
+      <translation>Ho letto e compreso l’informativa sulla privacy</translation>
+    </message>
+    <message>
+      <source>Appointments available</source>
+      <translation>Appuntamenti disponibili</translation>
+    </message>
+    <message>
+      <source>Select a day</source>
+      <translation>Seleziona un giorno</translation>
+    </message>
+    <message>
+      <source>Select a time</source>
+      <translation>Seleziona un orario</translation>
+    </message>
+    <message>
+      <source>There are no dates available for the selected period</source>
+      <translation>Non ci sono date disponibili per il periodo selezionato</translation>
+    </message>
+    <message>
+      <source>Select another location or another period</source>
+      <translation>Seleziona un'altra sede o un altro periodo</translation>
+    </message>
+    <message>
+      <source>Office</source>
+      <translation>Ufficio</translation>
+    </message>
+    <message>
+      <source>Address</source>
+      <translation>Indirizzo</translation>
+    </message>
+    <message>
+      <source>Location</source>
+      <translation>Sede</translation>
+    </message>
+    <message>
+      <source>Reason</source>
+      <translation>Motivo</translation>
+    </message>
+    <message>
+      <source>Choose reason for appointment</source>
+      <translation>Scegli il motivo dell’appuntamento</translation>
+    </message>
+    <message>
+      <source>Reason for the appointment</source>
+      <translation>Motivo dell'appuntamento</translation>
+    </message>
+    <message>
+      <source>Detail</source>
+      <translation>Dettagli</translation>
+    </message>
+    <message>
+      <source>Add more details</source>
+      <translation>Aggiungi ulteriori dettagli</translation>
+    </message>
+    <message>
+      <source>Enter up to 200 characters</source>
+      <translation>Inserire al massimo 200 caratteri</translation>
+    </message>
+    <message>
+      <source>Select the office where you would like to make an appointment</source>
+      <translation>Scegli l’ufficio a cui vuoi richiedere l’appuntamento</translation>
+    </message>
+    <message>
+      <source>Select an office</source>
+      <translation>Seleziona un ufficio</translation>
+    </message>
+    <message>
+      <source>Select a location</source>
+      <translation>Seleziona una sede</translation>
+    </message>
+    <message>
+      <source>Warning</source>
+      <translation>Attenzione</translation>
+    </message>
+    <message>
+      <source>The information you have provided has the value of a declaration</source>
+      <translation>Le informazioni che hai fornito hanno valore di dichiarazione.</translation>
+    </message>
+    <message>
+      <source>Check that they are correct</source>
+      <translation>Verifica che siano corrette.</translation>
+    </message>
+    <message>
+      <source>Appointment details</source>
+      <translation>Dettagli dell'appuntamento</translation>
+    </message>
+    <message>
+      <source>Typology</source>
+      <translation>Tipologia ufficio</translation>
+    </message>
+    <message>
+      <source>Date and time</source>
+      <translation>Data e orario</translation>
+    </message>
+    <message>
+      <source>Date</source>
+      <translation>Data</translation>
+    </message>
+    <message>
+      <source>Time</source>
+      <translation>Ora</translation>
+    </message>
+    <message>
+      <source>Save request</source>
+      <translation>Salva Richiesta</translation>
+    </message>
+    <message>
+      <source>Submit</source>
+      <translation>Invia</translation>
+    </message>
+    <message>
+      <source>Request saved successfully</source>
+      <translation>Richiesta salvata con successo</translation>
+    </message>
+    <message>
+      <source>Error saving the request</source>
+      <translation>Errore salvando la richiesta</translation>
+    </message>
+    <message>
+      <source>Do you have a spid or cie digital identity?</source>
+      <translation>Hai un’identità digitale SPID o CIE?</translation>
+    </message>
+    <message>
+      <source>Log in</source>
+      <translation>Accedi</translation>
+    </message>
+    <message>
+      <source>Summary</source>
+      <translation>Riepilogo</translation>
+    </message>
+    <message>
+      <source>Edit</source>
+      <translation>Modifica</translation>
+    </message>
+    <message>
+      <source>Permissions and conditions</source>
+      <translation>Autorizzazioni e condizioni</translation>
+    </message>
+    <message>
+      <source>Place</source>
+      <translation>Luogo</translation>
+    </message>
+  </context>
+  <context>
+    <name></name>
+    <message>
+      <source>Select a month</source>
+      <translation>Seleziona un mese</translation>
+    </message>
+  </context>
 </TS>

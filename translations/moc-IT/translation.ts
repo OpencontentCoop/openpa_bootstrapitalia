@@ -1611,4 +1611,286 @@
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/booking</name>
+    <message>
+      <source>Service temporarily unavailable</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointment booking</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Back</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Error</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>An error was detected while searching for calendar availability or processing your request.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>We apologize for the inconvenience and invite you to try again later.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Retry</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Back to service guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Back to homepage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointment confirmed</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The appointment is set for</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>from</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>to</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>at</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>We sent the summary to the email</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>INFORMATION REQUIRED</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The fields characterized by the asterisk symbol are mandatory</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Applicant</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Name</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Insert your name</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Delete the text</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Surname</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Insert your surname</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fiscal code</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Enter your fiscal code</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Email</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Enter a valid email</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Telephone number</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Please enter a valid phone number (only digits are allowed, enter at least 8 characters)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>I have read and understood the privacy policy</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointments available</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select a day</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select a time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>There are no dates available for the selected period</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select another location or another period</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Office</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Address</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Location</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Reason</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Choose reason for appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Reason for the appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Detail</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Add more details</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Enter up to 200 characters</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select the office where you would like to make an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select an office</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select a location</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Warning</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The information you have provided has the value of a declaration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Check that they are correct</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointment details</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Typology</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Date and time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Date</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Save request</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Submit</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request saved successfully</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Error saving the request</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Do you have a spid or cie digital identity?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Summary</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Edit</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Permissions and conditions</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Place</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name></name>
+    <message>
+      <source>Select a month</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
 </TS>

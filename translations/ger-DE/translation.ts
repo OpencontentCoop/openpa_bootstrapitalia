@@ -513,11 +513,11 @@
     </message>
     <message>
       <source>Upcoming appointments</source>
-      <translation>Bevorstehende Termine</translation>
+      <translation>Kommende Termine</translation>
     </message>
     <message>
       <source>Local associations</source>
-      <translation>Lokale Assoziationen</translation>
+      <translation>Lokale Vereine</translation>
     </message>
     <message>
       <source>Push place on OpenAgenda</source>
@@ -1613,6 +1613,288 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>Add item</source>
       <translation>Element hinzufügen</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/booking</name>
+    <message>
+      <source>Service temporarily unavailable</source>
+      <translation>Dienst vorübergehend nicht verfügbar</translation>
+    </message>
+    <message>
+      <source>Appointment booking</source>
+      <translation>Terminbuchung</translation>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation>Weiter</translation>
+    </message>
+    <message>
+      <source>Back</source>
+      <translation>Rückwärts</translation>
+    </message>
+    <message>
+      <source>Error</source>
+      <translation>Systemfehler</translation>
+    </message>
+    <message>
+      <source>An error was detected while searching for calendar availability or processing your request.</source>
+      <translation>Bei der Suche nach der Kalenderverfügbarkeit oder der Verarbeitung Ihrer Anfrage ist ein Fehler aufgetreten.</translation>
+    </message>
+    <message>
+      <source>We apologize for the inconvenience and invite you to try again later.</source>
+      <translation>Wir entschuldigen uns für die Unannehmlichkeiten und laden Sie ein, es später noch einmal zu versuchen.</translation>
+    </message>
+    <message>
+      <source>Retry</source>
+      <translation>Wiederholen</translation>
+    </message>
+    <message>
+      <source>Back to service guide</source>
+      <translation>Zurück zum Serviceleitfaden</translation>
+    </message>
+    <message>
+      <source>Back to homepage</source>
+      <translation>Zurück zur Startseite</translation>
+    </message>
+    <message>
+      <source>Appointment confirmed</source>
+      <translation>Termin bestätigt</translation>
+    </message>
+    <message>
+      <source>The appointment is set for</source>
+      <translation>Der Termin steht fest</translation>
+    </message>
+    <message>
+      <source>from</source>
+      <translation>Gib ihr</translation>
+    </message>
+    <message>
+      <source>to</source>
+      <translation>bei</translation>
+    </message>
+    <message>
+      <source>at</source>
+      <translation>a</translation>
+    </message>
+    <message>
+      <source>We sent the summary to the email</source>
+      <translation>Wir haben die Zusammenfassung an die E-Mail gesendet</translation>
+    </message>
+    <message>
+      <source>INFORMATION REQUIRED</source>
+      <translation>INFORMATIONEN BENÖTIGT</translation>
+    </message>
+    <message>
+      <source>The fields characterized by the asterisk symbol are mandatory</source>
+      <translation>Die mit einem Sternchen gekennzeichneten Felder sind Pflichtfelder</translation>
+    </message>
+    <message>
+      <source>Applicant</source>
+      <translation>Antragsteller</translation>
+    </message>
+    <message>
+      <source>Name</source>
+      <translation>Vorname</translation>
+    </message>
+    <message>
+      <source>Insert your name</source>
+      <translation>Geben Sie Ihren Namen ein</translation>
+    </message>
+    <message>
+      <source>Delete the text</source>
+      <translation>Löschen Sie den Text</translation>
+    </message>
+    <message>
+      <source>Surname</source>
+      <translation>Nachname</translation>
+    </message>
+    <message>
+      <source>Insert your surname</source>
+      <translation>Geben Sie Ihren Nachnamen ein</translation>
+    </message>
+    <message>
+      <source>Fiscal code</source>
+      <translation>Steuernummer</translation>
+    </message>
+    <message>
+      <source>Enter your fiscal code</source>
+      <translation>Geben Sie Ihre Steuernummer ein</translation>
+    </message>
+    <message>
+      <source>Email</source>
+      <translation>Email</translation>
+    </message>
+    <message>
+      <source>Enter a valid email</source>
+      <translation>Geben Sie eine gültige E-Mail-Adresse ein</translation>
+    </message>
+    <message>
+      <source>Telephone number</source>
+      <translation>Telefonnummer</translation>
+    </message>
+    <message>
+      <source>Please enter a valid phone number (only digits are allowed, enter at least 8 characters)</source>
+      <translation>Geben Sie eine gültige Telefonnummer ein (Es sind nur Ziffern zulässig. Geben Sie mindestens 8 Zeichen ein)</translation>
+    </message>
+    <message>
+      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
+      <translation>Der %site_name verwaltet die bereitgestellten und frei mitgeteilten personenbezogenen Daten auf der Grundlage von Artikel 13 der EU-Verordnung 2016/679 Datenschutz-Grundverordnung (DSGVO) und Artikel 13 und nachfolgenden Änderungen und Ergänzungen des Gesetzesdekrets (im Folgenden Gesetzesdekret) 267/2000 (konsolidiertes Gesetz). über lokale Behörden).'</translation>
+    </message>
+    <message>
+      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
+      <translation>Einzelheiten zur Verarbeitung personenbezogener Daten finden Sie unter %open_privacy_link_tag die Datenschutzerklärung %close_privacy_link_tag</translation>
+    </message>
+    <message>
+      <source>I have read and understood the privacy policy</source>
+      <translation>Ich habe die Datenschutzerklärung gelesen und verstanden</translation>
+    </message>
+    <message>
+      <source>Appointments available</source>
+      <translation>Termine möglich</translation>
+    </message>
+    <message>
+      <source>Select a day</source>
+      <translation>Wählen Sie einen Tag aus</translation>
+    </message>
+    <message>
+      <source>Select a time</source>
+      <translation>Wählen Sie eine Zeit aus</translation>
+    </message>
+    <message>
+      <source>There are no dates available for the selected period</source>
+      <translation>Für den ausgewählten Zeitraum sind keine Termine verfügbar</translation>
+    </message>
+    <message>
+      <source>Select another location or another period</source>
+      <translation>Wählen Sie einen anderen Ort oder einen anderen Zeitraum</translation>
+    </message>
+    <message>
+      <source>Office</source>
+      <translation>Büro</translation>
+    </message>
+    <message>
+      <source>Address</source>
+      <translation>Adresse</translation>
+    </message>
+    <message>
+      <source>Location</source>
+      <translation>Bürostandort</translation>
+    </message>
+    <message>
+      <source>Reason</source>
+      <translation>Grund</translation>
+    </message>
+    <message>
+      <source>Choose reason for appointment</source>
+      <translation>Wählen Sie den Grund für den Termin</translation>
+    </message>
+    <message>
+      <source>Reason for the appointment</source>
+      <translation>Grund für die Ernennung</translation>
+    </message>
+    <message>
+      <source>Detail</source>
+      <translation>Detail</translation>
+    </message>
+    <message>
+      <source>Add more details</source>
+      <translation>Fügen Sie weitere Details hinzu</translation>
+    </message>
+    <message>
+      <source>Enter up to 200 characters</source>
+      <translation>Geben Sie bis zu 200 Zeichen ein</translation>
+    </message>
+    <message>
+      <source>Select the office where you would like to make an appointment</source>
+      <translation>Wählen Sie das Büro aus, bei dem Sie einen Termin vereinbaren möchten</translation>
+    </message>
+    <message>
+      <source>Select an office</source>
+      <translation>Wählen Sie einen Amtsträger aus</translation>
+    </message>
+    <message>
+      <source>Select a location</source>
+      <translation>Wähle einen Ort</translation>
+    </message>
+    <message>
+      <source>Warning</source>
+      <translation>Aufmerksamkeit</translation>
+    </message>
+    <message>
+      <source>The information you have provided has the value of a declaration</source>
+      <translation>Die von Ihnen gemachten Angaben haben den Wert einer Erklärung</translation>
+    </message>
+    <message>
+      <source>Check that they are correct</source>
+      <translation>Überprüfen Sie, ob sie korrekt sind</translation>
+    </message>
+    <message>
+      <source>Appointment details</source>
+      <translation>Termindetails</translation>
+    </message>
+    <message>
+      <source>Typology</source>
+      <translation>Typologie</translation>
+    </message>
+    <message>
+      <source>Date and time</source>
+      <translation>Datum und uhrzeit</translation>
+    </message>
+    <message>
+      <source>Date</source>
+      <translation>Datum</translation>
+    </message>
+    <message>
+      <source>Time</source>
+      <translation>Uhrzeit</translation>
+    </message>
+    <message>
+      <source>Save request</source>
+      <translation>Anfrage speichern</translation>
+    </message>
+    <message>
+      <source>Submit</source>
+      <translation>Senden</translation>
+    </message>
+    <message>
+      <source>Request saved successfully</source>
+      <translation>Anfrage erfolgreich gespeichert</translation>
+    </message>
+    <message>
+      <source>Error saving the request</source>
+      <translation>Fehler beim Speichern der Anfrage</translation>
+    </message>
+    <message>
+      <source>Do you have a spid or cie digital identity?</source>
+      <translation>Verfügen Sie über eine digitale SPID- oder CIE-Identität?</translation>
+    </message>
+    <message>
+      <source>Log in</source>
+      <translation>Anmelden</translation>
+    </message>
+    <message>
+      <source>Summary</source>
+      <translation>Zusammenfassung</translation>
+    </message>
+    <message>
+      <source>Edit</source>
+      <translation>Bearbeiten</translation>
+    </message>
+    <message>
+      <source>Permissions and conditions</source>
+      <translation>Autorisierung und Bedingungen</translation>
+    </message>
+    <message>
+      <source>Place</source>
+      <translation>Ort</translation>
+    </message>
+  </context>
+  <context>
+    <name></name>
+    <message>
+      <source>Select a month</source>
+      <translation>Wählen Sie einen Monat</translation>
     </message>
   </context>
 </TS>

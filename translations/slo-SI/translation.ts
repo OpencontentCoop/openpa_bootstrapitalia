@@ -5,11 +5,11 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>To spletno mesto uporablja piškotke tehničnih, analitike in tretjih oseb.</translation>
+      <translation>To spletno mesto uporablja tehnične, analitične in piškotke tretjih oseb.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
-      <translation>Z nadaljnjim brskanjem sprejemate uporabo piškotkov.</translation>
+      <translation>Z nadaljevanjem brskanja se strinjate z uporabo piškotkov.</translation>
     </message>
     <message>
       <source>Informations</source>
@@ -17,15 +17,15 @@
     </message>
     <message>
       <source>Accept</source>
-      <translation>Sprejeti</translation>
+      <translation>Sprejmi</translation>
     </message>
     <message>
       <source>Jump to main content</source>
-      <translation>Skočite na glavno vsebino</translation>
+      <translation>Skoči na glavno vsebino</translation>
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Skočite na meni</translation>
+      <translation>Skoči na meni razdelka</translation>
     </message>
     <message>
       <source>Jump to footer</source>
@@ -37,7 +37,7 @@
     </message>
     <message>
       <source>Close</source>
-      <translation>Blizu</translation>
+      <translation>Zapri</translation>
     </message>
     <message>
       <source>FREE</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Brezplačen vstop za vse udeležence</translation>
+      <translation>Prost vstop za vse udeležence</translation>
     </message>
     <message>
       <source>Download</source>
@@ -53,7 +53,7 @@
     </message>
     <message>
       <source>Download file</source>
-      <translation>Prenos datoteke</translation>
+      <translation>Prenesi datoteko</translation>
     </message>
     <message>
       <source>File type</source>
@@ -77,11 +77,11 @@
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Sorodne vsebine</translation>
+      <translation>Povezane vsebine</translation>
     </message>
     <message>
       <source>Search in</source>
-      <translation>Iskanje</translation>
+      <translation>Išči v</translation>
     </message>
     <message>
       <source>Filters</source>
@@ -109,11 +109,11 @@
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Pojdite na koledar dogodka</translation>
+      <translation>Pojdite na koledar dogodkov</translation>
     </message>
     <message>
       <source>Event start</source>
-      <translation>Začnite dogodek</translation>
+      <translation>Začetek dogodka</translation>
     </message>
     <message>
       <source>Event end</source>
@@ -153,15 +153,15 @@
     </message>
     <message>
       <source>Editor tools</source>
-      <translation>Orodja za urejanje</translation>
+      <translation>Orodja urejevalnika</translation>
     </message>
     <message>
       <source>See previous versions</source>
-      <translation>Glej prejšnje različice</translation>
+      <translation>Oglejte si prejšnje različice</translation>
     </message>
     <message>
       <source>Go to the history of this content</source>
-      <translation>Pojdite v zgodovino te vsebine</translation>
+      <translation>Pojdite na zgodovino te vsebine</translation>
     </message>
     <message>
       <source>Further details</source>
@@ -169,7 +169,7 @@
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Pojdite na vsebino</translation>
+      <translation>Pojdi na vsebino</translation>
     </message>
     <message>
       <source>View all</source>
@@ -556,7 +556,7 @@
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>EZ oznake</translation>
+      <translation>eZ oznake</translation>
     </message>
     <message>
       <source>Apps</source>
@@ -564,15 +564,15 @@
     </message>
     <message>
       <source>Transparent Administration</source>
-      <translation>Prozorna uporaba</translation>
+      <translation>Transparentna administracija</translation>
     </message>
     <message>
       <source>Lists by class</source>
-      <translation>Sezname po razredu</translation>
+      <translation>Seznami po razredih</translation>
     </message>
     <message>
       <source>Import management</source>
-      <translation>Uvozno upravljanje</translation>
+      <translation>Upravljanje uvoza</translation>
     </message>
     <message>
       <source>eZFind</source>
@@ -595,7 +595,7 @@
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Položaj v organizacijski lestvici</translation>
+      <translation>Položaj v organizacijski shemi</translation>
     </message>
     <message>
       <source>Add objects</source>
@@ -617,11 +617,11 @@
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Referenca na</translation>
+      <translation>Nanašati na</translation>
     </message>
     <message>
       <source>Classification</source>
-      <translation>Klasifikacija</translation>
+      <translation>Razvrstitev</translation>
     </message>
     <message>
       <source>References</source>
@@ -636,7 +636,7 @@
     </message>
     <message>
       <source>Contacts</source>
-      <translation>Stiki</translation>
+      <translation>Kontakti</translation>
     </message>
     <message>
       <source>Links</source>
@@ -718,15 +718,15 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>vse spletno mesto</translation>
+      <translation>vsa spletna stran</translation>
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Samo informacije o vrsti</translation>
+      <translation>samo informacije o vrsti</translation>
     </message>
     <message>
       <source>Sorting by</source>
-      <translation>Razvrščanje</translation>
+      <translation>Razvrščanje po</translation>
     </message>
     <message>
       <source>Sorting</source>
@@ -734,15 +734,15 @@
     </message>
     <message>
       <source>Descending</source>
-      <translation>Spuščanje</translation>
+      <translation>Sestopanje</translation>
     </message>
     <message>
       <source>Ascending</source>
-      <translation>Vzbujanje</translation>
+      <translation>Naraščajoče</translation>
     </message>
     <message>
       <source>Score</source>
-      <translation>Rezultat</translation>
+      <translation>rezultat</translation>
     </message>
     <message>
       <source>Publication date</source>
@@ -766,11 +766,11 @@
     </message>
     <message>
       <source>Year</source>
-      <translation>Leto</translation>
+      <translation>leto</translation>
     </message>
     <message>
       <source>Any year</source>
-      <translation>Katero koli leto</translation>
+      <translation>Vsako leto</translation>
     </message>
     <message>
       <source>Logical conditions</source>
@@ -778,7 +778,7 @@
     </message>
     <message>
       <source>Maybe you meant to search for</source>
-      <translation>Mogoče ste želeli iskati</translation>
+      <translation>Morda ste mislili iskati</translation>
     </message>
     <message>
       <source>The following words were excluded from the search:</source>
@@ -786,7 +786,7 @@
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>Pri iskanju "%1" ni bilo ugotovljenih rezultatov.</translation>
+      <translation>Pri iskanju »%1« ni bilo najdenih rezultatov.</translation>
     </message>
     <message>
       <source>Search tips</source>
@@ -798,7 +798,7 @@
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Poskusite spremeniti nekatere ključne besede (npr. "Avto" namesto "avtomobilov").</translation>
+      <translation>Poskusite spremeniti nekaj ključnih besed (npr. "avto" namesto "avtomobili").</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
@@ -806,19 +806,19 @@
     </message>
     <message>
       <source>Reduce number of keywords to get more results.</source>
-      <translation>Zmanjšajte število ključnih besed, da dosežete več rezultatov.</translation>
+      <translation>Zmanjšajte število ključnih besed, da dobite več rezultatov.</translation>
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Iskanje " %1" je vrnilo %2 tekme</translation>
+      <translation>Iskanje »%1« je vrnilo %2 ujemanja</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Iskanje se je vrnilo %2 tekma</translation>
+      <translation>Iskanje je vrnilo %2 ujemanja</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Za več možnosti poskusite z %1 invalidsko iskanje %2</translation>
+      <translation>Za več možnosti poskusite %1Napredno iskanje%2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -830,7 +830,7 @@
     </message>
     <message>
       <source>Refine your search</source>
-      <translation>Izpolnite iskanje</translation>
+      <translation>Izboljšajte iskanje</translation>
     </message>
     <message>
       <source>You are filtering for</source>
@@ -909,19 +909,19 @@
     <name>bootstrapitalia/opening_hours_matrix</name>
     <message>
       <source>monday</source>
-      <translation>Ponedeljek</translation>
+      <translation>ponedeljek</translation>
     </message>
     <message>
       <source>tuesday</source>
-      <translation>Torek</translation>
+      <translation>torek</translation>
     </message>
     <message>
       <source>wednesday</source>
-      <translation>Sreda</translation>
+      <translation>sreda</translation>
     </message>
     <message>
       <source>thursday</source>
-      <translation>Četrtek</translation>
+      <translation>četrtek</translation>
     </message>
     <message>
       <source>friday</source>
@@ -929,7 +929,7 @@
     </message>
     <message>
       <source>saturday</source>
-      <translation>Sobota</translation>
+      <translation>sobota</translation>
     </message>
     <message>
       <source>sunday</source>
@@ -999,7 +999,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Izpolnite nekaj informacij o svojem mestu</translation>
+      <translation>Izpolnite nekaj podatkov o svojem mestu</translation>
     </message>
     <message>
       <source>Select place</source>
@@ -1023,23 +1023,23 @@
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
-      <translation>Označevalec lahko povlečete na zemljevidu in natančneje izberete lokacijo.</translation>
+      <translation>Za natančnejši izbor lokacije lahko povlečete oznako na zemljevidu.</translation>
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation>Dodajte to lokacijo na svoja mesta</translation>
+      <translation>Dodajte to lokacijo svojim mestom</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>V bližini izbrane lokacije, registrirane v sistemu, so mesta. Ali želite uporabiti eno od teh?</translation>
+      <translation>V sistemu so registrirani kraji v bližini izbrane lokacije. Ali želite uporabiti enega od teh?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
-      <translation>Nadaljujte z mojo lokacijo</translation>
+      <translation>Nadaljuj z mojo lokacijo</translation>
     </message>
     <message>
       <source>Detect position</source>
-      <translation>Zaznati položaj</translation>
+      <translation>Zaznavanje položaja</translation>
     </message>
   </context>
   <context>
@@ -1608,6 +1608,288 @@
     <name>design/standard/block/edit</name>
     <message>
       <source>Add item</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/booking</name>
+    <message>
+      <source>Service temporarily unavailable</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointment booking</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Back</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Error</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>An error was detected while searching for calendar availability or processing your request.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>We apologize for the inconvenience and invite you to try again later.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Retry</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Back to service guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Back to homepage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointment confirmed</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The appointment is set for</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>from</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>to</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>at</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>We sent the summary to the email</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>INFORMATION REQUIRED</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The fields characterized by the asterisk symbol are mandatory</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Applicant</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Name</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Insert your name</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Delete the text</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Surname</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Insert your surname</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fiscal code</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Enter your fiscal code</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Email</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Enter a valid email</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Telephone number</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Please enter a valid phone number (only digits are allowed, enter at least 8 characters)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>I have read and understood the privacy policy</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointments available</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select a day</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select a time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>There are no dates available for the selected period</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select another location or another period</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Office</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Address</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Location</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Reason</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Choose reason for appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Reason for the appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Detail</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Add more details</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Enter up to 200 characters</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select the office where you would like to make an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select an office</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select a location</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Warning</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The information you have provided has the value of a declaration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Check that they are correct</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointment details</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Typology</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Date and time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Date</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Save request</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Submit</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request saved successfully</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Error saving the request</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Do you have a spid or cie digital identity?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Summary</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Edit</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Permissions and conditions</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Place</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name></name>
+    <message>
+      <source>Select a month</source>
       <translation type="unfinished"/>
     </message>
   </context>

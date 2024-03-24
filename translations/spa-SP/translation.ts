@@ -9,11 +9,11 @@
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
-      <translation>Al continuar navegando, acepta el uso de cookies.</translation>
+      <translation>Al continuar navegando aceptas el uso de cookies.</translation>
     </message>
     <message>
       <source>Informations</source>
-      <translation>Información</translation>
+      <translation>Informaciones</translation>
     </message>
     <message>
       <source>Accept</source>
@@ -45,7 +45,7 @@
     </message>
     <message>
       <source>Free admission for all attendees</source>
-      <translation>Entrada gratuita para todos los asistentes</translation>
+      <translation>Entrada gratuita para todos los asistentes.</translation>
     </message>
     <message>
       <source>Download</source>
@@ -77,7 +77,7 @@
     </message>
     <message>
       <source>Related contents</source>
-      <translation>Contenido relacionado</translation>
+      <translation>Contenidos relacionados</translation>
     </message>
     <message>
       <source>Search in</source>
@@ -101,7 +101,7 @@
     </message>
     <message>
       <source>Go to page</source>
-      <translation>Ir a la página</translation>
+      <translation>ir a la pagina</translation>
     </message>
     <message>
       <source>Explore topic</source>
@@ -117,7 +117,7 @@
     </message>
     <message>
       <source>Event end</source>
-      <translation>Final</translation>
+      <translation>Fin del evento</translation>
     </message>
     <message>
       <source>Jump to field</source>
@@ -153,7 +153,7 @@
     </message>
     <message>
       <source>Editor tools</source>
-      <translation>Herramientas del editor</translation>
+      <translation>Herramientas de edición</translation>
     </message>
     <message>
       <source>See previous versions</source>
@@ -161,7 +161,7 @@
     </message>
     <message>
       <source>Go to the history of this content</source>
-      <translation>Ir a la historia de este contenido</translation>
+      <translation>Ir al historial de este contenido</translation>
     </message>
     <message>
       <source>Further details</source>
@@ -169,7 +169,7 @@
     </message>
     <message>
       <source>Go to content</source>
-      <translation>Ir a contenido</translation>
+      <translation>Ir al contenido</translation>
     </message>
     <message>
       <source>View all</source>
@@ -556,7 +556,7 @@
     <name>kernel/navigationpart</name>
     <message>
       <source>eZ Tags</source>
-      <translation>Etelas EZ</translation>
+      <translation>Etiquetas eZ</translation>
     </message>
     <message>
       <source>Apps</source>
@@ -595,7 +595,7 @@
     <name>openpa/widget</name>
     <message>
       <source>Position in the organization chart</source>
-      <translation>Posición en la tabla de organización</translation>
+      <translation>Posición en el organigrama</translation>
     </message>
     <message>
       <source>Add objects</source>
@@ -632,7 +632,7 @@
     <name>openpa/footer</name>
     <message>
       <source>Informations</source>
-      <translation>Información</translation>
+      <translation>Informaciones</translation>
     </message>
     <message>
       <source>Contacts</source>
@@ -691,14 +691,14 @@
     </message>
     <message>
       <source>Submit your rating</source>
-      <translation>Envíe su calificación</translation>
+      <translation>Envía tu calificación</translation>
     </message>
   </context>
   <context>
     <name>openpa/search</name>
     <message>
       <source>Go to search filters</source>
-      <translation>Ir a los filtros de búsqueda</translation>
+      <translation>Ir a filtros de búsqueda</translation>
     </message>
     <message>
       <source>Link to</source>
@@ -722,11 +722,11 @@
     </message>
     <message>
       <source>only information of type</source>
-      <translation>Solo información de tipo</translation>
+      <translation>solo informacion de tipo</translation>
     </message>
     <message>
       <source>Sorting by</source>
-      <translation>Clasificación por</translation>
+      <translation>Ordenar por</translation>
     </message>
     <message>
       <source>Sorting</source>
@@ -794,11 +794,11 @@
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Verifique la ortografía de las palabras clave.</translation>
+      <translation>Revisar la ortografía de las palabras clave.</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
-      <translation>Intente cambiar algunas palabras clave (por ejemplo, "automóvil" en lugar de "autos").</translation>
+      <translation>Intente cambiar algunas palabras clave (por ejemplo, "coche" en lugar de "coches").</translation>
     </message>
     <message>
       <source>Try searching with less specific keywords.</source>
@@ -810,15 +810,15 @@
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Buscar " %1" devuelto %2 partidos</translation>
+      <translation>La búsqueda de "%1" devolvió %2 coincidencias</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Búsqueda devuelta %2 partidos</translation>
+      <translation>La búsqueda devolvió %2 coincidencias</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
-      <translation>Para obtener más opciones, pruebe el %1 de búsqueda de Aadvanced %2</translation>
+      <translation>Para más opciones prueba la %1Búsqueda avanzada%2</translation>
     </message>
     <message>
       <source>Reduce the number of filters applied</source>
@@ -826,7 +826,7 @@
     </message>
     <message>
       <source>Remove all filters</source>
-      <translation>Eliminar todos los filtros</translation>
+      <translation>Quitar todos los filtros</translation>
     </message>
     <message>
       <source>Refine your search</source>
@@ -834,7 +834,7 @@
     </message>
     <message>
       <source>You are filtering for</source>
-      <translation>Estás filtrando para</translation>
+      <translation>Estas filtrando por</translation>
     </message>
     <message>
       <source>Options</source>
@@ -999,7 +999,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Complete información sobre su lugar</translation>
+      <translation>Llena algunos datos sobre tu lugar.</translation>
     </message>
     <message>
       <source>Select place</source>
@@ -1015,7 +1015,7 @@
     </message>
     <message>
       <source>Shared with other editors</source>
-      <translation>Compartido con otros editores</translation>
+      <translation>Compartido con otros editores.</translation>
     </message>
     <message>
       <source>Your own</source>
@@ -1027,11 +1027,11 @@
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation>Agregue esta ubicación a sus lugares</translation>
+      <translation>Añade esta ubicación a tus lugares</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Hay lugares cerca de la ubicación seleccionada registrada en el sistema. ¿Quieres usar uno de estos?</translation>
+      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres utilizar uno de estos?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
@@ -1608,6 +1608,288 @@
     <name>design/standard/block/edit</name>
     <message>
       <source>Add item</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/booking</name>
+    <message>
+      <source>Service temporarily unavailable</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointment booking</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Next</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Back</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Error</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>An error was detected while searching for calendar availability or processing your request.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>We apologize for the inconvenience and invite you to try again later.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Retry</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Back to service guide</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Back to homepage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointment confirmed</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The appointment is set for</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>from</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>to</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>at</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>We sent the summary to the email</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>INFORMATION REQUIRED</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The fields characterized by the asterisk symbol are mandatory</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Applicant</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Name</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Insert your name</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Delete the text</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Surname</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Insert your surname</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fiscal code</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Enter your fiscal code</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Email</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Enter a valid email</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Telephone number</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Please enter a valid phone number (only digits are allowed, enter at least 8 characters)</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>I have read and understood the privacy policy</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointments available</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select a day</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select a time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>There are no dates available for the selected period</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select another location or another period</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Office</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Address</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Location</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Reason</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Choose reason for appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Reason for the appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Detail</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Add more details</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Enter up to 200 characters</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select the office where you would like to make an appointment</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select an office</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Select a location</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Warning</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The information you have provided has the value of a declaration</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Check that they are correct</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Appointment details</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Typology</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Date and time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Date</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Save request</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Submit</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request saved successfully</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Error saving the request</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Do you have a spid or cie digital identity?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Summary</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Edit</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Permissions and conditions</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Place</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name></name>
+    <message>
+      <source>Select a month</source>
       <translation type="unfinished"/>
     </message>
   </context>
