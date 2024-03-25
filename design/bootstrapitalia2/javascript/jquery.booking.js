@@ -31,7 +31,6 @@
       hasSession: false,
       debug: false,
       debugUserToken: null,
-      useCalendarFilter: false,
       forcePreselect: true,
       useAvailabilitiesCache: false
     }
@@ -702,8 +701,13 @@
       }
     },
 
+    isUseCalendarFilter: function (){
+      let self = this
+      return $('#' + self.currentData.place).data('with_filters') === 1;
+    },
+
     filterCalendars: function () {
-      let calendars = this.settings.useCalendarFilter ? this.getCheckedCalendars(true) : ''
+      let calendars = this.isUseCalendarFilter() ? this.getCheckedCalendars(true) : ''
       if (calendars.length === 0) {
         calendars = $('#' + this.currentData.place).data('calendars')
       }
@@ -719,9 +723,9 @@
     },
 
     buildCalendarFilter: function () {
-      if (!this.settings.useCalendarFilter) return
       let self = this
       self.calendarFilterContainer.html('')
+      if (!self.isUseCalendarFilter()) return
       let calendars = $('#' + this.currentData.place).data('calendars').split(',')
       let currentFilters = self.currentData.calendarFilter || []
 
@@ -802,7 +806,7 @@
     unfreezeAppointmentSelection: function () {
       let self = this
       this.stepContainer('datetime').find('.appointment-select').removeClass('freeze')
-      if (this.settings.useCalendarFilter) {
+      if (this.isUseCalendarFilter()) {
         this.calendarFilterContainer.find('.calendar-filter').each(function () {
           self.renderCalendarLabel($(this).find('input').val(), $(this).find('label'))
         })

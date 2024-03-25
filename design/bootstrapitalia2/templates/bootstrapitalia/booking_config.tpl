@@ -147,6 +147,17 @@
     <div class="col-12" data-id="{{:metadata.id}}">
       {{include tmpl="#tpl-calendar-select"/}}
     </div>
+    <div class="col-12">
+      <div class="form-check form-check-group pb-0 my-0 border-0" style="box-shadow:none">
+          <div class="toggles">
+              <label for="EnableFilters-{{:metadata.id}}" class="mb-0 font-weight-normal">
+                  Abilita il filtro sui calendari nel widget
+                  <input type="checkbox" name="EnableFilters" id="EnableFilters-{{:metadata.id}}" value="1" {{if enable_filter}}checked = "checked"{{/if}}>
+                  <span class="lever"></span>
+              </label>
+          </div>
+      </div>
+    </div>
     <div class="col-12" data-timetable="{{:metadata.id}}"></div>
 </li>
 {{else}}
@@ -244,16 +255,17 @@
         },
         onRender: function (){
           let selectCalendar = this.container.find('select')
-          selectCalendar.chosen().on('change', function(){
-            let calendars = $(this).val()
-            let placeId = $(this).parent().data('id')
+          let update = function (select, toggle) {
+            let calendars = select.val()
+            let placeId = select.parent().data('id')
             let postData = {
               office: $('#office-list .nav-link.active').data('id'),
               service: $('#service-list .nav-link.active').data('id'),
               place: placeId,
-              calendars: calendars
+              calendars: calendars,
+              enable_filters: toggle.is(':checked') ? 1 : 0
             }
-            let spinner = $(this).parents('.row').find('.fa-spin[data-id="'+postData.place+'"]').show()
+            let spinner = select.parents('.row').find('.fa-spin[data-id="'+postData.place+'"]').show()
             var csrfToken
             var tokenNode = document.getElementById('ezxform_token_js')
             if (tokenNode) {
@@ -273,10 +285,17 @@
                 spinner.hide()
               }
             })
+          }
+          selectCalendar.chosen().on('change', function(){
+            update($(this), $(this).parents('li').find('[name="EnableFilters"]'))
           })
           selectCalendar.each(function (){
             let calendars = $(this).val()
             loadTimeTable(calendars, $(this).parent().data('id'))
+          })
+
+          this.container.find('[name="EnableFilters"]').on('change', function (e) {
+            update($(this).parents('li').find('select'), $(this))
           })
         },
         decorate: function (item) {
@@ -289,11 +308,12 @@
             item.calendars = []
             $.each(Calendars, function () {
               let i = $.extend({}, this)
-              if ($.inArray(i.id, response) > -1) {
+              if ($.inArray(i.id, response.calendars) > -1) {
                 i.selected = true
               }
               item.calendars.push(i)
             })
+            item.enable_filter = response.enable_filter
           })
           $.ajaxSetup({async: true})
         },

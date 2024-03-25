@@ -40,6 +40,7 @@
                                                         <div class="form-check m-0">
                                                             <input class="radio-input" name="place" type="radio"
                                                                    id="place-{$office.id|wash()}-{$place.id|wash()}"
+                                                                   data-with_filters="{$place.enable_filter|wash()}"
                                                                    data-calendars="{$place.calendars|implode(',')}">
                                                             <label for="place-{$office.id|wash()}-{$place.id|wash()}">
                                                                 <h3 class="big-title" data-title>{$place.name|wash()}</h3>

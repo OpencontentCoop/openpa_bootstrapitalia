@@ -1754,6 +1754,10 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Termine möglich</translation>
     </message>
     <message>
+      <source>Select a month</source>
+      <translation>Wählen Sie einen Monat</translation>
+    </message>
+    <message>
       <source>Select a day</source>
       <translation>Wählen Sie einen Tag aus</translation>
     </message>
@@ -1888,13 +1892,6 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>Place</source>
       <translation>Ort</translation>
-    </message>
-  </context>
-  <context>
-    <name></name>
-    <message>
-      <source>Select a month</source>
-      <translation>Wählen Sie einen Monat</translation>
     </message>
   </context>
 </TS>

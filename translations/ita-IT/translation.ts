@@ -1754,6 +1754,10 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Appuntamenti disponibili</translation>
     </message>
     <message>
+      <source>Select a month</source>
+      <translation>Seleziona un mese</translation>
+    </message>
+    <message>
       <source>Select a day</source>
       <translation>Seleziona un giorno</translation>
     </message>
@@ -1888,13 +1892,6 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Place</source>
       <translation>Luogo</translation>
-    </message>
-  </context>
-  <context>
-    <name></name>
-    <message>
-      <source>Select a month</source>
-      <translation>Seleziona un mese</translation>
     </message>
   </context>
 </TS>

@@ -57,8 +57,6 @@ if (StanzaDelCittadinoBooking::factory()->isEnabled()) {
     $tpl->setVariable('months', $months);
     $tpl->setVariable('offices', $offices);
     $tpl->setVariable('steps', StanzaDelCittadinoBooking::factory()->getSteps());
-    $useCalendarFilter = StanzaDelCittadinoBooking::factory()->useCalendarFilter();
-    $tpl->setVariable('use_calendar_filter', $useCalendarFilter ? 'true': 'false');
     $tpl->setVariable('show_debug', eZINI::instance()->variable('DebugSettings', 'DebugOutput') == 'enabled' ? 'true' : 'false');
 
     $Result['content_info']['persistent_variable']['show_path'] = false;

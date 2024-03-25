@@ -58,8 +58,7 @@
       profileUrl: "{$pal|user_profile_url()}",
       prefix: UriPrefix,
       hasSession: {cond($has_session, 'true', 'false')},
-      debug: {$show_debug},
-      useCalendarFilter: {$use_calendar_filter}
+      debug: {$show_debug}
     {rdelim})
   {rdelim})
 </script>

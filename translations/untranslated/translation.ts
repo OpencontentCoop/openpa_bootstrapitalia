@@ -1750,6 +1750,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Select a month</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Select a day</source>
       <translation type="unfinished"/>
     </message>
@@ -1883,13 +1887,6 @@
     </message>
     <message>
       <source>Place</source>
-      <translation type="unfinished"/>
-    </message>
-  </context>
-  <context>
-    <name></name>
-    <message>
-      <source>Select a month</source>
       <translation type="unfinished"/>
     </message>
   </context>

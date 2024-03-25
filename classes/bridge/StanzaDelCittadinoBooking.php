@@ -28,6 +28,7 @@ class StanzaDelCittadinoBooking
 
     public function setEnabled(bool $enable)
     {
+        self::initDb();
         $this->setStorage(self::ENABLE_CACHE_KEY, (int)$enable);
     }
 
@@ -43,6 +44,7 @@ CREATE TABLE ocbookingconfig (
   office_id INTEGER NOT NULL,
   service_id INTEGER NOT NULL,
   place_id INTEGER NOT NULL,
+  enable_filter INTEGER DEFAULT 0,
   calendars JSON 
 );
 ALTER TABLE ONLY ocbookingconfig ADD CONSTRAINT ocbookingconfig_pkey PRIMARY KEY (office_id,service_id,place_id);
@@ -51,17 +53,23 @@ CREATE INDEX ocbookingconfig_service ON ocbookingconfig USING btree (service_id)
 CREATE INDEX ocbookingconfig_place ON ocbookingconfig USING btree (place_id);
 EOT;
             $db->query($tableCreateSql);
+        } else {
+            $columnsQuery = "SELECT column_name FROM information_schema.columns WHERE table_schema = 'public' AND table_name   = 'ocbookingconfig';";
+            $columns = array_column($db->arrayQuery($columnsQuery), 'column_name');
+            if (!in_array('enable_filter', $columns)) {
+                $appendColumnQuery = "ALTER TABLE ocbookingconfig ADD COLUMN enable_filter INTEGER DEFAULT 0";
+                $db->query($appendColumnQuery);
+            }
         }
     }
 
-    public function storeConfig(int $office, int $service, int $place, array $calendars): bool
+    public function storeConfig(int $office, int $service, int $place, array $calendars, int $enable_filters = 0): bool
     {
-        self::initDb();
         $capabilities = eZUser::currentUser()->hasAccessTo('bootstrapitalia', 'booking_config');
         if ($capabilities['accessWord'] === 'yes') {
             if (count($calendars)) {
                 $calendarsString = json_encode($calendars);
-                $query = "INSERT INTO ocbookingconfig (office_id,service_id,place_id,calendars) VALUES ($office,$service,$place,'$calendarsString') ON CONFLICT (office_id,service_id,place_id) DO UPDATE SET calendars = EXCLUDED.calendars";
+                $query = "INSERT INTO ocbookingconfig (office_id,service_id,place_id,enable_filter,calendars) VALUES ($office,$service,$place,$enable_filters,'$calendarsString') ON CONFLICT (office_id,service_id,place_id) DO UPDATE SET calendars = EXCLUDED.calendars, enable_filter = EXCLUDED.enable_filter";
             } else {
                 $query = "DELETE FROM ocbookingconfig WHERE office_id = $office AND service_id = $service AND place_id = $place";
             }
@@ -88,13 +96,16 @@ EOT;
 
     public function getCalendars(int $service, int $office, int $place): array
     {
-        $query = "SELECT calendars FROM ocbookingconfig WHERE service_id = $service AND office_id = $office AND place_id = $place";
+        $query = "SELECT enable_filter, calendars FROM ocbookingconfig WHERE service_id = $service AND office_id = $office AND place_id = $place";
         $rows = eZDB::instance()->arrayQuery($query);
         $calendars = [];
         foreach ($rows as $row) {
             $calendars = array_merge($calendars, json_decode($row['calendars'], true));
         }
-        return array_unique($calendars);
+        return [
+            'enable_filter' => (bool)$rows[0]['enable_filter'],
+            'calendars' => array_unique($calendars),
+        ];
     }
 
     public function isServiceRegistered(int $service): bool
@@ -107,7 +118,7 @@ EOT;
 
     public function getOffices(int $service): array
     {
-        $query = "SELECT office_id, json_agg(json_build_object('place', place_id, 'calendars', calendars)) as data FROM ocbookingconfig WHERE service_id = $service GROUP BY office_id";
+        $query = "SELECT office_id, json_agg(json_build_object('place', place_id, 'calendars', calendars, 'enable_filter', enable_filter)) as data FROM ocbookingconfig WHERE service_id = $service GROUP BY office_id";
         $rows = eZDB::instance()->arrayQuery($query);
         $offices = [];
         foreach ($rows as $row) {
@@ -141,6 +152,7 @@ EOT;
                                     'longitude' => '',
                                 ],
                                 'calendars' => $datum['calendars'],
+                                'enable_filter' => $datum['enable_filter'],
                             ];
                             if (isset($dataMap['has_address'])) {
                                 /** @var eZGmapLocation $address */
@@ -171,7 +183,7 @@ EOT;
 
     public function getConfigs(): array
     {
-        return eZDB::instance()->arrayQuery("SELECT calendars FROM ocbookingconfig");
+        return eZDB::instance()->arrayQuery("SELECT * FROM ocbookingconfig");
     }
 
     /**
@@ -475,16 +487,6 @@ EOT;
                 'required' => [],
             ],
         ];
-    }
-
-    public function useCalendarFilter(): bool
-    {
-        return (bool)$this->getStorage(self::CALENDAR_FILTER_CACHE_KEY);
-    }
-
-    public function setUseCalendarFilter($enable)
-    {
-        $this->setStorage(self::CALENDAR_FILTER_CACHE_KEY, (int)$enable);
     }
 
     public function isStoreMeetingAsApplication(): bool
