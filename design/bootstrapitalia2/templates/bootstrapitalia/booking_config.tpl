@@ -148,6 +148,15 @@
       {{include tmpl="#tpl-calendar-select"/}}
     </div>
     <div class="col-12" data-timetable="{{:metadata.id}}"></div>
+    <div class="form-check form-check-group pb-0 my-0 border-0" style="box-shadow:none">
+        <div class="toggles">
+            <label for="EnableFilters" class="mb-0 font-weight-normal">
+                Abilita il filtro sui calendari nel widget
+                <input type="checkbox" id="EnableFilters" value="1">
+                <span class="lever"></span>
+            </label>
+        </div>
+    </div>
 </li>
 {{else}}
     <li class="ps-0"><em>Nessun luogo collegato</em></li>

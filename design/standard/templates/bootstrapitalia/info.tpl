@@ -328,16 +328,6 @@
                             </label>
                         </div>
                         <div class="form-group form-check m-0 ps-1 bg-white">
-                            <input id="StanzaDelCittadinoBookingUseCalendarFilter"
-                                   class="form-check-input"
-                                   type="checkbox"
-                                   name="StanzaDelCittadinoBookingUseCalendarFilter" {$stanzadelcittadino_booking_use_calendar_filter|choose( '', 'checked="checked"' )}
-                                   value="" />
-                            <label class="form-check-label mb-0" for="StanzaDelCittadinoBookingUseCalendarFilter">
-                                Abilita nel widget la possibilità di filtrare le disponibilità per calendario
-                            </label>
-                        </div>
-                        <div class="form-group form-check m-0 ps-1 bg-white">
                             <input id="StanzaDelCittadinoBookingStoreAsApplication"
                                    class="form-check-input"
                                    type="checkbox"

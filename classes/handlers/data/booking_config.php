@@ -24,7 +24,8 @@ class DataHandlerBookingConfig implements OpenPADataHandlerInterface
                 (int)$http->postVariable('office'),
                 (int)$http->postVariable('service'),
                 (int)$http->postVariable('place'),
-                $http->hasPostVariable('calendars') ? (array)$http->postVariable('calendars') : []
+                $http->hasPostVariable('calendars') ? (array)$http->postVariable('calendars') : [],
+                (int)$http->postVariable('enable_filters')
             );
         }
 
