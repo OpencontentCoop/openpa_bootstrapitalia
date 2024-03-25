@@ -176,7 +176,7 @@
             let roles = self.parseToken(data.token).roles || []
             if (
               $.inArray('ROLE_SUPER_ADMIN', roles) > -1
-              || $.inArray('ROLE_OPERATOR', roles) > -1
+              || $.inArray('ROLE_ADMIN', roles) > -1
               || $.inArray('ROLE_OPERATORE_ADMIN', roles) > -1
               || $.inArray('ROLE_OPERATOR', roles) > -1
             ) {
