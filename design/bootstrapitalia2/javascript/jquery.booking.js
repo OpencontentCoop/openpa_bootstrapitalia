@@ -166,49 +166,72 @@
       self.setCurrentData(JSON.parse(data))
 
       if (self.settings.profileUrl && self.settings.tokenUrl) {
-        self.debug('init', 'get auth token')
         $.ajax({
           url: self.settings.tokenUrl,
           dataType: 'json',
           xhrFields: {withCredentials: true},
 
           success: function (data) {
-            self.restoreDraftIfNeeded(data.token, function () {
-              self.getUserProfile(data.token, function (user) {
-                self.load(user)
-              })
-            })
+            self.debug('init', 'get auth token')
+            let roles = self.parseToken(data.token).roles || []
+            if (
+              $.inArray('ROLE_SUPER_ADMIN', roles) > -1
+              || $.inArray('ROLE_OPERATOR', roles) > -1
+              || $.inArray('ROLE_OPERATORE_ADMIN', roles) > -1
+              || $.inArray('ROLE_OPERATOR', roles) > -1
+            ) {
+              self.loadWithoutUserToken()
+            } else {
+              self.loadWithUserToken(data.token)
+            }
           },
 
           error: function () {
             self.spidAccess.removeClass('d-none')
-
             if (self.settings.debugUserToken) {
               self.info('init', 'set debug token')
-              self.restoreDraftIfNeeded(self.settings.debugUserToken, function () {
-                self.getUserProfile(self.settings.debugUserToken, function (user) {
-                  self.load(user)
-                })
-              })
+              self.loadWithUserToken(self.settings.debugUserToken)
 
             } else if (self.settings.hasSession) {
               self.info('init', 'use current session')
               self.load()
 
             } else {
-
               self.debug('init', 'get anonym token')
-              self.getAnonymousToken(function (token) {
-                self.restoreDraftIfNeeded(token, function () {
-                  self.load()
-                })
-              })
+              self.loadWithoutUserToken()
             }
           }
         })
       } else {
         self.displayError('profile or token url not found')
       }
+    },
+
+    loadWithoutUserToken: function () {
+      let self = this
+      self.getAnonymousToken(function (token) {
+        self.restoreDraftIfNeeded(token, function () {
+          self.load()
+        })
+      })
+    },
+
+    loadWithUserToken: function (token) {
+      let self = this
+      self.restoreDraftIfNeeded(token, function () {
+        self.getUserProfile(token, function (user) {
+          self.load(user)
+        })
+      })
+    },
+
+    parseToken: function (token) {
+      let base64Url = token.split('.')[1]
+      let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+      let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      }).join(''))
+      return JSON.parse(jsonPayload)
     },
 
     restoreDraftIfNeeded: function (currentToken, callback, context) {
@@ -256,16 +279,7 @@
     getUserProfile: function (token, callback, context) {
       let self = this
       if (self.settings.profileUrl) {
-        function parseJwt(token) {
-          let base64Url = token.split('.')[1]
-          let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-          let jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-          }).join(''))
-          return JSON.parse(jsonPayload)
-        }
-
-        let tokenData = parseJwt(token)
+        let tokenData = self.parseToken(token)
         $.ajax({
           url: self.settings.profileUrl + '/' + tokenData.id,
           dataType: 'json',
@@ -701,7 +715,7 @@
       }
     },
 
-    isUseCalendarFilter: function (){
+    isUseCalendarFilter: function () {
       let self = this
       return $('#' + self.currentData.place).data('with_filters') === 1;
     },
@@ -1233,9 +1247,9 @@
       let hasValues = this.currentData.meeting?.id && this.currentData.openingHour && this.currentData.day
       if (hasValues) {
         let exp = this.currentData.meeting.expiration_time || this.currentData.meeting.draft_expiration || null
-        if (!exp){
+        if (!exp) {
           let updatedAt = this.currentData.meeting.updated_at || null
-          if (updatedAt){
+          if (updatedAt) {
             exp = new Date(updatedAt)
             exp.setMinutes(exp.getMinutes() + 10);
           }
