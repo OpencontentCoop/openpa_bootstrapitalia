@@ -1207,13 +1207,13 @@
       stepContainer.find('[data-officeTitle]').html(this.officeSelect.find('option[value="' + this.currentData.office + '"]').text())
       stepContainer.find('[data-openinghourDay]').html(this.daySelect.find('option[value="' + this.currentData.day + '"]').text())
       stepContainer.find('[data-openinghourHour]').html(this.openingHoursSelect.find('option[value="' + this.currentData.openingHour + '"]').text())
-      stepContainer.find('[data-subjectText]').html(this.subjectInput.val())
-      stepContainer.find('[data-detailsText]').html(this.detailInput.val())
-      stepContainer.find('[data-applicantName]').html(this.nameInput.val())
-      stepContainer.find('[data-applicantSurname]').html(this.surnameInput.val())
-      stepContainer.find('[data-applicantFiscalCode]').html(this.fiscalcodeInput.val())
-      stepContainer.find('[data-applicantEmail]').html(this.emailInput.val())
-      stepContainer.find('[data-applicantPhone]').html(this.phoneInput.val())
+      stepContainer.find('[data-subjectText]').html(this.currentData.subject)
+      stepContainer.find('[data-detailsText]').html(this.currentData.detail)
+      stepContainer.find('[data-applicantName]').html(this.currentData.applicantName)
+      stepContainer.find('[data-applicantSurname]').html(this.currentData.applicantSurname)
+      stepContainer.find('[data-applicantFiscalCode]').html(this.currentData.applicantFiscalCode)
+      stepContainer.find('[data-applicantEmail]').html(this.currentData.applicantEmail)
+      stepContainer.find('[data-applicantPhone]').html(this.currentData.applicantPhone)
       this.summary = {
         officeTitle: stepContainer.find('[data-officeTitle]').text(),
         openinghourDay: stepContainer.find('[data-openinghourDay]').text(),
