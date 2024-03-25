@@ -74,7 +74,8 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                 if ($this->api === 'geo') {
                     $field = 'raw[meta_name_t]';
                     $strings = explode(' ', $encodedString);
-                    $query = $field . ' contains [\'"' . implode('"\',\'"', $strings) . '"\'] and ' . $baseQuery;
+                    $conditions = '[\'"' . implode('"\',\'"', $strings) . '"\']';
+                    $query = '(raw[meta_name_t] contains ' . $conditions . ' or raw[attr_alternative_name_t] contains ' . $conditions . ') and ' . $baseQuery;
                 } else {
                     $query = 'q = \'' . $encodedString . '\' and ' . $baseQuery;
                 }
