@@ -6,7 +6,7 @@
         <div class="img-responsive-wrapper">
             <div class="img-responsive">
                 <div class="img-wrapper bg-100">
-                    {attribute_view_gui image_class=medium attribute=$attribute}
+                    {attribute_view_gui image_class=medium attribute=$attribute inline_style="object-fit: none;"}
                 </div>
             </div>
         </div>

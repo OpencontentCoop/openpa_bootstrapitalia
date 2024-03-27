@@ -45,7 +45,7 @@
     </div>
     {if and($attributes.show|contains('image'), $node|has_attribute('image'))}
         <div class="avatar size-xl">
-            {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
+            {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class context='card_teaser'}
         </div>
     {/if}
 </div>

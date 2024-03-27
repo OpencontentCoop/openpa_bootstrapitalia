@@ -202,8 +202,10 @@ InstallerDirectory=./extension/openpa_bootstrapitalia/data/installer
 LazyLoadImages=disabled
 FlyImgBaseUrl=
 BackendBaseUrl=
+BackendBaseScheme=
 #FlyImgBaseUrl=http://flyimg.localtest.me/upload/
 #BackendBaseUrl=minio:9000
+#BackendBaseScheme=http
 FlyImgDefaultFilter=o_auto
 UseSizeAndSrcSet=disabled
 

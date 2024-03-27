@@ -60,11 +60,7 @@ class OpenPABootstrapItaliaOperators
             'decode_banner_color',
             'preload_script',
             'preload_css',
-            'node_image',
             'preload_image',
-            'image_src',
-            'image_url',
-            'image_url_list',
             'current_user_can_lock_edit',
             'parse_documento_trasparenza_info',
             'node_id_from_object_remote_id',
@@ -85,6 +81,12 @@ class OpenPABootstrapItaliaOperators
             'topic_has_contents',
             'custom_booking_is_enabled',
             'has_custom_booking_url',
+            'node_image',
+            'image_src',
+            'image_url',
+            'image_url_list',
+            'render_image',
+            'image_class_and_style',
         );
     }
 
@@ -163,18 +165,6 @@ class OpenPABootstrapItaliaOperators
             'preload_css' => array(
                 'css_tag' => array('type' => 'string', 'required' => true, 'default' => ''),
             ),
-            'node_image' => array(
-                'node' => array('type' => 'object', 'required' => true),
-                'alias' => array('type' => 'string', 'required' => false, 'default' => 'reference'),
-            ),
-            'image_src' => $imgSrc = array(
-                'url' => array('type' => 'string', 'required' => true, 'default' => false),
-                'alias' => array('type' => 'string', 'required' => false, 'default' => 'reference'),
-                'preload' => array('type' => 'boolean', 'required' => false, 'default' => false),
-                'lazy' => array('type' => 'boolean', 'required' => false, 'default' => true),
-            ),
-            'image_url' => $imgSrc,
-            'image_url_list' => $imgSrc,
             'current_user_can_lock_edit' =>  array(
                 'object' => array('type' => 'object', 'required' => false, 'default' => false),
             ),
@@ -201,6 +191,27 @@ class OpenPABootstrapItaliaOperators
             'has_custom_booking_url' =>  array(
                 'channel_url' => array('type' => 'object', 'required' => true),
                 'service' => array('type' => 'object', 'required' => true),
+            ),
+            'node_image' => array(
+                'node' => array('type' => 'object', 'required' => true),
+                'alias' => array('type' => 'string', 'required' => false, 'default' => 'reference'),
+            ),
+            'image_src' => $imgSrc = array(
+                'url' => array('type' => 'string', 'required' => true, 'default' => false),
+                'alias' => array('type' => 'string', 'required' => false, 'default' => 'reference'),
+                'preload' => array('type' => 'boolean', 'required' => false, 'default' => false),
+                'lazy' => array('type' => 'boolean', 'required' => false, 'default' => true),
+            ),
+            'image_url' => $imgSrc,
+            'image_url_list' => $imgSrc,
+            'render_image' => array(
+                'url' => array('type' => 'string', 'required' => true, 'default' => false),
+                'parameters' => array('type' => 'array', 'required' => false, 'default' => []),
+            ),
+            'image_class_and_style' => array(
+                'width' => array('type' => 'integer', 'required' => true, 'default' => 0),
+                'height' => array('type' =>  'integer', 'required' => true, 'default' => 0),
+                'context' => array('type' =>  'string', 'required' => false, 'default' => 'main'),
             ),
         );
     }
@@ -377,27 +388,6 @@ class OpenPABootstrapItaliaOperators
                     ezjscPackerTemplateFunctions::setPersistentArray('preload_images', $operatorValue, $tpl, true);
                 }
                 break;
-
-            case 'node_image':
-                $node = $namedParameters['node'];
-                $operatorValue = false;
-                if ($node instanceof eZContentObjectTreeNode){
-                    if (isset(self::$imageUrlList[$node->attribute('contentobject_id')])){
-                        $image = self::$imageUrlList[$node->attribute('contentobject_id')];
-                    }else{
-                        $image = self::getNodeMainImage($node);
-                        self::$imageUrlList[$node->attribute('contentobject_id')] = $image;
-                    }
-                    if ($image instanceof eZImageAliasHandler){
-                        $operatorValue = $image->attribute($namedParameters['alias'] ?? 'reference');
-                    }else{
-                        eZDebug::writeError('Image not found for node ' . $node->attribute('name'), 'node_image');
-                    }
-                }else{
-                    eZDebug::writeError('Node not found', 'node_image');
-                }
-                break;
-
             case 'preload_css':
                 $operatorValue = '';
                 $tag = $namedParameters['css_tag'];
@@ -733,11 +723,31 @@ class OpenPABootstrapItaliaOperators
                 $operatorValue = $decodeData['_uri_suffix'];
                 break;
 
+            case 'node_image':
+                $node = $namedParameters['node'];
+                $operatorValue = false;
+                if ($node instanceof eZContentObjectTreeNode){
+                    if (isset(self::$imageUrlList[$node->attribute('contentobject_id')])){
+                        $image = self::$imageUrlList[$node->attribute('contentobject_id')];
+                    }else{
+                        $image = self::getNodeMainImage($node);
+                        self::$imageUrlList[$node->attribute('contentobject_id')] = $image;
+                    }
+                    if ($image instanceof eZImageAliasHandler){
+                        $operatorValue = $image;
+                    }else{
+                        eZDebug::writeError('Image not found for node ' . $node->attribute('name'), 'node_image');
+                    }
+                }else{
+                    eZDebug::writeError('Node not found', 'node_image');
+                }
+                break;
+
             case 'image_url':
             case 'image_src':
             case 'image_url_list':
+                /** @depracated  */
                 $operatorValue = false;
-
                 $url = $namedParameters['url'] ?? false;
                 $alias = $namedParameters['alias'] ?? false;
                 $preload = $namedParameters['preload'] ?? false;
@@ -769,8 +779,18 @@ class OpenPABootstrapItaliaOperators
                             $operatorValue = 'src="' . $urlList['default'] . '" srcset="' . $urlList['data-srcset'] . '" sizes="' . $urlList['sizes'] . '" ';
                         }
                     }
-//                    eZDebug::writeDebug(var_export($urlList, true), $url);
                 }
+                break;
+
+            case 'render_image':
+                $operatorValue = BootstrapItaliaImage::instance($tpl)->process($namedParameters['url'], (array)$namedParameters['parameters']);
+                break;
+
+            case 'image_class_and_style':
+                $width = (int)$namedParameters['width'];
+                $height = (int)$namedParameters['height'];
+                $context = $namedParameters['context'] ?? 'main';
+                $operatorValue = BootstrapItaliaImage::instance($tpl)->getCssClassAndStyle($width, $height, $context);
                 break;
         }
     }
@@ -837,11 +857,19 @@ class OpenPABootstrapItaliaOperators
             if (OpenPAINI::variable('ImageSettings', 'BackendBaseUrl', '') !== '') {
                 $replaceBaseUrl = OpenPAINI::variable('ImageSettings', 'BackendBaseUrl', '');
                 $urlBase = parse_url($url, PHP_URL_HOST);
+                $urlScheme = parse_url($url, PHP_URL_SCHEME);
+                if (OpenPAINI::variable('ImageSettings', 'BackendBaseScheme', '') !== '') {
+                    $backendBaseScheme = OpenPAINI::variable('ImageSettings', 'BackendBaseScheme');
+                    if ($urlScheme !== $backendBaseScheme){
+                        $url = str_replace($urlScheme, $backendBaseScheme, $url);
+                    }
+                }
                 $url = str_replace($urlBase, $replaceBaseUrl, $url);
             }
 
             $baseUrl = rtrim(OpenPAINI::variable('ImageSettings', 'FlyImgBaseUrl'), '/') . '/';
             $filter = OpenPAINI::variable('ImageSettings', 'FlyImgDefaultFilter') . '/';
+            $url = urlencode($url);
 
             if (OpenPAINI::variable('ImageSettings', 'UseSizeAndSrcSet', 'enabled') == 'enabled') {
                 $urlList['default'] = $baseUrl . $filter . $url;
