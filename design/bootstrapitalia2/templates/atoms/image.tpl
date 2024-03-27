@@ -4,6 +4,7 @@
     'image_class', 'reference',
     'fluid', true(),
     'image_css_class', 'figure-img img-fluid',
+    'inline_style', '',
     'is_main_image', false()
 ))}
 
@@ -26,18 +27,18 @@
                 {def $image = $node|attribute($identifier)}
 
                 {if $figure_wrapper}
-                    <figure class="figure px-0 img-full d-block" xmlns="http://www.w3.org/1999/html">
+                    <figure class="figure px-0 img-full d-block text-center" xmlns="http://www.w3.org/1999/html">
                 {/if}
 
                 {if $is_main_image}
-                    {if or( $image.content.original.width|lt(1440), div($image.content.original.width, $image.content.original.height)|lt(0.7))}
-                        {set $image_css_class = concat($image_css_class, ' of-contain')}
-                    {/if}
+                    {set $image_css_class = concat($image_css_class, ' ', image_class_and_style($image.content.original.width, $image.content.original.height).css_class)}
+                    {set $inline_style = concat($inline_style, ' ', image_class_and_style($image.content.original.width, $image.content.original.height).inline_style)}
                 {/if}
 
                     {attribute_view_gui attribute=$image
                                         image_class='reference'
                                         image_css_class=$image_css_class
+                                        inline_style=$inline_style
                                         fluid=$fluid}
 
                 {if $figure_wrapper}

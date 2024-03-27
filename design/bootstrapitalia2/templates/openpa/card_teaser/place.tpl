@@ -35,7 +35,7 @@
 
     {if $has_image}
         <div class="card-image card-image-rounded pb-5" style="width: 130px;">
-            {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
+            {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class context='card_teaser'}
         </div>
     </div>
     {/if}

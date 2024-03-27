@@ -8,7 +8,7 @@
     <div class="splide__track">
         <ul class="splide__list">
             {foreach $items as $item}
-                {def $caption = $item.name}
+                {def $caption = $item.name|clean_filename()}
                 {if $item|attribute( 'image' ).content.alternative_text}
                     {set $caption = $item|attribute( 'image' ).content.alternative_text}
                 {elseif $item|has_attribute( 'caption' )}
@@ -27,8 +27,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <p class="h5 fw-normal card-title mb-0">{$caption}</p>
+                                <div class="card-body py-1">
+                                    <p class="figure-caption text-center mb-0">{$caption}</p>
                                 </div>
                             </a>
                         </div>

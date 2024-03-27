@@ -5,7 +5,11 @@
             <div class="img-responsive">
                 <div class="img-wrapper">
                     {if $node|has_attribute('image')}
-                        {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
+                        {def $image = $node|attribute('image')}
+                        {attribute_view_gui attribute=$image
+                                            image_css_class=concat($image_css_class, " ", image_class_and_style($image.content.original.width, $image.content.original.height, 'card').css_class)
+                                            inline_style= image_class_and_style($image.content.original.width, $image.content.original.height, 'card').inline_style}
+                        {undef $image}
                     {else}
                         <div class="bg-dark" style="width:{rand(300,400)}px;height:{rand(300,400)}px"></div>
                     {/if}

@@ -23,7 +23,7 @@
 
 {if or($showGrid, $showMap)}
 <div class="py-5 position-relative">
-    <div class="block-topics-bg lazyload" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}{/if}></div>
+    <div class="block-topics-bg" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}{/if}></div>
     <div class="container">
         <div class="row" id="remote-gui-{$block.id}">
             <div class="col-12 col-md-9">

@@ -7,7 +7,7 @@
     {undef $image}
 {/if}
 <div class="section section-muted p-0 py-5 useful-links-section position-relative">
-    <div class="block-bg bg-secondary h-100 lazyload" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image options="background-position: center"}{/if}></div>
+    <div class="block-bg bg-secondary h-100" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image options="background-position: center"}{/if}></div>
     <div class="container{if and(count($block.valid_nodes)|eq(0), $background_image)} py-5{/if}">
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-lg-6">

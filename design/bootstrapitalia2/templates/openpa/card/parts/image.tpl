@@ -24,7 +24,14 @@
                 <img class="rounded-top img-fluid img-responsive" src="{$oembed.thumbnail_url}" alt="{$oembed.title|wash()}" />
             {/if}
         {elseif $node|has_attribute('image')}
-            {attribute_view_gui image_css_class="rounded-top img-fluid img-responsive" attribute=$node|attribute('image') image_class=$image_class alt_text=$node.name}
+            {def $image = $node|attribute('image')}
+            {attribute_view_gui image_css_class=concat("rounded-top img-fluid img-responsive ", image_class_and_style($image.content.original.width, $image.content.original.height, 'card').css_class)
+                                inline_style= image_class_and_style($image.content.original.width, $image.content.original.height, 'card').inline_style
+                                attribute=$image
+                                image_class=$image_class
+                                context='card'
+                                alt_text=$node.name}
+            {undef $image}
         {/if}
 
     </div>
