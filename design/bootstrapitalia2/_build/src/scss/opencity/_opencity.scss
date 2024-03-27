@@ -529,3 +529,14 @@ ul.link-list,
     display: none;
   }
 }
+
+.it-header-slim-wrapper {
+  &.theme-light {
+    .dropdown-toggle .icon{
+      fill: $header-slim-theme-light-text-color;
+    }
+    .dropdown-toggle span {
+      color: $header-slim-theme-light-text-color;
+    }
+  }
+}
