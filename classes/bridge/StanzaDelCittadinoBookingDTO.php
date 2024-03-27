@@ -468,8 +468,8 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'phone_number' => $this->getPhoneNumber(),
             'from_time' => DateTime::createFromFormat('Y-m-d H:i', $this->getDate() . ' ' . $this->getFromTime())->format('c'),
             'to_time' => DateTime::createFromFormat('Y-m-d H:i', $this->getDate() . ' ' . $this->getToTime())->format('c'),
-            'user_message' => $this->getReason() . ' ' . $this->getUserMessage(),
-            //'reason' => $this->getReason(),
+            'user_message' => $this->getUserMessage(),
+            'reason' => $this->getReason(),
             'status' => $withStatus,
             'location' => $this->getPlace(),
         ];
