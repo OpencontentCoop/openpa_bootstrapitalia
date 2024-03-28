@@ -48,7 +48,7 @@ class BootstrapItaliaImage
 
     public function process($url, array $parameters): array
     {
-        eZDebug::writeDebug(var_export($parameters, true), __METHOD__);
+//        eZDebug::writeDebug(var_export($parameters, true), __METHOD__);
         $defaultAlias = 'reference';
         $parameters = array_merge([
             'context' => 'default',
@@ -73,6 +73,11 @@ class BootstrapItaliaImage
             $url = $info['full_path'];
             eZURI::transformURI($url, true, 'full');
         }
+
+        if (strpos($url, 'http') === false){
+            eZURI::transformURI($url, true, 'full');
+        }
+
         $processUrl = $this->prefixUrl($url, $parameters);
         if ($parameters['preload']) {
             ezjscPackerTemplateFunctions::setPersistentArray(
