@@ -113,6 +113,12 @@ $block-calendar-big: 800px;
     }
   }
 
+  .fc-header-toolbar .fc-button-primary {
+    &.fc-prev-button, &.fc-next-button {
+      color: #ffffff;
+    }
+  }
+
   .fc-today-button {
     font-size: 1.1em;
     text-transform: uppercase;
