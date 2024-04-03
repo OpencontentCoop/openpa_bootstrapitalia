@@ -153,6 +153,7 @@ class BootstrapItaliaImage
         $response = [
             'css_class' => '',
             'inline_style' => '',
+            'can_enlarge' => true,
         ];
         switch ($context){
 //            case 'card':
@@ -164,6 +165,8 @@ class BootstrapItaliaImage
                 $response['inline_style'] = 'max-width: 2500px;';
                 if ($height > 0 && ($width < 1440 || $height < 600 || ($width/$height) <= 0.7)){
                     $response['css_class'] = 'of-contain';
+                    $response['can_enlarge'] = false;
+                    $response['inline_style'] .= 'max-height: 600px;';
                 }
                 break;
         }

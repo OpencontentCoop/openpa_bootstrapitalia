@@ -27,7 +27,7 @@
                 {def $image = $node|attribute($identifier)}
 
                 {if $figure_wrapper}
-                    <figure class="figure px-0 img-full d-block text-center" xmlns="http://www.w3.org/1999/html">
+                    <figure class="figure px-0 {if image_class_and_style($image.content.original.width, $image.content.original.height).can_enlarge}img-full {/if}d-block text-center" xmlns="http://www.w3.org/1999/html">
                 {/if}
 
                 {if $is_main_image}

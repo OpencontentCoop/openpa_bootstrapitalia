@@ -83,7 +83,7 @@
 {if $openpa.event_link.image}
 <div class="container-fluid my-3">
     <div class="row">
-        <figure class="figure px-0 img-full d-block text-center" xmlns="http://www.w3.org/1999/html">
+        <figure class="figure px-0{if image_class_and_style($image.content.original.width, $image.content.original.height).can_enlarge}img-full {/if} d-block text-center" xmlns="http://www.w3.org/1999/html">
             <img class="{image_class_and_style($openpa.event_link.image.width, $openpa.event_link.image.height).css_class}"
                  style="{image_class_and_style($openpa.event_link.image.width, $openpa.event_link.image.height).inline_style}"
                  src="{$openpa.event_link.image.url}"
