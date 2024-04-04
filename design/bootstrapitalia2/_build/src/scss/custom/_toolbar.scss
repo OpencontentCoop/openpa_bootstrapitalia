@@ -57,7 +57,7 @@
         &:after {
           right: -10px;
           top: 13px;
-          font-size: 0.39rem;
+          font-size: 0.25rem;
         }
       }
       .dropdown-menu {
@@ -81,7 +81,7 @@
         &:after {
           right: -9px;
           top: 11px;
-          font-size: 0.33rem;
+          font-size: 0.25rem;
         }
       }
       .dropdown-menu {
@@ -186,7 +186,7 @@
     }
     // icon
     .it-ico {
-      font-size: 1.15rem;
+      font-size: 1.125rem;
       &.it-more-actions {
         &:before {
           top: 25%;
@@ -246,7 +246,7 @@
         min-width: 1px; // fix for IE11
         max-width: 1px;
         height: calc(100% - 16px);
-        background: $gray-border-disabled;
+        background: $gray-border;
       }
     }
   }
@@ -254,9 +254,9 @@
   a,
   .btn-dropdown {
     display: block;
-    color: $neutral-1;
+    color: $color-text-secondary;
     .icon {
-      fill: $neutral-1;
+      fill: $secondary;
     }
     // active
     &.active {
@@ -268,30 +268,30 @@
     // disabled
     &.disabled {
       cursor: not-allowed;
-      color: $neutral-1-a2;
+      color: $gray-disabled;
       .icon {
-        fill: $neutral-1-a2;
+        fill: $gray-disabled;
       }
       &:hover {
         text-decoration: none;
-        color: $neutral-1-a2;
+        color: $gray-disabled;
         .icon {
-          fill: $neutral-1-a2;
+          fill: $gray-disabled;
         }
       }
       &:after {
-        color: $neutral-1-a2;
+        color: $gray-disabled;
         .icon {
-          fill: $neutral-1-a2;
+          fill: $gray-disabled;
         }
       }
     }
     // hover
     &:not(.disabled):hover {
       text-decoration: underline;
-      color: $primary;
+      color: $color-text-primary-hover;
       .icon {
-        fill: $primary;
+        fill: $color-text-primary-hover;
       }
     }
     // hover fix for ie11
@@ -333,7 +333,7 @@
       height: 0;
       border-style: solid;
       border-width: 4px 3px 0 3px;
-      border-color: $neutral-1 transparent transparent transparent;
+      border-color: $secondary transparent transparent transparent;
       position: absolute;
       top: 16px;
       right: 2px;
@@ -381,7 +381,8 @@
     height: 18px;
     padding: 0 4px;
     color: $white;
-    font-size: 0.563rem;
+    font-size: 0.5rem;
+    line-height: 1rem;
     border-radius: 50%;
     font-style: normal;
   }
@@ -389,9 +390,9 @@
   // text label
   .toolbar-label {
     margin-top: 8px;
-    font-size: 0.688rem;
+    font-size: 0.75rem;
+    font-weight: 600;
     line-height: 1;
     display: block;
-    font-weight: 600;
   }
 }

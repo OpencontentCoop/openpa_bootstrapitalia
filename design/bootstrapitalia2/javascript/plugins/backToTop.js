@@ -122,4 +122,3 @@ onDocumentScroll(() => {
 });
 
 export { BackToTop as default };
-//# sourceMappingURL=backToTop.js.map

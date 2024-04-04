@@ -27,10 +27,10 @@
         <li>
             <div class="form-check form-check-group pb-0 my-0 border-0" style="box-shadow:none">
                 <div class="toggles">
-                    <label for="OnlyRequired" class="mb-0 font-weight-normal">
-                        {'Display only required fields'|i18n( 'design/ocbootstrap/content/edit' )}
+                    <label for="OnlyRequired" class="mb-0 font-weight-normal" style="max-width: 100px;">
                         <input type="checkbox" id="OnlyRequired" value="1">
-                        <span class="lever"></span>
+                        <span class="lever" style="float:none;display: inline-block;margin-bottom: 5px;"></span>
+                        <span class="toolbar-label" style="font-size: .65em;">{'Display only required fields'|i18n( 'design/ocbootstrap/content/edit' )}</span>
                     </label>
                 </div>
             </div>
@@ -57,7 +57,11 @@
             </button>
         </li>
 
-        {if $object.status|ne(0)}
+        {def $append_translations = true()}
+        {if and(count($object.languages)|eq(1), is_set($object.languages[$edit_language]))}
+            {set $append_translations = false()}
+        {/if}
+        {if and($append_translations, $object.status|ne(0))}
         <li>
             <div class="input-group">
                 <select name="FromLanguage" class="custom-select" style="max-width: 200px">
@@ -69,7 +73,7 @@
                     {/foreach}
                 </select>
                 <div class="input-group-append">
-                    <button class="btn btn-default" type="submit" name="FromLanguageButton" title="{'Translate'|i18n( 'design/standard/content/edit' )}">
+                    <button class="btn btn-info" type="submit" name="FromLanguageButton" title="{'Translate'|i18n( 'design/standard/content/edit' )}">
                         {'Translate'|i18n( 'design/standard/content/edit' )}
                     </button>
                 </div>

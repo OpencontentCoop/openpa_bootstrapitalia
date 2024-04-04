@@ -84,7 +84,7 @@
 		{if $show_filters}
 			<div class="col-12 col-lg-4 ps-lg-5 order-first order-md-last">
 
-				<div class="accordion">
+				<div class="cmp-accordion accordion">
 					{if $hide_tag_select|not()}
 					<div class="accordion-item bg-none{if $hide_tag_select} d-none{/if}">
 						  <span class="accordion-header" id="collapseTagList-{$block.id}-title">

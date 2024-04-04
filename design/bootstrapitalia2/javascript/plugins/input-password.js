@@ -428,4 +428,3 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_BTN_SHOW_PWD, function 
 });
 
 export { InputPassword as default };
-//# sourceMappingURL=input-password.js.map

@@ -46,8 +46,9 @@
     box-shadow: none;
     transition: 0.2s ease-out;
     font-weight: 700;
-    color: $dark;
+    color: $color-text-base;
     background-color: $white;
+    appearance: auto;
     option {
       font-weight: normal;
     }
@@ -103,7 +104,7 @@
     .bootstrap-select {
       background-color: $input-disabled-bg;
       & > .dropdown-toggle.bs-placeholder {
-        color: $dark;
+        color: $color-text-base;
         opacity: 1;
       }
     }
@@ -493,7 +494,7 @@ fieldset:disabled .bootstrap-select-wrapper {
   }
 
   .bootstrap-select > .dropdown-toggle.bs-placeholder {
-    color: $dark;
+    color: $color-text-base;
   }
 
   button {

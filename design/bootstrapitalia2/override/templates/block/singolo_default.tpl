@@ -34,14 +34,16 @@
         <div class="row">
             <div class="col{if or($has_image, $has_video)}-lg-5 order-2 order-lg-1{/if}">
                 <div class="card mb-5">
-                    <div class="card-body pb-5">
+                    <div class="card-body pb-5 px-0">
                         {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}
                         <h3 class="h4 card-title title-xlarge">
                             <a href="{$openpa.content_link.full_link}" class="text-decoration-none" title="{'Go to page'|i18n('bootstrapitalia')} {$valid_node.name|wash()}">
                                 {$valid_node.name|wash()}
                             </a>
                         </h3>
-                        <div class="mb-4 subtitle-small pt-3 lora">{include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node}</div>
+                        <div class="mb-4 pt-3 lora">
+                            {include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node}
+                        </div>
                         {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false() container_class=''}
                         <a class="read-more mb-3" href="{$openpa.content_link.full_link}#page-content">
                             <span class="text">{if $openpa.content_link.is_node_link}{'Read more'|i18n('bootstrapitalia')}{else}{'Visit'|i18n('bootstrapitalia')}{/if}</span>

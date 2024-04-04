@@ -139,4 +139,3 @@ if (masonries.length > 0) {
 }
 
 export { Masonry as default };
-//# sourceMappingURL=masonry.js.map

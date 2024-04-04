@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div data-faq_list></div>
+    <div data-faq_list class="cmp-accordion faq"></div>
     <div data-faq_pagination></div>
 </div>
 {ezscript_require(array('jquery.faqs.js'))}
@@ -41,8 +41,7 @@
     <script id="tinymce_script_loader" type="text/javascript" src={"javascript/tiny_mce_jquery.js"|ezdesign} charset="utf-8"></script>
     {ezscript( $dependency_js_list )}
     {ezcss_require(array(
-        'alpaca.min.css',
-        'alpaca-custom.css'
+        'alpaca.min.css'
     ))}
     <script>{literal}
     $(document).ready(function(){

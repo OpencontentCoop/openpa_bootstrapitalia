@@ -1,6 +1,4 @@
-// rollup.config.js
-
-import { babel } from '@rollup/plugin-babel'
+import {babel} from '@rollup/plugin-babel'
 import copy from 'rollup-plugin-copy'
 import svgSprite from 'rollup-plugin-svg-sprite-deterministic'
 import scss from 'rollup-plugin-scss'
@@ -9,8 +7,35 @@ import legacy from '@rollup/plugin-legacy'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import injectProcessEnv from 'rollup-plugin-inject-process-env'
 import commonjs from 'rollup-plugin-commonjs'
+import fs from 'fs';
 
-export default [
+const filePath = __dirname + '/dev-mode';
+const outputPrefix = fs.existsSync(filePath) ? 'dev-' : '';
+
+const themes = [
+  'acqua',
+  'acquamarina',
+  'amalfi',
+  'amaranto',
+  'apss',
+  'cagliari',
+  'cenerentola',
+  'default',
+  'elegance',
+  'mare',
+  'mediterraneo',
+  'rustico',
+  'trento',
+  'turquoise',
+  'verdone',
+  'warmred'
+]
+
+const commons = [
+  'common'
+]
+
+let configs = [
   {
     input: 'src/js/bootstrap-italia.entry.js',
     output: {
@@ -27,8 +52,8 @@ export default [
       }),
       copy({
         targets: [
-          { src: 'src/assets', dest: '../images' },
-          { src: 'src/fonts', dest: '..' },
+          {src: 'src/assets', dest: '../images'},
+          {src: 'src/fonts', dest: '..'},
         ],
       }),
       svgSprite({
@@ -37,7 +62,7 @@ export default [
       scss({
         output: '../stylesheets/bootstrap-italia.min.css',
         outputStyle: 'compressed',
-        sourceMap: true,
+        sourceMap: false,
         watch: 'src/scss',
       }),
       nodeResolve(),
@@ -54,108 +79,40 @@ export default [
       {
         format: 'es',
         exports: 'named',
-        sourcemap: true,
+        sourcemap: false,
         dir: '../javascript',
-        // chunkFileNames: '[name].js'
         preserveModules: true,
-        // // Optionally strip useless path from source
-        // preserveModulesRoot: 'lib',
-      },
-    ],
-    // plugins: [
-    //   injectProcessEnv({
-    //     NODE_ENV: 'production',
-    //   }),
-    // ],
-    // manualChunks: id => path.parse(id).name
-  },
-  // {
-  //   input: 'docs/assets/src/js/docs-entry.js',
-  //   output: {
-  //     file: 'docs/assets/../javascript/docs.min.js',
-  //     compact: true,
-  //     format: 'iife',
-  //   },
-  //   plugins: [
-  //     legacy({
-  //       './cover-animation.js': {
-  //         initCoverAnimation: 'animation.initCoverAnimation',
-  //       },
-  //     }),
-  //     babel({ babelHelpers: 'bundled' }),
-  //     scss({
-  //       output: 'docs/assets/dist/css/docs.min.css',
-  //       outputStyle: 'compressed',
-  //       watch: 'docs/assets/src/scss',
-  //     }),
-  //   ],
-  // },
-  // Entry comuni
-  // {
-  //   input: 'src/scss/bootstrap-italia-comuni.scss',
-  //   output: {
-  //     dir: '../stylesheets',
-  //   },
-  //   plugins: [
-  //     scss({
-  //       output: '../stylesheets/bootstrap-italia-comuni.min.css',
-  //       outputStyle: 'compressed',
-  //       watch: 'src/scss',
-  //     }),
-  //   ],
-  // },
+      }
+    ]
+  }
+]
 
-  {
-    input: 'src/scss/default.scss',
-    output: {
-      dir: '../stylesheets',
-    },
+themes.forEach(function (theme){
+  configs.push({
+    input: 'src/scss/'+theme+'.scss',
     plugins: [
       scss({
-        output: '../stylesheets/default.css',
-        outputStyle: 'compressed',
-        sourceMap: false,
-        watch: 'src/scss',
-      }),
-    ],
-  },
-  {input: 'src/scss/acqua.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/acqua.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/acquamarina.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/acquamarina.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/amalfi.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/amalfi.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/amaranto.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/amaranto.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/apss.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/apss.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/cagliari.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/cagliari.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/cenerentola.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/cenerentola.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/elegance.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/elegance.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/mare.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/mare.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/mediterraneo.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/mediterraneo.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/rustico.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/rustico.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/trento.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/trento.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {
-    input: 'src/scss/turquoise.scss',
-    output: {dir: '../stylesheets'},
-    plugins: [
-      scss({
-        output: '../stylesheets/turquoise.css',
+        output: '../stylesheets/'+outputPrefix+theme+'.css',
         outputStyle: 'compressed',
         sourceMap: false,
         watch: 'src/scss'
-      })]
-  },
-  {input: 'src/scss/verdone.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/verdone.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {input: 'src/scss/warmred.scss', output: {dir: '../stylesheets'},plugins: [scss({output: '../stylesheets/warmred.css',outputStyle: 'compressed',watch: 'src/scss'})]},
-  {
-    input: 'src/scss/common.scss',
-    output: {
-      dir: '../stylesheets',
-    },
+      })
+    ]
+  })
+})
+
+commons.forEach(function (common){
+  configs.push({
+    input: 'src/scss/'+common+'.scss',
     plugins: [
       scss({
-        output: '../stylesheets/common.css',
+        output: '../stylesheets/'+common+'.css',
         outputStyle: 'compressed',
         sourceMap: false,
-        watch: 'src/scss',
-      }),
-    ],
-  },
-]
+        watch: 'src/scss'
+      })
+    ]
+  })
+})
+
+export default configs

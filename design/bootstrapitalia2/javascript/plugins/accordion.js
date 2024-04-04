@@ -105,4 +105,3 @@ EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_HEADBTN, function (ev
 });
 
 export { Accordion as default };
-//# sourceMappingURL=accordion.js.map

@@ -112,7 +112,6 @@
         'bootstrap-datetimepicker.min.css',
         'jquery.fileupload.css',
         'jquery.tag-editor.css',
-        'alpaca-custom.css',
         'jstree.min.css'
     ))}
 

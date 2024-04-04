@@ -7,6 +7,7 @@
     'view_variation', false(),
     'grid_wrapper', true(),
     'grid_wrapper_class', 'row mx-lg-n3',
+    'card_wrapper_class', '',
     'exclude_classes', array()
 ))}
 
@@ -16,7 +17,7 @@
 
     {if $grid_wrapper}<div class="{$grid_wrapper_class}" data-bs-toggle="masonry">{/if}
     {foreach $items as $child }
-        <div class="col-sm-6 col-lg-4 mb-4{if $need_card_wrapper} card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{/if}">
+        <div class="col-sm-6 col-lg-4 mb-4{if $need_card_wrapper} card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{/if} {$card_wrapper_class}">
             {node_view_gui content_node=$child view=$i_view image_class=$image_class show_icon=$show_icon view_variation=$view_variation exclude_classes=$exclude_classes}
         </div>
     {/foreach}
@@ -28,7 +29,7 @@
     {if and(count($items)|eq(2),count($items)|lt($items_per_row))}
         {set $items_per_row = 2}
     {/if}
-    <div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{$items_per_row}">
+    <div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{$items_per_row} {$card_wrapper_class}">
     {foreach $items as $child }
         {node_view_gui content_node=$child view=$i_view image_class=$image_class show_icon=$show_icon show_category=$show_category view_variation=$view_variation exclude_classes=$exclude_classes}
     {/foreach}

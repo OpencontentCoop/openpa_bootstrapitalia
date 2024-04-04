@@ -1,16 +1,17 @@
 .it-header-wrapper .toolbar#ezwt > ul{
   position: static !important;
 }
-.toolbar#ezwt {
+.toolbar:not(.toolbar-vertical)#ezwt {
   &::before{
     height: 1px;
+    width: auto;
   }
 
   height: auto;
 
   > ul {
     @extend .justify-content-start;
-    @extend .justify-content-md-center;
+    @extend .justify-content-xl-center;
     height: auto;
     min-height: 64px;
     position: fixed;
@@ -117,7 +118,8 @@
 }
 
 @media (min-width: #{map-get($grid-breakpoints, lg)}) {
-  body.fixed-wt .sticky-wrapper.is-sticky {
+  body.fixed-wt .sticky-wrapper.is-sticky,
+  body.fixed-wt .cmp-navscroll.sticky-top{
     top: 130px !important;
   }
 }

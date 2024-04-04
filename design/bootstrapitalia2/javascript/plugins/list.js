@@ -75,4 +75,3 @@ SelectorEngine.find(SELECTOR_LIST).forEach((list) => {
 });
 
 export { List as default };
-//# sourceMappingURL=list.js.map

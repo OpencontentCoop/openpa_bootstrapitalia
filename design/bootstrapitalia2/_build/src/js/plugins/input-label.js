@@ -26,7 +26,7 @@ class InputLabel {
   }
 
   static getInputFromLabel = (labelElement) => {
-    return document.querySelector('#' + labelElement.getAttribute('for'))
+    return document.querySelector('#' + CSS.escape(labelElement.getAttribute('for')))
   }
 
   // Public
@@ -38,11 +38,17 @@ class InputLabel {
       //script disabled if active on init
       this._labelOut()
       this._labelOver()
+    }
+
+    if (label && label.getAttribute('it-bs-static') === null) {
       this._bindEvents()
     }
   }
 
   _bindEvents() {
+    if (['date', 'time'].includes(this._element.getAttribute('type'))) {
+      return
+    }
     if (this._element.getAttribute('type') === 'file') {
       EventHandler.on(this._element, EVENT_BLUR, () => {
         this._labelOut()

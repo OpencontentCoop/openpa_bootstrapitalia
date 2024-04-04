@@ -37,4 +37,3 @@ const documentScrollTo = (scrollTop, config) => {
 };
 
 export { documentScrollTo };
-//# sourceMappingURL=tween.js.map

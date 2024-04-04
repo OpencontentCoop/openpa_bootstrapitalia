@@ -108,7 +108,7 @@
 
                     {if $facets|count()}
                         <div class="search-form">
-                            <div class="accordion">
+                            <div class="accordion border-0">
                                 {foreach $facets as $index => $facet}
                                     {def $facets_parts = $facet|explode(':')}
                                     {if is_set($facets_parts[1])}
@@ -120,7 +120,7 @@
                                                 {$facets_parts[0]|wash()}
                                             </button>
                                           </span>
-                                            <div id="collapse-{$block.id}-{$index}" class="accordion-collapse collapse show" role="region" aria-labelledby="collapse-{$block.id}-{$index}-title">
+                                            <div id="collapse-{$block.id}-{$index}" class="pt-0 accordion-collapse collapse show" role="region" aria-labelledby="collapse-{$block.id}-{$index}-title">
                                                 <div class="accordion-body px-0 pb-1">
                                                     <label for={$block.id}-facet-{$index}" class="visually-hidden">{$facets_parts[0]|wash()}</label>
                                                     <select data-placeholder="..." data-facets_select="facet-{$index}" id="{$block.id}-facet-{$index}" class="form-control" style="height: 0" multiple></select>

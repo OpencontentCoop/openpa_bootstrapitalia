@@ -242,4 +242,3 @@ onDocumentScroll(() => {
 });
 
 export { Sticky as default };
-//# sourceMappingURL=sticky.js.map

@@ -33,7 +33,7 @@
     {/if}
 
     {def $theme = current_theme()
-         $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
+         $has_container = cond(or(openpacontext().is_edit, is_set($module_result.content_info.persistent_variable.has_container)), true(), false())
          $has_section_menu = cond(is_set($module_result.content_info.persistent_variable.has_section_menu), true(), false())
          $has_sidemenu = cond(and(is_set($module_result.content_info.persistent_variable.has_sidemenu), $module_result.content_info.persistent_variable.has_sidemenu), true(), false())
          $avail_translation = language_switcher( $site.uri.original_uri )}

@@ -56,4 +56,3 @@ const focusSimbling = (currentElement, simblings, config) => {
 };
 
 export { focusSimbling, getElementIndex };
-//# sourceMappingURL=dom.js.map

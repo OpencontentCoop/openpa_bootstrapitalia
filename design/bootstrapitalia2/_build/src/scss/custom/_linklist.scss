@@ -2,7 +2,7 @@
 .link-list-wrapper {
   .link-list-heading {
     font-size: $link-list-heading-size;
-    color: $neutral-1;
+    color: $color-text-base;
     padding: 0 $link-list-h-pad;
     font-weight: 600;
     margin-bottom: $link-list-divider-distance;
@@ -18,12 +18,12 @@
   }
   h3 {
     font-size: $link-list-heading-size;
-    color: $neutral-1-a10;
+    color: $color-text-base;
     padding: 0 $link-list-h-pad;
     font-weight: 600;
     a {
       line-height: inherit;
-      font-size: 1em;
+      font-size: 1rem;
       padding: 0;
     }
   }
@@ -39,7 +39,7 @@
         font-size: $link-list-font-size;
         line-height: $link-list-line-height;
         display: block;
-        padding: 0 $link-list-h-pad;
+        padding: 0.25rem $link-list-h-pad;
         text-decoration: none;
         position: relative;
         &.icon-right,
@@ -76,7 +76,7 @@
             text-decoration: underline;
           }
           p {
-            color: $neutral-1-a7;
+            color: $color-text-secondary;
             text-decoration: none;
           }
           .icon {
@@ -117,7 +117,7 @@
           .icon {
             transition: transform $dropdown-menu-animation-speed;
             &.secondary {
-              color: $neutral-2-b3;
+              color: $icon-secondary;
             }
           }
         }
@@ -129,22 +129,22 @@
         }
         &.active {
           span {
-            color: $neutral-1-a10;
+            color: $color-text-primary-active;
             text-decoration: underline;
           }
           .icon {
-            color: $neutral-1-a10;
+            color: $color-text-primary-active;
           }
         }
         &.disabled {
           cursor: not-allowed;
           span {
-            color: $neutral-1-a4;
+            color: $gray-label-disabled;
           }
           svg {
-            fill: $neutral-1-a4;
+            fill: $gray-disabled;
             &.secondary {
-              fill: $neutral-1-a4;
+              fill: $gray-disabled;
             }
           }
         }
@@ -155,7 +155,7 @@
         p {
           font-size: $link-list-paragraph-size;
           line-height: initial;
-          color: $neutral-1-a7;
+          color: $color-text-secondary;
         }
         //avatar
         &.avatar {
@@ -191,7 +191,7 @@
     .divider {
       display: block;
       height: $link-list-divider-height;
-      background: $neutral-1-a1;
+      background: $color-border-subtle;
       margin: $link-list-divider-distance 0;
     }
     //toggles
@@ -229,7 +229,7 @@
           }
         }
         [type='checkbox'][disabled] + label {
-          color: $neutral-1-a4;
+          color: $color-text-secondary;
         }
       }
     }
@@ -251,36 +251,20 @@
 }
 //small - tablet
 @include media-breakpoint-up(sm) {
-  .link-list-wrapper {
-    ul {
-      li {
-        a {
-          &.large {
-            font-size: $link-list-font-size-l;
-            line-height: $link-list-line-height-l;
-          }
-        }
-      }
-    }
+  .link-list-wrapper ul li a.large {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: $link-list-font-size-l;
   }
 }
 
 //Tablet vertical
 @include media-breakpoint-up(md) {
-  .link-list-wrapper {
-    ul {
-      li {
-        a {
-          &.large {
-            line-height: $link-list-line-height-l;
-            &.icon-left,
-            &.icon-right {
-              padding-top: $link-list-v-padding-l;
-              padding-bottom: $link-list-v-padding-l;
-            }
-          }
-        }
-      }
+  .link-list-wrapper ul li a.large {
+    &.icon-left,
+    &.icon-right {
+      padding-top: $link-list-v-padding-l;
+      padding-bottom: $link-list-v-padding-l;
     }
   }
 }
@@ -297,7 +281,7 @@
         position: relative;
         padding: 1rem;
         margin-top: 0;
-        border-bottom: 4px solid $border-color;
+        border-bottom: 4px solid $color-border-subtle;
         &:after {
           content: '';
           position: absolute;

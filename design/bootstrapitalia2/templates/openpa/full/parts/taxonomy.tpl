@@ -22,17 +22,13 @@
                 <span class="mb-2 small">{'Topics'|i18n('bootstrapitalia')}</span>
             </div>
         {/if}
-        <ul class="d-flex flex-wrap gap-1 mb-2">
         {foreach $current_topics as $object}
-            <li>
                 <a class="chip chip-simple chip-{if $object.section_id|eq(1)}primary{else}danger{/if}"
                    {if $node.class_identifier|eq('public_service')}data-element="service-topic"{/if}
                    href="{$object.main_node.url_alias|ezurl(no)}">
                     <span class="chip-label text-nowrap {if $object.section_id|ne(1)}text-white{/if}">{$object.name|wash()}</span>
                 </a>
-            </li>
         {/foreach}
-        </ul>
     {/if}
     {if $show_title}
     {foreach array('has_public_event_typology', 'content_type', 'document_type', 'announcement_type') as $identifier}
@@ -43,11 +39,9 @@
             </div>
         {/if}
         {if $node|attribute($identifier).data_type_string|eq('eztags')}
-            <ul class="d-flex flex-wrap gap-1 mb-2">
             {foreach $node|attribute($identifier).content.tags as $tag}
-                <li class="chip chip-simple chip-primary"><span class="chip-label text-nowrap">{$tag.keyword|wash}</span></li>
+                <div class="chip chip-simple chip-primary"><span class="chip-label text-nowrap">{$tag.keyword|wash}</span></div>
             {/foreach}
-            </ul>
         {else}
             {attribute_view_gui attribute=$node|attribute($identifier)}
         {/if}
@@ -64,16 +58,12 @@
             <span class="mb-2 small">{$node|attribute('type').contentclass_attribute_name|wash()}</span>
         </div>
     {/if}
-    <ul class="d-flex flex-wrap gap-1">
     {foreach $node|attribute('type').content.tags as $tag}
-        <li>
-            <a class="chip chip-simple chip-primary"
-               href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
-               <span class="chip-label text-nowrap">{$tag.keyword|wash}</span>
-           </a>
-        </li>
+        <a class="chip chip-simple chip-primary"
+           href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
+           <span class="chip-label text-nowrap">{$tag.keyword|wash}</span>
+       </a>
     {/foreach}
-    </ul>
 </div>
 {/if}
 

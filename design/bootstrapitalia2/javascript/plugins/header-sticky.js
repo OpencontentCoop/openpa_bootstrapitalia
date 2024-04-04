@@ -102,4 +102,3 @@ onDocumentScroll(() => {
 });
 
 export { HeaderSticky as default };
-//# sourceMappingURL=header-sticky.js.map

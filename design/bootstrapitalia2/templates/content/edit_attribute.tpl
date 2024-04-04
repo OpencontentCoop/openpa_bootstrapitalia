@@ -20,7 +20,7 @@
         </div>
     {/if}
 
-    <div class="col{if $edit_attribute_groups.count|gt(1)}-9{/if} tab-content">
+    <div class="col{if $edit_attribute_groups.count|gt(1)}-9 ps-0{/if} tab-content">
         {foreach $edit_attribute_groups.groups as $index => $attribute_group}
             <div class="position-relative clearfix attribute-edit tab-pane{if $index|eq(0)} active{/if} p-2 mt-2" id="attribute-group-{$attribute_group.identifier}"{if $attribute_group.show|not()} style="display: none !important;"{/if}>
                 {foreach $attribute_group.attributes as $attribute_identifier => $attribute}
@@ -71,7 +71,7 @@
                                     </h5>
                                 </div>
                                 <div class="col-12">
-                                    <div class="card bg-light mb-2">
+                                    <div class="card bg-light mb-2 no-after">
                                         <div class="card-body">
                                             {attribute_view_gui attribute_base=$attribute_base attribute=$from_content_attributes_grouped_data_map[$contentclass_attribute_category][$attribute_identifier] view_parameters=$view_parameters image_class=medium}
                                         </div>

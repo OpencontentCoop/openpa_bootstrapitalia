@@ -26,4 +26,3 @@ document.addEventListener('scroll', () => {
 });
 
 export { disablePageScroll, enablePageScroll };
-//# sourceMappingURL=pageScroll.js.map

@@ -16,7 +16,7 @@
     </div>
     {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'advanced_editor_tools' ) )}
 
-        <div class="accordion">
+        <div class="accordion border-0">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading-{$attribute.id}">
                         <button class="accordion-button collapsed" type="button"

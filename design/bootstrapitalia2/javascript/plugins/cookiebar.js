@@ -148,7 +148,7 @@ class Cookiebar extends BaseComponent {
     var exdate = new Date();
     exdate.setDate(exdate.getDate() + COOKIE_EXPIRE);
     var c_value = escape(COOKIE_VALUE) + ('; expires=' + exdate.toUTCString());
-    document.cookie = COOKIE_NAME + '=' + c_value + '; path=/';
+    document.cookie = COOKIE_NAME + '=' + c_value + '; path=/; SameSite=Strict';
   }
 
   _getRootElement(element) {
@@ -278,4 +278,3 @@ EventHandler.on(window, EVENT_LOAD_DATA_API, function () {
 });
 
 export { Cookiebar as default };
-//# sourceMappingURL=cookiebar.js.map

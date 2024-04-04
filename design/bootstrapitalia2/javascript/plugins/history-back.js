@@ -62,4 +62,3 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_TOGGLE, function (evt) 
 });
 
 export { HistoryBack as default };
-//# sourceMappingURL=history-back.js.map

@@ -84,4 +84,3 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_TOGGLE, function (evt) 
 });
 
 export { Forward as default };
-//# sourceMappingURL=forward.js.map

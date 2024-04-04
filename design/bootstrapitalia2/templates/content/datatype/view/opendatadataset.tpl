@@ -79,7 +79,6 @@
     'fullcalendar/daygrid/main.css',
     'fullcalendar/list/main.css',
     'jquery.fileupload.css',
-    'alpaca-custom.css',
     'opendatadataset.css'
 ))}
 {def $custom_repository = concat('dataset-', $attribute.contentclass_attribute_identifier, '-',$attribute.contentobject_id)}

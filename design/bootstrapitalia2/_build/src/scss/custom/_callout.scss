@@ -1,17 +1,27 @@
 .callout {
-  padding: 2.5rem 2.222rem;
-  border: 1px solid $neutral-1-a7;
   position: relative;
   max-width: 60ch;
-  margin: 1.75rem 0 1rem;
-  border-radius: 8px;
+  overflow: hidden;
+
+  .callout-inner {
+    padding: 2rem;
+    border: 2px solid;
+    border-top: 0;
+    border-color: $color-border-secondary;
+    margin: 2.5rem 0;
+  }
 
   // Highlights version
   &.callout-highlight {
     border: none;
-    border-left: 2px solid rgba($gray-border-disabled, 1);
+    border-left: 2px solid $color-border-secondary;
     border-radius: 0;
     padding: 0 2.222rem;
+    p {
+      &:last-child {
+        margin: 0;
+      }
+    }
     .callout-title {
       margin-bottom: 1.556rem;
     }
@@ -20,22 +30,22 @@
       border-color: rgba($success, 1);
     }
     &.warning {
-      border-color: rgba($warning, 1);
+      border-color: $color-border-warning;
     }
     &.danger {
       border-color: rgba($danger, 1);
     }
     &.important {
-      border-color: rgba($complementary-3-a9, 1);
+      border-color: $success;
     }
     &.note {
-      border-color: rgba($primary-a9, 1);
+      border-color: $primary;
     }
   }
 
   // More version
   &.callout-more {
-    background: #fafaf7;
+    background: #f9f9f5;
     border: none;
     border-radius: 0;
     padding: 2.222rem 2.222rem;
@@ -65,9 +75,9 @@
     }
     // text
     p {
-      font-size: 0.778rem;
-      line-height: 1.333rem;
-      color: $neutral-1-a10;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      color: $color-text-secondary; // UI kit
     }
     // title
     .callout-title {
@@ -89,6 +99,9 @@
   // color versions
   &.success {
     border-color: $success;
+    .callout-inner {
+      border-color: rgba($success, 1);
+    }
     .callout-title {
       color: $success;
       .icon {
@@ -97,12 +110,21 @@
       span {
         border-color: $success;
       }
+      .text:after {
+        border-color: $success;
+      }
+      &:before {
+        border-color: $success;
+      }
     }
   }
   &.warning {
     border-color: $warning;
+    .callout-inner {
+      border-color: $color-border-warning;
+    }
     .callout-title {
-      color: $warning;
+      color: $color-text-warning;
       .icon {
         fill: $warning;
       }
@@ -113,6 +135,9 @@
   }
   &.danger {
     border-color: $danger;
+    .callout-inner {
+      border-color: rgba($danger, 1);
+    }
     .callout-title {
       color: $danger;
       .icon {
@@ -124,86 +149,116 @@
     }
   }
   &.important {
-    border-color: $complementary-3-a9;
+    border-color: $success;
+    .callout-inner {
+      border-color: $success;
+    }
     .callout-title {
-      color: $complementary-3-a9;
+      color: $success;
       .icon {
-        fill: $complementary-3-a9;
+        fill: $success;
       }
       span {
-        border-color: $complementary-3-a9;
+        border-color: $success;
       }
     }
   }
   &.note {
-    border-color: $primary-a9;
+    border-color: $primary;
+    .callout-inner {
+      border-color: $primary;
+    }
     .callout-title {
-      color: $primary-a9;
+      color: $primary;
       .icon {
-        fill: $primary-a9;
+        fill: $primary;
       }
       span {
-        border-color: $primary-a9;
+        border-color: $primary;
       }
     }
     .collapse-div .collapse-header .callout-more-toggle {
-      color: $primary-a9;
+      color: $primary;
       &:active,
       &:hover {
-        color: $primary-a9;
+        color: $primary;
       }
       span {
-        border-color: $primary-a9;
+        border-color: $primary;
         &:before,
         &:after {
-          background: $primary-a9;
+          background: $primary;
         }
       }
     }
     a {
-      color: $primary-a9;
+      color: $primary;
     }
     .icon {
-      fill: $primary-a9;
+      fill: $primary;
     }
   }
 
   //title
   .callout-title {
-    font-weight: bold;
+    font-weight: 600;
     text-transform: uppercase;
     font-size: 1rem;
-    margin-right: 2.222rem;
-    letter-spacing: 0.06rem;
-    color: $neutral-1-a7;
+    color: $color-text-secondary; // UI kit
+    @include media-breakpoint-up(lg) {
+      font-size: 1.125rem;
+    }
     .icon {
-      fill: $neutral-1-a7;
-      margin-right: 0.444rem;
+      fill: $color-text-secondary; // UI kit
+      margin-right: 0.5rem;
     }
   }
 
   // standard title
   &:not(.callout-highlight):not(.callout-more) {
     .callout-title {
-      position: absolute;
-      font-size: 1rem;
-      padding: 0 1.389rem;
-      background: $white;
-      top: -0.78em;
+      position: relative;
+      padding-left: 1.5rem;
+      top: -3rem;
+      .text {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        font-size: 0.875rem;
+        padding-right: 1.5rem;
+        @include media-breakpoint-up(md) {
+          font-size: 1.15rem;
+        }
+      }
+      .text:after {
+        content: '';
+        top: 0.875em;
+        border-top: 2px solid;
+        position: absolute;
+        width: 250%;
+        left: 100%;
+      }
+      &:before {
+        content: '';
+        top: 0.875em;
+        border-top: 2px solid;
+        position: absolute;
+        width: 3rem;
+        left: -2.5rem;
+      }
     }
   }
 
   //text
   p {
     font-family: $font-family-serif;
-    font-size: 0.889rem;
-    color: $neutral-1-a7;
-    &:last-child {
-      margin: 0;
+    font-size: 1rem;
+    color: $color-text-secondary; // UI kit
+    @include media-breakpoint-up(lg) {
+      font-size: 1.125rem;
     }
     &.callout-big-text {
-      font-weight: bold;
-      font-size: 1.111rem;
+      font-size: 1.125rem;
     }
   }
 
@@ -323,7 +378,7 @@ _:-ms-fullscreen,
     // More version
     &.callout-more {
       p {
-        font-size: 0.722rem;
+        font-size: 0.875rem;
       }
     }
   }

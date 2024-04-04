@@ -1,4 +1,4 @@
-<div class="accordion">
+<div class="cmp-accordion accordion">
     {foreach $items as $item}
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading-{$item.node_id}">

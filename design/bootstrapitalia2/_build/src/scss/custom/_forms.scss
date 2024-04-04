@@ -23,7 +23,7 @@ fieldset {
   }
 }
 .form-text {
-  color: $neutral-1-a7;
+  color: $color-text-secondary;
 }
 .form-group {
   position: relative;
@@ -33,18 +33,18 @@ fieldset {
   input,
   optgroup,
   textarea {
-    color: $dark;
+    color: $color-text-muted;
   }
 
   label {
     background-color: transparent;
     position: absolute;
-    font-weight: 600;
     line-height: calc(#{$input-height} - 1px);
     transition: 0.2s ease-out;
     top: 0;
     font-size: 1rem;
     cursor: text;
+    color: $input-color-placeholder;
     display: block;
     max-width: 100%;
     width: auto;
@@ -55,7 +55,28 @@ fieldset {
     z-index: 1;
     &.active {
       transform: translateY(-75%);
+      font-weight: 600;
       font-size: $small-font-size;
+      color: $input-label-color;
+    }
+    &:not(.active) {
+      & + .input-number-currency {
+        .input-group-text {
+          display: none;
+        }
+      }
+      & + .input-number-percentage {
+        .input-group-text {
+          display: none;
+        }
+      }
+    }
+  }
+
+  input:is([type='radio']),
+  input:is([type='checkbox']) {
+    & + label.active {
+      transform: translateY(0%);
     }
   }
 
@@ -72,8 +93,7 @@ fieldset {
 }
 
 ::placeholder {
-  font-weight: 600;
-  color: $neutral-1-a7;
+  color: $input-color-placeholder;
 }
 
 input[type='date'],
@@ -88,32 +108,31 @@ input[type='time'],
 input[type='url'],
 textarea {
   border: none;
-  border-bottom: 1px solid $neutral-1-a7;
+  border-bottom: 1px solid $input-border;
   border-radius: 0;
   padding: $input-spacing-y $input-spacing-x;
   outline: 0;
-  height: $input-height;
   width: 100%;
   box-shadow: none;
   transition: none;
-  font-weight: 700;
   -webkit-appearance: none;
   -webkit-border-radius: 0;
   &::placeholder {
-    color: $neutral-1-a7;
-    font-weight: 600;
+    color: $input-color-placeholder;
   }
 }
 
 textarea {
-  border: 1px solid $neutral-1-a7;
+  border: 1px solid $input-border;
   height: auto;
+  font-size: 1rem;
 }
 
 .form-control {
   background-position: center right !important;
   background-repeat: no-repeat !important;
   background-size: 45px 45% !important;
+  min-height: 2.5rem;
   &:disabled,
   &[readonly] {
     cursor: not-allowed;
@@ -166,7 +185,7 @@ textarea {
   display: none;
   width: 100%;
   margin-top: 0.25rem;
-  font-size: 0.777rem;
+  font-size: 0.75rem;
   color: $warning;
 }
 
@@ -180,15 +199,13 @@ textarea {
 .input-group {
   .input-group-text {
     padding: $input-spacing-y $input-spacing-x;
-    border-bottom: 1px solid $neutral-1-a7;
-    height: 100%;
-  }
-
-  .input-group-prepend {
+    border-bottom: 1px solid $input-border;
+    border-radius: 0;
+    min-height: 2.5rem;
     margin-right: 0;
 
     .icon {
-      fill: $neutral-1-a7;
+      fill: $icon-secondary;
     }
 
     & ~ label {
@@ -206,7 +223,7 @@ textarea {
     .btn {
       padding-top: 0;
       padding-bottom: 0;
-      border-bottom: 1px solid $neutral-1-a7;
+      border-bottom: 1px solid $input-border;
       border-radius: 0 4px 4px 0;
       box-shadow: none;
       height: 100%;
@@ -219,9 +236,7 @@ textarea {
 
 .input-group-lg {
   & > .form-control,
-  & > .input-group-prepend > .input-group-text,
   & > .input-group-append > .input-group-text,
-  & > .input-group-prepend > .btn,
   & > .input-group-append > .btn {
     padding: 0 1rem;
     border-radius: 0;
@@ -251,6 +266,9 @@ textarea {
       font-size: 1rem;
       user-select: none;
       margin-bottom: 0.5rem;
+      @include media-breakpoint-up(sm) {
+        font-size: 1.125rem;
+      }
     }
 
     //focus
@@ -368,7 +386,7 @@ textarea {
     &:not(:checked) + label {
       &::after,
       &::before {
-        border-color: $neutral-1-a7;
+        border-color: $input-border;
       }
 
       &:after {
@@ -398,18 +416,18 @@ textarea {
       &:not(:checked) + label {
         &::after,
         &::before {
-          border-color: #e6e9f2;
+          border-color: $gray-border-disabled;
         }
       }
 
       &:checked + label {
         &::after {
-          border-color: #e6e9f2;
-          background-color: #e6e9f2;
+          border-color: $gray-border-disabled;
+          background-color: $gray-disabled;
         }
 
         &::before {
-          border-color: #e6e9f2;
+          border-color: $gray-border-disabled;
         }
       }
     }
@@ -468,12 +486,12 @@ textarea {
     transform: none;
     backface-visibility: hidden;
     opacity: 1;
-    background: #fff;
+    background: $white;
   }
 
   input.semi-checked:not(:checked) + label::after {
-    border-color: $primary-a5;
-    background-color: $primary-a5;
+    border-color: $primary-a5; // TODO: Not found
+    background-color: $primary-a5; // TODO: Not found
     z-index: 0;
   }
 }

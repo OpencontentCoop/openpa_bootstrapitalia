@@ -8,4 +8,3 @@ const isScreenMobile = () => {
 };
 
 export { isScreenMobile };
-//# sourceMappingURL=device.js.map

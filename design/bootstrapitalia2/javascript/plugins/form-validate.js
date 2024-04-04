@@ -187,4 +187,3 @@ const ValidatorSelectAutocomplete = (inputId, config = {}) => {
 };
 
 export { FormValidate, ValidatorSelectAutocomplete };
-//# sourceMappingURL=form-validate.js.map

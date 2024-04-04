@@ -107,4 +107,3 @@ class ContentObserver {
 }
 
 export { ContentObserver, CssClassObserver };
-//# sourceMappingURL=observer.js.map

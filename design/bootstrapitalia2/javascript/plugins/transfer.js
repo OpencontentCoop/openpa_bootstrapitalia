@@ -264,4 +264,3 @@ EventHandler.on(document, EVENT_KEYUP_DATA_API, SELECTOR_BLOCK + ' .form-check l
 });
 
 export { Transfer as default };
-//# sourceMappingURL=transfer.js.map

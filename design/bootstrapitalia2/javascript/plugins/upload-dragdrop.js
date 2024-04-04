@@ -140,4 +140,3 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_FORM + ' label', functi
 });
 
 export { UploadDragDrop as default };
-//# sourceMappingURL=upload-dragdrop.js.map

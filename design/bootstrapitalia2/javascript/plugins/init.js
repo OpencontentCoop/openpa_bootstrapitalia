@@ -11,4 +11,3 @@ const init = () => {
 init();
 
 export { init as default };
-//# sourceMappingURL=init.js.map

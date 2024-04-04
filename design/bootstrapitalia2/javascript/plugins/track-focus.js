@@ -44,4 +44,3 @@ class TrackFocus {
 new TrackFocus();
 
 export { TrackFocus as default };
-//# sourceMappingURL=track-focus.js.map

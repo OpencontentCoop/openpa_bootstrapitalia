@@ -1,16 +1,12 @@
 .nav-tabs {
   position: relative;
   background-color: $white;
-  border-bottom-color: $gray-border-disabled;
+  border-bottom-color: $color-border-subtle;
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   flex-wrap: nowrap;
-
-  a {
-    text-decoration: none;
-  }
 
   //reset icon right margin
   .it-ico,
@@ -62,13 +58,16 @@
   &.nav-tabs-vertical {
     flex-direction: column;
     border-bottom: none;
-    border-right: 1px solid $gray-border-disabled;
+    border-right: 1px solid $color-border-subtle;
     .nav-link {
       justify-content: space-between;
       border-bottom: none;
       border-right: 2px solid transparent;
       white-space: normal;
       position: relative;
+      &:focus:not(.focus--mouse) {
+        box-shadow: inset 0 0px 0 2px $focus-outline-color !important;
+      }
       &:hover {
         border-bottom: none;
       }
@@ -88,7 +87,7 @@
     &.nav-tabs-vertical-background {
       .nav-link.active,
       .nav-item.show .nav-link {
-        background-color: $neutral-2;
+        background-color: $color-background-primary-lighter;
       }
     }
   }
@@ -96,50 +95,56 @@
   //link element
   .nav-link {
     border-radius: 0;
+    font-size: 1rem;
     font-weight: 600;
-    color: $neutral-1-a7;
+    color: $color-text-secondary;
     border: none;
     border-bottom: 3px solid transparent;
     padding: 0.778rem 1.333em;
     flex: 1 0 auto;
     white-space: nowrap;
-    line-height: 1em;
-
-    //vertical & center align
+    line-height: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
+    @include media-breakpoint-up(lg) {
+      font-size: 1.125rem;
+    }
 
     &:hover {
-      color: $primary;
+      color: $color-text-primary-hover;
       border-bottom-color: transparent;
     }
 
-    &:focus {
-      border-bottom-color: transparent;
+    &:focus:not(.focus--mouse) {
+      box-shadow: inset 0 1px 0 2px $focus-outline-color !important;
     }
 
     &.disabled {
-      color: $gray-300;
+      color: $gray-disabled;
       cursor: default;
       .icon {
-        fill: $gray-300;
+        fill: $gray-disabled;
       }
     }
 
     //icons
     .it-ico {
       &:before {
-        font-size: 1.333rem;
+        font-size: 1.25rem;
       }
     }
     .it-ico-lg {
       &:before {
-        font-size: 1.778rem;
+        font-size: 2rem;
       }
     }
     .icon {
       fill: $gray-secondary;
+      &:hover {
+        fill: $color-text-primary-hover;
+      }
     }
     &.active {
       .icon {
@@ -158,7 +163,8 @@
     display: flex;
   }
 
-  //dark version
+  // Dark version
+  // Missing in the UI kit v3.x.x
   &.nav-dark {
     background-color: $gray-primary;
     border-bottom: none;
@@ -206,16 +212,16 @@
     //grey fullwidth bottom border for ul
     .nav-item-filler {
       flex-grow: 1;
-      border-bottom: 1px solid $gray-border-disabled;
+      border-bottom: 1px solid $color-border-subtle;
     }
     .nav-link {
       border-bottom-width: 2px;
       border-color: transparent;
       position: relative;
-      border-bottom-color: $gray-border-disabled;
+      border-bottom-color: $color-border-subtle;
       border-radius: $border-radius $border-radius 0 0;
       &.active {
-        border: 1px solid $gray-border-disabled;
+        border: 1px solid $color-border-subtle;
         border-bottom-color: transparent;
         border-bottom-width: 1px;
       }
@@ -227,7 +233,7 @@
     .nav-item {
       position: relative;
       &:last-of-type {
-        border-bottom: 1px solid $gray-border-disabled;
+        border-bottom: 1px solid $color-border-subtle;
       }
     }
 
@@ -243,7 +249,7 @@
       width: 1.444rem;
       height: 1.444rem;
       top: 0.8rem;
-      border: 1px solid $gray-border-disabled;
+      border: 1px solid $color-border-subtle;
       border-radius: 50%;
       right: 0;
       //plus sign
@@ -277,16 +283,16 @@
       position: absolute;
       top: calc(50% - 0.9rem);
       right: 0.889rem;
-      color: $neutral-1-a7;
+      color: $color-text-secondary;
       transition: color 0.2s;
       .icon {
-        fill: $neutral-1-a7;
+        fill: $color-text-secondary;
       }
       &.disabled {
-        color: $gray-300;
+        color: $gray-disabled;
         cursor: pointer;
         .icon {
-          fill: $gray-300;
+          fill: $gray-disabled;
         }
       }
       &:hover {
@@ -296,7 +302,7 @@
         }
       }
       .it-ico {
-        font-size: 0.6rem;
+        font-size: 0.625rem;
         &:before {
           margin-right: 0;
         }
@@ -320,10 +326,13 @@
 .flex-column-reverse {
   .nav-tabs {
     border-bottom: none;
-    border-top: 1px solid $gray-border-disabled;
+    border-top: 1px solid $color-border-subtle;
     .nav-link {
       border-bottom: none;
       border-top: 2px solid transparent;
+      &:focus:not(.focus--mouse) {
+        box-shadow: inset 0 -1px 0 2px $focus-outline-color !important;
+      }
     }
     .nav-link.active,
     .nav-item.show .nav-link {
@@ -345,12 +354,15 @@
     }
     &.nav-tabs-vertical {
       border-right: none;
-      border-left: 1px solid $gray-border-disabled;
+      border-left: 1px solid $color-border-subtle;
       .nav-link {
         justify-content: flex-start;
         border-bottom: none;
         border-right: none;
         border-left: 2px solid transparent;
+        &:focus:not(.focus--mouse) {
+          box-shadow: inset 0px 0px 0 2px $focus-outline-color !important;
+        }
         &:hover {
           border-bottom: none;
         }
@@ -382,7 +394,7 @@
 }
 @include media-breakpoint-down(md) {
   .nav-tabs {
-    box-shadow: 0px 12px 25px -20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 12px 25px -20px rgba(0, 0, 0, 0.5);
     &.nav-tabs-vertical,
     &.nav-tabs-cards {
       box-shadow: none;

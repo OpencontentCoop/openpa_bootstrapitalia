@@ -51,4 +51,3 @@ const onDocumentScroll = (callback) => {
 };
 
 export { onDocumentScroll as default };
-//# sourceMappingURL=on-document-scroll.js.map

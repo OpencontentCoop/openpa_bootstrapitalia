@@ -252,4 +252,3 @@ var fontsLoader = (path = '/node_modules/bootstrap-italia/dist/fonts') => {
 };
 
 export { fontsLoader as default };
-//# sourceMappingURL=fonts-loader.js.map

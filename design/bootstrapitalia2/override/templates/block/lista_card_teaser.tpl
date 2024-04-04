@@ -7,6 +7,7 @@
              items_per_row=$items_per_row
              i_view=card_teaser
              show_icon=false()
+             card_wrapper_class=cond(and(is_set($block.custom_attributes.container_style), $block.custom_attributes.container_style|eq('overlay')), 'px-0 card-overlapping', '')
              items=$openpa.content}
     {include uri='design:parts/block_show_all.tpl'}
 {/if}
