@@ -96,7 +96,7 @@
                 {foreach $node.data_map as $identifier => $attribute}
                     {if and( $user_identifiers|contains( $identifier ), $attribute.has_content, $attribute.data_text|ne('') )}        
                         <h6>{$attribute.contentclass_attribute_name}</h6>
-                        <div class="text-serif small neutral-1-color-a7 mb-3">{attribute_view_gui attribute=$attribute}</div>                    
+                        <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">{attribute_view_gui attribute=$attribute}</div>
                     {/if}
                 {/foreach}
             </div>            
@@ -109,12 +109,12 @@
                 {foreach $node.data_map as $identifier => $attribute}
                     {if and( $editor_identifiers|contains( $identifier ), $attribute.has_content, $attribute.data_text|ne('') )}        
                         <h6>{$attribute.contentclass_attribute_name}</h6>
-                        <div class="text-serif small neutral-1-color-a7 mb-3">{attribute_view_gui attribute=$attribute}</div>
+                        <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">{attribute_view_gui attribute=$attribute}</div>
                     {/if}
                 {/foreach}
                 {if $trasparenza.has_table_fields}                
                     <h6>Regole rappresentazione impostate</h6>
-                    <div class="text-serif small neutral-1-color-a7 mb-3">
+                    <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">
                     {foreach $trasparenza.table_fields as $table_index => $fields}
                         <code>{$fields.query|wash()}</code>
                     {/foreach}
@@ -131,7 +131,7 @@
                         {include uri="design:parts/toolbar/node_edit.tpl" current_node=$trasparenza.nota_trasparenza}
                         {include uri="design:parts/toolbar/node_trash.tpl" current_node=$trasparenza.nota_trasparenza}
                     </div>
-                    <div class="text-serif small neutral-1-color-a7 mb-3">
+                    <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">
                         <em>{attribute_view_gui attribute=$trasparenza.nota_trasparenza.data_map.testo_nota}</em>
                         {if $trasparenza.nota_trasparenza|has_attribute('file')}
                             <span>{attribute_view_gui attribute=$trasparenza.nota_trasparenza|attribute('file')}</span>
