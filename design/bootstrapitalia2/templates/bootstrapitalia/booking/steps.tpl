@@ -3,7 +3,7 @@
         <div class="steppers-header">
             <ul>
                 {foreach $steps as $index => $step}
-                    <li data-step="{$step.id|wash()}" class="{if $index|eq(0)}active{/if}">
+                    <li data-step="{$step.id|wash()}" class="text-uppercase{if $index|eq(0)} active{/if}">
                         {$step.title|wash()}
                         {display_icon('it-expand', 'svg', 'icon steppers-success invisible')}
                     </li>

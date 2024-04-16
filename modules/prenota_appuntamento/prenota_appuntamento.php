@@ -60,5 +60,10 @@ if (StanzaDelCittadinoBooking::factory()->isEnabled()) {
     $tpl->setVariable('show_debug', eZINI::instance()->variable('DebugSettings', 'DebugOutput') == 'enabled' ? 'true' : 'false');
 
     $Result['content_info']['persistent_variable']['show_path'] = false;
-    $Result['content'] = $tpl->fetch('design:bootstrapitalia/booking.tpl');
+    if (!$service && StanzaDelCittadinoBooking::factory()->isServiceDiscoverEnabled()){
+        $tpl->setVariable('services_categories', StanzaDelCittadinoBooking::factory()->getServicesByCategories());
+        $Result['content'] = $tpl->fetch('design:bootstrapitalia/booking/service_discover.tpl');
+    } else {
+        $Result['content'] = $tpl->fetch('design:bootstrapitalia/booking.tpl');
+    }
 }

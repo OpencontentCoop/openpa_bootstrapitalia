@@ -110,12 +110,14 @@ $tpl->setVariable('sdc_status_check', StanzaDelCittadinoBridge::factory()->getEn
 if ($http->hasPostVariable('StanzaDelCittadinoBooking') && $hasAdminAccess) {
     StanzaDelCittadinoBooking::factory()->setEnabled($http->hasPostVariable('StanzaDelCittadinoBookingEnable'));
     StanzaDelCittadinoBooking::factory()->setStoreMeetingAsApplication($http->hasPostVariable('StanzaDelCittadinoBookingStoreAsApplication'));
+    StanzaDelCittadinoBooking::factory()->setServiceDiscover($http->hasPostVariable('StanzaDelCittadinoBookingServiceDiscover'));
     eZContentCacheManager::clearAllContentCache();
     $module->redirectTo('/bootstrapitalia/info');
     return;
 }
 $tpl->setVariable('stanzadelcittadino_booking', StanzaDelCittadinoBooking::factory()->isEnabled());
 $tpl->setVariable('stanzadelcittadino_booking_store_as_application', StanzaDelCittadinoBooking::factory()->isStoreMeetingAsApplication());
+$tpl->setVariable('stanzadelcittadino_booking_service_discover', StanzaDelCittadinoBooking::factory()->isServiceDiscoverEnabled());
 
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {

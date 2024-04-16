@@ -10,6 +10,8 @@ class StanzaDelCittadinoBooking
 
     const STORE_AS_APPLICATION_CACHE_KEY = 'sdc_booking_as_application';
 
+    const USE_SERVICE_DISCOVER = 'sdc_booking_use_service_discover';
+
     private static $instance;
 
     public static function factory(): StanzaDelCittadinoBooking
@@ -30,6 +32,16 @@ class StanzaDelCittadinoBooking
     {
         self::initDb();
         $this->setStorage(self::ENABLE_CACHE_KEY, (int)$enable);
+    }
+
+    public function isServiceDiscoverEnabled(): bool
+    {
+        return $this->getStorage(self::USE_SERVICE_DISCOVER);
+    }
+
+    public function setServiceDiscover(bool $enable): void
+    {
+        $this->setStorage(self::USE_SERVICE_DISCOVER, (int)$enable);
     }
 
     private static function initDb()
@@ -179,6 +191,62 @@ EOT;
         }
         ksort($offices);
         return array_values($offices);
+    }
+
+    public function getServiceIdList(): array
+    {
+        $query = "SELECT DISTINCT service_id FROM ocbookingconfig";
+        $rows = eZDB::instance()->arrayQuery($query);
+        return array_column($rows, 'service_id');
+    }
+
+    public function getServicesByCategories(): array
+    {
+        $idList = $this->getServiceIdList();
+        if (empty($idList)) {
+            return [];
+        }
+
+        $db = eZDB::instance();
+        $sqlCondition = $db->generateSQLINStatement($idList, 'ezcontentobject.id', false, true, 'int') . ' AND ';
+        $fetchSQLString = "SELECT ezcontentobject.*,
+                               ezcontentclass.serialized_name_list as serialized_name_list,
+                               ezcontentclass.identifier as contentclass_identifier,
+                               ezcontentclass.is_container as is_container
+                           FROM
+                               ezcontentobject,
+                               ezcontentclass
+                           WHERE
+                               $sqlCondition
+                               ezcontentclass.id = ezcontentobject.contentclass_id AND
+                               ezcontentclass.version=0";
+        $rows = $db->arrayQuery($fetchSQLString);
+        $objects = [];
+        foreach ($rows as $row) {
+            $objects[$row['id']] = new eZContentObject($row);
+        }
+
+        $searchRepo = new \Opencontent\Opendata\Api\ContentSearch();
+        $searchRepo->setEnvironment(\Opencontent\Opendata\Api\EnvironmentLoader::loadPreset('content'));
+        $searchResponse = $searchRepo->search(
+            'id in [' . implode(',', $idList) . '] and classes [public_service] limit 1 facets [type|alpha] pivot [facet => [attr_type_lk,meta_id_si]]'
+        );
+        $data = [];
+        $pivot = $searchResponse->pivot['attr_type_lk,meta_id_si'] ?? [];
+        foreach ($pivot as $item){
+            $services = [];
+            foreach ($item['pivot'] as $ip){
+                if (isset($objects[$ip['value']])){
+                    $services[] = $objects[$ip['value']];
+                }
+            }
+            $data[] = [
+                'category' => $item['value'],
+                'identifier' => eZCharTransform::instance()->transformByGroup($item['value'], 'identifier'),
+                'services' => $services
+            ];
+        }
+        return $data;
     }
 
     public function getConfigs(): array
