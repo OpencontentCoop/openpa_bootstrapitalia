@@ -12,6 +12,8 @@ class BootstrapItaliaTheme implements JsonSerializable
 
     private $cssData;
 
+    private $usePrefix = false;
+
     private function __construct($identifier)
     {
         $this->identifier = $identifier;
@@ -35,6 +37,17 @@ class BootstrapItaliaTheme implements JsonSerializable
     public function getBaseIdentifier()
     {
         return $this->baseIdentifier;
+    }
+
+
+    public function getFileName()
+    {
+        $theme = $this->baseIdentifier;
+        if ($this->usePrefix){
+            $theme = $this->usePrefix . $theme;
+        }
+
+        return $theme;
     }
 
     /**
@@ -71,7 +84,7 @@ class BootstrapItaliaTheme implements JsonSerializable
         $tpl = eZTemplate::factory();
         if ($this->cssData === null) {
             $this->cssData = [];
-            $theme = $this->baseIdentifier;
+            $theme = $this->getFileName();
             $path = ltrim(eZURLOperator::eZDesign($tpl, "stylesheets/{$theme}.css", 'ezdesign'), '/');
             if (!file_exists($path)) {
                 $currentDesign = eZINI::instance()->variable('DesignSettings', 'SiteDesign');
@@ -139,10 +152,15 @@ class BootstrapItaliaTheme implements JsonSerializable
     private function parseCss($file)
     {
         $css = file_get_contents($file);
-        preg_match_all('/(?ims)([a-z0-9\s\.\:#_\-@,]+)\{([^\}]*)\}/', $css, $arr);
+        $css = ezjscCssOptimizer::optimize($css);
+        preg_match_all('/(?ims)([a-z0-9\s\.\:#_\-@,{]+)\{([^\}]*)\}/', $css, $arr);
         $result = array();
         foreach ($arr[0] as $i => $x) {
             $selector = trim($arr[1][$i]);
+            if (strpos($selector, '{') === 0){
+                $selector = substr($selector, 1);
+                $selector = trim($selector);
+            }
             $rules = explode(';', trim($arr[2][$i]));
             $rules_arr = array();
             foreach ($rules as $strRule) {

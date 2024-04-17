@@ -627,7 +627,7 @@ class OpenPABootstrapItaliaOperators
                 break;
 
             case 'current_theme':
-                $operatorValue = self::getCurrentTheme()->getBaseIdentifier();
+                $operatorValue = self::getCurrentTheme()->getFileName();
                 break;
 
             case 'current_theme_has_variation':
