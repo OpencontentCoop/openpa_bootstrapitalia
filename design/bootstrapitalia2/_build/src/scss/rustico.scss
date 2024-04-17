@@ -3,16 +3,18 @@
 
 $colore-header: #560906;
 
+$primary: #560906;
 $primary-a7: darken($colore-header, 3);
 $primary-a6: darken($colore-header, 0);
 $primary-a10: #30373d;
 $primary-a12: #661324;
 
 $primary-h: 2.25;
-$primary-s: 86.96;
-$primary-b: 18.04;
+$primary-s: 93.02;
+$primary-b: 33.73;
 
-$header-slim-bg-color: $primary-a7;
+$header-center-bg-color: #560906;
+$header-slim-bg-color: #480805;
 $footer-comuni-bg-color: $primary-a10;
 
 @import "default";
