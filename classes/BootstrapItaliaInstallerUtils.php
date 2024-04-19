@@ -40,13 +40,14 @@ class BootstrapItaliaInstallerUtils
             $nameList = new eZContentClassNameList();
             $nameList->initFromSerializedList($class->attribute('serialized_name_list'));
             $originalLanguageMask = $class->attribute('language_mask');
+            $languageMask = null;
             foreach ($nameList->nameList() as $lang => $name) {
                 if ($lang !== 'always-available') {
                     $class->setName($name, $lang);
                     $languageMask = $class->attribute('language_mask');
                 }
             }
-            if ($originalLanguageMask != $languageMask) {
+            if ($languageMask && $originalLanguageMask != $languageMask) {
                 $class->setAttribute('language_mask', $languageMask);
                 eZPersistentObject::storeObject($class);
             }
@@ -110,7 +111,9 @@ class BootstrapItaliaInstallerUtils
             $attributeIdentifier = 'section_calendar';
             $targetClassIdentifier = 'event_link';
             if (isset($dataMap[$attributeIdentifier])
-                && $dataMap[$attributeIdentifier]->attribute('data_type_string') == eZObjectRelationListType::DATA_TYPE_STRING) {
+                && $dataMap[$attributeIdentifier]->attribute(
+                    'data_type_string'
+                ) == eZObjectRelationListType::DATA_TYPE_STRING) {
                 $eventLink = eZContentClass::fetchByIdentifier($targetClassIdentifier);
                 if ($eventLink instanceof eZContentClass) {
                     $xmlText = $dataMap[$attributeIdentifier]->attribute('data_text5');
@@ -131,6 +134,21 @@ class BootstrapItaliaInstallerUtils
                     }
                 }
             }
+        }
+    }
+
+    public static function clearTrasparenzaMenu()
+    {
+        $nodeId = OpenPAOperator::getTrasparenzaRootNodeId();
+        if ($nodeId) {
+            $parameters = [
+                'root_node_id' => $nodeId,
+                'scope' => 'side_menu',
+                'user_hash' => false
+            ];
+            $menuHandler = new OpenPATreeMenuHandler($parameters);
+            OpenPAMenuTool::refreshMenu($menuHandler->cacheFileName());
+            eZCache::clearTemplateBlockCache(null);
         }
     }
 }
