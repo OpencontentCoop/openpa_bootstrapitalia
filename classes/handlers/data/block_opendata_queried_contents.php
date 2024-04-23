@@ -72,7 +72,6 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
             if (!empty($searchString)) {
                 $encodedString = trim(addcslashes($searchString, '"()[]\''));
                 if ($this->api === 'geo') {
-                    $field = 'raw[meta_name_t]';
                     $strings = explode(' ', $encodedString);
                     $conditions = '[\'"' . implode('"\',\'"', $strings) . '"\']';
                     $query = '(raw[meta_name_t] contains ' . $conditions . ' or raw[attr_alternative_name_t] contains ' . $conditions . ') and ' . $baseQuery;
@@ -100,13 +99,13 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
         if ($http->hasGetVariable('f') && count($facets)) {
             $query .= ' facets [' . implode(',', $facets) . ']';
         }
-        if ($http->hasGetVariable('limit')) {
-            $limit = (int)$http->getVariable('limit');
-            if ($limit > $maxLimit) {
-                $limit = $maxLimit;
-            }
-            $query .= ' and limit ' . $limit;
+        $limit = $http->hasGetVariable('limit')
+            ? (int)$http->getVariable('limit')
+            : $currentEnvironment->getDefaultSearchLimit();
+        if ($limit > $maxLimit && $this->api !== 'geo') {
+            $limit = $maxLimit;
         }
+        $query .= ' and limit ' . $limit;
         if ($http->hasGetVariable('offset')) {
             $query .= ' and offset ' . (int)$http->getVariable('offset');
         }
@@ -124,6 +123,7 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
 
         if (!empty($data['nextPageQuery'])){
             $ezFindQueryObject = $queryObject->convert();
+            $ezFindQueryObject['SearchOffset'] = $ezFindQueryObject['SearchOffset'] ?? 0;
             $offset = $ezFindQueryObject['SearchLimit'] + $ezFindQueryObject['SearchOffset'];
             $limit = $ezFindQueryObject['SearchLimit'];
             $nextPageParams = [
@@ -136,7 +136,6 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
             }
             $data['nextPageQuery'] = '?' . http_build_query($nextPageParams);
         }
-
         if ($ignorePolicy && !empty($view)){
             //workaround de merd... @todo
             $string = json_encode($data);
