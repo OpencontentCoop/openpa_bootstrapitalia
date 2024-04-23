@@ -38,29 +38,30 @@
                                         {/foreach}
                                     </ul>
                                 </div>
-                                <div class="col col-8 tab-content">
+                                <div class="col col-8">
+                                    <div class="tab-content">
                                     {foreach $services_categories as $index => $services_category}
-                                    <div class="position-relative clearfix attribute-edit tab-pane{if $index|eq(0)} active{/if} px-2 mt-2" id="cat-{$services_category.identifier|wash()}">
-                                        <div class="it-list-wrapper">
-                                            <ul class="it-list">
-                                                {foreach $services_category.services as $service}
-                                                <li>
-                                                    <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no))}" class="list-item">
-                                                        <div class="it-right-zone">
-                                                            <span class="text mb-0">
-                                                                <span class="text-primary">{$service.name|wash()}</span>
-                                                                <em>{$service|attribute('abstract').content|wash()}</em>
-                                                            </span>
-                                                            {display_icon('it-chevron-right', 'svg', 'icon')}
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                {/foreach}
-                                            </ul>
+                                        <div class="position-relative clearfix attribute-edit tab-pane{if $index|eq(0)} active{/if} px-2 mt-2" id="cat-{$services_category.identifier|wash()}">
+                                            <div class="it-list-wrapper">
+                                                <ul class="it-list">
+                                                    {foreach $services_category.services as $service}
+                                                    <li>
+                                                        <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no))}" class="list-item">
+                                                            <div class="it-right-zone">
+                                                                <span class="text mb-0">
+                                                                    <span class="text-primary">{$service.name|wash()}</span>
+                                                                    <em>{$service|attribute('abstract').content|wash()}</em>
+                                                                </span>
+                                                                {display_icon('it-chevron-right', 'svg', 'icon')}
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    {/foreach}
+                                                </ul>
+                                            </div>
                                         </div>
-
-                                    </div>
                                     {/foreach}
+                                    </div>
                                 </div>
                             </div>
                         </div>
