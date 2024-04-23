@@ -31,7 +31,7 @@
                                     <ul class="nav nav-tabs nav-tabs-vertical" role="tablist" style="height: 100%" aria-orientation="vertical">
                                         {foreach $services_categories as $index => $services_category}
                                             <li class="nav-item">
-                                                <a class="nav-link ps-0 d-block mw-100 text-uppercase{if $index|eq(0)} active{/if}" data-bs-toggle="tab" href="#cat-{$services_category.identifier}">
+                                                <a class="nav-link ps-0 d-block mw-100 text-nowrap text-uppercase{if $index|eq(0)} active{/if}" data-bs-toggle="tab" href="#cat-{$services_category.identifier}">
                                                     {$services_category.category|wash()}
                                                 </a>
                                             </li>
