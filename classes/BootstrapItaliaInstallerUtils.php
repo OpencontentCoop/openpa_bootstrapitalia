@@ -144,11 +144,81 @@ class BootstrapItaliaInstallerUtils
             $parameters = [
                 'root_node_id' => $nodeId,
                 'scope' => 'side_menu',
-                'user_hash' => false
+                'user_hash' => false,
             ];
             $menuHandler = new OpenPATreeMenuHandler($parameters);
             OpenPAMenuTool::refreshMenu($menuHandler->cacheFileName());
             eZCache::clearTemplateBlockCache(null);
+        }
+    }
+
+    public static function fixDocumentTypeTags()
+    {
+        $tagsToSynonyms = [
+            'pdf' => 'PDF',
+            'odt' => 'ODT',
+        ];
+        foreach ($tagsToSynonyms as $synonym => $main) {
+            /** @var eZTagsObject $tag */
+            $tag = eZTagsObject::fetchByKeyword($synonym)[0] ?? null;
+            /** @var eZTagsObject $mainTag */
+            $mainTag = eZTagsObject::fetchByKeyword($main)[0] ?? null;
+
+            if (!$tag || !$mainTag) {
+                continue;
+            }
+
+            if ($tag->attribute( 'main_tag_id' ) == $mainTag->attribute('id')) {
+                continue;
+            }
+
+            $updateDepth = false;
+            $updatePathString = false;
+
+            $db = eZDB::instance();
+            $db->begin();
+
+            if ($tag->attribute('depth') != $mainTag->attribute('depth')) {
+                $updateDepth = true;
+            }
+
+            if ($tag->attribute('parent_id') != $mainTag->attribute('parent_id')) {
+                $oldParentTag = $tag->getParent(true);
+                if ($oldParentTag instanceof eZTagsObject) {
+                    $oldParentTag->updateModified();
+                }
+
+                $updatePathString = true;
+            }
+
+            $tag->moveChildrenBelowAnotherTag($mainTag);
+
+            $synonyms = $tag->getSynonyms(true);
+            foreach ($synonyms as $synonym) {
+                $synonym->setAttribute('parent_id', $mainTag->attribute('parent_id'));
+                $synonym->setAttribute('main_tag_id', $mainTag->attribute('id'));
+                $synonym->store();
+            }
+
+            $tag->setAttribute('parent_id', $mainTag->attribute('parent_id'));
+            $tag->setAttribute('main_tag_id', $mainTag->attribute('id'));
+            $tag->store();
+
+            if ($updatePathString) {
+                $tag->updatePathString();
+            }
+
+            if ($updateDepth) {
+                $tag->updateDepth();
+            }
+
+            $tag->updateModified();
+
+            if (eZINI::instance('eztags.ini')->variable('SearchSettings', 'IndexSynonyms') !== 'enabled') {
+                $tag->registerSearchObjects();
+            }
+
+            $db->commit();
         }
     }
 }
