@@ -192,8 +192,10 @@
             {/if}
 
             <div class="mt-5">
-                {include uri=$openpa['content_show_published'].template}
-                {include uri=$openpa['content_show_modified'].template}
+                <p class="info-date my-3 text-sans-serif">
+                    <span class="d-block text-nowrap text-sans-serif">{'Last modified'|i18n('bootstrapitalia')}:</span>
+                    <strong class="text-nowrap">{$node.modified_subnode|l10n( 'date' )}</strong>
+                </p>
             </div>
 
         </section>
