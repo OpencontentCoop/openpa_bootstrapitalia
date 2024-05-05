@@ -155,7 +155,12 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
             }
         }
 
-        if ($class->attribute('identifier') == 'event' && eZContentObject::fetchByRemoteID('all-events')) {
+        if ($class->attribute('identifier') == 'event'
+            && (
+                eZContentObject::fetchByRemoteID('all-events')
+                || eZContentObject::fetchByRemoteID(OpenPABase::getCurrentSiteaccessIdentifier() . '_openpa_agenda')
+            )
+        ){
             $isAccessibleForFree = false;
             $costNotes = false;
             $hasOffer = false;
@@ -163,25 +168,29 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
             $isAccessibleForFreeName = 'is_accessible_for_free';
             $costNotesName = 'cost_notes';
             $hasOfferName = 'has_offer';
+            $countExisting = 0;
 
             foreach ($contentObjectAttributes as $contentObjectAttribute) {
                 $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
                 if ($contentClassAttribute->attribute('identifier') == 'is_accessible_for_free') {
+                    $countExisting++;
                     $isAccessibleForFree = $http->hasPostVariable($base . "_data_boolean_" . $contentObjectAttribute->attribute("id"));
                     $isAccessibleForFreeName = $contentClassAttribute->attribute('name');
                 } elseif ($contentClassAttribute->attribute('identifier') == 'cost_notes') {
+                    $countExisting++;
                     $costNotesData = $http->postVariable($base . "_data_text_" . $contentObjectAttribute->attribute("id"));
                     $costNotesData = strip_tags($costNotesData);
                     $costNotesData = trim($costNotesData);
                     $costNotes = !empty($costNotesData);
                     $costNotesName = $contentClassAttribute->attribute('name');
                 } elseif ($contentClassAttribute->attribute('identifier') == 'has_offer') {
+                    $countExisting++;
                     $hasOfferData = $http->postVariable($base . "_data_object_relation_list_" . $contentObjectAttribute->attribute("id"));
                     $hasOffer = is_array($hasOfferData) && (count($hasOfferData) > 1 || $hasOfferData[0] !== 'no_relation');
                     $hasOfferName = $contentClassAttribute->attribute('name');
                 }
             }
-            if (!$isAccessibleForFree && !$costNotes && !$hasOffer) {
+            if ($countExisting === 3 && !$isAccessibleForFree && !$costNotes && !$hasOffer) {
                 $result = [
                     'is_valid' => false,
                     'warnings' => [

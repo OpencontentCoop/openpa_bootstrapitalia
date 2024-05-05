@@ -1729,7 +1729,7 @@ class OpenPABootstrapItaliaOperators
             );
             $defaultObjectAttributeMap = [];
             foreach ($default as $identifier) {
-                if (isset($contentObjectAttributeMap[$identifier])) {
+                if (isset($contentObjectAttributeMap[$identifier]) && !isset($hiddenObjectAttributeMap[$identifier])) {
                     $defaultObjectAttributeMap[$identifier] = $contentObjectAttributeMap[$identifier];
                     unset($contentObjectAttributeMap[$identifier]);
                 }

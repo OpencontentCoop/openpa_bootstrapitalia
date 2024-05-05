@@ -1,6 +1,6 @@
 <?php
 
-class ObjectHandlerServiceEventLink extends ObjectHandlerServiceAttribute
+class ObjectHandlerServiceEventLink extends ObjectHandlerServiceBase
 {
     private $alwaysAvailable = true;
 
