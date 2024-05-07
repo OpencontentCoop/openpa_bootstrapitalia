@@ -29,6 +29,14 @@
                         </div>
                     </section>
                 </div>
+
+                <div class="input-group">
+                    <input type="text" class="form-control" id="discover-search">
+                    <div class="input-group-append">
+                        <button class="btn btn-info rounded-0" type="button" id="FindContents">{'Search'|i18n('openpa/search')}</button>
+                    </div>
+                </div>
+
                 <div class="row my-5">
                     <div class="col col-4">
                         <ul class="nav nav-tabs nav-tabs-vertical" role="tablist" style="height: 100%" aria-orientation="vertical">
@@ -49,7 +57,7 @@
                                         <ul class="it-list">
                                             {foreach $services_category.services as $service}
                                                 <li>
-                                                    <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no))}" class="list-item">
+                                                    <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no)}" class="list-item">
                                                         <div class="it-right-zone">
                                                                 <span class="text mb-0">
                                                                     <span>{$service.name|wash()}</span>
@@ -70,4 +78,26 @@
             </div>
         </div>
     </div>
+    <script src={"javascript/jquery.quicksearch.js"|ezdesign}></script>
+    {literal}
+    <script>
+        $(document).ready(function (){
+          $('input#discover-search').quicksearch('ul.it-list li', {
+            'delay': 100,
+            'onAfter': function () {
+              $('.it-list li.qs-show').each(function () {
+                let tabId = $(this).parents('.tab-pane').attr('id')
+                console.log($(this).text(), tabId);
+              })
+            },
+            show: function () {
+              $(this).addClass('qs-show').removeClass('qs-hide').show();
+            },
+            hide: function () {
+              $(this).addClass('qs-hide').removeClass('qs-show').hide();
+            },
+          });
+        })
+    </script>
+    {/literal}
 {/if}
