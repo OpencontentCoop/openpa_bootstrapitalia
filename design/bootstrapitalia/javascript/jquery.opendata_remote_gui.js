@@ -52,7 +52,8 @@
         this.currentPage = 0;
         this.queryPerPage = [];
         this.resultWrapper = this.container.find('.items');
-        this.spinnerTpl = $($.templates(this.settings.spinnerTpl).render({}));
+        let paginationStyle = $.inArray(this.settings.view, ['latest_messages_item','accordion','text_linked']) !== -1 ? 'append' : 'reload';
+        this.spinnerTpl = $($.templates(this.settings.spinnerTpl).render({paginationStyle:paginationStyle}));
         this.listTpl = $.templates(this.settings.listTpl);
         this.popupTpl = $.templates(this.settings.popupTpl);
 
@@ -67,6 +68,8 @@
             L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(this.map);
             this.map.addLayer(this.markers);
         }
+        this.paginationStyle = paginationStyle;
+
         let plugin = this;
         $('body').on('shown.bs.tab', function (e) {
             if ($(e.target).hasClass('view-selector')) {
@@ -313,7 +316,11 @@
             let offset = plugin.currentPage * plugin.settings.limitPagination;
             let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
 
-            resultsContainer.html(plugin.spinnerTpl);
+            if (plugin.paginationStyle === 'reload') {
+                resultsContainer.html(plugin.spinnerTpl);
+            } else {
+                resultsContainer.find('.nextPage').replaceWith(plugin.spinnerTpl);
+            }
             let data = null;
             if (plugin.settings.remoteUrl !== '') {
                 data = {view: plugin.settings.view};
@@ -346,9 +353,14 @@
                             this.customTpl = plugin.settings.customTpl;
                         });
                         response.itemsPerRow = plugin.settings.itemsPerRow;
+                        response.paginationStyle = plugin.paginationStyle;
 
                         let renderData = $(template.render(response));
-                        resultsContainer.html(renderData);
+                        if (plugin.currentPage === 0 || plugin.paginationStyle === 'reload') {
+                            resultsContainer.html(renderData);
+                        }else{
+                            resultsContainer.find('.spinner').replaceWith(renderData);
+                        }
 
                         resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {
                             plugin.currentPage = $(this).data('page');
