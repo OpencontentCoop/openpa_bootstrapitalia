@@ -319,7 +319,7 @@
             let offset = plugin.currentPage * plugin.settings.limitPagination;
             let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
 
-            if (plugin.paginationStyle === 'reload') {
+            if (plugin.currentPage === 0 || plugin.paginationStyle === 'reload') {
                 resultsContainer.html(plugin.spinnerTpl);
             } else {
                 resultsContainer.find('.nextPage').replaceWith(plugin.spinnerTpl);
