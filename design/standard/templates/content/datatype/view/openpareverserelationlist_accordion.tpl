@@ -1,4 +1,5 @@
-{if $attribute.has_content}
+{def $item_count = fetch('bootstrapitalia', 'openpareverse_count', hash('attribute', $attribute))}
+{if $item_count}
     {block_view_gui
         items_per_row=1
         wrapper_class=''
@@ -13,7 +14,7 @@
                 "query", fetch('bootstrapitalia', 'openpareverse_query', hash('attribute', $attribute)),
                 "show_grid", "1",
                 "show_map", "",
-                "show_search", "1",
+                "show_search", cond($item_count|gt(10), "1", ""),
                 "limit", "20",
                 "items_per_row", "1",
                 "facets", "",
