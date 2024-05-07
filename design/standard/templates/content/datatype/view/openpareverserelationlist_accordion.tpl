@@ -15,7 +15,7 @@
                 "show_grid", "1",
                 "show_map", "",
                 "show_search", cond($item_count|gt(10), "1", ""),
-                "limit", "20",
+                "limit", "10",
                 "items_per_row", "1",
                 "facets", "",
                 "view_api", "accordion",
