@@ -21,6 +21,9 @@
             </div>
         </div>
     {{else paginationStyle === 'append'}}
+		{{if currentPage == 0}}
+			<small class="d-block mb-4 results-count"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</small>
+		{{/if}}
 		{{for searchHits}}
           {{include tmpl="#tpl-remote-gui-item"/}}
 		{{/for}}
@@ -28,8 +31,6 @@
 			<button type="button" data-page="{{>nextPage}}" class="nextPage btn btn-outline-primary pt-15 pb-15 pl-90 pr-90 mb-30 mt-3 mb-lg-50 full-mb text-button" data-element="load-other-cards">
 			   <span class="">{/literal}{'Load more results'|i18n('bootstrapitalia')}{literal}</span>
 			</button>
-		{{else}}
-			<p class="text-paragraph-regular-medium mt-4 mb-0">{/literal}{'No other results'|i18n('bootstrapitalia')}{literal}</p>
 		{{/if}}
 	{{else}}
         <div class="{{if itemsPerRow == 'auto'}}card-columns{{else}}row card-h-100 mx-lg-n3 row-cols-1 row-cols-md-2 row-cols-lg-{{:itemsPerRow}}{{/if}}">
