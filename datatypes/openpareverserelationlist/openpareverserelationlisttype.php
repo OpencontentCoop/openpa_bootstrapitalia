@@ -13,6 +13,8 @@ class OpenPAReverseRelationListType extends eZDataType
 
     private static $hasContent = array();
 
+    private static $countContent = array();
+
     private static $content = array();
 
     public function __construct()
@@ -166,29 +168,30 @@ class OpenPAReverseRelationListType extends eZDataType
     public function hasObjectAttributeContent($contentObjectAttribute)
     {
         if (!isset(self::$hasContent[$contentObjectAttribute->attribute('id')])) {
+            self::$hasContent[$contentObjectAttribute->attribute('id')] = self::fetchCount($contentObjectAttribute) > 0;
+        }
+        return self::$hasContent[$contentObjectAttribute->attribute('id')];
+    }
 
-            $query = self::buildQuery($contentObjectAttribute, 1);
-//            eZDebug::writeDebug($contentObjectAttribute->contentClassAttributeIdentifier() . ' ' . $query, __METHOD__);
-
-            if (!$query) {
-                self::$hasContent[$contentObjectAttribute->attribute('id')] = false;
-            } else {
-                try {
-                    $contentSearch = new ContentSearch();
-                    $contentSearch->setEnvironment(new FullEnvironmentSettings());
-
-                    $data = (array)$contentSearch->search($query);
-
-                    self::$hasContent[$contentObjectAttribute->attribute('id')] = $data['totalCount'] > 0;
-                } catch (Exception $e) {
-
-                    eZDebug::writeError($e->getMessage(), __METHOD__);
-                    self::$hasContent[$contentObjectAttribute->attribute('id')] = false;
-                }
+    public static function fetchCount(eZContentObjectAttribute $attribute): int
+    {
+        if (!isset(self::$countContent[$attribute->attribute('id')])) {
+            $query = self::buildQuery($attribute, 1);
+            try {
+                $contentSearch = new ContentSearch();
+                $contentSearch->setEnvironment(new FullEnvironmentSettings());
+                $data = $contentSearch->search($query);
+            } catch (Exception $e) {
+                $data = new stdClass();
+                $data->totalCount = 0;
+                eZDebug::writeError($e->getMessage(), __METHOD__);
             }
+
+            self::$countContent[$attribute->attribute('id')] = (int)$data->totalCount;
+            eZDebug::writeDebug($query, $attribute->attribute('id') . ' ' . $data->totalCount . ' ' . __METHOD__);
         }
 
-        return self::$hasContent[$contentObjectAttribute->attribute('id')];
+        return self::$countContent[$attribute->attribute('id')];
     }
 
     /**
@@ -211,6 +214,7 @@ class OpenPAReverseRelationListType extends eZDataType
             }
             $limit = $classContent['limit'];
             $query = self::buildQuery($objectAttribute, $limit, $offset);
+            eZDebug::writeDebug($query, $objectAttribute->attribute('id') . ' ' . __METHOD__);
 
             self::$content[$objectAttributeId]['query'] = $query;
             self::$content[$objectAttributeId]['limit'] = $limit;
@@ -307,9 +311,11 @@ class OpenPAReverseRelationListType extends eZDataType
                 $sort = $data['sort'];
                 $order = $data['order'] == 'desc' ? 'desc' : 'asc';
                 $queryParts[] = "sort [{$sort}=>{$order}]";
-                $queryParts[] = 'limit ' . (int)$limit;
-                $queryParts[] = 'offset ' . (int)$offset;
-
+                if ($limit !== null) {
+                    $queryParts[] = 'limit ' . (int)$limit;
+                    $queryParts[] = 'offset ' . (int)$offset;
+                }
+//                eZDebug::writeDebug(implode(' and ', $queryParts), $contentObjectAttribute->attribute('id') . ' ' . __METHOD__);
                 return implode(' and ', $queryParts);
             }
         }
@@ -338,6 +344,12 @@ class OpenPAReverseRelationListType extends eZDataType
         }
 
         return $this->relationsListClassAttributes;
+    }
+
+    function viewTemplate( $contentObjectAttribute )
+    {
+        $suffix = '';
+        return $this->DataTypeString . $suffix;
     }
 }
 

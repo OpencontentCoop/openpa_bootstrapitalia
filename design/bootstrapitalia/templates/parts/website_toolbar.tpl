@@ -164,6 +164,7 @@
                                     {include uri='design:parts/websitetoolbar/object_states.tpl'}
                                     {include uri='design:parts/websitetoolbar/reindex.tpl'}
                                     {include uri='design:parts/websitetoolbar/classtools.tpl'}
+                                    {include uri='design:parts/websitetoolbar/urlalias.tpl'}
                                     {include uri='design:parts/websitetoolbar/ckan_push.tpl'}
                                     {*include uri='design:parts/websitetoolbar/ezmultiupload.tpl'*}
                                     {*include uri='design:parts/websitetoolbar/ezflip.tpl'*}
@@ -337,6 +338,14 @@
                                         <a class="list-item left-icon" href="{'webhook/list'|ezurl(no)}">
                                             <i aria-hidden="true" class="fa fa-external-link-square"></i>
                                             Webhooks
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'urltranslator' ) )}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'content/urltranslator'|ezurl(no)}">
+                                            <i aria-hidden="true" class="fa fa-link"></i>
+                                            {'URL translator'|i18n( 'design/admin/parts/setup/menu' )}
                                         </a>
                                     </li>
                                 {/if}

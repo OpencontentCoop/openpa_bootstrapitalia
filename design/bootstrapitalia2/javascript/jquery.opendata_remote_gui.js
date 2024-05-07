@@ -53,7 +53,7 @@
         this.currentPage = 0;
         this.queryPerPage = [];
         this.resultWrapper = this.container.find('.items');
-        let paginationStyle = this.settings.view === 'latest_messages_item' ? 'append' : 'reload';
+        let paginationStyle = $.inArray(this.settings.view, ['latest_messages_item','accordion','text_linked']) !== -1 ? 'append' : 'reload';
         this.spinnerTpl = $($.templates(this.settings.spinnerTpl).render({paginationStyle:paginationStyle}));
         this.listTpl = $.templates(this.settings.listTpl);
         this.popupTpl = $.templates(this.settings.popupTpl);
@@ -319,7 +319,7 @@
             let offset = plugin.currentPage * plugin.settings.limitPagination;
             let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
 
-            if (plugin.paginationStyle === 'reload') {
+            if (plugin.currentPage === 0 || plugin.paginationStyle === 'reload') {
                 resultsContainer.html(plugin.spinnerTpl);
             } else {
                 resultsContainer.find('.nextPage').replaceWith(plugin.spinnerTpl);
@@ -357,6 +357,7 @@
                             this.customTpl = plugin.settings.customTpl;
                         });
                         response.view = plugin.settings.view;
+                        response.paginationStyle = plugin.paginationStyle;
                         response.autoColumn = plugin.settings.itemsPerRow !== 'auto' && $.inArray(plugin.settings.view, ['card_teaser', 'banner_color', 'card_children']) > -1;
                         response.itemsPerRow = plugin.settings.itemsPerRow;
 
