@@ -131,5 +131,23 @@ $FunctionList['openpareverse_count'] = [
     ],
 ];
 
+$FunctionList['openpareverse_query'] = [
+    'name' => 'openpareverse_query',
+    'operation_types' => ['read'],
+    'call_method' => [
+        'class' => 'OpenPAReverseRelationListFunctionCollection',
+        'method' => 'buildQuery',
+    ],
+    'parameter_type' => 'standard',
+    'parameters' => [
+        [
+            'name' => 'attribute',
+            'type' => 'object',
+            'required' => true,
+            'default' => false,
+        ]
+    ],
+];
+
 
 
