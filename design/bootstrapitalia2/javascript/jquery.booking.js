@@ -1065,6 +1065,7 @@
           name: this.summary.applicantName,
           surname: this.summary.applicantSurname,
           user_message: this.summary.detailsText,
+          motivation_outcome: $('[data-motivation_outcome]').html(),
           reason: this.summary.subjectText,
           place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html()
         }

@@ -691,7 +691,7 @@
     </message>
     <message>
       <source>Submit your rating</source>
-      <translation>Soumettez votre note</translation>
+      <translation>Soumettez votre évaluation</translation>
     </message>
   </context>
   <context>
@@ -1887,6 +1887,18 @@
     </message>
     <message>
       <source>Place</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>What do you need?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment for the service best suited to your needs</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>You can find all the necessary documents with the related instructions for use and information on the procedure to follow to use the %service service on the %open_service_link dedicated page %close_service_link</source>
       <translation type="unfinished"/>
     </message>
   </context>

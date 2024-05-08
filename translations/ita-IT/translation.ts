@@ -1893,5 +1893,17 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Place</source>
       <translation>Luogo</translation>
     </message>
+    <message>
+      <source>What do you need?</source>
+      <translation>Qual è la tua necessità?</translation>
+    </message>
+    <message>
+      <source>Book an appointment for the service best suited to your needs</source>
+      <translation>Prenota un appuntamento per il servizio più idoneo alle tue esigenze</translation>
+    </message>
+    <message>
+      <source>You can find all the necessary documents with the related instructions for use and information on the procedure to follow to use the %service service on the %open_service_link dedicated page %close_service_link</source>
+      <translation>Puoi trovare tutti i documenti necessari con le relative istruzioni all'uso e le informazioni sulla procedura da seguire per usufruire del servizio %service nella %open_service_link pagina dedicata %close_service_link</translation>
+    </message>
   </context>
 </TS>

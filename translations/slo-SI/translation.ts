@@ -109,7 +109,7 @@
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Pojdite na koledar dogodkov</translation>
+      <translation>Pojdi na koledar dogodkov</translation>
     </message>
     <message>
       <source>Event start</source>
@@ -560,7 +560,7 @@
     </message>
     <message>
       <source>Apps</source>
-      <translation>Aplikacije</translation>
+      <translation>aplikacije</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
@@ -617,7 +617,7 @@
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Nanašati na</translation>
+      <translation>Nanaša se na</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -1003,7 +1003,7 @@
     </message>
     <message>
       <source>Select place</source>
-      <translation>Izberite mesto</translation>
+      <translation>Izberite kraj</translation>
     </message>
     <message>
       <source>Nowhere</source>
@@ -1887,6 +1887,18 @@
     </message>
     <message>
       <source>Place</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>What do you need?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment for the service best suited to your needs</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>You can find all the necessary documents with the related instructions for use and information on the procedure to follow to use the %service service on the %open_service_link dedicated page %close_service_link</source>
       <translation type="unfinished"/>
     </message>
   </context>

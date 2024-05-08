@@ -999,7 +999,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Llena algunos datos sobre tu lugar.</translation>
+      <translation>Llena algunos datos sobre tu lugar</translation>
     </message>
     <message>
       <source>Select place</source>
@@ -1887,6 +1887,18 @@
     </message>
     <message>
       <source>Place</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>What do you need?</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Book an appointment for the service best suited to your needs</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>You can find all the necessary documents with the related instructions for use and information on the procedure to follow to use the %service service on the %open_service_link dedicated page %close_service_link</source>
       <translation type="unfinished"/>
     </message>
   </context>

@@ -36,6 +36,8 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
 
     private $slot;
 
+    private $motivationOutcome;
+
     /**
      * @return mixed
      */
@@ -345,6 +347,18 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         return $this;
     }
 
+    public function getMotivationOutcome()
+    {
+        return $this->motivationOutcome;
+    }
+
+    public function setMotivationOutcome($motivationOutcome)
+    {
+        $this->motivationOutcome = $motivationOutcome;
+        return $this;
+    }
+
+
     public static function fromRequest()
     {
         $dto = new static();
@@ -401,6 +415,9 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         }
         if ($http->hasPostVariable('slot')) {
             $dto->setSlot($http->postVariable('slot'));
+        }
+        if ($http->hasPostVariable('motivation_outcome')) {
+            $dto->setMotivationOutcome($http->postVariable('motivation_outcome'));
         }
 
         return $dto;
@@ -472,6 +489,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'reason' => $this->getReason(),
             'status' => $withStatus,
             'location' => $this->getPlace(),
+            'motivation_outcome' => $this->getMotivationOutcome(),
         ];
 
         return $data;
