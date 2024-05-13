@@ -17,7 +17,7 @@ class BuiltinApp extends OpenPATempletizable
         $this->appLabel = $appLabel;
 
         parent::__construct([
-            'src' => $this->getWidgetSrc()
+            'src' => $this->getWidgetSrc(),
         ]);
     }
 
@@ -158,6 +158,78 @@ class BuiltinApp extends OpenPATempletizable
         return $data[0][0] ?? null;
     }
 
+    protected function getServicePath()
+    {
+        $path = [];
+        $serviceId = eZHTTPTool::instance()->hasGetVariable('service_id') ? eZHTTPTool::instance()->getVariable('service_id') : null;
+        if (!$serviceId) {
+            $referrer = eZSys::serverVariable('HTTP_REFERER');
+            if ($referrer && strpos($referrer, '?service_id=') !== false) {
+                $referrerQuery = parse_url($referrer, PHP_URL_QUERY);
+                parse_str($referrerQuery, $referrerQueryArray);
+                $serviceId = $referrerQueryArray['service_id'] ?? null;
+            }
+        }
+        if ($serviceId) {
+            $service = null;
+            if (ServiceSync::isUuid($serviceId)) {
+                $escapedServiceId = eZDB::instance()->escapeString($serviceId);
+                $relationType = eZContentObject::RELATION_ATTRIBUTE;
+                $classAttributeId = eZContentClassAttribute::classAttributeIDByIdentifier('public_service/has_channel');
+                $objectIdList = eZDB::instance()->arrayQuery(
+                    "SELECT from_contentobject_id 
+                        FROM ezcontentobject_link 
+                        WHERE relation_type = $relationType AND contentclassattribute_id = $classAttributeId AND to_contentobject_id = (
+                          SELECT DISTINCT contentobject_id
+                            FROM ezcontentobject_attribute ezcoa
+                            JOIN ezurl_object_link ezuol ON (ezuol.contentobject_attribute_id = ezcoa.id)
+                            JOIN ezurl ezu ON (ezuol.url_id = ezu.id)
+                            WHERE ezu.url like '%$escapedServiceId%'
+                            LIMIT 1
+                        )
+                        LIMIT 1"
+                );
+                if (isset($objectIdList[0]['from_contentobject_id'])){
+                    $service = eZContentObject::fetch((int)$objectIdList[0]['from_contentobject_id']);
+                }
+            } elseif (is_numeric($serviceId)) {
+                $service = eZContentObject::fetch((int)$serviceId);
+            }
+
+            if ($service instanceof eZContentObject && $service->attribute('class_identifier') === 'public_service') {
+                $serviceNode = $service->mainNode();
+                if ($serviceNode instanceof eZContentObjectTreeNode){
+                    $parent = $serviceNode->fetchParent();
+                    $parentUrl = $parent->urlAlias();
+                    eZURI::transformURI($parentUrl);
+                    $path[] = [
+                        'text' => $parent->attribute('name'),
+                        'url' => $parentUrl,
+                    ];
+                    $dataMap = $service->dataMap();
+                    if (isset($dataMap['type']) && $dataMap['type']->hasContent()){
+                        $typeTags = $dataMap['type']->content();
+                        if ($typeTags instanceof eZTags){
+                            $type = $typeTags->attribute('keywords')[0];
+                            $path[] = [
+                                'text' => $type,
+                                'url' => $parentUrl . '/(view)/' . urlencode($type),
+                            ];
+                        }
+                    }
+                    $serviceNodeUrl = $serviceNode->urlAlias();
+                    eZURI::transformURI($serviceNodeUrl);
+                    $path[] = [
+                        'text' => $serviceNode->attribute('name'),
+                        'url' => $serviceNodeUrl,
+                    ];
+                }
+            }
+        }
+
+        return $path;
+    }
+
     public function getModuleResult(): array
     {
         $tpl = eZTemplate::factory();
@@ -178,24 +250,9 @@ class BuiltinApp extends OpenPATempletizable
             'text' => OpenPAINI::variable('GeneralSettings','ShowMainContacts', 'enabled') == 'enabled' ? 'Home' : OpenPaFunctionCollection::fetchHome()->getName(),
             'url' => $homeUrl,
         ];
-        $allServices = eZContentObject::fetchByRemoteID('all-services');
-        if ($allServices instanceof eZContentObject) {
-            $allServiceUrl = $allServices->mainNode()->urlAlias();
-            eZURI::transformURI($allServiceUrl);
-            $path[] = [
-                'text' => $allServices->attribute('name'),
-                'url' => $allServiceUrl,
-            ];
-            $category = $this->getCategory();
-            if ($category){
-                $path[] = [
-                    'text' => $category,
-                    'url' => $allServiceUrl . '/(view)/' . $category,
-                ];
-            }
-        }
+        $path = array_merge($path, $this->getServicePath());
         $path[] = [
-            'text' => ezpI18n::tr('bootstrapitalia', $this->getAppLabel()),
+            'text' => ezpI18n::tr('bootstrapitalia/footer', $this->getAppLabel()),
             'url' => false,
         ];
         $Result['path'] = $path;

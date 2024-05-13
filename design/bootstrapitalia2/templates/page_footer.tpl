@@ -233,17 +233,17 @@
                                     {undef $faq_system}
                                         <li>
                                             <a data-element="appointment-booking" href="{if is_set($pagedata.contacts['link_prenotazione_appuntamento'])}{$pagedata.contacts['link_prenotazione_appuntamento']|wash()}{else}{'prenota_appuntamento'|ezurl(no)}{/if}">
-                                                {'Book an appointment'|i18n('bootstrapitalia')}
+                                                {'Book an appointment'|i18n('bootstrapitalia/footer')}
                                             </a>
                                         </li>
                                         <li>
                                             <a data-element="report-inefficiency" href="{if is_set($pagedata.contacts['link_segnalazione_disservizio'])}{$pagedata.contacts['link_segnalazione_disservizio']|wash()}{else}{'segnala_disservizio'|ezurl(no)}{/if}">
-                                                {'Report a inefficiency'|i18n('bootstrapitalia')}
+                                                {'Report a inefficiency'|i18n('bootstrapitalia/footer')}
                                             </a>
                                         </li>
                                         <li>
                                             <a data-element="contacts" href="{if is_set($pagedata.contacts['link_assistenza'])}{$pagedata.contacts['link_assistenza']|wash()}{else}{'richiedi_assistenza'|ezurl(no)}{/if}">
-                                                {'Request assistance'|i18n('bootstrapitalia')}
+                                                {'Request assistance'|i18n('bootstrapitalia/footer')}
                                             </a>
                                         </li>
                                     </ul>
