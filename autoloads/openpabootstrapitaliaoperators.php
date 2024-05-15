@@ -152,6 +152,18 @@ class OpenPABootstrapItaliaOperators
             'edit_attribute_groups' => array(
                 'class' => array('type' => 'object', 'required' => true),
                 'attributes' => array('type' => 'array', 'required' => true),
+                'force_identifiers' => array('type' => 'array', 'required' => false, 'default' => [
+                    'name',
+                    'alternative_name',
+                    'alt_name',
+                    'type',
+                    'identifier',
+                    'content_type',
+                    'status_note',
+                    'has_public_event_typology',
+                    'document_type',
+                    'announcement_type'
+                ]),
             ),
             'get_default_integer_value' => array(
                 'attribute' => array('type' => 'object', 'required' => true),
@@ -485,7 +497,11 @@ class OpenPABootstrapItaliaOperators
 
 
             case 'edit_attribute_groups':
-                $operatorValue = self::getEditAttributesGroups($namedParameters['class'], $namedParameters['attributes']);
+                $operatorValue = self::getEditAttributesGroups(
+                    $namedParameters['class'],
+                    $namedParameters['attributes'],
+                    $namedParameters['force_identifiers']
+                );
                 break;
 
             case 'tag_tree_has_contents':
@@ -1681,8 +1697,11 @@ class OpenPABootstrapItaliaOperators
      * @return array
      * @throws Exception
      */
-    private static function getEditAttributesGroups(eZContentClass $contentClass, $contentObjectAttributes)
-    {
+    private static function getEditAttributesGroups(
+        eZContentClass $contentClass,
+        $contentObjectAttributes,
+        $forceValues = []
+    ) {
         $extraManager = OCClassExtraParametersManager::instance($contentClass);
         $attributeGroups = $extraManager->getHandler('attribute_group');
         $tableView = $extraManager->getHandler('table_view');
@@ -1712,18 +1731,7 @@ class OpenPABootstrapItaliaOperators
 
             $groups = [];
             $default = array_merge(
-                [
-                    'name',
-                    'alternative_name',
-                    'alt_name',
-                    'type',
-                    'identifier',
-                    'content_type',
-                    'status_note',
-                    'has_public_event_typology',
-                    'document_type',
-                    'announcement_type'
-                ],
+                $forceValues,
                 $tableView->attribute('in_overview'),
                 $tableView->attribute('main_image')
             );
@@ -1734,7 +1742,6 @@ class OpenPABootstrapItaliaOperators
                     unset($contentObjectAttributeMap[$identifier]);
                 }
             }
-
             if (!empty($defaultObjectAttributeMap)) {
                 $groups[] = [
                     'label' => ezpI18n::tr('bootstrapitalia/edit-group', 'Main contents'),
