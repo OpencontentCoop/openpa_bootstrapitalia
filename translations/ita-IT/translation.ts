@@ -317,7 +317,7 @@
     </message>
     <message>
       <source>Performance improvement plan</source>
-      <translation>Piano di miglioramento delle performance</translation>
+      <translation>Piano di miglioramento del sito</translation>
     </message>
     <message>
       <source>Type</source>
