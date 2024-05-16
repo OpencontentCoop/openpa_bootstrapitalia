@@ -26,6 +26,9 @@ class OpenPARestrictedAreaType extends eZDataType
         switch ($action) {
             case 'browse_user':
                 {
+                    $startNode = $http->hasPostVariable('AddRestrictedUserObjectStartNode')
+                        ? (int)$http->postVariable('AddRestrictedUserObjectStartNode')
+                        : eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode');
                     $module = $parameters['module'];
                     $redirectionURI = $parameters['current-redirection-uri'];
 
@@ -43,7 +46,7 @@ class OpenPARestrictedAreaType extends eZDataType
                             'value' => $contentObjectAttribute->attribute('id')),
                         'persistent_data' => array('HasObjectInput' => 0),
                         'from_page' => $redirectionURI,
-                        'start_node' => eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode'),
+                        'start_node' => $startNode,
                         'class_array' => $userClasses,
                         'selection' => 'multiple',
                         'return_type' => 'ObjectID'
