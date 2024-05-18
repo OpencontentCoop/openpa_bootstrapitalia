@@ -59,7 +59,10 @@ class StanzaDelCittadinoBridge
     public static function factory(): StanzaDelCittadinoBridge
     {
         if (self::$instance === null) {
-            self::$instance = static::instanceByPersonalAreaLogin(PersonalAreaLogin::instance());
+            self::$instance = static::instanceByTenantUrl(
+                (string)BuiltinApp::getCurrentOptions('TenantUrl'),
+                (string)BuiltinApp::getCurrentOptions('TenantLang') ?? 'it'
+            );
         }
 
         return self::$instance;
@@ -85,6 +88,17 @@ class StanzaDelCittadinoBridge
         if ($pal->getUri()) {
             $instance->setUserLoginUri($pal->getUri());
         }
+
+        return $instance;
+    }
+
+    public static function instanceByTenantUrl(string $tenantUrl, $locale = 'it'): StanzaDelCittadinoBridge
+    {
+        $instance = new StanzaDelCittadinoBridge();
+        $tenantUrl = rtrim($tenantUrl, '/');
+        $instance->apiUrlDiscovered = true;
+        $instance->apiBaseUrl = $tenantUrl;
+        $instance->accessUrl = $tenantUrl . '/' . $locale . '/user';
 
         return $instance;
     }
@@ -142,7 +156,7 @@ class StanzaDelCittadinoBridge
         if (!$this->apiUrlDiscovered) {
             $userLoginUri = $this->getUserLoginUri();
             $url = parse_url($userLoginUri, PHP_URL_HOST);
-            if (strpos($userLoginUri, $this->prefix) !== false) {
+            if (strpos($userLoginUri, '/' . $this->prefix) !== false) {
                 $this->apiBaseUrl = 'https://' . $url . '/' . $this->prefix;
             } else {
                 $cacheKey = 'sdc_api_base_url_for_' . md5($userLoginUri);
@@ -151,7 +165,7 @@ class StanzaDelCittadinoBridge
                     $path = parse_url($userLoginUri, PHP_URL_PATH);
                     if ($path) {
                         $parts = explode('/', trim($path, '/'));
-                        if (isset($parts[0])) {
+                        if (isset($parts[0]) && $parts[0] !== '') {
                             $prefix = $parts[0];
                             $apiBaseUrl = 'https://' . $url . '/' . $prefix;
                             try {
@@ -184,10 +198,7 @@ class StanzaDelCittadinoBridge
 
     public function getTenantUri(): ?string
     {
-        return rtrim(
-            str_replace('/it/user', '', $this->accessUrl),
-            '/'
-        );
+        return $this->getApiBaseUri();
     }
 
     public function setUserLoginUri(?string $accessUrl): void

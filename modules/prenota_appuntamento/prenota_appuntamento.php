@@ -16,7 +16,7 @@ if ($http->hasPostVariable('StoreConfig')) {
 
 $Result = $app->getModuleResult();
 
-if (StanzaDelCittadinoBooking::factory()->isEnabled()) {
+if (StanzaDelCittadinoBooking::factory()->isEnabled() && StanzaDelCittadinoBridge::factory()->getTenantUri()) {
     $tpl = eZTemplate::factory();
     $serviceId = $http->hasGetVariable('service_id') ? (int)$http->getVariable('service_id') : 0;
     $offices = StanzaDelCittadinoBooking::factory()->getOffices($serviceId);

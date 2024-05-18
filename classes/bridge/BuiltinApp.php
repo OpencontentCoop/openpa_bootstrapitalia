@@ -11,6 +11,8 @@ class BuiltinApp extends OpenPATempletizable
 
     private $siteData;
 
+    private static $currentOptions;
+
     public function __construct(string $appName, string $appLabel)
     {
         $this->appIdentifier = $appName;
@@ -74,6 +76,14 @@ class BuiltinApp extends OpenPATempletizable
         }
     }
 
+    private static function getStanzaDelCittadinoBridge(): StanzaDelCittadinoBridge
+    {
+        return StanzaDelCittadinoBridge::instanceByTenantUrl(
+            (string)self::getCurrentOptions('TenantUrl'),
+            (string)self::getCurrentOptions('TenantLang') ?? 'it'
+        );
+    }
+
     public static function getWindowVariables(): array
     {
         $privacy = eZContentObject::fetchByRemoteID('83c7315f6a2fd9cee569e4cf5e73139d');
@@ -85,8 +95,8 @@ class BuiltinApp extends OpenPATempletizable
             }
         }
         eZURI::transformURI($privacyUrl, false, 'full');
-        $baseUrl = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
-        $authUrl = StanzaDelCittadinoBridge::factory()->buildApiUrl('/login');
+        $baseUrl = self::getStanzaDelCittadinoBridge()->getApiBaseUri();
+        $authUrl = self::getStanzaDelCittadinoBridge()->buildApiUrl('/login');
         $window = [
             'OC_BASE_URL' => $baseUrl,
             'OC_PRIVACY_URL' => $privacyUrl,
@@ -94,6 +104,15 @@ class BuiltinApp extends OpenPATempletizable
         ];
         if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled') !== 'modal'){
             $window['OC_SPID_BUTTON'] = 'true';
+        }
+        if (self::getCurrentOptions('EnableSeverityField')){
+            $window['OC_SHOW_SEVERITY_FIELD'] = 'true';
+        }
+        if (self::getCurrentOptions('CategoriesUrl')){
+            $window['OC_CATEGORIES_URL'] = self::getCurrentOptions('CategoriesUrl');
+        }
+        if (self::getCurrentOptions('BoundingBox')){
+            $window['OC_BB'] = self::getCurrentOptions('BoundingBox');
         }
 
         return $window;
@@ -105,7 +124,7 @@ class BuiltinApp extends OpenPATempletizable
         if (empty($path)){
             return '';
         }
-        $host = StanzaDelCittadinoBridge::factory()->getHost();
+        $host = self::getStanzaDelCittadinoBridge()->getHost();
         return str_replace('%host%', $host, $path);
     }
 
@@ -115,7 +134,7 @@ class BuiltinApp extends OpenPATempletizable
         if (empty($path)){
             return '';
         }
-        $host = StanzaDelCittadinoBridge::factory()->getHost();
+        $host = self::getStanzaDelCittadinoBridge()->getHost();
         return str_replace('%host%', $host, $path);
     }
 
@@ -130,32 +149,7 @@ class BuiltinApp extends OpenPATempletizable
         $contacts = $pagedata->getContactsData();
         $field = OpenPAINI::variable('StanzaDelCittadinoBridge', 'ContactsField_' . $this->getAppIdentifier(), 'empty');
 
-        return !(isset($contacts[$field]) && !empty($contacts[$field]));
-    }
-
-    protected function getCategory(): ?string
-    {
-        $identifier = OpenPAINI::variable('StanzaDelCittadinoBridge', 'ServiceIdentifier_' . $this->getAppIdentifier(), '');
-        if (empty($identifier)){
-            return null;
-        }
-
-        $contentSearch = new ContentSearch();
-        $currentEnvironment = EnvironmentLoader::loadPreset('content');
-        $contentSearch->setEnvironment($currentEnvironment);
-        try{
-            $data = (array)$contentSearch->search(
-                'select-fields [data.type] classes [public_service] ' .
-                'and identifier = "' . $identifier . '" ' .
-                'and raw[meta_language_code_ms] = "' . eZLocale::currentLocaleCode() . '" ' .
-                'limit 1',
-                []
-            );
-        }catch (Exception $e){
-            eZDebug::writeError($e->getMessage(), __METHOD__);
-        }
-
-        return $data[0][0] ?? null;
+        return !(isset($contacts[$field]) && !empty($contacts[$field])) && self::getCurrentOptions('TenantUrl');
     }
 
     protected function getServicePath()
@@ -163,7 +157,7 @@ class BuiltinApp extends OpenPATempletizable
         $path = [];
         $serviceId = eZHTTPTool::instance()->hasGetVariable('service_id') ? eZHTTPTool::instance()->getVariable('service_id') : null;
         if (!$serviceId) {
-            $referrer = eZSys::serverVariable('HTTP_REFERER');
+            $referrer = eZSys::serverVariable('HTTP_REFERER', true);
             if ($referrer && strpos($referrer, '?service_id=') !== false) {
                 $referrerQuery = parse_url($referrer, PHP_URL_QUERY);
                 parse_str($referrerQuery, $referrerQueryArray);
@@ -239,7 +233,7 @@ class BuiltinApp extends OpenPATempletizable
         $tpl->setVariable('built_in_app_script', $this->getCustomConfig());
         $tpl->setVariable('built_in_app_src', $this->getWidgetSrc());
         $tpl->setVariable('built_in_app_style', $this->getWidgetStyle());
-        $tpl->setVariable('built_in_app_api_base_url', StanzaDelCittadinoBridge::factory()->getApiBaseUri());
+        $tpl->setVariable('built_in_app_api_base_url', self::getStanzaDelCittadinoBridge()->getApiBaseUri());
 
         $Result = [];
         $Result['content'] = $tpl->fetch('design:openpa/built_in_app.tpl');
@@ -273,5 +267,91 @@ class BuiltinApp extends OpenPATempletizable
         $Result['content_info'] = $contentInfoArray;
 
         return $Result;
+    }
+
+    public static function getOptionsDefinition(): array
+    {
+        $current = self::getCurrentOptions();
+        return [
+            [
+                'identifier' => 'TenantUrl',
+                'name' => 'Url del tenant',
+                'placeholder' => 'https://servizi.comune.bugliano.pi.it/lang',
+                'type' => 'string',
+                'current_value' => $current['TenantUrl'],
+            ],
+            [
+                'identifier' => 'TenantLang',
+                'name' => 'Codice lingua del tenant',
+                'placeholder' => 'it',
+                'type' => 'string',
+                'current_value' => $current['TenantLang'],
+            ],
+            [
+                'identifier' => 'CategoriesUrl',
+                'name' => '[Segnalazione disservizio] url custom delle categorie di segnalazione',
+                'placeholder' => 'https://segnalazioni.comune.bugliano.pi.it/api/sensor/inefficiency/categories',
+                'type' => 'string',
+                'current_value' => $current['CategoriesUrl'],
+            ],
+            [
+                'identifier' => 'EnableSeverityField',
+                'name' => '[Segnalazione disservizio] abilita il campo "Valuta l\'importanza del problema"',
+                'placeholder' => '',
+                'type' => 'boolean',
+                'current_value' => (bool)$current['EnableSeverityField'],
+            ],
+            [
+                'identifier' => 'BoundingBox',
+                'name' => '[Segnalazione disservizio] bounding box mappa',
+                'placeholder' => '8.66272,44.52197,9.09805,44.37590',
+                'type' => 'string',
+                'current_value' => (bool)$current['BoundingBox'],
+            ],
+        ];
+    }
+
+    public static function getCurrentOptions(?string $optionName = null)
+    {
+        if (self::$currentOptions === null) {
+            $siteData = eZSiteData::fetchByName('built_in_env');
+            if (!$siteData instanceof eZSiteData) {
+                $siteData = eZSiteData::create('built_in_env', json_encode([]));
+            }
+            $data = json_decode($siteData->attribute('value'), true);
+            $locale = eZLocale::currentLocaleCode();
+            self::$currentOptions = [
+                'TenantUrl' => $data[$locale]['TenantUrl']
+                    ?? StanzaDelCittadinoBridge::instanceByPersonalAreaLogin(PersonalAreaLogin::instance())->getTenantUri(),
+                'TenantLang' => $data[$locale]['TenantLang'] ?? 'it',
+                'CategoriesUrl' => $data[$locale]['CategoriesUrl']?? null,
+                'EnableSeverityField' => $data[$locale]['EnableSeverityField'] ?? $data['EnableSeverityField'] ?? false,
+                'BoundingBox' => $data[$locale]['BoundingBox'] ?? null,
+            ];
+        }
+
+        if ($optionName) {
+            return self::$currentOptions[$optionName] ?? null;
+        }
+        return self::$currentOptions;
+    }
+
+    public static function setCurrentOptions(array $options = [])
+    {
+        $newOptions = [];
+        $locale = eZLocale::currentLocaleCode();
+        foreach (self::getOptionsDefinition() as $definition) {
+            if (!empty($options[$definition['identifier']])) {
+                $newOptions[$definition['identifier']] = $options[$definition['identifier']];
+            }
+        }
+        $siteData = eZSiteData::fetchByName('built_in_env');
+        if (!$siteData instanceof eZSiteData) {
+            $siteData = eZSiteData::create('built_in_env', json_encode([]));
+        }
+        $data = json_decode($siteData->attribute('value'), true);
+        $data[$locale] = $newOptions;
+        $siteData->setAttribute('value', json_encode($data));
+        $siteData->store();
     }
 }

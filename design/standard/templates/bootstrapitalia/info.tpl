@@ -354,6 +354,41 @@
                 </form>
             </div>
 
+            <div class="row">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
+                    <fieldset>
+                        <legend class="text-white h5 px-0">Integrazione con area personale (servizi builtin)</legend>
+                        {foreach $built_in_options as $built_in_option}
+                        {if $built_in_option.type|eq('boolean')}
+                            <p class="text-white font-weight-bold mt-2 mb-1">{$built_in_option.name|wash()}</p>
+                            <div class="form-group form-check m-0 ps-1 bg-white">
+                                <input id="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}"
+                                       class="form-check-input"
+                                       type="checkbox"
+                                       name="StanzaDelCittadinoBuiltin[{$built_in_option.identifier|wash()}]" {$built_in_option.current_value|choose( '', 'checked="checked"' )}
+                                       value="1" />
+                                <label class="form-check-label mb-0" for="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}">
+                                    {$built_in_option.name|wash()}
+                                </label>
+                            </div>
+                        {else}
+                            <div class="form-group mb-0">
+                                <label for="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}" class="text-white p-0">{$built_in_option.name|wash()}</label>
+                                <input type="text" class="form-control border-right"
+                                       placeholder="{$built_in_option.placeholder|wash()}"
+                                       id="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}"
+                                       name="StanzaDelCittadinoBuiltin[{$built_in_option.identifier|wash()}]"
+                                       value="{$built_in_option.current_value|wash()}"/>
+                            </div>
+                        {/if}
+                        {/foreach}
+                        <div class="text-right mt-1">
+                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
         </div>
     {/if}
 

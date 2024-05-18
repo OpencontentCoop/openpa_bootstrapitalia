@@ -119,6 +119,13 @@ $tpl->setVariable('stanzadelcittadino_booking', StanzaDelCittadinoBooking::facto
 $tpl->setVariable('stanzadelcittadino_booking_store_as_application', StanzaDelCittadinoBooking::factory()->isStoreMeetingAsApplication());
 $tpl->setVariable('stanzadelcittadino_booking_service_discover', StanzaDelCittadinoBooking::factory()->isServiceDiscoverEnabled());
 
+if ($http->hasPostVariable('StanzaDelCittadinoBuiltin') && $hasAdminAccess) {
+    BuiltinApp::setCurrentOptions((array)$http->postVariable('StanzaDelCittadinoBuiltin'));
+    $module->redirectTo('/bootstrapitalia/info');
+    return;
+}
+$tpl->setVariable('built_in_options', BuiltinApp::getOptionsDefinition());
+
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {
     $contacts = $http->postVariable('Contacts');
