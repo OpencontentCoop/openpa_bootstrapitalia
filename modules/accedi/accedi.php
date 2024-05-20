@@ -13,7 +13,10 @@ $hasCieAccess = OpenPAINI::variable('AccessPage', 'CieAccess', 'disabled') === '
 $cieAccessLink = '#';
 
 $bridge = StanzaDelCittadinoBridge::factory();
-$spidAccessLink = $bridge->getUserLoginUri();
+$spidAccessLink = PersonalAreaLogin::instance()->getUri();
+if (empty($spidAccessLink)){
+    $spidAccessLink = $bridge->getUserLoginUri();
+}
 $hasSpidAccess = !empty($spidAccessLink);
 
 $localUserLoginUri = '/user/login';
