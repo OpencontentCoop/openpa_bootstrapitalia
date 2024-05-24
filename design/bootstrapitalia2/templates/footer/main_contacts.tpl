@@ -28,7 +28,7 @@
                                 {if or(is_set($pagedata.contacts['numero_verde']), is_set($pagedata.contacts['telefono']))}
                                 <li>
                                     <a class="list-item" href="{if is_set($pagedata.contacts['numero_verde'])}tel:{$pagedata.contacts['numero_verde']|wash()}{else}tel:{$pagedata.contacts['telefono']|wash()}{/if}">
-                                        {display_icon('it-hearing', 'svg', 'icon icon-primary', 'Call the municipality'|i18n('bootstrapitalia'))}<span>{'Call the municipality'|i18n('bootstrapitalia')}</span>
+                                        {display_icon('it-hearing', 'svg', 'icon icon-primary', 'Call the municipality'|i18n('bootstrapitalia'))}<span>{'Call the municipality'|i18n('bootstrapitalia')} {if is_set($pagedata.contacts['numero_verde'])}{$pagedata.contacts['numero_verde']|wash()}{else}{$pagedata.contacts['telefono']|wash()}{/if}</span>
                                     </a>
                                 </li>
                                 {/if}
