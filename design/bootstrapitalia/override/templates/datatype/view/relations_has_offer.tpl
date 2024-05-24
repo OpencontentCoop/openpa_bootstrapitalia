@@ -19,7 +19,13 @@
                 <div class="category-top">{$child|attribute('has_eligible_user').content.keywords|implode(' ')}</div>
                 {/if}
                 {def $currency = $child|attribute('has_currency').content.keyword_string}
-                <h5 class="card-title big-heading">{if $currency|eq('Euro')}€{else}{$currency|wash()}{/if} {$child|attribute('has_price_specification').content|wash()}</h5>
+                <h5 class="card-title big-heading">
+                    {if $child|attribute('has_price_specification').data_float|int()|eq(0)}
+                        {'FREE'|i18n('bootstrapitalia')}
+                    {else}
+                        {if $currency|eq('Euro')}€{else}{$currency|wash()}{/if} {$child|attribute('has_price_specification').content|wash()}
+                    {/if}
+                </h5>
                 {undef $currency}
                 <p class="mt-4">{$child|attribute('description').content|wash()}</p>
                 {if $child|has_attribute('note')}

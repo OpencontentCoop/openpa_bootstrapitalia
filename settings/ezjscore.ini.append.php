@@ -18,6 +18,9 @@ Class=ezjscBrowse
 [ezjscServer_ezjscbridge]
 Class=ezjscBridge
 
+[ezjscServer_ezjscmatrix]
+Class=ezjscMatrix
+
 [Packer]
 AppendLastModifiedTime=disabled
 */ ?>

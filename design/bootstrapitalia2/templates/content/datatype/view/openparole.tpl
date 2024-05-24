@@ -18,7 +18,7 @@
 							{foreach $attribute.content.roles_per_person[$person.id] as $role}{*
 								*}{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach}{*
 								*}{if $role|has_attribute('delegations')}
-									<small>({$role|attribute('delegations').contentclass_attribute_name|downcase|wash()}: {$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
+									<small class="ms-1">({$role|attribute('delegations').contentclass_attribute_name|downcase|wash()}: {$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
 								{/if}{*
 								*}{delimiter}, {/delimiter}{*
 							*}{/foreach}
