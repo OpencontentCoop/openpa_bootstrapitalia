@@ -150,6 +150,14 @@ if ($http->hasPostVariable('Store')) {
         ]);
     }
 
+    if (isset($_FILES['AppleTouchIcon']) && eZHTTPFile::canFetch('AppleTouchIcon')) {
+        $httpFile = eZHTTPFile::fetch('AppleTouchIcon');
+        $payload->setData($locale, 'apple_touch_icon', [
+            'filename' => uniqid() . $httpFile->attribute('original_filename'),
+            'file' => base64_encode(file_get_contents($httpFile->attribute('filename'))),
+        ]);
+    }
+
     if (isset($_FILES['Favicon']) && eZHTTPFile::canFetch('Favicon')) {
         $httpFile = eZHTTPFile::fetch('Favicon');
         $payload->setData($locale, 'favicon', [

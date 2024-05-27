@@ -3,7 +3,6 @@
         $pagedata.homepage|attribute('favicon'),
         false()
 )}
-
 {def $favicon = openpaini('GeneralSettings','favicon', 'favicon.ico')}
 {def $favicon_src = openpaini('GeneralSettings','favicon_src', 'ezimage')}
 <!-- favicon -->
@@ -15,15 +14,17 @@
     <link rel="icon" href="{$favicon}" type="image/x-icon" />
 {/if}
 
-{* @todo
-<link rel="icon" href="/bootstrap-italia/favicon.ico">
-<link rel="icon" href="/bootstrap-italia/docs/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="/bootstrap-italia/docs/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="mask-icon" href="/bootstrap-italia/docs/assets/img/favicons/safari-pinned-tab.svg" color="#0066CC">
-<link rel="apple-touch-icon" href="/bootstrap-italia/docs/assets/img/favicons/apple-touch-icon.png">
+{def $apple_touch_icon_attribute = cond(
+    and( $pagedata.homepage|has_attribute('apple_touch_icon'), $pagedata.homepage|attribute('apple_touch_icon').has_content ),
+        $pagedata.homepage|attribute('apple_touch_icon'),
+        false()
+)}
+{if $apple_touch_icon_attribute}
+    <link rel="apple-touch-icon" href="{concat("content/download/",$apple_touch_icon_attribute.contentobject_id,"/",$apple_touch_icon_attribute.id,"/file/apple-touch-icon.png")|ezurl(no)}?v={$apple_touch_icon_attribute.version}" />
+{elseif openpaini('CreditsSettings', 'IsOpenCityFork', 'false')|ne('true')} {* see pa-website-validator *}
+    <link rel="apple-touch-icon" href="/extension/openpa_bootstrapitalia/design/standard/images/svg/icon.png">
+{/if}
 
-<link rel="manifest" href="/bootstrap-italia/docs/assets/img/favicons/manifest.webmanifest">
-<meta name="msapplication-config" content="/bootstrap-italia/docs/assets/img/favicons/browserconfig.xml">
-*}
+<link rel="manifest" href="/manifest.json" crossorigin = "use-credentials">
 
-{undef $favicon_attribute $favicon $favicon_src}
+{undef $favicon_attribute $favicon $favicon_src $apple_touch_icon_attribute}

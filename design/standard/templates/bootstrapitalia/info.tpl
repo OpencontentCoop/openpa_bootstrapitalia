@@ -83,6 +83,23 @@
             </div>
         </div>
 
+        {if is_set($homepage.data_map.apple_touch_icon)}
+        <div class="border border-light rounded p-3 mb-3">
+            <h5>Apple Touch Icon</h5>
+            <div class="row mb-3">
+                <label for="AppleTouchIcon" class="col-sm-3 col-form-label">
+                    <img alt="{ezini('SiteSettings','SiteName')}"
+                             width="50"
+                             height="50"
+                             src="{if $homepage.data_map.apple_touch_icon.has_content}{concat("content/download/",$homepage.data_map.apple_touch_icon.contentobject_id,"/",$homepage.data_map.apple_touch_icon.id,"/file/apple-touch-icon.png")|ezurl(no)}?v={$homepage.data_map.apple_touch_icon.version}{else}/extension/openpa_bootstrapitalia/design/standard/images/svg/icon.png{/if}" />
+                </label>
+                <div class="col-sm-9">
+                    <input type="file" name="AppleTouchIcon" class="form-control" id="AppleTouchIcon" value="">
+                </div>
+            </div>
+        </div>
+        {/if}
+
         {if is_set($homepage.data_map.footer_logo)}
             <div class="border border-light rounded p-3 mb-3">
                 <h5>Logo footer</h5>
