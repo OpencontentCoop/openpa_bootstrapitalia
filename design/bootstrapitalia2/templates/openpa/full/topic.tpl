@@ -219,6 +219,33 @@
     {/if}
     {undef $root_docs}
 
+    {def $root_places = 'all-places'|node_id_from_object_remote_id()}
+    {def $places_count = api_search(concat('classes [place] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, '  and subtree [', $root_places, '] limit 1')).totalCount}
+    {if $places_count|gt(0)}
+        {set $has_first_block = true()}
+        {set $blocks = $blocks|append(page_block(
+            fetch(content, node, hash(node_id, $root_places)).name|wash(),
+            "ListaPaginata",
+            "lista_paginata",
+            hash(
+                "limite", "9",
+                "elementi_per_riga", "3",
+                "includi_classi", "place",
+                "escludi_classi", "",
+                "ordinamento", "pubblicato",
+                "state_id", "",
+                "topic_node_id", $node.node_id,
+                "color_style", cond($has_first_block, 'section section-muted section-inset-shadow pb-5', ''),
+                "container_style", "",
+                "node_id", $root_places,
+                "show_all_link", "1",
+                "show_all_text", '',
+                "loading_count", $places_count
+            )
+        ))}
+    {/if}
+    {undef $root_places $places_count}
+
     {*if and($node|has_attribute('show_topic_children'), $node|attribute('show_topic_children').data_int|eq(1), fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('topic') ) ))|gt(0)}
         {def $is_first_block = false()}
         {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
