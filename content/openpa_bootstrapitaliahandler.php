@@ -8,6 +8,8 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
 
     const SERVICE_STATUS_ERROR_MESSAGE = "Inserire un testo nel campo 'Motivo dello stato' dal momento che il servizio non è attivo";
 
+    const SERVICE_PROCESSING_TIME_ERROR_MESSAGE = "Specificare il numero dei giorni massimi di attesa dalla richiesta o il testo del tempo di processamento";
+
     /**
      * @param eZHTTPTool $http
      * @param eZModule $module
@@ -104,12 +106,17 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
 
         if ($class->attribute('identifier') == 'public_service') {
             $serviceStatus = $statusNote = false;
+            $hasProcessingTime = $hasProcessingTimeAsText = false;
             foreach ($contentObjectAttributes as $contentObjectAttribute) {
                 $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
                 if ($contentClassAttribute->attribute('identifier') == 'has_service_status') {
                     $serviceStatus = $contentObjectAttribute;
                 } elseif ($contentClassAttribute->attribute('identifier') == 'status_note') {
                     $statusNote = $contentObjectAttribute;
+                } elseif ($contentClassAttribute->attribute('identifier') == 'has_processing_time') {
+                    $hasProcessingTime = $contentObjectAttribute;
+                } elseif ($contentClassAttribute->attribute('identifier') == 'has_processing_time_text') {
+                    $hasProcessingTimeAsText = $contentObjectAttribute;
                 }
             }
             if ($serviceStatus && $statusNote) {
@@ -123,11 +130,8 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                         $isActive = $activeService->attribute('id') == $http->postVariable($serviceStatusPostVar);
                     }
                 }
-                $statusNoteHasContent = $http->hasPostVariable($statusNotePostVar) && !empty(
-                    $http->postVariable(
-                        $statusNotePostVar
-                    )
-                    );
+                $statusNoteHasContent = $http->hasPostVariable($statusNotePostVar)
+                    && !empty($http->postVariable($statusNotePostVar));
                 if (!$isActive && !$statusNoteHasContent) {
                     $result['is_valid'] = false;
                     $result['warnings'][] = [
@@ -135,6 +139,22 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                     ];
                 }
             }
+            if ($hasProcessingTime && $hasProcessingTimeAsText) {
+                $hasProcessingTimePostVar = 'ContentObjectAttribute_data_integer_' . $hasProcessingTime->attribute('id');
+                $hasProcessingTimeAsTextPostVar = 'ContentObjectAttribute_data_text_' . $hasProcessingTimeAsText->attribute('id');
+                $hasProcessingTimeHasContent = $http->hasPostVariable($hasProcessingTimePostVar)
+                    && !empty($http->postVariable($hasProcessingTimePostVar));
+                $hasProcessingTimeAsTextHasContent = $http->hasPostVariable($hasProcessingTimeAsTextPostVar)
+                    && !empty($http->postVariable($hasProcessingTimeAsTextPostVar));
+
+                if (!$hasProcessingTimeHasContent && !$hasProcessingTimeAsTextHasContent) {
+                    $result['is_valid'] = false;
+                    $result['warnings'][] = [
+                        'text' => self::SERVICE_PROCESSING_TIME_ERROR_MESSAGE,
+                    ];
+                }
+            }
+
         }
 
         $uniqueStringCheckList = OpenPAINI::variable('AttributeHandlers', 'UniqueStringCheck', []);

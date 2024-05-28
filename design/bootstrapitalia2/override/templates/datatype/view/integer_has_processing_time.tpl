@@ -1,4 +1,4 @@
-{if $attribute.data_int|gt(0)}
+{if $attribute.data_int|int()|gt(0)}
 <div class="calendar-vertical font-sans-serif has-bg-grey p-3 ps-0">
     <div class="calendar-date">
         <div class="calendar-date-day">
@@ -12,6 +12,10 @@
         </div>
     </div>
 </div>
-{elseif and($attribute.object|has_attribute('has_temporal_coverage')|not(), $attribute.object|has_attribute('average_processing_time')|not())}
+{elseif and(
+    $attribute.object|has_attribute('has_temporal_coverage')|not(),
+    $attribute.object|has_attribute('average_processing_time')|not(),
+    $attribute.object|has_attribute('has_processing_time_text')|not()
+)}
     <div class="text-paragraph lora mb-4"><p>{openpaini('AttributeHandlers', 'DefaultContent_has_processing_time', 'I tempi e le scadenze non sono al momento disponibili')}</p></div>
 {/if}
