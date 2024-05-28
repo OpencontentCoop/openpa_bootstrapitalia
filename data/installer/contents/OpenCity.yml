@@ -60,6 +60,16 @@ data:
                           max_events: ''
                           intro_text: ''
                       valid_items: { }
+                    - block_id: section-place
+                      name: 'Luoghi'
+                      type: ListaManuale
+                      view: lista_card_teaser
+                      custom_attributes:
+                        elementi_per_riga: '3'
+                        color_style: 'section section-muted section-inset-shadow pb-5'
+                        container_style: ''
+                        intro_text: ''
+                      valid_items: { }
                     - block_id: a419663d8c23c8e9239dc6813b845538
                       name: 'Argomenti in evidenza'
                       type: Argomenti
@@ -164,6 +174,16 @@ data:
                 container_style: ''
                 topic_node_id: ''
                 max_events: ''
+                intro_text: ''
+              valid_items: { }
+            - block_id: section-place
+              name: 'Lageplan'
+              type: ListaManuale
+              view: lista_card_teaser
+              custom_attributes:
+                elementi_per_riga: '3'
+                color_style: 'section section-muted section-inset-shadow pb-5'
+                container_style: ''
                 intro_text: ''
               valid_items: { }
             - block_id: a419663d8c23c8e9239dc6813b845538

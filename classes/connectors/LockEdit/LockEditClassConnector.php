@@ -262,4 +262,10 @@ abstract class LockEditClassConnector extends ClassConnector
         $object = eZContentObject::fetchByRemoteID($remoteId);
         return $object instanceof eZContentObject ? (int)$object->mainNodeID() : 1;
     }
+
+    protected function fetchObjectNameByObjectRemoteID($remoteId): string
+    {
+        $object = eZContentObject::fetchByRemoteID($remoteId);
+        return $object instanceof eZContentObject ? $object->attribute('name') : $remoteId;
+    }
 }

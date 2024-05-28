@@ -256,15 +256,15 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 'identifiers' => ['add_section_events', 'title_events', 'section_next_events', 'section_calendar',],
             ],
             [
+                'identifier' => 'other',
+                'name' => $this->fetchObjectNameByObjectRemoteID('all-places'),
+                'identifiers' => ['section_place',],
+            ],
+            [
                 'identifier' => 'topic',
                 'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Topics'),
                 'identifiers' => ['section_topic', 'background_topic'],
             ],
-//            [
-//                'identifier' => 'other',
-//                'name' => 'Gallerie e luoghi',
-//                'identifiers' => ['section_gallery', 'section_place',],
-//            ],
             [
                 'identifier' => 'banner',
                 'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Thematic sites'),
@@ -332,6 +332,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         }
 
         if ($block = $this->mapSectionEvents($data)) {
+            $blocks[] = $block;
+        }
+
+        if ($block = $this->mapSectionPlaces($data)) {
             $blocks[] = $block;
         }
 
@@ -555,6 +559,32 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             ];
             $remoteIdList = [];
             foreach ($data['section_banner'] as $item) {
+                $object = eZContentObject::fetch((int)$item['id']);
+                if ($object instanceof eZContentObject) {
+                    $remoteIdList[] = $object->attribute('remote_id');
+                }
+            }
+            $originalBlock['valid_items'] = $remoteIdList;
+            return $originalBlock;
+        }
+
+        return null;
+    }
+
+    private function mapSectionPlaces($data): ?array
+    {
+        if (isset($data['section_place'][0]['id'])) {
+            $originalBlock = $this->findBlockById(self::SECTION_PLACE, true);
+            $originalBlock['type'] = 'ListaManuale';
+            $originalCustomAttributes = $originalBlock['custom_attributes'];
+            $originalBlock['custom_attributes'] = [
+                'elementi_per_riga' => $originalCustomAttributes['elementi_per_riga'],
+                'color_style' => $originalCustomAttributes['color_style'],
+                'container_style' => $originalCustomAttributes['container_style'],
+                'intro_text' => $originalCustomAttributes['intro_text'],
+            ];
+            $remoteIdList = [];
+            foreach ($data['section_place'] as $item) {
                 $object = eZContentObject::fetch((int)$item['id']);
                 if ($object instanceof eZContentObject) {
                     $remoteIdList[] = $object->attribute('remote_id');
