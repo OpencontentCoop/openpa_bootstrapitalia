@@ -37,19 +37,31 @@ class ezfIndexSubAttributeGeo implements ezfIndexPlugin, ExtraDataProviderInterf
         }
     }
 
-    private static function getGeoClassIdentifiers()
+    private static function getGeoClassIdentifiers($contextClassIdentifier = null)
     {
-        if (self::$geoClassIdentifiers === null) {
-            self::$geoClassIdentifiers = [];
+        if (!isset(self::$geoClassIdentifiers[$contextClassIdentifier])) {
+            $geoClassIdentifiers = [];
+            $avoidIdentifiers = [];
+            if ($contextClassIdentifier) {
+                $excludeList = OpenPAINI::variable('MotoreRicerca', 'ExcludeRelatedClassesFromIndexSubAttributeGeo', []);
+                if (isset($excludeList[$contextClassIdentifier])) {
+                    $avoidIdentifiers = explode(',', $excludeList[$contextClassIdentifier]);
+                }
+            }
             $classIds = eZContentClass::fetchIDListContainingDatatype(eZGmapLocationType::DATA_TYPE_STRING);
             if (count($classIds) > 0) {
                 foreach ($classIds as $id) {
-                    self::$geoClassIdentifiers[] = eZContentClass::classIdentifierByID($id);
+                    $identifier = eZContentClass::classIdentifierByID($id);
+                    if (!in_array($identifier, $avoidIdentifiers)) {
+                        $geoClassIdentifiers[] = $identifier;
+                    }
                 }
             }
-        }
 
-        return self::$geoClassIdentifiers;
+            self::$geoClassIdentifiers[$contextClassIdentifier] = $geoClassIdentifiers;
+        }
+        
+        return self::$geoClassIdentifiers[$contextClassIdentifier];
     }
 
     private static function getSubAttributeGeo(eZContentObject $contentObject)
@@ -62,7 +74,7 @@ class ezfIndexSubAttributeGeo implements ezfIndexPlugin, ExtraDataProviderInterf
                 if ($attribute->hasContent() && $attribute->attribute('data_type_string') == eZObjectRelationListType::DATA_TYPE_STRING) {
                     $classAttributeContent = $attribute->attribute('contentclass_attribute')->content();
                     foreach ($classAttributeContent['class_constraint_list'] as $classIdentifier) {
-                        if (in_array($classIdentifier, self::getGeoClassIdentifiers())) {
+                        if (in_array($classIdentifier, self::getGeoClassIdentifiers($contentObject->attribute('class_identifier')))) {
                             $objects = OpenPABase::fetchObjects(explode('-', $attribute->toString()));
                             foreach ($objects as $object) {
                                 $objectDataMap = $object->dataMap();
