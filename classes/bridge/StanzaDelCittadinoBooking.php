@@ -14,6 +14,8 @@ class StanzaDelCittadinoBooking
 
     private static $instance;
 
+    private $calendars = [];
+
     public static function factory(): StanzaDelCittadinoBooking
     {
         if (self::$instance === null) {
@@ -103,7 +105,10 @@ EOT;
 
     public function getCalendar($id)
     {
-        return StanzaDelCittadinoBridge::factory()->instanceNewClient()->getCalendar($id);
+        if (!isset($this->calendars[$id])) {
+            $this->calendars[$id] = StanzaDelCittadinoBridge::factory()->instanceNewClient()->getCalendar($id);
+        }
+        return $this->calendars[$id];
     }
 
     public function getCalendars(int $service, int $office, int $place): array
@@ -155,27 +160,44 @@ EOT;
                                 $officeRelatedPlaceIdList
                             )) {
                             $dataMap = $placeObject->dataMap();
-                            $place = [
-                                'id' => $datum['place'],
-                                'name' => $placeObject->attribute('name'),
-                                'address' => [
-                                    'address' => '',
-                                    'latitude' => '',
-                                    'longitude' => '',
-                                ],
-                                'calendars' => $datum['calendars'],
-                                'enable_filter' => $datum['enable_filter'],
-                            ];
-                            if (isset($dataMap['has_address'])) {
-                                /** @var eZGmapLocation $address */
-                                $address = $dataMap['has_address']->content();
-                                $place['address'] = [
-                                    'address' => $address->attribute('address'),
-                                    'latitude' => $address->attribute('address'),
-                                    'longitude' => $address->attribute('address'),
-                                ];
+                            $calendars = $datum['calendars'];
+                            $calendarNames = [];
+                            foreach ($calendars as $index => $calendar) {
+                                try {
+                                    $c = $this->getCalendar($calendar);
+                                    $calendarNames[$calendar] = [
+                                        'id' => $c['id'],
+                                        'title' => $c['title'],
+                                    ];
+                                } catch (Throwable $e) {
+                                    eZDebug::writeError($e->getMessage(), __METHOD__);
+                                    unset($calendars[$index]);
+                                }
                             }
-                            $places[$place['name']] = $place;
+                            if (!empty($calendars)) {
+                                $place = [
+                                    'id' => $datum['place'],
+                                    'name' => $placeObject->attribute('name'),
+                                    'address' => [
+                                        'address' => '',
+                                        'latitude' => '',
+                                        'longitude' => '',
+                                    ],
+                                    'calendars' => $calendars,
+                                    'calendar_names' => $calendarNames,
+                                    'enable_filter' => $datum['enable_filter'],
+                                ];
+                                if (isset($dataMap['has_address'])) {
+                                    /** @var eZGmapLocation $address */
+                                    $address = $dataMap['has_address']->content();
+                                    $place['address'] = [
+                                        'address' => $address->attribute('address'),
+                                        'latitude' => $address->attribute('address'),
+                                        'longitude' => $address->attribute('address'),
+                                    ];
+                                }
+                                $places[$place['name']] = $place;
+                            }
                         }
                     }
                     if (!empty($places)) {
@@ -193,16 +215,35 @@ EOT;
         return array_values($offices);
     }
 
-    public function getServiceIdList(): array
+    private function getServiceIdList(): array
     {
-        $query = "SELECT DISTINCT service_id FROM ocbookingconfig";
+        $query = "SELECT service_id, json_agg(calendars) FROM ocbookingconfig GROUP BY service_id";
         $rows = eZDB::instance()->arrayQuery($query);
         return array_column($rows, 'service_id');
     }
 
     public function getServicesByCategories(): array
     {
-        $idList = $this->getServiceIdList();
+        $query = "SELECT service_id, json_agg(calendars) as calendars FROM ocbookingconfig GROUP BY service_id";
+        $rows = eZDB::instance()->arrayQuery($query);
+        StanzaDelCittadinoClient::$connectionTimeout = 10;
+        StanzaDelCittadinoClient::$processTimeout = 10;
+        $calendars = array_column(StanzaDelCittadinoBridge::factory()->instanceNewClient()->getCalendarList(), 'id');
+        $idList = [];
+        foreach ($rows as $row) {
+            $serviceCalendarList = json_decode($row['calendars'], true);
+            $hasCalendar = false;
+            foreach ($serviceCalendarList as $serviceCalendars) {
+                $diff = array_diff($serviceCalendars, $calendars);
+                if (count($diff) < count($serviceCalendars)) {
+                    $hasCalendar = true;
+                    break;
+                }
+            }
+            if ($hasCalendar) {
+                $idList[] = $row['service_id'];
+            }
+        }
         if (empty($idList)) {
             return [];
         }
@@ -229,21 +270,24 @@ EOT;
         $searchRepo = new \Opencontent\Opendata\Api\ContentSearch();
         $searchRepo->setEnvironment(\Opencontent\Opendata\Api\EnvironmentLoader::loadPreset('content'));
         $searchResponse = $searchRepo->search(
-            'id in [' . implode(',', $idList) . '] and classes [public_service] limit 1 facets [type|alpha] pivot [facet => [attr_type_lk,meta_id_si]]'
+            'id in [' . implode(
+                ',',
+                $idList
+            ) . '] and classes [public_service] limit 1 facets [type|alpha] pivot [facet => [attr_type_lk,meta_id_si]]'
         );
         $data = [];
         $pivot = $searchResponse->pivot['attr_type_lk,meta_id_si'] ?? [];
-        foreach ($pivot as $item){
+        foreach ($pivot as $item) {
             $services = [];
-            foreach ($item['pivot'] as $ip){
-                if (isset($objects[$ip['value']])){
+            foreach ($item['pivot'] as $ip) {
+                if (isset($objects[$ip['value']])) {
                     $services[] = $objects[$ip['value']];
                 }
             }
             $data[] = [
                 'category' => $item['value'],
                 'identifier' => eZCharTransform::instance()->transformByGroup($item['value'], 'identifier'),
-                'services' => $services
+                'services' => $services,
             ];
         }
         return $data;

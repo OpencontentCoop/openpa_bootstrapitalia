@@ -27,6 +27,7 @@
       storageKey: null,
       tokenUrl: null,
       profileUrl: null,
+      calendars: [],
       prefix: null,
       hasSession: false,
       debug: false,
@@ -104,7 +105,7 @@
     this.feedback = $('.feedback-container');
     this.errorContainer = $('.error-container');
     this.calendarFilterContainer = $('#appointment-calendars');
-    this.cacheCalendars = []
+    this.cacheCalendars = this.settings.calendars
 
     this.init()
   }
@@ -743,18 +744,18 @@
       let calendars = $('#' + this.currentData.place).data('calendars').split(',')
       let currentFilters = self.currentData.calendarFilter || []
 
-      function isSelected(id) {
+      function isSelected(id, index) {
         let currentMeetingCalendar = self.currentData.openingHour ? self.currentData.openingHour.split('|')[0] : false
         if (currentMeetingCalendar && $.inArray(currentMeetingCalendar, calendars) > -1) {
           return currentMeetingCalendar === id
         }
-        return currentFilters.length === 0 || $.inArray(id, currentFilters) > -1
+        return (currentFilters.length === 0 && index === 0) || $.inArray(id, currentFilters) > -1;
       }
 
-      $.each(calendars, function () {
+      $.each(calendars, function (i,v) {
         let check = $('<div class="form-check col-md-6 my-0 py-0 calendar-filter"></div>')
-        let input = $('<input class="form-check-input" name="calendars[]" type="checkbox" value="' + this + '" id="calendar-' + this + '">')
-          .prop('checked', isSelected(this))
+        let input = $('<input class="form-check-input" name="calendars[]" type="radio" value="' + this + '" id="calendar-' + this + '">')
+          .prop('checked', isSelected(this, i))
           .on('change', function () {
             let checked = self.getCheckedCalendars()
             if (checked.length === 0) {

@@ -4,7 +4,14 @@
             {def $content_object = fetch( content, object, hash( object_id, $relation_item.contentobject_id ) )}
             {if and($content_object.can_read, $content_object.data_map.channel_url.has_content)}
                 <div data-element="service-main-access">
+                {if has_custom_booking_url($content_object|attribute('channel_url'), $node.object)}
+                    <a class="btn btn-primary fw-bold font-sans-serif"
+                       href="{concat('/prenota_appuntamento?service_id=', $node.contentobject_id)|ezurl(no)}">
+                        {$content_object|attribute('channel_url').data_text|wash( xhtml )}
+                    </a>
+                {else}
                     {attribute_view_gui attribute=$content_object|attribute('channel_url')}
+                {/if}
                 </div>
                 {break}
             {/if}
