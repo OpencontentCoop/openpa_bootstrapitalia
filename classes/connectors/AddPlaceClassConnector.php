@@ -131,10 +131,10 @@ class AddPlaceClassConnector extends ClassConnector
 
         $options = $this->options;
         if ($this->useWizard) {
-//            unset($options['fields']['type']['type']);
-//            unset($options['fields']['type']['tree']);
+            unset($options['fields']['type']['type']);
+            unset($options['fields']['type']['tree']);
             $options['fields']['topics']['multiple'] = false;
-//            $options['fields']['type']['hideNone'] = false;
+            $options['fields']['type']['hideNone'] = true;
         }
         unset($options['helper']);
 
@@ -147,12 +147,11 @@ class AddPlaceClassConnector extends ClassConnector
         $list = [];
         $tree = $this->options['fields']['type']['tree']['core']['data'];
         foreach ($tree as $item) {
-            if (!$item['disabled']) {
-                $list[] = $item['text'];
-            }
+//            $list[] = $item['text'];
             foreach ($item['children'] as $child) {
-                if (isset($child['disabled']) && !$child['disabled']) {
-                    $list[] = $child['text'];
+                $list[] = $child['text'];
+                foreach ($child['children'] as $child2) {
+                    $list[] = $child2['text'];
                 }
             }
         }
@@ -183,7 +182,7 @@ class AddPlaceClassConnector extends ClassConnector
 
             foreach ($this->schema['properties'] as $identifier => $property) {
                 $index++;
-                if (!isset($property['hidden'])){
+                if (!isset($property['hidden'])) {
                     $property['hidden'] = false;
                 }
                 if (!$property['hidden'] && $identifier !== 'has_address') {
