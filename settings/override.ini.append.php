@@ -417,6 +417,13 @@ Subdir=templates
 Match[type]=ListaAutomatica
 Match[view]=lista_card_teaser
 
+[block_lista]
+Source=block/view/view.tpl
+MatchFile=block/lista_elenco.tpl
+Subdir=templates
+Match[type]=ListaAutomatica
+Match[view]=lista
+
 #### ListaManuale
 
 [block_lista_manuale_card]
@@ -481,6 +488,13 @@ MatchFile=block/lista_card_teaser.tpl
 Subdir=templates
 Match[type]=ListaManuale
 Match[view]=lista_card_teaser
+
+[block_lista_manuale]
+Source=block/view/view.tpl
+MatchFile=block/lista_elenco.tpl
+Subdir=templates
+Match[type]=ListaManuale
+Match[view]=lista
 
 #### Singolo
 

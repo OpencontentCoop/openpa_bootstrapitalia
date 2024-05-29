@@ -8,7 +8,8 @@
     'icon_wrap_end', '',
     'show_icon', false(),
     'icon_class', 'icon icon-primary icon-sm me-1',
-    'shorten', false()
+    'shorten', false(),
+    'add_abstract', false()
 ))}
 {if $show_icon}
     <div class="cmp-icon-link mb-2">
@@ -53,6 +54,7 @@
                     {$node.name|wash()}
                 {/if}
             {/if}
+            {if $add_abstract}<em>{$node|abstract()|oc_shorten(400)}</em>{/if}
             {$text_wrap_end}
             {if $span_class}</span>{/if}
     </a>

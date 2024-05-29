@@ -131,10 +131,10 @@ class AddPlaceClassConnector extends ClassConnector
 
         $options = $this->options;
         if ($this->useWizard) {
-            unset($options['fields']['type']['type']);
-            unset($options['fields']['type']['tree']);
+//            unset($options['fields']['type']['type']);
+//            unset($options['fields']['type']['tree']);
             $options['fields']['topics']['multiple'] = false;
-            $options['fields']['type']['hideNone'] = false;
+//            $options['fields']['type']['hideNone'] = false;
         }
         unset($options['helper']);
 

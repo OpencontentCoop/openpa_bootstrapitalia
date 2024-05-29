@@ -113,6 +113,7 @@ ViewList[]=lista_banner
 ViewList[]=lista_banner_color
 #ViewList[]=lista_carousel
 ViewList[]=lista_card_teaser
+ViewList[]=lista
 ViewName[]
 ViewName[lista_card]=Card
 ViewName[lista_card_alt]=Card (alternativa)
@@ -123,6 +124,7 @@ ViewName[lista_banner]=Banner
 ViewName[lista_banner_color]=Banner (colorati)
 #ViewName[lista_carousel]=Carousel
 ViewName[lista_card_teaser]=Card teaser
+ViewName[lista]=Elenco
 TTL=3600
 ItemsPerRow[]
 ContainerStyle[]
@@ -165,6 +167,7 @@ ViewList[]=lista_banner
 ViewList[]=lista_banner_color
 #ViewList[]=lista_carousel
 ViewList[]=lista_card_teaser
+ViewList[]=lista
 ViewName[]
 ViewName[lista_card]=Card
 ViewName[lista_card_alt]=Card (alternativa)
@@ -175,6 +178,7 @@ ViewName[lista_banner]=Banner
 ViewName[lista_banner_color]=Banner (colorati)
 #ViewName[lista_carousel]=Carousel
 ViewName[lista_card_teaser]=Card teaser
+ViewName[lista]=Elenco
 ItemsPerRow[]
 ContainerStyle[]
 ContainerStyle[lista_card]=py-5

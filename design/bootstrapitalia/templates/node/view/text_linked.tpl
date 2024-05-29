@@ -4,7 +4,8 @@
     'text_wrap_start', '',
     'text_wrap_end', '',
     'show_icon', false(),
-    'shorten', false()
+    'shorten', false(),
+    'add_abstract', false()
 ))}
 {if $show_icon}
     {set $a_class = concat('d-flex ', $a_class)}
@@ -30,6 +31,7 @@
             {$node.name|wash()}
         {/if}
     {/if}
+    {if $add_abstract}<em>{$node|abstract()|oc_shorten(400)}</em>{/if}
     {$text_wrap_end}
 </a>
 {unset_defaults(array(
