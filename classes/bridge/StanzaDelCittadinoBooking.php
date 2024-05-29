@@ -106,7 +106,7 @@ EOT;
     public function getCalendar($id)
     {
         if (!isset($this->calendars[$id])) {
-            $this->calendars[$id] = StanzaDelCittadinoBridge::factory()->instanceNewClient()->getCalendar($id);
+            $this->calendars[$id] = StanzaDelCittadinoBridge::factory()->instanceNewClient(5)->getCalendar($id);
         }
         return $this->calendars[$id];
     }
@@ -226,9 +226,7 @@ EOT;
     {
         $query = "SELECT service_id, json_agg(calendars) as calendars FROM ocbookingconfig GROUP BY service_id";
         $rows = eZDB::instance()->arrayQuery($query);
-        StanzaDelCittadinoClient::$connectionTimeout = 10;
-        StanzaDelCittadinoClient::$processTimeout = 10;
-        $calendars = array_column(StanzaDelCittadinoBridge::factory()->instanceNewClient()->getCalendarList(), 'id');
+        $calendars = array_column(StanzaDelCittadinoBridge::factory()->instanceNewClient(10)->getCalendarList(), 'id');
         $idList = [];
         foreach ($rows as $row) {
             $serviceCalendarList = json_decode($row['calendars'], true);
@@ -307,9 +305,7 @@ EOT;
             return [];
         }
 
-        StanzaDelCittadinoClient::$connectionTimeout = 10;
-        StanzaDelCittadinoClient::$processTimeout = 10;
-        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
         $timeTableItem = [];
         if ($showCalendarName) {
             $timeTableItem[] = '';
@@ -361,9 +357,7 @@ EOT;
      */
     public function getAvailabilities(array $calendars, string $month = null): array
     {
-        StanzaDelCittadinoClient::$connectionTimeout = 10;
-        StanzaDelCittadinoClient::$processTimeout = 10;
-        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
         $currentMonth = date('Y-m');
         if (!$month || $month == $currentMonth) {
             $startDate = date('Y-m-d');
@@ -402,7 +396,7 @@ EOT;
     {
         $availabilities = [];
         if ($day) {
-            $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+            $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
             $response = $client->getCalendarsAvailabilities($calendars, $day);
             $availabilities = $response['data'];
         }
@@ -421,7 +415,7 @@ EOT;
      */
     public function upsertDraftMeeting(StanzaDelCittadinoBookingDTO $dto): array
     {
-        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
         if (empty($dto->getUserToken())) {
             $authResponse = $client->request('POST', '/api/session-auth');
             $dto->setUserToken($authResponse['token']);
@@ -459,12 +453,12 @@ EOT;
     {
         $meetingId = $meeting['id'];
         if ($meetingId) {
-            $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+            $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
             $client->setBearerToken($prevToken);
             $endpoint = '/api/meetings/' . $meetingId;
             $client->request('DELETE', $endpoint);
 
-            $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+            $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
             $client->setBearerToken($currentToken);
             $method = 'POST';
             $endpoint = '/api/meetings';
@@ -488,7 +482,7 @@ EOT;
 
     private function bookAsApplication(StanzaDelCittadinoBookingDTO $dto): array
     {
-        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
         if (empty($dto->getUserToken())) {
             $authResponse = $client->request('POST', '/api/session-auth');
             $dto->setUserToken($authResponse['token']);
@@ -513,7 +507,7 @@ EOT;
 
     private function bookAsMeeting(StanzaDelCittadinoBookingDTO $dto): array
     {
-        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient();
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
         if (empty($dto->getUserToken())) {
             $authResponse = $client->request('POST', '/api/session-auth');
             $dto->setUserToken($authResponse['token']);
