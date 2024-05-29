@@ -56,6 +56,7 @@
       storageKey: "{$page_key|wash()}",
       tokenUrl: "{$pal|user_token_url()}",
       profileUrl: "{$pal|user_profile_url()}",
+      calendars: {$calendars_json},
       prefix: UriPrefix,
       hasSession: {cond($has_session, 'true', 'false')},
       debug: {$show_debug}

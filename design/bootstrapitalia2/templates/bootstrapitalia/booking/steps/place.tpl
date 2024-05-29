@@ -31,7 +31,7 @@
                                         </select>
                                     </div>
                                     <fieldset class="d-none">
-                                        <legend class="visually-hidden">{'Location '|i18n('bootstrapitalia/booking')}</legend>
+                                        <legend class="visually-hidden">{'Location'|i18n('bootstrapitalia/booking')}</legend>
                                         {foreach $offices as $office}
                                             {foreach $office.places as $place}
                                             <div class="cmp-info-radio radio-card d-none" data-office="{$office.id|wash()}" data-place="{$place.id|wash()}">

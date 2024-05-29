@@ -107,11 +107,16 @@ class StanzaDelCittadinoBridge
      * @return StanzaDelCittadinoClient
      * @throws Exception
      */
-    public function instanceNewClient(): StanzaDelCittadinoClient
+    public function instanceNewClient(?int $timeout = null): StanzaDelCittadinoClient
     {
         $url = $this->getApiBaseUri();
         if (!$url) {
             throw new Exception('Can not instantiate a client with empty server url');
+        }
+
+        if ($timeout > 0){
+            StanzaDelCittadinoClient::$connectionTimeout = $timeout;
+            StanzaDelCittadinoClient::$processTimeout = $timeout;
         }
 
         return new StanzaDelCittadinoClient($url);
