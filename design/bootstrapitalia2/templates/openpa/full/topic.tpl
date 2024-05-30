@@ -278,6 +278,29 @@
             $openagenda_next_events.view.block_view,
             $openagenda_next_events.view.parameters
         ))}
+    {else}
+        {def $root_events= 'all-events'|node_id_from_object_remote_id()}
+        {def $events_count = api_search(concat('classes [event] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, '  and subtree [', $root_events, '] limit 1')).totalCount}
+        {if $events_count|gt(0)}
+        {set $blocks = $blocks|append(page_block(
+            fetch(content, node, hash(node_id, $root_events)).name|wash(),
+            "Eventi",
+            "card",
+            hash(
+                "includi_classi", "event",
+                "show_facets", "0",
+                "topic_node_id", $node.node_id,
+                "tag_id", "",
+                "size", "medium",
+                "calendar_view", "day_grid",
+                "color_style", "",
+                "container_style", "",
+                "max_events", "6",
+                "intro_text", "",
+                )
+            )
+        )}
+        {/if}
     {/if}
 
     {if $blocks|count()}

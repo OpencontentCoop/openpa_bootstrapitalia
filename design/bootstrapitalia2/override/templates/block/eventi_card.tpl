@@ -13,6 +13,9 @@
 {*if and(is_set($block.custom_attributes.includi_classi), $block.custom_attributes.includi_classi|ne(''))}
     {set $query = concat('classes [', $block.custom_attributes.includi_classi, '] limit 3')}
 {/if*}
+{if and(is_set($block.custom_attributes.topic_node_id), $block.custom_attributes.topic_node_id|int()|gt(0))}
+	{set $query = concat("raw[submeta_topics___main_node_id____si] = ", $block.custom_attributes.topic_node_id, " and ", $query)}
+{/if}
 {if and(is_set($block.custom_attributes.tag_id), $block.custom_attributes.tag_id|int()|gt(0))}
 	{set $query = concat("raw[ezf_df_tag_ids] = ", $block.custom_attributes.tag_id, " and ", $query)}
 {/if}
