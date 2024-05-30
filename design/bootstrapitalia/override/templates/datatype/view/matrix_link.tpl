@@ -9,6 +9,10 @@
                         {$row.columns[0]|wash()} <i aria-hidden="true" class="fa fa-external-link"></i>
                     </a>
                 </li>
+            {else}
+                <li>
+                    {$row.columns[0]|wash()}
+                </li>
             {/if}
             {/foreach}
         </ul>

@@ -98,7 +98,10 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 $result = [
                     'is_valid' => false,
                     'warnings' => [
-                        ['text' => sprintf(self::FILE_ERROR_MESSAGE, $fileName, $linkName, $attachmentsName)],
+                        [
+                            'identifier' => 'file',
+                            'text' => sprintf(self::FILE_ERROR_MESSAGE, $fileName, $linkName, $attachmentsName)
+                        ],
                     ],
                 ];
             }
@@ -150,6 +153,7 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 if (!$hasProcessingTimeHasContent && !$hasProcessingTimeAsTextHasContent) {
                     $result['is_valid'] = false;
                     $result['warnings'][] = [
+                        'identifier' => 'has_processing_time_text',
                         'text' => self::SERVICE_PROCESSING_TIME_ERROR_MESSAGE,
                     ];
                 }
@@ -170,6 +174,7 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
             if (!$uniqueResult['is_valid']) {
                 $result['is_valid'] = false;
                 $result['warnings'][] = [
+                    'identifier' => $attributeIdentifier,
                     'text' => $uniqueResult['message'],
                 ];
             }
@@ -214,7 +219,10 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 $result = [
                     'is_valid' => false,
                     'warnings' => [
-                        ['text' => sprintf(self::FILE_ERROR_MESSAGE, $isAccessibleForFreeName, $costNotesName, $hasOfferName)],
+                        [
+                            'identifier' => 'is_accessible_for_free',
+                            'text' => sprintf(self::FILE_ERROR_MESSAGE, $isAccessibleForFreeName, $costNotesName, $hasOfferName)
+                        ],
                     ],
                 ];
             }

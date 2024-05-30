@@ -19,7 +19,11 @@
             <li><a href="#" data-invalid_identifier="{$:item.identifier|wash}"><strong>{$:item.name|wash}:</strong></a> {$:item.description}</li>
         {/section}
         {section name=UnvalidatedCustomRules loop=$validation.custom_rules show=$validation.custom_rules}
-            <li>{$:item.text}</li>
+            {if is_set($:item.identifier)}
+                <li><a href="#" data-invalid_identifier="{$:item.identifier|wash}">{$:item.text|wash}</a></li>
+            {else}
+                <li>{$:item.text}</li>
+            {/if}
         {/section}
     </ul>
 </div>
