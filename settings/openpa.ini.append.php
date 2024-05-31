@@ -177,6 +177,7 @@ UniqueStringCheck[]
 #UniqueStringCheck[]=document/has_code
 #UniqueStringCheck[]=lotto/cig
 #UniqueStringCheck[]=public_service/identifier
+UniqueStringCheck[]=public_project/identifier
 DefaultIntegerIsNull[]
 DefaultIntegerIsNull[]=public_service/average_processing_time
 DefaultIntegerIsNull[]=public_service/has_processing_time

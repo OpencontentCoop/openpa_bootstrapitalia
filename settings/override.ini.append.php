@@ -547,6 +547,12 @@ Subdir=templates
 Match[type]=Singolo
 Match[view]=image
 
+[block_singolo_simple]
+Source=block/view/view.tpl
+MatchFile=block/singolo_simple.tpl
+Subdir=templates
+Match[type]=Singolo
+Match[view]=simple
 
 #### Eventi
 
@@ -686,3 +692,9 @@ Subdir=templates
 Match[type]=OpendataQueriedContents
 Match[view]=default
 
+
+[full_pnrr-topic]
+Source=node/view/full.tpl
+MatchFile=full/pnrr-topic.tpl
+Subdir=templates
+Match[remote_id]=pnrr-topic

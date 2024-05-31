@@ -38,6 +38,7 @@ ViewList[]=card_image
 #ViewList[]=card_children
 ViewList[]=evidence
 ViewList[]=image
+ViewList[]=simple
 ViewName[]
 ViewName[default]=Default
 ViewName[alt]=Testo più grande
@@ -46,6 +47,7 @@ ViewName[evidence]=In evidenza
 ViewName[image]=Immagine decorativa
 #ViewName[card]=Card
 #ViewName[card_children]=Card (ultimi 4 contenuti)
+ViewName[simple]=Semplice
 ItemsPerRow[]
 ContainerStyle[]
 #ContainerStyle[card]=py-5

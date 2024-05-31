@@ -2,7 +2,7 @@
 
 {set_defaults(hash('items_per_row', 3))}
 {if $openpa.has_content}
-{include uri='design:parts/block_name.tpl'}
+{include uri='design:parts/block_name.tpl' no_margin=true()}
     <div class="it-list-wrapper">
         <ul class="it-list">
         {foreach $openpa.content as $item}

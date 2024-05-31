@@ -666,7 +666,9 @@ class OpenPABootstrapItaliaOperators
 
                 $block = new eZPageBlock($namedParameters['name'], $namedParameters);
                 $block->setAttribute('id', md5(mt_rand() . microtime()));
-
+                if (!empty($namedParameters['valid_nodes'])) {
+                    $block->setAttribute('valid_nodes', $namedParameters['valid_nodes']);
+                }
                 $operatorValue = $block;
 
                 break;
