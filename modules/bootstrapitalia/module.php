@@ -72,6 +72,12 @@ $ViewList['booking_config'] = [
     'params' => ['Action', 'Parameter'],
     'unordered_params' => [],
 ];
+$ViewList['widget'] = [
+    'functions' => ['widget'],
+    'script' => 'widget.php',
+    'params' => ['Identifier'],
+    'unordered_params' => [],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];
@@ -93,3 +99,4 @@ $FunctionList['opencity_locked_editor'] = [
 $FunctionList['opencity_info_editor'] = [];
 $FunctionList['service_tools'] = [];
 $FunctionList['booking_config'] = [];
+$FunctionList['widget'] = [];
