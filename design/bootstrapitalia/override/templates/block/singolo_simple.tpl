@@ -12,6 +12,14 @@
                 <div class="font-serif">
                     {include uri='design:openpa/card/parts/abstract.tpl' node=$valid_node has_media=false() view_variation=false()}
                 </div>
+                <a class="read-more pb-5 pt-4" href="{$openpa.content_link.full_link}#page-content">
+                    <span class="text">
+                        {if $openpa.content_link.is_node_link}{'Read more'|i18n('bootstrapitalia')}
+                        {elseif and($openpa.content_link.is_internal|not(), $valid_node|has_attribute('location'), $valid_node|attribute('location').data_text|ne(''))}{$valid_node|attribute('location').data_text|wash()}
+                        {else}{'Visit'|i18n('bootstrapitalia')}{/if}
+                    </span>
+                    {display_icon('it-arrow-right', 'svg', 'icon')}
+                </a>
             </div>
             {if $has_image}
             <div class="col col-md-4">
