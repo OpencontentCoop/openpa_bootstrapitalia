@@ -1,4 +1,3 @@
-{def $openpa = object_handler($node)}
 {set_defaults(hash(
     'a_class', '',
     'span_class', false(),
@@ -70,4 +69,3 @@
     'icon_wrap_start',
     'icon_wrap_end'
 ))}
-{undef $openpa}
