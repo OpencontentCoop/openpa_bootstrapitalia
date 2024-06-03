@@ -12,7 +12,7 @@
                show_icon=false()
                a_class='list-item'
                add_abstract=true()
-               text_wrap_start='<div class="it-right-zone"><span class="text">'
+               text_wrap_start='<div class="it-right-zone"><span class="text w-75">'
                text_wrap_end=concat('</span><svg class="icon"><use href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use></svg></div>')}
             </li>
         {/foreach}

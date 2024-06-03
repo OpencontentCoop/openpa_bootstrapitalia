@@ -277,6 +277,21 @@ Subdir=templates
 Match[class_identifier]=public_service_link
 Match[attribute_identifier]=location
 
+[datatype_view_public_public_project_budget]
+Source=content/datatype/view/ezprice.tpl
+MatchFile=datatype/view/price_pnrr_budget.tpl
+Subdir=templates
+Match[class_identifier]=public_project
+Match[attribute_identifier]=budget
+
+[datatype_view_public_public_project_has_status]
+Source=content/datatype/view/eztags.tpl
+MatchFile=datatype/view/tags_public_public_project_has_status.tpl
+Subdir=templates
+Match[class_identifier]=public_project
+Match[attribute_identifier]=has_status
+
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################

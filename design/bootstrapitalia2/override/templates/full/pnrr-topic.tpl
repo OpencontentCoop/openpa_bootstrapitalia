@@ -104,66 +104,77 @@
     <div style="min-height: 80px">
         {attribute_view_gui attribute=$node|attribute('layout')}
     </div>
-{else}
-    {def $blocks = array()}
-    {def $banner = fetch(content, object, hash(remote_id, 'banner-pnrr'))}
-    {if and($banner, $banner.can_read)}
-        {set $blocks = $blocks|append(page_block(
-            '',
-            "Singolo",
-            "simple",
-            hash(
-                "container_style", "",
-                ),
-            array($banner.main_node)
-            )
-        )}
-    {/if}
-    {undef $banner}
+{/if}
+{def $blocks = array()}
+{def $banner = fetch(content, object, hash(remote_id, 'banner-pnrr'))}
+{if and($banner, $banner.can_read)}
+    {set $blocks = $blocks|append(page_block(
+        '',
+        "Singolo",
+        "simple",
+        hash(
+            "container_style", "",
+            ),
+        array($banner.main_node)
+        )
+    )}
+{/if}
+{undef $banner}
 
-    {*    "Progetti finanziati dal PNRR",*}
-    {def $projects = fetch(content, object, hash(remote_id, 'all-projects'))}
-    {if $projects}
-        {def $missions = hash(
-            "Missione 1 - Digitalizzazione innovazione competitività cultura e turismo", "Digitalizzazione innovazione competitività cultura e turismo (M1)",
-            "Missione 2 - Rivoluzione verde e Transizione ecologica", "Rivoluzione verde e Transizione ecologica (M2)",
-            "Missione 3 - Infrastrutture per una mobilità sostenibile", "Infrastrutture per una mobilità sostenibile (M3)",
-            "Missione 4 - Istruzione e Ricerca", "Istruzione e Ricerca (M4)",
-            "Missione 5 - Inclusione e Coesione", "Inclusione e Coesione (M5)",
-            "Missione 6 - Salute", "Salute (M6)"
-        )}
-        {foreach $missions as $tag => $name}
-        {if api_search(concat("classes [public_project] and mission = '", $tag, "' limit 1")).totalCount}
+{def $projects = fetch(content, object, hash(remote_id, 'all-projects'))}
+{if $projects}
+    {def $missions = hash(
+        "Missione 1 - Digitalizzazione innovazione competitività cultura e turismo", "Digitalizzazione innovazione competitività cultura e turismo (M1)",
+        "Missione 2 - Rivoluzione verde e Transizione ecologica", "Rivoluzione verde e Transizione ecologica (M2)",
+        "Missione 3 - Infrastrutture per una mobilità sostenibile", "Infrastrutture per una mobilità sostenibile (M3)",
+        "Missione 4 - Istruzione e Ricerca", "Istruzione e Ricerca (M4)",
+        "Missione 5 - Inclusione e Coesione", "Inclusione e Coesione (M5)",
+        "Missione 6 - Salute", "Salute (M6)"
+    )}
+    {def $has_intro = false()}
+    {foreach $missions as $tag => $name}
+    {if api_search(concat("classes [public_project] and mission = '", $tag, "' limit 1")).totalCount|gt(0)}
+        {if $has_intro|not()}
             {set $blocks = $blocks|append(page_block(
                 "",
-                "ListaAutomatica",
-                "lista",
+                "HTML",
+                "html",
                 hash(
-                    "limite", "30",
-                    "elementi_per_riga", "1",
-                    "includi_classi", "public_project",
-                    "escludi_classi", "",
-                    "ordinamento", "name",
-                    "state_id", "",
-                    "topic_node_id", "",
-                    "color_style", "",
-                    "container_style", "my-5",
-                    "livello_profondita", 1,
-                    "node_id", $projects.main_node_id,
-                    "tags", $tag,
-                    "intro_text", concat('<strong>', $name|wash(), '</strong>')
+                    "html", '<div class="col-12"><h2 class="mt-5 card-title big-heading">Progetti finanziati dal PNRR</h3></div>'
                 )
             ))}
+            {set $has_intro = true()}
         {/if}
-        {/foreach}
+        {set $blocks = $blocks|append(page_block(
+            "",
+            "ListaAutomatica",
+            "lista",
+            hash(
+                "limite", "30",
+                "elementi_per_riga", "1",
+                "includi_classi", "public_project",
+                "escludi_classi", "",
+                "ordinamento", "name",
+                "state_id", "",
+                "topic_node_id", "",
+                "color_style", "",
+                "container_style", "my-5",
+                "livello_profondita", 1,
+                "node_id", $projects.main_node_id,
+                "tags", concat('/Progetti pubblici/Strumento di programmazione/PNRR/',$tag),
+                "intro_text", concat('<strong>', $name|wash(), '</strong>')
+            )
+        ))}
     {/if}
-
-    {if $blocks|count()}
-        {include uri='design:zone/default.tpl' zones=array(hash('blocks', $blocks))}
-    {else}
-        <section class="page-topic section section-muted section-inset-shadow pb-5" id=""></section>
-    {/if}
+    {/foreach}
 {/if}
+
+{if $blocks|count()}
+    {include uri='design:zone/default.tpl' zones=array(hash('blocks', $blocks))}
+{else}
+    <section class="page-topic section section-muted section-inset-shadow pb-5" id=""></section>
+{/if}
+
 
 
 {if and($openpa.content_tools.editor_tools, module_params().function_name|ne('versionview'))}
