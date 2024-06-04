@@ -256,14 +256,14 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 'identifiers' => ['add_section_events', 'title_events', 'section_next_events', 'section_calendar',],
             ],
             [
-                'identifier' => 'other',
-                'name' => $this->fetchObjectNameByObjectRemoteID('all-places'),
-                'identifiers' => ['section_place',],
-            ],
-            [
                 'identifier' => 'topic',
                 'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Topics'),
                 'identifiers' => ['section_topic', 'background_topic'],
+            ],
+            [
+                'identifier' => 'other',
+                'name' => $this->fetchObjectNameByObjectRemoteID('all-places'),
+                'identifiers' => ['section_place',],
             ],
             [
                 'identifier' => 'banner',
@@ -335,13 +335,13 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             $blocks[] = $block;
         }
 
-        if ($block = $this->mapSectionPlaces($data)) {
-            $blocks[] = $block;
-        }
-
         $this->menuTopics = [];
         if ($block = $this->mapSectionTopics($data)) {
             $this->menuTopics = array_slice($block['valid_items'], 0, 3);
+            $blocks[] = $block;
+        }
+
+        if ($block = $this->mapSectionPlaces($data)) {
             $blocks[] = $block;
         }
 
