@@ -13,7 +13,6 @@
     </div>
 
 {else}
-    {include uri='design:bootstrapitalia/booking/breadcrumb.tpl'}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
@@ -39,10 +38,14 @@
                                value=""
                                placeholder="{'Search text'|i18n('bootstrapitalia/documents')}"/>
                         <label class="pl-0 ps-0" for="discover-text">{'Search'|i18n('openpa/search')}</label>
+                        <button id="ResetButton" class="autocomplete-icon btn btn-link" style="right: 45px;display:none" aria-label="{'Cancel'|i18n('design/base')}">
+                            {display_icon('it-close', 'svg', 'icon')}
+                        </button>
                         <button class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
                             {display_icon('it-search', 'svg', 'icon')}
                         </button>
                     </div>
+                    <em style="display:none" id="NoResult">{'The service you are looking for is not available for appointment booking'|i18n('bootstrapitalia/booking')}</em>
                 </div>
 
                 <div class="row my-5">
@@ -69,7 +72,7 @@
                                                         <div class="it-right-zone">
                                                                 <span class="text mb-0">
                                                                     <span>{$service.name|wash()}</span>
-                                                                    <em>
+                                                                    <em class="w-75">
                                                                         {$service|attribute('abstract').content|wash()}
                                                                         {if $service|has_attribute('produces_output')}
                                                                             <br/>
@@ -98,8 +101,14 @@
     {literal}
     <script>
         $(document).ready(function (){
-          $('input#discover-search').quicksearch('ul.it-list li', {
-            'delay': 100,
+          let searchInput = $('input#discover-search');
+          let resetButton = $('#ResetButton');
+          let noResult = $('#NoResult')
+          searchInput.quicksearch('ul.it-list li', {
+            'delay': 0,
+            'onNoResultFound': function (){
+              noResult.show();
+            },
             'onAfter': function () {
               let activeTag = false
               $('.service-discover-category').each(function (i) {
@@ -124,6 +133,20 @@
             hide: function () {
               $(this).addClass('qs-hide').removeClass('qs-show').hide();
             },
+            'prepareQuery': function (val) {
+              noResult.hide();
+              if (val.length > 0){
+                resetButton.show();
+              } else {
+                resetButton.hide();
+              }
+              return val.toLowerCase().split(' ');
+            }
+          });
+          resetButton.on('click', function (e){
+            $(this).hide();
+            searchInput.val('').reset();
+            e.preventDefault();
           });
         })
     </script>
