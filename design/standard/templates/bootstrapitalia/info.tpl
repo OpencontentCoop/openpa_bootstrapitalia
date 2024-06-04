@@ -48,6 +48,7 @@
 
         <div class="border border-light rounded p-3 mb-3">
             <h5>Favicon</h5>
+            <p class="form-text">La favicon viene visualizzata alla sinistra dell'URL nella barra degli indirizzi di un browser, quando si naviga sul sito. <br />Allegare un file di tipo .ico di almeno 48x48 pixel</p>
             <div class="row mb-3">
                 <label for="Favicon" class="col-sm-3 col-form-label">
                     {def $_favicon_attribute = cond(
@@ -86,6 +87,7 @@
         {if is_set($homepage.data_map.apple_touch_icon)}
         <div class="border border-light rounded p-3 mb-3">
             <h5>Apple Touch Icon</h5>
+            <p class="form-text">Icona per la schermata iniziale sui dispositivi mobili Apple e per i risultati nei motori di ricerca.<br />Allegare un file di tipo .png di 180x180 pixel</p>
             <div class="row mb-3">
                 <label for="AppleTouchIcon" class="col-sm-3 col-form-label">
                     <img alt="{ezini('SiteSettings','SiteName')}"
