@@ -8,7 +8,7 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
 
     const SERVICE_STATUS_ERROR_MESSAGE = "Inserire un testo nel campo 'Motivo dello stato' dal momento che il servizio non è attivo";
 
-    const SERVICE_PROCESSING_TIME_ERROR_MESSAGE = "Specificare il numero dei giorni massimi di attesa dalla richiesta o il testo del tempo di processamento";
+    const SERVICE_PROCESSING_TIME_ERROR_MESSAGE = 'Compilare almeno un campo tra "Tempi e scadenze" e "Giorni massimi di attesa dalla richiesta"';
 
     /**
      * @param eZHTTPTool $http
@@ -138,6 +138,7 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 if (!$isActive && !$statusNoteHasContent) {
                     $result['is_valid'] = false;
                     $result['warnings'][] = [
+                        'identifier' => 'status_note',
                         'text' => self::SERVICE_STATUS_ERROR_MESSAGE,
                     ];
                 }
