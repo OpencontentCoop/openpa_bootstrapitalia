@@ -20,7 +20,7 @@
                     <section class="it-hero-wrapper bg-white align-items-start">
                         <div class="it-hero-text-wrapper pt-0 ps-0 pb-3 pb-lg-4">
                             <h1 class="text-black" data-element="page-name">
-                                {'What do you need?'|i18n('bootstrapitalia/booking')}
+                                {'Appointment booking'|i18n('bootstrapitalia/booking')}
                             </h1>
                             <p class="subtitle-small text-black">
                                 {'Book an appointment for the service best suited to your needs'|i18n('bootstrapitalia/booking')}
