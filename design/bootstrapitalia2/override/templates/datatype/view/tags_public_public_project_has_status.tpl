@@ -1,7 +1,9 @@
 {if $attribute.content.tag_ids|count}
+{*
     <div class="row align-items-center mt-10 mb-30">
         <div class="col-2">
-            <div class="d-flex flex-wrap gap-2 font-sans-serif">
+*}
+            <div class="d-flex flex-wrap gap-2 font-sans-serif mt-10 mb-30">
                 {foreach $attribute.content.tags as $tag}
                     <div class="cmp-tag">
                         {if $show_link}
@@ -14,6 +16,7 @@
                     </div>
                 {/foreach}
             </div>
+{*
         </div>
     {if $attribute.content.tags[0].remote_id|eq('projects_states_3')}
         <div class="col-10">
@@ -42,4 +45,5 @@
             </div>
     {/if}
     </div>
+*}
 {/if}
