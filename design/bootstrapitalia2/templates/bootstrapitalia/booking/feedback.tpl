@@ -8,13 +8,13 @@
                             {display_icon('it-mail', 'svg', 'icon mr-10 icon-lg')}
                             <h1 class="text-black hero-title py-2">{'Appointment confirmed'|i18n('bootstrapitalia/booking')}</h1></div>
                         <div class="hero-text">
-                            <p class="pt-3 pt-lg-4">
+                            <p class="pt-3 pt-lg-4 mb-3">
                                 {'The appointment is set for'|i18n('bootstrapitalia/booking')} <strong data-openinghourDay></strong>
                                 {'from'|i18n('bootstrapitalia/booking')} <strong data-openinghourFrom></strong>
                                 {'to'|i18n('bootstrapitalia/booking')} <strong data-openinghourTo></strong>
                                 {'at'|i18n('bootstrapitalia/booking')} <strong data-placeTitle></strong> <strong data-placeAddress></strong>
                             </p>
-                            <br>
+                            <p id="meetingNumber" class="mb-3" style="display:none">{'Meeting number'|i18n('bootstrapitalia/booking')}: <strong></strong></p>
                             <p>
                                 {'We sent the summary to the email'|i18n('bootstrapitalia/booking')}:<br />
                                 <strong data-applicantEmail></strong>

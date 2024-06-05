@@ -1895,15 +1895,23 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>What do you need?</source>
-      <translation>Qual è la tua necessità?</translation>
+      <translation>Scegli il servizio</translation>
     </message>
     <message>
       <source>Book an appointment for the service best suited to your needs</source>
-      <translation>Prenota un appuntamento per il servizio più idoneo alle tue esigenze</translation>
+      <translation>Seleziona il servizio per cui stai richiedendo un appuntamento.</translation>
     </message>
     <message>
       <source>You can find all the necessary documents with the related instructions for use and information on the procedure to follow to use the %service service on the %open_service_link dedicated page %close_service_link</source>
       <translation>Puoi trovare tutti i documenti necessari con le relative istruzioni all'uso e le informazioni sulla procedura da seguire per usufruire del servizio %service nella %open_service_link pagina dedicata %close_service_link</translation>
+    </message>
+    <message>
+      <source>The service you are looking for is not available for appointment booking</source>
+      <translation>Il servizio che stai cercando non è disponibile per la prenotazione appuntamento</translation>
+    </message>
+    <message>
+      <source>Meeting number</source>
+      <translation>Numero appuntamento</translation>
     </message>
   </context>
 </TS>

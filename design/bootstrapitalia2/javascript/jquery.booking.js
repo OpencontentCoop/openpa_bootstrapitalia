@@ -106,6 +106,7 @@
     this.errorContainer = $('.error-container');
     this.calendarFilterContainer = $('#appointment-calendars');
     this.cacheCalendars = this.settings.calendars
+    this.meetingNumber = $('#meetingNumber')
 
     this.init()
   }
@@ -398,11 +399,17 @@
         $(this).find('.load-button').show()
         self.info('send-form')
         self.saveMeeting(function (response) {
+          let code = response.dto.meetingCode || '';
           self.removeStorage()
           $(self.element).find('.steppers').hide()
           $(self.element).find('.row.justify-content-center .cmp-hero').hide()
           $(self.element).find('.title-xsmall').hide()
           $(self.element).find('.step.container').hide()
+          if (code.length > 0){
+            self.meetingNumber.show().find('strong').text(code);
+          } else {
+            self.meetingNumber.hide();
+          }
           self.feedback.find('[data-openinghourDay]').text(self.summary.openinghourDay)
           self.feedback.find('[data-openinghourFrom]').text(self.summary.openinghourHour.split(' - ')[0])
           self.feedback.find('[data-openinghourTo]').text(self.summary.openinghourHour.split(' - ')[1])

@@ -18,6 +18,8 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
 
     private $meetingId;
 
+    private $meetingCode;
+
     private $email;
 
     private $phoneNumber;
@@ -181,7 +183,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
      */
     public function setMeetingId($meetingId)
     {
-        $this->meetingId = isset($meetingId['id']) ? $meetingId['id'] : $meetingId;
+        $this->meetingId = $meetingId['id'] ?? $meetingId;
         return $this;
     }
 
@@ -358,6 +360,17 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         return $this;
     }
 
+    public function getMeetingCode()
+    {
+        return $this->meetingCode;
+    }
+
+    public function setMeetingCode($meetingCode)
+    {
+        $this->meetingCode = $meetingCode['code'] ?? $meetingCode;
+        return $this;
+    }
+
 
     public static function fromRequest()
     {
@@ -388,6 +401,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         }
         if ($http->hasPostVariable('meeting')) {
             $dto->setMeetingId($http->postVariable('meeting'));
+            $dto->setMeetingCode($http->postVariable('meeting'));
         }
         if ($http->hasPostVariable('email')) {
             $dto->setEmail($http->postVariable('email'));
@@ -490,6 +504,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'status' => $withStatus,
             'location' => $this->getPlace(),
             'motivation_outcome' => $this->getMotivationOutcome(),
+            'code' => $this->getMeetingCode(),
         ];
 
         return $data;
