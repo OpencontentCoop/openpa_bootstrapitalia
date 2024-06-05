@@ -179,6 +179,8 @@ UniqueStringCheck[]
 #UniqueStringCheck[]=lotto/cig
 #UniqueStringCheck[]=public_service/identifier
 UniqueStringCheck[]=public_project/identifier
+UniqueStringCheck[]=bando/codice_identificativo_gara
+UniqueStringAllowedValue[bando/codice_identificativo_gara]=in definizione
 DefaultIntegerIsNull[]
 DefaultIntegerIsNull[]=public_service/average_processing_time
 DefaultIntegerIsNull[]=public_service/has_processing_time

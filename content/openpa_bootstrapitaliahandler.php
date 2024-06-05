@@ -100,7 +100,7 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                     'warnings' => [
                         [
                             'identifier' => 'file',
-                            'text' => sprintf(self::FILE_ERROR_MESSAGE, $fileName, $linkName, $attachmentsName)
+                            'text' => sprintf(self::FILE_ERROR_MESSAGE, $fileName, $linkName, $attachmentsName),
                         ],
                     ],
                 ];
@@ -144,8 +144,12 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 }
             }
             if ($hasProcessingTime && $hasProcessingTimeAsText) {
-                $hasProcessingTimePostVar = 'ContentObjectAttribute_data_integer_' . $hasProcessingTime->attribute('id');
-                $hasProcessingTimeAsTextPostVar = 'ContentObjectAttribute_data_text_' . $hasProcessingTimeAsText->attribute('id');
+                $hasProcessingTimePostVar = 'ContentObjectAttribute_data_integer_' . $hasProcessingTime->attribute(
+                        'id'
+                    );
+                $hasProcessingTimeAsTextPostVar = 'ContentObjectAttribute_data_text_' . $hasProcessingTimeAsText->attribute(
+                        'id'
+                    );
                 $hasProcessingTimeHasContent = $http->hasPostVariable($hasProcessingTimePostVar)
                     && !empty($http->postVariable($hasProcessingTimePostVar));
                 $hasProcessingTimeAsTextHasContent = $http->hasPostVariable($hasProcessingTimeAsTextPostVar)
@@ -159,10 +163,10 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                     ];
                 }
             }
-
         }
 
         $uniqueStringCheckList = OpenPAINI::variable('AttributeHandlers', 'UniqueStringCheck', []);
+        $uniqueStringAllowedValues = OpenPAINI::variable('AttributeHandlers', 'UniqueStringAllowedValue', []);
         foreach ($uniqueStringCheckList as $uniqueStringCheck) {
             [$classIdentifier, $attributeIdentifier] = explode('/', $uniqueStringCheck);
             $uniqueResult = $this->checkUniqueStringField(
@@ -170,7 +174,8 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 $attributeIdentifier,
                 $http,
                 $class,
-                $contentObjectAttributes
+                $contentObjectAttributes,
+                $uniqueStringAllowedValues
             );
             if (!$uniqueResult['is_valid']) {
                 $result['is_valid'] = false;
@@ -186,11 +191,11 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 eZContentObject::fetchByRemoteID('all-events')
                 || eZContentObject::fetchByRemoteID(OpenPABase::getCurrentSiteaccessIdentifier() . '_openpa_agenda')
             )
-        ){
+        ) {
             $isAccessibleForFree = false;
             $costNotes = false;
             $hasOffer = false;
-            
+
             $isAccessibleForFreeName = 'is_accessible_for_free';
             $costNotesName = 'cost_notes';
             $hasOfferName = 'has_offer';
@@ -200,19 +205,27 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 $contentClassAttribute = $contentObjectAttribute->contentClassAttribute();
                 if ($contentClassAttribute->attribute('identifier') == 'is_accessible_for_free') {
                     $countExisting++;
-                    $isAccessibleForFree = $http->hasPostVariable($base . "_data_boolean_" . $contentObjectAttribute->attribute("id"));
+                    $isAccessibleForFree = $http->hasPostVariable(
+                        $base . "_data_boolean_" . $contentObjectAttribute->attribute("id")
+                    );
                     $isAccessibleForFreeName = $contentClassAttribute->attribute('name');
                 } elseif ($contentClassAttribute->attribute('identifier') == 'cost_notes') {
                     $countExisting++;
-                    $costNotesData = $http->postVariable($base . "_data_text_" . $contentObjectAttribute->attribute("id"));
+                    $costNotesData = $http->postVariable(
+                        $base . "_data_text_" . $contentObjectAttribute->attribute("id")
+                    );
                     $costNotesData = strip_tags($costNotesData);
                     $costNotesData = trim($costNotesData);
                     $costNotes = !empty($costNotesData);
                     $costNotesName = $contentClassAttribute->attribute('name');
                 } elseif ($contentClassAttribute->attribute('identifier') == 'has_offer') {
                     $countExisting++;
-                    $hasOfferData = $http->postVariable($base . "_data_object_relation_list_" . $contentObjectAttribute->attribute("id"));
-                    $hasOffer = is_array($hasOfferData) && (count($hasOfferData) > 1 || $hasOfferData[0] !== 'no_relation');
+                    $hasOfferData = $http->postVariable(
+                        $base . "_data_object_relation_list_" . $contentObjectAttribute->attribute("id")
+                    );
+                    $hasOffer = is_array($hasOfferData) && (count(
+                                $hasOfferData
+                            ) > 1 || $hasOfferData[0] !== 'no_relation');
                     $hasOfferName = $contentClassAttribute->attribute('name');
                 }
             }
@@ -222,7 +235,12 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                     'warnings' => [
                         [
                             'identifier' => 'is_accessible_for_free',
-                            'text' => sprintf(self::FILE_ERROR_MESSAGE, $isAccessibleForFreeName, $costNotesName, $hasOfferName)
+                            'text' => sprintf(
+                                self::FILE_ERROR_MESSAGE,
+                                $isAccessibleForFreeName,
+                                $costNotesName,
+                                $hasOfferName
+                            ),
                         ],
                     ],
                 ];
@@ -237,13 +255,13 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
         $attributeIdentifier,
         $http,
         $class,
-        $contentObjectAttributes
+        $contentObjectAttributes,
+        $uniqueStringAllowedValues
     ) {
         $result = [
             'is_valid' => true,
             'message' => '',
         ];
-
         $hasUniqueValue = true;
         $duplicates = [];
         $attributeName = $attributeIdentifier;
@@ -256,11 +274,17 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                     $inputData = $http->postVariable(
                         'ContentObjectAttribute_ezstring_data_text_' . $contentObjectAttribute->attribute('id')
                     );
-                    $duplicates = $this->getObjectIdListByAttributeDataText($contentObjectAttribute, $inputData);
-                    if ($contentObjectAttribute->hasContent() && count($duplicates) > 0) {
-                        $hasUniqueValue = false;
+                    $hasAllowedValue = isset($uniqueStringAllowedValues[$classIdentifier . '/' . $attributeIdentifier])
+                        && $uniqueStringAllowedValues[$classIdentifier . '/' . $attributeIdentifier] == trim($inputData);
+
+                    if (!$hasAllowedValue) {
+                        $duplicates = $this->getObjectIdListByAttributeDataText($contentObjectAttribute, $inputData);
+                        if ($contentObjectAttribute->hasContent() && count($duplicates) > 0) {
+                            $hasUniqueValue = false;
+                        }
                     }
                     $attributeName = $contentClassAttribute->attribute('name');
+
                     break;
                 }
             }
