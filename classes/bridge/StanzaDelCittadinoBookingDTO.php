@@ -504,8 +504,11 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'status' => $withStatus,
             'location' => $this->getPlace(),
             'motivation_outcome' => $this->getMotivationOutcome(),
-            'code' => $this->getMeetingCode(),
         ];
+
+        if (!empty($this->getMeetingCode())){
+            $data['code'] = $this->getMeetingCode();
+        }
 
         return $data;
     }
