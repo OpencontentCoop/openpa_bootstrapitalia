@@ -164,11 +164,11 @@
                         <span class="text-button-sm t-primary">{'Back'|i18n('bootstrapitalia/booking')}</span>
                     </button>
                     <button type="button"
-                            class="btn btn-outline-primary bg-white btn-sm d-none d-lg-block save">
+                            class="btn btn-outline-primary bg-white btn-sm d-none save save-desktop">
                         <span class="text-button-sm t-primary">{'Save request'|i18n('bootstrapitalia/booking')}</span>
                     </button>
                     <button type="button"
-                            class="btn btn-outline-primary bg-white btn-sm d-block d-lg-none save center">
+                            class="btn btn-outline-primary bg-white btn-sm d-none save center save-mobile">
                         <span class="text-button-sm t-primary">{'Save request'|i18n('bootstrapitalia/booking')}</span>
                     </button>
                     <button type="button" class="btn btn-primary btn-sm send">

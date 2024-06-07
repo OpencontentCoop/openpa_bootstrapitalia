@@ -185,6 +185,8 @@
               self.loadWithoutUserToken()
             } else {
               self.loadWithUserToken(data.token)
+              $('#step-summary button.save-desktop').addClass('d-lg-block')
+              $('#step-summary button.save-mobile').removeClass('d-none').addClass('d-block d-lg-none');
             }
           },
 
