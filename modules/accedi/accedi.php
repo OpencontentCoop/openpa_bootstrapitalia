@@ -17,6 +17,7 @@ $spidAccessLink = PersonalAreaLogin::instance()->getUri();
 if (empty($spidAccessLink)){
     $spidAccessLink = $bridge->getUserLoginUri();
 }
+
 $hasSpidAccess = !empty($spidAccessLink);
 
 $localUserLoginUri = '/user/login';
@@ -47,7 +48,7 @@ $tpl->setVariable('has_spid_access', $hasSpidAccess);
 $tpl->setVariable('has_cie_access', $hasCieAccess);
 $tpl->setVariable('others_access_links', $otherAccessLinks);
 $tpl->setVariable('cie_access_link', $cieAccessLink);
-$tpl->setVariable('spid_access_link', $spidAccessLink);
+$tpl->setVariable('spid_access_link', urldecode($spidAccessLink));
 
 $Result = [];
 $Result['content'] = $tpl->fetch('design:openpa/access_entrypoint.tpl');
