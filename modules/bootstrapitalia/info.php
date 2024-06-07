@@ -132,11 +132,32 @@ if ($http->hasPostVariable('Store')) {
 
     $data = [];
     foreach ($fields as $field) {
+        $value = $contacts[$field] ?? '';
+        $value = trim($value);
+        if (strpos($value, 'http') !== false && strpos($value, '&') !== false) {
+            $parts = parse_url($value);
+            foreach ($parts as $key => $part) {
+                if (strpos($part, '&') !== false) {
+                    $parts[$key] = urlencode($part);
+                }
+            }
+            $value = (isset($parts['scheme']) ? "{$parts['scheme']}:" : '') .
+                ((isset($parts['user']) || isset($parts['host'])) ? '//' : '') .
+                (isset($parts['user']) ? "{$parts['user']}" : '') .
+                (isset($parts['pass']) ? ":{$parts['pass']}" : '') .
+                (isset($parts['user']) ? '@' : '') .
+                (isset($parts['host']) ? "{$parts['host']}" : '') .
+                (isset($parts['port']) ? ":{$parts['port']}" : '') .
+                (isset($parts['path']) ? "{$parts['path']}" : '') .
+                (isset($parts['query']) ? "?{$parts['query']}" : '') .
+                (isset($parts['fragment']) ? "#{$parts['fragment']}" : '');;
+        }
         $data[] = [
             'media' => $field,
-            'value' => $contacts[$field] ?? '',
+            'value' => $value,
         ];
     }
+
     $payload = new PayloadBuilder();
     $payload->setId($home->attribute('contentobject_id'));
     $payload->setLanguages([$locale]);
@@ -218,13 +239,24 @@ if ($http->hasPostVariable('Store')) {
                     $values = array_merge($values, $pValue);
                 }
             }
-            $originalValues = explode('-', $footerLinks->toString());
+            $constraints = [
+                'privacy-policy-link',
+                '931779762484010404cf5fa08f77d978', //note legali
+                'accessibility-link',
+            ];
+            $constraintValues = [];
+            foreach ($constraints as $constraint){
+                $obj = eZContentObject::fetchByRemoteID($constraint);
+                if ($obj instanceof eZContentObject){
+                    $constraintValues[] = $obj->attribute('id');
+                }
+            }
             foreach ($values as $index => $value){
                 if ($value == 'no_relation'){
                     unset($values[$index]);
                 }
             }
-            $missingValues = array_diff($originalValues, $values);
+            $missingValues = array_diff($constraintValues, $values);
             if (!empty($missingValues)){
                 $values = array_merge($values, $missingValues);
             }
@@ -250,24 +282,17 @@ if ($http->hasPostVariable('Store')) {
                     $values = array_merge($values, $pValue);
                 }
             }
-            $originalValues = explode('-', $footerBanner->toString());
             foreach ($values as $index => $value){
                 if ($value == 'no_relation' || empty($value)){
                     unset($values[$index]);
                 }
             }
+            $values = array_unique($values);
             if (empty($values)) {
                 $dataMap['footer_banner']->fromString('');
                 $dataMap['footer_banner']->store();
             }else {
-                $missingValues = array_diff($originalValues, $values);
-                if (!empty($missingValues)) {
-                    $values = array_merge($values, $missingValues);
-                }
-                $values = array_unique($values);
-                if (!empty($values)) {
-                    $values = (array)array_shift($values);
-                }
+                $values = (array)array_shift($values);
                 $payload->setData($locale, 'footer_banner', $values);
             }
         }
