@@ -1,4 +1,4 @@
-z\{def $summary = parse_attribute_groups($object, false())}
+{def $summary = parse_attribute_groups($object, false())}
 {if $summary.has_items}
     <section class="it-page-sections-container">
         {foreach $summary.items as $index => $item}
