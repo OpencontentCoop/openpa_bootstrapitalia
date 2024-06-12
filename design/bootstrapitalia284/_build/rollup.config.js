@@ -16,6 +16,7 @@ const themes = [
   'amalfi',
   'amaranto',
   'apss',
+  'asl',
   'cagliari',
   'cenerentola',
   'default',

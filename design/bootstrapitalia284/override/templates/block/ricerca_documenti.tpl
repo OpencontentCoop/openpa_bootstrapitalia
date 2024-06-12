@@ -280,7 +280,7 @@
 					</span>
 				</div>
 				<div class="card-body p-0 my-2">
-					<h3 class="green-title-big t-primary mb-8">
+					<h3 class="green-title-big mb-8">
 						<a class="text-decoration-none" href="{{:baseUrl}}openpa/object/{{:metadata.id}}">{{:~i18n(metadata.name)}}</a>
 					</h3>
 					{{if ~i18n(data, 'description')}}<p class="text-paragraph">{{:~stripTag(~i18n(data, 'description'))}}</p>{{/if}}
