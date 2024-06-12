@@ -1606,6 +1606,7 @@ class OpenPABootstrapItaliaOperators
 
     public static function tagTreeHasContents($tag, $node = null): bool
     {
+        $count = 0;
         if ($node instanceof eZContentObjectTreeNode && $tag instanceof eZTagsObject){
             $remoteId = $node->object()->attribute('remote_id');
             if ($remoteId === 'all-events'){
@@ -1625,11 +1626,15 @@ class OpenPABootstrapItaliaOperators
 //                eZDebug::writeDebug($tag->attribute('keyword') . ' ' . count($data) . ' ' . $query, __METHOD__);
 
                 return count($data) > 0;
+            } else {
+                $tagId = (int)$tag->attribute('id');
+                $tagList = self::getTagMenuIdList($node);
+                $tagIdList = array_column($tagList, 'id');
+                $count = in_array($tagId, $tagIdList) ? 1 : 0;
             }
         }
 
-        $count = 0;
-        if ($tag instanceof eZTagsObject) {
+        if ($tag instanceof eZTagsObject && !$node) {
 
             $tagId = (int)$tag->attribute('id');
             $serviceMenuList = self::getServiceTagMenuIdList();
