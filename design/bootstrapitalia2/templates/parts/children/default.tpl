@@ -8,6 +8,12 @@
   'view_variation', '',
   'view', 'card_teaser'
 ))}
+
+{def $sort_array = $parent_node.sort_array}
+{if $parent_node.sort_array[0][0]|eq('published')}
+    {set $sort_array = $parent_node.sort_array|merge(array(array('node_id', false())))}
+{/if}
+
 {* notizie, comunicati, avvisi, politici, personale*}
 {if and(
     array(
@@ -132,7 +138,7 @@
         {if $children_count|eq(2)}{set $items_per_row = 2}{/if}
         {def $children = fetch( content, $fetch_type, hash( 'parent_node_id', $parent_node.node_id,
                                                            'offset', $view_parameters.offset,
-                                                           'sort_by', $parent_node.sort_array,
+                                                           'sort_by', $sort_array,
                                                            'limit', $page_limit )|merge( $params ) )}
 
         {if $node.object.remote_id|eq('topics')}
@@ -219,7 +225,7 @@
                                         <a href="{concat($openpa.content_tag_menu.tag_menu_root_node.url_alias, '/(view)/', $prefix, $tag.keyword)|ezurl(no)}"
                                            {if $node.object.remote_id|eq('all-services')}data-element="service-category-link"{/if}
                                            class="text-decoration-none" data-focus-mouse="false">
-                                            <h3 class="card-title t-primary title-xlarge">{$tag.keyword|wash()}</h3>
+                                            <h3 class="card-title title-xlarge">{$tag.keyword|wash()}</h3>
                                         </a>
                                         <p class="titillium text-paragraph mb-0">
                                             <span class="tag-description">{tag_description($tag.id, $locale)|wash()|nl2br}</span>
