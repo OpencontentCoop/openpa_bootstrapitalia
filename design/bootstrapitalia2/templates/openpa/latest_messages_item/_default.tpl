@@ -9,7 +9,7 @@
         </div>
         {/if}
         <div class="card-body p-0 my-2">
-            <h3 class="green-title-big t-primary mb-8"><a href="{$openpa.content_link.full_link}" class="text-decoration-none" data-element="{$openpa.data_element.value}">{$node.name|wash()}</a></h3>
+            <h3 class="green-title-big mb-8"><a href="{$openpa.content_link.full_link}" class="text-decoration-none" data-element="{$openpa.data_element.value}">{$node.name|wash()}</a></h3>
             {if $node|has_abstract()}<p class="text-paragraph">{$node|abstract()}</p>{/if}
             {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
                 <a href="{$node.url_alias|ezurl(no)}">

@@ -4,7 +4,7 @@
             <a href="{$openpa.content_link.full_link}#page-content"
                data-eurovoc="{$node|attribute('eu').data_text|wash()}"
                data-element="{$openpa.data_element.value|wash()}" class="text-decoration-none">
-                <h3 class="card-title t-primary title-xlarge">
+                <h3 class="card-title title-xlarge">
                     {$node.name|wash()}
                     {include uri='design:parts/card_title_suffix.tpl'}
                     {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}

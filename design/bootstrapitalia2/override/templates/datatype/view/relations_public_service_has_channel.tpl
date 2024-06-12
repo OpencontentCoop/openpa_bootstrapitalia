@@ -33,7 +33,7 @@
                         {$child|attribute('channel_url').data_text|wash( xhtml )}
                     </a>
                 {else}
-                    {attribute_view_gui attribute=$child|attribute('channel_url') css_class=cond($index|eq(0), "btn btn-primary fw-bold mobile-full font-sans-serif", "text-primary btn btn-outline-primary t-primary bg-white mobile-full font-sans-serif")}
+                    {attribute_view_gui attribute=$child|attribute('channel_url') css_class=cond($index|eq(0), "btn btn-primary fw-bold mobile-full font-sans-serif", "text-primary btn btn-outline-primary bg-white mobile-full font-sans-serif")}
                 {/if}
             </div>
         {/if}
