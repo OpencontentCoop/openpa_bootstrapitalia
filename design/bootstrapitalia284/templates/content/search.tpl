@@ -30,7 +30,7 @@
 <form class="mt-3 mb-5" action="{'content/search'|ezurl(no)}" method="get">
     
     <div class="d-block d-lg-none d-xl-none text-center">
-        <a href="#categoryCollapse" role="button" class="btn btn-primary btn-xs text-uppercase collapsed" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="categoryCollapse">{'Filters'|i18n('bootstrapitalia')}</a>
+        <a href="#categoryCollapse" role="button" class="btn btn-xs btn-outline-primary text-uppercase collapsed" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="categoryCollapse">{'Filters'|i18n('bootstrapitalia')}</a>
     </div>
 
     <div class="row">
@@ -77,8 +77,8 @@
                             <input name="Subtree[]" {if $has_children}data-checkbox-container {/if}id="subtree-{$tree_menu.item.node_id}" value="{$tree_menu.item.node_id|wash()}" {if or($params.subtree|contains($id), and($display, $has_children|not()))}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
                             <label class="custom-control-label"{if $has_children} style="max-width: 80%"{/if} for="subtree-{$tree_menu.item.node_id}">{$tree_menu.item.name|wash()} {if is_set($subtree_facets[$id])}<small>({$subtree_facets[$id]})</small>{/if}</label>
                             {if $has_children}
-                            <a class="float-right float-end" aria-label="More items" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
-                                {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
+                            <a class="float-end" aria-label="More items" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
+                                {display_icon('it-more-items', 'svg', 'icon icon-primary end')}
                             </a>
                             {/if}
                         </div>
@@ -159,7 +159,7 @@
                         {* altri argomenti collassati *}
                         {if $count|lt($total)}
                             <a href="#more-topics" aria-label="More items" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
-                                {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
+                                {display_icon('it-more-items', 'svg', 'icon icon-primary right')}
                             </a>
                             <div class="collapse" id="more-topics">
                             {foreach $topic_list_children as $child}
@@ -247,14 +247,14 @@
                 {if $search.SearchCount|gt(0)}                
                 
                     <div class="row">
-                        <div class="col-md-12 col-lg-2 mb-3 text-center text-lg-left text-lg-start">
+                        <div class="col-md-12 col-lg-2 mb-3 text-center text-lg-start">
                         {if $search.SearchCount|eq(1)}
-                            <p class="m-0 text-nowrap" style="line-height:2"><small>{'Found a result'|i18n('openpa/search')}</small></p>
+                            <p class="m-0 text-nowrap lh-lg"><small>{'Found a result'|i18n('openpa/search')}</small></p>
                         {else}
-                            <p class="m-0 text-nowrap" style="line-height:2"><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
+                            <p class="m-0 text-nowrap lh-lg"><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
                         {/if}
                         </div>
-                        <div class="col-sm-12 col-md-5 col-lg-4 mb-4 text-center text-md-right text-md-end">
+                        <div class="col-sm-12 col-md-5 col-lg-4 mb-4 text-center text-md-end">
                             <label class="d-inline-block text-black" for="Sort"><small>{'Sorting by'|i18n('openpa/search')}</small></label>
                             <select class="d-inline-block w-50 form-control form-control-sm" id="Sort" name="Sort">
                                 <option {if $params.sort|eq('score')} selected="selected"{/if} value="score">{'Score'|i18n('openpa/search')}</option>
@@ -263,14 +263,14 @@
                                 <option {if $params.sort|eq('name')} selected="selected"{/if} value="name">{'Name'|i18n('openpa/search')}</option>
                             </select>
                         </div>
-                        <div class="col-sm-12 col-md-5 col-lg-4 mb-4 text-center text-md-right text-md-end">
+                        <div class="col-sm-12 col-md-5 col-lg-4 mb-4 text-center text-md-end">
                             <label class="d-inline-block text-black" for="Order"><small>{'Sorting'|i18n('openpa/search')}</small></label>
                             <select class="d-inline-block w-50 form-control form-control-sm" id="Order" name="Order">
                                 <option {if $params.order|eq('desc')} selected="selected"{/if} value="desc">{'Descending'|i18n('openpa/search')}</option>
                                 <option {if $params.order|eq('asc')} selected="selected"{/if} value="asc">{'Ascending'|i18n('openpa/search')}</option>
                             </select>
                         </div>
-                        <div class="col-sm-12 col-md-2 col-lg-1 mb-4 text-center text-md-right text-md-end">
+                        <div class="col-sm-12 col-md-2 col-lg-1 mb-4 text-center text-md-end">
                             <button type="submit" class="btn btn-primary btn-xs">
                                 {'Apply'|i18n('design/standard/ezoe')}
                             </button>

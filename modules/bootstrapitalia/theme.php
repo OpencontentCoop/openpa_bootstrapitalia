@@ -12,6 +12,7 @@ if (empty($files)){
     foreach ($additionalSiteDesignList as $additionalSiteDesign){
         if (strpos($additionalSiteDesign, 'bootstrapitalia') === 0){
             $files = eZDir::findSubitems("extension/openpa_bootstrapitalia/design/$additionalSiteDesign/_build/src/scss", 'f');
+            break;
         }
     }
 }
