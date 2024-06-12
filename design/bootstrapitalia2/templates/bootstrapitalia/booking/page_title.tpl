@@ -10,7 +10,7 @@
                         </p>
                         <p class="subtitle-small text-black my-3 d-none" id="spid-access">
                             {'Do you have a spid or cie digital identity?'|i18n('bootstrapitalia/booking')}
-                            <a class="title-small-semi-bold t-primary text-decoration-none"
+                            <a class="title-small-semi-bold text-decoration-none"
                                href="{$pal|user_api_base_url()}/login?return-url={concat('prenota_appuntamento?service_id=',$service_id)|ezurl(no,full)}">
                                 {'Log in'|i18n('bootstrapitalia/booking')}
                             </a>

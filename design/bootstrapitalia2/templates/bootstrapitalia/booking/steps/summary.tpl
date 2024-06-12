@@ -7,8 +7,8 @@
                     {display_icon('it-help-circle', 'svg', 'icon')}
                     <span>{'Warning'|i18n('bootstrapitalia/booking')}</span>
                 </div>
-                <p class="titillium text-paragraph">{'The information you have provided has the value of a declaration'|i18n('bootstrapitalia/booking')}.
-                    <span class="d-lg-block"> {'Check that they are correct'|i18n('bootstrapitalia/booking')}.</span>
+                <p class="titillium text-paragraph">{'The information you have provided has the value of a declaration'|i18n('bootstrapitalia/booking')}
+                    <span class="d-lg-block"> {'Check that they are correct'|i18n('bootstrapitalia/booking')}</span>
                 </p>
             </div>
             <div class="mt-2">
@@ -37,7 +37,7 @@
                                     <div class="card-header border-bottom border-light p-0 mb-0 d-flex justify-content-between d-flex justify-content-end">
                                         <h4 class="title-large-semi-bold mb-3">{'Office'|i18n('bootstrapitalia/booking')}</h4>
                                         <a href="#" class="text-decoration-none"><span
-                                                    class="text-button-sm-semi t-primary"
+                                                    class="text-button-sm-semi"
                                                     data-goto="place">{'Edit'|i18n('bootstrapitalia/booking')}</span></a>
                                     </div>
                                     <div class="card-body p-0">
@@ -64,7 +64,7 @@
                                     <div class="card-header border-bottom border-light p-0 mb-0 d-flex justify-content-between d-flex justify-content-end">
                                         <h4 class="title-large-semi-bold mb-3">{'Date and time'|i18n('bootstrapitalia/booking')}</h4>
                                         <a href="#" class="text-decoration-none" data-goto="datetime"><span
-                                                    class="text-button-sm-semi t-primary">{'Edit'|i18n('bootstrapitalia/booking')}</span></a>
+                                                    class="text-button-sm-semi">{'Edit'|i18n('bootstrapitalia/booking')}</span></a>
                                     </div>
                                     <div class="card-body p-0">
                                         <div class="single-line-info border-light">
@@ -89,7 +89,7 @@
                                     <div class="card-header border-bottom border-light p-0 mb-0 d-flex justify-content-between d-flex justify-content-end">
                                         <h4 class="title-large-semi-bold mb-3">{'Appointment details'|i18n('bootstrapitalia/booking')}</h4>
                                         <a href="#" class="text-decoration-none" data-goto="details"><span
-                                                    class="text-button-sm-semi t-primary">{'Edit'|i18n('bootstrapitalia/booking')}</span></a>
+                                                    class="text-button-sm-semi">{'Edit'|i18n('bootstrapitalia/booking')}</span></a>
                                     </div>
                                     <div class="card-body p-0">
                                         <div class="single-line-info border-light">
@@ -114,7 +114,7 @@
                                     <div class="card-header border-bottom border-light p-0 mb-0 d-flex justify-content-between d-flex justify-content-end">
                                         <h4 class="title-large-semi-bold mb-3">{'Applicant'|i18n('bootstrapitalia/booking')}</h4>
                                         <a href="#" class="text-decoration-none" data-goto="applicant"><span
-                                                    class="text-button-sm-semi t-primary">{'Edit'|i18n('bootstrapitalia/booking')}</span></a>
+                                                    class="text-button-sm-semi">{'Edit'|i18n('bootstrapitalia/booking')}</span></a>
                                     </div>
                                     <div class="card-body p-0">
                                         <div class="single-line-info border-light">
@@ -161,15 +161,15 @@
                 <nav class="steppers-nav pb-3" aria-label="Step">
                     <button type="button" class="btn btn-sm steppers-btn-prev p-0">
                         {display_icon('it-chevron-left', 'svg', 'icon icon-primary icon-sm')}
-                        <span class="text-button-sm t-primary">{'Back'|i18n('bootstrapitalia/booking')}</span>
+                        <span class="text-button-sm">{'Back'|i18n('bootstrapitalia/booking')}</span>
                     </button>
                     <button type="button"
                             class="btn btn-outline-primary bg-white btn-sm d-none save save-desktop">
-                        <span class="text-button-sm t-primary">{'Save request'|i18n('bootstrapitalia/booking')}</span>
+                        <span class="text-button-sm">{'Save request'|i18n('bootstrapitalia/booking')}</span>
                     </button>
                     <button type="button"
                             class="btn btn-outline-primary bg-white btn-sm d-none save center save-mobile">
-                        <span class="text-button-sm t-primary">{'Save request'|i18n('bootstrapitalia/booking')}</span>
+                        <span class="text-button-sm">{'Save request'|i18n('bootstrapitalia/booking')}</span>
                     </button>
                     <button type="button" class="btn btn-primary btn-sm send">
                         <span class="text-button-sm">{'Submit'|i18n('bootstrapitalia/booking')}</span>
