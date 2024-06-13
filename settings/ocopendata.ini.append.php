@@ -29,6 +29,9 @@ PHPClass=OpenPABootstrapItaliaUserAwareEnvironmentSettings
 [EnvironmentSettingsPresets_datatable]
 PHPClass=OpenPABootstrapItaliaDatatableEnvironmentSettings
 
+[EnvironmentSettingsPresets_geo]
+PHPClass=OpenPABootstrapItaliaGeoEnvironmentSettings
+
 [AttributeConverters]
 Converters[has_temporal_coverage]=FullRelationsAttributeConverter
 Converters[opening_hours_specification]=FullRelationsAttributeConverter
