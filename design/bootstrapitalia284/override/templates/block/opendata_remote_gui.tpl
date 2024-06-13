@@ -190,6 +190,7 @@ $(document).ready(function () {ldelim}
         'hideIfEmpty': {cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), 'true', 'false')},
         'customTpl': "{concat('#tpl-remote-gui-item-inner-', $block.id)}",
         'useCustomTpl': {cond(and(is_set($block.custom_attributes.template), $block.custom_attributes.template|ne('')), 'true', 'false')},
+        'context': '{cond(and(is_set($block.custom_attributes.context_api), $block.custom_attributes.context_api|ne('')), $block.custom_attributes.context_api, '')}',
         'view': '{cond(and(is_set($block.custom_attributes.view_api), $block.custom_attributes.view_api|ne('')), $block.custom_attributes.view_api, 'card_teaser')}'
         {if $facetsFields|count()},'facets':['{$facetsFields|implode("','")}']{/if}
         {if $fields|ne('')},'fields':['{$fields|explode(',')|implode("','")}']{/if}
