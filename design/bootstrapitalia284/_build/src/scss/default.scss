@@ -200,7 +200,7 @@ $section-user-header-background-color: #f0f8f5 !default;
 
 // start import 'design-comuni-pagine-statiche/styles';
 
-@import "../../design-comuni-pagine-statiche/base/color";
+@import "opencity/override/base/color"; //@import "../../design-comuni-pagine-statiche/base/color";
 @import "../../design-comuni-pagine-statiche/base/functions";
 @import "../../design-comuni-pagine-statiche/base/mixins";
 @import "../../design-comuni-pagine-statiche/base/reset";
