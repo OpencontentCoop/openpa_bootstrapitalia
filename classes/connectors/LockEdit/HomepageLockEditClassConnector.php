@@ -49,6 +49,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             'section_next_events' => $hasNextEvents = $this->mapEventiToBoolean(self::SECTION_NEXT_EVENTS),
             'section_calendar' => $hasEvents = $this->mapListaManualeToRelations(self::SECTION_CALENDAR),
             'section_topic' => $this->mapArgomentiToRelations(self::SECTION_TOPIC),
+            'menu_topic' => $this->mapMenuArgomentiToRelations(),
             'background_topic' => $this->mapCustomAttributeImageToRelation(self::SECTION_TOPIC),
             'section_gallery' => $this->mapListaManualeToRelations(self::SECTION_GALLERY),
             'section_place' => $this->mapListaManualeToRelations(self::SECTION_PLACE),
@@ -75,7 +76,31 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         return [
             'page' => $page,
             'topics' => $this->menuTopics,
+            'topic_menu_label' => ezpI18n::tr('bootstrapitalia', 'All topics...')
         ];
+    }
+
+    protected function mapMenuArgomentiToRelations()
+    {
+        $data = [];
+        $home = OpenPaFunctionCollection::fetchHome();
+        if ($home instanceof eZContentObjectTreeNode) {
+            $homeDataMap = $home->dataMap();
+            if (isset($homeDataMap['topics']) && $homeDataMap['topics']->hasContent()){
+                $content = $homeDataMap['topics']->content();
+                foreach ($content['relation_list'] as $item){
+                    $object = eZContentObject::fetch((int)$item['contentobject_id']);
+                    if ($object instanceof eZContentObject){
+                        $data[] = [
+                            'id' => $object->attribute('id'),
+                            'name' => $object->attribute('name'),
+                            'class' => $object->contentClassIdentifier(),
+                        ];
+                    }
+                }
+            }
+        }
+        return $data;
     }
 
     public function getSchema()
@@ -132,6 +157,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $schema['properties']['section_banner']['maxItems'] = 9;
         $schema['properties']['section_search']['maxItems'] = 5;
         $schema['properties']['section_topic']['minItems'] = 3;
+
+        $schema['properties']['menu_topic']['maxItems'] = 3;
 
         return $schema;
     }
@@ -208,7 +235,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['section_gallery']['browse']['subtree'] = $allEvents;
         $options['fields']['section_place']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('all-places');
         $options['fields']['section_banner']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('banners');
-        $options['fields']['section_topic']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('topics');
+        $options['fields']['section_topic']['browse']['subtree'] = $topicNodeId = $this->fetchMainNodeIDByObjectRemoteID('topics');
+        $options['fields']['menu_topic']['browse']['subtree'] = $topicNodeId;
 
         $options['fields']['background_image']['browse']['subtree'] = $media = 51;
         $options['fields']['background_image']['browse']['openInSearchMode'] = true;
@@ -258,7 +286,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             [
                 'identifier' => 'topic',
                 'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Topics'),
-                'identifiers' => ['section_topic', 'background_topic'],
+                'identifiers' => ['section_topic', 'background_topic', 'menu_topic'],
             ],
             [
                 'identifier' => 'other',
@@ -335,10 +363,14 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             $blocks[] = $block;
         }
 
-        $this->menuTopics = [];
         if ($block = $this->mapSectionTopics($data)) {
-            $this->menuTopics = array_slice($block['valid_items'], 0, 3);
+//            $this->menuTopics = array_slice($block['valid_items'], 0, 3);
             $blocks[] = $block;
+        }
+
+        $this->menuTopics = [];
+        if (isset($data['menu_topic'][0]['id'])) {
+            $this->menuTopics = array_column($data['menu_topic'], 'id');
         }
 
         if ($block = $this->mapSectionPlaces($data)) {
