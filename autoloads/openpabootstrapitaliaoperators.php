@@ -966,17 +966,19 @@ class OpenPABootstrapItaliaOperators
         $data['class'] = array_map('intval', $data['class']);
         $subtree = [];
         $tags = [];
+        $cleanDataSubtree = [];
         foreach ($data['subtree'] as $index => $value){
             if (strpos($value, '-') !== false){
                 [$nodeId, $tagId] = explode('-', $value);
-                $data['subtree'][] = intval($nodeId) . '-' . intval($tagId);
                 $subtree[] = (int)$nodeId;
                 $tags[] = (int)$tagId;
+                $cleanDataSubtree[] = (int)$nodeId . '-' . (int)$tagId;
             }else{
-                $data['subtree'][] = (int)$value;
                 $subtree[] = (int)$value;
+                $cleanDataSubtree[] = (int)$value;
             }
         }
+        $data['subtree'] = $cleanDataSubtree;
         $data['topic'] = array_map('intval', $data['topic']);
         if ($data['from']) {
             $data['from'] = $this->parseDate($data['from']);
