@@ -91,7 +91,7 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
         $eventContent = parent::filterContent($content);
 
         foreach ($recurrencesData['events'] as $k => $v) {
-
+            
             $from = $v['start'];
             $to = $v['end'];
             $allDay = false;
@@ -107,9 +107,7 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
                     || ($fromDateTime <= $endRequest && $toDateTime >= $startRequest)
                 ) {
 
-                    $endOfFrom = clone $fromDateTime;
-                    $endOfFrom->setTime(23, 59);
-                    if ($toDateTime > $endOfFrom){
+                    if ($toDateTime->diff($fromDateTime)->days > 0){
                         $allDay = true;
                         $from = $fromDateTime->format("Y-m-d");
                         $fixedToDateTime = clone $toDateTime;
