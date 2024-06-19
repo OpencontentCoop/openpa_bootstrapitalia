@@ -135,30 +135,54 @@ EOT;
 
     public function getOffices(int $service): array
     {
-        $query = "SELECT office_id, json_agg(json_build_object('place', place_id, 'calendars', calendars, 'enable_filter', enable_filter)) as data FROM ocbookingconfig WHERE service_id = $service GROUP BY office_id";
-        $rows = eZDB::instance()->arrayQuery($query);
         $offices = [];
+        $holdsRoleInTime = [];
+        $serviceObject = eZContentObject::fetch($service);
+        if ($serviceObject instanceof eZContentObject) {
+            $serviceDataMap = $serviceObject->dataMap();
+            if (isset($serviceDataMap['holds_role_in_time'])
+                && $serviceDataMap['holds_role_in_time']
+                    ->attribute('data_type_string') === eZObjectRelationListType::DATA_TYPE_STRING
+                && $serviceDataMap['holds_role_in_time']->hasContent()) {
+                $holdsRoleInTime = explode(
+                    '-',
+                    $serviceDataMap['holds_role_in_time']->toString()
+                );
+            }
+        }
+        $query = "SELECT 
+            office_id, 
+            json_agg(json_build_object('place', place_id, 'calendars', calendars, 'enable_filter', enable_filter)) as data 
+            FROM ocbookingconfig 
+            WHERE service_id = $service GROUP BY office_id";
+        $rows = eZDB::instance()->arrayQuery($query);
         foreach ($rows as $row) {
+            if ($serviceObject instanceof eZContentObject && !in_array($row['office_id'], $holdsRoleInTime)) {
+                $officeIdToRemove = (int)$row['office_id'];
+                $removeQuery = "DELETE FROM ocbookingconfig WHERE office_id = $officeIdToRemove AND service_id = $service";
+                eZDB::instance()->arrayQuery($removeQuery);
+                continue;
+            }
             $officeObject = eZContentObject::fetch((int)$row['office_id']);
             if ($officeObject instanceof eZContentObject) {
                 $officeDataMap = $officeObject->dataMap();
                 $officeRelatedPlaceIdList = [];
                 if (isset($officeDataMap['has_spatial_coverage'])
-                    && $officeDataMap['has_spatial_coverage']->attribute(
-                        'data_type_string'
-                    ) === eZObjectRelationListType::DATA_TYPE_STRING
+                    && $officeDataMap['has_spatial_coverage']
+                        ->attribute('data_type_string') === eZObjectRelationListType::DATA_TYPE_STRING
                     && $officeDataMap['has_spatial_coverage']->hasContent()) {
-                    $officeRelatedPlaceIdList = explode('-', $officeDataMap['has_spatial_coverage']->toString());
+                    $officeRelatedPlaceIdList = explode(
+                        '-',
+                        $officeDataMap['has_spatial_coverage']->toString()
+                    );
                 }
                 if (!empty($officeRelatedPlaceIdList)) {
                     $data = json_decode($row['data'], true);
                     $places = [];
                     foreach ($data as $datum) {
                         $placeObject = eZContentObject::fetch((int)$datum['place']);
-                        if ($placeObject instanceof eZContentObject && in_array(
-                                $datum['place'],
-                                $officeRelatedPlaceIdList
-                            )) {
+                        if ($placeObject instanceof eZContentObject
+                            && in_array($datum['place'], $officeRelatedPlaceIdList)) {
                             $dataMap = $placeObject->dataMap();
                             $calendars = $datum['calendars'];
                             $calendarNames = [];
@@ -212,6 +236,7 @@ EOT;
             }
         }
         ksort($offices);
+
         return array_values($offices);
     }
 
@@ -268,10 +293,7 @@ EOT;
         $searchRepo = new \Opencontent\Opendata\Api\ContentSearch();
         $searchRepo->setEnvironment(\Opencontent\Opendata\Api\EnvironmentLoader::loadPreset('content'));
         $searchResponse = $searchRepo->search(
-            'id in [' . implode(
-                ',',
-                $idList
-            ) . '] and classes [public_service] limit 1 facets [type|alpha] pivot [facet => [attr_type_lk,meta_id_si]]'
+            'id in [' . implode(',', $idList) . '] and classes [public_service] limit 1 facets [type|alpha] pivot [facet => [attr_type_lk,meta_id_si]]'
         );
         $data = [];
         $pivot = $searchResponse->pivot['attr_type_lk,meta_id_si'] ?? [];
