@@ -18,7 +18,7 @@
 							{foreach $attribute.content.roles_per_person[$person.id] as $role}{*
 								*}{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach}{*
 								*}{if $role|has_attribute('delegations')}
-									<small class="ms-1">({$role|attribute('delegations').contentclass_attribute_name|downcase|wash()}: {$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
+									<small class="ms-1"> ({$role|attribute('delegations').contentclass_attribute_name|downcase|wash()}: {$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
 								{/if}{*
 								*}{delimiter}, {/delimiter}{*
 							*}{/foreach}
@@ -115,8 +115,8 @@
 							{foreach $attribute.content.roles_per_entity[$context.contentobject_id] as $role}{*
 								*}{if $role|has_attribute('label')}{$role|attribute('label').content|wash()}{else}{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach}{/if}{*
 								mostra il dettaglio delegations dei ruoli legati all'entità di cui si sta visualizzando il content/view/full
-								*}{if $role|has_attribute('delegations')}
-									<small>({$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
+								*}{if and($role|has_attribute('delegations'), openpaini('ViewSettings', 'ShowDelegationsInRoleList', 'disabled')|eq('enabled'))}
+									<small> ({$role|attribute('delegations').content.cells|implode(', ')|wash})</small>
 								{/if}{*
 								*}{delimiter}, {/delimiter}{*
 						  *}{/foreach}
