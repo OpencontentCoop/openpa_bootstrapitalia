@@ -959,6 +959,12 @@ class OpenPABootstrapItaliaOperators
             if ($key == 'class' && $value) {
                 $queryData['Class'] = $value;
             }
+            if ($key == 'sort' && $value) {
+                $queryData['Sort'] = $value;
+            }
+            if ($key == 'order' && $value) {
+                $queryData['Order'] = $value;
+            }
         }
 
         $data['_uri_suffix'] = '?' . http_build_query($queryData);
