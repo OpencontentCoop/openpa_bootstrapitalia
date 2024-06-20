@@ -210,11 +210,11 @@ $section-user-header-background-color: #f0f8f5 !default;
 //@import "../../node_modules/bootstrap-italia/src/scss/utilities/colors_vars.scss";
 
 @import "../../design-comuni-pagine-statiche/general/splide";
-@import "../../design-comuni-pagine-statiche/general/public-templates";
+@import "opencity/override/general/public-templates"; //""../../design-comuni-pagine-statiche/general/public-templates";
 
 //components
 // @import "../../design-comuni-pagine-statiche/components/documents-alert/documents-alert";
-@import "../../design-comuni-pagine-statiche/components/cmp-header";
+@import "opencity/override/components/cmp-header"; //"../../design-comuni-pagine-statiche/components/cmp-header";
 @import "../../design-comuni-pagine-statiche/components/cmp-footer";
 @import "../../design-comuni-pagine-statiche/components/cmp-breadcrumbs";
 @import "../../design-comuni-pagine-statiche/components/cmp-heading";
@@ -232,7 +232,7 @@ $section-user-header-background-color: #f0f8f5 !default;
 @import "../../design-comuni-pagine-statiche/components/cmp-info-summary";
 @import "../../design-comuni-pagine-statiche/components/cmp-ul-list";
 @import "../../design-comuni-pagine-statiche/components/cmp-card-img";
-@import "../../design-comuni-pagine-statiche/components/cmp-navscroll";
+@import "opencity/override/components/cmp-navscroll"; //""../../design-comuni-pagine-statiche/components/cmp-navscroll";
 @import "../../design-comuni-pagine-statiche/components/cmp-card-latest-message";
 @import "../../design-comuni-pagine-statiche/components/cmp-icon-link";
 
@@ -244,7 +244,7 @@ $section-user-header-background-color: #f0f8f5 !default;
 @import "../../design-comuni-pagine-statiche/components/cmp-timeline";
 
 @import "../../design-comuni-pagine-statiche/components/cmp-button";
-@import "../../design-comuni-pagine-statiche/components/cmp-tag";
+@import "opencity/override/components/cmp-tag"; ""../../design-comuni-pagine-statiche/components/cmp-tag";
 @import "../../design-comuni-pagine-statiche/components/input";
 @import "../../design-comuni-pagine-statiche/components/checkbox";
 @import "../../design-comuni-pagine-statiche/components/cmp-text-button";
