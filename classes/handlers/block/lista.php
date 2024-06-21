@@ -67,7 +67,7 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
                         if ($value == 'name'){
                             $query['sort'] = 'sort [name=>asc]';
                         }elseif ($value == 'pubblicato'){
-                            $query['sort'] = 'sort [published=>desc]';
+                            $query['sort'] = 'sort [published=>desc,raw[meta_main_node_id_si]=>desc]';
                         }elseif ($value == 'modificato'){
                             $query['sort'] = 'sort [modified=>desc]';
                         }elseif ($value == 'priority'){
