@@ -1,8 +1,28 @@
 //usando http://colorizer.org/
-// colore amaranto: #E52B50, modificato in CF2C51 per accessibilità
+// colore amaranto: #E52B50, modificato in A61F3A; per accessibilità
 
-$primary: #CF2C51;
+$primary: #A61F3A;;
 $header-slim-bg-color: #A61F3A;
 $footer-comuni-bg-color: #30373d;
 
+$primary-a7: #A61F3A;;
+$primary-a6: #A61F3A;;
+$primary-a10: #A61F3A;;
+$primary-a12: #A61F3A;;
+
+$primary-h: 348;
+$primary-s: 81.33;
+$primary-b: 65.1;
+
+$navigation-light-text-color: #2e0706;
+
 @import "default";
+
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone,
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone a,
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-brand-wrapper a {
+  color: $navigation-light-text-color;
+}
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone .it-socials ul .icon{
+  fill: $navigation-light-text-color;
+}

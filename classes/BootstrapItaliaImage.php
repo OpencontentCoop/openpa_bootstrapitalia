@@ -167,7 +167,7 @@ class BootstrapItaliaImage
 //                }
 //                break;
             case 'main':
-                $response['inline_style'] = 'max-width: 2500px;';
+                $response['inline_style'] = 'max-width: 2500px;width: 100%;';
                 if ($height > 0 && ($width < 1440 || $height < 600 || ($width/$height) <= 0.7)){
                     $response['css_class'] = 'of-contain';
                     $response['can_enlarge'] = false;

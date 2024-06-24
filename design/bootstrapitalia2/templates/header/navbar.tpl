@@ -45,7 +45,7 @@
              $topic_list = cond(and($topics, count($selected_topic_list)|eq(0)), tree_menu( hash( 'root_node_id', $topics.main_node_id, 'user_hash', false(), 'scope', 'side_menu')), array())}
     {/if}
 {/if}
-<div id="header-nav-wrapper" class="it-header-navbar-wrapper{if current_theme_has_variation('light_center')} theme-light{/if} {if current_theme_has_variation('light_navbar')} theme-light-desk border-bottom{/if}">
+<div id="header-nav-wrapper" class="it-header-navbar-wrapper{if current_theme_has_variation('light_center')} theme-light{/if} {if current_theme_has_variation('light_navbar')} theme-light-desk{/if}">
     <div class="container">
         <div class="row">
             <div class="col-12">
