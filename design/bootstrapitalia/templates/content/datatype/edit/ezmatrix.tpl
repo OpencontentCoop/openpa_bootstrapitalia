@@ -93,6 +93,7 @@
 {run-once}
 <script>{literal}
   $(document).ready(function () {
+    var tokenNode = document.getElementById('ezxform_token_js');
     $('.oc-matrix-add-rows').on('click', function (e) {
       var self = $(this)
       var id = $(this).data('id');
@@ -111,7 +112,8 @@
       self.attr('disabled', 'disabled');
       table.load(
         $.ez.url + 'call/ezjscmatrix::addRows::' + id + '::' + version + '::' + language + '::' + num, {
-          data: data
+          data: data,
+          ezxform_token: tokenNode ? tokenNode.getAttribute('title') : ''
         }, function (response){
           self.parents('.oc-matrix').find('.oc-matrix-remove-rows').show()
           self.removeAttr('disabled');
@@ -138,7 +140,8 @@
       table.load(
         $.ez.url + 'call/ezjscmatrix::removeRows::' + id + '::' + version + '::' + language, {
           data: data,
-          remove: removeList
+          remove: removeList,
+          ezxform_token: tokenNode ? tokenNode.getAttribute('title') : ''
         }, function (response){
           self.removeAttr('disabled');
           if ($(response).find('td').length === 0) {
