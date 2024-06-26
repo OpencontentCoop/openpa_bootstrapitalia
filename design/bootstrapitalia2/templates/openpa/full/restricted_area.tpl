@@ -52,7 +52,8 @@
                         <input type="hidden" name="RedirectURI" value="{concat($node.url_alias, '/(i)/', currentdate())|wash()}" />
 
                         <div class='text-center mt-3'>
-                            <a class="text-decoration-none" href={'/user/forgotpassword'|ezurl}>{'Forgot your password?'|i18n( 'design/ocbootstrap/user/login' )}</a>
+
+                            <a class="text-decoration-none" href={if ezmodule( 'userpaex' )}{'/userpaex/forgotpassword'|ezurl}{else}{'/user/forgotpassword'|ezurl}{/if}>{'Forgot your password?'|i18n( 'design/ocbootstrap/user/login' )}</a>
                         </div>
 
                     </form>
