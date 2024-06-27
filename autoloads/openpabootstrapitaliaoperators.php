@@ -1118,6 +1118,13 @@ class OpenPABootstrapItaliaOperators
             array_pop($parts);
         }
         $filename = implode('.', $parts);
+        while (strpos($filename, '%') !== false) {
+            $old = $filename;
+            $filename = urldecode($filename);
+            if ($filename === $old){
+                break;
+            }
+        }
         $filename = str_replace('%25', '%', $filename);
         $filename = str_replace(array('_', '-', '+', '%20'), ' ', $filename);
         $filename = str_replace(':', '/', $filename);
