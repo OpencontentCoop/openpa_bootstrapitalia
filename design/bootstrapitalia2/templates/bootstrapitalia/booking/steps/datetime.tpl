@@ -12,15 +12,13 @@
                                         <h2 class="title-xxlarge mb-2">{'Appointments available'|i18n('bootstrapitalia/booking')}*</h2>
                                     </div>
                                 </div>
-                                <div id="appointment-calendars" class="card-body row mb-4 px-3 py-0">
-                                </div>
+                                <div id="appointment-calendars" class="card-body row mb-4 px-3 py-0"></div>
                                 <div class="card-body p-0 position-relative appointment-select">
                                     <div class="select-wrapper p-0 mt-1 select-partials">
                                         <label for="appointment-month" class="visually-hidden">{'Select a month'|i18n('bootstrapitalia/booking')}</label>
                                         <select id="appointment-month" class="" data-focus-mouse="false">
                                             {foreach $months as $index => $month}
-                                                <option value="{$month.index|wash()}">{$month.name|wash()}</option>
-                                                {if $index|eq(1)}{break}{/if}
+                                                <option {if $index|gt(1)}style="display:none"{/if} value="{$month.index|wash()}">{$month.name|wash()}</option>
                                             {/foreach}
                                         </select>
                                     </div>
