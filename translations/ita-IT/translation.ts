@@ -1739,7 +1739,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
-      <translation>Il %site_name gestisce i dati personali forniti e liberamente comunicati sulla base dell’articolo 13 del Regolamento UE 2016/679 General data protection regulation (Gdpr) e dell'articolo 13 e successive modifiche e integrazioni del decreto legislativo (di seguito d.lgs) 267/2000 (Testo unico enti locali).</translation>
+      <translation>%site_name gestisce i dati personali forniti e liberamente comunicati sulla base dell’articolo 13 del Regolamento UE 2016/679 General data protection regulation (Gdpr) e dell'articolo 13 e successive modifiche e integrazioni del decreto legislativo (di seguito d.lgs) 267/2000 (Testo unico enti locali).</translation>
     </message>
     <message>
       <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>

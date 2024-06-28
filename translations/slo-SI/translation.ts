@@ -560,7 +560,7 @@
     </message>
     <message>
       <source>Apps</source>
-      <translation>Aplikacije</translation>
+      <translation>aplikacije</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
@@ -718,7 +718,7 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>vsa spletna stran</translation>
+      <translation>vse spletne strani</translation>
     </message>
     <message>
       <source>only information of type</source>
