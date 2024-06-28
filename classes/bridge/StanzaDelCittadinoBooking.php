@@ -186,12 +186,20 @@ EOT;
                             $dataMap = $placeObject->dataMap();
                             $calendars = $datum['calendars'];
                             $calendarNames = [];
+                            $maxRollingDays = 0;
                             foreach ($calendars as $index => $calendar) {
                                 try {
                                     $c = $this->getCalendar($calendar);
+                                    if ($c['rolling_days'] > $maxRollingDays){
+                                        $maxRollingDays = (int)$c['rolling_days'];
+                                    }
+                                    $now = new DateTimeImmutable();
+                                    $max = $now->add(new DateInterval('P' . (int)$c['rolling_days'] . 'D'));
                                     $calendarNames[$calendar] = [
                                         'id' => $c['id'],
                                         'title' => $c['title'],
+                                        'rolling_days' => $c['rolling_days'],
+                                        'month_interval' => $max->format('m') - $now->format('m'),
                                     ];
                                 } catch (Throwable $e) {
                                     eZDebug::writeError($e->getMessage(), __METHOD__);
@@ -199,6 +207,8 @@ EOT;
                                 }
                             }
                             if (!empty($calendars)) {
+                                $now = new DateTimeImmutable();
+                                $max = $now->add(new DateInterval('P' . $maxRollingDays . 'D'));
                                 $place = [
                                     'id' => $datum['place'],
                                     'name' => $placeObject->attribute('name'),
@@ -210,6 +220,8 @@ EOT;
                                     'calendars' => $calendars,
                                     'calendar_names' => $calendarNames,
                                     'enable_filter' => $datum['enable_filter'],
+                                    'max_rolling_days' => $maxRollingDays,
+                                    'month_interval' => $max->format('m') - $now->format('m'),
                                 ];
                                 if (isset($dataMap['has_address'])) {
                                     /** @var eZGmapLocation $address */
@@ -225,10 +237,15 @@ EOT;
                         }
                     }
                     if (!empty($places)) {
+                        $maxRollingDays = (int)max(array_column($places, 'max_rolling_days'));
+                        $now = new DateTimeImmutable();
+                        $max = $now->add(new DateInterval('P' . $maxRollingDays . 'D'));
                         $office = [
                             'id' => $row['office_id'],
                             'name' => $officeObject->attribute('name'),
                             'places' => array_values($places),
+                            'max_rolling_days' => $maxRollingDays,
+                            'month_interval' => $max->diff($now)->format('%m'),
                         ];
                         $offices[$office['name']] = $office;
                     }
@@ -321,7 +338,7 @@ EOT;
     /**
      * @throws Exception
      */
-    public function getTimeTable(array $calendars, $showCalendarName = false, $showWeekEnd = true): array
+    public function getTimeTable(array $calendars, $showCalendarLimit = true, $showWeekEnd = true): array
     {
         if (empty($calendars)) {
             return [];
@@ -329,9 +346,6 @@ EOT;
 
         $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
         $timeTableItem = [];
-        if ($showCalendarName) {
-            $timeTableItem[] = '';
-        }
         $locale = eZLocale::instance();
         $timeTableItem = array_merge($timeTableItem, [
             $locale->LongDayNames['mon'],
@@ -344,14 +358,14 @@ EOT;
             $timeTableItem[] = $locale->LongDayNames['sat'];
             $timeTableItem[] = $locale->LongDayNames['sun'];
         }
+        if ($showCalendarLimit) {
+            $timeTableItem[] = '';
+        }
         $timeTable[] = array_values($timeTableItem);
         $countColumns = $showWeekEnd ? 8 : 6;
         foreach ($calendars as $calendar) {
             try {
                 $timeTableItem = [];
-                if ($showCalendarName) {
-                    $client->getCalendar($calendar)['title'];
-                }
                 $openingHours = $client->getCalendarOpeningHours($calendar);
                 for ($i = 1; $i < $countColumns; $i++) {
                     $timeTableItem[$i] = [];
@@ -364,6 +378,9 @@ EOT;
                         $timeTableItem[$i] = array_unique($timeTableItem[$i]);
                         sort($timeTableItem[$i]);
                     }
+                }
+                if ($showCalendarLimit) {
+                    $timeTableItem[][] = $client->getCalendar($calendar)['rolling_days'] . 'd';
                 }
                 $timeTable[] = array_values($timeTableItem);
             } catch (Throwable $e) {

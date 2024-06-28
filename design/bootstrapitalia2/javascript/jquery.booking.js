@@ -32,7 +32,7 @@
       hasSession: false,
       debug: false,
       debugUserToken: null,
-      forcePreselect: true,
+      forcePreselect: false,
       useAvailabilitiesCache: false
     }
 
@@ -595,11 +595,11 @@
 
     setCurrentData: function (key, value) {
       if (typeof value !== 'undefined') {
-        this.currentData[key] = value
         this.debug('set-data:' + key, value)
+        this.currentData[key] = value
       } else {
-        this.currentData = key
         this.debug('set-data', key)
+        this.currentData = key
       }
     },
 
@@ -746,11 +746,38 @@
       return asString ? cals.join(',') : cals;
     },
 
+    buildMonthSelect: function (maxMonthIndex) {
+      let self = this
+      self.error('build-month-select', maxMonthIndex);
+      if (self.monthSelect.find('option[value=""]').length > 0){
+        self.error('fix-month-select', self.monthSelect.find('option[value=""]').length);
+        maxMonthIndex++
+      }
+      self.monthSelect.find('option')
+        .attr('disabled', false)
+        .hide()
+      for (let i = 0; i <= maxMonthIndex; i++) {
+        let option = self.monthSelect.find('option').eq(i).show();
+        if (i === 0){
+          option.prop('selected', 'selected')
+          self.setCurrentData('month', option.val())
+          self.setCurrentData('day', null)
+          self.setCurrentData('openingHour', null)
+        }
+      }
+      self.error('built-month-select', self.monthSelect.find('option:selected').val(), maxMonthIndex);
+    },
+
     buildCalendarFilter: function () {
       let self = this
       self.calendarFilterContainer.html('')
-      if (!self.isUseCalendarFilter()) return
-      let calendars = $('#' + this.currentData.place).data('calendars').split(',')
+      let placeInput = $('#' + this.currentData.place)
+      if (!self.isUseCalendarFilter()) {
+        let maxMonthIndex = placeInput.data('month_interval')
+        self.buildMonthSelect(maxMonthIndex)
+        return
+      }
+      let calendars = placeInput.data('calendars').split(',')
       let currentFilters = self.currentData.calendarFilter || []
 
       function isSelected(id, index) {
@@ -766,11 +793,21 @@
         let input = $('<input class="form-check-input" name="calendars[]" type="radio" value="' + this + '" id="calendar-' + this + '">')
           .prop('checked', isSelected(this, i))
           .on('change', function () {
+            let maxMonthIndex = 1;
             let checked = self.getCheckedCalendars()
             if (checked.length === 0) {
               self.setCurrentData('calendarFilter', [])
-              self.calendarFilterContainer.find('input[name="calendars[]"]').prop('checked', true)
+              let firstSelected = self.calendarFilterContainer.find('input[name="calendars[]"]')
+                .first()
+                .prop('checked', true)
+              maxMonthIndex = self.cacheCalendars[firstSelected.val()].month_interval ?? maxMonthIndex
             } else {
+              $.each(checked, function (){
+                let calMonthIndex = self.cacheCalendars[this].month_interval ?? 0
+                if (calMonthIndex > maxMonthIndex){
+                  maxMonthIndex = calMonthIndex
+                }
+              })
               self.setCurrentData('calendarFilter', checked)
             }
             if (calendars.length > 1) {
@@ -783,19 +820,22 @@
               self.monthSelect.resetSelect(true)
               self.daySelect.resetSelect()
               self.openingHoursSelect.resetSelect()
+              self.buildMonthSelect(maxMonthIndex)
               self.onChangeMonth()
             }
           })
           .appendTo(check)
 
-        let label = $('<label class="form-check-label" for="calendar-' + this + '"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i></label>').appendTo(check)
+        let title = self.cacheCalendars[this].title ?? '<i className="fa fa-circle-o-notch fa-spin fa-fw"></i>';
+        let label = $('<label class="form-check-label" for="calendar-' + this + '">'+title+'</label>').appendTo(check)
         self.calendarFilterContainer.append(check)
       })
+      self.calendarFilterContainer.find('input[name="calendars[]"]').first().trigger('change')
     },
 
     renderCalendarLabel: function (id, label) {
       let self = this
-
+      
       function renderLabel(text, id) {
         let render = text
         if (self.settings.debug) {
@@ -1144,7 +1184,6 @@
       self.debug('change-place', self.currentData.place)
       if (self.currentData.place) {
         self.markStepConfirmed('place', function () {
-          self.monthSelect.find('option').attr('disabled', false)
           let placeInput = $('#' + self.currentData.place)
           let placeContainer = placeInput.parents('[data-place]')
           $('[data-placeTitle]').html(placeContainer.find('[data-title]').html())
