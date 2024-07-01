@@ -291,6 +291,12 @@ Subdir=templates
 Match[class_identifier]=public_project
 Match[attribute_identifier]=has_status
 
+[datatype_view_public_project_has_temporal_coverage]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_public_project_has_temporal_coverage.tpl
+Subdir=templates
+Match[class_identifier]=public_project
+Match[attribute_identifier]=has_temporal_coverage
 
 ############################################
 ############################################ DATATYPE EDIT
