@@ -6,7 +6,18 @@
     <div class="container {$valid_node|access_style}">
         <div class="row">
             <div class="col-12">
-                {include uri='design:openpa/card/parts/card_title.tpl' node=$valid_node has_media=false() view_variation=false()}
+                <h3 class="card-title big-heading">
+                    {$valid_node.name|wash()}
+                    {include uri='design:parts/card_title_suffix.tpl' node=$valid_node}
+                    {if and($openpa.content_link.is_node_link|not(), $valid_node.can_edit)}
+                        <a href="{$valid_node.url_alias|ezurl(no)}">
+                            <span class="fa-stack">
+                              <i aria-hidden="true" class="fa fa-circle fa-stack-2x"></i>
+                              <i aria-hidden="true" class="fa fa-wrench fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    {/if}
+                </h3>
             </div>
             <div class="col{if $has_image} col-md-8"{/if}>
                 <div class="font-serif">
