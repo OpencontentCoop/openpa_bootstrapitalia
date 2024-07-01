@@ -1480,6 +1480,10 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Alternativ können Sie die folgenden Methoden verwenden.</translation>
     </message>
     <message>
+      <source>Log in with your digital identity.</source>
+      <translation>Melden Sie sich mit Ihrer digitalen Identität an.</translation>
+    </message>
+    <message>
       <source>Access reserved only for staff</source>
       <translation>Zugriff nur für autorisiertes Personal</translation>
     </message>

@@ -1480,6 +1480,10 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>In alternativa puoi utilizzare le seguenti modalità.</translation>
     </message>
     <message>
+      <source>Log in with your digital identity.</source>
+      <translation>Accedi con la tua identità digitale.</translation>
+    </message>
+    <message>
       <source>Access reserved only for staff</source>
       <translation>Accesso riservato al personale autorizzato</translation>
     </message>

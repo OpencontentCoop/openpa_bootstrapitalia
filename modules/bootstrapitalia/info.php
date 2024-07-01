@@ -126,6 +126,17 @@ if ($http->hasPostVariable('StanzaDelCittadinoBuiltin') && $hasAdminAccess) {
 }
 $tpl->setVariable('built_in_options', BuiltinApp::getOptionsDefinition());
 
+if ($http->hasPostVariable('AccessPageSettings') && $hasAdminAccess) {
+    PersonalAreaLogin::instance()->setAccess('cie', $http->hasPostVariable('AccessPageSettingsCieEnable'));
+    PersonalAreaLogin::instance()->setAccess('eidas', $http->hasPostVariable('AccessPageSettingsEidasEnable'));
+    PersonalAreaLogin::instance()->storeAccesses();
+    $module->redirectTo('/bootstrapitalia/info');
+    return;
+}
+$tpl->setVariable('access_spid', PersonalAreaLogin::instance()->hasAccess('spid'));
+$tpl->setVariable('access_cie', PersonalAreaLogin::instance()->hasAccess('cie'));
+$tpl->setVariable('access_eidas', PersonalAreaLogin::instance()->hasAccess('eidas'));
+
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {
     $contacts = $http->postVariable('Contacts');
