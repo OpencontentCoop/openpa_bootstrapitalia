@@ -23,18 +23,22 @@
                 <div class="font-serif">
                     {include uri='design:openpa/card/parts/abstract.tpl' node=$valid_node has_media=false() view_variation=false()}
                 </div>
-                <a class="read-more pb-5 pt-4" href="{$openpa.content_link.full_link}#page-content">
+                <a class="read-more pb-5 pt-4" href="{$openpa.content_link.full_link}">
                     <span class="text">
                         {if $openpa.content_link.is_node_link}{'Read more'|i18n('bootstrapitalia')}
                         {elseif and($openpa.content_link.is_internal|not(), $valid_node|has_attribute('location'), $valid_node|attribute('location').data_text|ne(''))}{$valid_node|attribute('location').data_text|wash()}
                         {else}{'Visit'|i18n('bootstrapitalia')}{/if}
                     </span>
-                    {display_icon('it-arrow-right', 'svg', 'icon')}
+                    {if $openpa.content_link.is_node_link}
+                        {display_icon('it-arrow-right', 'svg', 'icon')}
+                    {else}
+                        {display_icon('it-external-link', 'svg', 'icon')}
+                    {/if}
                 </a>
             </div>
             {if $has_image}
             <div class="col col-md-4">
-                {attribute_view_gui attribute=$valid_node|attribute('image') image_class=large href=$openpa.content_link.full_link alt_text=$valid_node.name}
+                {attribute_view_gui attribute=$valid_node|attribute('image') image_class=large alt_text=$valid_node.name}
             </div>
             {/if}
         </div>
