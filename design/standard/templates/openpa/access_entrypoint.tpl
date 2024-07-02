@@ -27,17 +27,19 @@
 
             {if $has_spid_access}
             <div class="cmp-text-button mt-3">
-                <h2 class="title-xxlarge mb-0">{openpaini('AccessPage', 'SpidAccess_Title', 'SPID')|wash()}</h2>
+                <h2 class="title-xxlarge mb-0">{$spid_title|wash()}</h2>
                 <div class="text-wrapper">
-                    <p class="subtitle-small mb-3">{openpaini('AccessPage', 'SpidAccess_Intro', 'Log in with SPID, the public digital identity system.')|i18n('bootstrapitalia/signin')|simpletags|autolink}</p>
+                    <p class="subtitle-small mb-3">{$spid_subtitle|simpletags|autolink}</p>
                 </div>
                 <div class="button-wrapper mb-2">
                     <button type="button" class="btn btn-icon btn-re square" href="{$spid_access_link}" onclick="location.href = '{$spid_access_link}';">
-                        <img src="{'images/assets/spid.svg'|ezdesign( 'no' )}" alt="{openpaini('AccessPage', 'SpidAccess_ButtonText', 'Log in with SPID')|i18n('bootstrapitalia/signin')|wash()}" class="me-2">
-                        <span class="">{openpaini('AccessPage', 'SpidAccess_ButtonText', 'Log in with SPID')|i18n('bootstrapitalia/signin')|wash()}</span>
+                        <img src="{'images/assets/spid.svg'|ezdesign( 'no' )}" alt="{$spid_button_text|wash()}" class="me-2">
+                        <span class="">{$spid_button_text|wash()}</span>
                     </button>
                 </div>
+                {if $show_spid_link}
                 <a class="simple-link" href="{openpaini('AccessPage', 'SpidAccess_HelpLink', 'https://www.spid.gov.it/cos-e-spid/come-attivare-spid/')|wash()}">{openpaini('AccessPage', 'SpidAccess_HelpText', 'How to activate SPID?')|i18n('bootstrapitalia/signin')|wash()}</a>
+                {/if}
             </div>
             {/if}
 

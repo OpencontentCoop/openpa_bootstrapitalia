@@ -617,7 +617,7 @@
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Nanaša se na</translation>
+      <translation>Nanašati na</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -1003,7 +1003,7 @@
     </message>
     <message>
       <source>Select place</source>
-      <translation>Izberite kraj</translation>
+      <translation>Izberite mesto</translation>
     </message>
     <message>
       <source>Nowhere</source>
@@ -1473,6 +1473,10 @@
     </message>
     <message>
       <source>Alternatively you can use the following methods.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Log in with your digital identity.</source>
       <translation type="unfinished"/>
     </message>
     <message>

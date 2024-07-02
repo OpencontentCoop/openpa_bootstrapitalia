@@ -408,6 +408,49 @@
                 </form>
             </div>
 
+            <div class="row">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
+                    <fieldset>
+                        <legend class="text-white h5 px-0">Pagina di accesso all'area personale</legend>
+                        <input type="hidden" name="AccessPageSettings" value="1">
+                        <div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="AccessPageSettingsSpidEnable"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="AccessPageSettingsSpidEnable" {$access_spid|choose( '', 'checked="checked"' )}
+                                   disabled="disabled"
+                                   value="" />
+                            <label class="form-check-label mb-0" for="AccessPageSettingsSpidEnable">
+                                Abilita SPID
+                            </label>
+                        </div>
+                        <div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="AccessPageSettingsCieEnable"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="AccessPageSettingsCieEnable" {$access_cie|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0" for="AccessPageSettingsCieEnable">
+                                Abilita CIE
+                            </label>
+                        </div>
+                        <div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="AccessPageSettingsEidasEnable"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="AccessPageSettingsEidasEnable" {$access_eidas|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0" for="AccessPageSettingsEidasEnable">
+                                Abilita eIDAS
+                            </label>
+                        </div>
+                        <div class="text-right mt-1">
+                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
         </div>
     {/if}
 

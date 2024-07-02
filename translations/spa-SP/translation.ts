@@ -1476,6 +1476,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Log in with your digital identity.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Access reserved only for staff</source>
       <translation type="unfinished"/>
     </message>

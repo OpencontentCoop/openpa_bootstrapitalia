@@ -13,7 +13,8 @@ $hasCieAccess = OpenPAINI::variable('AccessPage', 'CieAccess', 'disabled') === '
 $cieAccessLink = '#';
 
 $bridge = StanzaDelCittadinoBridge::factory();
-$spidAccessLink = PersonalAreaLogin::instance()->getUri();
+$pal = PersonalAreaLogin::instance();
+$spidAccessLink = $pal->getUri();
 if (empty($spidAccessLink)){
     $spidAccessLink = $bridge->getUserLoginUri();
 }
@@ -42,6 +43,33 @@ if (!$hasSpidAccess && !$hasCieAccess && count($others) === 1){
     $Module->redirectTo($localUserLoginUri);
     return;
 }
+
+$spidTitle = OpenPAINI::variable('AccessPage', 'SpidAccess_Title', 'SPID');
+$spidSubtitle = ezpI18n::tr('bootstrapitalia/signin', OpenPAINI::variable('AccessPage', 'SpidAccess_Intro', 'Log in with SPID, the public digital identity system.'));
+$spidButtonText = ezpI18n::tr('bootstrapitalia/signin', OpenPAINI::variable('AccessPage', 'SpidAccess_ButtonText', 'Log in with SPID'));
+$showSpidLink = true;
+$cieTitle = OpenPAINI::variable('AccessPage', 'CieAccess_Title', 'CIE');
+$eidasTitle = OpenPAINI::variable('AccessPage', 'EidasAccess_Title', 'eIDAS');
+
+if ($pal->hasAccess('cie') || $pal->hasAccess('eidas')){
+    $spidReplaces['title'] = [$spidTitle];
+    if ($pal->hasAccess('cie')){
+        $spidReplaces['title'][] = $cieTitle;
+    }
+    if ($pal->hasAccess('eidas')){
+        $spidReplaces['title'][] = $eidasTitle;
+    }
+    $spidTitle = implode(' / ', $spidReplaces['title']);
+    $spidSubtitle = ezpI18n::tr('bootstrapitalia/signin', OpenPAINI::variable('AccessPage', 'MixedAccess_Intro', 'Log in with your digital identity.'));
+    $spidButtonText = ezpI18n::tr('bootstrapitalia/signin', 'Sign in');
+    $showSpidLink = false;
+}
+
+$tpl->setVariable('spid_title', $spidTitle);
+$tpl->setVariable('spid_subtitle', $spidSubtitle);
+$tpl->setVariable('spid_button_text', $spidButtonText);
+$tpl->setVariable('show_spid_link', $showSpidLink);
+
 
 $tpl->setVariable('others', $others);
 $tpl->setVariable('has_spid_access', $hasSpidAccess);

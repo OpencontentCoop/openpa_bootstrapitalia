@@ -7,7 +7,11 @@ use Opencontent\Opendata\Api\EnvironmentLoader;
 
 class PersonalAreaLogin
 {
+    use SiteDataStorageTrait;
+
     private static $instance = [];
+
+    private $accesses;
 
     /**
      * @var string
@@ -151,4 +155,36 @@ class PersonalAreaLogin
         }
     }
 
+    public function hasAccess(string $key): bool
+    {
+        if ($key === 'spid'){
+            return true;
+        }
+        $this->loadAccesses();
+        return $this->accesses[$key] ?? false;
+    }
+
+    public function setAccess(string $key, bool $access): void
+    {
+        $this->accesses[$key] = $access;
+    }
+
+    private function loadAccesses()
+    {
+        if ($this->accesses === null) {
+            $data = json_decode($this->getStorage('pal_accesses'), true);
+            if (empty($data)) {
+                $data = [
+                    'spid' => true,
+                    'cie' => false,
+                    'eidas' => false,
+                ];
+            }
+            $this->accesses = $data;
+        }
+    }
+    public function storeAccesses()
+    {
+        $this->setStorage('pal_accesses', json_encode($this->accesses));
+    }
 }
