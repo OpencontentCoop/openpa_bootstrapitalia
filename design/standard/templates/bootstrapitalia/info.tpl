@@ -441,7 +441,7 @@
                                    name="AccessPageSettingsEidasEnable" {$access_eidas|choose( '', 'checked="checked"' )}
                                    value="" />
                             <label class="form-check-label mb-0" for="AccessPageSettingsEidasEnable">
-                                Abilita EIDAs
+                                Abilita eIDAS
                             </label>
                         </div>
                         <div class="text-right mt-1">
