@@ -49,7 +49,7 @@ $spidSubtitle = ezpI18n::tr('bootstrapitalia/signin', OpenPAINI::variable('Acces
 $spidButtonText = ezpI18n::tr('bootstrapitalia/signin', OpenPAINI::variable('AccessPage', 'SpidAccess_ButtonText', 'Log in with SPID'));
 $showSpidLink = true;
 $cieTitle = OpenPAINI::variable('AccessPage', 'CieAccess_Title', 'CIE');
-$eidasTitle = OpenPAINI::variable('AccessPage', 'EidasAccess_Title', 'EIDAs');
+$eidasTitle = OpenPAINI::variable('AccessPage', 'EidasAccess_Title', 'eIDAS');
 
 if ($pal->hasAccess('cie') || $pal->hasAccess('eidas')){
     $spidReplaces['title'] = [$spidTitle];
