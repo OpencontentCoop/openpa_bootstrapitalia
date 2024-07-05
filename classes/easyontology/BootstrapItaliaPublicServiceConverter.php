@@ -86,8 +86,10 @@ class BootstrapItaliaPublicServiceConverter extends \Opencontent\Easyontology\Ab
             if (isset($dataMap['audience']) && $dataMap['audience']->hasContent()) {
                 $this->doc['audience']['audienceType'] = trim(strip_tags($dataMap['audience']->toString()));
             }
-            $this->doc['availableChannel']['serviceUrl'] = rtrim(\eZSys::serverURL(), '/')
-                . '/' . $this->content->mainNode()->attribute('url_alias');
+            if ($this->content->mainNode() instanceof eZContentObjectTreeNode) {
+                $this->doc['availableChannel']['serviceUrl'] = rtrim(\eZSys::serverURL(), '/')
+                    . '/' . $this->content->mainNode()->attribute('url_alias');
+            }
 
             if (isset($dataMap['is_physically_available_at']) && $dataMap['is_physically_available_at']->hasContent()) {
                 $list = explode('-', $dataMap['is_physically_available_at']->toString());
