@@ -298,6 +298,12 @@ Subdir=templates
 Match[class_identifier]=public_project
 Match[attribute_identifier]=has_temporal_coverage
 
+[datatype_view_extra_info]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype/view/matrix_extra_info.tpl
+Subdir=templates
+Match[attribute_identifier]=extra_info
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################
