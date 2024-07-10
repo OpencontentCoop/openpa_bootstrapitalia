@@ -47,7 +47,7 @@
                                                 context_class=$node.class_identifier
                                                 relation_view='list'
                                                 relation_has_wrapper=$item.wrap
-                                                show_link=false()
+                                                show_link=cond(array('allegati', 'esito', 'iter', 'pareri')|contains($openpa_attribute.identifier), true(), false())
                                                 tag_view="chip-lg mr-2 me-2"}
                             {if $need_container}</div>{/if}
                             {undef $need_container}
