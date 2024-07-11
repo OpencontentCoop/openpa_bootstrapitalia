@@ -109,6 +109,9 @@ AvailableView[]=fullpage
 AvailableView[]=text_linked
 TopicCard=custom
 ForceCurrentSiteUrl=disabled
+MainChannelHelpLink=disabled
+MainChannelHelpLink_href=#
+MainChannelHelpLink_text=Scopri come ottenere la tua identità digitale
 
 [ContentMain]
 Identifiers[]=image

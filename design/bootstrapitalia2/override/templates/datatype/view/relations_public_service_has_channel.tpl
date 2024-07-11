@@ -17,6 +17,7 @@
     {/foreach}
 {/if}
 
+{def $has_channel_help_link = false()}
 {if count($node_list)|gt(0)}
     {foreach $node_list as $index => $child}
         <div data-element="{if and($child|has_attribute('has_channel_type'), $child|attribute('has_channel_type').content.keywords|contains('Applicazione Web'))}service-online-access{elseif and($child|has_attribute('has_channel_type'), $child|attribute('has_channel_type').content.keywords|contains('Sportello Pubblica Amministrazione'))}service-booking-access{else}service-generic-access{/if}">
@@ -34,12 +35,17 @@
                     </a>
                 {else}
                     {attribute_view_gui attribute=$child|attribute('channel_url') css_class=cond($index|eq(0), "btn btn-primary fw-bold mobile-full font-sans-serif", "text-primary btn btn-outline-primary bg-white mobile-full font-sans-serif")}
+                    {if $has_channel_help_link|not()}
+                        {include uri='design:parts/channel_help_link.tpl' object=$child.object}
+                        {set $has_channel_help_link = true()}
+                    {/if}
                 {/if}
             </div>
         {/if}
         </div>
     {/foreach}
 {/if}
+{undef $has_channel_help_link}
 
 {undef $node_list}
 
