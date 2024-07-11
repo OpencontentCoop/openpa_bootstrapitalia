@@ -4,95 +4,102 @@
 {default attribute_base=ContentObjectAttribute}
 {let matrix=$attribute.content}
 
-    {* Matrix. *}
-{section show=$matrix.rows.sequential}
-    <table class="table" cellspacing="0">
-
-        <tr>
-            <th class="tight">&nbsp;</th>
-            {section var=ColumnNames loop=$matrix.columns.sequential}
-                <th>{$ColumnNames.item.name}</th>
-            {/section}
-        </tr>
-
-        {section var=Rows loop=$matrix.rows.sequential sequence=array( bglight, bgdark )}
-            <tr class="{$Rows.sequence}">
-
-                {* Remove. *}
-                <td>
-                    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$Rows.index}"
-                           class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
-                           type="checkbox" name="{$attribute_base}_data_matrix_remove_{$attribute.id}[]"
-                           value="{$Rows.index}"
-                           title="{'Select row for removal.'|i18n( 'design/standard/content/datatype' )}"/></td>
-
-                {* Custom columns. *}
-                {section var=Columns loop=$Rows.item.columns}
-                    <td>
-                        <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_matrix_cell_{$Rows.index}_{$Columns.index}"
-                               class="form-control ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
-                               type="text"
-                               name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]"
-                               {if $matrix.columns.sequential[$Columns.index].identifier|eq('currency')}list="currency_choose"{/if}
-                               value="{$Columns.item|wash( xhtml )}"/>
-                    </td>
-
+<div class="oc-matrix">
+    {section show=$matrix.rows.sequential}
+        <div class="oc-matrix-table">
+            <table class="table table-sm">
+                <tr>
+                    <th class="tight" width="1">&nbsp;</th>
+                    {section var=ColumnNames loop=$matrix.columns.sequential}
+                        <th class="size-sm">{$ColumnNames.item.name}</th>
+                    {/section}
+                </tr>
+                {section var=Rows loop=$matrix.rows.sequential sequence=array( bglight, bgdark )}
+                    <tr class="{$Rows.sequence}">
+                        {* Remove. *}
+                        <td>
+                            <label style="margin: 0;padding: 10px;" for="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$Rows.index}">
+                                <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$Rows.index}"
+                                       class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
+                                       type="checkbox" name="{$attribute_base}_data_matrix_remove_{$attribute.id}[]"
+                                       value="{$Rows.index}"
+                                       data-select
+                                       title="{'Select row for removal.'|i18n( 'design/standard/content/datatype' )}"/>
+                            </label>
+                        </td>
+                        {* Custom columns. *}
+                        {section var=Columns loop=$Rows.item.columns}
+                            <td>
+                                <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_matrix_cell_{$Rows.index}_{$Columns.index}"
+                                       class="form-control ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
+                                       type="text"
+                                       data-cell
+                                       name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]"
+                                       list="{$matrix.columns.sequential[$Columns.index].identifier}-choose-{$attribute.id}"
+                                       value="{$Columns.item|wash( xhtml )}"/>
+                            </td>
+                        {/section}
+                    </tr>
                 {/section}
-            </tr>
-        {/section}
-    </table>
-{/section}
-
-{if is_set($currency_tag[0])}
-<datalist id="currency_choose">
-    {foreach $currency_tag[0].children as $currency}
-        <option value="{$currency.keyword|wash}"></option>
-    {/foreach}
-</datalist>
-{/if}
-
-<div class="clearfix">
-{* Buttons. *}
-{if $matrix.rows.sequential}
-    <div class="float-left">
-    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_selected"
-           class="btn btn-sm btn-danger ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
-           type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]"
-           value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}"
-           title="{'Remove selected rows from the matrix.'|i18n( 'design/standard/content/datatype' )}"/>
-    </div>
-{/if}
-
-{let row_count=sub( 40, count( $matrix.rows.sequential ) ) index_var=0}
-{if $row_count|lt( 1 )}
-    {set row_count=0}
-{/if}
-<div class="{if $matrix.rows.sequential}float-right{else}float-left{/if}">
-    <div class="input-group">
-        <select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_add_count"
-                class="custom-select form-control-sm matrix_cell ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
-                name="{$attribute_base}_data_matrix_add_count_{$attribute.id}"
-                title="{'Number of rows to add.'|i18n( 'design/standard/content/datatype' )}">
-            <option value="1">1</option>
-            {section loop=$row_count}
-                {set index_var=$index_var|inc}
-                {delimiter modulo=5}
-                    <option value="{$index_var}">{$index_var}</option>
-                {/delimiter}
-            {/section}
-        </select>
-        <div class="input-group-append">
-        <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_new_row"
-               class="btn btn-sm btn-success ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
-               type="submit" name="CustomActionButton[{$attribute.id}_new_row]"
-               value="{'Add rows'|i18n('design/standard/content/datatype')}"
-               title="{'Add new rows to the matrix.'|i18n( 'design/standard/content/datatype' )}"/>
+            </table>
         </div>
-    </div>
-</div>
-{/let}
-</div>
+    {/section}
 
+    {if is_set($currency_tag[0])}
+    <datalist id="currency-choose-{$attribute.id}">
+        {foreach $currency_tag[0].children as $currency}
+            <option value="{$currency.keyword|wash}"></option>
+        {/foreach}
+    </datalist>
+    {/if}
+
+    <div class="row">
+        <div class="col-9">
+            <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_selected"
+                   class="oc-matrix-remove-rows btn btn-sm btn-danger px-2 py-1 ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
+                   type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]"
+                   data-id="{$attribute.id}"
+                   data-version="{$attribute.version}"
+                   data-language="{$attribute.language_code}"
+                   value="{'Remove selected'|i18n( 'design/standard/content/datatype' )}"
+                   {if $matrix.rows.sequential|not()}style="display:none"{/if}
+                   title="{'Remove selected rows from the matrix.'|i18n( 'design/standard/content/datatype' )}"/>
+        </div>
+        {let row_count=sub( 40, count( $matrix.rows.sequential ) ) index_var=0}
+        {if $row_count|lt( 1 )}
+            {set row_count=0}
+        {/if}
+            <div class="col-3">
+                <div class="input-group" style="width: auto;float:right">
+                    <select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_add_count"
+                            class="custom-select form-control border form-control-sm matrix_cell ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
+                            name="{$attribute_base}_data_matrix_add_count_{$attribute.id}"
+                            style="max-width:50px"
+                            title="{'Number of rows to add.'|i18n( 'design/standard/content/datatype' )}">
+                        <option value="1">1</option>
+                        {section loop=$row_count}
+                            {set index_var=$index_var|inc}
+                            {delimiter modulo=5}
+                                <option value="{$index_var}">{$index_var}</option>
+                            {/delimiter}
+                        {/section}
+                    </select>
+                    <div class="input-group-append">
+                        <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_new_row"
+                               class="oc-matrix-add-rows btn btn-sm btn-success ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
+                               type="submit" name="CustomActionButton[{$attribute.id}_new_row]"
+                               data-id="{$attribute.id}"
+                               data-version="{$attribute.version}"
+                               data-language="{$attribute.language_code}"
+                               value="{'Add rows'|i18n('design/standard/content/datatype')}"
+                               title="{'Add new rows to the matrix.'|i18n( 'design/standard/content/datatype' )}"/>
+                    </div>
+                </div>
+            </div>
+        {/let}
+    </div>
+
+</div>
 {/let}
 {/default}
 {undef $currency_tag}

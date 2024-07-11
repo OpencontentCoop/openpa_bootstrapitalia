@@ -24,7 +24,6 @@
                                        title="{'Select row for removal.'|i18n( 'design/standard/content/datatype' )}"/>
                             </label>
                         </td>
-
                         {* Custom columns. *}
                         {section var=Columns loop=$Rows.item.columns}
                             <td>
@@ -32,9 +31,10 @@
                                        class="form-control ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
                                        type="text" name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]"
                                        data-cell
-                                       value="{$Columns.item|wash( xhtml )}"/></td>
+                                       list="{$matrix.columns.sequential[$Columns.index].identifier}-choose-{$attribute.id}"
+                                       value="{$Columns.item|wash( xhtml )}"/>
+                            </td>
                         {/section}
-
                     </tr>
                 {/section}
             {/section}

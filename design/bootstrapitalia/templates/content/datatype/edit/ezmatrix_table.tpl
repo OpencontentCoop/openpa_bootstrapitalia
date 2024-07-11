@@ -30,6 +30,7 @@
                                    class="form-control ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
                                    type="text" name="{$attribute_base}_ezmatrix_cell_{$attribute.id}[]"
                                    data-cell
+                                   list="{$matrix.columns.sequential[$Columns.index].identifier}-choose-{$attribute.id}"
                                    value="{$Columns.item|wash( xhtml )}"/></td>
                     {/section}
 
