@@ -502,7 +502,7 @@ EOT;
             $method = 'POST';
             $endpoint = '/api/meetings';
             $payload = [
-                'calendar' => $meeting['calendar'] ?? null,
+                'calendar' => $meeting['calendar']['id'] ?? $meeting['calendar'] ?? null,
                 'opening_hour' => $meeting['opening_hour'] ?? null,
                 'from_time' => $meeting['from_time'] ?? null,
                 'to_time' => $meeting['to_time'] ?? null,
