@@ -34,11 +34,7 @@
     'jquery.fileupload.js',
     'jquery.fileupload-process.js',
     'jquery.fileupload-ui.js',
-    'alpaca.js',
-    'fields/SimpleOpenStreetMap.js',
-    'jquery.opendataform.js',
-    'bootstrap-datetimepicker.min.js',
-    'ec.min.js'
+    'bootstrap-datetimepicker.min.js'
     ))}
 {/if}
 {set $scripts = $scripts|merge(array(
@@ -65,6 +61,10 @@
     'highcharts/modules/boost.js',
     'highcharts/modules/exporting.js',
     'highcharts/modules/no-data-to-display.js',
+    'alpaca.js',
+    'fields/SimpleOpenStreetMap.js',
+    'jquery.opendataform.js',
+    'ec.min.js',
     'jquery.opendatadatasetview.js'
 ))}
 {ezscript_require($scripts)}
