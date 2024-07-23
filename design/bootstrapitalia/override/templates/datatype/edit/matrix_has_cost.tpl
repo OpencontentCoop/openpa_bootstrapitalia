@@ -4,9 +4,9 @@
 {default attribute_base=ContentObjectAttribute}
 {let matrix=$attribute.content}
 
-<div class="oc-matrix">
-    {section show=$matrix.rows.sequential}
-        <div class="oc-matrix-table">
+<div class="oc-cost-matrix">
+    <div class="oc-cost-matrix-table">
+        {section show=$matrix.rows.sequential}
             <table class="table table-sm">
                 <tr>
                     <th class="tight" width="1">&nbsp;</th>
@@ -42,8 +42,9 @@
                     </tr>
                 {/section}
             </table>
-        </div>
-    {/section}
+        {/section}
+    </div>
+
 
     {if is_set($currency_tag[0])}
     <datalist id="currency-choose-{$attribute.id}">
@@ -56,7 +57,7 @@
     <div class="row">
         <div class="col-9">
             <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_selected"
-                   class="oc-matrix-remove-rows btn btn-sm btn-danger px-2 py-1 ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
+                   class="oc-cost-matrix-remove-rows btn btn-sm btn-danger px-2 py-1 ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
                    type="submit" name="CustomActionButton[{$attribute.id}_remove_selected]"
                    data-id="{$attribute.id}"
                    data-version="{$attribute.version}"
@@ -86,7 +87,7 @@
                     </select>
                     <div class="input-group-append">
                         <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_new_row"
-                               class="oc-matrix-add-rows btn btn-sm btn-success ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
+                               class="oc-cost-matrix-add-rows btn btn-sm btn-success ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}"
                                type="submit" name="CustomActionButton[{$attribute.id}_new_row]"
                                data-id="{$attribute.id}"
                                data-version="{$attribute.version}"
@@ -103,3 +104,65 @@
 {/let}
 {/default}
 {undef $currency_tag}
+<script>{literal}
+  $(document).ready(function () {
+    var tokenNode = document.getElementById('ezxform_token_js');
+    $('.oc-cost-matrix-add-rows').on('click', function (e) {
+      var self = $(this)
+      var id = $(this).data('id');
+      var version = $(this).data('version');
+      var language = $(this).data('language');
+      var num = $(this).parents('.input-group').find('select').val();
+      var table = $(this).parents('.oc-cost-matrix').find('table');
+      if (table.length === 0){
+        table = $('<table class="table table-sm"></table>')
+          .appendTo($(this).parents('.oc-cost-matrix').find('.oc-cost-matrix-table'))
+      }
+      var data = [];
+      table.find('[data-cell]').each(function (){
+        data.push($(this).val())
+      });
+      console.log(table)
+      //self.attr('disabled', 'disabled');
+      table.load(
+        $.ez.url + 'call/ezjscmatrix::addRows::' + id + '::' + version + '::' + language + '::' + num, {
+          data: data,
+          ezxform_token: tokenNode ? tokenNode.getAttribute('title') : ''
+        }, function (response){
+          self.parents('.oc-cost-matrix').find('.oc-cost-matrix-remove-rows').show()
+          self.removeAttr('disabled');
+        })
+      e.preventDefault();
+    });
+    $('.oc-cost-matrix-remove-rows').on('click', function (e) {
+      var self = $(this)
+      var id = $(this).data('id');
+      var version = $(this).data('version');
+      var language = $(this).data('language');
+      var table = $(this).parents('.oc-cost-matrix').find('table');
+      var data = [];
+      table.find('[data-cell]').each(function (){
+        data.push($(this).val())
+      });
+      var removeList = [];
+      table.find('[data-select]').each(function (){
+        if ($(this).is(':checked')) {
+          removeList.push($(this).val())
+        }
+      });
+      self.attr('disabled', 'disabled');
+      table.load(
+        $.ez.url + 'call/ezjscmatrix::removeRows::' + id + '::' + version + '::' + language, {
+          data: data,
+          remove: removeList,
+          ezxform_token: tokenNode ? tokenNode.getAttribute('title') : ''
+        }, function (response){
+          self.removeAttr('disabled');
+          if ($(response).find('td').length === 0) {
+            self.hide()
+          }
+        })
+      e.preventDefault();
+    });
+  })
+    {/literal}</script>
