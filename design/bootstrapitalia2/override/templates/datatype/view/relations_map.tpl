@@ -19,17 +19,38 @@
         {/if}
     {/foreach}
 {/if}
+{def $has_geo = cond($attribute.object|has_attribute('geo'), $attribute.object|attribute('geo'), false())}
+{if $has_geo}
+    {set $markers = $markers|append($has_geo.content)}
+{/if}
 
-{if count($node_list)|gt(0)}
+{if or(count($node_list)|gt(0), $has_geo)}
     {if $relation_view|eq('list')}
         {include uri='design:atoms/list_with_icon.tpl' items=$node_list}
+        {if $has_geo}
+        {/if}
     {else}
-        {if $relation_has_wrapper|not()}<div class="card-wrapper card-column">{/if}
+        <div class="card-wrapper card-column my-3" data-bs-toggle="masonry">
         {foreach $node_list as $child }
             {node_view_gui content_node=$child view=card_teaser_info show_icon=true() image_class=widemedium}
         {/foreach}
-        {if $relation_has_wrapper|not()}</div>{/if}
+        {if $has_geo}
+            <div data-object_id="2400" class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3 " style="z-index: 100">
+                <div class="card-body pe-3">
+                    <div class="card-text u-main-black">
+                        <div class="mt-1">
+                            <a href="https://www.google.com/maps/dir/45.548598,11.546282/@45.548598,11.546282,15z?hl=it" target="_blank" rel="noopener noreferrer" class="text-decoration-none">
+                                <i aria-hidden="true" class="fa fa-map"></i> {$has_geo.content.address|wash()}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {/if}
+        </div>
     {/if}
+
+
 
     <div class="map-wrapper map-column mt-4 mb-5">
         <div id="relations-map-{$attribute.id}" style="width: 100%; height: 400px;"></div>
@@ -63,6 +84,6 @@
 
 {/if}
 
-{undef $node_list $markers}
+{undef $node_list $markers $has_geo}
 
 {unset_defaults(array('relation_view', 'relation_has_wrapper'))}
