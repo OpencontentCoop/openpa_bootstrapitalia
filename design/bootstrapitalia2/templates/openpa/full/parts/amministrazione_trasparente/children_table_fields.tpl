@@ -85,7 +85,7 @@
                           var link = null;
                           {if $index|eq(0)}
                               {if $fields.class_identifier|eq('time_indexed_role')}
-                                link = "{'/openpa/object/'|ezurl(no)}/"+row.data['{$current_language}'].person[0].id;
+                                link = typeof row.data['{$current_language}'].person[0] === 'object' ? "{'/openpa/object/'|ezurl(no)}/"+row.data['{$current_language}'].person[0].id : '#';
                               {else}
                                 link = "{'/openpa/object/'|ezurl(no)}/"+row.metadata.id;
                               {/if}
