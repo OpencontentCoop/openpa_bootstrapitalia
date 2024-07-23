@@ -1,0 +1,27 @@
+//usando http://colorizer.org/
+
+$primary: #b10015;;
+$header-slim-bg-color: #303030;
+$footer-comuni-bg-color: #30373d;
+
+$primary-a7: #b10015;;
+$primary-a6: #b10015;;
+$primary-a10: #b10015;;
+$primary-a12: #b10015;;
+
+$primary-h: 348;
+$primary-s: 81.33;
+$primary-b: 65.1;
+
+$navigation-light-text-color: #2e0706;
+
+@import "default";
+
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone,
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone a,
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-brand-wrapper a {
+  color: $navigation-light-text-color;
+}
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone .it-socials ul .icon{
+  fill: $navigation-light-text-color;
+}
