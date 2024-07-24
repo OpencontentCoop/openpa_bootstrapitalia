@@ -113,6 +113,13 @@ MainChannelHelpLink=disabled
 MainChannelHelpLink_href=#
 MainChannelHelpLink_text=Scopri come ottenere la tua identità digitale
 
+[ClassificationPages]
+punti_di_contatto[query]=classes [online_contact_point]
+punti_di_contatto[limit]=10
+punti_di_contatto[fields]=_link,name,contact.type,contact.value
+punti_di_contatto[facets]=
+punti_di_contatto[remote_url]=
+
 [ContentMain]
 Identifiers[]=image
 Identifiers[]=ruolo

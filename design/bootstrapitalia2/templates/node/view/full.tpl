@@ -4,6 +4,8 @@
 {/if}
 {if $openpa.content_trasparenza.use_custom_template}
     {include uri="design:openpa/full/_custom_trasparenza.tpl"}
+{elseif openpaini('ClassificationPages', $node.object.remote_id, false())|ne(false())}
+    {include uri="design:openpa/full/_custom_page_classification.tpl"}
 {else}
     {include uri=$openpa.control_template.full}
 {/if}
