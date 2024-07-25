@@ -33,7 +33,7 @@
 			{def $items_per_page = cond(is_set($attribute.content.settings.pagination), $attribute.content.settings.pagination, 6)}
 			{def $people = fetch('bootstrapitalia', 'openparole_people', hash('attribute', $attribute, 'limit', $items_per_page, 'offset', cond(is_set($#view_parameters[$attribute.contentclass_attribute_identifier]), $#view_parameters[$attribute.contentclass_attribute_identifier], 0)))}
 			<div>
-				<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
+				<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-2" style="min-width:49%">
 					{foreach $people as $child }
 						{node_view_gui content_node=$child view=card_teaser show_icon=false() show_category=false() image_class=widemedium}
 					{/foreach}
@@ -97,7 +97,7 @@
 				</ul>
 
 				{if $attribute_group.slug|eq('details')}
-					<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
+					<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-2" style="min-width:49%">
 						{foreach $current_entities as $child }
 							{node_view_gui content_node=$child.main_node view=card_teaser show_icon=false() show_category=false() image_class=widemedium}
 						{/foreach}
@@ -141,7 +141,7 @@
 		{/case}
 
 		{case match=4} {* Strutture: per i ruoli afferenti a una persona *}
-			<div class="card-wrapper card-teaser-wrapper" style="min-width:49%">
+			<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-2" style="min-width:49%">
 				{foreach $attribute.content.entities as $child }
 					{node_view_gui content_node=$child.main_node view=card_teaser show_icon=false() show_category=false() image_class=widemedium}
 				{/foreach}
