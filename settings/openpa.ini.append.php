@@ -195,6 +195,7 @@ InputValidators[]=PublicServiceStatusValidator
 InputValidators[]=PublicServiceProcessingTimeValidator
 InputValidators[]=UniqueStringValidator
 InputValidators[]=EventCostsValidator
+InputValidators[]=EventContactPointValidator
 
 [WebsiteToolbar]
 ShowEditorRoles=disabled
