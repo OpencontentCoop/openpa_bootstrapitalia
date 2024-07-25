@@ -1918,4 +1918,11 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/booking/hours</name>
+    <message>
+      <source>at</source>
+      <translation>um</translation>
+    </message>
+  </context>
 </TS>

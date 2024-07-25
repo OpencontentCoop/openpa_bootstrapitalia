@@ -1031,7 +1031,7 @@
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres utilizar uno de estos?</translation>
+      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres usar uno de estos?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
@@ -1911,6 +1911,13 @@
     </message>
     <message>
       <source>Meeting number</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/booking/hours</name>
+    <message>
+      <source>at</source>
       <translation type="unfinished"/>
     </message>
   </context>

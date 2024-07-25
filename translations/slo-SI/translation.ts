@@ -617,7 +617,7 @@
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Nanašati na</translation>
+      <translation>Nanaša se na</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -1911,6 +1911,13 @@
     </message>
     <message>
       <source>Meeting number</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/booking/hours</name>
+    <message>
+      <source>at</source>
       <translation type="unfinished"/>
     </message>
   </context>

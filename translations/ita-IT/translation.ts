@@ -1918,4 +1918,11 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Numero appuntamento</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/booking/hours</name>
+    <message>
+      <source>at</source>
+      <translation>alle ore</translation>
+    </message>
+  </context>
 </TS>

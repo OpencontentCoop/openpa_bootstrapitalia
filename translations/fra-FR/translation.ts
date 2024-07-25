@@ -1914,4 +1914,11 @@
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/booking/hours</name>
+    <message>
+      <source>at</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
 </TS>
