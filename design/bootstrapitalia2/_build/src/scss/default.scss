@@ -303,7 +303,7 @@ $stepper-spacing-v: 16px;
 @import "design-comuni-pagine-statiche/components/cmp-disclaimer/cmp-disclaimer";
 
 @import "design-comuni-pagine-statiche/components/button/button";
-@import "design-comuni-pagine-statiche/components/cmp-timeline/cmp-timeline";
+@import "override/cmp-timeline"; //"design-comuni-pagine-statiche/components/cmp-timeline/cmp-timeline";
 @import "design-comuni-pagine-statiche/components/link-list/link-list";
 
 @import "design-comuni-pagine-statiche/components/partials/button/button";
