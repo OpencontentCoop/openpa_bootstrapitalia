@@ -1921,4 +1921,19 @@
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/error</name>
+    <message>
+      <source>Page not found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The page you’re looking for can’t be found.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Return to the home page</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
 </TS>

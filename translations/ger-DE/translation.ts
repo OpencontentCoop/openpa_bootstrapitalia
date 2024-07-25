@@ -1925,4 +1925,19 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>um</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/error</name>
+    <message>
+      <source>Page not found</source>
+      <translation>Seite nicht gefunden</translation>
+    </message>
+    <message>
+      <source>The page you’re looking for can’t be found.</source>
+      <translation>Die gesuchte Seite kann nicht gefunden werden.</translation>
+    </message>
+    <message>
+      <source>Return to the home page</source>
+      <translation>Zurück zur Startseite</translation>
+    </message>
+  </context>
 </TS>

@@ -1925,4 +1925,19 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>alle ore</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/error</name>
+    <message>
+      <source>Page not found</source>
+      <translation>Pagina non trovata</translation>
+    </message>
+    <message>
+      <source>The page you’re looking for can’t be found.</source>
+      <translation>La pagina richiesta non esiste: potrebbe essere stata eliminata oppure l'url potrebbe non essere corretto.</translation>
+    </message>
+    <message>
+      <source>Return to the home page</source>
+      <translation>Torna alla home</translation>
+    </message>
+  </context>
 </TS>
