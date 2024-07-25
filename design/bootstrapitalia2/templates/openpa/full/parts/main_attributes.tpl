@@ -10,7 +10,7 @@
 
 {foreach $alt_name_identifier as $identifier}
 	{if and($main_attributes|contains($identifier), is_set($openpa[$identifier].contentobject_attribute), $openpa[$identifier].contentobject_attribute.has_content)}
-		<p class="subtitle-small mb-1">{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute image_class=reference alignment=center}</p>
+		<h2 class="h5 mb-1">{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute image_class=reference alignment=center}</h2>
 	{/if}
 {/foreach}
 
