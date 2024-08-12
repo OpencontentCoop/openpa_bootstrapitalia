@@ -49,8 +49,13 @@ class LockEditConnector extends OpendataConnector
 
     public static function canLockEdit($object)
     {
-        $capabilities = eZUser::currentUser()->hasAccessTo('bootstrapitalia', 'opencity_locked_editor');
+        $currentUser = eZUser::currentUser();
 
+        if (ModerationHandler::userNeedModeration($currentUser)){
+            return false;
+        }
+
+        $capabilities = $currentUser->hasAccessTo('bootstrapitalia', 'opencity_locked_editor');
         if ($capabilities['accessWord'] === 'yes') {
             return true;
         }

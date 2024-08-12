@@ -451,6 +451,26 @@
                 </form>
             </div>
 
+            <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form">
+                <fieldset>
+                    <legend class="text-white h5 px-0">Sistema di approvazione dei contenuti</legend>
+                    <input type="hidden" name="Moderation" value="1" />
+                    <div class="form-group form-check m-0 ps-1 pt-1 bg-white">
+                        <input id="ModerationIsEnabled"
+                               class="form-check-input"
+                               type="checkbox"
+                               name="ModerationIsEnabled" {is_approval_enabled()|choose( '', 'checked="checked"' )}
+                               value="" />
+                        <label class="form-check-label mb-0" for="ModerationIsEnabled">
+                            Abilita il sistema di approvazione dei contenuti basato sulle versioni
+                        </label>
+                    </div>
+                    <div class="text-right mt-1">
+                        <button class="btn btn-primary" type="submit">Aggiorna</button>
+                    </div>
+                </fieldset>
+            </form>
+
         </div>
     {/if}
 

@@ -94,7 +94,7 @@
     <a class="visually-hidden-focusable" href="#footer" aria-label="{'Go to footer'|i18n('bootstrapitalia')}">{'Go to footer'|i18n('bootstrapitalia')}</a>
 </div>
 
-{if and(openpacontext().is_edit|not(),openpacontext().is_browse|not())}
+{if and(openpacontext().is_edit|not(),openpacontext().is_browse|not(),openpacontext().is_versionview|not())}
     {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, $extra_cache_key, openpaini('GeneralSettings','theme', 'default') )}
         {debug-accumulator id=page_header_and_offcanvas_menu name=page_header_and_offcanvas_menu}
         {def $pagedata = openpapagedata()}
@@ -106,7 +106,7 @@
 {/if}
 
 <main>
-    {if openpacontext().show_breadcrumb}
+    {if and(openpacontext().show_breadcrumb,openpacontext().is_versionview|not())}
         {debug-accumulator id=breadcrumb name=breadcrumb has_sidemenu=$has_sidemenu has_container=$has_container}
         {include uri='design:breadcrumb.tpl' path_array=openpacontext().path_array}
         {/debug-accumulator}
@@ -118,7 +118,7 @@
 
 </main>
 
-{if and(openpacontext().is_login_page|not(), openpacontext().is_edit|not())}
+{if and(openpacontext().is_login_page|not(), openpacontext().is_edit|not(),openpacontext().is_versionview|not())}
     {debug-accumulator id=page_footer name=page_footer}
     {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, $has_valuation, $current_built_in_app)}
     {def $pagedata = openpapagedata()}

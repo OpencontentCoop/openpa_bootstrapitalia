@@ -20,6 +20,30 @@
     
     {include uri='design:parts/website_toolbar_edit.tpl'}
     <div class="clearfix">
+        {def $has_pending_approval = has_pending_approval($object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'))}
+        {def $current_user_needs_approval = current_user_needs_approval($object.class_identifier)}
+        {if or($has_pending_approval, $current_user_needs_approval)}
+            <div class="alert alert-warning" style="margin-top:70px">
+                {if $current_user_needs_approval}
+                    <p class="mb-0 text-warning font-weight-bold">{'Warning: the activities of this account are subject to moderation: the changes will be visible after approval by an editor'|i18n('bootstrapitalia/moderation')}</p>
+                {/if}
+                {if $has_pending_approval|eq(1)}
+                    <p class="mb-0 text-warning font-weight-bold">
+                        {'There is currently %version of this content awaiting approval'|i18n('bootstrapitalia/moderation',,hash('%version', concat('<a href="', concat('content/history/', $object.id)|ezurl(no), '">', $has_pending_approval, ' ', 'version'i18n('bootstrapitalia/moderation'), '</a>')))}
+                    </p>
+                {elseif $has_pending_approval|gt(1)}
+                    <p class="mb-0 text-warning font-weight-bold">
+                        {'There are currently %versions of this content awaiting approval'|i18n('bootstrapitalia/moderation',,hash('%versions', concat('<a href="', concat('content/history/', $object.id)|ezurl(no), '">', $has_pending_approval, ' ', 'versions'i18n('bootstrapitalia/moderation'), '</a>')))}
+                    </p>
+                {/if}
+                {if and($has_pending_approval|gt(0), not($current_user_needs_approval))}
+                    <p class="mb-0 text-warning font-weight-bold">
+                        {'By publishing content, versions currently awaiting moderation will be archived'|i18n('bootstrapitalia/moderation')}
+                    </p>
+                {/if}
+            </div>
+        {/if}
+        {undef $has_pending_approval $current_user_needs_approval}
         <h4 class="float-left">{if $edit_version|eq(1)}{"Create"|i18n( 'design/ocbootstrap/content/edit' )}{else}{"Edit"|i18n( 'design/ocbootstrap/content/edit' )}{/if} <span class="text-lowercase">{$class.name|wash}</span></h4>
         <div class="chip chip-lg float-right mt-2">
             {def $language_index = 0

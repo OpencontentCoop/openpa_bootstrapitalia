@@ -1944,4 +1944,127 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Torna alla home</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/moderation</name>
+    <message>
+      <source>version(s) under approval</source>
+      <translation>versione/i in approvazione</translation>
+    </message>
+    <message>
+      <source>Pending approval</source>
+      <translation>In attesa di moderazione</translation>
+    </message>
+    <message>
+      <source>Approval</source>
+      <translation>Moderazione</translation>
+    </message>
+    <message>
+      <source>Approve</source>
+      <translation>Approva</translation>
+    </message>
+    <message>
+      <source>Deny</source>
+      <translation>Rifiuta</translation>
+    </message>
+    <message>
+      <source>Pending</source>
+      <translation>In attesa</translation>
+    </message>
+    <message>
+      <source>Approved</source>
+      <translation>Approvato</translation>
+    </message>
+    <message>
+      <source>Rejected</source>
+      <translation>Rifiutato</translation>
+    </message>
+    <message>
+      <source>The content object awaits approval before it can be published.</source>
+      <translation>In attesa dell'approvazione di un moderatore</translation>
+    </message>
+    <message>
+      <source>All</source>
+      <translation>Tutti</translation>
+    </message>
+    <message>
+      <source>Unread list</source>
+      <translation>Da leggere</translation>
+    </message>
+    <message>
+      <source>Pending list</source>
+      <translation>In attesa di moderazione</translation>
+    </message>
+    <message>
+      <source>Approved list</source>
+      <translation>Approvati</translation>
+    </message>
+    <message>
+      <source>Rejected list</source>
+      <translation>Rifiutati</translation>
+    </message>
+    <message>
+      <source>Awaits approval by editor</source>
+      <translation>Attende l'approvazione di un moderatore</translation>
+    </message>
+    <message>
+      <source>Awaits your approval</source>
+      <translation>Attende la tua approvazione</translation>
+    </message>
+    <message>
+      <source>Was approved for publishing</source>
+      <translation>Approvato per la pubblicazione</translation>
+    </message>
+    <message>
+      <source>Was not approved for publishing</source>
+      <translation>Non approvato per la pubblicazione</translation>
+    </message>
+    <message>
+      <source>Warning: the activities of this account are subject to moderation: the changes will be visible after approval by an editor</source>
+      <translation>Attenzione: le attività di questo account sono sottoposte a moderazione: le modifiche saranno visibili dopo l'approvazione di un redattore</translation>
+    </message>
+    <message>
+      <source>There is currently %version of this content awaiting approval</source>
+      <translation>In questo momento c'è %version di questo contenuto in attesa di approvazione</translation>
+    </message>
+    <message>
+      <source>There are currently %versions of this content awaiting approval</source>
+      <translation>In questo momento ci sono %versions di questo contenuto in attesa di approvazione</translation>
+    </message>
+    <message>
+      <source>Warning: by approving this version, other versions currently awaiting moderation will be archived.</source>
+      <translation>Attenzione: approvando questa versione, le altre versioni attualmente in attesa di moderazione verranno archiviate</translation>
+    </message>
+    <message>
+      <source>version</source>
+      <translation>versione</translation>
+    </message>
+    <message>
+      <source>versions</source>
+      <translation>versioni</translation>
+    </message>
+    <message>
+      <source>By publishing content, versions currently awaiting moderation will be archived</source>
+      <translation>Pubblicando questo contenuto tutte le versioni in attesa di moderazione verranno rifiutate automaticamente e archiviate</translation>
+    </message>
+    <message>
+      <source>Request for approval</source>
+      <translation>Richiesta approvazione</translation>
+    </message>
+    <message>
+      <source>The version has been approved</source>
+      <translation>Versione approvata</translation>
+    </message>
+    <message>
+      <source>The version was rejected</source>
+      <translation>Versione rifiutata</translation>
+    </message>
+    <message>
+      <source>The version was archived following the publication of version %id</source>
+      <translation>Versione rifiutata automaticamente e archiviata in seguito alla pubblicazione della versione %id</translation>
+    </message>
+    <message>
+      <source>Approval dashboard</source>
+      <translation>Moderazione dei contenuti</translation>
+    </message>
+  </context>
 </TS>
