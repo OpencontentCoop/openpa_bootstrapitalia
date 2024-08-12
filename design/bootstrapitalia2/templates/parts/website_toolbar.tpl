@@ -55,7 +55,7 @@
             {if and( $content_object.can_create, $is_container )}
                 {def $can_create_class_list = $content_object.can_create_class_list}
                 {if $can_create_class_list|count()}
-                <li>
+                <li class="position-relative">
                     <div class="input-group">
                         <select name="ClassID" id="ezwt-create" class="custom-select" data-placeholder="{"Create here"||i18n('design/admin/node/view/full')}">
                             {if count($can_create_class_list)|gt(1)}<option></option>{/if}
@@ -71,6 +71,16 @@
                         </div>
                     </div>
                 </li>
+                {def $has_child_pending_approval = has_child_pending_approval($content_object.main_node_id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'))}
+                {if $has_child_pending_approval}
+                    <li>
+                        <a href="{concat('/bootstrapitalia/approval/?assignment=', $content_object.main_node_id)|ezurl(no)}">
+                            <span class="font-weight-bold">{$has_child_pending_approval}</span>
+                            <span class="toolbar-label" style="max-width: 70px;">In attesa di approvazione</span>
+                        </a>
+                    </li>
+                {/if}
+                {undef $has_child_pending_approval}
                 <li class="toolbar-divider" aria-hidden="true"></li>
                 {/if}
                 <input type="hidden" name="ContentLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
@@ -78,7 +88,7 @@
 
             {if $content_object.can_edit}
                 <input type="hidden" name="ContentObjectLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
-                <li>
+                <li class="position-relative">
                     <button class="btn" type="submit" name="EditButton" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
                         <i aria-hidden="true" class="fa fa-pencil"></i>
                         <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
@@ -99,6 +109,17 @@
                     </button>
                 </li>
             {/if}
+
+            {def $has_pending_approval = has_pending_approval($content_object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'))}
+            {if $has_pending_approval}
+                <li>
+                    <a href="{concat('/content/history/', $content_object.id)|ezurl(no)}">
+                        <span class="font-weight-bold">{$has_pending_approval}</span>
+                        <span class="toolbar-label" style="max-width: 70px;">versione/i in approvazione</span>
+                    </a>
+                </li>
+            {/if}
+            {undef $has_pending_approval}
 
             {if and($content_object.can_translate, ezini('ExtensionSettings','ActiveAccessExtensions')|contains('octranslate'), fetch( 'user', 'has_access_to', hash( 'module', 'translate', 'function', 'content' ) ))}
                 {include uri='design:parts/websitetoolbar/translate.tpl' content_object=$content_object}
@@ -193,6 +214,14 @@
                                 {/if}
 
                                 {include uri='design:parts/websitetoolbar/openpa_menu.tpl'}
+
+                                {if is_approval_enabled()}
+                                    <li>
+                                        <a class="list-item left-icon" href="{'bootstrapitalia/approval'|ezurl(no)}" title="{'Approval'|i18n( 'design/standard/collaboration/approval' )}">
+                                            <i aria-hidden="true" class="fa fa-code-fork"></i> {'Approval'|i18n( 'design/standard/collaboration/approval' )}
+                                        </a>
+                                    </li>
+                                {/if}
 
                                 {if is_set($content_object.id)}
                                     <li><span class="divider"></span></li>

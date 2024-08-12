@@ -78,6 +78,17 @@ $ViewList['widget'] = [
     'params' => ['Identifier'],
     'unordered_params' => [],
 ];
+$ViewList['approval'] = [
+    'functions' => ['opencity_info_editor'],
+    'script' => 'approval.php',
+    'params' => ['VersionId', 'Action'],
+    'unordered_params' => [
+        'offset' => 'Offset',
+        'assignment' => 'Assignment',
+        'class' => 'Class',
+        'status' => 'Status'
+    ],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];

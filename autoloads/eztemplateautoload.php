@@ -64,6 +64,11 @@ $eZTemplateOperatorArray = [
             'image_url_list',
             'render_image',
             'image_class_and_style',
+            'has_pending_approval',
+            'has_child_pending_approval',
+            'can_approve_version',
+            'is_approval_enabled',
+            'current_user_needs_approval',
         ],
     ],
 ];

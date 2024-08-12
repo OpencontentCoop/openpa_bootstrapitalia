@@ -5,12 +5,25 @@
 <nav class="toolbar edit-toolbar" id="ezwt">
     <ul class="d-flex flex-nowrap border-bottom">
 
-    <li class="publish-buttons">
+
     {if or( and( eq( $version.status, 0 ), $is_creator, $object.can_edit ),and( eq( $object.status, 2 ), $object.can_edit ) )}
-        <input type="submit" class="btn btn-xs btn-success" name="EditButton" value="{'Edit'|i18n( 'design/standard/content/view/versionview' )}" />
-        <input type="submit" class="btn btn-xs btn-success" name="PreviewPublishButton" value="{'Publish'|i18n( 'design/standard/content/view/versionview' )}" />
+        <li class="publish-buttons">
+            <input type="submit" class="btn btn-xs btn-success" name="EditButton" value="{'Edit'|i18n( 'design/standard/content/view/versionview' )}" />
+            <input type="submit" class="btn btn-xs btn-success" name="PreviewPublishButton" value="{'Publish'|i18n( 'design/standard/content/view/versionview' )}" />
+        </li>
     {/if}
-    </li>
+    {if and( eq( $version.status, 2 ), can_approve_version($version.id), $object.can_edit )}
+       <li>
+           <a class="btn btn-xs btn-success text-white" style="padding:10px 20px !important;" href="{concat('/bootstrapitalia/approval/', $version.id, '/approve?redirect=history')|ezurl(no)}" title="{'Approve'|i18n('design/standard/collaboration/approval')}">
+                {'Approve'|i18n('design/standard/collaboration/approval')}
+           </a>
+       </li>
+       <li>
+            <a class="btn btn-xs btn-danger text-white" style="padding:10px 20px !important;" href="{concat('/bootstrapitalia/approval/', $version.id, '/deny?redirect=history')|ezurl(no)}" title="{'Deny'|i18n('design/standard/collaboration/approval')}">
+                {'Deny'|i18n('design/standard/collaboration/approval')}
+            </a>
+       </li>
+    {/if}
 
     {if $object.versions|count|gt( 1 )}
         <li>

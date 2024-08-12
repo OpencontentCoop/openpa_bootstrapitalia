@@ -1,6 +1,7 @@
 {ezpagedata_set('show_path', false())}
 {def $parent_node_id = ezini("UserSettings", "DefaultUserPlacement")}
 {def $editor_object = fetch(content, object, hash('remote_id', 'editors_base'))}
+{def $moderation_object = fetch(content, object, hash('remote_id', 'moderation'))}
 {if $editor_object}
     {def $editor_node_id = fetch(content, object, hash('remote_id', 'editors_base')).main_node_id}
     {def $available_groups = fetch(content, list, hash('parent_node_id', $editor_node_id, 'class_filter_type', 'include', 'class_filter_array', array('user_group'), 'sort_by', array('name', 'asc')))}
@@ -46,6 +47,12 @@
                 <label for="path-{$group.node_id}">{$group.name|wash()}</label>
             </div>
             {/foreach}
+            {if $moderation_object}
+                <div class="form-check form-check-inline">
+                    <input class="filter" id="path-{$moderation_object.main_node_id}" data-filterpath="{$moderation_object.main_node_id}" type="checkbox">
+                    <label for="path-{$moderation_object.main_node_id}"><em>{$moderation_object.name|wash()}</em></label>
+                </div>
+            {/if}
         </div>
         <div class="col-12">
             <table class="table table-striped mt-2" id="data">
@@ -118,7 +125,7 @@
 
     {literal}
     <script id="tpl-results" type="text/x-jsrender">
-    {{for searchHits}}
+    {{for searchHits ~moderationNodeId=moderationNodeId}}
     <tr>
         <td>
             {{if metadata.classIdentifier == 'user'}}
@@ -131,13 +138,29 @@
                 <a title="Activate all" href="#" data-user="{{:metadata.mainNodeId}}" class="ActivateAllUserPermission text-decoration-none pl-2 ps-2"><i class="fa fa-toggle-on"></i></a>
                 <a title="Deactivate all" href="#" data-user="{{:metadata.mainNodeId}}" class="DeactivateAllUserPermission text-decoration-none pl-2 ps-2"><i class="fa fa-toggle-off"></i></a>
             </p>
+            {{if ~moderationNodeId}}
+            <div class="row bg-white rounded-end rounded-right">
+                <div class="col-7" style="line-height:.8em">
+                    <small>Utente moderato:</small>
+                </div>
+                <div class="col-5">
+                    <div class="toggles">
+                        <i class="fa fa-circle-o-notch fa-spin fa-fw spinner" style="display:none"></i>
+                        <label for="user-permission-{{:metadata.mainNodeId}}-{{:~moderationNodeId}}" style="line-height: 1px;text-align:center;margin-bottom:0;transform: scale(0.8);">
+                            <input class="custom-permission" type="checkbox" data-user="{{:metadata.mainNodeId}}" data-group="{{:~moderationNodeId}}" id="user-permission-{{:metadata.mainNodeId}}-{{:~moderationNodeId}}" name="UserPermission" {{if inModeration}}checked = "checked"{{/if}} />
+                            <span class="lever" style="margin: 0;display: inline-block;float:none"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
         </td>
 
         {{for groups ~current=metadata}}
-            <td class="text-center">
+            <td class="text-center" style="vertical-align: middle;">
                 <div class="toggles">
                     <i class="fa fa-circle-o-notch fa-spin fa-fw spinner" style="display:none"></i>
-                    <label for="user-permission-{{:~current.mainNodeId}}-{{:node}}" style="line-height: 1px;text-align:center">
+                    <label for="user-permission-{{:~current.mainNodeId}}-{{:node}}" style="line-height: 1px;text-align:center;">
                         <input type="checkbox" data-user="{{:~current.mainNodeId}}" data-group="{{:node}}" id="user-permission-{{:~current.mainNodeId}}-{{:node}}" name="UserPermission" {{if active}}checked = "checked"{{/if}} />
                         <span class="lever" style="margin-top: 0;display: inline-block;float:none"></span>
                     </label>
@@ -163,6 +186,7 @@
 
     <script type="text/javascript" language="javascript">
         var Groups = [{foreach $available_groups as $group}{ldelim}name: '{$group.name|wash()}',node: {$group.node_id}, object: {$group.contentobject_id}, active: false{rdelim}{delimiter},{/delimiter}{/foreach}];
+        var Moderation = {cond($moderation_object, $moderation_object.main_node_id, 'false')};
         var ParentNodeId = {$parent_node_id};
         var ContainerSelector = "#data";
         var FormSelector = "#data-form";
@@ -233,6 +257,7 @@
                     response.currentPage = currentPage;
                     response.prevPageQuery = jQuery.type(queryPerPage[currentPage - 1]) === "undefined" ? null : queryPerPage[currentPage - 1];
                     response.colSpan = Groups.length + 1;
+                    response.moderationNodeId = Moderation;
 
                     $.each(response.searchHits, function(){
                         var currentParentNodes = this.metadata.parentNodes;
@@ -246,6 +271,7 @@
                             groups.push(group);
                         });
                         this.groups = groups;
+                        this.inModeration = Moderation && $.inArray(Moderation, currentParentNodes) > -1;
                     });
                     var renderData = $(template.render(response));
 
@@ -287,7 +313,7 @@
                     renderData.find('.ActivateAllUserPermission').on('click', function (e) {
                         var user = $(this).data('user');
                         renderData.find('[name="UserPermission"][data-user="'+user+'"]').each(function (){
-                            if (!$(this).is(':checked')){
+                            if (!$(this).is(':checked') && !$(this).hasClass('custom-permission')){
                                 $(this).trigger('click');
                             }
                         });
@@ -296,7 +322,7 @@
                     renderData.find('.DeactivateAllUserPermission').on('click', function (e) {
                         var user = $(this).data('user');
                         renderData.find('[name="UserPermission"][data-user="'+user+'"]').each(function (){
-                            if ($(this).is(':checked')){
+                            if ($(this).is(':checked') && !$(this).hasClass('custom-permission')){
                                 $(this).trigger('click');
                             }
                         });

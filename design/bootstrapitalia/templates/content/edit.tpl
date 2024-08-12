@@ -20,6 +20,21 @@
     
     {include uri='design:parts/website_toolbar_edit.tpl'}
     <div class="clearfix">
+        {def $has_pending_approval = has_pending_approval($object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'))}
+        {def $current_user_needs_approval = current_user_needs_approval()}
+        {if or($has_pending_approval, $current_user_needs_approval)}
+            <div class="alert alert-warning" style="margin-top:70px">
+                {if $current_user_needs_approval}
+                    <p class="mb-0 text-warning font-weight-bold">Attenzione: le attività di questo account sono sottoposte a moderazione: le modifiche saranno visibili dopo l'approvazione di un redattore</p>
+                {/if}
+                {if $has_pending_approval|eq(1)}
+                    <p class="mb-0 text-warning font-weight-bold">In questo momento c'è <a href="{concat('content/history/', $object.id)|ezurl(no)}">{$has_pending_approval} versione</a> di questo contenuto in attesa di approvazione</p>
+                {elseif $has_pending_approval|gt(1)}
+                    <p class="mb-0 text-warning font-weight-bold">In questo momento ci sono <a href="{concat('content/history/', $object.id)|ezurl(no)}">{$has_pending_approval} versioni</a> di questo contenuto in attesa di approvazione</p>
+                {/if}
+            </div>
+        {/if}
+        {undef $has_pending_approval $current_user_needs_approval}
         <h4 class="float-left">{if $edit_version|eq(1)}{"Create"|i18n( 'design/ocbootstrap/content/edit' )}{else}{"Edit"|i18n( 'design/ocbootstrap/content/edit' )}{/if} <span class="text-lowercase">{$class.name|wash}</span></h4>
         <div class="chip chip-lg float-right mt-2">
             {def $language_index = 0
