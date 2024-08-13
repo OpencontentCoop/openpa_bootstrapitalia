@@ -1444,8 +1444,17 @@ class OpenPABootstrapItaliaOperators
         ];
     }
 
-    private static function getDeepHasContent($openpaAttribute, $identifier, $tableView): bool
+    private static function getDeepHasContent($openpaAttribute, $identifier, $tableView, $slug = false): bool
     {
+        // workaround per openparole
+        if (
+            $openpaAttribute->hasAttribute('contentobject_attribute')
+            && $openpaAttribute->attribute('contentobject_attribute')->attribute('data_type_string') == OpenPARoleType::DATA_TYPE_STRING
+            && $slug === 'details'
+        ){
+            return $openpaAttribute->attribute('contentobject_attribute')->attribute('has_content');
+        }
+
         if ($openpaAttribute->attribute('full')['show_empty']) {
             return true;
         }
@@ -1532,7 +1541,7 @@ class OpenPABootstrapItaliaOperators
                             $openpaAttribute = $openpa->attribute($identifier);
                             if (!$openpaAttribute->attribute('full')['exclude']
                                 && ($openpaAttribute->attribute('has_content') || $openpaAttribute->attribute('full')['show_empty'])) {
-                                if (!self::getDeepHasContent($openpaAttribute, $identifier, $tableView)){
+                                if (!self::getDeepHasContent($openpaAttribute, $identifier, $tableView, $slug)){
                                     continue;
                                 }
 

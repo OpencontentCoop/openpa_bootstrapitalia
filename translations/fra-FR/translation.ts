@@ -53,7 +53,7 @@
     </message>
     <message>
       <source>Download file</source>
-      <translation>Télécharger un fichier</translation>
+      <translation>Télécharger le fichier</translation>
     </message>
     <message>
       <source>File type</source>
@@ -125,7 +125,7 @@
     </message>
     <message>
       <source>Upload file</source>
-      <translation>Téléverser un fichier</translation>
+      <translation>Télécharger le fichier</translation>
     </message>
     <message>
       <source>Select from library</source>
@@ -137,7 +137,7 @@
     </message>
     <message>
       <source>Create new</source>
-      <translation>Créer un nouveau</translation>
+      <translation>Créer nouveau</translation>
     </message>
     <message>
       <source>Reading time</source>
@@ -551,6 +551,10 @@
       <source>Discover the details of the event on</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Previous assignments</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -625,7 +629,7 @@
     </message>
     <message>
       <source>References</source>
-      <translation>Les références</translation>
+      <translation>Références</translation>
     </message>
   </context>
   <context>
@@ -648,7 +652,7 @@
     </message>
     <message>
       <source>back to top</source>
-      <translation>retour au sommet</translation>
+      <translation>retour en haut</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
@@ -710,7 +714,7 @@
     </message>
     <message>
       <source>Advanced search</source>
-      <translation>Recherche Avancée</translation>
+      <translation>Recherche avancée</translation>
     </message>
     <message>
       <source>in</source>
@@ -746,7 +750,7 @@
     </message>
     <message>
       <source>Publication date</source>
-      <translation>Date de publication</translation>
+      <translation>Date de parution</translation>
     </message>
     <message>
       <source>Content type</source>
@@ -790,7 +794,7 @@
     </message>
     <message>
       <source>Search tips</source>
-      <translation>Astuces de recherche</translation>
+      <translation>Conseils de recherche</translation>
     </message>
     <message>
       <source>Check spelling of keywords.</source>
@@ -830,7 +834,7 @@
     </message>
     <message>
       <source>Refine your search</source>
-      <translation>précisez votre recherche</translation>
+      <translation>Affinez votre recherche</translation>
     </message>
     <message>
       <source>You are filtering for</source>

@@ -551,6 +551,10 @@
       <source>Discover the details of the event on</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Previous assignments</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

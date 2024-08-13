@@ -551,6 +551,10 @@
       <source>Discover the details of the event on</source>
       <translation>Scopri i dettagli dell'evento su</translation>
     </message>
+    <message>
+      <source>Previous assignments</source>
+      <translation>Incarichi precedenti</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

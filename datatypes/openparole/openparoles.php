@@ -32,27 +32,31 @@ class OpenPARoles
 
     private $typePerEntities;
 
-    private function __construct(eZContentObjectAttribute $contentObjectAttribute)
+    private $includeExpired = false;
+
+    private function __construct(eZContentObjectAttribute $contentObjectAttribute, $includeExpired = false)
     {
         $this->contentObjectAttribute = $contentObjectAttribute;
         $this->attributeSettings = (array)json_decode($contentObjectAttribute->attribute('data_text'), true);
         $this->classSettings = $this->contentObjectAttribute->attribute('class_content');
         $this->language = eZLocale::currentLocaleCode();
+        $this->includeExpired = $includeExpired;
     }
 
-    public static function instance(eZContentObjectAttribute $contentObjectAttribute)
+    public static function instance(eZContentObjectAttribute $contentObjectAttribute, $includeExpired = false)
     {
-        if (!isset(self::$instances[$contentObjectAttribute->attribute('id')])) {
-            self::$instances[$contentObjectAttribute->attribute('id')] = new OpenPARoles($contentObjectAttribute);
+        if (!isset(self::$instances[$contentObjectAttribute->attribute('id')][$includeExpired])) {
+            self::$instances[$contentObjectAttribute->attribute('id')][$includeExpired] = new OpenPARoles($contentObjectAttribute, $includeExpired);
         }
 
-        return self::$instances[$contentObjectAttribute->attribute('id')];
+        return self::$instances[$contentObjectAttribute->attribute('id')][$includeExpired];
     }
 
     public function attributes()
     {
         return [
             'roles',
+            'roles_history',
             'roles_per_person',
             'roles_per_entity',
             'people',
@@ -77,6 +81,9 @@ class OpenPARoles
         switch ($name) {
             case 'roles':
                 return $this->getRoles();
+
+            case 'roles_history':
+                return self::instance($this->contentObjectAttribute, true);
 
             case 'roles_per_person':
                 return $this->getRolesPerPerson();
@@ -356,7 +363,9 @@ class OpenPARoles
             if ($roleFilter) {
                 $this->searchQuery[] = $roleFilter;
             }
-            $this->searchQuery[] = 'calendar[start_time,end_time] = [now,*]';
+            if (!$this->includeExpired){
+                $this->searchQuery[] = 'calendar[start_time,end_time] = [now,*]';
+            }
             $this->searchQuery[] = 'sort [raw[attr_priorita_si]=>desc,person.name=>asc]';
             eZDebug::writeDebug(implode(' and ', $this->searchQuery), $this->contentObjectAttribute->attribute('id') . ' ' . __METHOD__);
         }
@@ -424,6 +433,8 @@ class OpenPARoles
                 $attributeIdentifier = 'for_entity';
             } elseif ($sortValue == OpenPARoleType::SORT_PERSON_NAME) {
                 $attributeIdentifier = 'person';
+            } elseif ($sortValue == OpenPARoleType::SORT_START_TIME) {
+                $attributeIdentifier = 'start_time';
             }
 
             if ($attributeIdentifier) {
@@ -438,18 +449,17 @@ class OpenPARoles
                         $bLanguage = $a['metadata']['languages'][0];
                     }
 
-                    if ($attributeIdentifier !== 'role'
+                    if ($attributeIdentifier !== 'role' && $attributeIdentifier !== 'start_time'
                         && isset($a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name'])
                         && isset($b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name'])
                     ) {
-                        $aName = isset($a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name'][$aLanguage]) ?
-                            $a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name'][$aLanguage] :
-                            current($a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name']);
-                        $bName = isset($b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name'][$bLanguage]) ?
-                            $b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name'][$bLanguage] :
-                            current($b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name']);
+                        $aName = $a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name'][$aLanguage]
+                            ?? current($a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name']);
+                        $bName = $b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name'][$bLanguage]
+                            ?? current($b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name']);
 
                         return strcmp($aName, $bName);
+
                     } elseif (isset($a['data'][$aLanguage][$attributeIdentifier]['content'][0])
                         && isset($b['data'][$bLanguage][$attributeIdentifier]['content'][0])
                     ) {

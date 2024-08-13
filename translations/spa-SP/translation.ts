@@ -141,7 +141,7 @@
     </message>
     <message>
       <source>Reading time</source>
-      <translation>Tiempo de leer</translation>
+      <translation>tiempo de lectura</translation>
     </message>
     <message>
       <source>Topics</source>
@@ -551,6 +551,10 @@
       <source>Discover the details of the event on</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Previous assignments</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -710,7 +714,7 @@
     </message>
     <message>
       <source>Advanced search</source>
-      <translation>Búsqueda Avanzada</translation>
+      <translation>Búsqueda avanzada</translation>
     </message>
     <message>
       <source>in</source>
@@ -750,7 +754,7 @@
     </message>
     <message>
       <source>Content type</source>
-      <translation>Tipo de contenido</translation>
+      <translation>tipo de contenido</translation>
     </message>
     <message>
       <source>Name</source>
@@ -1031,7 +1035,7 @@
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres usar uno de estos?</translation>
+      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres utilizar uno de estos?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
