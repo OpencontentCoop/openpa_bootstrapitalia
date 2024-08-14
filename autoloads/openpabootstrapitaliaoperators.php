@@ -430,8 +430,8 @@ class OpenPABootstrapItaliaOperators
             case 'decode_banner_color':
                 $content = $namedParameters['content'];
                 $operatorValue = [
-                    'background_color_class' => 'bg-white border border-primary',
-                    'text_color_class' => ''
+                    'background_color_class' => 'bg-primary',
+                    'text_color_class' => 'text-white'
                 ];
 
                 if ($content instanceof eZContentObject || $content instanceof eZContentObjectTreeNode){
