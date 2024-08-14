@@ -23,6 +23,7 @@ PolicyOmitList[]=segnalazioni
 PolicyOmitList[]=accesso_redazione
 PolicyOmitList[]=manifest.json
 PolicyOmitList[]=service-worker.js
+PolicyOmitList[]=favicon
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login
