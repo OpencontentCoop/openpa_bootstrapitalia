@@ -464,3 +464,8 @@
           })
         })
     {/literal}</script>
+    <style>
+        .relations-searchbox .fa-stack.text-info{ldelim}
+            display:none !important;
+        {rdelim}
+    </style>
