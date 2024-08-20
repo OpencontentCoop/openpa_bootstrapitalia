@@ -61,6 +61,11 @@
             drowRelationMap({$attribute.id},[{foreach $markers as $marker}[{$marker.latitude},{$marker.longitude}]{delimiter},{/delimiter}{/foreach}]);
         {rdelim});
     </script>
+    <style>
+        .map-wrapper.map-column .leaflet-clickable{ldelim}
+            cursor: grab !important;
+        {rdelim}
+    </style>
 
 {/if}
 

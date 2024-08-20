@@ -49,9 +49,7 @@
         {/if}
         </div>
     {/if}
-
-
-
+    
     <div class="map-wrapper map-column mt-4 mb-5">
         <div id="relations-map-{$attribute.id}" style="width: 100%; height: 400px;"></div>
     </div>
@@ -68,7 +66,7 @@
             var markers = L.markerClusterGroup().addTo(map);            
             var customIcon = L.MakiMarkers.icon({icon: "star", color: "#f00", size: "l"});            
             $.each(latLngList, function () {
-                var postMarker = new L.marker(this,{icon:customIcon});
+                var postMarker = new L.marker(this,{icon:customIcon, interactive: false});
                 postMarker.addTo(markers)
             });            
             if (markers.getLayers().length > 0) {
@@ -81,6 +79,11 @@
         drowRelationMap({$attribute.id},[{foreach $markers as $marker}[{$marker.latitude},{$marker.longitude}]{delimiter},{/delimiter}{/foreach}]);
         {rdelim});
     </script>
+    <style>
+        .map-wrapper.map-column .leaflet-clickable{ldelim}
+            cursor: grab !important;
+        {rdelim}
+    </style>
 
 {/if}
 

@@ -177,4 +177,12 @@ abstract class AbstractBootstrapItaliaInputValidator implements BootstrapItaliaI
                 || $hasData[0] !== 'no_relation'
             );
     }
+
+    protected function hasGeo(
+        eZContentObjectAttribute $contentObjectAttribute
+    ): bool {
+        $varName = $this->base . "_data_gmaplocation_address_" . $contentObjectAttribute->attribute("id");
+        $value = $this->http->hasPostVariable($varName) ? $this->http->postVariable($varName) : false;
+        return !empty($value);
+    }
 }
