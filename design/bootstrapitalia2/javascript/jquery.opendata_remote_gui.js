@@ -210,7 +210,7 @@
             let plugin = this;
             return L.geoJson(response, {
                 pointToLayer: function (feature, latlng) {
-                    let customIcon = L.MakiMarkers.icon({icon: 'circle', size: 'l'});
+                    let customIcon = L.divIcon({html: '<i class="fa fa-map-marker fa-4x text-primary"></i>',iconSize: [20, 20],className: 'myDivIcon'});;
                     return L.marker(latlng, {icon: customIcon});
                 },
                 onEachFeature: function (feature, layer) {
