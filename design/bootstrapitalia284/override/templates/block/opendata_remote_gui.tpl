@@ -43,7 +43,7 @@
                                 <label for="{$block.id}-search-input" class="visually-hidden">{$searchPlaceholder|wash()}</label>
                                 <input type="search" data-search="q" class="autocomplete form-control" placeholder="{$searchPlaceholder|wash()}" id="{$block.id}-search-input">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Submit'|i18n('bootstrapitalia/documents')}</button>
+                                    <button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Search'|i18n('design/plain/layout')}</button>
                                 </div>
                                 <span class="autocomplete-icon" aria-hidden="true" aria-labelledby="{$block.id}">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
                             </div>
