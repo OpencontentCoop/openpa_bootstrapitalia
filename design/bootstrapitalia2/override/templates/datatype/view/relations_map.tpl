@@ -64,7 +64,7 @@
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
             var markers = L.markerClusterGroup().addTo(map);            
-            var customIcon = L.MakiMarkers.icon({icon: "star", color: "#f00", size: "l"});            
+            var customIcon = L.divIcon({html: '<i class="fa fa-map-marker fa-4x text-primary"></i>',iconSize: [20, 20],className: 'myDivIcon'});
             $.each(latLngList, function () {
                 var postMarker = new L.marker(this,{icon:customIcon, interactive: false});
                 postMarker.addTo(markers)
