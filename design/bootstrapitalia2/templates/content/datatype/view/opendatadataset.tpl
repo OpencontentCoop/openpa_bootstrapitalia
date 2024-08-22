@@ -152,6 +152,11 @@
     {/foreach}
     {undef $index}
     </div>
+    {if $attribute.data_int|gt(0)}
+        <div class="my-2">
+            <h3 class="h6">{'Last modified'|i18n('bootstrapitalia')}: <span class="h6 fw-normal">{$attribute.data_int|l10n( 'shortdatetime' )}</span></h3>
+        </div>
+    {/if}
 
     <div class="dataset-modal modal fade">
         <div class="modal-dialog modal-lg">

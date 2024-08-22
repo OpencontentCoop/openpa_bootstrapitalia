@@ -1,0 +1,24 @@
+.card-body .opendatadataset_view_form,
+.card-body .opendatadataset_view_name,
+.card-body .data_actions_and_alerts {
+    display: none !important;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td.dtr-control,
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th.dtr-control {
+    padding-left: 40px;
+}
+
+.opendatadataset_view_form input[type="text"] {
+    padding-left: .75rem
+}
+
+.opendatadataset_view_form i.fa-search {
+    color: #adb5bd;
+    font-size: 1rem;
+}
+
+.opendatadataset_view_form input[type="text"]::placeholder {
+    color: #adb5bd;
+    font-size: 1rem;
+}
