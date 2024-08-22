@@ -66,10 +66,10 @@
 }
 
 .block-evidence {
-  @extend .bg-600;
+  @extend .bg-grey-card;
 
   .evidence-text {
-    color: #fff;
+    color: get-color(black, main);
 
     p {
       margin: 0;
@@ -77,8 +77,8 @@
 
     a {
       text-transform: uppercase;
-      color: #000;
-      background: #f8c22e !important;
+      color: #fff;
+      background: $primary !important;
       text-decoration: none !important;
       font-size: .8em;
       padding: 2px 10px;
