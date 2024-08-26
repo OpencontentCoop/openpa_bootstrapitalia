@@ -127,6 +127,11 @@ class StanzaDelCittadinoClient
         return $this->request('GET', '/api/categories');
     }
 
+    public function postCategory(array $data)
+    {
+        return $this->request('POST', '/api/categories', $data);
+    }
+
     public function getServiceByIdentifier($identifier)
     {
         return $this->getService($identifier);

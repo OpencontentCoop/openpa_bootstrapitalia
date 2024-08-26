@@ -387,7 +387,11 @@ class ServiceSync
                                 }
                             }
                             if (!$localCategoryId) {
-                                throw new Exception("Remote topic $localCategory not found");
+                                $newCategory = $this->client->postCategory(['name' => $localCategory]);
+                                $localCategoryId = $newCategory['slug'] ?? null;
+                            }
+                            if (!$localCategoryId) {
+                                throw new Exception("Remote topic $localCategory not found and creations request has failed");
                             }
                             $this->client->patchService(
                                 $remoteService['id'],
