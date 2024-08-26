@@ -69,7 +69,9 @@ class LockEditConnector extends OpendataConnector
                         }
                     } elseif ($type === 'Subtree') {
                         foreach ($values as $value) {
-                            if (strpos($object->mainNode()->attribute('path_string'), $value) !== false) {
+                            $node = $object->mainNode();
+                            if ($node instanceof eZContentObjectTreeNode
+                                && strpos($node->attribute('path_string'), $value) !== false) {
                                 return true;
                             }
                         }
