@@ -2,6 +2,7 @@
 
 use Opencontent\Easyontology\MapperRegistry;
 use Opencontent\Easyontology\Map;
+use Opencontent\Installer\AbstractStepInstaller;
 
 class BootstrapItaliaInstallerUtils
 {
@@ -168,7 +169,7 @@ class BootstrapItaliaInstallerUtils
                 continue;
             }
 
-            if ($tag->attribute( 'main_tag_id' ) == $mainTag->attribute('id')) {
+            if ($tag->attribute('main_tag_id') == $mainTag->attribute('id')) {
                 continue;
             }
 
@@ -219,6 +220,69 @@ class BootstrapItaliaInstallerUtils
             }
 
             $db->commit();
+        }
+    }
+
+    public static function renameTagMembroInComponente(AbstractStepInstaller $step)
+    {
+        $db = eZDB::instance();
+        $tags = eZTagsObject::fetchByKeyword('Membro');
+        $membroM = $tags[0] ?? null;
+        $refreshList = [];
+        if ($membroM instanceof eZTagsObject) {
+            $componenteS = null;
+            $synonyms = $membroM->getSynonyms();
+            foreach ($synonyms as $synonym) {
+                if ($synonym->attribute('keyword') == 'Componente') {
+                    $componenteS = $synonym;
+                }
+            }
+
+            $membroMId = (int)$membroM->attribute('id');
+            $relatedList = $db->arrayQuery(
+                'SELECT DISTINCT o.id FROM eztags_attribute_link l
+                                   INNER JOIN ezcontentobject o ON l.object_id = o.id
+                                   AND l.objectattribute_version = o.current_version
+                                   AND o.status = 1
+                                   WHERE l.keyword_id = ' . $membroMId
+            );
+            $refreshList = array_merge($refreshList, array_column($relatedList, 'id'));
+
+            $updateMQuery = "UPDATE eztags_keyword 
+                SET keyword = 'Componente' 
+                WHERE keyword_id = $membroMId AND locale = 'ita-IT' AND keyword = 'Membro'";
+            $step->getLogger()->info(' - Change Membro keyword');
+            $db->arrayQuery($updateMQuery);
+
+            if ($componenteS instanceof eZTagsObject) {
+                $componenteSId = $componenteS->attribute('id');
+                $relatedList = $db->arrayQuery(
+                    'SELECT DISTINCT o.id FROM eztags_attribute_link l
+                                   INNER JOIN ezcontentobject o ON l.object_id = o.id
+                                   AND l.objectattribute_version = o.current_version
+                                   AND o.status = 1
+                                   WHERE l.keyword_id = ' . $componenteSId
+                );
+                $refreshList = array_merge($refreshList, array_column($relatedList, 'id'));
+                $updateSQuery = "UPDATE eztags_keyword 
+                    SET keyword = 'Membro' 
+                    WHERE keyword_id = $componenteSId AND locale = 'ita-IT' AND keyword = 'Componente'";
+                $step->getLogger()->info(' - Change Componente synonym');
+                $db->arrayQuery($updateSQuery);
+            }
+
+            $step->getLogger()->info(sprintf(' - Refresh %s objects', count($refreshList)));
+            foreach ($refreshList as $refresh) {
+                $object = eZContentObject::fetch((int)$refresh);
+                if ($object instanceof eZContentObject) {
+                    $class = $object->contentClass();
+                    $object->setName($class->contentObjectName($object));
+                    $object->store();
+                    eZSearch::getEngine()->addObject($object, true);
+                    eZContentObject::clearCache();
+                }
+            }
+            eZContentCacheManager::clearContentCache($refreshList);
         }
     }
 }
