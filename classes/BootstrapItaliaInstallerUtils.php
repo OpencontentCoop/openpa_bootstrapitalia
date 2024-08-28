@@ -285,4 +285,22 @@ class BootstrapItaliaInstallerUtils
             eZContentCacheManager::clearContentCache($refreshList);
         }
     }
+
+    public static function appendToFooterLink(AbstractStepInstaller $step){
+        $remoteId = $step->getStep()['remote_id'];
+        $object = eZContentObject::fetchByRemoteID($remoteId);
+        if ($object instanceof eZContentObject) {
+            $home = OpenPaFunctionCollection::fetchHome();
+            $dataMap = $home->dataMap();
+            $footerLinks = $dataMap['link_nel_footer'] ?? null;
+            if ($footerLinks) {
+                $currentItems = explode('-', $footerLinks->toString());
+                $currentItems[] = $object->attribute('id');
+                $footerLinks->fromString(implode('-', $currentItems));
+                $footerLinks->store();
+            }
+        } else {
+            $step->getLogger()->error("Object $remoteId not found");
+        }
+    }
 }
