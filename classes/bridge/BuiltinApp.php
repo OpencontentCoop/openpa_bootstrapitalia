@@ -143,6 +143,11 @@ class BuiltinApp extends OpenPATempletizable
         return OpenPAINI::variable('StanzaDelCittadinoBridge', 'RootId_' . $this->getAppIdentifier(), 'root');
     }
 
+    protected function getTemplate(): string
+    {
+        return OpenPAINI::variable('StanzaDelCittadinoBridge', 'Template_' . $this->getAppIdentifier(), 'openpa/built_in_app.tpl');
+    }
+
     protected function isAppEnabled(): bool
     {
         $pagedata = new \OpenPAPageData();
@@ -236,7 +241,7 @@ class BuiltinApp extends OpenPATempletizable
         $tpl->setVariable('built_in_app_api_base_url', self::getStanzaDelCittadinoBridge()->getApiBaseUri());
 
         $Result = [];
-        $Result['content'] = $tpl->fetch('design:openpa/built_in_app.tpl');
+        $Result['content'] = $tpl->fetch('design:' . $this->getTemplate());
         $path = [];
         $homeUrl = '/';
         eZURI::transformURI($homeUrl);
