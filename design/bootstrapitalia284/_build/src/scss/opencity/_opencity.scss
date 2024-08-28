@@ -611,7 +611,7 @@ ul.link-list,
       h3.card-title {
         @include font(16, 24);
         line-height: 1.5;
-        font-weight: 700;
+        font-weight: 600;
 
         @include media-breakpoint-up(sm) {
           line-height: 1.556;
