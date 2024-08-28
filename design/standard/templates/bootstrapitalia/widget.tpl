@@ -14,5 +14,9 @@
             <a href="{'/bootstrapitalia/widget/inefficiency'|ezurl(no)}"
                class="btn btn-xl btn-primary">{'Report a inefficiency'|i18n('bootstrapitalia/footer')}</a>
         </div>
+        <div class="col">
+            <a href="{'/bootstrapitalia/widget/service-form'|ezurl(no)}"
+               class="btn btn-xl btn-primary">{'Report a inefficiency'|i18n('bootstrapitalia/footer')}</a>
+        </div>
     </div>
 </div>
