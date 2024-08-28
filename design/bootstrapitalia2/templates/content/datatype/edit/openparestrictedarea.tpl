@@ -17,7 +17,7 @@
 {/foreach}
 </table>
 {/if}
-<input type="hidden" name="AddRestrictedUserObjectStartNode" value="{ezini('NodeSettings', 'UserRootNode', 'content.ini')}">
+<input type="hidden" name="AddRestrictedUserObjectStartNode" value="{ezini('UserSettings', 'DefaultUserPlacement', 'site.ini')}">
 <button class="btn btn-secondary btn-sm" type="submit"
         name="CustomActionButton[{$attribute.id}_browse_user]">
     <i aria-hidden="true" class="fa fa-plus"></i> Aggiungi utente

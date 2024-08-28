@@ -58,8 +58,9 @@
 
     <div class="col-md-3 text-right text-primary">{'Section'|i18n( 'bootstrapitalia' )}:</div>
     <div class="col-md-9">
+        {def $current_section = fetch( 'section', 'object', hash( 'section_id', $node.object.section_id ))}
         {def $sections = $node.object.allowed_assign_section_list}
-        {if and($node.can_edit, count($sections)|gt(1))}
+        {if and($node.can_edit, count($sections)|gt(1), $current_section.identifier|contains('restricted_area_')|not())}
             <form name="changesection" id="changesection" method="post" action={concat( 'content/edit/', $node.object.id )|ezurl}>
                 <input type="hidden" name="RedirectRelativeURI" value="{$node.url_alias|wash}" />
                 <input type="hidden" name="ChangeSectionOnly" value="1" />
@@ -80,9 +81,9 @@
                 </div>
             </form>
         {else}
-            {fetch( 'section', 'object', hash( 'section_id', $node.object.section_id )).name|wash}
+            {$current_section.name|wash}
         {/if}
-        {undef $sections}
+        {undef $sections $current_section}
     </div>
 
     <div class="col-md-3 text-right text-primary">{'Content type'|i18n( 'bootstrapitalia' )}:</div>
