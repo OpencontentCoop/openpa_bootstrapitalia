@@ -18,18 +18,25 @@ BuiltInWidgetSource_satisfy=https://static.opencityitalia.it/widgets/satisfy/ver
 
 BuiltInWidgetSource_login=https://%host%/widgets/login-box/bootstrap-italia@2/js/login-box.js
 
+BuiltInWidgetSource_service-form=https://static.opencityitalia.it/widgets/formio/js/web-formio.js
+BuiltInWidgetStyle_service-form=https://static.opencityitalia.it/widgets/formio/css/web-formio.css
+
 RootId_inefficiency=oc-inefficiencies
 RootId_support=oc-helpdesk
 RootId_booking=oc-bookings
 RootId_login=oc-login-box
+RootId_service-form=
+Template_service-form=openpa/built_in_app_service_form.tpl
 
 ServiceIdentifier_support=helpdesk
 ServiceIdentifier_booking=bookings
 ServiceIdentifier_inefficiency=inefficiencies
+ServiceIdentifier_service-form=service-form
 
 ContactsField_inefficiency=link_segnalazione_disservizio
 ContactsField_support=link_assistenza
 ContactsField_booking=link_prenotazione_appuntamento
+ContactsField_service-form=link_prenotazione_appuntamento
 
 [AccessPage]
 Title=Sign in

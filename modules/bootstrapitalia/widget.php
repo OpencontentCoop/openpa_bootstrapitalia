@@ -6,7 +6,7 @@ $Module->setExitStatus(eZModule::STATUS_IDLE);
 $http = eZHTTPTool::instance();
 
 $builtin = $Params['Identifier'] ?? null;
-if (!$builtin || !in_array($builtin, ['booking', 'support', 'inefficiency'])) {
+if (!$builtin || !in_array($builtin, ['booking', 'support', 'inefficiency', 'service-form'])) {
     $tpl = eZTemplate::factory();
     $Result = [];
     $Result['path'] = [];
@@ -30,6 +30,8 @@ if (!$builtin || !in_array($builtin, ['booking', 'support', 'inefficiency'])) {
         $app = new BuiltinApp('support', 'Request assistance');
     } elseif ($builtin === 'inefficiency') {
         $app = new BuiltinApp('inefficiency', 'Report a inefficiency');
+    } elseif ($builtin === 'service-form') {
+        $app = new BuiltinApp('service-form', 'Compila');
     }
     if (isset($app)) {
         $Result = $app->getModuleResult();
