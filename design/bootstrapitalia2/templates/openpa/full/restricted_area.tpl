@@ -13,9 +13,12 @@
                     <h4 class="py-2">{$node|attribute('short_title').content|wash()}</h4>
                 {/if}
 
-                {include uri='design:openpa/full/parts/main_attributes.tpl'}
+                {if $node|has_attribute('short_description')}
+                    <div class="lead">
+                        {attribute_view_gui attribute=$node|attribute('short_description')}
+                    </div>
+                {/if}
 
-                {include uri='design:openpa/full/parts/info.tpl'}
             {else}
 
 
