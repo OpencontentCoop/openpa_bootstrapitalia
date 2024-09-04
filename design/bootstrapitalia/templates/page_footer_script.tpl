@@ -56,3 +56,5 @@
     {/if}
     {undef $sentry_script_loader}
 {/if}
+
+{include uri='design:page_footer_plausible.tpl'}
