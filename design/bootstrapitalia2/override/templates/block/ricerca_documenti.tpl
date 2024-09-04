@@ -283,7 +283,7 @@
 					<h3 class="green-title-big mb-8">
 						<a class="text-decoration-none" href="{{:baseUrl}}openpa/object/{{:metadata.id}}">{{:~i18n(metadata.name)}}</a>
 					</h3>
-					{{if ~i18n(data, 'description')}}<p class="text-paragraph">{{:~stripTag(~i18n(data, 'description'))}}</p>{{/if}}
+					{{if ~i18n(data, 'abstract')}}<p class="text-paragraph">{{:~stripTag(~i18n(data, 'abstract'))}}</p>{{/if}}
 					<ul class="list-inline m-0"><li class="list-inline-item"><strong>{{:~i18n(data, 'document_type')}}</strong>{{if ~i18n(data, numberIdentifier)}} ({{:~i18n(data, numberIdentifier)}}){{/if}}</li></ul>
 					{{if ~i18n(data, 'area') || ~i18n(data, 'has_organization')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{/literal}{'Administrative area'|i18n('bootstrapitalia/documents')}/{'Office'|i18n('bootstrapitalia/documents')}{literal}:</strong></li>{{if ~i18n(data, 'area')}}{{for ~i18n(data,'area')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}{{if ~i18n(data, 'has_organization')}}{{for ~i18n(data,'has_organization')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}</ul>{{/if}}
 					{{if ~i18n(data, 'interroganti')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{/literal}{'Questioners'|i18n('bootstrapitalia/documents')}{literal}:</strong></li>{{for ~i18n(data,'interroganti')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}
