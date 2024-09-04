@@ -126,6 +126,12 @@ if ($http->hasPostVariable('StanzaDelCittadinoBuiltin') && $hasAdminAccess) {
 }
 $tpl->setVariable('built_in_options', BuiltinApp::getOptionsDefinition());
 
+if ($http->hasPostVariable('Moderation') && $hasAdminAccess) {
+    ModerationHandler::setIsEnabled((bool)$http->hasPostVariable('ModerationIsEnabled'));
+    $module->redirectTo('/bootstrapitalia/info');
+    return;
+}
+
 if ($http->hasPostVariable('AccessPageSettings') && $hasAdminAccess) {
     PersonalAreaLogin::instance()->setAccess('cie', $http->hasPostVariable('AccessPageSettingsCieEnable'));
     PersonalAreaLogin::instance()->setAccess('eidas', $http->hasPostVariable('AccessPageSettingsEidasEnable'));

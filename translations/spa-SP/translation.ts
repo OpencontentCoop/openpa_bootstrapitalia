@@ -57,7 +57,7 @@
     </message>
     <message>
       <source>File type</source>
-      <translation>Tipo de archivo</translation>
+      <translation>tipo de archivo</translation>
     </message>
     <message>
       <source>days</source>
@@ -81,7 +81,7 @@
     </message>
     <message>
       <source>Search in</source>
-      <translation>Busca en</translation>
+      <translation>Buscar en</translation>
     </message>
     <message>
       <source>Filters</source>
@@ -644,7 +644,7 @@
     </message>
     <message>
       <source>Links</source>
-      <translation>Enlaces</translation>
+      <translation>Campo de golf</translation>
     </message>
     <message>
       <source>Follow us</source>
@@ -754,7 +754,7 @@
     </message>
     <message>
       <source>Content type</source>
-      <translation>tipo de contenido</translation>
+      <translation>Tipo de contenido</translation>
     </message>
     <message>
       <source>Name</source>
@@ -774,7 +774,7 @@
     </message>
     <message>
       <source>Any year</source>
-      <translation>Cualquier año</translation>
+      <translation>cualquier año</translation>
     </message>
     <message>
       <source>Logical conditions</source>
@@ -1003,7 +1003,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Llena algunos datos sobre tu lugar</translation>
+      <translation>Llena algunos datos sobre tu lugar.</translation>
     </message>
     <message>
       <source>Select place</source>
@@ -1937,6 +1937,129 @@
     </message>
     <message>
       <source>Return to the home page</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/moderation</name>
+    <message>
+      <source>version(s) under approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Pending approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approve</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Deny</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Pending</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approved</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Rejected</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The content object awaits approval before it can be published.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>All</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Unread list</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Pending list</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approved list</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Rejected list</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Awaits approval by editor</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Awaits your approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Was approved for publishing</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Was not approved for publishing</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Warning: the activities of this account are subject to moderation: the changes will be visible after approval by an editor</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>There is currently %version of this content awaiting approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>There are currently %versions of this content awaiting approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Warning: by approving this version, other versions currently awaiting moderation will be archived.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>version</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>versions</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>By publishing content, versions currently awaiting moderation will be archived</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request for approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version has been approved</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was rejected</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was archived following the publication of version %id</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approval dashboard</source>
       <translation type="unfinished"/>
     </message>
   </context>

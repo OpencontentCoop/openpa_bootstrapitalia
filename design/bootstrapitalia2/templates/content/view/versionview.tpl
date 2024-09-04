@@ -5,13 +5,16 @@
 
 {default content_object=$node.object}
 <script>{literal}$(document).ready(function (){$('header').addClass('w-100')}){/literal}</script>
-{include uri='design:parts/website_toolbar_versionview.tpl'}
-
+{if ezhttp_hasvariable( 'embedded', 'get' )|not()}
+    {include uri='design:parts/website_toolbar_versionview.tpl'}
+{/if}
+<div class="mt-5 pt-5">
 {if $assignment}
    {node_view_gui view=full with_children=false() versionview_mode=true() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$assignment.temp_node node=$node}
 {else}
   {node_view_gui view=full with_children=false() versionview_mode=true() is_editable=false() is_standalone=false() content_object=$object node_name=$object.name content_node=$node node=$node}
 {/if}
+</div>
 
 <form method="post" action={concat("content/versionview/",$object.id,"/",$object_version,"/",$language)|ezurl}>
 

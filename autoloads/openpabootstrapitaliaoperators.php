@@ -87,6 +87,15 @@ class OpenPABootstrapItaliaOperators
             'image_url_list',
             'render_image',
             'image_class_and_style',
+            'has_pending_approval',
+            'can_approve_version',
+            'has_child_pending_approval',
+            'is_approval_enabled',
+            'current_user_needs_approval',
+            'pending_approval_count',
+            'approval_status_by_version_id',
+            'current_class_needs_approval',
+            'approval_unread_message_count',
         );
     }
 
@@ -225,6 +234,26 @@ class OpenPABootstrapItaliaOperators
                 'height' => array('type' =>  'integer', 'required' => true, 'default' => 0),
                 'context' => array('type' =>  'string', 'required' => false, 'default' => 'main'),
             ),
+            'has_pending_approval' =>  array(
+                'object_id' => array('type' => 'integer', 'required' => true, 'default' => 0),
+                'locale' => array('type' => 'string', 'required' => true, 'default' => ''),
+            ),
+            'can_approve_version' =>  array(
+                'version_id' => array('type' => 'integer', 'required' => true, 'default' => 0),
+            ),
+            'has_child_pending_approval' =>  array(
+                'node_id' => array('type' => 'integer', 'required' => true, 'default' => 0),
+                'locale' => array('type' => 'string', 'required' => true, 'default' => ''),
+            ),
+            'current_user_needs_approval' =>  array(
+                'class_identifier' => array('type' => 'string', 'required' => false, 'default' => null),
+            ),
+            'approval_status_by_version_id' =>  array(
+                'version_id' => array('type' => 'integer', 'required' => true, 'default' => 0),
+            ),
+            'current_class_needs_approval' =>  array(
+                'class_identifier' => array('type' => 'string', 'required' => false, 'default' => null),
+            ),
         );
     }
 
@@ -239,6 +268,45 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'approval_unread_message_count':
+                $operatorValue = ModerationMessage::unreadApprovalCount();
+                break;
+
+            case 'current_class_needs_approval':
+                $operatorValue = ModerationHandler::classNeedModeration($namedParameters['class_identifier']);
+                break;
+
+            case 'approval_status_by_version_id':
+                $operatorValue = ModerationApproval::fetchStatusByContentObjectVersionId($namedParameters['version_id']);
+                break;
+
+            case 'pending_approval_count':
+                $operatorValue = ModerationApproval::fetchCount(['status' => ModerationHandler::STATUS_PENDING], false);
+                break;
+
+            case 'current_user_needs_approval':
+                $operatorValue = ModerationHandler::userNeedModeration(eZUser::currentUser());
+                if ($namedParameters['class_identifier'] && $operatorValue){
+                    $operatorValue = ModerationHandler::classNeedModeration($namedParameters['class_identifier']);
+                }
+                break;
+
+            case 'is_approval_enabled':
+                $operatorValue = ModerationHandler::isEnabled();
+                break;
+                
+            case 'has_child_pending_approval':
+                $operatorValue = ModerationHandler::hasChildPendingApproval((int)$namedParameters['node_id'], (string)$namedParameters['locale']);
+                break;
+
+            case 'can_approve_version':
+                $operatorValue = ModerationHandler::canApproveVersion((int)$namedParameters['version_id']);
+                break;
+
+            case 'has_pending_approval':
+                $operatorValue = ModerationHandler::hasPendingApproval((int)$namedParameters['object_id'], (string)$namedParameters['locale']);
+                break;
 
             case 'custom_booking_is_enabled':
                 $operatorValue = StanzaDelCittadinoBooking::factory()->isEnabled();

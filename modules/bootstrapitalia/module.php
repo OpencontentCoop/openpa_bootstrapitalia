@@ -78,6 +78,17 @@ $ViewList['widget'] = [
     'params' => ['Identifier'],
     'unordered_params' => [],
 ];
+$ViewList['approval'] = [
+    'functions' => ['approval'],
+    'script' => 'approval.php',
+    'params' => ['VersionId', 'Action'],
+    'unordered_params' => [
+        'offset' => 'Offset',
+        'assignment' => 'Assignment',
+        'class' => 'Class',
+        'status' => 'Status'
+    ],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];
@@ -100,3 +111,4 @@ $FunctionList['opencity_info_editor'] = [];
 $FunctionList['service_tools'] = [];
 $FunctionList['booking_config'] = [];
 $FunctionList['widget'] = [];
+$FunctionList['approval'] = [];
