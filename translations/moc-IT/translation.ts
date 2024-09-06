@@ -460,6 +460,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Payments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation type="unfinished"/>
     </message>

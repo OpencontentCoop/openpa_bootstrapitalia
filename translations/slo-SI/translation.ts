@@ -165,7 +165,7 @@
     </message>
     <message>
       <source>Further details</source>
-      <translation>Nadaljnje podrobnosti</translation>
+      <translation>Dodatne podrobnosti</translation>
     </message>
     <message>
       <source>Go to content</source>
@@ -460,6 +460,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Payments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation type="unfinished"/>
     </message>
@@ -722,7 +726,7 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>vsa spletna stran</translation>
+      <translation>vse spletne strani</translation>
     </message>
     <message>
       <source>only information of type</source>
@@ -1007,7 +1011,7 @@
     </message>
     <message>
       <source>Select place</source>
-      <translation>Izberite kraj</translation>
+      <translation>Izberite mesto</translation>
     </message>
     <message>
       <source>Nowhere</source>

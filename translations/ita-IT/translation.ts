@@ -460,6 +460,10 @@
       <translation>Iscrizioni</translation>
     </message>
     <message>
+      <source>Payments</source>
+      <translation>Pagamenti</translation>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation>Menù principale</translation>
     </message>

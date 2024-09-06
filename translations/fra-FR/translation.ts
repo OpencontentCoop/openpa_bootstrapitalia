@@ -460,6 +460,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Payments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation type="unfinished"/>
     </message>
@@ -798,7 +802,7 @@
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Vérifiez l’orthographe des mots-clés.</translation>
+      <translation>Vérifiez l'orthographe des mots-clés.</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>

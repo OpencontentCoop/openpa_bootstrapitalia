@@ -460,6 +460,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Payments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation type="unfinished"/>
     </message>
@@ -754,7 +758,7 @@
     </message>
     <message>
       <source>Content type</source>
-      <translation>Tipo de contenido</translation>
+      <translation>tipo de contenido</translation>
     </message>
     <message>
       <source>Name</source>
