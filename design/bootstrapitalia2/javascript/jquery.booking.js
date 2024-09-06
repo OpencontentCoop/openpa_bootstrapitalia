@@ -199,7 +199,7 @@
       self.setCurrentData(JSON.parse(data))
 
       if (self.settings.profileUrl && self.settings.tokenUrl) {
-        $.retryAjax({
+        $.ajax({
           retryLimit: 1,
           url: self.settings.tokenUrl,
           dataType: 'json',
