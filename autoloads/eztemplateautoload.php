@@ -73,6 +73,7 @@ $eZTemplateOperatorArray = [
             'approval_status_by_version_id',
             'current_class_needs_approval',
             'approval_unread_message_count',
+            'download_url',
         ],
     ],
 ];

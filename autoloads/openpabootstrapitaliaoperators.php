@@ -96,6 +96,7 @@ class OpenPABootstrapItaliaOperators
             'approval_status_by_version_id',
             'current_class_needs_approval',
             'approval_unread_message_count',
+            'download_url',
         );
     }
 
@@ -268,6 +269,30 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'download_url':
+                $href = $operatorValue;
+                if (!parse_url($href, PHP_URL_SCHEME)){
+                    $nodeId = eZURLAliasML::fetchNodeIDByPath($href);
+                    if ($nodeId) {
+                        $contentNode = eZContentObjectTreeNode::fetch((int)$nodeId);
+                        if ($contentNode instanceof eZContentObjectTreeNode
+                            && in_array($contentNode->attribute('class_identifier'), ['file'])
+                        ) {
+                            $dataMap = $contentNode->attribute('data_map');
+                            if (isset($dataMap['file']) && $dataMap['file']->hasContent()){
+                                $fileAttribute = $dataMap['file'];
+                                $operatorValue = sprintf(
+                                    '/content/download/%s/%s/version/current/file/%s',
+                                    $fileAttribute->attribute('contentobject_id'),
+                                    $fileAttribute->attribute('id'),
+                                    rawurlencode($fileAttribute->content()->attribute('original_filename'))
+                                );
+                            }
+                        }
+                    }
+                }
+                break;
 
             case 'approval_unread_message_count':
                 $operatorValue = ModerationMessage::unreadApprovalCount();
