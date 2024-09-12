@@ -231,7 +231,9 @@
                 settings: '{if is_set($attribute.content.settings.chart)}{$attribute.content.settings.chart}{/if}'
             {rdelim},
             datatable: {ldelim}
-                columns: JSON.parse('{$columns|json_encode()}')
+                columns: JSON.parse('{$columns|json_encode()}'),
+                defaultOrder: "{cond(and(is_set($attribute.content.settings.table.order),$attribute.content.settings.table.order|eq('asc')), 'asc', 'desc')}",
+                viewAsDescriptionList: {cond(and(is_set($attribute.content.settings.table.view),$attribute.content.settings.table.view|eq('description-list')), 'true', 'false')}
             {rdelim},
             counter: {ldelim}
                 label: "{if is_set($attribute.content.settings.counter.label)}{$attribute.content.settings.counter.label}{else}{$attribute.content.item_name|wash()}{/if}",
@@ -245,8 +247,10 @@
                 cancel: "{'Cancel operation'|i18n('opendatadataset')}",
                 delete_dataset: "{'I understand the consequences, delete this dataset'|i18n('opendatadataset')}",
                 import: "{'Import'|i18n('opendatadataset')}",
-                select: "{'Select'|i18n('opendatadataset')}"
-            {rdelim}
+                select: "{'Select'|i18n('opendatadataset')}",
+                search_placeholder: "{'Search by keyword'|i18n('bootstrapitalia')}"
+            {rdelim},
+            searchInput: {cond($attribute.content.settings.search_form, 'true', 'false')}
         {rdelim});
         {rdelim}else{ldelim}
             console.log('can not load datasetView plugin');
