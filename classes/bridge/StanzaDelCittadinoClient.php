@@ -147,7 +147,7 @@ class StanzaDelCittadinoClient
         return $this->request('PATCH', '/api/services/' . $id, $data);
     }
 
-    public function request($method, $path, $data = null)
+    public function request($method, $path, $data = null, $parseCallback = null)
     {
         $url = $this->apiEndPointBaseUrl . $path;
         eZDebug::writeDebug($method . ' ' . $url, __METHOD__);
@@ -203,6 +203,10 @@ class StanzaDelCittadinoClient
             $body = substr($data, -$info['download_content_length']);
         } else {
             $body = substr($data, $info['header_size']);
+        }
+
+        if (is_callable($parseCallback)){
+            return $parseCallback($info, $headers, $body, $method . ' ' . $url);
         }
 
         return $this->parseResponse($info, $headers, $body, $method . ' ' . $url);

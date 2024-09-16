@@ -51,7 +51,7 @@
                             login.attr('href', trimmedPrefix+'/user/logout');
                             login.html('{/literal}{'Logout'|i18n('bootstrapitalia')}{literal}');
                         }else{
-                            login.attr('href', trimmedPrefix+'/accesso_redazione');
+                            login.attr('href', trimmedPrefix+'/accesso_redazione?r='+(PathArray[0] || ''));
                             login.html('{/literal}{'Site editors access'|i18n('bootstrapitalia')}{literal}');
                         }
                     });

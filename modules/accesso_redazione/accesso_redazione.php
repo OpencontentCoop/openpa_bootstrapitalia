@@ -5,7 +5,10 @@ $Module = $Params['Module'];
 $Module->setExitStatus(eZModule::STATUS_IDLE);
 $tpl = eZTemplate::factory();
 $http = eZHTTPTool::instance();
-
+$redirectNodeId = $http->hasGetVariable('r') ? (int)$http->getVariable('r') : null;
+if ($redirectNodeId > 0 && eZContentObjectTreeNode::fetch($redirectNodeId, false)) {
+    $http->setSessionVariable('RedirectAfterLogin', '/content/view/full/' . $redirectNodeId);
+}
 $bridge = StanzaDelCittadinoBridge::factory();
 
 $localUserLoginUri = '/user/login';
