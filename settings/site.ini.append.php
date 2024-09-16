@@ -24,6 +24,7 @@ PolicyOmitList[]=accesso_redazione
 PolicyOmitList[]=manifest.json
 PolicyOmitList[]=service-worker.js
 PolicyOmitList[]=favicon
+PolicyOmitList[]=image/inefficiency
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login

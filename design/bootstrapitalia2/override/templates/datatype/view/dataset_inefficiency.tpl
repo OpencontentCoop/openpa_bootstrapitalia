@@ -39,6 +39,7 @@
 {/if}
 {set $scripts = $scripts|merge(array(
     'dataTables.responsive.min.js',
+    'jsrender.js',
     'handlebars.min.js',
     'moment-with-locales.min.js',
     'leaflet/leaflet.0.7.2.js',
@@ -127,7 +128,14 @@
             {if $attribute.content.views|contains($view)}
             <li role="presentation" class="nav-item">
                 <a title="{$name|wash()|upfirst}" class="text-decoration-none nav-link{if $index|eq(0)} active{/if} text-sans-serif" data-active_view="{$view}" data-toggle="tab" data-bs-toggle="tab" href="#{$view}-{$attribute.id}">
-                    <i class="view_icon {$icons[$view]} me-2"></i> <span class="opendatadataset_view_name me-2">{$name|wash()|upfirst}</span>
+                    {if $view|eq('table')}
+                        <i class="view_icon fa fa-list me-2"></i> <span class="opendatadataset_view_name me-2">
+                        {'List'|i18n('design/admin/content/browse')}
+                    {else}
+                        <i class="view_icon {$icons[$view]} me-2"></i> <span class="opendatadataset_view_name me-2">
+                        {$name|wash()|upfirst}
+                    {/if}
+                    </span>
                 </a>
             </li>
             {set $index = $index|inc()}
@@ -138,7 +146,6 @@
                 <a href="#" class="text-decoration-none nav-link dataset-fullscreen text-decoration-none">
                     <i class="fa fa-expand" data-reverse="fa fa-compress"></i>
                 </a>
-            </li>
         </ul>
         {/if}
 
@@ -166,16 +173,124 @@
         </div>
     {/if}
 
-    <div class="dataset-modal modal fade">
+    <div class="dataset-modal modal fade" style="z-index:40000">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body pb-3">
+                    <div class="clearfix">
+                        <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
                     <div class="dataset-form clearfix"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script id="tpl-inefficiency-table" type="text/x-jsrender">
+{literal}
+<div class="cmp-info-button-card">
+    <div class="card p-3 p-lg-4 no-after">
+        <div class="card-body p-0">
+            <h3 class="medium-title mb-0">{{:row.subject}}</h3>
+            <p class="card-info">{/literal}Tipologia di segnalazione{literal} <br>
+                <span>{{:row.category}}</span>
+            </p>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{:row.uuid}}"
+                            aria-expanded="false" aria-controls="collapse-{{:row.uuid}}" data-focus-mouse="false">
+                        <span class="d-flex align-items-center">
+                            {/literal}Mostra tutto{literal}
+                        </span>
+                    </button>
+                </div>
+                <div id="collapse-{{:row.uuid}}" class="accordion-collapse pb-0 collapse" role="region">
+                    <div class="accordion-body p-0">
+                        <div class="cmp-info-summary bg-white border-0">
+                            <div class="card">
+                                <div class="card-body p-0">
+                                    <div class="single-line-info border-light">
+                                        <div class="text-paragraph-small">{/literal}Indirizzo{literal}</div>
+                                        <div class="border-light">
+                                            <p class="data-text">
+                                                {{:row.address}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="single-line-info border-light">
+                                        <div class="text-paragraph-small">{/literal}Dettaglio{literal}</div>
+                                        <div class="border-light">
+                                            <p class="data-text">
+                                                {{:row.text}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {{if row.image1}}
+                                    <div class="single-line-info border-light">
+                                        <div class="text-paragraph-small">{/literal}Immagini{literal}</div>
+                                        <div class="border-light border-0">
+                                            <div class="d-flex gap-2 mt-3">
+                                                <div><img src="/image/inefficiency/{{:row._guid}}/1" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                                                {{if row.image2}}
+                                                    <div><img src="/image/inefficiency/{{:row._guid}}/2" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                                                {{/if}}
+                                                {{if row.image3}}
+                                                    <div><img src="/image/inefficiency/{{:row._guid}}/3" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/literal}
+</script>
+<script id="tpl-inefficiency-map" type="text/x-jsrender">
+{literal}
+<div>
+    <div class="border-bottom border-light">
+        <h3 class="title-xsmall border-light pt-2">{/literal}Titolo{literal}</h3>
+        <p class="subtitle-small pb-2">{{:row.subject}}</p>
+    </div>
+    <div class="border-bottom border-light">
+        <h3 class="title-xsmall border-light pt-2">{/literal}Tipologia di segnalazione{literal}</h3>
+        <p class="subtitle-small pb-2">{{:row.category}}</p>
+    </div>
+    <div class="border-bottom border-light">
+        <h3 class="title-xsmall border-light pt-2">{/literal}Indirizzo{literal}</h3>
+        <p class="subtitle-small pb-2">{{:row.address}}</p>
+    </div>
+    <div class="border-bottom border-light">
+        <h3 class="title-xsmall border-light pt-2">{/literal}Dettaglio{literal}</h3>
+        <p class="subtitle-small pb-2">{{:row.text}}</p>
+    </div>
+    {{if row.image1}}
+    <div class="border-bottom border-light">
+        <h3 class="title-xsmall border-light pt-2">{/literal}Immagini{literal}</h3>
+        <div class="border-light border-0">
+            <div class="d-flex gap-2 mt-3">
+                <div><img src="/image/inefficiency/{{:row._guid}}/1" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                {{if row.image2}}
+                    <div><img src="/image/inefficiency/{{:row._guid}}/2" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                {{/if}}
+                {{if row.image3}}
+                    <div><img src="/image/inefficiency/{{:row._guid}}/3" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/if}}
+</div>
+{/literal}
+</script>
 
 {def $current_language = ezini('RegionalSettings', 'Locale')}
 {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', $current_language ))}
@@ -238,10 +353,15 @@
             chart: {ldelim}
                 settings: '{if is_set($attribute.content.settings.chart)}{$attribute.content.settings.chart}{/if}'
             {rdelim},
+            map: {ldelim}
+                customTpl: '#tpl-inefficiency-map'
+            {rdelim},
             datatable: {ldelim}
                 columns: JSON.parse('{$columns|json_encode()}'),
+                customTpl: '#tpl-inefficiency-table',
                 defaultOrder: "{cond(and(is_set($attribute.content.settings.table.order),$attribute.content.settings.table.order|eq('asc')), 'asc', 'desc')}",
-                viewAsDescriptionList: {cond(and(is_set($attribute.content.settings.table.view),$attribute.content.settings.table.view|eq('description-list')), 'true', 'false')}
+                viewAsDescriptionList: {cond(and(is_set($attribute.content.settings.table.view),$attribute.content.settings.table.view|eq('description-list')), 'true', 'false')},
+                template: '<table class="table display responsive no-wrap w-100"></table>'
             {rdelim},
             counter: {ldelim}
                 label: "{if is_set($attribute.content.settings.counter.label)}{$attribute.content.settings.counter.label}{else}{$attribute.content.item_name|wash()}{/if}",
@@ -258,7 +378,9 @@
                 select: "{'Select'|i18n('opendatadataset')}",
                 search_placeholder: "{'Search by keyword'|i18n('bootstrapitalia')}"
             {rdelim},
-            searchInput: {cond($attribute.content.settings.search_form, 'true', 'false')}
+            searchInput: {cond($attribute.content.settings.search_form, 'true', 'false')},
+            preselectedFilters: {ldelim}status:{openpaini('InefficiencyCollector', 'DefaultStatus', array())|json_encode}{rdelim},
+            filterAllowMultipleValue: ['status']
         {rdelim});
         {rdelim}else{ldelim}
             console.log('can not load datasetView plugin');

@@ -31,6 +31,14 @@ ContactsField_inefficiency=link_segnalazione_disservizio
 ContactsField_support=link_assistenza
 ContactsField_booking=link_prenotazione_appuntamento
 
+ApiUserLogin=
+ApiUserPassword=
+
+[InefficiencyCollector]
+DefaultStatus[]
+DefaultStatus[]=Aperta
+DefaultStatus[]=Presa in carico
+
 [AccessPage]
 Title=Sign in
 Intro=To access the site and its services, use one of the following methods.

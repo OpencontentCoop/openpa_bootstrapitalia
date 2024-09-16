@@ -22,3 +22,41 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th.dtr-control {
     color: #adb5bd;
     font-size: 1rem;
 }
+
+.fullscreenable.extended {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 30000;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.fullscreenable.extended .tab-content {
+    flex-grow: 1;
+    position: relative;
+}
+
+.fullscreenable.extended .tab-pane {
+    height: 100% !important;
+    position: absolute !important;
+    overflow: scroll;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.fullscreenable.extended .tab-pane.leaflet-container {
+    overflow: hidden
+}
+
+body.with-fullscreen {
+    overflow: hidden;
+}
