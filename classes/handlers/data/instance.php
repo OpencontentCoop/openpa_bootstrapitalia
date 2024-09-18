@@ -14,6 +14,7 @@ class DataHandlerInstance implements OpenPADataHandlerInterface
             'name' => eZINI::instance()->variable('SiteSettings', 'SiteName'),
             'domain' => eZINI::instance()->variable('SiteSettings', 'SiteURL'),
             'version' => $versionRows[0]['value'] ?? 0,
+            'distributor' => OpenPABootstrapItaliaOperators::getCurrentPartner(),
         ];
     }
 
