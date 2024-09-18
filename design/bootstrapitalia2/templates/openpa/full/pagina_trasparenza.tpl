@@ -83,6 +83,10 @@
         <section class="col-lg-8 p-4">
             <h4 class="mb-4">{$node.data_map.titolo.content|wash()}</h4>
 
+            {if $node|has_attribute('abstract')}
+                {attribute_view_gui attribute=$node|attribute('abstract')}
+            {/if}
+
             {if $trasparenza.show_alert}                    
                 <div class="alert alert-warning">
                     Sezione in allestimento
