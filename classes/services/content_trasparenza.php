@@ -555,6 +555,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 }
             }
             $result = array(
+                'raw' => $string,
                 'query' => $query,
                 'facet_query' => $facetQuery,
                 'class_fields' => $classFields,
@@ -562,6 +563,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 'group_by' => $facetField,
                 'class_identifier' => $classIdentifier,
                 'facets' => $facets,
+                'parent_node_id' => $nodeId,
             );
 
             //eZDebug::writeDebug($result, __METHOD__);
