@@ -120,7 +120,24 @@
                     <h6>Regole rappresentazione impostate</h6>
                     <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">
                     {foreach $trasparenza.table_fields as $table_index => $fields}
-                        <code>{$fields.query|wash()}</code>
+                        <p>
+                            <a target="_blank" title="{$fields.query|wash()}"
+                               href="{concat('/opendata/console/1?query=',$fields.query|wash())|ezurl(no)}">
+                                <code>{$fields.raw|wash()}</code>
+                            </a>
+                        </p>
+                        {if and(
+                            openpaini('Trasparenza', concat('ShowCsvImportWidget_', $fields.class_identifier), 'disabled')|eq('enabled'),
+                            $fields.parent_node_id|eq($node.node_id)
+                        )}
+                        <div class="font-sans-serif">
+                            <h6>Caricamento massivo</h6>
+                            {include uri="design:parts/csv_import_widget.tpl"
+                                example=openpaini('Trasparenza', concat('CsvImportWidgetExample_', $fields.class_identifier), false())
+                                parent_node_id=$fields.parent_node_id
+                                class_identifier=$fields.class_identifier}
+                        </div>
+                        {/if}
                     {/foreach}
                     </div>
                 {/if}
