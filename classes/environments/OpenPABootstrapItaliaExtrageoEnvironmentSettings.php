@@ -25,7 +25,6 @@ class OpenPABootstrapItaliaExtrageoEnvironmentSettings extends EnvironmentSettin
     private function geoJsonSerialize(Content $content, $defaultLanguage = null)
     {
         $defaultLanguage = !$defaultLanguage ? eZContentObject::defaultLanguage() : $defaultLanguage;
-        $geometry = new Geometry();
         $properties = array();
 
         if (isset( $content->data[$defaultLanguage] )) {
@@ -46,6 +45,7 @@ class OpenPABootstrapItaliaExtrageoEnvironmentSettings extends EnvironmentSettin
         if (isset($extraData['geo'])){
             foreach ($extraData['geo'] as $geo){
                 if (!empty($geo['longitude']) && !empty($geo['latitude'])) {
+                    $geometry = new Geometry();
                     $geometry->type = 'Point';
                     $geometry->coordinates = [(float)$geo['longitude'], (float)$geo['latitude']];
                     $features[] = new Feature($content->metadata->id, $geometry, new Properties($properties));
