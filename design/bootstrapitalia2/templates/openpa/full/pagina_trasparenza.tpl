@@ -127,7 +127,7 @@
                         <p>
                             <a target="_blank" title="{$fields.query|wash()}"
                                href="{concat('/opendata/console/1?query=',$fields.query|wash())|ezurl(no)}">
-                                <code>{$fields.raw|wash()}</code>
+                                <code style="word-break: break-all;">{$fields.raw|wash()}</code>
                             </a>
                         </p>
                         {if and(
