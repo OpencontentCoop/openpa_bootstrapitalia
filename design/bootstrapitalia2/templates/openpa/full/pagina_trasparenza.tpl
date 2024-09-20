@@ -1,5 +1,9 @@
 {ezpagedata_set( 'has_container', true() )}
 
+{if openpaini('Trasparenza', 'ForceMainNode', 'disabled')|eq('enabled')}
+    {set $node = $node.object.main_node}
+{/if}
+
 {def $trasparenza = $openpa.content_trasparenza
      $root_node = $openpa.control_menu.side_menu.root_node
      $tree_menu = tree_menu( hash( 'root_node_id', $root_node.node_id, 'user_hash', $openpa.control_menu.side_menu.user_hash, 'scope', 'side_menu' ))
@@ -182,6 +186,7 @@
             {* Figli di classe pagina_trasaparenza *}
             {if $trasparenza.count_children_trasparenza|gt(0)}
                 {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
+                         show_icon=true() view=banner
                          nodes = fetch('content', 'list', $trasparenza.children_trasparenza_fetch_parameters)
                          nodes_count = $trasparenza.count_children_trasparenza}
 
@@ -205,6 +210,7 @@
             {* lista dei figli *}
             {if $trasparenza.count_children_extra}
                 {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
+                         show_icon=true() view=card
                          nodes=fetch('content', 'list', $trasparenza.children_extra_fetch_parameters)
                          nodes_count=$trasparenza.count_children_extra}
             {/if}

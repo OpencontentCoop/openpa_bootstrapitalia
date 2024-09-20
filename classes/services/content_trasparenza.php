@@ -51,6 +51,14 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         $this->fnData['use_custom_template'] = 'isUseCustomTemplate';
     }
 
+    private function getNode()
+    {
+        if (OpenPAINI::variable('Trasparenza', 'ForceMainNode', 'disabled') === 'enabled'){
+            return $this->container->getContentMainNode();
+        }
+        return $this->container->getContentNode();
+    }
+
     protected function isUseCustomTemplate(): bool
     {
         if (OpenPAINI::variable('Trasparenza', 'UseCustomTemplate', 'disabled') === 'enabled'
@@ -59,7 +67,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $relatedContainer = eZContentObject::fetchByRemoteID('relazioni-trasparenza');
             if ($relatedContainer instanceof eZContentObject
                 && strpos(
-                    $this->container->getContentNode()->attribute('path_string'),
+                    $this->getNode()->attribute('path_string'),
                     '/' . $relatedContainer->attribute('main_node_id')
                 ) !== false
             ){
@@ -90,7 +98,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     protected function getCountFolderChildren()
     {
         if ($this->isPaginaTrasparenza()) {
-            return $this->container->getContentNode()->subTreeCount(array(
+            return $this->getNode()->subTreeCount(array(
                 'ClassFilterType' => 'include',
                 'ClassFilterArray' => array(self::FOLDER_CLASS),
                 'Depth' => 1,
@@ -104,7 +112,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     protected function isPaginaTrasparenza()
     {
         if ($this->container->hasContentNode()) {
-            return $this->container->getContentNode()->attribute('class_identifier') == self::PAGINA_TRASPARENZA_CLASS;
+            return $this->getNode()->attribute('class_identifier') == self::PAGINA_TRASPARENZA_CLASS;
         }
 
         return false;
@@ -127,7 +135,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     protected function getCountTrasparenzaChildren()
     {
         if ($this->isPaginaTrasparenza()) {
-            return $this->container->getContentNode()->subTreeCount(array(
+            return $this->getNode()->subTreeCount(array(
                 'ClassFilterType' => 'include',
                 'ClassFilterArray' => array(self::PAGINA_TRASPARENZA_CLASS),
                 'Depth' => 1,
@@ -157,7 +165,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                     'DepthOperator' => 'eq',
                 );
             }
-            return $this->container->getContentNode()->subTreeCount($parameters);
+            return $this->getNode()->subTreeCount($parameters);
         }
 
         return false;
@@ -181,7 +189,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     protected function hasNotaTrasparenza()
     {
         if ($this->isPaginaTrasparenza()) {
-            return $this->container->getContentNode()->subTreeCount(array(
+            return $this->getNode()->subTreeCount(array(
                     'ClassFilterType' => 'include',
                     'ClassFilterArray' => array(self::NOTA_TRASPARENZA_CLASS),
                     'Depth' => 1,
@@ -233,13 +241,13 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     protected function getNotaTrasparenza()
     {
         if ($this->isPaginaTrasparenza()) {
-            $children = $this->container->getContentNode()->subTree(array(
+            $children = $this->getNode()->subTree(array(
                 'ClassFilterType' => 'include',
                 'ClassFilterArray' => array(self::NOTA_TRASPARENZA_CLASS),
                 'Depth' => 1,
                 'DepthOperator' => 'eq',
                 'Limit' => 1,
-                'SortBy' => array('published', false)
+                'SortBy' => array('published', false),
             ));
 
             return isset($children[0]) ? $children[0] : false;
@@ -252,12 +260,12 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     {
         if ($this->isPaginaTrasparenza()) {
             return array(
-                'parent_node_id' => $this->container->getContentNode()->attribute('node_id'),
+                'parent_node_id' => $this->getNode()->attribute('node_id'),
                 'class_filter_type' => 'include',
                 'class_filter_array' => array(self::PAGINA_TRASPARENZA_CLASS),
                 'limit' => OpenPAINI::variable('GestioneFigli', 'limite_paginazione', '25'),
                 'offset' => $this->getOffset(),
-                'sort_by' => $this->container->getContentNode()->attribute('sort_array')
+                'sort_by' => $this->getNode()->attribute('sort_array'),
             );
         }
 
@@ -276,12 +284,12 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     {
         if ($this->isPaginaTrasparenza()) {
             return array(
-                'parent_node_id' => $this->container->getContentNode()->attribute('node_id'),
+                'parent_node_id' => $this->getNode()->attribute('node_id'),
                 'class_filter_type' => 'include',
                 'class_filter_array' => array(self::FOLDER_CLASS),
                 'limit' => OpenPAINI::variable('GestioneFigli', 'limite_paginazione', '25'),
                 'offset' => $this->getOffset(),
-                'sort_by' => $this->container->getContentNode()->attribute('sort_array')
+                'sort_by' => $this->getNode()->attribute('sort_array'),
             );
         }
 
@@ -294,21 +302,21 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $suggestedClasses = $this->getSuggestedClasses();
             if (!empty($suggestedClasses)) {
                 $parameters = array(
-                    'parent_node_id' => $this->container->getContentNode()->attribute('node_id'),
+                    'parent_node_id' => $this->getNode()->attribute('node_id'),
                     'class_filter_type' => 'include',
                     'class_filter_array' => $suggestedClasses,
                     'limit' => OpenPAINI::variable('GestioneFigli', 'limite_paginazione', '25'),
                     'offset' => $this->getOffset(),
-                    'sort_by' => $this->container->getContentNode()->attribute('sort_array')
+                    'sort_by' => $this->getNode()->attribute('sort_array'),
                 );
             } else {
                 $parameters = array(
-                    'parent_node_id' => $this->container->getContentNode()->attribute('node_id'),
+                    'parent_node_id' => $this->getNode()->attribute('node_id'),
                     'class_filter_type' => 'exclude',
                     'class_filter_array' => array(self::PAGINA_TRASPARENZA_CLASS, self::NOTA_TRASPARENZA_CLASS),
                     'limit' => OpenPAINI::variable('GestioneFigli', 'limite_paginazione', '25'),
                     'offset' => $this->getOffset(),
-                    'sort_by' => $this->container->getContentNode()->attribute('sort_array')
+                    'sort_by' => $this->getNode()->attribute('sort_array'),
                 );
             }
 
@@ -320,10 +328,14 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
     protected function getCountExtraChildren()
     {
+        if (OpenPAINI::variable('Trasparenza', 'ShowExtraChildren', 'enabled') === 'disabled'
+            && $this->hasTableFields()) {
+            return false;
+        }
         if ($this->isPaginaTrasparenza()) {
             $excludeClasses = $this->getExcludeClassesForExtraChildren();
             if (is_array($excludeClasses) && count($excludeClasses) > 0) {
-                return $this->container->getContentNode()->subTreeCount(array(
+                return $this->getNode()->subTreeCount(array(
                     'ClassFilterType' => 'exclude',
                     'ClassFilterArray' => $excludeClasses,
                     'Depth' => 1,
@@ -409,8 +421,8 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
         return array(
             array(
-                'error' => "Configurazioni di visualizzazione non trovate"
-            )
+                'error' => "Configurazioni di visualizzazione non trovate",
+            ),
         );
     }
 
@@ -429,7 +441,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
     protected function getTableFieldsParameter($string)
     {
-        return self::parseTableFieldsParameter($string, $this->container->getContentNode());
+        return self::parseTableFieldsParameter($string, $this->getNode());
     }
 
     public static function parseTableFieldsParameter($string, eZContentObjectTreeNode $containerNode = null)
@@ -590,12 +602,12 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $excludeClasses = $this->getExcludeClassesForExtraChildren();
             if (is_array($excludeClasses) && count($excludeClasses) > 0) {
                 return array(
-                    'parent_node_id' => $this->container->getContentNode()->attribute('node_id'),
+                    'parent_node_id' => $this->getNode()->attribute('node_id'),
                     'class_filter_type' => 'exclude',
                     'class_filter_array' => $excludeClasses,
                     'limit' => OpenPAINI::variable('GestioneFigli', 'limite_paginazione', '25'),
                     'offset' => $this->getOffset(),
-                    'sort_by' => $this->container->getContentNode()->attribute('sort_array')
+                    'sort_by' => $this->getNode()->attribute('sort_array'),
                 );
             }
         }

@@ -52,6 +52,7 @@
                     </div>
                 </div>
 
+                {if count($top_menu_node_ids)}
                 <div class="pt-4 pt-lg-0">
                     <h6 class="text-uppercase">{'Sections'|i18n('openpa/search')}</h6>
                     <div class="mt-4">
@@ -99,94 +100,96 @@
                     {/foreach}
                     </div>
                 </div>
+                {/if}
                 
-                
-                <div class="pt-4 pt-lg-5">
-                        <h6 class="text-uppercase">{$topic_menu_label|wash()}</h6>
-                        {def $topics = fetch(content, object, hash(remote_id, 'topics'))
-                             $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'user_hash', false(), 'scope', 'side_menu'))
-                             $topic_list_children = $topic_list.children
-                             $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))
-                             $custom_topic_container_item = false
-                             $already_displayed = array()
-                             $count = 0 
-                             $max = 6 
-                             $total = count($topic_list_children)
-                             $sub_count = 0}
-
-                        {* argomenti selezionati *}
-                        {foreach $topic_list_children as $child}
-                            {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}
-                                {set $custom_topic_container_item = $child}
-                                {skip}
-                            {/if}
-                            {if menu_item_tree_contains($child, $params.topic)}
-                                {set $already_displayed = $already_displayed|append($child.item.node_id)}
-                                {include name="topic_search_input" uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=true() selected=$params.topic recursion=0}
-                                {set $count = $count|inc()}
-                            {/if}
-                        {/foreach}
-
-                        {* argomenti selezionabili *}
-                        {if $count|lt($max)}
+                {def $topics = fetch(content, object, hash(remote_id, 'topics'))}
+                {if $topics}
+                    {def $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'user_hash', false(), 'scope', 'side_menu'))
+                         $topic_list_children = $topic_list.children
+                         $custom_topic_container = fetch(content, object, hash(remote_id, 'custom_topics'))
+                         $custom_topic_container_item = false
+                         $already_displayed = array()
+                         $count = 0
+                         $max = 6
+                         $total = count($topic_list_children)
+                         $sub_count = 0}
+                    {if count($topic_list_children)}
+                    <div class="pt-4 pt-lg-5">
+                            <h6 class="text-uppercase">{$topic_menu_label|wash()}</h6>
+                            {* argomenti selezionati *}
                             {foreach $topic_list_children as $child}
-                                {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}{skip}{/if}
-                                {if and($already_displayed|contains($child.item.node_id)|not(), is_set($topic_facets[$child.item.node_id]))}
+                                {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}
+                                    {set $custom_topic_container_item = $child}
+                                    {skip}
+                                {/if}
+                                {if menu_item_tree_contains($child, $params.topic)}
                                     {set $already_displayed = $already_displayed|append($child.item.node_id)}
-                                    {include name="topic_search_input" uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=false() selected=$params.topic recursion=0}
-                                    {if $count|eq($max)}{break}{/if}
+                                    {include name="topic_search_input" uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=true() selected=$params.topic recursion=0}
                                     {set $count = $count|inc()}
                                 {/if}
                             {/foreach}
-                        {/if}
 
-                        {* altri argomenti *}
-                        {if $count|lt($max)}
-                            {set $sub_count = $max|sub($count)}
-                            {def $sub_index = 0}
-                            {foreach $topic_list_children as $child}
-                                {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}{skip}{/if}
-                                {if $already_displayed|contains($child.item.node_id)|not()}
-                                    {set $sub_index = $sub_index|inc()}
-                                    {set $already_displayed = $already_displayed|append($child.item.node_id)}
-                                    {include name="topic_search_input" uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=false() selected=$params.topic recursion=0}
-                                    {set $count = $count|inc()}
-                                    {if $sub_index|eq($sub_count)}{break}{/if}
-                                {/if}
-                            {/foreach}
-                        {/if}
+                            {* argomenti selezionabili *}
+                            {if $count|lt($max)}
+                                {foreach $topic_list_children as $child}
+                                    {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}{skip}{/if}
+                                    {if and($already_displayed|contains($child.item.node_id)|not(), is_set($topic_facets[$child.item.node_id]))}
+                                        {set $already_displayed = $already_displayed|append($child.item.node_id)}
+                                        {include name="topic_search_input" uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=false() selected=$params.topic recursion=0}
+                                        {if $count|eq($max)}{break}{/if}
+                                        {set $count = $count|inc()}
+                                    {/if}
+                                {/foreach}
+                            {/if}
 
-                        {* altri argomenti collassati *}
-                        {if $count|lt($total)}
-                            <a href="#more-topics" aria-label="More items" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
-                                {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
-                            </a>
-                            <div class="collapse" id="more-topics">
-                            {foreach $topic_list_children as $child}
-                                {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}{skip}{/if}
-                                {if $already_displayed|contains($child.item.node_id)|not()}
-                                    {include uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=false() selected=$params.topic recursion=0}
-                                {/if}
-                            {/foreach}
+                            {* altri argomenti *}
+                            {if $count|lt($max)}
+                                {set $sub_count = $max|sub($count)}
+                                {def $sub_index = 0}
+                                {foreach $topic_list_children as $child}
+                                    {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}{skip}{/if}
+                                    {if $already_displayed|contains($child.item.node_id)|not()}
+                                        {set $sub_index = $sub_index|inc()}
+                                        {set $already_displayed = $already_displayed|append($child.item.node_id)}
+                                        {include name="topic_search_input" uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=false() selected=$params.topic recursion=0}
+                                        {set $count = $count|inc()}
+                                        {if $sub_index|eq($sub_count)}{break}{/if}
+                                    {/if}
+                                {/foreach}
+                            {/if}
+
+                            {* altri argomenti collassati *}
+                            {if $count|lt($total)}
+                                <a href="#more-topics" aria-label="More items" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
+                                    {display_icon('it-more-items', 'svg', 'icon icon-primary right')}
+                                </a>
+                                <div class="collapse" id="more-topics">
+                                {foreach $topic_list_children as $child}
+                                    {if and($custom_topic_container, $custom_topic_container.main_node_id|eq($child.item.node_id))}{skip}{/if}
+                                    {if $already_displayed|contains($child.item.node_id)|not()}
+                                        {include uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=false() selected=$params.topic recursion=0}
+                                    {/if}
+                                {/foreach}
+                                </div>
+                            {/if}
+
+
+                            {undef $topics $topic_list $count $max $total $already_displayed $sub_count}
+
+                            {if and($custom_topic_container_item, $custom_topic_container_item.has_children)}
+                            <div class="pt-3 pt-lg-3">
+                                <h6 class="text-uppercase text-black-50">{$custom_topic_container.name|wash()}</h6>
+                                {foreach $custom_topic_container_item.children as $child}
+                                    {include uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=cond(menu_item_tree_contains($child,$params.topic), true(), false()) selected=$params.topic recursion=0}
+                                {/foreach}
                             </div>
-                        {/if}
-
-                        
-                        {undef $topics $topic_list $count $max $total $already_displayed $sub_count}
-
-                        {if and($custom_topic_container_item, $custom_topic_container_item.has_children)}
-                        <div class="pt-3 pt-lg-3">
-                            <h6 class="text-uppercase text-black-50">{$custom_topic_container.name|wash()}</h6>
-                            {foreach $custom_topic_container_item.children as $child}
-                                {include uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=cond(menu_item_tree_contains($child,$params.topic), true(), false()) selected=$params.topic recursion=0}
-                            {/foreach}
-                        </div>
-                        {/if}
-
-                </div>
+                            {/if}
+                    </div>
+                    {/if}
+                {/if}
 
                 {if count($classes)}
-                    <div class="pt-4 pt-lg-5">
+                    <div class="{if or(count($top_menu_node_ids), $topics)}pt-4 pt-lg-5{/if}">
                         <h6 class="text-uppercase">{'Content type'|i18n('openpa/search')}</h6>
                         {foreach $classes as $class}
                             {def $count_by_class = 0}
