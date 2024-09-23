@@ -15,4 +15,5 @@ ModuleList[]=accesso_redazione
 ModuleList[]=manifest.json
 ModuleList[]=service-worker.js
 ModuleList[]=favicon
+ModuleList[]=pagamento
 */ ?>

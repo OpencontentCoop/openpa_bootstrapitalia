@@ -41,7 +41,7 @@
     </message>
     <message>
       <source>FREE</source>
-      <translation>PROST</translation>
+      <translation>BREZPLAČNO</translation>
     </message>
     <message>
       <source>Free admission for all attendees</source>
@@ -49,7 +49,7 @@
     </message>
     <message>
       <source>Download</source>
-      <translation>Prenesi</translation>
+      <translation>Prenos</translation>
     </message>
     <message>
       <source>Download file</source>
@@ -61,11 +61,11 @@
     </message>
     <message>
       <source>days</source>
-      <translation>dnevi</translation>
+      <translation>dni</translation>
     </message>
     <message>
       <source>Share</source>
-      <translation>Deliti</translation>
+      <translation>Delite</translation>
     </message>
     <message>
       <source>Actions</source>
@@ -460,6 +460,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Payments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation type="unfinished"/>
     </message>
@@ -564,7 +568,7 @@
     </message>
     <message>
       <source>Apps</source>
-      <translation>Aplikacije</translation>
+      <translation>aplikacije</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
@@ -648,7 +652,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Sledi nam</translation>
+      <translation>Spremljajte nas</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -1023,7 +1027,7 @@
     </message>
     <message>
       <source>Your own</source>
-      <translation>Lastne</translation>
+      <translation>Svojega</translation>
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
@@ -1434,6 +1438,14 @@
     </message>
     <message>
       <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Make a payment</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -1937,6 +1949,129 @@
     </message>
     <message>
       <source>Return to the home page</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/moderation</name>
+    <message>
+      <source>version(s) under approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Pending approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approve</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Deny</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Pending</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approved</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Rejected</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The content object awaits approval before it can be published.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>All</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Unread list</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Pending list</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approved list</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Rejected list</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Awaits approval by editor</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Awaits your approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Was approved for publishing</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Was not approved for publishing</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Warning: the activities of this account are subject to moderation: the changes will be visible after approval by an editor</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>There is currently %version of this content awaiting approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>There are currently %versions of this content awaiting approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Warning: by approving this version, other versions currently awaiting moderation will be archived.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>version</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>versions</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>By publishing content, versions currently awaiting moderation will be archived</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Request for approval</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version has been approved</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was rejected</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was archived following the publication of version %id</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Approval dashboard</source>
       <translation type="unfinished"/>
     </message>
   </context>
