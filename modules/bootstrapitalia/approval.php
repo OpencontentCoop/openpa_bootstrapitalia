@@ -121,7 +121,10 @@ if ($versionId > 0) {
         'classIdentifier' => $viewParameters['class'],
     ];
     $approvals = ModerationApproval::fetchList($limit, $offset, $filters);
-    $facets = ModerationApproval::fetchFacets($filters);
+    $facets = ModerationApproval::fetchFacets([
+        'creator' => $creator,
+        'status' => $viewParameters['status'],
+    ]);
     $tpl->setVariable('page_limit', $limit);
     $tpl->setVariable('view_parameters', $viewParameters);
     $tpl->setVariable('current_filters', $filters);
