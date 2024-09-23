@@ -5,8 +5,10 @@ $Module = $Params['Module'];
 $Module->setExitStatus(eZModule::STATUS_IDLE);
 $http = eZHTTPTool::instance();
 
+$availableBuiltins = BuiltinApp::fetchIdentifierList();
+
 $builtin = $Params['Identifier'] ?? null;
-if (!$builtin || !in_array($builtin, ['booking', 'support', 'inefficiency', 'service-form'])) {
+if (!$builtin || !in_array($builtin, $availableBuiltins)) {
     $tpl = eZTemplate::factory();
     $Result = [];
     $Result['path'] = [];
@@ -21,19 +23,9 @@ if (!$builtin || !in_array($builtin, ['booking', 'support', 'inefficiency', 'ser
             $tpl->variable('persistent_variable')
         );
     }
+    $tpl->setVariable('list', BuiltinApp::fetchList());
     $Result['content_info'] = $contentInfoArray;
     $Result['content'] = $tpl->fetch('design:bootstrapitalia/widget.tpl');
 } else {
-    if ($builtin === 'booking') {
-        $app = new BuiltinApp('booking', 'Book an appointment');
-    } elseif ($builtin === 'support') {
-        $app = new BuiltinApp('support', 'Request assistance');
-    } elseif ($builtin === 'inefficiency') {
-        $app = new BuiltinApp('inefficiency', 'Report a inefficiency');
-    } elseif ($builtin === 'service-form') {
-        $app = new BuiltinApp('service-form', 'Compila');
-    }
-    if (isset($app)) {
-        $Result = $app->getModuleResult();
-    }
+    $Result = BuiltinApp::instanceByIdentifier($builtin)->getModuleResult($Module);
 }

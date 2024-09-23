@@ -1440,6 +1440,14 @@
       <source>Report a inefficiency</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Make a payment</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/signin</name>

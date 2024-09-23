@@ -1444,6 +1444,14 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Report a inefficiency</source>
       <translation>Segnalazione disservizio</translation>
     </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation>Compila</translation>
+    </message>
+    <message>
+      <source>Make a payment</source>
+      <translation>Effettua un pagamento</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/signin</name>

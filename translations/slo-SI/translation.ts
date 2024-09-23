@@ -568,7 +568,7 @@
     </message>
     <message>
       <source>Apps</source>
-      <translation>Aplikacije</translation>
+      <translation>aplikacije</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
@@ -1438,6 +1438,14 @@
     </message>
     <message>
       <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Make a payment</source>
       <translation type="unfinished"/>
     </message>
   </context>

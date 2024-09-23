@@ -37,7 +37,7 @@
             {$built_in_app_script}
         </div>
     {elseif and($built_in_app_is_enabled, is_set($built_in_app_api_base_url))}
-        <div class="buitinapp">
+        <div class="buitinapp mb-5">
             <div id="{$built_in_app_root_id}"></div>
             <script src="{$built_in_app_src}"></script>
             {if $built_in_app_style|ne('')}<link rel="stylesheet" type="text/css" href="{$built_in_app_style}" />{/if}

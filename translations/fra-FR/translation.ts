@@ -699,7 +699,7 @@
     </message>
     <message>
       <source>Submit your rating</source>
-      <translation>Soumettez votre note</translation>
+      <translation>Soumettez votre évaluation</translation>
     </message>
   </context>
   <context>
@@ -1438,6 +1438,14 @@
     </message>
     <message>
       <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Make a payment</source>
       <translation type="unfinished"/>
     </message>
   </context>

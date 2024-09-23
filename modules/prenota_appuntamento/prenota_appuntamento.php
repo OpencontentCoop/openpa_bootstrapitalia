@@ -5,7 +5,7 @@ $Module = $Params['Module'];
 $Module->setExitStatus(eZModule::STATUS_IDLE);
 $http = eZHTTPTool::instance();
 
-$app = new BuiltinApp('booking', 'Book an appointment');
+$app = BuiltinApp::instanceByIdentifier('booking');
 
 if ($http->hasPostVariable('StoreConfig')) {
     $configValue = $http->postVariable('Config', '');
@@ -14,7 +14,7 @@ if ($http->hasPostVariable('StoreConfig')) {
     return;
 }
 
-$Result = $app->getModuleResult();
+$Result = $app->getModuleResult($Module);
 
 if (StanzaDelCittadinoBooking::factory()->isEnabled() && StanzaDelCittadinoBridge::factory()->getTenantUri()) {
     $tpl = eZTemplate::factory();
