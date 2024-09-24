@@ -460,6 +460,10 @@
       <translation>Iscrizioni</translation>
     </message>
     <message>
+      <source>Payments</source>
+      <translation>Pagamenti</translation>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation>Menù principale</translation>
     </message>
@@ -1440,6 +1444,14 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Report a inefficiency</source>
       <translation>Segnalazione disservizio</translation>
     </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation>Compila</translation>
+    </message>
+    <message>
+      <source>Make a payment</source>
+      <translation>Effettua un pagamento</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/signin</name>
@@ -2065,6 +2077,18 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Approval dashboard</source>
       <translation>Moderazione dei contenuti</translation>
+    </message>
+    <message>
+      <source>The version was archived following the request approval of version %id</source>
+      <translation>Versione archiviata in seguito alla richiesta di approvazione della versione %id</translation>
+    </message>
+    <message>
+      <source>Go to the moderation dashboard</source>
+      <translation>Vai alla dashboard di moderazione</translation>
+    </message>
+    <message>
+      <source>The version was discard by creator</source>
+      <translation>La versione è stata scartata dall'autore</translation>
     </message>
   </context>
 </TS>

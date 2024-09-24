@@ -10,6 +10,10 @@ class ModerationMessage
 
     const TYPE_ARCHIVED = 'ocmoderation_archived';
 
+    const TYPE_MODIFIED = 'ocmoderation_modified';
+
+    const TYPE_DISCARD = 'ocmoderation_discard';
+
     const TYPE_COMMENT = 'ocmoderation_comment';
 
     public $id;
@@ -21,6 +25,8 @@ class ModerationMessage
     public $contentObjectId;
 
     public $text;
+
+    public $lastRead = 0;
 
     public $type;
 
@@ -50,6 +56,16 @@ class ModerationMessage
         self::create($approval->id, $approval->contentObjectId, self::TYPE_ARCHIVED, $archivedByVersion);
     }
 
+    public static function createAuditOnModified(ModerationApproval $approval, int $archivedByVersion)
+    {
+        self::create($approval->id, $approval->contentObjectId, self::TYPE_MODIFIED, $archivedByVersion);
+    }
+
+    public static function createAuditOnDiscard(ModerationApproval $approval)
+    {
+        self::create($approval->id, $approval->contentObjectId, self::TYPE_DISCARD);
+    }
+
     public static function createComment(ModerationApproval $approval, string $text)
     {
         if (!empty($text)) {
@@ -75,32 +91,33 @@ class ModerationMessage
 
     public static function fetchByApprovalId(int $approvalId): array
     {
-        $rows = eZPersistentObject::fetchObjectList(
-            eZCollaborationSimpleMessage::definition(), null, [
-            'data_int1' => $approvalId,
-            'message_type' => [
-                [
-                    self::TYPE_CREATED,
-                    self::TYPE_APPROVED,
-                    self::TYPE_REJECTED,
-                    self::TYPE_ARCHIVED,
-                    self::TYPE_COMMENT,
-                ],
-            ],
-        ], ['created' => 'asc']
+        $user = eZUser::currentUser();
+        $userId = (int)$user->id();
+        if (!ModerationHandler::userNeedModeration($user)) {
+            $userId = 0;
+        }
+        $query = (
+        "select ezcollab_simple_message.*, ezcollab_item_status.last_read from ezcollab_simple_message
+                join ezcollab_item on(ezcollab_simple_message.data_int1 = ezcollab_item.id) 
+                full join ezcollab_item_status on(ezcollab_simple_message.data_int1 = ezcollab_item_status.collaboration_id and ezcollab_item_status.user_id = $userId) 
+                where message_type like 'ocmoderation_%' and ezcollab_simple_message.data_int1 = $approvalId                 
+                order by ezcollab_simple_message.created asc"
         );
+        eZDebug::writeDebug($query, __METHOD__);
+        $rows = eZDB::instance()->arrayQuery($query);
 
         $items = [];
         foreach ($rows as $row) {
             $item = new ModerationMessage();
-            $item->id = (int)$row->attribute('id');
-            $item->creatorId = (int)$row->attribute('creator_id');
-            $item->contentObjectId = (int)$row->attribute('data_int3');
-            $item->approvalId = (int)$row->attribute('data_int1');
-            $item->archivedByVersion = (int)$row->attribute('data_int2');
-            $item->createdAt = (int)$row->attribute('created');
-            $item->type = $row->attribute('message_type');
-            $item->text = $row->attribute('data_text1');
+            $item->id = (int)$row['id'];
+            $item->creatorId = (int)$row['creator_id'];
+            $item->contentObjectId = (int)$row['data_int3'];
+            $item->approvalId = (int)$row['data_int1'];
+            $item->archivedByVersion = (int)$row['data_int2'];
+            $item->createdAt = (int)$row['created'];
+            $item->type = $row['message_type'];
+            $item->text = $row['data_text1'];
+            $item->lastRead = $row['last_read'];
             $items[] = $item;
         }
 
@@ -119,6 +136,8 @@ class ModerationMessage
                         self::TYPE_APPROVED,
                         self::TYPE_REJECTED,
                         self::TYPE_ARCHIVED,
+                        self::TYPE_MODIFIED,
+                        self::TYPE_DISCARD,
                         self::TYPE_COMMENT,
                     ],
                 ],
@@ -131,6 +150,8 @@ class ModerationMessage
         $vars = array_keys(get_object_vars($this));
         $vars[] = 'creator';
         $vars[] = 'is_creator';
+        $vars[] = 'approval';
+        $vars[] = 'is_unread';
 
         return $vars;
     }
@@ -154,6 +175,13 @@ class ModerationMessage
                 case 'is_creator':
                     $this->attributes[$key] = $this->creatorId == eZUser::currentUserID();
                     break;
+                case 'approval':
+                    $this->attributes[$key] = ModerationApproval::fetchById((int)$this->approvalId);
+                    break;
+                case 'is_unread':
+                    $this->attributes[$key] = !($this->creatorId == eZUser::currentUserID())
+                        && $this->lastRead < $this->createdAt;
+                    break;
                 default:
                     eZDebug::writeNotice("Attribute $key does not exist", get_called_class());
                     $this->attributes[$key] = false;
@@ -168,8 +196,8 @@ class ModerationMessage
         $user = eZUser::currentUser();
         $userId = (int)$user->id();
         if (ModerationHandler::userNeedModeration($user)) {
-            $rows = eZDB::instance()->arrayQuery(
-                "select count(distinct(ezcollab_item.id)) as count from ezcollab_simple_message 
+            $query = (
+                "select count(distinct(ezcollab_item.data_int1)) as count from ezcollab_simple_message 
                 join ezcollab_item on(ezcollab_simple_message.data_int1 = ezcollab_item.id) 
                 full join ezcollab_item_status on(ezcollab_simple_message.data_int1 = ezcollab_item_status.collaboration_id) 
                 where ezcollab_simple_message.creator_id != $userId
@@ -179,8 +207,8 @@ class ModerationMessage
                 and ezcollab_simple_message.message_type in ('ocmoderation_approved', 'ocmoderation_rejected', 'ocmoderation_archived', 'ocmoderation_comment')"
             );
         } else {
-            $rows = eZDB::instance()->arrayQuery(
-                "select count(distinct(ezcollab_item.id)) as count from ezcollab_simple_message
+            $query = (
+                "select count(distinct(ezcollab_item.data_int1)) as count from ezcollab_simple_message
                 join ezcollab_item on(ezcollab_simple_message.data_int1 = ezcollab_item.id) 
                 full join ezcollab_item_status on(ezcollab_simple_message.data_int1 = ezcollab_item_status.collaboration_id) 
                 where ezcollab_item_status.user_id = 0
@@ -189,6 +217,8 @@ class ModerationMessage
             );
         }
 
+        eZDebug::writeDebug($query, __METHOD__);
+        $rows = eZDB::instance()->arrayQuery($query);
         return (int)$rows[0]['count'];
     }
 

@@ -46,7 +46,10 @@
 {/if}
 
 
+
 {if and( $website_toolbar_access, $available_for_current_class )}
+
+{def $current_user_needs_approval = current_user_needs_approval($content_object.class_identifier)}
 
 <form method="post" action="{"content/action"|ezurl(no)}">
     <nav class="toolbar" id="ezwt">
@@ -87,13 +90,23 @@
             {/if}
 
             {if $content_object.can_edit}
-                <input type="hidden" name="ContentObjectLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
-                <li class="position-relative">
-                    <button class="btn" type="submit" name="EditButton" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
-                        <i aria-hidden="true" class="fa fa-pencil"></i>
-                        <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
-                    </button>
-                </li>
+                {def $has_pending_approval = has_pending_approval($content_object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'), $current_user_needs_approval)}
+                {if $has_pending_approval}
+                    <li>
+                        <a href="{concat( "bootstrapitalia/approval/edit/", $content_object.id )|ezurl(no)}" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
+                            <i aria-hidden="true" class="fa fa-pencil" style="font-size: 26px;"></i>
+                            <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
+                        </a>
+                    </li>
+                {else}
+                    <input type="hidden" name="ContentObjectLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
+                    <li class="position-relative">
+                        <button class="btn" type="submit" name="EditButton" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
+                            <i aria-hidden="true" class="fa fa-pencil"></i>
+                            <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
+                        </button>
+                    </li>
+                {/if}
             {elseif and(
                 is_set($content_object.state_identifier_array),
                 $content_object.state_identifier_array|contains('opencity_lock/locked'),
@@ -110,17 +123,6 @@
                 </li>
             {/if}
 
-            {def $has_pending_approval = has_pending_approval($content_object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'))}
-            {if $has_pending_approval}
-                <li>
-                    <a href="{concat('/content/history/', $content_object.id)|ezurl(no)}">
-                        <span class="font-weight-bold">{$has_pending_approval}</span>
-                        <span class="toolbar-label" style="max-width: 70px;">{'version(s) under approval'|i18n('bootstrapitalia/moderation')}</span>
-                    </a>
-                </li>
-            {/if}
-            {undef $has_pending_approval}
-
             {if and($content_object.can_translate, ezini('ExtensionSettings','ActiveAccessExtensions')|contains('octranslate'), fetch( 'user', 'has_access_to', hash( 'module', 'translate', 'function', 'content' ) ))}
                 {include uri='design:parts/websitetoolbar/translate.tpl' content_object=$content_object}
             {/if}
@@ -128,7 +130,7 @@
             {if and(
                 $content_object.can_move,
                 not(openpaini('WebsiteToolbar', 'HideMoveButton', array('restricted_document', 'restricted_area'))|contains($content_object.class_identifier)),
-                not(current_user_needs_approval($content_object.class_identifier)),
+                not($current_user_needs_approval),
                 not( $top_menu_node_ids|contains( $current_node.node_id ) )
             )}
                 <li>
@@ -193,25 +195,38 @@
             {if is_approval_enabled()}
                 {def $unread_message_count = approval_unread_message_count()}
                 {def $pending_approval_count = cond(not(current_user_needs_approval()), pending_approval_count(), 0)}
-                <li>
+                <li class="position-relative">
                     {if or($pending_approval_count|gt(0), $unread_message_count)}
-                    <div class="position-relative">
-                        {if $pending_approval_count|gt(0)}
-                            <a class="position-absolute" href="{'bootstrapitalia/approval'|ezurl(no)}" title="{'Approval'|i18n( 'bootstrapitalia/moderation' )}" style="top: 0;left: 0;">
-                                <span class="badge badge-warning bg-warning"><i class="fa fa-history"></i> {$pending_approval_count}</span>
-                            </a>
-                        {/if}
-                        {if $unread_message_count}
-                            <a class="position-absolute" href="{'bootstrapitalia/approval/(status)/100'|ezurl(no)}" title="{'Approval'|i18n( 'bootstrapitalia/moderation' )}" style="top: 0;right: 0;">
-                                <span class="badge badge-dark bg-dark"><i class="fa fa-comments"></i> {$unread_message_count}</span>
-                            </a>
-                        {/if}
-                        <i aria-hidden="true" class="fa fa-check-circle-o  invisible"></i>
-                        <span class="toolbar-label">{'Approval'|i18n( 'bootstrapitalia/moderation' )}</span>
-                    </div>
+                        <span id="approval-count" class="badge badge-warning bg-warning position-absolute pulsate" style="top: 0;right: 0;">
+                            {$pending_approval_count|sum($unread_message_count)}
+                        </span>
+                        <div class="dropdown">
+                            <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownApproval" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i aria-hidden="true" class="fa fa-check-circle-o"></i>
+                                <span class="toolbar-label">{'Approval'|i18n( 'bootstrapitalia/moderation' )}</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownApproval">
+                                <div class="link-list-wrapper">
+                                    <ul class="link-list">
+                                        <li id="approval-placeholder">
+                                            <a style="min-width:300px" class="list-item text-center" href="#">
+                                                <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+                                            </a>
+                                        </li>
+                                        <li id="approval-items"></li>
+                                        <li><span class="divider"></span></li>
+                                        <li>
+                                            <a class="list-item left-icon" href="{'bootstrapitalia/approval'|ezurl(no)}" title="{'Approval'|i18n( 'bootstrapitalia/moderation' )}">
+                                                <i aria-hidden="true" class="fa fa-check-circle-o"></i> {'Go to the moderation dashboard'|i18n( 'bootstrapitalia/moderation' )}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     {else}
                         <a href="{'bootstrapitalia/approval'|ezurl(no)}" title="{'Approval'|i18n( 'bootstrapitalia/moderation' )}">
-                            <i aria-hidden="true" class="fa fa-check-circle-o "></i>
+                            <i aria-hidden="true" class="fa fa-check-circle-o"></i>
                             <span class="toolbar-label">{'Approval'|i18n( 'bootstrapitalia/moderation' )}</span>
                         </a>
                     {/if}

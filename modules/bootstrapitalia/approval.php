@@ -4,8 +4,12 @@
 $module = $Params['Module'];
 $http = eZHTTPTool::instance();
 $tpl = eZTemplate::factory();
-$versionId = (int)$Params['VersionId'];
+$entityType = $Params['Entity'];
+$entityId = (int)$Params['Id'];
 $action = $Params['Action'];
+
+$tpl->setVariable('approval_item', false);
+$tpl->setVariable('approval_item_list_by_object', false);
 
 $redirectParams = '';
 if ($http->hasPostVariable('ByStatus') && (int)$http->postVariable('ByStatus') !== 0) {
@@ -44,24 +48,101 @@ if (!ModerationHandler::isEnabled()) {
 
 $redirect = $http->hasGetVariable('redirect') ? $http->getVariable('redirect') : null;
 
-if ($versionId > 0) {
-    if (in_array($action, ['approve', 'deny'])) {
-        try {
-            if (ModerationHandler::canApproveVersion($versionId)) {
-                if ($action == 'approve') {
-                    $approval = ModerationHandler::approveVersion($versionId);
-                } else {
-                    $approval = ModerationHandler::denyVersion($versionId);
+if ($entityType === 'edit' && $entityId > 0) {
+    $object = eZContentObject::fetch($entityId);
+    if ($object instanceof eZContentObject && $object->canEdit()) {
+        if (ModerationApproval::fetchPendingCountByObjectIdAndLocale($entityId, eZLocale::currentLocaleCode(), true)){
+            $approvalsByObject = ModerationApprovalCollection::fetchByContentObjectId($entityId);
+            $queue = $approvalsByObject->attribute('queues');
+            if (isset($queue[0])){
+                $pending = $queue[0]->attribute('pending');
+                if ($pending instanceof ModerationApproval
+                    && $pending->attribute('version') instanceof eZContentObjectVersion) {
+                    $locale = $pending->attribute('version')->attribute('initial_language')->attribute('locale');
+                    //redirect to edit from current approval version
+                    $db = eZDB::instance();
+                    $db->begin();
+                    $newVersionID = $object->copyRevertTo(
+                        $pending->attribute('version')->attribute('version'),
+                        $locale
+                    );
+                    $db->commit();
+                    $module->redirectTo('content/edit/' . $object->attribute('id') . '/' . $newVersionID . '/' . $locale);
+                    return;
                 }
+            }
+        }
+        //redirect to standard edit
+        $module->redirectTo('content/edit/' . $object->attribute('id') . '/f');
+        return;
+    } else {
+        return $module->handleError(eZError::KERNEL_NOT_AVAILABLE, 'kernel');
+    }
+} elseif ($entityType === 'object' && $entityId > 0) {
+    $object = eZContentObject::fetch($entityId);
+    if ($object instanceof eZContentObject) {
+        $approvalsByObject = ModerationApprovalCollection::fetchByContentObjectId($entityId);
+        $tpl->setVariable('approval_item_list_by_object', true);
+        $tpl->setVariable('approvals_by_object', $approvalsByObject);
+        $tpl->setVariable('object', $object);
+        $Result = [];
+        $Result['content'] = $tpl->fetch('design:bootstrapitalia/approval.tpl');
+        $Result['path'] = [
+            [
+                'text' => ezpI18n::tr('bootstrapitalia/moderation', 'Approval'),
+                'url' => '/bootstrapitalia/approval',
+            ],
+            [
+                'text' => $object->attribute('name'),
+                'url' => false,
+            ],
+        ];
+        $contentInfoArray = [];
+        $contentInfoArray['persistent_variable'] = [
+            'show_path' => true,
+        ];
+        if (is_array($tpl->variable('persistent_variable'))) {
+            $contentInfoArray['persistent_variable'] = array_merge(
+                $contentInfoArray['persistent_variable'],
+                $tpl->variable('persistent_variable')
+            );
+        }
+        $Result['content_info'] = $contentInfoArray;
+        $approvalsByObject->setLastRead();
+    } else {
+        return $module->handleError(eZError::KERNEL_NOT_AVAILABLE, 'kernel');
+    }
+} elseif ($entityType === 'version' && $entityId > 0) {
+    if (in_array($action, ['approve', 'deny', 'discard'])) {
+        try {
+            $approval = false;
+            if ($action == 'discard' && ModerationHandler::canDiscardVersion($entityId)) {
+                $approval = ModerationHandler::discardVersion($entityId);
+                $redirect = 'dashboard';
+            } elseif ($action == 'approve' && ModerationHandler::canApproveVersion($entityId)) {
+                $approval = ModerationApproval::fetchByContentObjectVersionId($entityId);
+                if ($approval && empty($approval->attribute('depends_on'))) {
+                    $approval = ModerationHandler::approveVersion($entityId);
+                }
+            } elseif ($action == 'deny' && ModerationHandler::canApproveVersion($entityId)) {
+                $approval = ModerationHandler::denyVersion($entityId);
+            }
+            if ($approval) {
                 $redirectTo = '/bootstrapitalia/approval';
+                if ($redirect === 'dashboard') {
+                    $redirectTo = '/bootstrapitalia/approval';
+                }
                 if ($redirect === 'history') {
                     $redirectTo = '/content/history/' . $approval->contentObjectId;
                 }
                 if ($redirect === 'version') {
-                    $redirectTo = '/bootstrapitalia/approval/' . $versionId;
+                    $redirectTo = '/bootstrapitalia/approval/version/' . $entityId;
+                }
+                if ($redirect === 'object') {
+                    $redirectTo = '/bootstrapitalia/approval/object/' . $approval->contentObjectId;
                 }
             } else {
-                $redirectTo = '/bootstrapitalia/approval/' . $versionId;
+                $redirectTo = '/bootstrapitalia/approval/version/' . $entityId;
             }
             $module->redirectTo($redirectTo);
             return;
@@ -70,17 +151,19 @@ if ($versionId > 0) {
             return $module->handleError(eZError::KERNEL_NOT_AVAILABLE, 'kernel');
         }
     } else {
-        $item = ModerationApproval::fetchByContentObjectVersionId($versionId);
+        $item = ModerationApproval::fetchByContentObjectVersionId($entityId);
         if ($item instanceof ModerationApproval) {
-            ModerationHandler::setLastRead($item);
-
             if ($action === 'comment' && $http->hasPostVariable('Comment')) {
                 $text = $http->postVariable('Comment');
                 ModerationMessage::createComment($item, $text);
-                $module->redirectTo('/bootstrapitalia/approval/' . $versionId);
+
+                $redirectTo = '/bootstrapitalia/approval/version/' . $entityId;
+                if ($redirect === 'object') {
+                    $redirectTo = '/bootstrapitalia/approval/object/' . $item->contentObjectId;
+                }
+                $module->redirectTo($redirectTo);
                 return;
             }
-
 
             $tpl->setVariable('approval_item', $item);
             $Result = [];
@@ -92,6 +175,12 @@ if ($versionId > 0) {
                 ],
                 [
                     'text' => $item->title,
+                    'url' => '/bootstrapitalia/approval/object/' . $item->contentObjectId,
+                ],
+                [
+                    'text' => ezpI18n::tr('bootstrapitalia/moderation', 'version') . ' ' . $item->attribute(
+                            'version'
+                        )->attribute('version'),
                     'url' => false,
                 ],
             ];
@@ -106,6 +195,7 @@ if ($versionId > 0) {
                 );
             }
             $Result['content_info'] = $contentInfoArray;
+            ModerationHandler::setLastRead($item);
         } else {
             return $module->handleError(eZError::KERNEL_NOT_AVAILABLE, 'kernel');
         }
@@ -131,7 +221,6 @@ if ($versionId > 0) {
     $tpl->setVariable('approvals', $approvals);
     $tpl->setVariable('approvals_count', ModerationApproval::fetchCount($filters));
     $tpl->setVariable('approvals_facets', $facets);
-    $tpl->setVariable('approval_item', false);
 
     $Result = [];
     $Result['content'] = $tpl->fetch('design:bootstrapitalia/approval.tpl');

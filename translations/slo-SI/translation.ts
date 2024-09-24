@@ -109,7 +109,7 @@
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Pojdi na koledar dogodkov</translation>
+      <translation>Pojdite na koledar dogodkov</translation>
     </message>
     <message>
       <source>Event start</source>
@@ -165,7 +165,7 @@
     </message>
     <message>
       <source>Further details</source>
-      <translation>Nadaljnje podrobnosti</translation>
+      <translation>Dodatne podrobnosti</translation>
     </message>
     <message>
       <source>Go to content</source>
@@ -460,6 +460,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Payments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation type="unfinished"/>
     </message>
@@ -722,7 +726,7 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>vsa spletna stran</translation>
+      <translation>vse spletne strani</translation>
     </message>
     <message>
       <source>only information of type</source>
@@ -1436,6 +1440,14 @@
       <source>Report a inefficiency</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Make a payment</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/signin</name>
@@ -2060,6 +2072,18 @@
     </message>
     <message>
       <source>Approval dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was archived following the request approval of version %id</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Go to the moderation dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was discard by creator</source>
       <translation type="unfinished"/>
     </message>
   </context>

@@ -20,22 +20,22 @@
     
     {include uri='design:parts/website_toolbar_edit.tpl'}
     <div class="clearfix">
-        {def $has_pending_approval = has_pending_approval($object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'))}
         {def $current_user_needs_approval = current_user_needs_approval($object.class_identifier)}
+        {def $has_pending_approval = has_pending_approval($object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'), $current_user_needs_approval)}
         {if or($has_pending_approval, $current_user_needs_approval)}
             <div class="alert alert-warning" style="margin-top:70px">
                 {if $current_user_needs_approval}
                     <p class="mb-0 text-warning font-weight-bold">{'Warning: the activities of this account are subject to moderation: the changes will be visible after approval by an editor'|i18n('bootstrapitalia/moderation')}</p>
                 {/if}
-                {if $has_pending_approval|eq(1)}
+                {*if $has_pending_approval|eq(1)}
                     <p class="mb-0 text-warning font-weight-bold">
-                        {'There is currently %version of this content awaiting approval'|i18n('bootstrapitalia/moderation',,hash('%version', concat('<a href="', concat('content/history/', $object.id)|ezurl(no), '">', $has_pending_approval, ' ', 'version'i18n('bootstrapitalia/moderation'), '</a>')))}
+                        {'There is currently %version of this content awaiting approval'|i18n('bootstrapitalia/moderation',,hash('%version', concat('<a href="', concat('bootstrapitalia/approval/', $object.id)|ezurl(no), '">', $has_pending_approval, ' ', 'version'i18n('bootstrapitalia/moderation'), '</a>')))}
                     </p>
                 {elseif $has_pending_approval|gt(1)}
                     <p class="mb-0 text-warning font-weight-bold">
-                        {'There are currently %versions of this content awaiting approval'|i18n('bootstrapitalia/moderation',,hash('%versions', concat('<a href="', concat('content/history/', $object.id)|ezurl(no), '">', $has_pending_approval, ' ', 'versions'i18n('bootstrapitalia/moderation'), '</a>')))}
+                        {'There are currently %versions of this content awaiting approval'|i18n('bootstrapitalia/moderation',,hash('%versions', concat('<a href="', concat('bootstrapitalia/approval/', $object.id)|ezurl(no), '">', $has_pending_approval, ' ', 'versions'i18n('bootstrapitalia/moderation'), '</a>')))}
                     </p>
-                {/if}
+                {/if*}
                 {if and($has_pending_approval|gt(0), not($current_user_needs_approval))}
                     <p class="mb-0 text-warning font-weight-bold">
                         {'By publishing content, versions currently awaiting moderation will be archived'|i18n('bootstrapitalia/moderation')}
@@ -86,7 +86,11 @@
               <input class="btn btn-lg btn-warning float-right mr-3 me-3" type="submit" name="StoreExitButton" value="{'Store draft and exit'|i18n( 'design/ocbootstrap/content/edit' )}" />
               <input class="btn btn-lg btn-dark" type="submit" name="DiscardButton" value="{'Discard draft'|i18n( 'design/ocbootstrap/content/edit' )}" />
               <input type="hidden" name="DiscardConfirm" value="0" />
-              {if ezhttp_hasvariable( 'RedirectIfDiscarded', 'session' )}<input type="hidden" name="RedirectIfDiscarded" value="{ezhttp( 'RedirectIfDiscarded', 'session' )}" />{/if}
+              {if ezhttp( 'url', 'get', true() )}
+                  <input type="hidden" name="RedirectIfDiscarded" value="{ezhttp( 'url', 'get' )|wash()}" />
+              {elseif ezhttp_hasvariable( 'RedirectIfDiscarded', 'session' )}
+                  <input type="hidden" name="RedirectIfDiscarded" value="{ezhttp( 'RedirectIfDiscarded', 'session' )}" />
+              {/if}
               {if $_redirect}<input type="hidden" name="RedirectURIAfterPublish" value="{$_redirect}" />{/if}
           </div>
     </div>

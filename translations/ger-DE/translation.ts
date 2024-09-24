@@ -460,6 +460,10 @@
       <translation>Einschreibungen</translation>
     </message>
     <message>
+      <source>Payments</source>
+      <translation>Zahlungen</translation>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation>Hauptmenü</translation>
     </message>
@@ -1440,6 +1444,14 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <source>Report a inefficiency</source>
       <translation>Bärendienst melden</translation>
     </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Make a payment</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/signin</name>
@@ -2064,6 +2076,18 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Approval dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was archived following the request approval of version %id</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Go to the moderation dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was discard by creator</source>
       <translation type="unfinished"/>
     </message>
   </context>

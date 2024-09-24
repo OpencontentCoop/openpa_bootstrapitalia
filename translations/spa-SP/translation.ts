@@ -460,6 +460,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Payments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation type="unfinished"/>
     </message>
@@ -754,7 +758,7 @@
     </message>
     <message>
       <source>Content type</source>
-      <translation>Tipo de contenido</translation>
+      <translation>tipo de contenido</translation>
     </message>
     <message>
       <source>Name</source>
@@ -1003,7 +1007,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Llena algunos datos sobre tu lugar.</translation>
+      <translation>Llena algunos datos sobre tu lugar</translation>
     </message>
     <message>
       <source>Select place</source>
@@ -1434,6 +1438,14 @@
     </message>
     <message>
       <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Make a payment</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -2060,6 +2072,18 @@
     </message>
     <message>
       <source>Approval dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was archived following the request approval of version %id</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Go to the moderation dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was discard by creator</source>
       <translation type="unfinished"/>
     </message>
   </context>

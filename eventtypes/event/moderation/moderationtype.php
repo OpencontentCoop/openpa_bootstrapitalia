@@ -52,6 +52,7 @@ class ModerationType extends eZWorkflowEventType
         if ($handler->needModeration()) {
             $moderationStatus = $handler->checkModerationStatus();
             if ($moderationStatus === ModerationHandler::STATUS_PENDING) {
+                $handler->cleanupPendingByOwner();
                 return eZWorkflowType::STATUS_DEFERRED_TO_CRON_REPEAT;
             }
 

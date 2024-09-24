@@ -63,6 +63,21 @@ class ModerationHandler
     {
         self::getStorage()->setAttribute('value', (int)$isEnabled);
         self::getStorage()->store();
+        if (!$isEnabled){
+            $moderationGroup = eZContentObject::fetch(self::getModerationGroupObjectId());
+            if ($moderationGroup instanceof eZContentObject){
+                $moderationGroupNode = $moderationGroup->mainNode();
+                if ($moderationGroupNode instanceof eZContentObjectTreeNode){
+                    $removeList = [];
+                    foreach ($moderationGroupNode->children() as $node){
+                        $removeList[] = $node->attribute('node_id');
+                    }
+                    if (count($removeList)) {
+                        eZContentOperationCollection::removeNodes($removeList);
+                    }
+                }
+            }
+        }
     }
 
     private static function getStorage(): eZSiteData
@@ -76,10 +91,10 @@ class ModerationHandler
         return self::$storage;
     }
 
-    public static function hasPendingApproval(int $objectId, string $locale): int
+    public static function hasPendingApproval(int $objectId, string $locale, bool $onlyForCurrentUser = false): int
     {
         return self::isEnabled() ?
-            ModerationApproval::fetchPendingCountByObjectIdAndLocale($objectId, $locale) : 0;
+            ModerationApproval::fetchPendingCountByObjectIdAndLocale($objectId, $locale, $onlyForCurrentUser) : 0;
     }
 
     public static function hasChildPendingApproval(int $mainAssignmentId, string $locale): int
@@ -111,11 +126,56 @@ class ModerationHandler
         if (!$process instanceof eZWorkflowProcess) {
             throw new RuntimeException('Invalid process ID');
         }
+        $approval->fixContingentRelations();
         $approval->status = self::STATUS_ACCEPTED;
         ModerationApproval::updateStatus($approval);
         self::executeProcess($approval->processId);
 
         ModerationMessage::createAuditOnApproved($approval);
+
+        return $approval;
+    }
+
+    public static function canDiscardVersion(int $contentObjectVersionId): bool
+    {
+        $approval = ModerationApproval::fetchByContentObjectVersionId($contentObjectVersionId);
+
+        return $approval instanceof ModerationApproval
+            && $approval->attribute('is_author')
+            && $approval->status === self::STATUS_PENDING;
+    }
+
+    public static function discardVersion(int $contentObjectVersionId): ModerationApproval
+    {
+        $approval = ModerationApproval::fetchByContentObjectVersionId($contentObjectVersionId);
+        if ($approval instanceof ModerationApproval) {
+            $currentObject = $approval->attribute('object');
+
+            if ($currentObject instanceof eZContentObject) {
+                if ($currentObject->attribute('status') == eZContentObject::STATUS_DRAFT){
+                    $version = eZContentObjectVersion::fetch($contentObjectVersionId);
+                    if ($version instanceof eZContentObjectVersion) {
+                        $db = eZDB::instance();
+                        $db->begin();
+                        $version->removeThis();
+                        ModerationApproval::cleanup();
+                        $db->commit();
+                    }
+                } else {
+                    $currentVersion = $currentObject->attribute('current');
+                    if ($currentVersion instanceof eZContentObjectVersion) {
+                        ModerationApproval::cleanByContentObjectIdAndVersion(
+                            (int)$currentObject->attribute('id'),
+                            (int)$currentVersion->attribute('id'),
+                            $currentVersion->initialLanguageCode(),
+                            (int)eZUser::currentUserID(),
+                            true
+                        );
+                    }
+                }
+            }
+        }
+
 
         return $approval;
     }
@@ -232,14 +292,23 @@ class ModerationHandler
     {
         return in_array(
             $classIdentifier,
-            OpenPAINI::variable('Moderation', 'Classes', [
+            [
                 'article',
                 'document',
                 'place',
                 'public_service',
                 'event',
-            ])
+            ]
         );
+    }
+
+    public static function getUserGroupsConstraintRemoteIdList(): array
+    {
+        return [
+            'editors_vivere_il_comune',
+            'editors_novita',
+            'editors_servizi',
+        ];
     }
 
     public function checkModerationStatus(): int
@@ -256,6 +325,16 @@ class ModerationHandler
             (string)$this->version->initialLanguageCode()
         );
         ModerationApproval::cleanup();
+    }
+
+    public function cleanupPendingByOwner()
+    {
+        ModerationApproval::cleanByContentObjectIdAndVersion(
+            (int)$this->object->attribute('id'),
+            (int)$this->version->attribute('id'),
+            (string)$this->version->initialLanguageCode(),
+            (int)$this->user->id()
+        );
     }
 
     private function getApproval(): ?ModerationApproval
@@ -282,12 +361,12 @@ class ModerationHandler
         (new eZCollaborationItemStatus([
             'collaboration_id' => $approval->id,
             'user_id' => $approval->authorId,
-            'last_read' => 0
+            'last_read' => 0,
         ]))->store();
         (new eZCollaborationItemStatus([
             'collaboration_id' => $approval->id,
             'user_id' => 0,
-            'last_read' => 0
+            'last_read' => 0,
         ]))->store();
 
         return $approval;
