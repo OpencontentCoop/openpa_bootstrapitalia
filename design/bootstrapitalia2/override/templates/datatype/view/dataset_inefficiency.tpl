@@ -198,7 +198,7 @@
             </p>
             <div class="accordion-item">
                 <div class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{:row.uuid}}"
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{:row.uuid}}"
                             aria-expanded="false" aria-controls="collapse-{{:row.uuid}}" data-focus-mouse="false">
                         <span class="d-flex align-items-center">
                             {/literal}Mostra tutto{literal}
