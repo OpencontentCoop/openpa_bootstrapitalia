@@ -60,3 +60,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th.dtr-control {
 body.with-fullscreen {
     overflow: hidden;
 }
+
+.opendatadataset_view_form .chosen-container-multi .chosen-drop .result-selected{
+    display: list-item !important;
+}
