@@ -165,7 +165,7 @@
     </message>
     <message>
       <source>Further details</source>
-      <translation>Nadaljnje podrobnosti</translation>
+      <translation>Dodatne podrobnosti</translation>
     </message>
     <message>
       <source>Go to content</source>
@@ -460,6 +460,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Payments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation type="unfinished"/>
     </message>
@@ -564,7 +568,7 @@
     </message>
     <message>
       <source>Apps</source>
-      <translation>Aplikacije</translation>
+      <translation>aplikacije</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
@@ -722,7 +726,7 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>vsa spletna stran</translation>
+      <translation>vse spletne strani</translation>
     </message>
     <message>
       <source>only information of type</source>
@@ -1007,7 +1011,7 @@
     </message>
     <message>
       <source>Select place</source>
-      <translation>Izberite kraj</translation>
+      <translation>Izberite mesto</translation>
     </message>
     <message>
       <source>Nowhere</source>
@@ -1434,6 +1438,14 @@
     </message>
     <message>
       <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Make a payment</source>
       <translation type="unfinished"/>
     </message>
   </context>
@@ -2060,6 +2072,10 @@
     </message>
     <message>
       <source>Approval dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was archived following the request approval of version %id</source>
       <translation type="unfinished"/>
     </message>
   </context>

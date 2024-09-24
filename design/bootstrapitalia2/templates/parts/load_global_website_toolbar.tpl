@@ -51,6 +51,43 @@
             e.preventDefault();
           });
           {/literal}{/if}{literal}
+          {/literal}{if is_approval_enabled()}{literal}
+          $('#dropdownApproval').on('show.bs.dropdown', function () {
+            let listItemStyle = 'max-width: 300px;overflow: hidden;text-overflow: ellipsis;'
+            let placeholder = $('#approval-placeholder');
+            let container = $('#approval-items');
+            let counter = $('#approval-count');
+            let prefix = UriPrefix === '/' ? '' : UriPrefix
+            container.html('')
+            placeholder.show();
+            $.ez('ezjscapproval::unread', null, function (response) {
+              placeholder.hide();
+              if (response.content.unread.length > 0){
+                $.each(response.content.unread, function (){
+                  let url = prefix+'/bootstrapitalia/approval/object/'+this.object_id;
+                  container.prepend(
+                      $('<li><a style="'+listItemStyle+'" class="list-item left-icon" href="'+url+'"><i aria-hidden="true" class="fa fa-comment"></i> '+this.items[0].title+'</a></li>')
+                  );
+                })
+              }
+              if (response.content.pending.length > 0){
+                if (response.content.unread.length > 0) {
+                  container.prepend(
+                      $('<li><span class="divider"></span></li>')
+                  );
+                }
+                $.each(response.content.pending, function (){
+                  let url = prefix+'/bootstrapitalia/approval/object/'+this.object_id;
+                  let pendingCount = this.count > 1 ? ' ('+this.count+')' : '';
+                  container.prepend(
+                      $('<li><a style="'+listItemStyle+'" class="list-item left-icon" href="'+url+'"><i aria-hidden="true" class="fa fa-history text-danger"></i> '+this.items[0].title+pendingCount+'</a></li>')
+                  );
+                })
+              }
+              //counter.text(response.content.pending.length+response.content.unread.length)
+            })
+          })
+          {/literal}{/if}{literal}
         });
       });
     {/literal}</script>

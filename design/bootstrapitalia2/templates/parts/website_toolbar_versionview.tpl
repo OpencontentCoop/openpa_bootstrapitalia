@@ -18,13 +18,13 @@
            {def $has_pending_approval = has_pending_approval($object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'))}
            <a class="btn btn-xs btn-success text-white" style="padding:10px 20px !important;"
               {if $has_pending_approval|gt(1)}onclick="return window.confirmDiscard ? confirmDiscard( '{'By publishing content, versions currently awaiting moderation will be archived'|i18n( 'bootstrapitalia/moderation' )|wash(javascript)}' ): true;"{/if}
-              href="{concat('/bootstrapitalia/approval/', $version.id, '/approve?redirect=history')|ezurl(no)}" title="{'Approve'|i18n('bootstrapitalia/moderation')}">
+              href="{concat('/bootstrapitalia/approval/version/', $version.id, '/approve?redirect=history')|ezurl(no)}" title="{'Approve'|i18n('bootstrapitalia/moderation')}">
                 {'Approve'|i18n('bootstrapitalia/moderation')}
            </a>
            {undef $has_pending_approval}
        </li>
        <li>
-            <a class="btn btn-xs btn-danger text-white" style="padding:10px 20px !important;" href="{concat('/bootstrapitalia/approval/', $version.id, '/deny?redirect=history')|ezurl(no)}" title="{'Deny'|i18n('bootstrapitalia/moderation')}">
+            <a class="btn btn-xs btn-danger text-white" style="padding:10px 20px !important;" href="{concat('/bootstrapitalia/approval/version/', $version.id, '/deny?redirect=history')|ezurl(no)}" title="{'Deny'|i18n('bootstrapitalia/moderation')}">
                 {'Deny'|i18n('bootstrapitalia/moderation')}
             </a>
        </li>
