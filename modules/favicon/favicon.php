@@ -28,7 +28,15 @@ function handleIconDownload(
         header( "Last-Modified: " );
         header( "Expires: ". gmdate( 'D, d M Y H:i:s', time() + 600 ) . ' GMT' );
 
-        $file->passthrough($fileOffset, $contentLength);
+        try {
+            header("HTTP/1.1 200 OK");
+            header('Cache-Control: public, must-revalidate, max-age=259200, s-maxage=259200');
+            $file->passthrough($fileOffset, $contentLength);
+        } catch (Exception $e) {
+            eZDebug::writeError($e->getMessage(), __METHOD__);
+            header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+        }
+        eZExecution::cleanExit();
     }
     return eZBinaryFileHandler::RESULT_UNAVAILABLE;
 }
@@ -47,11 +55,11 @@ if ($home instanceof eZContentObjectTreeNode) {
 }
 
 if ($result == eZBinaryFileHandler::RESULT_UNAVAILABLE) {
+    header("HTTP/1.1 200 OK");
+    header('Cache-Control: public, must-revalidate, max-age=259200, s-maxage=259200');
     $fallback = 'AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAD///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA';
     header("Content-Type: image/png");
     echo base64_decode($fallback);
 }
 
-header("HTTP/1.1 200 OK");
-header('Cache-Control: public, must-revalidate, max-age=259200, s-maxage=259200');
 eZExecution::cleanExit();
