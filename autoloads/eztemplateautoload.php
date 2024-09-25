@@ -57,7 +57,7 @@ $eZTemplateOperatorArray = [
             'can_check_remote_public_service',
             'topic_has_contents',
             'custom_booking_is_enabled',
-            'has_custom_booking_url',
+            'service_widget_url_info',
             'node_image',
             'image_src',
             'image_url',

@@ -460,6 +460,10 @@
       <translation>Iscrizioni</translation>
     </message>
     <message>
+      <source>Payments</source>
+      <translation>Pagamenti</translation>
+    </message>
+    <message>
       <source>Main menu</source>
       <translation>Menù principale</translation>
     </message>
@@ -1439,6 +1443,14 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Report a inefficiency</source>
       <translation>Segnalazione disservizio</translation>
+    </message>
+    <message>
+      <source>Fill out the form</source>
+      <translation>Compila</translation>
+    </message>
+    <message>
+      <source>Make a payment</source>
+      <translation>Effettua un pagamento</translation>
     </message>
   </context>
   <context>
