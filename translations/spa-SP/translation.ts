@@ -758,7 +758,7 @@
     </message>
     <message>
       <source>Content type</source>
-      <translation>Tipo de contenido</translation>
+      <translation>tipo de contenido</translation>
     </message>
     <message>
       <source>Name</source>
