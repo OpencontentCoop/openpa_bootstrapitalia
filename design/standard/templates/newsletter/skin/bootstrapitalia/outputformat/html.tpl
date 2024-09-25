@@ -7,6 +7,7 @@
 {set-block variable=$subject scope=root}{ezini('NewsletterMailSettings', 'EmailSubjectPrefix', 'cjw_newsletter.ini')} {$contentobject.name|wash}{/set-block}
 
 {def $base_bg_color = header_color()}
+{def $header_text_color = cond($base_bg_color|begins_with('#fff'), primary_color(), '#fff')}
 {def $footer_bg_color = footer_color()}
 
 <!doctype html>

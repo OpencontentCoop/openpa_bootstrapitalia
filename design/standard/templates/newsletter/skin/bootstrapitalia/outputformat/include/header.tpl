@@ -43,11 +43,11 @@
                 <tr>
                   <td align="center" style="font-size:0px;padding:10px 25px;padding-bottom:0;word-break:break-word;">            
                     
-                     <div style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;line-height:1;margin-bottom:5px;text-align:left;color:#FFFFFF;">
+                     <div style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;line-height:1;margin-bottom:5px;text-align:left;color:{$header_text_color};">
                         {ezini('SiteSettings','SiteName')}
                       </div>
 
-                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:20pt;line-height:1.2;text-align:left;color:#FFFFFF;">
+                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:20pt;line-height:1.2;text-align:left;color:{$header_text_color};">
                       
                       {$main_node.parent.name|wash()}
 
@@ -56,7 +56,7 @@
                 </tr>
                 <tr>
                   <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">            
-                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;line-height:1;text-align:left;color:#FFFFFF;">
+                    <div style="font-family:Arial,Helvetica,sans-serif;font-size:10pt;line-height:1;text-align:left;color:{$header_text_color};">
                       
                       {$main_node.name|wash()} - {currentdate()|l10n('shortdate')}
                       
