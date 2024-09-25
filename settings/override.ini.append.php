@@ -311,6 +311,13 @@ MatchFile=datatype/view/matrix_extra_info.tpl
 Subdir=templates
 Match[attribute_identifier]=extra_info
 
+[datatype_view_inefficiency_dataset]
+Source=content/datatype/view/opendatadataset.tpl
+MatchFile=datatype/view/dataset_inefficiency.tpl
+Subdir=templates
+Match[attribute_identifier]=csv_resource
+Match[remote_id]=inefficiency-dataset
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################

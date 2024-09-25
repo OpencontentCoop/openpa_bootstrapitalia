@@ -45,6 +45,14 @@ ContactsField_booking=link_prenotazione_appuntamento
 ContactsField_service-form=link_prenotazione_appuntamento
 ContactsField_payment=link_prenotazione_appuntamento
 
+ApiUserLogin=
+ApiUserPassword=
+
+[InefficiencyCollector]
+DefaultStatus[]
+DefaultStatus[]=Aperta
+DefaultStatus[]=Presa in carico
+
 [AccessPage]
 Title=Sign in
 Intro=To access the site and its services, use one of the following methods.
