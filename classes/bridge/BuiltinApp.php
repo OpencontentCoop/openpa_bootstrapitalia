@@ -20,7 +20,55 @@ class BuiltinApp extends OpenPATempletizable
 
         parent::__construct([
             'src' => $this->getWidgetSrc(),
+            'identifier' => $appName,
+            'label' => $appLabel,
         ]);
+    }
+
+    public static function fetchIdentifierList(): array
+    {
+        return [
+            'booking',
+            'support',
+            'inefficiency',
+            'service-form',
+            'payment',
+        ];
+    }
+
+    public static function fetchList(): array
+    {
+        $list = [];
+        foreach (self::fetchIdentifierList() as $identifier) {
+            $list[] = BuiltinApp::instanceByIdentifier($identifier);
+        }
+
+        return $list;
+    }
+
+    public static function instanceByIdentifier(string $identifier): BuiltinApp
+    {
+        switch ($identifier) {
+            case 'booking':
+                $app = new BuiltinApp('booking', 'Book an appointment');
+                break;
+            case 'support':
+                $app = new BuiltinApp('support', 'Request assistance');
+                break;
+            case 'inefficiency':
+                $app = new BuiltinApp('inefficiency', 'Report a inefficiency');
+                break;
+            case 'service-form':
+                $app = new BuiltinApp('service-form', 'Fill out the form');
+                break;
+            case 'payment':
+                $app = new BuiltinApp('payment', 'Make a payment');
+                break;
+            default:
+                throw new InvalidArgumentException("Unknown builtin identifier $identifier");
+        }
+
+        return $app;
     }
 
     /**
@@ -102,16 +150,16 @@ class BuiltinApp extends OpenPATempletizable
             'OC_PRIVACY_URL' => $privacyUrl,
             'OC_AUTH_URL' => $authUrl,
         ];
-        if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled') !== 'modal'){
+        if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled') !== 'modal') {
             $window['OC_SPID_BUTTON'] = 'true';
         }
-        if (self::getCurrentOptions('EnableSeverityField')){
+        if (self::getCurrentOptions('EnableSeverityField')) {
             $window['OC_SHOW_SEVERITY_FIELD'] = 'true';
         }
-        if (self::getCurrentOptions('CategoriesUrl')){
+        if (self::getCurrentOptions('CategoriesUrl')) {
             $window['OC_CATEGORIES_URL'] = self::getCurrentOptions('CategoriesUrl');
         }
-        if (self::getCurrentOptions('BoundingBox')){
+        if (self::getCurrentOptions('BoundingBox')) {
             $window['OC_BB'] = self::getCurrentOptions('BoundingBox');
         }
 
@@ -121,7 +169,7 @@ class BuiltinApp extends OpenPATempletizable
     protected function getWidgetSrc(): string
     {
         $path = OpenPAINI::variable('StanzaDelCittadinoBridge', 'BuiltInWidgetSource_' . $this->getAppIdentifier(), '');
-        if (empty($path)){
+        if (empty($path)) {
             return '';
         }
         $host = self::getStanzaDelCittadinoBridge()->getHost();
@@ -131,7 +179,7 @@ class BuiltinApp extends OpenPATempletizable
     protected function getWidgetStyle(): string
     {
         $path = OpenPAINI::variable('StanzaDelCittadinoBridge', 'BuiltInWidgetStyle_' . $this->getAppIdentifier(), '');
-        if (empty($path)){
+        if (empty($path)) {
             return '';
         }
         $host = self::getStanzaDelCittadinoBridge()->getHost();
@@ -143,6 +191,15 @@ class BuiltinApp extends OpenPATempletizable
         return OpenPAINI::variable('StanzaDelCittadinoBridge', 'RootId_' . $this->getAppIdentifier(), 'root');
     }
 
+    protected function getTemplate(): string
+    {
+        return OpenPAINI::variable(
+            'StanzaDelCittadinoBridge',
+            'Template_' . $this->getAppIdentifier(),
+            'openpa/built_in_app.tpl'
+        );
+    }
+
     protected function isAppEnabled(): bool
     {
         $pagedata = new \OpenPAPageData();
@@ -152,16 +209,22 @@ class BuiltinApp extends OpenPATempletizable
         return !(isset($contacts[$field]) && !empty($contacts[$field])) && self::getCurrentOptions('TenantUrl');
     }
 
-    protected function getServicePath()
+    protected function getServicePath(?eZModule $module)
     {
         $path = [];
-        $serviceId = eZHTTPTool::instance()->hasGetVariable('service_id') ? eZHTTPTool::instance()->getVariable('service_id') : null;
+        $serviceId = eZHTTPTool::instance()->hasGetVariable('service_id') ? eZHTTPTool::instance()->getVariable(
+            'service_id'
+        ) : null;
         if (!$serviceId) {
-            $referrer = eZSys::serverVariable('HTTP_REFERER', true);
-            if ($referrer && strpos($referrer, '?service_id=') !== false) {
-                $referrerQuery = parse_url($referrer, PHP_URL_QUERY);
-                parse_str($referrerQuery, $referrerQueryArray);
-                $serviceId = $referrerQueryArray['service_id'] ?? null;
+            if ($module instanceof eZModule && ServiceSync::isUuid($module->ViewParameters[0] ?? '')) {
+                $serviceId = $module->ViewParameters[0];
+            } else {
+                $referrer = eZSys::serverVariable('HTTP_REFERER', true);
+                if ($referrer && strpos($referrer, '?service_id=') !== false) {
+                    $referrerQuery = parse_url($referrer, PHP_URL_QUERY);
+                    parse_str($referrerQuery, $referrerQueryArray);
+                    $serviceId = $referrerQueryArray['service_id'] ?? null;
+                }
             }
         }
         if ($serviceId) {
@@ -183,7 +246,7 @@ class BuiltinApp extends OpenPATempletizable
                         )
                         LIMIT 1"
                 );
-                if (isset($objectIdList[0]['from_contentobject_id'])){
+                if (isset($objectIdList[0]['from_contentobject_id'])) {
                     $service = eZContentObject::fetch((int)$objectIdList[0]['from_contentobject_id']);
                 }
             } elseif (is_numeric($serviceId)) {
@@ -192,7 +255,7 @@ class BuiltinApp extends OpenPATempletizable
 
             if ($service instanceof eZContentObject && $service->attribute('class_identifier') === 'public_service') {
                 $serviceNode = $service->mainNode();
-                if ($serviceNode instanceof eZContentObjectTreeNode){
+                if ($serviceNode instanceof eZContentObjectTreeNode) {
                     $parent = $serviceNode->fetchParent();
                     $parentUrl = $parent->urlAlias();
                     eZURI::transformURI($parentUrl);
@@ -201,9 +264,9 @@ class BuiltinApp extends OpenPATempletizable
                         'url' => $parentUrl,
                     ];
                     $dataMap = $service->dataMap();
-                    if (isset($dataMap['type']) && $dataMap['type']->hasContent()){
+                    if (isset($dataMap['type']) && $dataMap['type']->hasContent()) {
                         $typeTags = $dataMap['type']->content();
-                        if ($typeTags instanceof eZTags){
+                        if ($typeTags instanceof eZTags) {
                             $type = $typeTags->attribute('keywords')[0];
                             $path[] = [
                                 'text' => $type,
@@ -224,7 +287,7 @@ class BuiltinApp extends OpenPATempletizable
         return $path;
     }
 
-    public function getModuleResult(): array
+    public function getModuleResult(?eZModule $module): array
     {
         $tpl = eZTemplate::factory();
         $tpl->setVariable('built_in_app_is_enabled', $this->isAppEnabled());
@@ -236,15 +299,19 @@ class BuiltinApp extends OpenPATempletizable
         $tpl->setVariable('built_in_app_api_base_url', self::getStanzaDelCittadinoBridge()->getApiBaseUri());
 
         $Result = [];
-        $Result['content'] = $tpl->fetch('design:openpa/built_in_app.tpl');
+        $Result['content'] = $tpl->fetch('design:' . $this->getTemplate());
         $path = [];
         $homeUrl = '/';
         eZURI::transformURI($homeUrl);
         $path[] = [
-            'text' => OpenPAINI::variable('GeneralSettings','ShowMainContacts', 'enabled') == 'enabled' ? 'Home' : OpenPaFunctionCollection::fetchHome()->getName(),
+            'text' => OpenPAINI::variable(
+                'GeneralSettings',
+                'ShowMainContacts',
+                'enabled'
+            ) == 'enabled' ? 'Home' : OpenPaFunctionCollection::fetchHome()->getName(),
             'url' => $homeUrl,
         ];
-        $path = array_merge($path, $this->getServicePath());
+        $path = array_merge($path, $this->getServicePath($module));
         $path[] = [
             'text' => ezpI18n::tr('bootstrapitalia/footer', $this->getAppLabel()),
             'url' => false,
@@ -322,9 +389,11 @@ class BuiltinApp extends OpenPATempletizable
             $locale = eZLocale::currentLocaleCode();
             self::$currentOptions = [
                 'TenantUrl' => $data[$locale]['TenantUrl']
-                    ?? StanzaDelCittadinoBridge::instanceByPersonalAreaLogin(PersonalAreaLogin::instance())->getTenantUri(),
+                    ?? StanzaDelCittadinoBridge::instanceByPersonalAreaLogin(
+                        PersonalAreaLogin::instance()
+                    )->getTenantUri(),
                 'TenantLang' => $data[$locale]['TenantLang'] ?? 'it',
-                'CategoriesUrl' => $data[$locale]['CategoriesUrl']?? null,
+                'CategoriesUrl' => $data[$locale]['CategoriesUrl'] ?? null,
                 'EnableSeverityField' => $data[$locale]['EnableSeverityField'] ?? $data['EnableSeverityField'] ?? false,
                 'BoundingBox' => $data[$locale]['BoundingBox'] ?? null,
             ];
@@ -353,5 +422,58 @@ class BuiltinApp extends OpenPATempletizable
         $data[$locale] = $newOptions;
         $siteData->setAttribute('value', json_encode($data));
         $siteData->store();
+    }
+
+    public static function getWidgetUrlInfo($channelUrlAttribute, $serviceObject): array
+    {
+        $url = '/';
+        $text = '?';
+        $builtin = $serviceIdentifier = $serviceId = false;
+        if (($channelUrlAttribute instanceof eZContentObjectAttribute
+            && $channelUrlAttribute->attribute('data_type_string') === eZURLType::DATA_TYPE_STRING
+            && $serviceObject instanceof eZContentObject
+            && $serviceObject->attribute('class_identifier') === 'public_service'
+            && $channelUrlAttribute->object()->attribute('class_identifier') === 'channel'
+        )) {
+            $url = $channelUrlAttribute->attribute('content');
+            $urlQuery = parse_url($url, PHP_URL_QUERY);
+            parse_str($urlQuery, $urlQueryHash);
+
+            $text = $channelUrlAttribute->attribute('data_text');
+            if (empty($text)) {
+                $text = $url;
+            }
+
+            $serviceDataMap = $serviceObject->dataMap();
+            $serviceIdentifier = isset($serviceDataMap['identifier']) ? $serviceDataMap['identifier']->content() : null;
+            $serviceId = $urlQueryHash['service_id'] ?? '';
+
+            if (in_array($serviceIdentifier, ['inefficiency', 'inefficiencies'])) {
+                $builtin = 'inefficiency';
+                $url = '/segnala_disservizio';
+            } elseif (strpos($url, 'prenota_appuntamento') !== false) {
+                $builtin = 'booking';
+                if (StanzaDelCittadinoBooking::factory()->isEnabled()
+                    && StanzaDelCittadinoBooking::factory()->isServiceRegistered(
+                        (int)$serviceObject->attribute('id')
+                    )) {
+                    $url = '/prenota_appuntamento?service_id=' . $serviceObject->attribute('id');
+                } elseif (ServiceSync::isUuid($serviceId)) {
+                    $url = '/prenota_appuntamento/' . $serviceId . '/#/prenota_appuntamento?' . $urlQuery;
+                }
+            } elseif (strpos($url, '/pagamento') !== false && ServiceSync::isUuid($serviceId)) {
+                $builtin = 'payment';
+                $url = '/pagamento/' . $serviceId . '/#/?' . $urlQuery;
+            }
+        }
+
+        eZURI::transformURI($url);
+        return [
+            'builtin' => $builtin,
+            'identifier' => $serviceIdentifier,
+            'id' => $serviceId,
+            'url' => $url,
+            'text' => $text,
+        ];
     }
 }

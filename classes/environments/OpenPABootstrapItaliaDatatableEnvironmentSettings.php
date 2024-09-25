@@ -1,6 +1,8 @@
 <?php
 
+use Opencontent\Opendata\Api\ClassRepository;
 use Opencontent\Opendata\Api\Values\Content;
+use Opencontent\Opendata\Api\Values\ContentClass;
 
 class OpenPABootstrapItaliaDatatableEnvironmentSettings extends OpenPABootstrapItaliaContentEnvironmentSettings
 {
@@ -56,21 +58,41 @@ class OpenPABootstrapItaliaDatatableEnvironmentSettings extends OpenPABootstrapI
         \ArrayObject $query,
         \Opencontent\QueryLanguage\QueryBuilder $builder
     ) {
-        $parameters = $this->request->get;        
-        
+        $parameters = $this->request->get;
+
+        $forceAsAttributeFields = [];
+        if (isset($query['SearchContentClassID']) && count($query['SearchContentClassID']) === 1){
+            if (is_numeric($query['SearchContentClassID'][0])){
+                try {
+                    $class = (new ClassRepository)->load(
+                        eZContentClass::classIdentifierByID($query['SearchContentClassID'][0])
+                    );
+                    if ($class instanceof ContentClass){
+                        $fields = array_column($class->fields, 'identifier');
+                        $overrideAttributeFields = array_intersect($fields, ['published', 'modified']);
+                        foreach ($overrideAttributeFields as $overrideAttributeField) {
+                            $forceAsAttributeFields[$overrideAttributeField] = ezfSolrDocumentFieldBase::generateAttributeFieldName(
+                                new \eZContentClassAttribute(array('identifier' => $overrideAttributeField)),
+                                'date'
+                            );
+                        }
+                    }
+                }catch (Exception $e){}
+            }
+        }
+
         $columns = $parameters['columns'];
         $order = $parameters['order'];
         $search = $parameters['search'];        
         foreach( $columns as $index => $column ){            
             if ( $column['searchable'] == 'true' || $column['searchable'] === true ){                
                 $columns[$index]['fieldNames'] = $builder->getSolrNamesHelper()->generateFieldNames( $column['name'] );
-                $columns[$index]['sortNames'] = $builder->getSolrNamesHelper()->generateSortNames( $column['name'] );
-                if ( !empty($column['search']['value']) ){
-                    //@todo
-                }
+                $columns[$index]['sortNames'] = isset($forceAsAttributeFields[$column['name']]) ?
+                    [$column['name'] => $forceAsAttributeFields[$column['name']]] :
+                    $builder->getSolrNamesHelper()->generateSortNames( $column['name'] );
             }
         }
-        
+
         $query['SortBy'] = array();
         foreach( $order as $orderParam ){
             $column = $columns[$orderParam['column']];            
@@ -80,7 +102,7 @@ class OpenPABootstrapItaliaDatatableEnvironmentSettings extends OpenPABootstrapI
                 }
             }
         }
-        
+
         if ( !empty($search['value']) ){
             $query['_query'] = $search['value'];
         }

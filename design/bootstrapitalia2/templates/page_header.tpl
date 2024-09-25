@@ -11,7 +11,9 @@
                             {include uri='design:logo.tpl'}
                             <div class="it-right-zone">
                                 {include uri='design:header/social.tpl' css="d-none d-lg-flex"}
-                                {include uri='design:header/search.tpl'}
+                                {if openpaini('GeneralSettings', 'ShowHeaderSearch', 'enabled')|eq('enabled')}
+                                    {include uri='design:header/search.tpl'}
+                                {/if}
                             </div>
                         </div>
                     </div>

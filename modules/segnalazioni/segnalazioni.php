@@ -5,7 +5,7 @@ $Module = $Params['Module'];
 $Module->setExitStatus(eZModule::STATUS_IDLE);
 $http = eZHTTPTool::instance();
 
-$app = new BuiltinApp('inefficiency', 'Inefficiency reporting');
+$app = BuiltinApp::instanceByIdentifier('inefficiency');
 
 if ($http->hasPostVariable('StoreConfig')) {
     $configValue = $http->postVariable('Config', '');
@@ -14,4 +14,4 @@ if ($http->hasPostVariable('StoreConfig')) {
     return;
 }
 
-$Result = $app->getModuleResult();
+$Result = $app->getModuleResult($Module);

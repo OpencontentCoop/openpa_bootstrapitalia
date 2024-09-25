@@ -30,6 +30,13 @@ Match[class_identifier]=image
 ############################################ DATATYPE VIEW
 ############################################
 
+[datatype_view_public_service_access_url]
+Source=content/datatype/view/ezurl.tpl
+MatchFile=datatype/view/public_service_channel_url.tpl
+Subdir=templates
+Match[class_identifier]=channel
+Match[attribute_identifier]=channel_url
+
 [datatype_view_compensi]
 Source=content/datatype/view/ezmatrix.tpl
 MatchFile=datatype/view/matrix_compensi.tpl

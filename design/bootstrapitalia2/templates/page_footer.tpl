@@ -310,7 +310,9 @@
 
                         {undef $needCookieConsent}
                         {*<a href="#">Media policy</a> @todo*}
+                        {if openpaini('GeneralSettings', 'ShowFooterSiteMap', 'enabled')|eq('enabled')}
                         <a href={"/content/view/sitemap/2/"|ezurl}>{"Sitemap"|i18n("design/standard/layout")}</a>
+                        {/if}
 {*                        <a href={"/openapi/doc/"|ezurl}>API</a>*}
                     </div>
                 </div>

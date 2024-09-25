@@ -28,17 +28,13 @@
         {/if}
         {if $child.data_map.channel_url.has_content}
             <div class="mb-4">
-                {if has_custom_booking_url($child|attribute('channel_url'), $attribute.object)}
-                    <a class="text-primary btn btn-outline-primary text-primary bg-white mobile-full font-sans-serif"
-                       href="{concat('/prenota_appuntamento?service_id=', $attribute.contentobject_id)|ezurl(no)}">
-                        {$child|attribute('channel_url').data_text|wash( xhtml )}
-                    </a>
-                {else}
-                    {attribute_view_gui attribute=$child|attribute('channel_url') css_class=cond($index|eq(0), "btn btn-primary fw-bold mobile-full font-sans-serif", "text-primary btn btn-outline-primary bg-white mobile-full font-sans-serif")}
-                    {if $has_channel_help_link|not()}
-                        {include uri='design:parts/channel_help_link.tpl' object=$child.object}
-                        {set $has_channel_help_link = true()}
-                    {/if}
+                {attribute_view_gui attribute=$child|attribute('channel_url')
+                                    service=$attribute.object
+                                    context=list
+                                    css_class=cond($index|eq(0), "btn btn-primary fw-bold mobile-full font-sans-serif", "text-primary btn btn-outline-primary bg-white mobile-full font-sans-serif")}
+                {if $has_channel_help_link|not()}
+                    {include uri='design:parts/channel_help_link.tpl' object=$child.object}
+                    {set $has_channel_help_link = true()}
                 {/if}
             </div>
         {/if}

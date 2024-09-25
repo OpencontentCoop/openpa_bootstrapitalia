@@ -1,5 +1,9 @@
 {ezpagedata_set( 'has_container', true() )}
 
+{if openpaini('Trasparenza', 'ForceMainNode', 'disabled')|eq('enabled')}
+    {set $node = $node.object.main_node}
+{/if}
+
 {def $trasparenza = $openpa.content_trasparenza
      $root_node = $openpa.control_menu.side_menu.root_node
      $tree_menu = tree_menu( hash( 'root_node_id', $root_node.node_id, 'user_hash', $openpa.control_menu.side_menu.user_hash, 'scope', 'side_menu' ))
@@ -83,6 +87,10 @@
         <section class="col-lg-8 p-4">
             <h4 class="mb-4">{$node.data_map.titolo.content|wash()}</h4>
 
+            {if $node|has_attribute('abstract')}
+                {attribute_view_gui attribute=$node|attribute('abstract')}
+            {/if}
+
             {if $trasparenza.show_alert}                    
                 <div class="alert alert-warning">
                     Sezione in allestimento
@@ -116,7 +124,24 @@
                     <h6>Regole rappresentazione impostate</h6>
                     <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">
                     {foreach $trasparenza.table_fields as $table_index => $fields}
-                        <code>{$fields.query|wash()}</code>
+                        <p>
+                            <a target="_blank" title="{$fields.query|wash()}"
+                               href="{concat('/opendata/console/1?query=',$fields.query|wash())|ezurl(no)}">
+                                <code style="word-break: break-all;">{$fields.raw|wash()}</code>
+                            </a>
+                        </p>
+                        {if and(
+                            openpaini('Trasparenza', concat('ShowCsvImportWidget_', $fields.class_identifier), 'disabled')|eq('enabled'),
+                            $fields.parent_node_id|eq($node.node_id)
+                        )}
+                        <div class="font-sans-serif">
+                            <h6>Caricamento massivo</h6>
+                            {include uri="design:parts/csv_import_widget.tpl"
+                                example=openpaini('Trasparenza', concat('CsvImportWidgetExample_', $fields.class_identifier), false())
+                                parent_node_id=$fields.parent_node_id
+                                class_identifier=$fields.class_identifier}
+                        </div>
+                        {/if}
                     {/foreach}
                     </div>
                 {/if}
@@ -161,6 +186,7 @@
             {* Figli di classe pagina_trasaparenza *}
             {if $trasparenza.count_children_trasparenza|gt(0)}
                 {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
+                         show_icon=true() view=banner
                          nodes = fetch('content', 'list', $trasparenza.children_trasparenza_fetch_parameters)
                          nodes_count = $trasparenza.count_children_trasparenza}
 
@@ -184,6 +210,7 @@
             {* lista dei figli *}
             {if $trasparenza.count_children_extra}
                 {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'
+                         show_icon=true() view=card
                          nodes=fetch('content', 'list', $trasparenza.children_extra_fetch_parameters)
                          nodes_count=$trasparenza.count_children_extra}
             {/if}
