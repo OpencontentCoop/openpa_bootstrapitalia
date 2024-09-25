@@ -324,6 +324,7 @@ class BuiltinApp extends OpenPATempletizable
         $contentInfoArray['persistent_variable'] = [
             'show_path' => true,
             'built_in_app' => $this->getAppIdentifier(),
+            'show_valuation' => true,
         ];
         if (is_array($tpl->variable('persistent_variable'))) {
             $contentInfoArray['persistent_variable'] = array_merge(
