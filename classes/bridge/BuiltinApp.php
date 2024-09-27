@@ -374,7 +374,7 @@ class BuiltinApp extends OpenPATempletizable
                 'name' => '[Segnalazione disservizio] bounding box mappa',
                 'placeholder' => '8.66272,44.52197,9.09805,44.37590',
                 'type' => 'string',
-                'current_value' => (bool)$current['BoundingBox'],
+                'current_value' => $current['BoundingBox'],
             ],
         ];
     }
