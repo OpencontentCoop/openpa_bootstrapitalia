@@ -1,4 +1,36 @@
 /*jshint esversion: 6 */
+(function ($) {
+  $.retryAjax = function (ajaxParams) {
+    var errorCallback;
+    ajaxParams.tryCount = (!ajaxParams.tryCount) ? 0 : ajaxParams.tryCount;
+    ajaxParams.retryLimit = (!ajaxParams.retryLimit) ? 2 : ajaxParams.retryLimit;
+    ajaxParams.suppressErrors = true;
+    if (ajaxParams.error) {
+      errorCallback = ajaxParams.error;
+      delete ajaxParams.error;
+    } else {
+      errorCallback = function () {
+      };
+    }
+    ajaxParams.complete = function (jqXHR, textStatus) {
+      if (jqXHR && jqXHR.readyState === 0 && jqXHR.status === 0
+        && $.inArray(textStatus, ['timeout', 'abort', 'error']) > -1) {
+        this.tryCount++;
+        if (this.tryCount <= this.retryLimit) {
+          console.log('Connection error: retry', this.tryCount)
+          if (this.tryCount === this.retryLimit) {
+            this.error = errorCallback;
+            delete this.suppressErrors;
+          }
+          $.ajax(this);
+          return true;
+        }
+        return true;
+      }
+    };
+    $.ajax(ajaxParams);
+  };
+}(jQuery));
 (function ($, window, document, undefined) {
 
   "use strict"
@@ -39,7 +71,6 @@
   function Plugin(element, options) {
     this.element = element
     this.settings = $.extend({}, defaults, options)
-
     let _token = '', _tokenNode = document.getElementById('ezxform_token_js');
     if (_tokenNode) _token = _tokenNode.getAttribute('title');
     this.settings.xtoken = _token;
@@ -169,6 +200,7 @@
 
       if (self.settings.profileUrl && self.settings.tokenUrl) {
         $.ajax({
+          retryLimit: 1,
           url: self.settings.tokenUrl,
           dataType: 'json',
           xhrFields: {withCredentials: true},
@@ -242,7 +274,7 @@
       let self = this
       let meeting = self.currentData.meeting || null
       self.info('init', 'refresh meeting draft')
-      $.ajax({
+      $.retryAjax({
         type: "POST",
         url: self.baseUrl + 'openpa/data/booking/restore_meeting',
         data: {
@@ -267,7 +299,7 @@
 
     getAnonymousToken: function (callback, context) {
       let self = this
-      $.ajax({
+      $.retryAjax({
         url: self.settings.tokenUrl,
         dataType: 'json',
         type: "POST",
@@ -284,7 +316,7 @@
       let self = this
       if (self.settings.profileUrl) {
         let tokenData = self.parseToken(token)
-        $.ajax({
+        $.retryAjax({
           url: self.settings.profileUrl + '/' + tokenData.id,
           dataType: 'json',
           headers: {Authorization: 'Bearer ' + token},
@@ -849,7 +881,7 @@
         label.text(renderLabel(inCache.title || '?', id))
       } else {
         self.debug('get-calendar', id)
-        $.ajax({
+        $.retryAjax({
           dataType: "json",
           url: self.baseUrl + 'openpa/data/booking/calendar/' + id,
           success: function (response) {
@@ -884,7 +916,7 @@
       if (this.currentData.place && this.currentData.day) {
         this.debug('find-hours-availabilities')
         this.freezeAppointmentSelection()
-        $.ajax({
+        $.retryAjax({
           dataType: "json",
           url: this.baseUrl + 'openpa/data/booking/availabilities_by_day',
           data: {
@@ -936,7 +968,7 @@
         callback.call(context, inCache)
       } else {
         self.debug('find-day-availabilities', cacheKey)
-        $.ajax({
+        $.retryAjax({
           dataType: "json",
           url: self.baseUrl + 'openpa/data/booking/availabilities',
           data: data,
@@ -1120,7 +1152,7 @@
           place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html()
         }
         let self = this
-        $.ajax({
+        $.retryAjax({
           type: "POST",
           url: self.baseUrl + 'openpa/data/booking/meeting',
           data: postData,
@@ -1157,7 +1189,7 @@
           place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html()
         }
         let self = this
-        $.ajax({
+        $.retryAjax({
           type: "POST",
           url: self.baseUrl + 'openpa/data/booking/draft_meeting',
           data: postData,
