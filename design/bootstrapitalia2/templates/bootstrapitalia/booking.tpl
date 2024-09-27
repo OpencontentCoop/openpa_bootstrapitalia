@@ -48,6 +48,10 @@
         width: 100%;
         height: 100%;
     {rdelim}
+    #appointment-calendars label.form-check-label{ldelim}
+        color: #000;
+        font-weight: 500;
+    {rdelim}
 </style>
 
 <script>
