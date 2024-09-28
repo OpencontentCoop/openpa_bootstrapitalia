@@ -60,9 +60,16 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
         ) {
             $violation = $validator->validate();
             if (!empty($violation)) {
-                eZDebug::writeDebug(get_class($validator) . ' KO: ' . $violation['text'], __METHOD__);
                 $result['is_valid'] = false;
-                $result['warnings'][] = $violation;
+                if (isset($violation['items'])) {
+                    foreach ($violation['items'] as $item) {
+                        eZDebug::writeDebug(get_class($validator) . ' KO: ' . $item['text'], __METHOD__);
+                        $result['warnings'][] = $item;
+                    }
+                } else {
+                    eZDebug::writeDebug(get_class($validator) . ' KO: ' . $violation['text'], __METHOD__);
+                    $result['warnings'][] = $violation;
+                }
             } else {
                 eZDebug::writeDebug(get_class($validator) . ' OK', __METHOD__);
             }
@@ -116,6 +123,13 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                             )
                         );
                     }
+                } else {
+                    eZDebug::writeError(
+                        sprintf(
+                            'Registered validator %s class not found',
+                            $validatorClassName
+                        )
+                    );
                 }
             }
         }
