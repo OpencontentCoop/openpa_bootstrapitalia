@@ -25,7 +25,7 @@ abstract class AbstractBootstrapItaliaInputValidator implements BootstrapItaliaI
     protected $object;
 
     /**
-     * @var int
+     * @var eZContentObjectVersion
      */
     protected $version;
 
@@ -184,5 +184,42 @@ abstract class AbstractBootstrapItaliaInputValidator implements BootstrapItaliaI
         $varName = $this->base . "_data_gmaplocation_address_" . $contentObjectAttribute->attribute("id");
         $value = $this->http->hasPostVariable($varName) ? $this->http->postVariable($varName) : false;
         return !empty($value);
+    }
+
+    protected function getTags(
+        eZContentObjectAttribute $contentObjectAttribute
+    ): ?eZTags {
+        $contentObjectAttributeId = $contentObjectAttribute->attribute('id');
+
+        if (!$this->http->hasPostVariable($this->base . '_eztags_data_text_' . $contentObjectAttributeId)) {
+            return null;
+        }
+        if (!$this->http->hasPostVariable($this->base . '_eztags_data_text2_' . $contentObjectAttributeId)) {
+            return null;
+        }
+        if (!$this->http->hasPostVariable($this->base . '_eztags_data_text3_' . $contentObjectAttributeId)) {
+            return null;
+        }
+        if (!$this->http->hasPostVariable($this->base . '_eztags_data_text4_' . $contentObjectAttributeId)) {
+            return null;
+        }
+        $keywordString = trim(
+            $this->http->postVariable($this->base . '_eztags_data_text_' . $contentObjectAttributeId)
+        );
+        $parentString = trim(
+            $this->http->postVariable($this->base . '_eztags_data_text2_' . $contentObjectAttributeId)
+        );
+        $idString = trim($this->http->postVariable($this->base . '_eztags_data_text3_' . $contentObjectAttributeId));
+        $localeString = trim(
+            $this->http->postVariable($this->base . '_eztags_data_text4_' . $contentObjectAttributeId)
+        );
+
+        return eZTags::createFromStrings(
+            $contentObjectAttribute,
+            $idString,
+            $keywordString,
+            $parentString,
+            $localeString
+        );
     }
 }
