@@ -87,8 +87,10 @@ function OpenCityFullCalendarInit(baseUrl, language, BlockCalendarEndpoint, Cale
                 windowResize: function (view) {
                     var windowWidth = $(window).width();
                     if (windowWidth < 800) {
+                        this.setOption('aspectRatio', 0.6);
                         this.changeView('listWeek');
                     } else {
+                        this.setOption('aspectRatio', 1.35);
                         this.changeView('dayGridMonth');
                     }
                 },
@@ -101,7 +103,7 @@ function OpenCityFullCalendarInit(baseUrl, language, BlockCalendarEndpoint, Cale
                         dayMaxEventRows : MaxEvents
                     }
                 },
-                aspectRatio: 3,
+                aspectRatio: 2,
                 dayHeaderContent: function (arg) {
                     var date = arg.date;
                     return {'html': '<div class="day-title text-uppercase">' + moment(date).format('D') + '<span> ' + moment(date).format('ddd') + '</span></div>'};
@@ -109,8 +111,10 @@ function OpenCityFullCalendarInit(baseUrl, language, BlockCalendarEndpoint, Cale
                 windowResize: function (view) {
                     var windowWidth = $(window).width();
                     if (windowWidth < 800) {
+                        this.setOption('aspectRatio', 0.6);
                         this.changeView('listWeek');
                     } else {
+                        this.setOption('aspectRatio', 2);
                         this.changeView('dayGridWeek');
                     }
                 },
@@ -133,11 +137,11 @@ function OpenCityFullCalendarInit(baseUrl, language, BlockCalendarEndpoint, Cale
                 windowResize: function (view) {
                     var windowWidth = $(window).width();
                     if (windowWidth < 800) {
+                        this.setOption('aspectRatio', 0.6);
                         this.changeView('listWeek');
-                        this.setOption('aspectRatio', 1);
                     } else {
-                        this.changeView('dayGridWeek');
                         this.setOption('aspectRatio', 3.4);
+                        this.changeView('dayGridWeek');
                     }
                 },
             });
