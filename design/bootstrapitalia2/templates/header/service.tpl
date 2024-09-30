@@ -266,15 +266,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/subscriptions/">
-                                <svg class="icon icon-sm icon-primary left">
-                                    <use xlink:href="{{:spritePath}}#it-pencil"></use>
-                                </svg>
-                                <span>{/literal}{'Subscriptions'|i18n('bootstrapitalia')}{literal}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/payments/">
+                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/user/payments/">
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-card"></use>
                                 </svg>
