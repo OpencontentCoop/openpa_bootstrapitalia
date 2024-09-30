@@ -21,6 +21,9 @@ Class=ezjscBridge
 [ezjscServer_ezjscmatrix]
 Class=ezjscMatrix
 
+[ezjscServer_ezjscapproval]
+Class=ezjscApproval
+
 [Packer]
 AppendLastModifiedTime=disabled
 */ ?>

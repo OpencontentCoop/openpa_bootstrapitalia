@@ -2074,5 +2074,9 @@
       <source>Approval dashboard</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>The version was archived following the request approval of version %id</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
 </TS>

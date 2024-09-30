@@ -111,11 +111,32 @@ class ModerationHandler
         if (!$process instanceof eZWorkflowProcess) {
             throw new RuntimeException('Invalid process ID');
         }
+        $approval->fixContingentRelations();
         $approval->status = self::STATUS_ACCEPTED;
         ModerationApproval::updateStatus($approval);
         self::executeProcess($approval->processId);
 
         ModerationMessage::createAuditOnApproved($approval);
+
+        return $approval;
+    }
+
+    public static function canDiscardVersion(int $contentObjectVersionId): bool
+    {
+        $approval = ModerationApproval::fetchByContentObjectVersionId($contentObjectVersionId);
+
+        return $approval instanceof ModerationApproval
+            && $approval->attribute('is_author')
+            && $approval->status === self::STATUS_PENDING;
+    }
+
+    public static function discardVersion(int $contentObjectVersionId): ModerationApproval
+    {
+        $approval = ModerationApproval::fetchByContentObjectVersionId($contentObjectVersionId);
+        $version = eZContentObjectVersion::fetch($contentObjectVersionId);
+        if ($version instanceof eZContentObjectVersion) {
+            $version->removeThis();
+        }
 
         return $approval;
     }
@@ -258,6 +279,16 @@ class ModerationHandler
         ModerationApproval::cleanup();
     }
 
+    public function cleanupPendingByOwner()
+    {
+        ModerationApproval::cleanByContentObjectIdAndVersion(
+            (int)$this->object->attribute('id'),
+            (int)$this->version->attribute('id'),
+            (string)$this->version->initialLanguageCode(),
+            (int)$this->user->id()
+        );
+    }
+
     private function getApproval(): ?ModerationApproval
     {
         return ModerationApproval::fetchByProcessId((int)$this->process->attribute('id'));
@@ -282,12 +313,12 @@ class ModerationHandler
         (new eZCollaborationItemStatus([
             'collaboration_id' => $approval->id,
             'user_id' => $approval->authorId,
-            'last_read' => 0
+            'last_read' => 0,
         ]))->store();
         (new eZCollaborationItemStatus([
             'collaboration_id' => $approval->id,
             'user_id' => 0,
-            'last_read' => 0
+            'last_read' => 0,
         ]))->store();
 
         return $approval;
