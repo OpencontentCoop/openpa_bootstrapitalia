@@ -70,7 +70,7 @@
 						<label for="search-{$block.id}" class="visually-hidden">{'Search text'|i18n('bootstrapitalia/documents')}</label>
 						<input type="search" data-search="q" class="autocomplete form-control" placeholder="{'Search text'|i18n('bootstrapitalia/documents')}" id="search-{$block.id}">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Submit'|i18n('bootstrapitalia/documents')}</button>
+							<button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Search'|i18n('design/plain/layout')}</button>
 							<button type="reset" class="btn btn-warning hide">{'Reset'|i18n('bootstrapitalia/documents')}</button>
 						</div>
 						<span class="autocomplete-icon" aria-hidden="true">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>

@@ -68,10 +68,10 @@
 				<div class="form-group autocomplete-wrapper mb-2 mb-lg-4">
 					<div class="input-group">
 						<label for="search-{$block.id}" class="visually-hidden">{'Search text'|i18n('bootstrapitalia/documents')}</label>
-						<input type="search" data-search="q" class="autocomplete form-control" placeholder="{'Search text'|i18n('bootstrapitalia/documents')}" id="search-{$block.id}">
+						<input type="text" data-search="q" class="autocomplete form-control" placeholder="{'Search text'|i18n('bootstrapitalia/documents')}" id="search-{$block.id}">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Submit'|i18n('bootstrapitalia/documents')}</button>
-							<button type="reset" class="btn btn-warning hide">{'Reset'|i18n('bootstrapitalia/documents')}</button>
+							<button type="reset" class="btn btn-link bg-white border-0 border-bottom border-primary hide"><i class="fa fa-close"></i></button>
+							<button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Search'|i18n('design/plain/layout')}</button>
 						</div>
 						<span class="autocomplete-icon" aria-hidden="true">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
 					</div>
@@ -88,13 +88,13 @@
 					{if $hide_tag_select|not()}
 					<div class="accordion-item bg-none{if $hide_tag_select} d-none{/if}">
 						  <span class="accordion-header" id="collapseTagList-{$block.id}-title">
-							<button class="accordion-button pb-10 px-3 text-uppercase text-decoration-none" type="button"
-									data-bs-toggle="collapse" href="#collapseTagList-{$block.id}" role="button" aria-expanded="true" aria-controls="collapseTagList-{$block.id}"
+							<button class="accordion-button collapsed pb-10 px-3 text-uppercase text-decoration-none" type="button"
+									data-bs-toggle="collapse" href="#collapseTagList-{$block.id}" role="button" aria-expanded="false" aria-controls="collapseTagList-{$block.id}"
 									data-focus-mouse="false">
 								{'Document type'|i18n('bootstrapitalia/documents')}
 							</button>
 						  </span>
-						<div id="collapseTagList-{$block.id}" class="accordion-collapse collapse show" role="region" aria-labelledby="collapseTagList-{$block.id}-title">
+						<div id="collapseTagList-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseTagList-{$block.id}-title">
 							<div class="accordion-body">
 								<ul class="link-list">
 									{foreach $root_tag_list as $root_index => $tag_tree}
