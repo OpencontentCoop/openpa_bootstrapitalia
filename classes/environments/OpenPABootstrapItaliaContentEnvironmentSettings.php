@@ -18,6 +18,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
     {
         $viewData = false;
         if (in_array($ViewMode, [
+            'accordion',
             'accordion_content',
             'banner',
             'banner_color',
