@@ -21,8 +21,8 @@ BuiltInWidgetSource_login=https://%host%/widgets/login-box/bootstrap-italia@2/js
 BuiltInWidgetSource_service-form=https://static.opencityitalia.it/widgets/formio/js/web-formio.js
 BuiltInWidgetStyle_service-form=https://static.opencityitalia.it/widgets/formio/css/web-formio.css
 
-BuiltInWidgetSource_payment=https://static.opencityitalia.it/widgets/payments-due/version/0.1.0/js/paymentsDue.js
-BuiltInWidgetStyle_payment=https://static.opencityitalia.it/widgets/payments-due/version/0.1.0/css/paymentsDue.css
+BuiltInWidgetSource_payment=https://%host%/widgets/payments-due/js/paymentsDue.js
+BuiltInWidgetStyle_payment=https://%host%/widgets/payments-due/css/paymentsDue.css
 
 
 RootId_inefficiency=oc-inefficiencies
