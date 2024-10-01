@@ -23,6 +23,8 @@ class OpenPABootstrapItaliaOperators
 
     private static $serviceTagMenuIdList;
 
+    private static $tagMenuIdList = [];
+
     function operatorList()
     {
         return array(
@@ -1716,7 +1718,7 @@ class OpenPABootstrapItaliaOperators
         $count = 0;
         if ($node instanceof eZContentObjectTreeNode && $tag instanceof eZTagsObject){
             $remoteId = $node->object()->attribute('remote_id');
-            if ($remoteId === 'all-events'){
+            if ($remoteId === 'all-events') {
                 $query = 'raw[ezf_df_tag_ids] = ' . $tag->attribute('id') . ' and classes [event] sort [time_interval=>asc] limit 1';
 
                 $contentSearch = new ContentSearch();
@@ -1733,6 +1735,11 @@ class OpenPABootstrapItaliaOperators
 //                eZDebug::writeDebug($tag->attribute('keyword') . ' ' . count($data) . ' ' . $query, __METHOD__);
 
                 return count($data) > 0;
+            } elseif ($remoteId === 'all-places'){
+                $tagId = (int)$tag->attribute('id');
+                $tagList = self::getTagTreeMenuIdList($node, $tag);
+                $tagIdList = array_column($tagList, 'id');
+                $count = in_array($tagId, $tagIdList) ? 1 : 0;
             } else {
                 $tagId = (int)$tag->attribute('id');
                 $tagList = self::getTagMenuIdList($node);
@@ -1802,6 +1809,68 @@ class OpenPABootstrapItaliaOperators
             }
         }
 
+        return [];
+    }
+
+    private static function getTagTreeMenuIdList(eZContentObjectTreeNode $rootNode, eZTagsObject $currentTag): array
+    {
+        $handlerObject = OpenPAObjectHandler::instanceFromObject($rootNode);
+        if ($handlerObject->hasAttribute('content_tag_menu')
+            && $handlerObject->attribute('content_tag_menu')->attribute('has_tag_menu')) {
+            /** @var eZTagsObject $tagRoot */
+            $tagRoot = $handlerObject->attribute('content_tag_menu')->attribute('tag_menu_root');
+            if ($tagRoot instanceof eZTagsObject) {
+                $privacyStatuses = OpenPABase::initStateGroup('privacy', ['public', 'private']);
+                $publicStatusId = $privacyStatuses['privacy.public'] instanceof eZContentObjectState ?
+                    (int)$privacyStatuses['privacy.public']->attribute('id') : 0;
+                if ($currentTag->attribute('id') != $tagRoot->attribute('id')){
+                    $tagRoot = $currentTag->getParent();
+                }
+                $tagId = (int)$tagRoot->attribute('id');
+
+                if (isset(self::$tagMenuIdList[$tagId])){
+                    return self::$tagMenuIdList[$tagId];
+                }
+
+                $tagPath = $tagRoot->attribute('path_string');
+                $localeFilter = eZContentLanguage::sqlFilter('a', 'o');
+                $db = eZDB::instance();
+                $joinStatus = '';
+                $andWhereIsPublic = '';
+                if ($publicStatusId > 0) {
+                    $joinStatus = 'INNER JOIN ezcobj_state_link sl ON l.object_id = sl.contentobject_id';
+                    $andWhereIsPublic = 'AND sl.contentobject_state_id = ' . $publicStatusId;
+                }
+                $statusPublished = (int)eZContentObject::STATUS_PUBLISHED;
+                $query = "SELECT t.id, t.parent_id, t.path_string, COUNT(DISTINCT o.id) as count 
+                  FROM eztags t
+                  INNER JOIN eztags_attribute_link l ON l.keyword_id = t.id
+                  INNER JOIN ezcontentobject o ON l.object_id = o.id AND l.objectattribute_version = o.current_version AND o.status = $statusPublished 
+                  INNER JOIN ezcontentobject_attribute a ON l.objectattribute_id = a.id AND l.objectattribute_version = o.current_version AND l.objectattribute_version = a.version 
+                  $joinStatus   
+                  WHERE t.path_string like '{$tagPath}%' AND t.main_tag_id = 0 AND o.section_id = 1 $andWhereIsPublic AND $localeFilter
+                  GROUP BY t.id";
+                eZDebug::writeDebug($query, __METHOD__);
+                $rows = $db->arrayQuery($query);
+                $idList = [];
+                foreach ($rows as $row) {
+                    if ($row['id'] == $tagId) {
+                        continue;
+                    }elseif ($row['parent_id'] == $tagId) {
+                        $idList[$row['id']] = ['id' => $row['id']];
+                    }else{
+                        $stripPath = substr($row['path_string'], strlen($tagPath));
+                        $id = explode('/', $stripPath)[0] ?? false;
+                        if ($id){
+                            $idList[$id] = ['id' => $id];
+                        }
+                    }
+                }
+                self::$tagMenuIdList[$tagId] = array_values($idList);
+
+                return self::$tagMenuIdList[$tagId];
+            }
+        }
         return [];
     }
 

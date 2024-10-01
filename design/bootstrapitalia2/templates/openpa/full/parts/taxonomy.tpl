@@ -68,7 +68,7 @@
     {foreach $node|attribute('type').content.tags as $tag}
         <li>
             <a class="chip chip-simple chip-primary"
-               href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
+               href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.content_tag_menu.tag_menu_root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
                <span class="chip-label text-nowrap">{$tag.keyword|wash}</span>
            </a>
         </li>
