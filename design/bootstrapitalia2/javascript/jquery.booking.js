@@ -129,7 +129,7 @@
       'meeting': null
     }
     this.cacheDayAvailabilities = []
-    this.avoidApplicantModification = false
+    this.avoidApplicantModification = []
     this.storeMessage = $('#store-message')
     this.storeErrorMessage = $('#store-error')
     this.user = null;
@@ -343,7 +343,7 @@
       self.addListeners()
 
       if (userData) {
-        self.avoidApplicantModification = true
+        self.avoidApplicantModification = ['name', 'surname', 'fiscalcode']
         self.debug('user-data', userData)
         self.setCurrentData('applicantName', userData.nome || '')
         self.setCurrentData('applicantSurname', userData.cognome || '')
@@ -1277,7 +1277,7 @@
     },
 
     showCleanInputButton: function (input) {
-      if (this.avoidApplicantModification) {
+      if ($.inArray(input.attr('name'), this.avoidApplicantModification) > -1) {
         input.attr('readonly', 'readonly')
       } else {
         input.next().removeClass('d-none')
@@ -1285,7 +1285,7 @@
     },
 
     hideCleanInputButton: function (input) {
-      if (!this.avoidApplicantModification) {
+      if ($.inArray(input.attr('name'), this.avoidApplicantModification) === -1) {
         input.next().addClass('d-none')
       }
     },
