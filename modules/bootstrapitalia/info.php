@@ -20,6 +20,8 @@ $home = OpenPaFunctionCollection::fetchHome();
 $tpl->setVariable('homepage',
     $home->attribute('class_identifier') === 'homepage' ? $home:  null
 );
+/** @var eZContentObjectAttribute[] $dataMap */
+$dataMap = $home->dataMap();
 
 $partnersItems = [];
 $partners = OpenPAINI::variable('CreditsSettings', 'Partners', []);
@@ -186,6 +188,18 @@ if ($http->hasPostVariable('Store')) {
             'filename' => uniqid() . $httpFile->attribute('original_filename'),
             'file' => base64_encode(file_get_contents($httpFile->attribute('filename'))),
         ]);
+        if (OpenPAINI::variable('GeneralSettings', 'StaticLogoUrl', 'disabled') !== 'disabled'){
+            $logoUrl = OpenPAINI::variable('GeneralSettings', 'StaticLogoUrl');
+            eZURI::transformURI($logoUrl, true, 'full');
+            $staticCacheHandler = eZExtension::getHandlerClass(new ezpExtensionOptions([
+                'iniFile'      => 'site.ini',
+                'iniSection'   => 'ContentSettings',
+                'iniVariable'  => 'StaticCacheHandler'
+            ]));
+            if ($staticCacheHandler instanceof ezpStaticCache){
+                $staticCacheHandler->removeURL($logoUrl);
+            }
+        }
     }
 
     if (isset($_FILES['AppleTouchIcon']) && eZHTTPFile::canFetch('AppleTouchIcon')) {
@@ -212,7 +226,6 @@ if ($http->hasPostVariable('Store')) {
         ]);
     }
 
-    $dataMap = $home->dataMap();
     $headerLinks = $dataMap['link_nell_header'] ?? null;
     $relationsPriority = $http->hasPostVariable('ContentObjectAttribute_priority') ? $http->postVariable('ContentObjectAttribute_priority') : [];
     if ($headerLinks){
@@ -380,6 +393,20 @@ $sections = [
     ],
 ];
 $tpl->setVariable('sections', $sections);
+
+$logoUrl = null;
+if (isset($dataMap['logo']) && $dataMap['logo']->hasContent()){
+    $logoImageAlias = $dataMap['logo']->attribute('content');
+    if ($logoImageAlias instanceof eZImageAliasHandler) {
+        $logoUrl = $logoImageAlias->attribute('header_logo')['full_path'];
+        eZURI::transformURI($logoUrl, true, 'full');
+    }
+}
+$imageDecorator = new BootstrapItaliaImage();
+if ($imageDecorator->isEnabled() && OpenPAINI::variable('GeneralSettings', 'StaticLogoUrl', 'disabled') !== 'disabled'){
+    $logoUrl = $imageDecorator->process(OpenPAINI::variable('GeneralSettings', 'StaticLogoUrl'), ['refresh' => true])['src'];
+}
+$tpl->setVariable('logo_url', $logoUrl);
 
 $contacts = [];
 $pagedata = new \OpenPAPageData();
