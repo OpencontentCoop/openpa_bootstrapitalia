@@ -5,7 +5,7 @@ $Module = $Params['Module'];
 $Module->setExitStatus(eZModule::STATUS_IDLE);
 $http = eZHTTPTool::instance();
 
-$availableBuiltins = BuiltinApp::fetchIdentifierList();
+$availableBuiltins = BuiltinAppFactory::fetchDescriptionIdentifierList();
 
 $builtin = $Params['Identifier'] ?? null;
 if (!$builtin || !in_array($builtin, $availableBuiltins)) {
@@ -23,9 +23,22 @@ if (!$builtin || !in_array($builtin, $availableBuiltins)) {
             $tpl->variable('persistent_variable')
         );
     }
-    $tpl->setVariable('list', BuiltinApp::fetchList());
+    $list = [];
+    foreach ($availableBuiltins as $builtin) {
+        $list[$builtin] = BuiltinAppFactory::instanceByIdentifier($builtin);
+    }
+    $tpl->setVariable('list', $list);
     $Result['content_info'] = $contentInfoArray;
     $Result['content'] = $tpl->fetch('design:bootstrapitalia/widget.tpl');
 } else {
-    $Result = BuiltinApp::instanceByIdentifier($builtin)->getModuleResult($Module);
+
+    $app = BuiltinAppFactory::instanceByIdentifier($builtin);
+    if ($http->hasPostVariable('StoreConfig')) {
+        $configValue = $http->postVariable('Config', '');
+        $app->setCustomConfig($configValue);
+        $Module->redirectTo('bootstrapitalia/widget/' . $builtin);
+        return;
+    }
+
+    $Result = $app->getModuleResult($Module);
 }

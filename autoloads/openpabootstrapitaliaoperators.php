@@ -367,7 +367,12 @@ class OpenPABootstrapItaliaOperators
                 break;
 
             case 'built_in_app':
-                $operatorValue = new BuiltinApp($namedParameters['alias'], $namedParameters['alias']);
+                try {
+                    $operatorValue = BuiltinAppFactory::instanceByIdentifier($namedParameters['alias']);
+                }catch (InvalidArgumentException $e){
+                    eZDebug::writeError($e->getMessage(), 'built_in_app operator');
+                    $operatorValue = null;
+                }
                 break;
 
             case 'built_in_app_variables':

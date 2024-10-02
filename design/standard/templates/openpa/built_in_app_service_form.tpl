@@ -5,9 +5,6 @@
   if (localStorage) localStorage.removeItem('defaultLocale'); //temp
 </script>
 
-{def $service_id = cond(ezhttp_hasvariable( 'service_id', 'get' ), ezhttp( 'service_id', 'get' ), false())}
-{def $formserver = 'https://form-qa.stanzadelcittadino.it'}
-
 {if and(ezhttp_hasvariable( 'edit', 'get' ), fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'config_built_in_apps' ) ))}
     <div class="container mb-5">
         <div class="row justify-content-center">
@@ -15,7 +12,7 @@
                 <div class="bg-light rounded p-4">
                     {if is_set($built_in_app_api_base_url)}
                         <pre style="white-space: break-spaces;">{*
-                            *}{concat('<widget-formio service-id="', $service_id, '" base-url="', $built_in_app_api_base_url, '" formserver-url="', $formserver, '"></widget-formio>')|wash()}<br /><br />{*
+                            *}{concat('<widget-formio service-id="', $service_id, '" base-url="', $built_in_app_api_base_url, '" formserver-url="', $formserver_url, '" pdnd-url="', $pdnd_url, '"></widget-formio>')|wash()}<br /><br />{*
                             *}{'<script src="'|wash()}{if is_set($built_in_app_src)}{$built_in_app_src}{else}{openpaini('StanzaDelCittadinoBridge', concat('BuiltInWidgetSource_', $built_in_app))}{/if}{'"/>'|wash()}{*
                             *}{if $built_in_app_style|ne('')}<br /><br />{'<link rel="stylesheet" type="text/css" href="'|wash()}{$built_in_app_style}{'" />'|wash()}{/if}
                         </pre>
@@ -45,7 +42,8 @@
                 <widget-formio
                         service-id="{$service_id}"
                         base-url="{$built_in_app_api_base_url}"
-                        formserver-url="{$formserver}"
+                        formserver-url="{$formserver_url}"
+                        pdnd-url="{$pdnd_url}">
                 </widget-formio>
                 <script src="{$built_in_app_src}"></script>
                 {if $built_in_app_style|ne('')}<link rel="stylesheet" type="text/css" href="{$built_in_app_style}" />{/if}
