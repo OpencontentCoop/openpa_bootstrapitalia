@@ -45,7 +45,7 @@
                         formserver-url="{$formserver_url}"
                         pdnd-url="{$pdnd_url}">
                 </widget-formio>
-                <script src="{$built_in_app_src}"></script>
+                <script defer src="{$built_in_app_src}"></script>
                 {if $built_in_app_style|ne('')}<link rel="stylesheet" type="text/css" href="{$built_in_app_style}" />{/if}
             </div>
         {/if}
