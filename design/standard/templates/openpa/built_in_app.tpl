@@ -33,7 +33,7 @@
     </div>
 {else}
     {if and($built_in_app_is_enabled, is_set($built_in_app_script), $built_in_app_script|ne(''))}
-        <div class="buitinapp">
+        <div class="buitinapp mb-5">
             {$built_in_app_script}
         </div>
     {elseif and($built_in_app_is_enabled, is_set($built_in_app_api_base_url))}

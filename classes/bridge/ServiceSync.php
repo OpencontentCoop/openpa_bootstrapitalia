@@ -528,11 +528,11 @@ class ServiceSync
         return $remoteService;
     }
 
-    public static function isUuid(string $string)
+    public static function isUuid($string)
     {
-        return preg_match(
+        return is_string($string) ? preg_match(
             '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/',
             $string
-        );
+        ) : false;
     }
 }
