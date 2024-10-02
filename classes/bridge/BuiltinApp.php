@@ -212,9 +212,8 @@ class BuiltinApp extends OpenPATempletizable
     protected function getServicePath(?eZModule $module)
     {
         $path = [];
-        $serviceId = eZHTTPTool::instance()->hasGetVariable('service_id') ? eZHTTPTool::instance()->getVariable(
-            'service_id'
-        ) : null;
+        $serviceId = eZHTTPTool::instance()->hasGetVariable('service_id') ?
+            eZHTTPTool::instance()->getVariable('service_id') : null;
         if (!$serviceId) {
             if ($module instanceof eZModule && ServiceSync::isUuid($module->ViewParameters[0] ?? '')) {
                 $serviceId = $module->ViewParameters[0];
@@ -460,11 +459,11 @@ class BuiltinApp extends OpenPATempletizable
                     )) {
                     $url = '/prenota_appuntamento?service_id=' . $serviceObject->attribute('id');
                 } elseif (ServiceSync::isUuid($serviceId)) {
-                    $url = '/prenota_appuntamento/' . $serviceId . '/#/prenota_appuntamento?' . $urlQuery;
+                    $url = '/prenota_appuntamento?service_id=' . $serviceId;
                 }
             } elseif (strpos($url, '/pagamento') !== false && ServiceSync::isUuid($serviceId)) {
                 $builtin = 'payment';
-                $url = '/pagamento/' . $serviceId . '/#/?' . $urlQuery;
+                $url = '/pagamento?service_id=' . $serviceId;
             }
         }
 
