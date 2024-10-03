@@ -40,5 +40,6 @@ if (!$builtin || !in_array($builtin, $availableBuiltins)) {
         return;
     }
 
+    $app->setDeployEnv(BuiltinApp::ENV_TEST);
     $Result = $app->getModuleResult($Module);
 }
