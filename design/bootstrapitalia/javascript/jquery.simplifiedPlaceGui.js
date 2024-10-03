@@ -26,7 +26,7 @@
         this.myLocationButton = $('<a href="#" title="' + this.settings.i18n.myLocation + '"><i aria-hidden="true" class="fa fa-map-marker"></i></a>');
         this.geocoder = L.Control.Geocoder.nominatim();
         this.marker = new L.Marker(new L.LatLng(0, 0), {
-            icon: new L.MakiMarkers.icon({icon: "circle-stroked", color: "#f00", size: "l"}),
+            icon: L.divIcon({html: '<i class="fa fa-map-marker fa-4x text-primary"></i>',iconSize: [20, 20],className: 'myDivIcon'}),
             draggable: true
         }).bindPopup('');
         this.storeButton = this.container.find('[data-store_place_gui]');
@@ -140,7 +140,7 @@
                     plugin.markers.addLayer(
                         new L.Marker(
                             new L.LatLng($(this).data('lat'), $(this).data('lng')),
-                            {icon: new L.MakiMarkers.icon({icon: "star", color: "f00", size: "l"})}
+                            {icon: L.divIcon({html: '<i class="fa fa-map-marker fa-4x text-primary"></i>',iconSize: [20, 20],className: 'myDivIcon'})}
                         ).on('click', function (e) {
                             //plugin.setMarker(e.latlng);
                         })
