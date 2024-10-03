@@ -34,18 +34,18 @@
 {else}
     {if $service_id}
         {if and($built_in_app_is_enabled, is_set($built_in_app_script), $built_in_app_script|ne(''))}
-            <div class="buitinapp">
+            <div class="buitinapp mb-5">
                 {$built_in_app_script}
             </div>
         {elseif and($built_in_app_is_enabled, is_set($built_in_app_api_base_url))}
-            <div class="buitinapp">
+            <div class="buitinapp mb-5">
                 <widget-formio
                         service-id="{$service_id}"
                         base-url="{$built_in_app_api_base_url}"
                         formserver-url="{$formserver_url}"
                         pdnd-url="{$pdnd_url}">
                 </widget-formio>
-                <script src="{$built_in_app_src}"></script>
+                <script defer src="{$built_in_app_src}"></script>
                 {if $built_in_app_style|ne('')}<link rel="stylesheet" type="text/css" href="{$built_in_app_style}" />{/if}
             </div>
         {/if}
