@@ -447,7 +447,7 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'CategoriesUrl' => $data[$locale]['CategoriesUrl'] ?? null,
                 'EnableSeverityField' => $data[$locale]['EnableSeverityField'] ?? $data['EnableSeverityField'] ?? false,
                 'BoundingBox' => $data[$locale]['BoundingBox'] ?? null,
-                'EnableHelpdeskV2' => $data[$locale]['EnableHelpdeskV2'] ?? (bool)$data['EnableHelpdeskV2'] ?? false,
+                'EnableHelpdeskV2' => isset($data[$locale]['EnableHelpdeskV2']) ?? (bool)$data['EnableHelpdeskV2'] ?? false,
                 'HelpdeskV2ServiceUuid' => $data[$locale]['HelpdeskV2ServiceUuid'] ?? null,
                 'FormServerUrl' => $data[$locale]['FormServerUrl'] ?? 'https://form.stanzadelcittadino.it/',
                 'PdndApiUrl' => $data[$locale]['PdndApiUrl'] ?? 'https://api.stanzadelcittadino.it/pdnd/v1',
