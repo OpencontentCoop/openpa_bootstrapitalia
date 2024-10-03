@@ -1,3 +1,7 @@
+{set_defaults( hash(
+    'wrapper_class', 'py-5 position-relative',
+    'container_class', 'container'
+))}
 {def $current_language = ezini('RegionalSettings', 'Locale')}
 {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', $current_language ))}
 {def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
@@ -34,8 +38,8 @@
     {undef $image}
 {/if}
 
-<div class="py-5 position-relative">
-    <div class="container">
+<div class="{$wrapper_class}">
+    <div class="{$container_class}">
         <div id="remote-datatable-{$block.id}"
              data-remote="{$remoteUrl|wash()}"
              data-query="{$query|wash(javascript)}"
@@ -277,3 +281,4 @@
 
     {/literal}
 </script>
+{unset_defaults( array('wrapper_class','container_class'))}

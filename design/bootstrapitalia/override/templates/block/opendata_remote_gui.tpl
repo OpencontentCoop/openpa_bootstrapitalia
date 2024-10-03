@@ -1,3 +1,8 @@
+{set_defaults( hash(
+  'wrapper_class', 'py-5 position-relative',
+  'container_class', 'container',
+  'show_name', true()
+))}
 {def $openpa = object_handler($block)}
 
 {def $showGrid = cond(is_set($block.custom_attributes.show_grid), $block.custom_attributes.show_grid, true())
@@ -22,14 +27,16 @@
 {/if}
 
 {if or($showGrid, $showMap)}
-<div class="py-5 position-relative">
+<div class="{$wrapper_class}">
     <div class="block-topics-bg" {if $background_image}style="background-image: url({$background_image});"{/if}></div>
-    <div class="container">
+    <div class="{$container_class}">
         <div class="row" id="remote-gui-{$block.id}">
+            {if $show_name}
             <div class="col-12 col-md-9">
                 {include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', '') no_margin=cond(and($showGrid, $showMap, $showSearch), true(), false())}
             </div>
-            <div class="col-12 col-md-3 pr-0 pe-0">
+            {/if}
+            <div class="col-12 {if $show_name}col-md-3  pr-0 pe-0{else}px-2{/if}">
                 <ul class="nav d-block nav-pills border-bottom border-primary text-right{if or($showGrid|not(), $showMap|not())} hide{/if}">
                     {if $showGrid}
                     <li class="nav-item pr-1 pe-1 text-center d-inline-block">
@@ -63,7 +70,7 @@
                 <div class="input-group mb-3 search-form{if and($showGrid, $showMap)} hide{/if}">
                     <input type="text" autocomplete="off" class="form-control" placeholder="{$searchPlaceholder|wash()}" />
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button"><i aria-hidden="true" class="fa fa-search"></i><span class="d-none">{'Search'|i18n('openpa/search')}</span></button>
+                        <button class="btn btn-outline-secondary rounded-0" type="button"><i aria-hidden="true" class="fa fa-search"></i><span class="d-none">{'Search'|i18n('openpa/search')}</span></button>
                     </div>
                 </div>
                 {/if}
@@ -196,3 +203,4 @@ $(document).ready(function () {ldelim}
     {/literal}
 {/if}
 </script>
+{unset_defaults( array('wrapper_class','container_class', 'show_name'))}

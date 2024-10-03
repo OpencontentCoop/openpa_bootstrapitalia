@@ -8,8 +8,8 @@
 </script>
 {literal}
 <script id="tpl-remote-gui-spinner" type="text/x-jsrender">
-<div class="col-xs-12 spinner text-center py-5">
-    <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw py-5"></i>
+<div class="col-xs-12 spinner{{if paginationStyle == 'reload'}} text-center py-5{{/if}}">
+    <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-fw {{if paginationStyle == 'reload'}}fa-3x py-5{{else}}fa-2x{{/if}}"></i>
     <span class="sr-only">{'Loading...'|i18n('editorialstuff/dashboard')}</span>
 </div>
 </script>
@@ -20,6 +20,18 @@
                 <i aria-hidden="true" class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
             </div>
         </div>
+    {{else paginationStyle === 'append'}}
+		{{if currentPage == 0}}
+			<small class="d-block mb-4 results-count"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</small>
+		{{/if}}
+		{{for searchHits}}
+          {{include tmpl="#tpl-remote-gui-item"/}}
+		{{/for}}
+		{{if nextPageQuery}}
+			<button type="button" data-page="{{>nextPage}}" class="nextPage btn btn-outline-primary pt-15 pb-15 pl-90 pr-90 mb-30 mt-3 mb-lg-50 full-mb text-button" data-element="load-other-cards">
+			   <span class="">{/literal}{'Load more results'|i18n('bootstrapitalia')}{literal}</span>
+			</button>
+		{{/if}}
 	{{else}}
         <div class="{{if itemsPerRow == 'auto'}}card-columns{{else}}row card-h-100 mx-lg-n3 row-cols-1 row-cols-md-2 row-cols-lg-{{:itemsPerRow}}{{/if}}">
         {{for searchHits ~itemsPerRow=itemsPerRow}}
@@ -35,7 +47,7 @@
         {{/for}}
         </div>
 	{{/if}}
-	{{if pageCount > 1}}
+	{{if pageCount > 1 && paginationStyle === 'reload'}}
 	<div class="row mt-lg-4">
 	    <div class="col">
 	        <nav class="pagination-wrapper justify-content-center" aria-label="Pagination">
