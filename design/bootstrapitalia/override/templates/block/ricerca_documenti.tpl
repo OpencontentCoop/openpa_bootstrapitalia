@@ -128,7 +128,7 @@
 					<div class="row">
 						<div class="col">
 							<button type="submit" class="btn btn-link pt-2 px-lg-0 text-decoration-none">
-								<i aria-hidden="true" class="fa fa-search text-black" style="font-size: 1.4em"></i> <span class="d-md-inline d-lg-none text-uppercase h5 text-black">{'Submit'|i18n('bootstrapitalia/documents')}</span>
+								<i aria-hidden="true" class="fa fa-search text-black" style="font-size: 1.4em"></i> <span class="d-md-inline d-lg-none text-uppercase h5 text-black">{'Search'|i18n('design/plain/layout')}</span>
 							</button>
 						</div>
 						<div class="col">
