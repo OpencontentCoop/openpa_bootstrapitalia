@@ -2,6 +2,10 @@
 
 abstract class BuiltinApp extends OpenPATempletizable
 {
+    const ENV_PRODUCTION = 'production';
+
+    const ENV_TEST = 'test';
+
     private $appIdentifier;
 
     private $appLabel;
@@ -25,6 +29,8 @@ abstract class BuiltinApp extends OpenPATempletizable
     private $isAppEnabled;
 
     private $module;
+
+    private $deployEnv = self::ENV_PRODUCTION;
 
     public function __construct(string $appName, string $appLabel)
     {
@@ -295,8 +301,13 @@ abstract class BuiltinApp extends OpenPATempletizable
     {
         $this->module = $module;
 
+        $isEnabled = $this->isAppEnabled();
+        if ($this->deployEnv === self::ENV_TEST){
+            $isEnabled = true;
+        }
+
         $tpl = eZTemplate::factory();
-        $tpl->setVariable('built_in_app_is_enabled', $this->isAppEnabled());
+        $tpl->setVariable('built_in_app_is_enabled', $isEnabled);
         $tpl->setVariable('built_in_app', $this->getAppIdentifier());
         $tpl->setVariable('built_in_app_root_id', $this->getAppRootId());
         $tpl->setVariable('built_in_app_script', $this->getCustomConfig());
@@ -436,7 +447,7 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'CategoriesUrl' => $data[$locale]['CategoriesUrl'] ?? null,
                 'EnableSeverityField' => $data[$locale]['EnableSeverityField'] ?? $data['EnableSeverityField'] ?? false,
                 'BoundingBox' => $data[$locale]['BoundingBox'] ?? null,
-                'EnableHelpdeskV2' => $data[$locale]['EnableHelpdeskV2'] ?? (bool)$data['EnableHelpdeskV2'] ?? false,
+                'EnableHelpdeskV2' => isset($data[$locale]['EnableHelpdeskV2']) ?? (bool)$data['EnableHelpdeskV2'] ?? false,
                 'HelpdeskV2ServiceUuid' => $data[$locale]['HelpdeskV2ServiceUuid'] ?? null,
                 'FormServerUrl' => $data[$locale]['FormServerUrl'] ?? 'https://form.stanzadelcittadino.it/',
                 'PdndApiUrl' => $data[$locale]['PdndApiUrl'] ?? 'https://api.stanzadelcittadino.it/pdnd/v1',
@@ -519,5 +530,10 @@ abstract class BuiltinApp extends OpenPATempletizable
             'url' => $url,
             'text' => $text,
         ];
+    }
+
+    public function setDeployEnv(string $deployEnv): void
+    {
+        $this->deployEnv = $deployEnv;
     }
 }
