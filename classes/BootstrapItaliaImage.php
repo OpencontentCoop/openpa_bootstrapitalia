@@ -29,7 +29,7 @@ class BootstrapItaliaImage
      */
     private $templateEngine;
 
-    private function __construct(?eZTemplate $tpl = null)
+    public function __construct(?eZTemplate $tpl = null)
     {
         $this->templateEngine = $tpl ?? eZTemplate::factory();
         $this->flyImgBaseUrl = rtrim(OpenPAINI::variable('ImageSettings', 'FlyImgBaseUrl', ''), '/');
@@ -46,7 +46,7 @@ class BootstrapItaliaImage
         return self::$instance;
     }
 
-    public function process($url, array $parameters): array
+    public function process($url, array $parameters = []): array
     {
 //        eZDebug::writeDebug(var_export($parameters, true), __METHOD__);
         $defaultAlias = 'reference';
@@ -57,6 +57,7 @@ class BootstrapItaliaImage
             'alias_url' => null,
             'alias_info' => null,
             'preload' => null,
+            'refresh' => true,
         ], $parameters);
 
         if ($url instanceof eZImageAliasHandler) {
@@ -79,7 +80,7 @@ class BootstrapItaliaImage
         }
 
         $processUrl = $this->prefixUrl($url, $parameters);
-        if ($parameters['preload']) {
+        if ($parameters['preload'] && $this->templateEngine instanceof eZTemplate) {
             ezjscPackerTemplateFunctions::setPersistentArray(
                 'preload_images',
                 $processUrl,
@@ -87,9 +88,15 @@ class BootstrapItaliaImage
                 true
             );
         }
+
         return [
             'src' => $processUrl,
         ];
+    }
+
+    public function isEnabled()
+    {
+        return !empty($this->flyImgBaseUrl);
     }
 
     private function prefixUrl($url, array $parameters): string
@@ -117,6 +124,11 @@ class BootstrapItaliaImage
     private function generateFilters(array $parameters): string
     {
         $filters = [];
+
+        if ($parameters['refresh']) {
+            $filters[] = 'rf_1';
+        }
+
         if (!empty($this->defaultFilter)) {
             $filters[] = $this->defaultFilter;
         }

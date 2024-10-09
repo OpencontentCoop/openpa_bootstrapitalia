@@ -32,12 +32,12 @@
             <h5>Logo</h5>
             <div class="row mb-3">
                 <label for="Logo" class="col-sm-3 col-form-label">
-                    {if $pagedata.header.logo.url}
+                    {if $logo_url}
                         <img alt="{ezini('SiteSettings','SiteName')}"
                              width="82"
                              height="82"
                              class="bg-primary"
-                             src="{$pagedata.header.logo.url|ezroot(no)}" />
+                             src="{$logo_url}" />
                     {/if}
                 </label>
                 <div class="col-sm-9">
