@@ -568,7 +568,7 @@
     </message>
     <message>
       <source>Apps</source>
-      <translation>aplikacije</translation>
+      <translation>Aplikacije</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
@@ -2080,6 +2080,10 @@
     </message>
     <message>
       <source>Go to the moderation dashboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The version was discard by creator</source>
       <translation type="unfinished"/>
     </message>
   </context>

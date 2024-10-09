@@ -2086,5 +2086,9 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Go to the moderation dashboard</source>
       <translation>Vai alla dashboard di moderazione</translation>
     </message>
+    <message>
+      <source>The version was discard by creator</source>
+      <translation>La versione è stata scartata dall'autore</translation>
+    </message>
   </context>
 </TS>

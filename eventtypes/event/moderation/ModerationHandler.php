@@ -63,6 +63,21 @@ class ModerationHandler
     {
         self::getStorage()->setAttribute('value', (int)$isEnabled);
         self::getStorage()->store();
+        if (!$isEnabled){
+            $moderationGroup = eZContentObject::fetch(self::getModerationGroupObjectId());
+            if ($moderationGroup instanceof eZContentObject){
+                $moderationGroupNode = $moderationGroup->mainNode();
+                if ($moderationGroupNode instanceof eZContentObjectTreeNode){
+                    $removeList = [];
+                    foreach ($moderationGroupNode->children() as $node){
+                        $removeList[] = $node->attribute('node_id');
+                    }
+                    if (count($removeList)) {
+                        eZContentOperationCollection::removeNodes($removeList);
+                    }
+                }
+            }
+        }
     }
 
     private static function getStorage(): eZSiteData
@@ -133,10 +148,34 @@ class ModerationHandler
     public static function discardVersion(int $contentObjectVersionId): ModerationApproval
     {
         $approval = ModerationApproval::fetchByContentObjectVersionId($contentObjectVersionId);
-        $version = eZContentObjectVersion::fetch($contentObjectVersionId);
-        if ($version instanceof eZContentObjectVersion) {
-            $version->removeThis();
+        if ($approval instanceof ModerationApproval) {
+            $currentObject = $approval->attribute('object');
+
+            if ($currentObject instanceof eZContentObject) {
+                if ($currentObject->attribute('status') == eZContentObject::STATUS_DRAFT){
+                    $version = eZContentObjectVersion::fetch($contentObjectVersionId);
+                    if ($version instanceof eZContentObjectVersion) {
+                        $db = eZDB::instance();
+                        $db->begin();
+                        $version->removeThis();
+                        ModerationApproval::cleanup();
+                        $db->commit();
+                    }
+                } else {
+                    $currentVersion = $currentObject->attribute('current');
+                    if ($currentVersion instanceof eZContentObjectVersion) {
+                        ModerationApproval::cleanByContentObjectIdAndVersion(
+                            (int)$currentObject->attribute('id'),
+                            (int)$currentVersion->attribute('id'),
+                            $currentVersion->initialLanguageCode(),
+                            (int)eZUser::currentUserID(),
+                            true
+                        );
+                    }
+                }
+            }
         }
+
 
         return $approval;
     }

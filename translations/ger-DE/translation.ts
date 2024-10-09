@@ -2086,5 +2086,9 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <source>Go to the moderation dashboard</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>The version was discard by creator</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
 </TS>

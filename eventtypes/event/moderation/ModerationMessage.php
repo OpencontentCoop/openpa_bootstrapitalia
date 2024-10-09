@@ -12,6 +12,8 @@ class ModerationMessage
 
     const TYPE_MODIFIED = 'ocmoderation_modified';
 
+    const TYPE_DISCARD = 'ocmoderation_discard';
+
     const TYPE_COMMENT = 'ocmoderation_comment';
 
     public $id;
@@ -57,6 +59,11 @@ class ModerationMessage
     public static function createAuditOnModified(ModerationApproval $approval, int $archivedByVersion)
     {
         self::create($approval->id, $approval->contentObjectId, self::TYPE_MODIFIED, $archivedByVersion);
+    }
+
+    public static function createAuditOnDiscard(ModerationApproval $approval)
+    {
+        self::create($approval->id, $approval->contentObjectId, self::TYPE_DISCARD);
     }
 
     public static function createComment(ModerationApproval $approval, string $text)
@@ -129,6 +136,8 @@ class ModerationMessage
                         self::TYPE_APPROVED,
                         self::TYPE_REJECTED,
                         self::TYPE_ARCHIVED,
+                        self::TYPE_MODIFIED,
+                        self::TYPE_DISCARD,
                         self::TYPE_COMMENT,
                     ],
                 ],
