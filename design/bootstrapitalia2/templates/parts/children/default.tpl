@@ -49,7 +49,7 @@
             "default",
             hash(
                 "remote_url", "",
-                "query", concat("raw[ezf_df_tag_ids] = ", $openpa.content_tag_menu.current_view_tag.id, " and classes [public_service]"),
+                "query", concat("raw[ezf_df_tag_ids] = ", $openpa.content_tag_menu.current_view_tag.id, " and classes [public_service] sort [name=>asc]"),
                 "show_grid", "1",
                 "show_map", "1",
                 "show_search", "1",
