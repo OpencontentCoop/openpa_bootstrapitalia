@@ -16,14 +16,14 @@ class HelpdeskBuiltinApp extends BuiltinApp
         return 'oc-helpdesk';
     }
 
-    protected function getServiceObject(): ?eZContentObject
-    {
-        if ($this->serviceObject === null) {
-            $this->serviceObject = eZContentObject::fetchByRemoteID('helpdesk');
-        }
-
-        return $this->serviceObject;
-    }
+//    protected function getServiceObject(): ?eZContentObject
+//    {
+//        if ($this->serviceObject === null) {
+//            $this->serviceObject = eZContentObject::fetchByRemoteID('helpdesk');
+//        }
+//
+//        return $this->serviceObject;
+//    }
 
     protected function isAppEnabled(): bool
     {
