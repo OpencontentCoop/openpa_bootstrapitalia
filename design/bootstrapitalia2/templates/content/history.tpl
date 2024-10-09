@@ -87,7 +87,7 @@
                 {* Remove. *}
                 <td style="vertical-align:middle">
                     <!--{$version.id} {$version.status}-->
-                    {if and( $version.can_remove, array( 0, 2, 3, 4, 5 )|contains( $version.status ) )}
+                    {if and( $version.can_remove, array( 0, 2, 3, 4, 5, 6 )|contains( $version.status ) )}
                         <input type="checkbox" name="DeleteIDArray[]" value="{$version.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/ocbootstrap/content/history',, hash( '%version_number', $version.version ) )}" />
                     {/if}
                 </td>

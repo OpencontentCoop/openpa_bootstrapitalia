@@ -193,7 +193,7 @@
                             <td style="vertical-align:middle" width="1">
                                 {if $item.type|eq('ocmoderation_comment')}<i class="fa fa-comment"></i>{/if}
                                 {if $item.type|eq('ocmoderation_approved')}<i class="fa fa-check"></i>{/if}
-                                {if array('ocmoderation_rejected', 'ocmoderation_archived', 'ocmoderation_modified')|contains($item.type)}<i class="fa fa-times"></i>{/if}
+                                {if array('ocmoderation_rejected', 'ocmoderation_archived', 'ocmoderation_modified', 'ocmoderation_discard')|contains($item.type)}<i class="fa fa-times"></i>{/if}
                                 {if $item.type|eq('ocmoderation_created')}<i class="fa fa-history"></i>{/if}
                             </td>
                             <td style="vertical-align:middle;white-space:nowrap">{$item.creator.contentobject.name|wash()}</td>
@@ -215,6 +215,9 @@
                                 {/case}
                                 {case match='ocmoderation_modified'}
                                 {'The version was archived following the request approval of version %id'|i18n( 'bootstrapitalia/moderation',, hash('%id', $item.archivedByVersion) )}
+                                {/case}
+                                {case match='ocmoderation_discard'}
+                                {'The version was discard by creator'|i18n( 'bootstrapitalia/moderation' )}
                                 {/case}
                                 {case}{/case}
                                 {/switch}

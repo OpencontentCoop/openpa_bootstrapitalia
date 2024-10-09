@@ -388,7 +388,8 @@ class ModerationApproval
         int $contentObjectId,
         int $preserveVersion,
         string $locale,
-        int $creatorId = null
+        int $creatorId = null,
+        $isDiscard = false
     ): void {
         $preserveVersionObject = eZContentObjectVersion::fetch($preserveVersion);
         if ($preserveVersionObject instanceof eZContentObjectVersion) {
@@ -418,7 +419,11 @@ class ModerationApproval
                     $approval = new ModerationApproval();
                     $approval->id = (int)$version['id'];
                     $approval->contentObjectId = (int)$version['data_int1'];
-                    if ($creatorId) {
+                    if ($isDiscard) {
+                        ModerationMessage::createAuditOnDiscard(
+                            $approval
+                        );
+                    }elseif ($creatorId) {
                         ModerationMessage::createAuditOnModified(
                             $approval,
                             (int)$preserveVersionObject->attribute('version')
@@ -590,6 +595,22 @@ class ModerationApproval
         eZDB::instance()->query(
             "delete from ezapprove_items where workflow_process_id not in (select id from ezworkflow_process)"
         );
+
+        $removeOrphanApproveItemsQuery = "DELETE FROM ezapprove_items 
+            WHERE collaboration_id not in (SELECT id FROM ezcollab_item)
+            RETURNING workflow_process_id";
+        $processes = eZDB::instance()->arrayQuery($removeOrphanApproveItemsQuery);
+        if (count($processes)) {
+            $sqlCondition = eZDB::instance()->generateSQLINStatement(
+                array_column($processes, 'workflow_process_id'),
+                'id',
+                false,
+                true,
+                'int'
+            );
+            $removeProcessesQuery = "DELETE FROM ezworkflow_process WHERE $sqlCondition";
+            eZDB::instance()->query($removeProcessesQuery);
+        }
         eZDB::instance()->query(
             "delete from ezcollab_simple_message where data_int1 not in (select id from ezcollab_item where ezcollab_item.type_identifier = 'ocmoderation') and message_type like 'ocmoderation_%'"
         );
