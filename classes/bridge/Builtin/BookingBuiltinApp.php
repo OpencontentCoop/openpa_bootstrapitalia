@@ -14,14 +14,14 @@ class BookingBuiltinApp extends BuiltinApp
         return 'oc-bookings';
     }
 
-    protected function getServiceObject(): ?eZContentObject
-    {
-        if ($this->serviceObject === null) {
-            $this->serviceObject = eZContentObject::fetchByRemoteID('bookings');
-        }
-
-        return $this->serviceObject;
-    }
+//    protected function getServiceObject(): ?eZContentObject
+//    {
+//        if ($this->serviceObject === null) {
+//            $this->serviceObject = eZContentObject::fetchByRemoteID('bookings');
+//        }
+//
+//        return $this->serviceObject;
+//    }
 
     protected function isAppEnabled(): bool
     {

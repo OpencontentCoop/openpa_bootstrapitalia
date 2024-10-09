@@ -16,14 +16,14 @@ class InefficiencyBuiltinApp extends BuiltinApp
         return 'oc-inefficiencies';
     }
 
-    protected function getServiceObject(): ?eZContentObject
-    {
-        if ($this->serviceObject === null) {
-            $this->serviceObject = eZContentObject::fetchByRemoteID('inefficiency');
-        }
-
-        return $this->serviceObject;
-    }
+//    protected function getServiceObject(): ?eZContentObject
+//    {
+//        if ($this->serviceObject === null) {
+//            $this->serviceObject = eZContentObject::fetchByRemoteID('inefficiency');
+//        }
+//
+//        return $this->serviceObject;
+//    }
 
     protected function isAppEnabled(): bool
     {
