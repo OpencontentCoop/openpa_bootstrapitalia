@@ -93,8 +93,8 @@
                     {def $open = cond(or($is_pending, count($approvals_by_object.queues)|eq(1), $queue.has_unread_comments), true(), false())}
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading-{$queue.authorId}">
-                            <button class="accordion-button collapsed" type="button"
-                                    data-bs-toggle="collapse" data-bs-target="#collapse-{$queue.authorId}" aria-expanded="{if $open}true{else}false{/if}" aria-controls="collapse-{$queue.authorId}">
+                            <button class="{if count($approvals_by_object.queues)|gt(1)}accordion-button{/if} collapsed" type="button"
+                                    {if count($approvals_by_object.queues)|gt(1)}data-bs-toggle="collapse" data-bs-target="#collapse-{$queue.authorId}"{/if} aria-expanded="{if $open}true{else}false{/if}" aria-controls="collapse-{$queue.authorId}">
                                 <h5>
                                     {*
                                         <span class="text-capitalize">{'version'i18n('bootstrapitalia/moderation')}</span>

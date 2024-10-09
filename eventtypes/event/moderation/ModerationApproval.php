@@ -168,9 +168,13 @@ class ModerationApproval
         ];
     }
 
-    public static function fetchPendingCountByObjectIdAndLocale(int $objectId, string $locale): int
+    public static function fetchPendingCountByObjectIdAndLocale(int $objectId, string $locale, bool $onlyForCurrentUser = false): int
     {
         $pending = ModerationHandler::STATUS_PENDING;
+        $onlyForCurrentUserFilter = '';
+        if ($onlyForCurrentUser){
+            $onlyForCurrentUserFilter = 'and ezcollab_item.data_float2 = ' . (int)eZUser::currentUser()->id();
+        }
         $tasks = eZDB::instance()->arrayQuery(
             "select ezcollab_item.*, ezworkflow_process.id as workflow_process_id from ezcollab_item 
                 join ezapprove_items on (ezapprove_items.collaboration_id = ezcollab_item.id)
@@ -179,8 +183,8 @@ class ModerationApproval
                 full join ezworkflow_process on (ezapprove_items.workflow_process_id = ezworkflow_process.id)
                 where ezcollab_item.type_identifier = 'ocmoderation'
                 and ezcollab_item.data_int1 = $objectId
-                AND ezcollab_item.data_text3 = '$locale'
-                and ezcollab_item.data_int3 = $pending"
+                and ezcollab_item.data_text3 = '$locale'
+                and ezcollab_item.data_int3 = $pending $onlyForCurrentUserFilter"
         );
 
         return count($tasks);

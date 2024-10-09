@@ -48,7 +48,37 @@ if (!ModerationHandler::isEnabled()) {
 
 $redirect = $http->hasGetVariable('redirect') ? $http->getVariable('redirect') : null;
 
-if ($entityType === 'object' && $entityId > 0) {
+if ($entityType === 'edit' && $entityId > 0) {
+    $object = eZContentObject::fetch($entityId);
+    if ($object instanceof eZContentObject && $object->canEdit()) {
+        if (ModerationApproval::fetchPendingCountByObjectIdAndLocale($entityId, eZLocale::currentLocaleCode(), true)){
+            $approvalsByObject = ModerationApprovalCollection::fetchByContentObjectId($entityId);
+            $queue = $approvalsByObject->attribute('queues');
+            if (isset($queue[0])){
+                $pending = $queue[0]->attribute('pending');
+                if ($pending instanceof ModerationApproval
+                    && $pending->attribute('version') instanceof eZContentObjectVersion) {
+                    $locale = $pending->attribute('version')->attribute('initial_language')->attribute('locale');
+                    //redirect to edit from current approval version
+                    $db = eZDB::instance();
+                    $db->begin();
+                    $newVersionID = $object->copyRevertTo(
+                        $pending->attribute('version')->attribute('version'),
+                        $locale
+                    );
+                    $db->commit();
+                    $module->redirectTo('content/edit/' . $object->attribute('id') . '/' . $newVersionID . '/' . $locale);
+                    return;
+                }
+            }
+        }
+        //redirect to standard edit
+        $module->redirectTo('content/edit/' . $object->attribute('id') . '/f');
+        return;
+    } else {
+        return $module->handleError(eZError::KERNEL_NOT_AVAILABLE, 'kernel');
+    }
+} elseif ($entityType === 'object' && $entityId > 0) {
     $object = eZContentObject::fetch($entityId);
     if ($object instanceof eZContentObject) {
         $approvalsByObject = ModerationApprovalCollection::fetchByContentObjectId($entityId);
@@ -88,7 +118,7 @@ if ($entityType === 'object' && $entityId > 0) {
             $approval = false;
             if ($action == 'discard' && ModerationHandler::canDiscardVersion($entityId)) {
                 $approval = ModerationHandler::discardVersion($entityId);
-                $redirect = 'object';
+                $redirect = 'dashboard';
             } elseif ($action == 'approve' && ModerationHandler::canApproveVersion($entityId)) {
                 $approval = ModerationApproval::fetchByContentObjectVersionId($entityId);
                 if ($approval && empty($approval->attribute('depends_on'))) {
@@ -99,6 +129,9 @@ if ($entityType === 'object' && $entityId > 0) {
             }
             if ($approval) {
                 $redirectTo = '/bootstrapitalia/approval';
+                if ($redirect === 'dashboard') {
+                    $redirectTo = '/bootstrapitalia/approval';
+                }
                 if ($redirect === 'history') {
                     $redirectTo = '/content/history/' . $approval->contentObjectId;
                 }

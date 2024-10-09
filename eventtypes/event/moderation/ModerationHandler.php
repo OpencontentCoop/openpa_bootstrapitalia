@@ -76,10 +76,10 @@ class ModerationHandler
         return self::$storage;
     }
 
-    public static function hasPendingApproval(int $objectId, string $locale): int
+    public static function hasPendingApproval(int $objectId, string $locale, bool $onlyForCurrentUser = false): int
     {
         return self::isEnabled() ?
-            ModerationApproval::fetchPendingCountByObjectIdAndLocale($objectId, $locale) : 0;
+            ModerationApproval::fetchPendingCountByObjectIdAndLocale($objectId, $locale, $onlyForCurrentUser) : 0;
     }
 
     public static function hasChildPendingApproval(int $mainAssignmentId, string $locale): int
@@ -253,14 +253,23 @@ class ModerationHandler
     {
         return in_array(
             $classIdentifier,
-            OpenPAINI::variable('Moderation', 'Classes', [
+            [
                 'article',
                 'document',
                 'place',
                 'public_service',
                 'event',
-            ])
+            ]
         );
+    }
+
+    public static function getUserGroupsConstraintRemoteIdList(): array
+    {
+        return [
+            'editors_vivere_il_comune',
+            'editors_novita',
+            'editors_servizi',
+        ];
     }
 
     public function checkModerationStatus(): int

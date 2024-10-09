@@ -2,6 +2,7 @@
 {def $parent_node_id = ezini("UserSettings", "DefaultUserPlacement")}
 {def $editor_object = fetch(content, object, hash('remote_id', 'editors_base'))}
 {def $moderation_object = cond(is_approval_enabled(), fetch(content, object, hash('remote_id', 'moderation')), false())}
+{def $approval_groups_allowed = cond($moderation_object, approval_groups_allowed(), array())}
 {if $editor_object}
     {def $editor_node_id = fetch(content, object, hash('remote_id', 'editors_base')).main_node_id}
     {def $available_groups = fetch(content, list, hash('parent_node_id', $editor_node_id, 'class_filter_type', 'include', 'class_filter_array', array('user_group'), 'sort_by', array('name', 'asc')))}
@@ -60,7 +61,7 @@
                 <tr style="font-size: .7em">
                     <th>{'User'|i18n('design/standard/node/view')}</th>
                     {foreach $available_groups as $group}
-                        <th style="text-align: center" data-node="{$group.node_id}">{$group.name|wash()}</th>
+                        <th style="text-align: center" data-node="{$group.node_id}" data-allow_for_moderated="{if $approval_groups_allowed|contains($group.object.remote_id)}1{else}0{/if}">{$group.name|wash()}</th>
                     {/foreach}
                 </tr>
                 </thead>
@@ -147,7 +148,7 @@
                     <div class="toggles">
                         <i class="fa fa-circle-o-notch fa-spin fa-fw spinner" style="display:none"></i>
                         <label for="user-permission-{{:metadata.mainNodeId}}-{{:~moderationNodeId}}" style="line-height: 1px;text-align:center;margin-bottom:0;transform: scale(0.8);">
-                            <input class="custom-permission" type="checkbox" data-user="{{:metadata.mainNodeId}}" data-group="{{:~moderationNodeId}}" id="user-permission-{{:metadata.mainNodeId}}-{{:~moderationNodeId}}" name="UserPermission" {{if inModeration}}checked = "checked"{{/if}} />
+                            <input data-moderation-permission="1" class="custom-permission" type="checkbox" data-user="{{:metadata.mainNodeId}}" data-group="{{:~moderationNodeId}}" id="user-permission-{{:metadata.mainNodeId}}-{{:~moderationNodeId}}" name="UserPermission" {{if inModeration}}checked = "checked"{{/if}} />
                             <span class="lever" style="margin: 0;display: inline-block;float:none"></span>
                         </label>
                     </div>
@@ -158,12 +159,13 @@
 
         {{for groups ~current=metadata}}
             <td class="text-center" style="vertical-align: middle;">
-                <div class="toggles">
+                <div class="toggles position-relative">
                     <i class="fa fa-circle-o-notch fa-spin fa-fw spinner" style="display:none"></i>
                     <label for="user-permission-{{:~current.mainNodeId}}-{{:node}}" style="line-height: 1px;text-align:center;">
                         <input type="checkbox" data-user="{{:~current.mainNodeId}}" data-group="{{:node}}" id="user-permission-{{:~current.mainNodeId}}-{{:node}}" name="UserPermission" {{if active}}checked = "checked"{{/if}} />
                         <span class="lever" style="margin-top: 0;display: inline-block;float:none"></span>
                     </label>
+                    <i class="fa fa-ban fa-2x deny text-300" style="display:none;position: absolute;left: 0;width: 100%;"></i>
                 </div>
             </td>
         {{/for}}
@@ -275,125 +277,173 @@
                     });
                     var renderData = $(template.render(response));
 
-                    renderData.find('[name="UserPermission"]').on('change', function (e) {
-                        var self = $(this);
-                        var container = self.parent();
-                        var spinner = container.parent().find('.spinner');
-                        var user = self.data('user');
-                        var group = self.data('group');
-                        var action = self.is(':checked') ? 'add' : 'remove';
+                    var removeDenyRolesForModerated = function (user){
+                      $(ContainerSelector).find('th[data-allow_for_moderated="0"]').each(function (){
+                        var group = $(this).data('node')
+                        renderData.find('[name="UserPermission"][data-user="'+user+'"][data-group="'+group+'"]').each(function (){
+                          if (!$(this).hasClass('custom-permission')){
+                            if ($(this).is(':checked')) {
+                              $(this).trigger('click');
+                            }
+                            let parent = $(this).parent().parent();
+                            parent.find('label').css('opacity', 0.3)
+                            parent.find('.deny').show()
+                          }
+                        });
+                      })
+                    };
 
-                        var csrfToken;
-                        var tokenNode = document.getElementById('ezxform_token_js');
-                        if ( tokenNode ){
-                            csrfToken = tokenNode.getAttribute('title');
+                    var restoreRolesForUnmoderated = function (user){
+                      renderData.find('[name="UserPermission"][data-user="'+user+'"]').each(function (){
+                        let parent = $(this).parent().parent();
+                        parent.find('label').css('opacity', 1)
+                        parent.find('.deny').hide()
+                      });
+                    };
+
+                  renderData.find('[data-moderation-permission="1"]:checked').each(function () {
+                    let user = $(this).data('user')
+                    removeDenyRolesForModerated(user)
+                  });
+
+                  renderData.find('[name="UserPermission"]').on('change', function (e) {
+                    var self = $(this);
+                    var container = self.parent();
+                    var spinner = container.parent().find('.spinner');
+                    var user = self.data('user');
+                    var group = self.data('group');
+                    var action = self.is(':checked') ? 'add' : 'remove';
+                    var isModerationPermission = self.data('moderation-permission') || false;
+                    var isAllowedForModerated = $(ContainerSelector).find('th[data-node="' + group + '"]').data('allow_for_moderated') || false;
+                    var userIsModerated = $(ContainerSelector).find('#user-permission-' + user + '-' + Moderation).is(':checked');
+                    if (isModerationPermission) {
+                      if (action === 'add') {
+                        removeDenyRolesForModerated(user)
+                      } else {
+                        restoreRolesForUnmoderated(user)
+                      }
+                    } else if (userIsModerated && !isAllowedForModerated && action === 'add') {
+                      self.prop('checked', false);
+                      return;
+                    }
+                    var csrfToken;
+                    var tokenNode = document.getElementById('ezxform_token_js');
+                    if (tokenNode) {
+                      csrfToken = tokenNode.getAttribute('title');
+                    }
+                    container.hide();
+                    spinner.show();
+                    $.ajax({
+                      url: '/bootstrapitalia/permissions/' + action + '/' + user + '/' + group,
+                      type: 'post',
+                      headers: {"X-CSRF-TOKEN": csrfToken},
+                      dataType: 'json',
+                      success: function (response) {
+                        if (response.code !== 'success') {
+                          self.prop('checked', action !== 'add');
                         }
-                        container.hide();
-                        spinner.show();
-                        $.ajax({
-                            url: '/bootstrapitalia/permissions/'+action+'/'+user+'/'+group,
-                            type: 'post',
-                            headers: {"X-CSRF-TOKEN": csrfToken},
-                            dataType: 'json',
-                            success: function (response) {
-                                if (response.code !== 'success'){
-                                    self.prop('checked', action !== 'add');
-                                }
-                                spinner.hide();
-                                container.show();
-                            },
-                            error: function () {
-                                self.prop('checked', action !== 'add');
-                                spinner.hide();
-                                container.show();
-                            }
-                        });
+                        spinner.hide();
+                        container.show();
+                      },
+                      error: function () {
+                        self.prop('checked', action !== 'add');
+                        spinner.hide();
+                        container.show();
+                      }
                     });
+                  });
 
-                    renderData.find('.ActivateAllUserPermission').on('click', function (e) {
-                        var user = $(this).data('user');
-                        renderData.find('[name="UserPermission"][data-user="'+user+'"]').each(function (){
-                            if (!$(this).is(':checked') && !$(this).hasClass('custom-permission')){
-                                $(this).trigger('click');
-                            }
-                        });
-                        e.preventDefault();
+                  renderData.find('.ActivateAllUserPermission').on('click', function (e) {
+                    var user = $(this).data('user');
+                    renderData.find('[name="UserPermission"][data-user="' + user + '"]').each(function () {
+                      if (!$(this).is(':checked') && !$(this).hasClass('custom-permission')) {
+                        $(this).trigger('click');
+                      }
                     });
-                    renderData.find('.DeactivateAllUserPermission').on('click', function (e) {
-                        var user = $(this).data('user');
-                        renderData.find('[name="UserPermission"][data-user="'+user+'"]').each(function (){
-                            if ($(this).is(':checked') && !$(this).hasClass('custom-permission')){
-                                $(this).trigger('click');
-                            }
-                        });
-                        e.preventDefault();
+                    e.preventDefault();
+                  });
+                  renderData.find('.DeactivateAllUserPermission').on('click', function (e) {
+                    var user = $(this).data('user');
+                    renderData.find('[name="UserPermission"][data-user="' + user + '"]').each(function () {
+                      if ($(this).is(':checked') && !$(this).hasClass('custom-permission')) {
+                        $(this).trigger('click');
+                      }
                     });
+                    e.preventDefault();
+                  });
 
-                    renderData.find('.edit-object').on('click', function (e) {
-                        var object = $(this).data('object');
-                        $(FormSelector).opendataFormEdit({'object': object},{
-                            onBeforeCreate: function () {$(ModalSelector).modal('show');},
-                            onSuccess: function () {$(ModalSelector).modal('hide');runQuery(query);}
-                        });
-                        e.preventDefault();
+                  renderData.find('.edit-object').on('click', function (e) {
+                    var object = $(this).data('object');
+                    $(FormSelector).opendataFormEdit({'object': object}, {
+                      onBeforeCreate: function () {
+                        $(ModalSelector).modal('show');
+                      },
+                      onSuccess: function () {
+                        $(ModalSelector).modal('hide');
+                        runQuery(query);
+                      }
                     });
+                    e.preventDefault();
+                  });
 
-                    $container.html(renderData);
+                  $container.html(renderData);
 
-                    $container.find('#nextPage').on('click', function (e) {
-                        currentPage++;
-                        runQuery($(this).data('query'));
-                        e.preventDefault();
-                    });
+                  $container.find('#nextPage').on('click', function (e) {
+                    currentPage++;
+                    runQuery($(this).data('query'));
+                    e.preventDefault();
+                  });
 
-                    $container.find('#prevPage').on('click', function (e) {
-                        currentPage--;
-                        runQuery($(this).data('query'));
-                        e.preventDefault();
-                    });
+                  $container.find('#prevPage').on('click', function (e) {
+                    currentPage--;
+                    runQuery($(this).data('query'));
+                    e.preventDefault();
+                  });
                 });
             };
 
-            var loadContents = function () {
-                runQuery(buildQuery());
-            };
+          var loadContents = function () {
+            runQuery(buildQuery());
+          };
 
-            $('input.filter').on('change', function (e) {
-                currentPage = 0;
-                loadContents();
-            });
-
-            $('#FindContents').on('click', function (e) {
-                currentPage = 0;
-                loadContents();
-                e.preventDefault();
-            });
-
-            resetButton.on('click', function (e) {
-                $('#name').val('');
-                $('input.filter').prop('checked', false);
-                resetButton.hide();
-                currentPage = 0;
-                loadContents();
-                e.preventDefault();
-            });
-
-            $('#AddContent').on('click', function (e) {
-                $(FormSelector).opendataFormCreate({
-                        class: 'user',
-                        parent: ParentNodeId
-                    },{
-                        onBeforeCreate: function () {$(ModalSelector).modal('show');},
-                        onSuccess: function () {
-                            $(ModalSelector).modal('hide');
-                            $('#ResetContents').trigger('click');
-                        }
-                    }
-                );
-                e.preventDefault();
-            });
-
+          $('input.filter').on('change', function (e) {
+            currentPage = 0;
             loadContents();
+          });
+
+          $('#FindContents').on('click', function (e) {
+            currentPage = 0;
+            loadContents();
+            e.preventDefault();
+          });
+
+          resetButton.on('click', function (e) {
+            $('#name').val('');
+            $('input.filter').prop('checked', false);
+            resetButton.hide();
+            currentPage = 0;
+            loadContents();
+            e.preventDefault();
+          });
+
+          $('#AddContent').on('click', function (e) {
+            $(FormSelector).opendataFormCreate({
+                class: 'user',
+                parent: ParentNodeId
+              }, {
+                onBeforeCreate: function () {
+                  $(ModalSelector).modal('show');
+                },
+                onSuccess: function () {
+                  $(ModalSelector).modal('hide');
+                  $('#ResetContents').trigger('click');
+                }
+              }
+            );
+            e.preventDefault();
+          });
+
+          loadContents();
         });
     {/literal}
     </script>

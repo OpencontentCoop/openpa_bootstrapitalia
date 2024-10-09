@@ -46,7 +46,10 @@
 {/if}
 
 
+
 {if and( $website_toolbar_access, $available_for_current_class )}
+
+{def $current_user_needs_approval = current_user_needs_approval($content_object.class_identifier)}
 
 <form method="post" action="{"content/action"|ezurl(no)}">
     <nav class="toolbar" id="ezwt">
@@ -87,13 +90,23 @@
             {/if}
 
             {if $content_object.can_edit}
-                <input type="hidden" name="ContentObjectLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
-                <li class="position-relative">
-                    <button class="btn" type="submit" name="EditButton" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
-                        <i aria-hidden="true" class="fa fa-pencil"></i>
-                        <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
-                    </button>
-                </li>
+                {def $has_pending_approval = has_pending_approval($content_object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'), $current_user_needs_approval)}
+                {if $has_pending_approval}
+                    <li>
+                        <a href="{concat( "bootstrapitalia/approval/edit/", $content_object.id )|ezurl(no)}" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
+                            <i aria-hidden="true" class="fa fa-pencil" style="font-size: 26px;"></i>
+                            <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
+                        </a>
+                    </li>
+                {else}
+                    <input type="hidden" name="ContentObjectLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
+                    <li class="position-relative">
+                        <button class="btn" type="submit" name="EditButton" title="{'Edit'|i18n( 'design/standard/parts/website_toolbar')}{$node_hint}">
+                            <i aria-hidden="true" class="fa fa-pencil"></i>
+                            <span class="toolbar-label">{'Edit'|i18n( 'design/standard/parts/website_toolbar')}</span>
+                        </button>
+                    </li>
+                {/if}
             {elseif and(
                 is_set($content_object.state_identifier_array),
                 $content_object.state_identifier_array|contains('opencity_lock/locked'),
@@ -110,17 +123,6 @@
                 </li>
             {/if}
 
-            {def $has_pending_approval = has_pending_approval($content_object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'))}
-            {if $has_pending_approval}
-                <li>
-                    <a href="{concat('/content/history/', $content_object.id)|ezurl(no)}">
-                        <span class="font-weight-bold">{$has_pending_approval}</span>
-                        <span class="toolbar-label" style="max-width: 70px;">{'version(s) under approval'|i18n('bootstrapitalia/moderation')}</span>
-                    </a>
-                </li>
-            {/if}
-            {undef $has_pending_approval}
-
             {if and($content_object.can_translate, ezini('ExtensionSettings','ActiveAccessExtensions')|contains('octranslate'), fetch( 'user', 'has_access_to', hash( 'module', 'translate', 'function', 'content' ) ))}
                 {include uri='design:parts/websitetoolbar/translate.tpl' content_object=$content_object}
             {/if}
@@ -128,7 +130,7 @@
             {if and(
                 $content_object.can_move,
                 not(openpaini('WebsiteToolbar', 'HideMoveButton', array('restricted_document', 'restricted_area'))|contains($content_object.class_identifier)),
-                not(current_user_needs_approval($content_object.class_identifier)),
+                not($current_user_needs_approval),
                 not( $top_menu_node_ids|contains( $current_node.node_id ) )
             )}
                 <li>
@@ -211,11 +213,11 @@
                                                 <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-fw"></i>
                                             </a>
                                         </li>
-                                        <div id="approval-items"></div>
+                                        <li id="approval-items"></li>
                                         <li><span class="divider"></span></li>
                                         <li>
                                             <a class="list-item left-icon" href="{'bootstrapitalia/approval'|ezurl(no)}" title="{'Approval'|i18n( 'bootstrapitalia/moderation' )}">
-                                                <i aria-hidden="true" class="fa fa-check-circle-o"></i> {'Approval'|i18n( 'bootstrapitalia/moderation' )}
+                                                <i aria-hidden="true" class="fa fa-check-circle-o"></i> {'Go to the moderation dashboard'|i18n( 'bootstrapitalia/moderation' )}
                                             </a>
                                         </li>
                                     </ul>
