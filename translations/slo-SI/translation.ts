@@ -109,7 +109,7 @@
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Pojdi na koledar dogodkov</translation>
+      <translation>Pojdite na koledar dogodkov</translation>
     </message>
     <message>
       <source>Event start</source>
@@ -1011,7 +1011,7 @@
     </message>
     <message>
       <source>Select place</source>
-      <translation>Izberite mesto</translation>
+      <translation>Izberite kraj</translation>
     </message>
     <message>
       <source>Nowhere</source>
@@ -2076,6 +2076,10 @@
     </message>
     <message>
       <source>The version was archived following the request approval of version %id</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Go to the moderation dashboard</source>
       <translation type="unfinished"/>
     </message>
   </context>

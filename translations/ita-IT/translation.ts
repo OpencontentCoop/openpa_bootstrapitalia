@@ -2082,5 +2082,9 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>The version was archived following the request approval of version %id</source>
       <translation>Versione archiviata in seguito alla richiesta di approvazione della versione %id</translation>
     </message>
+    <message>
+      <source>Go to the moderation dashboard</source>
+      <translation>Vai alla dashboard di moderazione</translation>
+    </message>
   </context>
 </TS>

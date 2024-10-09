@@ -1007,7 +1007,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Llena algunos datos sobre tu lugar.</translation>
+      <translation>Llena algunos datos sobre tu lugar</translation>
     </message>
     <message>
       <source>Select place</source>
@@ -2076,6 +2076,10 @@
     </message>
     <message>
       <source>The version was archived following the request approval of version %id</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Go to the moderation dashboard</source>
       <translation type="unfinished"/>
     </message>
   </context>

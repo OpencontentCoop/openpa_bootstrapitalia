@@ -699,7 +699,7 @@
     </message>
     <message>
       <source>Submit your rating</source>
-      <translation>Soumettez votre évaluation</translation>
+      <translation>Soumettez votre note</translation>
     </message>
   </context>
   <context>
@@ -2076,6 +2076,10 @@
     </message>
     <message>
       <source>The version was archived following the request approval of version %id</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Go to the moderation dashboard</source>
       <translation type="unfinished"/>
     </message>
   </context>
