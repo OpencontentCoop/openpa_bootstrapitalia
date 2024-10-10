@@ -465,6 +465,9 @@
                             Abilita il sistema di approvazione dei contenuti basato sulle versioni
                         </label>
                     </div>
+                    <small class="form-text text-white">
+                        Attenzione: quando si disattiva questa funzionalità vengono rimosse tutte le configurazioni di moderazione e sarà necessario ridefinire tutti gli utenti da moderare
+                    </small>
                     <div class="text-right mt-1">
                         <button class="btn btn-primary" type="submit">Aggiorna</button>
                     </div>

@@ -87,7 +87,7 @@
                 {* Remove. *}
                 <td style="vertical-align:middle">
                     <!--{$version.id} {$version.status}-->
-                    {if and( $version.can_remove, array( 0, 2, 3, 4, 5 )|contains( $version.status ) )}
+                    {if and( $version.can_remove, array( 0, 2, 3, 4, 5, 6 )|contains( $version.status ) )}
                         <input type="checkbox" name="DeleteIDArray[]" value="{$version.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/ocbootstrap/content/history',, hash( '%version_number', $version.version ) )}" />
                     {/if}
                 </td>
@@ -106,7 +106,7 @@
                     <td style="vertical-align:middle">
                         {def $approval_status = approval_status_by_version_id($version.id)|choose( 'Pending'|i18n( 'bootstrapitalia/moderation' ), 'Approved'|i18n( 'bootstrapitalia/moderation' ), 'Rejected'|i18n( 'bootstrapitalia/moderation' ) )}
                         {if $approval_status|ne('')}
-                            <a class="chip chip-simple chip-info" href="{concat('/bootstrapitalia/approval/', $version.id)|ezurl(no)}"><span class="chip-label text-nowrap ">{$approval_status}</span></a>
+                            <a class="chip chip-simple chip-info" href="{concat('/bootstrapitalia/approval/version/', $version.id)|ezurl(no)}"><span class="chip-label text-nowrap ">{$approval_status}</span></a>
                         {/if}
                         {undef $approval_status}
                     </td>

@@ -2078,5 +2078,17 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Approval dashboard</source>
       <translation>Moderazione dei contenuti</translation>
     </message>
+    <message>
+      <source>The version was archived following the request approval of version %id</source>
+      <translation>Versione archiviata in seguito alla richiesta di approvazione della versione %id</translation>
+    </message>
+    <message>
+      <source>Go to the moderation dashboard</source>
+      <translation>Vai alla dashboard di moderazione</translation>
+    </message>
+    <message>
+      <source>The version was discard by creator</source>
+      <translation>La versione è stata scartata dall'autore</translation>
+    </message>
   </context>
 </TS>

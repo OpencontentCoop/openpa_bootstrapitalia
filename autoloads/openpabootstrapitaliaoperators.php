@@ -98,6 +98,7 @@ class OpenPABootstrapItaliaOperators
             'approval_status_by_version_id',
             'current_class_needs_approval',
             'approval_unread_message_count',
+            'approval_groups_allowed',
             'download_url',
         );
     }
@@ -240,6 +241,7 @@ class OpenPABootstrapItaliaOperators
             'has_pending_approval' =>  array(
                 'object_id' => array('type' => 'integer', 'required' => true, 'default' => 0),
                 'locale' => array('type' => 'string', 'required' => true, 'default' => ''),
+                'only_for_current_user' => array('type' => 'boolean', 'required' => true, 'default' => false),
             ),
             'can_approve_version' =>  array(
                 'version_id' => array('type' => 'integer', 'required' => true, 'default' => 0),
@@ -296,6 +298,10 @@ class OpenPABootstrapItaliaOperators
                 }
                 break;
 
+            case 'approval_groups_allowed':
+                $operatorValue = ModerationHandler::getUserGroupsConstraintRemoteIdList();
+                break;
+
             case 'approval_unread_message_count':
                 $operatorValue = ModerationMessage::unreadApprovalCount();
                 break;
@@ -332,7 +338,11 @@ class OpenPABootstrapItaliaOperators
                 break;
 
             case 'has_pending_approval':
-                $operatorValue = ModerationHandler::hasPendingApproval((int)$namedParameters['object_id'], (string)$namedParameters['locale']);
+                $operatorValue = ModerationHandler::hasPendingApproval(
+                    (int)$namedParameters['object_id'],
+                    (string)$namedParameters['locale'],
+                    (bool)$namedParameters['only_for_current_user']
+                );
                 break;
 
             case 'custom_booking_is_enabled':
