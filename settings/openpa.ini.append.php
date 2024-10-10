@@ -12,38 +12,18 @@ BuiltInWidgetStyle_support=https://%host%/widgets/helpdesk/css/helpdesk.css
 BuiltInWidgetSource_booking=https://%host%/widgets/bookings/bootstrap-italia@2/js/bookings.js
 BuiltInWidgetStyle_booking=https://%host%/widgets/bookings/css/bookings.css
 
-#BuiltInWidgetSource_satisfy=https://satisfy.opencontent.it/widget_ns.js
 #BuiltInWidgetSource_satisfy=https://%host%/widgets/satisfy/js/satisfy.js
 BuiltInWidgetSource_satisfy=https://static.opencityitalia.it/widgets/satisfy/version/1.5.6/js/satisfy.js
 
 BuiltInWidgetSource_login=https://%host%/widgets/login-box/bootstrap-italia@2/js/login-box.js
 
-BuiltInWidgetSource_service-form=https://static.opencityitalia.it/widgets/formio/js/web-formio.js
-BuiltInWidgetStyle_service-form=https://static.opencityitalia.it/widgets/formio/css/web-formio.css
+BuiltInWidgetSource_service-form=https://static.opencityitalia.it/widgets/formio/latest/js/web-formio.js
+BuiltInWidgetStyle_service-form=https://static.opencityitalia.it/widgets/formio/latest/css/web-formio.css
 
-BuiltInWidgetSource_payment=https://%host%/widgets/payments-due/js/paymentsDue.js
-BuiltInWidgetStyle_payment=https://%host%/widgets/payments-due/css/paymentsDue.css
-
-
-RootId_inefficiency=oc-inefficiencies
-RootId_support=oc-helpdesk
-RootId_booking=oc-bookings
-RootId_login=oc-login-box
-RootId_service-form=
-Template_service-form=openpa/built_in_app_service_form.tpl
-RootId_payment=oc-paymentsDue
-
-ServiceIdentifier_support=helpdesk
-ServiceIdentifier_booking=bookings
-ServiceIdentifier_inefficiency=inefficiencies
-ServiceIdentifier_service-form=service-form
-ServiceIdentifier_payment=payment
-
-ContactsField_inefficiency=link_segnalazione_disservizio
-ContactsField_support=link_assistenza
-ContactsField_booking=link_prenotazione_appuntamento
-ContactsField_service-form=link_prenotazione_appuntamento
-ContactsField_payment=link_prenotazione_appuntamento
+#BuiltInWidgetSource_payment=https://%host%/widgets/payments-due/js/paymentsDue.js
+#BuiltInWidgetStyle_payment=https://%host%/widgets/payments-due/css/paymentsDue.css
+BuiltInWidgetSource_payment=https://static.opencityitalia.it/widgets/payments-due/version/0.1.7/js/paymentsDue.js
+BuiltInWidgetStyle_payment=https://static.opencityitalia.it/widgets/payments-due/version/0.1.7/css/paymentsDue.css
 
 ApiUserLogin=
 ApiUserPassword=
