@@ -89,34 +89,10 @@
     <div class="data_actions_and_alerts">
         <div class="data_actions">
             <a href="{concat('/customexport/',$custom_repository)|ezurl(no)}" data-href="{concat('/customexport/',$custom_repository)|ezurl(no)}" data-action="export" class="btn btn-primary btn-xs mb-1 mr-1"><i class="fa fa-download"></i> {'Download CSV'|i18n('opendatadataset')}</a>
-            {if and($attribute.content.can_edit, $attribute.content.is_api_enabled)}
-                <a href="#" data-action="add" class="btn btn-outline-primary btn-xs mb-1"><i class="fa fa-plus"></i> {'Create new %name'|i18n('opendatadataset',,hash('%name', $attribute.content.item_name|wash()))}</a>
-                {*<a href="#" data-action="apidoc" class="btn btn-outline-primary btn-xs mb-1"><i class="fa fa-external-link"></i> {'API Doc'|i18n('opendatadataset')}</a>*}
-            {/if}
-            {if $attribute.content.can_edit}
-                <a href="#" data-action="import" class="btn btn-outline-primary btn-xs mb-1"><i class="fa fa-arrow-up"></i> {'Import from CSV'|i18n('opendatadataset')}</a>
-                <a href="#" data-action="google-import" class="btn btn-outline-primary btn-xs mb-1"><i class="fa fa-google"></i> {'Import from Google Sheet'|i18n('opendatadataset')}</a>
-            {/if}
-            {if $attribute.content.can_truncate}
-                <a href="#" data-action="delete-all" class="btn btn-outline-danger btn-xs mb-1"><i class="fa fa-trash"></i> {'Delete data'|i18n('opendatadataset')}</a>
-            {/if}
         </div>
-
         <div class="alert alert-warning my-2 has_pending_action_alert" style="display: none">
             <i class="fa fa-circle-o-notch fa-spin"></i> {'There are data being updated'|i18n('opendatadataset')}
         </div>
-        {if $attribute.content.can_edit}
-            <div class="alert alert-danger my-2 has_error_action_alert" style="display: none"></div>
-            <div class="alert alert-success my-2 has_scheduled_action_alert" style="display: none">
-                {'Automatic import enabled'|i18n('opendatadataset')}
-                <a href="#" target="_blank" class="spreadsheet_uri btn btn-xs btn-primary p-1 ml-3">
-                    <i class="fa fa-external-link"></i> {'Go to source'|i18n('opendatadataset')}
-                </a>
-                <a href="{concat('/opendatadataset/remove_scheduled_import/', $attribute.id)|ezurl(no)}" class="btn btn-xs btn-danger p-1 ml-3">
-                    <i class="fa fa-times"></i> {'Disable'|i18n('opendatadataset')}
-                </a>
-            </div>
-        {/if}
     </div>
 
     <div class="fullscreenable">
@@ -329,7 +305,7 @@
             language: "{$attribute.language_code}",
             facets: JSON.parse('{$facets|json_encode()}'),
             itemName: "{$attribute.content.item_name|wash()}",
-            canEdit: {cond(and($attribute.content.can_edit, $attribute.content.is_api_enabled), 'true', 'false')},
+            canEdit: false,
             endpoints: {ldelim}
                 geo: "{concat('/customgeo/',$custom_repository)|ezurl(no)}/",
                 search: "{concat('/customfind/',$custom_repository)|ezurl(no)}/",
