@@ -43,6 +43,10 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
             $validationParameters
         );
 
+        if (in_array($module->currentAction(), ['Store', 'StoreExit'])){
+            return $result;
+        }
+
         foreach (
             $this->getRegisteredValidators(
                 $http,
