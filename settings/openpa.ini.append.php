@@ -254,6 +254,8 @@ Consent=advanced
 
 [LockEdit_homepage]
 EnableBackgroundImage=enabled
+AllowRemoveMainNews=disabled
+BoostSearchBlock=disabled
 
 [OpenpaAgenda]
 EnableDiscussion=enabled
