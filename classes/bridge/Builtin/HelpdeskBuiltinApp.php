@@ -25,6 +25,11 @@ class HelpdeskBuiltinApp extends BuiltinApp
 //        return $this->serviceObject;
 //    }
 
+    protected function getServiceId(): ?string
+    {
+        return 'helpdesk';
+    }
+
     protected function isAppEnabled(): bool
     {
         if ($this->isAppEnabled === null) {
