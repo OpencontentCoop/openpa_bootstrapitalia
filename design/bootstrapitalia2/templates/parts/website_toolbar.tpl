@@ -169,7 +169,7 @@
                 {/if}
             {/if}
 
-            {if $is_container}
+            {if and($is_container, not(current_user_needs_approval()))}
             <li>
                 <a href="{concat( "websitetoolbar/sort/", $current_node.node_id )|ezurl(no)}" title="{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}">
                     <i aria-hidden="true" class="fa fa-sort-alpha-asc"></i>
@@ -187,7 +187,7 @@
             </li>
             {/if}
 
-            {if is_set($content_object.id)}
+            {if and(is_set($content_object.id), not(current_user_needs_approval($content_object.class_identifier)))}
             {include uri='design:parts/websitetoolbar/privacy.tpl'}
             <li class="toolbar-divider" aria-hidden="true"></li>
             {/if}

@@ -197,7 +197,10 @@
                                 {if $item.type|eq('ocmoderation_created')}<i class="fa fa-history"></i>{/if}
                             </td>
                             <td style="vertical-align:middle;white-space:nowrap">{$item.creator.contentobject.name|wash()}</td>
-                            <td style="vertical-align:middle;white-space:nowrap;text-align:center"><a href="{concat('/bootstrapitalia/approval/version/', $item.approval.contentObjectVersionId)|ezurl(no)}">{$item.approval.version.version}</a></td>
+                            <td style="vertical-align:middle;white-space:nowrap;text-align:center">
+                                {*<a href="{concat('/bootstrapitalia/approval/version/', $item.approval.contentObjectVersionId)|ezurl(no)}">{$item.approval.version.version}</a>*}
+                                {$item.approval.version.version}
+                            </td>
                             <td style="vertical-align:middle;white-space:nowrap">{$item.createdAt|l10n( shortdatetime )}</td>
                             <td style="vertical-align:middle">
                                 {switch match=$item.type}

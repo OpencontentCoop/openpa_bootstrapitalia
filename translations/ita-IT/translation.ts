@@ -2032,7 +2032,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>Warning: the activities of this account are subject to moderation: the changes will be visible after approval by an editor</source>
-      <translation>Attenzione: le attività di questo account sono sottoposte a moderazione: le modifiche saranno visibili dopo l'approvazione di un redattore</translation>
+      <translation>Attenzione: le attività di questo account sono sottoposte a moderazione. Le modifiche saranno visibili dopo l'approvazione di un redattore</translation>
     </message>
     <message>
       <source>There is currently %version of this content awaiting approval</source>

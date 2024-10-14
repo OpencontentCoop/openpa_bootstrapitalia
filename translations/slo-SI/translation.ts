@@ -109,7 +109,7 @@
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Pojdite na koledar dogodkov</translation>
+      <translation>Pojdi na koledar dogodkov</translation>
     </message>
     <message>
       <source>Event start</source>
@@ -165,7 +165,7 @@
     </message>
     <message>
       <source>Further details</source>
-      <translation>Dodatne podrobnosti</translation>
+      <translation>Nadaljnje podrobnosti</translation>
     </message>
     <message>
       <source>Go to content</source>
@@ -568,7 +568,7 @@
     </message>
     <message>
       <source>Apps</source>
-      <translation>aplikacije</translation>
+      <translation>Aplikacije</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
@@ -625,7 +625,7 @@
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Nanašati na</translation>
+      <translation>Nanaša se na</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -1011,7 +1011,7 @@
     </message>
     <message>
       <source>Select place</source>
-      <translation>Izberite mesto</translation>
+      <translation>Izberite kraj</translation>
     </message>
     <message>
       <source>Nowhere</source>
