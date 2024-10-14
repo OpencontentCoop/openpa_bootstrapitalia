@@ -14,7 +14,7 @@ class PaymentBuiltinApp extends BuiltinApp
 
     protected function isAppEnabled(): bool
     {
-        return self::getCurrentOptions('TenantUrl');
+        return self::getCurrentOptions('TenantUrl') && $this->getServiceId();
     }
 
     protected function getDescriptionListItem(): array

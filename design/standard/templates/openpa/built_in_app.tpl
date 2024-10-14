@@ -39,8 +39,13 @@
     {elseif and($built_in_app_is_enabled, is_set($built_in_app_api_base_url))}
         <div class="buitinapp mb-5">
             <div id="{$built_in_app_root_id}"></div>
+            {if $page_name}
+                <script>window.OC_PAGE_NAME = "{$page_name|wash(javascript)}";</script>
+            {/if}
             <script src="{$built_in_app_src}"></script>
+            {debug-log var=$built_in_app_src msg='Builtin JS'}
             {if $built_in_app_style|ne('')}<link rel="stylesheet" type="text/css" href="{$built_in_app_style}" />{/if}
+            {debug-log var=$built_in_app_style msg='Builtin CSS'}
         </div>
     {else}
         <div class="container">
@@ -55,4 +60,8 @@
             </div>
         </div>
     {/if}
+{/if}
+
+{if and($built_in_app_is_enabled, is_set($built_in_app_satisfy_entrypoint))}
+    {include uri='design:footer/valuation.tpl' satisfy_entrypoint=$built_in_app_satisfy_entrypoint}
 {/if}
