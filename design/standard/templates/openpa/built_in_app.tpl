@@ -13,13 +13,15 @@
                     {if is_set($built_in_app_api_base_url)}
                         <pre style="white-space: break-spaces;">{*
                             *}{concat('<div id="',$built_in_app_root_id,'"></div>')|wash()}<br /><br />{*
-                            *}{'<script src="'|wash()}{if is_set($built_in_app_src)}{$built_in_app_src}{else}{openpaini('StanzaDelCittadinoBridge', concat('BuiltInWidgetSource_', $built_in_app))}{/if}{'"/>'|wash()}{*
+                            *}{'<script src="'|wash()}{if is_set($built_in_app_src)}{$built_in_app_src}{else}{openpaini('StanzaDelCittadinoBridge', concat('BuiltInWidgetSource_', $built_in_app))}{/if}{'"></script>'|wash()}{*
                             *}{if $built_in_app_style|ne('')}<br /><br />{'<link rel="stylesheet" type="text/css" href="'|wash()}{$built_in_app_style}{'" />'|wash()}{/if}
                         </pre>
                     {/if}
                     <form method="post">
                         <div class="form-group">
-                            <label for="built_in_app_script">Se vuoi inserire uno script custom per <code>{$built_in_app}</code> inserisci qui il codice:</label>
+                            <label for="built_in_app_script" class="p-0">Se vuoi inserire uno script custom per <code>{$built_in_app}</code> inserisci qui il codice:</label>
+                            <p class="form-text">Attenzione: per garantire la compatibilità di tutti i browser devi esplicitare il tag di chiusura per l'inclusione del javascript:<br>
+                                ad esempio <code>{'<script src="https://example.com/script.js"></script>'|wash()}</code> e non <del><code>{'<script src="https://example.com/script.js"/>'|wash()}</code></del></p>
                             <textarea rows="10" id="built_in_app_script" class="form-control"
                                       name="Config">{$built_in_app_script}</textarea>
                         </div>
@@ -39,8 +41,13 @@
     {elseif and($built_in_app_is_enabled, is_set($built_in_app_api_base_url))}
         <div class="buitinapp mb-5">
             <div id="{$built_in_app_root_id}"></div>
+            {if $page_name}
+                <script>window.OC_PAGE_NAME = "{$page_name|wash(javascript)}";</script>
+            {/if}
             <script src="{$built_in_app_src}"></script>
+            {debug-log var=$built_in_app_src msg='Builtin JS'}
             {if $built_in_app_style|ne('')}<link rel="stylesheet" type="text/css" href="{$built_in_app_style}" />{/if}
+            {debug-log var=$built_in_app_style msg='Builtin CSS'}
         </div>
     {else}
         <div class="container">
@@ -55,4 +62,8 @@
             </div>
         </div>
     {/if}
+{/if}
+
+{if and($built_in_app_is_enabled, is_set($built_in_app_satisfy_entrypoint))}
+    {include uri='design:footer/valuation.tpl' satisfy_entrypoint=$built_in_app_satisfy_entrypoint}
 {/if}

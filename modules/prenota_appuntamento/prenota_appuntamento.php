@@ -61,6 +61,16 @@ if (StanzaDelCittadinoBooking::factory()->isEnabled() && StanzaDelCittadinoBridg
         $tpl->setVariable('months', $months);
         $tpl->setVariable('offices', $offices);
         $tpl->setVariable('steps', StanzaDelCittadinoBooking::factory()->getSteps());
+
+        try {
+            $remoteService = StanzaDelCittadinoBridge::factory()->getServiceByIdentifier('bookings');
+            $satisfyEntrypointId = $remoteService['satisfy_entrypoint_id'] ?? null;
+        } catch (Throwable $exception) {
+            eZDebug::writeError($exception->getMessage(), __METHOD__);
+            $satisfyEntrypointId = null;
+        }
+        $tpl->setVariable('built_in_app_satisfy_entrypoint', $satisfyEntrypointId);
+
         $tpl->setVariable(
             'show_debug',
             eZINI::instance()->variable('DebugSettings', 'DebugOutput') == 'enabled' ? 'true' : 'false'

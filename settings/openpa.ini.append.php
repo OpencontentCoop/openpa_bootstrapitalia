@@ -22,8 +22,8 @@ BuiltInWidgetStyle_service-form=https://static.opencityitalia.it/widgets/formio/
 
 #BuiltInWidgetSource_payment=https://%host%/widgets/payments-due/js/paymentsDue.js
 #BuiltInWidgetStyle_payment=https://%host%/widgets/payments-due/css/paymentsDue.css
-BuiltInWidgetSource_payment=https://static.opencityitalia.it/widgets/payments-due/version/0.1.7/js/paymentsDue.js
-BuiltInWidgetStyle_payment=https://static.opencityitalia.it/widgets/payments-due/version/0.1.7/css/paymentsDue.css
+BuiltInWidgetSource_payment=https://static.opencityitalia.it/widgets/payments-due/version/1.0.5/js/paymentsDue.js
+BuiltInWidgetStyle_payment=https://static.opencityitalia.it/widgets/payments-due/version/1.0.5/css/paymentsDue.css
 
 ApiUserLogin=
 ApiUserPassword=

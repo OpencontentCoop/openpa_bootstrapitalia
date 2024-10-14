@@ -14,6 +14,8 @@ abstract class BuiltinApp extends OpenPATempletizable
 
     private $serviceId;
 
+    private $satisfyEntrypointId;
+
     private $serviceObject;
 
     private static $currentOptions;
@@ -50,6 +52,7 @@ abstract class BuiltinApp extends OpenPATempletizable
             'style' => 'getWidgetStyle',
             'description_list_item' => 'getDescriptionListItem',
             'has_custom_config' => 'hasCustomConfig',
+            'satisfy_entrypoint' => 'getSatisfyEntrypointId',
         ];
     }
 
@@ -144,6 +147,9 @@ abstract class BuiltinApp extends OpenPATempletizable
         if (self::getCurrentOptions('BoundingBox')) {
             $window['OC_BB'] = self::getCurrentOptions('BoundingBox');
         }
+        if (self::getCurrentOptions('CheckoutUrl')){
+            $window['OC_CHECKOUT_URL'] = self::getCurrentOptions('CheckoutUrl');
+        }
 
         return $window;
     }
@@ -210,18 +216,37 @@ abstract class BuiltinApp extends OpenPATempletizable
             if (!$this->serviceId) {
                 if ($this->module instanceof eZModule && ServiceSync::isUuid($this->module->ViewParameters[0] ?? '')) {
                     $this->serviceId = $this->module->ViewParameters[0];
-                } else {
-                    $referrer = eZSys::serverVariable('HTTP_REFERER', true);
-                    if ($referrer && strpos($referrer, '?service_id=') !== false) {
-                        $referrerQuery = parse_url($referrer, PHP_URL_QUERY);
-                        parse_str($referrerQuery, $referrerQueryArray);
-                        $this->serviceId = $referrerQueryArray['service_id'] ?? null;
-                    }
+//                } else {
+//                    $referrer = eZSys::serverVariable('HTTP_REFERER', true);
+//                    if ($referrer && strpos($referrer, '?service_id=') !== false) {
+//                        $referrerQuery = parse_url($referrer, PHP_URL_QUERY);
+//                        parse_str($referrerQuery, $referrerQueryArray);
+//                        $this->serviceId = $referrerQueryArray['service_id'] ?? null;
+//                    }
                 }
             }
         }
 
         return $this->serviceId;
+    }
+
+    protected function getSatisfyEntrypointId(): ?string
+    {
+        if ($this->satisfyEntrypointId === null) {
+            $serviceId = $this->getServiceId();
+            if ($serviceId) {
+                try {
+                    $remoteService = StanzaDelCittadinoBridge::factory()->getServiceByIdentifier($serviceId);
+                    eZDebug::writeDebug($remoteService['id'], 'Remote service id');
+                    eZDebug::writeDebug($remoteService['name'], 'Remote service name');
+                    eZDebug::writeDebug($remoteService['satisfy_entrypoint_id'], 'Remote service satisfy entrypoint_id');
+                    $this->satisfyEntrypointId = $remoteService['satisfy_entrypoint_id'] ?? null;
+                } catch (Throwable $exception) {
+                    eZDebug::writeError($exception->getMessage(), __METHOD__);
+                }
+            }
+        }
+        return $this->satisfyEntrypointId;
     }
 
     protected function getServiceObject()
@@ -315,8 +340,13 @@ abstract class BuiltinApp extends OpenPATempletizable
         $tpl->setVariable('built_in_app_style', $this->getWidgetStyle());
         $tpl->setVariable('built_in_app_api_base_url', self::getStanzaDelCittadinoBridge()->getApiBaseUri());
         $tpl->setVariable('service_id', $this->getServiceId());
+        $tpl->setVariable('built_in_app_satisfy_entrypoint', $this->getSatisfyEntrypointId());
         $tpl->setVariable('formserver_url', self::getCurrentOptions('FormServerUrl'));
         $tpl->setVariable('pdnd_url', self::getCurrentOptions('PdndApiUrl'));
+        $tpl->setVariable('page_name', $this->getServiceObject()
+            ? $this->getServiceObject()->attribute('name')
+            : false
+        );
 
         $Result = [];
         $Result['content'] = $tpl->fetch('design:' . $this->getTemplate());
@@ -346,7 +376,7 @@ abstract class BuiltinApp extends OpenPATempletizable
         $contentInfoArray['persistent_variable'] = [
             'show_path' => true,
             'built_in_app' => $this->getAppIdentifier(),
-            'show_valuation' => true,
+            'show_valuation' => false,
         ];
         if (is_array($tpl->variable('persistent_variable'))) {
             $contentInfoArray['persistent_variable'] = array_merge(
@@ -390,6 +420,13 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'placeholder' => 'https://api.qa.stanzadelcittadino.it/pdnd/v1',
                 'type' => 'string',
                 'current_value' => $current['PdndApiUrl'],
+            ],
+            [
+                'identifier' => 'CheckoutUrl',
+                'name' => 'Url Checkout',
+                'placeholder' => 'https://api.qa.stanzadelcittadino.it/pagopa/checkout',
+                'type' => 'string',
+                'current_value' => $current['CheckoutUrl'],
             ],
             [
                 'identifier' => 'CategoriesUrl',
@@ -451,6 +488,7 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'HelpdeskV2ServiceUuid' => $data[$locale]['HelpdeskV2ServiceUuid'] ?? null,
                 'FormServerUrl' => $data[$locale]['FormServerUrl'] ?? 'https://form.stanzadelcittadino.it/',
                 'PdndApiUrl' => $data[$locale]['PdndApiUrl'] ?? 'https://api.stanzadelcittadino.it/pdnd/v1',
+                'CheckoutUrl' => $data[$locale]['CheckoutUrl'] ?? 'https://api.stanzadelcittadino.it/pagopa/checkout',
             ];
         }
 

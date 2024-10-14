@@ -70,3 +70,8 @@
 {*{ezscript(array('jquery.booking.js'))}*}
 <script src={"javascript/jquery.booking.js"|ezdesign}></script>
 {/if}
+
+
+{if $built_in_app_satisfy_entrypoint}
+    {include uri='design:footer/valuation.tpl' satisfy_entrypoint=$built_in_app_satisfy_entrypoint}
+{/if}

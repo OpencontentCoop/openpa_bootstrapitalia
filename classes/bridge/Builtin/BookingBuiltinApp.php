@@ -23,6 +23,11 @@ class BookingBuiltinApp extends BuiltinApp
 //        return $this->serviceObject;
 //    }
 
+    protected function getServiceId(): ?string
+    {
+        return parent::getServiceId() ?? 'bookings';
+    }
+
     protected function isAppEnabled(): bool
     {
         if ($this->isAppEnabled === null) {
