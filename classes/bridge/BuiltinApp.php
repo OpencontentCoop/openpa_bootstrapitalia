@@ -52,6 +52,7 @@ abstract class BuiltinApp extends OpenPATempletizable
             'style' => 'getWidgetStyle',
             'description_list_item' => 'getDescriptionListItem',
             'has_custom_config' => 'hasCustomConfig',
+            'satisfy_entrypoint' => 'getSatisfyEntrypointId',
         ];
     }
 

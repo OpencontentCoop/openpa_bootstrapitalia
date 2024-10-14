@@ -52,4 +52,4 @@
     </script>
     {/literal}
 {/if}
-{undef $load_deferred $satisfy_entrypoint}
+{undef $load_deferred}
