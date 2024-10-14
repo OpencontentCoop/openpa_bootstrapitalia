@@ -20,6 +20,7 @@
             'facets': [],
             'responseCallback': null,
             'view': 'card_teaser',
+            'context': null,
             'hideIfEmpty': false
         };
 
@@ -33,7 +34,11 @@
                 var replaceEndpoint = localAccessPrefix.length === 0 ? 'opendata/api' : localAccessPrefix + '/opendata/api';
                 this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', replaceEndpoint);
                 this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', replaceEndpoint);
-                this.settings.searchApi += '?view=' + this.settings.view + '&q=';
+                if (this.settings.context && this.settings.context.length > 0){
+                    this.settings.searchApi += '?view=' + this.settings.view + '&context=' + this.settings.context + '&q=';
+                } else {
+                    this.settings.searchApi += '?view=' + this.settings.view + '&q=';
+                }
             }
             this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
             this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
@@ -53,7 +58,7 @@
         this.currentPage = 0;
         this.queryPerPage = [];
         this.resultWrapper = this.container.find('.items');
-        let paginationStyle = this.settings.view === 'latest_messages_item' ? 'append' : 'reload';
+        let paginationStyle = $.inArray(this.settings.view, ['latest_messages_item','accordion','text_linked']) !== -1 ? 'append' : 'reload';
         this.spinnerTpl = $($.templates(this.settings.spinnerTpl).render({paginationStyle:paginationStyle}));
         this.listTpl = $.templates(this.settings.listTpl);
         this.popupTpl = $.templates(this.settings.popupTpl);
@@ -210,7 +215,7 @@
             let plugin = this;
             return L.geoJson(response, {
                 pointToLayer: function (feature, latlng) {
-                    let customIcon = L.MakiMarkers.icon({icon: 'circle', size: 'l'});
+                    let customIcon = L.divIcon({html: '<i class="fa fa-map-marker fa-4x text-primary"></i>',iconSize: [20, 20],className: 'myDivIcon'});;
                     return L.marker(latlng, {icon: customIcon});
                 },
                 onEachFeature: function (feature, layer) {
@@ -319,7 +324,7 @@
             let offset = plugin.currentPage * plugin.settings.limitPagination;
             let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
 
-            if (plugin.paginationStyle === 'reload') {
+            if (plugin.currentPage === 0 || plugin.paginationStyle === 'reload') {
                 resultsContainer.html(plugin.spinnerTpl);
             } else {
                 resultsContainer.find('.nextPage').replaceWith(plugin.spinnerTpl);
@@ -357,6 +362,7 @@
                             this.customTpl = plugin.settings.customTpl;
                         });
                         response.view = plugin.settings.view;
+                        response.paginationStyle = plugin.paginationStyle;
                         response.autoColumn = plugin.settings.itemsPerRow !== 'auto' && $.inArray(plugin.settings.view, ['card_teaser', 'banner_color', 'card_children']) > -1;
                         response.itemsPerRow = plugin.settings.itemsPerRow;
 

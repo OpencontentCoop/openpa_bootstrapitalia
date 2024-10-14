@@ -1,3 +1,7 @@
+{set_defaults( hash(
+  'wrapper_class', 'py-5 position-relative',
+  'container_class', 'container'
+))}
 {def $openpa = object_handler($block)}
 
 {def $showGrid = cond(is_set($block.custom_attributes.show_grid), $block.custom_attributes.show_grid, true())
@@ -22,9 +26,9 @@
 {/if}
 
 {if or($showGrid, $showMap)}
-<div class="py-5 position-relative remote-gui-wrapper"{cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), ' style="display:none"', '  ')}>
+<div class="{$wrapper_class} remote-gui-wrapper"{cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), ' style="display:none"', '  ')}>
     <div class="block-topics-bg" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}{/if}></div>
-    <div class="container">
+    <div class="{$container_class}">
 
         {include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', '')}
 
@@ -39,7 +43,7 @@
                                 <label for="{$block.id}-search-input" class="visually-hidden">{$searchPlaceholder|wash()}</label>
                                 <input type="search" data-search="q" class="autocomplete form-control" placeholder="{$searchPlaceholder|wash()}" id="{$block.id}-search-input">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Submit'|i18n('bootstrapitalia/documents')}</button>
+                                    <button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Search'|i18n('design/plain/layout')}</button>
                                 </div>
                                 <span class="autocomplete-icon" aria-hidden="true" aria-labelledby="{$block.id}">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
                             </div>
@@ -225,3 +229,4 @@ $(document).ready(function () {ldelim}
     {/literal}
 {/if}
 </script>
+{unset_defaults( array('wrapper_class','container_class'))}
