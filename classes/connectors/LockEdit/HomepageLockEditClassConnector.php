@@ -155,7 +155,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $schema['properties']['section_gallery']['maxItems'] = 3;
         $schema['properties']['section_place']['maxItems'] = 3;
         $schema['properties']['section_banner']['maxItems'] = 9;
-        $schema['properties']['section_search']['maxItems'] = 5;
+        $schema['properties']['section_search']['maxItems'] = $this->isSearchBlockBoosted() ? 15 : 5;
         $schema['properties']['section_topic']['minItems'] = 3;
 
         $schema['properties']['menu_topic']['maxItems'] = 3;
@@ -256,13 +256,29 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['background_topic']['actionbar'] = $actionbar;
 
         $options['fields']['section_search']['browse']['subtree'] = 2;
+        if ($this->isSearchBlockBoosted()) {
+            $options['fields']['section_search']['helper'] = str_replace(
+                '5',
+                '15',
+                $options['fields']['section_search']['helper']
+            );
+        }
 
         return $options;
     }
 
     protected function getLayout(): array
     {
-        $categories = [
+        $searchCategory = [
+            'identifier' => 'search',
+            'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Research'),
+            'identifiers' => ['add_section_search', 'background_search', 'section_search'],
+        ];
+        $categories = [];
+        if ($this->isSearchBlockBoosted()){
+            $categories[] = $searchCategory;
+        }
+        $categories = array_merge($categories, [
             [
                 'identifier' => 'main_news',
                 'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'In evidence'),
@@ -298,12 +314,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Thematic sites'),
                 'identifiers' => ['add_section_banner', 'title_banner', 'section_banner'],
             ],
-            [
-                'identifier' => 'search',
-                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Research'),
-                'identifiers' => ['add_section_search', 'background_search', 'section_search'],
-            ],
-        ];
+        ]);
+        if (!$this->isSearchBlockBoosted()){
+            $categories[] = $searchCategory;
+        }
 
         if ($this->canAttachBackgroundImage()) {
             $categories[] = [
@@ -341,17 +355,24 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     {
         $blocks = [];
 
+        $searchBlock = $this->mapSectionSearch($data);
+        if ($this->isSearchBlockBoosted() && $searchBlock) {
+            $blocks[] = $searchBlock;
+        }
+
         if ($this->canAttachBackgroundImage()) {
             if ($block = $this->mapBackgroundImage($data)) {
                 $blocks[] = $block;
             }
         }
 
+        $hasMainNews = false;
         if ($block = $this->mapMainNews($data)) {
             $blocks[] = $block;
+            $hasMainNews = true;
         }
 
-        if ($block = $this->mapSectionManagement($data)) {
+        if ($block = $this->mapSectionManagement($data, $hasMainNews)) {
             $blocks[] = $block;
         }
 
@@ -389,8 +410,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             $blocks[] = $block;
         }
 
-        if ($block = $this->mapSectionSearch($data)) {
-            $blocks[] = $block;
+        if (!$this->isSearchBlockBoosted() && $searchBlock) {
+            $blocks[] = $searchBlock;
         }
 
         return $blocks;
@@ -451,6 +472,9 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     {
         $newsRemoteId = false;
         if (!isset($data['main_news'][0]['id'])) {
+            if ($this->canRemoveMainNews()){
+                return null;
+            }
             /** @var eZContentObjectTreeNode[] $newsList */
             $newsList = eZContentObjectTreeNode::subTreeByNodeID([
                 'ClassFilterType' => 'include',
@@ -479,7 +503,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         return $block;
     }
 
-    private function mapSectionManagement($data): ?array
+    private function mapSectionManagement($data, $hasMainNews): ?array
     {
         $originalBlockManagement = $this->findBlockById(self::SECTION_MANAGEMENT, true);
         if (isset($data['section_management'][0]['id'])) {
@@ -491,6 +515,9 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 }
             }
             $originalBlockManagement['valid_items'] = $managementRemoteIdList;
+            if (!$hasMainNews){
+                $originalBlockManagement['custom_attributes']['container_style'] = false;
+            }
             return $originalBlockManagement;
         }
 
@@ -652,6 +679,11 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 }
             }
             $originalBlock['valid_items'] = $remoteIdList;
+
+            if ($this->isSearchBlockBoosted()) {
+                $originalBlock['custom_attributes']['show_links_as_buttons'] = true;
+            }
+
             return $originalBlock;
         }
 
@@ -673,6 +705,16 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
     private function canAttachBackgroundImage(): bool
     {
-        return $this->getEditLockSettings('EnableBackgroundImage') !== 'disabled';
+        return $this->getEditLockSettings('EnableBackgroundImage') !== 'disabled' && !$this->isSearchBlockBoosted();
+    }
+
+    private function canRemoveMainNews(): bool
+    {
+        return $this->getEditLockSettings('AllowRemoveMainNews') !== 'disabled';
+    }
+
+    private function isSearchBlockBoosted(): bool
+    {
+        return $this->getEditLockSettings('BoostSearchBlock') !== 'disabled';
     }
 }

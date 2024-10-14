@@ -28,16 +28,24 @@
                     </form>
                 </div>
                 {if count($block.valid_nodes)|gt(0)}
-                <div class="link-list-wrapper bg-white p-3 position-relative">
-                    <div class="link-list-heading text-uppercase mb-3 ps-0">{'Useful links'|i18n( 'bootstrapitalia' )}</div>
-                    <ul class="link-list" role="list">
+                    {if and(is_set($block.custom_attributes.show_links_as_buttons),$block.custom_attributes.show_links_as_buttons|eq(1))}
+                        <div class="position-relative">
                         {foreach $block.valid_nodes as $valid_node}
-                        <li role="listitem">
-                            {node_view_gui content_node=$valid_node a_class="list-item mb-3 active ps-0" span_class="text-button-normal" view=text_linked show_icon=true()}
-                        </li>
+                            {node_view_gui content_node=$valid_node a_class="btn btn-primary px-3 py-2 mt-3 text-nowrap" view=text_linked ignore_data_element=true()}
                         {/foreach}
-                    </ul>
-                </div>
+                        </div>
+                    {else}
+                    <div class="link-list-wrapper bg-white p-3 position-relative">
+                        <div class="link-list-heading text-uppercase mb-3 ps-0">{'Useful links'|i18n( 'bootstrapitalia' )}</div>
+                        <ul class="link-list" role="list">
+                            {foreach $block.valid_nodes as $valid_node}
+                            <li role="listitem">
+                                {node_view_gui content_node=$valid_node a_class="list-item mb-3 active ps-0" span_class="text-button-normal" view=text_linked show_icon=true()}
+                            </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                {/if}
                 {/if}
             </div>
         </div>

@@ -44,7 +44,7 @@
                         <a href="{$footer_banner.content_link.full_link}" class="ms-md-auto"
                            title="{$footer_banner.name.contentobject_attribute.content|wash()}">
                             <img class="icon" style="width: auto !important;height: 50px"
-                                 alt="{$footer_banner.name|wash()}"
+                                 alt="{$footer_banner.name.contentobject_attribute.content|wash()}"
                                  src="{render_image($footer_banner.image.contentobject_attribute.content['header_logo'].full_path|ezroot(no,full)).src}" />
                         </a>
                         {undef $footer_banner}
