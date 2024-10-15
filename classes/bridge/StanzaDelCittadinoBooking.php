@@ -195,11 +195,13 @@ EOT;
                                     }
                                     $now = new DateTimeImmutable();
                                     $max = $now->add(new DateInterval('P' . (int)$c['rolling_days'] . 'D'));
+                                    $diff = $max->diff($now);
+                                    $monthInterval = (($diff->y) * 12) + ($diff->m);
                                     $calendarNames[$calendar] = [
                                         'id' => $c['id'],
                                         'title' => $c['title'],
                                         'rolling_days' => $c['rolling_days'],
-                                        'month_interval' => $max->format('m') - $now->format('m'),
+                                        'month_interval' => $monthInterval,
                                     ];
                                 } catch (Throwable $e) {
                                     eZDebug::writeError($e->getMessage(), __METHOD__);
@@ -209,6 +211,8 @@ EOT;
                             if (!empty($calendars)) {
                                 $now = new DateTimeImmutable();
                                 $max = $now->add(new DateInterval('P' . $maxRollingDays . 'D'));
+                                $diff = $max->diff($now);
+                                $monthInterval = (($diff->y) * 12) + ($diff->m);
                                 $place = [
                                     'id' => $datum['place'],
                                     'name' => $placeObject->attribute('name'),
@@ -221,7 +225,7 @@ EOT;
                                     'calendar_names' => $calendarNames,
                                     'enable_filter' => $datum['enable_filter'],
                                     'max_rolling_days' => $maxRollingDays,
-                                    'month_interval' => $max->format('m') - $now->format('m'),
+                                    'month_interval' => $monthInterval,
                                 ];
                                 if (isset($dataMap['has_address'])) {
                                     /** @var eZGmapLocation $address */
