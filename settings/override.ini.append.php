@@ -739,3 +739,16 @@ Source=node/view/full.tpl
 MatchFile=full/pnrr-topic.tpl
 Subdir=templates
 Match[remote_id]=pnrr-topic
+
+[full_classifications]
+Source=node/view/full.tpl
+MatchFile=full/classifications.tpl
+Subdir=templates
+Match[remote_id]=11ee98a24f1921081236b6fb080eea24
+
+[full_classifications_children]
+Source=node/view/full.tpl
+MatchFile=full/classifications.tpl
+Subdir=templates
+Match[class_identifier]=pagina_sito
+Match[parent_object_remote_id]=11ee98a24f1921081236b6fb080eea24
