@@ -739,3 +739,9 @@ Source=node/view/full.tpl
 MatchFile=full/pnrr-topic.tpl
 Subdir=templates
 Match[remote_id]=pnrr-topic
+
+[full_classifications]
+Source=node/view/full.tpl
+MatchFile=full/classifications.tpl
+Subdir=templates
+Match[remote_id]=11ee98a24f1921081236b6fb080eea24

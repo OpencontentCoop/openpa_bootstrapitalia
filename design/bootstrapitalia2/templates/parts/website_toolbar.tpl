@@ -369,6 +369,16 @@
                                         </a>
                                     </li>
                                 {/if}
+                                {def $classificationObject = fetch(content, object, hash(remote_id, '11ee98a24f1921081236b6fb080eea24'))}
+                                {if and(openpaini( 'WebsiteToolbar', 'ShowClassifications', 'enabled' )|eq('enabled'), $classificationObject)}
+                                    <li>
+                                        <a class="list-item left-icon" href="{$classificationObject.main_node.url_alias|ezurl(no)}">
+                                            <i aria-hidden="true" class="fa fa-tags"></i>
+                                            {$classificationObject.name|wash()}
+                                        </a>
+                                    </li>
+                                {/if}
+                                {undef $classificationObject}
                                 {include uri='design:parts/websitetoolbar/cjw_newsletter.tpl'}
                                 {include uri='design:parts/websitetoolbar/ezsurvey.tpl'}
                                 <li>
