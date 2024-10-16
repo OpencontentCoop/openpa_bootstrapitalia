@@ -11,7 +11,7 @@
 
 {if and($service_widget_url_info.builtin|eq('inefficiency'), $context|eq('main'))}
      {def $inefficiency_dataset = fetch(content, object, hash(remote_id, 'inefficiency-dataset'))}
-     {if $inefficiency_dataset}
+     {if and($inefficiency_dataset, $inefficiency_dataset.can_read)}
      <a class="ms-2 mr-2 {$secondary_css_class}" href="{$inefficiency_dataset.main_node.url_alias|ezurl(no)}">{$inefficiency_dataset.name|wash()}</a>
      {/if}
      {undef $inefficiency_dataset}

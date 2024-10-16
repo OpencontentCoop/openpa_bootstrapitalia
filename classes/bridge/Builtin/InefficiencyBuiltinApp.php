@@ -23,7 +23,7 @@ class InefficiencyBuiltinApp extends BuiltinApp
 
     protected function getServiceId(): ?string
     {
-        return 'inefficiency';
+        return 'inefficiencies';
     }
 
     protected function isAppEnabled(): bool
