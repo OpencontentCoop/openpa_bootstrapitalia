@@ -77,7 +77,7 @@
 
             plugin.markers.addTo(plugin.map);
             plugin.displaySelectedMarkers();
-            plugin.selectorWrapper.chosen({width: '100%'}).on('change', function (e) {
+            plugin.selectorWrapper.chosen({width: '100%',search_contains: true}).on('change', function (e) {
                 plugin.displaySelectedMarkers();
             });
 
