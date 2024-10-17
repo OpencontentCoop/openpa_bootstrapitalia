@@ -1758,8 +1758,8 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Geben Sie eine gültige Telefonnummer ein (Es sind nur Ziffern zulässig. Geben Sie mindestens 8 Zeichen ein)</translation>
     </message>
     <message>
-      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
-      <translation>Der %site_name verwaltet die bereitgestellten und frei mitgeteilten personenbezogenen Daten auf der Grundlage von Artikel 13 der EU-Verordnung 2016/679 Datenschutz-Grundverordnung (DSGVO) und Artikel 13 und nachfolgenden Änderungen und Ergänzungen des Gesetzesdekrets (im Folgenden Gesetzesdekret) 267/2000 (konsolidiertes Gesetz). über lokale Behörden).'</translation>
+      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 196/2003.</source>
+      <translation>Der %site_name verwaltet die bereitgestellten und frei mitgeteilten personenbezogenen Daten auf der Grundlage von Artikel 13 der EU-Verordnung 2016/679 Datenschutz-Grundverordnung (DSGVO) und Artikel 13 und nachfolgenden Änderungen und Ergänzungen des Gesetzesdekrets (im Folgenden Gesetzesdekret) 196/2003.</translation>
     </message>
     <message>
       <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>

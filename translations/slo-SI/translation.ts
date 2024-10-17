@@ -109,7 +109,7 @@
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Pojdi na koledar dogodkov</translation>
+      <translation>Pojdite na koledar dogodkov</translation>
     </message>
     <message>
       <source>Event start</source>
@@ -165,7 +165,7 @@
     </message>
     <message>
       <source>Further details</source>
-      <translation>Nadaljnje podrobnosti</translation>
+      <translation>Dodatne podrobnosti</translation>
     </message>
     <message>
       <source>Go to content</source>
@@ -625,7 +625,7 @@
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Nanaša se na</translation>
+      <translation>Nanašati na</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -1754,7 +1754,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
+      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 196/2003.</source>
       <translation type="unfinished"/>
     </message>
     <message>

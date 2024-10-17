@@ -1754,7 +1754,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
+      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 196/2003.</source>
       <translation type="unfinished"/>
     </message>
     <message>
