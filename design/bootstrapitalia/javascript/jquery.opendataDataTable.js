@@ -274,7 +274,7 @@ var opendataDataTableRenderField = function opendataDataTableRenderField(dataTyp
                 var parts = data.split('|');
                 var dataUrl = parts[0];
                 var dataText = parts[1] || (new URL(dataUrl)).hostname;
-                return '<a class="btn btn-xs btn-primary px-2 py-1 text-nowrap" target="_blank" href="' + dataUrl + '">' + dataText + ' <i class="fa fa-external-link"></i></a>';
+                return '<a class="btn btn-xs btn-primary px-2 py-1" target="_blank" href="' + dataUrl + '">' + dataText + ' <i class="fa fa-external-link"></i></a>';
             } catch (error) {
                 console.error(error);
                 return '';
