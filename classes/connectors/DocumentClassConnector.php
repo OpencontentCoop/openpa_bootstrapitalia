@@ -76,7 +76,7 @@ class DocumentClassConnector extends ClassConnector
         $submitData = $this->getSubmitData();
         if (empty($submitData['file']) && empty($submitData['link'])){
             throw new Exception(
-                sprintf(openpa_bootstrapitaliaHandler::FILE_ERROR_MESSAGE, $this->fileName, $this->linkName, $this->attachmentsName)
+                sprintf(AbstractBootstrapItaliaInputValidator::MULTIFIELD_ERROR_MESSAGE, $this->fileName, $this->linkName, $this->attachmentsName)
             );
         }
 
