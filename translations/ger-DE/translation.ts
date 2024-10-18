@@ -1762,8 +1762,8 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Der %site_name verwaltet die bereitgestellten und frei mitgeteilten personenbezogenen Daten auf der Grundlage von Artikel 13 der EU-Verordnung 2016/679 Datenschutz-Grundverordnung (DSGVO) und Artikel 13 und nachfolgenden Änderungen und Ergänzungen des Gesetzesdekrets (im Folgenden Gesetzesdekret) 196/2003.</translation>
     </message>
     <message>
-      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
-      <translation>Einzelheiten zur Verarbeitung personenbezogener Daten finden Sie unter %open_privacy_link_tag die Datenschutzerklärung %close_privacy_link_tag</translation>
+      <source>I confirm that I have read and am aware of the terms of the %open_privacy_link_tag privacy policy %close_privacy_link_tag</source>
+      <translation>Ich bestätige, dass ich die Bestimmungen %open_privacy_link_tag der Datenschutzerklärung %close_privacy_link_tag gelesen habe und mir dieser bewusst bin</translation>
     </message>
     <message>
       <source>I have read and understood the privacy policy</source>

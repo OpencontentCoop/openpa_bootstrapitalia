@@ -109,7 +109,7 @@
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Pojdite na koledar dogodkov</translation>
+      <translation>Pojdi na koledar dogodkov</translation>
     </message>
     <message>
       <source>Event start</source>
@@ -165,7 +165,7 @@
     </message>
     <message>
       <source>Further details</source>
-      <translation>Dodatne podrobnosti</translation>
+      <translation>Nadaljnje podrobnosti</translation>
     </message>
     <message>
       <source>Go to content</source>
@@ -568,7 +568,7 @@
     </message>
     <message>
       <source>Apps</source>
-      <translation>Aplikacije</translation>
+      <translation>aplikacije</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
@@ -625,7 +625,7 @@
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Nanašati na</translation>
+      <translation>Nanaša se na</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -726,7 +726,7 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>vse spletne strani</translation>
+      <translation>vsa spletna stran</translation>
     </message>
     <message>
       <source>only information of type</source>
@@ -1758,7 +1758,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
+      <source>I confirm that I have read and am aware of the terms of the %open_privacy_link_tag privacy policy %close_privacy_link_tag</source>
       <translation type="unfinished"/>
     </message>
     <message>

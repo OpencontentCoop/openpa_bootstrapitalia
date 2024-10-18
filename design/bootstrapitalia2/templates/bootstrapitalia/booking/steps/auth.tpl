@@ -1,10 +1,8 @@
 <div id="step-{$step.id|wash()}" class="step container"{if $hide} style="display:none"{/if}>
     <div class="row justify-content-center">
         <div class="col-12 col-lg-8 pb-40 pb-lg-80"><p class="text-paragraph mb-lg-4">
-                {'The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 196/2003.'|i18n('bootstrapitalia/booking',,hash('%site_name', ezini( 'SiteSettings', 'SiteName')|wash()))}
-            </p>
             <p class="text-paragraph mb-0">
-                {'For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag'|i18n('bootstrapitalia/booking',, hash(
+                {'I confirm that I have read and am aware of the terms of the %open_privacy_link_tag privacy policy %close_privacy_link_tag'|i18n('bootstrapitalia/booking',, hash(
                 '%open_privacy_link_tag', concat('<a class="t-primary" href="', built_in_app_variables().OC_PRIVACY_URL, '"target="_blank">'),
                 '%close_privacy_link_tag', '</a>'
                 ))}

@@ -699,7 +699,7 @@
     </message>
     <message>
       <source>Submit your rating</source>
-      <translation>Soumettez votre note</translation>
+      <translation>Soumettez votre évaluation</translation>
     </message>
   </context>
   <context>
@@ -1758,7 +1758,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
+      <source>I confirm that I have read and am aware of the terms of the %open_privacy_link_tag privacy policy %close_privacy_link_tag</source>
       <translation type="unfinished"/>
     </message>
     <message>

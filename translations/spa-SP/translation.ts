@@ -1007,7 +1007,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Llena algunos datos sobre tu lugar.</translation>
+      <translation>Llena algunos datos sobre tu lugar</translation>
     </message>
     <message>
       <source>Select place</source>
@@ -1039,7 +1039,7 @@
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres utilizar uno de estos?</translation>
+      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres usar uno de estos?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
@@ -1758,7 +1758,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
+      <source>I confirm that I have read and am aware of the terms of the %open_privacy_link_tag privacy policy %close_privacy_link_tag</source>
       <translation type="unfinished"/>
     </message>
     <message>
