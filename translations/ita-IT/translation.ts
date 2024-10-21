@@ -1758,12 +1758,12 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Inserisci un recapito telefonico valido (sono consentite solo cifre, inserire almeno 8 caratteri)</translation>
     </message>
     <message>
-      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
-      <translation>%site_name gestisce i dati personali forniti e liberamente comunicati sulla base dell’articolo 13 del Regolamento UE 2016/679 General data protection regulation (Gdpr) e dell'articolo 13 e successive modifiche e integrazioni del decreto legislativo (di seguito d.lgs) 267/2000 (Testo unico enti locali).</translation>
+      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 196/2003.</source>
+      <translation>%site_name gestisce i dati personali forniti e liberamente comunicati sulla base dell’articolo 13 del Regolamento UE 2016/679 General data protection regulation (Gdpr) e dell'articolo 13 e successive modifiche e integrazioni del decreto legislativo (di seguito d.lgs) 196/2003 (Codice in materia di protezione dei dati personali).</translation>
     </message>
     <message>
-      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
-      <translation>Per i dettagli sul trattamento dei dati personali consulta l'%open_privacy_link_tag informativa sulla privacy.%close_privacy_link_tag</translation>
+      <source>I confirm that I have read and am aware of the terms of the %open_privacy_link_tag privacy policy %close_privacy_link_tag</source>
+      <translation>Confermo di aver letto e di essere consapevole di quanto è previsto dall'%open_privacy_link_tag informativa sulla privacy.%close_privacy_link_tag</translation>
     </message>
     <message>
       <source>I have read and understood the privacy policy</source>

@@ -10,9 +10,9 @@
 
   {if count($fields.facets)|gt(0)}
     <div class="state-navigation" data-group="{$fields.group_by}">
-    {foreach $fields.facets as $index => $facet_button}
-        <a href="#" class="button{if $index|eq(0)} defaultbutton{/if}">{$facet_button|wash()}</a>
-    {/foreach}
+    {foreach $fields.facets as $index => $facet_button}{*
+        *}<a href="#" class="button{if $index|eq(0)} defaultbutton{/if} me-1 mb-1">{$facet_button|wash()}</a>{*
+    *}{/foreach}
     </div>
   {/if}
 

@@ -758,7 +758,7 @@
     </message>
     <message>
       <source>Content type</source>
-      <translation>tipo de contenido</translation>
+      <translation>Tipo de contenido</translation>
     </message>
     <message>
       <source>Name</source>
@@ -1039,7 +1039,7 @@
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres utilizar uno de estos?</translation>
+      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres usar uno de estos?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
@@ -1754,11 +1754,11 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 267/2000 (Consolidated text of local authorities).</source>
+      <source>The %site_name manages the personal data provided and freely communicated on the based on article 13 of EU Regulation 2016/679 General data protection regulation (Gdpr) and article 13 and subsequent amendments and additions to the legislative decree (hereinafter legislative decree) 196/2003.</source>
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>For details on the processing of personal data consult the %open_privacy_link_tag Privacy Policy %close_privacy_link_tag</source>
+      <source>I confirm that I have read and am aware of the terms of the %open_privacy_link_tag privacy policy %close_privacy_link_tag</source>
       <translation type="unfinished"/>
     </message>
     <message>
