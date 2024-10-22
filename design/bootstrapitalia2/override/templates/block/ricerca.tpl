@@ -31,7 +31,7 @@
                     {if and(is_set($block.custom_attributes.show_links_as_buttons),$block.custom_attributes.show_links_as_buttons|eq(1))}
                         <div class="position-relative">
                         {foreach $block.valid_nodes as $valid_node}
-                            {node_view_gui content_node=$valid_node a_class="btn btn-primary px-3 py-2 mt-3 text-nowrap" view=text_linked}
+                            {node_view_gui content_node=$valid_node a_class="btn btn-primary px-3 py-2 mt-3 text-nowrap" view=text_linked ignore_data_element=true()}
                         {/foreach}
                         </div>
                     {else}
