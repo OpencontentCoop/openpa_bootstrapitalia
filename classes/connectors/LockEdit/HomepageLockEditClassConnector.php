@@ -256,6 +256,13 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['background_topic']['actionbar'] = $actionbar;
 
         $options['fields']['section_search']['browse']['subtree'] = 2;
+        if ($this->isSearchBlockBoosted()) {
+            $options['fields']['section_search']['helper'] = str_replace(
+                '5',
+                '15',
+                $options['fields']['section_search']['helper']
+            );
+        }
 
         return $options;
     }
