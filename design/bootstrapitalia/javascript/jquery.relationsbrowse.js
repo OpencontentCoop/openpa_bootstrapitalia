@@ -54,7 +54,7 @@
         this.subtreeRootList = [];
         this.browseParameters = {};
         this.rootNode = 'undefined';
-
+        
         this.resetBrowseParameters();
 
         this.isInit = false;
@@ -75,8 +75,9 @@
     // Avoid Plugin.prototype conflicts
     $.extend(Plugin.prototype, {
         
-        doInit: function () {            
-            if (!this.isInit){
+        doInit: function (refresh) {
+            if (!this.isInit || refresh){
+                $(this.element).html('')
                 this.browserContainer = $('<div class="card-wrapper card-space"></div>').appendTo($(this.element));
                 this.buildTreeSelect();
                 if (this.settings.openInSearchMode){
@@ -571,6 +572,7 @@
                     input.bind('click', function(e){
                         e.preventDefault();
                         var thisItem = $(this);
+                        thisItem.html('<i class="fa fa-circle-o-notch fa-spin"></i>')
                         self.appendToSelection(thisItem.data('item'), function () {
                             thisItem.remove();
                         });
@@ -605,6 +607,7 @@
                     }
                 });
                 self.selection.push(item);
+                $(self.element).trigger('relationbrowse.change', self, self.selection)
             }
         },
 
@@ -624,6 +627,11 @@
             }
 
             return true;
+        },
+
+        setSelection: function(selection) {
+            this.selection = selection;
+            this.doInit(true)
         }
     });
 
