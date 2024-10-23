@@ -124,14 +124,14 @@
         <div class="border border-light rounded p-3 mb-3">
             <h5>Link header</h5>
             <div class="row mb-3 ezcca-edit-datatype-ezobjectrelationlist">
-                {attribute_edit_gui attribute=$homepage.data_map.link_nell_header attribute_base=ContentObjectAttribute}
+                {include name=info_relation uri='design:bootstrapitalia/info/edit_relation.tpl' attribute=$homepage.data_map.link_nell_header attribute_base=ContentObjectAttribute max_items=5}
             </div>
         </div>
 
         <div class="border border-light rounded p-3 mb-3">
             <h5>Link footer</h5>
             <div class="row mb-3 ezcca-edit-datatype-ezobjectrelationlist">
-                {attribute_edit_gui attribute=$homepage.data_map.link_nel_footer attribute_base=ContentObjectAttribute}
+                {include name=info_relation uri='design:bootstrapitalia/info/edit_relation.tpl' attribute=$homepage.data_map.link_nel_footer attribute_base=ContentObjectAttribute max_items=15}
             </div>
         </div>
 
@@ -140,7 +140,7 @@
                 <h5>Banner footer</h5>
                 <p class="text-muted">Viene visualizzato nel footer sulla destra il primo banner selezionato in questa sezione</p>
                 <div class="row mb-3 ezcca-edit-datatype-ezobjectrelationlist">
-                    {attribute_edit_gui attribute=$homepage.data_map.footer_banner attribute_base=ContentObjectAttribute}
+                    {include name=info_relation uri='design:bootstrapitalia/info/edit_relation.tpl' attribute=$homepage.data_map.footer_banner attribute_base=ContentObjectAttribute max_items=1}
                 </div>
             </div>
         {/if}
@@ -478,17 +478,108 @@
 
         </div>
     {/if}
+    {ezscript_require(array('jquery.relationsbrowse.js'))}
+    <script>
+        let relationI18n = {ldelim}
+          clickToClose: "{'Click to close'|i18n('opendata_forms')}",
+          clickToOpenSearch: "{'Click to open search engine'|i18n('opendata_forms')}",
+          search: "{'Search'|i18n('opendata_forms')}",
+          clickToBrowse: "{'Click to browse contents'|i18n('opendata_forms')}",
+          browse: "{'Browse'|i18n('opendata_forms')}",
+          createNew: "{'Create new'|i18n('opendata_forms')}",
+          create: "{'Create'|i18n('opendata_forms')}",
+          allContents: "{'All contents'|i18n('opendata_forms')}",
+          clickToBrowseParent: "{'Click to view parent'|i18n('opendata_forms')}",
+          noContents: "{'No contents'|i18n('opendata_forms')}",
+          back: "{'Back'|i18n('opendata_forms')}",
+          goToPreviousPage: "{'Go to previous'|i18n('opendata_forms')}",
+          goToNextPage: "{'Go to next'|i18n('opendata_forms')}",
+          clickToBrowseChildren: "{'Click to view children'|i18n('opendata_forms')}",
+          clickToPreview: "{'Click to preview'|i18n('opendata_forms')}",
+          preview: "{'Preview'|i18n('opendata_forms')}",
+          closePreview: "{'Close preview'|i18n('opendata_forms')}",
+          addItem: "{'Add'|i18n('opendata_forms')}",
+          selectedItems: "{'Selected items'|i18n('opendata_forms')}",
+          removeFromSelection: "{'Remove from selection'|i18n('opendata_forms')}",
+          addToSelection: "{'Add to selection'|i18n('opendata_forms')}",
+          store: "{'Store'|i18n('opendata_forms')}",
+          storeLoading: "{'Loading...'|i18n('opendata_forms')}"
+        {rdelim};
+        {literal}
+        $(document).ready(function () {
+          $('.relations-searchbox').each(function () {
+            let container = $(this)
+            let getSelection = function (){
+              let selection = [];
+              container.find('input[type="checkbox"]').each(function () {
+                let selected = parseInt($(this).val()) || 0;
+                if (selected > 0) {
+                  selection.push({contentobject_id: selected})
+                }
+              })
+              return selection
+            };
+            let browserToggler = container.find('.relation_browser_toggler')
+            let browser = container.find('.relation_browser')
+            let maxItems = browser.data('relation_maxitems')
+            let classes = browser.data('relation_classes')
+            if (getSelection().length >= maxItems){
+              browserToggler.hide()
+            }
+            let remover = container.find('.ezobject-relation-remove-button');
 
-    <script>{literal}
-        $(document).ready(function (){
-          $('.ezobject-relation-remove-button').on('click', function(e){
-            e.preventDefault();
-            $(this).parents('table').find('input[type="checkbox"]:checked').each(function (){
-                $(this).parents('tr').remove();
+            browser.relationsbrowse({
+              'attributeId': browser.data('relation_attribute'),
+              'subtree': browser.data('relation_subtree'),
+              'addCloseButton': true,
+              'allowAllBrowse': true,
+              'addCreateButton': false,
+              'openInSearchMode': true,
+              'classes': classes.length > 0 ? classes.split(',') : false,
+              'i18n': relationI18n
+            }).on('relationsbrowse.close', function (event, opendataBrowse) {
+              browser.toggle();
+            }).hide();
+
+            browserToggler.on('click', function (e) {
+              e.preventDefault();
+              browser.data('plugin_relationsbrowse').setSelection(getSelection());
+              browser.toggle();
             });
+
+            browser.on('relationbrowse.change', function (e, relationBrowser) {
+              if (relationBrowser.selection.length > 0){
+                remover.show()
+                if (relationBrowser.selection.length >= maxItems){
+                  browserToggler.hide()
+                  browser.hide()
+                }
+              } else {
+                remover.hide()
+              }
+            })
+
+            remover.on('click', function (e) {
+              e.preventDefault();
+              let isDone = false
+              container.find('input[type="checkbox"]:checked').each(function () {
+                $(this).parents('tr').remove();
+                isDone = true
+              });
+              if (isDone) {
+                browserToggler.show()
+                if (getSelection().length > 0) {
+                  remover.show()
+                } else {
+                  remover.hide()
+                }
+                browser.data('plugin_relationsbrowse').setSelection(getSelection());
+              }
+            })
           })
         })
-    {/literal}</script>
+        {/literal}
+    </script>
     <style>
         .relations-searchbox .fa-stack.text-info{ldelim}
             display:none !important;
