@@ -197,6 +197,9 @@ EOT;
                                     $max = $now->add(new DateInterval('P' . (int)$c['rolling_days'] . 'D'));
                                     $diff = $max->diff($now);
                                     $monthInterval = (($diff->y) * 12) + ($diff->m);
+                                    if ($diff->d > 0){
+                                        $monthInterval++;
+                                    }
                                     $calendarNames[$calendar] = [
                                         'id' => $c['id'],
                                         'title' => $c['title'],
@@ -213,6 +216,9 @@ EOT;
                                 $max = $now->add(new DateInterval('P' . $maxRollingDays . 'D'));
                                 $diff = $max->diff($now);
                                 $monthInterval = (($diff->y) * 12) + ($diff->m);
+                                if ($diff->d > 0){
+                                    $monthInterval++;
+                                }
                                 $place = [
                                     'id' => $datum['place'],
                                     'name' => $placeObject->attribute('name'),

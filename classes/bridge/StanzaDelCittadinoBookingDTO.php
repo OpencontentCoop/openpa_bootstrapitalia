@@ -396,7 +396,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         if ($http->hasPostVariable('from_time')) {
             $dto->setFromTime($http->postVariable('from_time'));
         }
-        if ($http->hasPostVariable('user')) {
+        if ($http->hasPostVariable('user') && empty($dto->getUser())) {
             $dto->setUser($http->postVariable('user'));
         }
         if ($http->hasPostVariable('meeting')) {

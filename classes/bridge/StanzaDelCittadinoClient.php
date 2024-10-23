@@ -232,7 +232,10 @@ class StanzaDelCittadinoClient
         }
 
         if (intval($info['http_code']) > 299) {
-            throw new \Exception("$requestUrl: Reponse code is " .  $info['http_code'], $info['http_code'] . ' ' . json_encode($data));
+            throw new \Exception(
+                "$requestUrl: Reponse code is " . $info['http_code'] . ' ' . json_encode($data),
+                $info['http_code']
+            );
         }
 
         return json_decode($body, true);
