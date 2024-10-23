@@ -26,6 +26,8 @@
           return true;
         }
         return true;
+      } else if (jqXHR.status > 399) {
+        errorCallback(jqXHR)
       }
     };
     $.ajax(ajaxParams);
@@ -174,7 +176,11 @@
     },
 
     displayError: function (error) {
-      console.log(error)
+      if (typeof error === 'object' && error.hasOwnProperty('responseJSON') && error.responseJSON.hasOwnProperty('error')){
+        console.log(error.responseJSON.error)
+      } else {
+        console.log(error)
+      }
       let self = this
       self.removeStorage()
       $(self.element).find('.steppers').hide()
