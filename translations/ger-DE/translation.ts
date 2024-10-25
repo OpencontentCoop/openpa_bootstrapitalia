@@ -1643,7 +1643,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Appointment booking</source>
-      <translation>Terminbuchung</translation>
+      <translation>Termine buchen</translation>
     </message>
     <message>
       <source>Next</source>
@@ -1915,23 +1915,23 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>What do you need?</source>
-      <translation type="unfinished"/>
+      <translation>Wählen Sie den Dienst</translation>
     </message>
     <message>
       <source>Book an appointment for the service best suited to your needs</source>
-      <translation type="unfinished"/>
+      <translation>Buchen Sie einen Termin für den Service, der Ihren Bedürfnissen am besten entspricht</translation>
     </message>
     <message>
       <source>You can find all the necessary documents with the related instructions for use and information on the procedure to follow to use the %service service on the %open_service_link dedicated page %close_service_link</source>
-      <translation type="unfinished"/>
+      <translation>Auf der %open_service_link entsprechenden Seite %close_service_link finden Sie alle notwendigen Dokumente mit den entsprechenden Gebrauchsanweisungen und Informationen zur Vorgehensweise bei der Nutzung des Dienstes %service</translation>
     </message>
     <message>
       <source>The service you are looking for is not available for appointment booking</source>
-      <translation type="unfinished"/>
+      <translation>Der von Ihnen gesuchte Service ist für die Terminbuchung nicht verfügbar</translation>
     </message>
     <message>
       <source>Meeting number</source>
-      <translation type="unfinished"/>
+      <translation>Terminnummer</translation>
     </message>
   </context>
   <context>

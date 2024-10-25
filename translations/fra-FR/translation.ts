@@ -699,7 +699,7 @@
     </message>
     <message>
       <source>Submit your rating</source>
-      <translation>Soumettez votre évaluation</translation>
+      <translation>Soumettez votre note</translation>
     </message>
   </context>
   <context>
@@ -802,7 +802,7 @@
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Vérifiez l'orthographe des mots-clés.</translation>
+      <translation>Vérifiez l’orthographe des mots-clés.</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
