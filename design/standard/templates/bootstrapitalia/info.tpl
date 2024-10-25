@@ -446,6 +446,16 @@
                                 Abilita eIDAS
                             </label>
                         </div>
+                        <div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="AccessPageSettingsCnsEnable"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="AccessPageSettingsCnsEnable" {$access_Cns|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0 text-black" for="AccessPageSettingsCnsEnable">
+                                Abilita CNS
+                            </label>
+                        </div>
                         <div class="text-right mt-1">
                             <button class="btn btn-primary" type="submit">Aggiorna</button>
                         </div>
