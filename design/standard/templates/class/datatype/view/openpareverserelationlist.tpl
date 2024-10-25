@@ -20,18 +20,28 @@
 		{/foreach}
 		<tr>
 			<td colspan="3">
-				{def $sort_fields = hash( 
-					'name', 'Name'|i18n( 'design/admin/node/view/full' ),
-					'raw[meta_class_name_ms]', 'Class name'|i18n( 'design/admin/node/view/full' ),
-					'modified', 'Modified'|i18n( 'design/admin/node/view/full' ),
-					'published', 'Published'|i18n( 'design/admin/node/view/full' )
-				)}
-				<strong>{'Ordering'|i18n( 'design/admin/node/view/full' )}:</strong>
-				{$sort_fields[$class_attribute_content.sort]|wash} {if eq($class_attribute_content.order, 'desc')}{'Descending'|i18n( 'design/admin/node/view/full' )}{else}{'Ascending'|i18n( 'design/admin/node/view/full' )}{/if}	
-				{undef $sort_fields}
+				{if $class_attribute_content.custom_query|not()}
+					{def $sort_fields = hash(
+						'name', 'Name'|i18n( 'design/admin/node/view/full' ),
+						'raw[meta_class_name_ms]', 'Class name'|i18n( 'design/admin/node/view/full' ),
+						'modified', 'Modified'|i18n( 'design/admin/node/view/full' ),
+						'published', 'Published'|i18n( 'design/admin/node/view/full' )
+					)}
+					<p>
+						<strong>{'Ordering'|i18n( 'design/admin/node/view/full' )}:</strong>
+						{$sort_fields[$class_attribute_content.sort]|wash} {if eq($class_attribute_content.order, 'desc')}{'Descending'|i18n( 'design/admin/node/view/full' )}{else}{'Ascending'|i18n( 'design/admin/node/view/full' )}{/if}
+						{undef $sort_fields}
+					</p>
 
-				<strong>{'Numero elementi per pagina:'|i18n( 'design/admin/node/view/full' )}</strong>
-				{$class_attribute_content.limit|wash()}
+					<p>
+						<strong>{'Numero elementi per pagina:'|i18n( 'design/admin/node/view/full' )}</strong>
+						{$class_attribute_content.limit|wash()}
+					</p>
+				{/if}
+				<p>
+					<strong>Query:</strong>
+					<code style="display:block">{$class_attribute_content.query|wash()}</code>
+				</p>
 			</td>
 		</tr>
 	</table>

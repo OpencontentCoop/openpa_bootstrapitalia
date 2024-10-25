@@ -131,6 +131,7 @@ class OpenPAReverseRelationListType extends eZDataType
             'order' => 'asc',
             'limit' => 4,
             'attribute_id_subtree' => [],
+            'custom_query' => null,
         );
         $data = array_merge($data, (array)json_decode($classAttribute->attribute('data_text5'), true));
 
@@ -143,6 +144,11 @@ class OpenPAReverseRelationListType extends eZDataType
                 }
             }
         }
+
+        $data['query'] = self::buildQuery(new OpenPATempletizable([
+            'class_content' => $data,
+            'contentobject_id' => '%id'
+        ]), null);
 
         return $data;
     }
@@ -286,6 +292,10 @@ class OpenPAReverseRelationListType extends eZDataType
     public static function buildQuery($contentObjectAttribute, $limit, $offset = 0)
     {
         $data = (array)$contentObjectAttribute->attribute('class_content');
+        if ($data['custom_query']){
+            throw new Exception('Not yet implemented');
+            return $data['custom_query']; //@todo parse query
+        }
         if (count($data['attribute_id_list']) > 0) {
             if (count($data['attribute_list']) > 0) {
                 $queryParts = array();
@@ -307,9 +317,11 @@ class OpenPAReverseRelationListType extends eZDataType
                 $sort = $data['sort'];
                 $order = $data['order'] == 'desc' ? 'desc' : 'asc';
                 $queryParts[] = "sort [{$sort}=>{$order}]";
-                $queryParts[] = 'limit ' . (int)$limit;
-                $queryParts[] = 'offset ' . (int)$offset;
-
+                if ($limit !== null) {
+                    $queryParts[] = 'limit ' . (int)$limit;
+                    $queryParts[] = 'offset ' . (int)$offset;
+                }
+//                eZDebug::writeDebug(implode(' and ', $queryParts), $contentObjectAttribute->attribute('id') . ' ' . __METHOD__);
                 return implode(' and ', $queryParts);
             }
         }
