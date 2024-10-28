@@ -1,0 +1,1 @@
+{include uri='design:openpa/full/pagina_sito.tpl'}
