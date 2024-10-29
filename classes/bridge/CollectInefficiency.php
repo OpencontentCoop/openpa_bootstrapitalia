@@ -109,7 +109,7 @@ class CollectInefficiency
             'category' => $data['data']['type']['label'] ?? '',
             'text' => $data['data']['details'],
             'address' => $data['data']['address']['display_name'] ?? '',
-            'geo' => isset($data['data']['address']) ? sprintf(
+            'geo' => isset($data['data']['address']['lat'], $data['data']['address']['lon']) ? sprintf(
                 '%s,%s',
                 $data['data']['address']['lat'],
                 $data['data']['address']['lon']
