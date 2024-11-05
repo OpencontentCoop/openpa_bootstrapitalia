@@ -450,7 +450,7 @@
                             <input id="AccessPageSettingsCnsEnable"
                                    class="form-check-input"
                                    type="checkbox"
-                                   name="AccessPageSettingsCnsEnable" {$access_Cns|choose( '', 'checked="checked"' )}
+                                   name="AccessPageSettingsCnsEnable" {$access_cns|choose( '', 'checked="checked"' )}
                                    value="" />
                             <label class="form-check-label mb-0 text-black" for="AccessPageSettingsCnsEnable">
                                 Abilita CNS
