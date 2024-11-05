@@ -11,7 +11,9 @@ class OpenPARoleType extends eZDataType
 
     const SORT_PERSON_NAME = 1;
     const SORT_ENTITY_NAME = 2;
-    const SORT_START_TIME = 3;
+    const SORT_ROLE_NAME = 3;
+
+    const SORT_START_TIME = 4;
 
     const FETCH_LIMIT = 500;
 
@@ -105,7 +107,10 @@ class OpenPARoleType extends eZDataType
     {
         $paginationVarName = "{$base}_openparole_pagination_" . $contentObjectAttribute->attribute('id');
         $filtersVarName = "{$base}_openparole_filters_" . $contentObjectAttribute->attribute('id');
-        if ($http->hasPostVariable($paginationVarName) || $http->hasPostVariable($paginationVarName)){
+        $sortVarName = "{$base}_openparole_sort_" . $contentObjectAttribute->attribute('id');
+        if ($http->hasPostVariable($paginationVarName)
+            || $http->hasPostVariable($filtersVarName)
+            || $http->hasPostVariable($sortVarName)){
             $settings = (array)json_decode($contentObjectAttribute->attribute('data_text'), true);
             if ($http->hasPostVariable($paginationVarName)) {
                 $pagination = (int)$http->postVariable($paginationVarName);
@@ -116,6 +121,12 @@ class OpenPARoleType extends eZDataType
                 $settings['filters'] = $filters;
             }else{
                 $settings['filters'] = [];
+            }
+            if ($http->hasPostVariable($sortVarName)) {
+                $sort = $http->postVariable($sortVarName);
+                $settings['sort'] = $sort;
+            }else{
+                $settings['sort'] = null;
             }
             $contentObjectAttribute->setAttribute('data_text', json_encode($settings));
             $contentObjectAttribute->store();
@@ -160,7 +171,7 @@ class OpenPARoleType extends eZDataType
     /**
      * Returns the content.
      * @param eZContentObjectAttribute $contentObjectAttribute
-     * @return string
+     * @return OpenPARoles
      */
     public function objectAttributeContent($contentObjectAttribute)
     {

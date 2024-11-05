@@ -14,8 +14,22 @@
                 value="{if is_set($attribute.content.settings.pagination)}{$attribute.content.settings.pagination|wash( xhtml )}{else}6{/if}"
         />
     </div>
-    {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'advanced_editor_tools' ) )}
+    {def $current_sort = cond(and(is_set($attribute.content.settings.sort), $attribute.content.settings.sort), $attribute.content.settings.sort, $attribute.contentclass_attribute.content.sort)}
+    <div class="mb-3">
+        <label class="mb-2" for="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_sort">
+            {'Ordina per'|i18n( 'openparoletype' )}
+        </label>
+        <select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_sort"
+                name="{$attribute_base}_openparole_sort_{$attribute.id}"
+                class="form-control">
+            <option value="1" {if $current_sort|eq(1)}selected="selected"{/if}>{'Nome persona'|i18n( 'openparoletype' )} ({'Ascending'|i18n('openpa/search')|downcase()})</option>
+            <option value="2" {if $current_sort|eq(2)}selected="selected"{/if}>{'Nome struttura'|i18n( 'openparoletype' )} ({'Ascending'|i18n('openpa/search')|downcase()})</option>
+            <option value="3" {if $current_sort|eq(3)}selected="selected"{/if}>{'Tipo di ruolo'|i18n( 'openparoletype' )} ({'Ascending'|i18n('openpa/search')|downcase()})</option>
+            <option value="100" {if $current_sort|eq(100)}selected="selected"{/if}>{'Priority'|i18n( 'design/standard/websitetoolbar/sort' )} ({'Descending'|i18n('openpa/search')|downcase()})</option>
+        </select>
+    </div>
 
+{if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'advanced_editor_tools' ) )}
         <div class="accordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading-{$attribute.id}">
