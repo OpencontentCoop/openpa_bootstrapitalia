@@ -78,9 +78,9 @@
             </option>
             {/section}
         </select>
-        <p class="form-text mb-0">
+        {*<p class="form-text mb-0">
             {'Use this drop-down menu to select the RSS version to use for the export. You must select RSS 2.0 in order to export the image selected above.'|i18n('design/ocbootstrap/rss/edit_export')}
-        </p>
+        </p>*}
     </div>
 
     <div class="form-group mb-3">
@@ -118,7 +118,7 @@
         </label>
     </div>
 
-    <div class="form-group form-check my-2">
+    {*<div class="form-group form-check my-2">
         <input type="checkbox" name="MainNodeOnly" id="exportMainNodeOnly"
                {section show=$rss_export.main_node_only|eq( 1 )}checked="checked"{/section}
                title="{'Check if you want to only feed the object from the main node.'|i18n('design/ocbootstrap/rss/edit_export')}"/>
@@ -128,7 +128,8 @@
                 {'Check if you want to only feed the object from the main node.'|i18n('design/ocbootstrap/rss/edit_export')}
             </p>
         </label>
-    </div>
+    </div>*}
+    <input type="hidden" name="MainNodeOnly" value="1">
 
     <div class="form-group mb-3">
         <label for="ExportAccess_URL">{'Access URL'|i18n( 'design/ocbootstrap/rss/edit_export' )}:</label>
@@ -136,7 +137,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1"><code>/rss/feed/</code></span>
             </div>
-            <input class="form-control" type="text" name="Access_URL" id="ExportAccess_URL" value="{$rss_export.access_url|wash}"
+            <input required class="form-control" type="text" name="Access_URL" id="ExportAccess_URL" value="{$rss_export.access_url|wash}"
                    title="{'Use this field to set the URL where the RSS export should be available. Note that "rss/feed/" will be appended to the real URL. '|i18n('design/admin/rss/edit_export')|wash}"/>
         </div>
         <p class="form-text">
