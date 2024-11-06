@@ -44,7 +44,7 @@
           var drawMap = function(latlng,id){
             var map = new L.Map('map-'+id);
             map.scrollWheelZoom.disable();
-            var customIcon = L.MakiMarkers.icon({icon: "star", color: "#f00", size: "l"});
+            var customIcon = L.divIcon({html: '<i class="fa fa-map-marker fa-4x text-primary"></i>',iconSize: [20, 20],className: 'myDivIcon'});
             var postMarker = new L.marker(latlng,{icon:customIcon});
             postMarker.addTo(map);
             map.setView(latlng, 18);
