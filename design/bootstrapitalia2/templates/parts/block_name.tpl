@@ -15,6 +15,12 @@
             {/if}
         </div>
     </div>
+{elseif $block.id|eq('e60d1373e30187166ab36ff0f088d87f')} {*SECTION_LATEST_NEWS || SECTION_NEWS*}
+    <h2 class="visually-hidden">{fetch(content, object, hash(remote_id, 'news')).name|wash()}</h2>
+{elseif $block.id|eq('3213d4722665b8ca7155847fb767eb62')} {*SECTION_MANAGEMENT*}
+    <h2 class="visually-hidden">{fetch(content, object, hash(remote_id, 'management')).name|wash()}</h2>
+{elseif $block.id|eq('9cd237a12fdb73a490fee0b01a3fab9d')} {*SECTION_NEXT_EVENTS || SECTION_CALENDAR*}
+    <h2 class="visually-hidden">{fetch(content, object, hash(remote_id, 'all-events')).name|wash()}</h2>
 {/if}
 {unset_defaults(array('block_index'))}
 {undef $intro}
