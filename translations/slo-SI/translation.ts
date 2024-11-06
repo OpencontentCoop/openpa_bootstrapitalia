@@ -568,7 +568,7 @@
     </message>
     <message>
       <source>Apps</source>
-      <translation>aplikacije</translation>
+      <translation>Aplikacije</translation>
     </message>
     <message>
       <source>Transparent Administration</source>
@@ -625,7 +625,7 @@
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Nanaša se na</translation>
+      <translation>Nanašati na</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -1011,7 +1011,7 @@
     </message>
     <message>
       <source>Select place</source>
-      <translation>Izberite kraj</translation>
+      <translation>Izberite mesto</translation>
     </message>
     <message>
       <source>Nowhere</source>

@@ -758,7 +758,7 @@
     </message>
     <message>
       <source>Content type</source>
-      <translation>Tipo de contenido</translation>
+      <translation>tipo de contenido</translation>
     </message>
     <message>
       <source>Name</source>
@@ -1007,7 +1007,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Llena algunos datos sobre tu lugar</translation>
+      <translation>Llena algunos datos sobre tu lugar.</translation>
     </message>
     <message>
       <source>Select place</source>
@@ -1039,7 +1039,7 @@
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres usar uno de estos?</translation>
+      <translation>Hay lugares cercanos a la ubicación seleccionada registrados en el sistema. ¿Quieres utilizar uno de estos?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
