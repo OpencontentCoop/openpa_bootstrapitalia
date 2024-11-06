@@ -20,7 +20,7 @@
                 <i aria-hidden="true" class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
             </div>
         </div>
-	{{else view === 'latest_messages_item'}}
+	{{else paginationStyle === 'append' || view === 'latest_messages_item'}}
 
 	    {{if currentPage == 0}}
 			<p class="mb-4 results-count"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
