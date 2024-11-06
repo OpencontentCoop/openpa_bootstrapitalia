@@ -33,7 +33,7 @@ const SELECTOR_COLLAPSIBLE = '.navbar-collapsable'
 const SELECTOR_PROGRESS_BAR = '.it-navscroll-progressbar'
 
 const Default = {
-  scrollPadding: 10,
+  scrollpadding: 10,
   duration: 800,
   easing: 'easeInOutSine',
 }
@@ -60,7 +60,7 @@ class NavScroll extends BaseComponent {
 
   // Public
   setScrollPadding(scrollPadding) {
-    this._config.scrollPadding = scrollPadding
+    this._config.scrollpadding = scrollPadding
   }
 
   dispose() {
@@ -202,7 +202,7 @@ class NavScroll extends BaseComponent {
 
     const navItems = SelectorEngine.find(SELECTOR_LINK, this._element)
 
-    const scrollPadding = this._getScrollPadding()
+    const scrollPadding = 10; //this._getScrollPadding()
 
     SelectorEngine.find(SELECTOR_PAGE_SECTION).forEach((pageSec, idx) => {
       if (pageSec.offsetTop - sectionsContainerTop <= scrollDistance + scrollPadding) {
@@ -234,7 +234,7 @@ class NavScroll extends BaseComponent {
     if (typeof this._config.scrollPadding === 'function') {
       return this._config.scrollPadding()
     }
-    return this._config.scrollPadding
+    return this._config.scrollpadding
   }
 }
 
