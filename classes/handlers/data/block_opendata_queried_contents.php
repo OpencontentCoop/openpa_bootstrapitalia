@@ -62,7 +62,7 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
         /** @var ezpRestRequest $request */
         $request = $parser->createRequest();
         $request->get['view'] = $view;
-        $context = $http->hasGetVariable('context') ? $http->getVariable('context') : $blockAttributes['context_api'];
+        $context = $http->hasGetVariable('context') ? $http->getVariable('context') : ($blockAttributes['context_api'] ?? null);
         if (!empty($context)){
             $request->get['context'] = $context;
         }

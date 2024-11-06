@@ -187,7 +187,7 @@ $(document).ready(function () {ldelim}
                     {{if ~i18n(~current, #data)}}<div class="card-text">{{:~i18n(~current, #data)}}</div>{{/if}}
                 {{/for}}
             </div>
-            <a class="read-more" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">
+            <a class="read-more" href="{{if ~i18n(extradata,'urlAlias')}}{{:~i18n(extradata,'urlAlias')}}{{else}}{{:~remoteUrl(remoteUrl, metadata.id)}}{{/if}}">
                 <span class="text">{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}</span>
                 <svg class="icon" aria-label="{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}"><use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-arrow-right"></use></svg>
             </a>

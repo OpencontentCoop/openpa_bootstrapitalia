@@ -111,24 +111,17 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
 
     public function filterContent(Content $content)
     {
+        $extra = $content->extradata ?? new ExtraData();
+        $mainNodeId = $content->getNodeIdFromContext((int)($this->request->get['context'] ?? 0)) ?? $content->metadata->mainNodeId;
+        $extra->set('urlAlias', $content->getUrlAlias($mainNodeId));
         if (isset($this->request->get['view'])) {
             $ViewMode = $this->request->get['view'];
-            $NodeID = null;
-            if (isset($this->request->get['context'])) {
-                foreach ($content->metadata->assignedNodes as $assignedNode) {
-                    if (strpos($assignedNode['path_string'], '/' . $this->request->get['context'] . '/') !== false) {
-                        $NodeID = $assignedNode['id'];
-                    }
-                }
-            }
-            $NodeID = $NodeID ?? $content->metadata->mainNodeId;
-            $viewData = self::generateView($NodeID, $ViewMode);
+            $viewData = self::generateView($mainNodeId, $ViewMode);
             if ($viewData) {
-                $extra = new ExtraData();
                 $extra->set('view', $viewData);
-                $content->extradata = $extra;
             }
         }
+        $content->extradata = $extra;
 
         return parent::filterContent($content);
     }
@@ -236,7 +229,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                 }
 
                 if ($value['datatype'] == 'ocmultibinary' && !empty($valueContent)) {
-                    foreach ($valueContent as $key => $value) {
+                    foreach (array_keys($valueContent) as $key) {
                         $valueContent[$key]['filename'] = OpenPABootstrapItaliaOperators::cleanFileName(
                             $valueContent[$key]['filename']
                         );

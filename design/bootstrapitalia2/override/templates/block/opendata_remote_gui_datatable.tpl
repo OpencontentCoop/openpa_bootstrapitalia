@@ -170,7 +170,8 @@
                                                 dynamicColumns.push({data: 'metadata.id', name: 'id', title: '#', orderable: false});
                                                 dynamicColumnDefs.push({
                                                     render: function (data, type, row) {
-                                                        return '<a href="' + remoteUrl + '/openpa/object/' + row.metadata.id + '"><i class="fa fa-plus" aria-hidden="true"></i></a>';
+                                                      let href = row?.extradata[$.opendataTools.settings('language')]?.urlAlias || remoteUrl + '/openpa/object/' + row.metadata.id;
+                                                      return '<a href="' + href + '"><i class="fa fa-plus" aria-hidden="true"></i></a>';
                                                     },
                                                     orderable: false,
                                                     width: "1",
@@ -254,7 +255,8 @@
                             ];
                             var columnDefs = [{
                                 render: function (data, type, row) {
-                                    return '<a href="' + remoteUrl + '/openpa/object/' + row.metadata.id + '"><i class="fa fa-plus" aria-hidden="true"></i></a>';
+                                  let href = row?.extradata[$.opendataTools.settings('language')]?.urlAlias || remoteUrl + '/openpa/object/' + row.metadata.id;
+                                  return '<a href="' + href + '"><i class="fa fa-plus" aria-hidden="true"></i></a>';
                                 },
                                 orderable: false,
                                 width: "1",

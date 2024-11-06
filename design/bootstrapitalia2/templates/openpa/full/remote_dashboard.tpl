@@ -277,14 +277,14 @@
         {{for searchHits}}
         <tr>
             <td>
-                <a target="_blank" rel="noopener noreferrer" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">{{:~i18n(metadata.name)}}</a>
+                <a target="_blank" rel="noopener noreferrer" href="{{if ~i18n(extradata,'urlAlias')}}{{:~i18n(extradata,'urlAlias')}}{{else}}{{:~remoteUrl(remoteUrl, metadata.id)}}{{/if}}">{{:~i18n(metadata.name)}}</a>
             </td>
             <td style="white-space:nowrap">{{:~i18n(metadata.classDefinition.name)}}</td>
             <td style="white-space:nowrap">{{:~formatDate(metadata.published,'DD/MM/YYYY HH:mm')}}</td>
             <td style="white-space:nowrap;text-align:right">
                 <span class="load" href="#" data-remote="{{:metadata.remoteId}}"><i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i></span>
                 <a class="hide import btn btn-xs btn-warning text-nowrap" href="#" data-remote="{{:metadata.remoteId}}"><i aria-hidden="true" class="fa fa-arrow-up"></i> Importa</a>
-                <a class="hide link btn btn-xs btn-success text-nowrap" target="_blank" href="/openpa/object/{{:metadata.remoteId}}" data-remote="{{:metadata.remoteId}}"><i aria-hidden="true" class="fa fa-link"></i> Vedi</a>
+                <a class="hide link btn btn-xs btn-success text-nowrap" target="_blank" href="{{if ~i18n(extradata,'urlAlias')}}{{:~i18n(extradata,'urlAlias')}}{{else}}/openpa/object/{{:metadata.remoteId}}{{/if}}" data-remote="{{:metadata.remoteId}}"><i aria-hidden="true" class="fa fa-link"></i> Vedi</a>
             </td>
         </tr>
         {{/for}}
@@ -331,7 +331,7 @@
                 {{if ~i18n(~current, #data)}}<div class="card-text">{{:~i18n(~current, #data)}}</div>{{/if}}
             {{/for}}
         </div>
-        <a class="read-more" href="{{:~remoteUrl(remoteUrl, metadata.id)}}">
+        <a class="read-more" href="{{if ~i18n(extradata,'urlAlias')}}{{:~i18n(extradata,'urlAlias')}}{{else}}{{:~remoteUrl(remoteUrl, metadata.id)}}{{/if}}">
             <span class="text">{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}</span>
             <svg class="icon"><use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-arrow-right" aria-label="{/literal}{'Read more'|i18n('bootstrapitalia')}{literal}"></use></svg>
         </a>

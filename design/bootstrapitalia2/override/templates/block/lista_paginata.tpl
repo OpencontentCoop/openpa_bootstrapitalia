@@ -144,7 +144,7 @@
 			{{if ~i18n(extradata, 'view')}}
 				{{:~i18n(extradata, 'view')}}
 			{{else}}
-				<a href="{{:baseUrl}}openpa/object/{{:metadata.id}}" class="card card-teaser rounded shadow" style="text-decoration:none !important">
+				<a href="{{:~i18n(extradata,'urlAlias')}}{{:~i18n(extradata,'urlAlias')}}{{else}}{{:baseUrl}}openpa/object/{{:metadata.id}}{{/if}}" class="card card-teaser rounded shadow" style="text-decoration:none !important">
 					<div class="card-body">
 						{{if ~contentIcon && subtree}}
 						<div class="category-top">

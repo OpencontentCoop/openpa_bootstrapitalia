@@ -281,7 +281,7 @@
 				</div>
 				<div class="card-body p-0 my-2">
 					<h3 class="green-title-big mb-8">
-						<a class="text-decoration-none" href="{{:baseUrl}}openpa/object/{{:metadata.id}}">{{:~i18n(metadata.name)}}</a>
+						<a class="text-decoration-none" href="{{if ~i18n(extradata,'urlAlias')}}{{:~i18n(extradata,'urlAlias')}}{{else}}{{:baseUrl}}openpa/object/{{:metadata.id}}{{/if}}">{{:~i18n(metadata.name)}}</a>
 					</h3>
 					{{if ~i18n(data, 'abstract')}}<p class="text-paragraph">{{:~stripTag(~i18n(data, 'abstract'))}}</p>{{/if}}
 					<ul class="list-inline m-0"><li class="list-inline-item"><strong>{{:~i18n(data, 'document_type')}}</strong>{{if ~i18n(data, numberIdentifier)}} ({{:~i18n(data, numberIdentifier)}}){{/if}}</li></ul>
