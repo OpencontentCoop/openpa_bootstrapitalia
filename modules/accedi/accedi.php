@@ -50,14 +50,18 @@ $spidButtonText = ezpI18n::tr('bootstrapitalia/signin', OpenPAINI::variable('Acc
 $showSpidLink = true;
 $cieTitle = OpenPAINI::variable('AccessPage', 'CieAccess_Title', 'CIE');
 $eidasTitle = OpenPAINI::variable('AccessPage', 'EidasAccess_Title', 'eIDAS');
+$cnsTitle = OpenPAINI::variable('AccessPage', 'CnsAccess_Title', 'CNS');
 
-if ($pal->hasAccess('cie') || $pal->hasAccess('eidas')){
+if ($pal->hasAccess('cie') || $pal->hasAccess('eidas') || $pal->hasAccess('cns')){
     $spidReplaces['title'] = [$spidTitle];
     if ($pal->hasAccess('cie')){
         $spidReplaces['title'][] = $cieTitle;
     }
     if ($pal->hasAccess('eidas')){
         $spidReplaces['title'][] = $eidasTitle;
+    }
+    if ($pal->hasAccess('cns')){
+        $spidReplaces['title'][] = $cnsTitle;
     }
     $spidTitle = implode(' / ', $spidReplaces['title']);
     $spidSubtitle = ezpI18n::tr('bootstrapitalia/signin', OpenPAINI::variable('AccessPage', 'MixedAccess_Intro', 'Log in with your digital identity.'));

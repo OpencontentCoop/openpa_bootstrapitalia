@@ -178,6 +178,7 @@ class PersonalAreaLogin
                     'spid' => true,
                     'cie' => false,
                     'eidas' => false,
+                    'cns' => false,
                 ];
             }
             $this->accesses = $data;
