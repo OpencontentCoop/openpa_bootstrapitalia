@@ -52,7 +52,7 @@ class OpenPARolesFunctionCollection
             eZDebug::writeError($e->getMessage(), __METHOD__);
         }
         $peopleList = [];
-        $roleHits = $openpaRoles->sortRoles($data->searchHits);
+        $roleHits = $data->searchHits;
         foreach ($roleHits as $roleHit) {
             $role = eZContentObject::fetch((int)$roleHit['metadata']['id']);
             if ($role instanceof eZContentObject) {

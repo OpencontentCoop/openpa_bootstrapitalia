@@ -43,6 +43,11 @@ class OpenPARoles
         $this->includeExpired = $includeExpired;
     }
 
+    /**
+     * @param eZContentObjectAttribute $contentObjectAttribute
+     * @param $includeExpired
+     * @return OpenPARoles
+     */
     public static function instance(eZContentObjectAttribute $contentObjectAttribute, $includeExpired = false)
     {
         if (!isset(self::$instances[$contentObjectAttribute->attribute('id')][$includeExpired])) {
@@ -157,7 +162,7 @@ class OpenPARoles
                 $data->searchHits = [];
                 eZDebug::writeError($e->getMessage(), __METHOD__);
             }
-            $this->searchData = $this->sortRoles($data->searchHits);
+            $this->searchData = $data->searchHits;
         }
         return $this->searchData;
     }
@@ -366,8 +371,33 @@ class OpenPARoles
             if (!$this->includeExpired){
                 $this->searchQuery[] = 'calendar[start_time,end_time] = [now,*]';
             }
-            $this->searchQuery[] = 'sort [raw[attr_priorita_si]=>desc,person.name=>asc]';
-            eZDebug::writeDebug(implode(' and ', $this->searchQuery), $this->contentObjectAttribute->attribute('id') . ' ' . __METHOD__);
+
+            $sortValue = $this->attributeSettings['sort'] ?? $this->classSettings['sort'];
+            $sortField = 'raw[attr_priorita_si]';
+            $sortDirection = 'desc';
+            if ($sortValue == OpenPARoleType::SORT_ENTITY_NAME) {
+                $sortField = 'raw[attr_for_entity_s]';
+                $sortDirection = 'asc';
+            } elseif ($sortValue == OpenPARoleType::SORT_PERSON_NAME) {
+                $sortField = 'raw[attr_person_s]';
+                $sortDirection = 'asc';
+            } elseif ($sortValue == OpenPARoleType::SORT_ROLE_NAME) {
+                $sortField = 'raw[attr_role_lk]';
+                $sortDirection = 'asc';
+            } elseif ($sortValue == OpenPARoleType::SORT_START_TIME) {
+                $sortField = 'start_time';
+                $sortDirection = 'asc';
+            }
+
+            $this->searchQuery[] = 'sort [' . $sortField . '=>' . $sortDirection . ',person.name=>asc]';
+            eZDebug::writeDebug(
+                implode(' and ', $this->searchQuery),
+                '[' . $this->contentObjectAttribute->attribute('contentclass_attribute_identifier') . '] ' .
+                'Id(' . $this->contentObjectAttribute->attribute('id') . ') ' .
+                'Sort(' . $this->classSettings['sort'] . ') ' .
+                'Override-Sort(' . ($this->attributeSettings['sort'] ?? 'null') . ') ' .
+                __METHOD__
+            );
         }
         $queryParts = $this->searchQuery;
         $limit = (int)$limit;
@@ -424,56 +454,11 @@ class OpenPARoles
         }
     }
 
+    /**
+     * @deprecated
+     */
     public function sortRoles($contents)
     {
-        $sortValue = $this->classSettings['sort'];
-        if (count($contents) > 1) {
-            $attributeIdentifier = false;
-            if ($sortValue == OpenPARoleType::SORT_ENTITY_NAME) {
-                $attributeIdentifier = 'for_entity';
-            } elseif ($sortValue == OpenPARoleType::SORT_PERSON_NAME) {
-                $attributeIdentifier = 'person';
-            } elseif ($sortValue == OpenPARoleType::SORT_START_TIME) {
-                $attributeIdentifier = 'start_time';
-            }
-
-            if ($attributeIdentifier) {
-                $language = $this->language;
-                usort($contents, function ($a, $b) use ($attributeIdentifier, $language) {
-                    $aLanguage = $language;
-                    if (!in_array($language, $a['metadata']['languages'])) {
-                        $aLanguage = $a['metadata']['languages'][0];
-                    }
-                    $bLanguage = $language;
-                    if (!in_array($language, $b['metadata']['languages'])) {
-                        $bLanguage = $a['metadata']['languages'][0];
-                    }
-
-                    if ($attributeIdentifier !== 'role' && $attributeIdentifier !== 'start_time'
-                        && isset($a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name'])
-                        && isset($b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name'])
-                    ) {
-                        $aName = $a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name'][$aLanguage]
-                            ?? current($a['data'][$aLanguage][$attributeIdentifier]['content'][0]['name']);
-                        $bName = $b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name'][$bLanguage]
-                            ?? current($b['data'][$bLanguage][$attributeIdentifier]['content'][0]['name']);
-
-                        return strcmp($aName, $bName);
-
-                    } elseif (isset($a['data'][$aLanguage][$attributeIdentifier]['content'][0])
-                        && isset($b['data'][$bLanguage][$attributeIdentifier]['content'][0])
-                    ) {
-                        return strcmp(
-                            $a['data'][$aLanguage][$attributeIdentifier]['content'][0],
-                            $b['data'][$bLanguage][$attributeIdentifier]['content'][0]
-                        );
-                    }
-
-                    return 0;
-                });
-            }
-        }
-
         return $contents;
     }
 }
