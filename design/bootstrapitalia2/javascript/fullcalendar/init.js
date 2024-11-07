@@ -38,7 +38,7 @@ function OpenCityFullCalendarInit(baseUrl, language, BlockCalendarEndpoint, Cale
             omitCommas: true
         },
         eventClick: function (info) {
-            window.location.href = baseUrl + 'openpa/object/' + info.event.id;
+            window.location.href = info.event.extendedProps.content?.extradata[$.opendataTools.settings('language')]?.urlAlias || baseUrl + 'openpa/object/' + info.event.id;
         },
         displayEventTime: false,
         eventContent: function (info) {

@@ -10,7 +10,7 @@ use Opencontent\QueryLanguage\QueryBuilder;
 
 class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironmentSettings
 {
-    protected static $classDefinition = array();
+    protected static $classDefinition = [];
 
     protected $maxSearchLimit = 300;
 
@@ -31,7 +31,6 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
             'point_list',
             'fullpage',
         ])) {
-
             $moduleINI = eZINI::instance('module.ini');
             $globalModuleRepositories = $moduleINI->variable('ModuleSettings', 'ModuleRepositories');
             eZModule::setGlobalPathList($globalModuleRepositories);
@@ -69,13 +68,22 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
             );
 
             $args = compact([
-                "NodeID", "Module", "tpl", "LanguageCode", "ViewMode", "Offset", "ini", "viewParameters", "collectionAttributes", "validation"
+                "NodeID",
+                "Module",
+                "tpl",
+                "LanguageCode",
+                "ViewMode",
+                "Offset",
+                "ini",
+                "viewParameters",
+                "collectionAttributes",
+                "validation",
             ]);
             eZURI::setTransformURIMode('full');
             $result = eZClusterFileHandler::instance($cacheFileArray['cache_path'])
                 ->processCache(
-                    array('OpenPABootstrapItaliaNodeViewFunctions', 'contentViewRetrieve'),
-                    array('OpenPABootstrapItaliaNodeViewFunctions', 'contentViewGenerate'),
+                    ['OpenPABootstrapItaliaNodeViewFunctions', 'contentViewRetrieve'],
+                    ['OpenPABootstrapItaliaNodeViewFunctions', 'contentViewGenerate'],
                     null,
                     null,
                     $args
@@ -90,7 +98,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                         PHP_URL_HOST
                     );
                     if ($hostName !== $siteName) {
-                        $resultContent = str_replace('//'.$hostName, '//'.$siteName, $resultContent);
+                        $resultContent = str_replace('//' . $hostName, '//' . $siteName, $resultContent);
                     }
                 }
 
@@ -103,29 +111,29 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
 
     public function filterContent(Content $content)
     {
+        $extra = $content->extradata ?? new ExtraData();
+        $mainNodeId = $content->getNodeIdFromContext((int)($this->request->get['context'] ?? 0)) ?? $content->metadata->mainNodeId;
+        $extra->set('urlAlias', $content->getUrlAlias($mainNodeId));
         if (isset($this->request->get['view'])) {
             $ViewMode = $this->request->get['view'];
-            $NodeID = $content->metadata->mainNodeId;
-
-            $viewData = self::generateView($NodeID, $ViewMode);
+            $viewData = self::generateView($mainNodeId, $ViewMode);
             if ($viewData) {
-                $extra = new ExtraData();
                 $extra->set('view', $viewData);
-                $content->extradata = $extra;
             }
         }
+        $content->extradata = $extra;
 
         return parent::filterContent($content);
     }
 
     protected function filterMetaData(Content $content)
     {
-        $parentNodes = array();
+        $parentNodes = [];
         foreach ($content->metadata->parentNodes as $parentNode) {
             $parentNodes[] = $parentNode['id'];
         }
 
-        $data = array(
+        $data = [
             'id' => $content->metadata->id,
             'remoteId' => $content->metadata->remoteId,
             'classIdentifier' => $content->metadata->classIdentifier,
@@ -142,9 +150,12 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
             'parentNodes' => $parentNodes,
             'assignedNodes' => $content->metadata->assignedNodes,
             'link' => $this->requestBaseUri . 'read/' . $content->metadata->id,
-            'classDefinition' => $this->getClassDefinition($content->metadata->classIdentifier)
+            'classDefinition' => $this->getClassDefinition($content->metadata->classIdentifier),
+        ];
+        $propertyBlackList = (array)EnvironmentLoader::ini()->variable(
+            'ContentSettings',
+            'PropertyBlackListForExternal'
         );
-        $propertyBlackList = (array)EnvironmentLoader::ini()->variable('ContentSettings', 'PropertyBlackListForExternal');
         if (count($propertyBlackList) > 0 && !eZUser::isCurrentUserRegistered()) {
             foreach ($propertyBlackList as $property) {
                 if (isset($data[$property])) {
@@ -163,21 +174,21 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
             $classRepository = new ClassRepository();
             $class = $classRepository->load($classIdentifier);
 
-            $fields = array();
+            $fields = [];
             foreach ($class->fields as $field) {
-                $fields[] = array(
+                $fields[] = [
                     'identifier' => $field['identifier'],
                     'name' => $field['name'],
                     'dataType' => $field['dataType'],
                     'constraint' => $field['constraint'],
-                );
+                ];
             }
 
-            self::$classDefinition[$classIdentifier] = array(
+            self::$classDefinition[$classIdentifier] = [
                 'identifier' => $class->identifier,
                 'name' => $class->name,
-                'fields' => $fields
-            );
+                'fields' => $fields,
+            ];
         }
 
         return self::$classDefinition[$classIdentifier];
@@ -187,12 +198,12 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
     {
         $language = eZLocale::currentLocaleCode();
         $definition = $this->getClassDefinition($classIdentifier);
-        return isset($definition['name'][$language]) ? $definition['name'][$language] : array_shift($definition['name']);
+        return $definition['name'][$language] ?? array_shift($definition['name']);
     }
 
     protected function flatData(Content $content)
     {
-        $flatData = array();
+        $flatData = [];
         foreach ($content->data as $language => $data) {
             foreach ($data as $identifier => $value) {
                 $valueContent = $value['content'];
@@ -212,12 +223,16 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                 }
 
                 if ($value['datatype'] == 'ezbinaryfile' && !empty($valueContent['filename'])) {
-                    $valueContent['filename'] = OpenPABootstrapItaliaOperators::cleanFileName($valueContent['filename']);
+                    $valueContent['filename'] = OpenPABootstrapItaliaOperators::cleanFileName(
+                        $valueContent['filename']
+                    );
                 }
 
                 if ($value['datatype'] == 'ocmultibinary' && !empty($valueContent)) {
-                    foreach ($valueContent as $key => $value) {
-                        $valueContent[$key]['filename'] = OpenPABootstrapItaliaOperators::cleanFileName($valueContent[$key]['filename']);
+                    foreach (array_keys($valueContent) as $key) {
+                        $valueContent[$key]['filename'] = OpenPABootstrapItaliaOperators::cleanFileName(
+                            $valueContent[$key]['filename']
+                        );
                     }
                 }
 
@@ -230,26 +245,30 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
 
     private function flatFullRelation($value, $language)
     {
-        $valueContent = array();
+        $valueContent = [];
         if (is_array($value['content'])) {
             foreach ($value['content'] as $content) {
                 if (is_array($content) || $content instanceof ArrayAccess) {
                     $item = $content['metadata'];
-                    $parentNodes = array();
+                    $parentNodes = [];
                     foreach ($item['parentNodes'] as $parentNode) {
                         $parentNodes[] = $parentNode['id'];
                     }
-                    $valueContent[] = array(
+                    $valueContent[] = [
                         'id' => $item['id'],
                         'remoteId' => $item['remoteId'],
                         'classIdentifier' => $item['classIdentifier'],
-                        'class' => str_replace('/content', '/classes', $this->requestBaseUri) . $item['classIdentifier'],
+                        'class' => str_replace(
+                                '/content',
+                                '/classes',
+                                $this->requestBaseUri
+                            ) . $item['classIdentifier'],
                         'languages' => $item['languages'],
                         'name' => $item['name'],
                         'link' => $this->requestBaseUri . 'read/' . $item['id'],
                         'mainNodeId' => $item['mainNodeId'],
-                        'data' => isset($content['data'][$language]) ? $content['data'][$language] : []
-                    );
+                        'data' => isset($content['data'][$language]) ? $content['data'][$language] : [],
+                    ];
                 }
             }
         }
@@ -259,24 +278,28 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
 
     private function flatDefaultRelation($value, $language)
     {
-        $valueContent = array();
+        $valueContent = [];
         if (is_array($value['content'])) {
             foreach ($value['content'] as $item) {
                 if (is_array($item) || $item instanceof ArrayAccess) {
-                    $parentNodes = array();
+                    $parentNodes = [];
                     foreach ($item['parentNodes'] as $parentNode) {
                         $parentNodes[] = $parentNode['id'];
                     }
-                    $valueContent[] = array(
+                    $valueContent[] = [
                         'id' => $item['id'],
                         'remoteId' => $item['remoteId'],
                         'classIdentifier' => $item['classIdentifier'],
-                        'class' => str_replace('/content', '/classes', $this->requestBaseUri) . $item['classIdentifier'],
+                        'class' => str_replace(
+                                '/content',
+                                '/classes',
+                                $this->requestBaseUri
+                            ) . $item['classIdentifier'],
                         'languages' => $item['languages'],
                         'name' => $item['name'],
                         'link' => $this->requestBaseUri . 'read/' . $item['id'],
-                        'mainNodeId' => $item['mainNodeId']
-                    );
+                        'mainNodeId' => $item['mainNodeId'],
+                    ];
                 }
             }
         }
@@ -293,6 +316,9 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                 }
             }
         }
+
+//        shall we retrieve context from subtree filter??
+//        if (isset($query['SearchSubTreeArray'])){}
 
         return parent::filterQuery($query, $builder);
     }

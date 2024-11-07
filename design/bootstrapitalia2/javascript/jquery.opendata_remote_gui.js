@@ -20,6 +20,7 @@
             'facets': [],
             'responseCallback': null,
             'view': 'card_teaser',
+            'context': null,
             'hideIfEmpty': false
         };
 
@@ -33,7 +34,11 @@
                 var replaceEndpoint = localAccessPrefix.length === 0 ? 'opendata/api' : localAccessPrefix + '/opendata/api';
                 this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', replaceEndpoint);
                 this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', replaceEndpoint);
-                this.settings.searchApi += '?view=' + this.settings.view + '&q=';
+                if (this.settings.context && this.settings.context.length > 0){
+                    this.settings.searchApi += '?view=' + this.settings.view + '&context=' + this.settings.context + '&q=';
+                } else {
+                    this.settings.searchApi += '?view=' + this.settings.view + '&q=';
+                }
             }
             this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
             this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
