@@ -1,0 +1,234 @@
+/*custom luca*/
+.radio + .radio, .checkbox + .checkbox {
+  margin-top: 10px;
+}
+
+.alpaca-container .alpaca-container-label,
+.alpaca-container-item legend.alpaca-container-label {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.alpaca-field-openstreetmap {
+  border: 1px #eee solid;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.alpaca-control.radio {
+  min-height: inherit;
+  height: inherit;
+  margin-left: 10px;
+  padding: 0
+}
+
+.alpaca-form .form-group label {
+  position: static !important;
+  line-height: normal;
+  font-size: 1rem;
+  padding: 0;
+  z-index: 6;
+  color: #000;
+  width: auto !important;
+}
+
+.alpaca-form .form-group label.active {
+  transform: none !important;
+}
+
+.alpaca-form label.form-check-label {
+  padding-left: 36px !important;
+  cursor: pointer;
+  display: inline-block;
+  height: 32px !important;
+  line-height: 32px !important;
+  font-size: 1rem;
+  user-select: none;
+}
+
+.card .card-body .alpaca-form p {
+  font-family: "Titillium Web", sans-serif;
+  font-size: 1rem;
+}
+
+.alpaca-form .form-group {
+  margin-bottom: 1em;
+}
+
+.alpaca-form .alpaca-field-table > legend,
+.alpaca-display .alpaca-field-table > legend {
+  display: block;
+}
+
+.form-group small.form-text {
+  position: static !important;
+}
+
+.alpaca-form .form-group .fileinput-button input {
+  top: 0;
+  height: 50px;
+}
+
+.alpaca-field.alpaca-field-upload .fileupload-active-zone {
+  margin: 0;
+}
+
+.alpaca-fileupload-well {
+  font-size: .8em;
+  margin: 0
+}
+
+
+/*spostare in custom*/
+.alpaca-form .btn-dropdown .icon.icon-xs,
+.alpaca-form .dropdown-toggle .icon.icon-xs {
+  width: 16px !important;
+  height: 16px !important;;
+}
+
+.alpaca-form .link-list-wrapper ul li a {
+  line-height: 1em;
+  padding: 8px 24px;
+}
+
+
+/** WIZARD **/
+
+.alpaca-wizard .alpaca-wizard-nav .navbar {
+  position: relative;
+  display: block;
+  padding: 0
+}
+
+.alpaca-wizard .alpaca-wizard-nav .navbar-nav {
+  display: block;
+  float: left;
+  margin: 0;
+}
+
+.alpaca-wizard .alpaca-wizard-nav .navbar-nav li {
+  float: left;
+  position: relative;
+  display: block;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li .chevron {
+  position: absolute;
+  top: 0;
+  right: -14px;
+  display: block;
+  border: 27px solid transparent;
+  border-right: 0;
+  border-left: 14px solid #d4d4d4;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li .chevron:before {
+  position: absolute;
+  top: -27px;
+  right: 1px;
+  display: block;
+  border: 27px solid transparent;
+  border-right: 0;
+  border-left: 14px solid #fcfcfc;
+  content: "";
+}
+
+.alpaca-wizard .alpaca-wizard-nav li div.holder {
+  text-align: center;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li:first-child div.holder {
+  padding-left: 10px;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li div.holder div.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li div.holder div.description {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li.completed div.holder div.title {
+  color: #333;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li.completed div.holder div.description {
+  color: #333;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li.visited:hover {
+  cursor: pointer;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li.visited div.holder div.title {
+}
+
+.alpaca-wizard .alpaca-wizard-nav li.visited div.holder div.description {
+}
+
+.alpaca-wizard .alpaca-wizard-nav li.active:hover {
+  cursor: default;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li.active div.holder div.title {
+  color: #206199;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li.active div.holder div.description {
+  color: #206199;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li.disabled div.holder div.title {
+  color: #ccc;
+}
+
+.alpaca-wizard .alpaca-wizard-nav li.disabled div.holder div.description {
+  color: #ccc;
+}
+
+.alpaca-wizard .alpaca-wizard-nav .alpaca-wizard-back {
+  background-color: #fcfcfc;
+}
+
+.alpaca-wizard .alpaca-wizard-buttons {
+  margin-top: 20px;
+}
+
+.alpaca-wizard .alpaca-wizard-progress-bar {
+  margin-bottom: 20px;
+}
+
+.alpaca-wizard .progress {
+  height: 10px;
+  box-shadow: none;
+  background-color: #ccc;
+}
+
+.grecaptcha-badge, .feedback-survey .alpaca-wizard-back {
+  display: none !important;
+}
+
+.feedback-survey .text-muted {
+  color: #333 !important;
+}
+
+.lockedit-tab .alpaca-layout-binding-holder {
+  padding: 16px !important;
+  margin-bottom: 24px !important;
+  border: 1px solid #e9e6f2 !important;
+}
+
+.lockedit-tab .alpaca-container .alpaca-container-label,
+.lockedit-tab .alpaca-container-item legend.alpaca-container-label,
+.alpaca-form .lockedit-tab .form-group label,
+.alpaca-form .lockedit-tab .alpaca-control-label {
+  font-size: 1.333rem !important;
+  font-weight: normal !important;
+  margin-bottom: 8px;
+}

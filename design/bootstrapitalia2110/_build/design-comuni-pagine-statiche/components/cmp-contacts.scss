@@ -1,0 +1,27 @@
+.cmp-contacts {
+
+  .card{
+    &:after{
+      content: unset;
+    }
+  }
+
+  .contact-list li {
+    font-size: 1rem;
+    margin: 1rem 0;
+    color: $primary;
+    font-weight: 400;
+
+    @include media-breakpoint-up(md) {
+      line-height: 1.5;
+    }
+
+    &:last-child{
+      margin-bottom: 0;
+    }
+
+    span {
+      margin-left: .5rem;
+    }
+  }
+}

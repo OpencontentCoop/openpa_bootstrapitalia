@@ -15,3 +15,9 @@ $footer-top-background: $primary-a10;
 
 
 @import "default";
+
+// #F2F7FB
+:root {
+  --bs-light-rgb: 242, 247, 251;
+  --bs-light: hsl(207deg, 52.9%,96.7%)
+}

@@ -1,0 +1,24 @@
+.cmp-nav-steps {
+  box-shadow: 0 -0.6375rem 1.125rem -0.9rem rgb(0,0,0,0.1);
+  margin-top: 2rem;
+
+  @include media-breakpoint-up(sm){
+    margin-top: 2.5rem;
+  }
+
+  @include media-breakpoint-up(md) {
+    border-top: 1px solid get-color(light-grey,grey);
+    box-shadow: unset;
+  }
+
+  .steppers-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem 0 2.5rem 0;
+  }
+}
+
+.steppers .steppers-header {
+  margin-bottom: 2rem;
+}

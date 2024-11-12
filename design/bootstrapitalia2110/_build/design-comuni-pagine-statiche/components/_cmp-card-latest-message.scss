@@ -1,0 +1,34 @@
+.cmp-card-latest-messages{
+
+  .card {
+    border: 1px solid get-color(light-grey, grey);
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .drop-shadow {
+    box-shadow: 0 0.2rem 0.3rem  rgba(0, 0, 0, 0.1);
+  }
+
+  .date-regular{
+    color: rgba(25,25,25,0.7);
+  }
+
+  .green-title-big {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .card {
+    &:after {
+      content: unset;
+    }
+  }
+
+  .date-xsmall {
+    opacity: .7;
+  }
+}

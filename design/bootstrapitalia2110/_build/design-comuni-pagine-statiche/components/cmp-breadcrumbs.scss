@@ -1,0 +1,24 @@
+.cmp-breadcrumbs {
+  margin-top: 1.5rem;
+
+  @include media-breakpoint-up(md) {
+    margin-top: 2rem;
+  }
+
+  .breadcrumb-container .breadcrumb .breadcrumb-item a {
+    color: $primary;
+
+    &:hover {
+      color: $color-text-primary-hover;
+    }
+  }
+
+  .separator {
+    color: get-color(light, grey);
+    font-weight: 400;
+  }
+
+  .breadcrumb-container .breadcrumb .breadcrumb-item.active {
+    color: $color-text-secondary;
+  }
+}

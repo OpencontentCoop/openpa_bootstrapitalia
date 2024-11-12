@@ -21,7 +21,7 @@
 		    <button class="btn btn-danger py-2" type="button" style="display: none;" id="ResetContents">Annulla ricerca</button>
 		  </div>
 		</div>
-		<div class="form-group form-check">
+		<div class="form-check my-2">
 			<input id="OnlyExpired"
 				   class="form-check-input"
 				   type="checkbox"

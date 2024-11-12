@@ -1,0 +1,30 @@
+.cmp-ul-list {
+  &:not(:first-child) {
+    margin-top: 1.5rem;
+  }
+
+  &__description {
+    padding-right: 1.5rem;
+  }
+
+  .description {
+    @include font(16,18);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}
+
+.list-wrapper {
+  padding-left: 1.25rem;
+  list-style-type: disc !important;
+
+  @include media-breakpoint-up(sm) {
+    padding-left: 2rem;
+  }
+
+  li {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+}

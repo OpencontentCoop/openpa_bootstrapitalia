@@ -1,0 +1,11 @@
+.cmp-card-img {
+  display: flex;
+
+  .card {
+    padding: 1.25rem 1rem;
+
+    &.card-teaser-info {
+      border-left: 8px solid $card-teaser-border;
+    }
+  }
+}

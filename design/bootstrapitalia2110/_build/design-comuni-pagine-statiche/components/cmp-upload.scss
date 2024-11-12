@@ -1,0 +1,50 @@
+.cmp-upload {
+  .upload-file-list .upload-file {
+    max-width: 100%;
+
+    p {
+      margin-left: 0.625rem;
+
+      @include media-breakpoint-up(sm){
+        margin-left: 0.56rem;
+      }
+    }
+  }
+
+  span.splide__sr {
+    display: none;
+  }
+
+  .upload[type=file]+label {
+    font-size: 1rem;
+    padding: 0.75rem 1.5rem;
+
+    @include media-breakpoint-up(md) {
+      max-width: 21.11rem;
+    }
+
+    svg {
+      margin-right: 0.75rem;
+    }
+  }
+
+  &__label {
+    @include font(14, 16);
+    font-weight: 700;
+    margin-left: 0.5rem;
+  }
+
+  &__info {
+    font-family: Titillium Web;
+    color: get-color(dark, grey);
+    @include font(14, 16);
+    font-weight: 400;
+    line-height: 1.5;
+    margin-left: 0.5rem;
+  }
+}
+
+// .modal .modal-dialog .modal-content .modal-body p:not(.cmp-upload__info) {
+//   font-size: 1rem;
+//   font-weight: 600;
+// }

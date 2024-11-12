@@ -1,5 +1,8 @@
 <?php
 
+/** @var eZModule $Module */
+$Module = $Params['Module'];
+
 function handleIconDownload(
     $contentObject,
     $contentObjectAttribute
@@ -44,13 +47,17 @@ function handleIconDownload(
 eZSession::stop();
 ob_end_clean();
 
+$attributeIdentifier = 'favicon';
+if ($Params['Parameters'][0] === 'apple-touch-icon'){
+    $attributeIdentifier = 'apple-touch-icon';
+}
 $result = eZBinaryFileHandler::RESULT_UNAVAILABLE;
 $home = OpenPaFunctionCollection::fetchHome();
 if ($home instanceof eZContentObjectTreeNode) {
     $dataMap = $home->dataMap();
-    if (isset($dataMap['favicon']) && $dataMap['favicon']->hasContent()) {
+    if (isset($dataMap[$attributeIdentifier]) && $dataMap[$attributeIdentifier]->hasContent()) {
         $fileHandler = eZBinaryFileHandler::instance();
-        $result = handleIconDownload($home->object(), $dataMap['favicon']);
+        $result = handleIconDownload($home->object(), $dataMap[$attributeIdentifier]);
     }
 }
 
