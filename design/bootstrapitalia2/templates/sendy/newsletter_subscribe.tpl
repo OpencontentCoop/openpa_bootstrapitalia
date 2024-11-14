@@ -48,7 +48,7 @@
     <div style="display:none;"><label for="hp">HP</label><input type="text" name="hp" id="hp"/></div>
 
     <button class="btn btn-secondary btn-icon pull-right" type="submit">
-        <svg class="icon icon-white">
+        <svg class="icon icon-white" aria-hidden="true">
             {display_icon('it-mail', 'svg', 'icon icon-white')}
         </svg>
         <span>{"Subscribe"|i18n( 'openpa_newsletter' )}</span>

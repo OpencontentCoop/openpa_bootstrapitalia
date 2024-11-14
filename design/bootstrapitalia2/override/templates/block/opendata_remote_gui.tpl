@@ -34,25 +34,96 @@
 
         <div class="row" id="remote-gui-{$block.id}">
 
-            <section class="{if $facets|count()}col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2">
+
+            {if $facets|count()}
+                <div class="col-12 col-lg-4 ps-lg-5">
+                    <ul class="nav d-block nav-pills text-center text-md-right{if or($showGrid|not(), $showMap|not())} hide{/if}">
+                        {if $showGrid}
+                            <li class="nav-item pr-1 pe-1 text-center d-inline-block">
+                                <a data-toggle="tab" data-bs-toggle="tab"
+                                   class="nav-link active rounded view-selector text-uppercase"
+                                   href="#remote-gui-{$block.id}-list">
+                                    <i aria-hidden="true" class="fa fa-list"></i> {'List'|i18n('editorialstuff/dashboard')}
+                                </a>
+                            </li>
+                        {/if}
+                        {if $showMap}
+                            <li class="nav-item text-center d-inline-block">
+                                <a data-toggle="tab" data-bs-toggle="tab"
+                                   class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
+                                   href="#remote-gui-{$block.id}-geo">
+                                    <i aria-hidden="true" class="fa fa-map"></i> {'Map'|i18n('bootstrapitalia')}
+                                </a>
+                            </li>
+                        {/if}
+                    </ul>
+
+                    {if $facets|count()}
+                        {def $index = 0}
+                        {foreach $facets as $facet}
+                            {def $facets_parts = $facet|explode(':')}
+                            {if is_set($facets_parts[1])}
+                                {if $facets_parts[1]|eq('time_interval')}
+                                    <div class="px-0 my-4 mb-5">
+                                        <fieldset>
+                                            <legend class="h6 ms-0 ps-0">{$facets_parts[0]|wash()}</legend>
+                                            <div class="form-check">
+                                                <input name="time_interval" type="radio" id="today" value="today">
+                                                <label for="today">{'Today'|i18n('agenda')}</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input name="time_interval" type="radio" id="week" value="week">
+                                                <label for="week">{'This weekend'|i18n('agenda')}</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input name="time_interval" type="radio" id="next7days" value="next7days">
+                                                <label for="next7days">{'Next 7 days'|i18n('agenda')}</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input name="time_interval" type="radio" id="next30days" value="next30days">
+                                                <label for="next30days">{'Next 30 days'|i18n('agenda')}</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input name="time_interval" type="radio" id="all" value="all" checked>
+                                                <label for="all">{'All'|i18n('agenda')}</label>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                {else}
+                                    <div class="px-0 my-4 mb-5">
+                                        <label class="h6 ms-0 ps-0" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
+                                        <select id="facet-{$block.id}-{$index}" data-placeholder="{'Select'|i18n('design/admin/content/browse')}" data-facets_select="facet-{$index}" class="d-none" multiple></select>
+                                    </div>
+                                    {set $index = $index|inc()}
+                                    {set $facetsFields = $facetsFields|append($facets_parts[1])}
+                                {/if}
+                            {/if}
+                            {undef $facets_parts}
+                        {/foreach}
+                    {/if}
+
+                </div>
+            {/if}
+
+            <section class="{if $facets|count()}order-md-first col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2">
                 {if and($showSearch, count($facets)|eq(0))}<div class="row g-0">{/if}
                 {if $showSearch}
-                    <div class="cmp-input-search">
-                        <div class="form-group autocomplete-wrapper mb-2 mb-lg-4 search-form">
-                            <div class="input-group">
-                                <label for="{$block.id}-search-input" class="visually-hidden">{$searchPlaceholder|wash()}</label>
-                                <input type="search" data-search="q" class="autocomplete form-control" placeholder="{$searchPlaceholder|wash()}" id="{$block.id}-search-input">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Search'|i18n('design/plain/layout')}</button>
-                                </div>
-                                <span class="autocomplete-icon" aria-hidden="true" aria-labelledby="{$block.id}">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
+                    {def $placeHolder = cond($searchPlaceholder|eq(''), 'Search by keyword'|i18n('bootstrapitalia'), $searchPlaceholder)}
+                    <div class="form-group mb-2 mb-lg-4 search-form{if and($showSearch, count($facets)|eq(0))} col-10{/if}">
+                        <div class="input-group">
+                            <span class="input-group-text h-auto">{display_icon('it-search', 'svg', 'icon icon-sm')}</span>
+                            <label for="search-input-{$block.id}" class="visually-hidden">{$placeHolder|wash()}</label>
+                            <input type="text" class="form-control" id="search-input-{$block.id}" data-search="q" placeholder="{$placeHolder|wash()}" name="search-input-{$block.id}">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button" id="button-3">{'Search'|i18n('design/plain/layout')}</button>
                             </div>
                         </div>
                     </div>
+                    {undef $placeHolder}
                 {/if}
                 {if count($facets)|eq(0)}
                     <div class="col">
-                        <ul class="nav d-block nav-pills text-right{if or($showGrid|not(), $showMap|not())} hide{/if}">
+                        <ul class="nav d-block nav-pills text-center{if or($showGrid|not(), $showMap|not())} hide{/if}">
                             {if $showGrid}
                                 <li class="nav-item pr-1 pe-1 text-center d-inline-block">
                                     <a data-toggle="tab" data-bs-toggle="tab"
@@ -86,61 +157,6 @@
                     {/if}
                 </div>
             </section>
-
-            {if $facets|count()}
-                <div class="col-12 col-lg-4 ps-lg-5 order-first order-sm-last">
-                    <ul class="nav d-block nav-pills text-right{if or($showGrid|not(), $showMap|not())} hide{/if}">
-                        {if $showGrid}
-                            <li class="nav-item pr-1 pe-1 text-center d-inline-block">
-                                <a data-toggle="tab" data-bs-toggle="tab"
-                                   class="nav-link active rounded view-selector text-uppercase"
-                                   href="#remote-gui-{$block.id}-list">
-                                    <i aria-hidden="true" class="fa fa-list"></i> {'List'|i18n('editorialstuff/dashboard')}
-                                </a>
-                            </li>
-                        {/if}
-                        {if $showMap}
-                            <li class="nav-item text-center d-inline-block">
-                                <a data-toggle="tab" data-bs-toggle="tab"
-                                   class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
-                                   href="#remote-gui-{$block.id}-geo">
-                                    <i aria-hidden="true" class="fa fa-map"></i> {'Map'|i18n('bootstrapitalia')}
-                                </a>
-                            </li>
-                        {/if}
-                    </ul>
-
-                    {if $facets|count()}
-                        <div class="search-form">
-                            <div class="accordion">
-                                {foreach $facets as $index => $facet}
-                                    {def $facets_parts = $facet|explode(':')}
-                                    {if is_set($facets_parts[1])}
-                                        <div class="accordion-item bg-none">
-                                          <span class="accordion-header" id="collapse-{$block.id}-{$index}-title">
-                                            <button class="accordion-button pb-10 px-0 text-uppercase text-decoration-none border-0" type="button"
-                                                    data-bs-toggle="collapse" href="#collapse-{$block.id}-{$index}" role="button" aria-expanded="true" aria-controls="collapse-{$block.id}-{$index}"
-                                                    data-focus-mouse="false">
-                                                {$facets_parts[0]|wash()}
-                                            </button>
-                                          </span>
-                                            <div id="collapse-{$block.id}-{$index}" class="accordion-collapse collapse show" role="region" aria-labelledby="collapse-{$block.id}-{$index}-title">
-                                                <div class="accordion-body px-0 pb-1">
-                                                    <label for={$block.id}-facet-{$index}" class="visually-hidden">{$facets_parts[0]|wash()}</label>
-                                                    <select data-placeholder="..." data-facets_select="facet-{$index}" id="{$block.id}-facet-{$index}" class="form-control" style="height: 0" multiple></select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {set $facetsFields = $facetsFields|append($facets_parts[1])}
-                                    {/if}
-                                    {undef $facets_parts}
-                                {/foreach}
-                            </div>
-                        </div>
-                    {/if}
-
-                </div>
-            {/if}
         </div>
 
         {if and(is_set($block.custom_attributes.show_all_link), $block.custom_attributes.show_all_link|eq(1))}
@@ -165,8 +181,11 @@
     'leaflet.markercluster.js',
     'leaflet.makimarkers.js',
     'jsrender.js',
+    'accessible-autocomplete.min.js',
     'jquery.opendata_remote_gui.js'
 ))}
+{ezcss_require(array('accessible-autocomplete.min.css'))}
+
 <script>
 $(document).ready(function () {ldelim}
     moment.locale($.opendataTools.settings('locale'));

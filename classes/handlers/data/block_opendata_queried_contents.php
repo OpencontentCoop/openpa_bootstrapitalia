@@ -37,12 +37,17 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
         }
         $facetsSettings = $blockAttributes['facets'];
         $facets = [];
+        $hasTimeInterval = false;
         if (!empty($facetsSettings)) {
             $facetsSettingsParts = explode(',', $facetsSettings);
             foreach ($facetsSettingsParts as $facetsSettingsPart) {
                 $parts = explode(':', $facetsSettingsPart);
                 if (isset($parts[1])) {
-                    $facets[] = $parts[1];
+                    if ($parts[1] !== 'time_interval') {
+                        $facets[] = $parts[1];
+                    } else {
+                        $hasTimeInterval = true;
+                    }
                 }
             }
         }
@@ -97,6 +102,36 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                 }
             }
         }
+
+        if ($hasTimeInterval){
+            $queryInterval = ' and calendar[time_interval] = [now,*]';
+            if ($http->hasGetVariable('interval')) {
+                $now = new DateTime();
+                $start = 'now';
+                $end = '*';
+                switch ($http->getVariable('interval')){
+                    case 'today':
+                        $end = (new DateTime())->setTime(23,59)->format('c');
+                        break;
+                    case 'weekend':
+                    case 'nextweekend':
+                        $now = time();
+                        $saturday = DateTime::createFromFormat('Y-m-d', date('Y-m-',$now).(6+date('j',$now)-date('w',$dt)));
+                        $start = $saturday->setTime(0,0)->format('c');
+                        $end = $saturday->add(new DateInterval('P1D'))->setTime(23,59)->format('c');
+                        break;
+                    case 'next7days':
+                        $end = (new DateTime())->add(new DateInterval('P7D'))->setTime(23,59)->format('c');
+                        break;
+                    case 'next30days':
+                        $end = (new DateTime())->add(new DateInterval('P30D'))->setTime(23,59)->format('c');
+                        break;
+                }
+            }
+            $query .= " and calendar[time_interval] = ['$start','$end']";
+        }
+
+
         if ($http->hasGetVariable('id')) {
             $query .= ' and id = \'' . $http->getVariable('id') . '\'';
         }

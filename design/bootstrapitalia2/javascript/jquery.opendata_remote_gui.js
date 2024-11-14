@@ -21,7 +21,15 @@
             'responseCallback': null,
             'view': 'card_teaser',
             'context': null,
-            'hideIfEmpty': false
+            'hideIfEmpty': false,
+            'i18n': {
+                placeholder: 'Select item',
+                noResults: 'No results found',
+                statusQueryTooShort: 'Type in ${minQueryLength} or more characters for results',
+                statusSelectedOption: '${selectedOption} ${index + 1} of ${length} is highlighted',
+                assistiveHint: "When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.",
+                selectedOptionDescription: 'Press Enter or Space to remove selection'
+            }
         };
 
     function Plugin(element, options) {
@@ -54,6 +62,7 @@
         }
         this.searchFormToggle = this.container.find('.search-form-toggle');
         this.searchForm = this.container.find('.search-form');
+        this.intervalFilter = this.container.find('[name="time_interval"]');
 
         this.currentPage = 0;
         this.queryPerPage = [];
@@ -92,7 +101,7 @@
             if (plugin.searchForm.hasClass('hide')){
                 plugin.searchFormToggle.find('i').removeClass('fa-search').addClass('fa-close');
                 plugin.searchForm.removeClass('hide');
-                plugin.container.find('select[data-facets_select]').trigger("chosen:updated");
+                plugin.container.find('select[data-facets_select]').trigger("change");
             }else{
                 plugin.searchFormToggle.find('i').removeClass('fa-close').addClass('fa-search');
                 plugin.searchForm.find('input').val('');
@@ -117,6 +126,14 @@
             plugin.container.parents('.remote-gui-wrapper').hide();
         }
         plugin.buildFacets();
+        if (plugin.intervalFilter.length > 0){
+            plugin.intervalFilter.each(function (){
+                $(this).on('change', function (){
+                    plugin.currentPage = 0;
+                    plugin.runSearch();
+                })
+            })
+        }
         plugin.runSearch();
     }
 
@@ -143,6 +160,9 @@
                     let values = facetSelect.val();
                     let type = facetSelect.data('datatype') || 'string';
                     if (values && values.length > 0) {
+                        if (!$.isArray(values)){
+                            values = [values];
+                        }
                         if (type === 'string') {
                             baseQuery = facetField + ' in [\'"' + values.join('"\',\'"') + '"\'] and ' + baseQuery;
                             queryParams.facets[facetField] = values;
@@ -156,6 +176,32 @@
                         }
                     }
                 });
+            }
+            if (plugin.intervalFilter.length > 0){
+                let interval = plugin.intervalFilter.filter(':checked').val();
+                var start = moment();
+                var end = '*';
+                switch (interval) {
+                    case 'today':
+                        end = moment();
+                        break;
+                    case 'weekend':
+                        start = moment().day(6);
+                        end = moment().day(7);
+                        break;
+                    case 'next7days':
+                        end = moment().add(7, 'days');
+                        break;
+                    case 'next30days':
+                        end = moment().add(30, 'days');
+                        break;
+                }
+                if (end === '*') {
+                    baseQuery += ' and calendar[time_interval] = [' + start.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',*]';
+                } else {
+                    baseQuery += ' and calendar[time_interval] = [' + start.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',' + end.set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + ']';
+                }
+                queryParams.interval = interval;
             }
             if (plugin.searchForm.find('input').length > 0 && plugin.searchForm.find('input').val().length > 0) {
                 baseQuery += ' and offset 0 sort [score=>desc]'; //workaround se già presente il parametro sort in query
@@ -480,9 +526,43 @@
                                         facetContainer.data('datatype', datatype);
                                     }
                                 });
-                                plugin.container.find('select[data-facets_select="facet-'+index+'"]')
+                                let facetSelect = plugin.container.find('select[data-facets_select="facet-'+index+'"]')
+                                let placeHolder = facetSelect.data('placeholder') || plugin.settings.i18n.placeholder
+                                if (typeof accessibleAutocomplete !== 'undefined') {
+                                    accessibleAutocomplete.enhanceSelectElement({
+                                        defaultValue: '',
+                                        autoselect: false,
+                                        showAllValues: true,
+                                        displayMenu: 'overlay',
+                                        dropdownArrow: function (){return null},
+                                        placeholder: placeHolder,
+                                        selectElement: facetSelect[0],
+                                        onConfirm: function (query) {
+                                            let options = facetSelect[0].options
+                                            let matchingOption
+                                            if (query) {
+                                                matchingOption = [].filter.call(options, option => (option.textContent || option.innerText) === query)[0]
+                                            } else {
+                                                matchingOption = [].filter.call(options, option => option.value === '')[0]
+                                            }
+                                            if (matchingOption) {
+                                                matchingOption.selected = true
+                                            }
+                                            plugin.currentPage = 0;
+                                            plugin.runSearch();
+                                        },
+                                        onRemove: function (value) {
+                                            const optionToRemove = [].filter.call(facetSelect[0].options, option => (option.textContent || option.innerText) === value)[0]
+                                            if (optionToRemove) {
+                                                optionToRemove.selected = false
+                                            }
+                                            plugin.currentPage = 0;
+                                            plugin.runSearch();
+                                        }
+                                    })
+                                }
+                                facetSelect
                                     .show()
-                                    .chosen()
                                     .on('change', function () {
                                         plugin.currentPage = 0;
                                         plugin.runSearch();
