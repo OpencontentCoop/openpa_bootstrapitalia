@@ -137,7 +137,49 @@ class CollectInefficiency
 
     private function collectFromSensorPost(array $data): array
     {
-        throw new InternalException('Not yet implemented');
+        $status = 'Aperta';
+        switch ($data['status']) {
+            case 'closed':
+                $status = 'Chiusa';
+                break;
+            case 'pending':
+                $status = 'Presa in carico';
+                break;
+        }
+        
+        $payload = [
+            'uuid' => $data['address_meta_info']['application']['id'] ?? $data['id'],
+            'subject' => $data['subject'],
+            'category' => $data['category'] ?? '',
+            'text' => $data['description'],
+            'address' => $data['address']['address'] ?? '',
+            'geo' => isset($data['address']['latitude'], $data['address']['longitude']) ? sprintf(
+                '%s,%s',
+                $data['address']['latitude'],
+                $data['address']['longitude']
+            ) : '',
+            'published' => date('d/M/Y H:i', $data['creation_time']),
+            'status' => $status,
+            'image1' => $data['images'][0] ?? '',
+            'image2' => $data['images'][1] ?? '',
+            'image3' => $data['images'][2] ?? '',
+            'source' => sprintf('post:%s', ($data['tenant'] ?? '')),
+        ];
+
+        $isPublic = $data['privacy_status'] == 'public';
+        $isModerated = in_array($data['moderation_status'], ['skipped', 'accepted']);
+
+        if ($isPublic && $isModerated) {
+            return [
+                'action' => 'upsert',
+                'payload' => $payload,
+            ];
+        } else {
+            return [
+                'action' => 'delete',
+                'payload' => $payload,
+            ];
+        }
     }
 
     public function passthroughImage($guid, $imageIndex)
@@ -180,6 +222,16 @@ class CollectInefficiency
                             return $body;
                         }
                     );
+                } elseif (strpos($source, 'post:') !== false) {
+                    $username = OpenPAINI::variable('OpensegnalazioniBridge', 'ApiUserLogin', 'username');
+                    $password = OpenPAINI::variable('OpensegnalazioniBridge', 'ApiUserPassword', 'password');
+                    $auth = base64_encode("$username:$password");
+                    $context = stream_context_create([
+                        "http" => [
+                            "header" => "Authorization: Basic $auth"
+                        ]
+                    ]);
+                    $data = file_get_contents($imageUrl, false, $context);
                 } else {
                     $data = file_get_contents($imageUrl);
                 }
