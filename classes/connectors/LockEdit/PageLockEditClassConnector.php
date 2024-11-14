@@ -123,7 +123,11 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
     protected function getEvidenceBlockId($blockIndex = 1): string
     {
         $suffix = $blockIndex > 1 ? $blockIndex . '' : '';
-        return substr('evd' . $suffix . $this->originalObject->attribute('id'), 0, 32);
+        $locale = $this->getHelper()->getSetting('language');
+        if ($locale === 'ita-IT'){
+            $locale = '';
+        }
+        return substr('evd' . $suffix . $this->originalObject->attribute('id') . $locale, 0, 32);
     }
 
     protected function getEmptyEvidenceBlock($blockIndex = 1): array
@@ -189,6 +193,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             ];
         }
 
+        $locale = $this->getHelper()->getSetting('language');
         $currentBlockIdList = array_column($layout['global']['blocks'], 'block_id');
         $sectionCount = $this->getEvidenceBlockSetupCount();
         $evidenceBlockIdList = [];
@@ -214,6 +219,16 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
                 $this->removeEvidenceBlockFromLayout($evidenceBlockId, $layout);
             }
         }
+
+        if ($locale !== 'ita-IT'){
+            foreach ($currentBlockIdList as $blockId) {
+                foreach ($evidenceBlockIdList as $evidenceBlockId){
+                    $removeBlockId = str_replace($locale, '', $evidenceBlockId);
+                    $this->removeEvidenceBlockFromLayout($removeBlockId, $layout);
+                }
+            }
+        }
+
 
         return [
             'abstract' => $data['abstract'] ?? '',
