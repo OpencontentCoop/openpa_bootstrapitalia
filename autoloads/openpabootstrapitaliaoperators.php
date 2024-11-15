@@ -1215,7 +1215,10 @@ class OpenPABootstrapItaliaOperators
         $filename = urldecode($filename);
         $parts = explode('.', $filename);
         if (count($parts) > 1 && mb_strlen($parts[1]) <= 4) {
-            array_pop($parts);
+            $extension = array_pop($parts);
+            if (!isset(eZMimeType::instance()->SuffixList[$extension])){
+                $parts[] = $extension;
+            }
         }
         $filename = implode('.', $parts);
         while (strpos($filename, '%') !== false) {
