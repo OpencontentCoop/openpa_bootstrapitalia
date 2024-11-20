@@ -61,7 +61,7 @@
                                                 <div class="single-line-info border-light">
                                                     <div class="text-paragraph-small">{'Address'|i18n('bootstrapitalia/booking')}</div>
                                                     <div class="border-light">
-                                                        <p class="data-text" data-placeAddress></p>
+                                                        <p class="data-text"><span data-placeAddress></span> <span data-placeDetail></span></p>
                                                     </div>
                                                 </div>
                                                 <div class="single-line-info border-light">

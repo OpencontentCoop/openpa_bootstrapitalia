@@ -830,7 +830,7 @@
         let check = $('<div class="form-check col-md-6 my-0 py-0 calendar-filter"></div>')
         let input = $('<input class="form-check-input" name="calendars[]" type="radio" value="' + this + '" id="calendar-' + this + '">')
           .prop('checked', isSelected(this, i))
-          .on('change', function () {
+          .on('change', function (e) {
             let maxMonthIndex = 1;
             let checked = self.getCheckedCalendars()
             if (checked.length === 0) {
@@ -839,6 +839,7 @@
                 .first()
                 .prop('checked', true)
               maxMonthIndex = self.cacheCalendars[firstSelected.val()].month_interval ?? maxMonthIndex
+              $('[data-placeDetail]').html('')
             } else {
               $.each(checked, function (){
                 let calMonthIndex = self.cacheCalendars[this].month_interval ?? 0
@@ -847,6 +848,7 @@
                 }
               })
               self.setCurrentData('calendarFilter', checked)
+              $('[data-placeDetail]').html($(e.target).next().text())
             }
             if (calendars.length > 1) {
               self.storeData()
@@ -864,7 +866,7 @@
           })
           .appendTo(check)
 
-        let title = self.cacheCalendars[this].title ?? '<i className="fa fa-circle-o-notch fa-spin fa-fw"></i>';
+        let title = self.cacheCalendars[this].title ?? '<i class="fa fa-circle-o-notch fa-spin fa-fw"></i>';
         let label = $('<label class="form-check-label" for="calendar-' + this + '">'+title+'</label>').appendTo(check)
         self.calendarFilterContainer.append(check)
       })
@@ -1074,6 +1076,7 @@
       })
       this.markStepUnconfirmed('place', function () {
         $('[data-placeTitle]').html('')
+        $('[data-placeDetail]').html('')
         $('[data-placeAddress]').html('')
         $('[data-placeOpening]').html('')
       })
@@ -1155,7 +1158,7 @@
           user_message: this.summary.detailsText,
           motivation_outcome: $('[data-motivation_outcome]').html(),
           reason: this.summary.subjectText,
-          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html()
+          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html() + ' ' + $('[data-placeDetail]').html()
         }
         let self = this
         $.retryAjax({
@@ -1192,7 +1195,7 @@
           from_time: start_time,
           ezxform_token: this.settings.xtoken,
           meeting: this.currentData.meeting,
-          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html()
+          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html() + ' ' + $('[data-placeDetail]').html()
         }
         let self = this
         $.retryAjax({

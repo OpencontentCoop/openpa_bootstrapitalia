@@ -11,7 +11,7 @@
                             <p class="pt-3 pt-lg-4 mb-3">
                                 {'The appointment is set for'|i18n('bootstrapitalia/booking')} <strong data-openinghourDay></strong>
                                 {'at'|i18n('bootstrapitalia/booking/hours')} <strong data-openinghourFrom></strong>
-                                {'at'|i18n('bootstrapitalia/booking')} <strong data-placeTitle></strong> <strong data-placeAddress></strong>
+                                {'at'|i18n('bootstrapitalia/booking')} <strong data-placeTitle></strong> <strong data-placeAddress></strong> <strong data-placeDetail></strong>
                             </p>
                             <p id="meetingNumber" class="mb-3" style="display:none">{'Meeting number'|i18n('bootstrapitalia/booking')}: <strong></strong></p>
                             <p>
