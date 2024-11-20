@@ -3,9 +3,10 @@
 	'leaflet.markercluster.js',
 	'leaflet.makimarkers.js',
 	'jsrender.js',
+	'accessible-autocomplete.min.js',
 	'jquery.opendata_remote_gui.js'
 ))}
-
+{ezcss_require(array('accessible-autocomplete.min.css'))}
 {def $tag_tree = cond($block.custom_attributes.root_tag, api_tagtree($block.custom_attributes.root_tag), false())
 	 $searchPlaceholder = 'Search'|i18n('bootstrapitalia/places')
 	 $hide_empty_facets = $block.custom_attributes.hide_empty_facets}
@@ -15,15 +16,16 @@
 
 {include uri='design:parts/block_name.tpl'}
 
-<div class="row" id="remote-gui-{$block.id}">
+<div class="row place-search-block" id="remote-gui-{$block.id}">
 	<div class="col-12 col-sm-8 col-md-9 col-lg-10 mb-3 search-form">
 		<div class="row">
 			<div class="col-sm mb-3 mb-sm-0">
-				<div class="input-group chosen-border">
-					<label class="hidden" for="{$block.id}-search-input">{$searchPlaceholder|wash()}</label>
-					<input id="{$block.id}-search-input" autocomplete="off" type="text" class="form-control border-0" placeholder="{$searchPlaceholder|wash()}" />
+				<div class="input-group">
+					<span class="input-group-text h-auto">{display_icon('it-search', 'svg', 'icon icon-sm')}</span>
+					<label for="search-input-{$block.id}" class="visually-hidden">{$placeHolder|wash()}</label>
+					<input type="text" class="form-control" id="search-input-{$block.id}" data-search="q" placeholder="{$placeHolder|wash()}" name="search-input-{$block.id}">
 					<div class="input-group-append">
-						<button class="btn btn-outline-secondary border-0" type="button"><i aria-hidden="true" class="fa fa-search"></i></button>
+						<button class="btn btn-primary" type="button" id="button-3">{'Search'|i18n('design/plain/layout')}</button>
 					</div>
 				</div>
 			</div>
@@ -32,7 +34,7 @@
 					<label class="hidden" for="{$block.id}-search-facets">{$tag_tree.keyword|wash()}</label>
 					<select id="{$block.id}-search-facets"
 							style="display:none"
-							class="form-control border-0"
+							class="d-none"
 							data-placeholder="{'Filter by type'|i18n('bootstrapitalia/places')}"
 							data-facets_select="facet-0"
 							multiple>

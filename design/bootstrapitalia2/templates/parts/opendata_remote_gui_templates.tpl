@@ -57,14 +57,14 @@
         {{if pageCount > 1}}
         <div class="row mt-lg-4">
             <div class="col">
-                <nav class="pagination-wrapper justify-content-center" aria-label="Pagination">
+                <nav class="pagination-wrapper justify-content-center" aria-label="{/literal}{'Navigation'|i18n('design/ocbootstrap/menu')}{literal}">
                     <ul class="pagination">
                         <li class="page-item {{if !prevPageQuery}}disabled{{/if}}">
                             <a class="page-link prevPage" {{if prevPageQuery}}data-page="{{>prevPage}}"{{/if}} href="#">
-                                <svg class="icon icon-primary">
+                                <svg class="icon icon-primary" aria-label="{/literal}{"Previous"|i18n("design/admin/navigator")}{literal}">
                                     <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
                                 </svg>
-                                <span class="sr-only">Pagina precedente</span>
+                                <span class="sr-only">{/literal}{"Previous"|i18n("design/admin/navigator")}{literal}</span>
                             </a>
                         </li>
                         {{for pages ~current=currentPage}}
@@ -72,8 +72,8 @@
                         {{/for}}
                         <li class="page-item {{if !nextPageQuery}}disabled{{/if}}">
                             <a class="page-link nextPage" {{if nextPageQuery}}data-page="{{>nextPage}}"{{/if}} href="#">
-                                <span class="sr-only">Pagina successiva</span>
-                                <svg class="icon icon-primary">
+                                <span class="sr-only">{/literal}{"Next"|i18n("design/admin/navigator")}{literal}</span>
+                                <svg class="icon icon-primary" aria-label="{/literal}{"Next"|i18n("design/admin/navigator")}{literal}">
                                     <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
                                 </svg>
                             </a>

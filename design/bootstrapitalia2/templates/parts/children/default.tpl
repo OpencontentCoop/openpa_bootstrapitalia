@@ -68,19 +68,25 @@
     {elseif and($node.object.remote_id|eq('all-events'), $openpa.content_tag_menu.current_view_tag)}
         {set $search_blocks = array(page_block(
             "",
-            "Eventi",
+            "OpendataRemoteContents",
             "default",
             hash(
-                "includi_classi", "event",
-                "show_facets", "0",
-                "topic_node_id", "",
-                "tag_id", $openpa.content_tag_menu.current_view_tag.id,
-                "size", "medium",
-                "calendar_view", "day_grid",
-                "color_style", "",
-                "container_style", "",
-                "max_events", "6",
-                "intro_text", "",
+                'query', concat("raw[ezf_df_tag_ids] = ", $openpa.content_tag_menu.current_view_tag.id, " and classes [event] sort [time_interval=>asc]"),
+                'ignore_policy',  '0',
+                'show_grid',  '1',
+                'show_map',  '0',
+                'show_search',  '1',
+                'input_search_placeholder',  '',
+                'limit',  '8',
+                'items_per_row',  '2',
+                'facets',  'Periodo:time_interval,Argomenti:topics.name,Tipologia:has_public_event_typology',
+                'view_api',  'card',
+                'fields',  '',
+                'simple_geo_api',  '0',
+                'template',  '',
+                'color_style',  '',
+                'container_style',  '',
+                'intro_text',  '',
                 )
             )
         )}
