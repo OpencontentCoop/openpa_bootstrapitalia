@@ -1,0 +1,17 @@
+.cmp-card-radio {
+  .form-check:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+    margin-top: 0;
+  }
+
+  & [type=radio]+label {
+    font-size: 1rem;
+    margin: 1rem 0;
+    padding-left: 2.5rem;
+    font-weight: 600;
+  }
+
+  .card-teaser {
+    padding: 1rem;
+  }
+}

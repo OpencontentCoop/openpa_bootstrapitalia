@@ -1,0 +1,29 @@
+.cmp-input-autocomplete {
+  .autocomplete-list {
+    width: auto;
+    margin: 0 1rem;
+    border: 1px solid get-color(dark, grey);
+
+    @include media-breakpoint-up(sm) {
+      margin: 0 0.875rem;
+    }
+
+    &.autocomplete-list-show {
+      margin-top: -0.625rem;
+
+      @include media-breakpoint-up(sm) {
+        margin-top: -0.5rem;
+      }
+
+      a{
+        padding: 7px;
+      }
+    }
+  }
+
+  .label-span {
+    font-size: 0.875rem;
+    color: get-color(dark, grey);
+    font-weight: 700;
+  }
+}

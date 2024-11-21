@@ -1,0 +1,40 @@
+.input-group .input-group-text {
+  height: 100%;
+}
+
+.cmp-input-search {
+  .form-group {
+    position: relative;
+    margin-bottom: 2rem;
+
+    input {
+      padding-left: 2.5rem;
+      background-color: #fff;
+    }
+
+    label{
+      // font-size: 1rem;
+      // font-weight: 700;
+      
+      &.label-visible{
+        transform: translatey(-105%);
+      }
+    }
+  }
+
+  .autocomplete-icon {
+    position: absolute;
+    left: 0;
+    right: auto;
+    top: 6px;
+    background-color: #fff;
+    z-index: 5;
+  }
+
+  .filter-wrapper {
+    .icon.icon-sm {
+      width: 13px;
+      height: 13px;
+    }
+  }
+}

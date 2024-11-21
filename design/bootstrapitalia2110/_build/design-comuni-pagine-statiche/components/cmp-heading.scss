@@ -1,0 +1,58 @@
+.cmp-heading {
+ .categoryicon-top {
+    .icon {
+      position: relative;
+      top: 12px;
+      &.big-lg-icon{
+        width: 1.75rem;
+        @include media-breakpoint-up(md) {
+          width: 1.833rem;
+        }
+      }
+    }
+  }
+
+  .btn {
+    &:not(.btn-dropdown) {
+      width: 100%;
+      margin-top: 1.5rem;
+  
+      @include media-breakpoint-up(md) {
+        width: 18.889rem;
+      }
+    }
+  }
+
+  &__tag {
+    margin: 1.5rem 0 0.625rem 0;
+
+    @include media-breakpoint-up(md) {
+      margin: 1.25rem 0;
+    }
+  }
+
+  .subtitle-small {
+    margin-bottom: 0.5rem;
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: 0;
+    }
+  }
+
+  .dropdown {
+    display: inline-block;
+    padding: 10px 0;
+
+    .dropdown-menu {
+      z-index: 9999;
+
+      .link-list-wrapper ul li a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 5px 16px;
+      }
+    }
+  }
+
+}

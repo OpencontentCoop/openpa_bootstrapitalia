@@ -1,0 +1,16 @@
+.form-check {
+
+	.checkbox-body {
+		border-bottom: 1px solid;
+
+		&:last-child {
+			border-bottom: unset;
+		}
+
+		.form-feedback {
+			display:block;
+			padding-left: 2rem;
+			margin: 0;
+		}
+	}
+}

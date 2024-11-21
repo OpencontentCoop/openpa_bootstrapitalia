@@ -1,0 +1,30 @@
+.cmp-text-button {
+  margin-top: 2rem;
+
+  &:last-child {
+    @include media-breakpoint-up (md) {
+      margin-bottom: 2rem;
+    }
+
+    @include media-breakpoint-up (lg) {
+      margin-bottom: 4rem;
+    }
+  }
+
+    .button-wrapper {
+      button {
+        &:not(:first-child) {
+          margin: 1rem 0 2.5rem;
+
+          @include media-breakpoint-up(sm) {
+            margin: 1rem 0 2rem;
+          }
+
+          @include media-breakpoint-up(md) {
+            margin: 0 0 0 1.5rem;
+          }
+        }
+      }
+    }
+  }
+
