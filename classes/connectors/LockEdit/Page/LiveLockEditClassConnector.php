@@ -9,7 +9,11 @@ class LiveLockEditClassConnector extends PageLockEditClassConnector
 
     protected function getEvidenceBlockId($blockIndex = 1): string
     {
-        return $blockIndex == 1 ? 'evd1events' : 'evd1places';
+        $locale = $this->getHelper()->getSetting('language');
+        if ($locale === 'ita-IT'){
+            $locale = '';
+        }
+        return $blockIndex == 1 ? 'evd1events'.$locale : 'evd1places'.$locale;
     }
 
     protected function getEvidenceBlockMaxItems($blockIndex = 1): int
@@ -25,7 +29,9 @@ class LiveLockEditClassConnector extends PageLockEditClassConnector
         }
         $block['type'] = 'ListaManuale';
         $block['custom_attributes']['show_all_link'] = '1';
-        $block['custom_attributes']['show_all_text'] = $blockIndex == 1 ? 'Tutti gli eventi' : 'Tutti i luoghi';
+        $block['custom_attributes']['show_all_text'] = $blockIndex == 1 ?
+            ezpI18n::tr('bootstrapitalia', 'Tutti gli eventi') :
+            ezpI18n::tr('bootstrapitalia', 'Tutti i luoghi');
 
         return $block;
     }
