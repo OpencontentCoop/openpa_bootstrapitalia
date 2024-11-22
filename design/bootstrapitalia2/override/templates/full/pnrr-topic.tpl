@@ -150,7 +150,7 @@
             "ListaAutomatica",
             "lista",
             hash(
-                "limite", "30",
+                "limite", "300",
                 "elementi_per_riga", "1",
                 "includi_classi", "public_project",
                 "escludi_classi", "",
