@@ -146,6 +146,8 @@ class OpenPAReverseRelationListType extends eZDataType
             }
         }
 
+        $data['query'] = self::composeQuery($data, '$id');
+
         return $data;
     }
 
@@ -290,32 +292,37 @@ class OpenPAReverseRelationListType extends eZDataType
     public static function buildQuery($contentObjectAttribute, $limit, $offset = 0)
     {
         $data = (array)$contentObjectAttribute->attribute('class_content');
-        if (count($data['attribute_id_list']) > 0) {
-            if (count($data['attribute_list']) > 0) {
+
+        return self::composeQuery($data, $contentObjectAttribute->attribute('contentobject_id'), $limit, $offset);
+    }
+
+    private static function composeQuery($settings, $objectId, $limit = null, $offset = 0)
+    {
+        if (count($settings['attribute_id_list']) > 0) {
+            if (count($settings['attribute_list']) > 0) {
                 $queryParts = array();
                 $attributeQueryParts = array();
-                foreach ($data['attribute_list'] as $className => $attributes) {
+                foreach ($settings['attribute_list'] as $className => $attributes) {
                     foreach ($attributes as $attribute) {
-                        if (isset($data['attribute_id_subtree'][$attribute->attribute('id')]) && intval($data['attribute_id_subtree'][$attribute->attribute('id')]) > 0){
+                        if (isset($settings['attribute_id_subtree'][$attribute->attribute('id')]) && intval($settings['attribute_id_subtree'][$attribute->attribute('id')]) > 0){
                             $attributeQueryParts[] = "(raw[meta_contentclass_id_si] = " . $attribute->attribute('contentclass_id') .
-                                " and " . $attribute->attribute('identifier') . ".id = " . $contentObjectAttribute->attribute('contentobject_id') .
-                                " and raw[meta_path_si] = " . (int)$data['attribute_id_subtree'][$attribute->attribute('id')] . ")";
+                                " and " . $attribute->attribute('identifier') . ".id = " . $objectId .
+                                " and raw[meta_path_si] = " . (int)$settings['attribute_id_subtree'][$attribute->attribute('id')] . ")";
                         }else{
                             $attributeQueryParts[] = "(raw[meta_contentclass_id_si] = " . $attribute->attribute('contentclass_id') .
-                                " and " . $attribute->attribute('identifier') . ".id = " . $contentObjectAttribute->attribute('contentobject_id') . ")";
+                                " and " . $attribute->attribute('identifier') . ".id = " . $objectId . ")";
                         }
                     }
                 }
                 $queryParts[] = '(' . implode(' or ', $attributeQueryParts) . ')';
 
-                $sort = $data['sort'];
-                $order = $data['order'] == 'desc' ? 'desc' : 'asc';
+                $sort = $settings['sort'];
+                $order = $settings['order'] == 'desc' ? 'desc' : 'asc';
                 $queryParts[] = "sort [{$sort}=>{$order}]";
                 if ($limit !== null) {
                     $queryParts[] = 'limit ' . (int)$limit;
                     $queryParts[] = 'offset ' . (int)$offset;
                 }
-//                eZDebug::writeDebug(implode(' and ', $queryParts), $contentObjectAttribute->attribute('id') . ' ' . __METHOD__);
                 return implode(' and ', $queryParts);
             }
         }
