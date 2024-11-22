@@ -57,6 +57,12 @@ class OpenPAReverseRelationListType extends eZDataType
             $store = true;
         }
 
+        $customQueryName = $base . 'customquery' . '_' . $classAttribute->attribute('id');
+        if ($http->hasPostVariable($customQueryName)) {
+            $content['custom_query'] = $http->postVariable($customQueryName);
+            $store = true;
+        }
+
         if ($store) {
             $classAttribute->setContent($content);
             $this->storeClassAttributeContent($classAttribute, $content);
@@ -133,6 +139,7 @@ class OpenPAReverseRelationListType extends eZDataType
             'order' => 'asc',
             'limit' => 4,
             'attribute_id_subtree' => [],
+            'custom_query' => false,
         );
         $data = array_merge($data, (array)json_decode($classAttribute->attribute('data_text5'), true));
 
@@ -146,6 +153,9 @@ class OpenPAReverseRelationListType extends eZDataType
             }
         }
 
+        if (empty($data['custom_query'])){
+            $data['custom_query'] = false;
+        }
         $data['query'] = self::composeQuery($data, '$id');
 
         return $data;
@@ -298,6 +308,15 @@ class OpenPAReverseRelationListType extends eZDataType
 
     private static function composeQuery($settings, $objectId, $limit = null, $offset = 0)
     {
+        if (!empty($settings['custom_query'])){
+            $customQuery = str_replace('$id', $objectId, $settings['custom_query']);
+            $queryParts = [$customQuery];
+            if ($limit !== null) {
+                $queryParts[] = 'limit ' . (int)$limit;
+                $queryParts[] = 'offset ' . (int)$offset;
+            }
+            return implode(' and ', $queryParts);
+        }
         if (count($settings['attribute_id_list']) > 0) {
             if (count($settings['attribute_list']) > 0) {
                 $queryParts = array();
