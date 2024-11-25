@@ -34,6 +34,11 @@
 				{$class_attribute_content.limit|wash()}
 			</td>
 		</tr>
+		<tr>
+			<td colspan="3">
+				<strong>Query:</strong><br />
+				<code style="margin:0">{$class_attribute_content.query|wash()}</code>
+			</td>
 	</table>
 </div>
 
