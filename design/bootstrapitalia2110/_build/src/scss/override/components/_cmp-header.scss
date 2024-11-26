@@ -147,31 +147,11 @@
     }
 
     .menu-wrapper {
-      @include media-breakpoint-down(md) {
-        right: auto;
-      }
-
-      @include media-breakpoint-down(sm) {
-        right: auto;
-      }
-
       @include media-breakpoint-up(lg) {
         background: transparent;
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-      }
-    }
-
-    .close-div {
-      @include media-breakpoint-down(md) {
-        right: auto;
-        left: 360px;
-      }
-
-      @include media-breakpoint-down(xs) {
-        right: auto;
-        left: 330px;
       }
     }
 
@@ -198,7 +178,6 @@
         font-weight: bold;
         font-size: 24px;
         line-height: 1.167;
-        max-width: 200px;
       }
     }
   }
