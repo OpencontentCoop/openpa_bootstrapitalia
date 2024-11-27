@@ -186,6 +186,13 @@
 ))}
 {ezcss_require(array('accessible-autocomplete.min.css'))}
 
+{def $queryBuilder = 'browser'}
+{if $block.type|eq('OpendataQueriedContents')}
+    {set $queryBuilder = 'server'}
+{/if}
+{if and(is_set($block.custom_attributes.query_builder), $block.custom_attributes.query_builder|ne(''))}
+    {set $queryBuilder = $block.custom_attributes.query_builder}
+{/if}
 <script>
 $(document).ready(function () {ldelim}
     moment.locale($.opendataTools.settings('locale'));
@@ -198,7 +205,7 @@ $(document).ready(function () {ldelim}
         {rdelim},
     {rdelim}));
     $("#remote-gui-{$block.id}").remoteContentsGui({ldelim}
-        'queryBuilder': "{cond($block.type|eq('OpendataQueriedContents'), 'server', 'browser')}",
+        'queryBuilder': "{$queryBuilder}",
         'remoteUrl': "{$remoteUrl}",
         'localAccessPrefix': {'/'|ezurl()},
         {if and(is_set($block.custom_attributes.simple_geo_api), $block.custom_attributes.simple_geo_api)}

@@ -26,6 +26,10 @@
         this.settings = $.extend({}, defaults, options);
         this.container = $(element);
         this.baseId = this.container.attr('id')+'-';
+        let prefix = '/';
+        if ($.isFunction($.ez)) {
+            prefix = $.ez.root_url;
+        }
         if (this.settings.queryBuilder === 'browser') {
             if (this.settings.remoteUrl === '') {
                 var localAccessPrefix = this.settings.localAccessPrefix.substr(1);
@@ -36,15 +40,20 @@
             }
             this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
             this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
-        }else{
+        }else if (this.settings.queryBuilder === 'server') {
             let blockId = this.container.attr('id').replace('remote-gui-', '');
-            var prefix = '/';
-            if ($.isFunction($.ez)) {
-                prefix = $.ez.root_url;
-            }
             this.searchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+blockId+'/search/';
             this.geoSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+blockId+'/geo/';
             this.settings.query = '';
+        }else {
+            this.searchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+this.settings.queryBuilder+'/search/';
+            this.geoSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+this.settings.queryBuilder+'/geo/';
+            this.settings.query = '';
+            if (this.settings.context && this.settings.context.length > 0){
+                this.settings.searchApi += '?view=' + this.settings.view + '&context=' + this.settings.context;
+            } else {
+                this.settings.searchApi += '?view=' + this.settings.view;
+            }
         }
         this.searchFormToggle = this.container.find('.search-form-toggle');
         this.searchForm = this.container.find('.search-form');

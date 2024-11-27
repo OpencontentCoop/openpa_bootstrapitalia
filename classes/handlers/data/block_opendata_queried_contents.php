@@ -17,9 +17,75 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
         $this->api = $Params['Parameters'][2];
     }
 
+    private function getDataByAttribute($attributeId, $version)
+    {
+        $attribute = eZContentObjectAttribute::fetch((int)$attributeId, (int)$version);
+        if (!$attribute instanceof eZContentObjectAttribute) {
+            throw new Exception("Attribute $this->blockId not found");
+        }
+
+        $result = new \Opencontent\Opendata\Api\Values\SearchResults();
+        if ($attribute->attribute('data_type_string') === OpenPARoleType::DATA_TYPE_STRING)
+        {
+            $http = eZHTTPTool::instance();
+            $openpaRoles = OpenPARoles::instance($attribute);
+            $limit = intval($openpaRoles->getPagination());
+            if ($limit <= 0) {
+                return $result;
+            }
+            $offset = $http->hasGetVariable('offset') ? (int)$http->getVariable('offset') : 0;
+            $contentSearch = new ContentSearch();
+            try {
+                $contentSearch->setEnvironment(
+                    new FullEnvironmentSettings(['maxSearchLimit' => OpenPARoleType::FETCH_LIMIT])
+                );
+                $result = $contentSearch->search($openpaRoles->buildQuery($limit, $offset));
+
+                $parser = new ezpRestHttpRequestParser();
+                /** @var ezpRestRequest $request */
+                $request = $parser->createRequest();
+                $request->get['view'] = /*$http->hasGetVariable('view') ? $http->getVariable('view') :*/ 'card_teaser';
+                $currentEnvironment = EnvironmentLoader::loadPreset('content');
+                $currentEnvironment->__set('request', $request);
+                $context = $http->hasGetVariable('context') ? $http->getVariable('context') : ($blockAttributes['context_api'] ?? null);
+                if (!empty($context)){
+                    $request->get['context'] = $context;
+                }
+                $currentEnvironment = EnvironmentLoader::loadPreset('content');
+                $currentEnvironment->__set('request', $request);
+
+                $peopleList = [];
+                $roleHits = $result->searchHits;
+                $locale = eZLocale::currentLocaleCode();
+                foreach ($roleHits as $roleHit) {
+                    foreach ($roleHit['data'][$locale]['person']['content'] as $personRelated) {
+                        $person = eZContentObject::fetch((int)$personRelated['id']);
+                        if ($person instanceof eZContentObject) {
+                            $personContent = \Opencontent\Opendata\Api\Values\Content::createFromEzContentObject($person);
+                            $peopleList[$personRelated['id']] = $currentEnvironment->filterContent($personContent);
+                        }
+                    }
+                }
+                $result->searchHits = array_values($peopleList);
+
+            } catch (Exception $e) {
+                $result = new stdClass();
+                $result->searchHits = [];
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+            }
+        }
+
+
+        return $result;
+    }
+
     public function getData()
     {
         $http = eZHTTPTool::instance();
+        if (strpos($this->blockId, 'a-') !== false){
+            [, $attributeId, $version] = explode('-', $this->blockId);
+            return $this->getDataByAttribute($attributeId, $version);
+        }
         if (!in_array($this->api, ['search', 'geo'])) {
             throw new Exception("Api $this->api not allowed");
         }
