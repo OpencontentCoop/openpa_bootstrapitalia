@@ -72,7 +72,7 @@
                                                 <label for="today">{'Today'|i18n('agenda')}</label>
                                             </div>
                                             <div class="form-check">
-                                                <input name="time_interval" type="radio" id="week" value="week">
+                                                <input name="time_interval" type="radio" id="week" value="weekend">
                                                 <label for="week">{'This weekend'|i18n('agenda')}</label>
                                             </div>
                                             <div class="form-check">
