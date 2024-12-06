@@ -35,17 +35,24 @@
             {node_view_gui content_node=$child view=card_teaser_info show_icon=true() image_class=widemedium}
         {/foreach}
         {if $has_geo}
+            {def $geo_link = concat('https://www.google.com/maps/dir/', $has_geo.content.latitude, ',', $has_geo.content.longitude, '/@', $has_geo.content.latitude, ',', $has_geo.content.longitude, ',15z?hl=it')}
+            {if openpaini('Attributi', 'GeoMapLink', 'google')|eq('nominatim')}
+                {set $geo_link = concat('https://www.openstreetmap.org/directions?route=', $has_geo.content.latitude, ', ', $has_geo.content.longitude)}
+            {elseif openpaini('Attributi', 'GeoMapLink', 'google')|eq('disabled')}
+                {set $geo_link = concat('#geo:', $has_geo.content.latitude, ',', $has_geo.content.longitude)}
+            {/if}
             <div data-object_id="2400" class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3 " style="z-index: 100">
                 <div class="card-body pe-3">
                     <div class="card-text u-main-black">
                         <div class="mt-1">
-                            <a href="https://www.google.com/maps/dir/45.548598,11.546282/@45.548598,11.546282,15z?hl=it" target="_blank" rel="noopener noreferrer" class="text-decoration-none">
+                            <a href="{$geo_link}" target="_blank" rel="noopener noreferrer" class="text-decoration-none">
                                 <i aria-hidden="true" class="fa fa-map"></i> {$has_geo.content.address|wash()}
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
+            {undef $geo_link}
         {/if}
         </div>
     {/if}
