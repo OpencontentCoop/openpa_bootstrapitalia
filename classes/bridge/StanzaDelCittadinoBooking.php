@@ -453,6 +453,58 @@ EOT;
         return $availabilities;
     }
 
+    public function getAvailabilitiesByRange(array $calendars, string $start = null, string $end = null): array
+    {
+        $availabilities = [];
+        if ($start && $end) {
+            $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
+            $response = $client->getCalendarsAvailabilitiesByRange($calendars, $start, $end);
+            $slots = $response['data'];
+            foreach ($slots as $slot){
+                $availabilities[] = [
+                    'id' => md5($slot['date'] . ' ' . $slot['start_time'] . $slot['end_time']),
+                    'allDay' => false,
+                    'start' => $slot['date'] . ' ' . $slot['start_time'] . ':00',
+                    'end' => $slot['date'] . ' ' . $slot['end_time'] . ':00',
+                    'title' => '', //$slot['start_time'] . ' '. $slot['end_time'],
+                    'editable' => false,
+                    'startEditable' => false,
+                    'durationEditable' => false,
+                    'resourceId' => $slot['calendar_id'],
+                    'display' => 'auto',
+                    'extendedProps' => $slot,
+                ];
+            }
+        }
+
+        return $availabilities;
+    }
+
+    public function getScheduler(array $calendars): array
+    {
+        $min = '24:00';
+        $max = '00:00';
+        $hideDays = [0,1,2,3,4,5,6];
+        $slot = 30;
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
+        foreach ($calendars as $calendar) {
+            $openingHours = $client->getCalendarOpeningHours($calendar);
+//return $openingHours;
+            foreach ($openingHours['results'] as $openingHour){
+                $min = min($min, $openingHour['begin_hour']);
+                $max = max($max, $openingHour['end_hour']);
+                $hideDays = array_diff($hideDays, $openingHour['days_of_week']);
+                $slot = min($slot, ($openingHour['meeting_minutes']+$openingHour['interval_minutes']));
+            }
+        }
+        return [
+            'minTime' => $min . ':00',
+            'maxTime' => $max . ':00',
+            'slotDuration' => '00:' . $slot. ':00',
+            'hiddenDays' => array_values($hideDays),
+        ];
+    }
+
     /**
      * @param string $calendar
      * @param string $date
