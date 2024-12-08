@@ -368,6 +368,16 @@
                                 Visualizza il selettore dei servizi invece che il widget di appuntamento generico
                             </label>
                         </div>
+                        <div class="form-group form-check m-0 ps-1 bg-white">
+                            <input id="StanzaDelCittadinoBookingScheduler"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="StanzaDelCittadinoBookingScheduler" {$stanzadelcittadino_booking_scheduler|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0 text-black" for="StanzaDelCittadinoBookingScheduler">
+                                Visualizza il calendario settimanale come selettore della data
+                            </label>
+                        </div>
                         <div class="text-right mt-1">
                             <button class="btn btn-primary" type="submit">Aggiorna</button>
                         </div>

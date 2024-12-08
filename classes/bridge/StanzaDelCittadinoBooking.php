@@ -12,6 +12,8 @@ class StanzaDelCittadinoBooking
 
     const USE_SERVICE_DISCOVER = 'sdc_booking_use_service_discover';
 
+    const USE_SCHEDULER = 'sdc_booking_use_scheduler';
+
     private static $instance;
 
     private $calendars = [];
@@ -44,6 +46,16 @@ class StanzaDelCittadinoBooking
     public function setServiceDiscover(bool $enable): void
     {
         $this->setStorage(self::USE_SERVICE_DISCOVER, (int)$enable);
+    }
+
+    public function isSchedulerEnabled(): bool
+    {
+        return $this->getStorage(self::USE_SCHEDULER);
+    }
+
+    public function setScheduler(bool $enable): void
+    {
+        $this->setStorage(self::USE_SCHEDULER, (int)$enable);
     }
 
     private static function initDb()
@@ -451,6 +463,81 @@ EOT;
         }
 
         return $availabilities;
+    }
+
+    public function getAvailabilitiesByRange(array $calendars, string $start = null, string $end = null, int $limit = 300): array
+    {
+        $availabilities = [];
+        if ($start && $end) {
+            $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
+            $response = $client->getCalendarsAvailabilitiesByRange($calendars, $start, $end, $limit);
+            $slots = $response['data'];
+            foreach ($slots as $slot){
+                $availabilities[] = [
+                    'id' => md5($slot['date'] . ' ' . $slot['start_time'] . $slot['end_time']),
+                    'allDay' => false,
+                    'start' => $slot['date'] . ' ' . $slot['start_time'] . ':00',
+                    'end' => $slot['date'] . ' ' . $slot['end_time'] . ':00',
+                    'title' => '', //$slot['start_time'] . ' '. $slot['end_time'],
+                    'editable' => false,
+                    'startEditable' => false,
+                    'durationEditable' => false,
+                    'resourceId' => $slot['calendar_id'],
+                    'display' => 'auto',
+                    'extendedProps' => $slot,
+                ];
+            }
+        }
+
+        return $availabilities;
+    }
+
+    public function getScheduler(array $calendars): array
+    {
+        $min = '24:00';
+        $max = '00:00';
+        $hideDays = [0,1,2,3,4,5,6];
+        $slot = 30;
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
+        foreach ($calendars as $calendar) {
+            $openingHours = $client->getCalendarOpeningHours($calendar);
+//return $openingHours;
+            foreach ($openingHours['results'] as $openingHour){
+                $min = min($min, $openingHour['begin_hour']);
+                $max = max($max, $openingHour['end_hour']);
+                $hideDays = array_diff($hideDays, $openingHour['days_of_week']);
+                $slot = min($slot, ($openingHour['meeting_minutes']+$openingHour['interval_minutes']));
+            }
+        }
+
+        $start = new DateTimeImmutable();
+        $end = $start->add(new DateInterval('P9D'));
+        $firstAvailability = StanzaDelCittadinoBooking::factory()->getAvailabilitiesByRange(
+            $calendars,
+            $start->format('Y-m-d'),
+            $end->format('Y-m-d'),
+            1
+        );
+        $firstAvailabilityAsString = $firstAvailability[0]['extendedProps']['date'] ?? null;
+        if ($firstAvailabilityAsString && !empty($hideDays)){
+            $firstAvailabilityAsDateTime = DateTime::createFromFormat('Y-m-d', $firstAvailabilityAsString);
+            if ($firstAvailabilityAsDateTime instanceof DateTime) {
+                $dayOfWeek = $firstAvailabilityAsDateTime->format('w');
+                while (in_array($dayOfWeek, $hideDays)){
+                    $firstAvailabilityAsDateTime->add(new DateInterval('P1D'));
+                    $dayOfWeek = $firstAvailabilityAsDateTime->format('w');
+                }
+                $firstAvailabilityAsString = $firstAvailabilityAsDateTime->format('Y-m-d');
+            }
+        }
+
+        return [
+            'minTime' => $min . ':00',
+            'maxTime' => $max . ':00',
+            'firstAvailability' => $firstAvailabilityAsString,
+            'slotDuration' => '00:' . $slot. ':00',
+            'hiddenDays' => array_values($hideDays),
+        ];
     }
 
     /**
