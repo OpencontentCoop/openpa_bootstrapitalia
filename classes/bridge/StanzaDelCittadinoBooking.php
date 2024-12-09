@@ -276,68 +276,53 @@ EOT;
 
     public function getServicesByCategories(): array
     {
-        $query = "SELECT service_id, json_agg(calendars) as calendars FROM ocbookingconfig GROUP BY service_id";
+        $attributeId = eZContentClassAttribute::classAttributeIDByIdentifier('public_service/type');
+        $locale = eZLocale::currentLocaleCode();
+        $query = "WITH booking_capable AS (
+              SELECT service_id, json_agg(calendars) as calendars FROM ocbookingconfig GROUP BY service_id
+            ), 
+            services AS (
+              SELECT ezcontentobject.*,
+                 ezcontentclass.serialized_name_list as serialized_name_list,
+                 ezcontentclass.identifier as contentclass_identifier,
+                 ezcontentclass.is_container as is_container,
+                 booking_capable.calendars as _calendars,
+                 ezcontentobject_tree.priority as _priority
+              FROM
+                 ezcontentobject
+              JOIN booking_capable ON (ezcontentobject.id = booking_capable.service_id AND booking_capable.calendars is not null)   
+              JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id AND ezcontentclass.version=0)
+              JOIN ezcontentobject_tree ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)   
+            ),
+            type_attributes AS (
+              SELECT ezcontentobject_attribute.id as _type_id, ezcontentobject_attribute.version as _type_version, services.* FROM ezcontentobject_attribute 
+              JOIN services ON (ezcontentobject_attribute.contentobject_id = services.id AND ezcontentobject_attribute.version = services.current_version)
+              WHERE contentclassattribute_id = $attributeId 
+            )
+            SELECT keyword as _category, type_attributes.*
+            FROM eztags_attribute_link 
+            JOIN eztags_keyword ON (eztags_keyword.keyword_id = eztags_attribute_link.keyword_id AND eztags_keyword.locale = '$locale')
+            JOIN type_attributes 
+              ON (eztags_attribute_link.objectattribute_id = type_attributes._type_id AND eztags_attribute_link.objectattribute_version = type_attributes._type_version)
+            ORDER BY type_attributes._priority DESC, type_attributes.name ASC";
+
         $rows = eZDB::instance()->arrayQuery($query);
-        $calendars = array_column(StanzaDelCittadinoBridge::factory()->instanceNewClient(10)->getCalendarList(), 'id');
-        $idList = [];
-        foreach ($rows as $row) {
-            $serviceCalendarList = json_decode($row['calendars'], true);
-            $hasCalendar = false;
-            foreach ($serviceCalendarList as $serviceCalendars) {
-                $diff = array_diff($serviceCalendars, $calendars);
-                if (count($diff) < count($serviceCalendars)) {
-                    $hasCalendar = true;
-                    break;
-                }
-            }
-            if ($hasCalendar) {
-                $idList[] = $row['service_id'];
-            }
-        }
-        if (empty($idList)) {
-            return [];
-        }
 
-        $db = eZDB::instance();
-        $sqlCondition = $db->generateSQLINStatement($idList, 'ezcontentobject.id', false, true, 'int') . ' AND ';
-        $fetchSQLString = "SELECT ezcontentobject.*,
-                               ezcontentclass.serialized_name_list as serialized_name_list,
-                               ezcontentclass.identifier as contentclass_identifier,
-                               ezcontentclass.is_container as is_container
-                           FROM
-                               ezcontentobject,
-                               ezcontentclass
-                           WHERE
-                               $sqlCondition
-                               ezcontentclass.id = ezcontentobject.contentclass_id AND
-                               ezcontentclass.version=0";
-        $rows = $db->arrayQuery($fetchSQLString);
-        $objects = [];
-        foreach ($rows as $row) {
-            $objects[$row['id']] = new eZContentObject($row);
-        }
-
-        $searchRepo = new \Opencontent\Opendata\Api\ContentSearch();
-        $searchRepo->setEnvironment(\Opencontent\Opendata\Api\EnvironmentLoader::loadPreset('content'));
-        $searchResponse = $searchRepo->search(
-            'id in [' . implode(',', $idList) . '] and classes [public_service] limit 1 facets [type|alpha] pivot [facet => [attr_type_lk,meta_id_si]]'
-        );
         $data = [];
-        $pivot = $searchResponse->pivot['attr_type_lk,meta_id_si'] ?? [];
-        foreach ($pivot as $item) {
-            $services = [];
-            foreach ($item['pivot'] as $ip) {
-                if (isset($objects[$ip['value']])) {
-                    $services[] = $objects[$ip['value']];
-                }
+        foreach ($rows as $item) {
+            $category = $item['_category'];
+            $identifier = eZCharTransform::instance()->transformByGroup($category, 'identifier');
+            if (!isset($data[$identifier])) {
+                $data[$identifier] = [
+                    'category' => $category,
+                    'identifier' => $identifier,
+                    'services' => [],
+                ];
             }
-            $data[] = [
-                'category' => $item['value'],
-                'identifier' => eZCharTransform::instance()->transformByGroup($item['value'], 'identifier'),
-                'services' => $services,
-            ];
+            $data[$identifier]['services'][] = new eZContentObject($item);
         }
-        return $data;
+        ksort($data);
+        return array_values($data);
     }
 
     public function getConfigs(): array

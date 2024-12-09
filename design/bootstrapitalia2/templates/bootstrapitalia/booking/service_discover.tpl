@@ -29,7 +29,7 @@
                     </section>
                 </div>
 
-                <div class="form-group floating-labels">
+                <div class="form-group floating-labels mb-0 mb-md-3">
                     <div class="form-label-group pr-2 pe-2 pe-2">
                         <input type="text"
                                class="form-control pl-0 ps-0"
@@ -49,21 +49,22 @@
                 </div>
 
                 <div class="row my-5">
-                    <div class="col col-4">
+                    <div class="col col-md-4 service-categories">
                         <ul class="nav nav-tabs nav-tabs-vertical overflow-hidden" role="tablist" style="height: 100%" aria-orientation="vertical">
                             {foreach $services_categories as $index => $services_category}
                                 <li class="nav-item service-discover-category" data-category="cat-{$services_category.identifier}">
-                                    <a class="nav-link ps-0 d-block mw-100 text-nowrap text-uppercase{if $index|eq(0)} active{/if}" data-bs-toggle="tab" href="#cat-{$services_category.identifier}">
+                                    <a class="nav-link ps-0 d-block mw-100 text-uppercase{if $index|eq(0)} active{/if}" data-bs-toggle="tab" href="#cat-{$services_category.identifier}">
                                         {$services_category.category|wash()}
                                     </a>
                                 </li>
                             {/foreach}
                         </ul>
                     </div>
-                    <div class="col col-8">
+                    <div class="col col-md-8 service-list">
                         <div class="tab-content">
                             {foreach $services_categories as $index => $services_category}
                                 <div class="position-relative clearfix attribute-edit tab-pane{if $index|eq(0)} active{/if} px-2 mt-2" id="cat-{$services_category.identifier|wash()}">
+                                    <h2 class="h4 mt-4 d-block d-md-none">{$services_category.category|wash()}</h2>
                                     <div class="it-list-wrapper">
                                         <ul class="it-list">
                                             {foreach $services_category.services as $service}
@@ -100,6 +101,16 @@
     </div>
     <script src={"javascript/jquery.quicksearch.js"|ezdesign}></script>
     {literal}
+    <style>
+        @media (max-width: 768px) {
+            .service-categories {
+                display: none !important;
+            }
+            .service-list .tab-content > .tab-pane {
+                display: block !important;
+            }
+        }
+    </style>
     <script>
         $(document).ready(function (){
           let searchInput = $('input#discover-search');
