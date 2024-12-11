@@ -28,6 +28,18 @@
                                             '%close_service_link', '</a>'
                                         )
                                     )}</p>
+                                    {if $how_to}
+                                        <div class="cmp-info-summary bg-white p-3 p-lg-4">
+                                            <div class="card">
+                                                <div class="card-header border-bottom border-light p-0 mb-0 d-flex justify-content-between d-flex justify-content-end">
+                                                    <p class="h4 title-large-semi-bold mb-3">{$how_to.title|wash()}</p>
+                                                </div>
+                                                <div class="card-body p-0">
+                                                    {include uri='design:openpa/full/parts/attribute_group.tpl' item=$how_to relation_view='list'}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {/if}
                                 </div>
                             {/if}
                         </div>
@@ -59,6 +71,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="cmp-info-summary bg-white mb-3 mb-lg-4 p-3 p-lg-4">
                                 <div class="card">
                                     <div class="card-header border-bottom border-light p-0 mb-0 d-flex justify-content-between d-flex justify-content-end">
