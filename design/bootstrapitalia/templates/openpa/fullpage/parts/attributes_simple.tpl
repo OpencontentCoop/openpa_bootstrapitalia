@@ -18,7 +18,7 @@
                         {/if}
                         {if is_set($openpa_attribute.contentobject_attribute)}
                             {attribute_view_gui attribute=$openpa_attribute.contentobject_attribute
-                                                view_context=full_attributes
+                                                view_context=full_attributes_simple
                                                 attribute_group=$item
                                                 image_class=imagelargeoverlay
                                                 attribute_index=$attribute_index
