@@ -60,7 +60,27 @@ if (StanzaDelCittadinoBooking::factory()->isEnabled() && StanzaDelCittadinoBridg
         $tpl->setVariable('page_key', $pageHash);
         $tpl->setVariable('months', $months);
         $tpl->setVariable('offices', $offices);
-        $tpl->setVariable('steps', StanzaDelCittadinoBooking::factory()->getSteps());
+
+        $howTo = false;
+        if (StanzaDelCittadinoBooking::factory()->isShowHowToEnabled()){
+            $summary = OpenPABootstrapItaliaOperators::parseAttributeGroups($service);
+            foreach ($summary['items'] as $item) {
+                if ($item['slug'] === 'cosa_serve'){
+                    $howTo = $item;
+                    break;
+                }
+            }
+        }
+        $tpl->setVariable('how_to', $howTo);
+
+        $steps = StanzaDelCittadinoBooking::factory()->getSteps();
+        if ($howTo){
+            array_unshift($steps[2]['required'], [
+                'id' => 'how-to',
+                'title' => $howTo['title'],
+            ]);
+        }
+        $tpl->setVariable('steps', $steps);
 
         try {
             $remoteService = StanzaDelCittadinoBridge::factory()->getServiceByIdentifier('bookings');

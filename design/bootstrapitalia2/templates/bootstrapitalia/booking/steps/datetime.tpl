@@ -4,6 +4,32 @@
         <div class="col-12 col-lg-8 offset-lg-1">
             <div class="steppers-content" aria-live="polite">
                 <div class="it-page-sections-container">
+
+                    {if $how_to}
+                        <section class="it-page-section" id="how-to">
+                            <div class="cmp-card">
+                                <div class="card has-bkg-grey shadow-sm p-big">
+                                    <div class="card-header border-0 p-0 mb-lg-30">
+                                        <div class="d-flex">
+                                            <h2 class="title-xxlarge mb-0">{$how_to.title|wash()}</h2>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <div class="cmp-info-summary bg-white mb-4 mb-lg-30 p-4">
+                                            <div class="card">
+                                                <div class="card-body p-0">
+                                                    {include uri='design:openpa/full/parts/attribute_group.tpl' item=$how_to relation_view='list'}
+                                                </div>
+                                                <div class="card-footer p-0">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    {/if}
+
                     <section class="it-page-section" id="appointment-available">
                         <div class="cmp-card mb-40">
                             <div class="card has-bkg-grey shadow-sm p-big">
@@ -43,7 +69,7 @@
                         </div>
                     </section>
 
-                    <section class="it-page-section" id="office">
+                    <section class="it-page-section" id="appointment-office">
                         <div class="cmp-card">
                             <div class="card has-bkg-grey shadow-sm p-big">
                                 <div class="card-header border-0 p-0 mb-lg-30">

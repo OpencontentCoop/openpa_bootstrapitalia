@@ -418,10 +418,12 @@
         e.preventDefault();
       })
 
-      $(window).on('hashchange', function () {
-        let step = location.hash.replace('#step-', '')
-        if (step && self.currentData.step !== self.getStepIndex(step)) {
-          self.gotoStep(self.getStepIndex(step))
+      $(window).on('hashchange', function (e) {
+        if (location.hash.includes('#step-')) {
+          let step = location.hash.replace('#step-', '')
+          if (step && self.currentData.step !== self.getStepIndex(step)) {
+            self.gotoStep(self.getStepIndex(step))
+          }
         }
       })
 
@@ -717,6 +719,7 @@
 
     gotoStep: function (index, callback, context) {
       if (index < 0) index = 0
+      let current = this.getStepIndex(this.currentStep().data('step'))
       this.debug('goto-step', index)
       this.stepperLoading.hide()
       $('.step.container').hide()
@@ -725,7 +728,9 @@
       this.currentStep().addClass('active')
       this.currentStepContainer().show()
       this.pushState()
-      this.scrollToTop()
+      if (current !== index) {
+        this.scrollToTop()
+      }
       if ($.isFunction(callback)) {
         callback.call(context, this.currentData)
       }

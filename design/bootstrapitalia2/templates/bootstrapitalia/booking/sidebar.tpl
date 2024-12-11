@@ -22,7 +22,7 @@
                                         <ul class="link-list" data-element="page-index">
                                             {foreach $step.required as $item}
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="#{$item.id|wash()}">
+                                                    <a class="booking-nav-link" href="#{$item.id|wash()}">
                                                         <span class="title-medium">{$item.title|wash()}</span>
                                                     </a>
                                                 </li>
