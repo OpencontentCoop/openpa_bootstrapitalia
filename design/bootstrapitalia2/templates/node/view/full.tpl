@@ -2,6 +2,9 @@
 {if $openpa.control_cache.no_cache}
     {set-block scope=root variable=cache_ttl}0{/set-block}
 {/if}
+{if ezini('ExtensionSettings', 'ActiveAccessExtensions')|contains('octranslate')}
+{include uri="design:parts/auto_translation_alert.tpl"}
+{/if}
 {if $openpa.content_trasparenza.use_custom_template}
     {include uri="design:openpa/full/_custom_trasparenza.tpl"}
 {else}
