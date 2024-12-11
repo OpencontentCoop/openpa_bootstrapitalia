@@ -61,6 +61,7 @@ if (StanzaDelCittadinoBooking::factory()->isEnabled() && StanzaDelCittadinoBridg
         $tpl->setVariable('months', $months);
         $tpl->setVariable('offices', $offices);
         $tpl->setVariable('steps', StanzaDelCittadinoBooking::factory()->getSteps());
+        $tpl->setVariable('use_scheduler', StanzaDelCittadinoBooking::factory()->isSchedulerEnabled());
 
         try {
             $remoteService = StanzaDelCittadinoBridge::factory()->getServiceByIdentifier('bookings');

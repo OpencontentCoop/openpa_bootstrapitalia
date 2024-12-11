@@ -112,6 +112,19 @@ class StanzaDelCittadinoClient
         }
     }
 
+    public function getCalendarsAvailabilitiesByRange(array $calendarIdList, string $fromTime, string $toTime = null)
+    {
+        $query = http_build_query([
+            'available' => 'true',
+            'limit' => 300,
+            'calendar_ids' => implode(',', $calendarIdList),
+        ]);
+        return $this->request(
+            'GET',
+            "/api/availabilities/$fromTime/$toTime?$query"
+        );
+    }
+
     public function getService($id)
     {
         return $this->request('GET', '/api/services/' . $id);
