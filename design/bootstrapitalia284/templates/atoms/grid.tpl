@@ -13,15 +13,19 @@
 
 {def $need_card_wrapper = cond(array('card_teaser', 'banner_color', 'card_children')|contains($i_view), true(), false())}
 
+{if $items_per_row|eq('auto')} {* temporary workaround*}
+    {set $items_per_row = 3}
+{/if}
+
 {if $items_per_row|eq('auto')}
 
-    {if $grid_wrapper}<div class="{$grid_wrapper_class}" data-bs-toggle="masonry">{/if}
+    <div {if $grid_wrapper}class="{$grid_wrapper_class}"{/if} data-bs-toggle="masonry">
     {foreach $items as $child }
         <div class="col-sm-6 col-lg-4 mb-4{if $need_card_wrapper} card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{/if} {$card_wrapper_class}">
             {node_view_gui content_node=$child view=$i_view image_class=$image_class show_icon=$show_icon view_variation=$view_variation exclude_classes=$exclude_classes}
         </div>
     {/foreach}
-    {if $grid_wrapper}</div>{/if}
+    </div>
 
 {elseif and(array('2','3','4')|contains($items_per_row), $need_card_wrapper)}
 
