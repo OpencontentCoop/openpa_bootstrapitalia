@@ -9,9 +9,6 @@
 @include media-breakpoint-up(lg) {
   .it-header-navbar-wrapper {
     background: $header-center-bg-color;
-    .nav-item.megamenu > a.dropdown-toggle:before {
-      bottom: -$header-nav-icon-arrow-megamenu-distance;
-    }
     nav {
       a {
         text-decoration: none;
@@ -19,7 +16,6 @@
       .navbar-collapsable {
         .menu-wrapper {
           background: transparent;
-
           display: flex;
           justify-content: space-between;
           align-items: flex-end;
