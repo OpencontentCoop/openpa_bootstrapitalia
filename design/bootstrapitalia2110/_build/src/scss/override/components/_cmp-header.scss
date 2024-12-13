@@ -147,14 +147,6 @@
     }
 
     .menu-wrapper {
-      @include media-breakpoint-down(md) {
-        right: auto;
-      }
-
-      @include media-breakpoint-down(sm) {
-        right: auto;
-      }
-
       @include media-breakpoint-up(lg) {
         background: transparent;
         display: flex;
