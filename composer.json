@@ -13,7 +13,8 @@
     "require": {
         "ezsystems/ezpublish-legacy-installer": "*",
         "opencontent/ocbootstrap-ls": "*",
-        "opencontent/openpa-ls": "*"        
+        "opencontent/openpa-ls": "*",
+        "league/oauth2-client": "2.*"
     },
     "extra": {
         "ezpublish-legacy-extension-name": "openpa_bootstrapitalia"

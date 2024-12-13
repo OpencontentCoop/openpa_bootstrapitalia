@@ -190,7 +190,7 @@
                             <input type="text" class="form-control" id="UpdateBridgeTargetPassword" name="UpdateBridgeTargetPassword" placeholder="e la password dell'istanza collegata" />
                         </div>
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                            <button class="btn btn-primary" type="submit">Salva</button>
                         </div>
                     </div>
                 </div>
@@ -235,7 +235,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control border-right" id="EditorPerformanceMonitor" name="EditorPerformanceMonitor" placeholder="https://js.sentry-cdn.com/xyz...min.js" value="{$sentry_script_loader_url}"/>
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit">Aggiorna</button>
+                                    <button class="btn btn-primary" type="submit">Salva</button>
                                 </div>
                             </div>
                         </div>
@@ -260,7 +260,7 @@
                             </label>
                         </div>
                         <div class="text-right mt-1">
-                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                            <button class="btn btn-primary" type="submit">Salva</button>
                         </div>
                     </fieldset>
                 </form>
@@ -327,7 +327,7 @@
                             </label>
                         </div>*}
                         <div class="text-right mt-1">
-                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                            <button class="btn btn-primary" type="submit">Salva</button>
                         </div>
                     </fieldset>
                 </form>
@@ -369,7 +369,7 @@
                             </label>
                         </div>
                         <div class="text-right mt-1">
-                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                            <button class="btn btn-primary" type="submit">Salva</button>
                         </div>
                     </fieldset>
                 </form>
@@ -404,7 +404,7 @@
                         {/if}
                         {/foreach}
                         <div class="text-right mt-1">
-                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                            <button class="btn btn-primary" type="submit">Salva</button>
                         </div>
                     </fieldset>
                 </form>
@@ -457,34 +457,71 @@
                             </label>
                         </div>
                         <div class="text-right mt-1">
-                            <button class="btn btn-primary" type="submit">Aggiorna</button>
+                            <button class="btn btn-primary" type="submit">Salva</button>
                         </div>
                     </fieldset>
                 </form>
             </div>
 
-            <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form bg-white rounded p-3">
-                <fieldset>
-                    <legend class="h5 px-0">Sistema di approvazione dei contenuti</legend>
-                    <input type="hidden" name="Moderation" value="1" />
-                    <div class="form-group form-check m-0 ps-1 pt-1 bg-white">
-                        <input id="ModerationIsEnabled"
-                               class="form-check-input"
-                               type="checkbox"
-                               name="ModerationIsEnabled" {is_approval_enabled()|choose( '', 'checked="checked"' )}
-                               value="" />
-                        <label class="form-check-label mb-0 text-black" for="ModerationIsEnabled">
-                            Abilita il sistema di approvazione dei contenuti basato sulle versioni
-                        </label>
-                    </div>
-                    <small class="form-text">
-                        Attenzione: quando si disattiva questa funzionalità vengono rimosse tutte le configurazioni di moderazione e sarà necessario ridefinire tutti gli utenti da moderare
-                    </small>
-                    <div class="text-right mt-1">
-                        <button class="btn btn-primary" type="submit">Aggiorna</button>
-                    </div>
-                </fieldset>
-            </form>
+            <div class="mb-4">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form bg-white rounded p-3">
+                    <fieldset>
+                        <legend class="h5 px-0">Sistema di approvazione dei contenuti</legend>
+                        <input type="hidden" name="Moderation" value="1" />
+                        <div class="form-group form-check m-0 ps-1 pt-1 bg-white">
+                            <input id="ModerationIsEnabled"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="ModerationIsEnabled" {is_approval_enabled()|choose( '', 'checked="checked"' )}
+                                   value="" />
+                            <label class="form-check-label mb-0 text-black" for="ModerationIsEnabled">
+                                Abilita il sistema di approvazione dei contenuti basato sulle versioni
+                            </label>
+                        </div>
+                        <small class="form-text">
+                            Attenzione: quando si disattiva questa funzionalità vengono rimosse tutte le configurazioni di moderazione e sarà necessario ridefinire tutti gli utenti da moderare
+                        </small>
+                        <div class="text-right mt-1">
+                            <button class="btn btn-primary" type="submit">Salva</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="mb-4">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form bg-white rounded p-3">
+                    <fieldset>
+                        <legend class="h5 px-0">Client oAuth per l'autenticazione dei redattori</legend>
+                        {foreach $oauth_options as $oauth_option}
+                            {if $oauth_option.type|eq('boolean')}
+                                <p class="font-weight-bold mt-2 mb-1 d-none">{$oauth_option.name|wash()}</p>
+                                <div class="form-group form-check m-0 mb-4 ps-1 bg-white">
+                                    <input id="LoginOauth_{$oauth_option.identifier|wash()}"
+                                           class="form-check-input"
+                                           type="checkbox"
+                                           name="LoginOauth[{$oauth_option.identifier|wash()}]" {$oauth_option.current_value|choose( '', 'checked="checked"' )}
+                                           value="1" />
+                                    <label class="form-check-label mb-0 text-black" for="LoginOauth_{$oauth_option.identifier|wash()}">
+                                        {$oauth_option.name|wash()}
+                                    </label>
+                                </div>
+                            {else}
+                                <div class="form-group mb-4">
+                                    <label for="LoginOauth_{$oauth_option.identifier|wash()}" class="text-black p-0">{$oauth_option.name|wash()}</label>
+                                    <input type="text" class="form-control border-right"
+                                           placeholder="{$oauth_option.placeholder|wash()}"
+                                           id="LoginOauth_{$oauth_option.identifier|wash()}"
+                                           name="LoginOauth[{$oauth_option.identifier|wash()}]"
+                                           value="{$oauth_option.current_value|wash()}"/>
+                                </div>
+                            {/if}
+                        {/foreach}
+                        <div class="text-right mt-1">
+                            <button class="btn btn-primary" type="submit">Salva</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
 
         </div>
     {/if}
