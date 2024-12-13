@@ -85,7 +85,7 @@
                                             </div>
                                             <div class="form-check">
                                                 <input name="time_interval" type="radio" id="all" value="all" checked>
-                                                <label for="all">{'All'|i18n('agenda')}</label>
+                                                <label for="all">{'Upcoming appointments'|i18n('bootstrapitalia')}</label>
                                             </div>
                                         </fieldset>
                                     </div>
