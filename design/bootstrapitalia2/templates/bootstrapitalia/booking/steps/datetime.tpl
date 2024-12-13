@@ -16,7 +16,7 @@
                                 {if $use_scheduler}
                                     <script src={"javascript/event-calendar.min.js"|ezdesign}></script>
                                     <link rel="stylesheet" href={"stylesheets/event-calendar.min.css"|ezdesign} />
-                                    <div id="appointment-scheduler" style="overflow-x:auto"></div>
+                                    <div id="appointment-scheduler" style="overflow-x:auto;min-height: 300px;"></div>
                                     <div class="cmp-info-summary bg-white mb-3 mb-lg-4 p-3 p-lg-4 pt-lg-0 pt-0 scheduler-summary" style="display:none">
                                         <div class="card">
                                             <div class="card-body py-0 row">

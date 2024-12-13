@@ -940,11 +940,10 @@
       self.debug('reset-scheduler')
       let calendars = self.filterCalendars()
       if (calendars.length > 0) {
+        if (self.eventCalendar) {
+          self.eventCalendar.destroy()
+        }
         self.getSchedulerSettings(calendars, function (settings){
-          if (self.eventCalendar) {
-            self.eventCalendar.destroy()
-          }
-
           let startDate = settings.firstAvailability;
           if (self.currentData.schedulerEvent) {
             startDate = self.currentData.schedulerEvent.extendedProps.date

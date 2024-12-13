@@ -512,12 +512,22 @@ EOT;
 
         $start = new DateTimeImmutable();
         $end = $start->add(new DateInterval('P9D'));
+        // cerco fino a 10 gg
         $firstAvailability = StanzaDelCittadinoBooking::factory()->getAvailabilitiesByRange(
             $calendars,
             $start->format('Y-m-d'),
             $end->format('Y-m-d'),
             1
         );
+        // cerco ancora altri 10 gg
+        if (empty($firstAvailability)){
+            $firstAvailability = StanzaDelCittadinoBooking::factory()->getAvailabilitiesByRange(
+                $calendars,
+                $end->format('Y-m-d'),
+                $end->add(new DateInterval('P9D'))->format('Y-m-d'),
+                1
+            );
+        }
         $firstAvailabilityAsString = $firstAvailability[0]['extendedProps']['date'] ?? null;
         if ($firstAvailabilityAsString && !empty($hideDays)){
             $firstAvailabilityAsDateTime = DateTime::createFromFormat('Y-m-d', $firstAvailabilityAsString);
