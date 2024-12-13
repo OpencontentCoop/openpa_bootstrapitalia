@@ -65,7 +65,7 @@
                         <div class="close-div">
                             <button class="btn close-menu" type="button">
                                 <span class="visually-hidden">{'hide navigation'|i18n('bootstrapitalia')}</span>
-                                {display_icon('it-close-big', 'svg', 'icon', 'hide navigation'|i18n('bootstrapitalia'))}
+                                {display_icon('it-close-big', 'svg', 'icon')}
                             </button>
                         </div>
                         <div class="menu-wrapper">
