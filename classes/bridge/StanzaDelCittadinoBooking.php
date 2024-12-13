@@ -462,12 +462,12 @@ EOT;
         return $availabilities;
     }
 
-    public function getAvailabilitiesByRange(array $calendars, string $start = null, string $end = null): array
+    public function getAvailabilitiesByRange(array $calendars, string $start = null, string $end = null, int $limit = 300): array
     {
         $availabilities = [];
         if ($start && $end) {
             $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
-            $response = $client->getCalendarsAvailabilitiesByRange($calendars, $start, $end);
+            $response = $client->getCalendarsAvailabilitiesByRange($calendars, $start, $end, $limit);
             $slots = $response['data'];
             foreach ($slots as $slot){
                 $availabilities[] = [
@@ -506,9 +506,32 @@ EOT;
                 $slot = min($slot, ($openingHour['meeting_minutes']+$openingHour['interval_minutes']));
             }
         }
+
+        $start = new DateTimeImmutable();
+        $end = $start->add(new DateInterval('P9D'));
+        $firstAvailability = StanzaDelCittadinoBooking::factory()->getAvailabilitiesByRange(
+            $calendars,
+            $start->format('Y-m-d'),
+            $end->format('Y-m-d'),
+            1
+        );
+        $firstAvailabilityAsString = $firstAvailability[0]['extendedProps']['date'] ?? null;
+        if ($firstAvailabilityAsString && !empty($hideDays)){
+            $firstAvailabilityAsDateTime = DateTime::createFromFormat('Y-m-d', $firstAvailabilityAsString);
+            if ($firstAvailabilityAsDateTime instanceof DateTime) {
+                $dayOfWeek = $firstAvailabilityAsDateTime->format('w');
+                while (in_array($dayOfWeek, $hideDays)){
+                    $firstAvailabilityAsDateTime->add(new DateInterval('P1D'));
+                    $dayOfWeek = $firstAvailabilityAsDateTime->format('w');
+                }
+                $firstAvailabilityAsString = $firstAvailabilityAsDateTime->format('Y-m-d');
+            }
+        }
+
         return [
             'minTime' => $min . ':00',
             'maxTime' => $max . ':00',
+            'firstAvailability' => $firstAvailabilityAsString,
             'slotDuration' => '00:' . $slot. ':00',
             'hiddenDays' => array_values($hideDays),
         ];

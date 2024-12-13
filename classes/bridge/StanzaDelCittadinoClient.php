@@ -112,11 +112,11 @@ class StanzaDelCittadinoClient
         }
     }
 
-    public function getCalendarsAvailabilitiesByRange(array $calendarIdList, string $fromTime, string $toTime = null)
+    public function getCalendarsAvailabilitiesByRange(array $calendarIdList, string $fromTime, string $toTime = null, int $limit = 300)
     {
         $query = http_build_query([
             'available' => 'true',
-            'limit' => 300,
+            'limit' => $limit,
             'calendar_ids' => implode(',', $calendarIdList),
         ]);
         return $this->request(

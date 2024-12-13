@@ -429,7 +429,7 @@
         e.preventDefault();
       })
 
-      $(window).on('hashchange', function (e) {
+      $(window).on('hashchange', function () {
         if (location.hash.includes('#step-')) {
           let step = location.hash.replace('#step-', '')
           if (step && self.currentData.step !== self.getStepIndex(step)) {
@@ -950,15 +950,18 @@
             self.eventCalendar.destroy()
           }
 
-          const dayINeed = 4; // for Thursday
-          const today = moment().isoWeekday();
-          let startDate = moment().isoWeekday(dayINeed).format('YYYY-MM-DD')
-          if (today > dayINeed) {
-            // otherwise, give me *next week's* instance of that same day
-            startDate = moment().add(1, 'weeks').isoWeekday(dayINeed).format('YYYY-MM-DD')
-          }
+          let startDate = settings.firstAvailability;
           if (self.currentData.schedulerEvent) {
             startDate = self.currentData.schedulerEvent.extendedProps.date
+          }
+          if (!startDate) {
+            const dayINeed = 4; // for Thursday
+            const today = moment().isoWeekday();
+            startDate = moment().isoWeekday(dayINeed).format('YYYY-MM-DD')
+            if (today > dayINeed) {
+              // otherwise, give me *next week's* instance of that same day
+              startDate = moment().add(1, 'weeks').isoWeekday(dayINeed).format('YYYY-MM-DD')
+            }
           }
 
           self.eventCalendar = new EventCalendar(self.scheduler[0], {
