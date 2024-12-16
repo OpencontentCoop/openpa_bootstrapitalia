@@ -8,8 +8,9 @@
 {def $count_children = count($menu_item.children)}
 {def $megamenu_min_items = 12}
 {def $megamenu_max_items = 18}
+{def $is_megamenu = cond($count_children|gt($megamenu_min_items), true(), false())}
 
-<li class="nav-item{if $is_dropdown} dropdown{if $count_children|gt($megamenu_min_items)} megamenu{/if}{/if}">
+<li class="nav-item{if $is_dropdown} dropdown{if $is_megamenu} megamenu{/if}{/if}">
   {if $is_dropdown}
     <a
       class="nav-link dropdown-toggle px-lg-2 px-xl-3"
@@ -23,10 +24,10 @@
       {display_icon('it-expand', 'svg', 'icon icon-xs ms-1')}
     </a>
     <div
-      class="dropdown-menu {if $count_children|gt($megamenu_min_items)} shadow-lg {/if}"
+      class="dropdown-menu {if $is_megamenu} shadow-lg {/if}"
       role="region"
       aria-labelledby="mainMenu{$menu_item.item.node_id}">
-      {if $count_children|gt($megamenu_min_items)}
+      {if $is_megamenu}
         {if $count_children|gt($megamenu_max_items)}
           {set $count_children = $megamenu_max_items}
         {/if}
@@ -111,4 +112,4 @@
   {/if}
 </li>
 
-{undef $href $is_dropdown $count_children}
+{undef $href $is_dropdown $is_megamenu $count_children}
