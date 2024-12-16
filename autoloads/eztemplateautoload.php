@@ -75,6 +75,7 @@ $eZTemplateOperatorArray = [
             'approval_unread_message_count',
             'approval_groups_allowed',
             'download_url',
+            'parse_table',
         ],
     ],
 ];
