@@ -3,9 +3,21 @@
 {def $show_default_table = true()}
 {if $classification|eq('accordion')}
     {def $data = $rows|parse_table()}
-    {if count($data)}
+    {if count($data.rows)}
         {set $show_default_table = false()}
-        {include uri='design:content/datatype/view/ezxmltags/table_accordion.tpl' rows=$data}
+        {include uri='design:content/datatype/view/ezxmltags/table_accordion.tpl'}
+    {/if}
+{elseif $classification|eq('procedure')}
+    {def $data = $rows|parse_table()}
+    {if count($data.rows)}
+        {set $show_default_table = false()}
+        {include uri='design:content/datatype/view/ezxmltags/table_procedure.tpl'}
+    {/if}
+{elseif $classification|eq('timeline')}
+    {def $data = $rows|parse_table()}
+    {if count($data.rows)}
+        {set $show_default_table = false()}
+        {include uri='design:content/datatype/view/ezxmltags/table_timeline.tpl'}
     {/if}
 {/if}
 {if $show_default_table}
