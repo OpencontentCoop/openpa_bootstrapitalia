@@ -259,11 +259,11 @@
 <script id="tpl-document-results" type="text/x-jsrender">    		
 	{{if totalCount == 0}}
 		<div class="row mb-2">
-			<div class="col"><em>{/literal}{'No documents were found'|i18n('bootstrapitalia/documents')}{literal}</em></div>
+			<div class="col" role="status"><em>{/literal}{'No documents were found'|i18n('bootstrapitalia/documents')}{literal}</em></div>
 		</div>
 	{{else}}
 		{{if currentPage == 0}}
-			<p class="mb-4 results-count">{{:documentsFound}}</p>
+			<p class="mb-4 results-count" role="status">{{:documentsFound}}</p>
 		{{/if}}
 		{{for searchHits}}
 		<div class="cmp-card-latest-messages mb-3 mb-30">
