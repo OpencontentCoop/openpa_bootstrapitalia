@@ -559,6 +559,10 @@
       <source>Previous assignments</source>
       <translation>Incarichi precedenti</translation>
     </message>
+    <message>
+      <source>Explore the section</source>
+      <translation>Esplora la sezione</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

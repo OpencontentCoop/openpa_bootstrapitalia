@@ -109,7 +109,7 @@
     </message>
     <message>
       <source>Go to event calendar</source>
-      <translation>Pojdi na koledar dogodkov</translation>
+      <translation>Pojdite na koledar dogodkov</translation>
     </message>
     <message>
       <source>Event start</source>
@@ -165,7 +165,7 @@
     </message>
     <message>
       <source>Further details</source>
-      <translation>Nadaljnje podrobnosti</translation>
+      <translation>Dodatne podrobnosti</translation>
     </message>
     <message>
       <source>Go to content</source>
@@ -559,6 +559,10 @@
       <source>Previous assignments</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Explore the section</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -726,7 +730,7 @@
     </message>
     <message>
       <source>all website</source>
-      <translation>vsa spletna stran</translation>
+      <translation>vse spletne strani</translation>
     </message>
     <message>
       <source>only information of type</source>
@@ -1011,7 +1015,7 @@
     </message>
     <message>
       <source>Select place</source>
-      <translation>Izberite mesto</translation>
+      <translation>Izberite kraj</translation>
     </message>
     <message>
       <source>Nowhere</source>
