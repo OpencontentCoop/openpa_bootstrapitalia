@@ -17,9 +17,11 @@ ExtensionDirectories[]=openpa_bootstrapitalia
 AvailableClasses[]=responsive-stack
 AvailableClasses[]=responsive-card
 AvailableClasses[]=responsive-column
+AvailableClasses[]=accordion
 ClassDescription[responsive-stack]=Responsive (stack)
 ClassDescription[responsive-card]=Responsive (card)
-ClassDescription[responsive-column]=Responsive (column
+ClassDescription[responsive-column]=Responsive (column)
+ClassDescription[accordion]=Accordion
 
 [ClassAttributeSettings]
 CategoryList[content]=Contenuti principali

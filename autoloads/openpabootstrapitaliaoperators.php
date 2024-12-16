@@ -100,6 +100,7 @@ class OpenPABootstrapItaliaOperators
             'approval_unread_message_count',
             'approval_groups_allowed',
             'download_url',
+            'parse_table',
         );
     }
 
@@ -273,6 +274,21 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'parse_table':
+                $data = [];
+                $doc = new DOMDocument();
+                if($doc->loadHTML('<table>'.$operatorValue.'</table>')){
+                    $rows = $doc->getElementsByTagName('tr');
+                    foreach ($rows as $index => $row) {
+                        $cells = $row->getElementsByTagName('td');
+                        foreach ($cells as $cell){
+                            $data[$index][] = trim($cell->nodeValue);
+                        }
+                    }
+                }
+                $operatorValue = $data;
+                break;
 
             case 'download_url':
                 $href = $operatorValue;
