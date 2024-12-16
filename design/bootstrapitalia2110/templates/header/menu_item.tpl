@@ -12,7 +12,7 @@
 <li class="nav-item{if $is_dropdown} dropdown{if $count_children|gt($megamenu_min_items)} megamenu{/if}{/if}">
   {if $is_dropdown}
     <a
-      class="nav-link dropdown-toggle px-lg-2 px-xl-3 text-truncate"
+      class="nav-link dropdown-toggle px-lg-2 px-xl-3"
       id="mainMenu{$menu_item.item.node_id}"
       role="button"
       data-element="{$menu_item.item.remote_id}"
