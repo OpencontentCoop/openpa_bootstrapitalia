@@ -559,6 +559,10 @@
       <source>Previous assignments</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Explore the section</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -1007,7 +1011,7 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Llena algunos datos sobre tu lugar.</translation>
+      <translation>Llena algunos datos sobre tu lugar</translation>
     </message>
     <message>
       <source>Select place</source>

@@ -43,7 +43,7 @@
                   href="{$href}"
                   {if $menu_item.item.target}target="{$menu_item.item.target}"{/if}>
                   {display_icon('it-arrow-right-triangle', 'svg', 'icon icon-sm me-2 mb-1')}
-                  <span>{$menu_item.item.name|wash()}</span>
+                  <span>{'Explore the section'|i18n('bootstrapitalia')} {$menu_item.item.name|wash()}</span>
                 </a>
               </div>
               <div class="row">
