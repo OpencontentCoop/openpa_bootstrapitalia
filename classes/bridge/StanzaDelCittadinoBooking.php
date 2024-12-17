@@ -278,7 +278,15 @@ EOT;
     {
         $query = "SELECT service_id, json_agg(calendars) as calendars FROM ocbookingconfig GROUP BY service_id";
         $rows = eZDB::instance()->arrayQuery($query);
-        $calendars = array_column(StanzaDelCittadinoBridge::factory()->instanceNewClient(10)->getCalendarList(), 'id');
+        try {
+            $calendars = array_column(
+                StanzaDelCittadinoBridge::factory()->instanceNewClient(10)->getCalendarList(),
+                'id'
+            );
+        }catch (Exception $e){
+            eZDebug::writeError($e->getMessage(), __METHOD__);
+            $calendars = [];
+        }
         $idList = [];
         foreach ($rows as $row) {
             $serviceCalendarList = json_decode($row['calendars'], true);

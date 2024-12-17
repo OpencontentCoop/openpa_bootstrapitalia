@@ -1,5 +1,4 @@
 {if $services_categories|count()|eq(0)}
-    {include uri='design:bootstrapitalia/booking/breadcrumb.tpl'}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
