@@ -17,7 +17,9 @@
         'can_create', false(),
         'can_edit', false(),
         'can_move', false(),
-        'can_remove', false()
+        'can_remove', false(),
+        'can_translate', false(),
+        'class_identifier', 'null-class'
      )
      $current_node = hash(
         'node_id', 0,

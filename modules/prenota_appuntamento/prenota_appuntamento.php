@@ -66,7 +66,7 @@ if (StanzaDelCittadinoBooking::factory()->isEnabled() && StanzaDelCittadinoBridg
             $remoteService = StanzaDelCittadinoBridge::factory()->getServiceByIdentifier('bookings');
             $satisfyEntrypointId = $remoteService['satisfy_entrypoint_id'] ?? null;
         } catch (Throwable $exception) {
-            eZDebug::writeError($exception->getMessage(), __METHOD__);
+            eZDebug::writeError($exception->getMessage(), __FILE__);
             $satisfyEntrypointId = null;
         }
         $tpl->setVariable('built_in_app_satisfy_entrypoint', $satisfyEntrypointId);
