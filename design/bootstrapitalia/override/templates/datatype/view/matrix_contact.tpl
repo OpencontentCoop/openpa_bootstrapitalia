@@ -9,9 +9,9 @@
             <br/>
             {/if}
             {if $value|begins_with('http')}
-            	<a href="{$value|wash()}">{$value|wash()}</a>
+            	<a class="d-inline" href="{$value|wash()}">{$value|wash()}</a>
             {elseif $value|contains('@')}
-            	<a href="mailto:{$value|wash()}">{$value|wash()}</a>
+            	<a class="d-inline" href="mailto:{$value|wash()}">{$value|wash()}</a>
             {else}
             	<span>{$value|wash()}</span>
         	{/if}
