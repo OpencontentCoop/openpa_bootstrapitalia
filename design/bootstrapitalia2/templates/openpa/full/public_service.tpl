@@ -37,7 +37,7 @@
 
 {include uri='design:openpa/full/parts/main_image.tpl'}
 
-<div class="container">
+<div class="container my-3">
 {include uri='design:openpa/full/parts/attributes_alt.tpl' object=$node.object}
 </div>
 
