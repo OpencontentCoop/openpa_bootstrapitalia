@@ -1597,7 +1597,7 @@ class OpenPABootstrapItaliaOperators
         return true;
     }
 
-    private static function parseAttributeGroups($object, $showAll = false)
+    public static function parseAttributeGroups($object, $showAll = false)
     {
         if (!$object instanceof eZContentObject){
             return [];

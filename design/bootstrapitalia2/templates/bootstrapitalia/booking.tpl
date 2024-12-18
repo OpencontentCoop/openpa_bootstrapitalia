@@ -52,6 +52,13 @@
         color: #000;
         font-weight: 500;
     {rdelim}
+    .it-page-section::before {ldelim}
+        content: '';
+        display: block;
+        height:      75px;
+        margin-top: -75px;
+        visibility: hidden;
+    {rdelim}
 </style>
 
 <script>

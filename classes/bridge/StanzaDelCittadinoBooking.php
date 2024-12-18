@@ -14,6 +14,8 @@ class StanzaDelCittadinoBooking
 
     const USE_SCHEDULER = 'sdc_booking_use_scheduler';
 
+    const SHOW_HOW_TO = 'sdc_booking_show_how_to';
+
     private static $instance;
 
     private $calendars = [];
@@ -56,6 +58,16 @@ class StanzaDelCittadinoBooking
     public function setScheduler(bool $enable): void
     {
         $this->setStorage(self::USE_SCHEDULER, (int)$enable);
+    }
+
+    public function isShowHowToEnabled(): bool
+    {
+        return $this->getStorage(self::SHOW_HOW_TO);
+    }
+
+    public function setShowHowTo(bool $enable): void
+    {
+        $this->setStorage(self::SHOW_HOW_TO, (int)$enable);
     }
 
     private static function initDb()
@@ -685,11 +697,11 @@ EOT;
                 'title' => ezpI18n::tr('bootstrapitalia/booking', 'Date and time'),
                 'required' => [
                     [
-                        'id' => 'availabilities',
+                        'id' => 'appointment-available',
                         'title' => ezpI18n::tr('bootstrapitalia/booking', 'Appointments available'),
                     ],
                     [
-                        'id' => 'office',
+                        'id' => 'appointment-office',
                         'title' => ezpI18n::tr('bootstrapitalia/booking', 'Office'),
                     ],
                 ],
@@ -699,11 +711,11 @@ EOT;
                 'title' => ezpI18n::tr('bootstrapitalia/booking', 'Appointment details'),
                 'required' => [
                     [
-                        'id' => 'service_detail',
+                        'id' => 'reason',
                         'title' => ezpI18n::tr('bootstrapitalia/booking', 'Reason'),
                     ],
                     [
-                        'id' => 'user_details',
+                        'id' => 'details',
                         'title' => ezpI18n::tr('bootstrapitalia/booking', 'Detail'),
                     ],
                 ],
