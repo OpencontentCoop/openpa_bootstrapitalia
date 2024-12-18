@@ -1,4 +1,4 @@
-{def $topic_first_block_color_style = 'bg-grey-card pt-40 pt-md-100 pb-50'}
+{def $topic_first_block_color_style = 'bg-grey-card pt-40 pt-sm-100 pt-md-100 pb-50'}
 {def $block_wrappers = parse_layout_blocks($zones).wrappers}
 
 {if count($block_wrappers)|gt(0)}

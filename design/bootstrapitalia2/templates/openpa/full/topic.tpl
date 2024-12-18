@@ -18,7 +18,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 drop-shadow">
-                <div class="it-hero-card it-hero-bottom-overlapping rounded px-lg-5 py-4 py-lg-5">
+                <div class="it-hero-card it-hero-bottom-overlapping rounded px-sm-3 px-lg-5 py-4 py-lg-5">
                     <div class="row justify-content-center">
                         <div class="col-12">
                             <div class="cmp-breadcrumbs mt-0" role="navigation">
