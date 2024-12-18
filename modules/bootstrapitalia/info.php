@@ -113,6 +113,7 @@ if ($http->hasPostVariable('StanzaDelCittadinoBooking') && $hasAdminAccess) {
     StanzaDelCittadinoBooking::factory()->setEnabled($http->hasPostVariable('StanzaDelCittadinoBookingEnable'));
     StanzaDelCittadinoBooking::factory()->setStoreMeetingAsApplication($http->hasPostVariable('StanzaDelCittadinoBookingStoreAsApplication'));
     StanzaDelCittadinoBooking::factory()->setServiceDiscover($http->hasPostVariable('StanzaDelCittadinoBookingServiceDiscover'));
+    StanzaDelCittadinoBooking::factory()->setScheduler($http->hasPostVariable('StanzaDelCittadinoBookingScheduler'));
     eZContentCacheManager::clearAllContentCache();
     $module->redirectTo('/bootstrapitalia/info');
     return;
@@ -120,6 +121,7 @@ if ($http->hasPostVariable('StanzaDelCittadinoBooking') && $hasAdminAccess) {
 $tpl->setVariable('stanzadelcittadino_booking', StanzaDelCittadinoBooking::factory()->isEnabled());
 $tpl->setVariable('stanzadelcittadino_booking_store_as_application', StanzaDelCittadinoBooking::factory()->isStoreMeetingAsApplication());
 $tpl->setVariable('stanzadelcittadino_booking_service_discover', StanzaDelCittadinoBooking::factory()->isServiceDiscoverEnabled());
+$tpl->setVariable('stanzadelcittadino_booking_scheduler', StanzaDelCittadinoBooking::factory()->isSchedulerEnabled());
 
 if ($http->hasPostVariable('StanzaDelCittadinoBuiltin') && $hasAdminAccess) {
     BuiltinApp::setCurrentOptions((array)$http->postVariable('StanzaDelCittadinoBuiltin'));

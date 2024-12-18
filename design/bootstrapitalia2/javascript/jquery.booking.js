@@ -96,10 +96,16 @@
 
     this.spidAccess = $('#spid-access')
     this.privacyCheck = $('#privacyCheck').prop('checked', false)
-    this.monthSelect = $('#appointment-month')
-    this.firstMonth = $('option', this.monthSelect).first().val()
-    this.openingHoursSelect = $('#appointment-hours').resetSelect()
-    this.daySelect = $('#appointment-day').resetSelect()
+    this.scheduler = $('#appointment-scheduler')
+    this.hasScheduler = this.scheduler.length > 0
+    this.eventCalendar = null
+    if (!this.hasScheduler) {
+      this.monthSelect = $('#appointment-month')
+      this.firstMonth = $('option', this.monthSelect).first().val()
+      this.openingHoursSelect = $('#appointment-hours').resetSelect()
+      this.daySelect = $('#appointment-day').resetSelect()
+    }
+
     this.placeSelect = $('input[name="place"]').prop('checked', false)
     this.officeSelect = $('#office-choice')
     this.subjectHiddenInput = $('input[name="subject-precompiled"]')
@@ -128,7 +134,8 @@
       'applicantFiscalCode': null,
       'applicantEmail': null,
       'applicantPhone': null,
-      'meeting': null
+      'meeting': null,
+      'schedulerEvent': null
     }
     this.cacheDayAvailabilities = []
     this.avoidApplicantModification = []
@@ -391,20 +398,24 @@
       } else {
         self.officeSelect.val(self.officeSelect.find('option').first().val())
       }
-      if (self.currentData.month) {
-        if (self.monthSelect.find('[value="' + self.currentData.month + '"]').length > 0) {
-          self.debug('preselect month', self.currentData.month)
-          self.monthSelect.find('[value="' + self.currentData.month + '"]').attr('selected', 'selected')
-        } else {
-          self.monthSelect.find('[value="' + self.firstMonth + '"]').attr('selected', 'selected')
-          self.debug('invalid or missing preselect month', self.currentData.month)
-        }
+      if (this.hasScheduler) {
         self.forceGoToCurrentStepIfNeeded('datetime')
-      } else {
-        self.monthSelect.val(self.firstMonth).trigger('change')
-        self.gotoStep(self.currentData.step, function () {
-          self.makeSummary()
-        })
+      }else {
+        if (self.currentData.month) {
+          if (self.monthSelect.find('[value="' + self.currentData.month + '"]').length > 0) {
+            self.debug('preselect month', self.currentData.month)
+            self.monthSelect.find('[value="' + self.currentData.month + '"]').attr('selected', 'selected')
+          } else {
+            self.monthSelect.find('[value="' + self.firstMonth + '"]').attr('selected', 'selected')
+            self.debug('invalid or missing preselect month', self.currentData.month)
+          }
+          self.forceGoToCurrentStepIfNeeded('datetime')
+        } else {
+          self.monthSelect.val(self.firstMonth).trigger('change')
+          self.gotoStep(self.currentData.step, function () {
+            self.makeSummary()
+          })
+        }
       }
     },
 
@@ -488,21 +499,20 @@
         self.onChangePrivacy()
       })
 
-      self.monthSelect.on('change', function () {
-        self.setCurrentData('month', $(this).val())
-        self.onChangeMonth()
-      })
-
-      self.openingHoursSelect.on('change', function () {
-        self.setCurrentData('openingHour', $(this).val())
-        self.onChangeOpeningHours()
-      })
-
-      self.daySelect.on('change', function () {
-        self.setCurrentData('day', $(this).val())
-        self.showHourAvailabilities()
-      })
-
+      if (!self.hasScheduler) {
+        self.monthSelect.on('change', function () {
+          self.setCurrentData('month', $(this).val())
+          self.onChangeMonth()
+        })
+        self.openingHoursSelect.on('change', function () {
+          self.setCurrentData('openingHour', $(this).val())
+          self.onChangeOpeningHours()
+        })
+        self.daySelect.on('change', function () {
+          self.setCurrentData('day', $(this).val())
+          self.showHourAvailabilities()
+        })
+      }
       self.placeSelect.on('change', function () {
         self.setCurrentData('place', $(this).attr('id'))
         self.setCurrentData('calendarFilter', [])
@@ -620,10 +630,14 @@
           self.setCurrentData('place', null)
           self.setCurrentData('day', null)
           self.setCurrentData('openingHour', null)
-          self.daySelect.resetSelect()
-          self.openingHoursSelect.resetSelect()
-          self.monthSelect.find('option').attr('disabled', false)
-          self.monthSelect.val(self.firstMonth).trigger('change')
+          if (self.hasScheduler) {
+            self.resetScheduler()
+          } else {
+            self.daySelect.resetSelect()
+            self.openingHoursSelect.resetSelect()
+            self.monthSelect.find('option').attr('disabled', false)
+            self.monthSelect.val(self.firstMonth).trigger('change')
+          }
           self.placeSelect.prop('checked', false)
           $(self.element).find('.no-availabilities').hide()
           self.gotoStep(1)
@@ -635,7 +649,7 @@
       if (typeof value !== 'undefined') {
         this.debug('set-data:' + key, value)
         this.currentData[key] = value
-      } else {
+      } else if (typeof key !== 'string') {
         this.debug('set-data', key)
         this.currentData = key
       }
@@ -771,7 +785,7 @@
     filterCalendars: function () {
       let calendars = this.isUseCalendarFilter() ? this.getCheckedCalendars(true) : ''
       if (calendars.length === 0) {
-        calendars = $('#' + this.currentData.place).data('calendars')
+        calendars = $('#' + this.currentData.place).data('calendars') || []
       }
       return calendars;
     },
@@ -811,8 +825,12 @@
       self.calendarFilterContainer.html('')
       let placeInput = $('#' + this.currentData.place)
       if (!self.isUseCalendarFilter()) {
-        let maxMonthIndex = placeInput.data('month_interval')
-        self.buildMonthSelect(maxMonthIndex)
+        if (self.hasScheduler){
+          self.resetScheduler()
+        }else {
+          let maxMonthIndex = placeInput.data('month_interval')
+          self.buildMonthSelect(maxMonthIndex)
+        }
         return
       }
       let calendars = placeInput.data('calendars').split(',')
@@ -857,11 +875,16 @@
               self.setCurrentData('day', null)
               self.setCurrentData('openingHour', null)
               self.storeData()
-              self.monthSelect.resetSelect(true)
-              self.daySelect.resetSelect()
-              self.openingHoursSelect.resetSelect()
-              self.buildMonthSelect(maxMonthIndex)
-              self.onChangeMonth()
+              if (self.hasScheduler) {
+                self.resetScheduler()
+                $('.scheduler-summary').hide();
+              }else {
+                self.monthSelect.resetSelect(true)
+                self.daySelect.resetSelect()
+                self.openingHoursSelect.resetSelect()
+                self.buildMonthSelect(maxMonthIndex)
+                self.onChangeMonth()
+              }
             }
           })
           .appendTo(check)
@@ -871,6 +894,129 @@
         self.calendarFilterContainer.append(check)
       })
       self.calendarFilterContainer.find('input[name="calendars[]"]').first().trigger('change')
+    },
+
+    getSchedulerSettings: function (calendars, callback, context){
+      let self = this
+      $.retryAjax({
+        dataType: "json",
+        url: self.baseUrl + 'openpa/data/booking/scheduler',
+        data: {
+          calendars: calendars
+        },
+        success: function (response) {
+          if ($.isFunction(callback)) {
+            callback.call(context, response)
+          }
+        },
+        error: function (jqXHR) {
+          self.displayError(jqXHR)
+        }
+      });
+    },
+
+    selectSchedulerEvent: function(event, refreshSummary){
+      let self = this
+      let slot = event.extendedProps
+      let slotId = [slot.calendar_id, slot.opening_hour_id, slot.date, slot.start_time, slot.end_time].join('|')
+      let dateParts = slot.date.split('-');
+      if (refreshSummary) {
+        $('.scheduler-summary p.data-text').text('---')
+      }
+      $('.scheduler-summary').show();
+      self.setCurrentData('openingHour', slotId)
+      self.setCurrentData('month', dateParts[0]+'-'+dateParts[1])
+      self.setCurrentData('day', dateParts[2])
+      if (self.currentData.schedulerEvent
+        && moment(self.currentData.schedulerEvent.start).format('WW') !== moment(event.start).format('WW')){
+        self.eventCalendar.removeEventById(self.currentData.schedulerEvent.id)
+      }
+      self.setCurrentData('schedulerEvent', event)
+      self.onChangeOpeningHours()
+    },
+
+    resetScheduler: function (){
+      let self = this
+      self.debug('reset-scheduler')
+      let calendars = self.filterCalendars()
+      if (calendars.length > 0) {
+        if (self.eventCalendar) {
+          self.eventCalendar.destroy()
+        }
+        self.getSchedulerSettings(calendars, function (settings){
+          let startDate = settings.firstAvailability;
+          if (self.currentData.schedulerEvent) {
+            startDate = self.currentData.schedulerEvent.extendedProps.date
+          }
+          if (!startDate) {
+            const dayINeed = 4; // for Thursday
+            const today = moment().isoWeekday();
+            startDate = moment().isoWeekday(dayINeed).format('YYYY-MM-DD')
+            if (today > dayINeed) {
+              // otherwise, give me *next week's* instance of that same day
+              startDate = moment().add(1, 'weeks').isoWeekday(dayINeed).format('YYYY-MM-DD')
+            }
+          }
+
+          self.eventCalendar = new EventCalendar(self.scheduler[0], {
+            view: 'timeGridWeek',
+            slotMinTime: settings.minTime,
+            slotMaxTime: settings.maxTime,
+            slotDuration: settings.slotDuration,
+            views: {
+              timeGridWeek: {
+                allDaySlot: false,
+                firstDay: 1,
+                hiddenDays: settings.hiddenDays,
+              }
+            },
+            eventClick: function (info) {
+              $('article.ec-event').removeClass('selected')
+              $(info.el).addClass('selected')
+              self.selectSchedulerEvent(info.event, true)
+            },
+            loading: function (isLoading) {
+              // console.log(isLoading)
+            },
+            locale: 'it-IT',
+            date: startDate,
+            buttonText: {
+              today: 'Oggi'
+            },
+            eventSources: [{
+              events: function (fetchInfo, successCallback, failureCallback) {
+                $.retryAjax({
+                  dataType: "json",
+                  url: self.baseUrl + 'openpa/data/booking/availabilities_by_range',
+                  data: {
+                    calendars: calendars,
+                    start: moment(fetchInfo.start).format('YYYY-MM-DD'),
+                    end: moment(fetchInfo.end).subtract(1, 'minute').format('YYYY-MM-DD')
+                  },
+                  success: function (response) {
+                    if (self.currentData.schedulerEvent && calendars.includes(self.currentData.schedulerEvent.extendedProps.calendar_id)) {
+                      response = response.filter(function( obj ) {
+                        return obj.id !== self.currentData.schedulerEvent.id;
+                      });
+                      self.currentData.schedulerEvent.start = self.currentData.schedulerEvent.extendedProps.date+' '+self.currentData.schedulerEvent.extendedProps.start_time
+                      self.currentData.schedulerEvent.end = self.currentData.schedulerEvent.extendedProps.date+' '+self.currentData.schedulerEvent.extendedProps.end_time
+                      self.currentData.schedulerEvent.classNames = ['selected']
+                      response.push(self.currentData.schedulerEvent)
+                      $('article.ec-event').removeClass('selected')
+                      self.selectSchedulerEvent(self.currentData.schedulerEvent, false)
+                    }
+                    successCallback(response)
+                  },
+                  error: function (jqXHR) {
+                    self.displayError(jqXHR)
+                  }
+                });
+              }
+            }]
+          });
+          self.eventCalendar.refetchEvents()
+        })
+      }
     },
 
     renderCalendarLabel: function (id, label) {
@@ -998,66 +1144,72 @@
     showDayAvailabilities: function (callback, context) {
       let self = this
       self.markStepUnconfirmed('datetime', function () {
-        self.daySelect.resetSelect()
-        self.openingHoursSelect.resetSelect()
+        if (!self.hasScheduler) {
+          self.daySelect.resetSelect()
+          self.openingHoursSelect.resetSelect()
+        }
       })
       let calendars = this.filterCalendars()
-      self.debug('looking-for-day-availabilities', self.currentData.month, self.currentData.place, calendars)
-      let container = self.stepContainer('datetime').find('.appointment-select');
-      if (self.currentData.place && self.currentData.month) {
-        self.freezeAppointmentSelection()
-        self.daySelect.resetSelect()
-        self.findDayAvailabilities({
-          calendars: calendars,
-          month: self.currentData.month
-        }, function (dayAvailabilities) {
-          if (dayAvailabilities.length === 0 && self.hasCurrentMeeting()) {
-            dayAvailabilities.push({
-              'data': self.currentData.day,
-              'name': self.currentData.day
-            })
-          }
-          if (dayAvailabilities.length === 0) {
-            self.monthSelect.find('[value="' + self.currentData.month + '"]').attr('disabled', 'disabled')
-            let next = $('option:selected', self.monthSelect).next().attr('value')
-            if (next) {
-              self.debug('no-day-for-month-try-next', next)
-              self.monthSelect.val(next).trigger('change')
+      if (self.hasScheduler){
+        self.debug('looking-for-week-availabilities', self.currentData.month, self.currentData.place, calendars)
+      } else {
+        self.debug('looking-for-day-availabilities', self.currentData.month, self.currentData.place, calendars)
+        let container = self.stepContainer('datetime').find('.appointment-select');
+        if (self.currentData.place && self.currentData.month) {
+          self.freezeAppointmentSelection()
+          self.daySelect.resetSelect()
+          self.findDayAvailabilities({
+            calendars: calendars,
+            month: self.currentData.month
+          }, function (dayAvailabilities) {
+            if (dayAvailabilities.length === 0 && self.hasCurrentMeeting()) {
+              dayAvailabilities.push({
+                'data': self.currentData.day,
+                'name': self.currentData.day
+              })
+            }
+            if (dayAvailabilities.length === 0) {
+              self.monthSelect.find('[value="' + self.currentData.month + '"]').attr('disabled', 'disabled')
+              let next = $('option:selected', self.monthSelect).next().attr('value')
+              if (next) {
+                self.debug('no-day-for-month-try-next', next)
+                self.monthSelect.val(next).trigger('change')
+              } else {
+                self.unfreezeAppointmentSelection()
+                $(self.element).find('.no-availabilities').show()
+              }
             } else {
               self.unfreezeAppointmentSelection()
-              $(self.element).find('.no-availabilities').show()
+              let dayAvailabilitiesValues = []
+              $.each(dayAvailabilities, function () {
+                dayAvailabilitiesValues.push(this.date)
+                self.daySelect.append('<option value="' + this.date + '">' + this.name + '</option>')
+              })
+              if (self.settings.forcePreselect && self.hasCurrentMeeting() && $.inArray(self.currentData.day, dayAvailabilitiesValues) === -1) {
+                self.info('force preselected day', self.currentData.day)
+                dayAvailabilitiesValues.push(self.currentData.day)
+                self.daySelect.append('<option value="' + self.currentData.day + '">' + self.currentData.day + '</option>')
+                self.daySelect.html(self.daySelect.find('option').sort(function (x, y) {
+                  if ($(x).attr('value').length === 0) return -1;
+                  return $(x).attr('value') > $(y).attr('value') ? 1 : -1;
+                }));
+              }
+              if (self.currentData.day && $.inArray(self.currentData.day, dayAvailabilitiesValues) > -1) {
+                self.debug('preselected day', self.currentData.day)
+                self.daySelect.val(self.currentData.day).trigger('change')
+                self.makeSummary()
+              } else {
+                self.debug('invalid or missing preselected day', self.currentData.day)
+                self.daySelect.val('')
+                self.showHourAvailabilities()
+                self.forceGoToCurrentStepIfNeeded('datetime')
+              }
             }
-          } else {
-            self.unfreezeAppointmentSelection()
-            let dayAvailabilitiesValues = []
-            $.each(dayAvailabilities, function () {
-              dayAvailabilitiesValues.push(this.date)
-              self.daySelect.append('<option value="' + this.date + '">' + this.name + '</option>')
-            })
-            if (self.settings.forcePreselect && self.hasCurrentMeeting() && $.inArray(self.currentData.day, dayAvailabilitiesValues) === -1) {
-              self.info('force preselected day', self.currentData.day)
-              dayAvailabilitiesValues.push(self.currentData.day)
-              self.daySelect.append('<option value="' + self.currentData.day + '">' + self.currentData.day + '</option>')
-              self.daySelect.html(self.daySelect.find('option').sort(function (x, y) {
-                if ($(x).attr('value').length === 0) return -1;
-                return $(x).attr('value') > $(y).attr('value') ? 1 : -1;
-              }));
+            if ($.isFunction(callback)) {
+              callback.call(context, dayAvailabilities)
             }
-            if (self.currentData.day && $.inArray(self.currentData.day, dayAvailabilitiesValues) > -1) {
-              self.debug('preselected day', self.currentData.day)
-              self.daySelect.val(self.currentData.day).trigger('change')
-              self.makeSummary()
-            } else {
-              self.debug('invalid or missing preselected day', self.currentData.day)
-              self.daySelect.val('')
-              self.showHourAvailabilities()
-              self.forceGoToCurrentStepIfNeeded('datetime')
-            }
-          }
-          if ($.isFunction(callback)) {
-            callback.call(context, dayAvailabilities)
-          }
-        })
+          })
+        }
       }
     },
 
@@ -1069,10 +1221,14 @@
         self.setCurrentData('place', null)
         self.setCurrentData('day', null)
         self.setCurrentData('openingHour', null)
-        self.daySelect.resetSelect()
-        self.openingHoursSelect.resetSelect()
-        self.monthSelect.find('option').attr('disabled', false)
-        self.monthSelect.val(self.firstMonth).trigger('change')
+        if (self.hasScheduler){
+          self.resetScheduler()
+        } else {
+          self.daySelect.resetSelect()
+          self.openingHoursSelect.resetSelect()
+          self.monthSelect.find('option').attr('disabled', false)
+          self.monthSelect.val(self.firstMonth).trigger('change')
+        }
       })
       this.markStepUnconfirmed('place', function () {
         $('[data-placeTitle]').html('')
@@ -1131,6 +1287,12 @@
           function () {
             self.markStepUnconfirmed('datetime')
             $(self.element).find('.no-availabilities').show()
+            if (self.hasScheduler) {
+              $('article.ec-event').removeClass('selected')
+              self.setCurrentData('schedulerEvent', null)
+              $('.scheduler-summary').hide();
+              self.storeData()
+            }
           }
         )
       }
@@ -1310,8 +1472,15 @@
     makeSummary: function () {
       let stepContainer = $('#step-summary')
       stepContainer.find('[data-officeTitle]').html(this.officeSelect.find('option[value="' + this.currentData.office + '"]').text())
-      stepContainer.find('[data-openinghourDay]').html(this.daySelect.find('option[value="' + this.currentData.day + '"]').text())
-      stepContainer.find('[data-openinghourHour]').html(this.openingHoursSelect.find('option[value="' + this.currentData.openingHour + '"]').text())
+      if (this.hasScheduler) {
+        if (this.currentData.schedulerEvent) {
+          $('[data-openinghourDay]').html(moment(this.currentData.schedulerEvent.start).format('dddd, D MMMM YYYY'))
+          $('[data-openinghourHour]').html(this.currentData.schedulerEvent.extendedProps.start_time + ' - ' + this.currentData.schedulerEvent.extendedProps.end_time)
+        }
+      } else {
+        stepContainer.find('[data-openinghourDay]').html(this.daySelect.find('option[value="' + this.currentData.day + '"]').text())
+        stepContainer.find('[data-openinghourHour]').html(this.openingHoursSelect.find('option[value="' + this.currentData.openingHour + '"]').text())
+      }
       stepContainer.find('[data-subjectText]').html(this.currentData.subject)
       stepContainer.find('[data-detailsText]').html(this.currentData.detail)
       stepContainer.find('[data-applicantName]').html(this.currentData.applicantName)
