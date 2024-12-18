@@ -9,14 +9,14 @@
                                 <div class="modal-title">
                                     <button class="search-link d-md-none" type="button" data-bs-toggle="modal"
                                             data-bs-target="#search-modal" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
-                                        <svg class="icon icon-md">
+                                        <svg class="icon icon-md" aria-hidden="true" focusable="false">
                                             <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-arrow-left"></use>
                                         </svg>
                                     </button>
                                     <h2>{'Search'|i18n('openpa/search')}</h2>
                                     <button class="search-link d-none d-md-block" type="button" data-bs-toggle="modal"
                                             data-bs-target="#search-modal" aria-label="{'Close'|i18n('bootstrapitalia')}">
-                                        <svg class="icon icon-md">
+                                        <svg class="icon icon-md" aria-hidden="true" focusable="false">
                                             <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-close-big"></use>
                                         </svg>
                                     </button>
@@ -27,8 +27,8 @@
                                            id="main-search-input"
                                            name="SearchText"
                                            data-bs-autocomplete="[]">
-                                    <span class="autocomplete-icon" aria-hidden="true">
-                                        {display_icon('it-search', 'svg', 'icon', 'Search in the site'|i18n( 'bootstrapitalia' ))}
+                                    <span class="autocomplete-icon" aria-hidden="true" focusable="false">
+                                        {display_icon('it-search', 'svg', 'icon')}
                                     </span>
                                     <button type="submit" class="btn btn-primary">
                                         <span class="">{'Search'|i18n('openpa/search')}</span>

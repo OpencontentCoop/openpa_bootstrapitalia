@@ -263,7 +263,7 @@
 		</div>
 	{{else}}
 		{{if currentPage == 0}}
-			<p class="mb-4 results-count">{{:documentsFound}}</p>
+			<p class="mb-4 results-count" role="status">{{:documentsFound}}</p>
 		{{/if}}
 		{{for searchHits}}
 		<div class="cmp-card-latest-messages mb-3 mb-30">

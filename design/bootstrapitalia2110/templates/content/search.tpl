@@ -249,9 +249,9 @@
                     <div class="row">
                         <div class="col-md-12 col-lg-2 mb-3 text-center text-lg-start">
                         {if $search.SearchCount|eq(1)}
-                            <p class="m-0 text-nowrap lh-lg"><small>{'Found a result'|i18n('openpa/search')}</small></p>
+                            <p class="m-0 text-nowrap lh-lg" role="status"><small>{'Found a result'|i18n('openpa/search')}</small></p>
                         {else}
-                            <p class="m-0 text-nowrap lh-lg"><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
+                            <p class="m-0 text-nowrap lh-lg" role="status"><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
                         {/if}
                         </div>
                         <div class="col-sm-12 col-md-5 col-lg-4 mb-4 text-center text-md-end">

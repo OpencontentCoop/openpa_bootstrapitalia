@@ -96,10 +96,6 @@
       height: 2.67rem;
     }
 
-    @include media-breakpoint-up(md) {
-      background: #fff;
-    }
-
     svg {
       fill: #fff;
       width: 1.5rem;
