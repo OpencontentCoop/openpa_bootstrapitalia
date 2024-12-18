@@ -13,7 +13,7 @@
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 
 {def $item_type = ezpreference( 'user_list_limit' )
-     $priority_sorting = $node.sort_array[0][0]|eq( 'priority' )
+     $priority_sorting = or($node.object.remote_id|eq('all-services'), $node.sort_array[0][0]|eq( 'priority' ))
      $node_can_edit = cond(or($node.can_edit, current_user_can_lock_edit($node.object)), true(), false())
      $node_name     = $node.name
      $can_remove    = false()
@@ -99,7 +99,7 @@
         {if $priority_sorting}
             <td>
             {if $node_can_edit}
-                <input id="ezwt-table-row-{$row_count}-column-4-a" class="priority ezwt-priority-input" type="text" name="Priority[]" size="3" value="{$child.priority}" title="{'Use the priority fields to control the order in which the items appear. You can use both positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/standard/websitetoolbar/sort' )|wash}" />
+                <input id="ezwt-table-row-{$row_count}-column-4-a" class="priority ezwt-priority-input form-control border" type="text" name="Priority[]" size="3" value="{$child.priority}" title="{'Use the priority fields to control the order in which the items appear. You can use both positive and negative integers. Click the "Update priorities" button to apply the changes.'|i18n( 'design/standard/websitetoolbar/sort' )|wash}" />
                 <input id="ezwt-table-row-{$row_count}-column-4-b" type="hidden" name="PriorityID[]" value="{$child.node_id}" />
             {else}
                 <input id="ezwt-table-row-{$row_count}-column-4-a" class="priority ezwt-priority-input" type="text" name="Priority[]" size="3" value="{$child.priority}" title="{'You are not allowed to update the priorities because you do not have permission to edit <%node_name>.'|i18n( 'design/standard/websitetoolbar/sort',, hash( '%node_name', $node_name ) )|wash}" disabled="disabled" />
