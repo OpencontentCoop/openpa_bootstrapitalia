@@ -170,7 +170,8 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-body pb-3">
-                    <div class="dataset-form clearfix"></div>
+                  <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">&times;</button>
+                  <div class="dataset-form clearfix"></div>
                 </div>
             </div>
         </div>
