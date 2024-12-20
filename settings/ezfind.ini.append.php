@@ -13,6 +13,9 @@ Class[homepage]=ezfIndexHomepage
 Class[event_link]=ezfIndexEventLink
 General[]=ezfIndexExtraGeo
 General[]=ezfIndexPublicServiceMenu
+General[]=ezfIndexContactPointReverseRelations
+General[]=ezfIndexRoleReverseRelations
+Class[organization]=ezfIndexSubAttributeGeo
 
 # Per siti multilingua occorre impostare a livello globale questo index plugin:
 #General[]=ezfIndexLangBitwise
@@ -22,11 +25,11 @@ General[]=ezfIndexPublicServiceMenu
 # [SearchFilters]
 # RawFilterList[]=meta_language_code_ms:ita-IT OR extra_lang_ita-IT_b:true
 
-
 [SolrFieldMapSettings]
 DatatypeMap[openparestrictedarea]=lckeyword
 CustomMap[eztags]=BootstrapItaliaSolrDocumentFieldeZTags
 DatatypeMap[openpacomuniitaliani]=lckeyword
+DatatypeMap[openpareverserelationlist]=lckeyword
 
 [IndexBoost]
 Class[topic]=4.0
