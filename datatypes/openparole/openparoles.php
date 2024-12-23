@@ -329,7 +329,8 @@ class OpenPARoles
                         }
                         $type = implode(', ', $keywords);
                     }
-                    foreach ($content['data'][$this->language]['for_entity']['content'] as $entity) {
+                    $entities = $content['data'][$this->language]['for_entity']['content'] ?? [];
+                    foreach ($entities as $entity) {
                         if (isset($content['data'][$this->language]['ruolo_principale']['content'])
                             && $content['data'][$this->language]['ruolo_principale']['content']) {
                             $this->typePerEntities[$type][$entity['id']] = $entity['name'][$this->language];
