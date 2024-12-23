@@ -24,6 +24,7 @@ AllowedTypes[]=EventiRemoti
 AllowedTypes[]=OpendataRemoteContents
 AllowedTypes[]=Ricerca
 AllowedTypes[]=OpendataQueriedContents
+AllowedTypes[]=SearchPeopleByRole
 
 [Singolo]
 Name=Oggetto singolo
@@ -692,4 +693,20 @@ Wide[]=datatable
 CanAddIntroText=enabled
 CanAddShowAllLink=disabled
 
+[SearchPeopleByRole]
+Name=Ricerca persone
+ManualAddingOfItems=enabled
+CustomAttributes[]
+CustomAttributes[]=subtree
+UseBrowseMode[subtree]=true
+CustomAttributeNames[subtree]=Sezione
+ViewList[]
+ViewList[]=default
+ViewName[]
+ViewName[default]=Default
+ItemsPerRow[]
+Wide[]
+Wide[]=default
+CanAddShowAllLink=disabled
+CanAddIntroText=disabled
 */ ?>

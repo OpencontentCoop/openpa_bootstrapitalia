@@ -24,6 +24,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
             'banner_color',
             'card',
             'card_image',
+            'card_simple',
             'card_teaser',
             'image',
             'text_linked',

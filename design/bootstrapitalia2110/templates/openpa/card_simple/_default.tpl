@@ -1,6 +1,6 @@
 {set_defaults(hash('border_light', true()))}
 
-<div class="cmp-card-simple card-wrapper pb-0 rounded bg-white{if $border_light} border border-light{/if} {$node|access_style}">
+<div class="cmp-card-simple card-wrapper h-100 pb-0 rounded bg-white{if $border_light} border border-light{/if} {$node|access_style}">
     <div class="card shadow-sm rounded">
         <div class="card-body">
             {if or($openpa.data_element.value|eq('live-button-locations'), $openpa.data_element.value|eq('live-button-events'))}
