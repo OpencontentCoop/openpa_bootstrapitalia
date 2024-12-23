@@ -147,7 +147,7 @@
     this.calendarFilterContainer = $('#appointment-calendars');
     this.cacheCalendars = this.settings.calendars
     this.meetingNumber = $('#meetingNumber')
-
+    this.isSchedulerLoading = false;
     this.init()
   }
 
@@ -514,6 +514,16 @@
           self.setCurrentData('day', $(this).val())
           self.showHourAvailabilities()
         })
+      } else {
+        addEventListener("resize", (event) => {
+          if (!self.eventCalendar || typeof self.eventCalendar.getView !== 'function') {
+            return
+          }
+          if ((self.eventCalendar.getView().type === 'timeGridDay' && window.innerWidth > 768) || 
+              (self.eventCalendar.getView().type === 'timeGridWeek' && window.innerWidth <= 768)) {
+            self.resetScheduler()
+          }
+        });
       }
       self.placeSelect.on('change', function () {
         self.setCurrentData('place', $(this).attr('id'))
@@ -942,6 +952,11 @@
 
     resetScheduler: function (){
       let self = this
+      if (self.isSchedulerLoading) {
+        return
+      }
+      self.isSchedulerLoading = true;
+      $('[name="calendars[]"]').not(':checked').attr('disabled','disabled')
       self.debug('reset-scheduler')
       let calendars = self.filterCalendars()
       if (calendars.length > 0) {
@@ -964,7 +979,7 @@
           }
 
           self.eventCalendar = new EventCalendar(self.scheduler[0], {
-            view: 'timeGridWeek',
+            view: window.innerWidth > 768 ? 'timeGridWeek': 'timeGridDay',
             slotMinTime: settings.minTime,
             slotMaxTime: settings.maxTime,
             slotDuration: settings.slotDuration,
@@ -973,6 +988,12 @@
                 allDaySlot: false,
                 firstDay: 1,
                 hiddenDays: settings.hiddenDays,
+              },
+              timeGridDay: {
+                allDaySlot: false,
+                firstDay: 1,
+                hiddenDays: settings.hiddenDays,
+                slotHeight: 48
               }
             },
             eventClick: function (info) {
@@ -1019,6 +1040,8 @@
               }
             }]
           });
+          self.isSchedulerLoading = false;
+          $('[name="calendars[]"]').not(':checked').removeAttr('disabled');
           self.eventCalendar.refetchEvents()
         })
       }

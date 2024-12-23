@@ -232,8 +232,16 @@
     visibility: hidden
 }
 
-.ec-time-grid .ec-line, .ec-time-grid .ec-time {
-    height: 24px
+.ec-time-grid .ec-line, 
+.ec-time-grid .ec-time {
+  height: 48px
+}
+
+@media (min-width: 768px) { 
+  .ec-time-grid .ec-line, 
+  .ec-time-grid .ec-time {
+      height: 24px
+  }
 }
 
 .ec-time-grid .ec-lines {
@@ -464,7 +472,6 @@
     border-left: 0;
     border-top: 0;
     padding-top: 30px;
-    min-width: 500px;
 }
 
 .ec-header .ec-resource {
@@ -510,7 +517,6 @@
     border-left: 0;
     border-bottom: 0;
     padding-bottom: 20px;
-    min-width: 500px;
 }
 
 .ec:not(.ec-list) .ec-body {
@@ -608,6 +614,7 @@
     background-color: var(--ec-event-bg-color);
     border-radius: 3px;
     box-shadow: 0 0 1px 0 var(--ec-border-color);
+    border: 1px solid #d5d5d5;
     box-sizing: border-box;
     color: var(--ec-event-text-color);
     display: flex;
