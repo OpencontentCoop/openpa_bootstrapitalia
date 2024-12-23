@@ -20,6 +20,7 @@ AvailableForClasses[]=pagina_sito
 AvailableForClasses[]=frontpage
 AvailableForClasses[]=pagina_trasparenza
 AvailableForClasses[]=politico
+AvailableForClasses[]=insight
 
 # pagina_sito
 [1ZonesLayoutFolder]
