@@ -3,7 +3,7 @@
 {def $text_color_class = $colors.text_color_class}
 
 <div data-object_id="{$node.contentobject_id}"
-     class="opencity-banner-color card card-teaser rounded mt-0 p-3 {$background_color_class} {$view_variation}">
+     class="opencity-banner-color card card-teaser rounded mt-0 p-3 {$background_color_class} {$view_variation} {$node|access_style}">
     <div class="avatar size-lg me-3">
         {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
     </div>

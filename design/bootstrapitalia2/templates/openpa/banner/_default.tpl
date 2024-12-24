@@ -1,7 +1,7 @@
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
 {def $has_image = cond($node|has_attribute('image'), true(), false())}
 {set_defaults(hash('attribute_index', 0, 'data_element', $openpa.data_element.value))}
-<div data-object_id="{$node.contentobject_id}" class="h-100 font-sans-serif card card-teaser border border-light rounded shadow-sm p-3">
+<div data-object_id="{$node.contentobject_id}" class="h-100 font-sans-serif card card-teaser border border-light rounded shadow-sm p-3 {$node|access_style}">
     <div class="card-body {if $has_image}pe-3{/if}">
         <p class="card-title text-paragraph-regular-medium-semi mb-3">
             <a class="text-decoration-none" href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}" data-focus-mouse="false">
