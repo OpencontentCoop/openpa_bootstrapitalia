@@ -1,4 +1,4 @@
-    <div class="accordion-item">
+    <div class="accordion-item {$node|access_style}">
         <h2 class="accordion-header" id="heading-{$node.node_id}">
             <button class="accordion-button collapsed" type="button"
                     data-bs-toggle="collapse" data-bs-target="#collapse-{$node.node_id}" aria-expanded="false" aria-controls="collapse-{$node.node_id}">
