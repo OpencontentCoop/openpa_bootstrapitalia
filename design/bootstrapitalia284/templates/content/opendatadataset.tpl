@@ -121,8 +121,9 @@
     <ul class="nav nav-tabs overflow-hidden mt-3">
         {def $index = 0}
         {def $icons = $attribute.class_content.view_icons}
-        {foreach $attribute.class_content.views as $view => $name}
-        {if $attribute.content.views|contains($view)}
+        {foreach $attribute.content.views as $view}
+        {def $name = cond(is_set($attribute.class_content.views[$view]), $attribute.class_content.views[$view], false())}
+        {if $name}
         <li role="presentation" class="nav-item">
             <a title="{$name|wash()|upfirst}" class="text-decoration-none nav-link{if $index|eq(0)} active{/if} text-sans-serif" data-active_view="{$view}" data-toggle="tab" data-bs-toggle="tab" href="#{$view}-{$attribute.id}">
                 <i class="view_icon {$icons[$view]} me-2"></i> <span class="opendatadataset_view_name me-2">{$name|wash()|upfirst}</span>
@@ -130,6 +131,7 @@
         </li>
         {set $index = $index|inc()}
         {/if}
+        {undef $name}
         {/foreach}
         {undef $index $icons}
     </ul>
@@ -137,8 +139,8 @@
 
     <div class="tab-content mt-3">
     {def $index = 0}
-    {foreach $attribute.class_content.views as $view => $name}
-        {if $attribute.content.views|contains($view)}
+    {foreach $attribute.content.views as $view}
+        {if is_set($attribute.class_content.views[$view])}
             {if $view|eq('calendar')}
                 <div role="tabpanel" data-view="{$view}" class="tab-pane{if $index|eq(0)} active{/if}" id="{$view}-{$attribute.id}">
                     <div class="block-calendar-default shadow block-calendar block-calendar-big"></div>
