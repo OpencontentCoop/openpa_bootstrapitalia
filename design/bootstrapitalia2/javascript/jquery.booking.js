@@ -717,28 +717,13 @@
 
     nextStep: function () {
       this.debug('goto-next-step')
-      this.currentStepContainer().hide()
-      this.currentStep().removeClass('active')
-      this.setCurrentData('step', ++this.currentData.step)
-      this.currentStep().addClass('active')
-      this.currentStepContainer().show()
-      this.pushState()
+      this.gotoStep(++this.currentData.step)
       this.storeData()
-      this.scrollToTop()
     },
 
     prevStep: function () {
       this.debug('goto-prev-step')
-      this.currentStepContainer().hide()
-      this.currentStep().removeClass('active')
-      this.setCurrentData('step', --this.currentData.step)
-      if (this.currentData.step < 0) {
-        this.setCurrentData('step', 0)
-      }
-      this.currentStep().addClass('active')
-      this.currentStepContainer().show()
-      this.pushState()
-      this.scrollToTop()
+      this.gotoStep(--this.currentData.step)
     },
 
     gotoStep: function (index, callback, context) {
@@ -748,8 +733,10 @@
       this.stepperLoading.hide()
       $('.step.container').hide()
       this.steps.removeClass('active')
+      this.stepper.find('[data-status="step-status-active"]').attr('aria-hidden', true)
       this.setCurrentData('step', index)
       this.currentStep().addClass('active')
+      this.currentStep().find('[data-status="step-status-active"]').attr('aria-hidden', false)
       this.currentStepContainer().show()
       this.pushState()
       if (current !== index) {
@@ -769,10 +756,12 @@
     },
 
     markStepConfirmed: function (id, callback, context) {
+      let currentStep = this.stepper.find('li[data-step="' + id + '"]')
       this.info('mark-step-as-confirmed', id)
-      this.stepper.find('li[data-step="' + id + '"]')
+      currentStep
         .addClass('confirmed')
         .find('.steppers-success').removeClass('invisible')
+      currentStep.find('[data-status="step-status-confirmed"]').attr('aria-hidden', false)
       $('#step-' + id + ' button[type="submit"]').removeClass('disabled').removeAttr('disabled')
       if ($.isFunction(callback)) {
         callback.call(context, id)
@@ -782,10 +771,12 @@
     },
 
     markStepUnconfirmed: function (id, callback, context) {
+      let currentStep = this.stepper.find('li[data-step="' + id + '"]')
       this.info('mark-step-as-unconfirmed', id)
-      this.stepper.find('li[data-step="' + id + '"]')
+      currentStep
         .removeClass('confirmed')
         .find('.steppers-success').addClass('invisible')
+      currentStep.find('[data-status="step-status-confirmed"]').attr('aria-hidden', true)
       $('#step-' + id + ' button[type="submit"]').addClass('disabled').attr('disabled', 'disabled')
       if ($.isFunction(callback)) {
         callback.call(context, id)
@@ -958,6 +949,7 @@
       self.isSchedulerLoading = true;
       $('[name="calendars[]"]').not(':checked').attr('disabled','disabled')
       let calendars = self.filterCalendars()
+      self.debug('reset-scheduler', calendars)
       if (calendars.length > 0) {
         if (self.eventCalendar) {
           self.eventCalendar.destroy()

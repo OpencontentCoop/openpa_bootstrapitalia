@@ -3,9 +3,22 @@
         <div class="steppers-header">
             <ul>
                 {foreach $steps as $index => $step}
-                    <li data-step="{$step.id|wash()}" class="text-uppercase{if $index|eq(0)} active{/if}">
+                    <li
+                      data-step="{$step.id|wash()}"
+                      class="text-uppercase{if $index|eq(0)} active{/if}"
+                      >
                         {$step.title|wash()}
-                        {display_icon('it-expand', 'svg', 'icon steppers-success invisible')}
+                        {display_icon('it-check', 'svg', 'icon steppers-success invisible')}
+                        <span
+                          class="visually-hidden"
+                          data-status="step-status-active"
+                          aria-hidden="true">
+                          {'Active'|i18n('bootstrapitalia')}</span>
+                        <span
+                          class="visually-hidden"
+                          data-status="step-status-confirmed"
+                          aria-hidden="true">
+                          {'Confirmed'|i18n('bootstrapitalia')}</span>
                     </li>
                 {/foreach}
             </ul>

@@ -559,6 +559,18 @@
       <source>Previous assignments</source>
       <translation>Incarichi precedenti</translation>
     </message>
+    <message>
+      <source>Explore the section</source>
+      <translation>Esplora la sezione</translation>
+    </message>
+    <message>
+      <source>Active</source>
+      <translation>Attivo</translation>
+    </message>
+    <message>
+      <source>Confirmed</source>
+      <translation>Confermato</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
