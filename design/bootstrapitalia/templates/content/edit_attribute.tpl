@@ -43,7 +43,7 @@
                 {if $attribute_style|eq('bg-light')}{set $attribute_style = ''}{else}{set $attribute_style = 'bg-light'}{/if}
 
                 {def $contentclass_attribute = $attribute.contentclass_attribute}
-                <div id="edit-{$attribute_identifier}" class="anchor-offset row {$attribute_style} p-3 mb-4 ezcca-edit-datatype-{$attribute.data_type_string} ezcca-edit-{$attribute_identifier}{if $attribute.is_required|not()} attribute-not-required{/if}">
+                <div id="edit-{$attribute_identifier}" class="row {$attribute_style} p-3 mb-4 ezcca-edit-datatype-{$attribute.data_type_string} ezcca-edit-{$attribute_identifier}{if $attribute.is_required|not()} attribute-not-required{/if}">
                     {* Show view GUI if we can't edit, otherwise: show edit GUI. *}
                     {if and( eq( $attribute.can_translate, 0 ), ne( $object.initial_language_code, $attribute.language_code ) )}
                         <div class="col-md-3">

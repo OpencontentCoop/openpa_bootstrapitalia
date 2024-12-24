@@ -1,5 +1,5 @@
 {if $attribute.data_int|int()|gt(0)}
-<div class="calendar-vertical font-sans-serif has-bg-grey p-3 ps-0">
+<div class="calendar-vertical font-sans-serif has-bg-grey p-3">
     <div class="calendar-date">
         <div class="calendar-date-day">
             <span class="title-xxlarge-regular d-flex justify-content-center">{$attribute.data_int}</span>

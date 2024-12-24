@@ -75,9 +75,9 @@ Input:
         {if $title|not}
             {set $title = $alt_text}
         {/if}
-        {if $alt_text|not}
+        {*if $alt_text|not}
             {set $alt_text = concat('Image'|i18n('design/ocbootstrap/rss/edit_export'), ': ', $attribute.object.name)}
-        {/if}
+        {/if*}
         {if $border_size|trim|ne('')}
             {set $inline_style = concat( $inline_style, 'border: ', $border_size, 'px ', $border_style, ' ', $border_color, ';' )}
         {/if}

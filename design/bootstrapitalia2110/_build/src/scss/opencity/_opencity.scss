@@ -95,11 +95,6 @@
   }
 }
 
-.it-grid-item-wrapper.it-grid-item-overlay .img-responsive-wrapper::after {
-  background: rgb(0, 0, 0);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(255, 255, 255, 0) 100%);
-}
-
 .evidence-section .bg-placeholder {
   background: linear-gradient(180deg, rgba($primary, 1) 0%, rgba($primary, 1) 300px, rgba(255, 255, 255, 0) 300px);
 }

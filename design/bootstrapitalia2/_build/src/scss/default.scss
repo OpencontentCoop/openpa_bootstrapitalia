@@ -192,7 +192,7 @@ $stepper-spacing-v: 16px;
 @import 'custom/notifications';
 @import 'custom/avatar';
 @import 'custom/thumbnav';
-@import 'custom/steppers';
+@import "override/steppers"; //"custom/steppers";
 @import 'custom/card';
 @import 'custom/imgresponsive';
 @import 'custom/overlay-panel';

@@ -464,3 +464,9 @@ a {
     }
   }
 }
+
+.pt-sm-100 {
+  @include media-breakpoint-up(sm) {
+    padding-top: 100px !important;
+  }
+}

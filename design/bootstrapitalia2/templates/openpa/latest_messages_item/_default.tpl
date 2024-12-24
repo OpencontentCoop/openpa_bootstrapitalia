@@ -1,4 +1,4 @@
-<div class="cmp-card-latest-messages mb-3 mb-30">
+<div class="cmp-card-latest-messages mb-3 mb-30 {$node|access_style}">
     <div class="card shadow-sm px-4 pt-4 pb-4 rounded">
         {if $openpa.content_icon.context_icon}
         <span class="visually-hidden">{'Categoria'|i18n('bootstrapitalia')}:</span>

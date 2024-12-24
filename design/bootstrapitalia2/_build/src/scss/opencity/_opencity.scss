@@ -1,3 +1,10 @@
+html {
+  scroll-padding-top: $anchor-v-offset;
+  @include media-breakpoint-up(lg) {
+    scroll-padding-top: $anchor-v-offset-lg
+  }
+}
+
 .satisfy-placeholder{
   min-height: 200px;
 }

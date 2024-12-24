@@ -165,14 +165,14 @@
 		{{if autoColumn}}</div>{{/if}}
 	</div>
 	{{if pageCount > 1}}
-	<div class="row mt-lg-4">
+	<div class="row mt-4">
 	    <div class="col">
 	        <nav class="pagination-wrapper justify-content-center" aria-label="{/literal}{'Navigation'|i18n('design/ocbootstrap/menu')}{literal}">
 	            <ul class="pagination">
 	                {{if prevPageQuery}}
 	                <li class="page-item">
 	                    <a class="page-link prevPage" data-page="{{>prevPage}}" href="#">
-	                        <svg class="icon icon-primary">
+	                        <svg class="icon icon-primary" aria-hidden="true" focusable="false">
 	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
 	                        </svg>
 	                        <span class="sr-only">Pagina precedente</span>
@@ -186,7 +186,7 @@
 	                <li class="page-item">
 	                    <a class="page-link nextPage" data-page="{{>nextPage}}" href="#">
 	                        <span class="sr-only">Pagina successiva</span>
-	                        <svg class="icon icon-primary">
+	                        <svg class="icon icon-primary" aria-hidden="true" focusable="false">
 	                            <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
 	                        </svg>
 	                    </a>

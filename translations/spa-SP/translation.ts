@@ -559,6 +559,18 @@
       <source>Previous assignments</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Explore the section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Active</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Confirmed</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -758,7 +770,7 @@
     </message>
     <message>
       <source>Content type</source>
-      <translation>tipo de contenido</translation>
+      <translation>Tipo de contenido</translation>
     </message>
     <message>
       <source>Name</source>
