@@ -957,7 +957,6 @@
       }
       self.isSchedulerLoading = true;
       $('[name="calendars[]"]').not(':checked').attr('disabled','disabled')
-      self.debug('reset-scheduler')
       let calendars = self.filterCalendars()
       if (calendars.length > 0) {
         if (self.eventCalendar) {
@@ -1250,7 +1249,7 @@
         self.setCurrentData('day', null)
         self.setCurrentData('openingHour', null)
         if (self.hasScheduler){
-          self.resetScheduler()
+          //self.resetScheduler()
         } else {
           self.daySelect.resetSelect()
           self.openingHoursSelect.resetSelect()
