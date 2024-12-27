@@ -175,7 +175,7 @@ class OpenPABootstrapItaliaOperators
                     'status_note',
                     'has_public_event_typology',
                     'document_type',
-                    'announcement_type'
+                    'announcement_type',
                 ]),
             ),
             'get_default_integer_value' => array(
@@ -531,7 +531,7 @@ class OpenPABootstrapItaliaOperators
                 $content = $namedParameters['content'];
                 $operatorValue = [
                     'background_color_class' => 'bg-primary',
-                    'text_color_class' => 'text-white'
+                    'text_color_class' => 'text-white',
                 ];
 
                 if ($content instanceof eZContentObject || $content instanceof eZContentObjectTreeNode){
@@ -725,7 +725,7 @@ class OpenPABootstrapItaliaOperators
                     eZContentBrowseBookmark::definition(),
                     [
                         'user_id' => eZUser::currentUserID(),
-                        'node_id' => $nodeId
+                        'node_id' => $nodeId,
                     ]
                 );
                 break;
@@ -737,7 +737,7 @@ class OpenPABootstrapItaliaOperators
                     eZDebug::writeError($e->getMessage(), __METHOD__);
                     $operatorValue = [
                         'privacy.public' => 0,
-                        'privacy.private' => 0
+                        'privacy.private' => 0,
                     ];
                 }
                 break;
@@ -918,23 +918,23 @@ class OpenPABootstrapItaliaOperators
         return [
             'Nessuno' => [
                 'background_color_class' => '',
-                'text_color_class' => ''
+                'text_color_class' => '',
             ],
             'primary' => [
                 'background_color_class' => 'bg-primary',
-                'text_color_class' => 'text-white'
+                'text_color_class' => 'text-white',
             ],
             'dark' => [
                 'background_color_class' => 'card-bg-dark',
-                'text_color_class' => 'text-white'
+                'text_color_class' => 'text-white',
             ],
             'warning' => [
                 'background_color_class' => 'card-bg-warning',
-                'text_color_class' => 'text-white'
+                'text_color_class' => 'text-white',
             ],
             'blue' => [
                 'background_color_class' => 'card-bg-blue',
-                'text_color_class' => 'text-white'
+                'text_color_class' => 'text-white',
             ],
         ];
     }
@@ -1457,7 +1457,7 @@ class OpenPABootstrapItaliaOperators
                     'layout_style' => $layoutStyle,
                     'color_style' => $colorStyle,
                     'has_bg' => $colorStyle || $block->attribute('type') == 'Singolo',
-                    'show_next_link' => $showNextLink && isset($blocks[$nextIndex])
+                    'show_next_link' => $showNextLink && isset($blocks[$nextIndex]),
                 ];
             }
         }
@@ -1529,7 +1529,7 @@ class OpenPABootstrapItaliaOperators
                         'attributes' => [
                             [
                                 'children_count' => $count,
-                            ]
+                            ],
                         ],
                         'is_grouped' => false,
                         'wrap' => false,
@@ -2042,7 +2042,7 @@ class OpenPABootstrapItaliaOperators
                 'label' => isset($attributeCategories[$identifier]) ? $attributeCategories[$identifier] : $attributeCategories[$attributeDefaultCategory],
                 'identifier' => $identifier,
                 'show' => $identifier !== 'hidden',
-                'attributes' => $attributeList
+                'attributes' => $attributeList,
             ];
             if ($identifier === 'hidden'){
                 $hasHidden++;
@@ -2083,7 +2083,7 @@ class OpenPABootstrapItaliaOperators
                 new ezpExtensionOptions([
                     'iniFile' => 'site.ini',
                     'iniSection' => 'ContentSettings',
-                    'iniVariable' => 'StaticCacheHandler'
+                    'iniVariable' => 'StaticCacheHandler',
                 ])
             )->generateCache(true, true);
         }catch (Exception $e){
@@ -2255,7 +2255,7 @@ class OpenPABootstrapItaliaOperators
                 new ezpExtensionOptions([
                     'iniFile' => 'site.ini',
                     'iniSection' => 'ContentSettings',
-                    'iniVariable' => 'StaticCacheHandler'
+                    'iniVariable' => 'StaticCacheHandler',
                 ])
             )->generateCache(true, true);
         }catch (Exception $e){
@@ -2422,6 +2422,24 @@ class OpenPABootstrapItaliaOperators
             eZExecution::cleanup();
             eZExecution::setCleanExit();
             exit( 1 );
+        }
+    }
+
+    public static function avoidDownloadRecursion(eZURI $uri)
+    {
+        $isDownload = isset($uri->URIArray[0]) && in_array($uri->URIArray[0], ['content', 'ocmultibinary'])
+            && isset($uri->URIArray[1]) && $uri->URIArray[1] === 'download';
+        if ($isDownload && count($uri->URIArray) > 8){
+//            $last = array_pop($uri->URIArray);
+//            $uri->URIArray = array_slice($uri->URIArray, 0, 8);
+//            array_pop($uri->URIArray);
+//            $uri->URIArray[] = $last;
+//            $uri->toBeginning();
+//            $redirectTo = $uri->elements();
+            $redirectTo = '/';
+            eZURI::transformURI($redirectTo, false, 'full');
+            header('Location: ' . $redirectTo);
+            eZExecution::cleanExit();
         }
     }
 }
