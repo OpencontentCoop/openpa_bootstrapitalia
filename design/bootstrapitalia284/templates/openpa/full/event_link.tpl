@@ -167,7 +167,7 @@
         <section class="col-lg-8 border-light it-page-sections-container">
             {foreach $attribute_group.group_list as $slug => $title}
                 {if $show|contains($slug)|not()}{skip}{/if}
-                <article id="{$slug|wash()}" class="it-page-section anchor-offse">
+                <article id="{$slug|wash()}" class="it-page-section anchor-offset">
                     <h2 class="my-3">{$title|wash()}</h2>
                     {switch match=$slug}
                     {case match='a_chi_e_rivolto'}

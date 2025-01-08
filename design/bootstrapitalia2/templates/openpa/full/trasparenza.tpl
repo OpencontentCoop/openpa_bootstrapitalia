@@ -56,7 +56,7 @@
         </aside>
         <section class="col-lg-8 p-4">
             {foreach $summary_items as $index => $item}
-                <article id="{$item.slug|wash()}" class="it-page-section mb-2">
+                <article id="{$item.slug|wash()}" class="it-page-section anchor-offset mb-2">
                     {if $item.wrap}                    
                     <div class="card-wrapper card-teaser-wrapper card-teaser-embed">
                     {/if}
