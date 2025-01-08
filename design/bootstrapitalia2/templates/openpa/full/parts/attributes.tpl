@@ -10,7 +10,7 @@
     <div class="row{if $summary.show_index} border-top border-light row-column-border row-column-menu-left{/if} attribute-list">
         {if $summary.show_index}
         <aside class="col-lg-4">
-            <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one">
+            <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one" data-bs-toggle="sticky" data-bs-stackable="true">
                 <nav class="navbar it-navscroll-wrapper navbar-expand-lg" data-bs-navscroll="">
                     <div class="navbar-custom" id="navbarNavProgress">
                         <div class="menu-wrapper">

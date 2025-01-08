@@ -10,7 +10,7 @@
     <div class="row{if $summary.show_index} row-column-menu-left mt-4 mt-lg-80 pb-lg-80 pb-40{/if} attribute-list">
         {if $summary.show_index}
         <div class="col-12 col-lg-3 mb-4 border-col">
-            <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one">
+            <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one" data-bs-toggle="sticky" data-bs-stackable="true">
                 <nav class="navbar it-navscroll-wrapper navbar-expand-lg" data-bs-navscroll="">
                     <div class="navbar-custom" id="navbarNavProgress">
                         <div class="menu-wrapper">
