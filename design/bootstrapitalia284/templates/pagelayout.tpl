@@ -66,7 +66,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="manifest" href="/manifest.json" crossorigin = "use-credentials">
-    <link rel="apple-touch-icon" href="/extension/openpa_bootstrapitalia/design/standard/images/svg/icon.png">
     <meta name="theme-color" content="{primary_color()}">
     {openpa_no_index_if_needed()}
     {include uri='design:page_head.tpl' canonical_url=openpacontext().canonical_url}
