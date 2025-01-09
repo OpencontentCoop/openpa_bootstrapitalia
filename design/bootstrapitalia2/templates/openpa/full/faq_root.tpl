@@ -22,39 +22,42 @@
     </div>
 </div>
 
-<div class="container mb-5">
-    <div class="row">
-        <div class="col-12 col-lg-8 offset-lg-2 px-sm-3 my-2 mb-5">
-            {include uri='design:parts/faq_accordion.tpl'}
+{if openpaini('ViewSettings', 'FaqTreeView', 'disabled')|eq('disabled')}
+    <div class="container mb-5">
+        <div class="row">
+            <div class="col-12 col-lg-8 offset-lg-2 px-sm-3 my-2 mb-5">
+                {include uri='design:parts/faq_accordion.tpl'}
+            </div>
         </div>
     </div>
-</div>
+{else}
+    {def $page_limit = 6
+         $items_per_row = 3
+         $children_count = fetch( content, 'list_count', hash( 'parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('faq_section','faq_group') ) )}
+    {if $children_count}
+        {if $children_count|eq(2)}{set $items_per_row = 2}{/if}
+        {def $children = fetch( content, list, hash( 'parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('faq_section','faq_group'), 'offset', $view_parameters.offset, 'sort_by', $sort_array, 'limit', $page_limit ) )}
+        <section>
+            <div class="container">
+                {include uri='design:atoms/grid.tpl'
+                         items_per_row=$items_per_row
+                         i_view=card
+                         image_class='imagelargeoverlay'
+                         view_variation='w-100'
+                         grid_wrapper_class='row g-4'
+                         show_icon = false()
+                         show_category = false()
+                         items=$children}
 
-{*
-{def $faq_sections = fetch(content, list, hash('parent_node_id', $node.node_id, 'sort_by', $node.sort_array, 'class_filter_type', 'include', 'class_filter_array', array('faq_section')))}
-{foreach $faq_sections as $faq_section}
-    {def $faq_groups = fetch(content, list, hash('parent_node_id', $faq_section.node_id, 'sort_by', $node.sort_array, 'class_filter_type', 'include', 'class_filter_array', array('faq_group')))}
-    {if count($faq_groups)|gt(0)}
-        <section class="container mb-4">
-            <div class="row border-top row-column-border row-column-menu-left attribute-list">
-                <aside class="col-lg-4">
-                    <div class="d-block d-lg-none d-xl-none text-center mb-2">
-                        <a href="#toogle-sidemenu" role="button" class="btn btn-primary btn-md collapsed" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="toogle-sidemenu"><i class="fa fa-bars" aria-hidden="true"></i> {$faq_groups.name|wash()}</a>
-                    </div>
-                    <div class="d-lg-block d-xl-block collapse" id="toogle-sidemenu">
-                        {foreach $faq_groups as $index => $faq_group}
-                            {node_view_gui content_node=$faq_group view=banner_color image_class=medium view_variation=cond($index|ne(0), 'bg-white', '')}
-                        {/foreach}
-                    </div>
-                </aside>
-                <section class="col-lg-8 p-4">
-                    <h4>{$faq_groups[0].name|wash()}</h4>
-                    {include uri='design:openpa/full/parts/main_attributes.tpl' node=$faq_groups[0] openpa=object_handler($faq_groups[0])}
-                    {include uri='design:parts/faq_accordion.tpl' node=$faq_groups[0]}
-                </section>
+                {include name=navigator
+                         uri='design:navigator/google.tpl'
+                         page_uri=$node.url_alias
+                         item_count=$children_count
+                         view_parameters=$view_parameters
+                         item_limit=$page_limit}
             </div>
         </section>
+        {undef $children}
     {/if}
-    {undef $faq_groups}
-{/foreach}
-*}
+    {undef $page_limit $items_per_row $children_count}
+{/if}

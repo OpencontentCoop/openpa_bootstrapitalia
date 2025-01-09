@@ -114,6 +114,7 @@ ForceCurrentSiteUrl=disabled
 MainChannelHelpLink=disabled
 MainChannelHelpLink_href=#
 MainChannelHelpLink_text=Scopri come ottenere la tua identità digitale
+FaqTreeView=disabled
 
 [ContentMain]
 Identifiers[]=image
