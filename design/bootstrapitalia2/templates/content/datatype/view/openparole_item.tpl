@@ -3,7 +3,7 @@
 		{if $role|has_attribute('label')}
 			{$role|attribute('label').content|wash()}
 		{else}
-			{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach} {'at'|i18n('bootstrapitalia')} {$entity.name|wash()}
+			{if $role|has_attribute('role')}{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach} {'at'|i18n('bootstrapitalia')}{/if} {$entity.name|wash()}
 		{/if}
 		{if $role|has_attribute('start_time')}
 			<small> {'from'|i18n("openpa/search")} {attribute_view_gui attribute=$role|attribute('start_time')}

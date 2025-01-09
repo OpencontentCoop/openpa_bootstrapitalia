@@ -63,6 +63,7 @@
 				{def $current_entities = array()}
 				{def $expired_items = array()}
 				{def $valid_items = array()}
+				{def $avoid_duplication = array()}
 				{foreach $roles as $role}
 					{def $is_expired = cond(and($role|has_attribute('end_time'), $role|attribute('end_time').data_int|le(currentdate())), true(), false())}
 					{if $role|has_attribute('for_entity')}
@@ -71,7 +72,10 @@
 						{def $entity = hash('name', '?')}
 					{/if}
 					{if $is_expired|not()}
-						{set $current_entities = $current_entities|append($entity)}
+						{if $avoid_duplication|contains($entity.name)|not()}
+							{set $current_entities = $current_entities|append($entity)}
+							{set $avoid_duplication = $avoid_duplication|append($entity.name)}
+						{/if}
 						{set $valid_items = $valid_items|append(hash(
 							'role', $role,
 							'entity', $entity
@@ -103,7 +107,7 @@
 					{/foreach}
 				</div>
 			{/if}
-			{undef $roles $roles_history $current_entities $expired_items $valid_items}
+			{undef $roles $roles_history $current_entities $expired_items $valid_items $avoid_duplication}
 
 		{* versione compatta per abstract *}
 		{elseif $attribute.has_content}
