@@ -217,3 +217,7 @@
 .feedback-survey .text-muted{
     color: #333 !important;
 }
+
+legend.alpaca-container-label+small{
+    display:block;
+}
