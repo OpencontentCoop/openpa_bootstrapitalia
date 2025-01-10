@@ -12,6 +12,11 @@
             	<a class="d-inline" href="{$value|wash()}">{$value|wash()}</a>
             {elseif $value|contains('@')}
             	<a class="d-inline" href="mailto:{$value|wash()}">{$value|wash()}</a>
+            {elseif or($type|downcase|begins_with('tel'),
+              $type|downcase|begins_with('cel'),
+              $type|downcase|begins_with('phon'),
+              $type|downcase|begins_with('mob'))}
+              <a class="d-inline" href="tel:{$value|wash()}">{$value|wash()}</a>
             {else}
             	<span>{$value|wash()}</span>
         	{/if}
