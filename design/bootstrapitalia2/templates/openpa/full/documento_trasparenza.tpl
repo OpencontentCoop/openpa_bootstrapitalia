@@ -2,7 +2,7 @@
 {def $summary_text = 'Table of contents'|i18n('bootstrapitalia')
      $close_text = 'Close'|i18n('bootstrapitalia')}
 
-<section class="container">
+<section class="container cmp-heading">
     <div class="row">
         <div class="col-lg-8 px-lg-4 py-lg-2">
             <h1>{$node.name|wash()}</h1>

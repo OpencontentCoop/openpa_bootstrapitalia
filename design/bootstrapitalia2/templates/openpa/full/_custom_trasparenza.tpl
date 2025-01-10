@@ -16,7 +16,7 @@
     {set $menu_type = 'browsable'}
 {/if}
 
-<section class="container">
+<section class="container cmp-heading">
     <div class="row">
         <div class="col-lg-8 px-lg-4 py-lg-2">
             {include uri='design:openpa/full/parts/amministrazione_trasparente/intro.tpl' node=$root_node}

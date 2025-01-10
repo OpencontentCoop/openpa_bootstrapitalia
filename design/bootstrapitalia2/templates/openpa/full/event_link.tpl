@@ -8,7 +8,7 @@
     {undef $keyword}
 {/if}
 
-<section class="container">
+<section class="container cmp-heading">
     <div class="row">
         <div class="col-lg-8 px-lg-4 py-lg-2">
             <h1>{$node.name|wash()}</h1>
