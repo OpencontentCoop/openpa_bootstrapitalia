@@ -14,6 +14,7 @@
   {if $is_dropdown}
     <a
       class="nav-link dropdown-toggle px-lg-2 px-xl-3"
+      href="#"
       id="mainMenu{$menu_item.item.node_id}"
       role="button"
       data-element="{$menu_item.item.remote_id}"
