@@ -8,13 +8,13 @@
 
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
 
-<div data-object_id="{$node.contentobject_id}" class="card card-teaser shadow {$node|access_style} rounded {$view_variation} {$custom_css_class}">
+<div data-object_id="{$node.contentobject_id}" class="font-sans-serif card card-teaser shadow {$node|access_style} rounded {$view_variation} {$custom_css_class}">
     {if and($show_icon, $openpa.content_icon.icon, $node|has_attribute('image')|not())}
         {display_icon($openpa.content_icon.icon.icon_text, 'svg', 'icon icon-sm')}
     {/if}
     <div class="card-body{if $node|has_attribute('image')} pr-3 pe-3{/if}">
         {if $hide_title|not()}
-        <h5 class="card-title mb-1">
+        <h3 class="card-title h4 u-grey-light">
             {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
             {if $node.can_edit}
                 <a href="{$node.url_alias|ezurl(no)}">
@@ -24,12 +24,12 @@
 				</span>
                 </a>
             {/if}
-        </h5>
+        </h3>
         {/if}
         <div class="card-text">
 
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
-            {include uri='design:parts/faq_accordion.tpl' node=$node}
+            {include uri='design:parts/faq_accordion.tpl' node=$node read_only=true()}
 
             {def $parent = $node.parent}
             {if and($attributes.show|contains('content_show_read_more'), $parent.class_identifier|eq('faq_section'))}

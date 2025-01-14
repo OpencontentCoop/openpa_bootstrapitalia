@@ -2,7 +2,8 @@
     'show_icon', true(),
     'image_class', 'medium',
     'view_variation', false(),
-    'hide_title', false()
+    'hide_title', false(),
+    'view_context', false()
 ))}
 
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
@@ -29,26 +30,20 @@
 
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
 
+            {if $view_context|eq('embed')}
             {def $faq_groups = fetch(content, list, hash('parent_node_id', $node.node_id, 'class_filter_type', 'include', 'class_filter_array', array('faq_group')))}
             {foreach $faq_groups as $faq_group}
                 <div class="my-4">
                     <h6>
                         {$faq_group.name|wash()}
-                        {if $faq_group.can_edit}
-                            <a href="{$faq_group.url_alias|ezurl(no)}">
-                                <span class="fa-stack">
-                                  <i aria-hidden="true" class="fa fa-circle fa-stack-2x"></i>
-                                  <i aria-hidden="true" class="fa fa-wrench fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        {/if}
                     </h6>
                     {if $faq_group|has_attribute('description')}
                         {attribute_view_gui attribute=$faq_group|attribute('description')}
                     {/if}
-                    {include uri='design:parts/faq_accordion.tpl' node=$faq_group}
+                    {include uri='design:parts/faq_accordion.tpl' node=$faq_group read_only=true()}
                 </div>
             {/foreach}
+            {/if}
 
             {if $attributes.show|contains('content_show_read_more')}
                 <p class="mt-3"><a href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">{'Further details'|i18n('bootstrapitalia')}</a></p>
@@ -63,4 +58,4 @@
 </div>
 
 {undef $attributes}
-{unset_defaults(array('show_icon', 'image_class', 'view_variation', 'hide_title'))}
+{unset_defaults(array('show_icon', 'image_class', 'view_variation', 'hide_title', 'view_context'))}
