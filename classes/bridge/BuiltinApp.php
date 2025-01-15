@@ -234,7 +234,7 @@ abstract class BuiltinApp extends OpenPATempletizable
     {
         if ($this->satisfyEntrypointId === null) {
             $serviceId = $this->getServiceId();
-            if ($serviceId) {
+            if (ServiceSync::isUuid($serviceId)) {
                 try {
                     $remoteService = StanzaDelCittadinoBridge::factory()->getServiceByIdentifier($serviceId);
                     eZDebug::writeDebug($remoteService['id'], 'Remote service id');
