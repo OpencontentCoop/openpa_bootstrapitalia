@@ -57,6 +57,11 @@
       font-size: $header-slim-brand-text-size;
       padding: 0;
     }
+    .nav-mobile {
+      a {
+        color: $header-slim-text-color;
+      }
+    }
     .it-header-slim-right-zone,
     .header-slim-right-zone {
       // .header-slim-right-zone is .it-header-slim-right-zone now. We're keeping old class here for retrocompatibility
