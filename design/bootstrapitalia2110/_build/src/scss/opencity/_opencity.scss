@@ -730,3 +730,37 @@ ul.link-list,
   font-size: $btn-font-size-xs !important;
   line-height: $input-btn-line-height-xs !important;
 }
+
+.procedure-item-header{
+  background: $gray-disabled;
+  font-size: 1.15em;
+  padding: 0;
+  font-weight: 600;
+}
+.procedure-item-header-open{
+  background: $primary;
+  color: #fff
+}
+.procedure-title{
+  padding: 7px 10px;
+}
+.procedure-number{
+  padding: 7px 20px;
+  border-right: 2px solid #fff;
+}
+.procedure-item-body{
+  padding-left: 36px;
+  margin-left: 27px;
+  border-left: 1px solid $gray-disabled;
+}
+.procedure-toggle{
+  font-size: .875em;
+  text-decoration: none;
+  color: #0e4b57;
+  margin: 12px 0 20px;
+  font-weight: 600;
+}
+.procedure-toggle .icon {
+  width: 25px;
+  height: 25px;
+}

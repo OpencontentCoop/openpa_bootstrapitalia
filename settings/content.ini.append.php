@@ -17,9 +17,15 @@ ExtensionDirectories[]=openpa_bootstrapitalia
 AvailableClasses[]=responsive-stack
 AvailableClasses[]=responsive-card
 AvailableClasses[]=responsive-column
+AvailableClasses[]=accordion
+AvailableClasses[]=procedure
+AvailableClasses[]=timeline
 ClassDescription[responsive-stack]=Responsive (stack)
 ClassDescription[responsive-card]=Responsive (card)
-ClassDescription[responsive-column]=Responsive (column
+ClassDescription[responsive-column]=Responsive (column)
+ClassDescription[accordion]=Accordion
+ClassDescription[procedure]=Procedura (accordion numerato)
+ClassDescription[timeline]=Timeline
 
 [ClassAttributeSettings]
 CategoryList[content]=Contenuti principali
@@ -40,4 +46,16 @@ CategoryList[bandi_progetti]=Bandi/Progetti
 
 [ActionSettings]
 ExtensionDirectories[]=openpa_bootstrapitalia
+
+[CustomTagSettings]
+AvailableCustomTags[]=contents-by-query
+
+[contents-by-query]
+CustomAttributes[]=title
+CustomAttributes[]=query
+CustomAttributes[]=limit
+CustomAttributes[]=view
+CustomAttributesDefaults[view]=card
+CustomAttributesDefaults[limit]=4
+
 */
