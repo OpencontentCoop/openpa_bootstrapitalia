@@ -12,6 +12,9 @@ if ($redirectNodeId > 0 && eZContentObjectTreeNode::fetch($redirectNodeId, false
 $bridge = StanzaDelCittadinoBridge::factory();
 
 $localUserLoginUri = '/user/login';
+if (BootstrapItaliaLoginOauth::instance()->isEnabled()){
+    $localUserLoginUri = '/login-oauth';
+}
 eZURI::transformURI($localUserLoginUri);
 $editorAccessList = OpenPAINI::variable('AccessPage', 'EditorAccessList', []);
 $accessLinks = [];

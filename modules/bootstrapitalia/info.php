@@ -151,6 +151,13 @@ $tpl->setVariable('access_cie', PersonalAreaLogin::instance()->hasAccess('cie'))
 $tpl->setVariable('access_eidas', PersonalAreaLogin::instance()->hasAccess('eidas'));
 $tpl->setVariable('access_cns', PersonalAreaLogin::instance()->hasAccess('cns'));
 
+if ($http->hasPostVariable('LoginOauth') && $hasAdminAccess) {
+    BootstrapItaliaLoginOauth::instance()->setCurrentOptions((array)$http->postVariable('LoginOauth'));
+    $module->redirectTo('/bootstrapitalia/info');
+    return;
+}
+$tpl->setVariable('oauth_options', BootstrapItaliaLoginOauth::instance()->getOptionsDefinitionWithCurrentData());
+
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {
     $contacts = $http->postVariable('Contacts');

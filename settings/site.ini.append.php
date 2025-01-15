@@ -39,6 +39,7 @@ RedirectAfterPublish=node
 Listeners[]=oembed/html@OpenPABootstrapItaliaOperators::filterOembedHtml
 Listeners[]=response/output@OpenPABootstrapItaliaOperators::minifyHtml
 Listeners[]=request/input@OpenPABootstrapItaliaOperators::avoidDownloadRecursion
+Listeners[]=request/input@BootstrapItaliaLoginOauth::interceptLogout
 
 [Cache]
 CacheItems[]=opencity_topics_tree
