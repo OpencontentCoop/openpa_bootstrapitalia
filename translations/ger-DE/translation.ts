@@ -559,6 +559,18 @@
       <source>Previous assignments</source>
       <translation>Bisherige Einsätze</translation>
     </message>
+    <message>
+      <source>Explore the section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Active</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Confirmed</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

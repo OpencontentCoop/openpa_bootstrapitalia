@@ -17,3 +17,4 @@ I seguenti attributi, non disponibili per default, possono essere aggiunti modif
  - file `favicon`: permette di customizzare la favicon
  - file `apple_touch_icon`: permette di customizzare la apple-touch-icon
  - image `footer_logo`: permette di customizzare il logo nel footer (only for bootstrapitalia2)
+ - boolean `logo_is_white`: permette di specificare se il logo è bianco, in modo che nel menù mobile gli venga applicato uno sfondo colorato

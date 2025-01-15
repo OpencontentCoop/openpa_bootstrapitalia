@@ -33,7 +33,7 @@
                     <div id="edit-{$attribute_identifier}"
                          data-attribute_group="{$attribute_group.identifier}"
                          data-attribute_identifier="{$attribute_identifier}"
-                         class="anchor-offset row border rounded border-light p-3 mb-4 ezcca-edit-datatype-{$attribute.data_type_string} ezcca-edit-{$attribute_identifier}{if $attribute.is_required|not()} attribute-not-required{/if}">
+                         class="row border rounded border-light p-3 mb-4 ezcca-edit-datatype-{$attribute.data_type_string} ezcca-edit-{$attribute_identifier}{if $attribute.is_required|not()} attribute-not-required{/if}">
                         {* Show view GUI if we can't edit, otherwise: show edit GUI. *}
                         {if and( eq( $attribute.can_translate, 0 ), ne( $object.initial_language_code, $attribute.language_code ) )}
                             <div class="col-12">

@@ -56,3 +56,9 @@ a.text-decoration-none:hover {
 .card .card-body .card-title.h5 {
   color: $color-text-secondary;
 }
+
+.pt-sm-100 {
+  @include media-breakpoint-up(sm) {
+    padding-top: 100px !important;
+  }
+}

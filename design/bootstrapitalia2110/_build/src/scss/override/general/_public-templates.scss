@@ -1,3 +1,19 @@
+html {
+  scroll-padding-top: $anchor-v-offset;
+  @include media-breakpoint-up(lg) {
+    scroll-padding-top: $anchor-v-offset-lg;
+  }
+}
+
+h1.title_editor,
+h2.title_editor,
+h3.title_editor,
+h4.title_editor,
+h5.title_editor,
+h6.title_editor {
+  font-family: $font-family-sans-serif;
+}
+
 .card-teaser-wrapper {
   .card-teaser {
     height: auto;

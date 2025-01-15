@@ -31,7 +31,7 @@
 {undef $node_languages}
 {/if}
 
-<div class="dropdown d-inline">
+<div class="dropdown">
     <button class="btn btn-dropdown dropdown-toggle text-decoration-underline d-inline-flex align-items-center fs-0" type="button" id="shareActions" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="condividi sui social">
         {display_icon('it-share', 'svg', 'icon')}
         <small>{'Share'|i18n('bootstrapitalia')}</small>
@@ -67,7 +67,7 @@
         </div>
     </div>
 </div>
-<div class="dropdown d-inline">
+<div class="dropdown">
     <button class="btn btn-dropdown dropdown-toggle text-decoration-underline d-inline-flex align-items-center fs-0" type="button" id="viewActions" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="vedi azioni da compiere sulla pagina">
         {display_icon('it-more-items', 'svg', 'icon')}
         <small>{'Actions'|i18n('bootstrapitalia')}</small>

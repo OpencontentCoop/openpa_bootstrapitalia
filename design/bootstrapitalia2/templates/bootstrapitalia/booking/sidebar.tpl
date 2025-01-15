@@ -1,5 +1,6 @@
 <div class="col-12 col-lg-3 d-lg-block mb-4 d-none">
-    <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one">
+    <div
+      class="cmp-navscroll" aria-labelledby="accordion-title-one" data-bs-toggle="sticky" data-bs-stackable="true">
         <nav class="navbar it-navscroll-wrapper navbar-expand-lg" aria-label="INFORMAZIONI RICHIESTE" data-bs-navscroll="">
             <div class="navbar-custom" id="navbarNavProgress-{$step.id|wash()}">
                 <div class="menu-wrapper">

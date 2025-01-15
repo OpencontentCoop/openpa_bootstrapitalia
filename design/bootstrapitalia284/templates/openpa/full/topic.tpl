@@ -18,7 +18,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 drop-shadow">
-                <div class="it-hero-card it-hero-bottom-overlapping rounded px-lg-5 py-4 py-lg-5">
+                <div class="it-hero-card it-hero-bottom-overlapping rounded px-sm-3 px-lg-5 py-4 py-lg-5">
                     <div class="row justify-content-center">
                         <div class="col-12">
                             <div class="cmp-breadcrumbs mt-0" role="navigation">
@@ -48,7 +48,11 @@
                                 <div class="mt-4">
                                     {foreach $node.children as $child}
                                         {if topic_has_contents($child.contentobject_id)}
-                                        <a class="text-decoration-none text-nowrap d-inline-block " href="{$child.url_alias|ezurl(no)}"><div class="chip chip-simple chip-{if $child.object.section_id|eq(1)}primary{else}danger{/if}"><span class="chip-label">{$child.name|wash()}</span></div></a>
+                                          <a
+                                            class="chip chip-simple chip-{if $child.object.section_id|eq(1)}primary{else}danger{/if}" 
+                                            href="{$child.url_alias|ezurl(no)}">
+                                              <span class="chip-label">{$child.name|wash()}</span>
+                                          </a>
                                         {/if}
                                     {/foreach}
                                 </div>

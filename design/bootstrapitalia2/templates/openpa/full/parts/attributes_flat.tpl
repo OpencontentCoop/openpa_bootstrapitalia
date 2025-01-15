@@ -11,7 +11,10 @@
 
         <section class="it-page-sections-container">
             {foreach $summary.items as $index => $item}
-                <article id="{$item.slug|wash()}" class="it-page-section anchor-offset{if $item.evidence} has-bg-grey p-3{/if}">
+                <article id="{$item.slug|wash()}" class="it-page-section anchor-offset">
+                  {if $item.evidence} 
+                    <div class="has-bg-grey p-3">
+                  {/if}
                     {if and(count($summary.items)|gt(1), $item.label)}
                         <h3 class="my-3 h5">{$item.label|wash()}</h3>
                     {else}
@@ -56,6 +59,9 @@
                         {/if}
                     {/foreach}
                     </div>
+                  {if $item.evidence} 
+                    </div>
+                  {/if}
                 </article>
             {/foreach}
         </section>

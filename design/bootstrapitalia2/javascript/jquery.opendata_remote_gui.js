@@ -379,10 +379,12 @@
             let offset = plugin.currentPage * plugin.settings.limitPagination;
             let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
 
-            if (plugin.currentPage === 0 || plugin.paginationStyle === 'reload') {
-                resultsContainer.html(plugin.spinnerTpl);
+            if (resultsContainer.html().length === 0 && plugin.paginationStyle === 'reload') {
+              resultsContainer.html(plugin.spinnerTpl);
+            } else if (resultsContainer.html().length > 0 && plugin.paginationStyle === 'reload') {
+              resultsContainer.find('div').first().css('opacity', 0.3)
             } else {
-                resultsContainer.find('.nextPage').replaceWith(plugin.spinnerTpl);
+              resultsContainer.find('.nextPage').replaceWith(plugin.spinnerTpl);
             }
             let data = null;
             if (plugin.settings.remoteUrl !== '') {
@@ -431,11 +433,22 @@
                             new bootstrap.Masonry(renderData[0]);
                         }
                         resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {
-                            plugin.currentPage = $(this).data('page');
+                          let self = this;
+                          e.preventDefault();
+                          const htmlElement = document.querySelector('html');
+                          let scrollPaddingTop = window.getComputedStyle(htmlElement).scrollPaddingTop;
+                          if (!scrollPaddingTop) {
+                            scrollPaddingTop = "72px";
+                          }
+                          scrollPaddingTop = parseInt(scrollPaddingTop, 10);
+                          $('html, body').animate({
+                              scrollTop: resultsContainer.offset().top - scrollPaddingTop
+                          }, 0, function(){
+                            plugin.currentPage = $(self).data('page');
                             if (plugin.currentPage >= 0){
                                 plugin.renderList(template);
                             }
-                            e.preventDefault();
+                          });
                         });
                         let more = $('<li class="page-item"><span class="page-link">...</span></li');
                         let displayPages = resultsContainer.find('.page[data-page_number]');

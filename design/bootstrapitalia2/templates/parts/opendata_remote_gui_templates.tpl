@@ -16,15 +16,16 @@
 <script id="tpl-remote-gui-list" type="text/x-jsrender">
 	{{if totalCount == 0}}
 	    <div class="row">
-            <div class="col text-center py-4">
+            <div class="col text-center py-4" role="status">
                 <i aria-hidden="true" class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
             </div>
         </div>
-	{{else paginationStyle === 'append' || view === 'latest_messages_item'}}
-
-	    {{if currentPage == 0}}
-			<p class="mb-4 results-count"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
-		{{/if}}
+  {{else currentPage == 0}}
+    <div class="row">
+      <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
+    </div>
+  {{/if}}
+	{{if paginationStyle === 'append' || view === 'latest_messages_item'}}
 		{{for searchHits}}
           {{include tmpl="#tpl-remote-gui-item"/}}
 		{{/for}}
@@ -61,19 +62,27 @@
                     <ul class="pagination">
                         <li class="page-item {{if !prevPageQuery}}disabled{{/if}}">
                             <a class="page-link prevPage" {{if prevPageQuery}}data-page="{{>prevPage}}"{{/if}} href="#">
-                                <svg class="icon icon-primary" aria-label="{/literal}{"Previous"|i18n("design/admin/navigator")}{literal}">
+                                <svg class="icon icon-primary" aria-hidden="true" focusable="false">
                                     <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
                                 </svg>
                                 <span class="sr-only">{/literal}{"Previous"|i18n("design/admin/navigator")}{literal}</span>
                             </a>
                         </li>
                         {{for pages ~current=currentPage}}
-                            <li class="page-item"><a href="#" class="page-link page" data-page_number="{{:page}}" data-page="{{:query}}"{{if ~current == query}} data-current aria-current="page"{{/if}}>{{:page}}</a></li>
+                          <li class="page-item">
+                            <a
+                              href="#"
+                              class="page-link page"
+                              data-page_number="{{:page}}"
+                              data-page="{{:query}}"{{if ~current == query}}
+                              data-current
+                              aria-current="page"{{/if}}
+                            >{{:page}}</a></li>
                         {{/for}}
                         <li class="page-item {{if !nextPageQuery}}disabled{{/if}}">
                             <a class="page-link nextPage" {{if nextPageQuery}}data-page="{{>nextPage}}"{{/if}} href="#">
                                 <span class="sr-only">{/literal}{"Next"|i18n("design/admin/navigator")}{literal}</span>
-                                <svg class="icon icon-primary" aria-label="{/literal}{"Next"|i18n("design/admin/navigator")}{literal}">
+                                <svg class="icon icon-primary" aria-hidden="true" focusable="false">
                                     <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
                                 </svg>
                             </a>

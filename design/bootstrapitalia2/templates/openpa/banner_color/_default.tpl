@@ -5,7 +5,7 @@
     {set $text_color_class = 'text-primary'}
 {/if}
 <div data-object_id="{$node.contentobject_id}"
-   class="opencity-banner-color card card-teaser rounded mt-0 p-3 {$background_color_class} {$view_variation}">
+   class="opencity-banner-color card card-teaser rounded mt-0 p-3 {$background_color_class} {$view_variation} {$node|access_style}">
     {if $node|has_attribute('image')}
     <div class="avatar size-lg me-3">
         {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}

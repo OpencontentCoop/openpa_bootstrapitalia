@@ -10,7 +10,7 @@
     <div class="row{if $summary.show_index} row-column-menu-left mt-4 mt-lg-80 pb-lg-80 pb-40{/if} attribute-list">
         {if $summary.show_index}
         <div class="col-12 col-lg-3 mb-4 border-col">
-            <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one">
+            <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one" data-bs-toggle="sticky" data-bs-stackable="true">
                 <nav class="navbar it-navscroll-wrapper navbar-expand-lg" data-bs-navscroll="">
                     <div class="navbar-custom" id="navbarNavProgress">
                         <div class="menu-wrapper">
@@ -60,7 +60,10 @@
         <div class="{if $summary.show_index|not()}col w-100 px-lg-4 pb-lg-4{else}col-12 col-lg-8 offset-lg-1{/if}">
             <div class="it-page-sections-container">
             {foreach $summary.items as $index => $item}
-                <section id="{$item.slug|wash()}" class="it-page-section mb-30{if $item.evidence} has-bg-grey p-3{/if}">
+                <section id="{$item.slug|wash()}" class="it-page-section anchor-offset mb-30">
+                  {if $item.evidence} 
+                    <div class="has-bg-grey p-3">
+                  {/if}
                     {if and(count($summary.items)|gt(1), $item.label)}
                         <h2 class="title-xxlarge mb-3" {if and($object.class_identifier|eq('public_service'), array('cos_e', 'description')|contains($item.slug))}data-element="service-description"{/if}>{$item.label|wash()}</h2>
                     {else}
@@ -120,6 +123,9 @@
                         {/if}
                     {/foreach}
                     {if $item.wrap}</div>{/if}
+                  {if $item.evidence} 
+                    </div>
+                  {/if}
                 </section>
             {/foreach}
             </div>

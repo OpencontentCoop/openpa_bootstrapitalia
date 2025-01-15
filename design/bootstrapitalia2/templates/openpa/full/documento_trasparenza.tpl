@@ -2,7 +2,7 @@
 {def $summary_text = 'Table of contents'|i18n('bootstrapitalia')
      $close_text = 'Close'|i18n('bootstrapitalia')}
 
-<section class="container">
+<section class="container cmp-heading">
     <div class="row">
         <div class="col-lg-8 px-lg-4 py-lg-2">
             <h1>{$node.name|wash()}</h1>
@@ -25,7 +25,7 @@
     <div class="row{if $summary.show_index} border-top border-light row-column-border row-column-menu-left{/if} attribute-list">
         {if $summary.show_index}
             <aside class="col-lg-4">
-                <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one">
+                <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one" data-bs-toggle="sticky" data-bs-stackable="true">
                     <nav class="navbar it-navscroll-wrapper navbar-expand-lg" data-bs-navscroll="">
                         <div class="navbar-custom" id="navbarNavProgress">
                             <div class="menu-wrapper">
@@ -74,7 +74,10 @@
 
         <section class="{if $summary.show_index}col-lg-8 border-light {/if}it-page-sections-container mb-5">
             {foreach $summary.items as $index => $item}
-                <article id="{$item.slug|wash()}" class="it-page-section anchor-offset{if $item.evidence} has-bg-grey p-3{/if}">
+                <article id="{$item.slug|wash()}" class="it-page-section anchor-offset">
+                  {if $item.evidence} 
+                    <div class="has-bg-grey p-3">
+                  {/if}
                     {*
                     {if and(count($summary.items)|gt(1), $item.label)}
                         <h2 class="my-3">{$item.label|wash()}</h2>
@@ -109,6 +112,9 @@
                             {/if}
                         {/foreach}
                     </div>
+                  {if $item.evidence} 
+                    </div>
+                  {/if}
                 </article>
             {/foreach}
         </section>

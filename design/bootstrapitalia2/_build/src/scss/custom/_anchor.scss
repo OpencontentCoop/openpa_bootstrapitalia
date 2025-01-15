@@ -5,7 +5,7 @@
   height: $anchor-v-offset;
   margin-top: -$anchor-v-offset;
   @include media-breakpoint-up(lg) {
-    height: $anchor-v-offset-lg;
+  height: $anchor-v-offset-lg;
     margin-top: -$anchor-v-offset-lg;
   }
 }

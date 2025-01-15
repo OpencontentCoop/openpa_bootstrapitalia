@@ -8,7 +8,7 @@
     {undef $keyword}
 {/if}
 
-<section class="container">
+<section class="container cmp-heading">
     <div class="row">
         <div class="col-lg-8 px-lg-4 py-lg-2">
             <h1>{$node.name|wash()}</h1>
@@ -120,7 +120,7 @@
 
     <div class="row border-top border-light row-column-border row-column-menu-left attribute-list">
         <aside class="col-lg-4">
-            <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one">
+            <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one" data-bs-toggle="sticky" data-bs-stackable="true">
                 <nav class="navbar it-navscroll-wrapper navbar-expand-lg" data-bs-navscroll="">
                     <div class="navbar-custom" id="navbarNavProgress">
                         <div class="menu-wrapper">
@@ -167,7 +167,7 @@
         <section class="col-lg-8 border-light it-page-sections-container">
             {foreach $attribute_group.group_list as $slug => $title}
                 {if $show|contains($slug)|not()}{skip}{/if}
-                <article id="{$slug|wash()}" class="it-page-section anchor-offse">
+                <article id="{$slug|wash()}" class="it-page-section anchor-offset">
                     <h2 class="my-3">{$title|wash()}</h2>
                     {switch match=$slug}
                     {case match='a_chi_e_rivolto'}
