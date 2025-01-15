@@ -435,8 +435,14 @@
                         resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {
                           let self = this;
                           e.preventDefault();
+                          const htmlElement = document.querySelector('html');
+                          let scrollPaddingTop = window.getComputedStyle(htmlElement).scrollPaddingTop;
+                          if (!scrollPaddingTop) {
+                            scrollPaddingTop = "72px";
+                          }
+                          scrollPaddingTop = parseInt(scrollPaddingTop, 10);
                           $('html, body').animate({
-                              scrollTop: resultsContainer.offset().top
+                              scrollTop: resultsContainer.offset().top - scrollPaddingTop
                           }, 0, function(){
                             plugin.currentPage = $(self).data('page');
                             if (plugin.currentPage >= 0){
