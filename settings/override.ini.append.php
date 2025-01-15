@@ -745,3 +745,12 @@ MatchFile=full/classifications.tpl
 Subdir=templates
 Match[class_identifier]=pagina_sito
 Match[parent_object_remote_id]=11ee98a24f1921081236b6fb080eea24
+
+#### Ricerca
+
+[block_ricerca_search_people_by_role]
+Source=block/view/view.tpl
+MatchFile=block/search_people_by_role.tpl
+Subdir=templates
+Match[type]=SearchPeopleByRole
+Match[view]=default

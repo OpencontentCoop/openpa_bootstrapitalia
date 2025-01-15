@@ -1,4 +1,4 @@
-<div class="cmp-card-simple card-wrapper pb-0 rounded bg-white border border-light {$node|access_style}">
+<div class="cmp-card-simple card-wrapper h-100 pb-0 rounded bg-white border border-light {$node|access_style}">
     <div class="card shadow-sm rounded">
         <div class="card-body">
             <a href="{$openpa.content_link.full_link}#page-content"

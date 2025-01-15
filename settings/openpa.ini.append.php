@@ -115,6 +115,19 @@ MainChannelHelpLink=disabled
 MainChannelHelpLink_href=#
 MainChannelHelpLink_text=Scopri come ottenere la tua identità digitale
 FaqTreeView=disabled
+ChildrenFilter=disabled
+
+[ChildrenFilters]
+#Aree amministrative
+Remotes[899b1ac505747c0d8523dfe12751eaae]=search
+#Uffici
+Remotes[a9d783ef0712ac3e37edb23796990714]=search
+#Enti e fondazioni
+Remotes[10742bd28e405f0e83ae61223aea80cb]=search
+#Personale amministrativo
+Remotes[3da91bfec50abc9740f0f3d62c8aaac4]=search-roles
+#Politici
+Remotes[50f295ca2a57943b195fa8ffc6b909d8]=search-roles
 
 [ContentMain]
 Identifiers[]=image
