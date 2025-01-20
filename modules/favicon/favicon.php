@@ -48,7 +48,7 @@ eZSession::stop();
 ob_end_clean();
 
 $attributeIdentifier = 'favicon';
-if ($Params['Parameters'][0] === 'apple-touch-icon'){
+if (isset($Params['Parameters'][0]) && $Params['Parameters'][0] === 'apple-touch-icon'){
     $attributeIdentifier = 'apple-touch-icon';
 }
 $result = eZBinaryFileHandler::RESULT_UNAVAILABLE;
