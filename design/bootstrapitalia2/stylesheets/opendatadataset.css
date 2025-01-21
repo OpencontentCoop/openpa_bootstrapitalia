@@ -4,8 +4,8 @@
     display: none !important;
 }
 
-table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td.dtr-control,
-table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th.dtr-control {
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     padding-left: 40px;
 }
 
