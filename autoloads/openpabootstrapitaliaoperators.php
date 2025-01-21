@@ -1624,6 +1624,7 @@ class OpenPABootstrapItaliaOperators
         }
 
         $items = [];
+        $itemIndexCount = 0;
         $dataMap = $object->dataMap();
         $extraManager = OCClassExtraParametersManager::instance($object->contentClass());
         $attributeGroups = $extraManager->getHandler('attribute_group');
@@ -1651,6 +1652,7 @@ class OpenPABootstrapItaliaOperators
                             'evidence' => false,
                             'data_element' => false,
                         ];
+                        $itemIndexCount++;
                     }
                 }
             }
@@ -1686,6 +1688,9 @@ class OpenPABootstrapItaliaOperators
                             'evidence' => in_array($slug, $attributeGroups->attribute('evidence_list')),
                             'data_element' => $attributeGroups->attribute('translations')[$slug]['ita-PA'] ?? false,
                         ];
+                        if (!in_array($slug, $hiddenList)) {
+                            $itemIndexCount++;
+                        }
                     }
                 }
             }
@@ -1711,6 +1716,7 @@ class OpenPABootstrapItaliaOperators
                             'evidence' => false,
                             'data_element' => false,
                         ];
+                        $itemIndexCount++;
                     }
                 }
             }
@@ -1718,7 +1724,7 @@ class OpenPABootstrapItaliaOperators
 
         return [
             'has_items' => count($items) > 0,
-            'show_index' => count($items) > 1 && !$attributeGroups->attribute('hide_index'),
+            'show_index' => $itemIndexCount > 0 && !$attributeGroups->attribute('hide_index'),
             'items' => $items,
         ];
     }

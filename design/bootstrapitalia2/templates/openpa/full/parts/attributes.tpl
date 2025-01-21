@@ -57,7 +57,7 @@
         </aside>
         {/if}
 
-        <section class="{if $summary.show_index}col-lg-8 border-light {/if}it-page-sections-container">
+        <section class="col-12 col-lg-8 {if $summary.show_index}border-light {else}px-lg-4 mb-5 {/if}it-page-sections-container">
             {foreach $summary.items as $index => $item}
                 <article id="{$item.slug|wash()}" class="it-page-section anchor-offset">
                   {if $item.evidence} 

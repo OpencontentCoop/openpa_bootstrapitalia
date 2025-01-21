@@ -214,7 +214,7 @@
             var queryPerPage = [];
 
             var buildQuery = function(){
-                var mainQuery = "((raw[meta_class_identifier_ms] = 'user' and raw[meta_path_si] = ["+ParentNodeId+"]) or (raw[meta_class_identifier_ms] in [politico,employee])) sort [name=>asc] limit " + pageLimit;
+                var mainQuery = "raw[meta_class_identifier_ms] = 'user' and raw[meta_path_si] = ["+ParentNodeId+"] sort [name=>asc] limit " + pageLimit;
                 var filters = '';
                 var showReset = false;
 
