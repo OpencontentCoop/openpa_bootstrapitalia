@@ -13,7 +13,7 @@ Class[homepage]=ezfIndexHomepage
 Class[event_link]=ezfIndexEventLink
 General[]=ezfIndexExtraGeo
 General[]=ezfIndexPublicServiceMenu
-General[]=ezfIndexContactPointReverseRelations
+#General[]=ezfIndexContactPointReverseRelations
 General[]=ezfIndexRoleReverseRelations
 Class[organization]=ezfIndexSubAttributeGeo
 
