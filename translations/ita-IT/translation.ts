@@ -1319,6 +1319,10 @@ La preferenza può essere modificata in qualsiasi momento dall'Informativa cooki
       <translation>Accetta tutti i cookie</translation>
     </message>
     <message>
+      <source>Accept necessary cookies</source>
+      <translation>Accetta i cookie necessari</translation>
+    </message>
+    <message>
       <source>Refuse all cookies</source>
       <translation>Rifiuta tutti i cookie</translation>
     </message>
@@ -1342,6 +1346,10 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Accept all cookies and close</source>
       <translation>Accetta tutti i cookie e chiudi</translation>
+    </message>
+    <message>
+      <source>Accept necessary cookies and close</source>
+      <translation>Accetta i cookie necessari e chiudi</translation>
     </message>
     <message>
       <source>Refuse all cookies and close</source>
@@ -1370,6 +1378,18 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Strictly Necessary Cookies</source>
       <translation>Cookie tecnici essenziali</translation>
+    </message>
+    <message>
+      <source>Always Enabled</source>
+      <translation>Sempre attivi</translation>
+    </message>
+    <message>
+      <source>Service | Services</source>
+      <translation>Servizio | Servizi</translation>
+    </message>
+    <message>
+      <source>Close</source>
+      <translation>Chiudi</translation>
     </message>
     <message>
       <source>They are necessary for the proper functioning of the site. They allow the browsing of the pages, the storage of a user's sessions (to keep them active while browsing). Without these cookies, the services for which users access the site could not be provided.</source>

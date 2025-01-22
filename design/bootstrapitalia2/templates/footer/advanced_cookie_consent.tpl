@@ -1,245 +1,240 @@
-{if openpaini('CookiesSettings', 'Consent', 'advanced')|eq('advanced')}
-    <script>
-      var CookieConsentText = {cookie_consent_config_translations()};
-      var HasGoogleAnalytics = {cond(and( openpaini('Seo', 'GoogleAnalyticsAccountID'), openpaini('Seo', 'GoogleCookieless')|eq('disabled') ), 'true', 'false')};
-      var HasWebAnalyticsItalia = {cond(and( openpaini('Seo', 'webAnalyticsItaliaID'), openpaini('Seo', 'WebAnalyticsItaliaCookieless')|eq('disabled') ), 'true', 'false')};
-      var NeedCookieConsentForAnalytics = HasGoogleAnalytics || HasWebAnalyticsItalia;
-      var NeedCookieConsentForMultimedia = {cond(openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled'), 'true', 'false')};
-      var CookieConsentServicesForMultimedia = "{openpaini('Seo', 'CookieConsentMultimediaText', 'YouTube, Vimeo, Slideshare, Isuu, Facebook, Twitter, Linkedin, Instagram, Whatsapp')}";
-      var NeedCookieConsent = NeedCookieConsentForAnalytics || NeedCookieConsentForMultimedia;
-      {literal}
-      function documentIsReady(fn) {
-        if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-          fn();
-        } else {
-          document.addEventListener('DOMContentLoaded', fn);
-        }
-      }
-      var showIframes = function(){
-        var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
-        for (var iframesTag of iframesTags) {
-          iframesTag.setAttribute('src', iframesTag.getAttribute('data-src'));
-        }
-        var customTags = document.querySelectorAll('[data-coookieconsent="custom"]');
-        for (var customTag of customTags) {
-          customTag.setAttribute('src', customTag.getAttribute('data-src'));
-        }
-      }
-      var hideIframes = function(){
-        var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
-        for (var iframesTag of iframesTags) {
-          iframesTag.setAttribute('src', iframesTag.getAttribute('data-preview'));
-        }
-        var customTags = document.querySelectorAll('[data-coookieconsent="custom"]');
-        for (var customTag of customTags) {
-          customTag.setAttribute('data-src', customTag.getAttribute('src'));
-        }
-      }
-      window.addEventListener('cconsent-setCookie', function (e) {
-        if (e.detail.categories.multimedia){
-          e.detail.categories.multimedia.wanted ? showIframes() : hideIframes();
-        }
-      }, false);
-      var CookieConsentCategories = {
-        necessary: {
-          needed: true,
-          wanted: true,
-          checked: true,
-          language: {
-            locale: {
-              i18n: CookieConsentText.necessary
-            }
-          }
-        }
-      };
-      var CookieConsentServices = {};
-      if (NeedCookieConsentForAnalytics){
-        CookieConsentCategories.analytics = {
-          needed: false,
-          wanted: false,
-          checked: false,
-          language: {
-            locale: {
-              i18n: CookieConsentText.analytics
-            }
-          }
-        };
-        if (HasGoogleAnalytics){
-          CookieConsentServices.google = {
-            category: 'analytics',
-            type: 'dynamic-script',
-            cookies: [
-              {
-                name: /^_gid/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_gat/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_ga/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_gid/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_gat/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_ga/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              }
-            ],
-            language: {
-              locale: {
-                i18n: {
-                  name: 'Google Analytics'
-                }
-              }
-            }
-          };
-        }
-        if (HasWebAnalyticsItalia){
-          CookieConsentServices.piwik = {
-            category: 'analytics',
-            type: 'dynamic-script',
-            cookies: [
-              {
-                name: '__utma',
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: /^_pk/,
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: /^_pk_id/,
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: /^_pk_ses/,
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: '__utma',
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_pk/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_pk_id/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_pk_ses/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: '__utma',
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_pk/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_pk_id/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_pk_ses/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-            ],
-            language: {
-              locale: {
-                i18n: {
-                  name: 'Web Analytics Italia'
-                }
-              }
-            }
-          };
-        }
-      }
-      if (NeedCookieConsentForMultimedia){
-        CookieConsentCategories.multimedia = {
-          needed: false,
-          wanted: false,
-          checked: false,
-          language: {
-            locale: {
-              i18n: CookieConsentText.multimedia
-            }
-          }
-        };
-        CookieConsentServices.multimedia= {
-          category: 'multimedia',
-          type: 'wrapped',
-          search: 'wrapped',
-          language: {
-            locale: {
-              i18n: {
-                name: CookieConsentServicesForMultimedia
-              }
-            }
-          }
-        };
-      }if (NeedCookieConsent) {
-        documentIsReady(function () {
-          setTimeout(function () {
-            window.CookieConsent.init({
-              modalMainTextMoreLink: CookieConsentText.modalMainTextMoreLink,
-              barTimeout: 1000,
-              language: {
-                current: 'i18n',
-                locale: {
-                  i18n: {
-                    barMainText: CookieConsentText.barMainText,
-                    barLinkSetting: CookieConsentText.barLinkSetting,
-                    barBtnAcceptAll: CookieConsentText.barBtnAcceptAll,
-                    barBtnRefuseAll: CookieConsentText.barBtnRefuseAll,
-                    modalMainTitle: CookieConsentText.modalMainTitle,
-                    modalMainText: CookieConsentText.modalMainText,
-                    modalBtnSave: CookieConsentText.modalBtnSave,
-                    modalBtnAcceptAll: CookieConsentText.modalBtnAcceptAll,
-                    modalBtnRefuseAll: CookieConsentText.modalBtnRefuseAll,
-                    modalAffectedSolutions: CookieConsentText.modalAffectedSolutions,
-                    learnMore: CookieConsentText.learnMore,
-                    on: CookieConsentText.on,
-                    off: CookieConsentText.off,
-                  }
-                }
-              },
-              categories: CookieConsentCategories,
-              services: CookieConsentServices
-            });
-            CookieConsent.wrapper('wrapped', function () {
-              documentIsReady(function () {
-                showIframes();
-              })
-            });
-          }, 10);
-        });
-      }
-      {/literal}
-    </script>
+{if openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled')}
+<script src={"javascript/cookieconsent.umd.js"|ezdesign}></script>
 {literal}
-    <style>
-        #cconsent-bar .ccb__wrapper{
-            padding: 35px !important;
+<script>
+  var NeedCookieConsent = {/literal}{cond(openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled'), 'true', 'false')}{literal};
+  var CookieConsentSettings = {/literal}{cookie_consent_config_translations()}{literal}
+  var showIframes = function(){
+    console.log('showIframes')
+    var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
+    for (var iframesTag of iframesTags) {
+      iframesTag.setAttribute('src', iframesTag.getAttribute('data-src'));
+    }
+    var customTags = document.querySelectorAll('[data-coookieconsent="custom"]');
+    for (var customTag of customTags) {
+      customTag.setAttribute('src', customTag.getAttribute('data-src'));
+    }
+  }
+  var hideIframes = function(){
+    console.log('hideIframes')
+    var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
+    for (var iframesTag of iframesTags) {
+      iframesTag.setAttribute('src', iframesTag.getAttribute('data-preview'));
+    }
+    var customTags = document.querySelectorAll('[data-coookieconsent="custom"]');
+    for (var customTag of customTags) {
+      customTag.setAttribute('data-src', customTag.getAttribute('src'));
+    }
+  }
+  CookieConsent.run({
+    guiOptions: {
+      consentModal: {
+        layout: 'box wide',
+        position: 'bottom center',
+        equalWeightButtons: true,
+        flipButtons: false
+      },
+      preferencesModal: {
+        layout: 'box',
+        equalWeightButtons: true,
+        flipButtons: false
+      }
+    },
+    categories: {
+      necessary: {
+        readOnly: true  // this category cannot be disabled
+      },
+      analytics: {},
+      marketing: {
+        services: {
+            multimedia: {
+              onAccept: () => showIframes(),
+              onReject: () => hideIframes()
+            }
         }
-        #cconsent-bar .close{
-            float:right;
+      }
+    },
+    language: {
+      default: '{/literal}{$site.http_equiv.Content-language|wash}{literal}',
+      translations: {
+        {/literal}{$site.http_equiv.Content-language|wash}{literal}: {
+          consentModal: {
+            title: '   ',
+            description: CookieConsentSettings.barMainText,
+            closeIconLabel: CookieConsentSettings.close,
+            acceptAllBtn: CookieConsentSettings.barBtnAcceptAll,
+            acceptNecessaryBtn: CookieConsentSettings.barBtnAcceptNecessary,
+            showPreferencesBtn: CookieConsentSettings.barLinkSetting,
+            footer: CookieConsentSettings.modalMainTextMoreLink 
+              ? `<a href="${CookieConsentSettings.modalMainTextMoreLink}">Cookie Policy</a>`
+              : null
+          },
+          preferencesModal: {
+            title: CookieConsentSettings.modalMainTitle,
+            closeIconLabel: CookieConsentSettings.close,
+            acceptAllBtn: CookieConsentSettings.modalBtnAcceptAll,
+            acceptNecessaryBtn: CookieConsentSettings.modalBtnAcceptNecessary,
+            savePreferencesBtn: CookieConsentSettings.modalBtnSave,
+            serviceCounterLabel: CookieConsentSettings.services,
+            sections: [
+              {
+                description: CookieConsentSettings.modalMainText,
+              },
+              {
+                title: `${CookieConsentSettings.necessary.name} <span class=\"pm__badge\">${CookieConsentSettings.necessary.badge}</span>`,
+                description: `
+                  <p>${CookieConsentSettings.necessary.description}</p>
+                  <strong style="display:block;margin-top:12px;">${CookieConsentSettings.analytics.name}</strong>
+                  <p>${CookieConsentSettings.analytics.description}</p>`,
+                linkedCategory: "necessary"
+              },
+              {
+                title: CookieConsentSettings.multimedia.name,
+                description: CookieConsentSettings.multimedia.description,
+                linkedCategory: "marketing"
+              },
+            ]
+          }
         }
-        #cconsent-bar{
-            max-width:900px !important;
-        }
-    </style>
+      }
+    }
+  });
+</script>
+  <style>
+    #cc-main {
+      --cc-font-family: 'Titillium Web', sans-serif;
+      --cc-bg: #435a70;
+      --cc-primary-color: white;
+      --cc-secondary-color: white;
+      --cc-rev-color: black;
+      --cc-rev-hover-color: #4b4b4b;
+      --cc-rev-bg: #e5e5e5;
+      --cc-rev-border: #cdcfd0;
+      --cc-btn-border-radius: var(--bs-btn-border-radius, 4px);
+
+      --cc-btn-primary-bg: transparent;
+      --cc-btn-primary-color: var(--cc-primary-color);
+      --cc-btn-primary-border-color: var(--cc-primary-color);
+      --cc-btn-primary-hover-bg: transparent;
+      --cc-btn-primary-hover-color: hsl(0,0%,90%);
+      --cc-btn-primary-hover-border-color: hsl(0,0%,90%);
+
+      --cc-btn-secondary-bg: transparent;
+      --cc-btn-secondary-color: var(--cc-primary-color);
+      --cc-btn-secondary-border-color: var(--cc-primary-color);
+      --cc-btn-secondary-hover-bg: transparent;
+      --cc-btn-secondary-hover-color: hsl(0,0%,90%);
+      --cc-btn-secondary-hover-border-color: hsl(0,0%,90%);
+      
+      --cc-cookie-category-block-color: var(--cc-rev-border);
+      --cc-cookie-category-block-bg: var(--cc-primary-color);
+      --cc-cookie-category-block-border: var(--cc-rev-border);
+      --cc-cookie-category-block-hover-bg: var(--cc-primary-color);
+      --cc-cookie-category-block-hover-border: var(--cc-rev-border);
+      --cc-cookie-category-expanded-block-hover-bg: var(--cc-primary-color);
+      --cc-cookie-category-expanded-block-bg: var(--cc-primary-color);
+      --cc-toggle-readonly-bg: #2f3132;
+      --cc-overlay-bg: rgba(0, 0, 0, 0.9)!important;
+
+      --cc-toggle-on-knob-bg: var(--cc-primary-color);
+      --cc-toggle-readonly-knob-bg: var( --cc-cookie-category-block-bg);
+
+      --cc-separator-border-color: transparent;
+      --cc-modal-border-radius: 0;
+      
+      --cc-footer-color: var(--cc-primary-color);
+      --cc-footer-border-color: transparent;
+      --cc-footer-bg: var(--cc-bg);
+      --cc-link-color: var(--cc-rev-color);
+    }
+
+    #cc-main,
+    #cc-main .cm__btn,
+    #cc-main .cm__desc,
+    #cc-main .pm__btn,
+    #cc-main .pm__section-title {
+      font-size: inherit;
+    }
+
+    #cc-main .cm--box.cm--wide {
+      max-width: 50rem;
+    }
+
+    #cc-main .pm--box {
+      max-width: 52rem;
+    }
+
+    #cc-main .cm__btn--close,
+    #cc-main .cm__btn--close:hover,
+    #cc-main .cm__btn--close:active,
+    #cc-main .pm__close-btn,
+    #cc-main .pm__close-btn:hover,
+    #cc-main .pm__close-btn:active {
+      border-color: transparent;
+    }
+
+    #cc-main .pm__service-title,
+    #cc-main .pm__section--toggle {
+      border-radius: 0;
+    }
+
+    #cc-main .pm__badge,
+    #cc-main .pm__service-title {
+      color: var(--cc-rev-color);
+    }
+    
+    #cc-main .pm__section,
+    #cc-main .pm__section:not(:first-child):hover {
+      background: none;
+      border-color: var(--cc-cookie-category-block-hover-border)
+    }
+
+    #cc-main .pm,
+    #cc-main .pm__section-desc-wrapper {
+      background-color: var(--cc-rev-bg);
+      color: var(--cc-rev-color);
+    }
+    
+    #cc-main .pm__section--expandable .pm__section-desc-wrapper {
+      background-color: var(--cc-primary-color);
+    }
+
+    #cc-main .pm__section--toggle {
+      background: none;
+    }
+    
+    #cc-main .cm,
+    #cc-main .pm {
+      border: 1px solid var(--cc-separator-border-color);
+    }
+    
+    #cc-main .pm__title {
+      font-size: 1.6rem;
+    }
+
+    #cc-main .pm__btn {
+      color: var(--cc-rev-color);
+      border-color: var(--cc-rev-color);
+    }
+    
+    #cc-main .pm__btn:hover {
+      color: var(--cc-rev-hover-color);
+      border-color: var(--cc-rev-hover-color);
+    }
+
+    #cc-main .pm__close-btn {
+      margin-top: -12px;
+      margin-right: -20px;
+    }
+
+    #cc-main .pm__close-btn svg,
+    #cc-main .pm__close-btn:hover svg {
+      stroke: var(--cc-rev-color)
+    }
+
+    #cc-main .cc__link:hover {
+      color: var(--cc-link-color)
+    }
+  </style>
 {/literal}
 {/if}
