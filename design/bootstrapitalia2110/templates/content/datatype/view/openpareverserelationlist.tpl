@@ -1,0 +1,1 @@
+{include uri='design:content/datatype/view/openpareverserelationlist_grid.tpl' view=card_teaser_info}

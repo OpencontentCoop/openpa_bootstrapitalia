@@ -243,7 +243,7 @@
         buildFacetedQueryParams: function (){
             let plugin = this;
             if (plugin.settings.queryBuilder === 'browser') {
-                return plugin.buildQuery() + ' and limit 1 facets [' + plugin.settings.facets.join(',') + ']';
+                return plugin.buildQuery() + ' and limit 1 facets [' + plugin.settings.facets.join('|alpha,') + '|alpha]';
             }else{
                 return '?limit=1&offset=0&f=1&' + plugin.buildQuery();
             }
@@ -379,10 +379,10 @@
             let offset = plugin.currentPage * plugin.settings.limitPagination;
             let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
 
-            if (resultsContainer.html().length === 0 && plugin.paginationStyle === 'reload') {
+            if ((resultsContainer.html().length === 0 && plugin.paginationStyle === 'reload') || plugin.currentPage === 0) {
               resultsContainer.html(plugin.spinnerTpl);
             } else if (resultsContainer.html().length > 0 && plugin.paginationStyle === 'reload') {
-              resultsContainer.find('div').first().css('opacity', 0.3)
+              resultsContainer.find('div.row').not('.remote-pagination').css('opacity', 0.5)
             } else {
               resultsContainer.find('.nextPage').replaceWith(plugin.spinnerTpl);
             }
@@ -420,7 +420,7 @@
                         });
                         response.view = plugin.settings.view;
                         response.paginationStyle = plugin.paginationStyle;
-                        response.autoColumn = plugin.settings.itemsPerRow !== 'auto' && $.inArray(plugin.settings.view, ['card_teaser', 'banner_color', 'card_children']) > -1;
+                        response.autoColumn = plugin.settings.itemsPerRow !== 'auto' && $.inArray(plugin.settings.view, ['card_teaser_info', 'card_teaser', 'banner_color', 'card_children']) > -1;
                         response.itemsPerRow = plugin.settings.itemsPerRow;
 
                         let renderData = $(template.render(response));
@@ -441,14 +441,21 @@
                             scrollPaddingTop = "72px";
                           }
                           scrollPaddingTop = parseInt(scrollPaddingTop, 10);
-                          $('html, body').animate({
-                              scrollTop: resultsContainer.offset().top - scrollPaddingTop
-                          }, 0, function(){
-                            plugin.currentPage = $(self).data('page');
-                            if (plugin.currentPage >= 0){
-                                plugin.renderList(template);
-                            }
-                          });
+                          if (plugin.paginationStyle === 'reload'){
+                              $('html, body').animate({
+                                  scrollTop: resultsContainer.offset().top - scrollPaddingTop
+                              }, 0, function(){
+                                  plugin.currentPage = $(self).data('page');
+                                  if (plugin.currentPage >= 0){
+                                      plugin.renderList(template);
+                                  }
+                              });
+                          }else{
+                              plugin.currentPage = $(self).data('page');
+                              if (plugin.currentPage >= 0){
+                                  plugin.renderList(template);
+                              }
+                          }
                         });
                         let more = $('<li class="page-item"><span class="page-link">...</span></li');
                         let displayPages = resultsContainer.find('.page[data-page_number]');

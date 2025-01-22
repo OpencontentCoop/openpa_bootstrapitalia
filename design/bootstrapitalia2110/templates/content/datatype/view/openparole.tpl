@@ -1,0 +1,1 @@
+{include uri='design:content/datatype/view/openparole_async.tpl' view=card_teaser_info}

@@ -20,12 +20,15 @@
                 <i aria-hidden="true" class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
             </div>
         </div>
-  {{else currentPage == 0}}
-    <div class="row">
-      <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
-    </div>
-  {{/if}}
-	{{if paginationStyle === 'append' || view === 'latest_messages_item'}}
+
+	{{else paginationStyle === 'append' || view === 'latest_messages_item'}}
+
+        {{if currentPage == 0 && totalCount > searchHits.length}}
+            <div class="row">
+              <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
+            </div>
+        {{/if}}
+
 		{{for searchHits}}
           {{include tmpl="#tpl-remote-gui-item"/}}
 		{{/for}}
@@ -38,6 +41,12 @@
 		{{/if}}
 
 	{{else}}
+
+        {{if currentPage == 0 && totalCount > searchHits.length}}
+	    <div class="row">
+          <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
+        </div>
+        {{/if}}
 
 	    <div class="row mx-lg-n3{{if !autoColumn && itemsPerRow != 'auto'}} row-cols-1 row-cols-md-2 row-cols-lg-{{:itemsPerRow}}{{/if}}"{{if itemsPerRow == 'auto'}} data-bs-toggle="masonry"{{/if}}>
             {{if autoColumn}}<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{{:itemsPerRow}}">{{/if}}
@@ -56,7 +65,7 @@
         </div>
 
         {{if pageCount > 1}}
-        <div class="row mt-lg-4">
+        <div class="row mt-lg-4 remote-pagination">
             <div class="col">
                 <nav class="pagination-wrapper justify-content-center" aria-label="{/literal}{'Navigation'|i18n('design/ocbootstrap/menu')}{literal}">
                     <ul class="pagination">

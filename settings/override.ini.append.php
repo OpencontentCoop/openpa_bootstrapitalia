@@ -30,6 +30,13 @@ Match[class_identifier]=image
 ############################################ DATATYPE VIEW
 ############################################
 
+[datatype_view_organization_related_documents]
+Source=content/datatype/view/openpareverserelationlist.tpl
+MatchFile=datatype/view/reverse_relations_organization_related_documents.tpl
+Subdir=templates
+Match[class_identifier]=organization
+Match[attribute_identifier]=related_documents
+
 [datatype_view_public_service_access_url]
 Source=content/datatype/view/ezurl.tpl
 MatchFile=datatype/view/public_service_channel_url.tpl
