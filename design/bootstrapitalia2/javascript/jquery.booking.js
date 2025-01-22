@@ -812,17 +812,25 @@
         maxMonthIndex++
       }
       self.monthSelect.find('option')
-        .attr('disabled', false)
-        .hide()
-      for (let i = 0; i <= maxMonthIndex; i++) {
-        let option = self.monthSelect.find('option').eq(i).show();
-        if (i === 0){
-          option.prop('selected', 'selected')
-          self.setCurrentData('month', option.val())
+        .attr('disabled', true)
+        .hide()        
+      
+      let maxDate = moment().add(maxMonthIndex, 'months')
+      self.error('max-date-available', maxDate.toString())
+      let index = 0;
+      $('option', self.monthSelect).each(function(){
+        let monthYear = $(this).val()
+        if (index === 0){
+          $(this).attr('disabled', false).show()
+          $(this).prop('selected', 'selected')
+          self.setCurrentData('month', $(this).val())
           self.setCurrentData('day', null)
           self.setCurrentData('openingHour', null)
+        }else if (monthYear.length > 0 && maxDate.isSameOrAfter(moment(monthYear+'-01'))){
+          $(this).attr('disabled', false).show()
         }
-      }
+        index++;
+      })
       self.error('built-month-select', self.monthSelect.find('option:selected').val(), maxMonthIndex);
     },
 

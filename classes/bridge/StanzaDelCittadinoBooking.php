@@ -221,14 +221,14 @@ EOT;
                                     $max = $now->add(new DateInterval('P' . (int)$c['rolling_days'] . 'D'));
                                     $diff = $max->diff($now);
                                     $monthInterval = (($diff->y) * 12) + ($diff->m);
-                                    if ($diff->d > 0){
+                                    if ($diff->d > 1){
                                         $monthInterval++;
                                     }
                                     $calendarNames[$calendar] = [
                                         'id' => $c['id'],
                                         'title' => $c['title'],
                                         'rolling_days' => $c['rolling_days'],
-                                        'month_interval' => $monthInterval,
+                                        'month_interval' => $monthInterval,                                        
                                     ];
                                 } catch (Throwable $e) {
                                     eZDebug::writeError($e->getMessage(), __METHOD__);
@@ -240,7 +240,7 @@ EOT;
                                 $max = $now->add(new DateInterval('P' . $maxRollingDays . 'D'));
                                 $diff = $max->diff($now);
                                 $monthInterval = (($diff->y) * 12) + ($diff->m);
-                                if ($diff->d > 0){
+                                if ($diff->d > 1){
                                     $monthInterval++;
                                 }
                                 $place = [
