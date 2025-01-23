@@ -40,7 +40,7 @@
                                 <h5>
                                     {first_set( $contentclass_attribute.nameList[$content_language], $contentclass_attribute.name )|wash}{if $attribute.can_translate|not}<span class="nontranslatable">({'not translatable'|i18n( 'design/admin/content/edit_attribute' )})</span>{/if}:
                                     {if $contentclass_attribute.description}
-                                        <small class="lora text-muted mb-3 d-block">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash}</small>
+                                        <small class="lora text-muted mb-3 d-block">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash|markdown}</small>
                                     {/if}
                                 </h5>
                             </div>
@@ -66,7 +66,7 @@
                                             <span class="collector">({'information collector'|i18n( 'design/admin/content/edit_attribute' )})</span>
                                         {/if}
                                         {if $contentclass_attribute.description}
-                                            <small class="lora text-muted mb-3 d-block">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash}</small>
+                                            <small class="lora text-muted mb-3 d-block">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash|markdown}</small>
                                         {/if}
                                     </h5>
                                 </div>
@@ -102,7 +102,7 @@
                                     </div>
                                     <div class="col-12">
                                         {if $contentclass_attribute.description}
-                                            <small class="lora text-muted mb-3 d-block">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash}</small>
+                                            <small class="lora text-muted mb-3 d-block">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash|markdown}</small>
                                         {/if}
                                         {if array('ezimage', 'ezbinaryfile', 'ocmultibinary')|contains($contentclass_attribute.data_type_string)}
                                             <small class="lora text-muted mb-3 d-block">
@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="col-12">
                                         {if $contentclass_attribute.description}
-                                            <small class="lora text-muted mb-3 d-block">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash}</small>
+                                            <small class="lora text-muted mb-3 d-block">{first_set( $contentclass_attribute.descriptionList[$content_language], $contentclass_attribute.description)|wash|markdown}</small>
                                         {/if}
                                         {if array('ezimage', 'ezbinaryfile', 'ocmultibinary')|contains($contentclass_attribute.data_type_string)}
                                             <small class="lora text-muted mb-3 d-block">

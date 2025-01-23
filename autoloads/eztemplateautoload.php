@@ -76,6 +76,7 @@ $eZTemplateOperatorArray = [
             'approval_groups_allowed',
             'download_url',
             'parse_table',
+            'markdown',
         ],
     ],
 ];

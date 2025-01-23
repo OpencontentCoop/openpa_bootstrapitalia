@@ -101,6 +101,7 @@ class OpenPABootstrapItaliaOperators
             'approval_groups_allowed',
             'download_url',
             'parse_table',
+            'markdown',
         );
     }
 
@@ -274,6 +275,10 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'markdown':
+                $operatorValue = is_string($operatorValue) ? Markdown_Parser::parse($operatorValue) : $operatorValue;
+                break;
 
             case 'parse_table':
                 $data = [];
