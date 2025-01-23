@@ -151,6 +151,13 @@ MatchFile=datatype/view/matrix_link.tpl
 Subdir=templates
 Match[attribute_identifier]=link
 
+[datatype_view_matrix_event_signup_link]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype/view/matrix_link.tpl
+Subdir=templates
+Match[class_identifier]=event
+Match[attribute_identifier]=signup_link
+
 [datatype_view_matrix_links]
 Source=content/datatype/view/ezmatrix.tpl
 MatchFile=datatype/view/matrix_link.tpl
