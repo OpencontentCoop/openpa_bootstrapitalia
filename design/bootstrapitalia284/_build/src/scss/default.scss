@@ -146,7 +146,7 @@ $section-user-header-background-color: #f0f8f5 !default;
 @import 'custom/tooltip';
 @import 'custom/videoplayer';
 @import 'custom/list';
-@import 'custom/chips';
+@import 'opencity/override/custom/chips'; //@import 'custom/chips';
 @import 'custom/rating';
 @import 'custom/dimmer';
 @import 'custom/accept-overlay';

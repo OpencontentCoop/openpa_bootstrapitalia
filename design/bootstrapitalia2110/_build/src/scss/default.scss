@@ -127,7 +127,7 @@ $primary-b: 48 !default;
 @import 'custom/popover';
 @import 'custom/tooltip';
 @import 'custom/list';
-@import 'custom/chips';
+@import 'override/custom/chips'; // 'custom/chips'
 @import 'custom/rating';
 @import 'custom/dimmer';
 @import 'custom/timeline';
