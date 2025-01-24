@@ -12,7 +12,7 @@
     </div>
     {/if}
     <div class="card-body">
-        <h3 class="card-title {$text_color_class} mb-1">
+        <h3 class="card-title {$text_color_class} font-sans-serif mb-1">
             <a data-element="{$openpa.data_element.value|wash()}" class="{$text_color_class}" {if $openpa.content_link.target}target="{$openpa.content_link.target|wash()}"{/if} href="{$openpa.content_link.full_link}">
                 {$node.name|wash()}{include uri='design:parts/card_title_suffix.tpl'}
             </a>
