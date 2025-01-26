@@ -8,7 +8,7 @@
                         href="{$openpa.content_link.full_link}"
                         onclick="location.href = '{$openpa.content_link.full_link}';"
                         data-element="{$openpa.data_element.value|wash()}"
-                        class="card-title title-xlarge p-0">
+                        class="card-title title-xlarge p-0 primary-color">
                     <span>
                          {$node.name|wash()}
                     </span>
