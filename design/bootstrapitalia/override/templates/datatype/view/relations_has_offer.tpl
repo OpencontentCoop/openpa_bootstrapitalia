@@ -20,14 +20,15 @@
                     {if $child|has_attribute('has_eligible_user')}
                     <span class="category-top">{$child|attribute('has_eligible_user').content.keywords|implode(' ')}</span>
                     {/if}
-                    {if $child|attribute('has_price_specification').data_float|int()|eq(0)}
-                      <div class="card-title big-heading">{'FREE'|i18n('bootstrapitalia')}</div>
-                    {else}
-                      <div class="card-title big-heading">{if $currency|eq('Euro')}€{else}{$currency|wash()}{/if}
-                      {$child|attribute('has_price_specification').content|wash()}
-                      </div>
-                    {/if}
                 </h5>
+                    {if $child|attribute('has_price_specification').data_float|int()|eq(0)}
+                      <h5 class="card-title big-heading">{'FREE'|i18n('bootstrapitalia')}</h5>
+                    {else}
+                      <h5 class="card-title big-heading">{if $currency|eq('Euro')}€{else}{$currency|wash()}{/if}
+                      {$child|attribute('has_price_specification').content|wash()}
+                      </h5>
+                    {/if}
+                
                 {undef $currency}
                 <p class="mt-4">{$child|attribute('description').content|wash()}</p>
                 {if $child|has_attribute('note')}
