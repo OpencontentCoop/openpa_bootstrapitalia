@@ -91,7 +91,7 @@ themes.forEach(function (theme){
       scss({
         output: '../stylesheets/'+theme+'.css',
         outputStyle: 'compressed',
-        sourceMap: true,
+        sourceMap: false,
         watch: 'src/scss'
       })
     ]
