@@ -1,7 +1,7 @@
 <div class="calendar-vertical font-sans-serif has-bg-grey p-3">
     <div class="calendar-date">
         <div class="calendar-date-day">
-            <span class="title-xxlarge-regular d-flex justify-content-center">{$attribute.data_int}</span>
+            <span class="title-xxlarge-regular d-flex justify-content-center lh-1">{$attribute.data_int}</span>
             <small class="calendar-date-day__month">{'days'|i18n('bootstrapitalia')}</small>
         </div>
         <div class="calendar-date-description rounded bg-white">
