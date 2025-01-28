@@ -1,0 +1,26 @@
+//usando http://colorizer.org/
+
+$primary: #e30613;
+$primary-a7: #49494b;
+$primary-a6: #e30613;
+$primary-a10: #49494b;
+$primary-a12: #222222;
+
+$primary-h: 356.47;
+$primary-s: 97.36;
+$primary-b: 89.02;
+
+$header-slim-bg-color: $primary-a7;
+$footer-top-background: $primary-a10;
+
+@import "default";
+
+
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone,
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone a,
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-brand-wrapper a {
+  color: #222;
+}
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-right-zone .it-socials ul .icon{
+  fill: #222;
+}

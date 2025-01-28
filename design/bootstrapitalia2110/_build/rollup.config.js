@@ -8,23 +8,24 @@ import injectProcessEnv from 'rollup-plugin-inject-process-env'
 import commonjs from 'rollup-plugin-commonjs'
 
 const themes = [
-  // 'acqua',
-  // 'acquamarina',
-  // 'amalfi',
-  // 'amaranto',
-  // 'apss',
-  // 'asl',
-  // 'cagliari',
-  // 'cenerentola',
+  'acqua',
+  'acquamarina',
+  'amalfi',
+  'amaranto',
+  'apss',
+  'asl',
+  'blue',
+  'cagliari',
+  'cenerentola',
   'default',
-  // 'elegance',
-  // 'mare',
-  // 'mediterraneo',
-  // 'rustico',
-  // 'trento',
-  // 'turquoise',
-  // 'verdone',
-  // 'warmred'
+  'elegance',
+  'mare',
+  'mediterraneo',
+  'rustico',
+  'trento',
+  'turquoise',
+  'verdone',
+  'warmred',
 ]
 
 const commons = [

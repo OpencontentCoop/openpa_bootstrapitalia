@@ -1,0 +1,23 @@
+//usando http://colorizer.org/
+
+$primary: #3478bd;
+$primary-a7: #2b649e;
+$primary-a6: #3478bd;
+$primary-a10: #214c77;
+$primary-a12: #16334f;
+
+$primary-h: 210.22;
+$primary-s: 72.49;
+$primary-b: 74.12;
+
+$header-slim-bg-color: $primary-a7;
+$footer-top-background: $primary-a10;
+
+
+@import "default";
+
+// #F2F7FB
+:root {
+  --bs-light-rgb: 242, 247, 251;
+  --bs-light: hsl(207deg, 52.9%,96.7%)
+}
