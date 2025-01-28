@@ -2,7 +2,7 @@
 {let matrix=$attribute.content}    
 <div class="my-3 font-sans-serif">
     {foreach $matrix.rows.sequential as $index => $row}
-        <div class="card no-after border-start mt-3">
+        <div class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3">
             <div class="card-body">
                 {if or($row.columns[0]|ne(''), $row.columns[1]|ne(''))}
                 <h5>

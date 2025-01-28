@@ -13,17 +13,19 @@
 
 {if count($node_list)|gt(0)}  
     {foreach $node_list as $child }
-        <div class="card no-after border-left mt-3">
+        <div class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3">
             <div class="card-body">              
-                {if $child|has_attribute('has_eligible_user')}
-                <div class="category-top">{$child|attribute('has_eligible_user').content.keywords|implode(' ')}</div>
-                {/if}
                 {def $currency = $child|attribute('has_currency').content.keyword_string}
-                <h5 class="card-title big-heading">
+                <h5>
+                    {if $child|has_attribute('has_eligible_user')}
+                    <span class="category-top">{$child|attribute('has_eligible_user').content.keywords|implode(' ')}</span>
+                    {/if}
                     {if $child|attribute('has_price_specification').data_float|int()|eq(0)}
-                        {'FREE'|i18n('bootstrapitalia')}
+                      <div class="card-title big-heading">{'FREE'|i18n('bootstrapitalia')}</div>
                     {else}
-                        {if $currency|eq('Euro')}€{else}{$currency|wash()}{/if} {$child|attribute('has_price_specification').content|wash()}
+                      <div class="card-title big-heading">{if $currency|eq('Euro')}€{else}{$currency|wash()}{/if}
+                      {$child|attribute('has_price_specification').content|wash()}
+                      </div>
                     {/if}
                 </h5>
                 {undef $currency}
