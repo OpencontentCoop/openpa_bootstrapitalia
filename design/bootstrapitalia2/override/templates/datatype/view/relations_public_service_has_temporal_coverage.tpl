@@ -12,7 +12,7 @@
 {/if}
 
 {if count($node_list)|gt(0)}
-<div class="calendar-vertical mb-3 font-sans-serif">
+<div class="calendar-vertical mb-3 font-sans-serif p-3">
     {foreach $node_list as $child }
         {node_view_gui view='point_list' content_node=$child}
     {/foreach}
