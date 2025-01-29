@@ -7,7 +7,7 @@
         {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
     </div>
     <div class="card-body">
-        <h3 class="card-title text-{$background_color_class} mb-1">
+        <h3 class="card-title text-{$background_color_class} font-sans-serif mb-1">
             <a data-shared_link="{$node.contentobject_id}" data-shared_link_view="banner_color" class="stretched-link text-decoration-none text-{$background_color_class}" href="{$openpa.content_link.full_link}">
                 {$node.name|wash()}
                 {include uri='design:parts/card_title_suffix.tpl'}
