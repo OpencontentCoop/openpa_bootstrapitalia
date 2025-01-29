@@ -14,7 +14,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
 
     protected $maxSearchLimit = 300;
 
-    public static function generateView($NodeID, $ViewMode)
+    public static function generateView($NodeID, $ViewMode, $ViewParams = [])
     {
         $viewData = false;
         if (in_array($ViewMode, [
@@ -26,6 +26,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
             'card_image',
             'card_simple',
             'card_teaser',
+            'card_teaser_info',
             'image',
             'text_linked',
             'latest_messages_item',
@@ -48,15 +49,22 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
             $LanguageCode = null;
             $Offset = 0;
             $ini = eZINI::instance();
-            $viewParameters = [];
+            $viewParameters = $ViewParams;
             $collectionAttributes = false;
             $validation = [];
 
+            if (!isset($viewParameters['_custom'])){
+                $viewParameters['_custom'] = [];
+            }
+
             if ($ViewMode == 'card') {
-                $viewParameters['_custom'] = ['view_variation' => 'big'];
+                $viewParameters['_custom']['view_variation'] = 'big';
             }
             if ($ViewMode == 'banner' || $ViewMode == 'banner_color') {
-                $viewParameters['_custom'] = ['view_variation' => 'banner-round banner-shadow h-100'];
+                $viewParameters['_custom']['view_variation'] = 'banner-round banner-shadow h-100';
+            }
+            if ($ViewMode == 'card_teaser_info') {
+                $viewParameters['_custom']['view_variation'] = 'auto_width';
             }
 
             $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile(
@@ -65,7 +73,8 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                 $Offset,
                 false,
                 $LanguageCode,
-                $ViewMode
+                $ViewMode,
+                $viewParameters
             );
 
             $args = compact([
@@ -83,7 +92,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
             eZURI::setTransformURIMode('full');
             $result = eZClusterFileHandler::instance($cacheFileArray['cache_path'])
                 ->processCache(
-                    ['OpenPABootstrapItaliaNodeViewFunctions', 'contentViewRetrieve'],
+                    null,//['OpenPABootstrapItaliaNodeViewFunctions', 'contentViewRetrieve'],
                     ['OpenPABootstrapItaliaNodeViewFunctions', 'contentViewGenerate'],
                     null,
                     null,
@@ -117,7 +126,8 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
         $extra->set('urlAlias', $content->getUrlAlias($mainNodeId));
         if (isset($this->request->get['view'])) {
             $ViewMode = $this->request->get['view'];
-            $viewData = self::generateView($mainNodeId, $ViewMode);
+            $ViewParams = $this->request->get['view_params'] ?? [];
+            $viewData = self::generateView($mainNodeId, $ViewMode, $ViewParams);
             if ($viewData) {
                 $extra->set('view', $viewData);
             }
