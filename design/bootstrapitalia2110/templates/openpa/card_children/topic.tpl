@@ -28,7 +28,7 @@
                                {if $item.metadata.classIdentifier|begins_with('public_service')}data-element="service-link"{/if}
                                href="{concat('openpa/object/', $item.metadata.id)|ezurl(no)}">
                                 <span class="list-item-title-icon-wrapper">
-                                    <span class="text-success">
+                                    <span class="text-primary">
                                       {if is_set($item.metadata.name[$language])}
                                           {$item.metadata.name[$language]|wash()}
                                       {else}

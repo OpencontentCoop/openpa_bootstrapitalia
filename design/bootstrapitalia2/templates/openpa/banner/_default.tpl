@@ -4,7 +4,7 @@
 <div data-object_id="{$node.contentobject_id}" class="h-100 font-sans-serif card card-teaser border border-light rounded shadow-sm p-3 {$node|access_style}">
     <div class="card-body {if $has_image}pe-3{/if}">
         <p class="card-title text-paragraph-regular-medium-semi mb-3">
-            <a class="text-decoration-none" href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}" data-focus-mouse="false">
+            <a class="text-decoration-none text-primary" href="{$openpa.content_link.full_link}" data-element="{$data_element|wash()}" data-focus-mouse="false">
                 {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
             </a>
             {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}
