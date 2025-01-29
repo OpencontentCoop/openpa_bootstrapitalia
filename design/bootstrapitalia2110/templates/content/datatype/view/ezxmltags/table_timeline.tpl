@@ -6,7 +6,9 @@
             <div class="timeline-element">
                 <h3 class="it-pin-wrapper ">
                     <div class="pin-icon">
-                        <svg class="icon" role="img"><title>{$row[0]|oc_shorten(150)}</title><use href="{'images/svg/sprites.svg'|ezdesign('no')}#it-flag"></use></svg>
+                        <svg class="icon" aria-hidden="true" focusable="false">
+                          <use href="{'images/svg/sprites.svg'|ezdesign('no')}#it-flag"></use>
+                        </svg>
                     </div>
                     <div class="pin-text"><span>{$row[0]}</span></div>
                 </h3>

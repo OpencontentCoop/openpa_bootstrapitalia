@@ -12,7 +12,7 @@
 {/if}
 
 {if count($node_list)|gt(0)}
-    <div class="calendar-vertical mb-3 font-sans-serif">
+    <div class="calendar-vertical mb-3 font-sans-serif p-3">
     {foreach $node_list as $child }
         {if $child.class_identifier|eq('public_service')}
             {def $day = false()}
@@ -36,10 +36,10 @@
                 <div class="calendar-date-day {if $day}warning{else}info{/if}">
                     {if $day}
                         <small class="calendar-date-day__year">{$year}</small>
-                        <span class="title-xxlarge-regular d-flex justify-content-center">{$days}</span>
+                        <span class="title-xxlarge-regular d-flex justify-content-center lh-1">{$days}</span>
                         <small class="calendar-date-day__month text-lowercase">{$month}</small>
                     {elseif $processing_time}
-                        <span class="title-xxlarge-regular d-flex justify-content-center">{$processing_time}</span>
+                        <span class="title-xxlarge-regular d-flex justify-content-center lh-1">{$processing_time}</span>
                         <small class="calendar-date-day__month text-lowercase">{'days'|i18n('bootstrapitalia')}</small>
                     {/if}
                 </div>

@@ -44,9 +44,9 @@
 					<small class="d-block text-nowrap font-sans-serif me-3">{$openpa[$identifier].contentclass_attribute.name|wash()}:</small>
 					<div>
 				{/if}
-                {if array('eztext', 'ezstring')|contains($openpa[$identifier].contentobject_attribute.data_type_string)}<p>{/if}
+        {if array('ezstring')|contains($openpa[$identifier].contentobject_attribute.data_type_string)}<p>{/if}
 				{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute image_class=reference alignment=center}
-                {if array('eztext', 'ezstring')|contains($openpa[$identifier].contentobject_attribute.data_type_string)}</p>{/if}
+        {if array('ezstring')|contains($openpa[$identifier].contentobject_attribute.data_type_string)}</p>{/if}
 				{if $main_labels|contains($identifier)}
 					</div>
 				</div>

@@ -46,7 +46,7 @@
                                             <label for="form-details" class="visually-hidden">
                                                 {'Add more details'|i18n('bootstrapitalia/booking')}
                                             </label>
-                                            <textarea name="detail" class="text-area" id="form-details" rows="2"></textarea>
+                                            <textarea name="detail" class="text-area form-control" id="form-details" rows="2"></textarea>
                                             <span style="position: absolute;right: 0;bottom: 0;" class="cmp-input__text"><span class="detail-length">200</span>/200</span>
                                             <span class="form-text cmp-input__text">{'Enter up to 200 characters'|i18n('bootstrapitalia/booking')}</span>
                                         </div>

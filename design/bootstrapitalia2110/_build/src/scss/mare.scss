@@ -1,8 +1,10 @@
 //usando http://colorizer.org/
 // colore azzurro: #3573DE
 
+$primary: #336CD1;
+
 $primary-a7: #26529E;
-$primary-a6: #336CD1;
+$primary-a6: $primary;
 $primary-a10: #2C5FB8;
 $primary-a12: #234B91;
 
@@ -12,5 +14,6 @@ $primary-b: 53.92;
 
 $header-slim-bg-color: $primary-a7;
 $footer-top-background: $primary-a10;
+$card-teaser-border: rgba($primary, 0.1);
 
 @import "default";

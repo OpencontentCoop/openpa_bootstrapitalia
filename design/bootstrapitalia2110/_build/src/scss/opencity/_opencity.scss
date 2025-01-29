@@ -754,13 +754,17 @@ ul.link-list,
   border-left: 1px solid $gray-disabled;
 }
 .procedure-toggle{
-  font-size: .875em;
   text-decoration: none;
-  color: #0e4b57;
+  color: $primary;
   margin: 12px 0 20px;
   font-weight: 600;
+}
+.procedure-toggle:hover {
+  text-decoration: underline;
 }
 .procedure-toggle .icon {
   width: 25px;
   height: 25px;
+  fill: $primary;
+  margin-left: 3px;
 }

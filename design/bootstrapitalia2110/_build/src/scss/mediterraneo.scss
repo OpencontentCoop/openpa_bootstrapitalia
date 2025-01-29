@@ -2,12 +2,12 @@
 // colore unipd: #378911
 // da sostituire con #348210 (#327d10)
 
-$colore-header: #348210;
+$primary: #348210;
 
-$primary-a7: darken($colore-header, 3);
-$primary-a6: darken($colore-header, 0);
-$primary-a10: darken($colore-header, 1);
-$primary-a12: darken($colore-header, 2);
+$primary-a7: darken($primary, 3);
+$primary-a6: darken($primary, 0);
+$primary-a10: darken($primary, 1);
+$primary-a12: darken($primary, 2);
 
 $primary-h: 101;
 $primary-s: 87.59;
@@ -15,5 +15,6 @@ $primary-b: 51;
 
 $header-slim-bg-color: $primary-a7;
 $footer-top-background: $primary-a10;
+$card-teaser-border: rgba($primary, 0.1);
 
 @import "default";

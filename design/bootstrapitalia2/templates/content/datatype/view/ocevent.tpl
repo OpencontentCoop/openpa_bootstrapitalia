@@ -20,7 +20,7 @@
             <div class="calendar-date">
                 <div class="calendar-date-day">
                     <small class="calendar-date-day__year">{recurrences_strtotime($event.start)|datetime( 'custom', '%Y' )}</small>
-                    <span class="title-xxlarge-regular d-flex justify-content-center">{recurrences_strtotime($event.start)|datetime( 'custom', '%d' )}</span>
+                    <span class="title-xxlarge-regular d-flex justify-content-center lh-1">{recurrences_strtotime($event.start)|datetime( 'custom', '%d' )}</span>
                     <small class="calendar-date-day__month text-lowercase">{recurrences_strtotime($event.start)|datetime( 'custom', '%M' )}</small>
                 </div>
                 <div class="calendar-date-description rounded bg-white">
@@ -35,7 +35,7 @@
             <div class="calendar-date">
                 <div class="calendar-date-day">
                     <small class="calendar-date-day__year">{recurrences_strtotime($event.end)|datetime( 'custom', '%Y' )}</small>
-                    <span class="title-xxlarge-regular d-flex justify-content-center">{recurrences_strtotime($event.end)|datetime( 'custom', '%d' )}</span>
+                    <span class="title-xxlarge-regular d-flex justify-content-center lh-1">{recurrences_strtotime($event.end)|datetime( 'custom', '%d' )}</span>
                     <small class="calendar-date-day__month text-lowercase">{recurrences_strtotime($event.end)|datetime( 'custom', '%M' )}</small>
                 </div>
                 <div class="calendar-date-description rounded bg-white">
@@ -52,7 +52,7 @@
             <div class="calendar-date">
                 <div class="calendar-date-day">
                     <small class="calendar-date-day__year">{recurrences_strtotime($event.start)|datetime( 'custom', '%Y' )}</small>
-                    <span class="title-xxlarge-regular d-flex justify-content-center">{recurrences_strtotime($event.start)|datetime( 'custom', '%d' )}</span>
+                    <span class="title-xxlarge-regular d-flex justify-content-center lh-1">{recurrences_strtotime($event.start)|datetime( 'custom', '%d' )}</span>
                     <small class="calendar-date-day__month text-lowercase">{recurrences_strtotime($event.start)|datetime( 'custom', '%M' )}</small>
                 </div>
                 <div class="calendar-date-description rounded bg-white">

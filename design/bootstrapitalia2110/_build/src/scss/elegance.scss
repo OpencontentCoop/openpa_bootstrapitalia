@@ -1,8 +1,10 @@
 //usando http://colorizer.org/
 // colore nero: #101010 
 
+$primary: #292929;
+
 $primary-a7: #000000;
-$primary-a6: #292929;
+$primary-a6: $primary;
 $primary-a10: #555555;
 $primary-a12: #444444;
 
@@ -12,5 +14,6 @@ $primary-b: 3.92;
 
 $header-slim-bg-color: $primary-a7;
 $footer-top-background: $primary-a10;
+$card-teaser-border: rgba($primary, 0.1);
 
 @import "default";
