@@ -130,7 +130,7 @@ $primary-b: 48 !default;
 @import 'custom/chips';
 @import 'custom/rating';
 @import 'custom/dimmer';
-@import 'custom/timeline';
+@import 'override/custom/timeline'; // 'custom/timeline';
 @import 'custom/anchor';
 @import 'custom/map';
 @import 'custom/point-list';
