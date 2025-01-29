@@ -1,6 +1,7 @@
+{if is_set($read_only)|not()}{def $read_only = false()}{/if}
 <div data-faq_group="{$node.node_id}" data-showeditor="{cond($node.can_create,1,2)}" data-capabilities="{cond($node.can_edit, '1', '0')}"></div>
 
-{if or($node.can_edit, $node.can_create)}
+{if and($read_only|not(), or($node.can_edit, $node.can_create))}
 <a href="#" data-create_faq="{$node.node_id}" class="btn btn-success btn-sm mt-2"><i class="fa fa-plus"></i></a>
 {run-once}
 {ezscript_require(array(
@@ -51,7 +52,6 @@ $(document).ready(function(){
 {/run-once}
 {/if}
 
-{run-once}
 {literal}
 <script>
 $.opendataTools.settings('language', "{/literal}{ezini('RegionalSettings','Locale')}{literal}");
@@ -68,8 +68,10 @@ $.opendataTools.settings('languages', ['{/literal}{ezini('RegionalSettings','Sit
     {{for searchHits}}
         <div class="collapse-header" id="heading-{{:metadata.id}}">
             <button class="px-1" data-toggle="collapse" data-bs-toggle="collapse" data-target="#collapse-{{:metadata.id}}" data-bs-target="#collapse-{{:metadata.id}}" aria-expanded="false" aria-controls="collapse-{{:metadata.id}}">
+                {/literal}{if $read_only|not()}{literal}
                 {{if metadata.userAccess && metadata.userAccess.canEdit}}<a href="#" class="pr-2 pe-2 pe-2" data-edit={{:metadata.id}}><i class="fa fa-pencil"></i></a>{{/if}}
                 {{if metadata.userAccess && metadata.userAccess.canRemove}}<a href="#" class="pr-2 pe-2 pe-2" data-remove={{:metadata.id}}><i class="fa fa-trash"></i></a>{{/if}}
+                {/literal}{/if}{literal}
                 {{if ~i18n(data, 'question')}}{{:~i18n(data, 'question')}}{{/if}}
             </button>
         </div>
@@ -116,4 +118,3 @@ $.opendataTools.settings('languages', ['{/literal}{ezini('RegionalSettings','Sit
 {{/if}}
 </script>
 {/literal}
-{/run-once}

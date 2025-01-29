@@ -1,3 +1,4 @@
+{if is_set($read_only)|not()}{def $read_only = false()}{/if}
 <div data-faq_group="{$node.node_id}"
      data-showeditor="{cond($node.can_create,1,2)}"
      data-capabilities="{cond($node.can_edit, '1', '0')}">
@@ -9,7 +10,7 @@
                 <div class="input-group-append">
                     <button class="btn btn-primary faqSearchSubmit" type="button" id="button-3">{'Search'|i18n('design/plain/layout')}</button>
                 </div>
-                <span class="autocomplete-icon" aria-hidden="true">
+                <span class="autocomplete-icon ps-0" aria-hidden="true">
                 {display_icon('it-search', 'svg', 'icon icon-sm icon-primary', 'Search'|i18n('openpa/search'))}
             </span>
             </div>
@@ -19,7 +20,7 @@
     <div data-faq_pagination></div>
 </div>
 {ezscript_require(array('jquery.faqs.js'))}
-{if or($node.can_edit, $node.can_create)}
+{if and($read_only|not(), or($node.can_edit, $node.can_create))}
     <div class="my-2 text-right">
         <a href="#" data-create_faq="{$node.node_id}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> {'Add item'|i18n( 'design/standard/block/edit' )}</a>
     </div>
@@ -71,7 +72,6 @@
 {/run-once}
 {/if}
 
-{run-once}
 {literal}
 <script>
   $.opendataTools.settings('language', "{/literal}{ezini('RegionalSettings','Locale')}{literal}");
@@ -89,8 +89,10 @@
     <div class="accordion-item">
         <h2 class="accordion-header" id="heading-{{:metadata.id}}">
             <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-{{:metadata.id}}" aria-expanded="false" aria-controls="collapse-{{:metadata.id}}">
+                {/literal}{if $read_only|not()}{literal}
                 {{if metadata.userAccess && metadata.userAccess.canEdit}}<a href="#" class="pr-2 pe-2 pe-2" data-edit={{:metadata.id}}><i class="fa fa-pencil"></i></a>{{/if}}
                 {{if metadata.userAccess && metadata.userAccess.canRemove}}<a href="#" class="pr-2 pe-2 pe-2" data-remove={{:metadata.id}}><i class="fa fa-trash"></i></a>{{/if}}
+                {/literal}{/if}{literal}
                 {{if ~i18n(data, 'question')}}{{:~i18n(data, 'question')}}{{/if}}
             </button>
         </h2>
@@ -112,4 +114,3 @@
 {{/if}}
 </script>
 {/literal}
-{/run-once}

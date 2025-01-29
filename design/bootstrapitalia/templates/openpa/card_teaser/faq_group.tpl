@@ -2,7 +2,8 @@
     'show_icon', true(),
     'image_class', 'medium',
     'view_variation', false(),
-    'hide_title', false()
+    'hide_title', false(),
+    'view_context', false()
 ))}
 
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
@@ -28,7 +29,9 @@
         <div class="card-text">
 
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
-            {include uri='design:parts/faq_accordion.tpl' node=$node}
+            {if $view_context|eq('embed')}
+            {include uri='design:parts/faq_accordion.tpl' node=$node read_only=true()}
+            {/if}
 
             {def $parent = $node.parent}
             {if and($attributes.show|contains('content_show_read_more'), $parent.class_identifier|eq('faq_section'))}
