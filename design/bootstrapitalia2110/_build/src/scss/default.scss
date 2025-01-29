@@ -116,7 +116,7 @@ $primary-b: 48 !default;
 @import 'custom/notifications';
 @import 'custom/avatar';
 @import 'custom/thumbnav';
-@import 'override/components/steppers'; // 'custom/steppers';
+@import 'override/custom/steppers'; // 'custom/steppers';
 @import 'custom/card';
 @import 'custom/imgresponsive';
 @import 'custom/overlay-panel';
