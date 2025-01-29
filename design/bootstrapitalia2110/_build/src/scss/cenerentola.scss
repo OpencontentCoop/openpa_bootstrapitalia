@@ -1,11 +1,11 @@
 //usando http://colorizer.org/
 
-$colore-header: #4472C4;
+$primary: #4472C4;
 
-$primary-a7: darken($colore-header, 3);
-$primary-a6: darken($colore-header, 0);
-$primary-a10: darken($colore-header, 1);
-$primary-a12: darken($colore-header, 2);
+$primary-a7: darken($primary, 3);
+$primary-a6: darken($primary, 0);
+$primary-a10: darken($primary, 1);
+$primary-a12: darken($primary, 2);
 
 $primary-h: 218;
 $primary-s: 65;

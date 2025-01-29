@@ -1,10 +1,10 @@
 //usando http://colorizer.org/
 // colore mocheni: #560906
 
-$colore-header: #560906;
+$primary: #560906;
 
-$primary-a7: darken($colore-header, 3);
-$primary-a6: darken($colore-header, 0);
+$primary-a7: darken($primary, 3);
+$primary-a6: darken($primary, 0);
 $primary-a10: #30373d;
 $primary-a12: #661324;
 

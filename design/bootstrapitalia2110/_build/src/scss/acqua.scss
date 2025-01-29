@@ -1,15 +1,17 @@
 //usando http://colorizer.org/
 
+$primary: #355b87;
+
 $primary-a7: #414445;
-$primary-a6: #355b87;
-$primary-a10: #355b87;
+$primary-a6: $primary;
+$primary-a10: $primary;
 $primary-a12: #414445;
 $primary-h: 212.2;
 $primary-s: 60.74;
 $primary-b: 52.94;
 
 $header-slim-bg-color: $primary-a7;
-$footer-top-background: $primary-a10;
+$footer-top-background: $primary;
 $card-teaser-border: rgba($primary, 0.1);
 
 @import "default";
