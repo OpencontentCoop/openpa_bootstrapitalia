@@ -105,7 +105,7 @@ commons.forEach(function (common){
       scss({
         output: '../stylesheets/'+common+'.css',
         outputStyle: 'compressed',
-        sourceMap: true,
+        sourceMap: false,
         watch: 'src/scss'
       })
     ]
