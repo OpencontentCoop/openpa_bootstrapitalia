@@ -10,13 +10,13 @@
             &copy; {currentdate()|datetime( 'custom', '%Y' )} {ezini('SiteSettings','SiteName')}
             {if openpaini('CreditsSettings', 'ShowCredits', 'enabled')|eq('enabled')}
                 powered by
-                <a class="text-decoration-none"
+                <a
                    href="{openpaini('CreditsSettings', 'Url', 'http://www.opencontent.it/openpa')}" title="{openpaini('CreditsSettings', 'Title', 'OpenPA - Strumenti di comunicazione per la pubblica amministrazione')}">
                     {openpaini('CreditsSettings', 'Name', 'OpenCity')}
                 </a>
-                {if openpaini('CreditsSettings', 'CodeVersion', false())}<a class="text-decoration-none" href="{openpaini('CreditsSettings', 'CodeUrl', false())}">{openpaini('CreditsSettings', 'CodeVersion', false())}</a>{/if}
+                {if openpaini('CreditsSettings', 'CodeVersion', false())}<a href="{openpaini('CreditsSettings', 'CodeUrl', false())}">{openpaini('CreditsSettings', 'CodeVersion', false())}</a>{/if}
             {/if}
-            &#8212; concept & design by <a class="text-decoration-none" href="https://designers.italia.it/kit/comuni/">{display_icon('it-designers-italia', 'svg', 'icon icon-xs icon-primary')} Designers Italia</a>
+            &#8212; concept & design by <a href="https://designers.italia.it/kit/comuni/">{display_icon('it-designers-italia', 'svg', 'icon icon-xs icon-primary')} Designers Italia</a>
         {else}
             <a href="{$site_href|wash()}" title="Opencity Italia - Sito web comunale">Sito web</a>
             {if has_bridge_connection()}
@@ -38,7 +38,7 @@
             </svg>
             {/if}
         {/if}
-            &middot; <a data-login-bottom-button href="{"/user/login"|ezurl(no)}" class="text-decoration-none">{'Site editors access'|i18n('bootstrapitalia')}</a>
+            &middot; <a data-login-bottom-button href="{"/user/login"|ezurl(no)}">{'Site editors access'|i18n('bootstrapitalia')}</a>
             {literal}
                 <script>
                     $(document).ready(function(){
