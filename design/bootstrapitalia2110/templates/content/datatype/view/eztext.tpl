@@ -1,0 +1,1 @@
+<p>{$attribute.content|wash( xhtml )|nl2br()}</p>
