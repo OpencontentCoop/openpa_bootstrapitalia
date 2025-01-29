@@ -393,6 +393,13 @@ Subdir=templates
 Match[class_identifier]=topic
 Match[attribute_identifier]=eu
 
+[datatype_view_steps]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_howto_steps.tpl
+Subdir=templates
+Match[class_identifier]=howto
+Match[attribute_identifier]=steps
+
 ############################################
 ############################################ TEXT-LINKED
 ############################################

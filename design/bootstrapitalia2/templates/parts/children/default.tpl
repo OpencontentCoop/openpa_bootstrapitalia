@@ -116,6 +116,56 @@
     {/if}
 {/if}
 
+{if $node.object.remote_id|eq('howto')}
+    {set $search_blocks = array(page_block(
+        "",
+        "OpendataRemoteContents",
+        "default",
+        hash(
+            "remote_url", "",
+            "query", concat("raw[meta_node_id_si] != " , $node.node_id, " and subtree [", $node.node_id, "] sort [name=>asc]"),
+            "show_grid", "1",
+            "show_map", "0",
+            "show_search", "1",
+            "limit", "9",
+            "items_per_row", "2",
+            "facets", $topic_filter,
+            "view_api", "card_teaser",
+            "color_style", "",
+            "fields", "",
+            "template", "",
+            "simple_geo_api", "0",
+            "input_search_placeholder", ""
+            )
+        )
+    )}
+{/if}
+
+{if $node.object.remote_id|eq('insight')}
+    {set $search_blocks = array(page_block(
+        "",
+        "OpendataRemoteContents",
+        "default",
+        hash(
+            "remote_url", "",
+            "query", concat("raw[meta_node_id_si] != " , $node.node_id, " and subtree [", $node.node_id, "] sort [name=>asc]"),
+            "show_grid", "1",
+            "show_map", "0",
+            "show_search", "1",
+            "limit", "9",
+            "items_per_row", "2",
+            "facets", $topic_filter,
+            "view_api", "card_teaser",
+            "color_style", "",
+            "fields", "",
+            "template", "",
+            "simple_geo_api", "0",
+            "input_search_placeholder", ""
+            )
+        )
+    )}
+{/if}
+
 {if and(
     openpaini('ViewSettings', 'ChildrenFilter', 'enabled')|eq('enabled'),
     $node|has_attribute('show_search_form')
@@ -128,7 +178,7 @@
             "default",
             hash(
                 "remote_url", "",
-                "query", concat("subtree [", $node.node_id, "] sort [name=>asc]"),
+                "query", concat("raw[meta_node_id_si] != " , $node.node_id, " and subtree [", $node.node_id, "] sort [name=>asc]"),
                 "show_grid", "1",
                 "show_map", "0",
                 "show_search", "1",
