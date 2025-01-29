@@ -44,8 +44,7 @@
 </div>
 
 {* https://github.com/blueimp/Gallery vedi atom/gallery.tpl *}
-<div class="d-none">
-<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" style="display: none;">
     <div class="slides"></div>
     <h3 class="title"><span class="sr-only">gallery</span></h3>
     <a class="prev" href="#" title="{'Previous'|i18n('design/iphone/full/image')}" aria-label="{'Previous'|i18n('design/iphone/full/image')}">‹</a>
@@ -53,7 +52,6 @@
     <a class="close" href="#" title="{'Close'|i18n('bootstrapitalia')}" aria-label="{'Close'|i18n('bootstrapitalia')}">×</a>
     <a class="play-pause" href="#" title="play/pause" aria-label="play/pause"></a>
     <ol class="indicator"></ol>
-</div>
 </div>
 {literal}
     <script>
