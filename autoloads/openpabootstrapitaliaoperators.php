@@ -1949,6 +1949,9 @@ class OpenPABootstrapItaliaOperators
             $contentObjectAttributeMap = [];
             $hiddenObjectAttributeMap = [];
             $sortMapper = [];
+            $hideDataTypeStrings = [
+                OpenPAReverseRelationListType::DATA_TYPE_STRING
+            ];
             foreach ($contentObjectAttributes as $attribute) {
                 $classAttribute = $attribute->contentClassAttribute();
                 $attributeCategory = $classAttribute->attribute('category');
@@ -1956,7 +1959,7 @@ class OpenPABootstrapItaliaOperators
                 $sortMapper[$classAttribute->attribute('placement')] = $attributeIdentifier;
                 if ($attributeCategory === 'hidden') {
                     $hiddenObjectAttributeMap[$attributeIdentifier] = $attribute;
-                } else {
+                } elseif (!in_array($attribute->attribute('data_type_string'), $hideDataTypeStrings)) {
                     $contentObjectAttributeMap[$attributeIdentifier] = $attribute;
                 }
             }
