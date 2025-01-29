@@ -250,7 +250,7 @@
                                 {if is_set($content_object.id)}
                                     {include uri='design:parts/websitetoolbar/openpa_copy_object.tpl'}
                                     {include uri='design:parts/websitetoolbar/versions.tpl'}
-                                    {include uri='design:parts/websitetoolbar/object_states.tpl'}
+                                    {*include uri='design:parts/websitetoolbar/object_states.tpl'*}
                                     {include uri='design:parts/websitetoolbar/reindex.tpl'}
                                     {include uri='design:parts/websitetoolbar/classtools.tpl'}
                                     {include uri='design:parts/websitetoolbar/urlalias.tpl'}
