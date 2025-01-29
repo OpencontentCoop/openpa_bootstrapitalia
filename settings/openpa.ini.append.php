@@ -253,6 +253,7 @@ AttributeIdentifiers[]=has_spatial_coverage
 AttributeIdentifiers[]=has_online_contact_point
 AttributeIdentifiers[]=opening_hours_specification
 AttributeIdentifiers[]=has_channel
+AttributeIdentifiers[]=temporal
 
 [NetworkSettings]
 SyncTrasparenza=disabled
