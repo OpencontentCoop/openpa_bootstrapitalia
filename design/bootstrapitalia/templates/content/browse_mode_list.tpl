@@ -16,8 +16,11 @@
     {'Type'|i18n( 'design/ocbootstrap/content/browse_mode_list' )}
         </th>
 </tr>
-
-{def $browse_context_node = fetch('content', 'node', hash('node_id', $browse.persistent_data.ContentNodeID))}
+{if is_set($browse.persistent_data.ContentNodeID)}
+    {def $browse_context_content_class_id = fetch('content', 'node', hash('node_id', $browse.persistent_data.ContentNodeID)).object.content_class.id}
+{else}
+    {def $browse_context_content_class_id = fetch('content', 'object', hash('object_id', $browse.persistent_data.ContentObjectID)).content_class.id}
+{/if}
 
 {section var=Nodes loop=$node_array sequence=array( bglight, bgdark )}
   <tr class="{$Nodes.sequence}">
@@ -49,7 +52,7 @@
         {section-else}
             {section show=and(
                 or( eq( $browse.action_name, 'MoveNode' ), eq( $browse.action_name, 'CopyNode' ), eq( $browse.action_name, 'AddNodeAssignment' ) ),
-                or( $Nodes.item.object.content_class.is_container|not, fetch( 'content', 'access', hash( 'access', 'create', 'contentobject', $Nodes.item, 'contentclass_id', $browse_context_node.object.content_class.id, 'parent_contentclass_id', $Nodes.item.object.content_class.id ) )|eq(0) )
+                or( $Nodes.item.object.content_class.is_container|not, fetch( 'content', 'access', hash( 'access', 'create', 'contentobject', $Nodes.item, 'contentclass_id', $browse_context_content_class_id, 'parent_contentclass_id', $Nodes.item.object.content_class.id ) )|eq(0) )
             )}
                 <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" disabled="disabled" />
             {section-else}
