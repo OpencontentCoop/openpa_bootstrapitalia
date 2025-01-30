@@ -89,12 +89,10 @@ h6.title_editor {
   ul, ol {
     margin-bottom: 1.5rem;
     line-height: 1.5;
-    li {
-      margin-left: 1.75rem;
-    
-      @include media-breakpoint-up(sm) {
-        margin-left: 1.55rem
-      }
+    padding-left: 1.75rem;
+  
+    @include media-breakpoint-up(sm) {
+      padding-left: 2rem
     }
   }
 
