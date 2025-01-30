@@ -3,8 +3,17 @@
 
 $primary: #cf2c51;
 
-$header-slim-bg-color: #a61f3a;
+$primary-a6: $primary;
+$primary-a7: #a61f3a;
+
+$primary-h: 346.38;
+$primary-s: 78.74;
+$primary-b: 81.18;
+
+$header-slim-bg-color: $primary-a7;
 $footer-comuni-bg-color: #30373d;
 $card-teaser-border: rgba($primary, 0.1);
+$color-text-primary-hover: $primary-a7;
+$color-text-primary-active: $primary-a7;
 
 @import "default";
