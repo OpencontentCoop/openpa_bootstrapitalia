@@ -24,7 +24,7 @@
                                     <p>{'You can find all the necessary documents with the related instructions for use and information on the procedure to follow to use the %service service on the %open_service_link dedicated page %close_service_link'|i18n(
                                         'bootstrapitalia/booking',, hash(
                                             '%service', concat('<em>', $service.name|wash(), '</em>'),
-                                            '%open_service_link', concat('<a target="_blank" href="', $service.main_node.url_alias|ezurl(no,full), '">'),
+                                            '%open_service_link', concat('<a target="_blank" rel="noopener" href="', $service.main_node.url_alias|ezurl(no,full), '">'),
                                             '%close_service_link', '</a>'
                                         )
                                     )}</p>

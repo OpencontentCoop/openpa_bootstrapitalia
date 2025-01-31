@@ -86,24 +86,37 @@
                 <div class="it-header-slim-wrapper-content">
                     {if $header_service_list|count()|gt(0)}
                         {foreach $header_service_list as $item max 1}
-                            <a class="{if $header_links|count()}d-none {/if}d-lg-block navbar-brand" target="_blank" href="{$item.url}"
-                               aria-label="{'Go to page'|i18n('bootstrapitalia')} {$item.name|wash()}"
-                               title="{'Go to page'|i18n('bootstrapitalia')} {$item.name|wash()}">{$item.name|wash()}</a>
+                            <a class="{if $header_links|count()}d-none {/if}d-lg-block navbar-brand"
+                              target="_blank"
+                              rel="noopener"
+                              href="{$item.url}">
+                              {$item.name|wash()}
+                            </a>
                         {/foreach}
                         {if $header_links|count()}
                         <div class="nav-mobile">
                             <nav aria-label="{'Extra menu'|i18n('bootstrapitalia')}">
-                                <a class="it-opener d-lg-none" data-bs-toggle="collapse" href="#service-menu" role="button" aria-expanded="false" aria-controls="service-menu">
+                                <a class="it-opener d-lg-none"
+                                  data-bs-toggle="collapse"
+                                  href="#service-menu"
+                                  role="button"
+                                  aria-expanded="false"
+                                  aria-controls="service-menu">
                                     <span>{'Links'|i18n('openpa/footer')}</span>
                                     {display_icon('it-expand', 'svg', 'icon', 'Expand menu')}
                                 </a>
                                 <div class="link-list-wrapper collapse" id="service-menu">
                                     <ul class="link-list">
                                         {foreach $header_service_list as $item}
-                                            <li class="list-item d-block d-md-none"><a href="{$item.url}" aria-label="{'Go to page'|i18n('bootstrapitalia')} {$item.name|wash()}">{$item.name|wash()}</a></li>
+                                            <li class="list-item d-block d-md-none">
+                                              <a href="{$item.url}">
+                                                {$item.name|wash()}</a>
+                                              </li>
                                         {/foreach}
                                         {foreach $header_links as $header_link max openpaini('Menu','HeaderLinksLimit', 3)}
-                                            <li class="list-item text-nowrap">{node_view_gui content_node=$header_link view=text_linked}</li>
+                                            <li class="list-item text-nowrap">
+                                              {node_view_gui content_node=$header_link view=text_linked}
+                                            </li>
                                         {/foreach}
                                     </ul>
                                 </div>
@@ -115,8 +128,12 @@
                     <div class="it-header-slim-right-zone" role="navigation">
                         {if $lang_selector|count()}
                         <div class="nav-item dropdown">
-                            <button type="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                                    aria-expanded="false" aria-controls="languages" aria-haspopup="true">
+                            <button type="button"
+                              class="nav-link dropdown-toggle"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false"
+                              aria-controls="languages"
+                              aria-haspopup="true">
                                 <span class="visually-hidden">{'Current language'|i18n('bootstrapitalia/header')}:</span>
                                 <span>{$current_language.text|wash|upcase}</span>
                                 {display_icon('it-expand', 'svg', 'icon', 'Expand menu')}
@@ -129,7 +146,6 @@
                                                 {foreach $lang_selector as $lang_selector_item}
                                                     <li>
                                                         <a href="{if $lang_selector_item.is_current}#{else}{$lang_selector_item.href}{/if}"
-                                                           title="{$lang_selector_item.lang.text|wash|upcase}"
                                                            {if $lang_selector_item.is_current|not()}data-switch_locale="{$lang_selector_item.lang.locale}"{/if}
                                                            class="dropdown-item list-item">
                                                             <span lang="{fetch(content, locale, hash(locale_code, $lang_selector_item.lang.locale)).http_locale_code|explode('-')[0]}">
@@ -151,7 +167,11 @@
                             {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}
                                 <div id="{openpaini( 'StanzaDelCittadinoBridge', 'RootId_login', 'oc-login-box' )}"></div>
                             {else}
-                                <a class="btn btn-primary btn-icon btn-full" style="visibility: hidden" href="{'accedi'|ezurl(no)}" data-element="personal-area-login" title="{$link_area_personale_title|wash()}">
+                                <a class="btn btn-primary btn-icon btn-full"
+                                  style="visibility: hidden"
+                                  href="{'accedi'|ezurl(no)}"
+                                  data-element="personal-area-login"
+                                  aria-label="{$link_area_personale_title|wash()}">
                                       <span class="rounded-icon" aria-hidden="true">
                                         {display_icon('it-user', 'svg', 'icon icon-primary', $link_area_personale_title|wash())}
                                       </span>

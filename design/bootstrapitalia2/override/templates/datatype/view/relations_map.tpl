@@ -45,7 +45,10 @@
                 <div class="card-body pe-3">
                     <div class="card-text u-main-black">
                         <div class="mt-1">
-                            <a href="{$geo_link}" target="_blank" rel="noopener noreferrer" class="text-decoration-none">
+                            <a href="{$geo_link}"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="text-decoration-none">
                                 <i aria-hidden="true" class="fa fa-map"></i> {$has_geo.content.address|wash()}
                             </a>
                         </div>

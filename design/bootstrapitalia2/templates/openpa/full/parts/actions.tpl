@@ -14,7 +14,9 @@
                         {if $node.object.available_languages|contains($language.locale)}
                             {if $language.locale|ne($node.object.current_language)}
                                 <li>
-                                    <a role="menuitem" class="list-item text-nowrap" href="{concat( $node.url_alias, '/(language)/', $language.locale )|ezurl(no)}">
+                                    <a role="menuitem"
+                                      class="list-item text-nowrap"
+                                      href="{concat( $node.url_alias, '/(language)/', $language.locale )|ezurl(no)}">
                                         <img src="{$language.locale|flag_icon}" width="18" height="12" alt="{$language.locale}" />
                                         <span>{$language.name|wash()}</span>
                                     </a>
@@ -32,7 +34,7 @@
 {/if}
 
 <div class="dropdown">
-    <button class="btn btn-dropdown dropdown-toggle text-decoration-underline d-inline-flex align-items-center fs-0" type="button" id="shareActions" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="condividi sui social">
+    <button class="btn btn-dropdown dropdown-toggle text-decoration-underline d-inline-flex align-items-center fs-0" type="button" id="shareActions" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {display_icon('it-share', 'svg', 'icon')}
         <small>{'Share'|i18n('bootstrapitalia')}</small>
     </button>
@@ -40,25 +42,39 @@
         <div class="link-list-wrapper">
             <ul class="link-list" role="menu">
                 <li>
-                    <a role="menuitem" class="list-item" href="https://facebook.com/sharer/sharer.php?u={$node.url_alias|ezurl(no,full)|urlencode}" target="_blank" rel="noopener" aria-label="Share on Facebook">
+                    <a role="menuitem"
+                      class="list-item"
+                      href="https://facebook.com/sharer/sharer.php?u={$node.url_alias|ezurl(no,full)|urlencode}"
+                      target="_blank"
+                      rel="noopener">
                         {display_icon('it-facebook', 'svg', 'icon')}
                         <span>Facebook</span>
                     </a>
                 </li>
                 <li>
-                    <a role="menuitem" class="list-item" href="https://twitter.com/intent/tweet/?text={concat($node.name, ' ', $node.url_alias|ezurl(no,full))|urlencode}" target="_blank" rel="noopener" aria-label="Share on Twitter">
+                    <a role="menuitem"
+                      class="list-item"
+                      href="https://twitter.com/intent/tweet/?text={concat($node.name, ' ', $node.url_alias|ezurl(no,full))|urlencode}"
+                      target="_blank"
+                      rel="noopener">
                         {display_icon('it-twitter', 'svg', 'icon')}
                         <span>Twitter</span>
                     </a>
                 </li>
                 <li>
-                    <a role="menuitem" class="list-item" href="http://www.linkedin.com/shareArticle?mini=true&amp;url={$node.url_alias|ezurl(no,full)|urlencode}&title={$node.name|wash()}&ro=false&source={ezini('SiteSettings','SiteURL')}">
+                    <a role="menuitem"
+                      class="list-item"
+                      href="http://www.linkedin.com/shareArticle?mini=true&amp;url={$node.url_alias|ezurl(no,full)|urlencode}&title={$node.name|wash()}&ro=false&source={ezini('SiteSettings','SiteURL')}">
                         {display_icon('it-linkedin', 'svg', 'icon')}
                         <span>Linkedin</span>
                     </a>
                 </li>
                 <li>
-                    <a role="menuitem" class="list-item" href="whatsapp://send?text=={$node.url_alias|ezurl(no,full)|urlencode}" target="_blank" rel="noopener" aria-label="Share on Whatsapp">
+                    <a role="menuitem"
+                      class="list-item"
+                      href="whatsapp://send?text=={$node.url_alias|ezurl(no,full)|urlencode}"
+                      target="_blank"
+                      rel="noopener">
                         {display_icon('it-whatsapp', 'svg', 'icon')}
                         <span>Whatsapp</span>
                     </a>

@@ -32,12 +32,13 @@
 .autocomplete__input--default {
     padding: 5px
 }
-
+/* Allow bootstrap italia style for focused elements
 .autocomplete__input--focused, .autocomplete__input:focus {
     outline-offset: 0;
     outline: none !important;
     box-shadow: none !important;
 }
+*/
 
 .autocomplete__input--show-all-values {
     padding: 5px 34px 5px 5px;

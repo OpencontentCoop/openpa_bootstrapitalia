@@ -27,25 +27,35 @@
         <div class="link-list-wrapper">
             <ul class="link-list">
                 <li>
-                    <a class="list-item" href="https://facebook.com/sharer/sharer.php?u={$node.url_alias|ezurl(no,full)|urlencode}" target="_blank" rel="noopener" aria-label="Share on Facebook">
+                    <a class="list-item"
+                      href="https://facebook.com/sharer/sharer.php?u={$node.url_alias|ezurl(no,full)|urlencode}"
+                      target="_blank"
+                      rel="noopener">
                         {display_icon('it-facebook', 'svg', 'icon')}
                         <span>Facebook</span>
                     </a>
                 </li>
                 <li>
-                    <a class="list-item" href="https://twitter.com/intent/tweet/?text={concat($node.name, ' ', $node.url_alias|ezurl(no,full))|urlencode}" target="_blank" rel="noopener" aria-label="Share on Twitter">
+                    <a class="list-item"
+                      href="https://twitter.com/intent/tweet/?text={concat($node.name, ' ', $node.url_alias|ezurl(no,full))|urlencode}"
+                      target="_blank"
+                      rel="noopener">
                         {display_icon('it-twitter', 'svg', 'icon')}
                         <span>Twitter</span>
                     </a>
                 </li>
                 <li>
-                    <a class="list-item" href="http://www.linkedin.com/shareArticle?mini=true&amp;url={$node.url_alias|ezurl(no,full)|urlencode}&title={$node.name|wash()}&ro=false&source={ezini('SiteSettings','SiteURL')}">
+                    <a class="list-item"
+                      href="http://www.linkedin.com/shareArticle?mini=true&amp;url={$node.url_alias|ezurl(no,full)|urlencode}&title={$node.name|wash()}&ro=false&source={ezini('SiteSettings','SiteURL')}">
                         {display_icon('it-linkedin', 'svg', 'icon')}
                         <span>Linkedin</span>
                     </a>
                 </li>
                 <li>
-                    <a class="list-item" href="whatsapp://send?text=={$node.url_alias|ezurl(no,full)|urlencode}" target="_blank" rel="noopener" aria-label="Share on Whatsapp">
+                    <a class="list-item"
+                      href="whatsapp://send?text=={$node.url_alias|ezurl(no,full)|urlencode}"
+                      target="_blank"
+                      rel="noopener">
                         {display_icon('it-whatsapp', 'svg', 'icon')}
                         <span>Whatsapp</span>
                     </a>
