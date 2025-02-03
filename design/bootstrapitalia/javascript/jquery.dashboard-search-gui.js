@@ -73,7 +73,7 @@
                             return L.marker(latlng, {icon: customIcon});
                         },
                         onEachFeature: function (feature, layer) {
-                            var popupDefault = '<p class="text-center"><i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i></p><p><a href="' + $.opendataTools.settings('accessPath') + '/content/view/full/' + feature.properties.mainNodeId + '" target="_blank">';
+                            var popupDefault = '<p class="text-center"><i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i></p><p><a href="' + $.opendataTools.settings('accessPath') + '/content/view/full/' + feature.properties.mainNodeId + '" target="_blank" rel="noopener">';
                             popupDefault += feature.properties.name;
                             popupDefault += '</a></p>';
                             var popup = new L.Popup({maxHeight: 360});

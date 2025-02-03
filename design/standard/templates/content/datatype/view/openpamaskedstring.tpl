@@ -1,5 +1,7 @@
 {if $attribute.content|contains( 'http' )}
-    <a target="_blank" href="{$attribute.content|wash( xhtml )}" title="{'Go to page'|i18n('bootstrapitalia')}: {$attribute.content|wash()}">
+    <a href="{$attribute.content|wash( xhtml )}"
+      target="_blank"
+      rel="noopener">
         {$attribute.contentclass_attribute_name|wash( xhtml )} <i aria-hidden="true" class="fa fa-external-link"></i>
     </a>
 {else}

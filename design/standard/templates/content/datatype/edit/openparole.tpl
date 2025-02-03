@@ -31,6 +31,10 @@
 </div>
 
 <p>
-    <a target="_blank" href="{'openpa/roles'|ezurl(no)}">Vai a Gestione ruoli amministrativi</a>
+    <a href="{'openpa/roles'|ezurl(no)}"
+      target="_blank"
+      rel="noopener">
+      Vai a Gestione ruoli amministrativi
+    </a>
 </p>
 
