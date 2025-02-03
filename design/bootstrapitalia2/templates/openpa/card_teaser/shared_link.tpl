@@ -9,7 +9,6 @@
 {def $has_image = false()}
 <div data-object_id="{$node.contentobject_id}"
      class="font-sans-serif card card-teaser shared_link-card_teaser no-after rounded shadow-sm mb-0 border border-light {$node|access_style} {$custom_css_class}">
-
         <div class="card-body {if $has_image}p-3 {/if}pb-5">
         {if $openpa.content_icon.context_icon.node}
         <div class="category-top">
@@ -21,7 +20,11 @@
             {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
         </h3>
         <div class="text-paragraph-card u-grey-light m-0">
-            <a data-shared_link="{$node.contentobject_id}" data-shared_link_view="card_teaser" target="_blank" rel="noopener noreferrer" href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">
+            <a data-shared_link="{$node.contentobject_id}"
+              data-shared_link_view="card_teaser"
+              target="_blank"
+              rel="noopener noreferrer"
+              href="{$openpa.content_link.full_link}">
                 {'Further details'|i18n('bootstrapitalia')}
                 {display_icon('it-external-link', 'svg', 'icon icon-sm')}
             </a>

@@ -187,7 +187,12 @@
                                             <div class="list-item left-icon">
                                                 <i aria-hidden="true" class="fa fa-code"></i> Linked Data
                                                 {foreach $onto_links as $slug => $link}
-                                                    <a href="{$link}" target="_blank" rel="noopener noreferrer"  title="{$slug|wash()}" class="badge badge-dark bg-dark text-white d-inline px-1">{$slug|wash()}</a>
+                                                    <a href="{$link}"
+                                                      target="_blank"
+                                                      rel="noopener noreferrer"
+                                                      class="badge badge-dark bg-dark text-white d-inline px-1">
+                                                      {$slug|wash()}
+                                                    </a>
                                                 {/foreach}
                                             </div>
                                         </li>
