@@ -7,8 +7,12 @@
                 </p>
             {/if}
             <p>
-                <a style="color: #fff;" target="_blank" rel="noopener noreferrer"
-                   href="{$url}">{'Watch this content on %provider'|i18n('bootstrapitalia/cookieconsent',,hash('%provider', $oembed.provider_name))}</a>
+                <a style="color: #fff;"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="{$url}">
+                  {'Watch this content on %provider'|i18n('bootstrapitalia/cookieconsent',,hash('%provider', $oembed.provider_name))}
+                </a>
             </p>
         </div>
     </div>
