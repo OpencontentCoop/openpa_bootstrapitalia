@@ -5,10 +5,9 @@
 <a href="#" aria-label="home Nome del Comune" class="logo-hamburger">
     {if $pagedata.header.logo.url}
         <img class="icon {if $colorize_logo}colorize{/if} {if $logo_is_white}bg-primary p-1 rounded{/if}"
-             title="{ezini('SiteSettings','SiteName')}"
-             alt="{ezini('SiteSettings','SiteName')}"
-             src="{render_image($pagedata.header.logo.url|ezroot(no,full)).src}"
-             style="width: auto !important; {if $logo_is_white}height:50px;{/if}"/>
+          alt="{ezini('SiteSettings','SiteName')}"
+          src="{render_image($pagedata.header.logo.url|ezroot(no,full)).src}"
+          style="width: auto !important; {if $logo_is_white}height:50px;{/if}"/>
     {/if}
     <div class="it-brand-text">
         <div class="it-brand-title">{ezini('SiteSettings','SiteName')}</div>

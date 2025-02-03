@@ -6,10 +6,9 @@
    {if and($only_logo, openpaini('GeneralSettings','tag_line', false()))} class="d-block text-center"{/if}>
     {if $pagedata.header.logo.url}
         <img class="icon{if $colorize_logo} colorize{/if}"
-             title="{ezini('SiteSettings','SiteName')}"
-             alt="{ezini('SiteSettings','SiteName')}"
-             src="{render_image($pagedata.header.logo.url|ezroot(no,full)).src}"
-             style="width: auto !important;" />
+          alt="{ezini('SiteSettings','SiteName')}"
+          src="{render_image($pagedata.header.logo.url|ezroot(no,full)).src}"
+          style="width: auto !important;" />
     {/if}
     <div class="it-brand-text">
         {if $only_logo|not()}
