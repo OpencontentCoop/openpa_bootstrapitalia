@@ -24,7 +24,7 @@
         "builder":{ldelim}"query": '{$fields.query|wash(javascript)}'{rdelim},
         "table":{ldelim}
           "id": 'trasparenza-{$node.node_id}',
-          "template": '<table class="table table-striped display responsive no-wrap" cellspacing="0" width="100%"></table>'
+          "template": '<table class="table table-striped display responsive no-wrap richtext-wrapper"" cellspacing="0" width="100%"></table>'
         {rdelim},
         "datatable":{ldelim}
           "responsive": true,
@@ -138,7 +138,7 @@
     {rdelim});
   </script>
     <div class="my-4">
-        <div id="container-{$node.node_id}-{$table_index}" style="font-size:.8em"></div>
+        <div id="container-{$node.node_id}-{$table_index}" style="font-size:.9em"></div>
 
         <div>
             <img style="vertical-align: middle"
