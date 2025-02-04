@@ -1,245 +1,124 @@
-{if openpaini('CookiesSettings', 'Consent', 'advanced')|eq('advanced')}
-    <script>
-      var CookieConsentText = {cookie_consent_config_translations()};
-      var HasGoogleAnalytics = {cond(and( openpaini('Seo', 'GoogleAnalyticsAccountID'), openpaini('Seo', 'GoogleCookieless')|eq('disabled') ), 'true', 'false')};
-      var HasWebAnalyticsItalia = {cond(and( openpaini('Seo', 'webAnalyticsItaliaID'), openpaini('Seo', 'WebAnalyticsItaliaCookieless')|eq('disabled') ), 'true', 'false')};
-      var NeedCookieConsentForAnalytics = HasGoogleAnalytics || HasWebAnalyticsItalia;
-      var NeedCookieConsentForMultimedia = {cond(openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled'), 'true', 'false')};
-      var CookieConsentServicesForMultimedia = "{openpaini('Seo', 'CookieConsentMultimediaText', 'YouTube, Vimeo, Slideshare, Isuu, Facebook, Twitter, Linkedin, Instagram, Whatsapp')}";
-      var NeedCookieConsent = NeedCookieConsentForAnalytics || NeedCookieConsentForMultimedia;
-      {literal}
-      function documentIsReady(fn) {
-        if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-          fn();
-        } else {
-          document.addEventListener('DOMContentLoaded', fn);
-        }
-      }
-      var showIframes = function(){
-        var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
-        for (var iframesTag of iframesTags) {
-          iframesTag.setAttribute('src', iframesTag.getAttribute('data-src'));
-        }
-        var customTags = document.querySelectorAll('[data-coookieconsent="custom"]');
-        for (var customTag of customTags) {
-          customTag.setAttribute('src', customTag.getAttribute('data-src'));
-        }
-      }
-      var hideIframes = function(){
-        var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
-        for (var iframesTag of iframesTags) {
-          iframesTag.setAttribute('src', iframesTag.getAttribute('data-preview'));
-        }
-        var customTags = document.querySelectorAll('[data-coookieconsent="custom"]');
-        for (var customTag of customTags) {
-          customTag.setAttribute('data-src', customTag.getAttribute('src'));
-        }
-      }
-      window.addEventListener('cconsent-setCookie', function (e) {
-        if (e.detail.categories.multimedia){
-          e.detail.categories.multimedia.wanted ? showIframes() : hideIframes();
-        }
-      }, false);
-      var CookieConsentCategories = {
-        necessary: {
-          needed: true,
-          wanted: true,
-          checked: true,
-          language: {
-            locale: {
-              i18n: CookieConsentText.necessary
-            }
-          }
-        }
-      };
-      var CookieConsentServices = {};
-      if (NeedCookieConsentForAnalytics){
-        CookieConsentCategories.analytics = {
-          needed: false,
-          wanted: false,
-          checked: false,
-          language: {
-            locale: {
-              i18n: CookieConsentText.analytics
-            }
-          }
-        };
-        if (HasGoogleAnalytics){
-          CookieConsentServices.google = {
-            category: 'analytics',
-            type: 'dynamic-script',
-            cookies: [
-              {
-                name: /^_gid/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_gat/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_ga/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_gid/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_gat/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_ga/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              }
-            ],
-            language: {
-              locale: {
-                i18n: {
-                  name: 'Google Analytics'
-                }
-              }
-            }
-          };
-        }
-        if (HasWebAnalyticsItalia){
-          CookieConsentServices.piwik = {
-            category: 'analytics',
-            type: 'dynamic-script',
-            cookies: [
-              {
-                name: '__utma',
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: /^_pk/,
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: /^_pk_id/,
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: /^_pk_ses/,
-                domain: `${window.location.hostname}`
-              },
-              {
-                name: '__utma',
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_pk/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_pk_id/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: /^_pk_ses/,
-                domain: `.${window.location.hostname}`
-              },
-              {
-                name: '__utma',
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_pk/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_pk_id/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-              {
-                name: /^_pk_ses/,
-                domain: `.${window.location.hostname.split('.').slice(1).join('.')}`
-              },
-            ],
-            language: {
-              locale: {
-                i18n: {
-                  name: 'Web Analytics Italia'
-                }
-              }
-            }
-          };
-        }
-      }
-      if (NeedCookieConsentForMultimedia){
-        CookieConsentCategories.multimedia = {
-          needed: false,
-          wanted: false,
-          checked: false,
-          language: {
-            locale: {
-              i18n: CookieConsentText.multimedia
-            }
-          }
-        };
-        CookieConsentServices.multimedia= {
-          category: 'multimedia',
-          type: 'wrapped',
-          search: 'wrapped',
-          language: {
-            locale: {
-              i18n: {
-                name: CookieConsentServicesForMultimedia
-              }
-            }
-          }
-        };
-      }if (NeedCookieConsent) {
-        documentIsReady(function () {
-          setTimeout(function () {
-            window.CookieConsent.init({
-              modalMainTextMoreLink: CookieConsentText.modalMainTextMoreLink,
-              barTimeout: 1000,
-              language: {
-                current: 'i18n',
-                locale: {
-                  i18n: {
-                    barMainText: CookieConsentText.barMainText,
-                    barLinkSetting: CookieConsentText.barLinkSetting,
-                    barBtnAcceptAll: CookieConsentText.barBtnAcceptAll,
-                    barBtnRefuseAll: CookieConsentText.barBtnRefuseAll,
-                    modalMainTitle: CookieConsentText.modalMainTitle,
-                    modalMainText: CookieConsentText.modalMainText,
-                    modalBtnSave: CookieConsentText.modalBtnSave,
-                    modalBtnAcceptAll: CookieConsentText.modalBtnAcceptAll,
-                    modalBtnRefuseAll: CookieConsentText.modalBtnRefuseAll,
-                    modalAffectedSolutions: CookieConsentText.modalAffectedSolutions,
-                    learnMore: CookieConsentText.learnMore,
-                    on: CookieConsentText.on,
-                    off: CookieConsentText.off,
-                  }
-                }
-              },
-              categories: CookieConsentCategories,
-              services: CookieConsentServices
-            });
-            CookieConsent.wrapper('wrapped', function () {
-              documentIsReady(function () {
-                showIframes();
-              })
-            });
-          }, 10);
-        });
-      }
-      {/literal}
-    </script>
+<script src={"javascript/cookieconsent.umd.js"|ezdesign}></script>
 {literal}
-    <style>
-        #cconsent-bar .ccb__wrapper{
-            padding: 35px !important;
+<script>
+  CookieConsent.run({
+    guiOptions: {
+      consentModal: {
+        layout: 'cloud',
+        position: 'bottom center',
+        equalWeightButtons: true,
+        flipButtons: false
+      },
+      preferencesModal: {
+        layout: 'box',
+        equalWeightButtons: true,
+        flipButtons: false
+      }
+    },
+    categories: {
+      necessary: {
+        enabled: true,  // this category is enabled by default
+        readOnly: true  // this category cannot be disabled
+      },
+      analytics: {}
+    },
+    language: {
+      default: 'en',
+      translations: {
+        en: {
+          consentModal: {
+            title: 'We use cookies',
+            description: 'Cookie modal description',
+            acceptAllBtn: 'Accept all',
+            acceptNecessaryBtn: 'Reject all',
+            showPreferencesBtn: 'Manage Individual preferences'
+          },
+          preferencesModal: {
+            title: 'Manage cookie preferences',
+            acceptAllBtn: 'Accept all',
+            acceptNecessaryBtn: 'Reject all',
+            savePreferencesBtn: 'Accept current selection',
+            closeIconLabel: 'Close modal',
+            sections: [
+              {
+                title: 'Somebody said ... cookies?',
+                description: 'I want one!'
+              },
+              {
+                title: 'Strictly Necessary cookies',
+                description: 'These cookies are essential for the proper functioning of the website and cannot be disabled.',
+
+                //this field will generate a toggle linked to the 'necessary' category
+                linkedCategory: 'necessary'
+              },
+              {
+                title: 'Performance and Analytics',
+                description: 'These cookies collect information about how you use our website. All of the data is anonymized and cannot be used to identify you.',
+                linkedCategory: 'analytics'
+              },
+              {
+                title: 'More information',
+                description: 'For any queries in relation to my policy on cookies and your choices, please <a href="#contact-page">contact us</a>'
+              }
+            ]
+          }
         }
-        #cconsent-bar .close{
-            float:right;
-        }
-        #cconsent-bar{
-            max-width:900px !important;
-        }
-    </style>
+      }
+    }
+  });
+</script>
+  <style>
+    #cc-main .cm,
+    #cc-main .pm {
+      border-radius: 0;
+      font-size: 1rem;
+    }
+
+    #cc-main .pm__btn {
+      font-size: 1rem
+    }
+
+    #cc-main .pm__section--toggle .pm__section-desc-wrapper,
+    #cc-main .pm__section-title {
+      border-radius: 0
+    }
+
+    #cc-main .pm__section--toggle,
+    #cc-main .pm__section--toggle .pm__section-title:hover,
+    #cc-main .pm__section:not(:first-child):hover,
+    #cc-main .pm__section--expandable .pm__section-arrow {
+      background: none
+    }
+
+    .pm__close-btn,
+    .pm__close-btn:hover {
+      border: none;
+      background: none
+    }
+
+    .pm__title {
+      font-size: 1.3rem;
+      font-weight: 800
+    }
+
+    .pm__section-desc-wrapper,
+    #cc-main .cm__title {
+      font-size: 1rem
+    }
+
+    #cc-main .cm__desc {
+      font-size: 1rem
+    }
+
+    #cc-main .cm--cloud .cm__btn {
+      min-width: inherit
+    }
+
+    .cm__btn {
+      border-radius: var(--bs-btn-border-radius);
+      font-size: 1rem;
+      background: #ff00000;
+      padding: 12px 24px;
+    }
+  </style>
 {/literal}
-{/if}

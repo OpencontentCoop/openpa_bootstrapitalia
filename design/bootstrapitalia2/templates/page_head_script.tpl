@@ -8,7 +8,6 @@
 )}
 {if $is_logged_in}
   {set $scripts = $scripts|merge(array(
-    'cookieconsent/cookieconsent.min.js',
     'ezjsc::jqueryUI',
     'jsrender.js',
     'handlebars.min.js',

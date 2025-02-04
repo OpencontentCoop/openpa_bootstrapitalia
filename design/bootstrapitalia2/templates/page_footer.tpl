@@ -299,16 +299,9 @@
             <div class="row">
                 <div class="col-12 footer-items-wrapper">
                     <div class="footer-bottom">
-                        {def $needCookieConsent = cond(or(
-                                and( openpaini('Seo', 'GoogleAnalyticsAccountID'), openpaini('Seo', 'GoogleCookieless')|eq('disabled') ),
-                                and( openpaini('Seo', 'webAnalyticsItaliaID'), openpaini('Seo', 'WebAnalyticsItaliaCookieless')|eq('disabled') ),
-                                openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled')
-                            ), true(), false())}
-                        {if and(openpaini('CookiesSettings', 'Consent', 'advanced')|eq('advanced'), $needCookieConsent)}
-                            <button type="button" class="btn btn-link p-0 text-white text-decoration-underline" data-cc="show-preferencesModal">{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}</button>
+                        {if openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled')}
+                            <a role="button" href="#" class="btn btn-link p-0 text-white text-decoration-underline" data-cc="show-preferencesModal">{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}</a>
                         {/if}
-
-                        {undef $needCookieConsent}
                         {*<a href="#">Media policy</a> @todo*}
                         {if openpaini('GeneralSettings', 'ShowFooterSiteMap', 'enabled')|eq('enabled')}
                         <a href={"/content/view/sitemap/2/"|ezurl}>{"Sitemap"|i18n("design/standard/layout")}</a>
