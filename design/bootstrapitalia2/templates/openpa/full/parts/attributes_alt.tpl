@@ -98,7 +98,9 @@
                                 ),
                                 true(), false()
                             )}
+                            {def $need_p = array('ezstring', 'ezinteger', 'ezdate', 'ezdatetime')|contains($openpa_attribute.contentobject_attribute.data_type_string)}
                             {if $need_container}<div class="richtext-wrapper lora">{/if}
+                            {if $need_p}<p>{/if}
                             {attribute_view_gui attribute=$openpa_attribute.contentobject_attribute
                                                 view_context=full_attributes
                                                 attribute_group=$item
@@ -109,8 +111,9 @@
                                                 relation_has_wrapper=$item.wrap
                                                 show_link=true()
                                                 tag_view="chip-lg mr-2 me-2"}
+                            {if $need_p}</p>{/if}
                             {if $need_container}</div>{/if}
-                            {undef $need_container}
+                            {undef $need_container $need_p}
                         {elseif and(is_set($openpa_attribute.template), $openpa_attribute.template)}
                             {include uri=$openpa_attribute.template context='attributes'}
                         {/if}

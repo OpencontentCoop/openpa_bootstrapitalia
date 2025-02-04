@@ -108,7 +108,7 @@
 		{rdelim});
 	</script>
 
-	{include uri='design:parts/opendata_remote_gui_templates.tpl' block=$block}
+	{include uri='design:parts/opendata_remote_gui_templates.tpl' block=$block show_search=true()}
 </div>
 
 {undef $tag_tree $searchPlaceholder $hide_empty_facets}
