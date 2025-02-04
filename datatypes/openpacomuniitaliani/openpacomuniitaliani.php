@@ -260,4 +260,9 @@ class OpenPAComuniItaliani extends eZPersistentObject implements JsonSerializabl
 
         return $data;
     }
+
+    public function __toString(): string
+    {
+        return $this->attribute('name');
+    }
 }
