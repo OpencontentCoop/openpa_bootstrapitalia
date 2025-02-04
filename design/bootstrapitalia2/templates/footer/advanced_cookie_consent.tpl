@@ -1,10 +1,11 @@
 <script src={"javascript/cookieconsent.umd.js"|ezdesign}></script>
 {literal}
 <script>
+  var CookieConsentSettings = {/literal}{cookie_consent_config_translations()}{literal}
   CookieConsent.run({
     guiOptions: {
       consentModal: {
-        layout: 'cloud',
+        layout: 'box wide',
         position: 'bottom center',
         equalWeightButtons: true,
         flipButtons: false
@@ -17,48 +18,58 @@
     },
     categories: {
       necessary: {
-        enabled: true,  // this category is enabled by default
         readOnly: true  // this category cannot be disabled
       },
-      analytics: {}
+      analytics: {},
+      marketing: {}
     },
     language: {
-      default: 'en',
+      default: '{/literal}{$site.http_equiv.Content-language|wash}{literal}',
       translations: {
-        en: {
+        {/literal}{$site.http_equiv.Content-language|wash}{literal}: {
           consentModal: {
-            title: 'We use cookies',
-            description: 'Cookie modal description',
+            title: '   ',
+            description: CookieConsentSettings.barMainText,
+            closeIconLabel: "X",
             acceptAllBtn: 'Accept all',
-            acceptNecessaryBtn: 'Reject all',
-            showPreferencesBtn: 'Manage Individual preferences'
+            acceptNecessaryBtn: 'Rifiuta tutti',
+            showPreferencesBtn: 'Manage Individual preferences',
           },
           preferencesModal: {
-            title: 'Manage cookie preferences',
-            acceptAllBtn: 'Accept all',
-            acceptNecessaryBtn: 'Reject all',
-            savePreferencesBtn: 'Accept current selection',
-            closeIconLabel: 'Close modal',
+            title: "Consent Preferences Center",
+            closeIconLabel: "Close modal",
+            acceptAllBtn: "Accept all",
+            acceptNecessaryBtn: "Reject all",
+            savePreferencesBtn: "Save preferences",
+            serviceCounterLabel: "Service|Services",
             sections: [
               {
-                title: 'Somebody said ... cookies?',
-                description: 'I want one!'
+                title: "Cookie Usage",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
               },
               {
-                title: 'Strictly Necessary cookies',
-                description: 'These cookies are essential for the proper functioning of the website and cannot be disabled.',
-
-                //this field will generate a toggle linked to the 'necessary' category
-                linkedCategory: 'necessary'
+                title: "Strictly Necessary Cookies <span class=\"pm__badge\">Always Enabled</span>",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                linkedCategory: "necessary"
               },
               {
-                title: 'Performance and Analytics',
-                description: 'These cookies collect information about how you use our website. All of the data is anonymized and cannot be used to identify you.',
-                linkedCategory: 'analytics'
+                title: "Functionality Cookies",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                linkedCategory: "functionality"
               },
               {
-                title: 'More information',
-                description: 'For any queries in relation to my policy on cookies and your choices, please <a href="#contact-page">contact us</a>'
+                title: "Analytics Cookies",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                linkedCategory: "analytics"
+              },
+              {
+                title: "Advertisement Cookies",
+                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                linkedCategory: "marketing"
+              },
+              {
+                title: "More information",
+                description: "For any query in relation to my policy on cookies and your choices, please <a class=\"cc__link\" href=\"#yourdomain.com\">contact me</a>."
               }
             ]
           }
