@@ -72,12 +72,10 @@
 .richtext-wrapper {
   ul, ol {
     margin-bottom: 1.5rem;
-    li {
-      margin-left: 1.75rem;
-    
-      @include media-breakpoint-up(sm) {
-        margin-left: 1.55rem
-      }
+    padding-left: 1.75rem;
+  
+    @include media-breakpoint-up(sm) {
+      padding-left: 2rem
     }
   }
 
@@ -87,12 +85,6 @@
 
   ol {
     list-style-type: auto;
-  }
-
-  p {
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
   }
 }
 
