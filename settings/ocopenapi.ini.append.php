@@ -2,6 +2,7 @@
 
 [EndpointFactoryProvider]
 ProviderList[]=TrasparenzaEndpointFactoryProvider
+ProviderList[]=ServiceCategoryEndpointFactoryProvider
 
 [RoleDiscover]
 Exclude[]=Editor Trasparenza
