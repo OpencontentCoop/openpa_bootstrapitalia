@@ -1,0 +1,18 @@
+//usando http://colorizer.org/
+// colore verde: #007777
+
+$colore-header: #007a52;
+
+$primary-a7: darken($colore-header, 3);
+$primary-a6: darken($colore-header, 0);
+$primary-a10: darken($colore-header, 5);
+$primary-a12: darken($colore-header, 10);
+
+$primary-h: 160.33;
+$primary-s: 100;
+$primary-b: 47.84;
+
+$header-slim-bg-color: #00402b;
+$footer-comuni-bg-color: #202a2e;
+
+@import "default";
