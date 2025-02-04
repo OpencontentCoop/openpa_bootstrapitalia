@@ -2,6 +2,28 @@
 {literal}
 <script>
   var CookieConsentSettings = {/literal}{cookie_consent_config_translations()}{literal}
+  var showIframes = function(){
+    console.log('showIframes')
+    var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
+    for (var iframesTag of iframesTags) {
+      iframesTag.setAttribute('src', iframesTag.getAttribute('data-src'));
+    }
+    var customTags = document.querySelectorAll('[data-coookieconsent="custom"]');
+    for (var customTag of customTags) {
+      customTag.setAttribute('src', customTag.getAttribute('data-src'));
+    }
+  }
+  var hideIframes = function(){
+    console.log('hideIframes')
+    var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
+    for (var iframesTag of iframesTags) {
+      iframesTag.setAttribute('src', iframesTag.getAttribute('data-preview'));
+    }
+    var customTags = document.querySelectorAll('[data-coookieconsent="custom"]');
+    for (var customTag of customTags) {
+      customTag.setAttribute('data-src', customTag.getAttribute('src'));
+    }
+  }
   CookieConsent.run({
     guiOptions: {
       consentModal: {
@@ -21,7 +43,14 @@
         readOnly: true  // this category cannot be disabled
       },
       analytics: {},
-      marketing: {}
+      marketing: {
+        services: {
+            multimedia: {
+              onAccept: () => showIframes(),
+              onReject: () => hideIframes()
+            }
+        }
+      }
     },
     language: {
       default: '{/literal}{$site.http_equiv.Content-language|wash}{literal}',
