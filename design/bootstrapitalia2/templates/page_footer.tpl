@@ -305,7 +305,7 @@
                                 openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled')
                             ), true(), false())}
                         {if and(openpaini('CookiesSettings', 'Consent', 'advanced')|eq('advanced'), $needCookieConsent)}
-                            <a href="#" class="ccb__edit">{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}</a>
+                            <button type="button" class="btn btn-link p-0 text-white text-decoration-underline" data-cc="show-preferencesModal">{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}</button>
                         {/if}
 
                         {undef $needCookieConsent}
