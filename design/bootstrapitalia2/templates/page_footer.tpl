@@ -300,7 +300,7 @@
                 <div class="col-12 footer-items-wrapper">
                     <div class="footer-bottom">
                         {if openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled')}
-                            <a role="button" href="#" class="btn btn-link p-0 text-white text-decoration-underline" data-cc="show-preferencesModal">{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}</a>
+                            <a role="button" href="#" class="btn btn-link p-0" data-cc="show-preferencesModal">{'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}</a>
                         {/if}
                         {*<a href="#">Media policy</a> @todo*}
                         {if openpaini('GeneralSettings', 'ShowFooterSiteMap', 'enabled')|eq('enabled')}
