@@ -108,57 +108,131 @@
   });
 </script>
   <style>
+    #cc-main {
+      --cc-font-family: 'Titillium Web';
+      --cc-bg: #435a70;
+      --cc-primary-color: white;
+      --cc-secondary-color: white;
+      --cc-rev-color: black;
+      --cc-rev-hover-color: #4b4b4b;
+      --cc-rev-bg: #e5e5e5;
+      --cc-rev-border: #cdcfd0;
+      --cc-btn-border-radius: var(--bs-btn-border-radius, 4px);
+
+      --cc-btn-primary-bg: transparent;
+      --cc-btn-primary-color: var(--cc-primary-color);
+      --cc-btn-primary-border-color: var(--cc-primary-color);
+      --cc-btn-primary-hover-bg: transparent;
+      --cc-btn-primary-hover-color: hsl(0,0%,90%);
+      --cc-btn-primary-hover-border-color: hsl(0,0%,90%);
+
+      --cc-btn-secondary-bg: transparent;
+      --cc-btn-secondary-color: var(--cc-primary-color);
+      --cc-btn-secondary-border-color: var(--cc-primary-color);
+      --cc-btn-secondary-hover-bg: transparent;
+      --cc-btn-secondary-hover-color: hsl(0,0%,90%);
+      --cc-btn-secondary-hover-border-color: hsl(0,0%,90%);
+      
+      --cc-cookie-category-block-color: var(--cc-rev-border);
+      --cc-cookie-category-block-bg: var(--cc-primary-color);
+      --cc-cookie-category-block-border: var(--cc-rev-border);
+      --cc-cookie-category-block-hover-bg: var(--cc-primary-color);
+      --cc-cookie-category-block-hover-border: var(--cc-rev-border);
+      --cc-cookie-category-expanded-block-hover-bg: var(--cc-primary-color);
+      --cc-cookie-category-expanded-block-bg: var(--cc-primary-color);
+      --cc-toggle-readonly-bg: #2f3132;
+      --cc-overlay-bg: rgba(0, 0, 0, 0.9)!important;
+
+      --cc-toggle-on-knob-bg: var(--cc-primary-color);
+      --cc-toggle-readonly-knob-bg: var( --cc-cookie-category-block-bg);
+
+      --cc-separator-border-color: transparent;
+      --cc-modal-border-radius: 0;
+
+      --cc-footer-border-color: #212529;
+      --cc-footer-bg: var(--cc-rev-color);
+      --cc-link-color: var(--cc-rev-color)
+    }
+    #cc-main,
+    #cc-main .cm__btn,
+    #cc-main .cm__desc,
+    #cc-main .pm__btn,
+    #cc-main .pm__section-title {
+      font-size: inherit;
+    }
+
+    #cc-main .cm--box.cm--wide {
+      max-width: 50rem;
+    }
+
+    #cc-main .cm__btn--close,
+    #cc-main .cm__btn--close:hover,
+    #cc-main .pm__close-btn,
+    #cc-main .pm__close-btn:hover {
+      border-color: transparent;
+    }
+
+    #cc-main .pm__service-title,
+    #cc-main .pm__section--toggle {
+      border-radius: 0;
+    }
+
+    #cc-main .pm__badge,
+    #cc-main .pm__service-title {
+      color: var(--cc-rev-color);
+    }
+    
+    #cc-main .pm__section,
+    #cc-main .pm__section:not(:first-child):hover {
+      background: none;
+      border-color: var(--cc-cookie-category-block-hover-border)
+    }
+
+    #cc-main .pm,
+    #cc-main .pm__section-desc-wrapper {
+      background-color: var(--cc-rev-bg);
+      color: var(--cc-rev-color);
+    }
+    
+    #cc-main .pm__section--expandable .pm__section-desc-wrapper {
+      background-color: var(--cc-primary-color);
+    }
+
+    #cc-main .pm__section--toggle {
+      background: none;
+    }
+    
     #cc-main .cm,
     #cc-main .pm {
-      border-radius: 0;
-      font-size: 1rem;
+      border: 1px solid var(--cc-separator-border-color);
+    }
+    
+    #cc-main .pm__title {
+      font-size: 1.6rem;
     }
 
     #cc-main .pm__btn {
-      font-size: 1rem
+      color: var(--cc-rev-color);
+      border-color: var(--cc-rev-color);
+    }
+    
+    #cc-main .pm__btn:hover {
+      color: var(--cc-rev-hover-color);
+      border-color: var(--cc-rev-hover-color);
     }
 
-    #cc-main .pm__section--toggle .pm__section-desc-wrapper,
-    #cc-main .pm__section-title {
-      border-radius: 0
+    #cc-main .pm__close-btn {
+      margin-top: -12px;
+      margin-right: -20px;
     }
 
-    #cc-main .pm__section--toggle,
-    #cc-main .pm__section--toggle .pm__section-title:hover,
-    #cc-main .pm__section:not(:first-child):hover,
-    #cc-main .pm__section--expandable .pm__section-arrow {
-      background: none
+    #cc-main .pm__close-btn svg,
+    #cc-main .pm__close-btn:hover svg {
+      stroke: var(--cc-rev-color)
     }
 
-    .pm__close-btn,
-    .pm__close-btn:hover {
-      border: none;
-      background: none
-    }
-
-    .pm__title {
-      font-size: 1.3rem;
-      font-weight: 800
-    }
-
-    .pm__section-desc-wrapper,
-    #cc-main .cm__title {
-      font-size: 1rem
-    }
-
-    #cc-main .cm__desc {
-      font-size: 1rem
-    }
-
-    #cc-main .cm--cloud .cm__btn {
-      min-width: inherit
-    }
-
-    .cm__btn {
-      border-radius: var(--bs-btn-border-radius);
-      font-size: 1rem;
-      background: #ff00000;
-      padding: 12px 24px;
+    #cc-main .cc__link:hover {
+      color: var(--cc-link-color)
     }
   </style>
 {/literal}
