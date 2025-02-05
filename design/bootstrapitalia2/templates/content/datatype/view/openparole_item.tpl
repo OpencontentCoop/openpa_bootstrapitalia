@@ -1,5 +1,5 @@
 <li class="mb-2 lora{if $is_expired} text-500{/if}">
-	<h3 class="h5 mt-4">
+	<h3 class="h5 mt-4 font-sans-serif">
 		{if $role|has_attribute('label')}
 			{$role|attribute('label').content|wash()}
 		{else}
