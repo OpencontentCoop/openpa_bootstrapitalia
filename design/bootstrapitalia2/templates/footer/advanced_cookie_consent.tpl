@@ -65,7 +65,9 @@
             acceptAllBtn: CookieConsentSettings.barBtnAcceptAll,
             acceptNecessaryBtn: CookieConsentSettings.barBtnAcceptNecessary,
             showPreferencesBtn: CookieConsentSettings.barLinkSetting,
-            footer: `<a href="${CookieConsentSettings.modalMainTextMoreLink}">Cookie Policy</a>`
+            footer: CookieConsentSettings.modalMainTextMoreLink 
+              ? `<a href="${CookieConsentSettings.modalMainTextMoreLink}">Cookie Policy</a>`
+              : null
           },
           preferencesModal: {
             title: CookieConsentSettings.modalMainTitle,
