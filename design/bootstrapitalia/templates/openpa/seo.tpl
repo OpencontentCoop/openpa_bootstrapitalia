@@ -67,10 +67,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="alert alert-info">
-                        Disabilitando l'opzione <i>Visualizza cookie di terze parti nel cookie consent</i>, verrà disabilitata la sezione Cookie di terze parti dell'avviso cookie
-                    </div>
-                    <div class="alert alert-info">
-                        Qualora le sezioni siano entrambe disabilitate, l'avviso cookie non sarà visualizzato
+                        Disabilitando l'opzione <i>Visualizza cookie di terze parti nel cookie consent</i>, verrà disabilitata la sezione Cookie di terze parti dell'avviso cookie e il cookie consent non sarà visualizzato.
                     </div>
                 </div>
             </div>

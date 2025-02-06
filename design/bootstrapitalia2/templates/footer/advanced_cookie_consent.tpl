@@ -1,6 +1,8 @@
+{if openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled')}
 <script src={"javascript/cookieconsent.umd.js"|ezdesign}></script>
 {literal}
 <script>
+  var NeedCookieConsent = {/literal}{cond(openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled'), 'true', 'false')}{literal};
   var CookieConsentSettings = {/literal}{cookie_consent_config_translations()}{literal}
   var showIframes = function(){
     console.log('showIframes')
@@ -233,3 +235,4 @@
     }
   </style>
 {/literal}
+{/if}
