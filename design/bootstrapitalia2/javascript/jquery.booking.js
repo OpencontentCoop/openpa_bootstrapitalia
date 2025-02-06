@@ -893,6 +893,7 @@
                 self.resetScheduler()
                 $('.scheduler-summary').hide();
               }else {
+                self.unfreezeAppointmentSelection()
                 self.monthSelect.resetSelect(true)
                 self.daySelect.resetSelect()
                 self.openingHoursSelect.resetSelect()
