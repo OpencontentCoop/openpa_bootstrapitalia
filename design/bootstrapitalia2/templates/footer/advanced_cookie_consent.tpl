@@ -59,47 +59,36 @@
           consentModal: {
             title: '   ',
             description: CookieConsentSettings.barMainText,
-            closeIconLabel: "X",
-            acceptAllBtn: 'Accept all',
-            acceptNecessaryBtn: 'Rifiuta tutti',
-            showPreferencesBtn: 'Manage Individual preferences',
+            closeIconLabel: CookieConsentSettings.close,
+            acceptAllBtn: CookieConsentSettings.barBtnAcceptAll,
+            acceptNecessaryBtn: CookieConsentSettings.barBtnAcceptNecessary,
+            showPreferencesBtn: CookieConsentSettings.barLinkSetting,
+            footer: `<a href="${CookieConsentSettings.modalMainTextMoreLink}">Cookie Policy</a>`
           },
           preferencesModal: {
-            title: "Consent Preferences Center",
-            closeIconLabel: "Close modal",
-            acceptAllBtn: "Accept all",
-            acceptNecessaryBtn: "Reject all",
-            savePreferencesBtn: "Save preferences",
-            serviceCounterLabel: "Service|Services",
+            title: CookieConsentSettings.modalMainTitle,
+            closeIconLabel: CookieConsentSettings.close,
+            acceptAllBtn: CookieConsentSettings.modalBtnAcceptAll,
+            acceptNecessaryBtn: CookieConsentSettings.modalBtnAcceptNecessary,
+            savePreferencesBtn: CookieConsentSettings.modalBtnSave,
+            serviceCounterLabel: CookieConsentSettings.services,
             sections: [
               {
-                title: "Cookie Usage",
-                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                description: CookieConsentSettings.modalMainText,
               },
               {
-                title: "Strictly Necessary Cookies <span class=\"pm__badge\">Always Enabled</span>",
-                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                title: `${CookieConsentSettings.necessary.name} <span class=\"pm__badge\">${CookieConsentSettings.necessary.badge}</span>`,
+                description: `
+                  <p>${CookieConsentSettings.necessary.description}</p>
+                  <strong style="display:block;margin-top:12px;">${CookieConsentSettings.analytics.name}</strong>
+                  <p>${CookieConsentSettings.analytics.description}</p>`,
                 linkedCategory: "necessary"
               },
               {
-                title: "Functionality Cookies",
-                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                linkedCategory: "functionality"
-              },
-              {
-                title: "Analytics Cookies",
-                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                linkedCategory: "analytics"
-              },
-              {
-                title: "Advertisement Cookies",
-                description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                title: CookieConsentSettings.multimedia.name,
+                description: CookieConsentSettings.multimedia.description,
                 linkedCategory: "marketing"
               },
-              {
-                title: "More information",
-                description: "For any query in relation to my policy on cookies and your choices, please <a class=\"cc__link\" href=\"#yourdomain.com\">contact me</a>."
-              }
             ]
           }
         }
