@@ -1941,6 +1941,14 @@
       <source>Meeting number</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Appointment required</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>You will receive a message if the date and time you requested is confirmed</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/booking/hours</name>

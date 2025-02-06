@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.1" language="de">
   <context>
     <name>bootstrapitalia</name>
     <message>
@@ -525,7 +525,7 @@
     </message>
     <message>
       <source>Push place on OpenAgenda</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Managing administrative and political roles</source>
@@ -561,15 +561,15 @@
     </message>
     <message>
       <source>Explore the section</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Active</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Confirmed</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
   </context>
   <context>
@@ -1458,11 +1458,11 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Fill out the form</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Make a payment</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
   </context>
   <context>
@@ -1945,6 +1945,14 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <source>Meeting number</source>
       <translation>Terminnummer</translation>
     </message>
+    <message>
+      <source>Appointment required</source>
+      <translation>Terminvereinbarung erforderlich</translation>
+    </message>
+    <message>
+      <source>You will receive a message if the date and time you requested is confirmed</source>
+      <translation>Sie erhalten eine Nachricht, wenn das von Ihnen gewünschte Datum und die Uhrzeit bestätigt sind</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/booking/hours</name>
@@ -1972,135 +1980,135 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <name>bootstrapitalia/moderation</name>
     <message>
       <source>version(s) under approval</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Pending approval</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Approval</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Approve</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Deny</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Pending</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Approved</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Rejected</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>The content object awaits approval before it can be published.</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>All</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Unread list</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Pending list</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Approved list</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Rejected list</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Awaits approval by editor</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Awaits your approval</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Was approved for publishing</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Was not approved for publishing</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Warning: the activities of this account are subject to moderation: the changes will be visible after approval by an editor</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>There is currently %version of this content awaiting approval</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>There are currently %versions of this content awaiting approval</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Warning: by approving this version, other versions currently awaiting moderation will be archived.</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>version</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>versions</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>By publishing content, versions currently awaiting moderation will be archived</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Request for approval</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>The version has been approved</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>The version was rejected</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>The version was archived following the publication of version %id</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Approval dashboard</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>The version was archived following the request approval of version %id</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>Go to the moderation dashboard</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <source>The version was discard by creator</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
   </context>
 </TS>
