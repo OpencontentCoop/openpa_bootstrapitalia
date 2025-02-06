@@ -109,7 +109,7 @@
 </script>
   <style>
     #cc-main {
-      --cc-font-family: 'Titillium Web';
+      --cc-font-family: 'Titillium Web', sans-serif;
       --cc-bg: #435a70;
       --cc-primary-color: white;
       --cc-secondary-color: white;
@@ -148,11 +148,13 @@
 
       --cc-separator-border-color: transparent;
       --cc-modal-border-radius: 0;
-
-      --cc-footer-border-color: #212529;
-      --cc-footer-bg: var(--cc-rev-color);
-      --cc-link-color: var(--cc-rev-color)
+      
+      --cc-footer-color: var(--cc-primary-color);
+      --cc-footer-border-color: transparent;
+      --cc-footer-bg: var(--cc-bg);
+      --cc-link-color: var(--cc-rev-color);
     }
+
     #cc-main,
     #cc-main .cm__btn,
     #cc-main .cm__desc,
@@ -165,10 +167,16 @@
       max-width: 50rem;
     }
 
+    #cc-main .pm--box {
+      max-width: 52rem;
+    }
+
     #cc-main .cm__btn--close,
     #cc-main .cm__btn--close:hover,
+    #cc-main .cm__btn--close:active,
     #cc-main .pm__close-btn,
-    #cc-main .pm__close-btn:hover {
+    #cc-main .pm__close-btn:hover,
+    #cc-main .pm__close-btn:active {
       border-color: transparent;
     }
 
