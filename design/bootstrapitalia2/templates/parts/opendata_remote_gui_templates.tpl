@@ -31,7 +31,7 @@
     {/literal}{/if}{literal}
 
 		{{for searchHits}}
-          {{include tmpl="#tpl-remote-gui-item"/}}
+      {{include tmpl="#tpl-remote-gui-item"/}}
 		{{/for}}
 		{{if nextPageQuery}}
 			<button type="button" data-page="{{>nextPage}}" class="nextPage btn btn-outline-primary pt-15 pb-15 pl-90 pr-90 mb-30 mt-3 mb-lg-50 full-mb text-button" data-element="load-other-cards">
@@ -51,20 +51,20 @@
       {/literal}{/if}{literal}
 
 	    <div class="row mx-lg-n3{{if !autoColumn && itemsPerRow != 'auto'}} row-cols-1 row-cols-md-2 row-cols-lg-{{:itemsPerRow}}{{/if}}"{{if itemsPerRow == 'auto'}} data-bs-toggle="masonry"{{/if}}>
-            {{if autoColumn}}<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{{:itemsPerRow}}">{{/if}}
-            {{for searchHits ~contentIcon=icon ~itemsPerRow=itemsPerRow ~autoColumn=autoColumn}}
-            {{if !~autoColumn}}<div class="{{if ~itemsPerRow == 'auto'}}col-sm-6 col-lg-4 mb-4 card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{{else}}px-3 pb-3{{/if}}">{{/if}}
-            {{if ~i18n(extradata, 'view') && !useCustomTpl}}
-                {{:~i18n(extradata, 'view')}}
-            {{else}}
-                <div class="card card-teaser rounded shadow" style="text-decoration:none !important">
-                    {{include tmpl="#tpl-remote-gui-item"/}}
-                </div>
-            {{/if}}
-            {{if !~autoColumn}}</div>{{/if}}
-            {{/for}}
-            {{if autoColumn}}</div>{{/if}}
-        </div>
+        {{if autoColumn}}<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{{:itemsPerRow}}">{{/if}}
+        {{for searchHits ~contentIcon=icon ~itemsPerRow=itemsPerRow ~autoColumn=autoColumn}}
+        {{if !~autoColumn}}<div class="{{if ~itemsPerRow == 'auto'}}col-sm-6 col-lg-4 mb-4 card-wrapper card-teaser-wrapper card-teaser-masonry-wrapper{{else}}px-3 pb-3{{/if}}">{{/if}}
+        {{if ~i18n(extradata, 'view') && !useCustomTpl}}
+            {{:~i18n(extradata, 'view')}}
+        {{else}}
+            <div class="card card-teaser rounded shadow" style="text-decoration:none !important">
+                {{include tmpl="#tpl-remote-gui-item"/}}
+            </div>
+        {{/if}}
+        {{if !~autoColumn}}</div>{{/if}}
+        {{/for}}
+        {{if autoColumn}}</div>{{/if}}
+      </div>
 
         {{if pageCount > 1}}
         <div class="row mt-lg-4 remote-pagination">

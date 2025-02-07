@@ -5,16 +5,16 @@
 {def $openpa = object_handler($block)}
 
 {def $showGrid = cond(is_set($block.custom_attributes.show_grid), $block.custom_attributes.show_grid, true())
-     $showMap = $block.custom_attributes.show_map
-	 $showSearch = $block.custom_attributes.show_search
-	 $searchPlaceholder = $block.custom_attributes.input_search_placeholder
-	 $query = $block.custom_attributes.query
-	 $limit = $block.custom_attributes.limit
-	 $itemsPerRow = $block.custom_attributes.items_per_row
-	 $fields = $block.custom_attributes.fields
-     $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
-     $facetsFields = array()
-	 $remoteUrl = cond(is_set($block.custom_attributes.remote_url), $block.custom_attributes.remote_url|trim('/'), false())}
+  $showMap = $block.custom_attributes.show_map
+	$showSearch = $block.custom_attributes.show_search
+	$searchPlaceholder = $block.custom_attributes.input_search_placeholder
+	$query = $block.custom_attributes.query
+	$limit = $block.custom_attributes.limit
+	$itemsPerRow = $block.custom_attributes.items_per_row
+	$fields = $block.custom_attributes.fields
+  $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
+  $facetsFields = array()
+	$remoteUrl = cond(is_set($block.custom_attributes.remote_url), $block.custom_attributes.remote_url|trim('/'), false())}
 
 {def $background_image = false()}
 {if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
