@@ -105,7 +105,7 @@
                 </div>
             {/if}
 
-            <section class="{if $facets|count()}order-md-first col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2">
+            <section class="{if $facets|count()}order-md-first col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2 mb-5 mb-lg-0">
                 {if and($showSearch, count($facets)|eq(0))}<div class="row g-0">{/if}
                 {if $showSearch}
                     {def $placeHolder = cond($searchPlaceholder|eq(''), 'Search by keyword'|i18n('bootstrapitalia'), $searchPlaceholder)}
