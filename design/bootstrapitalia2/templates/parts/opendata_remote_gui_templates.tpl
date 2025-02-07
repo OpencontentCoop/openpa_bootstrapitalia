@@ -72,7 +72,7 @@
                 <nav class="pagination-wrapper justify-content-center" aria-label="{/literal}{'Navigation'|i18n('design/ocbootstrap/menu')}{literal}">
                     <ul class="pagination">
                         <li class="page-item {{if !prevPageQuery}}disabled{{/if}}">
-                            <a class="page-link prevPage" {{if prevPageQuery}}data-page="{{>prevPage}}"{{/if}} href="#">
+                            <a class="page-link prevPage" {{if prevPageQuery}}data-page="{{>prevPage}}" href="#"{{/if}} >
                                 <svg class="icon icon-primary" aria-hidden="true" focusable="false">
                                     <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-left"></use>
                                 </svg>
@@ -91,7 +91,7 @@
                             >{{:page}}</a></li>
                         {{/for}}
                         <li class="page-item {{if !nextPageQuery}}disabled{{/if}}">
-                            <a class="page-link nextPage" {{if nextPageQuery}}data-page="{{>nextPage}}"{{/if}} href="#">
+                            <a class="page-link nextPage" {{if nextPageQuery}}data-page="{{>nextPage}}" href="#"{{/if}}>
                                 <span class="sr-only">{/literal}{"Next"|i18n("design/admin/navigator")}{literal}</span>
                                 <svg class="icon icon-primary" aria-hidden="true" focusable="false">
                                     <use xlink:href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-chevron-right"></use>
