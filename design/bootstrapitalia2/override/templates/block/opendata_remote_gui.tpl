@@ -226,10 +226,12 @@ $(document).ready(function () {ldelim}
     {rdelim});
 {rdelim});
 </script>
-{undef $showGrid $showMap $showSearch $searchPlaceholder $query $limit $itemsPerRow $fields $remoteUrl}
 {/if}
 
-{include uri='design:parts/opendata_remote_gui_templates.tpl' block=$block}
+{include uri='design:parts/opendata_remote_gui_templates.tpl' block=$block show_search=$showSearch}
+
+{undef $showGrid $showMap $showSearch $searchPlaceholder $query $limit $itemsPerRow $fields $remoteUrl}
+
 
 <script id="tpl-remote-gui-item-inner-{$block.id}" type="text/x-jsrender">
 {if and(is_set($block.custom_attributes.template), $block.custom_attributes.template|ne(''))}

@@ -15,19 +15,20 @@
 </script>
 <script id="tpl-remote-gui-list" type="text/x-jsrender">
 	{{if totalCount == 0}}
-	    <div class="row">
-            <div class="col text-center py-4" role="status">
-                <i aria-hidden="true" class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
-            </div>
-        </div>
+    <div class="row">
+      <div class="col text-center py-4" role="status">
+        <i aria-hidden="true" class="fa fa-times"></i> {/literal}{'No contents'|i18n('opendata_forms')}{literal}
+      </div>
+    </div>
 
 	{{else paginationStyle === 'append' || view === 'latest_messages_item'}}
-
-        {{if currentPage == 0 && totalCount > searchHits.length}}
-            <div class="row">
-              <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
-            </div>
-        {{/if}}
+    {/literal}{if $show_search}{literal}
+    {{if currentPage == 0 && totalCount > searchHits.length}}
+      <div class="row">
+        <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
+      </div>
+    {{/if}}
+    {/literal}{/if}{literal}
 
 		{{for searchHits}}
           {{include tmpl="#tpl-remote-gui-item"/}}
@@ -41,12 +42,13 @@
 		{{/if}}
 
 	{{else}}
-
-        {{if currentPage == 0 && totalCount > searchHits.length}}
-	    <div class="row">
+      {/literal}{if $show_search}{literal}
+      {{if totalCount > searchHits.length}}
+        <div class="row">
           <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
         </div>
-        {{/if}}
+      {{/if}}
+      {/literal}{/if}{literal}
 
 	    <div class="row mx-lg-n3{{if !autoColumn && itemsPerRow != 'auto'}} row-cols-1 row-cols-md-2 row-cols-lg-{{:itemsPerRow}}{{/if}}"{{if itemsPerRow == 'auto'}} data-bs-toggle="masonry"{{/if}}>
             {{if autoColumn}}<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-{{:itemsPerRow}}">{{/if}}
