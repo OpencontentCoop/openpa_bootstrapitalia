@@ -61,7 +61,9 @@
         <div class="container">
             <div class="row justify-content-center{if $first_block_has_bg|not()} pb-lg-60 row-shadow{/if}">
                 <div class="col-12 col-lg-10">
+                  <div class="richtext-wrapper lora">
                     {attribute_view_gui attribute=$node|attribute('description')}
+                  </div>
                 </div>
             </div>
         </div>
