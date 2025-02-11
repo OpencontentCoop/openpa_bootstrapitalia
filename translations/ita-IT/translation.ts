@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE TS>
-<TS version="2.0">
+<TS version="2.1" language="it">
   <context>
     <name>bootstrapitalia</name>
     <message>
@@ -1964,6 +1964,14 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Meeting number</source>
       <translation>Numero appuntamento</translation>
+    </message>
+    <message>
+      <source>Appointment required</source>
+      <translation>Appuntamento richiesto</translation>
+    </message>
+    <message>
+      <source>You will receive a message if the date and time you requested is confirmed</source>
+      <translation>Riceverai un messaggio in caso di conferma della data e dell'orario che hai richiesto</translation>
     </message>
   </context>
   <context>

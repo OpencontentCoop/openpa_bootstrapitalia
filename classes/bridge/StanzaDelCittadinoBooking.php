@@ -228,7 +228,7 @@ EOT;
                                         'id' => $c['id'],
                                         'title' => $c['title'],
                                         'rolling_days' => $c['rolling_days'],
-                                        'month_interval' => $monthInterval,                                        
+                                        'month_interval' => $monthInterval,
                                     ];
                                 } catch (Throwable $e) {
                                     eZDebug::writeError($e->getMessage(), __METHOD__);
@@ -620,7 +620,32 @@ EOT;
 
     public function bookMeeting(StanzaDelCittadinoBookingDTO $dto): array
     {
-        return $this->isStoreMeetingAsApplication() ? $this->bookAsApplication($dto) : $this->bookAsMeeting($dto);
+        $response = $this->isStoreMeetingAsApplication() ? $this->bookAsApplication($dto) : $this->bookAsMeeting($dto);
+        $response['meeting'] = $response['data'] ?? $this->getMeetingFromDto($dto);
+
+        return $response;
+    }
+
+    private function getMeetingFromDto(StanzaDelCittadinoBookingDTO $dto): ?array
+    {
+        $meetingId = $dto->getMeetingId();
+        if (is_string($meetingId)) {
+            try{
+                $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
+                if (empty($dto->getUserToken())) {
+                    $authResponse = $client->request('POST', '/api/session-auth');
+                    $dto->setUserToken($authResponse['token']);
+                }
+                $client->setBearerToken($dto->getUserToken());
+                $method = 'GET';
+                $endpoint = '/api/meetings/' . $meetingId;
+                return $client->request($method, $endpoint);
+            }catch (Throwable $e){
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+            }
+        }
+
+        return null;
     }
 
     private function bookAsApplication(StanzaDelCittadinoBookingDTO $dto): array
