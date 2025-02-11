@@ -26,10 +26,20 @@
     <ul class="list-inline text-start social">
         {foreach $socials as $social => $name}
             {if is_set($pagedata.contacts[$social])}
-                <li class="list-inline-item mb-3">
-                <a href="{$pagedata.contacts.[$social]}" class="p-1 text-white" aria-label="{$name|wash()}" target="_blank" rel="noopener noreferrer"  title="{$name|wash()}">
+              <li class="list-inline-item mb-3">
+                <a href="{$pagedata.contacts.[$social]}"
+                  class="p-1 text-white"
+                  aria-label="{$name|wash()}"
+                  target="_blank"
+                  rel="noopener noreferrer">
                     {if $social|eq('tiktok')}
-                        <svg class="icon icon-sm icon-white align-top" aria-label="Tik Tok" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
+                        <svg class="icon icon-sm icon-white align-top"
+                          aria-hidden="true"
+                          focusable="false"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          viewBox="0 0 48 48">
                             <g fill="none" fill-rule="evenodd">
                                 <path fill="#00F2EA" d="M20.023 18.111v-1.703a13.17 13.17 0 0 0-1.784-.13c-7.3 0-13.239 5.94-13.239 13.24 0 4.478 2.238 8.442 5.652 10.839a13.187 13.187 0 0 1-3.555-9.014c0-7.196 5.77-13.064 12.926-13.232"/>
                                 <path fill="#00F2EA" d="M20.335 37.389c3.257 0 5.914-2.591 6.035-5.82l.011-28.825h5.266a9.999 9.999 0 0 1-.17-1.825h-7.192l-.012 28.826c-.12 3.228-2.778 5.818-6.034 5.818a6.006 6.006 0 0 1-2.805-.694 6.037 6.037 0 0 0 4.901 2.52M41.484 12.528v-1.602a9.943 9.943 0 0 1-5.449-1.62 10.011 10.011 0 0 0 5.45 3.222"/>
@@ -43,12 +53,12 @@
                     {/if}
                     <span class="visually-hidden">{$name|wash()}</span>
                 </a>
-            </li>
+              </li>
             {/if}
         {/foreach}
         {if openpaini('GeneralSettings','ShowRssInSocialList', 'disabled')|eq('enabled')}
             <li class="list-inline-item mb-3">
-                <a href="{'/feed/list'}" aria-label="RSS"  title="RSS">
+                <a href="{'/feed/list'}">
                     {display_icon('it-rss', 'svg', 'icon icon-sm icon-white align-top', 'RSS')}
                     <span class="visually-hidden">RSS</span>
                 </a>

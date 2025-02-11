@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-9 Grid-cell u-md-size3of4 u-lg-size5of6">
             <p class="currenturi pb-2" style="display: none;">
-                Direct url: <a target="_blank" href="{$uri}">{$uri|wash()}</a>
+                Direct url: <a target="_blank" rel="noopener" href="{$uri}">{$uri|wash()}</a>
             </p>
             <pre class="response" style="display: none;font-size: .8em;background:#eee;padding: 5px 10px;border-radius: 5px;"></pre>
             <div class="spinner text-center">

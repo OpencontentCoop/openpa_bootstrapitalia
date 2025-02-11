@@ -13,7 +13,10 @@
      {if and($service_widget_url_info.builtin|eq('inefficiency'), $context|eq('main'))}
           {def $inefficiency_dataset = fetch(content, object, hash(remote_id, 'inefficiency-dataset'))}
           {if and($inefficiency_dataset, $inefficiency_dataset.can_read)}
-          <a class="ms-2 mr-2 {$secondary_css_class}" href="{$inefficiency_dataset.main_node.url_alias|ezurl(no)}">{$inefficiency_dataset.name|wash()}</a>
+            <a class="ms-2 mr-2 {$secondary_css_class}"
+              href="{$inefficiency_dataset.main_node.url_alias|ezurl(no)}">
+                {$inefficiency_dataset.name|wash()}
+            </a>
           {/if}
           {undef $inefficiency_dataset}
      {/if}
@@ -24,9 +27,17 @@
 
      {def $is_channel = cond($attribute.object.class_identifier|eq('channel'), true(), false())}
      {if $attribute.data_text}
-          <a class="{$css_class}" {if $is_channel|not()}target="_blank" rel="noopener noreferrer"{/if} href="{$attribute.content|wash( xhtml )}">{$attribute.data_text|wash( xhtml )}{if $is_channel|not()} <i class="fa fa-external-link"></i>{/if}</a>
+          <a class="{$css_class}"
+            {if $is_channel|not()}target="_blank" rel="noopener noreferrer"{/if}
+            href="{$attribute.content|wash( xhtml )}">
+              {$attribute.data_text|wash( xhtml )}{if $is_channel|not()} <i class="fa fa-external-link"></i>{/if}
+          </a>
      {else}
-          <a class="{$css_class}" {if $is_channel|not()}target="_blank" rel="noopener noreferrer"{/if} href="{$attribute.content|wash( xhtml )}">{$attribute.content|wash( xhtml )}{if $is_channel|not()} <i class="fa fa-external-link"></i>{/if}</a>
+          <a class="{$css_class}"
+            {if $is_channel|not()}target="_blank" rel="noopener noreferrer"{/if}
+            href="{$attribute.content|wash( xhtml )}">
+              {$attribute.content|wash( xhtml )}{if $is_channel|not()} <i class="fa fa-external-link"></i>{/if}
+          </a>
      {/if}
 
 {/if}

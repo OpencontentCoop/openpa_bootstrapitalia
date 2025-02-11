@@ -50,7 +50,9 @@
         {/foreach}
         {if openpaini('GeneralSettings','ShowRssInSocialList', 'disabled')|eq('enabled')}
             <li>
-                <a href="{'/feed/list'}" aria-label="RSS" target="_blank" rel="noopener noreferrer" title="RSS">
+                <a href="{'/feed/list'}"
+                  target="_blank"
+                  rel="noopener noreferrer">
                     {display_icon('it-rss', 'svg', 'icon icon-sm align-top', 'RSS')}
                     <span class="visually-hidden">RSS</span>
                 </a>

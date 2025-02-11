@@ -19,17 +19,39 @@
                             {/if}
                             <p class="my-3" style="font-weight: normal">{$builtin.description_list_item.text}</p>
                             {if $builtin.has_custom_config}
-                                <a class="text-decoration-none text-nowrap d-block mb-2" target="_blank" href="{concat('/bootstrapitalia/widget/', $identifier, '?edit')|ezurl(no)}"><div class="chip chip-simple chip-warning"><span class="chip-label">Snippet di inclusione custom</span></div></a>
+                                <a class="text-decoration-none text-nowrap d-block mb-2"
+                                  target="_blank"
+                                  rel="noopener"
+                                  href="{concat('/bootstrapitalia/widget/', $identifier, '?edit')|ezurl(no)}"><div class="chip chip-simple chip-warning"><span class="chip-label">Snippet di inclusione custom</span></div>
+                                </a>
                             {else}
-                                <a class="d-block mb-2" href="{concat('/bootstrapitalia/widget/', $identifier, '?edit')|ezurl(no)}" target="_blank"><small>Crea snippet di inclusione custom</small></a>
+                                <a class="d-block mb-2"
+                                  href="{concat('/bootstrapitalia/widget/', $identifier, '?edit')|ezurl(no)}"
+                                  target="_blank"
+                                  rel="noopener">
+                                  <small>Crea snippet di inclusione custom</small>
+                                </a>
                             {/if}
-                            <a class="text-decoration-none text-nowrap d-inline-block " target="_blank" href="{$builtin.src|wash()}" title="{$builtin.src|wash()}"><div class="chip chip-simple chip-secondary"><span class="chip-label">Sorgente JS</span></div></a>
-                            <a class="text-decoration-none text-nowrap d-inline-block " target="_blank" href="{$builtin.style|wash()}" title="{$builtin.style|wash()}"><div class="chip chip-simple chip-secondary"><span class="chip-label">Sorgente CSS</span></div></a>
+                            <a class="text-decoration-none text-nowrap d-inline-block "
+                              target="_blank"
+                              rel="noopener"
+                              href="{$builtin.src|wash()}">
+                              <div class="chip chip-simple chip-secondary"><span class="chip-label">Sorgente JS</span></div>
+                            </a>
+                            <a class="text-decoration-none text-nowrap d-inline-block "
+                              target="_blank"
+                              rel="noopener"
+                              href="{$builtin.style|wash()}">
+                              <div class="chip chip-simple chip-secondary"><span class="chip-label">Sorgente CSS</span></div>
+                            </a>
                             {if $builtin.service_id}
                                 <span class="text-decoration-none d-inline-block" style="max-width:100%"><div class="chip chip-simple chip-info"><span class="chip-label"><strong>Service:</strong> {$builtin.service_id|wash()}</span></div></span>
                             {/if}
 
-                            <a class="read-more" href="{concat('/bootstrapitalia/widget/', $identifier)|ezurl(no)}" target="_blank">
+                            <a class="read-more"
+                              href="{concat('/bootstrapitalia/widget/', $identifier)|ezurl(no)}"
+                              target="_blank"
+                              rel="noopener">
                                 <span class="text">Esegui un test</span>
                                 {display_icon('it-arrow-right', 'svg', 'icon', 'Read more'|i18n('bootstrapitalia'))}
                             </a>

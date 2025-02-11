@@ -85,7 +85,10 @@
                 <div class="it-header-slim-wrapper-content">
                     {if $header_service_list|count()|gt(0)}
                         {foreach $header_service_list as $item}
-                            <a class="d-none d-lg-block navbar-brand" href="{$item.url}"{if openpaini('InstanceSettings','TargetBlankAmministrazioneAfferente', 'disabled')|eq('enabled')} target="_blank"{/if}>{$item.name|wash()}</a>
+                            <a class="d-none d-lg-block navbar-brand"
+                              href="{$item.url}"{if openpaini('InstanceSettings','TargetBlankAmministrazioneAfferente', 'disabled')|eq('enabled')} target="_blank" rel="noopener"{/if}>
+                              {$item.name|wash()}
+                            </a>
                         {/foreach}
                         <div class="nav-mobile">
                             <nav>
@@ -102,7 +105,11 @@
                                 <div class="link-list-wrapper collapse" id="service-menu">
                                     <ul class="link-list">
                                         {foreach $header_service_list as $item}
-                                            <li class="list-item d-block d-md-none"><a href="{$item.url}"{if openpaini('InstanceSettings','TargetBlankAmministrazioneAfferente', 'disabled')|eq('enabled')} target="_blank"{/if}>{$item.name|wash()}</a></li>
+                                            <li class="list-item d-block d-md-none">
+                                              <a href="{$item.url}"{if openpaini('InstanceSettings','TargetBlankAmministrazioneAfferente', 'disabled')|eq('enabled')} target="_blank" rel="noopener"{/if}>
+                                                {$item.name|wash()}
+                                              </a>
+                                            </li>
                                         {/foreach}
                                         {foreach $header_links as $header_link max openpaini('Menu','HeaderLinksLimit', 3)}
                                             <li class="list-item text-nowrap">{node_view_gui content_node=$header_link view=text_linked}</li>
@@ -110,7 +117,10 @@
                                     </ul>
                                 </div>
                                 {else}
-                                    <a class="d-lg-none navbar-brand" href="{$header_service_list[0].url}"{if openpaini('InstanceSettings','TargetBlankAmministrazioneAfferente', 'disabled')|eq('enabled')} target="_blank"{/if}><span>{$header_service_list[0].name|wash()}</span></a>
+                                    <a class="d-lg-none navbar-brand"
+                                      href="{$header_service_list[0].url}"{if openpaini('InstanceSettings','TargetBlankAmministrazioneAfferente', 'disabled')|eq('enabled')} target="_blank" rel="noopener"{/if}>
+                                      <span>{$header_service_list[0].name|wash()}</span>
+                                    </a>
                                 {/if}
                             </nav>
                         </div>

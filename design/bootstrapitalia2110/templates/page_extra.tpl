@@ -7,15 +7,20 @@
                         <div class="row variable-gutters">
                             <div class="col">
                                 <div class="modal-title">
-                                    <button class="search-link d-md-none" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#search-modal" aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
+                                    <button class="search-link d-md-none"
+                                      type="button" data-bs-toggle="modal"
+                                      data-bs-target="#search-modal"
+                                      aria-label="{'Close'|i18n('bootstrapitalia')}">
                                         <svg class="icon icon-md" aria-hidden="true" focusable="false">
                                             <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-arrow-left"></use>
                                         </svg>
                                     </button>
                                     <h2>{'Search'|i18n('openpa/search')}</h2>
-                                    <button class="search-link d-none d-md-block" type="button" data-bs-toggle="modal"
-                                            data-bs-target="#search-modal" aria-label="{'Close'|i18n('bootstrapitalia')}">
+                                    <button class="search-link d-none d-md-block"
+                                      type="button"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#search-modal"
+                                      aria-label="{'Close'|i18n('bootstrapitalia')}">
                                         <svg class="icon icon-md" aria-hidden="true" focusable="false">
                                             <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-close-big"></use>
                                         </svg>
@@ -47,10 +52,10 @@
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" style="display: none;">
     <div class="slides"></div>
     <h3 class="title"><span class="sr-only">gallery</span></h3>
-    <a class="prev" href="#" title="{'Previous'|i18n('design/iphone/full/image')}" aria-label="{'Previous'|i18n('design/iphone/full/image')}">‹</a>
-    <a class="next" href="#" title="{'Next'|i18n('design/iphone/full/image')}" aria-label="{'Next'|i18n('design/iphone/full/image')}">›</a>
-    <a class="close" href="#" title="{'Close'|i18n('bootstrapitalia')}" aria-label="{'Close'|i18n('bootstrapitalia')}">×</a>
-    <a class="play-pause" href="#" title="play/pause" aria-label="play/pause"></a>
+    <a class="prev" href="#" aria-label="{'Previous'|i18n('design/iphone/full/image')}">‹</a>
+    <a class="next" href="#" aria-label="{'Next'|i18n('design/iphone/full/image')}">›</a>
+    <a class="close" href="#" aria-label="{'Close'|i18n('bootstrapitalia')}">×</a>
+    <a class="play-pause" href="#" aria-label="play/pause"></a>
     <ol class="indicator"></ol>
 </div>
 {literal}

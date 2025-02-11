@@ -125,8 +125,9 @@
                     <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">
                     {foreach $trasparenza.table_fields as $table_index => $fields}
                         <p>
-                            <a target="_blank" title="{$fields.query|wash()}"
-                               href="{concat('/opendata/console/1?query=',$fields.query|wash())|ezurl(no)}">
+                            <a target="_blank"
+                              rel="noopener"
+                              href="{concat('/opendata/console/1?query=',$fields.query|wash())|ezurl(no)}">
                                 <code style="word-break: break-all;">{$fields.raw|wash()}</code>
                             </a>
                         </p>

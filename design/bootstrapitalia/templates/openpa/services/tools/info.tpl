@@ -80,8 +80,9 @@
 
     <div class="col-md-3 text-right text-primary">{'Content type'|i18n( 'bootstrapitalia' )}:</div>
     <div class="col-md-9">
-        <a target="_blank" rel="noopener noreferrer"
-           href="{concat('classtools/classes/', $node.class_identifier)|ezurl(no)}">
+        <a target="_blank"
+          rel="noopener noreferrer"
+          href="{concat('classtools/classes/', $node.class_identifier)|ezurl(no)}">
             {if $openpa.content_icon.class_icon}
                 {display_icon($openpa.content_icon.class_icon.icon_text, 'svg', 'icon icon-sm')}
             {/if}

@@ -12,7 +12,10 @@
     <ul>
         {if is_set($pagedata.contacts.facebook)}
         <li>
-            <a href="{$pagedata.contacts.facebook}" aria-label="Facebook" target="_blank" rel="noopener noreferrer"  title="Facebook">
+            <a href="{$pagedata.contacts.facebook}"
+              aria-label="Facebook"
+              target="_blank"
+              rel="noopener noreferrer">
                 {display_icon('it-facebook', 'svg', 'icon')}
             </a>
         </li>
@@ -20,7 +23,10 @@
 
         {if is_set($pagedata.contacts.twitter)}
             <li>
-                <a href="{$pagedata.contacts.twitter}" aria-label="Twitter" target="_blank" rel="noopener noreferrer" title="Twitter">
+                <a href="{$pagedata.contacts.twitter}"
+                  aria-label="Twitter"
+                  target="_blank"
+                  rel="noopener noreferrer">
                     {display_icon('it-twitter', 'svg', 'icon')}
                 </a>
             </li>
@@ -28,7 +34,10 @@
 
         {if is_set($pagedata.contacts.linkedin)}
             <li>
-                <a href="{$pagedata.contacts.linkedin}" aria-label="Linkedin" target="_blank" rel="noopener noreferrer" title="Linkedin">
+                <a href="{$pagedata.contacts.linkedin}"
+                  aria-label="Linkedin"
+                  target="_blank"
+                  rel="noopener noreferrer">
                     {display_icon('it-linkedin', 'svg', 'icon')}
                 </a>
             </li>
@@ -36,7 +45,10 @@
 
         {if is_set($pagedata.contacts.instagram)}
             <li>
-                <a href="{$pagedata.contacts.instagram}" aria-label="Instagram" target="_blank" rel="noopener noreferrer" title="Instagram">
+                <a href="{$pagedata.contacts.instagram}"
+                  aria-label="Instagram"
+                  target="_blank"
+                  rel="noopener noreferrer">
                     {display_icon('it-instagram', 'svg', 'icon')}
                 </a>
             </li>
@@ -44,7 +56,10 @@
 
         {if is_set($pagedata.contacts.youtube)}
             <li>
-                <a href="{$pagedata.contacts.youtube}" aria-label="YouTube" target="_blank" rel="noopener noreferrer" title="YouTube">
+                <a href="{$pagedata.contacts.youtube}"
+                  aria-label="YouTube"
+                  target="_blank"
+                  rel="noopener noreferrer">
                     {display_icon('it-youtube', 'svg', 'icon')}
                 </a>
             </li>
@@ -52,7 +67,10 @@
 
         {if is_set($pagedata.contacts.whatsapp)}
             <li>
-                <a href="{$pagedata.contacts.whatsapp}" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+                <a href="{$pagedata.contacts.whatsapp}"
+                  aria-label="WhatsApp"
+                  target="_blank"
+                  rel="noopener noreferrer">
                     {display_icon('it-whatsapp', 'svg', 'icon')}
                 </a>
             </li>
@@ -60,7 +78,10 @@
 
         {if is_set($pagedata.contacts.telegram)}
             <li>
-                <a href="{$pagedata.contacts.telegram}" aria-label="Telegram" target="_blank" title="Telegram">
+                <a href="{$pagedata.contacts.telegram}"
+                  aria-label="Telegram"
+                  target="_blank"
+                  rel="noopener noreferrer">
                     {display_icon('it-telegram', 'svg', 'icon')}
                 </a>
             </li>
@@ -68,8 +89,17 @@
 
         {if is_set($pagedata.contacts.tiktok)}
             <li>
-                <a href="{$pagedata.contacts.tiktok}" aria-label="TikTok" target="_blank" rel="noopener noreferrer" title="TikTok">
-                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 48 48">
+                <a href="{$pagedata.contacts.tiktok}"
+                  aria-label="TikTok"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                    <svg class="icon"
+                      aria-hidden="true"
+                      focusable="false"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 48 48">
                         <g fill="none" fill-rule="evenodd">
                             <path fill="#00F2EA" d="M20.023 18.111v-1.703a13.17 13.17 0 0 0-1.784-.13c-7.3 0-13.239 5.94-13.239 13.24 0 4.478 2.238 8.442 5.652 10.839a13.187 13.187 0 0 1-3.555-9.014c0-7.196 5.77-13.064 12.926-13.232"/>
                             <path fill="#00F2EA" d="M20.335 37.389c3.257 0 5.914-2.591 6.035-5.82l.011-28.825h5.266a9.999 9.999 0 0 1-.17-1.825h-7.192l-.012 28.826c-.12 3.228-2.778 5.818-6.034 5.818a6.006 6.006 0 0 1-2.805-.694 6.037 6.037 0 0 0 4.901 2.52M41.484 12.528v-1.602a9.943 9.943 0 0 1-5.449-1.62 10.011 10.011 0 0 0 5.45 3.222"/>
