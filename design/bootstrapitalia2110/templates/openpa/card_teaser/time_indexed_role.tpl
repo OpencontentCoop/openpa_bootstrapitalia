@@ -49,7 +49,11 @@
             {if $role}{$role}{/if} {if $for_entity}{$for_entity.name|wash()}{/if}
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
             {if and($person, $attributes.show|contains('content_show_read_more'))}
-                <p class="mt-3"><a href="{$person.url_alias|ezurl(no)}" title="{'Go to content'|i18n('bootstrapitalia')} {$person.name|wash()}">{'Further details'|i18n('bootstrapitalia')}</a></p>
+                <p class="mt-3">
+                  <a href="{$person.url_alias|ezurl(no)}">
+                    {'Further details'|i18n('bootstrapitalia')}
+                  </a>
+                </p>
             {/if}
         </div>
     </div>

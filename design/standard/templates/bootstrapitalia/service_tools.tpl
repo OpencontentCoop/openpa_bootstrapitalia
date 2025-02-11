@@ -37,7 +37,7 @@
                             <td>
                                 <code class="size-sm">{$service.identifier|wash()}</code>
                                 {if is_set($service._is_prototype_identifier)}
-                                    <small style="font-size: small" class="d-block">Identificativo dedotto dal <a href="{$prototype_operation_base_url}/it/admin/servizio/{$service._prototype_id}/edit" target="_blank" title="{$prototype_operation_base_url}">prototipo</a> <small
+                                    <small style="font-size: small" class="d-block">Identificativo dedotto dal <a href="{$prototype_operation_base_url}/it/admin/servizio/{$service._prototype_id}/edit" target="_blank" rel="noopener" title="{$prototype_operation_base_url}">prototipo</a> <small
                                 {/if}
                             </td>
                             <td style="white-space:nowrap;text-align:right">
@@ -53,7 +53,7 @@
                                     <input data-identifier="{$service.identifier|wash()}" type="hidden" name="content_remote_id" value="" />
                                     <input data-identifier="{$service.identifier|wash()}" type="hidden" name="service_id" value="{$service.id|wash()}" />
                                     <button data-identifier="{$service.identifier|wash()}" type="submit" name="ImportService" data-id="{$service.id|wash()}" class="hide import btn btn-xs btn-warning text-nowrap"><i aria-hidden="true" class="fa fa-arrow-up"></i> Importa</button>
-                                    <a data-identifier="{$service.identifier|wash()}" data-id="{$service.id|wash()}" class="hide link btn btn-xs btn-success text-nowrap" target="_blank" href="#" data-remote="#"><i aria-hidden="true" class="fa fa-link"></i> Vedi</a>
+                                    <a data-identifier="{$service.identifier|wash()}" data-id="{$service.id|wash()}" class="hide link btn btn-xs btn-success text-nowrap" target="_blank" rel="noopener" href="#" data-remote="#"><i aria-hidden="true" class="fa fa-link"></i> Vedi</a>
                                     <button data-identifier="{$service.identifier|wash()}" type="submit" name="ReImportService" data-id="{$service.id|wash()}" class="hide update btn btn-xs btn-warning text-nowrap"><i aria-hidden="true" class="fa fa-refresh"></i> Reimporta</button>
                                 </form>
                                 {/if}

@@ -191,7 +191,10 @@
                                         </p>
                                         <div class="card-text u-main-black">
                                             <div class="mt-1">
-                                                <a href="https://www.google.com/maps/dir/45.548598,11.546282/@45.548598,11.546282,15z?hl=it" target="_blank" rel="noopener noreferrer" class="text-decoration-none">
+                                                <a href="https://www.google.com/maps/dir/45.548598,11.546282/@45.548598,11.546282,15z?hl=it"
+                                                  target="_blank"
+                                                  rel="noopener noreferrer"
+                                                  class="text-decoration-none">
                                                     <i aria-hidden="true" class="fa fa-map"></i> {$openpa.event_link.geo.address|wash()}
                                                 </a>
                                             </div>

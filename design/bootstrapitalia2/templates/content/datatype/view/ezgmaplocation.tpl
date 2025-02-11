@@ -9,7 +9,10 @@
 
     {if and(is_set($only_address), $only_address)}
       {if $attribute.content.address|ne('')}
-      <a href="{$geo_link}" target="_blank" rel="noopener noreferrer"  class="text-decoration-none">
+      <a href="{$geo_link}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-decoration-none">
         <i aria-hidden="true" class="fa fa-map"></i> {$attribute.content.address}
       </a>
       {/if}

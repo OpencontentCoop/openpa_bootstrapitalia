@@ -52,7 +52,10 @@
                                                         <div class="info-wrapper">
                                                             <span class="info-wrapper__label">{'Address'|i18n('bootstrapitalia/booking')}</span>
                                                             <p class="info-wrapper__value" data-address>
-                                                                <a href="https://www.google.com/maps/dir//'{$place.address.latitude|wash()},{$place.address.longitude|wash()}'/@{$place.address.latitude|wash()},{$place.address.longitude|wash()},15z?hl=it" target="_blank" rel="noopener noreferrer"  class="text-decoration-none">
+                                                                <a href="https://www.google.com/maps/dir//'{$place.address.latitude|wash()},{$place.address.longitude|wash()}'/@{$place.address.latitude|wash()},{$place.address.longitude|wash()},15z?hl=it"
+                                                                  target="_blank"
+                                                                  rel="noopener noreferrer"
+                                                                  class="text-decoration-none">
                                                                     {$place.address.address|wash()}
                                                                 </a>
                                                             </p>

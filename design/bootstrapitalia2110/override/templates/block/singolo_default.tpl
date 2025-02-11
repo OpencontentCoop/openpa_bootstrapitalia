@@ -50,7 +50,8 @@
                         <div class="card-body pb-5 px-0">
                             {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}
                             <h3 class="card-title">
-                                <a href="{$openpa.content_link.full_link}" class="text-decoration-none" title="{'Go to page'|i18n('bootstrapitalia')} {$valid_node.name|wash()}">
+                                <a href="{$openpa.content_link.full_link}"
+                                  class="text-decoration-none">
                                     {$valid_node.name|wash()}
                                 </a>
                             </h3>

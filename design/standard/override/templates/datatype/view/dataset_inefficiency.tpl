@@ -101,10 +101,14 @@
                     <div class="alert alert-danger my-2 has_error_action_alert" style="display: none"></div>
                     <div class="alert alert-success my-2 has_scheduled_action_alert" style="display: none">
                         {'Automatic import enabled'|i18n('opendatadataset')}
-                        <a href="#" target="_blank" class="spreadsheet_uri btn btn-xs btn-success p-1 ml-3">
+                        <a href="#"
+                          target="_blank"
+                          rel="noopener"
+                          class="spreadsheet_uri btn btn-xs btn-success p-1 ml-3">
                             <i class="fa fa-external-link"></i> {'Go to source'|i18n('opendatadataset')}
                         </a>
-                        <a href="{concat('/opendatadataset/remove_scheduled_import/', $attribute.id)|ezurl(no)}" class="btn btn-xs btn-danger p-1 ml-3">
+                        <a href="{concat('/opendatadataset/remove_scheduled_import/', $attribute.id)|ezurl(no)}"
+                          class="btn btn-xs btn-danger p-1 ml-3">
                             <i class="fa fa-times"></i> {'Disable'|i18n('opendatadataset')}
                         </a>
                     </div>

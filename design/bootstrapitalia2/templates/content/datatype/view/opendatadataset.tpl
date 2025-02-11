@@ -102,17 +102,20 @@
         </div>
 
         <div class="alert alert-warning my-2 has_pending_action_alert" style="display: none">
-            <i class="fa fa-circle-o-notch fa-spin"></i> {'There are data being updated'|i18n('opendatadataset')}
+            <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin"></i> {'There are data being updated'|i18n('opendatadataset')}
         </div>
         {if $attribute.content.can_edit}
             <div class="alert alert-danger my-2 has_error_action_alert" style="display: none"></div>
             <div class="alert alert-success my-2 has_scheduled_action_alert" style="display: none">
                 {'Automatic import enabled'|i18n('opendatadataset')}
-                <a href="#" target="_blank" class="spreadsheet_uri btn btn-xs btn-primary p-1 ml-3">
-                    <i class="fa fa-external-link"></i> {'Go to source'|i18n('opendatadataset')}
+                <a href="#"
+                  target="_blank"
+                  rel="noopener"
+                  class="spreadsheet_uri btn btn-xs btn-primary p-1 ml-3">
+                    <i aria-hidden="true" class="fa fa-external-link"></i> {'Go to source'|i18n('opendatadataset')}
                 </a>
                 <a href="{concat('/opendatadataset/remove_scheduled_import/', $attribute.id)|ezurl(no)}" class="btn btn-xs btn-danger p-1 ml-3">
-                    <i class="fa fa-times"></i> {'Disable'|i18n('opendatadataset')}
+                    <i aria-hidden="true" class="fa fa-times"></i> {'Disable'|i18n('opendatadataset')}
                 </a>
             </div>
         {/if}
