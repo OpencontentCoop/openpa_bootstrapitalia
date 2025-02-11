@@ -199,10 +199,13 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
                                 foreach ($values as $value){                                    
                                     $startTime = explode('.', $value[0]);                                    
                                     $endTime = explode('.', $value[1]);
+                                    if (count($startTime) !== 2 || count($endTime) !== 2){
+                                        continue;
+                                    }
                                     $start = clone $period;
-                                    $start->setTime($startTime[0], $startTime[1]);
+                                    $start->setTime((int)$startTime[0], (int)$startTime[1]);
                                     $end = clone $period;
-                                    $end->setTime($endTime[0], $endTime[1]);
+                                    $end->setTime((int)$endTime[0], (int)$endTime[1]);
 
                                     $event = clone $baseEvent;
                                     $event->setId($content['metadata']['id'] . '-' . $timeRelation['id'] . '-' . $day . '-' . implode(':', $value))
@@ -262,7 +265,7 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
     )
     {
         foreach (BootstrapItaliaClassAlias::getAliasIdList() as $realId => $maskedId){
-            if (in_array($realId, $query['SearchContentClassID'])){
+            if (is_array($query['SearchContentClassID']) && in_array($realId, $query['SearchContentClassID'])){
                 $query['SearchContentClassID'][] = $maskedId;
             }
         }
