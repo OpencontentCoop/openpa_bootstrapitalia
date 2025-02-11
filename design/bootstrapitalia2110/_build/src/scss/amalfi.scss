@@ -2,8 +2,16 @@
 // colore azzurro: #3573DE
 
 $primary: #1274bb;
+$primary-a6: $primary;
+$primary-a7: darken($primary, 3);
+
+$primary-h: 205.21;
+$primary-s: 90.37;
+$primary-b: 73.33;
 
 $header-slim-bg-color: $primary;
 $card-teaser-border: rgba($primary, 0.1);
+$color-text-primary-hover: $primary-a7;
+$color-text-primary-active: $primary-a7;
 
 @import "default";
