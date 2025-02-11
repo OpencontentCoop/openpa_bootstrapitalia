@@ -1316,6 +1316,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Accept necessary cookies</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Refuse all cookies</source>
       <translation type="unfinished"/>
     </message>
@@ -1337,6 +1341,10 @@
     </message>
     <message>
       <source>Accept all cookies and close</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Accept necessary cookies and close</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -1367,6 +1375,18 @@
       <source>Strictly Necessary Cookies</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Always Enabled</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Service | Services</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+    <source>Close</source>
+    <translation type="unfinished"/>
+  </message>
     <message>
       <source>They are necessary for the proper functioning of the site. They allow the browsing of the pages, the storage of a user's sessions (to keep them active while browsing). Without these cookies, the services for which users access the site could not be provided.</source>
       <translation type="unfinished"/>

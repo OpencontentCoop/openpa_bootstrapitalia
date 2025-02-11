@@ -1360,18 +1360,23 @@ class OpenPABootstrapItaliaOperators
             'learnMore' => $learnMore,
             'barMainText' => $barMainText,
             'barBtnAcceptAll' => $barBtnAcceptAll,
+            'barBtnAcceptNecessary' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Accept necessary cookies'),
             'barBtnRefuseAll' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Refuse all cookies'),
             'modalMainText' => ezpI18n::tr('bootstrapitalia/cookieconsent', "Cookies are small piece of data sent from a website and stored on the user's computer by the user's web browser while the user is browsing. Your browser stores each message in a small file, called cookie. When you request another page from the server, your browser sends the cookie back to the server. Cookies were designed to be a reliable mechanism for websites to remember information or to record the user's browsing activity."),
             'modalMainTitle' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Cookie information and preferences'),
             'barLinkSetting' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Cookie settings'),
             'modalBtnAcceptAll' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Accept all cookies and close'),
+            'modalBtnAcceptNecessary' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Accept necessary cookies and close'),
             'modalBtnRefuseAll' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Refuse all cookies and close'),
             'modalBtnSave' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Save current settings'),
             'modalAffectedSolutions' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Affected solutions:'),
             'on' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'On'),
             'off' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Off'),
+            'services' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Service | Services'),
+            'close' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Close'),
             'necessary' => [
                 'name' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Strictly Necessary Cookies'),
+                'badge' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Always Enabled'),
                 'description' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'They are necessary for the proper functioning of the site. They allow the browsing of the pages, the storage of a user\'s sessions (to keep them active while browsing). Without these cookies, the services for which users access the site could not be provided.'),
             ],
             'analytics' => [
@@ -1381,7 +1386,7 @@ class OpenPABootstrapItaliaOperators
             'multimedia' => [
                 'name' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Automatic embedding of multimedia contents'),
                 'description' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.'),
-            ],
+              ],
         ];
     }
 

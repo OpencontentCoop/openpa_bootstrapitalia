@@ -44,7 +44,6 @@
     {if fetch('user','current_user').is_logged_in|not()}
     {set $footer_script_loader = ezscript_load(array(
         'jsrender.js',
-        'cookieconsent/cookieconsent.min.js',
         'jquery.sharedlink.js',
         'jquery.blueimp-gallery.min.js',
         'stacktable.js',
