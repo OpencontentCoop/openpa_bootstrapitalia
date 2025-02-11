@@ -10,7 +10,7 @@
     {if $class|is_array()}
         
         {* tabella generica di oggetti di classi di vario tipo *}
-        <div style="font-size:.8em">  
+        <div style="font-size:.9em">  
             {if is_set($title)}
                 <h6>{$title}</h6>
             {/if}
@@ -61,7 +61,7 @@
             
             {* dipendente *}
             {case match='dipendente'}
-            <div style="font-size:.8em">  
+            <div style="font-size:.9em">  
                 <table class="table table-striped">
                     <caption>Elenco di {$node.name|wash()}</caption>
                     <thead>
@@ -87,7 +87,7 @@
             
             {* generica mostra gli attributi principali *}
             {case}
-            <div style="font-size:.8em">  
+            <div style="font-size:.9em">  
                 <table class="table table-striped">
                     <caption>Elenco di {$node.name|wash()}</caption>
                     <thead>
