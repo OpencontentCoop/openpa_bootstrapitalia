@@ -73,6 +73,7 @@
   function Plugin(element, options) {
     this.element = element
     this.settings = $.extend({}, defaults, options)
+    this.settings.debug = false
     let _token = '', _tokenNode = document.getElementById('ezxform_token_js');
     if (_tokenNode) _token = _tokenNode.getAttribute('title');
     this.settings.xtoken = _token;
@@ -452,7 +453,14 @@
         $(this).find('.load-button').show()
         self.info('send-form')
         self.saveMeeting(function (response) {
-          let code = response.dto.meetingCode || '';
+          let code = response?.meeting?.code || response.dto.meetingCode || '';
+          if (response?.meeting?.status === 0){
+            $(self.element).find('.meeting-is-pending').show()
+            $(self.element).find('.meeting-is-confirmed').hide()
+          }else{
+            $(self.element).find('.meeting-is-pending').hide()
+            $(self.element).find('.meeting-is-confirmed').show()
+          }
           self.removeStorage()
           $(self.element).find('.steppers').hide()
           $(self.element).find('.row.justify-content-center .cmp-hero').hide()
