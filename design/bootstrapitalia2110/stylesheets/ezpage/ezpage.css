@@ -1,0 +1,47 @@
+em.trigger.collapse {
+    display: inline !important;
+}
+
+em.trigger.collapse .fa-expand
+{
+    display: none !important;
+}
+em.trigger.expand .fa-expand
+{
+    display: inline !important;
+}
+
+em.trigger.collapse .fa-compress
+{
+    display: inline !important;
+}
+em.trigger.expand .fa-compress
+{
+    display: none !important;
+}
+
+
+div.collapsed {
+    display: none;
+}
+
+div.zones {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    font-size: 14px;
+}
+
+div.zones div.zone {
+    margin-bottom: 0.5em;
+    margin-right: 0.75em;
+    float: left;
+}
+
+div.zones div.zone div.zone-thumbnail, div.zones div.zone div.zone-label, div.zones div.zone div.zone-selector {
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+
+div.block-container {
+    background-color: var(--bs-gray-100);
+}

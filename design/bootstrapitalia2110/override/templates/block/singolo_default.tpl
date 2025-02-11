@@ -86,5 +86,5 @@
         </div>
         {undef $openpa}
     {/if}
+    {undef $valid_node}
 {/if}
-{undef $valid_node}

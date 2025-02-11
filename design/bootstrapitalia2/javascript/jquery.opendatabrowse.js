@@ -621,9 +621,9 @@
                                 var thumbnail = false;
                                 var data = self.getTranslation(this.data);
                                 if (data.hasOwnProperty('image')) {
-                                    if (data.image.hasOwnProperty('url')) {
+                                    if (data.image && data.image.hasOwnProperty('url')) {
                                         thumbnail = data.image.url;
-                                    } else if (data.image.length > 0) {
+                                    } else if (data.image && data.image.length > 0) {
                                         let imageId = data.image[0].id || null;
                                         if (imageId) {
                                             thumbnail = '/image/view/' + imageId + '/small';

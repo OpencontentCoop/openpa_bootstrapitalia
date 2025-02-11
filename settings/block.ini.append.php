@@ -92,6 +92,7 @@ CustomAttributeSelection_elementi_per_riga[unset]=Non specificato
 CustomAttributeSelection_elementi_per_riga[2]=2
 CustomAttributeSelection_elementi_per_riga[3]=3
 CustomAttributeSelection_elementi_per_riga[4]=4
+CustomAttributeSelection_elementi_per_riga[5]=5
 CustomAttributeSelection_elementi_per_riga[6]=6
 CustomAttributeSelection_elementi_per_riga[auto]=Masonry
 CustomAttributeTypes[ordinamento]=select
@@ -158,6 +159,7 @@ CustomAttributeSelection_elementi_per_riga[unset]=Non specificato
 CustomAttributeSelection_elementi_per_riga[2]=2
 CustomAttributeSelection_elementi_per_riga[3]=3
 CustomAttributeSelection_elementi_per_riga[4]=4
+CustomAttributeSelection_elementi_per_riga[5]=5
 CustomAttributeSelection_elementi_per_riga[6]=6
 CustomAttributeSelection_elementi_per_riga[auto]=Masonry
 ViewList[]
