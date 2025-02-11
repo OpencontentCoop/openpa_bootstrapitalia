@@ -70,7 +70,7 @@
     {set $link_area_personale = $link_area_personale_parts[0]}
     {set $link_area_personale_title = $link_area_personale_parts[1]}
 {/if}
-{if and($link_area_personale|not, fetch(user,current_user).is_logged_in|not())}
+{if and($link_area_personale|not, $hide_access|not())}
     {set $hide_access = true()}
 {/if}
 
@@ -178,6 +178,8 @@
                                     <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
                                 </a>
                             {/if}
+                        {else}
+                            <span data-element="current-user-profile"></span>
                         {/if}
 
                     </div>
@@ -407,6 +409,9 @@
         });
       }
       if (CurrentUserIsLoggedIn) {
+        if (userAccessContainer.length === 0){
+          userAccessContainer = $('[data-element="current-user-profile"]');
+        }
         $.ez('openpaajax::userInfo', null, function (data) {
           injectUserInfo(data);
         });

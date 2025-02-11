@@ -144,11 +144,15 @@
                                      offset=0}
                         </div>
                     {/if}
-                    <div class="col-md-9 mt-md-4 footer-items-wrapper">
-                        <h3 class="footer-heading-title">{'Contacts'|i18n('openpa/footer')}</h3>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <ul class="contact-list p-0 footer-info">
+                </div>
+            {/if}
+
+            <div class="row">
+                <div class="col-md-9 mt-md-4 footer-items-wrapper">
+                    <h3 class="footer-heading-title">{'Contacts'|i18n('openpa/footer')}</h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <ul class="contact-list p-0 footer-info">
                                 {if is_set($pagedata.contacts.indirizzo)}
                                     <li style="display: flex;align-items: center;">
                                         {display_icon('it-pa', 'svg', 'icon icon-sm icon-white', 'Address')}
@@ -156,13 +160,13 @@
                                     </li>
                                 {/if}
                                 {if is_set($pagedata.contacts.telefono)}
-                                <li>
-                                    {def $tel = strReplace($pagedata.contacts.telefono,array(" ",""))}
-                                    <a style="display: flex;align-items: center;" class="text-decoration-none" href="tel:{$tel}">
-                                        {display_icon('it-telephone', 'svg', 'icon icon-sm icon-white', 'Phone')}
-                                        <small class="ms-2" style="word-wrap: anywhere;user-select: all;">{$pagedata.contacts.telefono}</small>
-                                    </a>
-                                </li>
+                                    <li>
+                                        {def $tel = strReplace($pagedata.contacts.telefono,array(" ",""))}
+                                        <a style="display: flex;align-items: center;" class="text-decoration-none" href="tel:{$tel}">
+                                            {display_icon('it-telephone', 'svg', 'icon icon-sm icon-white', 'Phone')}
+                                            <small class="ms-2" style="word-wrap: anywhere;user-select: all;">{$pagedata.contacts.telefono}</small>
+                                        </a>
+                                    </li>
                                 {/if}
                                 {if is_set($pagedata.contacts.fax)}
                                     <li>
@@ -219,10 +223,10 @@
                                         <small class="ms-2" style="word-wrap: anywhere;user-select: all;">SDI {$pagedata.contacts.codice_sdi}</small>
                                     </li>
                                 {/if}
-                                </ul>
-                            </div>
-                            {if openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled')}
-                                <div class="col-md-4">
+                            </ul>
+                        </div>
+                        {if openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled')}
+                            <div class="col-md-4">
                                 <ul class="footer-list"> {*@todo*}
                                     {def $faq_system = fetch(content, object, hash(remote_id, 'faq_system'))}
                                     {if $faq_system}
@@ -231,70 +235,69 @@
                                         </li>
                                     {/if}
                                     {undef $faq_system}
+                                    <li>
+                                        <a data-element="appointment-booking" href="{if is_set($pagedata.contacts['link_prenotazione_appuntamento'])}{$pagedata.contacts['link_prenotazione_appuntamento']|wash()}{else}{'prenota_appuntamento'|ezurl(no)}{/if}">
+                                            {'Book an appointment'|i18n('bootstrapitalia/footer')}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-element="report-inefficiency" href="{if is_set($pagedata.contacts['link_segnalazione_disservizio'])}{$pagedata.contacts['link_segnalazione_disservizio']|wash()}{else}{'segnala_disservizio'|ezurl(no)}{/if}">
+                                            {'Report a inefficiency'|i18n('bootstrapitalia/footer')}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a data-element="contacts" href="{if is_set($pagedata.contacts['link_assistenza'])}{$pagedata.contacts['link_assistenza']|wash()}{else}{'richiedi_assistenza'|ezurl(no)}{/if}">
+                                            {'Request assistance'|i18n('bootstrapitalia/footer')}
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {/if}
+                        {def $footer_links = fetch( 'openpa', 'footer_links' )}
+                        {if openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled')}
+                            <div class="col-md-4">
+                                <ul class="footer-list">
+                                    {foreach $footer_links as $item}
+                                        <li>{node_view_gui content_node=$item view=text_linked}</li>
+                                    {/foreach}
+                                    {if openpaini('GeneralSettings', 'PerformanceLink', false())}
                                         <li>
-                                            <a data-element="appointment-booking" href="{if is_set($pagedata.contacts['link_prenotazione_appuntamento'])}{$pagedata.contacts['link_prenotazione_appuntamento']|wash()}{else}{'prenota_appuntamento'|ezurl(no)}{/if}">
-                                                {'Book an appointment'|i18n('bootstrapitalia/footer')}
-                                            </a>
+                                            <a href="{openpaini('GeneralSettings', 'PerformanceLink', '#')}" title="{'Performance improvement plan'|i18n( 'bootstrapitalia' )}">{'Performance improvement plan'|i18n( 'bootstrapitalia' )}</a>
                                         </li>
-                                        <li>
-                                            <a data-element="report-inefficiency" href="{if is_set($pagedata.contacts['link_segnalazione_disservizio'])}{$pagedata.contacts['link_segnalazione_disservizio']|wash()}{else}{'segnala_disservizio'|ezurl(no)}{/if}">
-                                                {'Report a inefficiency'|i18n('bootstrapitalia/footer')}
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a data-element="contacts" href="{if is_set($pagedata.contacts['link_assistenza'])}{$pagedata.contacts['link_assistenza']|wash()}{else}{'richiedi_assistenza'|ezurl(no)}{/if}">
-                                                {'Request assistance'|i18n('bootstrapitalia/footer')}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            {/if}
-                            {def $footer_links = fetch( 'openpa', 'footer_links' )}
-                            {if openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled')}
-                                <div class="col-md-4">
-                                    <ul class="footer-list">
-                                        {foreach $footer_links as $item}
-                                            <li>{node_view_gui content_node=$item view=text_linked}</li>
-                                        {/foreach}
-                                        {if openpaini('GeneralSettings', 'PerformanceLink', false())}
-                                            <li>
-                                                <a href="{openpaini('GeneralSettings', 'PerformanceLink', '#')}" title="{'Performance improvement plan'|i18n( 'bootstrapitalia' )}">{'Performance improvement plan'|i18n( 'bootstrapitalia' )}</a>
-                                            </li>
-                                        {/if}
-                                    </ul>
-                                </div>
-                            {else}
-                                {def $max = count($footer_links)|div(2)|int()
-                                     $_offset = count($footer_links)|sub($max)}
-                                <div class="col-md-4">
-                                    <ul class="footer-list">
-                                        {foreach $footer_links as $item max $max}
-                                            <li>{node_view_gui content_node=$item view=text_linked}</li>
-                                        {/foreach}
-                                    </ul>
-                                </div>
-                                <div class="col-md-4">
-                                    <ul class="footer-list">
-                                        {if $_offset|gt(0)}
+                                    {/if}
+                                </ul>
+                            </div>
+                        {else}
+                            {def $max = count($footer_links)|div(2)|int()
+                                 $_offset = count($footer_links)|sub($max)}
+                            <div class="col-md-4">
+                                <ul class="footer-list">
+                                    {foreach $footer_links as $item max $max}
+                                        <li>{node_view_gui content_node=$item view=text_linked}</li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <ul class="footer-list">
+                                    {if $_offset|gt(0)}
                                         {foreach $footer_links as $item offset $_offset}
                                             <li>{node_view_gui content_node=$item view=text_linked}</li>
                                         {/foreach}
-                                        {/if}
-                                        {if openpaini('GeneralSettings', 'PerformanceLink', false())}
-                                            <li>
-                                                <a href="{openpaini('GeneralSettings', 'PerformanceLink', '#')}" title="{'Performance improvement plan'|i18n( 'bootstrapitalia' )}">{'Performance improvement plan'|i18n( 'bootstrapitalia' )}</a>
-                                            </li>
-                                        {/if}
-                                    </ul>
-                                </div>
-                                {undef $max $_offset}
-                            {/if}
-                            {undef $footer_links}
-                        </div>
+                                    {/if}
+                                    {if openpaini('GeneralSettings', 'PerformanceLink', false())}
+                                        <li>
+                                            <a href="{openpaini('GeneralSettings', 'PerformanceLink', '#')}" title="{'Performance improvement plan'|i18n( 'bootstrapitalia' )}">{'Performance improvement plan'|i18n( 'bootstrapitalia' )}</a>
+                                        </li>
+                                    {/if}
+                                </ul>
+                            </div>
+                            {undef $max $_offset}
+                        {/if}
+                        {undef $footer_links}
                     </div>
-                    {include uri='design:footer/social.tpl'}
                 </div>
-            {/if}
+                {include uri='design:footer/social.tpl'}
+            </div>
 
             <div class="row">
                 <div class="col-12 footer-items-wrapper">

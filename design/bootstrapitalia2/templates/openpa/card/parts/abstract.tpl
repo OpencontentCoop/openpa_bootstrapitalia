@@ -23,7 +23,7 @@
 					{if $main_labels|contains($identifier)}
 						<span class="d-block text-nowrap text-sans-serif">{$openpa[$identifier].contentobject_attribute.contentclass_attribute_name}: </span>
 					{/if}
-					{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute}
+					{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute view_context=card_abstract}
 				</div>
 			{/if}
 		{/if}

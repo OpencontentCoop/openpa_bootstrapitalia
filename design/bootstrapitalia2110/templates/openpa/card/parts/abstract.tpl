@@ -24,7 +24,7 @@
 						<span class="d-block text-nowrap text-sans-serif">{$openpa[$identifier].contentobject_attribute.contentclass_attribute_name}: </span>
 					{/if}
 					{if array('eztext', 'ezstring')|contains($openpa[$identifier].contentobject_attribute.data_type_string)}<p class="{$wrapper_class}">{else}<div class="{$wrapper_class}">{/if}
-					{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute}
+					{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute view_context=card_abstract}
 					{if array('eztext', 'ezstring')|contains($openpa[$identifier].contentobject_attribute.data_type_string)}</p>{else}</div>{/if}
 				</div>
 			{/if}

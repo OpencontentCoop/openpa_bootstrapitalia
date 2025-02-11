@@ -15,7 +15,7 @@
              page_uri=$node.url_alias
              item_count=$nodes_count
              view_parameters=$view_parameters
-             item_limit=10}
+             item_limit=openpaini( 'GestioneFigli', 'limite_paginazione', 20 )}
     {unset_defaults(array('show_icon', 'view'))}
 {else}
 {include uri='design:atoms/list_with_icon.tpl' items=$nodes}

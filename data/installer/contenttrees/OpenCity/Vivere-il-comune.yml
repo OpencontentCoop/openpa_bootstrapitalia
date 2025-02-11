@@ -36,6 +36,21 @@ data:
         tag_menu: {  }
         publish_date: null
         show_tag_cards: 0
+    eng-GB:
+        name: 'Life in your municipality'
+        short_name: null
+        menu_name: 'Browse by category'
+        abstract: ''
+        description: ''
+        image: {  }
+        show_children: 1
+        layout: {  }
+        icon: null
+        show_topics: 0
+        show_search_form: 0
+        tag_menu: {  }
+        publish_date: null
+        show_tag_cards: 0
 sort_data:
     sort_field: 8
     sort_order: 0

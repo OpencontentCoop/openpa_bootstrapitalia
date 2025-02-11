@@ -444,47 +444,50 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         return self::parseTableFieldsParameter($string, $this->getNode());
     }
 
+    // [parent:$nodeId|][filters:$queryFilters|][group_by:$identifier|][order_by:+$attribute|]$class|$attribute[,$attribute,...]|$depth
     public static function parseTableFieldsParameter($string, eZContentObjectTreeNode $containerNode = null)
     {
-        $index = 0;
+        $availableFieldsWithCallback = [
+            'parent' => function ($parameter) {
+                $asInt = (int)$parameter;
+                return $asInt > 0 ? $asInt : null;
+            },
+            'filters' => null,
+            'group_by' => null,
+            'order_by' => function ($parameter) {
+                return explode(',', $parameter);
+            },
+            'title' => null,
+        ];
+
+        $fieldsPartParser = function ($fieldPart, ?callable $callback = null) {
+            $parameters = explode(':', $fieldPart);
+            $parameter = $parameters[1] ?? null;
+            if ($parameter && is_callable($callback)){
+                return $callback($parameter);
+            }
+            return $parameter;
+        };
+
         $fieldsParts = explode('|', $string);
-
-        $parentNodeId = null;
-        if (strpos($fieldsParts[$index], 'parent:') === 0) {
-            $parameters = array_shift($fieldsParts);
-            $nodeParts = explode(':', $parameters);
-            $parentNodeId = $nodeParts[1];
+        $data = [];
+        foreach ($fieldsParts as $index => $fieldPart) {
+            foreach ($availableFieldsWithCallback as $availableField => $callable) {
+                if (strpos($fieldPart, $availableField . ':') === 0) {
+                    $data[$availableField] = $fieldsPartParser($fieldPart, $callable);
+                    unset($fieldsParts[$index]);
+                }
+            }
         }
 
-        $filters = null;
-        if (strpos($fieldsParts[$index], 'filters:') === 0) {
-            $parameters = array_shift($fieldsParts);
-            $filtersParts = explode(':', $parameters);
-            $filters = $filtersParts[1];
-        }
-
-        $facetField = null;
-        if (strpos($fieldsParts[$index], 'group_by:') === 0) {
-            $parameters = array_shift($fieldsParts);
-            $groupParts = explode(':', $parameters);
-            $facetField = $groupParts[1];
-        }
-
-        $orderFields = null;
-        if (strpos($fieldsParts[$index], 'order_by:') === 0) {
-            $parameters = array_shift($fieldsParts);
-            $ordersParts = explode(':', $parameters);
-            $orderFields = explode(',', $ordersParts[1]);
-        }
-
+        $parentNodeId = $data['parent'] ?? null;
+        $filters = $data['filters'] ?? null;
+        $facetField = $data['group_by'] ?? null;
+        $orderFields = $data['order_by'] ?? null;
+        $title = $data['title'] ?? null;
         $classIdentifier = array_shift($fieldsParts);
-        $index++;
-
         $identifiers = explode(',', array_shift($fieldsParts));
-        $index++;
-
         $depth = array_shift($fieldsParts);
-
         $facets = array();
 
         try {
@@ -576,6 +579,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 'class_identifier' => $classIdentifier,
                 'facets' => $facets,
                 'parent_node_id' => $nodeId,
+                'title' => $title,
             );
 
             //eZDebug::writeDebug($result, __METHOD__);
@@ -594,7 +598,6 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         }
     }
 
-    // [parent:$nodeId|][filters:$queryFilters|][group_by:$identifier|][order_by:+$attribute|]$class|$attribute[,$attribute,...]|$depth
 
     protected function getExtraChildrenFetchParameters()
     {

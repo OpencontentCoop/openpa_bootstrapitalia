@@ -36,6 +36,10 @@
             </div>
         </li>
 
+        {if ezini('ExtensionSettings','ActiveAccessExtensions')|contains('octranslate')}
+            {include uri='design:parts/websitetoolbar_edit/translate.tpl' content_object=$object}
+        {/if}
+
         <li class="publish-buttons">
             <input class="btn btn-xs btn-success" type="submit" name="PublishButton" value="{'Send for publishing'|i18n( 'design/ocbootstrap/content/edit' )}" title="{'Publish the contents of the draft that is being edited. The draft will become the published version of the object.'|i18n( 'design/standard/content/edit' )}" />
             <input class="btn btn-xs btn-warning" type="submit" name="StoreButton" value="{'Store draft'|i18n( 'design/ocbootstrap/content/edit' )}" title="{'Store the contents of the draft that is being edited and continue editing. Use this button to periodically save your work while editing.'|i18n( 'design/standard/content/edit' )}" />

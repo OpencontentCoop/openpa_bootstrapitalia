@@ -16,6 +16,7 @@ General[]=ezfIndexPublicServiceMenu
 #General[]=ezfIndexContactPointReverseRelations
 General[]=ezfIndexRoleReverseRelations
 Class[organization]=ezfIndexSubAttributeGeo
+General[]=ezfIndexVersionInfo
 
 # Per siti multilingua occorre impostare a livello globale questo index plugin:
 #General[]=ezfIndexLangBitwise

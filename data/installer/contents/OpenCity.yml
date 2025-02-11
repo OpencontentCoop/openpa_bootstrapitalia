@@ -226,3 +226,118 @@ data:
                 container_style: ''
                 image: $img-viale-alberato
               valid_items: { }
+    eng-GB:
+        page:
+            zone_layout: desItaGlobal
+            global:
+                zone_id: 06d9aba14167859d35d8f8023e2e1c12
+                blocks:
+                    - block_id: 564803b7ce97a9f99e42d0d2ef086164
+                      name: ''
+                      type: Singolo
+                      view: default
+                      custom_attributes:
+                          color_style: ''
+                          container_style: ''
+                          intro_text: ''
+                      valid_items: { }
+                    - block_id: 3213d4722665b8ca7155847fb767eb62
+                      name: ''
+                      type: ListaManuale
+                      view: lista_card_teaser
+                      custom_attributes:
+                          elementi_per_riga: '3'
+                          color_style: 'section section-muted section-inset-shadow pb-5'
+                          container_style: overlay
+                          intro_text: ''
+                      valid_items: { }
+                    - block_id: e60d1373e30187166ab36ff0f088d87f
+                      name: 'Notices, news and communications'
+                      type: ListaAutomatica
+                      view: lista_card_teaser
+                      custom_attributes:
+                          limite: '3'
+                          elementi_per_riga: '3'
+                          includi_classi: article
+                          escludi_classi: ''
+                          ordinamento: pubblicato
+                          livello_profondita: ''
+                          state_id: ''
+                          topic_node_id: ''
+                          tags: ''
+                          color_style: 'section section-muted section-inset-shadow pb-5'
+                          container_style: ''
+                          show_all_link: '1'
+                          show_all_text: 'All news'
+                          intro_text: ''
+                          node_id: $contenttree_OpenCity_Novita_node
+                      valid_items: { }
+                    - block_id: 9cd237a12fdb73a490fee0b01a3fab9d
+                      name: 'Upcoming events'
+                      type: Eventi
+                      view: card
+                      custom_attributes:
+                          includi_classi: 'event,public_service'
+                          show_facets: '0'
+                          size: small
+                          calendar_view: day_grid_4
+                          color_style: 'section section-muted section-inset-shadow pb-5'
+                          container_style: ''
+                          topic_node_id: ''
+                          max_events: ''
+                          intro_text: ''
+                      valid_items: { }
+                    - block_id: a419663d8c23c8e9239dc6813b845538
+                      name: 'Featured topics'
+                      type: Argomenti
+                      view: lista_card
+                      custom_attributes:
+                          color_style: bg-white
+                          container_style: ''
+                          image: $img-digitale
+                          exclude_classes: ''
+                      valid_items:
+                          - topic_1_territorio
+                          - topic_13
+                          - topic_1_ambiente
+                          - topic_1_popolazione_e_societa
+                    - block_id: section-place
+                      name: 'Luoghi'
+                      type: ListaManuale
+                      view: lista_card_teaser
+                      custom_attributes:
+                        elementi_per_riga: '3'
+                        color_style: 'section section-muted section-inset-shadow pb-5'
+                        container_style: ''
+                        intro_text: ''
+                      valid_items: { }
+                    - block_id: d406949b1e96173e51f6a5492c699daf
+                      name: 'Thematic sites'
+                      type: ListaAutomatica
+                      view: lista_banner_color
+                      custom_attributes:
+                          limite: '9'
+                          elementi_per_riga: '3'
+                          includi_classi: banner
+                          color_style: bg-white
+                          container_style: ''
+                          node_id: node_id_from_remote_id(banners)
+                          escludi_classi: ''
+                          ordinamento: name
+                          livello_profondita: ''
+                          state_id: ''
+                          topic_node_id: ''
+                          tags: ''
+                          show_all_link: ''
+                          show_all_text: ''
+                          intro_text: ''
+                      valid_items: { }
+                    - block_id: 2813cdb2a2aa1271e299b1905160c1b4
+                      name: 'Search services, information, people'
+                      type: Ricerca
+                      view: default
+                      custom_attributes:
+                          color_style: ''
+                          container_style: ''
+                          image: $img-viale-alberato
+                      valid_items: { }
