@@ -45,7 +45,7 @@
                 {/foreach}
             </div>
 
-            <section class="order-md-first col-12 col-lg-8 pt-lg-2 pb-lg-2">
+            <section class="order-md-first col-12 col-lg-8 pt-lg-2 pb-lg-2 mb-5 mb-lg-0">
                 {def $placeHolder = cond($searchPlaceholder|eq(''), 'Search by keyword'|i18n('bootstrapitalia'), $searchPlaceholder)}
                 <div class="form-group mb-2 mb-lg-4 search-form">
                     <div class="input-group">
@@ -89,5 +89,5 @@ $(document).ready(function () {ldelim}
 </script>
 {undef $searchPlaceholder $query $limit $itemsPerRow}
 
-{include uri='design:parts/opendata_remote_gui_templates.tpl' block=$block}
+{include uri='design:parts/opendata_remote_gui_templates.tpl' block=$block show_search=false()}
 {unset_defaults( array('wrapper_class','container_class'))}

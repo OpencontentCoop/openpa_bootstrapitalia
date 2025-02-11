@@ -5,16 +5,16 @@
 {def $openpa = object_handler($block)}
 
 {def $showGrid = cond(is_set($block.custom_attributes.show_grid), $block.custom_attributes.show_grid, true())
-     $showMap = $block.custom_attributes.show_map
-	 $showSearch = $block.custom_attributes.show_search
-	 $searchPlaceholder = $block.custom_attributes.input_search_placeholder
-	 $query = $block.custom_attributes.query
-	 $limit = $block.custom_attributes.limit
-	 $itemsPerRow = $block.custom_attributes.items_per_row
-	 $fields = $block.custom_attributes.fields
-     $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
-     $facetsFields = array()
-	 $remoteUrl = cond(is_set($block.custom_attributes.remote_url), $block.custom_attributes.remote_url|trim('/'), false())}
+  $showMap = $block.custom_attributes.show_map
+	$showSearch = $block.custom_attributes.show_search
+	$searchPlaceholder = $block.custom_attributes.input_search_placeholder
+	$query = $block.custom_attributes.query
+	$limit = $block.custom_attributes.limit
+	$itemsPerRow = $block.custom_attributes.items_per_row
+	$fields = $block.custom_attributes.fields
+  $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
+  $facetsFields = array()
+	$remoteUrl = cond(is_set($block.custom_attributes.remote_url), $block.custom_attributes.remote_url|trim('/'), false())}
 
 {def $background_image = false()}
 {if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
@@ -105,7 +105,7 @@
                 </div>
             {/if}
 
-            <section class="{if $facets|count()}order-md-first col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2">
+            <section class="{if $facets|count()}order-md-first col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2 mb-5 mb-lg-0">
                 {if and($showSearch, count($facets)|eq(0))}<div class="row g-0">{/if}
                 {if $showSearch}
                     {def $placeHolder = cond($searchPlaceholder|eq(''), 'Search by keyword'|i18n('bootstrapitalia'), $searchPlaceholder)}
@@ -226,10 +226,12 @@ $(document).ready(function () {ldelim}
     {rdelim});
 {rdelim});
 </script>
-{undef $showGrid $showMap $showSearch $searchPlaceholder $query $limit $itemsPerRow $fields $remoteUrl}
 {/if}
 
-{include uri='design:parts/opendata_remote_gui_templates.tpl' block=$block}
+{include uri='design:parts/opendata_remote_gui_templates.tpl' block=$block show_search=$showSearch}
+
+{undef $showGrid $showMap $showSearch $searchPlaceholder $query $limit $itemsPerRow $fields $remoteUrl}
+
 
 <script id="tpl-remote-gui-item-inner-{$block.id}" type="text/x-jsrender">
 {if and(is_set($block.custom_attributes.template), $block.custom_attributes.template|ne(''))}
