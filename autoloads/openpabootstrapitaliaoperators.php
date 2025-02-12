@@ -1320,7 +1320,9 @@ class OpenPABootstrapItaliaOperators
         if (OpenPAINI::variable('CookiesSettings', 'Consent', 'advanced') === 'advanced'){
             $encodeUrl = base64_encode($url);
             $html = str_replace('src=', 'preview_placeholder data-coookieconsent="multimedia" data-src=', $html);
-            $html = str_replace('preview_placeholder', "data-preview=\"/ocembed/preview/?u={$encodeUrl}\" src=\"/ocembed/preview/?u={$encodeUrl}\"", $html);
+            $embedPreviewUrl = "/ocembed/preview/?u={$encodeUrl}";
+            eZURI::transformURI($embedPreviewUrl, false, 'relative');
+            $html = str_replace('preview_placeholder', "data-preview=\"{$embedPreviewUrl}\" src=\"/ocembed/preview/?u={$encodeUrl}\"", $html);
         }
 
         return $html;
