@@ -226,6 +226,17 @@
     #cc-main .pm {
       border: 1px solid var(--cc-separator-border-color);
     }
+
+    #cc-main .cm:before {
+      content: " ";
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 5px;
+      z-index: 1;
+      background-color: var(--cc-bg);
+    }
     
     #cc-main .pm__title {
       font-size: 1.6rem;
