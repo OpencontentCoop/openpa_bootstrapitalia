@@ -23,13 +23,16 @@
             {/if}
         {/foreach}
 
-        {def $has_video = false()
-             $oembed = false()}
+        {def 
+          $video = null
+          $has_video = false()
+          $oembed = false()}
         {if $valid_node|has_attribute('video')}
-            {set $has_video = $valid_node|attribute('video').content}
+          {set $video = $valid_node|attribute('video')}
         {elseif $valid_node|has_attribute('has_video')}
-            {set $has_video = $valid_node|attribute('has_video').content}
+          {set $video = $valid_node|attribute('has_video')}
         {/if}
+        {set $has_video = $video.content}
         {if $has_video}
             {set $oembed = get_oembed_object($has_video)}
             {if is_array($oembed)|not()}
@@ -75,7 +78,9 @@
                 {if or($has_image, $has_video)}
                 <div class="col-lg-6 order-1 order-lg-2 px-0 px-lg-3 d-lg-flex align-items-stretch flex-nowrap">
                     {if $has_video}
-                        <div class="flex-lg-fill video-wrapper">{$oembed.html}</div>
+                      <div class="flex-lg-fill">
+                        {include uri='design:parts/video.tpl' video=$video}
+                      </div>
                     {elseif $has_image}
                         {include name="img" uri='design:atoms/img.tpl' set_max_dimensions=false() node=$valid_node image_class=reference style="overflow: hidden;object-fit: cover;" classes='flex-lg-fill bg-dark d-none d-lg-flex h-100' preload=false()}
                         {include name="img" uri='design:atoms/img.tpl' node=$valid_node image_class=imagelargeoverlay style="overflow: hidden;object-fit: cover;height:250px;width:100%" classes='img-fluid d-block d-lg-none' alias='small' height=250}
@@ -84,7 +89,7 @@
                 {/if}
             </div>
         </div>
-        {undef $openpa}
+        {undef $openpa, $video, $has_video, $oembed}
     {/if}
     {undef $valid_node}
 {/if}
