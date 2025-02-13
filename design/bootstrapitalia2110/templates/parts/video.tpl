@@ -2,7 +2,8 @@
 or($video.content|downcase|begins_with('https://www.youtube'),
 $video.content|downcase|begins_with('https://youtu.be'),
 $video.content|downcase|begins_with('https://m.youtube')))}
-  <script>
+
+<script>
   {literal}
   const loadVideo = function(videoId) {
     const videoEl = document.getElementById(videoId);
@@ -12,33 +13,38 @@ $video.content|downcase|begins_with('https://m.youtube')))}
   }
   {/literal}
 </script>
+
 <div class="acceptoverlayable">
   <div class="acceptoverlay acceptoverlay-primary fade show">
     <div class="acceptoverlay-inner">
       <div class="acceptoverlay-icon">
         {display_icon('it-video', 'svg', 'icon icon-xl')}
       </div>
-        <p>Accetta i cookie di terze parti per vedere il video.
-          <a 
-            class="text-white"
-            role="button"
-            href="#" 
-            data-cc="show-preferencesModal">
-            Gestisci le preferenze dei cookie
-          </a>
-        </p>
+      <p>{'Accept third-party cookies to watch the video'|i18n('bootstrapitalia/cookieconsent')}
+        <a 
+          class="text-white"
+          role="button"
+          href="#" 
+          data-cc="show-preferencesModal">
+          {'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}
+        </a>
+      </p>
       <div class="acceptoverlay-buttons bg-dark">
         <button
           type="button"
           class="btn btn-primary"
           data-bs-accept-from="multimedia"
-          onclick="loadVideo(`vid-{$video.id}`)">Accetta per questo video</button>
+          onclick="loadVideo(`vid-{$video.id}`)">
+          {'Accept for this video'|i18n('bootstrapitalia/cookieconsent')}
+        </button>
         <button
           type="button"
           class="btn btn-outline-primary"
           data-bs-accept-from="multimedia"
           data-cc="accept-all"
-          onclick="loadVideo(`vid-{$video.id}`)">Accetta per tutti i video</button>
+          onclick="loadVideo(`vid-{$video.id}`)">
+          {'Accept for all videos'|i18n('bootstrapitalia/cookieconsent')}
+        </button>
       </div>
     </div>
   </div>
