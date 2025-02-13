@@ -1337,7 +1337,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>Cookie settings</source>
-      <translation>Personalizza i cookie</translation>
+      <translation>Gestisci le preferenze dei cookie</translation>
     </message>
     <message>
       <source>Save current settings</source>
@@ -1374,6 +1374,18 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>The embedding of multimedia content is not enabled by respecting your cookie preferences.</source>
       <translation>Nel rispetto delle tue preferenze sui cookie, l'incorporamento automatico dei contenuti multimediali è disattivato</translation>
+    </message>
+    <message>
+      <source>Accept third-party cookies to watch the video</source>
+      <translation>Accetta i cookie di terze parti per vedere il video.</translation>
+    </message>
+    <message>
+      <source>Accept for this video</source>
+      <translation>Accetta per questo video</translation>
+    </message>
+    <message>
+      <source>Accept for all videos</source>
+      <translation>Accetta per tutti i video</translation>
     </message>
     <message>
       <source>Strictly Necessary Cookies</source>
