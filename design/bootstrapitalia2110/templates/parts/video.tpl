@@ -8,7 +8,6 @@
 {if and(openpaini('CookiesSettings', 'Consent', 'advanced')|eq('advanced'),
 openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled'),
 $youtube_video)}
-
 <script>
   {literal}
   const loadVideo = function(videoId) {
@@ -19,7 +18,6 @@ $youtube_video)}
   }
   {/literal}
 </script>
-
 <div class="acceptoverlayable">
   <div class="acceptoverlay acceptoverlay-primary fade show">
     <div class="acceptoverlay-inner">
@@ -79,9 +77,9 @@ $youtube_video)}
     </div>
   </div>
 </div>
-
 {else}
   {def $oembed = get_oembed_object($video.content)}
   <div class="video-wrapper">{$oembed.html}</div>
   {undef $oembed}
 {/if}
+{undef $youtube_video}
