@@ -1,7 +1,13 @@
-{if and(openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled'), 
-or($video.content|downcase|begins_with('https://www.youtube'),
-$video.content|downcase|begins_with('https://youtu.be'),
-$video.content|downcase|begins_with('https://m.youtube')))}
+{def $youtube_video = false()}
+{if or($video.content|downcase|begins_with('https://www.youtube'),
+  $video.content|downcase|begins_with('https://youtu.be'),
+  $video.content|downcase|begins_with('https://m.youtube'))}
+  {set $youtube_video = true()}
+{/if}
+
+{if and(openpaini('CookiesSettings', 'Consent', 'advanced')|eq('advanced'),
+openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled'),
+$youtube_video)}
 
 <script>
   {literal}
@@ -53,6 +59,24 @@ $video.content|downcase|begins_with('https://m.youtube')))}
       class="video-js"
       width="640" height="264">
     </video>
+  </div>
+</div>
+{elseif $youtube_video}
+<div class="overlay-wrapper d-block" style="min-height: 300px">
+  <div class="overlay-panel overlay-icon bg-dark">
+    <div>
+      <div class="text-center mb-3">
+        {display_icon('it-video', 'svg', 'icon icon-xl')}
+      </div>
+      <a
+        class="btn btn-outline-primary"
+        target="_blank"
+        rel="noopener noreferrer"
+        href={$video.content}
+        >
+        {'Watch this content on %provider'|i18n('bootstrapitalia/cookieconsent',,hash('%provider', "Youtube"))} 
+      </a>
+    </div>
   </div>
 </div>
 
