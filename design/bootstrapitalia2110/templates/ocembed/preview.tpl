@@ -56,5 +56,3 @@
   </body>
 </html>
 {undef $cookie_management}
-
-
