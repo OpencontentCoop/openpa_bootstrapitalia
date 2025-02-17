@@ -60,20 +60,21 @@ $youtube_video)}
   </div>
 </div>
 {elseif $youtube_video}
-<div class="overlay-wrapper d-block" style="min-height: 300px">
-  <div class="overlay-panel overlay-icon bg-dark">
-    <div>
-      <div class="text-center mb-3">
+<div class="acceptoverlayable" style="min-height: 350px">
+  <div class="acceptoverlay acceptoverlay-primary fade show align-items-center">
+    <div class="acceptoverlay-inner d-flex flex-column-reverse flex-sm-column">
+      <div class="acceptoverlay-icon d-none d-sm-block mb-0">
         {display_icon('it-video', 'svg', 'icon icon-xl')}
       </div>
-      <a
-        class="btn btn-outline-primary"
-        target="_blank"
-        rel="noopener noreferrer"
-        href={$video.content}
-        >
-        {'Watch this content on %provider'|i18n('bootstrapitalia/cookieconsent',,hash('%provider', "Youtube"))} 
-      </a>
+      <div class="acceptoverlay-buttons bg-dark mb-4 mt-2 mb-sm-0 mt-sm-4 flex-column align-items-center">
+        <a
+          class="btn btn-primary btn-xs font-sans-serif"
+          target="_blank"
+          rel="noopener noreferrer"
+          href={$video.content}>
+          {'Watch this content on %provider'|i18n('bootstrapitalia/cookieconsent',,hash('%provider', "Youtube"))} 
+        </a>
+      </div>
     </div>
   </div>
 </div>
