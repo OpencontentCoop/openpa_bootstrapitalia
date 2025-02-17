@@ -8,39 +8,34 @@
     <link rel="stylesheet" href="{concat('stylesheets/', current_theme(),'.css')|ezdesign(no)}" media="all"/>
   </head>
   <body>
-    <div class="overlay-wrapper d-block font-sans-serif h-100" style="min-height: 200px">
-      <div class="overlay-panel overlay-icon bg-dark text-center">
-        <div>
-          <div class="{if $cookie_management} d-none d-sm-block {/if} mb-2">
-            {display_icon('it-video', 'svg', 'icon icon-xl')}
-          </div>
-          {if $cookie_management}
-            <div class="mb-3 d-none d-sm-block">
-              <p style="font-size: 14px;">
-                  {'The embedding of multimedia content is not enabled by respecting your cookie preferences.'|i18n('bootstrapitalia/cookieconsent')}<br />
-              </p>
-            </div>
-          {/if}
+  <div class="acceptoverlayable" style="min-height: 100vh">
+    <div class="acceptoverlay acceptoverlay-primary fade show align-items-center">
+      <div class="acceptoverlay-inner d-flex flex-column-reverse flex-sm-column">
+        <div class="acceptoverlay-icon d-none d-sm-block mb-0">
+          {display_icon('it-video', 'svg', 'icon icon-xl')}
+        </div>
+        {if $cookie_management}
+        <p class="text-center text-sm-start mt-sm-5">
+          <span class="d-none d-sm-inline">
+            {'The embedding of multimedia content is not enabled by respecting your cookie preferences.'|i18n('bootstrapitalia/cookieconsent')}
+          </span>
+          <a 
+            class="text-white"
+            role="button"
+            href="#" 
+            onclick="openPref()">
+            {'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}
+          </a>
+        </p>
+        {/if}
+        <div class="acceptoverlay-buttons bg-dark mb-4 mt-2 mb-sm-0 mt-sm-4 flex-column align-items-center{if $cookie_management} align-items-sm-start{/if}">
           <a
-            class="btn btn-outline-primary btn-xs mb-3"
+            class="btn btn-primary btn-xs font-sans-serif"
             target="_blank"
             rel="noopener noreferrer"
-            href={$url}
-            >
+            href={$url}>
             {'Watch this content on %provider'|i18n('bootstrapitalia/cookieconsent',,hash('%provider', $oembed.provider_name))} 
           </a>
-          {if $cookie_management}
-            <div>
-              <a
-                class="d-inline-block text-white"
-                style="font-size: 14px;"
-                role="button"
-                href="#"
-                onclick="openPref()">
-                {'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}
-              </a>
-            </div>
-          {/if}
         </div>
       </div>
     </div>
