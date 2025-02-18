@@ -69,16 +69,41 @@
                         <h2 class="visually-hidden">{$item.title|wash()}</h2>
                     {/if}
 
-                    <div class="{if $item.wrap}card-wrapper card-column my-3" data-bs-toggle="masonry{/if}"{if $item.data_element} data-element="{$item.data_element|wash()}"{/if}>
+                    <div
+                      {if $item.wrap} class="card-wrapper card-column my-3" data-bs-toggle="masonry{/if}"
+                      {if $item.data_element} data-element="{$item.data_element|wash()}"{/if}
+                      {if $item.accordion} class="accordion cmp-accordion" id="accordion-{$object.id}"{/if}>
 
                     {foreach $item.attributes as $attribute_index => $openpa_attribute}
-
+                      {if $item.accordion}
+                        <div class="accordion-item">
+                          <h3 class="accordion-header" id="heading-{$object.id}-{$attribute_index}">
+                            <button
+                              class="accordion-button collapsed"
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#collapse-{$object.id}-{$attribute_index}"
+                              aria-expanded="false"
+                              aria-controls="collapse-{$object.id}-{$attribute_index}">
+                              {$openpa_attribute.label|wash()}
+                            </button>
+                          </h3>
+                          <div
+                            id="collapse-{$object.id}-{$attribute_index}"
+                            class="accordion-collapse collapse"
+                            role="region"
+                            aria-labelledby="heading-{$object.id}-{$attribute_index}">
+                            <div class="accordion-body">
+                      {/if}
                         {if $openpa_attribute.full.highlight}
                         <div class="callout important">
+                          <div class="callout-inner">
                             {if and($openpa_attribute.full.show_label, $openpa_attribute.full.collapse_label|not(), $item.is_grouped)}
                                 <div class="callout-title">
                                     {display_icon('it-info-circle', 'svg', 'icon')}
-                                    {$openpa_attribute.label|wash()}
+                                    <span class="text">
+                                      {$openpa_attribute.label|wash()}
+                                    </span>
                                 </div>
                             {/if}
                             <div class="font-serif small neutral-1-color-a7">
@@ -107,23 +132,28 @@
                                                 image_class=imagelargeoverlay
                                                 attribute_index=$attribute_index
                                                 context_class=$node.class_identifier
-                                                relation_view=cond($openpa_attribute.full.show_link|not, 'list', 'banner')
+                                                relation_view=cond(or($item.accordion,$openpa_attribute.full.show_link|not), 'list', 'banner')
                                                 relation_has_wrapper=$item.wrap
                                                 show_link=$openpa_attribute.full.show_link
+                                                in_accordion=$item.accordion
                                                 tag_view="chip-lg mr-2 me-2"}
                             {if $need_p}</p>{/if}
                             {if $need_container}</div>{/if}
                             {undef $need_container $need_p}
-                        {elseif and(is_set($openpa_attribute.template), $openpa_attribute.template)}
-                            {include uri=$openpa_attribute.template context=attributes}
-                        {/if}
+                            {elseif and(is_set($openpa_attribute.template), $openpa_attribute.template)}
+                                {include uri=$openpa_attribute.template context=attributes}
+                            {/if}
 
-                        {if $openpa_attribute.full.highlight}
+                            {if $openpa_attribute.full.highlight}
                             </div>
+                          </div>
                         </div>
                         {elseif and($openpa_attribute.full.show_label, $item.is_grouped,$openpa_attribute.full.collapse_label)}
 
                         {/if}
+                      {if $item.accordion}
+                      </div></div></div>
+                      {/if}
                     {/foreach}
                     </div>
                   {if $item.evidence} 

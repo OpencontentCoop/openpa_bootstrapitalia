@@ -7,7 +7,7 @@
             {if and(object_handler($child).content_link.is_node_link|not(), $child.can_edit)}
                 <a class="float-right" href="{$child.url_alias|ezurl(no)}"><i aria-hidden="true" class="fa fa-wrench"></i></a>
             {/if}
-            {if $show_link}
+            {if and($show_link,$child.can_read)}
             {node_view_gui content_node=$child
                                    view=text_linked
                                    show_icon=true()}

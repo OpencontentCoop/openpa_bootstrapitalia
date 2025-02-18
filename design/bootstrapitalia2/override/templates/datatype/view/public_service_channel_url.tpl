@@ -5,7 +5,7 @@
      'service', false()
 ))}
 
-{if $service}
+{if and($service,$service.class_identifier|eq('public_service'))}
      {def $service_widget_url_info = service_widget_url_info($attribute, $service)}
 
      <a class="{$css_class}" href="{$service_widget_url_info.url}">{$service_widget_url_info.text|wash( xhtml )}</a>

@@ -1,0 +1,189 @@
+.accordion-collapse {
+  .cmp-info-summary {
+    border: 1px solid get-color(card,grey);
+
+    &:first-child {
+      margin-top: 1rem;
+    }
+
+    &.has-border {
+      border: 1px solid get-color(light-grey, grey);
+      padding: 1rem;
+      border-radius: 4px;
+
+      &:not(:last-child) {
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+}
+
+.card .card-teaser .icon {
+  min-width: auto;
+}
+
+.accordion-header {
+  .accordion-button {
+    font-size: 1rem;
+    padding: 0;
+    padding-top: 1rem;
+    border-top: 0;
+
+    &:not(.collapsed){
+      color: $primary;
+
+      .icon {
+        transform: rotate(180deg);
+      }
+    }
+
+    &:after {
+      content: unset;
+    }
+  }
+}
+
+.cmp-accordion {
+  .accordion-date {
+    padding-left: .75rem;
+    @include font(14, 16);
+    padding-bottom: 1.25rem;
+    color: rgba(25, 25, 25, 0.7);
+
+    @include media-breakpoint-up(lg) {
+      padding-left: 0.5rem;
+      padding-bottom: 1.5rem;
+    }
+  }
+
+  .accordion-header {
+    .accordion-button {
+      @include font(16, 18);
+      padding: 1rem;
+      border-top: 1px solid get-color(light-grey, grey) !important;
+
+      &::after {
+        content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{url-friendly-color($primary)}' %3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        width: 16px;
+        margin-top: 3px;
+        transform: scaleY(1);
+      }
+
+      &:not(.collapsed) {
+        color: $primary;
+
+        .icon{
+          transform: rotate(0);
+        }
+
+        &::after {
+          transform: scaleY(-1);
+        }
+
+        & + p {
+          padding-bottom: 0;
+
+          @include media-breakpoint-up(lg) {
+            padding-bottom: 0.889rem;
+          }
+        }
+      }
+    }
+  }
+
+  .accordion-body {
+    padding-left: .75rem;
+    padding-right: .75rem;
+    padding-top: 0;
+    padding-bottom: .75rem;
+    margin-top: .25rem;
+
+    @include media-breakpoint-up(lg) {
+      padding-left: 0.889rem;
+    }
+
+    .btn {
+      @include media-breakpoint-up(md) {
+        max-width: 18.2rem;
+      }
+    }
+
+    .label {
+      @include font(16, 16);
+      line-height: 1.5;
+      font-weight: 600;
+      color: rgba(25, 25, 25, 0.7);
+    }
+
+    a{
+      font-weight: 400;
+    }
+
+    .cmp-tag {
+      margin: 0.625rem 0 1.125rem 0;
+
+      @include media-breakpoint-up(sm) {
+        margin: 0.555rem 0 1rem 0;
+      }
+
+      &__tag {
+        font-weight: 600;
+      }
+    }
+
+    .link-list-wrapper ul li a span {
+      @include media-breakpoint-up(md) {
+        margin-right: 0;
+      }
+    }
+
+    .link-list {
+      .shadow {
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)!important;
+        border-radius: 4px;
+        padding: 4px 0 4px 4px;
+
+        @include media-breakpoint-up(md) {
+          max-width: 18.2rem;
+        }
+
+        &:not(:first-child) {
+          margin: .5rem 0;
+        }
+
+        .icon {
+          fill: get-color(light, grey);
+          opacity: .5;
+        }
+      }
+    }
+  }
+
+  .link-list-wrapper ul li a.active span {
+    color: rgba(25, 25, 25, 0.7);
+    text-decoration: none;
+  }
+
+  .button-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button {
+    width: 100%;
+    display: flex;
+  }
+
+  .icon-wrapper {
+    width: 95px;
+    text-align: left;
+
+    @include media-breakpoint-up(md) {
+      width: 110px;
+    }
+    span {
+      @include font(11, 13);
+    }
+  }
+}
