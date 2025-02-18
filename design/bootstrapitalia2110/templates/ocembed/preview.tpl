@@ -7,7 +7,7 @@
   <head>
     <link rel="stylesheet" href="{concat('stylesheets/', current_theme(),'.css')|ezdesign(no)}" media="all"/>
   </head>
-  <body>
+  <body class="overflow-hidden">
   <div class="acceptoverlayable" style="min-height: 100vh">
     <div class="acceptoverlay acceptoverlay-primary fade show align-items-center">
       <div class="acceptoverlay-inner d-flex flex-column-reverse flex-sm-column">
