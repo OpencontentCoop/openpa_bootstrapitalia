@@ -14,6 +14,8 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
 
     private $evidenceList;
 
+    private $accordionList;
+
     public function getIdentifier()
     {
         return 'attribute_group';
@@ -36,6 +38,7 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
         $attributes[] = 'translations';
         $attributes[] = 'current_translation';
         $attributes[] = 'evidence_list';
+        $attributes[] = 'accordion_list';
 
         $groupList = $this->getGroupList();        
         foreach ($groupList as $identifier => $name) {
@@ -141,6 +144,26 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
         return $this->evidenceList;
     }
 
+    private function getAccordionList()
+    {
+        if ($this->accordionList === null) {
+            $accordionList = array();
+            foreach ($this->parameters as $parameter) {
+                if ($parameter->attribute('attribute_identifier') == '*' && $parameter->attribute('key') != 'enabled') {
+                    $key = $parameter->attribute('key');
+                    if (strpos($key, 'accordion:') !== false) {
+                        $key = str_replace('accordion::', '', $key);
+                        $accordionList[$key] = $parameter->attribute('value');
+                    }
+                }
+            }
+            asort($accordionList);
+            $this->accordionList = $accordionList;
+        }
+
+        return $this->accordionList;
+    }
+
     private function getTranslations()
     {
         if ($this->translationList === null) {
@@ -203,6 +226,10 @@ class OpenPABootstrapItaliaAttributeGroupExtraParameter extends OCClassExtraPara
 
         if ($key == 'evidence_list') {
             return $this->getEvidenceList();
+        }
+
+        if ($key == 'accordion_list') {
+            return $this->getAccordionList();
         }
 
         if ($key == 'hidden_list') {
