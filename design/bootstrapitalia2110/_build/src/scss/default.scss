@@ -218,7 +218,7 @@ $primary-b: 48 !default;
 @import "../../design-comuni-pagine-statiche/components/select";
 @import "../../design-comuni-pagine-statiche/components/cmp-upload";
 @import "../../design-comuni-pagine-statiche/components/cmp-nav-tab";
-@import "../../design-comuni-pagine-statiche/components/cmp-accordion";
+@import "override/components/cmp-accordion"; //"../../design-comuni-pagine-statiche/components/cmp-accordion";
 @import "../../design-comuni-pagine-statiche/components/cmp-filter";
 @import "../../design-comuni-pagine-statiche/components/input-search";
 @import "../../design-comuni-pagine-statiche/components/dropdown";
