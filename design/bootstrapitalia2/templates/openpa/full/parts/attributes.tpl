@@ -75,10 +75,13 @@
 
                         {if $openpa_attribute.full.highlight}
                         <div class="callout important">
+                          <div class="callout-inner">
                             {if and($openpa_attribute.full.show_label, $openpa_attribute.full.collapse_label|not(), $item.is_grouped)}
                                 <div class="callout-title">
                                     {display_icon('it-info-circle', 'svg', 'icon')}
-                                    {$openpa_attribute.label|wash()}
+                                    <span class="text">
+                                      {$openpa_attribute.label|wash()}
+                                    </span>
                                 </div>
                             {/if}
                             <div class="font-serif small neutral-1-color-a7">
@@ -120,6 +123,7 @@
 
                         {if $openpa_attribute.full.highlight}
                             </div>
+                          </div>
                         </div>
                         {elseif and($openpa_attribute.full.show_label, $item.is_grouped,$openpa_attribute.full.collapse_label)}
 
