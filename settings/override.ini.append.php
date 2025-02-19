@@ -298,6 +298,13 @@ Subdir=templates
 Match[class_identifier]=public_service
 Match[attribute_identifier]=has_channel
 
+[datatype_view_selection_process_has_channel]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_selection_process_has_channel.tpl
+Subdir=templates
+Match[class_identifier]=selection_process
+Match[attribute_identifier]=has_channel
+
 [datatype_view_public_service_link_location_as_button]
 Source=content/datatype/view/ezurl.tpl
 MatchFile=datatype/view/url_as_button.tpl
