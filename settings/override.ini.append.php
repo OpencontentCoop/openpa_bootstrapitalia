@@ -319,13 +319,6 @@ Subdir=templates
 Match[class_identifier]=public_project
 Match[attribute_identifier]=budget
 
-[datatype_view_public_public_project_has_status]
-Source=content/datatype/view/eztags.tpl
-MatchFile=datatype/view/tags_public_public_project_has_status.tpl
-Subdir=templates
-Match[class_identifier]=public_project
-Match[attribute_identifier]=has_status
-
 [datatype_view_public_project_has_temporal_coverage]
 Source=content/datatype/view/ezobjectrelationlist.tpl
 MatchFile=datatype/view/relations_public_project_has_temporal_coverage.tpl
