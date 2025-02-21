@@ -12,7 +12,7 @@
       const videoEls = document.querySelectorAll("[data-video-url]");
       videoEls.forEach(videoEl => {
         const video = bootstrap.VideoPlayer.getOrCreateInstance(videoEl);
-        const videoUrl = videoEl.getAttribute("data-video-url")
+        const videoUrl = videoEl.getAttribute("data-video-url");
         video.setYouTubeVideo(videoUrl);
       })
 

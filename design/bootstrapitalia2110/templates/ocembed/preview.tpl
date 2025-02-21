@@ -30,7 +30,7 @@
         {/if}
         <div class="acceptoverlay-buttons bg-dark mb-4 mt-2 mb-sm-0 mt-sm-4 flex-column align-items-center{if $cookie_management} align-items-sm-start{/if}">
           <a
-            class="btn btn-primary btn-xs font-sans-serif"
+            class="btn btn-primary font-sans-serif"
             target="_blank"
             rel="noopener noreferrer"
             href={$url}>
@@ -49,5 +49,7 @@
       {/literal}
     </script>
   </body>
+  <script src="{'javascript/bootstrap-italia.bundle.min.js'|ezdesign( 'no' )}"></script>
+  <script>window.__PUBLIC_PATH__ = "https://static.opencityitalia.it/fonts";bootstrap.loadFonts()</script>
 </html>
 {undef $cookie_management}
