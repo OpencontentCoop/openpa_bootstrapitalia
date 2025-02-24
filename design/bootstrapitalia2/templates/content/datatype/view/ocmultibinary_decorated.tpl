@@ -2,6 +2,30 @@
 	{def $groups = ocmultibinary_available_groups($attribute)}
 	{if count($groups)|eq(0)}{set $groups = $groups|append('')}{/if}
 	{def $groups_count = count($groups)}
+  {if $in_accordion}
+    {foreach $groups as $group}
+      <ul class="link-list">
+        {foreach ocmultibinary_list_by_group($attribute, $group) as $file}
+          <li>
+            <div class="cmp-icon-link mb-2">
+              <a class="list-item icon-left d-inline-block font-sans-serif"           
+                href="#"
+                aria-label=""
+                title=""
+                data-focus-mouse="false">{*
+                *}<span class="list-item-title-icon-wrapper">{*
+                *}{display_icon('it-clip', 'svg', 'icon icon-primary icon-sm me-1')}{*
+                *}<span class="list-item">{*
+                *}{if $file.display_name|ne('')}{$file.display_name|clean_filename()|wash( xhtml )}{else}{$file.original_filename|clean_filename()|wash( xhtml )}{/if}{*
+                *}</span>{*
+                *}</span>{*
+                *}</a>
+            </div>
+          </li>
+        {/foreach}
+      </ul>
+    {/foreach}
+  {else}
 	{if $groups_count|eq(1)}
 		<div class="row mx-lg-n3">
 			{foreach $groups as $group}
@@ -103,6 +127,6 @@
 			{/foreach}
 		</div>
 	{/if}
-
+  {/if}
 	{undef $groups $groups_count}
 {/if}

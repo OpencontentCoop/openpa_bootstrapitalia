@@ -35,7 +35,7 @@
             {if $attribute.contentclass_attribute_identifier|eq('topics')}
                 {include uri='design:atoms/chip_list.tpl' items=$node_list data_element=cond($attribute.object.class_identifier|eq('public_service'), 'service-topic', false())}
             {else}
-                {include uri='design:atoms/list_with_icon.tpl' items=$node_list show_link=$show_link}
+                {include uri='design:atoms/list_with_icon.tpl' items=$node_list show_link=true}
             {/if}
         {else}
             {if $relation_has_wrapper|not()}<div class="card-wrapper card-column my-3" data-bs-toggle="masonry">{/if}

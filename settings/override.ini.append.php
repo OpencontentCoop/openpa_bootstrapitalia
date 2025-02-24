@@ -298,6 +298,13 @@ Subdir=templates
 Match[class_identifier]=public_service
 Match[attribute_identifier]=has_channel
 
+[datatype_view_selection_process_has_channel]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_selection_process_has_channel.tpl
+Subdir=templates
+Match[class_identifier]=selection_process
+Match[attribute_identifier]=has_channel
+
 [datatype_view_public_service_link_location_as_button]
 Source=content/datatype/view/ezurl.tpl
 MatchFile=datatype/view/url_as_button.tpl
@@ -311,13 +318,6 @@ MatchFile=datatype/view/price_pnrr_budget.tpl
 Subdir=templates
 Match[class_identifier]=public_project
 Match[attribute_identifier]=budget
-
-[datatype_view_public_public_project_has_status]
-Source=content/datatype/view/eztags.tpl
-MatchFile=datatype/view/tags_public_public_project_has_status.tpl
-Subdir=templates
-Match[class_identifier]=public_project
-Match[attribute_identifier]=has_status
 
 [datatype_view_public_project_has_temporal_coverage]
 Source=content/datatype/view/ezobjectrelationlist.tpl
