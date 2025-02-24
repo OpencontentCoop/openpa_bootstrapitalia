@@ -1375,6 +1375,7 @@
       <source>Accept third-party cookies to watch the video</source>
       <translation type="unfinished"/>
     </message>
+    <message>
       <source>Accept for this video</source>
       <translation type="unfinished"/>
     </message>
