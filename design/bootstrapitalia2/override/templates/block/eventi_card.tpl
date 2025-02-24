@@ -30,9 +30,11 @@
 		 data-items_per_row="3">
 		<div class="row row-title">
 			{if $block.name|ne('')}
-				<div class="col">
-					<h2 class="m-0 block-title">{$block.name|wash()}</h2>
-				</div>
+        <div class="col">
+          <div class="border-bottom d-md-flex justify-content-between">
+            <h2 class="mb-3">{$block.name|wash()}</h2>
+          </div>
+        </div>
 			{/if}
 		</div>
 		{def $intro = cond(is_set($block.custom_attributes.intro_text), $block.custom_attributes.intro_text, '')}
