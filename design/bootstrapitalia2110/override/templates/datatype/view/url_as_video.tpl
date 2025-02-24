@@ -1,0 +1,1 @@
+{include uri='design:parts/video.tpl' video=$attribute}
