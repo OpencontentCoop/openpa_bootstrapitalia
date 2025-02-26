@@ -42,7 +42,7 @@ class BootstrapItaliaPublicServiceConverter extends \Opencontent\Easyontology\Ab
                 'name' => eZINI::instance()->variable('SiteSettings', 'SiteName'),
             ],
             "areaServed" => [
-                'name' => '',
+                'name' => eZINI::instance()->variable('SiteSettings', 'SiteName'),
             ],
             "audience" => [
                 'name' => '',

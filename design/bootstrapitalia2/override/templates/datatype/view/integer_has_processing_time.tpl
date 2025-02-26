@@ -7,7 +7,10 @@
         </div>
         <div class="calendar-date-description rounded bg-white">
             <div class="calendar-date-description-content">
-                <h3 class="title-medium-2 mb-0">{$attribute.contentclass_attribute_name|wash()}</h3>
+                <h3 class="title-medium-2{if $attribute.object|has_attribute('has_processing_time_from')|not()} mb-0{/if}">{$attribute.contentclass_attribute_name|wash()}</h3>
+                {if $attribute.object|has_attribute('has_processing_time_from')}
+                    <p>{$attribute.object|attribute('has_processing_time_from').content|wash()}</p>
+                {/if}
             </div>
         </div>
     </div>

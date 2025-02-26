@@ -472,6 +472,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+    <source>View fullscreen</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>hide navigation</source>
       <translation type="unfinished"/>
     </message>

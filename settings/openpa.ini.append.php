@@ -214,6 +214,20 @@ InputValidators[]=UniqueStringValidator
 InputValidators[]=EventCostsValidator
 InputValidators[]=EventContactPointValidator
 InputValidators[]=EventPlacesValidator
+#InputValidators[]=OneOfFieldValidator:class_identifier;attribute_identifier,attribute_identifier,...
+MainContentFields[]
+MainContentFields[]=name
+MainContentFields[]=alternative_name
+MainContentFields[]=alt_name
+MainContentFields[]=type
+MainContentFields[]=identifier
+MainContentFields[]=content_type
+MainContentFields[]=status_note
+MainContentFields[]=has_public_event_typology
+MainContentFields[]=document_type
+MainContentFields[]=announcement_type
+MatrixColumnSuggestionByTag[public_project-unique_project_codes-type]=Tipo CUP
+#MatrixColumnSuggestionByTag[class_identifier-attribute_identifier-column_identifier]=Root tag
 
 [WebsiteToolbar]
 ShowEditorRoles=disabled
@@ -275,4 +289,5 @@ BoostSearchBlock=disabled
 
 [OpenpaAgenda]
 EnableDiscussion=enabled
+
 */ ?>
