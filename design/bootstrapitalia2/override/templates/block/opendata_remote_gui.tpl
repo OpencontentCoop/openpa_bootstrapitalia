@@ -12,25 +12,15 @@
 	$limit = $block.custom_attributes.limit
 	$itemsPerRow = $block.custom_attributes.items_per_row
 	$fields = $block.custom_attributes.fields
-  $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
-  $facetsFields = array()
+    $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
+    $facetsFields = array()
 	$remoteUrl = cond(is_set($block.custom_attributes.remote_url), $block.custom_attributes.remote_url|trim('/'), false())}
-
-{def $background_image = false()}
-{if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
-    {def $image = fetch(content, node, hash(node_id, $block.custom_attributes.image))}
-    {if and($image, $image.class_identifier|eq('image'), $image|has_attribute('image'))}
-        {set $background_image = $image|attribute('image').content.original.full_path|ezroot(no)}
-    {/if}
-    {undef $image}
-{/if}
 
 {if or($showGrid, $showMap)}
 <div class="{$wrapper_class} remote-gui-wrapper"{cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), ' style="display:none"', '  ')}>
-    <div class="block-topics-bg" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}{/if}></div>
     <div class="{$container_class}">
 
-        {include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', '')}
+        {include uri='design:parts/block_name.tpl'}
 
         <div class="row" id="remote-gui-{$block.id}">
 
