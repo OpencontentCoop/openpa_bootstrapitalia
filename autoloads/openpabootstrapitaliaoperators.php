@@ -167,18 +167,22 @@ class OpenPABootstrapItaliaOperators
             'edit_attribute_groups' => array(
                 'class' => array('type' => 'object', 'required' => true),
                 'attributes' => array('type' => 'array', 'required' => true),
-                'force_identifiers' => array('type' => 'array', 'required' => false, 'default' => [
-                    'name',
-                    'alternative_name',
-                    'alt_name',
-                    'type',
-                    'identifier',
-                    'content_type',
-                    'status_note',
-                    'has_public_event_typology',
-                    'document_type',
-                    'announcement_type',
-                ]),
+                'force_identifiers' => array('type' => 'array', 'required' => false, 'default' => OpenPAINI::variable(
+                    'AttributeHandlers',
+                    'MainContentFields',
+                    [
+                        'name',
+                        'alternative_name',
+                        'alt_name',
+                        'type',
+                        'identifier',
+                        'content_type',
+                        'status_note',
+                        'has_public_event_typology',
+                        'document_type',
+                        'announcement_type',
+                    ]
+                )),
             ),
             'get_default_integer_value' => array(
                 'attribute' => array('type' => 'object', 'required' => true),
