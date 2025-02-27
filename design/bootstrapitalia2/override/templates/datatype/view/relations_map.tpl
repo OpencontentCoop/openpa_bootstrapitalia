@@ -44,14 +44,14 @@
             <div data-object_id="2400" class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3 " style="z-index: 100">
                 <div class="card-body pe-3">
                     <div class="card-text u-main-black">
-                        <div class="mt-1">
+                        <p class="mt-1">
                             <a href="{$geo_link}"
                               target="_blank"
                               rel="noopener noreferrer"
                               class="text-decoration-none">
                                 <i aria-hidden="true" class="fa fa-map"></i> {$has_geo.content.address|wash()}
                             </a>
-                        </div>
+                        </p>
                     </div>
                 </div>
             </div>

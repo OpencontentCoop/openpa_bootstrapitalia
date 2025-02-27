@@ -26,11 +26,11 @@
                         <div class="col-1 mt-2 text-center">
                             {display_icon('it-pin', 'svg', 'icon')}
                         </div>
-                        <div class="col">
+                        <p class="col">
                             <a class="d-block ps-3" href="{$geo_link}" rel="noopener noreferrer" target="_blank">
                                 {$attribute.content.address}
                             </a>
-                        </div>
+                        </p>
                     </div>
                 </div>
             </div>
