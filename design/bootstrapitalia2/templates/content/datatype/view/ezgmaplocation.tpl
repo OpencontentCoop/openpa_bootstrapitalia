@@ -1,6 +1,6 @@
 {if and( $attribute.content.latitude, $attribute.content.longitude )}
 
-    {def $geo_link = concat('https://www.google.com/maps/dir/', $attribute.content.latitude, ',', $attribute.content.longitude, '/@', $attribute.content.latitude, ',', $attribute.content.longitude, ',15z?hl=it')}
+    {def $geo_link = concat('https://www.google.com/maps/dir//', $attribute.content.latitude, ',', $attribute.content.longitude, '/@', $attribute.content.latitude, ',', $attribute.content.longitude, ',15z?hl=it')}
     {if openpaini('Attributi', 'GeoMapLink', 'google')|eq('nominatim')}
         {set $geo_link = concat('https://www.openstreetmap.org/directions?route=', $attribute.content.latitude, ', ', $attribute.content.longitude)}
     {elseif openpaini('Attributi', 'GeoMapLink', 'google')|eq('disabled')}
