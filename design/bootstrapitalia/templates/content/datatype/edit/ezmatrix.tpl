@@ -41,6 +41,23 @@
         </table>
     </div>
 
+    {def $matrix_suggestions = openpaini('AttributeHandlers', 'MatrixColumnSuggestionByTag', array())}
+    {foreach $matrix.columns.sequential as $column}
+        {def $column_full_identifier = concat($attribute.object.content_class.identifier, '-', $attribute.contentclass_attribute_identifier, '-', $column.identifier)}
+        {if is_set($matrix_suggestions[$column_full_identifier])}
+            {def $suggest_tag_root = fetch('tags', 'tags_by_keyword', hash('keyword', $matrix_suggestions[$column_full_identifier]))}
+            {if is_set($suggest_tag_root[0])}
+                <datalist id="{$column.identifier}-choose-{$attribute.id}">
+                    {foreach $suggest_tag_root[0].children as $suggest_tag}
+                        <option value="{$suggest_tag.keyword|wash}"></option>
+                    {/foreach}
+                </datalist>
+            {/if}
+            {undef $suggest_tag_root}
+        {/if}
+        {undef $column_full_identifier}
+    {/foreach}
+
     <div class="row">
         <div class="col-9">
             <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_selected"
