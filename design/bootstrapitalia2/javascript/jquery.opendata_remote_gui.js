@@ -13,6 +13,7 @@
             'query': null,
             'searchApi': '/api/opendata/v2/content/search/',
             'geoSearchApi': '/api/opendata/v2/extrageo/search/',
+            'calendarSearchApi': '/api/opendata/v2/calendar/search/',
             'customTpl': '#no-template-defined',
             'useCustomTpl': false,
             'removeExistingEmptyFacets': false,
@@ -46,6 +47,7 @@
                 var replaceEndpoint = localAccessPrefix.length === 0 ? 'opendata/api' : localAccessPrefix + '/opendata/api';
                 this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', replaceEndpoint);
                 this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', replaceEndpoint);
+                this.settings.calendarSearchApi = this.settings.calendarSearchApi.replace('api/opendata/v2', replaceEndpoint);
                 if (this.settings.context && this.settings.context.length > 0){
                     this.settings.searchApi += '?view=' + this.settings.view + '&context=' + this.settings.context + '&q=';
                 } else {
@@ -54,14 +56,17 @@
             }
             this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
             this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
+            this.calendarSearchUrl = this.settings.remoteUrl + this.settings.calendarSearchApi;
         }else if (this.settings.queryBuilder === 'server') {
             let blockId = this.container.attr('id').replace('remote-gui-', '');
             this.searchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+blockId+'/search/';
             this.geoSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+blockId+'/geo/';
+            this.calendarSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+blockId+'/calendar/';
             this.settings.query = '';
         }else {
             this.searchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+this.settings.queryBuilder+'/search/';
             this.geoSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+this.settings.queryBuilder+'/geo/';
+            this.calendarSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+this.settings.queryBuilder+'/calendar/';
             this.settings.query = '';
             if (this.settings.context && this.settings.context.length > 0){
                 this.settings.searchApi += '?view=' + this.settings.view + '&context=' + this.settings.context;
@@ -92,6 +97,14 @@
             L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(this.map);
             this.map.addLayer(this.markers);
         }
+
+        this.hasCalender = $('#'+this.baseId+'calendar').length > 0;
+
+        if (this.hasCalender) {
+          this.calendar = $('#'+this.baseId+'calendar');
+          this.currentCalendar = null;
+        }
+
         this.paginationStyle = paginationStyle;
 
         let plugin = this;
@@ -378,6 +391,7 @@
             let limit = plugin.settings.limitPagination;
             let offset = plugin.currentPage * plugin.settings.limitPagination;
             let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
+            console.log('list query:', plugin.buildPaginatedQueryParams(limit, offset))
 
             if ((resultsContainer.html().length === 0 && plugin.paginationStyle === 'reload') || plugin.currentPage === 0) {
               resultsContainer.html(plugin.spinnerTpl);
@@ -424,6 +438,7 @@
                         response.itemsPerRow = plugin.settings.itemsPerRow;
 
                         let renderData = $(template.render(response));
+                        console.log('list response', response)
                         if (plugin.currentPage === 0 || plugin.paginationStyle === 'reload') {
                             resultsContainer.html(renderData);
                         }else{
@@ -450,7 +465,7 @@
                                       plugin.renderList(template);
                                   }
                               });
-                          }else{
+                          } else{
                               plugin.currentPage = $(self).data('page');
                               if (plugin.currentPage >= 0){
                                   plugin.renderList(template);
@@ -503,6 +518,44 @@
                     plugin.detectError(error,jqXHR);
                 }
             });
+        },
+
+        renderCalendar: function () {
+            let plugin = this;
+            let limit = plugin.settings.limitPagination;
+            let offset = plugin.currentPage * plugin.settings.limitPagination;
+            let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
+            if (plugin.currentCalendar === null) {
+              plugin.currentCalendar = new EventCalendar(plugin.calendar[0], {
+                view: window.innerWidth > 768 ? 'timeGridWeek': 'timeGridDay',
+                views: {
+                  timeGridWeek: {
+                    allDaySlot: false,
+                    firstDay: 1
+                  },
+                  timeGridDay: {
+                    allDaySlot: false,
+                    firstDay: 1
+                  }
+                },
+                eventClick: function (info) {
+                  console.log(info)
+                },
+                loading: function (isLoading) {
+                  // console.log(isLoading)
+                  console.log('plugin', plugin.buildQuery())
+                },
+                locale: 'it-IT',
+                buttonText: {
+                  today: 'Oggi'
+                },
+                eventSources: [{
+                  url: plugin.calendarSearchUrl, extraParams: function () {
+                    return {q: plugin.buildQuery()};
+                  }
+                }]
+              });
+            }
         },
 
         buildFacets: function () {
@@ -616,6 +669,8 @@
                 plugin.renderList(plugin.listTpl);
             } else if (plugin.container.find('a.view-selector.active').attr('href') === '#'+plugin.baseId+'geo' && plugin.hasMap) {
                 plugin.renderGeo();
+            } else if (plugin.container.find('a.view-selector.active').attr('href') === '#'+plugin.baseId+'agenda') {
+                plugin.renderCalendar();
             }
         }
 
