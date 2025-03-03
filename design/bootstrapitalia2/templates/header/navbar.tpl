@@ -55,10 +55,9 @@
                             aria-controls="main-menu"
                             aria-expanded="false"
                             aria-label="{'Toggle navigation'|i18n('bootstrapitalia')}"
-                            title="{'Toggle navigation'|i18n('bootstrapitalia')}"
                             data-bs-target="#main-menu"
                             data-bs-toggle="navbarcollapsible">
-                        {display_icon('it-burger', 'svg', 'icon', 'Toggle navigation'|i18n('bootstrapitalia'))}
+                        {display_icon('it-burger', 'svg', 'icon')}
                     </button>
                     <div class="navbar-collapsable" id="main-menu">
                         <div class="overlay" style="display: none;"></div>
