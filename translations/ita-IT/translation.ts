@@ -472,6 +472,10 @@
       <translation>Attiva/disattiva la navigazione</translation>
     </message>
     <message>
+      <source>View fullscreen</source>
+      <translation>Ingrandisci</translation>
+    </message>
+    <message>
       <source>hide navigation</source>
       <translation>nascondi la navigazione</translation>
     </message>

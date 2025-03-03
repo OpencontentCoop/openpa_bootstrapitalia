@@ -122,30 +122,35 @@
     </div>
 
     <div class="fullscreenable">
+      <ul class="nav nav-tabs overflow-hidden mt-3">
         {if $attribute.content.views|count()|gt(1)}
-        <ul class="nav nav-tabs overflow-hidden mt-3">
-            {def $index = 0}
-            {def $icons = $attribute.class_content.view_icons}
-            {foreach $attribute.content.views as $view}
-            {def $name = cond(is_set($attribute.class_content.views[$view]), $attribute.class_content.views[$view], false())}
-            {if $name}
-            <li role="presentation" class="nav-item">
-                <a title="{$name|wash()|upfirst}" class="text-decoration-none nav-link{if $index|eq(0)} active{/if} text-sans-serif" data-active_view="{$view}" data-toggle="tab" data-bs-toggle="tab" href="#{$view}-{$attribute.id}">
-                    <i class="view_icon {$icons[$view]} me-2"></i> <span class="opendatadataset_view_name me-2">{$name|wash()|upfirst}</span>
-                </a>
-            </li>
-            {set $index = $index|inc()}
-            {/if}
-            {undef $name}
-            {/foreach}
-            {undef $index $icons}
-            <li role="presentation" class="nav-item ms-auto ml-auto">
-                <a href="#" class="text-decoration-none nav-link dataset-fullscreen text-decoration-none">
-                    <i class="fa fa-expand" data-reverse="fa fa-compress"></i>
-                </a>
-            </li>
-        </ul>
+          {def $index = 0}
+          {def $icons = $attribute.class_content.view_icons}
+          {foreach $attribute.content.views as $view}
+          {def $name = cond(is_set($attribute.class_content.views[$view]), $attribute.class_content.views[$view], false())}
+          {if $name}
+          <li role="presentation" class="nav-item">
+              <a role="button" title="{$name|wash()|upfirst}" class="text-decoration-none nav-link{if $index|eq(0)} active{/if} text-sans-serif" data-active_view="{$view}" data-toggle="tab" data-bs-toggle="tab" href="#{$view}-{$attribute.id}">
+                  <i class="view_icon {$icons[$view]} me-2" aria-hidden="true"></i>
+                  <span class="opendatadataset_view_name me-2">{$name|wash()|upfirst}</span>
+              </a>
+          </li>
+          
+          {set $index = $index|inc()}
+          {/if}
+          {undef $name}
+          {/foreach}
+          {undef $index $icons}
         {/if}
+        <li role="presentation" class="nav-item ms-auto ml-auto">
+            <a role="button" href="#" class="text-decoration-none nav-link dataset-fullscreen">
+              <i class="fa fa-expand me-2" data-reverse="fa fa-compress me-2" aria-hidden="true"></i>
+              <span class="opendatadataset_view_name me-2 {if $attribute.content.views|count()|gt(1)}visually-hidden{/if}">
+                {'View fullscreen'|i18n('bootstrapitalia')}
+              </span>
+            </a>
+        </li>
+      </ul>
 
         <div class="tab-content mt-3">
         {def $index = 0}
