@@ -226,6 +226,7 @@ MainContentFields[]=status_note
 MainContentFields[]=has_public_event_typology
 MainContentFields[]=document_type
 MainContentFields[]=announcement_type
+MatrixColumnSuggestionByTag[public_project-unique_project_codes-type]=Tipo CUP
 #MatrixColumnSuggestionByTag[class_identifier-attribute_identifier-column_identifier]=Root tag
 
 [WebsiteToolbar]
