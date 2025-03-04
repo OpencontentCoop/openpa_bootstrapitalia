@@ -26,7 +26,7 @@
     {undef $image}
 {/if}
 
-{if or($showGrid, $showMap)}
+{if or($showGrid, $showMap, $showAgenda)}
 <div class="{$wrapper_class} remote-gui-wrapper"{cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), ' style="display:none"', '  ')}>
     <div class="block-topics-bg" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}{/if}></div>
     <div class="{$container_class}">
@@ -34,16 +34,14 @@
         {include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', '')}
 
         <div class="row" id="remote-gui-{$block.id}">
-
-
             {if $facets|count()}
                 <div class="col-12 col-lg-4 ps-lg-5">
-                    <ul class="nav d-block nav-pills text-center text-md-right{if or($showGrid|not(), $showMap|not())} hide{/if}">
+                    <ul class="nav d-block nav-pills text-center text-md-start text-lg-end{if or($showGrid|not(), $showMap|not(), $showAgenda|not())} hide{/if}">
                         {if $showGrid}
                             <li class="nav-item pr-1 pe-1 text-center d-inline-block">
                                 <a data-toggle="tab" data-bs-toggle="tab"
-                                   class="nav-link active rounded view-selector text-uppercase"
-                                   href="#remote-gui-{$block.id}-list">
+                                    class="nav-link active rounded view-selector text-uppercase"
+                                    href="#remote-gui-{$block.id}-list">
                                     <i aria-hidden="true" class="fa fa-list"></i> {'List'|i18n('editorialstuff/dashboard')}
                                 </a>
                             </li>
@@ -51,12 +49,21 @@
                         {if $showMap}
                             <li class="nav-item text-center d-inline-block">
                                 <a data-toggle="tab" data-bs-toggle="tab"
-                                   class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
-                                   href="#remote-gui-{$block.id}-geo">
+                                    class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
+                                    href="#remote-gui-{$block.id}-geo">
                                     <i aria-hidden="true" class="fa fa-map"></i> {'Map'|i18n('bootstrapitalia')}
                                 </a>
                             </li>
                         {/if}
+                        {if $showAgenda}
+                          <li class="nav-item text-center d-inline-block">
+                            <a data-toggle="tab" data-bs-toggle="tab"
+                                class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
+                                href="#remote-gui-{$block.id}-agenda">
+                                <i aria-hidden="true" class="fa fa-calendar"></i> {'Calendar'|i18n('bootstrapitalia')}
+                            </a>
+                          </li>
+                      {/if}
                     </ul>
 
             {if $facets|count()}
@@ -207,6 +214,11 @@
     'jquery.opendata_remote_gui.js'
 ))}
 {ezcss_require(array('accessible-autocomplete.min.css'))}
+
+{if $showAgenda}
+  {ezscript_require(array('moment.js', 'event-calendar.min.js'))}
+  {ezcss_require(array('event-calendar.min.css'))}
+{/if}
 
 {def $queryBuilder = 'browser'}
 {if $block.type|eq('OpendataQueriedContents')}
