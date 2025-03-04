@@ -15,7 +15,10 @@
 	$fields = $block.custom_attributes.fields
   $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
   $facetsFields = array()
-	$remoteUrl = cond(is_set($block.custom_attributes.remote_url), $block.custom_attributes.remote_url|trim('/'), false())}
+	$remoteUrl = cond(is_set($block.custom_attributes.remote_url), $block.custom_attributes.remote_url|trim('/'), false())
+  $showArray = array($showMap, $showSearch, $showAgenda)
+  $trueCount = 0
+  $multipleViewsEnabled = true()}
 
 {def $background_image = false()}
 {if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
@@ -25,6 +28,15 @@
     {/if}
     {undef $image}
 {/if}
+
+{foreach $showArray as $showItem}
+  {if $showItem}
+      {set $trueCount = $trueCount + 1}
+      {if $trueCount >= 1}
+        {set $multipleViewsEnabled = true()}
+      {/if}
+  {/if}
+{/foreach}
 
 {if or($showGrid, $showMap, $showAgenda)}
 <div class="{$wrapper_class} remote-gui-wrapper"{cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), ' style="display:none"', '  ')}>
@@ -36,7 +48,7 @@
         <div class="row" id="remote-gui-{$block.id}">
             {if $facets|count()}
                 <div class="col-12 col-lg-4 ps-lg-5">
-                    <ul class="nav d-block nav-pills text-center text-md-start text-lg-end{if or($showGrid|not(), $showMap|not(), $showAgenda|not())} hide{/if}">
+            <ul class="nav d-block nav-pills text-center text-md-start text-lg-end {if $multipleViewsEnabled|not()} hide {/if}">
                         {if $showGrid}
                             <li class="nav-item pr-1 pe-1 text-center d-inline-block">
                                 <a data-toggle="tab" data-bs-toggle="tab"
@@ -135,7 +147,7 @@
             {/if}
             {if count($facets)|eq(0)}
               <div class="col">
-                <ul class="nav d-block nav-pills text-center{if or($showGrid|not(), $showMap|not())} hide{/if}">
+                <ul class="nav d-block nav-pills text-center {if $multipleViewsEnabled|not()} hide {/if}">
                   {if $showGrid}
                     <li class="nav-item pr-1 pe-1 text-center d-inline-block">
                       <a data-toggle="tab" data-bs-toggle="tab" class="nav-link active rounded view-selector"
