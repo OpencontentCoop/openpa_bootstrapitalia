@@ -540,6 +540,10 @@
       <translation>Mappa</translation>
     </message>
     <message>
+      <source>Calendar</source>
+      <translation>Calendario</translation>
+    </message>
+    <message>
       <source>Filter by role assignment</source>
       <translation>Filtra per assegnazione del ruolo</translation>
     </message>

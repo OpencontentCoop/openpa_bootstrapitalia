@@ -540,6 +540,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Calendar</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Filter by role assignment</source>
       <translation type="unfinished"/>
     </message>
