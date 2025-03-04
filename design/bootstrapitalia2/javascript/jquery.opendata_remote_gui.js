@@ -391,7 +391,6 @@
             let limit = plugin.settings.limitPagination;
             let offset = plugin.currentPage * plugin.settings.limitPagination;
             let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
-            console.log('list query:', plugin.buildPaginatedQueryParams(limit, offset))
 
             if ((resultsContainer.html().length === 0 && plugin.paginationStyle === 'reload') || plugin.currentPage === 0) {
               resultsContainer.html(plugin.spinnerTpl);
@@ -438,7 +437,7 @@
                         response.itemsPerRow = plugin.settings.itemsPerRow;
 
                         let renderData = $(template.render(response));
-                        console.log('list response', response)
+
                         if (plugin.currentPage === 0 || plugin.paginationStyle === 'reload') {
                             resultsContainer.html(renderData);
                         }else{
@@ -543,16 +542,19 @@
                 },
                 loading: function (isLoading) {
                   // console.log(isLoading)
-                  console.log('plugin', plugin.buildQuery())
                 },
                 locale: 'it-IT',
                 buttonText: {
                   today: 'Oggi'
                 },
-                eventSources: [{
-                  url: plugin.calendarSearchUrl, extraParams: function () {
-                    return {q: plugin.buildQuery()};
-                  }
+                  eventSources: [{
+                  url: plugin.calendarSearchUrl,
+                  extraParams: function () {
+                    let query = plugin.buildQuery();
+                    console.log('URL:', plugin.calendarSearchUrl)
+                    console.log('Extra Params Query:', query);
+                    return { q: query };
+                  },
                 }]
               });
             }
