@@ -19,7 +19,7 @@
             </a>
             <ul>
                 {foreach $top_menu_node_ids as $id}
-                {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'top_menu'))}
+                {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'top_menu', 'hide_empty_tag', true(), 'hide_empty_tag_callback', array('OpenPABootstrapItaliaOperators', 'tagTreeHasContents')))}
                 {if $tree_menu.item.internal}
                     {def $href = $tree_menu.item.url|ezurl(no)}
                 {else}
@@ -57,9 +57,13 @@
                     <a href="{$topics.main_node.url_alias|ezurl(no)}"><span>{$topics.name|wash()}</span></a>
                     <ul>
                         {foreach $topic_list.children as $child}
+                            {def $topic = fetch(content, object, hash('remote_id', $child.item.remote_id))}
+                            {if and($topic, topic_has_contents($topic.id))}
                             <li>
                                 <a href="{$child.item.url|ezurl(no)}"><span>{$child.item.name|wash()}</span></a>
                             </li>
+                            {/if}
+                            {undef $topic}
                         {/foreach}
                     </ul>
                 </li>
@@ -95,6 +99,7 @@
                 </li>
                 {/if}
                 {foreach $footer_links as $item}
+                    {if and($item.object.remote_id|eq('dataset'), $item.children_count|eq(0))}{skip}{/if}
                     <li>{node_view_gui content_node=$item view=text_linked span_class='fm'}</li>
                 {/foreach}
             </ul>
