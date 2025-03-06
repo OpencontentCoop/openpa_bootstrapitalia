@@ -467,11 +467,6 @@
 .ec-header {
     display: flex;
     flex-shrink: 0;
-    background: #fff;
-    border-bottom: 0;
-    border-left: 0;
-    border-top: 0;
-    padding-top: 30px;
 }
 
 .ec-header .ec-resource {
@@ -513,10 +508,6 @@
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
-    background: #fff;
-    border-left: 0;
-    border-bottom: 0;
-    padding-bottom: 20px;
 }
 
 .ec:not(.ec-list) .ec-body {

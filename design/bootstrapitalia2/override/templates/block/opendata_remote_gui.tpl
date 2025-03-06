@@ -304,3 +304,23 @@
 {/if}
 </script>
 {unset_defaults( array('wrapper_class','container_class'))}
+
+{literal}
+<style>
+  .ec-event-title,
+  .ec-event-time {
+    font-size: 0.8rem;
+    line-height: 1.3em;
+    font-weight: 600 !important;
+  }
+  .ec-popup .ec-events {
+    overflow: visible !important;
+  }
+  .ec-day-grid .ec-day-foot a {
+    text-decoration: underline !important;
+  }
+  #debug {
+    display: none;
+  }
+</style>
+{/literal}
