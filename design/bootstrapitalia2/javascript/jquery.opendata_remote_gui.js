@@ -103,6 +103,12 @@
         if (this.hasCalender) {
           this.calendar = $('#'+this.baseId+'calendar');
           this.currentCalendar = null;
+          addEventListener("resize", (event) => {
+            if (!this.currentCalendar || typeof this.currentCalendar.getView !== 'function') {
+              return
+            }
+            this.currentCalendar.setOption('view', window.innerWidth > 768 ? 'dayGridMonth': 'timeGridDay');
+          });
         }
 
         this.paginationStyle = paginationStyle;
@@ -531,7 +537,7 @@
             let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
             if (plugin.currentCalendar === null) {
               plugin.currentCalendar = new EventCalendar(plugin.calendar[0], {
-                view: window.innerWidth > 768 ? 'timeGridWeek': 'timeGridDay',
+                view: window.innerWidth > 768 ? 'dayGridMonth': 'timeGridDay',
                 views: {
                   timeGridWeek: {
                     allDaySlot: false,
