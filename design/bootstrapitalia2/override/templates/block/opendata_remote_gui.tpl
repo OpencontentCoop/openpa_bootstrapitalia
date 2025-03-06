@@ -7,7 +7,7 @@
 {def $showGrid = cond(is_set($block.custom_attributes.show_grid), $block.custom_attributes.show_grid, true())
   $showMap = $block.custom_attributes.show_map
 	$showSearch = $block.custom_attributes.show_search
-  $showAgenda = true()
+  $showAgenda = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|contains('time_interval')), true(), false())
 	$searchPlaceholder = $block.custom_attributes.input_search_placeholder
 	$query = $block.custom_attributes.query
 	$limit = $block.custom_attributes.limit
@@ -18,7 +18,7 @@
 	$remoteUrl = cond(is_set($block.custom_attributes.remote_url), $block.custom_attributes.remote_url|trim('/'), false())
   $showArray = array($showMap, $showSearch, $showAgenda)
   $trueCount = 0
-  $multipleViewsEnabled = true()}
+  $multipleViewsEnabled = false()}
 
 {def $background_image = false()}
 {if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
@@ -31,12 +31,12 @@
 
 {foreach $showArray as $showItem}
   {if $showItem}
-      {set $trueCount = $trueCount + 1}
-      {if $trueCount >= 1}
-        {set $multipleViewsEnabled = true()}
-      {/if}
+      {set $trueCount = $trueCount|inc()}
   {/if}
 {/foreach}
+{if $trueCount|gt(1)}
+  {set $multipleViewsEnabled = true()}
+{/if}
 
 {if or($showGrid, $showMap, $showAgenda)}
 <div class="{$wrapper_class} remote-gui-wrapper"{cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), ' style="display:none"', '  ')}>
@@ -48,9 +48,9 @@
         <div class="row" id="remote-gui-{$block.id}">
             {if $facets|count()}
                 <div class="col-12 col-lg-4 ps-lg-5">
-                    <ul class="nav d-block nav-pills text-start {if $multipleViewsEnabled|not()} hide {/if}">
+                    <ul class="nav d-block nav-pills text-start {if $multipleViewsEnabled|not()} d-none {/if} d-flex {if $trueCount|gt(2)} flex-lg-column{/if} align-items-start flex-xxl-row">
                         {if $showGrid}
-                            <li class="nav-item pr-1 pe-1 text-center d-inline-block">
+                            <li class="nav-item pr-1 pe-1 text-center mb-1">
                                 <a data-toggle="tab" data-bs-toggle="tab"
                                     class="nav-link active rounded view-selector text-uppercase"
                                     href="#remote-gui-{$block.id}-list">
@@ -59,7 +59,7 @@
                             </li>
                         {/if}
                         {if $showMap}
-                            <li class="nav-item text-center d-inline-block">
+                            <li class="nav-item text-center mb-1">
                                 <a data-toggle="tab" data-bs-toggle="tab"
                                     class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
                                     href="#remote-gui-{$block.id}-geo">
@@ -68,7 +68,7 @@
                             </li>
                         {/if}
                         {if $showAgenda}
-                          <li class="nav-item text-center d-inline-block">
+                          <li class="nav-item text-center mb-1">
                             <a data-toggle="tab" data-bs-toggle="tab"
                                 class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
                                 href="#remote-gui-{$block.id}-agenda">
@@ -147,7 +147,7 @@
             {/if}
             {if count($facets)|eq(0)}
               <div class="col">
-                <ul class="nav d-block nav-pills text-center {if $multipleViewsEnabled|not()} hide {/if}">
+                <ul class="nav d-block nav-pills text-center {if $multipleViewsEnabled|not()} d-none {/if}">
                   {if $showGrid}
                     <li class="nav-item pr-1 pe-1 text-center d-inline-block">
                       <a data-toggle="tab" data-bs-toggle="tab" class="nav-link active rounded view-selector"
