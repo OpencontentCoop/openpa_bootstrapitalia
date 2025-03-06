@@ -48,7 +48,7 @@
         <div class="row" id="remote-gui-{$block.id}">
             {if $facets|count()}
                 <div class="col-12 col-lg-4 ps-lg-5">
-            <ul class="nav d-block nav-pills text-center text-md-start text-lg-end {if $multipleViewsEnabled|not()} hide {/if}">
+                    <ul class="nav d-block nav-pills text-start {if $multipleViewsEnabled|not()} hide {/if}">
                         {if $showGrid}
                             <li class="nav-item pr-1 pe-1 text-center d-inline-block">
                                 <a data-toggle="tab" data-bs-toggle="tab"
@@ -84,7 +84,7 @@
                 {def $facets_parts = $facet|explode(':')}
                 {if is_set($facets_parts[1])}
                   {if $facets_parts[1]|eq('time_interval')}
-                    <div class="px-0 my-4 mb-5">
+                    <div class="px-0 my-4 mb-5" data-datepicker>
                       <fieldset>
                         <legend class="h6 ms-0 ps-0">{$facets_parts[0]|wash()}</legend>
                         <div class="form-check">
@@ -127,7 +127,7 @@
         {/if}
 
         <section
-          class="{if $facets|count()}order-md-first col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2 mb-5 mb-lg-0">
+          class="{if $facets|count()}order-lg-first col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2 mb-5 mb-lg-0">
           {if and($showSearch, count($facets)|eq(0))}<div class="row g-0">{/if}
             {if $showSearch}
               {def $placeHolder = cond($searchPlaceholder|eq(''), 'Search by keyword'|i18n('bootstrapitalia'), $searchPlaceholder)}
@@ -193,7 +193,11 @@
             {/if}
             {if $showAgenda}
               <section id="remote-gui-{$block.id}-agenda" class="tab-pane{if $showGrid|not} active{/if} p-0">
-                <div id="remote-gui-{$block.id}-calendar" style="overflow-x:auto;min-height: 300px;"></div>
+                <div
+                  id="remote-gui-{$block.id}-calendar"
+                  style="overflow-x:auto;min-height: 300px;"
+                  class="mt-5"
+                ></div>
               </section>
             {/if}
         </div>
