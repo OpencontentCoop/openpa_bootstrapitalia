@@ -270,7 +270,12 @@
   'hideIfEmpty': {cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), 'true', 'false')},
   'customTpl': "{concat('#tpl-remote-gui-item-inner-', $block.id)}",
   'useCustomTpl': {cond(and(is_set($block.custom_attributes.template), $block.custom_attributes.template|ne('')), 'true', 'false')},
-  'view': '{cond(and(is_set($block.custom_attributes.view_api), $block.custom_attributes.view_api|ne('')), $block.custom_attributes.view_api, 'card_teaser')}'
+  'view': '{cond(and(is_set($block.custom_attributes.view_api), $block.custom_attributes.view_api|ne('')), $block.custom_attributes.view_api, 'card_teaser')}',
+  'locale': '{fetch( 'content', 'locale' , hash( 'locale_code', ezini('RegionalSettings', 'Locale') )).http_locale_code}',
+  'i18n': {ldelim}
+    calendarToday: '{'Today'|i18n('agenda')}',
+    calendarMoreEvents: '{'View all events'|i18n('bootstrapitalia')}',
+  {rdelim}
   {if $facetsFields|count()},'facets':['{$facetsFields|implode("','")}']{/if}
   {if $fields|ne('')},'fields':['{$fields|explode(',')|implode("','")}']{/if}
   {rdelim});
@@ -322,9 +327,6 @@
   }
   .ec-day-grid .ec-day-foot a {
     text-decoration: underline !important;
-  }
-  #debug {
-    display: none;
   }
 </style>
 {/literal}

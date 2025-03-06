@@ -23,13 +23,16 @@
             'view': 'card_teaser',
             'context': null,
             'hideIfEmpty': false,
+            'locale': 'it-IT',
             'i18n': {
                 placeholder: 'Select item',
                 noResults: 'No results found',
                 statusQueryTooShort: 'Type in ${minQueryLength} or more characters for results',
                 statusSelectedOption: '${selectedOption} ${index + 1} of ${length} is highlighted',
                 assistiveHint: "When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.",
-                selectedOptionDescription: 'Press Enter or Space to remove selection'
+                selectedOptionDescription: 'Press Enter or Space to remove selection',
+                calendarToday: 'Today',
+                calendarMoreEvents: "view more"
             }
         };
 
@@ -553,11 +556,11 @@
                 loading: function (isLoading) {
                   // console.log(isLoading)
                 },
-                locale: 'it-IT',
+                locale: plugin.settings.locale,
                 buttonText: {
-                  today: 'Oggi'
+                  today: plugin.settings.i18n.calendarToday
                 },
-                moreLinkContent: "+ altri",
+                moreLinkContent: plugin.settings.i18n.calendarMoreEvents,
                 eventSources: [{
                   url: plugin.calendarSearchUrl,
                   extraParams: function () {
