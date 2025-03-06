@@ -532,24 +532,23 @@
 
         renderCalendar: function () {
             let plugin = this;
-            let limit = plugin.settings.limitPagination;
-            let offset = plugin.currentPage * plugin.settings.limitPagination;
-            let paginatedQuery = plugin.buildPaginatedQueryParams(limit, offset);
             if (plugin.currentCalendar === null) {
               plugin.currentCalendar = new EventCalendar(plugin.calendar[0], {
                 view: window.innerWidth > 768 ? 'dayGridMonth': 'timeGridDay',
+                dayMaxEvents: true,
+                allDaySlot: false,
+                scrollTime: '09:00:00',
                 views: {
-                  timeGridWeek: {
-                    allDaySlot: false,
-                    firstDay: 1
+                  dayGridMonth: {
+                    firstDay: 1,
+                    height: '800px'
                   },
                   timeGridDay: {
-                    allDaySlot: false,
-                    firstDay: 1
+                    firstDay: 1,
                   }
                 },
                 eventClick: function (info) {
-                  console.log(info)
+                  window.location.href = info.event.extendedProps.content?.extradata[$.opendataTools.settings('language')]?.urlAlias || plugin.settings.localAccessPrefix + 'openpa/object/' + info.event.id;
                 },
                 loading: function (isLoading) {
                   // console.log(isLoading)
@@ -558,16 +557,17 @@
                 buttonText: {
                   today: 'Oggi'
                 },
-                  eventSources: [{
+                moreLinkContent: "+ altri",
+                eventSources: [{
                   url: plugin.calendarSearchUrl,
                   extraParams: function () {
                     let query = plugin.buildQuery();
-                    console.log('URL:', plugin.calendarSearchUrl)
-                    console.log('Extra Params Query:', query);
                     return { q: query };
                   },
                 }]
               });
+            } else {
+              plugin.currentCalendar.refetchEvents();
             }
         },
 
