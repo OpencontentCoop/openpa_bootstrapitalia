@@ -175,7 +175,7 @@
 
     $.extend(Plugin.prototype, {
 
-        buildQuery: function () {
+        buildQuery: function (ignoreIntervalFilter = false) {
             let plugin = this;
             let baseQuery = plugin.settings.query;
             let queryParams = {
@@ -213,7 +213,7 @@
                     }
                 });
             }
-            if (plugin.intervalFilter.length > 0){
+            if (!ignoreIntervalFilter && plugin.intervalFilter.length > 0){
                 let interval = plugin.intervalFilter.filter(':checked').val();
                 var start = moment();
                 var end = '*';
@@ -565,7 +565,7 @@
                 eventSources: [{
                   url: plugin.calendarSearchUrl,
                   extraParams: function () {
-                    let query = plugin.buildQuery();
+                    let query = plugin.buildQuery(true);
                     return { q: query };
                   },
                 }]
