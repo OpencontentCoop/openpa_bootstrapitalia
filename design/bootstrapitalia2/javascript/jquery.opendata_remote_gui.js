@@ -44,10 +44,10 @@
         if ($.isFunction($.ez)) {
             prefix = $.ez.root_url;
         }
+        this.settings.localAccessPrefix = this.settings.localAccessPrefix.substring(1);
         if (this.settings.queryBuilder === 'browser') {
             if (this.settings.remoteUrl === '') {
-                var localAccessPrefix = this.settings.localAccessPrefix.substr(1);
-                var replaceEndpoint = localAccessPrefix.length === 0 ? 'opendata/api' : localAccessPrefix + '/opendata/api';
+                var replaceEndpoint = this.settings.localAccessPrefix.length === 0 ? 'opendata/api' : this.settings.localAccessPrefix + '/opendata/api';
                 this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', replaceEndpoint);
                 this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', replaceEndpoint);
                 this.settings.calendarSearchApi = this.settings.calendarSearchApi.replace('api/opendata/v2', replaceEndpoint);
@@ -551,7 +551,8 @@
                   }
                 },
                 eventClick: function (info) {
-                  window.location.href = info.event.extendedProps.content?.extradata[$.opendataTools.settings('language')]?.urlAlias || plugin.settings.localAccessPrefix + 'openpa/object/' + info.event.id;
+                  let url = plugin.settings.localAccessPrefix.length ? '/' + plugin.settings.localAccessPrefix + '/openpa/object/' + info.event.id : '/openpa/object/' + info.event.id
+                  window.location.href = url
                 },
                 loading: function (isLoading) {
                   // console.log(isLoading)
