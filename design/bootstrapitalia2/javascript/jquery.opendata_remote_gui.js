@@ -113,6 +113,11 @@
                 if ($(e.target).attr('href') === '#'+plugin.baseId+'geo') {
                     plugin.map.invalidateSize(false);
                 }
+                if ($(e.target).attr('href') === '#'+plugin.baseId+'agenda') {
+                    plugin.container.find('[data-datepicker]').hide();
+                } else {
+                    plugin.container.find('[data-datepicker]').show();
+                }
                 if ($(e.target).attr('href').indexOf(plugin.baseId) > -1) {
                     plugin.runSearch();
                 }
