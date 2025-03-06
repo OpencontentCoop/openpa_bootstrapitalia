@@ -275,4 +275,7 @@ BoostSearchBlock=disabled
 
 [OpenpaAgenda]
 EnableDiscussion=enabled
+
+[EditSettings]
+ModerationInToolbar=disabled
 */ ?>
