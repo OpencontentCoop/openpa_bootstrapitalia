@@ -8,15 +8,10 @@
     </a>
 {/if}
 {if $approval_item.is_author}
-    <form class="d-inline" action="{concat( '/content/history/', $approval_item.contentObjectId, '/?url=', concat('bootstrapitalia/approval/object/', $approval_item.contentObjectId) )|ezurl(no)}" method="post">
-        <input class="text" type="hidden" name="RedirectURIAfterPublish" value="{concat('bootstrapitalia/approval/object/', $approval_item.contentObjectId)|ezurl(no)}" />
-        <input class="text" type="hidden" name="RedirectIfDiscarded" value="{concat('bootstrapitalia/approval/object/', $approval_item.contentObjectId)|ezurl(no)}" />
-        <input type="hidden" name="ObjectID" value="{$approval_item.contentObjectId}" />
-        <input type="hidden" name="CopyVersionLanguage[{$approval_item.version.version}]" value="{$approval_item.version.initial_language.locale}" />
-        <button class="btn btn-md btn-secondary text-white" type="submit" name="HistoryCopyVersionButton[{$approval_item.version.version}]">
-            <i class="fa fa-pencil"></i> {'Edit'|i18n('design/standard/parts/website_toolbar')}
-        </button>
-    </form>
+    <a class="btn btn-md btn-secondary text-white"
+       href="{concat('/bootstrapitalia/approval/edit/', $approval_item.contentObjectId)|ezurl(no)}" title="{'Approve'|i18n('bootstrapitalia/moderation')}">
+        <i class="fa fa-pencil"></i> {'Edit'|i18n('design/standard/parts/website_toolbar')}
+    </a>
     {if $approval_item.status|eq(0)}
     <a class="btn btn-md btn-danger text-white" href="{concat('bootstrapitalia/approval/version/', $approval_item.contentObjectVersionId, '/discard?redirect=object')|ezurl(no)}">
         <i class="fa fa-trash"></i> {'Annulla richiesta di approvazione'|i18n('bootstrapitalia/moderation')}

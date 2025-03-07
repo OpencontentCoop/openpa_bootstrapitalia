@@ -60,12 +60,27 @@ if ($entityType === 'edit' && $entityId > 0) {
                     && $pending->attribute('version') instanceof eZContentObjectVersion) {
                     $locale = $pending->attribute('version')->attribute('initial_language')->attribute('locale');
                     //redirect to edit from current approval version
+                    $nodeAssignmentList = eZNodeAssignment::fetchForObject($entityId, $pending->attribute('version')->attribute('version'));
                     $db = eZDB::instance();
                     $db->begin();
                     $newVersionID = $object->copyRevertTo(
                         $pending->attribute('version')->attribute('version'),
                         $locale
                     );
+                    // Copy assignments without a remote_id to avoid browse for parent after publish
+                    // @see eZContentObject::copyVersion
+                    foreach ($nodeAssignmentList as $nodeAssignment) {
+                        if ($nodeAssignment->attribute('remote_id') == 0) {
+                            $clonedAssignment = $nodeAssignment->cloneNodeAssignment(
+                                $newVersionID,
+                                $entityId
+                            );
+                            $clonedAssignment->setAttribute('op_code', eZNodeAssignment::OP_CODE_CREATE);
+                            $clonedAssignment->setAttribute('from_node_id', -1);
+                            $clonedAssignment->store();
+                        }
+                    }
+
                     $db->commit();
                     $module->redirectTo('content/edit/' . $object->attribute('id') . '/' . $newVersionID . '/' . $locale);
                     return;
@@ -73,7 +88,7 @@ if ($entityType === 'edit' && $entityId > 0) {
             }
         }
         //redirect to standard edit
-        $module->redirectTo('content/edit/' . $object->attribute('id') . '/f');
+        $module->redirectTo('content/edit/' . $object->attribute('id') . '/f/' . eZLocale::currentLocaleCode());
         return;
     } else {
         return $module->handleError(eZError::KERNEL_NOT_AVAILABLE, 'kernel');

@@ -79,7 +79,7 @@
                 {def $has_child_pending_approval = has_child_pending_approval($content_object.main_node_id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'))}
                 {if $has_child_pending_approval}
                     <li>
-                        <a href="{concat('/bootstrapitalia/approval/?assignment=', $content_object.main_node_id)|ezurl(no)}">
+                        <a href="{concat('/bootstrapitalia/approval/(assignment)/', $content_object.main_node_id)|ezurl(no)}">
                             <span class="font-weight-bold">{$has_child_pending_approval}</span>
                             <span class="toolbar-label" style="max-width: 70px;">{'Pending approval'|i18n('bootstrapitalia/moderation')}</span>
                         </a>
