@@ -148,9 +148,9 @@ class ModerationHandler
     public static function discardVersion(int $contentObjectVersionId): ModerationApproval
     {
         $approval = ModerationApproval::fetchByContentObjectVersionId($contentObjectVersionId);
+
         if ($approval instanceof ModerationApproval) {
             $currentObject = $approval->attribute('object');
-
             if ($currentObject instanceof eZContentObject) {
                 if ($currentObject->attribute('status') == eZContentObject::STATUS_DRAFT){
                     $version = eZContentObjectVersion::fetch($contentObjectVersionId);
@@ -164,10 +164,13 @@ class ModerationHandler
                 } else {
                     $currentVersion = $currentObject->attribute('current');
                     if ($currentVersion instanceof eZContentObjectVersion) {
+                        $version = eZContentObjectVersion::fetch($contentObjectVersionId);
                         ModerationApproval::cleanByContentObjectIdAndVersion(
                             (int)$currentObject->attribute('id'),
                             (int)$currentVersion->attribute('id'),
-                            $currentVersion->initialLanguageCode(),
+                            $version instanceof eZContentObjectVersion ?
+                                $version->initialLanguageCode() :
+                                $currentVersion->initialLanguageCode(),
                             (int)eZUser::currentUserID(),
                             true
                         );

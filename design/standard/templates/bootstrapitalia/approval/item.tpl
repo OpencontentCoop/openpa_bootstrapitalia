@@ -5,6 +5,13 @@
        class="btn btn-secondary btn-md"
        href="#">
         <i class="fa fa-eye"></i> Visualizza il contenuto
+        {if ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')|ne($approval.version.initial_language.locale))}
+            <img src="{$approval.version.initial_language.locale|flag_icon}"
+                 style="vertical-align: middle;height: 25px;width: 25px;border-radius: 100%;border: 2px solid #fff;margin-left: 5px;"
+                 alt="{$approval.version.initial_language.locale}"
+                 title="{'Content in %language'|i18n( 'design/ezflow/edit/frontpage',, hash('%language', $approval.version.initial_language.name ) )}"
+            />
+        {/if}
     </a>
 {/if}
 {if $approval_item.is_author}

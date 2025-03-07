@@ -125,7 +125,6 @@
                                         {/if}
                                         {/case}
                                     {/switch}
-                                    {*<span class="text-lowercase">{'Created'|i18n( 'design/ocbootstrap/content/history' )} {$approval.createdAt|l10n( shortdatetime )}</span>*}
                                 </h5>
                             </button>
                         </h2>
