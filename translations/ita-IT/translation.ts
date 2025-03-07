@@ -8,6 +8,22 @@
       <translation>vedi tutti</translation>
     </message>
     <message>
+      <source>Select an item</source>
+      <translation>Seleziona un elemento</translation>
+    </message>
+    <message>
+      <source>No results found</source>
+      <translation>Nessun risultato trovato</translation>
+    </message>
+    <message>
+      <source>When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</source>
+      <translation>Quando sono disponibili risultati di completamento automatico, utilizza le frecce su e giù per esaminarli e premi Invio per selezionare. Gli utenti di dispositivi touch possono esplorare toccando o scorrendo con gesti.</translation>
+    </message>
+    <message>
+      <source>Press Enter or Space to remove selection</source>
+      <translation>Premio Invio o Spazio per rimuovere la selezione</translation>
+    </message>
+    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Questo sito utilizza cookie tecnici, analytics e di terze parti.</translation>
     </message>

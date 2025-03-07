@@ -635,6 +635,11 @@
                                         displayMenu: 'overlay',
                                         dropdownArrow: function (){return null},
                                         placeholder: placeHolder,
+                                        tNoResults: () => plugin.settings.i18n.noResults,
+                                        tStatusQueryTooShort: () => plugin.settings.i18n.statusQueryTooShort,
+                                        tStatusSelectedOption: () => plugin.settings.i18n.statusSelectedOption,
+                                        tAssistiveHint: () => plugin.settings.i18n.assistiveHint,
+                                        tSelectedOptionDescription: () => plugin.settings.i18n.selectedOptionDescription,
                                         selectElement: facetSelect[0],
                                         onConfirm: function (query) {
                                             let options = facetSelect[0].options

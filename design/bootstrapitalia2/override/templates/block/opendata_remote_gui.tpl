@@ -275,6 +275,10 @@
   'i18n': {ldelim}
     calendarToday: '{'Today'|i18n('agenda')}',
     calendarMoreEvents: '{'View all events'|i18n('bootstrapitalia')}',
+    placeholder: '{'Select an item'|i18n('bootstrapitalia')}',
+    noResults: '{'No results found'|i18n('bootstrapitalia')}',
+    assistiveHint: '{'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.'|i18n('bootstrapitalia')}',
+    selectedOptionDescription: '{'Press Enter or Space to remove selection'|i18n('bootstrapitalia')}',
   {rdelim}
   {if $facetsFields|count()},'facets':['{$facetsFields|implode("','")}']{/if}
   {if $fields|ne('')},'fields':['{$fields|explode(',')|implode("','")}']{/if}

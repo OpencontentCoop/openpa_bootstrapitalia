@@ -8,6 +8,22 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Select an item</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>No results found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Press Enter or Space to remove selection</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation type="unfinished"/>
     </message>
