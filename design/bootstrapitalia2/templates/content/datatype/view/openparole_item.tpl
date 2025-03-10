@@ -5,12 +5,15 @@
 		{else}
 			{if $role|has_attribute('role')}{foreach $role|attribute('role').content.tags as $tag}{$tag.keyword|wash|trim}{delimiter}, {/delimiter}{/foreach} {'at'|i18n('bootstrapitalia')}{/if} {$entity.name|wash()}
 		{/if}
-		{if $role|has_attribute('start_time')}
-			<small> {'from'|i18n("openpa/search")} {attribute_view_gui attribute=$role|attribute('start_time')}
-				{if $is_expired} {'to'|i18n("openpa/search")} {attribute_view_gui attribute=$role|attribute('end_time')}{/if}
-			</small>
-		{/if}
 	</h3>
+  {if $role|has_attribute('start_time')}
+    <h4 class="h6 mt-4 font-sans-serif">{$role|attribute('start_time').contentclass_attribute_name}:</h4>
+    <p>{attribute_view_gui attribute=$role|attribute('start_time')}</p>
+    {if $is_expired}
+      <h4 class="h6 mt-4 font-sans-serif">{$role|attribute('end_time').contentclass_attribute_name}:</h4>
+      <p>{attribute_view_gui attribute=$role|attribute('end_time')}</p>
+    {/if}
+  {/if}
 	{if and($role|has_attribute('competences'), $role|attribute('competences').content.cells|implode('')|trim()|ne(''))}
 		<h4 class="h6 mt-4 font-sans-serif">{$role|attribute('competences').contentclass_attribute_name}:</h4>
 		<ul class="list-unstyled">
