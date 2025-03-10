@@ -571,6 +571,30 @@
       <source>Confirmed</source>
       <translation>Confirmed</translation>
     </message>
+    <message>
+      <source>View all events</source>
+      <translation>View all events</translation>
+    </message>
+    <message>
+      <source>Calendar</source>
+      <translation>Calendar</translation>
+    </message>
+    <message>
+      <source>Select an item</source>
+      <translation>Select an item</translation>
+    </message>
+    <message>
+      <source>No results found</source>
+      <translation>No results found</translation>
+    </message>
+    <message>
+      <source>When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</source>
+      <translation>When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</translation>
+    </message>
+    <message>
+      <source>Press Enter or Space to remove selection</source>
+      <translation>Press Enter or Space to remove selection</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -1410,6 +1434,18 @@ They are essentially used to measure and improve the quality of sites by analysi
     <message>
       <source>Close</source>
       <translation>Close</translation>
+    </message>
+    <message>
+      <source>Accept third-party cookies to watch the video</source>
+      <translation>Accept third-party cookies to watch the video</translation>
+    </message>
+    <message>
+      <source>Accept for this video</source>
+      <translation>Accept for this video</translation>
+    </message>
+    <message>
+      <source>Accept for all videos</source>
+      <translation>Accept for all videos</translation>
     </message>
   </context>
   <context>
