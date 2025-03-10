@@ -13,6 +13,7 @@
             'query': null,
             'searchApi': '/api/opendata/v2/content/search/',
             'geoSearchApi': '/api/opendata/v2/extrageo/search/',
+            'calendarSearchApi': '/api/opendata/v2/calendar/search/',
             'customTpl': '#no-template-defined',
             'useCustomTpl': false,
             'removeExistingEmptyFacets': false,
@@ -22,13 +23,16 @@
             'view': 'card_teaser',
             'context': null,
             'hideIfEmpty': false,
+            'locale': 'it-IT',
             'i18n': {
                 placeholder: 'Select item',
                 noResults: 'No results found',
                 statusQueryTooShort: 'Type in ${minQueryLength} or more characters for results',
                 statusSelectedOption: '${selectedOption} ${index + 1} of ${length} is highlighted',
                 assistiveHint: "When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.",
-                selectedOptionDescription: 'Press Enter or Space to remove selection'
+                selectedOptionDescription: 'Press Enter or Space to remove selection',
+                calendarToday: 'Today',
+                calendarMoreEvents: "view more"
             }
         };
 
@@ -40,12 +44,13 @@
         if ($.isFunction($.ez)) {
             prefix = $.ez.root_url;
         }
+        this.settings.localAccessPrefix = this.settings.localAccessPrefix.substring(1);
         if (this.settings.queryBuilder === 'browser') {
             if (this.settings.remoteUrl === '') {
-                var localAccessPrefix = this.settings.localAccessPrefix.substr(1);
-                var replaceEndpoint = localAccessPrefix.length === 0 ? 'opendata/api' : localAccessPrefix + '/opendata/api';
+                var replaceEndpoint = this.settings.localAccessPrefix.length === 0 ? 'opendata/api' : this.settings.localAccessPrefix + '/opendata/api';
                 this.settings.searchApi = this.settings.searchApi.replace('api/opendata/v2', replaceEndpoint);
                 this.settings.geoSearchApi = this.settings.geoSearchApi.replace('api/opendata/v2', replaceEndpoint);
+                this.settings.calendarSearchApi = this.settings.calendarSearchApi.replace('api/opendata/v2', replaceEndpoint);
                 if (this.settings.context && this.settings.context.length > 0){
                     this.settings.searchApi += '?view=' + this.settings.view + '&context=' + this.settings.context + '&q=';
                 } else {
@@ -54,14 +59,17 @@
             }
             this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
             this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
+            this.calendarSearchUrl = this.settings.remoteUrl + this.settings.calendarSearchApi;
         }else if (this.settings.queryBuilder === 'server') {
             let blockId = this.container.attr('id').replace('remote-gui-', '');
             this.searchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+blockId+'/search/';
             this.geoSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+blockId+'/geo/';
+            this.calendarSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+blockId+'/calendar/';
             this.settings.query = '';
         }else {
             this.searchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+this.settings.queryBuilder+'/search/';
             this.geoSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+this.settings.queryBuilder+'/geo/';
+            this.calendarSearchUrl = prefix+'openpa/data/block_opendata_queried_contents/'+this.settings.queryBuilder+'/calendar/';
             this.settings.query = '';
             if (this.settings.context && this.settings.context.length > 0){
                 this.settings.searchApi += '?view=' + this.settings.view + '&context=' + this.settings.context;
@@ -92,6 +100,20 @@
             L.tileLayer('//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(this.map);
             this.map.addLayer(this.markers);
         }
+
+        this.hasCalender = $('#'+this.baseId+'calendar').length > 0;
+
+        if (this.hasCalender) {
+          this.calendar = $('#'+this.baseId+'calendar');
+          this.currentCalendar = null;
+          addEventListener("resize", (event) => {
+            if (!this.currentCalendar || typeof this.currentCalendar.getView !== 'function') {
+              return
+            }
+            this.currentCalendar.setOption('view', window.innerWidth > 768 ? 'dayGridMonth': 'timeGridDay');
+          });
+        }
+
         this.paginationStyle = paginationStyle;
 
         let plugin = this;
@@ -99,6 +121,11 @@
             if ($(e.target).hasClass('view-selector')) {
                 if ($(e.target).attr('href') === '#'+plugin.baseId+'geo') {
                     plugin.map.invalidateSize(false);
+                }
+                if ($(e.target).attr('href') === '#'+plugin.baseId+'agenda') {
+                    plugin.container.find('[data-datepicker]').hide();
+                } else {
+                    plugin.container.find('[data-datepicker]').show();
                 }
                 if ($(e.target).attr('href').indexOf(plugin.baseId) > -1) {
                     plugin.runSearch();
@@ -148,7 +175,7 @@
 
     $.extend(Plugin.prototype, {
 
-        buildQuery: function () {
+        buildQuery: function (ignoreIntervalFilter = false) {
             let plugin = this;
             let baseQuery = plugin.settings.query;
             let queryParams = {
@@ -186,7 +213,7 @@
                     }
                 });
             }
-            if (plugin.intervalFilter.length > 0){
+            if (!ignoreIntervalFilter && plugin.intervalFilter.length > 0){
                 let interval = plugin.intervalFilter.filter(':checked').val();
                 var start = moment();
                 var end = '*';
@@ -424,6 +451,7 @@
                         response.itemsPerRow = plugin.settings.itemsPerRow;
 
                         let renderData = $(template.render(response));
+
                         if (plugin.currentPage === 0 || plugin.paginationStyle === 'reload') {
                             resultsContainer.html(renderData);
                         }else{
@@ -450,7 +478,7 @@
                                       plugin.renderList(template);
                                   }
                               });
-                          }else{
+                          } else{
                               plugin.currentPage = $(self).data('page');
                               if (plugin.currentPage >= 0){
                                   plugin.renderList(template);
@@ -503,6 +531,48 @@
                     plugin.detectError(error,jqXHR);
                 }
             });
+        },
+
+        renderCalendar: function () {
+            let plugin = this;
+            if (plugin.currentCalendar === null) {
+              plugin.currentCalendar = new EventCalendar(plugin.calendar[0], {
+                view: window.innerWidth > 768 ? 'dayGridMonth': 'timeGridDay',
+                dayMaxEvents: true,
+                allDaySlot: false,
+                scrollTime: '09:00:00',
+                views: {
+                  dayGridMonth: {
+                    firstDay: 1,
+                    height: '800px'
+                  },
+                  timeGridDay: {
+                    firstDay: 1,
+                  }
+                },
+                eventClick: function (info) {
+                  let url = plugin.settings.localAccessPrefix.length ? '/' + plugin.settings.localAccessPrefix + '/openpa/object/' + info.event.id : '/openpa/object/' + info.event.id
+                  window.location.href = url
+                },
+                loading: function (isLoading) {
+                  // console.log(isLoading)
+                },
+                locale: plugin.settings.locale,
+                buttonText: {
+                  today: plugin.settings.i18n.calendarToday
+                },
+                moreLinkContent: plugin.settings.i18n.calendarMoreEvents,
+                eventSources: [{
+                  url: plugin.calendarSearchUrl,
+                  extraParams: function () {
+                    let query = plugin.buildQuery(true);
+                    return { q: query };
+                  },
+                }]
+              });
+            } else {
+              plugin.currentCalendar.refetchEvents();
+            }
         },
 
         buildFacets: function () {
@@ -565,6 +635,11 @@
                                         displayMenu: 'overlay',
                                         dropdownArrow: function (){return null},
                                         placeholder: placeHolder,
+                                        tNoResults: () => plugin.settings.i18n.noResults,
+                                        tStatusQueryTooShort: () => plugin.settings.i18n.statusQueryTooShort,
+                                        tStatusSelectedOption: () => plugin.settings.i18n.statusSelectedOption,
+                                        tAssistiveHint: () => plugin.settings.i18n.assistiveHint,
+                                        tSelectedOptionDescription: () => plugin.settings.i18n.selectedOptionDescription,
                                         selectElement: facetSelect[0],
                                         onConfirm: function (query) {
                                             let options = facetSelect[0].options
@@ -616,6 +691,8 @@
                 plugin.renderList(plugin.listTpl);
             } else if (plugin.container.find('a.view-selector.active').attr('href') === '#'+plugin.baseId+'geo' && plugin.hasMap) {
                 plugin.renderGeo();
+            } else if (plugin.container.find('a.view-selector.active').attr('href') === '#'+plugin.baseId+'agenda') {
+                plugin.renderCalendar();
             }
         }
 
