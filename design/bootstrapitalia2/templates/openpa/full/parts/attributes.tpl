@@ -70,7 +70,7 @@
                     {/if}
 
                     <div
-                      {if $item.wrap} class="card-wrapper card-column my-3" data-bs-toggle="masonry{/if}"
+                      {if $item.wrap} class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-column my-3" data-bs-toggle="masonry"{/if}
                       {if $item.data_element} data-element="{$item.data_element|wash()}"{/if}
                       {if $item.accordion} class="accordion cmp-accordion" id="accordion-{$object.id}"{/if}>
 

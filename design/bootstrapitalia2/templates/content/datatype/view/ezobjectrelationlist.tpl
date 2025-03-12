@@ -44,6 +44,7 @@
                 {node_view_gui
                     content_node=$child
                     view=card_teaser_info
+                    view_variation=cond($relation_has_wrapper, 'auto_width', false())
                     hide_title=$hide_title
                     attribute_index=sum($attribute_index, $index)
                     data_element=cond($attribute.object.class_identifier|eq('public_service'), 'service-area', false())
