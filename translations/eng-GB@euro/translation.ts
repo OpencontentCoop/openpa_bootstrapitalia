@@ -5,7 +5,7 @@
     <name>bootstrapitalia</name>
     <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
-      <translation>This site uses technical cookies, including analytics and third-party cookies.</translation>
+      <translation>This site uses technical, analytical and third-party cookies.</translation>
     </message>
     <message>
       <source>By continuing to browse, you accept the use of cookies.</source>
@@ -73,7 +73,7 @@
     </message>
     <message>
       <source>Send</source>
-      <translation>Submit</translation>
+      <translation>Send</translation>
     </message>
     <message>
       <source>Related contents</source>
@@ -93,7 +93,7 @@
     </message>
     <message>
       <source>Read more</source>
-      <translation>Learn more</translation>
+      <translation>Read more</translation>
     </message>
     <message>
       <source>Visit</source>
@@ -105,7 +105,7 @@
     </message>
     <message>
       <source>Explore topic</source>
-      <translation>Explore topic</translation>
+      <translation>Browse topic</translation>
     </message>
     <message>
       <source>Go to event calendar</source>
@@ -149,7 +149,7 @@
     </message>
     <message>
       <source>Last modified</source>
-      <translation>Last update</translation>
+      <translation>Last updated</translation>
     </message>
     <message>
       <source>Editor tools</source>
@@ -189,11 +189,11 @@
     </message>
     <message>
       <source>Access the personal area</source>
-      <translation>Login to personal area</translation>
+      <translation>Personal Area Login</translation>
     </message>
     <message>
       <source>Site editors access</source>
-      <translation>Site editors login</translation>
+      <translation>Site Editors Login</translation>
     </message>
     <message>
       <source>Logout</source>
@@ -233,11 +233,11 @@
     </message>
     <message>
       <source>Citizen's Guide</source>
-      <translation>Guide for the public</translation>
+      <translation>Citizen's Guide</translation>
     </message>
     <message>
       <source>Editor's Guide</source>
-      <translation>Guide for the editor</translation>
+      <translation>Editor's Guide</translation>
     </message>
     <message>
       <source>Note</source>
@@ -257,7 +257,7 @@
     </message>
     <message>
       <source>Request assistance</source>
-      <translation>Request support</translation>
+      <translation>Request assistance</translation>
     </message>
     <message>
       <source>Call the municipality</source>
@@ -269,7 +269,7 @@
     </message>
     <message>
       <source>Report a inefficiency</source>
-      <translation>Report a fault</translation>
+      <translation>Report an issue </translation>
     </message>
     <message>
       <source>Trouble in the city</source>
@@ -289,11 +289,11 @@
     </message>
     <message>
       <source>Public service sync tool</source>
-      <translation>Sync Service Card</translation>
+      <translation>Sync service listings</translation>
     </message>
     <message>
       <source>The whole administration</source>
-      <translation>Whole authority</translation>
+      <translation>Whole administration</translation>
     </message>
     <message>
       <source>contents found</source>
@@ -337,7 +337,7 @@
     </message>
     <message>
       <source>Object</source>
-      <translation>Subject</translation>
+      <translation>Object</translation>
     </message>
     <message>
       <source>Locations</source>
@@ -441,11 +441,11 @@
     </message>
     <message>
       <source>Personal Area</source>
-      <translation>Desk</translation>
+      <translation>Dashboard</translation>
     </message>
     <message>
       <source>Practices</source>
-      <translation>Requests</translation>
+      <translation>Applications</translation>
     </message>
     <message>
       <source>Attachments</source>
@@ -457,7 +457,7 @@
     </message>
     <message>
       <source>Subscriptions</source>
-      <translation>Registrations</translation>
+      <translation>Subscriptions</translation>
     </message>
     <message>
       <source>Payments</source>
@@ -493,7 +493,7 @@
     </message>
     <message>
       <source>Explore documents</source>
-      <translation>Explore documents</translation>
+      <translation>Browse documents</translation>
     </message>
     <message>
       <source>All documents and data</source>
@@ -529,7 +529,7 @@
     </message>
     <message>
       <source>Managing administrative and political roles</source>
-      <translation>Management of administrative and political roles</translation>
+      <translation>Manage administrative and political roles</translation>
     </message>
     <message>
       <source>Assignment title</source>
@@ -541,7 +541,7 @@
     </message>
     <message>
       <source>Filter by role assignment</source>
-      <translation>Filter by role title</translation>
+      <translation>Filter by assigned role</translation>
     </message>
     <message>
       <source>Set as private</source>
@@ -553,7 +553,7 @@
     </message>
     <message>
       <source>Discover the details of the event on</source>
-      <translation>See details of the event on</translation>
+      <translation>See the event's details on</translation>
     </message>
     <message>
       <source>Previous assignments</source>
@@ -561,7 +561,7 @@
     </message>
     <message>
       <source>Explore the section</source>
-      <translation>Explore the section</translation>
+      <translation>Browse the section</translation>
     </message>
     <message>
       <source>Active</source>
@@ -570,6 +570,30 @@
     <message>
       <source>Confirmed</source>
       <translation>Confirmed</translation>
+    </message>
+    <message>
+      <source>View all events</source>
+      <translation>View all events</translation>
+    </message>
+    <message>
+      <source>Calendar</source>
+      <translation>Calendar</translation>
+    </message>
+    <message>
+      <source>Select an item</source>
+      <translation>Select an item</translation>
+    </message>
+    <message>
+      <source>No results found</source>
+      <translation>No results found</translation>
+    </message>
+    <message>
+      <source>When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</source>
+      <translation>When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</translation>
+    </message>
+    <message>
+      <source>Press Enter or Space to remove selection</source>
+      <translation>Press Enter or Space to remove selection</translation>
     </message>
   </context>
   <context>
@@ -637,7 +661,7 @@
     </message>
     <message>
       <source>Referable to</source>
-      <translation>Reports to</translation>
+      <translation>Referable to</translation>
     </message>
     <message>
       <source>Classification</source>
@@ -664,7 +688,7 @@
     </message>
     <message>
       <source>Follow us</source>
-      <translation>Follow us on</translation>
+      <translation>Follow us</translation>
     </message>
     <message>
       <source>back to top</source>
@@ -684,7 +708,7 @@
     </message>
     <message>
       <source>Accessibility statement</source>
-      <translation>Accessibility Statement</translation>
+      <translation>Accessibility statement</translation>
     </message>
   </context>
   <context>
@@ -806,7 +830,7 @@
     </message>
     <message>
       <source>No results were found when searching for "%1".</source>
-      <translation>No result matched the search for "%1".</translation>
+      <translation>No results found for "%1".</translation>
     </message>
     <message>
       <source>Search tips</source>
@@ -814,7 +838,7 @@
     </message>
     <message>
       <source>Check spelling of keywords.</source>
-      <translation>Check the spelling of keywords.</translation>
+      <translation>Check keyword spelling.</translation>
     </message>
     <message>
       <source>Try changing some keywords (eg, "car" instead of "cars").</source>
@@ -830,11 +854,11 @@
     </message>
     <message>
       <source>Search for "%1" returned %2 matches</source>
-      <translation>Search for "%1" yielded %2 results</translation>
+      <translation>Your search for "%1" returned %2 results</translation>
     </message>
     <message>
       <source>Search returned %2 matches</source>
-      <translation>Your search yielded %2 results</translation>
+      <translation>Your search returned %2 results</translation>
     </message>
     <message>
       <source>For more options try the %1Advanced search%2</source>
@@ -1019,15 +1043,15 @@
     <name>add_place_gui</name>
     <message>
       <source>Fill some information about your place</source>
-      <translation>Fill in the location information</translation>
+      <translation>Fill in the place or venue information</translation>
     </message>
     <message>
       <source>Select place</source>
-      <translation>Select location</translation>
+      <translation>Select place or venue</translation>
     </message>
     <message>
       <source>Nowhere</source>
-      <translation>No location</translation>
+      <translation>No place or venue</translation>
     </message>
     <message>
       <source>Editor choice</source>
@@ -1039,7 +1063,7 @@
     </message>
     <message>
       <source>Your own</source>
-      <translation>Your locations</translation>
+      <translation>Your places</translation>
     </message>
     <message>
       <source>You can drag the marker on the map to select the location more precisely.</source>
@@ -1047,11 +1071,11 @@
     </message>
     <message>
       <source>Add this location to your places</source>
-      <translation>Add this position to your locations</translation>
+      <translation>Add this position to your places</translation>
     </message>
     <message>
       <source>There are places near the selected location registered in the system. Do you want to use one of these?</source>
-      <translation>There are other registered locations near the position you have selected – do you want to use one of these?</translation>
+      <translation>There are other places registered near the position you have selected – do you want to use one of these?</translation>
     </message>
     <message>
       <source>Continue with my location</source>
@@ -1102,7 +1126,7 @@
     </message>
     <message>
       <source>Collaborative content management</source>
-      <translation>Collaborative content management</translation>
+      <translation>Manage collaborative content</translation>
     </message>
   </context>
   <context>
@@ -1113,11 +1137,11 @@
     </message>
     <message>
       <source>User feedbacks</source>
-      <translation>User reports</translation>
+      <translation>Issues reported by users</translation>
     </message>
     <message>
       <source>Feedbacks count</source>
-      <translation>Total reports</translation>
+      <translation>Total issues reported</translation>
     </message>
     <message>
       <source>Is content useful?</source>
@@ -1129,7 +1153,7 @@
     </message>
     <message>
       <source>Feedback #%id</source>
-      <translation>Reporting #%id</translation>
+      <translation>Issue Report #%id</translation>
     </message>
     <message>
       <source>no</source>
@@ -1157,7 +1181,7 @@
     </message>
     <message>
       <source>There are inaccessible content</source>
-      <translation>Some of the content is inaccessible</translation>
+      <translation>Some of the content is not accessible</translation>
     </message>
     <message>
       <source>The contents are not relevant</source>
@@ -1217,11 +1241,11 @@
     </message>
     <message>
       <source>Submit</source>
-      <translation>Submit</translation>
+      <translation>Send</translation>
     </message>
     <message>
       <source>Reset</source>
-      <translation>Undo</translation>
+      <translation>Cancel</translation>
     </message>
     <message>
       <source>Document type</source>
@@ -1345,7 +1369,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Refuse all cookies and close</source>
-      <translation>Reject all cookies and close</translation>
+      <translation>Refuse all cookies and close</translation>
     </message>
     <message>
       <source>Affected solutions:</source>
@@ -1385,7 +1409,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Automatic embedding of multimedia contents</source>
-      <translation>Third-party cookies </translation>
+      <translation>Third-party cookies</translation>
     </message>
     <message>
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
@@ -1410,6 +1434,18 @@ They are essentially used to measure and improve the quality of sites by analysi
     <message>
       <source>Close</source>
       <translation>Close</translation>
+    </message>
+    <message>
+      <source>Accept third-party cookies to watch the video</source>
+      <translation>Accept third-party cookies to watch the video</translation>
+    </message>
+    <message>
+      <source>Accept for this video</source>
+      <translation>Accept for this video</translation>
+    </message>
+    <message>
+      <source>Accept for all videos</source>
+      <translation>Accept for all videos</translation>
     </message>
   </context>
   <context>
@@ -1455,18 +1491,18 @@ They are essentially used to measure and improve the quality of sites by analysi
     <name>bootstrapitalia/temp</name>
     <message>
       <source>Report a disservice</source>
-      <translation>Report a fault</translation>
+      <translation>Report an issue </translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/footer</name>
     <message>
       <source>Read the FAQ</source>
-      <translation>Read the FAQs</translation>
+      <translation>Read the FAQ</translation>
     </message>
     <message>
       <source>Request assistance</source>
-      <translation>Support request</translation>
+      <translation>Request assistance</translation>
     </message>
     <message>
       <source>Book an appointment</source>
@@ -1474,11 +1510,11 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Report a inefficiency</source>
-      <translation>Reporting a fault</translation>
+      <translation>Report an issue</translation>
     </message>
     <message>
       <source>Fill out the form</source>
-      <translation>Compile</translation>
+      <translation>Fill out the form</translation>
     </message>
     <message>
       <source>Make a payment</source>
@@ -1521,7 +1557,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Other types</source>
-      <translation>Other utilities</translation>
+      <translation>Other login types</translation>
     </message>
     <message>
       <source>Alternatively you can use the following methods.</source>
@@ -1703,7 +1739,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Back to service guide</source>
-      <translation>Back to service tab</translation>
+      <translation>Back to service listing</translation>
     </message>
     <message>
       <source>Back to homepage</source>
@@ -1735,7 +1771,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>INFORMATION REQUIRED</source>
-      <translation>INFORMATION REQUESTED</translation>
+      <translation>REQUIRED INFORMATION</translation>
     </message>
     <message>
       <source>The fields characterized by the asterisk symbol are mandatory</source>
@@ -1767,7 +1803,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Fiscal code</source>
-      <translation>Tax code</translation>
+      <translation>Tax Code</translation>
     </message>
     <message>
       <source>Enter your fiscal code</source>
@@ -1775,7 +1811,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Email</source>
-      <translation>E-mail address</translation>
+      <translation>Email</translation>
     </message>
     <message>
       <source>Enter a valid email</source>
@@ -1835,7 +1871,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Location</source>
-      <translation>Branch</translation>
+      <translation>Location</translation>
     </message>
     <message>
       <source>Reason</source>
@@ -1871,7 +1907,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Select a location</source>
-      <translation>Select a branch</translation>
+      <translation>Select a location</translation>
     </message>
     <message>
       <source>Warning</source>
@@ -1911,7 +1947,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Submit</source>
-      <translation>Submit</translation>
+      <translation>Send</translation>
     </message>
     <message>
       <source>Request saved successfully</source>
@@ -1939,7 +1975,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Permissions and conditions</source>
-      <translation>Permissions and terms</translation>
+      <translation>Authorisations and terms</translation>
     </message>
     <message>
       <source>Place</source>
@@ -2016,7 +2052,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Deny</source>
-      <translation>Decline</translation>
+      <translation>Deny</translation>
     </message>
     <message>
       <source>Pending</source>
@@ -2056,7 +2092,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Awaits approval by editor</source>
-      <translation>Pending moderator approval</translation>
+      <translation>Awaiting moderator approval</translation>
     </message>
     <message>
       <source>Awaits your approval</source>
@@ -2100,7 +2136,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Request for approval</source>
-      <translation>Approval required</translation>
+      <translation>Request for approval</translation>
     </message>
     <message>
       <source>The version has been approved</source>
