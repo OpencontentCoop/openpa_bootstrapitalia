@@ -66,3 +66,13 @@ mv _export /Users/lrealdi/git/AWS/openpa-saas-distribution/html/extension/openpa
 Eseguire un merge di  `bootstrap-italia/src/scss/bootstrap-italia.scss` e di  `design-comuni-pagine-statiche/src/stylesheets/styles.scss` 
 in `/Users/lrealdi/git/AWS/openpa-saas-distribution/html/extension/openpa_bootstrapitalia/design/bootstrapitalia2110/_build/src/scss/default.scss` 
 e verificare se ancora necessari gli override 
+
+Il plugin masonry.js è stato modificato per essere eseguito dopo che i font siano stati caricati, in modo da evitare problemi di spaziature
+
+```
+  document.fonts.ready.then(() => {
+    masonries.forEach((masonry) => {
+      Masonry.getOrCreateInstance(masonry)
+    })
+  });
+```
