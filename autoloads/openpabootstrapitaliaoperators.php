@@ -1666,6 +1666,7 @@ class OpenPABootstrapItaliaOperators
                             'is_grouped' => false,
                             'wrap' => false,
                             'evidence' => false,
+                            'accordion' => false,
                             'data_element' => false,
                         ];
                         $itemIndexCount++;
@@ -1702,6 +1703,7 @@ class OpenPABootstrapItaliaOperators
                             'is_grouped' => true,
                             'wrap' => $wrapped && count($attributes) > 1,
                             'evidence' => in_array($slug, $attributeGroups->attribute('evidence_list')),
+                            'accordion' => in_array($slug, $attributeGroups->attribute('accordion_list')),
                             'data_element' => $attributeGroups->attribute('translations')[$slug]['ita-PA'] ?? false,
                         ];
                         if (!in_array($slug, $hiddenList)) {
@@ -1730,6 +1732,7 @@ class OpenPABootstrapItaliaOperators
                             'is_grouped' => false,
                             'wrap' => false,
                             'evidence' => false,
+                            'accordion' => false,
                             'data_element' => false,
                         ];
                         $itemIndexCount++;
