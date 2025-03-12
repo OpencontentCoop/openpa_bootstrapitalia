@@ -4,7 +4,6 @@
         <div class="col-12 col-lg-8 offset-lg-1">
             <div class="steppers-content" aria-live="polite">
                 <div class="it-page-sections-container">
-
                     {if $how_to}
                         <section class="it-page-section" id="how-to">
                             <div class="cmp-card">
@@ -137,3 +136,22 @@
         </div>
     </div>
 </div>
+{literal}
+  <style>
+    .ec-header {
+      background: #fff;
+      border-bottom: 0;
+      border-left: 0;
+      border-top: 0;
+      border-right: 0;
+      padding-top: 30px;
+    }
+    .ec-body {
+      background: #fff;
+      border-left: 0;
+      border-bottom: 0;
+      border-right: 0;
+      padding-bottom: 20px;
+  }
+  </style>
+{/literal}
