@@ -15,7 +15,7 @@
 
 {if is_active_public_service($node)|not()}
     {if $node|has_attribute('status_note')}
-        <div class="alert alert-warning my-md-4 my-lg-4">
+        <div class="alert alert-warning my-md-4 my-lg-4 pb-0">
         {attribute_view_gui attribute=$node|attribute('status_note')}
         </div>
     {else}

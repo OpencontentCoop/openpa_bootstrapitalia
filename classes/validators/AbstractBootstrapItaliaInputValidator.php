@@ -222,4 +222,44 @@ abstract class AbstractBootstrapItaliaInputValidator implements BootstrapItaliaI
             $localeString
         );
     }
+
+    protected function hasInputData(
+        eZContentClassAttribute $contentClassAttribute,
+        eZContentObjectAttribute $contentObjectAttribute
+    ): bool {
+        switch ($contentClassAttribute->attribute('data_type_string')) {
+            case eZBinaryFileType::DATA_TYPE_STRING:
+                return $this->hasBinary($contentClassAttribute, $contentObjectAttribute);
+
+            case eZURLType::DATA_TYPE_STRING:
+                return $this->hasUrl($contentObjectAttribute);
+
+            case OCMultiBinaryType::DATA_TYPE_STRING:
+                return $this->hasMultiBinary($contentClassAttribute, $contentObjectAttribute);
+
+            case eZBooleanType::DATA_TYPE_STRING:
+                return $this->hasBoolean($contentObjectAttribute);
+
+            case eZStringType::DATA_TYPE_STRING:
+            case eZTextType::DATA_TYPE_STRING:
+            case eZXMLTextType::DATA_TYPE_STRING:
+                return $this->hasText($contentObjectAttribute);
+
+            case eZIntegerType::DATA_TYPE_STRING:
+                return $this->hasInt($contentObjectAttribute);
+
+            case eZObjectRelationListType::DATA_TYPE_STRING:
+                return $this->hasRelations($contentObjectAttribute);
+        }
+
+        eZDebug::writeError(
+            sprintf(
+                'Datatype %s of attribute %s is not handled by custom validator',
+                $contentClassAttribute->attribute('data_type_string'),
+                $contentClassAttribute->attribute('identifier')
+            ),
+            get_called_class()
+        );
+        return false;
+    }
 }

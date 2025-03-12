@@ -472,6 +472,10 @@
       <translation>Attiva/disattiva la navigazione</translation>
     </message>
     <message>
+      <source>View fullscreen</source>
+      <translation>Ingrandisci</translation>
+    </message>
+    <message>
       <source>hide navigation</source>
       <translation>nascondi la navigazione</translation>
     </message>
@@ -1319,10 +1323,6 @@ La preferenza può essere modificata in qualsiasi momento dall'Informativa cooki
       <translation>Accetta tutti i cookie</translation>
     </message>
     <message>
-      <source>Accept necessary cookies</source>
-      <translation>Accetta i cookie necessari</translation>
-    </message>
-    <message>
       <source>Refuse all cookies</source>
       <translation>Rifiuta tutti i cookie</translation>
     </message>
@@ -1346,10 +1346,6 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Accept all cookies and close</source>
       <translation>Accetta tutti i cookie e chiudi</translation>
-    </message>
-    <message>
-      <source>Accept necessary cookies and close</source>
-      <translation>Accetta i cookie necessari e chiudi</translation>
     </message>
     <message>
       <source>Refuse all cookies and close</source>
@@ -1392,18 +1388,6 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Cookie tecnici essenziali</translation>
     </message>
     <message>
-      <source>Always Enabled</source>
-      <translation>Sempre attivi</translation>
-    </message>
-    <message>
-      <source>Service | Services</source>
-      <translation>Servizio | Servizi</translation>
-    </message>
-    <message>
-      <source>Close</source>
-      <translation>Chiudi</translation>
-    </message>
-    <message>
       <source>They are necessary for the proper functioning of the site. They allow the browsing of the pages, the storage of a user's sessions (to keep them active while browsing). Without these cookies, the services for which users access the site could not be provided.</source>
       <translation>Sono necessari al corretto funzionamento del sito. Consentono la navigazione delle pagine e la memorizzazione delle sessioni di un utente (per mantenerle attive durante la navigazione). Senza questi cookie non potrebbero essere erogati i servizi e le funzionalità per cui gli utenti accedono al sito.</translation>
     </message>
@@ -1422,6 +1406,38 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
       <translation>I cookie di terze parti vengono utilizzati per analizzare le caratteristiche della navigazione dell’utente, per fornirgli servizi di visualizzazione di contenuti o di condivisione degli stessi e per creare profili in base al suo comportamento sul sito. Questo sito incorpora contenuti multimediali tramite provider di terze parti  (ad esempio YouTube o Facebok) utilizzando le specifiche oEmbed o widget di integrazione. Ciascun provider di contenuti potrebbe rilasciare cookie tecnici, analitici e di profilazione in base alle proprie impostazioni. Se questa impostazione è disabilitata i contenuti multimediali non saranno automaticamente incorporati nel sito e sarà invece esposto un link per poterli visualizzare direttamente alla fonte.</translation>
+    </message>
+    <message>
+      <source>Accept necessary cookies</source>
+      <translation>Accetta i cookie necessari</translation>
+    </message>
+    <message>
+      <source>Accept necessary cookies and close</source>
+      <translation>Accetta i cookie necessari e chiudi</translation>
+    </message>
+    <message>
+      <source>Always Enabled</source>
+      <translation>Sempre attivi</translation>
+    </message>
+    <message>
+      <source>Service | Services</source>
+      <translation>Servizio | Servizi</translation>
+    </message>
+    <message>
+      <source>Close</source>
+      <translation>Chiudi</translation>
+    </message>
+    <message>
+      <source>Accept third-party cookies to watch the video</source>
+      <translation>Accetta i cookie di terze parti per vedere il video.</translation>
+    </message>
+    <message>
+      <source>Accept for this video</source>
+      <translation>Accetta per questo video</translation>
+    </message>
+    <message>
+      <source>Accept for all videos</source>
+      <translation>Accetta per tutti i video</translation>
     </message>
   </context>
   <context>

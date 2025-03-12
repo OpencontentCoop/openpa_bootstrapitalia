@@ -28,9 +28,6 @@
                 </div>
             </div>
         </div>
-        {if $node|has_attribute('image')|not()}
-        <hr class="d-none d-lg-block mt-2">
-        {/if}
     </div>
 </div>
 
@@ -38,7 +35,7 @@
 {include uri='design:openpa/full/parts/main_image.tpl'}
 
 <div class="container my-3">
-{include uri='design:openpa/full/parts/attributes_alt.tpl' object=$node.object}
+{include uri='design:openpa/full/parts/attributes.tpl' object=$node.object}
 </div>
 
 {if $openpa['content_tree_related'].full.exclude|not()}

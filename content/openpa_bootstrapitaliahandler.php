@@ -60,22 +60,22 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                 $fromLanguage,
                 $validationParameters,
                 $base
-            ) as $validator
+            ) as $validatorName => $validator
         ) {
             $violation = $validator->validate();
             if (!empty($violation)) {
                 $result['is_valid'] = false;
                 if (isset($violation['items'])) {
                     foreach ($violation['items'] as $item) {
-                        eZDebug::writeDebug(get_class($validator) . ' KO: ' . $item['text'], __METHOD__);
+                        eZDebug::writeDebug($validatorName . ' KO: ' . $item['text'], __METHOD__);
                         $result['warnings'][] = $item;
                     }
                 } else {
-                    eZDebug::writeDebug(get_class($validator) . ' KO: ' . $violation['text'], __METHOD__);
+                    eZDebug::writeDebug($validatorName . ' KO: ' . $violation['text'], __METHOD__);
                     $result['warnings'][] = $violation;
                 }
             } else {
-                eZDebug::writeDebug(get_class($validator) . ' OK', __METHOD__);
+                eZDebug::writeDebug($validatorName . ' OK', __METHOD__);
             }
         }
 
@@ -101,9 +101,15 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
         if ($this->validators === null) {
             $this->validators = [];
             $validatorClassNames = OpenPAINI::variable('AttributeHandlers', 'InputValidators', []);
-            foreach ($validatorClassNames as $validatorClassName) {
+            foreach ($validatorClassNames as $validatorClassNameAndParameters) {
+                if (strpos($validatorClassNameAndParameters, ':') !== false) {
+                    [$validatorClassName, $validatorParameters] = explode(':', $validatorClassNameAndParameters);
+                }else{
+                    $validatorClassName = $validatorClassNameAndParameters;
+                    $validatorParameters = null;
+                }
                 if (class_exists($validatorClassName)) {
-                    $validator = new $validatorClassName();
+                    $validator = $validatorParameters ? new $validatorClassName($validatorParameters) : new $validatorClassName();
                     if ($validator instanceof BootstrapItaliaInputValidatorInterface) {
                         $validator->initValidator(
                             $http,
@@ -118,12 +124,12 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                             $validationParameters,
                             $baseString
                         );
-                        $this->validators[] = $validator;
+                        $this->validators[$validatorClassNameAndParameters] = $validator;
                     } else {
                         eZDebug::writeError(
                             sprintf(
                                 'Registered validator %s does not implements BootstrapItaliaInputValidatorInterface interface',
-                                $validatorClassName
+                                $validatorClassNameAndParameters
                             )
                         );
                     }
@@ -131,7 +137,7 @@ class openpa_bootstrapitaliaHandler extends eZContentObjectEditHandler
                     eZDebug::writeError(
                         sprintf(
                             'Registered validator %s class not found',
-                            $validatorClassName
+                            $validatorClassNameAndParameters
                         )
                     );
                 }

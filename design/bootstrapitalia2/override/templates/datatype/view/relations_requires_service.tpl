@@ -32,11 +32,10 @@
                 {set $processing_time = $child|attribute('has_processing_time').content}
             {/if}
             <div class="calendar-date">
-
-                <div class="calendar-date-day {if $day}warning{else}info{/if}">
+                <div class="calendar-date-day">
                     {if $day}
                         <small class="calendar-date-day__year">{$year}</small>
-                        <span class="title-xxlarge-regular d-flex justify-content-center lh-1">{$days}</span>
+                        <span class="title-xxlarge-regular d-flex justify-content-center lh-1">{$day}</span>
                         <small class="calendar-date-day__month text-lowercase">{$month}</small>
                     {elseif $processing_time}
                         <span class="title-xxlarge-regular d-flex justify-content-center lh-1">{$processing_time}</span>
