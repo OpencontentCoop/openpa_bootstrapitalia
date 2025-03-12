@@ -20,15 +20,6 @@
     $trueCount = 0
     $multipleViewsEnabled = false()}
 
-{def $background_image = false()}
-{if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
-    {def $image = fetch(content, node, hash(node_id, $block.custom_attributes.image))}
-    {if and($image, $image.class_identifier|eq('image'), $image|has_attribute('image'))}
-        {set $background_image = $image|attribute('image').content.original.full_path|ezroot(no)}
-    {/if}
-    {undef $image}
-{/if}
-
 {foreach $showArray as $showItem}
   {if $showItem}
       {set $trueCount = $trueCount|inc()}
@@ -40,10 +31,9 @@
 
 {if or($showGrid, $showMap, $showAgenda)}
 <div class="{$wrapper_class} remote-gui-wrapper"{cond(and(is_set($block.custom_attributes.hide_if_empty), $block.custom_attributes.hide_if_empty|ne('')), ' style="display:none"', '  ')}>
-    <div class="block-topics-bg" {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}{/if}></div>
     <div class="{$container_class}">
 
-        {include uri='design:parts/block_name.tpl' css_class=cond($background_image, 'text-white bg-dark d-inline-block px-2 rounded', '')}
+        {include uri='design:parts/block_name.tpl'}
 
         <div class="row" id="remote-gui-{$block.id}">
             {if $facets|count()}
