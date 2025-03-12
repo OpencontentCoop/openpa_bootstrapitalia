@@ -1311,7 +1311,7 @@
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
       <translation>Questo sito fa uso di cookie tecnici essenziali al corretto funzionamento delle pagine web, di cookie di analisi e misurazione e di cookie di terze parti. 
 Selezionando "Accetta tutti i cookie" si acconsente all'utilizzo di tutti i cookie. 
-Selezionando "Rifiuta tutti i cookie" o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità ed alcuni contenuti potrebbero non essere disponibili. 
+Selezionando "Accetta i cookie necessari" o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità ed alcuni contenuti potrebbero non essere disponibili. 
 La preferenza può essere modificata in qualsiasi momento dall'Informativa cookie.</translation>
     </message>
     <message>
@@ -1337,7 +1337,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>Cookie settings</source>
-      <translation>Personalizza i cookie</translation>
+      <translation>Gestisci le preferenze dei cookie</translation>
     </message>
     <message>
       <source>Save current settings</source>
@@ -1374,6 +1374,18 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>The embedding of multimedia content is not enabled by respecting your cookie preferences.</source>
       <translation>Nel rispetto delle tue preferenze sui cookie, l'incorporamento automatico dei contenuti multimediali è disattivato</translation>
+    </message>
+    <message>
+      <source>Accept third-party cookies to watch the video</source>
+      <translation>Accetta i cookie di terze parti per vedere il video.</translation>
+    </message>
+    <message>
+      <source>Accept for this video</source>
+      <translation>Accetta per questo video</translation>
+    </message>
+    <message>
+      <source>Accept for all videos</source>
+      <translation>Accetta per tutti i video</translation>
     </message>
     <message>
       <source>Strictly Necessary Cookies</source>

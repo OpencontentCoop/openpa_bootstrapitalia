@@ -1372,6 +1372,18 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Accept third-party cookies to watch the video</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Accept for this video</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Accept for all videos</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Strictly Necessary Cookies</source>
       <translation type="unfinished"/>
     </message>

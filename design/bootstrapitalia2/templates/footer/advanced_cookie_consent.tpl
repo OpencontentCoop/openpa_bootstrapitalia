@@ -6,6 +6,24 @@
   var CookieConsentSettings = {/literal}{cookie_consent_config_translations()}{literal}
   var showIframes = function(){
     console.log('showIframes')
+    bootstrap.cookies.rememberChoice('multimedia', true)
+
+    const initializeAllVideos = function (){
+      const videoEls = document.querySelectorAll("[data-video-url]");
+      videoEls.forEach(videoEl => {
+        const video = bootstrap.VideoPlayer.getOrCreateInstance(videoEl);
+        const videoUrl = videoEl.getAttribute("data-video-url");
+        video.setYouTubeVideo(videoUrl);
+      })
+
+      const overlayEls = document.querySelectorAll(".acceptoverlayable");
+      overlayEls.forEach(overlayEl => {
+        overlayEl.classList.remove("show");
+        overlayEl.querySelector(".acceptoverlay").setAttribute('aria-hidden', true);
+      })
+    }
+    initializeAllVideos();
+
     var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
     for (var iframesTag of iframesTags) {
       iframesTag.setAttribute('src', iframesTag.getAttribute('data-src'));
@@ -17,6 +35,7 @@
   }
   var hideIframes = function(){
     console.log('hideIframes')
+    bootstrap.cookies.rememberChoice('multimedia', false)
     var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
     for (var iframesTag of iframesTags) {
       iframesTag.setAttribute('src', iframesTag.getAttribute('data-preview'));
@@ -206,6 +225,17 @@
     #cc-main .cm,
     #cc-main .pm {
       border: 1px solid var(--cc-separator-border-color);
+    }
+
+    #cc-main .cm:before {
+      content: " ";
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 5px;
+      z-index: 1;
+      background-color: var(--cc-bg);
     }
     
     #cc-main .pm__title {
