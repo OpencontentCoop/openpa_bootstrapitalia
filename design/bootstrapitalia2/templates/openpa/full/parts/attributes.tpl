@@ -5,10 +5,14 @@
 {/if}
 
 {def $summary = parse_attribute_groups($object, $show_all_attributes)}
+{def $show_fullwidth = false()}
+{set $show_fullwidth = cond(and($object|has_attribute('show_fullwidth'), $object|attribute('show_fullwidth').data_int|eq(1) ), true(), false())}
+
+{def $show_index = and($summary.show_index, $show_fullwidth|not())}
 
 {if $summary.has_items}
-    <div class="row{if $summary.show_index} border-top border-light row-column-border row-column-menu-left{/if} attribute-list">
-        {if $summary.show_index}
+    <div class="row{if $show_index} border-top border-light row-column-border row-column-menu-left{/if} attribute-list">
+        {if $show_index}
         <aside class="col-lg-4">
             <div class="cmp-navscroll sticky-top" aria-labelledby="accordion-title-one" data-bs-toggle="sticky" data-bs-stackable="true">
                 <nav class="navbar it-navscroll-wrapper navbar-expand-lg" data-bs-navscroll="">
@@ -57,7 +61,7 @@
         </aside>
         {/if}
 
-        <section class="col-12 col-lg-8 {if $summary.show_index}border-light {else}px-lg-4 mb-5 {/if}it-page-sections-container">
+        <section class="col-12 {if $show_fullwidth|not()}col-lg-8{/if} {if $show_index}border-light {else}px-lg-4 mb-5 {/if}it-page-sections-container">
             {foreach $summary.items as $index => $item}
                 <article id="{$item.slug|wash()}" class="it-page-section anchor-offset">
                   {if $item.evidence} 
