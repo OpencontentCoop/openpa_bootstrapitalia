@@ -171,7 +171,6 @@
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio"
-                                   name="flexRadioDefault"
                                    name="ContentObjectAttribute_ezpage_block_custom_attribute_{$attribute.id}[{$zone_id}][{$block_id}][show_all_link]"
                                    {if and(is_set($block.custom_attributes[show_all_link]), $block.custom_attributes[show_all_link]|eq('1'))}checked="checked"{/if} value="1"
                                    id="block-custom_attribute-{$block_id}-19791023-1">
