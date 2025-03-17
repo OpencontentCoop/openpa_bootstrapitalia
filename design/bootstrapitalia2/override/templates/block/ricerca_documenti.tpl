@@ -25,6 +25,8 @@
 	{/if}
 {/foreach}
 
+{def $project_class = fetch(content, class, hash('class_id', 'public_project'))}
+
 {def $root_tags = $block.custom_attributes.root_tag|explode(',')}
 {def $hide_tag_select = cond(and(is_set($block.custom_attributes.hide_tag_select), $block.custom_attributes.hide_tag_select|eq('1')), true(), false())}
 {def $topics_filter = cond(and(is_set($block.custom_attributes.topic_node_id), $block.custom_attributes.topic_node_id|ne('')), $block.custom_attributes.topic_node_id|wash(), false())}
@@ -59,7 +61,8 @@
 	 data-hide_first_level="{cond($block.custom_attributes.hide_first_level, 'true', 'false')}"
 	 data-start_identifier="{$start_date|wash()}"
 	 data-end_identifier="{$end_date|wash()}"
-	 data-number_identifier="{$number|wash()}">
+	 data-number_identifier="{$number|wash()}"
+	 data-with-project="{cond($project_class,1,0)}">
 
 	<form class="row">
 	    <section class="{if $show_filters}col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2">
@@ -265,7 +268,7 @@
 		{{if currentPage == 0}}
 			<p class="mb-4 results-count" role="status">{{:documentsFound}}</p>
 		{{/if}}
-		{{for searchHits}}
+		{{for searchHits}}		
 		<div class="cmp-card-latest-messages mb-3 mb-30">
 			<div class="card shadow-sm px-4 pt-4 pb-4 rounded">
 				<span class="visually-hidden">{/literal}{'Date'|i18n('bootstrapitalia/documents')}{literal}:</span>
@@ -340,6 +343,8 @@ $(document).ready(function () {
 		var startIdentifier = container.data('start_identifier');
 		var endIdentifier = container.data('end_identifier');
 		var numberIdentifier = container.data('number_identifier');
+		var hasProjectClass = container.data('with-project');
+		
 
 		if (hideFirstLevel){
 			container.find('[data-level="1"]').each(function(){
@@ -386,13 +391,16 @@ $(document).ready(function () {
 			});
 		}
 
-	    var buildQuery = function(){
-			var query = 'classes [document] subtree [' + subtree + '] facets [raw[subattr_document_type___tag_ids____si],raw[subattr_'+startIdentifier+'___year____dt]]';
+	    var buildQuery = function(){	    	
+	    	var baseQueryClasses = hasProjectClass ? 'document,dataset,public_project' : 'document,dataset';
+			var query = 'classes ['+baseQueryClasses+'] subtree [' + subtree + '] facets [raw[subattr_document_type___tag_ids____si],raw[subattr_'+startIdentifier+'___year____dt],raw[meta_class_name_ms]]';
 			if (showOnlyPublication){
 				query += ' and (calendar['+startIdentifier+','+endIdentifier+'] = [yesterday,now] or ('+startIdentifier+' range [*,now] and '+endIdentifier+' !range [*,*]))';
 			}
 			if (rootTagIdList !== ''){
-				query += " and raw[subattr_document_type___tag_ids____si] in [" + rootTagIdList + "]";
+				query += hasProjectClass ? 
+					" and ( (class in [document] and raw[subattr_document_type___tag_ids____si] in [" + rootTagIdList + "] ) or (class in [dataset,public_project]) )"
+					: " and ( (class in [document] and raw[subattr_document_type___tag_ids____si] in [" + rootTagIdList + "] ) or (class in [dataset]) )";
 			}
 			if (container.find('[data-search="q"]').length > 0) {
 				var searchText = container.find('[data-search="q"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
@@ -410,33 +418,50 @@ $(document).ready(function () {
 			if (container.find('[data-search="has_organization"]').length > 0) {
 				var officeFilter = container.find('[data-search="has_organization"]').val();
 				if (officeFilter && officeFilter.length > 0) {
-					query += " and has_organization.id in [" + officeFilter + "]";
+					query += hasProjectClass ? 
+					" and ( (class in [document] and has_organization.id in [" + officeFilter + "]) or (class in [dataset] and rights_holder.id in [" + officeFilter + "])  or (class in [public_project] and holds_role_in_time.id in [" + officeFilter + "]) )"
+					: " and ( (class in [document] and has_organization.id in [" + officeFilter + "]) or (class in [dataset] and rights_holder.id in [" + officeFilter + "]) )";
 				}
-			}
-			if (container.find('[data-search="area"]').length > 0) {
-				var areaFilter = container.find('[data-search="area"]').val();
-				if (areaFilter && areaFilter.length > 0) {
-					query += " and area.id in [" + areaFilter + "]";
-				}
-			}
+			}			
 			if (container.find('[data-search="has_code"]').length > 0) {
 				var hasCodeFilter = container.find('[data-search="has_code"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
 				if (hasCodeFilter.length > 0) {
-					query += ' and raw[attr_'+numberIdentifier+'_t] = \'"' + hasCodeFilter + '"\'';
+					query += ' and (';
+					query += ' (raw[attr_'+numberIdentifier+'_t] = \'"' + hasCodeFilter + '"\')';
+					query += ' or ';
+					query += ' (identifier = \'"' + hasCodeFilter + '"\')';
+					query += ' ) ';
 				}
 			}
 			if (container.find('[data-search="year"]').length > 0) {
 				var yearFilter = container.find('[data-search="year"]').val();
 				if (yearFilter.length > 0) {
 					var dateFilter = moment(yearFilter, "YYYY");
-					query += ' and calendar['+startIdentifier+','+endIdentifier+'] = [' + dateFilter.dayOfYear(1).set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ','
-							+ dateFilter.dayOfYear(365).set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + ']';
+					query += ' and (';
+					query += ' (class in [document] and calendar['+startIdentifier+','+endIdentifier+'] = [' + dateFilter.dayOfYear(1).set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ','
+							+ dateFilter.dayOfYear(365).set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + '])';
+					query += ' or ';
+					query += ' (class in [dataset] and issued range [' + dateFilter.dayOfYear(1).set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ','
+							+ dateFilter.dayOfYear(365).set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + '])';
+					if (hasProjectClass){
+						query += ' or ';
+						query += ' (class in [public_project] and raw[attr_published_dt] range ["' + dateFilter.dayOfYear(1).set('hour', 0).set('minute', 0).toISOString() + '","'
+								+ dateFilter.dayOfYear(365).set('hour', 23).set('minute', 59).toISOString() + '"])';
+					}
+					query += ' ) ';
 				}
 			}
 			if (dateRange.length > 0 && dateRange.val().length > 0){
 				var picker = dateRange.data('daterangepicker');
-				query += ' and calendar['+startIdentifier+','+endIdentifier+'] = [' + picker.startDate.format('YYYY-MM-DD') + ' 00:00,'
-						+ picker.endDate.format('YYYY-MM-DD') + ' 23:59]';
+				query += ' and (';
+				query += ' (class in [document] and  calendar['+startIdentifier+','+endIdentifier+'] = [' + picker.startDate.format('YYYY-MM-DD') + ' 00:00,' + picker.endDate.format('YYYY-MM-DD') + ' 23:59] )';
+				query += ' or ';
+				query += ' (class in [dataset] and issued range [' + picker.startDate.format('YYYY-MM-DD') + ' 00:00,' + picker.endDate.format('YYYY-MM-DD') + ' 23:59] )';
+				if (hasProjectClass){
+					query += ' or ';
+					query += ' (class in [public_project] and raw[attr_published_dt] range ["' + picker.startDate.toISOString() + '","' + picker.endDate.toISOString() + '"] )';
+				}
+				query += ' ) ';
 			}
 			if (topics.length > 0){
 				query += ' and raw[submeta_topics___main_node_id____si] in ['+topics+']';
@@ -451,7 +476,8 @@ $(document).ready(function () {
 				sort += ',raw[extra_has_code_sl]=>desc';
 			}else {
 				sort += ',' + numberIdentifier + '=>desc';
-			}
+			}			
+			sort += ',raw[attr_published_dt]=>desc,published=>desc';
 			sort += ']';
 			query += sort;
 			
