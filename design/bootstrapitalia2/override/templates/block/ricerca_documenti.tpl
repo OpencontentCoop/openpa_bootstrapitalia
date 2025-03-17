@@ -502,7 +502,7 @@ $(document).ready(function () {
 						});
 					}
 				});
-				isLoadedFacetsCount = true;
+				//isLoadedFacetsCount = true;
 				if (yearList.length > 0){
 					yearList.sort();
 					var dataListContent = $('<datalist id="years"></datalist>');
