@@ -1252,6 +1252,10 @@
       <translation>Annulla</translation>
     </message>
     <message>
+      <source>Remove filters</source>
+      <translation>Rimuovi filtri</translation>
+    </message>
+    <message>
       <source>Document type</source>
       <translation>Tipo di documento</translation>
     </message>
@@ -1266,6 +1270,22 @@
     <message>
       <source>No documents were found</source>
       <translation>Nessun documento trovato</translation>
+    </message>
+    <message>
+      <source>No results were found</source>
+      <translation>Nessun risultato</translation>
+    </message>
+    <message>
+      <source>Documents results</source>
+      <translation>documenti</translation>
+    </message>
+    <message>
+      <source>Dataset results</source>
+      <translation>dataset</translation>
+    </message>
+    <message>
+      <source>Projects results</source>
+      <translation>progetti</translation>
     </message>
     <message>
       <source>Questioners</source>

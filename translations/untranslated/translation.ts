@@ -1252,6 +1252,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Remove filters</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Document type</source>
       <translation type="unfinished"/>
     </message>
@@ -1265,6 +1269,22 @@
     </message>
     <message>
       <source>No documents were found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Documents results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Dataset results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Projects results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>No results were found</source>
       <translation type="unfinished"/>
     </message>
     <message>
