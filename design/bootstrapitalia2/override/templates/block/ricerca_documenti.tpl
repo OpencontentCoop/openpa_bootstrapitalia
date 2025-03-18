@@ -86,19 +86,18 @@
 
 		{if $show_filters}
 			<div class="col-12 col-lg-4 ps-lg-5 order-first order-md-last">
-
-				<div class="accordion">
+				<div class="accordion cmp-accordion">
 					{if $hide_tag_select|not()}
 					<div class="accordion-item bg-none{if $hide_tag_select} d-none{/if}">
-						  <span class="accordion-header" id="collapseTagList-{$block.id}-title">
-							<button class="accordion-button pb-10 px-3 text-uppercase text-decoration-none" type="button"
+						<h2 class="accordion-header" id="collapseTagList-{$block.id}-title">
+							<button class="accordion-button px-2 text-uppercase text-decoration-none" type="button"
 									data-bs-toggle="collapse" href="#collapseTagList-{$block.id}" role="button" aria-expanded="true" aria-controls="collapseTagList-{$block.id}"
 									data-focus-mouse="false">
 								{'Document type'|i18n('bootstrapitalia/documents')}
 							</button>
-						  </span>
+						</h2>
 						<div id="collapseTagList-{$block.id}" class="accordion-collapse collapse show" role="region" aria-labelledby="collapseTagList-{$block.id}-title">
-							<div class="accordion-body">
+							<div class="accordion-body pb-4">
 								<ul class="link-list">
 									{foreach $root_tag_list as $root_index => $tag_tree}
 										{if is_set($tag_tree.children)}
@@ -136,15 +135,15 @@
 
 					{if $filters|contains('number')}
 					<div class="accordion-item bg-none">
-						  <span class="accordion-header" id="collapseNumber-{$block.id}-title">
-							<button class="accordion-button collapsed pb-10 px-3 text-uppercase text-decoration-none" type="button"
+						<h2 class="accordion-header" id="collapseNumber-{$block.id}-title">
+							<button class="accordion-button collapsed px-2 text-uppercase" type="button"
 									data-bs-toggle="collapse" href="#collapseNumber-{$block.id}" role="button" aria-expanded="false" aria-controls="collapseNumber-{$block.id}"
 									data-focus-mouse="false">
 								{'Document number'|i18n('bootstrapitalia/documents')}
 							</button>
-						  </span>
+						</h2>
 						<div id="collapseNumber-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseNumber-{$block.id}-title">
-							<div class="accordion-body">
+							<div class="accordion-body pb-4">
 								<label for="searchFormNumber-{$block.id}" class="visually-hidden">{'Document number'|i18n('bootstrapitalia/documents')}</label>
 								<input type="text" autocomplete="off" class="form-control form-control-sm" id="searchFormNumber-{$block.id}" data-search="has_code" placeholder="{'Document number'|i18n('bootstrapitalia/documents')}">
 							</div>
@@ -154,15 +153,15 @@
 
 					{if $filters|contains('year')}
 						<div class="accordion-item bg-none">
-						  <span class="accordion-header" id="collapseYear-{$block.id}-title">
-							<button class="accordion-button collapsed pb-10 px-3 text-uppercase text-decoration-none" type="button"
+						  <h2 class="accordion-header" id="collapseYear-{$block.id}-title">
+							<button class="accordion-button collapsed px-2 text-uppercase" type="button"
 									data-bs-toggle="collapse" href="#collapseYear-{$block.id}" role="button" aria-expanded="false" aria-controls="collapseYear-{$block.id}"
 									data-focus-mouse="false">
 								{'Year'|i18n('openpa/search')}
 							</button>
-						  </span>
+						  </h2>
 							<div id="collapseYear-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseYear-{$block.id}-title">
-								<div class="accordion-body">
+								<div class="accordion-body pb-4">
 									<label for="searchFormYear-{$block.id}" class="visually-hidden">{'Year'|i18n('openpa/search')}</label>
 									<input type="text" size="4" autocomplete="off" class="form-control form-control-sm" id="searchFormYear-{$block.id}" data-search="year" placeholder="{'Year'|i18n('openpa/search')}">
 								</div>
@@ -172,15 +171,15 @@
 
 					{if $filters|contains('daterange')}
 						<div class="accordion-item bg-none">
-						  <span class="accordion-header" id="collapseDate-{$block.id}-title">
-							<button class="accordion-button collapsed pb-10 px-3 text-uppercase text-decoration-none" type="button"
+						  <h2 class="accordion-header" id="collapseDate-{$block.id}-title">
+							<button class="accordion-button collapsed px-2 text-uppercase" type="button"
 									data-bs-toggle="collapse" href="#collapseDate-{$block.id}" role="button" aria-expanded="false" aria-controls="collapseDate-{$block.id}"
 									data-focus-mouse="false">
 								{'Date'|i18n('bootstrapitalia/documents')}
 							</button>
-						  </span>
+						  </h2>
 							<div id="collapseDate-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseDate-{$block.id}-title">
-								<div class="accordion-body">
+								<div class="accordion-body pb-4">
 									<label for="searchFormDate-{$block.id}" class="visually-hidden"><small>{'Date'|i18n('bootstrapitalia/documents')}</small></label>
 									<input type="text" class="form-control form-control-sm" id="searchFormDate-{$block.id}" data-search="daterange" placeholder="{'Date'|i18n('bootstrapitalia/documents')}">
 								</div>
@@ -190,15 +189,15 @@
 
 					{if and($filters|contains('has_organization'), $office_count|gt(0))}
 						<div class="accordion-item bg-none">
-						  <span class="accordion-header" id="collapseOffice-{$block.id}-title">
-							<button class="accordion-button collapsed pb-10 px-3 text-uppercase text-decoration-none" type="button"
+						  <h2 class="accordion-header" id="collapseOffice-{$block.id}-title">
+							<button class="accordion-button collapsed px-2 text-uppercase" type="button"
 									data-bs-toggle="collapse" href="#collapseOffice-{$block.id}" role="button" aria-expanded="false" aria-controls="collapseOffice-{$block.id}"
 									data-focus-mouse="false">
 								{'Office'|i18n('bootstrapitalia/documents')}
 							</button>
-						  </span>
+						  </h2>
 							<div id="collapseOffice-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseOffice-{$block.id}-title">
-								<div class="accordion-body">
+								<div class="accordion-body pb-4">
 									<label for="searchFormOffice-{$block.id}" class="visually-hidden"><small>{'Office'|i18n('bootstrapitalia/documents')}</small></label>
 									<select class="form-control border-bottom" id="searchFormOffice-{$block.id}" data-search="has_organization">
 										<option value=""></option>
@@ -217,15 +216,15 @@
 
 					{if and($filters|contains('topics'), $topics_filter|not())}
 						<div class="accordion-item bg-none">
-						  <span class="accordion-header" id="collapseTopic-{$block.id}-title">
-							<button class="accordion-button collapsed pb-10 px-3 text-uppercase text-decoration-none" type="button"
+						  <h2 class="accordion-header" id="collapseTopic-{$block.id}-title">
+							<button class="accordion-button collapsed px-2 text-uppercase" type="button"
 									data-bs-toggle="collapse" href="#collapseTopic-{$block.id}" role="button" aria-expanded="false" aria-controls="collapseTopic-{$block.id}"
 									data-focus-mouse="false">
 								{'Topics'|i18n('bootstrapitalia')}
 							</button>
-						  </span>
+						  </h2>
 							<div id="collapseTopic-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseTopic-{$block.id}-title">
-								<div class="accordion-body">
+								<div class="accordion-body pb-4">
 									<label for="searchFormTopic-{$block.id}" class="visually-hidden"><small>{'Topics'|i18n('bootstrapitalia')}</small></label>
 									<select class="form-control border-bottom" id="searchFormTopic-{$block.id}" data-search="topic">
 										<option value=""></option>
