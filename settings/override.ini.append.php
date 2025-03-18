@@ -30,6 +30,13 @@ Match[class_identifier]=image
 ############################################ DATATYPE VIEW
 ############################################
 
+[datatype_view_event_related_events]
+Source=content/datatype/view/openpareverserelationlist.tpl
+MatchFile=datatype/view/reverse_relations_event_related_events.tpl
+Subdir=templates
+Match[class_identifier]=event
+Match[attribute_identifier]=related_event
+
 [datatype_view_organization_related_documents]
 Source=content/datatype/view/openpareverserelationlist.tpl
 MatchFile=datatype/view/reverse_relations_organization_related_documents.tpl
