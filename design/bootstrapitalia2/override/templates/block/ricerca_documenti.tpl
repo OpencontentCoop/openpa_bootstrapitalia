@@ -277,14 +277,27 @@
 		<div class="cmp-card-latest-messages mb-3 mb-30">
 			<div class="card shadow-sm px-4 pt-4 pb-4 rounded">
 				<span class="visually-hidden">{/literal}{'Date'|i18n('bootstrapitalia/documents')}{literal}:</span>
-				<div class="card-header border-0 p-0">
-					<span class="text-decoration-none title-xsmall-bold mb-2 category text-uppercase">
-						{{if ~i18n(data,startIdentifier) && ~i18n(data,endIdentifier) && !hideEndTime}}
-							{/literal}{'From'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,startIdentifier), dateFormat)}}
-							{/literal}{'to'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,endIdentifier), dateFormat)}}
-						{{else}}
-							{{:~formatDate(~i18n(data,startIdentifier), dateFormat)}}
-						{{/if}}
+				<div class="card-body border-0 p-0">
+					<span class="text-decoration-none mb-2 category-top text-uppercase">
+            {{:~i18n(metadata.classDefinition.name)}}
+            <span class="data">
+              {{if ~i18n(data,startIdentifier) && ~i18n(data,endIdentifier) && !hideEndTime}}
+                {/literal}{'From'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,startIdentifier), dateFormat)}}
+                {/literal}{'to'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,endIdentifier), dateFormat)}}
+              {{else}}
+                {{if ~i18n(data,startIdentifier)}}
+                  {{:~formatDate(~i18n(data,startIdentifier), dateFormat)}}
+                {{else}}
+                  {{if ~i18n(data, 'issued')}}
+                    {{:~formatDate(~i18n(data, 'issued'), dateFormat)}}
+                  {{else}}
+                    {{if ~i18n(data, 'published')}}
+                      {{:~formatDate(~i18n(data, 'published'), dateFormat)}}
+                    {{/if}}
+                  {{/if}}
+                {{/if}}
+              {{/if}}
+            </span>
 					</span>
 				</div>
 				<div class="card-body p-0 my-2">
