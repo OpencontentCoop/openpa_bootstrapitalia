@@ -267,11 +267,11 @@
 <script id="tpl-document-results" type="text/x-jsrender">    		
 	{{if totalCount == 0}}
 		<div class="row mb-2">
-			<div class="col" role="status"><em>{/literal}{'No documents were found'|i18n('bootstrapitalia/documents')}{literal}</em></div>
+			<div class="col" role="status">{/literal}{'No results were found'|i18n('bootstrapitalia/documents')}{literal}</div>
 		</div>
 	{{else}}
 		{{if currentPage == 0}}
-			<p class="mb-4 results-count" role="status">{{:documentsFound}}</p>
+			<div class="mb-4 results-count" role="status">{{:resultsFound}}</div>
 		{{/if}}
 		{{for searchHits}}		
 		<div class="cmp-card-latest-messages mb-3 mb-30">
@@ -325,7 +325,12 @@ $(document).ready(function () {
 		}
 	}));
 	$('[data-block_document_subtree]').each(function(){
-        var documentsFound = '{/literal}{'%count documents found'|i18n('bootstrapitalia/documents')}{/literal}';
+    var resultsFound = '';
+    const resultsLabels = {
+      document: '{/literal}{'Documents results'|i18n('bootstrapitalia/documents')}{/literal}',
+      dataset: "{/literal}{'Dataset results'|i18n('bootstrapitalia/documents')}{/literal}",
+      public_project: "{/literal}{'Projects results'|i18n('bootstrapitalia/documents')}{/literal}"
+    };
 		var baseUrl = '/';
         if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
             baseUrl = UriPrefix + '/';
@@ -396,8 +401,8 @@ $(document).ready(function () {
 			});
 		}
 
-	    var buildQuery = function(){	    	
-	    	var baseQueryClasses = hasProjectClass ? 'document,dataset,public_project' : 'document,dataset';
+	  var buildQuery = function(){	    	
+	    var baseQueryClasses = hasProjectClass ? 'document,dataset,public_project' : 'document,dataset';
 			var query = 'classes ['+baseQueryClasses+'] subtree [' + subtree + '] facets [raw[subattr_document_type___tag_ids____si],raw[subattr_'+startIdentifier+'___year____dt],raw[meta_class_name_ms]]';
 			if (showOnlyPublication){
 				query += ' and (calendar['+startIdentifier+','+endIdentifier+'] = [yesterday,now] or ('+startIdentifier+' range [*,now] and '+endIdentifier+' !range [*,*]))';
@@ -519,6 +524,14 @@ $(document).ready(function () {
 			}
 		};
 
+
+    function formatSearchResults(counts, labels) {
+      return Object.entries(counts)
+        .filter(([_, count]) => count > 0)
+        .map(([key, count]) => `<strong>${count}</strong> ${labels[key]}`)
+        .join(", ") + " trovati";
+    }
+
 		var loadContents = function(){						
 			var baseQuery = buildQuery();
 			var paginatedQuery = baseQuery + ' and limit ' + limitPagination + ' offset ' + currentPage*limitPagination;
@@ -526,19 +539,27 @@ $(document).ready(function () {
 			$.opendataTools.find(paginatedQuery, function (response) {
 				loadFacetsCount(response.facets);
 				queryPerPage[currentPage] = paginatedQuery;
+        
+        const counts = response.searchHits.reduce((acc, item) => {
+          const key = item.metadata.classIdentifier;
+          acc[key] = (acc[key] || 0) + 1;
+          return acc;
+        }, {});
+
+				response.resultsFound = formatSearchResults(counts, resultsLabels);
 				response.currentPage = currentPage;
 				response.prevPage = currentPage - 1;
 				response.nextPage = currentPage + 1;
-	            var pagination = response.totalCount > 0 ? Math.ceil(response.totalCount/limitPagination) : 0;
-            	var pages = [];
-            	var i;
+        var pagination = response.totalCount > 0 ? Math.ceil(response.totalCount/limitPagination) : 0;
+        var pages = [];
+        var i;
 				for (i = 0; i < pagination; i++) {			  		
 			  		queryPerPage[i] = baseQuery + ' and limit ' + limitPagination + ' offset ' + (limitPagination*i);			  		
 			  		pages.push({'query': i, 'page': (i+1)});
 				} 
-	            response.pages = pages;
-	            response.pageCount = pagination;
-	            response.prevPageQuery = jQuery.type(queryPerPage[response.prevPage]) === "undefined" ? null : queryPerPage[response.prevPage];
+        response.pages = pages;
+        response.pageCount = pagination;
+        response.prevPageQuery = jQuery.type(queryPerPage[response.prevPage]) === "undefined" ? null : queryPerPage[response.prevPage];
 
         $.each(response.searchHits, function(){
             this.baseUrl = baseUrl;
