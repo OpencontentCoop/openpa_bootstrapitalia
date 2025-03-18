@@ -589,14 +589,14 @@ $(document).ready(function () {
         var renderData = $(template.render(response));
 				if (currentPage > 0){
 					resultsContainer.find('.spinner').replaceWith(renderData);
-				}else {
+				} else {
 					resultsContainer.html(renderData);
 				}
-	            resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {
-	                currentPage = $(this).data('page');
-	                if (currentPage >= 0) loadContents();
-	                e.preventDefault();
-	            });
+        resultsContainer.find('.page, .nextPage, .prevPage').on('click', function (e) {
+            currentPage = $(this).data('page');
+            if (currentPage >= 0) loadContents();
+            e.preventDefault();
+        });
 			});
 		};
 
