@@ -523,10 +523,9 @@ $(document).ready(function () {
 			var baseQuery = buildQuery();
 			var paginatedQuery = baseQuery + ' and limit ' + limitPagination + ' offset ' + currentPage*limitPagination;
 			resultsContainer.find('.nextPage').replaceWith(spinner);
-			$.opendataTools.find(paginatedQuery, function (response) {				
+			$.opendataTools.find(paginatedQuery, function (response) {
 				loadFacetsCount(response.facets);
-				queryPerPage[currentPage] = paginatedQuery;				
-				response.documentsFound = documentsFound.replace('%count', '<strong>'+response.totalCount+'</strong>');
+				queryPerPage[currentPage] = paginatedQuery;
 				response.currentPage = currentPage;
 				response.prevPage = currentPage - 1;
 				response.nextPage = currentPage + 1;
@@ -541,16 +540,17 @@ $(document).ready(function () {
 	            response.pageCount = pagination;
 	            response.prevPageQuery = jQuery.type(queryPerPage[response.prevPage]) === "undefined" ? null : queryPerPage[response.prevPage];
 
-                $.each(response.searchHits, function(){
-                    this.baseUrl = baseUrl;
-                    this.hideEndTime = hideEndTime;
-					this.dateFormat = MomentDateFormat;
-					this.dateTimeFormat = MomentDateTimeFormat;
-					this.startIdentifier = startIdentifier;
-					this.endIdentifier = endIdentifier;
-					this.numberIdentifier = numberIdentifier;
-                });
-	            var renderData = $(template.render(response));
+        $.each(response.searchHits, function(){
+            this.baseUrl = baseUrl;
+            this.hideEndTime = hideEndTime;
+            this.dateFormat = MomentDateFormat;
+            this.dateTimeFormat = MomentDateTimeFormat;
+            this.startIdentifier = startIdentifier;
+            this.endIdentifier = endIdentifier;
+            this.numberIdentifier = numberIdentifier;
+        });
+
+        var renderData = $(template.render(response));
 				if (currentPage > 0){
 					resultsContainer.find('.spinner').replaceWith(renderData);
 				}else {
@@ -583,7 +583,7 @@ $(document).ready(function () {
 			});
 			// location.hash = idList.join(',');
 			currentPage = 0;
-	        loadContents();
+	    loadContents();
 		});
 
 		container.find('select[data-search]').on('change', function (){
@@ -593,14 +593,14 @@ $(document).ready(function () {
 		container.find('button[type="submit"]').on('click', function(e){
 			container.find('button[type="reset"]').removeClass('hide');
 			currentPage = 0;
-	        loadContents();
+	    loadContents();
 			e.preventDefault();
 		});
 		container.find('button[type="reset"]').on('click', function(e){			
 			container.find('form')[0].reset();
 			container.find('button[type="reset"]').addClass('hide');
 			currentPage = 0;
-	        loadContents();
+	    loadContents();
 			e.preventDefault();
 		});
 		// $.each(location.hash.split(','), function () {
