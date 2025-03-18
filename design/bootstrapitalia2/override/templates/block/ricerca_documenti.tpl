@@ -65,24 +65,30 @@
 	 data-with-project="{cond($project_class,1,0)}">
 
 	<form class="row">
-	    <section class="{if $show_filters}col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2">
+	  <section class="{if $show_filters}col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2">
 			{if $filters|contains('search_text')}
 			<div class="cmp-input-search">
 				<div class="form-group autocomplete-wrapper mb-2 mb-lg-4">
 					<div class="input-group">
 						<label for="search-{$block.id}" class="visually-hidden">{'Search text'|i18n('bootstrapitalia/documents')}</label>
-						<input type="search" data-search="q" class="autocomplete form-control" placeholder="{'Search text'|i18n('bootstrapitalia/documents')}" id="search-{$block.id}">
+						<input type="search" data-search="q" class="autocomplete form-control ps-2 ps-md-5" placeholder="{'Search text'|i18n('bootstrapitalia/documents')}" id="search-{$block.id}">
 						<div class="input-group-append">
-							<button class="btn btn-primary" type="submit"  data-focus-mouse="false">{'Search'|i18n('design/plain/layout')}</button>
-							<button type="reset" class="btn btn-warning hide">{'Reset'|i18n('bootstrapitalia/documents')}</button>
+							<button class="btn btn-primary btn-xs" type="submit" data-focus-mouse="false" aria-label={'Search'|i18n('design/plain/layout')}>
+                <span class="d-none d-md-inline" aria-hidden="true">{'Search'|i18n('design/plain/layout')}</span>
+                <span class="d-md-none" aria-hidden="true">{display_icon('it-search', 'svg', 'icon icon-sm icon-white')}</span>
+              </button>
+              <button type="reset" class="btn btn-secondary btn-xs hide" style="margin-left: -6px; z-index: 1" aria-label={'Remove filters'|i18n('bootstrapitalia/documents')}>
+                <span class="d-none d-md-inline" aria-hidden="true">{'Remove filters'|i18n('bootstrapitalia/documents')}</span>
+                <span class="d-md-none" aria-hidden="true">{display_icon('it-close', 'svg', 'icon icon-sm icon-white')}</span>
+              </button>
 						</div>
-						<span class="autocomplete-icon" aria-hidden="true">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
+						<span class="autocomplete-icon d-none d-md-block" aria-hidden="true">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
 					</div>
 				</div>
 			</div>
 			{/if}
-			<div class="results" data-root_tags="{$root_tag_id_list|implode(',')}"></div>
-	    </section>
+			<div class="results mb-5" data-root_tags="{$root_tag_id_list|implode(',')}"></div>
+	  </section>
 
 		{if $show_filters}
 			<div class="col-12 col-lg-4 ps-lg-5 order-first order-md-last">
