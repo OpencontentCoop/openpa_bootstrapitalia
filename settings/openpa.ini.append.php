@@ -184,6 +184,7 @@ IncludiClassi[]=public_service
 #IncludiClassi[]=trasparenza
 IncludiClassi[]=political_body
 IncludiClassi[]=office
+IncludiClassi[]=public_project
 
 [ExcludedClassesAsChild]
 FromFolder[]
