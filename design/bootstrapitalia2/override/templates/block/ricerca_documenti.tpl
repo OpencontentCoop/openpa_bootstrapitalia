@@ -2,11 +2,11 @@
     'jsrender.js',
     'handlebars.min.js',
     'bootstrap-datetimepicker.min.js',
-	'daterangepicker.js'
+	  'daterangepicker.js'
 ))}
 {ezcss_require(array(
     'bootstrap-datetimepicker.min.css',
-	'daterangepicker-bs3.css'
+	  'daterangepicker-bs3.css'
 ))}
 {def $locale = fetch(content, locale)}
 {def $filters = array()}
@@ -150,8 +150,10 @@
 						</h2>
 						<div id="collapseNumber-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseNumber-{$block.id}-title">
 							<div class="accordion-body pb-4">
-								<label for="searchFormNumber-{$block.id}" class="visually-hidden">{'Document number'|i18n('bootstrapitalia/documents')}</label>
-								<input type="text" autocomplete="off" class="form-control form-control-sm" id="searchFormNumber-{$block.id}" data-search="has_code" placeholder="{'Document number'|i18n('bootstrapitalia/documents')}">
+                <div class="form-group mb-0">
+                  <label for="searchFormNumber-{$block.id}" class="visually-hidden">{'Document number'|i18n('bootstrapitalia/documents')}</label>
+                  <input type="text" autocomplete="off" class="form-control form-control-sm" id="searchFormNumber-{$block.id}" data-search="has_code" placeholder="{'Document number'|i18n('bootstrapitalia/documents')}">
+                </div>
 							</div>
 						</div>
 					</div>
@@ -168,8 +170,10 @@
 						  </h2>
 							<div id="collapseYear-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseYear-{$block.id}-title">
 								<div class="accordion-body pb-4">
-									<label for="searchFormYear-{$block.id}" class="visually-hidden">{'Year'|i18n('openpa/search')}</label>
-									<input type="text" size="4" autocomplete="off" class="form-control form-control-sm" id="searchFormYear-{$block.id}" data-search="year" placeholder="{'Year'|i18n('openpa/search')}">
+                  <div class="form-group mb-0">
+                    <label for="searchFormYear-{$block.id}" class="visually-hidden">{'Year'|i18n('openpa/search')}</label>
+                    <input type="text" size="4" autocomplete="off" class="form-control form-control-sm" id="searchFormYear-{$block.id}" data-search="year" placeholder="{'Year'|i18n('openpa/search')}">
+                  </div>
 								</div>
 							</div>
 						</div>
@@ -186,9 +190,19 @@
 						  </h2>
 							<div id="collapseDate-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseDate-{$block.id}-title">
 								<div class="accordion-body pb-4">
-									<label for="searchFormDate-{$block.id}" class="visually-hidden"><small>{'Date'|i18n('bootstrapitalia/documents')}</small></label>
-									<input type="text" class="form-control form-control-sm" id="searchFormDate-{$block.id}" data-search="daterange" placeholder="{'Date'|i18n('bootstrapitalia/documents')}">
-								</div>
+									<!--<label for="searchFormDate-{$block.id}" class="visually-hidden"><small>{'Date'|i18n('bootstrapitalia/documents')}</small></label>
+									<input type="text" class="form-control form-control-sm" id="searchFormDate-{$block.id}" data-search="daterange" placeholder="{'Date'|i18n('bootstrapitalia/documents')}">-->
+                  <div class="row form-group mb-0">
+                    <div class="col-sm-6 col-lg-12 col-xl-6 mb-2 px-lg-1">
+                      <label class="active" for="{$block.id}-date_start">Inizio</label>
+                      <input class="form-control form-control-sm" type="date" data-search="date-start" id="{$block.id}-date_start" name="{$block.id}-date_start" aria-describedby="{$block.id}-date-help">
+                    </div>
+                    <div class="col-sm-6 col-lg-12 col-xl-6 mb-2 px-lg-1">
+                      <label class="active" for="{$block.id}-date_end">Fine</label>
+                      <input class="form-control form-control-sm" type="date" data-search="date-end" id="{$block.id}-date_end" name="{$block.id}-date_end" aria-describedby="{$block.id}-date-help">
+                    </div>
+                  </div>
+                </div>
 							</div>
 						</div>
 					{/if}
@@ -204,17 +218,19 @@
 						  </h2>
 							<div id="collapseOffice-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseOffice-{$block.id}-title">
 								<div class="accordion-body pb-4">
-									<label for="searchFormOffice-{$block.id}" class="visually-hidden"><small>{'Office'|i18n('bootstrapitalia/documents')}</small></label>
-									<select class="form-control border-bottom" id="searchFormOffice-{$block.id}" data-search="has_organization">
-										<option value=""></option>
-										{foreach fetch(content, tree, hash( parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'),
-																			class_filter_type, 'include', class_filter_array, array('organization'),
-																			main_node_only, true(),
-																			load_data_map, false(),
-																			sort_by, array('name', true()))) as $office}
-											<option value="{$office.contentobject_id}">{$office.name|wash()}</option>
-										{/foreach}
-									</select>
+                  <div class="select-wrapper">
+                    <label for="searchFormOffice-{$block.id}" class="visually-hidden">{'Office'|i18n('bootstrapitalia/documents')}</label>
+                    <select class="form-control form-control-sm" id="searchFormOffice-{$block.id}" data-search="has_organization">
+                      <option value=""></option>
+                      {foreach fetch(content, tree, hash( parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'),
+                                        class_filter_type, 'include', class_filter_array, array('organization'),
+                                        main_node_only, true(),
+                                        load_data_map, false(),
+                                        sort_by, array('name', true()))) as $office}
+                        <option value="{$office.contentobject_id}">{$office.name|wash()}</option>
+                      {/foreach}
+                    </select>
+                  </div>
 								</div>
 							</div>
 						</div>
@@ -231,25 +247,25 @@
 						  </h2>
 							<div id="collapseTopic-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseTopic-{$block.id}-title">
 								<div class="accordion-body pb-4">
-									<label for="searchFormTopic-{$block.id}" class="visually-hidden"><small>{'Topics'|i18n('bootstrapitalia')}</small></label>
-									<select class="form-control border-bottom" id="searchFormTopic-{$block.id}" data-search="topic">
-										<option value=""></option>
-										{foreach $topic_list_children as $topic}
-											<option value="{$topic.item.node_id}">{$topic.item.name|wash()}</option>
-											{if $topic.has_children}
-												{foreach $topic.children as $child}
-													<option value="{$child.item.node_id}">&nbsp;&nbsp;{$child.item.name|wash()}</option>
-												{/foreach}
-											{/if}
-										{/foreach}
-									</select>
-								</div>
+                  <div class="select-wrapper">
+                    <label for="searchFormTopic-{$block.id}" class="visually-hidden">{'Topics'|i18n('bootstrapitalia')}</label>
+                    <select class="form-control form-control-sm" id="searchFormTopic-{$block.id}" data-search="topic">
+                      <option value=""></option>
+                      {foreach $topic_list_children as $topic}
+                        <option value="{$topic.item.node_id}">{$topic.item.name|wash()}</option>
+                        {if $topic.has_children}
+                          {foreach $topic.children as $child}
+                            <option value="{$child.item.node_id}">&nbsp;&nbsp;{$child.item.name|wash()}</option>
+                          {/foreach}
+                        {/if}
+                      {/foreach}
+                    </select>
+                  </div>
+                </div>
 							</div>
 						</div>
 					{/if}
-
 				</div>
-
 			</div>
 		{/if}
 	</form>
@@ -350,7 +366,7 @@ $(document).ready(function () {
         if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
             baseUrl = UriPrefix + '/';
         }
-	    var container = $(this);
+	  var container = $(this);
 		var resultsContainer = container.find('.results');
 		var rootTagIdList = resultsContainer.data('root_tags');
 		var limitPagination = container.data('limit');
@@ -369,7 +385,14 @@ $(document).ready(function () {
 		var endIdentifier = container.data('end_identifier');
 		var numberIdentifier = container.data('number_identifier');
 		var hasProjectClass = container.data('with-project');
-		
+    var startDateField = container.find('[data-search="date-start"]');
+    var endDateField = container.find('[data-search="date-end"]');
+    var dateFields = [];
+    var startDate = '';
+    var endDate = '';
+
+    if (startDateField.length > 0) dateFields.push(startDateField);
+    if (endDateField.length > 0) dateFields.push(endDateField);
 
 		if (hideFirstLevel){
 			container.find('[data-level="1"]').each(function(){
@@ -383,6 +406,31 @@ $(document).ready(function () {
 				}
 			});
 		}
+
+    if (startDateField.length > 0) {
+      startDateField.on('change', function(){
+        startDate = $(this).val();
+        endDateField.attr('min', $(this).val());
+      })
+    }
+
+    if (endDateField.length > 0) {
+      endDateField.on('change', function(){
+        endDate = $(this).val();
+        startDateField.attr('max', $(this).val());
+      })
+    }
+
+    if (dateFields.length > 1) {
+      $.each(dateFields, function(){
+        var self = $(this);
+        self.on('change', function(){
+          if (startDate && endDate) {
+            container.find('button[type="submit"]').trigger('click');
+          }
+        });
+      });
+    }
 
 		var dateRange = container.find('[data-search="daterange"]');
 		if (dateRange.length > 0){
@@ -476,15 +524,19 @@ $(document).ready(function () {
 					query += ' ) ';
 				}
 			}
-			if (dateRange.length > 0 && dateRange.val().length > 0){
-				var picker = dateRange.data('daterangepicker');
+			if (startDate && endDate){
+        var formattedStartDate = moment(startDate).format('YYYY-MM-DD');
+        var formattedEndDate = moment(endDate).format('YYYY-MM-DD');
+        var isoStartDate = moment(startDate).toISOString();
+        var isoEndDate = moment(endDate).toISOString();
+
 				query += ' and (';
-				query += ' (class in [document] and  calendar['+startIdentifier+','+endIdentifier+'] = [' + picker.startDate.format('YYYY-MM-DD') + ' 00:00,' + picker.endDate.format('YYYY-MM-DD') + ' 23:59] )';
+				query += ' (class in [document] and  calendar['+startIdentifier+','+endIdentifier+'] = [' + formattedStartDate + ' 00:00,' + formattedEndDate + ' 23:59] )';
 				query += ' or ';
-				query += ' (class in [dataset] and issued range [' + picker.startDate.format('YYYY-MM-DD') + ' 00:00,' + picker.endDate.format('YYYY-MM-DD') + ' 23:59] )';
+				query += ' (class in [dataset] and issued range [' + formattedStartDate + ' 00:00,' + formattedEndDate + ' 23:59] )';
 				if (hasProjectClass){
 					query += ' or ';
-					query += ' (class in [public_project] and raw[attr_published_dt] range ["' + picker.startDate.toISOString() + '","' + picker.endDate.toISOString() + '"] )';
+					query += ' (class in [public_project] and raw[attr_published_dt] range ["' + isoStartDate + '","' + isoEndDate + '"] )';
 				}
 				query += ' ) ';
 			}
@@ -636,6 +688,8 @@ $(document).ready(function () {
 			container.find('form')[0].reset();
 			container.find('button[type="reset"]').addClass('hide');
 			currentPage = 0;
+      startDate = '';
+      endDate = '';
 	    loadContents();
 			e.preventDefault();
 		});
