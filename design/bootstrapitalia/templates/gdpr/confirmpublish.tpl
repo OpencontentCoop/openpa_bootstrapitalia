@@ -5,15 +5,15 @@
 
     {def $node = $version.temp_main_node}
     {foreach $version.data_map as $attribute}
-        {if $attribute.has_content}
+        {if and($attribute.has_content, $attribute.contentclass_attribute.category|ne('hidden'))}
             <div class="row mb-3">
                 <div class="col-md-4">
                     <strong>{$attribute.contentclass_attribute_name}</strong>
                 </div>
                 <div class="col-md-8">
-                    <div class="Prose u-padding-left-s">
-                        {attribute_view_gui attribute=$attribute show_newline=true() confirmpublish=true()}
-                    </div>
+                  <div class="{cond($attribute.data_type_string|eq('ezxmltext'), 'richtext-wrapper', '')}">
+                    {attribute_view_gui attribute=$attribute show_newline=true() confirmpublish=true()}
+                  </div>
                 </div>
             </div>
         {/if}
