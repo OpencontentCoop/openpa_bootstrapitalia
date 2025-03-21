@@ -351,11 +351,6 @@ $(document).ready(function () {
 	}));
 	$('[data-block_document_subtree]').each(function(){
     var resultsFound = '';
-    const resultsLabels = {
-      document: '{/literal}{'Documents results'|i18n('bootstrapitalia/documents')}{/literal}',
-      dataset: "{/literal}{'Dataset results'|i18n('bootstrapitalia/documents')}{/literal}",
-      public_project: "{/literal}{'Projects results'|i18n('bootstrapitalia/documents')}{/literal}"
-    };
 		var baseUrl = '/';
         if (typeof(UriPrefix) !== 'undefined' && UriPrefix !== '/'){
             baseUrl = UriPrefix + '/';
@@ -553,12 +548,30 @@ $(document).ready(function () {
 			}
 		};
 
-
-    function formatSearchResults(counts, labels) {
-      return Object.entries(counts)
+    function formatSearchResults(counts) {
+      const singleResultsLabels = {
+        document: '{/literal}{'Document result'|i18n('bootstrapitalia/documents')}{/literal}',
+        dataset: "{/literal}{'Dataset result'|i18n('bootstrapitalia/documents')}{/literal}",
+        public_project: "{/literal}{'Project result'|i18n('bootstrapitalia/documents')}{/literal}",
+        suffix: "{/literal}{'Result found'|i18n('bootstrapitalia/documents')}{/literal}"
+      };
+      const multipleResultsLabels = {
+        document: '{/literal}{'Documents results'|i18n('bootstrapitalia/documents')}{/literal}',
+        dataset: "{/literal}{'Dataset results'|i18n('bootstrapitalia/documents')}{/literal}",
+        public_project: "{/literal}{'Projects results'|i18n('bootstrapitalia/documents')}{/literal}",
+        suffix: "{/literal}{'Results found'|i18n('bootstrapitalia/documents')}{/literal}"
+      };
+      const results = Object.entries(counts)
         .filter(([_, count]) => count > 0)
-        .map(([key, count]) => `<strong>${count}</strong> ${labels[key]}`)
-        .join(", ") + " trovati";
+        .map(([key, count]) => {
+            const labels = count === 1 ? singleResultsLabels : multipleResultsLabels;
+            return `<strong>${count}</strong> ${labels[key]}`;
+        });
+
+      const totalResults = Object.values(counts).reduce((sum, count) => sum + count, 0);
+      const suffix = totalResults === 1 ? singleResultsLabels.suffix : multipleResultsLabels.suffix;
+
+      return results.join(", ") + ` ${suffix}`;
     }
 
 		var loadContents = function(){						
@@ -575,7 +588,7 @@ $(document).ready(function () {
           return acc;
         }, {});
 
-				response.resultsFound = formatSearchResults(counts, resultsLabels);
+				response.resultsFound = formatSearchResults(counts);
 				response.currentPage = currentPage;
 				response.prevPage = currentPage - 1;
 				response.nextPage = currentPage + 1;

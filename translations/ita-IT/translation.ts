@@ -1276,16 +1276,36 @@
       <translation>Nessun risultato</translation>
     </message>
     <message>
+      <source>Document result</source>
+      <translation>documento</translation>
+    </message>
+    <message>
       <source>Documents results</source>
       <translation>documenti</translation>
+    </message>
+    <message>
+      <source>Dataset result</source>
+      <translation>dataset</translation>
     </message>
     <message>
       <source>Dataset results</source>
       <translation>dataset</translation>
     </message>
     <message>
+      <source>Project result</source>
+      <translation>progetto</translation>
+    </message>
+    <message>
       <source>Projects results</source>
       <translation>progetti</translation>
+    </message>
+    <message>
+      <source>Result found</source>
+      <translation>trovato</translation>
+    </message>
+    <message>
+      <source>Results found</source>
+      <translation>trovati</translation>
     </message>
     <message>
       <source>Questioners</source>

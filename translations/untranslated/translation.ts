@@ -1276,11 +1276,31 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Document result</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Dataset result</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Dataset results</source>
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Project result</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Projects results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Result found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Results found</source>
       <translation type="unfinished"/>
     </message>
     <message>
