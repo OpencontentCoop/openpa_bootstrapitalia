@@ -11,7 +11,7 @@
 {/if}
 
 {if $is_custom|not}
-    <table class="my-3 table table-sm table-borderless table-warning items queue" id="z:{$zone_id}_b:{$block_id}_q">
+    <table class="my-3 table table-sm table-borderless table-success items queue" id="z:{$zone_id}_b:{$block_id}_q">
         <tbody>
         {if $block.waiting|count()}
             {foreach $block.waiting as $index => $item sequence array( 'bglight', 'bgdark') as $style}
@@ -20,7 +20,7 @@
                     <td class="tight">
                         <input type="checkbox" value="{$item.object_id}" name="DeleteItemIDArray[]" />
                     </td>
-                    <td id="z:{$zone_id}_b:{$block_id}_i:{$item.object_id}_h" class="handler" style="cursor:grab">{$item_object.name|wash()}</td>
+                    <td id="z:{$zone_id}_b:{$block_id}_i:{$item.object_id}_h"><i class="fa fa-clock-o"></i> {$item_object.name|wash()}</td>
                     <td class="time d-none">
                         {if and(is_set($block.rotation), $block.rotation.interval)}
                             <small>{'Rotating item.'|i18n( 'design/standard/block/edit' )}</small>
@@ -85,10 +85,6 @@
                 </tr>
                 {undef $item_object}
             {/foreach}
-        {else}
-            <tr class="empty text-center">
-                <td colspan="3">{'Queue: no items.'|i18n( 'design/standard/block/edit' )}</td>
-            </tr>
         {/if}
         </tbody>
     </table>
@@ -116,7 +112,7 @@
                 {'Shuffle'|i18n( 'design/standard/block/edit' )} <input id="block-rotation-shuffle-{$block_id}" class="block-control" type="checkbox" {if and( is_set( $block.rotation ), eq( $block.rotation.type, 2 ) )}checked="checked"{/if} name="RotationShuffle_{$block_id}" /> <input id="block-set-rotation-{$block_id}" class="btn-secondary btn py-1 px-2 btn-xs block-control" type="submit" name="CustomActionButton[{$attribute.id}_set_rotation-{$zone_id}-{$block_id}]" value="{'Set'|i18n( 'design/standard/block/edit' )}" /></td>
         </tr>
     </table>
-    <table class="table table-sm table-borderless items history table-light" id="z:{$zone_id}_b:{$block_id}_h">
+    <table class="table table-sm table-borderless items history table-light d-none" id="z:{$zone_id}_b:{$block_id}_h">
         <tbody>
         {if $block.archived|count()}
             {foreach $block.archived as $item sequence array( 'bglight', 'bgdark') as $style}
