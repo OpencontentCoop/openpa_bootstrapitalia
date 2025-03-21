@@ -1,12 +1,6 @@
 {ezscript_require(array(
     'jsrender.js',
-    'handlebars.min.js',
-    'bootstrap-datetimepicker.min.js',
-	  'daterangepicker.js'
-))}
-{ezcss_require(array(
-    'bootstrap-datetimepicker.min.css',
-	  'daterangepicker-bs3.css'
+    'handlebars.min.js'
 ))}
 {def $locale = fetch(content, locale)}
 {def $filters = array()}
@@ -431,38 +425,6 @@ $(document).ready(function () {
         });
       });
     }
-
-		var dateRange = container.find('[data-search="daterange"]');
-		if (dateRange.length > 0){
-			dateRange.daterangepicker({
-				autoUpdateInput: false,
-				"opens": "left",
-				locale: {
-					format: MomentDateFormat,
-					"applyLabel": "{/literal}{'Apply'|i18n('design/standard/ezoe')}{literal}",
-					"cancelLabel": "{/literal}{'Cancel'|i18n('design/standard/ezoe')}{literal}",
-					"fromLabel": "{/literal}{'From'|i18n('bootstrapitalia/documents')}{literal}",
-					"toLabel": "{/literal}{'to'|i18n('bootstrapitalia/documents')}{literal}",
-					"daysOfWeek": [
-						"{/literal}{$locale.weekday_short_name_list[0]}{literal}",
-						"{/literal}{$locale.weekday_short_name_list[1]}{literal}",
-						"{/literal}{$locale.weekday_short_name_list[2]}{literal}",
-						"{/literal}{$locale.weekday_short_name_list[3]}{literal}",
-						"{/literal}{$locale.weekday_short_name_list[4]}{literal}",
-						"{/literal}{$locale.weekday_short_name_list[5]}{literal}",
-						"{/literal}{$locale.weekday_short_name_list[6]}{literal}"
-					],
-					"monthNames": ["{/literal}{$locale.month_name_list|implode('","')}{literal}"]
-				}
-			});
-			dateRange.on('apply.daterangepicker', function(ev, picker) {
-				$(this).val(picker.startDate.format(MomentDateFormat) + ' - ' + picker.endDate.format(MomentDateFormat));
-				container.find('button[type="submit"]').trigger('click');
-			}).on('cancel.daterangepicker', function(ev, picker) {
-				$(this).val('');
-				container.find('button[type="submit"]').trigger('click');
-			});
-		}
 
 	  var buildQuery = function(){	    	
 	    var baseQueryClasses = hasProjectClass ? 'document,dataset,public_project' : 'document,dataset';
