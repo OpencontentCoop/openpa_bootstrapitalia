@@ -1229,11 +1229,19 @@
     </message>
     <message>
       <source>Document number</source>
-      <translation>Numero</translation>
+      <translation>Numero documento</translation>
     </message>
     <message>
       <source>Date</source>
       <translation>Data</translation>
+    </message>
+    <message>
+      <source>Date start</source>
+      <translation>Inizio</translation>
+    </message>
+    <message>
+      <source>Date end</source>
+      <translation>Fine</translation>
     </message>
     <message>
       <source>Office</source>

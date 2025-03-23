@@ -1982,6 +1982,14 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Date start</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Date end</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Save request</source>
       <translation type="unfinished"/>
     </message>

@@ -184,15 +184,13 @@
 						  </h2>
 							<div id="collapseDate-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseDate-{$block.id}-title">
 								<div class="accordion-body pb-4">
-									<!--<label for="searchFormDate-{$block.id}" class="visually-hidden"><small>{'Date'|i18n('bootstrapitalia/documents')}</small></label>
-									<input type="text" class="form-control form-control-sm" id="searchFormDate-{$block.id}" data-search="daterange" placeholder="{'Date'|i18n('bootstrapitalia/documents')}">-->
                   <div class="row form-group mb-0">
                     <div class="col-sm-6 col-lg-12 col-xl-6 mb-2 px-lg-1">
-                      <label class="active" for="{$block.id}-date_start">Inizio</label>
+                      <label class="active" for="{$block.id}-date_start">{'Date start'|i18n('bootstrapitalia/documents')}</label>
                       <input class="form-control form-control-sm" type="date" data-search="date-start" id="{$block.id}-date_start" name="{$block.id}-date_start" aria-describedby="{$block.id}-date-help">
                     </div>
                     <div class="col-sm-6 col-lg-12 col-xl-6 mb-2 px-lg-1">
-                      <label class="active" for="{$block.id}-date_end">Fine</label>
+                      <label class="active" for="{$block.id}-date_end">{'Date end'|i18n('bootstrapitalia/documents')}</label>
                       <input class="form-control form-control-sm" type="date" data-search="date-end" id="{$block.id}-date_end" name="{$block.id}-date_end" aria-describedby="{$block.id}-date-help">
                     </div>
                   </div>

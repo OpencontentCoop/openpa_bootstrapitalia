@@ -1225,7 +1225,7 @@
     </message>
     <message>
       <source>Document number</source>
-      <translation>Number</translation>
+      <translation>Document number</translation>
     </message>
     <message>
       <source>Date</source>
