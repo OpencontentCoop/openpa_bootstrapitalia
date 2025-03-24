@@ -40,10 +40,12 @@
             {/if}
         {/if}
 
-        {if $block.name|ne('')}
-            <h2 class="visually-hidden">{$block.name|wash()}</h2>
+        {if openpaini('ViewSettings', 'ShowTitleInSingleBlock')|eq('enabled')}
+          {include uri='design:parts/block_name.tpl'}
+        {elseif $block.name|ne('')}
+          <h2 class="visually-hidden">{$block.name|wash()}</h2>
         {else}
-            <h2 class="visually-hidden">{$valid_node.name|wash()}</h2>
+          <h2 class="visually-hidden">{$valid_node.name|wash()}</h2>
         {/if}
 
         <div class="{$valid_node|access_style}">
