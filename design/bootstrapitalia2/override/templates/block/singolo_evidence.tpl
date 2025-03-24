@@ -10,16 +10,24 @@
         {/if}
     {/foreach}
 
+    {if openpaini('ViewSettings', 'ShowTitleInSingleBlock')|eq('enabled')}
+      {include uri='design:parts/block_name.tpl'}
+    {elseif $block.name|ne('')}
+      <h2 class="visually-hidden">{$block.name|wash()}</h2>
+    {else}
+      <h2 class="visually-hidden">{$valid_node.name|wash()}</h2>
+    {/if}
+
     <div class="block-evidence">
         <div class="container position-relative overflow-hidden">
             <div class="row position-relative">
                 <div class="col-12 col-lg-6">
                     <div class="py-4 px-2">
-                        <h2 class="h4 mt-0 mb-2">
+                        <h3 class="h4 mt-0 mb-2">
                             <a href="{$openpa.content_link.full_link}" title="Link a {$valid_node.name|wash()}" class="text-decoration-none font-weight-bold">
                                 {$valid_node.name|wash()}
                             </a>
-                        </h2>
+                        </h3>
                         <div class="lead evidence-text bg-grey-card rounded w-100">
                             {include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node}
                         </div>

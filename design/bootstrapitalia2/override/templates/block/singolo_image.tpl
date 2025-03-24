@@ -12,6 +12,10 @@
     {elseif $image|has_attribute('license')}
         {set $alt_text = concat($alt_text, ' - ', $image|attribute('license').content.keyword_string)}
     {/if}
+  
+    {if openpaini('ViewSettings', 'ShowTitleInSingleBlock')|eq('enabled')}
+      {include uri='design:parts/block_name.tpl'}
+    {/if}
 
 <div class="position-relative">
     <div class="bg-secondary" style="min-height: 200px">
