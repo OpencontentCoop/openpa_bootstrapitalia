@@ -18,7 +18,7 @@
 {include uri='design:openpa/card/parts/card_wrapper_open.tpl'}
 
     {if $has_media}
-    <div class="col-4 order-2 order-md-1 position-relative">
+    <div class="col-4 col-md-12 order-2 order-md-1 position-relative">
         {if $node|has_attribute('time_interval')}
             {def $attribute_content = $node|attribute('time_interval').content}
             {def $events = $attribute_content.events}
@@ -30,6 +30,9 @@
                 <div class="card-calendar d-flex flex-column justify-content-center">
                     <span class="card-date">{if $is_recurrence}<small>{'from'|i18n('openpa/search')}</small> {/if}{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )}</span>
                     <span class="card-day">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</span>
+                    {if openpaini('ViewSettings', 'ShowYearInEventCard')|eq('enabled')}
+                      <span class="card-year">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%Y' )}</span>
+                    {/if}
                 </div>
             {/if}
             {undef $events $is_recurrence $attribute_content}
@@ -38,7 +41,7 @@
     </div>
     {/if}
 
-    <div class="col-{if $has_media}8{else}12{/if} order-1 order-md-2">
+    <div class="{if $has_media}col-8 col-md-12{else}col-12{/if} order-1 order-md-2">
         <div class="card-body pb-5">
 
                 {include uri='design:openpa/card/parts/category.tpl'}
