@@ -549,15 +549,15 @@ $(document).ready(function () {
 
     function formatSearchResults(counts) {
       const singleResultsLabels = {
-        document: '{/literal}{'Document result'|i18n('bootstrapitalia/documents')}{/literal}',
-        dataset: "{/literal}{'Dataset result'|i18n('bootstrapitalia/documents')}{/literal}",
-        public_project: "{/literal}{'Project result'|i18n('bootstrapitalia/documents')}{/literal}",
+        Documento: '{/literal}{'Document result'|i18n('bootstrapitalia/documents')}{/literal}',
+        Dataset: "{/literal}{'Dataset result'|i18n('bootstrapitalia/documents')}{/literal}",
+        Progetto: "{/literal}{'Project result'|i18n('bootstrapitalia/documents')}{/literal}",
         suffix: "{/literal}{'Result found'|i18n('bootstrapitalia/documents')}{/literal}"
       };
       const multipleResultsLabels = {
-        document: '{/literal}{'Documents results'|i18n('bootstrapitalia/documents')}{/literal}',
-        dataset: "{/literal}{'Dataset results'|i18n('bootstrapitalia/documents')}{/literal}",
-        public_project: "{/literal}{'Projects results'|i18n('bootstrapitalia/documents')}{/literal}",
+        Documento: '{/literal}{'Documents results'|i18n('bootstrapitalia/documents')}{/literal}',
+        Dataset: "{/literal}{'Dataset results'|i18n('bootstrapitalia/documents')}{/literal}",
+          Progetto: "{/literal}{'Projects results'|i18n('bootstrapitalia/documents')}{/literal}",
         suffix: "{/literal}{'Results found'|i18n('bootstrapitalia/documents')}{/literal}"
       };
       const results = Object.entries(counts)
@@ -580,13 +580,7 @@ $(document).ready(function () {
 			$.opendataTools.find(paginatedQuery, function (response) {
 				loadFacetsCount(response.facets);
 				queryPerPage[currentPage] = paginatedQuery;
-        
-        const counts = response.searchHits.reduce((acc, item) => {
-          const key = item.metadata.classIdentifier;
-          acc[key] = (acc[key] || 0) + 1;
-          return acc;
-        }, {});
-
+        const counts = response.facets[2].data;
 				response.resultsFound = formatSearchResults(counts);
 				response.currentPage = currentPage;
 				response.prevPage = currentPage - 1;
