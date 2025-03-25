@@ -529,7 +529,7 @@ $(document).ready(function () {
 						$.each(this.data, function (tagId, tagCount) {
 							container.find('[data-tag_id="' + tagId + '"]').show().find('small').html('(' + tagCount + ')');
 						});
-					}else if (this.name === 'raw[subattr_'+startIdentifier+'___year____dt]'){
+					} else if (this.name === 'raw[subattr_'+startIdentifier+'___year____dt]'){
 						$.each(this.data, function (year, yearCount) {
 							yearList.push(moment(year).get('year'))
 						});
@@ -557,7 +557,7 @@ $(document).ready(function () {
       const multipleResultsLabels = {
         Documento: '{/literal}{'Documents results'|i18n('bootstrapitalia/documents')}{/literal}',
         Dataset: "{/literal}{'Dataset results'|i18n('bootstrapitalia/documents')}{/literal}",
-          Progetto: "{/literal}{'Projects results'|i18n('bootstrapitalia/documents')}{/literal}",
+        Progetto: "{/literal}{'Projects results'|i18n('bootstrapitalia/documents')}{/literal}",
         suffix: "{/literal}{'Results found'|i18n('bootstrapitalia/documents')}{/literal}"
       };
       const results = Object.entries(counts)
@@ -573,7 +573,7 @@ $(document).ready(function () {
       return results.join(", ") + ` ${suffix}`;
     }
 
-		var loadContents = function(){						
+		var loadContents = function(){
 			var baseQuery = buildQuery();
 			var paginatedQuery = baseQuery + ' and limit ' + limitPagination + ' offset ' + currentPage*limitPagination;
 			resultsContainer.find('.nextPage').replaceWith(spinner);
