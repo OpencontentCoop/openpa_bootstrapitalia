@@ -60,9 +60,11 @@ class LiveLockEditClassConnector extends PageLockEditClassConnector
         if ($blockIndex > 1){
             $options['fields']['title_evidence_2']['helper'] = '';
             $options['fields']['section_evidence_2']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('all-places');
+            $options['fields']['section_evidence_2']['browse']['classes'] = ['place'];
         }else{
             $options['fields']['title_evidence']['helper'] = '';
             $options['fields']['section_evidence']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('all-events');
+            $options['fields']['section_evidence']['browse']['classes'] = ['event', 'event_link'];
         }
 
         return $options;
