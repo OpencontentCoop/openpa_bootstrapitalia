@@ -56,17 +56,17 @@
             {/if}
         </div>
         <div class="col-12">
-            <table class="table table-striped mt-2" id="data">
-                <thead>
-                <tr style="font-size: .7em">
-                    <th>{'User'|i18n('design/standard/node/view')}</th>
-                    {foreach $available_groups as $group}
-                        <th style="text-align: center" data-node="{$group.node_id}" data-allow_for_moderated="{if $approval_groups_allowed|contains($group.object.remote_id)}1{else}0{/if}">{$group.name|wash()}</th>
-                    {/foreach}
-                </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+          <table class="table table-striped mt-4" id="data">
+            <thead class="bg-white" data-bs-toggle="sticky" data-bs-stackable="true">
+              <tr style="font-size: .8em">
+                  <th>{'User'|i18n('design/standard/node/view')}</th>
+                  {foreach $available_groups as $group}
+                      <th style="text-align: center" data-node="{$group.node_id}" data-allow_for_moderated="{if $approval_groups_allowed|contains($group.object.remote_id)}1{else}0{/if}">{$group.name|wash()}</th>
+                  {/foreach}
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
     </div>
 
