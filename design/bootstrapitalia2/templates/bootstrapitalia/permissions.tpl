@@ -9,20 +9,25 @@
 
     <div class="row">
         <div class="col-12">
-            <h3>{'Access Management'|i18n( 'bootstrapitalia' )}</h3>
+            <h1 class="h3">{'Access Management'|i18n('bootstrapitalia')}</h1>
         </div>
         <div class="col-11">
-            <div class="input-group">
-                <input type="text" class="form-control" id="name">
-                <div class="input-group-append">
-                    <button class="btn btn-info rounded-0" type="button" id="FindContents">{'Search'|i18n('openpa/search')}</button>
-                    <button class="btn btn-danger rounded-0" type="button" style="display: none;" id="ResetContents">{'Reset'|i18n('bootstrapitalia/documents')}</button>
-                </div>
+          <form>
+            <div class="form-group mb-3">
+              <label for="name" class="visually-hidden">{'Search by name'|i18n('bootstrapitalia')}</label>
+              <div class="input-group">
+                  <input type="search" class="form-control" id="name" placeholder="Cerca per nome, cognome" aria-label="Cerca per nome">
+                  <div class="input-group-append">
+                      <button class="btn btn-primary btn-sm rounded-0" type="submit" id="FindContents">{'Search'|i18n('openpa/search')}</button>
+                      <button class="btn btn-secondary btn-sm rounded-0" type="button" style="display: none;" id="ResetContents">{'Remove all filters'|i18n('openpa/search')}</button>
+                  </div>
+              </div>
             </div>
+          </form>
         </div>
         <div class="col-1">
-            <button type="submit" class="btn btn-primary rounded-0" id="AddContent" title="Crea nuovo utente">
-                <i aria-hidden="true" class="fa fa-plus"></i>
+            <button type="button" class="btn  btn-secondary rounded-0 btn-icon" id="AddContent" title="Crea nuovo utente">
+              <i aria-hidden="true" class="fa fa-plus"></i>
             </button>
         </div>
         {*<div class="col-12">
@@ -41,7 +46,7 @@
             </div>
         </div>*}
         <div class="col-12">
-            <p class="font-weight-bold m-0">{'Filter by role assignment'|i18n('openpa/search')}:</p>
+            <div class="m-0 d-block">{'Filter by role assignment'|i18n('bootstrapitalia')}:</div>
             {foreach $available_groups as $group}
             <div class="form-check form-check-inline">
                 <input class="filter" id="path-{$group.node_id}" data-filterpath="{$group.node_id}" type="checkbox">
