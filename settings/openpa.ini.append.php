@@ -116,6 +116,8 @@ MainChannelHelpLink_href=#
 MainChannelHelpLink_text=Scopri come ottenere la tua identità digitale
 FaqTreeView=disabled
 ChildrenFilter=disabled
+ShowYearInEventCard=enabled
+ShowTitleInSingleBlock=enabled
 
 [ChildrenFilters]
 #Aree amministrative
