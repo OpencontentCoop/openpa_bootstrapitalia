@@ -18,44 +18,39 @@
 {include uri='design:openpa/card/parts/card_wrapper_open.tpl'}
 
     {if $has_media}
-    <div class="col-4 col-md-12 order-2 order-md-1 position-relative">
-        {if $node|has_attribute('time_interval')}
+      <div class="img-responsive-wrapper">
+        <div class="img-responsive img-responsive-panoramic">
+          <figure class="img-wrapper">
+            <img class="img-fluid" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
+          </figure>
+          {if $node|has_attribute('time_interval')}
             {def $attribute_content = $node|attribute('time_interval').content}
             {def $events = $attribute_content.events}
             {def $is_recurrence = cond(count($events)|gt(1), true(), false())}
             {if recurrences_strtotime($attribute_content.input.startDateTime)|datetime( 'custom', '%j%m%Y' )|ne(recurrences_strtotime($attribute_content.input.endDateTime)|datetime( 'custom', '%j%m%Y' ))}
-                {set $is_recurrence = true()}
+              {set $is_recurrence = true()}
             {/if}
             {if count($events)|gt(0)}
-                <div class="card-calendar d-flex flex-column justify-content-center">
-                    <span class="card-date">{if $is_recurrence}<small>{'from'|i18n('openpa/search')}</small> {/if}{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )}</span>
-                    <span class="card-day">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</span>
-                    {if openpaini('ViewSettings', 'ShowYearInEventCard')|eq('enabled')}
-                      <span class="card-year">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%Y' )}</span>
-                    {/if}
-                </div>
+              <div class="card-calendar d-flex flex-column justify-content-center">
+                <span class="card-date">{if $is_recurrence}<small>{'from'|i18n('openpa/search')}</small> {/if}{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )}</span>
+                <span class="card-day">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</span>
+                {if openpaini('ViewSettings', 'ShowYearInEventCard')|eq('enabled')}
+                  <span class="card-year">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%Y' )}</span>
+                {/if}
+              </div>
             {/if}
             {undef $events $is_recurrence $attribute_content}
-        {/if}
-        <img class="img-fluid rounded-top img-fluid img-responsive" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
-    </div>
+          {/if}
+        </div>
+      </div>
     {/if}
 
-    <div class="{if $has_media}col-8 col-md-12{else}col-12{/if} order-1 order-md-2">
-        <div class="card-body pb-5">
-
-                {include uri='design:openpa/card/parts/category.tpl'}
-
-                {include uri='design:openpa/card/parts/card_title.tpl'}
-
-                {include uri='design:openpa/card/parts/abstract.tpl'}
-
-                <a class="read-more" href="{$openpa.content_link.full_link}{if $openpa.content_link.is_internal}#page-content{/if}">
-                    <span class="text">{'Read more'|i18n('bootstrapitalia')}</span>
-                    {display_icon('it-arrow-right', 'svg', 'icon', 'Read more'|i18n('bootstrapitalia'))}
-                </a>
-
-        </div>
+    <div class="">
+      <div class="card-body pb-5">
+        {include uri='design:openpa/card/parts/category.tpl'}
+        {include uri='design:openpa/card/parts/card_title.tpl'}
+        {include uri='design:openpa/card/parts/abstract.tpl'}
+      </div>
     </div>
 
 {include uri='design:openpa/card/parts/card_wrapper_close.tpl'}
