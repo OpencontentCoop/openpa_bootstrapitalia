@@ -1252,6 +1252,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Remove filters</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Document type</source>
       <translation type="unfinished"/>
     </message>
@@ -1265,6 +1269,42 @@
     </message>
     <message>
       <source>No documents were found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Documents results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Document result</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Dataset result</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Dataset results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Project result</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Projects results</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Result found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Results found</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>No results were found</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -1939,6 +1979,14 @@
     </message>
     <message>
       <source>Time</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Date start</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Date end</source>
       <translation type="unfinished"/>
     </message>
     <message>

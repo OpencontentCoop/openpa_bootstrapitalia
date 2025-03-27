@@ -1225,7 +1225,7 @@
     </message>
     <message>
       <source>Document number</source>
-      <translation>Number</translation>
+      <translation>Document number</translation>
     </message>
     <message>
       <source>Date</source>
@@ -1262,6 +1262,22 @@
     <message>
       <source>No documents were found</source>
       <translation>No documents found</translation>
+    </message>
+    <message>
+      <source>No results were found</source>
+      <translation>No results</translation>
+    </message>
+    <message>
+      <source>Documents results</source>
+      <translation>documents</translation>
+    </message>
+    <message>
+      <source>Dataset results</source>
+      <translation>dataset</translation>
+    </message>
+    <message>
+      <source>Projects results</source>
+      <translation>projects</translation>
     </message>
     <message>
       <source>Questioners</source>

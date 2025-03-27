@@ -1229,11 +1229,19 @@
     </message>
     <message>
       <source>Document number</source>
-      <translation>Numero</translation>
+      <translation>Numero documento</translation>
     </message>
     <message>
       <source>Date</source>
       <translation>Data</translation>
+    </message>
+    <message>
+      <source>Date start</source>
+      <translation>Inizio</translation>
+    </message>
+    <message>
+      <source>Date end</source>
+      <translation>Fine</translation>
     </message>
     <message>
       <source>Office</source>
@@ -1252,6 +1260,10 @@
       <translation>Annulla</translation>
     </message>
     <message>
+      <source>Remove filters</source>
+      <translation>Rimuovi filtri</translation>
+    </message>
+    <message>
       <source>Document type</source>
       <translation>Tipo di documento</translation>
     </message>
@@ -1266,6 +1278,42 @@
     <message>
       <source>No documents were found</source>
       <translation>Nessun documento trovato</translation>
+    </message>
+    <message>
+      <source>No results were found</source>
+      <translation>Nessun risultato</translation>
+    </message>
+    <message>
+      <source>Document result</source>
+      <translation>documento</translation>
+    </message>
+    <message>
+      <source>Documents results</source>
+      <translation>documenti</translation>
+    </message>
+    <message>
+      <source>Dataset result</source>
+      <translation>dataset</translation>
+    </message>
+    <message>
+      <source>Dataset results</source>
+      <translation>dataset</translation>
+    </message>
+    <message>
+      <source>Project result</source>
+      <translation>progetto</translation>
+    </message>
+    <message>
+      <source>Projects results</source>
+      <translation>progetti</translation>
+    </message>
+    <message>
+      <source>Result found</source>
+      <translation>trovato</translation>
+    </message>
+    <message>
+      <source>Results found</source>
+      <translation>trovati</translation>
     </message>
     <message>
       <source>Questioners</source>
