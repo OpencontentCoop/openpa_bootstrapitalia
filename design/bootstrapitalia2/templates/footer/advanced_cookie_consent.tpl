@@ -5,8 +5,7 @@
   var NeedCookieConsent = {/literal}{cond(openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled'), 'true', 'false')}{literal};
   var CookieConsentSettings = {/literal}{cookie_consent_config_translations()}{literal}
   var showIframes = function(){
-    console.log('showIframes')
-    bootstrap.cookies.rememberChoice('multimedia', true)
+    bootstrap.cookies?.rememberChoice('multimedia', true)
 
     const initializeAllVideos = function (){
       const videoEls = document.querySelectorAll("[data-video-url]");
