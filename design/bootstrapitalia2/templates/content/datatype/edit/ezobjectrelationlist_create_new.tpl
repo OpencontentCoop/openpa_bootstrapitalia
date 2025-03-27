@@ -1,4 +1,4 @@
-{if and( is_set( $attribute.class_content.class_constraint_list ), $attribute.class_content.class_constraint_list|count|ne( 0 ), $browse_object_start_node )}
+{if and(openpaini('EditSettings', 'AvoidInContextCreation', array())|contains(concat($attribute.object.class_identifier, '/', $attribute.contentclass_attribute_identifier))|not(), is_set( $attribute.class_content.class_constraint_list ), $attribute.class_content.class_constraint_list|count|ne( 0 ), $browse_object_start_node )}
     {cache-block expiry=864000 ignore_content_expiry keys=array(
         $browse_object_start_node,
         $attribute.contentclassattribute_id,

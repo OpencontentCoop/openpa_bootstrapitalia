@@ -292,4 +292,5 @@ EnableDiscussion=enabled
 
 [EditSettings]
 ModerationInToolbar=disabled
+AvoidInContextCreation[]
 */ ?>
