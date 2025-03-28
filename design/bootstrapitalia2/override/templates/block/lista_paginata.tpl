@@ -12,9 +12,16 @@
 	{case match='lista_paginata_banner'}
 		{set $view='banner'}
 	{/case}
+  {case match='lista_paginata_banner_color'}
+    {set $view='banner_color'}
+  {/case}
+  {case match='lista_paginata_card_image'}
+    {set $view='card_image'}
+  {/case}
 	{case}
 		{set $view='card_teaser'}
 	{/case}
+
 {/switch}
 {def $openpa = object_handler($block)}
 {def $lista_paginata_items_per_row = cond(is_set($block.custom_attributes.elementi_per_riga), $block.custom_attributes.elementi_per_riga, 3)}
@@ -30,7 +37,7 @@
 		<div class="row row-title g-0">
 			{if $block.name|ne('')}
 				<div class="col ">
-					<div class="border-bottom d-md-flex justify-content-between">
+					<div class="d-md-flex justify-content-between">
 						<h2 class="mb-3">{$block.name|wash()}</h2>
 						{if and($openpa.root_node, object_handler($openpa.root_node).content_tag_menu.has_tag_menu|not())}
 							{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
