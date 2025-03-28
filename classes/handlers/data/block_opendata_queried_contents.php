@@ -92,7 +92,8 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
             [, $attributeId, $version] = explode('-', $this->blockId);
             return $this->getDataByAttribute($attributeId, $version);
         }
-        if (!in_array($this->api, ['search', 'geo'])) {
+
+        if (!in_array($this->api, ['search', 'geo', 'calendar'])) {
             throw new Exception("Api $this->api not allowed");
         }
         $block = eZPageBlock::fetch($this->blockId);
@@ -104,6 +105,7 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
         }
         $blockAttributes = $block->attribute('custom_attributes');
         $baseQuery = $blockAttributes['query'];
+
         if (empty($baseQuery)) {
             throw new Exception("Invalid block query settings");
         }
@@ -123,18 +125,13 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                 }
             }
         }
+
         $view = $http->hasGetVariable('view') ? $http->getVariable('view') : $blockAttributes['view_api'];
         $useSimpleGeoApi = (bool)$blockAttributes['simple_geo_api'];
         $queryStringIsAllowed = (bool)$blockAttributes['show_search'];
         $maxLimit = (int)$blockAttributes['limit'];
         $ignorePolicy = (bool)$blockAttributes['ignore_policy'];
 
-        $contentSearch = new ContentSearch();
-        if ($this->api === 'geo') {
-            $currentEnvironment = EnvironmentLoader::loadPreset($useSimpleGeoApi ? 'geo' : 'extrageo');
-        } else {
-            $currentEnvironment = EnvironmentLoader::loadPreset('content');
-        }
         $parser = new ezpRestHttpRequestParser();
         /** @var ezpRestRequest $request */
         $request = $parser->createRequest();
@@ -142,6 +139,17 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
         $context = $http->hasGetVariable('context') ? $http->getVariable('context') : ($blockAttributes['context_api'] ?? null);
         if (!empty($context)){
             $request->get['context'] = $context;
+        }
+
+        $contentSearch = new ContentSearch();
+        if ($this->api === 'geo') {
+            $currentEnvironment = EnvironmentLoader::loadPreset($useSimpleGeoApi ? 'geo' : 'extrageo');
+        } elseif ($this->api === 'calendar') {
+            $currentEnvironment = EnvironmentLoader::loadPreset('calendar');
+            $request->get['start'] = $http->hasGetVariable('start') ? $http->getVariable('start') : 'now';
+            $request->get['end'] = $http->hasGetVariable('end') ? $http->getVariable('end') : '*';
+        } else {
+            $currentEnvironment = EnvironmentLoader::loadPreset('content');
         }
         $currentEnvironment->__set('request', $request);
         $contentSearch->setEnvironment($currentEnvironment);
@@ -176,11 +184,9 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
         }
 
         if ($hasTimeInterval){
-            $queryInterval = ' and calendar[time_interval] = [now,*]';
+            $start = $http->hasGetVariable('start') ? $http->getVariable('start') : 'now';
+            $end = $http->hasGetVariable('end') ? $http->getVariable('end') : '*';
             if ($http->hasGetVariable('interval')) {
-                $now = new DateTime();
-                $start = 'now';
-                $end = '*';
                 switch ($http->getVariable('interval')){
                     case 'today':
                         $end = (new DateTime())->setTime(23,59)->format('c');
@@ -202,7 +208,6 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
             }
             $query .= " and calendar[time_interval] = ['$start','$end']";
         }
-
 
         if ($http->hasGetVariable('id')) {
             $query .= ' and id = \'' . $http->getVariable('id') . '\'';

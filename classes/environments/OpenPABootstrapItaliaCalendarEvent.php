@@ -46,6 +46,8 @@ class OpenPABootstrapItaliaCalendarEvent implements JsonSerializable
 
     private $type;
 
+    private $extendedProps = [];
+
     /**
      * @param mixed $content
      *
@@ -54,6 +56,23 @@ class OpenPABootstrapItaliaCalendarEvent implements JsonSerializable
     public function setContent($content)
     {
         $this->content = $content;
+
+        $language = eZLocale::currentLocaleCode();
+        if (is_object($content)){
+            $content = json_decode(json_encode($content), true);
+        }
+        $data = $content['data'][$language] ?? array_shift($content['data']);
+        $extradata = $content['extradata'][$language] ?? array_shift($content['extradata']);
+
+        $location = $data['location']
+            ?? $extradata['urlAlias']
+            ?? '/openpa/object/' . $content['metadata']['id'];
+
+        if (strpos($location, 'http') !== false){
+            eZURI::transformURI($location);
+        }
+
+        $this->extendedProps['location'] = $location;
 
         return $this;
     }
