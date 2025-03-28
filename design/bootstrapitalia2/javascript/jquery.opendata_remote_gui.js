@@ -551,7 +551,12 @@
                   }
                 },
                 eventClick: function (info) {
-                  let url = plugin.settings.localAccessPrefix.length ? '/' + plugin.settings.localAccessPrefix + '/openpa/object/' + info.event.id : '/openpa/object/' + info.event.id
+                  let url = '';
+                  if (info.event.extendedProps.location) {
+                    url = info.event.extendedProps.location;
+                  } else {
+                    url = plugin.settings.localAccessPrefix.length ? '/' + plugin.settings.localAccessPrefix + '/openpa/object/' + info.event.id : '/openpa/object/' + info.event.id;
+                  }
                   window.location.href = url
                 },
                 loading: function (isLoading) {
