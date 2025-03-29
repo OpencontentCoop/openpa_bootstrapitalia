@@ -240,6 +240,7 @@ ShowUeLogo=enabled
 HideSlimHeaderIfUseless=disabled
 PerformanceLink=https://link.opencontent.it/piano-di-miglioramento-delle-performance-sito
 ShowFooterBanner=disabled
+MinifyHtml=enabled
 
 [InstanceSettings]
 InstallerDirectory=./extension/openpa_bootstrapitalia/data/installer

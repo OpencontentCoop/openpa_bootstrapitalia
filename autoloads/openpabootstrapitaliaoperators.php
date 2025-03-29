@@ -2143,7 +2143,8 @@ class OpenPABootstrapItaliaOperators
     public static function minifyHtml($templateResult)
     {
         $currentSa = eZSiteAccess::current();
-        if (!$currentSa || strpos($currentSa['name'], 'frontend') === false){
+        $isEnabled = OpenPAINI::variable('GeneralSettings', 'MinifyHtml', 'enabled') == 'enabled';
+        if (!$isEnabled || !$currentSa || strpos($currentSa['name'], 'frontend') === false){
             return $templateResult;
         }
 
