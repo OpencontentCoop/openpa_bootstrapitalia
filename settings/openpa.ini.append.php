@@ -95,6 +95,7 @@ Services[opengraph]=ObjectHandlerServiceOpengraph
 Services[content_show_info_collector]=ObjectHandlerServiceShowContentInfoCollector
 Services[data_element]=ObjectHandlerServiceDataElement
 Services[event_link]=ObjectHandlerServiceEventLink
+Services[content_analytics]=ObjectHandlerServiceContentAnalytics
 
 [ViewSettings]
 AvailableView[]=card
@@ -294,4 +295,10 @@ EnableDiscussion=enabled
 [EditSettings]
 ModerationInToolbar=disabled
 AvoidInContextCreation[]
+
+[Seo]
+AnalyticsSegments[]=type
+AnalyticsSegments[]=organization
+AnalyticsSegments[]=service
+
 */ ?>

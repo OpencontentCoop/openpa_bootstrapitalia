@@ -34,4 +34,12 @@
     {ezpagedata_set('is_opencity_locked', true())}
 {/if}
 
+{ezpagedata_set('analytics_type', $node.class_identifier)}
+
+{def $service = $openpa.content_analytics.service_identifier}
+{ezpagedata_set('analytics_service', $service|wash())}
+
+{def $organizations = $openpa.content_analytics.organization_name_list}
+{if count($organizations)}{ezpagedata_set('analytics_organization', $organizations)}{/if}
+
 {undef $openpa}
