@@ -322,5 +322,14 @@
   .ec-day-grid .ec-day-foot a {
     text-decoration: underline !important;
   }
+  .ec-event {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  .ec-popup {
+    min-width: 300px !important;
+    max-height: 500px !important;
+    overflow: auto !important;
+  }
 </style>
 {/literal}
