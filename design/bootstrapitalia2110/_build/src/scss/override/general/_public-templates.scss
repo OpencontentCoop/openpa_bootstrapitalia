@@ -5,6 +5,14 @@ html {
   }
 }
 
+// scroll padding in caso di utente loggato con toolbar redattore
+html:has(body.fixed-wt) {
+  scroll-padding-top: calc($anchor-v-offset + 65px);
+  @include media-breakpoint-up(lg) {
+    scroll-padding-top: calc($anchor-v-offset-lg + 65px);
+  }
+}
+
 h1.title_editor,
 h2.title_editor,
 h3.title_editor,

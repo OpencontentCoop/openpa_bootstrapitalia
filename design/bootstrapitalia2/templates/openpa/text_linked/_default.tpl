@@ -6,21 +6,20 @@
     'icon_wrap_start', '',
     'icon_wrap_end', '',
     'show_icon', false(),
-    'icon_class', 'icon icon-primary icon-sm me-1',
+    'icon_class', 'icon icon-primary icon-sm me-1 flex-shrink-0',
     'shorten', false(),
     'add_abstract', false(),
     'ignore_data_element', false()
 ))}
+
 {if $show_icon}
     <div class="cmp-icon-link mb-2">
         <a class="list-item icon-left d-inline-block font-sans-serif"
            {if or($node.class_identifier|eq('shared_link'), $openpa.content_link.target)}target="_blank"
            rel="noopener noreferrer"{/if}
            href="{$openpa.content_link.full_link}"
-           aria-label="{if and( is_set( $text ), $text|ne('') )}{$text|wash()}{else}{$node.name|wash()}{/if}"
-           title="{if and( is_set( $text ), $text|ne('') )}{$text|wash()}{else}{$node.name|wash()}{/if}"
            data-focus-mouse="false">
-          <span class="list-item-title-icon-wrapper">{*
+          <span class="list-item-title-icon-wrapper d-flex">{*
             *}{if and($show_icon, $openpa.content_icon.icon)}{display_icon($openpa.content_icon.icon.icon_text|wash(), 'svg', $icon_class)}{else}{display_icon('it-clip', 'svg', $icon_class)}{/if}{*
             *}<span class="list-item">{*
                 *}{if and( is_set( $text ), $text|ne('') )}{if $shorten}{$text|shorten($shorten)|wash()}{else}{$text|wash()}{/if}{else}{if $shorten}{$node.name|shorten($shorten)|wash()}{else}{$node.name|wash()}{/if}{/if}{*
