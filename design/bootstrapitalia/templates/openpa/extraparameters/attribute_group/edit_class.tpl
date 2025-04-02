@@ -15,7 +15,7 @@
 {foreach $handler.group_list as $identifier => $name}
     <div class="row border-bottom py-2 mb-2">
         <div class="col" style="max-width: 100px;">
-            <div class="form-check">
+            <div>
                 <input type="checkbox" name="extra_handler_{$handler.identifier}[class][{$class.identifier}][{$identifier}]" value="{$name|wash()}" checked="checked"/>
                 <label>
                     <input style="display: inline;width: 50px;border: 1px solid #ccc;padding: 0 3px;height: auto;font-weight: normal;" type="number" size="2" name="extra_handler_{$handler.identifier}[class][{$class.identifier}][sort::{$identifier}]" value="{if is_set($handler.sort_list[$identifier])}{$handler.sort_list[$identifier]}{else}0{/if}" />
