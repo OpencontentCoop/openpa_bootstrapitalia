@@ -48,28 +48,28 @@
         </div>
         <div class="col">
             <div class="form-check">
-                <input id="hidden-label"
+                <input id="hidden-label-{$identifier}"
                        name="extra_handler_{$handler.identifier}[class][{$class.identifier}][hidden::{$identifier}]"
                        value="{$identifier|wash()}"
                        {if is_set($handler.hidden_list[$identifier])}checked="checked"{/if}
                        type="checkbox">
-                <label for="hidden-label">Nascondi etichetta</label>
+                <label for="hidden-label-{$identifier}">Nascondi etichetta</label>
             </div>
             <div class="form-check">
-                <input id="evidence-label"
+                <input id="evidence-label-{$identifier}"
                        name="extra_handler_{$handler.identifier}[class][{$class.identifier}][evidence::{$identifier}]"
                        value="{$identifier|wash()}"
                        {if is_set($handler.evidence_list[$identifier])}checked="checked"{/if}
                        type="checkbox">
-                <label for="evidence-label">In evidenza</label>
+                <label for="evidence-label-{$identifier}">In evidenza</label>
             </div>
             <div class="form-check">
-                <input id="accordion-label"
+                <input id="accordion-label-{$identifier}"
                        name="extra_handler_{$handler.identifier}[class][{$class.identifier}][accordion::{$identifier}]"
                        value="{$identifier|wash()}"
                        {if is_set($handler.accordion_list[$identifier])}checked="checked"{/if}
                        type="checkbox">
-                <label for="accordion-label">Visualizza come accordion</label>
+                <label for="accordion-label-{$identifier}">Visualizza come accordion</label>
             </div>
         </div>
     </div>
