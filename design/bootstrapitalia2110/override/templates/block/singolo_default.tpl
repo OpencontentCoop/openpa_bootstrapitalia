@@ -23,16 +23,15 @@
             {/if}
         {/foreach}
 
-        {def 
-          $video = null
-          $has_video = false()
-          $oembed = false()}
+        {def $video = false()
+             $has_video = false()
+             $oembed = false()}
         {if $valid_node|has_attribute('video')}
           {set $video = $valid_node|attribute('video')}
         {elseif $valid_node|has_attribute('has_video')}
           {set $video = $valid_node|attribute('has_video')}
         {/if}
-        {set $has_video = $video.content}
+        {set $has_video = cond($video, $video.content, false())}
         {if $has_video}
             {set $oembed = get_oembed_object($has_video)}
             {if is_array($oembed)|not()}
@@ -91,7 +90,7 @@
                 {/if}
             </div>
         </div>
-        {undef $openpa, $video, $has_video, $oembed}
+        {undef $openpa $video $has_video $oembed}
     {/if}
     {undef $valid_node}
 {/if}
