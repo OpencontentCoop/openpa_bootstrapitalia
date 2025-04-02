@@ -102,6 +102,7 @@ class OpenPABootstrapItaliaOperators
             'download_url',
             'parse_table',
             'markdown',
+            'matrix_to_hash',
         );
     }
 
@@ -265,6 +266,9 @@ class OpenPABootstrapItaliaOperators
             'current_class_needs_approval' =>  array(
                 'class_identifier' => array('type' => 'string', 'required' => false, 'default' => null),
             ),
+            'matrix_to_hash' =>  array(
+                'attribute' => array('type' => 'object', 'required' => true, 'default' => null),
+            ),
         );
     }
 
@@ -279,6 +283,21 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'matrix_to_hash':
+                $operatorValue = [];
+                $attribute = $namedParameters['attribute'];
+                if ($attribute instanceof eZContentObjectAttribute
+                    && $attribute->attribute('data_type_string') === eZMatrixType::DATA_TYPE_STRING
+                    && $attribute->attribute('has_content')){
+                    $matrix = $attribute->attribute('content')->attribute('matrix');
+                    foreach ($matrix['columns']['sequential'] as $column) {
+                        foreach ($column['rows'] as $index => $row){
+                            $operatorValue[$index][$column['identifier']] = $row;
+                        }
+                    }
+                }
+                break;
 
             case 'markdown':
                 $operatorValue = is_string($operatorValue) ? Markdown_Parser::parse($operatorValue) : $operatorValue;
