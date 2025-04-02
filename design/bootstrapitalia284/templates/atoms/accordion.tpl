@@ -1,6 +1,6 @@
-<div class="cmp-accordion accordion">
+<div class="cmp-accordion">
     {foreach $items as $item}
-    <div class="accordion-item">
+    <div class="accordion-item {$item|access_style}">
         <h2 class="accordion-header" id="heading-{$item.node_id}">
             <button class="accordion-button collapsed" type="button"
                     data-bs-toggle="collapse" data-bs-target="#collapse-{$item.node_id}" aria-expanded="false" aria-controls="collapse-{$item.node_id}">
