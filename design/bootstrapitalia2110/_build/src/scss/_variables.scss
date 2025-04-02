@@ -559,7 +559,7 @@ $grid-list-text-gap: $v-gap;
 $grid-item-sm-col: 50%;
 $grid-item-lg-col: 33.333333%;
 $grid-item-icon-size: 24px;
-$grid-item-overlay: hsla(210%, 54%, 20, 0.85);
+$grid-item-overlay: hsla(210%, 54%, 20, 0.5) !default; // Opacità ridotta per rendere più visibile l'immagine
 
 // list
 $list-font-size: 1rem;

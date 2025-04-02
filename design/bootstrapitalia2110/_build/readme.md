@@ -76,3 +76,6 @@ Il plugin masonry.js è stato modificato per essere eseguito dopo che i font sia
     })
   });
 ```
+
+Caveat
+- cambiata variabile $grid-item-overlay
