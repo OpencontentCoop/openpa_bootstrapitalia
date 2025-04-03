@@ -266,6 +266,12 @@
                     response.colSpan = Groups.length + 1;
                     response.moderationNodeId = Moderation;
 
+                    response.searchHits.sort((a, b) => {
+                      const aHasPermissions = a.metadata.parentNodes.some(node => Groups.some(group => group.node === node));
+                      const bHasPermissions = b.metadata.parentNodes.some(node => Groups.some(group => group.node === node));
+                      return aHasPermissions === bHasPermissions ? 0 : aHasPermissions ? -1 : 1;
+                    });
+
                     $.each(response.searchHits, function(){
                         var currentParentNodes = this.metadata.parentNodes;
                         this.baseUrl = baseUrl;
