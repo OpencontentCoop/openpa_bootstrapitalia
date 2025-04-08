@@ -49,7 +49,7 @@
                                     {foreach $node.children as $child}
                                         {if topic_has_contents($child.contentobject_id)}
                                           <a
-                                            class="chip chip-simple chip-{if $child.object.section_id|eq(1)}primary{else}danger{/if}" 
+                                            class="chip chip-simple chip-primary {if $child.object.section_id|ne(1)}no-sezioni_per_tutti{/if}" 
                                             href="{$child.url_alias|ezurl(no)}">
                                               <span class="chip-label">{$child.name|wash()}</span>
                                           </a>

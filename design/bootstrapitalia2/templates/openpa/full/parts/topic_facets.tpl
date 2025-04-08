@@ -17,7 +17,7 @@
 			{foreach $current_node_topic_node_id_list as $id => $count}
             	{def $topic = fetch(content, node, hash(node_id, $id))}
                 {if $topic.can_read}
-            	    <a class="text-decoration-none" href="{concat('content/search/?Topic[]=', $topic.node_id, '&Subtree[]=', $current_node.node_id)|ezurl(no)}"><span class="chip chip-simple chip-{if $topic.object.section_id|eq(1)}primary{else}danger{/if}"><span class="chip-label">{$topic.name|wash()}</span></span></a>
+            	    <a class="text-decoration-none" href="{concat('content/search/?Topic[]=', $topic.node_id, '&Subtree[]=', $current_node.node_id)|ezurl(no)}"><span class="chip chip-simple chip-primary {if $topic.object.section_id|ne(1)}no-sezioni_per_tutti{/if}"><span class="chip-label">{$topic.name|wash()}</span></span></a>
                 {/if}
             	{undef $topic}
             {/foreach}

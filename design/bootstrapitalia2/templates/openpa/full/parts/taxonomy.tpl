@@ -25,10 +25,10 @@
         <ul class="d-flex flex-wrap gap-1 mb-2">
         {foreach $current_topics as $object}
             <li>
-                <a class="chip chip-simple chip-{if $object.section_id|eq(1)}primary{else}danger{/if}"
+                <a class="chip chip-simple chip-primary {if $object.section_id|ne(1)}no-sezioni_per_tutti{/if}"
                    {if $node.class_identifier|eq('public_service')}data-element="service-topic"{/if}
                    href="{$object.main_node.url_alias|ezurl(no)}">
-                    <span class="chip-label {if $object.section_id|ne(1)}text-white{/if}">{$object.name|wash()}</span>
+                    <span class="chip-label">{$object.name|wash()}</span>
                 </a>
             </li>
         {/foreach}
