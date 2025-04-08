@@ -9,7 +9,7 @@
                   class="chip chip-simple chip-primary bg-tag"
                   href="{concat( '/tags/view/', $tag.url )|explode('tags/view/tags/view')|implode('tags/view')|ezurl(no)}"
                 >
-                  <span class="chip-label text-nowrap">{$tag.keyword|wash}</span>
+                  <span class="chip-label">{$tag.keyword|wash}</span>
                 </a>
             {else}
               <div class="chip chip-simple chip-primary bg-tag">

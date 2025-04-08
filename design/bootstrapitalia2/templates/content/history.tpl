@@ -106,7 +106,7 @@
                     <td style="vertical-align:middle">
                         {def $approval_status = approval_status_by_version_id($version.id)|choose( 'Pending'|i18n( 'bootstrapitalia/moderation' ), 'Approved'|i18n( 'bootstrapitalia/moderation' ), 'Rejected'|i18n( 'bootstrapitalia/moderation' ) )}
                         {if $approval_status|ne('')}
-                            <a class="chip chip-simple chip-info" href="{concat('/bootstrapitalia/approval/version/', $version.id)|ezurl(no)}"><span class="chip-label text-nowrap ">{$approval_status}</span></a>
+                            <a class="chip chip-simple chip-info" href="{concat('/bootstrapitalia/approval/version/', $version.id)|ezurl(no)}"><span class="chip-label">{$approval_status}</span></a>
                         {/if}
                         {undef $approval_status}
                     </td>

@@ -36,7 +36,7 @@
                         <li>
                             <a class="chip chip-simple chip-primary"
                                href="{$openpa.event_link.topic.main_node.url_alias|ezurl(no)}">
-                                <span class="chip-label text-nowrap">{$openpa.event_link.topic.name|wash()}</span>
+                                <span class="chip-label">{$openpa.event_link.topic.name|wash()}</span>
                             </a>
                         </li>
                     </ul>
@@ -47,7 +47,7 @@
                     <ul class="d-flex flex-wrap gap-1 mb-2">
                         <li>
                             <span class="chip chip-simple chip-primary">
-                                <span class="chip-label text-nowrap">{$openpa.event_link.topic_name|wash()}</span>
+                                <span class="chip-label">{$openpa.event_link.topic_name|wash()}</span>
                             </span>
                         </li>
                     </ul>
@@ -58,7 +58,7 @@
                     </div>
                     <ul class="d-flex flex-wrap gap-1 mb-2">
                         <li class="chip chip-simple chip-primary">
-                            <span class="chip-label text-nowrap">
+                            <span class="chip-label">
                                 {$openpa.event_link.has_public_event_typology.keyword|wash()}
                             </span>
                         </li>
@@ -69,7 +69,7 @@
                     </div>
                     <ul class="d-flex flex-wrap gap-1 mb-2">
                         <li class="chip chip-simple chip-primary">
-                            <span class="chip-label text-nowrap">
+                            <span class="chip-label">
                                 {$openpa.event_link.has_public_event_typology_name|wash()}
                             </span>
                         </li>
