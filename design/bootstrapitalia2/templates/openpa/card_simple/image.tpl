@@ -28,7 +28,7 @@
             {/if}
             <h3 class="{$class}">{$node.name|wash()}</h3>
             {undef $count $class*}
-            <h3 style="hyphens: auto;">{$node.name|wash()}</h3>
+            <h3 class="oc-card-title-clamp">{$node.name|wash()}</h3>
       </span>
     </a>
     {if and($view_variation|eq('gallery'), $node.can_edit)}

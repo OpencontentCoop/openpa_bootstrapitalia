@@ -35,3 +35,5 @@ cp -rv src/stylesheets/* ${OPENCITY_DIRECTORY}/html/extension/openpa_bootstrapit
 cp -rv src/components ${OPENCITY_DIRECTORY}/html/extension/openpa_bootstrapitalia/design/bootstrapitalia2/_build/design-comuni-pagine-statiche
 cp -rv src/elements ${OPENCITY_DIRECTORY}/html/extension/openpa_bootstrapitalia/design/bootstrapitalia2/_build/design-comuni-pagine-statiche
 ```
+
+Aggiunta classe oc-card-title-clamp per contenere su tre righe i testi in overlay delle card image.
