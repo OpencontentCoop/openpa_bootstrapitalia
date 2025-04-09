@@ -25,7 +25,7 @@
                         {if topic_has_contents($child.contentobject_id)}
                         <a class="text-decoration-none text-nowrap d-inline-block mb-1" href="{$child.url_alias|ezurl(no)}"
                            data-eurovoc="{$child|attribute('eu').data_text|wash()}" data-element="{object_handler($child).data_element.value|wash()}">
-                            <div class="chip chip-simple chip-{if $child.object.section_id|eq(1)}primary{else}danger{/if}"><span class="chip-label">{$child.name|wash()}</span></div>
+                            <div class="chip chip-simple chip-primary {if $child.object.section_id|ne(1)}no-sezioni_per_tutti{/if}"><span class="chip-label">{$child.name|wash()}</span></div>
                         </a>
                         {/if}
                     {/foreach}

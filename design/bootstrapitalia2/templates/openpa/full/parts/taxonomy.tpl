@@ -25,10 +25,10 @@
         <ul class="d-flex flex-wrap gap-1 mb-2">
         {foreach $current_topics as $object}
             <li>
-                <a class="chip chip-simple chip-{if $object.section_id|eq(1)}primary{else}danger{/if}"
+                <a class="chip chip-simple chip-primary {if $object.section_id|ne(1)}no-sezioni_per_tutti{/if}"
                    {if $node.class_identifier|eq('public_service')}data-element="service-topic"{/if}
                    href="{$object.main_node.url_alias|ezurl(no)}">
-                    <span class="chip-label text-nowrap {if $object.section_id|ne(1)}text-white{/if}">{$object.name|wash()}</span>
+                    <span class="chip-label">{$object.name|wash()}</span>
                 </a>
             </li>
         {/foreach}
@@ -45,7 +45,7 @@
         {if $node|attribute($identifier).data_type_string|eq('eztags')}
             <ul class="d-flex flex-wrap gap-1 mb-2">
             {foreach $node|attribute($identifier).content.tags as $tag}
-                <li class="chip chip-simple chip-primary"><span class="chip-label text-nowrap">{$tag.keyword|wash}</span></li>
+                <li class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></li>
             {/foreach}
             </ul>
         {else}
@@ -69,7 +69,7 @@
         <li>
             <a class="chip chip-simple chip-primary"
                href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.content_tag_menu.tag_menu_root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
-               <span class="chip-label text-nowrap">{$tag.keyword|wash}</span>
+               <span class="chip-label">{$tag.keyword|wash}</span>
            </a>
         </li>
     {/foreach}

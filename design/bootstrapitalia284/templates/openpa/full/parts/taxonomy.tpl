@@ -23,10 +23,10 @@
             </div>
         {/if}
         {foreach $current_topics as $object}
-                <a class="chip chip-simple chip-{if $object.section_id|eq(1)}primary{else}danger{/if}"
+                <a class="chip chip-simple chip-primary {if $object.section_id|ne(1)}no-sezioni_per_tutti{/if}"
                    {if $node.class_identifier|eq('public_service')}data-element="service-topic"{/if}
                    href="{$object.main_node.url_alias|ezurl(no)}">
-                    <span class="chip-label text-nowrap {if $object.section_id|ne(1)}text-white{/if}">{$object.name|wash()}</span>
+                    <span class="chip-label">{$object.name|wash()}</span>
                 </a>
         {/foreach}
     {/if}
@@ -40,7 +40,7 @@
         {/if}
         {if $node|attribute($identifier).data_type_string|eq('eztags')}
             {foreach $node|attribute($identifier).content.tags as $tag}
-                <div class="chip chip-simple chip-primary"><span class="chip-label text-nowrap">{$tag.keyword|wash}</span></div>
+                <div class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></div>
             {/foreach}
         {else}
             {attribute_view_gui attribute=$node|attribute($identifier)}
@@ -61,7 +61,7 @@
     {foreach $node|attribute('type').content.tags as $tag}
         <a class="chip chip-simple chip-primary"
            href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.control_menu.side_menu.root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
-           <span class="chip-label text-nowrap">{$tag.keyword|wash}</span>
+           <span class="chip-label">{$tag.keyword|wash}</span>
        </a>
     {/foreach}
 </div>

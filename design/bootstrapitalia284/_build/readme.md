@@ -67,3 +67,5 @@ rm _export
 Eseguire un merge di  `bootstrap-italia/src/scss/bootstrap-italia.scss` e di  `design-comuni-pagine-statiche/src/stylesheets/styles.scss` 
 in `${OPENCITY_DIRECTORY}/html/extension/openpa_bootstrapitalia/design/bootstrapitalia284/_build/src/scss/default.scss` 
 e verificare se ancora necessari gli override 
+
+Aggiunta classe oc-card-title-clamp per contenere su tre righe i testi in overlay delle card image.

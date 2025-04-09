@@ -77,5 +77,4 @@ Il plugin masonry.js è stato modificato per essere eseguito dopo che i font sia
   });
 ```
 
-Caveat
-- cambiata variabile $grid-item-overlay
+Aggiunta classe oc-card-title-clamp per contenere su tre righe i testi in overlay delle card image.
