@@ -178,12 +178,6 @@ MatchFile=datatype/view/matrix_link.tpl
 Subdir=templates
 Match[attribute_identifier]=links
 
-[datatype_view_relations_requires_service]
-Source=content/datatype/view/ezobjectrelationlist.tpl
-MatchFile=datatype/view/relations_requires_service.tpl
-Subdir=templates
-Match[attribute_identifier]=requires_service
-
 [datatype_view_relations_has_offer]
 Source=content/datatype/view/ezobjectrelationlist.tpl
 MatchFile=datatype/view/relations_has_offer.tpl
