@@ -225,3 +225,11 @@
 .place-search-block .autocomplete__wrapper {
     border-bottom: 1px solid #5b6f82 !important;
 }
+
+.option-tree .autocomplete__option span.tree-item{
+    display:inline-block;
+}
+
+.option-tree .autocomplete__list span span.tree-item {
+    padding-left:0 !important;
+}

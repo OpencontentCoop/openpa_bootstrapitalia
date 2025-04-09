@@ -103,6 +103,7 @@ class OpenPABootstrapItaliaOperators
             'parse_table',
             'markdown',
             'matrix_to_hash',
+            'tag_root_from_attribute_identifier',
         );
     }
 
@@ -269,6 +270,9 @@ class OpenPABootstrapItaliaOperators
             'matrix_to_hash' =>  array(
                 'attribute' => array('type' => 'object', 'required' => true, 'default' => null),
             ),
+            'tag_root_from_attribute_identifier' =>  array(
+                'attribute_identifier' => array('type' => 'string', 'required' => true, 'default' => null),
+            ),
         );
     }
 
@@ -283,6 +287,18 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'tag_root_from_attribute_identifier':
+                $operatorValue = false;
+                $attributeIdentifier = $namedParameters['attribute_identifier'];
+                if (!empty($attributeIdentifier) && is_string($attributeIdentifier)) {
+                    $attributeIdentifier = eZDB::instance()->escapeString($attributeIdentifier);
+                    $rows = eZDB::instance()->arrayQuery(
+                        "SELECT data_int1 FROM ezcontentclass_attribute WHERE identifier = '$attributeIdentifier' AND data_type_string = 'eztags' LIMIT 1"
+                    );
+                    $operatorValue = $rows[0]['data_int1'] ?? false;
+                }
+                break;
 
             case 'matrix_to_hash':
                 $operatorValue = [];
