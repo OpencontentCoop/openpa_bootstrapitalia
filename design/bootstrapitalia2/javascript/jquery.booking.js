@@ -748,9 +748,10 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       this.currentStep().find('[data-status="step-status-active"]').attr('aria-hidden', false)
       this.currentStepContainer().show()
       this.pushState()
-      if (current !== index) {
+      if (current !== 0) {
         this.scrollToTop()
       }
+      
       if ($.isFunction(callback)) {
         callback.call(context, this.currentData)
       }
