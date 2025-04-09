@@ -23,16 +23,15 @@
             {/if}
         {/foreach}
 
-        {def 
-          $video = null
-          $has_video = false()
-          $oembed = false()}
+        {def $video = false()
+             $has_video = false()
+             $oembed = false()}
         {if $valid_node|has_attribute('video')}
           {set $video = $valid_node|attribute('video')}
         {elseif $valid_node|has_attribute('has_video')}
           {set $video = $valid_node|attribute('has_video')}
         {/if}
-        {set $has_video = $video.content}
+        {set $has_video = cond($video, $video.content, false())}
         {if $has_video}
             {set $oembed = get_oembed_object($has_video)}
             {if is_array($oembed)|not()}
@@ -40,10 +39,12 @@
             {/if}
         {/if}
 
-        {if $block.name|ne('')}
-            <h2 class="visually-hidden">{$block.name|wash()}</h2>
+        {if openpaini('ViewSettings', 'ShowTitleInSingleBlock')|eq('enabled')}
+          {include uri='design:parts/block_name.tpl'}
+        {elseif $block.name|ne('')}
+          <h2 class="visually-hidden">{$block.name|wash()}</h2>
         {else}
-            <h2 class="visually-hidden">{$valid_node.name|wash()}</h2>
+          <h2 class="visually-hidden">{$valid_node.name|wash()}</h2>
         {/if}
 
         <div class="{$valid_node|access_style}">
@@ -89,7 +90,7 @@
                 {/if}
             </div>
         </div>
-        {undef $openpa, $video, $has_video, $oembed}
+        {undef $openpa $video $has_video $oembed}
     {/if}
     {undef $valid_node}
 {/if}

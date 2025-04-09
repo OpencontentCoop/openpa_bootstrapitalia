@@ -678,12 +678,26 @@ Subdir=templates
 Match[type]=ListaPaginata
 Match[view]=lista_paginata_card
 
+[block_lista_paginata_card_image]
+Source=block/view/view.tpl
+MatchFile=block/lista_paginata.tpl
+Subdir=templates
+Match[type]=ListaPaginata
+Match[view]=lista_paginata_card_image
+
 [block_lista_paginata_banner]
 Source=block/view/view.tpl
 MatchFile=block/lista_paginata.tpl
 Subdir=templates
 Match[type]=ListaPaginata
 Match[view]=lista_paginata_banner
+
+[block_lista_paginata_banner_color]
+Source=block/view/view.tpl
+MatchFile=block/lista_paginata.tpl
+Subdir=templates
+Match[type]=ListaPaginata
+Match[view]=lista_paginata_banner_color
 
 #### RicercaDocumenti
 

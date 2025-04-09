@@ -17,8 +17,7 @@
 
 {include uri='design:openpa/card/parts/card_wrapper_open.tpl'}
 
-  {if $has_media}
-    <div class="col-4 col-md-12 order-2 order-md-1 position-relative">
+    {if $has_media}
       <div class="img-responsive-wrapper">
         <div class="img-responsive img-responsive-panoramic">
           <figure class="img-wrapper">
@@ -44,21 +43,13 @@
           {/if}
         </div>
       </div>
-    </div>
-  {/if}
+    {/if}
 
-  <div class="{if $has_media}col-8 col-md-12{else}col-12{/if} order-1 order-md-2">
     <div class="card-body pb-5">
-        {include uri='design:openpa/card/parts/category.tpl'}
-        {include uri='design:openpa/card/parts/card_title.tpl'}
-        {include uri='design:openpa/card/parts/abstract.tpl'}
-        
-        <a class="read-more" href="{$openpa.content_link.full_link}{if $openpa.content_link.is_internal}#page-content{/if}">
-          <span class="text">{'Read more'|i18n('bootstrapitalia')}</span>
-          {display_icon('it-arrow-right', 'svg', 'icon')}
-        </a>
+      {include uri='design:openpa/card/parts/category.tpl'}
+      {include uri='design:openpa/card/parts/card_title.tpl'}
+      {include uri='design:openpa/card/parts/abstract.tpl'}
     </div>
-  </div>
 
 {include uri='design:openpa/card/parts/card_wrapper_close.tpl'}
 
