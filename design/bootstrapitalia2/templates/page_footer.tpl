@@ -4,7 +4,7 @@
 )}
     {include uri='design:footer/valuation.tpl'}
 {/if}
-{if openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled')}
+{if or(openpaini('GeneralSettings','ShowMainContacts', 'enabled')|eq('enabled'), $pagedata.homepage|has_attribute('footer_main_contacts_label'))}
 {include uri='design:footer/main_contacts.tpl'}
 {/if}
 
