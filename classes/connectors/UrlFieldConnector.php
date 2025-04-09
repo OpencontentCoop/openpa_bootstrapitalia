@@ -48,7 +48,7 @@ class UrlFieldConnector extends FieldConnector
         return [
             "helper" => $this->attribute->attribute('description'),
             "fields" => [
-            	"url" => ["type" => "url"]            
+            	"url" => ["type" => "url", "allowIntranet" => true]
             ]
         ];
     }
