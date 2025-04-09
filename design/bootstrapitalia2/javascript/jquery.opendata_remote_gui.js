@@ -597,14 +597,14 @@
                     success: function (response, textStatus, jqXHR) {
                         var getFacetType = function(facet, name) {
                             if (name.includes('name') === false
-                              && moment(new Date(facet)).isValid()) {
+                              && moment(facet, moment.ISO_8601, true).isValid()) {
                                 return 'date';
                             }
                             return 'string';
                         };
                         var getFacetOptionText = function(facet, name) {
                             if (name.includes('name') === false) {
-                                let date = moment(new Date(facet));
+                                let date = moment(facet, moment.ISO_8601, true);
                                 if (date.isValid()) {
                                     if (facet.indexOf('-01-01T00:00:00Z') > -1) {
                                         return date.format('YYYY');
