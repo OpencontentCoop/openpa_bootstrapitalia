@@ -100,13 +100,50 @@
                       </fieldset>
                     </div>
                   {else}
-                    <div class="px-0 my-4 mb-5">
-                      <label class="h6 ms-0 ps-0" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
-                      <select id="facet-{$block.id}-{$index}" data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
-                        data-facets_select="facet-{$index}" class="d-none" multiple></select>
-                    </div>
-                    {set $index = $index|inc()}
-                    {set $facetsFields = $facetsFields|append($facets_parts[1])}
+                      {def $tag_tree_root_id = false()}
+                      {if and(is_set($facets_parts[2]), $facets_parts[2]|eq('tree'))}
+                          {set $tag_tree_root_id = tag_root_from_attribute_identifier($facets_parts[1])}
+                      {/if}
+                      {if $tag_tree_root_id}
+                          {def $tag_tree = api_tagtree($tag_tree_root_id)}
+                          <div class="px-0 my-4 mb-5 option-tree">
+                              <label class="h6 ms-0 ps-0" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
+                              <select id="facet-{$block.id}-{$index}" data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
+                                      data-facets_select="facet-{$index}" class="d-none" multiple>
+                                  {foreach $tag_tree.children as $tag}
+                                      <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$tag.id|wash()}">{$tag.keyword|wash()}</option>
+                                      {if $tag.hasChildren}
+                                          {foreach $tag.children as $childTag}
+                                              <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$childTag.id|wash()}">&nbsp;&nbsp;{$childTag.keyword|wash()}</option>
+                                              {if $childTag.hasChildren}
+                                                  {foreach $childTag.children as $subChildTag}
+                                                      <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$subChildTag.id|wash()}">&nbsp;&nbsp;&nbsp;&nbsp;{$subChildTag.keyword|wash()}</option>
+                                                      {if $subChildTag.hasChildren}
+                                                          {foreach $subChildTag.children as $subSubChildTag}
+                                                              <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$subSubChildTag.id|wash()}">&nbsp;&nbsp;&nbsp;&nbsp;{$subSubChildTag.keyword|wash()}</option>
+                                                          {/foreach}
+                                                      {/if}
+                                                  {/foreach}
+                                              {/if}
+                                          {/foreach}
+                                      {/if}
+                                  {/foreach}
+                              </select>
+                          </div>
+                          {set $index = $index|inc()}
+                          {set $facetsFields = $facetsFields|append(concat('raw[subattr_', $facets_parts[1], '___tag_ids____si]'))}
+                          {undef $tag_tree}
+                      {else}
+                          <div class="px-0 my-4 mb-5">
+                              <label class="h6 ms-0 ps-0" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
+                              <select id="facet-{$block.id}-{$index}"
+                                      data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
+                                      data-facets_select="facet-{$index}" class="d-none" multiple></select>
+                          </div>
+                          {set $index = $index|inc()}
+                          {set $facetsFields = $facetsFields|append($facets_parts[1])}
+                      {/if}
+                      {undef $tag_tree_root_id}
                   {/if}
                 {/if}
                 {undef $facets_parts}
