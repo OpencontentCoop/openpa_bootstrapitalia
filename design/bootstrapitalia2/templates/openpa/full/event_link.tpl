@@ -87,7 +87,8 @@
             <img class="{image_class_and_style($openpa.event_link.image.width, $openpa.event_link.image.height).css_class}"
                  style="{image_class_and_style($openpa.event_link.image.width, $openpa.event_link.image.height).inline_style}"
                  src="{$openpa.event_link.image.url}"
-                 alt="{$node.name|wash()}" />
+                 alt="{$node.name|wash()}"
+                 loading="lazy" />
             {if or($openpa.event_link.image.author, $openpa.event_link.image.license)}
             <figcaption class="figure-caption text-center pt-3">
                 <span>

@@ -26,7 +26,7 @@
                     {/if}
 
                     {if $openpa.event_link.image}
-                        <img class="img-fluid" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
+                        <img class="img-fluid" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" loading="lazy" />
                     {else}
                         <div class="bg-dark" style="width:{rand(300,400)}px;height:{rand(300,400)}px"></div>
                     {/if}

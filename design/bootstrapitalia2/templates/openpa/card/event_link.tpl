@@ -37,7 +37,7 @@
             {/if}
             {undef $events $is_recurrence $attribute_content}
         {/if}
-        <img class="img-fluid rounded-top img-fluid img-responsive" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
+        <img class="img-fluid rounded-top img-fluid img-responsive" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" loading="lazy" />
     </div>
     {/if}
 
