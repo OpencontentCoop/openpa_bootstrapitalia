@@ -2161,6 +2161,10 @@ class OpenPABootstrapItaliaOperators
 
     public static function minifyHtml($templateResult)
     {
+        $pattern = '/loading="lazy"/i';
+        $replace = 'loading="eager"';
+        $lazyLoading = preg_replace($pattern, $replace, $templateResult, 4);
+        $templateResult = empty($lazyLoading) ? $templateResult : $lazyLoading;
         $currentSa = eZSiteAccess::current();
         $isEnabled = OpenPAINI::variable('GeneralSettings', 'MinifyHtml', 'enabled') == 'enabled';
         if (!$isEnabled || !$currentSa || strpos($currentSa['name'], 'frontend') === false){
