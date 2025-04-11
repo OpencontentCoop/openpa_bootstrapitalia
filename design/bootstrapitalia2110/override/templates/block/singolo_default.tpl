@@ -58,7 +58,7 @@
                                     {$valid_node.name|wash()}
                                 </a>
                             </h3>
-                            <div class="mb-4 pt-3 lora">{include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node dates_container_class=''}</div>
+                            <div class="mb-4 pt-3 lora">{include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node dates_container_class='' avoid_oembed=true()}</div>
                             {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false() container_class=''}
                             <a class="read-more mb-3" href="{$openpa.content_link.full_link}#page-content">
                                 <span class="text">{if $openpa.content_link.is_node_link}{'Read more'|i18n('bootstrapitalia')}{else}{'Visit'|i18n('bootstrapitalia')}{/if}</span>
