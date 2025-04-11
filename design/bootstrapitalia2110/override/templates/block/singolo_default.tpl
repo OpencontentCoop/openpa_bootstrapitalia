@@ -49,7 +49,7 @@
         <div class="{$valid_node|access_style}">
             <div class="row">
                 <div class="col{if or($has_image, $has_video)}-lg-6 order-2 order-lg-1{/if} {if $block.custom_attributes.color_style|ne('')}px-lg-0{/if}">
-                    <div class="card">
+                    <div class="card {if $block.custom_attributes.color_style|eq('')}mb-5{/if}">
                         <div class="card-body pb-5 {if $block.custom_attributes.color_style|eq('')}px-0{/if}">
                             {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}
                             <h3 class="card-title">
