@@ -46,12 +46,11 @@
         {else}
           <h2 class="visually-hidden">{$valid_node.name|wash()}</h2>
         {/if}
-
         <div class="{$valid_node|access_style}">
             <div class="row">
-                <div class="col{if or($has_image, $has_video)}-lg-6 order-2 order-lg-1{/if}">
-                    <div class="card mb-5">
-                        <div class="card-body pb-5 px-0">
+                <div class="col{if or($has_image, $has_video)}-lg-6 order-2 order-lg-1{/if} {if $block.custom_attributes.color_style|ne('')}px-lg-0{/if}">
+                    <div class="card">
+                        <div class="card-body pb-5 {if $block.custom_attributes.color_style|eq('')}px-0{/if}">
                             {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}
                             <h3 class="card-title">
                                 <a href="{$openpa.content_link.full_link}"
@@ -63,7 +62,7 @@
                             {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false() container_class=''}
                             <a class="read-more mb-3" href="{$openpa.content_link.full_link}#page-content">
                                 <span class="text">{if $openpa.content_link.is_node_link}{'Read more'|i18n('bootstrapitalia')}{else}{'Visit'|i18n('bootstrapitalia')}{/if}</span>
-                                {display_icon('it-arrow-right', 'svg', 'icon', 'Read more'|i18n('bootstrapitalia'))}
+                                {display_icon('it-arrow-right', 'svg', 'icon')}
                             </a>
                             {if and($openpa.content_link.is_node_link|not(), $valid_node.can_edit)}
                                 <a style="z-index: 10;right: 0;left: auto;bottom: 0" class="position-absolute p-1" href="{$valid_node.url_alias|ezurl(no)}">
@@ -77,7 +76,7 @@
                     </div>
                 </div>
                 {if or($has_image, $has_video)}
-                <div class="col-lg-6 order-1 order-lg-2 px-0 px-lg-3 d-lg-flex align-items-stretch flex-nowrap">
+                <div class="col-lg-6 order-1 order-lg-2 px-0 d-lg-flex align-items-stretch flex-nowrap {if $block.custom_attributes.color_style|ne('')}px-lg-0 {else}px-lg-3{/if}">
                     {if $has_video}
                       <div class="flex-lg-fill">
                         {include uri='design:parts/video.tpl' video=$video}
