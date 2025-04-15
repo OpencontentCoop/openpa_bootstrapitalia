@@ -16,7 +16,7 @@
             <div class="form-group mb-3">
               <label for="name" class="visually-hidden">{'Search by name'|i18n('bootstrapitalia')}</label>
               <div class="input-group">
-                  <input type="search" class="form-control" id="name" placeholder="Cerca per nome, cognome" aria-label="Cerca per nome">
+                  <input type="search" class="form-control" id="name" placeholder={'Search by name'|i18n('bootstrapitalia')} aria-label="Cerca per nome">
                   <div class="input-group-append">
                       <button class="btn btn-primary btn-sm rounded-0" type="submit" id="FindContents">{'Search'|i18n('openpa/search')}</button>
                       <button class="btn btn-secondary btn-sm rounded-0" type="button" style="display: none;" id="ResetContents">{'Remove all filters'|i18n('openpa/search')}</button>
