@@ -8,8 +8,8 @@
 {/foreach}
 <div class="mb-3">
   {foreach $images as $image}
-    {attribute_view_gui attribute=$image.main_node|attribute('image')
-    image_class='original'
+    {attribute_view_gui attribute=$image|attribute('image')
+    image_class='reference'
     inline_style='max-height: 200px;'
     fluid=true()}
   {/foreach}
