@@ -58,6 +58,7 @@
                 }
             }
             this.searchUrl = this.settings.remoteUrl + this.settings.searchApi;
+            this.cardSearchUrl = this.settings.remoteUrl + this.settings.searchApi.replace(this.settings.view, 'card');
             this.geoSearchUrl = this.settings.remoteUrl + this.settings.geoSearchApi;
             this.calendarSearchUrl = this.settings.remoteUrl + this.settings.calendarSearchApi;
         }else if (this.settings.queryBuilder === 'server') {
@@ -249,12 +250,12 @@
             }
         },
 
-        buildByIdQueryParams: function (id){
+        buildByIdSearchUrl: function (id){
             let plugin = this;
             if (plugin.settings.queryBuilder === 'browser') {
-                return 'id = ' + id;
-            }else{
-                return '?limit=1&id=' + id + '&view=banner&' + plugin.buildQuery();
+                return plugin.cardSearchUrl + 'id = ' + id;
+            } else {
+                return plugin.searchUrl + '?limit=1&id=' + id + '&view=banner&' + plugin.buildQuery();
             }
         },
 
@@ -309,7 +310,7 @@
                     layer.on('click', function (e) {
                         $.ajax({
                             type: "GET",
-                            url: plugin.searchUrl + plugin.buildByIdQueryParams(e.target.feature.properties.id),
+                            url: plugin.buildByIdSearchUrl(e.target.feature.properties.id),
                             dataType: plugin.ajaxDatatype,
                             success: function (response,textStatus,jqXHR) {
                                 if (!plugin.detectError(response,jqXHR)){
