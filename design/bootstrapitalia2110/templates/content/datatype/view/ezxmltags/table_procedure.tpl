@@ -4,8 +4,14 @@
             {if and(is_set( $caption ), $caption)}<p class="h2">{$caption|wash}</p>{/if}
             <div>
                 <button type="button" data-procedure-toggle class="procedure-toggle">
-                    <span data-procedure-show-all class="">Mostra tutto {display_icon('it-expand', 'svg', 'icon')}</span>
-                    <span data-procedure-collapse-all style="display:none">Nascondi tutto {display_icon('it-collapse', 'svg', 'icon')}</span>
+                    <span data-procedure-show-all class="">
+                      {'Precedure view all'|i18n('bootstrapitalia')}
+                      {display_icon('it-expand', 'svg', 'icon')}
+                    </span>
+                    <span data-procedure-collapse-all style="display:none">
+                      {'Precedure hide all'|i18n('bootstrapitalia')}
+                      {display_icon('it-collapse', 'svg', 'icon')}
+                    </span>
                 </button>
             </div>
         {/if}
@@ -26,8 +32,14 @@
                            aria-expanded="false"
                            class="procedure-toggle"
                            aria-controls="collapse-{concat($data.hash, '-', $index)}">
-                            <span data-procedure-show>Mostra dettagli{display_icon('it-expand', 'svg', 'icon')}</span>
-                            <span data-procedure-collapse style="display:none">Nascondi dettagli{display_icon('it-collapse', 'svg', 'icon')}</span>
+                            <span data-procedure-show>
+                              {'Precedure view step'|i18n('bootstrapitalia')}
+                              {display_icon('it-expand', 'svg', 'icon')}
+                            </span>
+                            <span data-procedure-collapse style="display:none">
+                              {'Precedure hide step'|i18n('bootstrapitalia')}
+                              {display_icon('it-collapse', 'svg', 'icon')}
+                            </span>
                         </button>
                     </div>
                     <div id="collapse-{concat($data.hash, '-', $index)}"
