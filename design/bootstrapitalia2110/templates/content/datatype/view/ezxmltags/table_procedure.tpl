@@ -32,7 +32,7 @@
                     </div>
                     <div id="collapse-{concat($data.hash, '-', $index)}"
                          data-procedure
-                         class="procedure-item-content collapse"
+                         class="procedure-item-content richtext-wrapper collapse"
                          role="region"
                          aria-labelledby="heading-{concat($data.hash, '-', $index)}">
                         {foreach $row as $cell offset 1}

@@ -31,7 +31,7 @@
                     </p>
                     <div id="collapse-{$object.id}"
                          data-procedure
-                         class="procedure-item-content collapse"
+                         class="procedure-item-content richtext-wrapper collapse"
                          role="region"
                          aria-labelledby="heading-{$object.id}">
 
