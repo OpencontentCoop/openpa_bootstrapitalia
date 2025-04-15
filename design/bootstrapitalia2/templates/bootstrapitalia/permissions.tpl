@@ -62,7 +62,7 @@
         </div>
         <div class="col-12">
           <table class="table table-striped mt-4" id="data">
-            <thead class="bg-white" data-bs-toggle="sticky" data-bs-stackable="true">
+            <thead class="bg-white" data-bs-toggle="sticky" data-bs-stackable="true" style="box-shadow: var(--bs-table-border-color) 0px 1px 0px">
               <tr style="font-size: .8em">
                   <th>{'User'|i18n('design/standard/node/view')}</th>
                   {foreach $available_groups as $group}
@@ -139,15 +139,15 @@
             {{else}}
                 {{:~i18n(metadata.name)}} <br /><small>{{:~i18n(metadata.classDefinition.name)}}</small>
             {{/if}}
-            <p style="white-space: nowrap;">
+            <div class="mb-1" style="white-space: nowrap;">
                 <a title="User settings" target="_blank" href="{{:baseUrl}}user/setting/{{:metadata.id}}"><i aria-hidden="true" class="fa fa-gear"></i></a>
                 <a title="Activate all" href="#" data-user="{{:metadata.mainNodeId}}" class="ActivateAllUserPermission text-decoration-none pl-2 ps-2"><i class="fa fa-toggle-on"></i></a>
                 <a title="Deactivate all" href="#" data-user="{{:metadata.mainNodeId}}" class="DeactivateAllUserPermission text-decoration-none pl-2 ps-2"><i class="fa fa-toggle-off"></i></a>
-            </p>
+            </div>
             {{if ~moderationNodeId}}
             <div class="row bg-white rounded-end rounded-right">
-                <div class="col-7" style="line-height:.8em">
-                    <small>Utente moderato:</small>
+                <div class="col-7" style="font-size: .8em; line-height:.8em">
+                    <strong>Utente moderato</strong>
                 </div>
                 <div class="col-5">
                     <div class="toggles">
