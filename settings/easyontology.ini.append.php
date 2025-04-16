@@ -2,5 +2,6 @@
 
 [Converters]
 AvailableCustomConverters[GovernmentService]=BootstrapItaliaPublicServiceConverter
+AvailableCustomConverters[Place]=BootstrapItaliaPlaceConverter
 
 */?>

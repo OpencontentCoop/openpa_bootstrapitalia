@@ -6,6 +6,12 @@ use Opencontent\Installer\AbstractStepInstaller;
 
 class BootstrapItaliaInstallerUtils
 {
+    public static function setStaticOntologyMap()
+    {
+        self::setGovernmentServiceOntologyMap();
+        self::setPlaceOntologyMap();
+    }
+
     public static function setGovernmentServiceOntologyMap()
     {
         $classIdentifier = 'public_service';
@@ -24,6 +30,31 @@ class BootstrapItaliaInstallerUtils
                         $classIdentifier => [
                             'enabled' => 1,
                             'easyontology' => 'GovernmentService',
+                        ],
+                    ],
+                ]);
+            }
+        }
+    }
+
+    public static function setPlaceOntologyMap()
+    {
+        $classIdentifier = 'place';
+        $contentClass = eZContentClass::fetchByIdentifier($classIdentifier);
+        if ($contentClass instanceof eZContentClass) {
+            $collection = MapperRegistry::fetchMapCollectionByClassIdentifier($classIdentifier);
+            $map = new Map();
+            $map->setSlug('Place');
+            if (!$collection->hasMap($map)) {
+                $collection->addMap($map);
+                MapperRegistry::storeMapCollection($collection);
+
+                $extraHandler = new EasyOntologyExtraParameter($contentClass);
+                $extraHandler->storeParameters([
+                    'class' => [
+                        $classIdentifier => [
+                            'enabled' => 1,
+                            'easyontology' => 'Place',
                         ],
                     ],
                 ]);
