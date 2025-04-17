@@ -12,6 +12,7 @@ class OpenPARoleType extends eZDataType
     const SORT_PERSON_NAME = 1;
     const SORT_ENTITY_NAME = 2;
     const SORT_ROLE_NAME = 3;
+    const SORT_PRIORITY = 100;
 
     const SORT_START_TIME = 4;
 

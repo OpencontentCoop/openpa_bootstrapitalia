@@ -24,9 +24,10 @@
 	<div class="element">
 	    <label>{'Ordina per'|i18n( 'openparoletype' )}:</label>
 	    <select class="box" name="ContentClass_openparole_sort_{$class_attribute.id}">
-		    <option value="1" {if $class_attribute_content.sort|eq(1)}selected="selected"{/if}>{'Nome persona'|i18n( 'openparoletype' )}</option>
+			<option value="1" {if $class_attribute_content.sort|eq(1)}selected="selected"{/if}>{'Nome persona'|i18n( 'openparoletype' )}</option>
 		    <option value="2" {if $class_attribute_content.sort|eq(2)}selected="selected"{/if}>{'Nome struttura'|i18n( 'openparoletype' )}</option>
-		    <option value="3" {if $class_attribute_content.sort|eq(3)}selected="selected"{/if}>{'Tipo di ruolo'|i18n( 'openparoletype' )}</option>		    
+		    <option value="3" {if $class_attribute_content.sort|eq(3)}selected="selected"{/if}>{'Tipo di ruolo'|i18n( 'openparoletype' )}</option>
+			<option value="100" {if $class_attribute_content.sort|eq(100)}selected="selected"{/if}>{'Priorità'|i18n( 'openparoletype' )}</option>
 	    </select>
 	</div>
 
