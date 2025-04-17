@@ -20,6 +20,10 @@
       <translation>Nascondi dettagli</translation>
     </message>
     <message>
+      <source>Search by name</source>
+      <translation>Cerca per nome o cognome</translation>
+    </message>
+    <message>
       <source>View all events</source>
       <translation>vedi tutti</translation>
     </message>
