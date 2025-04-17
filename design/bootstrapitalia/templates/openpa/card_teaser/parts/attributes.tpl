@@ -23,7 +23,9 @@
                 {attribute_view_gui attribute=$node|attribute($identifier)
                                     image_class=small
                                     show_link=false()
-                                    only_address=true()}
+                                    only_address=true()
+                                    avoid_oembed=true()}
+            {else}
             {/if}
             </p>
         {/if}

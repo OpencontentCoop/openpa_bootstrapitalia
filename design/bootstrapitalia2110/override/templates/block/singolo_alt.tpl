@@ -37,8 +37,8 @@
 
   <div class="{$valid_node|access_style}">
       <div class="row">
-          <div class="col{if or($has_image, $has_video)}-lg-5 order-2 order-lg-1{/if}">
-              <div class="card mb-5">
+          <div class="col{if or($has_image, $has_video)}-lg-5 order-2 order-lg-1{/if} {if $block.custom_attributes.color_style|ne('')}px-lg-0{/if}">
+              <div class="card {if $block.custom_attributes.color_style|eq('')}mb-5{/if}">
                   <div class="card-body pb-5 lead">
                       {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}
                       <h3 class="h4 card-title fs-2 fw-bold">
@@ -46,7 +46,7 @@
                               {$valid_node.name|wash()}
                           </a>
                       </h3>
-                      <div class="mb-4 fs-5 pt-3 lora">{include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node}</div>
+                      <div class="mb-4 fs-5 pt-3 lora">{include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node avoid_oembed=true()}</div>
                       {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false() container_class=''}
                       <a class="read-more mb-3" href="{$openpa.content_link.full_link}#page-content">
                           <span class="text">{if $openpa.content_link.is_node_link}{'Read more'|i18n('bootstrapitalia')}{else}{'Visit'|i18n('bootstrapitalia')}{/if}</span>
@@ -64,7 +64,7 @@
               </div>
           </div>
           {if or($has_image, $has_video)}
-          <div class="col-lg-6 offset-lg-1 order-1 order-lg-2 px-0 d-lg-flex align-items-stretch flex-nowrap">
+          <div class="order-1 order-lg-2 px-0 d-lg-flex align-items-stretch flex-nowrap {if $block.custom_attributes.color_style|ne('')}col-lg-7 px-lg-0{else}col-lg-6 offset-lg-1 px-lg-3{/if}">
               {if $has_video}
                 <div class="flex-lg-fill">
                   {include uri='design:parts/video.tpl' video=$video}
