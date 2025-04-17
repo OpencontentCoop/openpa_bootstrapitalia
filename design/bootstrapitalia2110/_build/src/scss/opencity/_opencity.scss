@@ -12,6 +12,27 @@
   }
 }
 
+.leaflet-popup-content-wrapper {
+  padding: 0 !important;
+  border-radius: 4px !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  font-family: 'Titillium Web', sans-serif !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  font-size: 26px !important;
+  line-height: 22px !important;
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  translate: 100% !important;
+  z-index: 1 !important;
+  color: $text-color !important;
+}
+
 .video-wrapper {
   max-width: 100%;
   width: 100%;
