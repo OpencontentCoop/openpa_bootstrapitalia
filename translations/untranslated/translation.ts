@@ -4,6 +4,22 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Precedure view all</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Precedure hide all</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Precedure view step</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Precedure hide step</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Search by name</source>
       <translation type="unfinished"/>
     </message>

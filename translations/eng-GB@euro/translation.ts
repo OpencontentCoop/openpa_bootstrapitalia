@@ -4,6 +4,22 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Precedure view all</source>
+      <translation>View all</translation>
+    </message>
+    <message>
+      <source>Precedure hide all</source>
+      <translation>Hide all</translation>
+    </message>
+    <message>
+      <source>Precedure view step</source>
+      <translation>View details</translation>
+    </message>
+    <message>
+      <source>Precedure hide step</source>
+      <translation>Hide details</translation>
+    </message>
+    <message>
       <source>Search by name</source>
       <translation>Search by name</translation>
     </message>

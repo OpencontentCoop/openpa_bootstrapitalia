@@ -3,8 +3,14 @@
         {if count($attribute.content.relation_list)|gt(1)}
         <p>
             <a href="#" data-procedure-toggle class="procedure-toggle">
-                <span data-procedure-show-all class="">Mostra tutto {display_icon('it-expand', 'svg', 'icon')}</span>
-                <span data-procedure-collapse-all style="display:none">Nascondi tutto {display_icon('it-collapse', 'svg', 'icon')}</span>
+              <span data-procedure-show-all>
+                {'Precedure view all'|i18n('bootstrapitalia')}
+                {display_icon('it-expand', 'svg', 'icon')}
+              </span>
+              <span data-procedure-collapse-all style="display:none">
+                {'Precedure hide all'|i18n('bootstrapitalia')}
+                {display_icon('it-collapse', 'svg', 'icon')}
+              </span>
             </a>
         </p>
         {/if}
@@ -25,13 +31,19 @@
                            aria-expanded="false"
                            class="procedure-toggle"
                            aria-controls="collapse-{$object.id}">
-                            <span data-procedure-show>Mostra dettagli {display_icon('it-expand', 'svg', 'icon')}</span>
-                            <span data-procedure-collapse style="display:none">Nascondi dettagli {display_icon('it-collapse', 'svg', 'icon')}</span>
+                            <span data-procedure-show>
+                              {'Precedure view step'|i18n('bootstrapitalia')}
+                              {display_icon('it-expand', 'svg', 'icon')}
+                            </span>
+                            <span data-procedure-collapse style="display:none">
+                              {'Precedure hide step'|i18n('bootstrapitalia')}
+                              {display_icon('it-collapse', 'svg', 'icon')}
+                            </span>
                         </a>
                     </p>
                     <div id="collapse-{$object.id}"
                          data-procedure
-                         class="procedure-item-content collapse"
+                         class="procedure-item-content richtext-wrapper collapse"
                          role="region"
                          aria-labelledby="heading-{$object.id}">
 
