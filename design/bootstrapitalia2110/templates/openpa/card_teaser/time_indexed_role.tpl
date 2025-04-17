@@ -58,7 +58,7 @@
         </div>
     </div>
     {if $person|has_attribute('image')}
-        <div class="card-image card-image-rounded pb-5" style="width: 130px;">
+        <div class="card-image card-image-rounded pb-5">
             {attribute_view_gui attribute=$person|attribute('image') image_class=$image_class context='card_teaser'}
         </div>
     </div>
