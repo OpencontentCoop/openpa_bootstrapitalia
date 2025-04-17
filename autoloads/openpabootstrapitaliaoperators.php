@@ -856,7 +856,7 @@ class OpenPABootstrapItaliaOperators
                     } else {
                         $cssClass .= ' aria-hidden="true" focusable="false"';
                     }
-                    $path = eZURLOperator::eZDesign($tpl, 'images/svg/sprite.svg', 'ezdesign');
+                    $path = eZURLOperator::eZDesign($tpl, 'images/svg/sprites.svg', 'ezdesign');
                     eZURI::transformURI($path, true);
                     $operatorValue = '<svg' . $cssClass . '><use xlink:href="' . $path . '#' . $iconText . '"></use></svg>';
                 }
