@@ -26,6 +26,7 @@ Input:
          inline_style = ''
          context = 'default'
          fluid=true()
+         loading="lazy"
          title=''}
 
 {let image_content = $attribute.content}
@@ -85,7 +86,7 @@ Input:
             {set $inline_style = concat( $inline_style, 'margin: ', $margin_size, 'px;' )}
         {/if}
         {if $href}<a title="{$title|wash(xhtml)}" href={$href}{if and( is_set( $link_class ), $link_class )} class="{$link_class}"{/if}{if and( is_set( $link_id ), $link_id )} id="{$link_id}"{/if}{if $target} target="{$target}"{/if}>{/if}
-        <img src="{render_image($image_content, hash('alias', $image_class, 'context', $context)).src}"{*
+        <img loading="{$loading}" src="{render_image($image_content, hash('alias', $image_class, 'context', $context)).src}"{*
              *}class="{if $image_css_classes|count()|gt(0)} {$image_css_classes|implode(" ")}{/if}" {*
              *}{if and(is_set($inline_style), ne($inline_style, ''))}{concat('style="', $inline_style, '"')}{/if} {*
             *}alt="{$alt_text|wash(xhtml)}" title="{$title|wash(xhtml)}" />

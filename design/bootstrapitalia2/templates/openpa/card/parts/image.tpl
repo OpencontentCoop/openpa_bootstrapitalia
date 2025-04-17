@@ -24,7 +24,7 @@
             {if class_extra_parameters($node.object.class_identifier, 'line_view').show|contains('disable_video_player')|not()}
                 {$oembed.html}
             {else}
-                <img class="rounded-top img-fluid img-responsive" src="{$oembed.thumbnail_url}" alt="{$oembed.title|wash()}" />
+                <img class="rounded-top img-fluid img-responsive" src="{$oembed.thumbnail_url}" alt="{$oembed.title|wash()}" loading="lazy" />
             {/if}
         {elseif $node|has_attribute('image')}
             {def $image = $node|attribute('image')}

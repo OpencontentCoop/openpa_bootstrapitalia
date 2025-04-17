@@ -209,12 +209,12 @@
                                         <div class="text-paragraph-small">{/literal}Immagini{literal}</div>
                                         <div class="border-light border-0">
                                             <div class="d-flex gap-2 mt-3">
-                                                <div><img src="/image/inefficiency/{{:row._guid}}/1" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                                                <div><img src="/image/inefficiency/{{:row._guid}}/1" class="img-fluid w-100 mb-3 mb-lg-0" loading="lazy"></div>
                                                 {{if row.image2}}
-                                                    <div><img src="/image/inefficiency/{{:row._guid}}/2" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                                                    <div><img src="/image/inefficiency/{{:row._guid}}/2" class="img-fluid w-100 mb-3 mb-lg-0" loading="lazy"></div>
                                                 {{/if}}
                                                 {{if row.image3}}
-                                                    <div><img src="/image/inefficiency/{{:row._guid}}/3" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                                                    <div><img src="/image/inefficiency/{{:row._guid}}/3" class="img-fluid w-100 mb-3 mb-lg-0" loading="lazy"></div>
                                                 {{/if}}
                                             </div>
                                         </div>
@@ -255,12 +255,12 @@
         <h3 class="title-xsmall border-light pt-2">{/literal}Immagini{literal}</h3>
         <div class="border-light border-0">
             <div class="d-flex gap-2 mt-3">
-                <div><img src="/image/inefficiency/{{:row._guid}}/1" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                <div><img src="/image/inefficiency/{{:row._guid}}/1" class="img-fluid w-100 mb-3 mb-lg-0" loading="lazy"></div>
                 {{if row.image2}}
-                    <div><img src="/image/inefficiency/{{:row._guid}}/2" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                    <div><img src="/image/inefficiency/{{:row._guid}}/2" class="img-fluid w-100 mb-3 mb-lg-0" loading="lazy"></div>
                 {{/if}}
                 {{if row.image3}}
-                    <div><img src="/image/inefficiency/{{:row._guid}}/3" class="img-fluid w-100 mb-3 mb-lg-0"></div>
+                    <div><img src="/image/inefficiency/{{:row._guid}}/3" class="img-fluid w-100 mb-3 mb-lg-0" loading="lazy"></div>
                 {{/if}}
             </div>
         </div>

@@ -5,6 +5,7 @@
             alt="{include uri='design:atoms/image_alt.tpl' node=$node}"
             {if $height}height="{$height}"{/if}
             style="{if is_set($style)}{$style}{/if}{if $set_max_dimensions}max-height:{node_image($node)[$image_class].height}px;max-width:{node_image($node)[$image_class].width}px{/if}"
-            {if is_set($classes)} class="{$classes}"{/if}/>
+            {if is_set($classes)} class="{$classes}"{/if}
+            loading="lazy"/>
 {/if}
 {unset_defaults(array('image_class', 'alias', 'preload', 'height'))}

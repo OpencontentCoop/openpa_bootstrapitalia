@@ -35,10 +35,7 @@
                 </div>
                 {if $has_image}
                     <div class="col col-lg-6">
-                        <div class="d-none d-lg-block position-absolute h-100 w-50" {include name="bg"
-                            uri='design:atoms/background-image.tpl'
-                            node=$valid_node
-                            options="right: 0;background-position: center center;background-repeat: no-repeat;background-size: cover;min-height:200px"}></div>
+                        {include name="bg" uri='design:atoms/background-image.tpl' node=$valid_node}
                     </div>
                 {/if}
             </div>

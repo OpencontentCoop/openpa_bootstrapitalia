@@ -4,7 +4,8 @@
             <figure class="img-wrapper">
                 {if and(is_set($oembed), is_array($oembed))}
                     <img class="rounded-top img-fluid img-responsive" src="{$oembed.thumbnail_url}"
-                         alt="{$oembed.title|wash()}"/>
+                         alt="{$oembed.title|wash()}"
+                         loading="lazy"/>
                 {elseif $node|has_attribute('image')}
                     {def $image = $node|attribute('image')}
                     {attribute_view_gui image_css_class=image_class_and_style($image.content.original.width, $image.content.original.height, 'card').css_class
