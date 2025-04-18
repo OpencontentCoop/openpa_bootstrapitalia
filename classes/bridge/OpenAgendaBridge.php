@@ -29,6 +29,8 @@ class OpenAgendaBridge
 
     private $agendaUrl;
 
+    private $agendaClient;
+
     private $enableMainCalendar;
 
     private $enableTopicCalendar;
@@ -46,6 +48,13 @@ class OpenAgendaBridge
             'OpenAgendaUrl',
             null
         );
+        if ($this->isEnabled()){
+            if (self::canUseLocalConnection($this->agendaUrl)){
+                $this->agendaClient = new OCLocalHttpClient($this->agendaUrl);
+            } else {
+                $this->agendaClient = new HttpClient($this->agendaUrl);
+            }
+        }
     }
 
     public function getNextEventsInfo($context): array
@@ -99,7 +108,7 @@ class OpenAgendaBridge
                         'show_all_link' => "1",
                         'show_all_text' => ezpI18n::tr('bootstrapitalia', 'Go to event calendar') .
                             ' ' . $this->getStorage(self::NAME_CACHE_KEY),
-                        'hide_if_empty' => true
+                        'hide_if_empty' => true,
                     ],
                 ],
             ];
@@ -110,7 +119,10 @@ class OpenAgendaBridge
                 return $isDisabled;
             }
 
-            $topicsFilter = OpenAgendaTopicMapper::generateTopicQueryFilter($context, $this->getStorage(self::VERSION_CACHE_KEY));
+            $topicsFilter = OpenAgendaTopicMapper::generateTopicQueryFilter(
+                $context,
+                $this->getStorage(self::VERSION_CACHE_KEY)
+            );
             if (empty($topicsFilter)) {
                 return $isDisabled;
             }
@@ -142,7 +154,7 @@ class OpenAgendaBridge
                         'show_all_link' => "1",
                         'show_all_text' => ezpI18n::tr('bootstrapitalia', 'Go to event calendar') .
                             ' ' . $this->getStorage(self::NAME_CACHE_KEY),
-                        'hide_if_empty' => true
+                        'hide_if_empty' => true,
                     ],
                 ],
             ];
@@ -183,7 +195,7 @@ class OpenAgendaBridge
                         'input_search_placeholder' => "",
                         'intro_text' => "",
                         'show_all_link' => "1",
-                        'hide_if_empty' => true
+                        'hide_if_empty' => true,
                     ],
                 ],
             ];
@@ -219,7 +231,7 @@ class OpenAgendaBridge
                         'show_all_link' => "1",
                         'show_all_text' => ezpI18n::tr('bootstrapitalia', 'Go to event calendar') .
                             ' ' . $this->getStorage(self::NAME_CACHE_KEY),
-                        'hide_if_empty' => true
+                        'hide_if_empty' => true,
                     ],
                 ],
             ];
@@ -283,7 +295,7 @@ class OpenAgendaBridge
         } else {
             $this->agendaUrl = rtrim($url, '/');
             $this->setStorage(self::URL_CACHE_KEY, $this->agendaUrl);
-            $remoteInstance = json_decode(file_get_contents($this->agendaUrl . '/openpa/data/instance'), true);
+            $remoteInstance = $this->agendaClient->request('GET', '/openpa/data/instance');
             $remoteInstanceIdentifier = $remoteInstance['identifier'] ?? null;
             $remoteInstanceName = $remoteInstance['name'] ?? null;
             $remoteInstanceVersion = $remoteInstance['version'] ?? null;
@@ -398,7 +410,7 @@ class OpenAgendaBridge
      * @param $placeId
      * @throws Exception
      */
-    public function getPlacePayloads($placeId): int
+    private function getPlacePayloads($placeId): array
     {
         if (!$this->isEnabled()) {
             throw new Exception('OpenAgenda bridge is not enabled');
@@ -413,13 +425,14 @@ class OpenAgendaBridge
         }
 
         $remoteInstanceIdentifier = $this->getStorage(self::IDENTIFIER_CACHE_KEY);
+
         if (empty($remoteInstanceIdentifier)) {
             throw new Exception('Remote instance identifier not found');
         }
 
         try {
             $builder = new SharedLinkedPayloadBuilder(
-                $this->getOpenAgendaUrl(),
+                $this->agendaClient,
                 $placeId,
                 $remoteInstanceIdentifier . '_openpa_agenda_locations'
             );
@@ -428,14 +441,21 @@ class OpenAgendaBridge
             throw new Exception('Error creating payloads: ' . $e->getMessage());
         }
 
-        $this->setStorage('place_' . $placeId, json_encode($payloads));
-        return count($payloads);
+        return $payloads;
     }
 
-    public function pushPlacePayloads($placeId): int
+    public function pushPlacePayloads($placeId): array
     {
         $placeId = (int)$placeId;
-        $payloads = json_decode($this->getStorage('place_' . $placeId), true);
+        $payloads = $this->getStorage('place_' . $placeId);
+        if (!$payloads){
+            $payloads = $this->getPlacePayloads($placeId);
+            $this->setStorage('place_' . $placeId, json_encode($payloads));
+            $this->setStorage('count_place_' . $placeId, count($payloads));
+            $payloads = json_encode($payloads);
+        }
+        $payloads = json_decode($payloads, true);
+        $payloadCount = (int)$this->getStorage('count_place_' . $placeId);;
         $payload = array_shift($payloads);
         /** @var eZUser $user */
         $user = eZUser::fetchByName('admin');
@@ -443,76 +463,36 @@ class OpenAgendaBridge
             $payload['metadata']['stateIdentifiers'] = ['privacy.public'];
         }
         try {
-            $this->push(
-                $this->getOpenAgendaUrl() . '/api/opendata/v2/content/upsert',
-                json_encode($payload),
-                ["Authorization: Bearer " . JWTManager::issueInternalJWTToken($user)]
-            );
+            $this->agendaClient
+                ->setHeader('Authorization', 'Bearer ' . JWTManager::issueInternalJWTToken($user))
+                ->upsert($payload);
         } catch (Throwable $e) {
             $this->removeStorage('place_' . $placeId);
-            throw new Exception('Fail upserting content: ' . $payload['metadata']['remoteId'] . ' ' . $e->getMessage());
+            $this->removeStorage('count_place_' . $placeId);
+            throw new Exception('Fail upserting content: ' .
+                $payload['metadata']['remoteId'] . ' ' .
+                $e->getMessage());
         }
-        $this->setStorage('place_' . $placeId, json_encode($payloads));
-        return count($payloads);
+        if (count($payloads) === 0){
+            $this->removeStorage('place_' . $placeId);
+            $this->removeStorage('count_place_' . $placeId);
+        }else {
+            $this->setStorage('place_' . $placeId, json_encode($payloads));
+        }
+        $remaining = count($payloads);
+        return [$remaining, $payloadCount];
     }
 
-    private function push($url, $data = null, $headers = [])
+    private static function canUseLocalConnection($url): bool
     {
-        $headers[] = 'Content-Type: application/json';
-        $headers[] = 'Content-Length: ' . strlen($data);
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-
-        $data = curl_exec($ch);
-
-        if ($data === false) {
-            $errorCode = curl_errno($ch) * -1;
-            $errorMessage = curl_error($ch);
-            curl_close($ch);
-            throw new \Exception($errorMessage, $errorCode);
-        }
-
-        $info = curl_getinfo($ch);
-        \eZDebug::writeDebug($info['request_header'], __METHOD__);
-
-        curl_close($ch);
-
-        $headers = substr($data, 0, $info['header_size']);
-        if ($info['download_content_length'] > 0) {
-            $body = substr($data, -$info['download_content_length']);
-        } else {
-            $body = substr($data, $info['header_size']);
-        }
-
-        $body = json_decode($body);
-
-        if (isset($body->error_message)) {
-            $errorMessage = '';
-            if (isset($body->error_type)) {
-                $errorMessage = $body->error_type . ': ';
+        $host = parse_url($url, PHP_URL_HOST);
+        $hostUriMatchMapItems = eZINI::instance()->variable('SiteAccessSettings', 'HostUriMatchMapItems');
+        foreach ($hostUriMatchMapItems as $hostUriMatchMapItem) {
+            if (strpos($hostUriMatchMapItem, $host) !== false) {
+                return true;
             }
-            $errorMessage .= $body->error_message;
-            throw new \Exception($errorMessage);
         }
 
-        if ($info['http_code'] == 401) {
-            throw new \Exception("Authorization Required");
-        }
-
-        if (!in_array($info['http_code'], [100, 200, 201, 202])) {
-            throw new \Exception("Unknown error with status " . $info['http_code']);
-        }
-
-        return json_decode($body, true);
+        return false;
     }
 }

@@ -17,15 +17,13 @@ if ($action === 'push-openagenda-place') {
             if (eZHTTPTool::instance()->hasGetVariable('push')) {
                 header('Content-Type: application/json');
                 try {
-                    echo json_encode(['payloads' => OpenAgendaBridge::factory()->pushPlacePayloads((int)$parameter)]);
+                    [$payloads, $payloadCount] = OpenAgendaBridge::factory()->pushPlacePayloads((int)$parameter);
+                    echo json_encode(['payloads' => $payloads, 'payloadCount' => $payloadCount]);
                 } catch (Throwable $e) {
                     echo json_encode(['payloads' => 0, 'error' => $e->getMessage()]);
                 }
                 eZExecution::cleanExit();
             }
-
-            $payloadCount = OpenAgendaBridge::factory()->getPlacePayloads((int)$parameter);
-            $tpl->setVariable('payloads_count', $payloadCount);
         } catch (Throwable $e) {
             $tpl->setVariable('error', $e->getMessage());
         }
