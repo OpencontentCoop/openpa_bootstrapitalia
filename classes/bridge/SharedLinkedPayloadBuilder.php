@@ -9,8 +9,6 @@ class SharedLinkedPayloadBuilder
 {
     const IMAGES_PARENT_NODE_ID = 51;
 
-    private $targetUrl;
-
     private $targetClient;
 
     private $targetClasses = [];
@@ -21,10 +19,9 @@ class SharedLinkedPayloadBuilder
 
     private $remoteParentNodeId;
 
-    public function __construct($targetUrl, $localContentId, $remoteParentNodeId)
+    public function __construct(HttpClient $targetClient, $localContentId, $remoteParentNodeId)
     {
-        $this->targetUrl = rtrim($targetUrl, '/');
-        $this->targetClient = new HttpClient($this->targetUrl);
+        $this->targetClient = $targetClient;
         $this->fallbackValues['image'] = [
             'license' => 'Licenza proprietaria',
             'proprietary_license' => 'Licenza proprietaria',
@@ -136,7 +133,7 @@ class SharedLinkedPayloadBuilder
         if (!isset($this->targetClasses[$classIdentifier])) {
             $this->targetClasses[$classIdentifier] = $this->targetClient->request(
                 'GET',
-                $this->targetUrl . '/api/opendata/v2/classes/' . $classIdentifier
+                '/api/opendata/v2/classes/' . $classIdentifier
             );
         }
 
