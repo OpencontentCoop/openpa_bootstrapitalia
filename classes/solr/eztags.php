@@ -38,6 +38,9 @@ class BootstrapItaliaSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
         if (empty($exclusiveTypeFilter) || !in_array('text', $exclusiveTypeFilter))
             $fieldsList[] = parent::generateAttributeFieldName($classAttribute, 'text');
 
+        if (empty($exclusiveTypeFilter) || !in_array('string', $exclusiveTypeFilter))
+            $fieldsList[] = parent::generateSubattributeFieldName($classAttribute, 'keyword', 'string');
+
         if (empty($exclusiveTypeFilter) || !in_array('sint', $exclusiveTypeFilter))
             $fieldsList[] = parent::generateSubattributeFieldName($classAttribute, 'tag_ids', 'sint');
 
@@ -59,11 +62,13 @@ class BootstrapItaliaSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
         $keywordFieldName = parent::generateAttributeFieldName($contentClassAttribute, 'lckeyword');
         $treeKeywordFieldName = parent::generateSubattributeFieldName($contentClassAttribute, 'tree', 'lckeyword');
         $textFieldName = parent::generateAttributeFieldName($contentClassAttribute, 'text');
+        $stringFieldName = parent::generateSubattributeFieldName($contentClassAttribute, 'keyword', 'string');
         $tagIDsFieldName = parent::generateSubattributeFieldName($contentClassAttribute, 'tag_ids', 'sint');
 
         $data[$keywordFieldName] = '';
         $data[$treeKeywordFieldName] = '';
         $data[$textFieldName] = '';
+        $data[$stringFieldName] = [];
         $data[$tagIDsFieldName] = [];
 
         if (!$this->ContentObjectAttribute->hasContent())
@@ -94,6 +99,7 @@ class BootstrapItaliaSolrDocumentFieldeZTags extends ezfSolrDocumentFieldBase
             $data[$keywordFieldName] = implode(', ', $this->onlyChildKeywords);
             $data[$treeKeywordFieldName] = implode(', ', $this->keywords);
             $data[$textFieldName] = implode(' ', $this->keywords);
+            $data[$stringFieldName] = $this->onlyChildKeywords;
             $data[$tagIDsFieldName] = $this->tagIDs;
         }
 
