@@ -184,8 +184,7 @@
             if (plugin.searchForm.find('input').length > 0) {
                 let q = plugin.searchForm.find('input').val();
                 if (q.length > 0) {
-                    q = q.replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
-                    baseQuery = 'q = \'' + q + '\' and ' + baseQuery;
+                    baseQuery = 'q = \'' + plugin.escapeValue(q) + '\' and ' + baseQuery;
                     queryParams.search = q;
                 }
             }
@@ -200,15 +199,15 @@
                             values = [values];
                         }
                         if (type === 'string') {
-                            baseQuery = facetField + ' in [\'"' + values.join('"\',\'"') + '"\'] and ' + baseQuery;
-                            queryParams.facets[facetField] = values;
+                            baseQuery = facetField + ' in [\'"' + plugin.escapeValue(values).join('"\',\'"') + '"\'] and ' + baseQuery;
+                            queryParams.facets[facetField] = plugin.escapeValue(values);
                         }else if (type === 'date') {
                             let dates = facetField.indexOf('_dt') > -1 ? values.map(x => '"'+moment(x).format('YYYY-MM-DD')+'T00:00:00Z'+'"') : values;
                             baseQuery = facetField + " in ['" + dates.join("','") + "'] and " + baseQuery;
                             queryParams.facets[facetField] = dates;
                         }else{
-                            baseQuery = facetField + " in ['" + values.join("','") + "'] and " + baseQuery;
-                            queryParams.facets[facetField] = values;
+                            baseQuery = facetField + " in ['" + plugin.escapeValue(values).join("','") + "'] and " + baseQuery;
+                            queryParams.facets[facetField] = plugin.escapeValue(values);
                         }
                     }
                 });
@@ -580,6 +579,24 @@
             }
         },
 
+        escapeValue: function (value){
+            let plugin = this;
+            if ($.isArray(value)){
+                var newArray = []
+                for (var i = 0, l = value.length; i < l; i++) {
+                    newArray.push(plugin.escapeValue(value[i]));
+                }
+                return newArray;
+            }
+            return value.toString()
+              .replace(/"/g, '\\"')
+              .replace(/'/g, "\\'")
+              .replace(/\(/g, "\\(")
+              .replace(/\)/g, "\\)")
+              .replace(/\[/g, "\\[")
+              .replace(/\]/g, "\\]");
+        },
+
         buildFacets: function () {
             let plugin = this;
 
@@ -597,13 +614,14 @@
                     success: function (response, textStatus, jqXHR) {
                         var getFacetType = function(facet, name) {
                             if (name.includes('name') === false
+                              && facet.length > 15
                               && moment(facet, moment.ISO_8601, true).isValid()) {
                                 return 'date';
                             }
                             return 'string';
                         };
                         var getFacetOptionText = function(facet, name) {
-                            if (name.includes('name') === false) {
+                            if (name.includes('name') === false && facet.length > 15) {
                                 let date = moment(facet, moment.ISO_8601, true);
                                 if (date.isValid()) {
                                     if (facet.indexOf('-01-01T00:00:00Z') > -1) {
@@ -622,7 +640,7 @@
                                     let datatype = getFacetType(facet, value.name);
                                     if (isEmpty) {
                                         facetContainer
-                                          .append('<option value="' + facet.replace(/"/g, '').replace(/'/g, "\\'").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "") + '">' + getFacetOptionText(facet, value.name) + '</option>');
+                                          .append('<option value="' + facet + '">' + getFacetOptionText(facet, value.name) + '</option>');
                                     } else {
                                         var currentOption = plugin.container.find('select[data-facets_select="facet-' + index + '"] option[value="' + facet + '"]')
                                         var treeOption = plugin.container.find('select[data-facets_select="facet-' + index + '"] option[value="' + currentOption.data('tree') + '"]');
