@@ -1707,7 +1707,11 @@ class OpenPABootstrapItaliaOperators
                                 }
 
                                 $attributes[] = $openpaAttribute;
-                                if ($wrapped && (!$openpaAttribute->attribute('full')['show_link'] || $openpaAttribute->attribute('full')['show_label'])){
+                                if ($wrapped &&
+                                    (!$openpaAttribute->attribute('full')['show_link']
+                                        || $openpaAttribute->attribute('full')['show_as_accordion']
+                                        || $openpaAttribute->attribute('full')['show_label'])
+                                ){
                                     $wrapped = false;
                                 }
                             }
