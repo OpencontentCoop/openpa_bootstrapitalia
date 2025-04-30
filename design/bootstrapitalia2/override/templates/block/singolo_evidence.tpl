@@ -11,7 +11,7 @@
     {/foreach}
 
     {if openpaini('ViewSettings', 'ShowTitleInSingleBlock')|eq('enabled')}
-      {include uri='design:parts/block_name.tpl'}
+        <div class="container">{include uri='design:parts/block_name.tpl'}</div>
     {elseif $block.name|ne('')}
       <h2 class="visually-hidden">{$block.name|wash()}</h2>
     {else}

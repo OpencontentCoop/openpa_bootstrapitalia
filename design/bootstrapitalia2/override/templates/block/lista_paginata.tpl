@@ -37,8 +37,8 @@
 		<div class="row row-title g-0">
 			{if $block.name|ne('')}
 				<div class="col ">
-					<div class="d-md-flex justify-content-between">
-						<h2 class="mb-3">{$block.name|wash()}</h2>
+					<div class="d-md-flex justify-content-between{if $#node.class_identifier|eq('topic')} border-bottom{/if}">
+						<h2 class="mb-3 block-title" style="border:none !important;padding-bottom: 0 !important;">{$block.name|wash()}</h2>
 						{if and($openpa.root_node, object_handler($openpa.root_node).content_tag_menu.has_tag_menu|not())}
 							{def $tree_menu = tree_menu( hash( 'root_node_id', $openpa.root_node.node_id, 'scope', 'side_menu'))}
 							<div class="filters-wrapper mt-0 mb-3 ms-3 text-end hide">
