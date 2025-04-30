@@ -77,7 +77,9 @@ $eZTemplateOperatorArray = [
             'download_url',
             'parse_table',
             'markdown',
-            'matrix_to_hash'
+            'matrix_to_hash',
+            'links_available_groups',
+            'links_list_by_group',
         ],
     ],
 ];

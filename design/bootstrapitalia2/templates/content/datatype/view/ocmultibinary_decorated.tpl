@@ -8,8 +8,8 @@
         {foreach ocmultibinary_list_by_group($attribute, $group) as $file}
           <li>
             <div class="cmp-icon-link mb-2">
-              <a class="list-item icon-left d-inline-block font-sans-serif"           
-                href="#"
+              <a class="list-item icon-left d-inline-block font-sans-serif mb-0"
+				 href="{concat( 'ocmultibinary/download/', $attribute.contentobject_id, '/', $attribute.id,'/', $attribute.version , '/', $file.filename ,'/file/', $file.original_filename|urlencode )|ezurl(no)}"
                 aria-label=""
                 title=""
                 data-focus-mouse="false">{*
@@ -20,6 +20,7 @@
                 *}</span>{*
                 *}</span>{*
                 *}</a>
+				<small class="d-block mt-2 mb-4" style="margin-left: 28px !important;">{if $file.display_text|ne('')}{$file.display_text|wash( xhtml )} <br>{/if}(File {$file.mime_type|explode('application/')|implode('')} {*<em>{$file.original_filename|wash()}</em>*} {$file.filesize|si( byte )})</small>
             </div>
           </li>
         {/foreach}
@@ -36,9 +37,9 @@
 				</div>
 				{/if}
         <div class="col-12">
-          <div class="card-wrapper card-column my-3" data-bs-toggle="masonry">
+			<div class="row row-cols-2 mx-0">
             {foreach $file_list as $file}
-              <div class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3">
+              <div class="col font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3">
                 {display_icon('it-clip', 'svg', 'icon')}
                 <div class="card-body">
                   <h5 class="card-title">

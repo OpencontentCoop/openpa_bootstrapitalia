@@ -103,6 +103,8 @@ class OpenPABootstrapItaliaOperators
             'parse_table',
             'markdown',
             'matrix_to_hash',
+            'links_available_groups',
+            'links_list_by_group',
         );
     }
 
@@ -269,6 +271,13 @@ class OpenPABootstrapItaliaOperators
             'matrix_to_hash' =>  array(
                 'attribute' => array('type' => 'object', 'required' => true, 'default' => null),
             ),
+            'links_available_groups'  =>  array(
+                'attribute' => array('type' => 'object', 'required' => true, 'default' => null),
+            ),
+            'links_list_by_group'  =>  array(
+                'attribute' => array('type' => 'object', 'required' => true, 'default' => null),
+                'identifier' => array('type' => 'string', 'required' => true, 'default' => null),
+            ),
         );
     }
 
@@ -283,6 +292,35 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'links_available_groups':
+                $operatorValue = [];
+                $attribute = $namedParameters['attribute'];
+                if ($attribute instanceof eZContentObjectAttribute
+                    && $attribute->attribute('data_type_string') === eZMatrixType::DATA_TYPE_STRING
+                    && $attribute->attribute('has_content')){
+                    $matrix = $attribute->attribute('content')->attribute('matrix');
+                    $operatorValue = $matrix['columns']['id']['group']['rows'] ?? [];
+                    $operatorValue = array_unique($operatorValue);
+                    sort($operatorValue);
+                }
+                break;
+
+            case 'links_list_by_group':
+                $operatorValue = [];
+                $attribute = $namedParameters['attribute'];
+                if ($attribute instanceof eZContentObjectAttribute
+                    && $attribute->attribute('data_type_string') === eZMatrixType::DATA_TYPE_STRING
+                    && $attribute->attribute('has_content')){
+                    $matrix = $attribute->attribute('content')->attribute('matrix');
+                    $identifiers = array_keys($matrix['columns']['id']);
+                    foreach ($matrix['rows']['sequential'] as $row) {
+                        if ($row['columns'][3] === $namedParameters['identifier']) {
+                            $operatorValue[] = array_combine($identifiers, $row['columns']);
+                        }
+                    }
+                }
+                break;
 
             case 'matrix_to_hash':
                 $operatorValue = [];
