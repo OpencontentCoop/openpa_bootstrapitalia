@@ -188,6 +188,8 @@ IncludiClassi[]=public_service
 IncludiClassi[]=political_body
 IncludiClassi[]=office
 IncludiClassi[]=public_project
+IncludiClassi[]=insight
+IncludiClassi[]=howto
 
 [ExcludedClassesAsChild]
 FromFolder[]
