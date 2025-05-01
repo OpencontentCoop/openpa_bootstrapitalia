@@ -271,32 +271,5 @@
             </form>
         </div>
     {/if*}
-
-    {* NEWSLETTER *}
-    {if ezmodule('newsletter','subscribe')}
-        {def $newsletter_edition_hash = newsletter_edition_hash()}
-        {if and( $node|can_add_to_newsletter(true()), $newsletter_edition_hash|count()|gt(0) )}
-            <div class="col-md-3 text-right text-primary">Newsletter</div>
-            <div class="col-md-9">
-            <form action={concat("/openpa/addlocationto/",$node.contentobject_id)|ezurl} method="post">
-
-                <label for="add_to_newsletter">Aggiungi alla prossima newsletter:</label>
-                <div class="input-group">
-                    <select name="SelectedNodeIDArray[]" id="add_to_newsletter" class="form-control custom-select">
-                        {foreach $newsletter_edition_hash as $edition_id => $edition_name}
-                            <option value="{$edition_id}">{$edition_name|wash()}</option>
-                        {/foreach}
-                    </select>
-                    <div class="input-group-append">
-                        <input class="btn btn-xs btn-secondary" type="submit" name="AddLocation" value="Aggiungi"/>
-                    </div>
-                </div>
-            </form>
-            </div>
-        {/if}        
-        {undef $newsletter_edition_hash}
-    {/if}
-
-
 </div>
 
