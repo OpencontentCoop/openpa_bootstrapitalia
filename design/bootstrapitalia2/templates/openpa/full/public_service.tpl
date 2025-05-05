@@ -10,6 +10,11 @@
     {undef $keyword}
 {/if}
 
+{def $show_main_channel = true()}
+{if and($node|has_attribute('hide_main_channel'), $node|attribute('hide_main_channel').data_int|eq(1))}
+    {set $show_main_channel = false()}
+{/if}
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
@@ -19,7 +24,9 @@
                         <h1 class="title-xxxlarge" data-element="service-title">{$node.name|wash()}</h1>
                         {include uri='design:openpa/full/parts/service_status.tpl'}
                         {include uri='design:openpa/full/parts/main_attributes.tpl'}
-                        {include uri='design:openpa/full/parts/service_access_button.tpl'}
+                        {if $show_main_channel}
+                            {include uri='design:openpa/full/parts/service_access_button.tpl'}
+                        {/if}
                     </div>
                     <div class="col-lg-3 offset-lg-1 mt-5 mt-lg-0">
                         {include uri='design:openpa/full/parts/actions.tpl'}
@@ -42,7 +49,7 @@
 {include uri='design:openpa/full/parts/related.tpl' object=$node.object}
 {/if}
 
-{undef $parent $parent_openpa}
+{undef $parent $parent_openpa $show_main_channel}
 
 {if can_check_remote_public_service()}
 <script>
