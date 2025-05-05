@@ -118,7 +118,13 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                 $parts = explode(':', $facetsSettingsPart);
                 if (isset($parts[1])) {
                     if ($parts[1] !== 'time_interval') {
-                        $facets[] = $parts[1];
+                        if (isset($parts[2])
+                            && $parts[2] === 'tree'
+                            && OpenPABootstrapItaliaOperators::getTagRootFromAttributeIdentifier($parts[1])){
+                            $facets[] = 'raw[subattr_' . $parts[1] . '___tag_ids____si]';
+                        } else {
+                            $facets[] = $parts[1];
+                        }
                     } else {
                         $hasTimeInterval = true;
                     }
@@ -176,8 +182,12 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
             foreach ($facets as $facet) {
                 $parts = explode('|', $facet);
                 $field = array_shift($parts);
-                if (isset($requestFacets[$field]) && !empty($requestFacets[$field])) {
-                    $value = (array)$requestFacets[$field];
+                $requestFacetsField = $requestFacets[$field] ?? null;
+                if (!$requestFacetsField && strpos($field, 'raw[') !== false){
+                    $requestFacetsField = $requestFacets[substr($field, 0, -1)] ?? null; //@workaround parsing error?
+                }
+                if (!empty($requestFacetsField)) {
+                    $value = (array)$requestFacetsField;
                     $query = $field . ' in [\'"' . implode('"\',\'"', $value) . '"\'] and ' . $query;
                 }
             }
@@ -194,7 +204,7 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                     case 'weekend':
                     case 'nextweekend':
                         $now = time();
-                        $saturday = DateTime::createFromFormat('Y-m-d', date('Y-m-',$now).(6+date('j',$now)-date('w',$dt)));
+                        $saturday = DateTime::createFromFormat('Y-m-d', date('Y-m-',$now).(6+date('j',$now)-date('w',$now)));
                         $start = $saturday->setTime(0,0)->format('c');
                         $end = $saturday->add(new DateInterval('P1D'))->setTime(23,59)->format('c');
                         break;

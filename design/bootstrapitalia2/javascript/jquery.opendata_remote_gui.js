@@ -101,10 +101,10 @@
             this.map.addLayer(this.markers);
         }
 
-        this.hasCalender = $('#'+this.baseId+'calendar').length > 0;
-
+        let calendar = $('#'+this.baseId+'calendar');
+        this.hasCalender = calendar.length > 0;
         if (this.hasCalender) {
-          this.calendar = $('#'+this.baseId+'calendar');
+          this.calendar = calendar;
           this.currentCalendar = null;
           addEventListener("resize", (event) => {
             if (!this.currentCalendar || typeof this.currentCalendar.getView !== 'function') {
@@ -184,8 +184,7 @@
             if (plugin.searchForm.find('input').length > 0) {
                 let q = plugin.searchForm.find('input').val();
                 if (q.length > 0) {
-                    q = q.replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
-                    baseQuery = 'q = \'' + q + '\' and ' + baseQuery;
+                    baseQuery = 'q = \'' + plugin.escapeValue(q) + '\' and ' + baseQuery;
                     queryParams.search = q;
                 }
             }
@@ -200,15 +199,15 @@
                             values = [values];
                         }
                         if (type === 'string') {
-                            baseQuery = facetField + ' in [\'"' + values.join('"\',\'"') + '"\'] and ' + baseQuery;
-                            queryParams.facets[facetField] = values;
+                            baseQuery = facetField + ' in [\'"' + plugin.escapeValue(values).join('"\',\'"') + '"\'] and ' + baseQuery;
+                            queryParams.facets[facetField] = plugin.escapeValue(values);
                         }else if (type === 'date') {
                             let dates = facetField.indexOf('_dt') > -1 ? values.map(x => '"'+moment(x).format('YYYY-MM-DD')+'T00:00:00Z'+'"') : values;
                             baseQuery = facetField + " in ['" + dates.join("','") + "'] and " + baseQuery;
                             queryParams.facets[facetField] = dates;
                         }else{
-                            baseQuery = facetField + " in ['" + values.join("','") + "'] and " + baseQuery;
-                            queryParams.facets[facetField] = values;
+                            baseQuery = facetField + " in ['" + plugin.escapeValue(values).join("','") + "'] and " + baseQuery;
+                            queryParams.facets[facetField] = plugin.escapeValue(values);
                         }
                     }
                 });
@@ -580,6 +579,24 @@
             }
         },
 
+        escapeValue: function (value){
+            let plugin = this;
+            if ($.isArray(value)){
+                var newArray = []
+                for (var i = 0, l = value.length; i < l; i++) {
+                    newArray.push(plugin.escapeValue(value[i]));
+                }
+                return newArray;
+            }
+            return value.toString()
+              .replace(/"/g, '\\"')
+              .replace(/'/g, "\\'")
+              .replace(/\(/g, "\\(")
+              .replace(/\)/g, "\\)")
+              .replace(/\[/g, "\\[")
+              .replace(/\]/g, "\\]");
+        },
+
         buildFacets: function () {
             let plugin = this;
 
@@ -597,14 +614,15 @@
                     success: function (response, textStatus, jqXHR) {
                         var getFacetType = function(facet, name) {
                             if (name.includes('name') === false
-                              && moment(new Date(facet)).isValid()) {
+                              && facet.length > 15
+                              && moment(facet, moment.ISO_8601, true).isValid()) {
                                 return 'date';
                             }
                             return 'string';
                         };
                         var getFacetOptionText = function(facet, name) {
-                            if (name.includes('name') === false) {
-                                let date = moment(new Date(facet));
+                            if (name.includes('name') === false && facet.length > 15) {
+                                let date = moment(facet, moment.ISO_8601, true);
                                 if (date.isValid()) {
                                     if (facet.indexOf('-01-01T00:00:00Z') > -1) {
                                         return date.format('YYYY');
@@ -617,22 +635,29 @@
                         if (!plugin.detectError(response, jqXHR)) {
                             $.each(response.facets, function (index, value) {
                                 var facetContainer = plugin.container.find('select[data-facets_select="facet-'+index+'"]');
-                                var notEmpty = facetContainer.find('option').length === 0;
+                                var isEmpty = facetContainer.find('option').length === 0;
                                 $.each(value.data, function (facet, count) {
                                     let datatype = getFacetType(facet, value.name);
-                                    if (notEmpty) {
+                                    if (isEmpty) {
                                         facetContainer
-                                            .append('<option value="' + facet.replace(/"/g, '').replace(/'/g, "\\'").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "") + '">' + getFacetOptionText(facet, value.name) + '</option>');
-                                    }else if (plugin.settings.removeExistingEmptyFacets){
-                                        plugin.container.find('select[data-facets_select="facet-' + index + '"] option[value="'+ facet+'"]').show();
+                                          .append('<option value="' + facet + '">' + getFacetOptionText(facet, value.name) + '</option>');
+                                    } else {
+                                        var currentOption = plugin.container.find('select[data-facets_select="facet-' + index + '"] option[value="' + facet + '"]')
+                                        var treeOption = plugin.container.find('select[data-facets_select="facet-' + index + '"] option[value="' + currentOption.data('tree') + '"]');
+                                        currentOption.removeAttr('disabled')
+                                        treeOption.removeAttr('disabled')
+                                        if (plugin.settings.removeExistingEmptyFacets) {
+                                            currentOption.show();
+                                            treeOption.show();
+                                        }
                                     }
                                     if (!facetContainer.data('datatype')) {
                                         facetContainer.data('datatype', datatype);
                                     }
                                 });
-                                let facetSelect = plugin.container.find('select[data-facets_select="facet-'+index+'"]')
-                                let placeHolder = facetSelect.data('placeholder') || plugin.settings.i18n.placeholder
-                                if (typeof accessibleAutocomplete !== 'undefined') {
+                                facetContainer.find('option[disabled="disabled"]').remove();
+                                let placeHolder = facetContainer.data('placeholder') || plugin.settings.i18n.placeholder
+                                if (typeof accessibleAutocomplete !== 'undefined' && facetContainer.length > 0) {
                                     accessibleAutocomplete.enhanceSelectElement({
                                         defaultValue: '',
                                         autoselect: false,
@@ -645,9 +670,9 @@
                                         tStatusSelectedOption: () => plugin.settings.i18n.statusSelectedOption,
                                         tAssistiveHint: () => plugin.settings.i18n.assistiveHint,
                                         tSelectedOptionDescription: () => plugin.settings.i18n.selectedOptionDescription,
-                                        selectElement: facetSelect[0],
+                                        selectElement: facetContainer[0],
                                         onConfirm: function (query) {
-                                            let options = facetSelect[0].options
+                                            let options = facetContainer[0].options
                                             let matchingOption
                                             if (query) {
                                                 matchingOption = [].filter.call(options, option => (option.textContent || option.innerText) === query)[0]
@@ -661,16 +686,25 @@
                                             plugin.runSearch();
                                         },
                                         onRemove: function (value) {
-                                            const optionToRemove = [].filter.call(facetSelect[0].options, option => (option.textContent || option.innerText) === value)[0]
+                                            const optionToRemove = [].filter.call(facetContainer[0].options, option => (option.textContent || option.innerText) === value)[0]
                                             if (optionToRemove) {
                                                 optionToRemove.selected = false
                                             }
                                             plugin.currentPage = 0;
                                             plugin.runSearch();
+                                        },
+                                        templates: {
+                                            suggestion: function (value){
+                                                var spaces  =  value.search(/\S/);
+                                                if (spaces > 0){
+                                                    return '<span class="tree-item ps-'+spaces+'">'+value.trim()+'</span>';
+                                                }
+                                                return value;
+                                            }
                                         }
                                     })
                                 }
-                                facetSelect
+                                facetContainer
                                     .show()
                                     .on('change', function () {
                                         plugin.currentPage = 0;

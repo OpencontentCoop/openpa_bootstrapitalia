@@ -103,6 +103,7 @@ class OpenPABootstrapItaliaOperators
             'parse_table',
             'markdown',
             'matrix_to_hash',
+            'tag_root_from_attribute_identifier',
         );
     }
 
@@ -269,6 +270,9 @@ class OpenPABootstrapItaliaOperators
             'matrix_to_hash' =>  array(
                 'attribute' => array('type' => 'object', 'required' => true, 'default' => null),
             ),
+            'tag_root_from_attribute_identifier' =>  array(
+                'attribute_identifier' => array('type' => 'string', 'required' => true, 'default' => null),
+            ),
         );
     }
 
@@ -283,6 +287,11 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'tag_root_from_attribute_identifier':
+                $attributeIdentifier = $namedParameters['attribute_identifier'];
+                $operatorValue = self::getTagRootFromAttributeIdentifier($attributeIdentifier);
+                break;
 
             case 'matrix_to_hash':
                 $operatorValue = [];
@@ -1983,7 +1992,7 @@ class OpenPABootstrapItaliaOperators
             $hiddenObjectAttributeMap = [];
             $sortMapper = [];
             $hideDataTypeStrings = [
-                OpenPAReverseRelationListType::DATA_TYPE_STRING
+                OpenPAReverseRelationListType::DATA_TYPE_STRING,
             ];
             foreach ($contentObjectAttributes as $attribute) {
                 $classAttribute = $attribute->contentClassAttribute();
@@ -2509,5 +2518,18 @@ class OpenPABootstrapItaliaOperators
             header('Location: ' . $redirectTo);
             eZExecution::cleanExit();
         }
+    }
+
+    public static function getTagRootFromAttributeIdentifier($attributeIdentifier)
+    {
+        if (!empty($attributeIdentifier) && is_string($attributeIdentifier)) {
+            $attributeIdentifier = eZDB::instance()->escapeString($attributeIdentifier);
+            $rows = eZDB::instance()->arrayQuery(
+                "SELECT data_int1 FROM ezcontentclass_attribute WHERE identifier = '$attributeIdentifier' AND data_type_string = 'eztags' LIMIT 1"
+            );
+            return $rows[0]['data_int1'] ?? false;
+        }
+
+        return false;
     }
 }
