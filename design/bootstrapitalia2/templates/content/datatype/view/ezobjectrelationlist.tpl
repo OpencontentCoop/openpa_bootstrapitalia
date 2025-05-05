@@ -37,6 +37,8 @@
             {else}
                 {include uri='design:atoms/list_with_icon.tpl' items=$node_list show_link=true}
             {/if}
+        {elseif $relation_view|eq('accordion')}
+            {include uri='design:atoms/accordion.tpl' items=$node_list}
         {else}
             {if $relation_has_wrapper|not()}<div class="card-wrapper card-column my-3" data-bs-toggle="masonry">{/if}
             {def $hide_title = cond(and(count($node_list)|eq(1), openpaini('HideRelationsTitle', 'AttributeIdentifiers', array())|contains($attribute.contentclass_attribute_identifier)), true(), false())}

@@ -198,6 +198,7 @@ FromFolder[]=infobox
 
 [AttributeHandlers]
 #Handlers[datatype/classIdentifier/attributeIdentifier]=PhpClassname
+Handlers[ezobjectrelationlist/*/*]=OpenPAAttributeRelations
 Handlers[ezinteger/*/*]=OpenPAAttributeIntegerHandler
 Handlers[ezobjectrelationlist/howto/steps]=OpenPAAttributeRelationsWithoutPermissionHandler
 Handlers[ezprice/*/*]=OpenPAAttributePriceHandler
