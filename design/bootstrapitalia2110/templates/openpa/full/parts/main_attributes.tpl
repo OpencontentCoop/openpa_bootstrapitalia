@@ -1,4 +1,4 @@
-{set_defaults( hash('dates_container_class', 'mt-5 mb-4'))}
+{set_defaults( hash('dates_container_class', 'mt-5 mb-4', 'avoid_oembed', false()) )}
 {def $main_attributes = class_extra_parameters($node.object.class_identifier, 'table_view').in_overview}
 {def $main_labels = class_extra_parameters($node.object.class_identifier, 'table_view').show_label}
 
@@ -45,7 +45,7 @@
 					<div>
 				{/if}
         {if array('ezstring')|contains($openpa[$identifier].contentobject_attribute.data_type_string)}<p>{/if}
-				{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute image_class=reference alignment=center}
+				{attribute_view_gui attribute=$openpa[$identifier].contentobject_attribute image_class=reference alignment=center avoid_oembed=$avoid_oembed}
         {if array('ezstring')|contains($openpa[$identifier].contentobject_attribute.data_type_string)}</p>{/if}
 				{if $main_labels|contains($identifier)}
 					</div>
@@ -84,4 +84,4 @@
 {/if}
 
 {undef $main_labels $main_attributes $datetime_attributes $alt_name_identifier $show_date_attributes}
-{unset_defaults(array('dates_container_class'))}
+{unset_defaults(array('dates_container_class', 'avoid_oembed'))}
