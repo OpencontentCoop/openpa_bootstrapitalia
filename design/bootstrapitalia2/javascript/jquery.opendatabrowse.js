@@ -581,7 +581,7 @@
             if ($.isArray(this.settings.classes) && this.settings.classes.length > 0){
                 classesQuery = " and classes ["+this.settings.classes.join(',')+"]";
             }
-            return "q = '"+searchText+"'"+subtreeQuery+classesQuery+" limit "+this.browseParameters.limit+" offset " +this.browseParameters.offset; 
+            return "q = 'meta_name_t:"+searchText+"'"+subtreeQuery+classesQuery+" limit "+this.browseParameters.limit+" offset " +this.browseParameters.offset+ " sort [score=>desc]";
         },
 
         getTranslation: function (item) {
