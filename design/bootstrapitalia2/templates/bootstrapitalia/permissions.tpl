@@ -16,7 +16,7 @@
             <div class="form-group mb-3">
               <label for="name" class="visually-hidden">{'Search by name'|i18n('bootstrapitalia')}</label>
               <div class="input-group">
-                  <input type="search" class="form-control" id="name" placeholder={'Search by name'|i18n('bootstrapitalia')} aria-label="Cerca per nome">
+                  <input type="search" class="form-control" id="name" placeholder="{'Search by name'|i18n('bootstrapitalia')}" />
                   <div class="input-group-append">
                       <button class="btn btn-primary btn-sm rounded-0" type="submit" id="FindContents">{'Search'|i18n('openpa/search')}</button>
                       <button class="btn btn-secondary btn-sm rounded-0" type="button" style="display: none;" id="ResetContents">{'Remove all filters'|i18n('openpa/search')}</button>
@@ -62,7 +62,7 @@
         </div>
         <div class="col-12">
           <table class="table table-striped mt-4" id="data">
-            <thead class="bg-white" data-bs-toggle="sticky" data-bs-stackable="true" style="box-shadow: var(--bs-table-border-color) 0px 1px 0px">
+            <thead class="bg-white oc-box-shadow-border" data-bs-toggle="sticky" data-bs-stackable="true">
               <tr style="font-size: .8em">
                   <th>{'User'|i18n('design/standard/node/view')}</th>
                   {foreach $available_groups as $group}

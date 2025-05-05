@@ -804,3 +804,7 @@ input[type="search"]::-webkit-search-results-decoration {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.oc-box-shadow-border {
+  box-shadow: $card-border-color 0px 1px 0px;
+}
