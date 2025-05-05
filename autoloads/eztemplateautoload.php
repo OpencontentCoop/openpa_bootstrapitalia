@@ -79,6 +79,8 @@ $eZTemplateOperatorArray = [
             'markdown',
             'matrix_to_hash',
             'tag_root_from_attribute_identifier',
+            'links_available_groups',
+            'links_list_by_group',
         ],
     ],
 ];

@@ -159,6 +159,13 @@ MatchFile=datatype/view/matrix_channel.tpl
 Subdir=templates
 Match[attribute_identifier]=channel
 
+[datatype_view_document_matrix_links]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype/view/matrix_document_links.tpl
+Subdir=templates
+Match[class_identifier]=document
+Match[attribute_identifier]=links
+
 [datatype_view_matrix_link]
 Source=content/datatype/view/ezmatrix.tpl
 MatchFile=datatype/view/matrix_link.tpl
@@ -170,6 +177,12 @@ Source=content/datatype/view/ezobjectrelationlist.tpl
 MatchFile=datatype/view/logo_image.tpl
 Subdir=templates
 Match[attribute_identifier]=logo_image
+
+[datatype_view_matrix_document_links]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype/view/matrix_link.tpl
+Subdir=templates
+Match[attribute_identifier]=links
 
 [datatype_view_matrix_event_signup_link]
 Source=content/datatype/view/ezmatrix.tpl
