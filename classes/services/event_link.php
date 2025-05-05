@@ -54,7 +54,7 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceBase
     protected function getHasOnlineContactInfo()
     {
         $data = $this->getMatrixAsHash('virtual_has_online_contact_point');
-        return $data[0] && (!empty($data[0]['phone']) || !empty($data[0]['email']) || !empty($data[0]['website'])) ? $data[0] : null;
+        return isset($data[0]) && (!empty($data[0]['phone']) || !empty($data[0]['email']) || !empty($data[0]['website'])) ? $data[0] : null;
     }
 
     protected function getImage()
