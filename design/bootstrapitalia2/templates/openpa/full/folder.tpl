@@ -27,4 +27,29 @@
     </div>
 </div>
 
-{include uri='design:parts/children/default.tpl' view_variation='py-5' view_parameters=$view_parameters}
+{if $node.object.remote_id|eq('e7ff633c6b8e0fd3531e74c6e712bead')}
+    {include uri='design:zone/default.tpl' zones=array(hash('blocks', array(page_block(
+        "",
+        "OpendataRemoteContents",
+        "default",
+        hash(
+            "remote_url", "",
+            "query", concat("raw[meta_main_parent_node_id_si] = '",$node.node_id,"' and sort [name=>asc]"),
+            "show_grid", "1",
+            "show_map", "0",
+            "show_search", "1",
+            "limit", "9",
+            "items_per_row", "3",
+            "facets", "",
+            "view_api", "card_image",
+            "color_style", "",
+            "fields", "",
+            "template", "",
+            "simple_geo_api", "1",
+            "input_search_placeholder", ""
+            )
+        )
+    )))}
+{else}
+    {include uri='design:parts/children/default.tpl' view_variation='py-5' view_parameters=$view_parameters}
+{/if}

@@ -1,4 +1,4 @@
-{set_defaults(hash('image_class', 'imagelargeoverlay', 'view_variation', ''))}
+{set_defaults(hash('image_class', 'imagelargeoverlay', 'view_variation', '', 'image_css_class', ''))}
 <div class="it-grid-item-wrapper it-grid-item-overlay {$node|access_style}">
     <a data-element="{$openpa.data_element.value|wash()}"
       class=""
