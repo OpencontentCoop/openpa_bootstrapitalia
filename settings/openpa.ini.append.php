@@ -200,6 +200,7 @@ FromFolder[]=infobox
 #Handlers[datatype/classIdentifier/attributeIdentifier]=PhpClassname
 Handlers[ezinteger/*/*]=OpenPAAttributeIntegerHandler
 Handlers[ezobjectrelationlist/howto/steps]=OpenPAAttributeRelationsWithoutPermissionHandler
+Handlers[ezprice/*/*]=OpenPAAttributePriceHandler
 UniqueStringCheck[]
 #UniqueStringCheck[]=document/has_code
 #UniqueStringCheck[]=lotto/cig
