@@ -14,6 +14,7 @@
           <input id="query" style="height: 48px;" placeholder="cerca nel titolo" type="text" class="form-control border" >
           <button id="reset" class="btn btn-danger d-none" type="reset">Annulla</button>
           <button id="find" class="btn btn-secondary" type="submit">Cerca</button>
+          <button id="refresh" class="btn btn-warning ms-4 ml-4" type="submit">Rigenera cache API</button>
         </div>
       </form>
     </div>
@@ -491,6 +492,11 @@
         loadOffices()
       }
       reset()
+    })
+
+    $('#refresh').on('click', function (e){
+      $.get('/api/openapi/booking-config?refresh=true')
+      e.preventDefault()
     })
     {/literal}
 </script>
