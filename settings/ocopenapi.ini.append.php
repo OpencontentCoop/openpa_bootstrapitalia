@@ -3,6 +3,7 @@
 [EndpointFactoryProvider]
 ProviderList[]=TrasparenzaEndpointFactoryProvider
 ProviderList[]=ServiceCategoryEndpointFactoryProvider
+ProviderList[]=BookingEndpointFactoryProvider
 
 [RoleDiscover]
 Exclude[]=Editor Trasparenza
