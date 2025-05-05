@@ -278,7 +278,7 @@
   return remoteUrl + '/openpa/object/' + id;
   {rdelim},
   'mainImage': function (remoteUrl, id, css) {ldelim}
-  return '<img alt="" src="' + remoteUrl + '/image/view/' + id + '" class="' + css + '" />';
+  return '<img alt="" src="' + remoteUrl + '/image/view/' + id + '" class="' + css + '" loading="lazy" />';
   {rdelim},
   {rdelim}));
   $("#remote-gui-{$block.id}").remoteContentsGui({ldelim}

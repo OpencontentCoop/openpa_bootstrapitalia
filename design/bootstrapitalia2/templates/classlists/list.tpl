@@ -129,7 +129,8 @@
                 <th class="remove"><img
                             src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}"
                             title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}"
-                            onclick="ezjs_toggleCheckboxes( document.classlists, 'DeleteIDArray[]' ); return false;"/>
+                            onclick="ezjs_toggleCheckboxes( document.classlists, 'DeleteIDArray[]' ); return false;"
+                            loading="lazy" />
                 </th>
                 <th class="name">{'Name'|i18n( 'design/admin/node/view/full' )}</th>
                 {if count($required_fields)|gt(0)}

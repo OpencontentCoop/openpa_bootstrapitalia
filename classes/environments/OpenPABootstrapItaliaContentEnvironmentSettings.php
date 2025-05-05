@@ -111,7 +111,7 @@ class OpenPABootstrapItaliaContentEnvironmentSettings extends DefaultEnvironment
                         $resultContent = str_replace('//' . $hostName, '//' . $siteName, $resultContent);
                     }
                 }
-
+                $resultContent = str_replace('loading="lazy"', 'loading="eager"', $resultContent);
                 $viewData = $resultContent;
             }
         }
