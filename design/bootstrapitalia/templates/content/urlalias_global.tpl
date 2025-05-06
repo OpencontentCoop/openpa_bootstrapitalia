@@ -1,3 +1,17 @@
+{ezpagedata_set( 'show_path',false() )}
+<style>.breadcrumb-container,.cmp-breadcrumbs{ldelim}display:none{rdelim}</style>
+
+<div class="row pt-3">
+    <div class="col col-md-8">
+        <h1 class="h3">{'Globally defined URL aliases (%alias_count)'|i18n( 'design/admin/content/urlalias_global',, hash( '%alias_count', $filter.count ) )|wash}</h1>
+    </div>
+    {* Items per page selector. *}
+    <div class="col col-md-4 text-right pt-2">
+        {foreach $limitList as $limitEntry}
+            <a class="btn btn-xs px-2 py-1 {if eq($limitID, $limitEntry['id'])}btn-outline-primary{else}btn-primary{/if}" href={concat('/user/preferences/set/admin_urlalias_list_limit/', $limitEntry['id'])|ezurl} title="{'Show %number_of items per page.'|i18n( 'design/admin/content/urlalias_global',, hash( '%number_of', $limitEntry['value'] ) )}">{$limitEntry['value']}</a>            {/foreach}
+    </div>
+</div>
+
 {* Errors START *}
 {switch match=$info_code}
 {case match='feedback-removed'}
@@ -79,16 +93,6 @@
 
 <form name="aliasform" method="post" action={"content/urltranslator/"|ezurl}>
     <div class="context-block content-urlalias-global">
-        <div class="row">
-            <div class="col col-md-8">
-                <h1 class="h2">{'Globally defined URL aliases (%alias_count)'|i18n( 'design/admin/content/urlalias_global',, hash( '%alias_count', $filter.count ) )|wash}</h1>
-            </div>
-            {* Items per page selector. *}
-            <div class="col col-md-4 text-right pt-2">
-                {foreach $limitList as $limitEntry}
-                    <a class="btn btn-xs px-2 py-1 {if eq($limitID, $limitEntry['id'])}btn-outline-primary{else}btn-primary{/if}" href={concat('/user/preferences/set/admin_urlalias_list_limit/', $limitEntry['id'])|ezurl} title="{'Show %number_of items per page.'|i18n( 'design/admin/content/urlalias_global',, hash( '%number_of', $limitEntry['value'] ) )}">{$limitEntry['value']}</a>            {/foreach}
-            </div>
-        </div>
 
         {* list here *}
         {if eq( count( $aliasList ), 0)}

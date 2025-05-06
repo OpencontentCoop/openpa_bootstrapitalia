@@ -2,7 +2,7 @@
 {def $pagedata = openpapagedata()}
 
 <div class="container mb-3">
-    <h2 class="mb-4">Gestioni contatti e informazioni generali</h2>
+    <h1 class="mb-4 h3">Gestioni contatti e informazioni generali</h1>
 
     {if is_set($message)}
         <div class="message-error">
@@ -538,6 +538,24 @@
                         {/foreach}
                         <div class="text-right mt-1">
                             <button class="btn btn-primary" type="submit">Salva</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div class="mb-4">
+                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form bg-white rounded p-3">
+                    <fieldset>
+                        <legend class="h5 px-0">Newsletter: <a href="https://{sendy_url()}/" target="_blank">Sendy <i class="fa fa-external-link"></i> </a></legend>
+                        <div class="form-group mb-0">
+                            <label for="SendyBrandId" class="p-0">Id del brand</label>
+                            <small class="form-text">Inserisci l'id del brand creato per questa istanza</small>
+                            <div class="input-group">
+                                <input type="text" class="form-control border-right" id="SendyBrandId" name="SendyBrandId" value="{sendy_brand_id()}"/>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit">Salva</button>
+                                </div>
+                            </div>
                         </div>
                     </fieldset>
                 </form>

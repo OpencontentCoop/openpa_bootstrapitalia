@@ -85,6 +85,10 @@ if ($http->hasPostVariable('EditorPerformanceMonitor') && $hasAdminAccess) {
 $sentryScriptLoader = OpenPABootstrapItaliaOperators::getSentryScriptLoader();
 $tpl->setVariable('sentry_script_loader_url', $sentryScriptLoader);
 
+if (class_exists('OpenPASendy') && $http->hasPostVariable('SendyBrandId') && $hasAdminAccess) {
+    OpenPASendy::setBrandId($http->postVariable('SendyBrandId'));
+}
+
 if ($http->hasPostVariable('OpenAgendaBridge') && $hasAdminAccess) {
     OpenAgendaBridge::factory()->setOpenAgendaUrl($http->postVariable('OpenAgendaUrl'));
     OpenAgendaBridge::factory()->setEnableMainCalendar($http->hasPostVariable('OpenAgendaMainCalendar'));

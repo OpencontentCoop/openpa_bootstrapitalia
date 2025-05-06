@@ -8,7 +8,7 @@
     'telegram', 'Telegram',
     'tiktok', 'TikTok',
 )}
-{def $has_newsletter = cond(ezini('GeneralSettings', 'EnableSendy', 'sendy.ini')|eq('enabled'), true(), false())
+{def $has_newsletter = cond(has_newsletter(), true(), false())
      $has_socials = false()}
 {foreach $socials as $social => $name}
     {if is_set($pagedata.contacts[$social])}
@@ -68,7 +68,7 @@
     {/if}
     {if $has_newsletter}
         <h3 class="footer-heading-title">Newsletter</h3>
-        {include uri='design:footer/newsletter_subscribe.tpl'}
+        <p><a href="{'newsletter/subscribe'|ezurl(no)}">{'Here you can subscribe to one of our newsletters.'|i18n( 'cjw_newsletter/subscribe' )}</a></p>
     {/if}
 </div>
 {/if}
