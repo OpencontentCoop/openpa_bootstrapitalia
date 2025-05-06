@@ -1,3 +1,8 @@
+{ezpagedata_set( 'show_path',false() )}
+<style>.breadcrumb-container,.cmp-breadcrumbs{ldelim}display:none{rdelim}</style>
+
+<h1 class="h3 pt-3">{'URL aliases for <%node_name> (%alias_count)'|i18n( 'design/admin/content/urlalias',, hash( '%node_name', $node.name, '%alias_count', $filter.count ) )|wash}</h1>
+
 {* Errors START *}
 {switch match=$info_code}
 {case match='feedback-removed'}
@@ -53,8 +58,6 @@
 <form name="aliasform" method="post" action={concat('content/urlalias/', $node.node_id)|ezurl}>
 
     <div class="content-urlalias">
-
-        <h1 class="h2">{'URL aliases for <%node_name> (%alias_count)'|i18n( 'design/admin/content/urlalias',, hash( '%node_name', $node.name, '%alias_count', $filter.count ) )|wash}</h1>
 
         {* list here *}
         {if eq( count( $aliasList ), 0)}

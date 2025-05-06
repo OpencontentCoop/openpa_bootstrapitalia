@@ -2,8 +2,8 @@
 <section class="container">
     <div class="row my-5">
         <div class="col">
-            <h2>{$title|wash()} <span class="badge bg-primary">beta</span> <small class="d-block text-muted">{$tenant.name|wash()} - {$base_url|wash()}</small></h2>
-            <p class="my-5">
+            <h1 class="h3">{$title|wash()} <span class="badge bg-primary">beta</span> <small class="d-block text-muted">{$tenant.name|wash()} - {$base_url|wash()}</small></h1>
+            <p class="lead">
                 Elenco dei servizi installati in <b>{$base_url|wash()}</b> con identificativo popolato.<br />
                 {*(Se l'identificativo non è popolato, esso viene recuperato dal servizio con il medesimo slug in <em>{$prototype_operation_base_url}</em>, se presente)*}
                 È possibile importare le schede dei servizi: i contenuti sono clonati dai prototipi delle schede presenti in <em>{$prototype_content_base_url}</em> in base all'identificativo

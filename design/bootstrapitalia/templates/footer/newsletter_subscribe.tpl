@@ -1,4 +1,4 @@
-{if and(ezini_hasvariable('GeneralSettings', 'EnableSendy', 'sendy.ini'), ezini('GeneralSettings', 'EnableSendy', 'sendy.ini')|eq('enabled'))}
+{if is_sendy_enabled()}
     {include uri='design:sendy/newsletter_subscribe.tpl'}
 {else}
     <form action="{'newsletter/subscribe'|ezurl(no)}" method="post" class="form-newsletter">
