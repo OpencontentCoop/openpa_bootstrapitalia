@@ -86,3 +86,24 @@
     <label for="add-{$handler.identifier}">Aggiungi gruppo</label>
     <input id="add-{$handler.identifier}" type="text" name="extra_handler_{$handler.identifier}[class][{$class.identifier}][add_group]" value=""  />
 </div>
+
+{literal}
+<script>
+    $(document).ready(function (){
+      let highlightMultiSelection = function (element){
+        element.parents('table').find('tr').each(function (){
+          if ($(this).find('input:checked').length > 1){
+            $(this).addClass('bg-light')
+          }else{
+            $(this).removeClass('bg-light')
+          }
+        })
+      }
+      let input = $('input[name^="extra_handler_attribute_group[class_attribute]"]');
+      input.on('change', function (){
+        highlightMultiSelection($(this));
+      })
+      highlightMultiSelection(input.first());
+    })
+</script>
+{/literal}

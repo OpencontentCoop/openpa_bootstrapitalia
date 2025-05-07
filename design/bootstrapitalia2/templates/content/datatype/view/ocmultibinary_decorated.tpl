@@ -2,6 +2,7 @@
 	{def $groups = ocmultibinary_available_groups($attribute)}
 	{if count($groups)|eq(0)}{set $groups = $groups|append('')}{/if}
 	{def $groups_count = count($groups)}
+	{def $file_list = array()}
   {if $in_accordion}
     {foreach $groups as $group}
       <ul class="link-list">
@@ -30,33 +31,32 @@
 	{if $groups_count|eq(1)}
 		<div class="row mx-lg-n3">
 			{foreach $groups as $group}
-				{def $file_list = ocmultibinary_list_by_group($attribute, $group)}
+				{set $file_list = ocmultibinary_list_by_group($attribute, $group)}
 				{if and($group|ne(''), $file_list|count()|gt(0))}
 				<div class="col-12 px-lg-3">
 					<h6 class="no_toc">{$group|wash()}</h6>
 				</div>
 				{/if}
-        <div class="col-12">
-			<div class="row row-cols-2 mx-0">
-            {foreach $file_list as $file}
-              <div class="col font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3">
-                {display_icon('it-clip', 'svg', 'icon')}
-                <div class="card-body">
-                  <h5 class="card-title">
-                  <a class="stretched-link" href={concat( 'ocmultibinary/download/', $attribute.contentobject_id, '/', $attribute.id,'/', $attribute.version , '/', $file.filename ,'/file/', $file.original_filename|urlencode )|ezurl}>
-                    {if $file.display_name|ne('')}{$file.display_name|clean_filename()|wash( xhtml )}{else}{$file.original_filename|clean_filename()|wash( xhtml )}{/if}
-                  </a>
-                  {if $file.display_text|ne('')}
-                    <small class="d-block my-2">{$file.display_text|wash( xhtml )}</small>
-                  {/if}
-                  <small class="d-block" title="{$file.mime_type|wash()}"> (File {$file.mime_type|explode('application/')|implode('')|shorten(20)} {$file.filesize|si( byte )})</small>
-                  </h5>
-                </div>
-              </div>
-            {/foreach}
-          </div>
-        </div>
-				{undef $file_list}
+				<div class="col-12">
+					<div class="row row-cols-2 mx-0">
+					{foreach $file_list as $file}
+					  <div class="col font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3">
+						{display_icon('it-clip', 'svg', 'icon')}
+						<div class="card-body">
+						  <h5 class="card-title">
+						  <a class="stretched-link" href={concat( 'ocmultibinary/download/', $attribute.contentobject_id, '/', $attribute.id,'/', $attribute.version , '/', $file.filename ,'/file/', $file.original_filename|urlencode )|ezurl}>
+							{if $file.display_name|ne('')}{$file.display_name|clean_filename()|wash( xhtml )}{else}{$file.original_filename|clean_filename()|wash( xhtml )}{/if}
+						  </a>
+						  {if $file.display_text|ne('')}
+							<small class="d-block my-2">{$file.display_text|wash( xhtml )}</small>
+						  {/if}
+						  <small class="d-block" title="{$file.mime_type|wash()}"> (File {$file.mime_type|explode('application/')|implode('')|shorten(20)} {$file.filesize|si( byte )})</small>
+						  </h5>
+						</div>
+					  </div>
+					{/foreach}
+				  </div>
+				</div>
 			{/foreach}
 		</div>
 	{else}
@@ -74,7 +74,7 @@
 		{/run-once}
 		<div class="cmp-accordion accordion my-4 font-sans-serif" role="tablist">
 			{foreach $groups as $index => $group}
-				{def $file_list = ocmultibinary_list_by_group($attribute, $group)}
+				{set $file_list = ocmultibinary_list_by_group($attribute, $group)}
 				{if $file_list|count()|eq(0)}{skip}{/if}
 				<div class="accordion-item">
 				<h2 class="accordion-header" id="heading-{$attribute.id}-{$index}">
@@ -122,7 +122,6 @@
 							</ul>
 {*						</div>*}
 					</div>
-					{undef $file_list}
 				</div>
 			</div>
 			{/foreach}
