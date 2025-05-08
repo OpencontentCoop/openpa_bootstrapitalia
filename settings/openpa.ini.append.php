@@ -25,6 +25,15 @@ BuiltInWidgetStyle_service-form=https://static.opencityitalia.it/widgets/formio/
 BuiltInWidgetSource_payment=https://static.opencityitalia.it/widgets/payments-due/version/1.0.5/js/paymentsDue.js
 BuiltInWidgetStyle_payment=https://static.opencityitalia.it/widgets/payments-due/version/1.0.5/css/paymentsDue.css
 
+BuiltInWidgetSource_personal-area=https://%host%/widgets/personal-area/personal-area.js
+BuiltInWidgetStyle_personal-area=https://%host%/widgets/personal-area/%theme%.css
+
+BuiltInWidgetSource_payments-area=https://%host%/widgets/personal-area/ap-payments.js
+BuiltInWidgetStyle_payments-area=https://%host%/widgets/personal-area/%theme%.css
+
+BuiltInWidgetSource_documents-area=https://%host%/widgets/personal-area/ap-documents.js
+BuiltInWidgetStyle_documents-area=https://%host%/widgets/personal-area/%theme%.css
+
 ApiUserLogin=
 ApiUserPassword=
 
