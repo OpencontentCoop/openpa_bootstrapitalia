@@ -32,6 +32,15 @@ class BuiltinAppFactory
             case 'login':
                 $app = new LoginBoxBuiltinApp();
                 break;
+            case 'personal-area':
+                $app = new PersonalAreaBuiltinApp();
+                break;
+            case 'payments-area':
+                $app = new PaymentsAreaBuiltinApp();
+                break;
+            case 'documents-area':
+                $app = new DocumentsAreaBuiltinApp();
+                break;
             default:
                 throw new InvalidArgumentException("Unknown builtin identifier $identifier");
         }
@@ -48,6 +57,9 @@ class BuiltinAppFactory
             'helpdesk_v1',
             'helpdesk_v2',
             'service-form',
+            'personal-area',
+            'payments-area',
+            'documents-area',
         ];
     }
 }

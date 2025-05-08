@@ -72,6 +72,16 @@ abstract class BuiltinApp extends OpenPATempletizable
         return $this->appLabel;
     }
 
+    public function getAppPath(): ?string
+    {
+        return null;
+    }
+
+    public function getParentApp(): ?BuiltinApp
+    {
+        return null;
+    }
+
     private function getSiteData(string $config = null): ?eZPersistentObject
     {
         if ($this->siteData === null || $config) {
@@ -184,7 +194,8 @@ abstract class BuiltinApp extends OpenPATempletizable
                 $this->widgetStyle = '';
             }else {
                 $host = self::getStanzaDelCittadinoBridge()->getHost();
-                $this->widgetStyle = str_replace('%host%', $host, $path);
+                $theme = OpenPAINI::variable('GeneralSettings', 'theme', 'personal-area');
+                $this->widgetStyle = str_replace(['%host%', '%theme%'], [$host, $theme], $path);
             }
         }
 
@@ -342,6 +353,7 @@ abstract class BuiltinApp extends OpenPATempletizable
         $tpl->setVariable('service_id', $this->getServiceId());
         $tpl->setVariable('built_in_app_satisfy_entrypoint', $this->getSatisfyEntrypointId());
         $tpl->setVariable('formserver_url', self::getCurrentOptions('FormServerUrl'));
+        $tpl->setVariable('readmodel_url', self::getCurrentOptions('ReadModelUrl'));
         $tpl->setVariable('pdnd_url', self::getCurrentOptions('PdndApiUrl'));
         $tpl->setVariable('page_name', $this->getServiceObject()
             ? $this->getServiceObject()->attribute('name')
@@ -363,6 +375,12 @@ abstract class BuiltinApp extends OpenPATempletizable
         ];
         if ($this->getServiceObject()) {
             $path = array_merge($path, $this->getServicePath());
+        }
+        if ($parentApp = $this->getParentApp()){
+            $path[] = [
+                'text' => ezpI18n::tr('bootstrapitalia/footer', $parentApp->getAppLabel()),
+                'url' => $parentApp->getAppPath(),
+            ];
         }
         $path[] = [
             'text' => ezpI18n::tr('bootstrapitalia/footer', $this->getAppLabel()),
@@ -410,7 +428,7 @@ abstract class BuiltinApp extends OpenPATempletizable
             [
                 'identifier' => 'FormServerUrl',
                 'name' => 'Url del form server',
-                'placeholder' => 'https://form-qa.stanzadelcittadino.it/',
+                'placeholder' => 'https://form-qa.stanzadelcittadino.it',
                 'type' => 'string',
                 'current_value' => $current['FormServerUrl'],
             ],
@@ -463,6 +481,13 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'type' => 'string',
                 'current_value' => $current['HelpdeskV2ServiceUuid'],
             ],
+            [
+                'identifier' => 'ReadModelUrl',
+                'name' => 'Url del server read model',
+                'placeholder' => 'https://api.opencityitalia.it/m/v1',
+                'type' => 'string',
+                'current_value' => $current['ReadModelUrl'],
+            ],
         ];
     }
 
@@ -486,9 +511,10 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'BoundingBox' => $data[$locale]['BoundingBox'] ?? null,
                 'EnableHelpdeskV2' => isset($data[$locale]['EnableHelpdeskV2']) ?? (bool)$data['EnableHelpdeskV2'] ?? false,
                 'HelpdeskV2ServiceUuid' => $data[$locale]['HelpdeskV2ServiceUuid'] ?? null,
-                'FormServerUrl' => $data[$locale]['FormServerUrl'] ?? 'https://form.stanzadelcittadino.it/',
+                'FormServerUrl' => $data[$locale]['FormServerUrl'] ?? 'https://form.stanzadelcittadino.it',
                 'PdndApiUrl' => $data[$locale]['PdndApiUrl'] ?? 'https://api.stanzadelcittadino.it/pdnd/v1',
                 'CheckoutUrl' => $data[$locale]['CheckoutUrl'] ?? 'https://api.stanzadelcittadino.it/pagopa/checkout',
+                'ReadModelUrl' => $data[$locale]['ReadModelUrl'] ?? 'https://api.opencityitalia.it/m/v1',
             ];
         }
 
