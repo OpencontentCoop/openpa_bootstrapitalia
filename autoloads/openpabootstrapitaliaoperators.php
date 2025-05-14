@@ -2578,4 +2578,31 @@ class OpenPABootstrapItaliaOperators
 
         return false;
     }
+
+    public static function fetchUserHistory($user, $limit = 10, $offset = 0): array
+    {
+        return ['result' => eZPersistentObject::fetchObjectList(
+            eZContentObjectVersion::definition(),
+            null,
+            [
+                'creator_id' => (int)$user,
+            ],
+            ['modified' => true],
+            [
+                'offset' => (int)$offset,
+                'length' => (int)$limit
+            ],
+            true
+        )];
+    }
+
+    public static function fetchUserHistoryCount($user): array
+    {
+        return ['result' => eZPersistentObject::count(
+            eZContentObjectVersion::definition(),
+            [
+                'creator_id' => (int)$user,
+            ]
+        )];
+    }
 }

@@ -149,5 +149,51 @@ $FunctionList['openpareverse_query'] = [
     ],
 ];
 
+$FunctionList['user_history'] = [
+    'name' => 'user_history',
+    'operation_types' => ['read'],
+    'call_method' => [
+        'class' => 'OpenPABootstrapItaliaOperators',
+        'method' => 'fetchUserHistory',
+    ],
+    'parameter_type' => 'standard',
+    'parameters' => [
+        [
+            'name' => 'user',
+            'type' => 'integer',
+            'required' => true,
+        ],
+        [
+            'name' => 'limit',
+            'type' => 'integer',
+            'default' => 10,
+            'required' => false,
+        ],
+        [
+            'name' => 'offset',
+            'type' => 'integer',
+            'default' => 0,
+            'required' => false,
+        ],
+    ],
+];
+
+$FunctionList['user_history_count'] = [
+    'name' => 'user_history_count',
+    'operation_types' => ['read'],
+    'call_method' => [
+        'class' => 'OpenPABootstrapItaliaOperators',
+        'method' => 'fetchUserHistoryCount',
+    ],
+    'parameter_type' => 'standard',
+    'parameters' => [
+        [
+            'name' => 'user',
+            'type' => 'integer',
+            'required' => true,
+        ],
+    ],
+];
+
 
 
