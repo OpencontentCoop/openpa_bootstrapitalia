@@ -93,7 +93,7 @@
 								<label class="d-none">
 									{'Search in'|i18n('bootstrapitalia')} {$group|wash()}
 								</label>
-								<button class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
+								<button class="autocomplete-icon btn btn-link" style="width: auto;" aria-label="{'Search'|i18n('openpa/search')}">
 									{display_icon('it-search', 'svg', 'icon icon-sm')}
 								</button>
 							</div>
@@ -102,6 +102,9 @@
 								{foreach $file_list as $file}
 									<li>
 										<div class="cmp-icon-link mb-2 pb-2">
+                      {if $file.display_text|ne('')}
+                        <small class="d-block my-2">{$file.display_text|wash( xhtml )}</small>
+                      {/if}
 											<a class="list-item icon-left d-inline-block font-sans-serif" href={concat( 'ocmultibinary/download/', $attribute.contentobject_id, '/', $attribute.id,'/', $attribute.version , '/', $file.filename ,'/file/', $file.original_filename|urlencode )|ezurl}>
 												<span class="list-item-title-icon-wrapper">
 													{display_icon('it-clip', 'svg', 'icon')}
@@ -109,9 +112,6 @@
 														{if $file.display_name|ne('')}{$file.display_name|clean_filename()|wash( xhtml )}{else}{$file.original_filename|clean_filename()|wash( xhtml )}{/if}
 														<em>
 															<small title="{$file.mime_type|wash()}"> - File {$file.mime_type|explode('application/')|implode('')|shorten(20)} {$file.filesize|si( byte )}</small>
-															{if $file.display_text|ne('')}
-																<small class="d-block my-2">{$file.display_text|wash( xhtml )}</small>
-															{/if}
 														</em>
 													</span>
 												</span>
