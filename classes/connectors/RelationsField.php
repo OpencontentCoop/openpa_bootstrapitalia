@@ -15,4 +15,14 @@ class RelationsField extends BaseRelationsField
 
         return $schema;
     }
+
+    public function getOptions()
+    {
+        $options = parent::getOptions();
+        if (isset($options['browse']['addCreateButton'])) {
+            $options['browse']['addCreateButton'] = false;
+        }
+
+        return $options;
+    }
 }
