@@ -1,7 +1,7 @@
-{ezpagedata_set( 'has_container', true() )}
+{ezpagedata_set( 'show_path',false() )}
 
-<div class="container mb-3">
-    <h2>Impostazioni Tema</h2>
+<div class="row mb-3">
+    <h1 class="h3 pt-3">Impostazioni Tema</h1>
     {if is_set($message)}
         <div class="message-error">
             <p>{$message}</p>

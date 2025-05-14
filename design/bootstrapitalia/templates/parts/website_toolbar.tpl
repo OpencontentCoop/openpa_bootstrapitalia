@@ -144,8 +144,13 @@
             </li>
             {/if}
 
+            {if and(fetch( 'user', 'has_access_to', hash( 'module', 'newsletter', 'function', 'index' ) ), ezmodule('newsletter','subscribe'), fetch( 'content', 'class', hash( 'class_id', 'cjw_newsletter_system' ) ))}
+                {include uri='design:parts/websitetoolbar/newsletter.tpl' content_object=$content_object current_node=$current_node}
+            {/if}
+
+
             {if is_set($content_object.id)}
-            <li class="toolbar-divider" aria-hidden="true"></li>
+                <li class="toolbar-divider" aria-hidden="true"></li>
             {/if}
 
             {* Custom templates inclusion *}
@@ -227,7 +232,6 @@
                 openpaini( 'WebsiteToolbar', 'ShowMediaRoot', 'enabled' )|eq('enabled'),
                 openpaini( 'WebsiteToolbar', 'ShowUsersRoot', 'enabled' )|eq('enabled'),
                 openpaini( 'WebsiteToolbar', 'ShowEditorRoles', 'disabled' )|eq('enabled'),
-                and(fetch( 'user', 'has_access_to', hash( 'module', 'newsletter', 'function', 'index' ) ), ezmodule('newsletter','subscribe')),
                 fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'roles' ) ),
                 fetch( 'user', 'has_access_to', hash( 'module', 'valuation', 'function', 'dashboard' ) ),
                 fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'list' ) )
@@ -266,7 +270,6 @@
                                         </a>
                                     </li>
                                 {/if}
-                                {include uri='design:parts/websitetoolbar/cjw_newsletter.tpl'}
                                 {include uri='design:parts/websitetoolbar/ezsurvey.tpl'}
                                 <li>
                                     <a class="list-item left-icon" href="{'opendata/console/1'|ezurl(no)}">

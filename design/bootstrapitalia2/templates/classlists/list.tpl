@@ -49,6 +49,7 @@
         <div class="col form-group">
             <label for="classIdentifier">{'Classes list'|i18n( 'classlists/list' )}</label>
             <select name="classIdentifier" id="classIdentifier" class="form-control">
+                <option></option>
                 {foreach $classlist as $class}
                     <option value="{$class.identifier|wash()}"{cond( $class_identifier|eq( $class.identifier ), ' selected="selected"' , '' )}>{$class.name|wash()}</option>
                 {/foreach}
@@ -75,7 +76,7 @@
         </div>
         <div class="col form-group">
             <label for="filterButton" style="visibility:hidden">{'Go'|i18n( 'classlists/list' )}</label>
-            <input type="submit" class="btn btn-sm btn-primary text-white" value="{'Go'|i18n( 'classlists/list' )}"/>
+            <input type="submit" class="btn btn-xs btn-primary text-white" value="{'Go'|i18n( 'classlists/list' )}"/>
         </div>
     </div>
 </form>
@@ -88,29 +89,30 @@
     <p class="pull-right pull-end mt-3">
         {switch match=$limit}
         {case match=25}
-            <a class="btn btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/1/', $page_uri )|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
-            <span class="current btn btn-xs btn-outline-primary">25</span>
-            <a class="btn btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/3/', $page_uri )|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
+            <a class="px-2 py-1 btn btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/1/', $page_uri )|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
+            <span class="current btn px-2 py-1 btn-xs btn-outline-primary">25</span>
+            <a class="btn px-2 py-1 btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/3/', $page_uri )|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
         {/case}
 
         {case match=50}
-            <a class="btn btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/1/', $page_uri )|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
-            <a class="btn btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/2/', $page_uri )|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
-            <span class="current btn btn-xs btn-outline-primary">50</span>
+            <a class="btn px-2 py-1 btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/1/', $page_uri )|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
+            <a class="btn px-2 py-1 btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/2/', $page_uri )|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
+            <span class="current btn px-2 py-1 btn-xs btn-outline-primary">50</span>
         {/case}
 
         {case}
-            <span class="current btn btn-xs btn-outline-primary">10</span>
-            <a class="btn btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/2/', $page_uri )|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
-            <a class="btn btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/3/', $page_uri )|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
+            <span class="current btn px-2 py-1 btn-xs btn-outline-primary">10</span>
+            <a class="btn px-2 py-1 btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/2/', $page_uri )|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
+            <a class="btn px-2 py-1 btn-xs btn-primary" href={concat( '/user/preferences/set/admin_classlists_limit/3/', $page_uri )|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
         {/case}
 
         {/switch}
     </p>
-    <h1>
+    <h1 class="h3">
         {if $class_identifier}{$current_class.name|wash()} - {/if}
         {'%count objects'|i18n( 'classlists/list', , hash( '%count', $nodes_count ) )}
     </h1>
+    {if $class_identifier}
     <div class="row">
         <div class="col">
             <div class="toggles">
@@ -122,6 +124,7 @@
             </div>
         </div>
     </div>
+    {/if}
 
     <table class="table" cellspacing="0">
         <thead>
