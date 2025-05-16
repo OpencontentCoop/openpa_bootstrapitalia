@@ -20,6 +20,8 @@ class StanzaDelCittadinoBooking
 
     private $calendars = [];
 
+    private static $viewExists = null;
+
     public static function factory(): StanzaDelCittadinoBooking
     {
         if (self::$instance === null) {
@@ -38,6 +40,13 @@ class StanzaDelCittadinoBooking
     {
         self::initDb();
         $this->setStorage(self::ENABLE_CACHE_KEY, (int)$enable);
+        if ($enable) {
+            self::createViewIfNeeded();
+        }
+        $schemaBuilder = \Opencontent\OpenApi\Loader::instance()->getSchemaBuilder();
+        if ($schemaBuilder instanceof \Opencontent\OpenApi\CachedSchemaBuilder) {
+            $schemaBuilder->clearCache();
+        }
     }
 
     public function isServiceDiscoverEnabled(): bool
@@ -117,6 +126,7 @@ EOT;
                 if ($service > 0) {
                     eZContentCacheManager::clearContentCache($service);
                 }
+                self::refreshView();
                 return true;
             } catch (Throwable $e) {
                 eZDebug::writeError($e->getMessage(), __METHOD__);
@@ -331,7 +341,6 @@ EOT;
             ORDER BY type_attributes._priority DESC, type_attributes.name ASC";
 
         $rows = eZDB::instance()->arrayQuery($query);
-
         $data = [];
         foreach ($rows as $item) {
             $category = $item['_category'];
@@ -771,5 +780,204 @@ EOT;
     public function setStoreMeetingAsApplication($enable)
     {
         $this->setStorage(self::STORE_AS_APPLICATION_CACHE_KEY, (int)$enable);
+    }
+
+    private static function refreshView()
+    {
+        self::createViewIfNeeded();
+        eZDB::instance()->query('REFRESH MATERIALIZED VIEW ocbooking');
+    }
+
+    private static function dropView()
+    {
+        eZDB::instance()->query("
+            DROP MATERIALIZED VIEW IF EXISTS ocbooking;
+            DROP AGGREGATE IF EXISTS jsonb_merge(jsonb);
+            CREATE AGGREGATE jsonb_merge(jsonb) (SFUNC = jsonb_concat(jsonb, jsonb), STYPE = jsonb, INITCOND = '[]');
+        ");
+    }
+
+    private static function createViewIfNeeded()
+    {
+        if (self::$viewExists === null) {
+            self::$viewExists = eZDB::instance()->arrayQuery(
+                    "select count(*) from pg_matviews where matviewname = 'ocbooking';"
+                )[0]['count'] > 0;
+        }
+        if (self::$viewExists){
+            return;
+        }
+        self::dropView();
+        $hostUri = eZINI::instance()->variable('SiteSettings', 'SiteURL');
+        $apiName = ezpRestPrefixFilterInterface::getApiProviderName();
+        $apiPrefix = eZINI::instance('rest.ini')->variable('System', 'ApiPrefix');
+        $baseUri = 'https://' . $hostUri . $apiPrefix . '/' . $apiName;
+        $serviceBaseUri = $baseUri . '/servizi/';
+        $officeBaseUri = $baseUri . '/amministrazione/uffici/';
+        $placeBaseUri = $baseUri . '/vivere-il-comune/luoghi/';
+
+        $typeAttributeId = (int)eZContentClassAttribute::classAttributeIDByIdentifier('public_service/type');
+        $geoAttributeId = (int)eZContentClassAttribute::classAttributeIDByIdentifier('place/has_address');
+        $locale = 'ita-IT';
+
+        $viewQuery = "        
+        CREATE MATERIALIZED VIEW IF NOT EXISTS ocbooking AS
+        WITH 
+            objects AS (
+              SELECT ezcontentobject.id, ezcontentobject.current_version, ezcontentobject.remote_id, ezcontentobject_name.name, ezcontentclass.identifier, CAST(coalesce(json_agg(t.id)->>0, '0') AS integer) as type_attribute_id, CAST(coalesce(json_agg(l.id)->>0, '0') AS integer) as location_attribute_id, MAX(ezcontentobject_tree.priority) as priority
+                FROM ezcontentobject 
+                JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id AND ezcontentclass.version=0) 
+                JOIN ezcontentobject_name ON (ezcontentobject.id = ezcontentobject_name.contentobject_id AND ezcontentobject.current_version = ezcontentobject_name.content_version AND content_translation = '$locale' ) 
+                JOIN ezcontentobject_tree ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)
+                FULL JOIN ezcontentobject_attribute t ON (ezcontentobject.id = t.contentobject_id AND ezcontentobject.current_version = t.version AND t.language_code = '$locale' AND t.contentclassattribute_id = $typeAttributeId)
+                FULL JOIN ezcontentobject_attribute l ON (ezcontentobject.id = l.contentobject_id AND ezcontentobject.current_version = l.version AND l.language_code = '$locale' AND l.contentclassattribute_id = $geoAttributeId) 
+              WHERE ezcontentobject.id IN (SELECT DISTINCT office_id as id FROM ocbookingconfig UNION SELECT DISTINCT service_id as id FROM ocbookingconfig UNION SELECT DISTINCT place_id as id FROM ocbookingconfig)
+              GROUP BY ezcontentobject.id, ezcontentobject.current_version, ezcontentobject.remote_id, ezcontentobject_name.name, ezcontentclass.identifier
+            ),
+            locations AS (
+              SELECT address, latitude, longitude, objects.id as id
+                FROM ezgmaplocation 
+                JOIN objects ON (ezgmaplocation.contentobject_attribute_id = objects.location_attribute_id AND ezgmaplocation.contentobject_version = objects.current_version) 
+              ),
+            categories AS (
+              SELECT keyword as category, objects.id as id
+                FROM eztags_attribute_link 
+                JOIN eztags_keyword ON (eztags_keyword.keyword_id = eztags_attribute_link.keyword_id AND eztags_keyword.locale = '$locale') 
+                JOIN objects ON (eztags_attribute_link.objectattribute_id = objects.type_attribute_id AND eztags_attribute_link.objectattribute_version = objects.current_version) 
+              ),
+            services AS (
+              SELECT objects.remote_id, objects.id, objects.name, categories.category, objects.priority FROM objects 
+                FULL JOIN categories ON(objects.id = categories.id)
+                WHERE identifier = 'public_service'
+              ),
+            offices AS (
+              SELECT objects.remote_id, objects.id, objects.name FROM objects 
+                WHERE identifier = 'organization'
+              ),
+            places AS (
+              SELECT objects.remote_id, objects.id, objects.name, jsonb_build_object('address', locations.address, 'lat', locations.latitude, 'lng', locations.longitude) as location FROM objects 
+                FULL JOIN locations ON(objects.id = locations.id)
+                WHERE identifier = 'place'
+              ),
+            offices_and_places AS (
+              SELECT offices.id, service_id, jsonb_build_object(
+                      'id', offices.id,
+                      'link', CONCAT('$officeBaseUri', offices.remote_id),
+                      'name', offices.name,
+                      'places', json_agg(distinct
+                        jsonb_build_object(
+                          'id', places.id,
+                          'name', places.name, 
+                          'location', places.location,
+                          'link', CONCAT('$placeBaseUri', places.remote_id),
+                          'calendars', calendars, 
+                          'merge_availabilites', enable_filter > 0 
+                        )
+                      )
+                    ) as office
+                FROM ocbookingconfig
+                JOIN offices ON ocbookingconfig.office_id = offices.id
+                JOIN places ON ocbookingconfig.place_id = places.id
+                GROUP BY offices.id, offices.remote_id, offices.name, service_id
+              )
+            SELECT jsonb_build_object(
+                    'id', services.id,
+                    'name', services.name,
+                    'category', services.category,
+                    'link', CONCAT('$serviceBaseUri', services.remote_id),
+                    'offices', json_agg(distinct office)
+                  ) booking_service,
+                  services.id,
+                  jsonb_agg(DISTINCT ocbookingconfig.office_id) as offices,
+                  jsonb_agg(DISTINCT ocbookingconfig.place_id) as places,
+                  jsonb_merge(calendars::jsonb) as calendars
+            FROM ocbookingconfig
+            JOIN services ON ocbookingconfig.service_id = services.id
+            JOIN offices_and_places ON offices_and_places.service_id = services.id            
+            GROUP BY services.id, services.remote_id, services.name, services.category, services.priority
+            ORDER BY services.priority DESC, services.name ASC        
+        ";
+
+        eZDB::instance()->query($viewQuery);
+    }
+
+    public static function findBookingService(
+        array $filters,
+        int $limit = 200,
+        int $offset = 0
+    ): array {
+        $refresh = $filters['refresh'] ?? false;
+        if ($refresh && eZUser::currentUser()->isRegistered()) {
+            StanzaDelCittadinoBooking::dropView();
+        }
+        StanzaDelCittadinoBooking::createViewIfNeeded();
+
+        $db = eZDB::instance();
+        $baseQuery = 'SELECT * FROM ocbooking';
+        $baseCountQuery = 'SELECT count(id) FROM ocbooking';
+        $query = '';
+        if (count($filters) > 0) {
+            $queryFilters = [];
+            if ($filters['service_id']) {
+                $queryFilters[] = 'id = ' . (int)$filters['service_id'];
+            }
+            if ($filters['office_id']) {
+                $queryFilters[] = 'offices @> \'' . (int)$filters['office_id'] . '\'';
+            }
+            if ($filters['place_id']) {
+                $queryFilters[] = 'places @> \'' . (int)$filters['place_id'] . '\'';
+            }
+            if ($filters['calendar_id']) {
+                $queryFilters[] = 'calendars ? \'' . $db->escapeString($filters['calendar_id']) . '\'';
+            }
+            if (!empty($queryFilters)) {
+                $query .= ' WHERE ' . implode(' AND ', $queryFilters);
+            }
+        }
+
+        $count = intval($db->arrayQuery($baseCountQuery . $query)[0]['count'] ?? 0);
+
+        $rows = eZDB::instance()->arrayQuery($baseQuery . $query);
+        $data = array_column($rows, 'booking_service');
+        $data = array_map(function ($value){
+            return json_decode($value, true);
+        }, $data);
+
+        if ($filters['calendar_id'] || $filters['office_id'] || $filters['place_id']) {
+            foreach ($data as $i => $service) {
+                foreach ($service['offices'] as $k => $office) {
+                    if ($filters['office_id'] && $office['id'] != $filters['office_id']) {
+                        unset($data[$i]['offices'][$k]);
+                        continue;
+                    }
+                    foreach ($office['places'] as $j => $place) {
+                        if ($filters['place_id'] && $place['id'] != $filters['place_id']) {
+                            unset($data[$i]['offices'][$k]['places'][$j]);
+                            continue;
+                        }
+                        if ($filters['calendar_id'] && !in_array($filters['calendar_id'], $place['calendars'])) {
+                            unset($data[$i]['offices'][$k]['places'][$j]);
+                        }
+                    }
+                    if (empty($data[$i]['offices'][$k]['places'])) {
+                        unset($data[$i]['offices'][$k]);
+                    }
+                }
+                if (empty($data[$i]['offices'])) {
+                    unset($data[$i]);
+                    $count--;
+                }
+            }
+        }
+
+        if ($limit > 0 && $offset > 0) {
+            $data = array_slice($data, $offset, $limit);
+        }
+
+        return [
+            'count' => $count,
+            'data' => $data,
+            'query' => $query,
+        ];
     }
 }

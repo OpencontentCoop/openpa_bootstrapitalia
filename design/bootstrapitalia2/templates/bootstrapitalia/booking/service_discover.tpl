@@ -67,7 +67,7 @@
                                     <div class="it-list-wrapper">
                                         <ul class="it-list">
                                             {foreach $services_category.services as $service}
-                                              {include uri='design:bootstrapitalia/booking/service.tpl', service=$service}
+                                              {include uri='design:bootstrapitalia/booking/service.tpl' service=$service}
                                             {/foreach}
                                         </ul>
                                     </div>
