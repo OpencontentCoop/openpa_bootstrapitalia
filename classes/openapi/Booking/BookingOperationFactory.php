@@ -11,12 +11,12 @@ class BookingOperationFactory extends GetOperationFactory implements CacheAwareI
 
     public function setResponseHeaders(EndpointFactory $endpointFactory, ezpRestMvcResult $result): void
     {
-        // TODO: Implement setResponseHeaders() method.
+        header("Cache-Control: public, must-revalidate, max-age=10, s-maxage=600");
     }
 
     public function hasResponseHeaders(EndpointFactory $endpointFactory, ezpRestMvcResult $result): bool
     {
-        return false;
+        return true;
     }
 
     public function handleCurrentRequest(EndpointFactory $endpointFactory)
