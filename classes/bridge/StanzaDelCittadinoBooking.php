@@ -126,7 +126,7 @@ EOT;
                 if ($service > 0) {
                     eZContentCacheManager::clearContentCache($service);
                 }
-                self::refreshView();
+//                self::refreshView();
                 return true;
             } catch (Throwable $e) {
                 eZDebug::writeError($e->getMessage(), __METHOD__);
@@ -785,7 +785,8 @@ EOT;
     private static function refreshView()
     {
         self::createViewIfNeeded();
-        eZDB::instance()->query('REFRESH MATERIALIZED VIEW CONCURRENTLY ocbooking');
+        eZDB::instance()->query('REFRESH MATERIALIZED VIEW ocbooking');
+        eZDebug::writeDebug('REFRESH MATERIALIZED VIEW ocbooking', __METHOD__);
     }
 
     private static function dropView()
@@ -795,6 +796,7 @@ EOT;
             DROP AGGREGATE IF EXISTS jsonb_merge(jsonb);
             CREATE AGGREGATE jsonb_merge(jsonb) (SFUNC = jsonb_concat(jsonb, jsonb), STYPE = jsonb, INITCOND = '[]');
         ");
+        eZDebug::writeDebug('DROP MATERIALIZED VIEW ocbooking', __METHOD__);
     }
 
     private static function createViewIfNeeded()
@@ -909,9 +911,16 @@ EOT;
         int $limit = 200,
         int $offset = 0
     ): array {
-        $refresh = $filters['refresh'] ?? false;
-        if ($refresh && eZUser::currentUser()->isRegistered()) {
-            self::dropView();
+        if (eZUser::currentUser()->isRegistered()) {
+            $refresh = $filters['refresh'] ?? false;
+            if ($refresh) {
+                self::refreshView();
+            } else {
+                $drop = $filters['drop'] ?? false;
+                if ($drop) {
+                    self::dropView();
+                }
+            }
         }
         self::createViewIfNeeded();
 

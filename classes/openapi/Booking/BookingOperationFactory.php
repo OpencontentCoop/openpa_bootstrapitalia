@@ -22,11 +22,12 @@ class BookingOperationFactory extends GetOperationFactory implements CacheAwareI
     public function handleCurrentRequest(EndpointFactory $endpointFactory)
     {
         $filters = [
-            'service_id' => $this->getCurrentRequestParameter('service_id'),
+            'service_id' => $this->getCurrentRequestParameter('id'),
             'office_id' => $this->getCurrentRequestParameter('office_id'),
             'place_id' => $this->getCurrentRequestParameter('place_id'),
             'calendar_id' => $this->getCurrentRequestParameter('calendar_id'),
             'refresh' => (bool)$this->getCurrentRequestParameter('refresh'),
+            'drop' => (bool)$this->getCurrentRequestParameter('drop'),
         ];
         $limit = intval($this->getCurrentRequestParameter('limit') ?? static::DEFAULT_LIMIT);
         $offset = (int)$this->getCurrentRequestParameter('offset');
@@ -82,7 +83,7 @@ class BookingOperationFactory extends GetOperationFactory implements CacheAwareI
     protected function generateSearchParameters(): array
     {
         return [
-            new OA\Parameter('service_id', OA\Parameter::IN_QUERY, 'Filter by service id', [
+            new OA\Parameter('id', OA\Parameter::IN_QUERY, 'Filter by service id', [
                 'schema' => $this->generateSchemaProperty([
                     'type' => 'integer',
                     'nullable' => true,

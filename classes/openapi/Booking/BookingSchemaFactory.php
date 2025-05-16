@@ -12,6 +12,7 @@ class BookingSchemaFactory extends SchemaFactory
         $schema = new OA\Schema();
         $schema->title = $this->name;
         $schema->type = 'object';
+        $schema->description = 'Public service booking configuration';
         $schema->properties = [
             'id' => $this->generateSchemaProperty([
                 'type' => 'integer',
