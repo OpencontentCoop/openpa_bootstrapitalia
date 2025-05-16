@@ -785,7 +785,7 @@ EOT;
     private static function refreshView()
     {
         self::createViewIfNeeded();
-        eZDB::instance()->query('REFRESH MATERIALIZED VIEW ocbooking');
+        eZDB::instance()->query('REFRESH MATERIALIZED VIEW CONCURRENTLY ocbooking');
     }
 
     private static function dropView()
@@ -846,9 +846,10 @@ EOT;
                 JOIN objects ON (eztags_attribute_link.objectattribute_id = objects.type_attribute_id AND eztags_attribute_link.objectattribute_version = objects.current_version) 
               ),
             services AS (
-              SELECT objects.remote_id, objects.id, objects.name, categories.category, objects.priority FROM objects 
+              SELECT objects.remote_id, objects.id, objects.name, array_agg(categories.category) as category, objects.priority FROM objects 
                 FULL JOIN categories ON(objects.id = categories.id)
                 WHERE identifier = 'public_service'
+                GROUP BY objects.remote_id, objects.id, objects.name, objects.priority
               ),
             offices AS (
               SELECT objects.remote_id, objects.id, objects.name FROM objects 
@@ -883,7 +884,7 @@ EOT;
             SELECT jsonb_build_object(
                     'id', services.id,
                     'name', services.name,
-                    'category', services.category,
+                    'categories', services.category,
                     'link', CONCAT('$serviceBaseUri', services.remote_id),
                     'offices', json_agg(distinct office)
                   ) booking_service,
@@ -895,7 +896,9 @@ EOT;
             JOIN services ON ocbookingconfig.service_id = services.id
             JOIN offices_and_places ON offices_and_places.service_id = services.id            
             GROUP BY services.id, services.remote_id, services.name, services.category, services.priority
-            ORDER BY services.priority DESC, services.name ASC        
+            ORDER BY services.priority DESC, services.name ASC;
+            
+            CREATE UNIQUE INDEX ocbooking_service_id ON ocbooking USING btree (id);     
         ";
 
         eZDB::instance()->query($viewQuery);
@@ -908,9 +911,9 @@ EOT;
     ): array {
         $refresh = $filters['refresh'] ?? false;
         if ($refresh && eZUser::currentUser()->isRegistered()) {
-            StanzaDelCittadinoBooking::dropView();
+            self::dropView();
         }
-        StanzaDelCittadinoBooking::createViewIfNeeded();
+        self::createViewIfNeeded();
 
         $db = eZDB::instance();
         $baseQuery = 'SELECT * FROM ocbooking';

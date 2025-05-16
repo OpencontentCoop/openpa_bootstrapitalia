@@ -89,9 +89,12 @@ class BookingSchemaFactory extends SchemaFactory
                     ],
                 ],
             ]),
-            'category' => $this->generateSchemaProperty([
-                'type' => 'string',
-                'description' => 'Public service category	',
+            'categories' => $this->generateSchemaProperty([
+                'type' => 'array',
+                'items' => [
+                    'type' => 'string',
+                ],
+                'description' => 'Public service category',
             ]),
         ];
 
