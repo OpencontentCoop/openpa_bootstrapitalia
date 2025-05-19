@@ -982,6 +982,19 @@ EOT;
             }
         }
 
+        foreach ($data as $i => $service) {
+            foreach ($service['offices'] as $k => $office) {
+                foreach ($office['places'] as $j => $place) {
+                    $query = http_build_query([
+                        'available' => 'true',
+                        'calendar_ids' => implode(',', $place['calendars']),
+                    ]);
+                    $data[$i]['offices'][$k]['places'][$j]['availabilities'] =
+                        StanzaDelCittadinoBridge::factory()->getApiBaseUri() . "/api/availabilities?$query";
+                }
+            }
+        }
+
         if ($limit > 0 && $offset > 0) {
             $data = array_slice($data, $offset, $limit);
         }
