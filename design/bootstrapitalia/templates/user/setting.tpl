@@ -58,3 +58,64 @@
         </form>
     </div>
 </div>
+
+{def $history_count = fetch('bootstrapitalia', 'user_history_count', hash('user',$userID ))
+     $limit = 15
+     $offset = cond(ezhttp_hasvariable( 'offset', 'get' ), ezhttp( 'offset', 'get' ), 0)}
+{if $offset|lt(0)}
+    {set $offset = 0}
+{/if}
+{if $history_count|gt(0)}
+    {def $history = fetch('bootstrapitalia', 'user_history', hash('user', $userID, 'limit', $limit, 'offset', $offset ))}
+<hr class="my-5">
+<div class="mb-4">
+    <h3>{'Last actions'|i18n( 'cjw_newsletter/index' )}</h3>
+    <table class="table table-striped" cellspacing="0">
+        <thead>
+        <tr>
+            <th>{'Name'|i18n( 'design/admin/class/classlist' )}</th>
+            <th>{'Class'|i18n( 'design/standard/ezoe' )}</th>
+            <th>{'Version'|i18n( 'design/ocbootstrap/content/history' )}</th>
+            <th>{'Status'|i18n( 'design/ocbootstrap/content/history' )}</th>
+            <th>{'Created'|i18n( 'design/ocbootstrap/content/history' )}</th>
+            <th>{'Modified'|i18n( 'design/ocbootstrap/content/history' )}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $history as $version}
+            <tr>
+                <td><a href="{concat( '/content/versionview/', $version.contentobject_id, '/', $version.version, '/', $version.initial_language.locale )|ezurl(no)}" target="_blank">{$version.name} <i class="fa fa-external-link"></i> </a></td>
+                <td style="white-space:nowrap">{$version.contentobject.class_name|wash()}</td>
+                <td class="text-center">{$version.version}</td>
+                <td>{$version.status|choose( 'Draft'|i18n( 'design/ocbootstrap/content/history' ), 'Published'|i18n( 'design/ocbootstrap/content/history' ), 'Pending'|i18n( 'design/ocbootstrap/content/history' ), 'Archived'|i18n( 'design/ocbootstrap/content/history' ), 'Rejected'|i18n( 'design/ocbootstrap/content/history' ), 'Untouched draft'|i18n( 'design/ocbootstrap/content/history' ) )}</td>
+                <td style="white-space:nowrap">{$version.created|l10n( shortdatetime )}</td>
+                <td style="white-space:nowrap">{$version.modified|l10n( shortdatetime )}</td>
+            </tr>
+        {/foreach}
+        </tbody>
+        {if $history_count|gt($limit)}
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="d-flex justify-content-between">
+                        {if $offset|gt(0)}
+                            <a href="{concat( $module.functions.setting.uri, '/', $userID, '?offset=', sub($offset, $limit) )|ezurl(no)}"><i class="fa fa-arrow-left"></i></a>
+                        {else}
+                            <i class="fa fa-arrow-left text-light"></i>
+                        {/if}
+
+                            <span>{'Found %count results'|i18n('openpa/search',,hash('%count', $history_count))}</span>
+
+                        {if sum($limit, $offset)|lt($history_count)}
+                            <a href="{concat( $module.functions.setting.uri, '/', $userID, '?offset=', sum($limit, $offset) )|ezurl(no)}"><i class="fa fa-arrow-right"></i></a>
+                        {else}
+                            <i class="fa fa-arrow-right text-light"></i>
+                        {/if}
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        {/if}
+    </table>
+</div>
+{/if}
