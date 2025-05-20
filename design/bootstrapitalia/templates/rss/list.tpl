@@ -1,9 +1,11 @@
 {ezscript_require( 'tools/ezjsselection.js' )}
+{ezpagedata_set( show_path, false() )}
+<style>.breadcrumb-container,.cmp-breadcrumbs{ldelim}display:none{rdelim}</style>
 
 {* Export window. *}
 <form name="rssexportslist" method="post" action={'rss/list'|ezurl}>
 
-    <h2>{'RSS exports [%exports_count]'|i18n( 'design/ocbootstrap/rss/list',, hash( '%exports_count', $rssexport_list|count ) )}</h2>
+    <h1 class="h3 pt-3">{'RSS exports [%exports_count]'|i18n( 'design/ocbootstrap/rss/list',, hash( '%exports_count', $rssexport_list|count ) )}</h1>
 
     {section show=$rssexport_list}
     <table class="list" cellspacing="0">
@@ -48,7 +50,10 @@
             {* Edit. *}
             <td class="align-middle">
                 <a class="btn btn-link text-nowrap" href={concat( 'rss/edit_export/', $RSSExports.item.id )|ezurl} title="{'Edit the <%name> RSS export.'|i18n('design/ocbootstrap/rss/list',, hash( '%name', $RSSExports.item.title) )|wash}">
-                    <i class="fa fa-pencil"></i> {'Edit'|i18n( 'design/ocbootstrap/rss/list' )}
+                    <span class="fa-stack">
+                      <i aria-hidden="true" class="fa fa-circle fa-stack-2x"></i>
+                      <i aria-hidden="true" class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
                 </a>
             </td>
 
@@ -56,9 +61,7 @@
         {/section}
     </table>
     {section-else}
-        <div class="block">
-            <p>{'The RSS export list is empty.'|i18n( 'design/ocbootstrap/rss/list' )}</p>
-        </div>
+        <p class="lead">{'The RSS export list is empty.'|i18n( 'design/ocbootstrap/rss/list' )}</p>
     {/section}
 
     <div class="block">
@@ -109,5 +112,5 @@
     <input {section show=$rssimport_list|count}class="button"{section-else}class="button-disabled" disabled="disabled"{/section} type="submit" name="RemoveImportButton" value="{'Remove selected'|i18n( 'design/ocbootstrap/rss/list' )}" title="{'Remove selected RSS imports.'|i18n( 'design/ocbootstrap/rss/list' ) }" />
     <input class="button" type="submit" name="NewImportButton" value="{'New import'|i18n( 'design/ocbootstrap/rss/list' )}" title="{'Create a new RSS import.'|i18n( 'design/ocbootstrap/rss/list' )}" />
 </div>
- *}
 </form>
+*}

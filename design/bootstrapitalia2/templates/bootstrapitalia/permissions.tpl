@@ -9,7 +9,7 @@
 
     <div class="row">
         <div class="col-12">
-            <h1 class="h3">{'Access Management'|i18n('bootstrapitalia')}</h1>
+            <h1 class="h3 pt-3">{'Access Management'|i18n('bootstrapitalia')}</h1>
         </div>
         <div class="col-11">
           <form>

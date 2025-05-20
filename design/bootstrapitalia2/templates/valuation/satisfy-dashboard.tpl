@@ -1,7 +1,7 @@
 {ezpagedata_set('show_path', false())}
 <div class="row">
     <div class="col-md-12">
-        <h1>Valutazioni degli utenti</h1>
+        <h1 class="h3">Valutazioni degli utenti</h1>
 
         <p class="lead">I feedback degli utenti sono raccolti tramite <em>Satisfy</em><br/>Per la configurazione del widget e la
             visualizzazione delle statistiche di valutazione consultare <a href="https://link.opencontent.it/satisfy">la

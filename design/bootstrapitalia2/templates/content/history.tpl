@@ -1,4 +1,6 @@
 {ezscript_require( 'tools/ezjsselection.js' )}
+{ezpagedata_set( show_path, false() )}
+<style>.breadcrumb-container,.cmp-breadcrumbs{ldelim}display:none{rdelim}</style>
 
 <div class="content-history">
 
@@ -47,9 +49,9 @@
 {*            {'Back'|i18n( 'design/ocbootstrap/content/history' )}*}
 {*        </a>*}
     </form>
-    <h2 class="mb-4">
+    <h1 class="mb-4 h3 pt-3">
         <i class="fa fa-history"></i> {$object.name|wash()}
-    </h2>
+    </h1>
 
     {def $page_limit   = 30
          $list_count   = fetch(content,version_count, hash(contentobject, $object))

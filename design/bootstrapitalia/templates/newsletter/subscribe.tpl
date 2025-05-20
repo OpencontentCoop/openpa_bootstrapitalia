@@ -1,4 +1,4 @@
-{if and(ezini_hasvariable('GeneralSettings', 'EnableSendy', 'sendy.ini'), ezini('GeneralSettings', 'EnableSendy', 'sendy.ini')|eq('enabled'))}
+{if is_sendy_enabled()}
 
     <div class="row">
         <div class="col-md-6 offset-md-3">
