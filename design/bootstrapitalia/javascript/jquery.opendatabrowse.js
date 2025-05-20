@@ -89,8 +89,8 @@
         
         doInit: function () {            
             if (!this.isInit){
-                this.browserContainer = $('<div class="card-wrapper card-space"></div>').appendTo($(this.element));
                 this.selectionContainer = $('<div class="card-wrapper card-space"></div>').appendTo($(this.element));
+                this.browserContainer = $('<div class="card-wrapper card-space"></div>').appendTo($(this.element));
                 this.buildTreeSelect();
                 if (this.settings.openInSearchMode){
                     this.resetBrowseParameters();

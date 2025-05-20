@@ -89,8 +89,8 @@
         
         doInit: function () {            
             if (!this.isInit){
-                this.browserContainer = $('<div class="card-wrapper card-space"></div>').appendTo($(this.element));
                 this.selectionContainer = $('<div class="card-wrapper card-space"></div>').appendTo($(this.element));
+                this.browserContainer = $('<div class="card-wrapper card-space"></div>').appendTo($(this.element));
                 this.buildTreeSelect();
                 if (this.settings.openInSearchMode){
                     this.resetBrowseParameters();
@@ -817,7 +817,7 @@
                 list.appendTo(panelContent);  
                 var panelFooter = $('<div class="card-footer bg-transparent clearfix"></div>').appendTo(panel);
 
-                $('<button class="btn btn-success pull-right">Procedi</button>')
+                $('<button class="btn btn-success pull-right">Salva selezione</button>')
                     .bind('click', function(e){
                         e.preventDefault();                    
                         $(self.element).trigger('opendata.browse.select', self);
