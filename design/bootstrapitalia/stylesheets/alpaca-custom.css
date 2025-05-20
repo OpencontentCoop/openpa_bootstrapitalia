@@ -221,3 +221,7 @@
 legend.alpaca-container-label+small{
     display:block;
 }
+
+.alpaca-array-actionbar{
+    white-space: nowrap;
+}

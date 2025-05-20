@@ -51,7 +51,7 @@ class DocumentClassConnector extends ClassConnector
                     $add = !in_array($category, (array)$this->getHelper()->getSetting('HideCategories'));
                 }
 
-                if ($identifier == 'file' || $identifier == 'link'){
+                if ($identifier == 'file' || $identifier == 'link'  || $identifier == 'attachments'){
                     $add = true;
 
                 }
@@ -74,7 +74,7 @@ class DocumentClassConnector extends ClassConnector
     public function submit()
     {
         $submitData = $this->getSubmitData();
-        if (empty($submitData['file']) && empty($submitData['link'])){
+        if (empty($submitData['file']) && empty($submitData['link']) && empty($submitData['attachments'])){
             throw new Exception(
                 sprintf(AbstractBootstrapItaliaInputValidator::MULTIFIELD_ERROR_MESSAGE, $this->fileName, $this->linkName, $this->attachmentsName)
             );
