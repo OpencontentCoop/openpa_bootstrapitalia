@@ -79,7 +79,7 @@ class BookingSchemaFactory extends SchemaFactory
                                     'calendars' => $this->generateSchemaProperty([
                                         'type' => 'array',
                                         'items' => [
-                                            'title' => 'Place',
+                                            'title' => 'Calendar',
                                             'type' => 'object',
                                             'description' => 'Info about calendars',
                                             'properties' => [
@@ -107,6 +107,7 @@ class BookingSchemaFactory extends SchemaFactory
                                     'merged_availabilities_link' => $this->generateSchemaProperty([
                                         'type' => 'string',
                                         'format' => 'uri',
+                                        'nullable' => true,
                                         'description' => 'Calendar slot availabilities api url',
                                     ]),
                                 ],
