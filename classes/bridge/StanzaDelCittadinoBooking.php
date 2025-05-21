@@ -797,6 +797,7 @@ EOT;
             CREATE AGGREGATE jsonb_merge(jsonb) (SFUNC = jsonb_concat(jsonb, jsonb), STYPE = jsonb, INITCOND = '[]');
         ");
         eZDebug::writeDebug('DROP MATERIALIZED VIEW ocbooking', __METHOD__);
+        self::$viewExists = null;
     }
 
     private static function createViewIfNeeded()
@@ -806,7 +807,7 @@ EOT;
                     "select count(*) from pg_matviews where matviewname = 'ocbooking';"
                 )[0]['count'] > 0;
         }
-        if (self::$viewExists){
+        if (self::$viewExists) {
             return;
         }
         self::dropView();
@@ -874,7 +875,7 @@ EOT;
                           'location', places.location,
                           'link', CONCAT('$placeBaseUri', places.remote_id),
                           'calendars', calendars, 
-                          'merge_availabilities', enable_filter > 0 
+                          'merge_availabilities', enable_filter = 0 
                         )
                       )
                     ) as office
@@ -982,15 +983,30 @@ EOT;
             }
         }
 
+        $apiBaseUri = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
+
         foreach ($data as $i => $service) {
             foreach ($service['offices'] as $k => $office) {
                 foreach ($office['places'] as $j => $place) {
+                    $calendars = $place['calendars'];
+                    $data[$i]['offices'][$k]['places'][$j]['calendars'] = [];
+                    foreach ($calendars as $calendar) {
+                        $query = http_build_query([
+                            'available' => 'true',
+                            'calendar_ids' => $calendar,
+                        ]);
+                        $data[$i]['offices'][$k]['places'][$j]['calendars'][] = [
+                            'id' => $calendar,
+                            'link' => $apiBaseUri . '/api/calendars/' . $calendar,
+                            'availabilities_link' => $apiBaseUri . "/api/availabilities?$query"
+                        ];
+                    }
                     $query = http_build_query([
                         'available' => 'true',
                         'calendar_ids' => implode(',', $place['calendars']),
                     ]);
-                    $data[$i]['offices'][$k]['places'][$j]['availabilities'] =
-                        StanzaDelCittadinoBridge::factory()->getApiBaseUri() . "/api/availabilities?$query";
+                    $data[$i]['offices'][$k]['places'][$j]['merged_availabilities_link'] = $place['merge_availabilities'] ?
+                        $apiBaseUri . "/api/availabilities?$query" : null;
                 }
             }
         }

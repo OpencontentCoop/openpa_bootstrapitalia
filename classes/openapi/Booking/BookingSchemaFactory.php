@@ -79,18 +79,35 @@ class BookingSchemaFactory extends SchemaFactory
                                     'calendars' => $this->generateSchemaProperty([
                                         'type' => 'array',
                                         'items' => [
-                                            'type' => 'string',
-                                            'format' => 'uuid',
+                                            'title' => 'Place',
+                                            'type' => 'object',
+                                            'description' => 'Info about calendars',
+                                            'properties' => [
+                                                'id' => $this->generateSchemaProperty([
+                                                    'type' => 'string',
+                                                    'format' => 'uuid',
+                                                ]),
+                                                'link' => $this->generateSchemaProperty([
+                                                    'type' => 'string',
+                                                    'format' => 'uri',
+                                                    'description' => 'Calendar api url',
+                                                ]),
+                                                'availabilities_link' => $this->generateSchemaProperty([
+                                                    'type' => 'string',
+                                                    'format' => 'uri',
+                                                    'description' => 'Calendar slot availabilities api url',
+                                                ]),
+                                            ]
                                         ],
-                                    ]),
-                                    'availabilities' => $this->generateSchemaProperty([
-                                        'type' => 'string',
-                                        'format' => 'uri',
-                                        'description' => 'Calendar slot availabilities api url',
                                     ]),
                                     'merge_availabilities' => $this->generateSchemaProperty([
                                         'type' => 'boolean',
                                         'description' => 'Indicates whether to hide individual calendars in the availability selection interface',
+                                    ]),
+                                    'merged_availabilities_link' => $this->generateSchemaProperty([
+                                        'type' => 'string',
+                                        'format' => 'uri',
+                                        'description' => 'Calendar slot availabilities api url',
                                     ]),
                                 ],
                             ],
