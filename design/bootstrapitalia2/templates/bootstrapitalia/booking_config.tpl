@@ -361,7 +361,7 @@
       }
 
       let officeConfig = {
-        originalQuery: "classes [organization] and type in ['Ufficio'] sort [name=>asc]",
+        originalQuery: "classes [organization] and raw[ezf_df_tags] in ['Ufficio'] sort [name=>asc]",
         query: null,
         getQuery: function (){
           let filters = ['']
