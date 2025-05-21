@@ -547,15 +547,23 @@
                 <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form bg-white rounded p-3">
                     <fieldset>
                         <legend class="h5 px-0">Newsletter: <a href="https://{sendy_url()}/" target="_blank">Sendy <i class="fa fa-external-link"></i> </a></legend>
-                        <div class="form-group mb-0">
+                        <div class="form-group mb-4">
                             <label for="SendyBrandId" class="p-0">Id del brand</label>
                             <small class="form-text">Inserisci l'id del brand creato per questa istanza</small>
-                            <div class="input-group">
-                                <input type="text" class="form-control border-right" id="SendyBrandId" name="SendyBrandId" value="{sendy_brand_id()}"/>
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit">Salva</button>
-                                </div>
-                            </div>
+                            <input type="text" class="form-control border-right" id="SendyBrandId" name="SendyBrandId" value="{sendy_brand_id()}"/>
+                        </div>
+                        <div class="form-group form-check m-0 mb-4 ps-1 bg-white">
+                            <input id="SendySendSingleContent"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   name="SendySendSingleContent" {can_create_sendy_campaign()|choose( '', 'checked="checked"' )}
+                                   value="1" />
+                            <label class="form-check-label mb-0 text-black" for="SendySendSingleContent">
+                                Permetti la creazione di una campagna da un comunicato
+                            </label>
+                        </div>
+                        <div class="text-right mt-1">
+                            <button class="btn btn-primary" type="submit">Salva</button>
                         </div>
                     </fieldset>
                 </form>
