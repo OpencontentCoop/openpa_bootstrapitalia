@@ -33,7 +33,7 @@ class InefficiencyBuiltinApp extends BuiltinApp
             $this->isAppEnabled = !(!empty($contacts['link_segnalazione_disservizio'])) && self::getCurrentOptions('TenantUrl');
         }
 
-        return $this->isAppEnabled;
+        return $this->isAppEnabled && !self::getCurrentOptions('EnableInefficiencyV2');
     }
 
     protected function getDescriptionListItem(): array

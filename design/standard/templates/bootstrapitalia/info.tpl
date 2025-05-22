@@ -396,32 +396,37 @@
             </div>
 
             <div class="mb-4" id="Builtin">
-                <form method="post" action="{'bootstrapitalia/info'|ezurl(no)}" class="form bg-white rounded p-3">
+                <form method="post" action="{'bootstrapitalia/info#Builtin'|ezurl(no)}" class="form bg-white rounded p-3">
                     <fieldset>
                         <legend class="h5 px-0">Integrazione con area personale (servizi builtin)</legend>
-                        {foreach $built_in_options as $built_in_option}
-                        {if $built_in_option.type|eq('boolean')}
-                            <p class="font-weight-bold mt-2 mb-1 d-none">{$built_in_option.name|wash()}</p>
-                            <div class="form-group form-check m-0 mb-4 ps-1 bg-white">
-                                <input id="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}"
-                                       class="form-check-input"
-                                       type="checkbox"
-                                       name="StanzaDelCittadinoBuiltin[{$built_in_option.identifier|wash()}]" {$built_in_option.current_value|choose( '', 'checked="checked"' )}
-                                       value="1" />
-                                <label class="form-check-label mb-0 text-black" for="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}">
-                                    {$built_in_option.name|wash()}
-                                </label>
+                        {foreach $grouped_built_in_options as $label => $built_in_options_group}
+                            <h6 class="mb-1">{$label|wash()}</h6>
+                            <div class="border mb-4 py-1 px-3 rounded">
+                                {foreach $built_in_options_group as $built_in_option}
+                                    {if $built_in_option.type|eq('boolean')}
+                                        <p class="font-weight-bold mt-2 mb-1 d-none">{$built_in_option.name|wash()}</p>
+                                        <div class="form-group form-check mt-1 mb-4 ps-1 bg-white">
+                                            <input id="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}"
+                                                   class="form-check-input"
+                                                   type="checkbox"
+                                                   name="StanzaDelCittadinoBuiltin[{$built_in_option.identifier|wash()}]" {$built_in_option.current_value|choose( '', 'checked="checked"' )}
+                                                   value="1" />
+                                            <label class="form-check-label mb-0 text-black" for="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}">
+                                                {$built_in_option.name|wash()}
+                                            </label>
+                                        </div>
+                                    {else}
+                                        <div class="form-group mb-4">
+                                            <label for="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}" class="text-black p-0">{$built_in_option.name|wash()}</label>
+                                            <input type="text" class="form-control border-right"
+                                                   placeholder="{$built_in_option.placeholder|wash()}"
+                                                   id="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}"
+                                                   name="StanzaDelCittadinoBuiltin[{$built_in_option.identifier|wash()}]"
+                                                   value="{$built_in_option.current_value|wash()}"/>
+                                        </div>
+                                    {/if}
+                                {/foreach}
                             </div>
-                        {else}
-                            <div class="form-group mb-4">
-                                <label for="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}" class="text-black p-0">{$built_in_option.name|wash()}</label>
-                                <input type="text" class="form-control border-right"
-                                       placeholder="{$built_in_option.placeholder|wash()}"
-                                       id="StanzaDelCittadinoBuiltin_{$built_in_option.identifier|wash()}"
-                                       name="StanzaDelCittadinoBuiltin[{$built_in_option.identifier|wash()}]"
-                                       value="{$built_in_option.current_value|wash()}"/>
-                            </div>
-                        {/if}
                         {/foreach}
                         <div class="text-right mt-1">
                             <button class="btn btn-primary" type="submit">Salva</button>
