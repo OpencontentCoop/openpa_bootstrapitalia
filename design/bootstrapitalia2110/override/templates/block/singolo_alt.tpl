@@ -36,10 +36,10 @@
   {/if}
 
   <div class="{$valid_node|access_style}">
-      <div class="row">
-          <div class="col{if or($has_image, $has_video)}-lg-5 order-2 order-lg-1{/if} {if $block.custom_attributes.color_style|ne('')}px-lg-0{/if}">
-              <div class="card {if $block.custom_attributes.color_style|eq('')}mb-5{/if}">
-                  <div class="card-body pb-5 lead">
+      <div class="row {if $block.custom_attributes.color_style|ne('')} shadow-sm border border-light rounded{/if}"">
+          <div class="col{if or($has_image, $has_video)}-lg-5 order-2 order-lg-1{/if} {if $block.custom_attributes.color_style|ne('')}px-0{/if}">
+              <div class="card h-100 rounded {if $block.custom_attributes.color_style|eq('')}mb-5{/if}">
+                  <div class="card-body  pb-5 lead">
                       {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}
                       <h3 class="h4 card-title fs-2 fw-bold">
                           <a href="{$openpa.content_link.full_link}" class="text-decoration-none" title="{'Go to page'|i18n('bootstrapitalia')} {$valid_node.name|wash()}">
@@ -64,7 +64,7 @@
               </div>
           </div>
           {if or($has_image, $has_video)}
-          <div class="order-1 order-lg-2 px-0 d-lg-flex align-items-stretch flex-nowrap {if $block.custom_attributes.color_style|ne('')}col-lg-7 px-lg-0{else}col-lg-6 offset-lg-1 px-lg-3{/if}">
+            <div class="col-lg-7 order-1 order-lg-2 d-lg-flex align-items-stretch flex-nowrap {if $block.custom_attributes.color_style|ne('')}px-0 {else}px-lg-3{/if}">
               {if $has_video}
                 <div class="flex-lg-fill">
                   {include uri='design:parts/video.tpl' video=$video}

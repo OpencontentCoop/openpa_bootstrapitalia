@@ -31,10 +31,10 @@
     {/if}
 
     <div class="{$valid_node|access_style}">
-        <div class="row">
-            <div class="col{if or($has_image, $has_video)}-lg-5 order-2 order-lg-1{/if}">
-                <div class="card mb-5">
-                    <div class="card-body pb-5 px-0">
+        <div class="row {if $block.custom_attributes.color_style|ne('')} shadow-sm border border-light rounded{/if}">
+            <div class="col{if or($has_image, $has_video)}-lg-5 order-2 order-lg-1{/if} {if $block.custom_attributes.color_style|ne('')}px-0{/if}">
+                <div class="card h-100 rounded {if $block.custom_attributes.color_style|eq('')}mb-5{/if}">
+                    <div class="card-body pb-5">
                         {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}
                         <h3 class="h4 card-title title-xlarge">
                             <a href="{$openpa.content_link.full_link}" class="text-decoration-none">
@@ -61,7 +61,7 @@
                 </div>
             </div>
             {if or($has_image, $has_video)}
-            <div class="col-lg-6 offset-lg-1 order-1 order-lg-2 px-0 d-lg-flex align-items-stretch flex-nowrap">
+            <div class="col-lg-6 order-1 order-lg-2 px-0 d-lg-flex align-items-stretch flex-nowrap">
                 {if $has_video}
                     <div class="flex-lg-fill video-wrapper">{$oembed.html}</div>
                 {elseif $has_image}
