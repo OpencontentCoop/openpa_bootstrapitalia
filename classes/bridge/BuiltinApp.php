@@ -413,6 +413,7 @@ abstract class BuiltinApp extends OpenPATempletizable
         return [
             [
                 'identifier' => 'TenantUrl',
+                'label' => 'Configurazione generale',
                 'name' => 'Url del tenant',
                 'placeholder' => 'https://servizi.comune.bugliano.pi.it/lang',
                 'type' => 'string',
@@ -420,6 +421,7 @@ abstract class BuiltinApp extends OpenPATempletizable
             ],
             [
                 'identifier' => 'TenantLang',
+                'label' => 'Configurazione generale',
                 'name' => 'Codice lingua del tenant',
                 'placeholder' => 'it',
                 'type' => 'string',
@@ -427,6 +429,7 @@ abstract class BuiltinApp extends OpenPATempletizable
             ],
             [
                 'identifier' => 'FormServerUrl',
+                'label' => 'Configurazione generale',
                 'name' => 'Url del form server',
                 'placeholder' => 'https://form-qa.stanzadelcittadino.it',
                 'type' => 'string',
@@ -434,6 +437,7 @@ abstract class BuiltinApp extends OpenPATempletizable
             ],
             [
                 'identifier' => 'PdndApiUrl',
+                'label' => 'Configurazione generale',
                 'name' => 'Url api PDND',
                 'placeholder' => 'https://api.qa.stanzadelcittadino.it/pdnd/v1',
                 'type' => 'string',
@@ -441,52 +445,75 @@ abstract class BuiltinApp extends OpenPATempletizable
             ],
             [
                 'identifier' => 'CheckoutUrl',
+                'label' => 'Configurazione generale',
                 'name' => 'Url Checkout',
                 'placeholder' => 'https://api.qa.stanzadelcittadino.it/pagopa/checkout',
                 'type' => 'string',
                 'current_value' => $current['CheckoutUrl'],
             ],
             [
+                'identifier' => 'ReadModelUrl',
+                'label' => 'Configurazione generale',
+                'name' => 'Url del server read model',
+                'placeholder' => 'https://api.opencityitalia.it/m/v1',
+                'type' => 'string',
+                'current_value' => $current['ReadModelUrl'],
+            ],
+            [
                 'identifier' => 'CategoriesUrl',
-                'name' => '[Segnalazione disservizio] url custom delle categorie di segnalazione',
+                'label' => 'Segnalazione disservizio',
+                'name' => 'Url custom delle categorie di segnalazione',
                 'placeholder' => 'https://segnalazioni.comune.bugliano.pi.it/api/sensor/inefficiency/categories',
                 'type' => 'string',
                 'current_value' => $current['CategoriesUrl'],
             ],
             [
                 'identifier' => 'EnableSeverityField',
-                'name' => '[Segnalazione disservizio] abilita il campo "Valuta l\'importanza del problema"',
+                'label' => 'Segnalazione disservizio',
+                'name' => 'Abilita il campo "Valuta l\'importanza del problema"',
                 'placeholder' => '',
                 'type' => 'boolean',
                 'current_value' => (bool)$current['EnableSeverityField'],
             ],
             [
                 'identifier' => 'BoundingBox',
-                'name' => '[Segnalazione disservizio] bounding box mappa',
+                'label' => 'Segnalazione disservizio',
+                'name' => 'Bounding box mappa',
                 'placeholder' => '8.66272,44.52197,9.09805,44.37590',
                 'type' => 'string',
                 'current_value' => $current['BoundingBox'],
             ],
             [
+                'identifier' => 'EnableInefficiencyV2',
+                'label' => 'Segnalazione disservizio (formio)',
+                'name' => 'Abilita la versione con formio',
+                'placeholder' => '',
+                'type' => 'boolean',
+                'current_value' => (bool)$current['EnableInefficiencyV2'],
+            ],
+            [
+                'identifier' => 'InefficiencyV2ServiceUuid',
+                'label' => 'Segnalazione disservizio (formio)',
+                'name' => 'Id servizio',
+                'placeholder' => '7c01b9ac-63a3-4b32-b822-68a74ca40ee0',
+                'type' => 'string',
+                'current_value' => $current['InefficiencyV2ServiceUuid'],
+            ],
+            [
                 'identifier' => 'EnableHelpdeskV2',
-                'name' => '[Richiesta assistenza] abilita la versione con formio',
+                'label' => 'Richiesta assistenza (formio)',
+                'name' => 'Abilita la versione con formio',
                 'placeholder' => '',
                 'type' => 'boolean',
                 'current_value' => (bool)$current['EnableHelpdeskV2'],
             ],
             [
                 'identifier' => 'HelpdeskV2ServiceUuid',
-                'name' => '[Richiesta assistenza] Id servizio',
+                'label' => 'Richiesta assistenza (formio)',
+                'name' => 'Id servizio',
                 'placeholder' => '7c01b9ac-63a3-4b32-b822-68a74ca40ee0',
                 'type' => 'string',
                 'current_value' => $current['HelpdeskV2ServiceUuid'],
-            ],
-            [
-                'identifier' => 'ReadModelUrl',
-                'name' => 'Url del server read model',
-                'placeholder' => 'https://api.opencityitalia.it/m/v1',
-                'type' => 'string',
-                'current_value' => $current['ReadModelUrl'],
             ],
         ];
     }
@@ -515,6 +542,8 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'PdndApiUrl' => $data[$locale]['PdndApiUrl'] ?? 'https://api.stanzadelcittadino.it/pdnd/v1',
                 'CheckoutUrl' => $data[$locale]['CheckoutUrl'] ?? 'https://api.stanzadelcittadino.it/pagopa/checkout',
                 'ReadModelUrl' => $data[$locale]['ReadModelUrl'] ?? 'https://api.opencityitalia.it/m/v1',
+                'EnableInefficiencyV2' => isset($data[$locale]['EnableInefficiencyV2']) ?? (bool)$data['EnableInefficiencyV2'] ?? false,
+                'InefficiencyV2ServiceUuid' => $data[$locale]['InefficiencyV2ServiceUuid'] ?? null,
             ];
         }
 

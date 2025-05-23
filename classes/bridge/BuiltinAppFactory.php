@@ -10,6 +10,12 @@ class BuiltinAppFactory
                 $identifier = 'helpdesk_v2';
             }
         }
+        if ($identifier === 'inefficiency'){
+            $identifier = 'inefficiency_v1';
+            if (BuiltinApp::getCurrentOptions('EnableInefficiencyV2')){
+                $identifier = 'inefficiency_v2';
+            }
+        }
         switch ($identifier) {
             case 'booking':
                 $app = new BookingBuiltinApp();
@@ -18,10 +24,13 @@ class BuiltinAppFactory
                 $app = new HelpdeskBuiltinApp();
                 break;
             case 'helpdesk_v2':
-                    $app = new HelpdeskV2BuiltinApp();
+                $app = new HelpdeskV2BuiltinApp();
                 break;
-            case 'inefficiency':
+            case 'inefficiency_v1':
                 $app = new InefficiencyBuiltinApp();
+                break;
+            case 'inefficiency_v2':
+                $app = new InefficiencyV2BuiltinApp();
                 break;
             case 'service-form':
                 $app = new ServiceFormBuiltinApp('Fill out the form');
@@ -52,7 +61,8 @@ class BuiltinAppFactory
     {
         return [
             'booking',
-            'inefficiency',
+            'inefficiency_v1',
+            'inefficiency_v2',
             'payment',
             'helpdesk_v1',
             'helpdesk_v2',
