@@ -782,3 +782,10 @@ input[type="search"]::-webkit-search-results-decoration {
 .oc-box-shadow-border {
   box-shadow: $card-border-color 0px 1px 0px;
 }
+
+.oc-overlay-gradient-bottom-md-right {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+  @include media-breakpoint-up(lg) {
+    background: linear-gradient(270deg, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+  }
+}
