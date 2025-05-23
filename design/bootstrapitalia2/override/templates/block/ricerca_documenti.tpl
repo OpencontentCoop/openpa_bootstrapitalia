@@ -422,7 +422,7 @@ $(document).ready(function () {
 
 	  var buildQuery = function(){	    	
 	    var baseQueryClasses = hasProjectClass ? 'document,dataset,public_project' : 'document,dataset';
-			var query = 'classes ['+baseQueryClasses+'] subtree [' + subtree + '] facets [raw[subattr_document_type___tag_ids____si],raw[subattr_'+startIdentifier+'___year____dt],raw[meta_class_name_ms]]';
+			var query = 'classes ['+baseQueryClasses+'] subtree [' + subtree + '] facets [raw[subattr_document_type___tag_ids____si],raw[subattr_'+startIdentifier+'___year____dt],class]';
 			if (showOnlyPublication){
 				query += ' and (calendar['+startIdentifier+','+endIdentifier+'] = [yesterday,now] or ('+startIdentifier+' range [*,now] and '+endIdentifier+' !range [*,*]))';
 			}
@@ -447,7 +447,7 @@ $(document).ready(function () {
 			if (container.find('[data-search="has_organization"]').length > 0) {
 				var officeFilter = container.find('[data-search="has_organization"]').val();
 				if (officeFilter && officeFilter.length > 0) {
-					query += hasProjectClass ? 
+					query += hasProjectClass ?  
 					" and ( (class in [document] and has_organization.id in [" + officeFilter + "]) or (class in [dataset] and rights_holder.id in [" + officeFilter + "])  or (class in [public_project] and holds_role_in_time.id in [" + officeFilter + "]) )"
 					: " and ( (class in [document] and has_organization.id in [" + officeFilter + "]) or (class in [dataset] and rights_holder.id in [" + officeFilter + "]) )";
 				}
@@ -549,15 +549,15 @@ $(document).ready(function () {
 
     function formatSearchResults(counts) {
       const singleResultsLabels = {
-        Documento: '{/literal}{'Document result'|i18n('bootstrapitalia/documents')}{/literal}',
-        Dataset: "{/literal}{'Dataset result'|i18n('bootstrapitalia/documents')}{/literal}",
-        Progetto: "{/literal}{'Project result'|i18n('bootstrapitalia/documents')}{/literal}",
+        document: '{/literal}{'Document result'|i18n('bootstrapitalia/documents')}{/literal}',
+        dataset: "{/literal}{'Dataset result'|i18n('bootstrapitalia/documents')}{/literal}",
+        public_project: "{/literal}{'Project result'|i18n('bootstrapitalia/documents')}{/literal}",
         suffix: "{/literal}{'Result found'|i18n('bootstrapitalia/documents')}{/literal}"
       };
       const multipleResultsLabels = {
-        Documento: '{/literal}{'Documents results'|i18n('bootstrapitalia/documents')}{/literal}',
-        Dataset: "{/literal}{'Dataset results'|i18n('bootstrapitalia/documents')}{/literal}",
-        Progetto: "{/literal}{'Projects results'|i18n('bootstrapitalia/documents')}{/literal}",
+        document: '{/literal}{'Documents results'|i18n('bootstrapitalia/documents')}{/literal}',
+        dataset: "{/literal}{'Dataset results'|i18n('bootstrapitalia/documents')}{/literal}",
+        public_project: "{/literal}{'Projects results'|i18n('bootstrapitalia/documents')}{/literal}",
         suffix: "{/literal}{'Results found'|i18n('bootstrapitalia/documents')}{/literal}"
       };
       const results = Object.entries(counts)
