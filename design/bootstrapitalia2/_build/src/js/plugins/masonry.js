@@ -135,9 +135,11 @@ if (masonries.length > 0) {
       Masonry.getOrCreateInstance(masonry)
     })
   }*/
-  masonries.forEach((masonry) => {
-    Masonry.getOrCreateInstance(masonry)
-  })
+  document.fonts.ready.then(() => {
+    masonries.forEach((masonry) => {
+      Masonry.getOrCreateInstance(masonry);
+    });
+  });
 }
 
 export default Masonry
