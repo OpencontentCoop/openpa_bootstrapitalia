@@ -1,3 +1,7 @@
+{def $infobox = fetch(content, object, hash(remote_id, 'info_booking_service_discover'))}
+{if $infobox}
+    {include uri='design:openpa/info_modal.tpl' infobox=$infobox}
+{/if}
 {if $services_categories|count()|eq(0)}
     <div class="container">
         <div class="row justify-content-center">
