@@ -62,7 +62,7 @@
         </div>
         <div class="col-12">
           <table class="table table-striped mt-4" id="data">
-            <thead class="bg-white oc-box-shadow-border" data-bs-toggle="sticky" data-bs-stackable="true">
+            <thead class="bg-white oc-box-shadow-border" data-bs-toggle="sticky" data-bs-stackable="true" style="margin-bottom: 170px;>
               <tr style="font-size: .8em">
                   <th>{'User'|i18n('design/standard/node/view')}</th>
                   {foreach $available_groups as $group}
