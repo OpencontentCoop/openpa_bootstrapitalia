@@ -238,13 +238,13 @@ abstract class LockEditClassConnector extends ClassConnector
         return null;
     }
 
-    protected function mapCustomAttributeImageToRelation($block): ?array
+    protected function mapCustomAttributeImageToRelation($block, $customAttributeIdentifier = 'image'): ?array
     {
         if (is_string($block)) {
             $block = $this->findBlockById($block);
         }
-        if (isset($block['custom_attributes']['image'])){
-            $node = eZContentObjectTreeNode::fetch((int)$block['custom_attributes']['image']);
+        if (isset($block['custom_attributes'][$customAttributeIdentifier])){
+            $node = eZContentObjectTreeNode::fetch((int)$block['custom_attributes'][$customAttributeIdentifier]);
             if ($node instanceof eZContentObjectTreeNode) {
                 return [[
                     'id' => $node->attribute('contentobject_id'),
