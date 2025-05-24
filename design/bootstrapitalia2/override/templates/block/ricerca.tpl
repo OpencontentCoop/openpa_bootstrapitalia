@@ -71,7 +71,7 @@
               <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center justify-content-lg-end" style="z-index: 1;">
                 <div class="mt-5 mt-lg-0 text-lg-center">
                   <a href="{$logo_link}" target="_blank" rel="noopener">
-                    <img src="{$logo_image|ezroot(no)}"
+                    <img src="{$logo_image}"
                       alt={$logo_alt}
                       class="img-fluid"
                       style="max-width: 100%; max-height: 130px;"/>
