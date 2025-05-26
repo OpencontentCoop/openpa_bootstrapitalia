@@ -385,6 +385,11 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $hasMainNews = false;
         if ($block = $this->mapMainNews($data)) {
+            if ($this->isSearchBlockBoosted() && !empty($searchBlock['custom_attributes']['image'])) {
+                $styles = eZINI::instance('openpa.ini')->variableArray('Stili', 'Nodo_NomeStile');
+                $style = $styles[1][1] ?? '';
+                $block['custom_attributes']['color_style'] = $style;
+            }
             $blocks[] = $block;
             $hasMainNews = true;
         }
