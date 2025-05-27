@@ -33,7 +33,7 @@ Input:
 
 {if $image_content.is_valid}
 
-    {let image        = $image_content[$image_class]
+    {let image_variation = $image_content[$image_class]
 		 image_css_classes = array()}
 
 	{if $fluid}
@@ -64,10 +64,10 @@ Input:
         <div class="{$css_class|wash}">
     {/if}
 
-    {if and( is_set( $image ), $image )}
+    {if and( is_set( $image_variation ), $image_variation )}
         {if $alt_text|not}
-            {if $image.text}
-                {set $alt_text = $image.text}
+            {if $image_variation.text}
+                {set $alt_text = $image_variation.text}
             {else}
                 {*set $alt_text = $attribute.object.name*}
                 {set $alt_text = ""}
