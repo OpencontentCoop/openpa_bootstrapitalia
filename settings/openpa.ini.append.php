@@ -128,6 +128,7 @@ FaqTreeView=disabled
 ChildrenFilter=disabled
 ShowYearInEventCard=disabled
 ShowTitleInSingleBlock=disabled
+ForceShowServiceChannel=disabled
 
 [ChildrenFilters]
 #Aree amministrative
