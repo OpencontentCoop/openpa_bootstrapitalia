@@ -6,10 +6,27 @@
     {/if}
     {undef $image}
 {/if}
+{def $logo_image = false()}
+{def $logo_link = false()}
+{def $logo_alt = false()}
+{if and(is_set($block.custom_attributes.logo), $block.custom_attributes.logo|ne(''))}
+    {def $logo = fetch(content, node, hash(node_id, $block.custom_attributes.logo))}
+    {if and($logo, $logo.class_identifier|eq('banner'), $logo|has_attribute('image'))}
+        {set $logo_image = $logo|attribute('image').content.original.full_path|ezroot(no)}
+        {set $logo_link = object_handler($logo).content_link.full_link}
+        {set $logo_alt = $logo.name|wash()}
+    {/if}
+    {undef $logo}
+{/if}
 <div class="section section-muted p-0 py-5 useful-links-section position-relative">
-    <div class="block-bg bg-secondary h-100">
-      {if $background_image}{include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}{/if}
-    </div>
+    {if $background_image}
+      <div class="block-bg h-100 {if $logo_image}overlay-wrapper{/if}">
+        {include name="bg" uri='design:atoms/background-image.tpl' url=$background_image}
+        {if $logo_image}
+          <div class="overlay-panel overlay-panel-fullheight oc-overlay-gradient-bottom-md-right"></div>
+        {/if}
+      </div>
+    {/if}
     <div class="container{if and(count($block.valid_nodes)|eq(0), $background_image)} py-5{/if}">
         <div class="row d-flex justify-content-center">
             <div class="col-12 col-lg-6">
@@ -50,6 +67,18 @@
                 {/if}
                 {/if}
             </div>
+            {if $logo_image}
+              <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center justify-content-lg-end" style="z-index: 1;">
+                <div class="mt-5 mt-lg-0 text-lg-center">
+                  <a href="{$logo_link}" target="_blank" rel="noopener">
+                    <img src="{$logo_image}"
+                      alt={$logo_alt}
+                      class="img-fluid"
+                      style="max-width: 100%; max-height: 130px;"/>
+                  </a>
+                </div>
+              </div>
+            {/if}
         </div>
     </div>
 </div>

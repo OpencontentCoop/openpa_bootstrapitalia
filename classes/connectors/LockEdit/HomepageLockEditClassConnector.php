@@ -62,6 +62,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             'add_section_events' => $hasNextEvents || $hasEvents,
             'add_section_banner' => is_array($hasBanner),
             'add_section_search' => is_array($hasLinks) || is_array($hasSearchBg),
+            'logo_search' => $this->mapCustomAttributeImageToRelation(self::SEARCH, 'logo'),
         ];
     }
 
@@ -146,6 +147,12 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             'background_search' => ['add_section_search'],
         ];
 
+        if ($this->isSearchBlockBoosted()){
+            $schema['properties']['logo_search'] = $schema['properties']['background_search'];
+            $schema['properties']['logo_search']['title'] = 'Banner in evidenza';
+            $schema['dependencies']['logo_search'] = ['add_section_search'];
+        }
+
         unset($schema['properties']['section_latest_news']['title']);
         unset($schema['properties']['section_next_events']['title']);
 
@@ -213,7 +220,6 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $options['fields']['section_search']['dependencies'] = ['add_section_search' => 'true'];
         $options['fields']['background_search']['dependencies'] = ['add_section_search' => 'true'];
 
-
         $options['fields']['section_news']['browse']['subtree'] = $news = $this->fetchMainNodeIDByObjectRemoteID(
             'news'
         );
@@ -251,17 +257,25 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $options['fields']['background_search']['browse']['subtree'] = $media;
         $options['fields']['background_search']['actionbar'] = $actionbar;
+        if ($this->isSearchBlockBoosted()){
+            $options['fields']['logo_search']['browse']['subtree'] = $media;
+            $options['fields']['logo_search']['actionbar'] = $actionbar;
+        }
 
         $options['fields']['background_topic']['browse']['subtree'] = $media;
         $options['fields']['background_topic']['actionbar'] = $actionbar;
 
         $options['fields']['section_search']['browse']['subtree'] = 2;
         if ($this->isSearchBlockBoosted()) {
+            $options['fields']['logo_search'] = $options['fields']['background_search'];
+            $options['fields']['logo_search']['browse']['subtree'] = eZContentObject::fetchByRemoteID('banners')->MainNodeID ?? 1;
+            $options['fields']['logo_search']['browse']['classes'] = ['banner'];
             $options['fields']['section_search']['helper'] = str_replace(
                 '5',
                 '15',
                 $options['fields']['section_search']['helper']
             );
+            $options['fields']['logo_search']['dependencies'] = ['add_section_search' => 'true'];
         }
 
         return $options;
@@ -274,6 +288,9 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Research'),
             'identifiers' => ['add_section_search', 'background_search', 'section_search'],
         ];
+        if ($this->isSearchBlockBoosted()){
+            $searchCategory['identifiers'][] = 'logo_search';
+        }
         $categories = [];
         if ($this->isSearchBlockBoosted()){
             $categories[] = $searchCategory;
@@ -368,6 +385,11 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
 
         $hasMainNews = false;
         if ($block = $this->mapMainNews($data)) {
+            if ($this->isSearchBlockBoosted() && !empty($searchBlock['custom_attributes']['image'])) {
+                $styles = eZINI::instance('openpa.ini')->variableArray('Stili', 'Nodo_NomeStile');
+                $style = $styles[1][1] ?? '';
+                $block['custom_attributes']['color_style'] = $style;
+            }
             $blocks[] = $block;
             $hasMainNews = true;
         }
@@ -667,6 +689,14 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 }
             } else {
                 $originalBlock['custom_attributes']['image'] = '';
+            }
+            if (isset($data['logo_search'][0]['id'])) {
+                $object = eZContentObject::fetch((int)$data['logo_search'][0]['id']);
+                if ($object instanceof eZContentObject) {
+                    $originalBlock['custom_attributes']['logo'] = $object->mainNodeID();
+                }
+            } else {
+                $originalBlock['custom_attributes']['logo'] = '';
             }
 
             $remoteIdList = [];
