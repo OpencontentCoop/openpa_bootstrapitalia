@@ -5,7 +5,11 @@
 ))}
 
 {def $node_list = array()}
-{if and(is_active_public_service($attribute.object), $attribute.has_content)}
+{def $is_active = is_active_public_service($attribute.object)}
+{if openpaini('ViewSettings', 'ForceShowServiceChannel', 'disabled')|eq('enabled')}
+    {set $is_active = true()}
+{/if}
+{if and($is_active, $attribute.has_content)}
     {foreach $attribute.content.relation_list as $relation_item}
         {if $relation_item.in_trash|not()}
             {def $content_object = fetch( content, object, hash( object_id, $relation_item.contentobject_id ) )}
