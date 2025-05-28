@@ -328,7 +328,7 @@
 			   <span class="">{/literal}{'Load more results'|i18n('bootstrapitalia')}{literal}</span>
 			</button>
 		{{else}}
-			<p class="text-paragraph-regular-medium mt-4 mb-0">{/literal}{'Nessun altro risultato'|i18n('bootstrapitalia')}{literal}</p>
+			<p class="text-paragraph-regular-medium mt-4 mb-0">{/literal}{'No other results'|i18n('bootstrapitalia')}{literal}</p>
 		{{/if}}
 	{{/if}}
 </script>

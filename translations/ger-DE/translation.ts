@@ -1291,6 +1291,34 @@
       <source>%count documents found</source>
       <translation>Suche ergab %count Dokumente</translation>
     </message>
+    <message>
+      <source>Documents results</source>
+      <translation>dokumente</translation>
+    </message>
+    <message>
+      <source>Dataset result</source>
+      <translation>datensatz</translation>
+    </message>
+    <message>
+      <source>Dataset results</source>
+      <translation>datensätze</translation>
+    </message>
+    <message>
+      <source>Project result</source>
+      <translation>projekt</translation>
+    </message>
+    <message>
+      <source>Projects results</source>
+      <translation>projekte</translation>
+    </message>
+    <message>
+      <source>Result found</source>
+      <translation>gefunden</translation>
+    </message>
+    <message>
+      <source>Results found</source>
+      <translation>gefunden</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/forgotpassword</name>
