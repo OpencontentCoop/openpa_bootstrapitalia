@@ -8,7 +8,10 @@
 ))}
 
 {def $attributes = class_extra_parameters($node.object.class_identifier, 'card_small_view')}
-{def $has_image = $openpa.event_link.image}
+{def $has_image = false()}
+{if or($openpa.event_link.image, $node|has_attribute('image'))}
+    {set $has_image = true()}
+{/if}
 <div data-object_id="{$node.contentobject_id}"
      class="font-sans-serif card card-teaser{if $has_image} card-teaser-image card-flex{/if} no-after rounded shadow-sm mb-0 border border-light {$node|access_style} {$custom_css_class}">
     {if $has_image}
@@ -43,7 +46,11 @@
     </div>
     {if $has_image}
         <div class="card-image card-image-rounded pb-5">
-            <img class="img-fluid img-responsive" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
+            {if $openpa.event_link.image}
+                <img class="img-fluid img-responsive" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
+            {else}
+                {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class context='card_teaser'}
+            {/if}
         </div>
     </div>
     {/if}

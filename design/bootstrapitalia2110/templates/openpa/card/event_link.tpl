@@ -5,7 +5,7 @@
 {/if}
 
 {def $has_image = false()}
-{if $openpa.event_link.image}
+{if or($openpa.event_link.image, $node|has_attribute('image'))}
     {set $has_image = true()}
 {/if}
 {def $has_video = false()}
@@ -18,7 +18,8 @@
 {include uri='design:openpa/card/parts/card_wrapper_open.tpl'}
 
     {if $has_media}
-      <div class="img-responsive-wrapper">
+      {if $openpa.event_link.image}
+        <div class="img-responsive-wrapper">
         <div class="img-responsive img-responsive-panoramic">
           <figure class="img-wrapper">
             <img class="img-fluid" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" />
@@ -43,6 +44,9 @@
           {/if}
         </div>
       </div>
+      {else}
+          {include uri='design:openpa/card/parts/image.tpl'}
+      {/if}
     {/if}
 
     <div class="card-body pb-5">
