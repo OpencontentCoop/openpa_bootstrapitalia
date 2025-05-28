@@ -4,7 +4,7 @@
                class="btn-secondary btn py-1 px-2 btn-xs block-control"
                name="CustomActionButton[{$attribute.id}_new_item_browse-{$zone_id}-{$block_id}]"
                type="submit"
-               data-browsersubtree="2"
+               data-browsersubtree="1"
                data-browserselectiontype="{if $number_of_items}{cond($number_of_items|gt(1), 'multiple', 'single')}{else}single{/if}"
                value="{'Add item'|i18n( 'design/standard/block/edit' )}{if $number_of_items} (max {$number_of_items}){/if}" />
     </div>

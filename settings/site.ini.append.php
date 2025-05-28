@@ -27,6 +27,7 @@ PolicyOmitList[]=service-worker.js
 PolicyOmitList[]=favicon
 PolicyOmitList[]=image/inefficiency
 PolicyOmitList[]=pagamento
+PolicyOmitList[]=bootstrapitalia/iframe
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login

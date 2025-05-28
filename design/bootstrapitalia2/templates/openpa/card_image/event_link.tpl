@@ -27,6 +27,8 @@
 
                     {if $openpa.event_link.image}
                         <img class="img-fluid" src="{$openpa.event_link.image.url}" alt="{$node.name|wash()}" loading="lazy" />
+                    {elseif $node|has_attribute('image')}
+                        {attribute_view_gui attribute=$node|attribute('image') image_class=$image_class}
                     {else}
                         <div class="bg-dark" style="width:{rand(300,400)}px;height:{rand(300,400)}px"></div>
                     {/if}
