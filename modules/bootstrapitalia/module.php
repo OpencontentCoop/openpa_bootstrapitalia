@@ -89,6 +89,12 @@ $ViewList['approval'] = [
         'status' => 'Status'
     ],
 ];
+$ViewList['iframe'] = [
+    'functions' => ['iframe'],
+    'script' => 'iframe.php',
+    'params' => [],
+    'unordered_params' => [],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];
@@ -112,3 +118,4 @@ $FunctionList['service_tools'] = [];
 $FunctionList['booking_config'] = [];
 $FunctionList['widget'] = [];
 $FunctionList['approval'] = [];
+$FunctionList['iframe'] = [];
