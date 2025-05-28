@@ -881,6 +881,38 @@
       <translation>Es wurden keine Ergebnisse gefunden</translation>
     </message>
     <message>
+      <source>Document result</source>
+      <translation>dokument</translation>
+    </message>
+    <message>
+      <source>Documents results</source>
+      <translation>dokumente</translation>
+    </message>
+    <message>
+      <source>Dataset result</source>
+      <translation>datensatz</translation>
+    </message>
+    <message>
+      <source>Dataset results</source>
+      <translation>datensätze</translation>
+    </message>
+    <message>
+      <source>Project result</source>
+      <translation>projekt</translation>
+    </message>
+    <message>
+      <source>Projects results</source>
+      <translation>projekte</translation>
+    </message>
+    <message>
+      <source>Result found</source>
+      <translation>gefunden</translation>
+    </message>
+    <message>
+      <source>Results found</source>
+      <translation>gefunden</translation>
+    </message>
+    <message>
       <source>Search only active content</source>
       <translation>Nur aktive Inhalte suchen</translation>
     </message>
@@ -890,11 +922,11 @@
     </message>
     <message>
       <source>Start date</source>
-      <translation>Von</translation>
+      <translation>Startdatum</translation>
     </message>
     <message>
       <source>End date</source>
-      <translation>Bis</translation>
+      <translation>Enddatum</translation>
     </message>
     <message>
       <source>enter the date in dd/mm/yyyy format</source>
@@ -1201,7 +1233,7 @@
     </message>
     <message>
       <source>Document number</source>
-      <translation>Nr.</translation>
+      <translation>Dokumentnummer</translation>
     </message>
     <message>
       <source>Date</source>
@@ -1222,6 +1254,10 @@
     <message>
       <source>Reset</source>
       <translation>Zurücksetzen</translation>
+    </message>
+    <message>
+      <source>Remove filters</source>
+      <translation>Alle filter löschen</translation>
     </message>
     <message>
       <source>Document type</source>
@@ -1254,6 +1290,34 @@
     <message>
       <source>%count documents found</source>
       <translation>Suche ergab %count Dokumente</translation>
+    </message>
+    <message>
+      <source>Documents results</source>
+      <translation>dokumente</translation>
+    </message>
+    <message>
+      <source>Dataset result</source>
+      <translation>datensatz</translation>
+    </message>
+    <message>
+      <source>Dataset results</source>
+      <translation>datensätze</translation>
+    </message>
+    <message>
+      <source>Project result</source>
+      <translation>projekt</translation>
+    </message>
+    <message>
+      <source>Projects results</source>
+      <translation>projekte</translation>
+    </message>
+    <message>
+      <source>Result found</source>
+      <translation>gefunden</translation>
+    </message>
+    <message>
+      <source>Results found</source>
+      <translation>gefunden</translation>
     </message>
   </context>
   <context>
