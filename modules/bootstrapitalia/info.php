@@ -137,7 +137,14 @@ if ($http->hasPostVariable('StanzaDelCittadinoBuiltin') && $hasAdminAccess) {
     $module->redirectTo('/bootstrapitalia/info');
     return;
 }
-$tpl->setVariable('built_in_options', BuiltinApp::getOptionsDefinition());
+$builtinOptions = BuiltinApp::getOptionsDefinition();
+$groupedBuiltinOptions = [];
+foreach ($builtinOptions as $builtinOption) {
+    $label = $builtinOption['label'] ?? '';
+    $groupedBuiltinOptions[$label][] = $builtinOption;
+}
+$tpl->setVariable('built_in_options', $builtinOptions);
+$tpl->setVariable('grouped_built_in_options', $groupedBuiltinOptions);
 
 if ($http->hasPostVariable('Moderation') && $hasAdminAccess) {
     ModerationHandler::setIsEnabled((bool)$http->hasPostVariable('ModerationIsEnabled'));
