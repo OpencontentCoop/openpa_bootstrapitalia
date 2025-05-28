@@ -7,7 +7,7 @@
                        class="btn-secondary btn py-1 px-2 btn-xs block-control"
                        name="CustomActionButton[{$attribute.attribute.id}_new_source_browse-{$attribute.zone_id}-{$attribute.block_id}]"
                        type="submit"
-                       data-browsersubtree="2"
+                       data-browsersubtree="1"
                        data-browserselectiontype="single"
                        value="{'Choose source'|i18n( 'design/standard/block/edit' )}"/>
                 {if is_set( $fetch_params['Source'] )}
