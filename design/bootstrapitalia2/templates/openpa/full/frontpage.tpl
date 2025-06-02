@@ -8,7 +8,11 @@
 {def $last_block_has_bg = cond(and($has_layout, is_set($blocks.last.has_bg), $blocks.last.has_bg), true(), false())}
 
 {if $openpa.content_tag_menu.has_tag_menu}
-    {if $openpa.content_tag_menu.current_view_tag}
+    {if $openpa.content_tag_menu.current_view_tag_subtree}
+        {ezpagedata_set( 'current_view_tag_keyword', $openpa.content_tag_menu.current_view_tag.keyword )}
+        {ezpagedata_set( 'current_view_keywords_subtree', $openpa.content_tag_menu.current_view_keywords_subtree )}
+        {ezpagedata_set( 'view_tag_root_node_url', $openpa.content_tag_menu.tag_menu_root_node.url_alias )}
+    {elseif $openpa.content_tag_menu.current_view_tag}
         {ezpagedata_set( 'current_view_tag_keyword', $openpa.content_tag_menu.current_view_tag.keyword )}
         {ezpagedata_set( 'view_tag_root_node_url', $openpa.content_tag_menu.tag_menu_root_node.url_alias )}
     {/if}
