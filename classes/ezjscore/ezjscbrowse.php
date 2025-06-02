@@ -5,12 +5,13 @@ class ezjscBrowse extends ezjscServerFunctionsNode
 
     public static function subTree($args)
     {
-        $parentNodeID = isset($args[0]) ? $args[0] : null;
-        $limit = isset($args[1]) ? $args[1] : 25;
-        $offset = isset($args[2]) ? $args[2] : 0;
+        $parentNodeID = $args[0] ?? null;
+        $limit = $args[1] ?? 25;
+        $offset = $args[2] ?? 0;
         $sort = isset($args[3]) ? self::sortMap($args[3]) : 'published';
-        $order = isset($args[4]) ? $args[4] : false;
-        $objectNameFilter = isset($args[5]) ? $args[5] : '';
+        $order = $args[4] ?? false;
+        $objectNameFilter = $args[5] ?? '';
+        $noDepth = !empty($args[6]);
 
         if (!$parentNodeID) {
             throw new ezcBaseFunctionalityNotSupportedException('Fetch node list', 'Parent node id is not valid');
@@ -32,14 +33,23 @@ class ezjscBrowse extends ezjscServerFunctionsNode
         }
 
         $params = [
-            'Depth' => 1,
             'Limit' => $limit,
             'Offset' => $offset,
             'SortBy' => [[$sort, $order]],
-            'DepthOperator' => 'eq',
-            'ObjectNameFilter' => $objectNameFilter,
             'AsObject' => true,
         ];
+        if (!$noDepth){
+            $params['Depth'] = 1;
+            $params['DepthOperator'] = 'eq';
+        }
+        if (!empty($objectNameFilter)) {
+            $params['ExtendedAttributeFilter'] = [
+                'id' => 'CaseSettingsNameFilter',
+                'params' => [
+                    'name' => $objectNameFilter,
+                ]
+            ];
+        }
 
         // fetch nodes and total node count
         $count = $node->subTreeCount($params);
@@ -65,15 +75,20 @@ class ezjscBrowse extends ezjscServerFunctionsNode
             $list = [];
         }
 
+        $pages = ceil($count / $limit);
+        $currentPage = ($offset ? $offset/$limit : 0) + 1;
+
         return [
-            'parent_node_id' => $parentNodeID,
+            'parent_node_id' => (int)$parentNodeID,
             'count' => count($nodeArray),
             'total_count' => (int)$count,
             'list' => $list,
-            'limit' => $limit,
-            'offset' => $offset,
+            'limit' => (int)$limit,
+            'offset' => (int)$offset,
             'sort' => $sort,
             'order' => $order,
+            'current_page' => $currentPage,
+            'pages' => $pages,
         ];
     }
 

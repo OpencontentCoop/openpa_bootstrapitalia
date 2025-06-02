@@ -2590,7 +2590,7 @@ class OpenPABootstrapItaliaOperators
             ['modified' => true],
             [
                 'offset' => (int)$offset,
-                'length' => (int)$limit
+                'length' => (int)$limit,
             ],
             true
         )];
@@ -2604,5 +2604,16 @@ class OpenPABootstrapItaliaOperators
                 'creator_id' => (int)$user,
             ]
         )];
+    }
+
+    public static function createSqlPartsNameFilter($params)
+    {
+        $filter = $params['name'];
+        $sqlJoins = '';
+        if (!empty($filter)) {
+            $db = eZDB::instance();
+            $sqlJoins = "(ezcontentobject_name.name ilike '%" . $db->escapeString($filter) . "%') AND";
+        }
+        return ['tables' => '', 'joins' => $sqlJoins, 'columns' => ''];
     }
 }
