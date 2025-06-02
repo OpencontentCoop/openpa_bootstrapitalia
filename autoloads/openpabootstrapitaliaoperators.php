@@ -1868,7 +1868,7 @@ class OpenPABootstrapItaliaOperators
 //                eZDebug::writeDebug($tag->attribute('keyword') . ' ' . count($data) . ' ' . $query, __METHOD__);
 
                 return count($data) > 0;
-            } elseif ($remoteId === 'all-places'){
+            } elseif ($remoteId === 'all-places' || $remoteId === 'all-services'){
                 $tagId = (int)$tag->attribute('id');
                 $tagList = self::getTagTreeMenuIdList($node, $tag);
                 $tagIdList = array_column($tagList, 'id');
