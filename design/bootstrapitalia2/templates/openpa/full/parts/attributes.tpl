@@ -68,7 +68,7 @@
                     <div class="has-bg-grey p-3">
                   {/if}
                     {if and(count($summary.items)|gt(1), $item.label)}
-                        <h2 class="my-3">{$item.label|wash()}</h2>
+                        <h2 class="my-3" {if and($object.class_identifier|eq('public_service'), array('cos_e', 'description')|contains($item.slug))}data-element="service-description"{/if}>{$item.label|wash()}</h2>
                     {else}
                         <h2 class="visually-hidden">{$item.title|wash()}</h2>
                     {/if}
