@@ -74,7 +74,7 @@
                     <img src="{$logo_image}"
                       alt={$logo_alt}
                       class="img-fluid"
-                      style="max-width: 100%; max-height: 130px;"/>
+                      style="max-width: 100%; max-height: 70px;"/>
                   </a>
                 </div>
               </div>
