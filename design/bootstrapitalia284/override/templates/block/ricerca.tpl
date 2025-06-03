@@ -74,7 +74,7 @@
                     <img src="{$logo_image|ezroot(no)}"
                       alt="{$logo_alt}"
                       class="img-fluid"
-                      style="max-width: 100%; max-height: 70px;"/>
+                      style="max-width: 100%; max-height: 60px;"/>
                   </a>
                 </div>
               </div>
