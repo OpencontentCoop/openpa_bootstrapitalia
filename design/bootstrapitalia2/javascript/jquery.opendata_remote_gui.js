@@ -270,7 +270,7 @@
         buildFacetedQueryParams: function (){
             let plugin = this;
             if (plugin.settings.queryBuilder === 'browser') {
-                return plugin.buildQuery() + ' and limit 1 facets [' + plugin.settings.facets.join('|alpha,') + '|alpha]';
+                return plugin.buildQuery() + ' and limit 1 facets [' + plugin.settings.facets.join('|alpha|1000,') + '|alpha|1000]';
             }else{
                 return '?limit=1&offset=0&f=1&' + plugin.buildQuery();
             }

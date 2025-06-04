@@ -81,7 +81,7 @@ $(document).ready(function () {ldelim}
     localAccessPrefix: '{'/'|ezurl(no)}',
     query: "classes [public_person] and subtree [{$subtree}] sort [name=>asc]",
     subQuery: "select-fields [data.person{ldelim}0{rdelim}.id] and raw[submeta_person___path____si] in ['{$subtree}'] and classes [time_indexed_role] limit 1000",
-    facetQuery: "classes [time_indexed_role] and raw[submeta_person___path____si] in ['{$subtree}'] and facets [for_entity.name|alpha,role|alpha] limit 1",
+    facetQuery: "classes [time_indexed_role] and raw[submeta_person___path____si] in ['{$subtree}'] and facets [for_entity.name|alpha|1000,role|alpha|1000] limit 1",
     facets:['{$facetsFields|implode("','")}']
   {rdelim});
 {rdelim})
