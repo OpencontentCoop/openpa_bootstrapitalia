@@ -615,8 +615,14 @@ NumberOfArchivedItems=0
 ManualAddingOfItems=enabled
 CustomAttributes[]
 CustomAttributes[]=image
+CustomAttributes[]=logo
+CustomAttributes[]=show_links_as_buttons
 UseBrowseMode[image]=true
+UseBrowseMode[logo]=true
 CustomAttributeNames[image]=Immagine di sfondo
+CustomAttributeNames[logo]=Banner
+CustomAttributeNames[show_links_as_buttons]=Mostra link come bottoni
+CustomAttributeTypes[show_links_as_buttons]=checkbox
 ViewList[]
 ViewList[]=default
 ViewName[]
