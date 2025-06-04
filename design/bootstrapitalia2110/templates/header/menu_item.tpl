@@ -81,6 +81,15 @@
       {else}
         <div class="link-list-wrapper">
           <ul class="link-list">
+            <li class="px-2">
+              <a class="dropdown-item list-item border-bottom mb-2 ps-0 pe-2 py-2"
+                 data-node="{$menu_item.item.node_id}"
+                 {if $menu_item.item.target}target="{$menu_item.item.target}" {/if}
+                 href="{$href}">
+                {display_icon('it-arrow-right-triangle', 'svg', 'icon icon-sm me-2 mb-1')}
+                <span style="font-size:1.125rem;font-weight:600">{$menu_item.item.name|wash()}</span>
+              </a>
+            </li>
             {foreach $menu_item.children as $child}
               {if $child.item.internal}
                 {def $child_href = $child.item.url|ezurl(no)}
