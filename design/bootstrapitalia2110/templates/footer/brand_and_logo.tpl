@@ -1,21 +1,33 @@
 <div class="row">
-    <div class="col-12 footer-items-wrapper logo-wrapper">
+    <div class="col-12 footer-items-wrapper logo-wrapper" style="flex-wrap: wrap;">
         {if openpaini('GeneralSettings','ShowUeLogo', 'enabled')|eq('enabled')}
             <img class="ue-logo" src="{concat('images/assets/logo-eu/',ezini('RegionalSettings', 'Locale'),'.svg')|ezdesign( 'no' )}"
                  title="{'Financed by the European Union'|i18n( 'bootstrapitalia' )}"
                  alt="{'Financed by the European Union'|i18n( 'bootstrapitalia' )}" width="178" height="56"
                  loading="lazy" />
         {/if}
-        {if $pagedata.homepage|has_attribute('footer_logo')}
+        {if and($pagedata.homepage|has_attribute('footer_logo'), $pagedata.homepage|attribute('footer_logo').data_type_string|eq('ezimage'))}
             <div class="it-brand-wrapper">
                 <a href="{'/'|ezurl(no)}"
-                   title="{ezini('SiteSettings','SiteName')}">
+                  title="{ezini('SiteSettings','SiteName')}">
                     <img class="icon" style="width: auto !important;"
-                         alt="{ezini('SiteSettings','SiteName')}"
-                         src="{render_image($pagedata.homepage|attribute('footer_logo').content['header_logo'].full_path|ezroot(no,full)).src}"
-                         loading="lazy" />
+                        alt="{ezini('SiteSettings','SiteName')}"
+                        src="{render_image($pagedata.homepage|attribute('footer_logo').content['header_logo'].full_path|ezroot(no,full)).src}"
+                        loading="lazy" />
                 </a>
             </div>
+        {elseif and($pagedata.homepage|has_attribute('footer_logo'), $pagedata.homepage|attribute('footer_logo').data_type_string|eq('ezobjectrelationlist'))}
+            {foreach $pagedata.homepage|attribute('footer_logo').content.relation_list as $related}
+                {def $related_object = fetch(content, object, hash(object_id, $related['contentobject_id']))}
+                {if and($related_object, $related_object|has_attribute('image'))}
+                  <img class="icon" style="width: auto !important; height: auto !important; max-height: 56px !important; max-width: max-content;"
+                      alt="{ezini('SiteSettings','SiteName')}"
+                      src="{render_image($related_object|attribute('image').content['header_logo'].full_path|ezroot(no,full)).src}"
+                      loading="lazy" />
+                {/if}
+                {undef $related_object}
+            {/foreach} 
+            {include uri='design:logo.tpl' in_footer=true()}
         {else}
             {include uri='design:logo.tpl' in_footer=true()}
         {/if}
