@@ -36,14 +36,18 @@ class ObjectHandlerServiceContentAnalytics extends ObjectHandlerServiceBase
                     $classes = array_column($field['content'], 'classIdentifier');
                     if (in_array('organization', $classes)) {
                         foreach ($field['content'] as $relation) {
-                            $nameList[] = $relation['name'][$locale];
+                            $suffix = '';
+                            if (strpos($relation['remoteId'], 'structure') !== false){
+                                $suffix = ' - ' . str_replace('structure', '', $relation['remoteId']);
+                            }
+                            $nameList[] = $relation['name'][$locale] . $suffix;
                         }
                     }
                 }
             }
         }
 
-        return $nameList;
+        return array_unique($nameList);
     }
 
 }
