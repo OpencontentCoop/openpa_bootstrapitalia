@@ -974,11 +974,15 @@ EOT;
                     }
                     if (empty($data[$i]['offices'][$k]['places'])) {
                         unset($data[$i]['offices'][$k]);
+                    }else{
+                        $data[$i]['offices'][$k]['places'] = array_values($data[$i]['offices'][$k]['places']);
                     }
                 }
                 if (empty($data[$i]['offices'])) {
                     unset($data[$i]);
                     $count--;
+                }else{
+                    $data[$i]['offices'] = array_values($data[$i]['offices']);
                 }
             }
         }
