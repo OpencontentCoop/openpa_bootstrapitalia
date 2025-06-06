@@ -1499,7 +1499,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <name>bootstrapitalia/temp</name>
     <message>
       <source>Report a disservice</source>
-      <translation>Report a inefficiency</translation>
+      <translation>Ineffizienz melden</translation>
     </message>
   </context>
   <context>
@@ -1518,7 +1518,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Report a inefficiency</source>
-      <translation>Report a inefficiency</translation>
+      <translation>Ineffizienz melden</translation>
     </message>
     <message>
       <source>Fill out the form</source>
