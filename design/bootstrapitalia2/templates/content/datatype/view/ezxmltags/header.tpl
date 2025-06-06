@@ -1,5 +1,5 @@
 {set $classification = cond( and(is_set( $align ), $align ), concat( $classification, ' text-', $align ), $classification )}
-{set $classification = concat($classification, ' subtitle-medium title_editor')}
+{set $classification = concat($classification, ' font-sans-serif title_editor')}
 {if is_set($anchor_name)}<a name={$anchor_name} />{/if}
 <a id="eztoc{$toc_anchor_name}"></a>
 {switch name=sw match=$level}
