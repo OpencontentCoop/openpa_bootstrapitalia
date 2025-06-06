@@ -18,6 +18,7 @@
 {/if}
 
 {def $has_channel_help_link = false()}
+{def $hide_main_channel = cond(and($attribute.object|has_attribute('hide_main_channel'), $attribute.object|attribute('hide_main_channel').data_int|eq(1)), true(), false())}
 {if count($node_list)|gt(0)}
     {foreach $node_list as $index => $child}
         <div data-element="{if and($child|has_attribute('has_channel_type'), $child|attribute('has_channel_type').content.keywords|contains('Applicazione Web'))}service-online-access{elseif and($child|has_attribute('has_channel_type'), $child|attribute('has_channel_type').content.keywords|contains('Sportello Pubblica Amministrazione'))}service-booking-access{else}service-generic-access{/if}">
@@ -31,7 +32,7 @@
                 {attribute_view_gui attribute=$child|attribute('channel_url')
                                     service=$attribute.object
                                     context=list
-                                    css_class=cond($index|eq(0), "btn btn-primary fw-bold mobile-full font-sans-serif", "text-primary btn btn-outline-primary bg-white mobile-full font-sans-serif")}
+                                    css_class=cond(or($index|eq(0), $hide_main_channel), "btn btn-primary fw-bold mobile-full font-sans-serif", "text-primary btn btn-outline-primary bg-white mobile-full font-sans-serif")}
                 {if $has_channel_help_link|not()}
                     {include uri='design:parts/channel_help_link.tpl' object=$child.object}
                     {set $has_channel_help_link = true()}
