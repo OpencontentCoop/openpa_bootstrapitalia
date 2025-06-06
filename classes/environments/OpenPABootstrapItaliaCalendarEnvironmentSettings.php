@@ -98,9 +98,11 @@ class OpenPABootstrapItaliaCalendarEnvironmentSettings extends OpenPABootstrapIt
 
             $fromDateTime = DateTime::createFromFormat(DateTime::ISO8601, $from);
             $toDateTime = DateTime::createFromFormat(DateTime::ISO8601, $to);
-
             if ($fromDateTime instanceof DateTime && $toDateTime instanceof DateTime) {
-
+                $fromDateTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
+                $toDateTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
+                $from = $fromDateTime->format('c');
+                $to = $toDateTime->format('c');
                 if (
                     ($fromDateTime >= $startRequest && $fromDateTime <= $endRequest)
                     || ($toDateTime >= $startRequest && $toDateTime <= $endRequest)
