@@ -323,7 +323,7 @@ $stepper-spacing-v: 16px;
 @import "design-comuni-pagine-statiche/components/partials/input-autocomplete/input-autocomplete";
 @import "design-comuni-pagine-statiche/components/partials/text-area/text.area";
 @import "design-comuni-pagine-statiche/components/cmp-map/cmp-map";
-@import "design-comuni-pagine-statiche/components/cmp-hero/cmp-hero";
+@import "override/cmp-hero"; //@import "design-comuni-pagine-statiche/components/cmp-hero/cmp-hero";
 @import "design-comuni-pagine-statiche/components/cmp-hero-img/cmp-hero-img";
 @import "design-comuni-pagine-statiche/components/cmp-list-card-img/cmp-list-card-img";
 
