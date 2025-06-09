@@ -1,4 +1,9 @@
-{def $parent = $block.valid_nodes[0].parent}
+{def $parent = fetch(content, object, hash('remote_id', 'topics'))}
+{if $parent}
+	{set $parent = $parent.main_node}
+{else}
+	{set $parent = $block.valid_nodes[0].parent}
+{/if}
 {def $background_image = false()}
 {if and(is_set($block.custom_attributes.image), $block.custom_attributes.image|ne(''))}
     {def $image = fetch(content, node, hash(node_id, $block.custom_attributes.image))}
