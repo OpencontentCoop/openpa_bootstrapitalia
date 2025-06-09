@@ -285,7 +285,7 @@
     </message>
     <message>
       <source>Inefficiency reporting</source>
-      <translation>Ineffizienz melden</translation>
+      <translation>Meldungen</translation>
     </message>
     <message>
       <source>Public service sync tool</source>
@@ -1574,7 +1574,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Report a inefficiency</source>
-      <translation>Ineffizienz melden</translation>
+      <translation>Missstand melden</translation>
     </message>
     <message>
       <source>Fill out the form</source>
