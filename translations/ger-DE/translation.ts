@@ -185,7 +185,7 @@
     </message>
     <message>
       <source>All news</source>
-      <translation>Alle Aktuelles</translation>
+      <translation>Alle Neuigkeiten</translation>
     </message>
     <message>
       <source>Access the personal area</source>
@@ -253,23 +253,23 @@
     </message>
     <message>
       <source>Read the FAQ</source>
-      <translation>Lesen Sie die häufig gestellten Fragen</translation>
+      <translation>Häufig gestellte Fragen (FAQ)</translation>
     </message>
     <message>
       <source>Request assistance</source>
-      <translation>Hilfe anfordern</translation>
+      <translation>Ansuchen um Hilfe</translation>
     </message>
     <message>
       <source>Call the municipality</source>
-      <translation>Rufen Sie die Gemeinde an</translation>
+      <translation>Rufen Sie uns an</translation>
     </message>
     <message>
       <source>Book an appointment</source>
-      <translation>Termine buchen</translation>
+      <translation>Buchen Sie einen Termin</translation>
     </message>
     <message>
       <source>Report a inefficiency</source>
-      <translation>Ineffizienz melden</translation>
+      <translation>Missstand melden</translation>
     </message>
     <message>
       <source>Trouble in the city</source>
@@ -421,7 +421,7 @@
     </message>
     <message>
       <source>All the services</source>
-      <translation>Alle Dienstleistungen</translation>
+      <translation>Alle Dienste</translation>
     </message>
     <message>
       <source>All documents</source>
@@ -501,7 +501,7 @@
     </message>
     <message>
       <source>Explore by category</source>
-      <translation>Erkunden Sie nach Kategorie</translation>
+      <translation>Suchen Sie nach Kategorie</translation>
     </message>
     <message>
       <source>Evidence topics</source>
@@ -557,7 +557,7 @@
     </message>
     <message>
       <source>Previous assignments</source>
-      <translation>Bisherige Einsätze</translation>
+      <translation>Bisherige Funktionen</translation>
     </message>
     <message>
       <source>Explore the section</source>
@@ -569,6 +569,54 @@
     </message>
     <message>
       <source>Confirmed</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>View all events</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Calendar</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Select an item</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>No results found</source>
+      <translation>Keine Ergebnisse gefunden</translation>
+    </message>
+    <message>
+      <source>When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Press Enter or Space to remove selection</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>View fullscreen</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Search by name</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Precedure view all</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Precedure hide all</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Precedure view step</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Precedure hide step</source>
       <translation></translation>
     </message>
   </context>
@@ -881,38 +929,6 @@
       <translation>Es wurden keine Ergebnisse gefunden</translation>
     </message>
     <message>
-      <source>Document result</source>
-      <translation>dokument</translation>
-    </message>
-    <message>
-      <source>Documents results</source>
-      <translation>dokumente</translation>
-    </message>
-    <message>
-      <source>Dataset result</source>
-      <translation>datensatz</translation>
-    </message>
-    <message>
-      <source>Dataset results</source>
-      <translation>datensätze</translation>
-    </message>
-    <message>
-      <source>Project result</source>
-      <translation>projekt</translation>
-    </message>
-    <message>
-      <source>Projects results</source>
-      <translation>projekte</translation>
-    </message>
-    <message>
-      <source>Result found</source>
-      <translation>gefunden</translation>
-    </message>
-    <message>
-      <source>Results found</source>
-      <translation>gefunden</translation>
-    </message>
-    <message>
       <source>Search only active content</source>
       <translation>Nur aktive Inhalte suchen</translation>
     </message>
@@ -922,11 +938,11 @@
     </message>
     <message>
       <source>Start date</source>
-      <translation>Startdatum</translation>
+      <translation>Von</translation>
     </message>
     <message>
       <source>End date</source>
-      <translation>Enddatum</translation>
+      <translation>Bis</translation>
     </message>
     <message>
       <source>enter the date in dd/mm/yyyy format</source>
@@ -1233,7 +1249,7 @@
     </message>
     <message>
       <source>Document number</source>
-      <translation>Dokumentnummer</translation>
+      <translation>Nr.</translation>
     </message>
     <message>
       <source>Date</source>
@@ -1254,10 +1270,6 @@
     <message>
       <source>Reset</source>
       <translation>Zurücksetzen</translation>
-    </message>
-    <message>
-      <source>Remove filters</source>
-      <translation>Alle filter löschen</translation>
     </message>
     <message>
       <source>Document type</source>
@@ -1292,24 +1304,36 @@
       <translation>Suche ergab %count Dokumente</translation>
     </message>
     <message>
-      <source>Documents results</source>
-      <translation>dokumente</translation>
+      <source>Remove filters</source>
+      <translation>Alle filter löschen</translation>
     </message>
     <message>
-      <source>Dataset result</source>
-      <translation>datensatz</translation>
+      <source>Documents results</source>
+      <translation></translation>
     </message>
     <message>
       <source>Dataset results</source>
       <translation>datensätze</translation>
     </message>
     <message>
-      <source>Project result</source>
-      <translation>projekt</translation>
-    </message>
-    <message>
       <source>Projects results</source>
       <translation>projekte</translation>
+    </message>
+    <message>
+      <source>No results were found</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Document result</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Dataset result</source>
+      <translation>datensatz</translation>
+    </message>
+    <message>
+      <source>Project result</source>
+      <translation>projekt</translation>
     </message>
     <message>
       <source>Result found</source>
@@ -1455,6 +1479,38 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <source>This system uses the oEmbed specification to automatically embed multimedia content into pages. Each content provider (for example YouTube or Vimeo) may release technical, analytical and profiling cookies based on the settings configured by the video maker. If this setting is disabled, the multimedia contents will not be automatically incorporated into the site and instead a link will be displayed to be able to view them directly at the source.</source>
       <translation>Cookies von Drittanbietern werden verwendet, um die Eigenschaften des Navigationsverhaltens des Nutzers zu analysieren, um Dienste zum Aufrufen oder Teilen von Inhalten bereitzustellen und um Profile auf der Grundlage des Verhaltens des Nutzers auf der Website zu erstellen. Auf dieser Website werden Medieninhalte von Drittanbietern (z. B. YouTube oder Facebook) unter Verwendung von oEmbed-Spezifikationen oder Integrationswidgets eingebunden. Jeder Inhaltsanbieter kann technische, analytische und profilbildende Cookies gemäß seinen eigenen Einstellungen setzen. Wenn diese Einstellung deaktiviert ist, werden die Medieninhalte nicht automatisch in die Website eingebettet, sondern es wird ein Link angezeigt, über den sie direkt von der Quelle abgerufen werden können.</translation>
     </message>
+    <message>
+      <source>Accept necessary cookies</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Accept necessary cookies and close</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Always Enabled</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Service | Services</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Close</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Accept third-party cookies to watch the video</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Accept for this video</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Accept for all videos</source>
+      <translation></translation>
+    </message>
   </context>
   <context>
     <name>openparoletype</name>
@@ -1499,18 +1555,18 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <name>bootstrapitalia/temp</name>
     <message>
       <source>Report a disservice</source>
-      <translation>Ineffizienz melden</translation>
+      <translation>Missstand melden</translation>
     </message>
   </context>
   <context>
     <name>bootstrapitalia/footer</name>
     <message>
       <source>Read the FAQ</source>
-      <translation>Lesen Sie die häufig gestellten Fragen</translation>
+      <translation>Häufig gestellte Fragen (FAQ)</translation>
     </message>
     <message>
       <source>Request assistance</source>
-      <translation>Hilfe anfordern</translation>
+      <translation>Ansuchen um Hilfe</translation>
     </message>
     <message>
       <source>Book an appointment</source>
@@ -1967,7 +2023,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Do you have a spid or cie digital identity?</source>
-      <translation>Verfügen Sie über eine digitale SPID- oder CIE-Identität?</translation>
+      <translation>Verfügen Sie über eine digitale SPID-Identität oder die elektronische Identitätskarte?</translation>
     </message>
     <message>
       <source>Log in</source>
@@ -2016,6 +2072,14 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>You will receive a message if the date and time you requested is confirmed</source>
       <translation>Sie erhalten eine Nachricht, wenn das von Ihnen gewünschte Datum und die Uhrzeit bestätigt sind</translation>
+    </message>
+    <message>
+      <source>Date start</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Date end</source>
+      <translation></translation>
     </message>
   </context>
   <context>
