@@ -387,6 +387,7 @@
   position: absolute;
   text-align: center;
   padding: 30px;
+  padding-bottom: 0;
 }
 .leaflet-popup-content-wrapper {
   padding: 1px;
@@ -428,7 +429,7 @@
 }
 .leaflet-container a.leaflet-popup-close-button {
   position: absolute;
-  right: -30px;
+  right: 29px;
   padding: 4px 4px 0 0;
   text-align: center;
   width: 18px;
