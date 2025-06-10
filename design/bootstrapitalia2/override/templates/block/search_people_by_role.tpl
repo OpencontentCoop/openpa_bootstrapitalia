@@ -8,7 +8,7 @@
 	 $subtree = cond(and($block.custom_attributes.subtree, is_set($block.custom_attributes.subtree)), $block.custom_attributes.subtree, 1)
 	 $limit = $block.custom_attributes.limit
 	 $itemsPerRow = $block.custom_attributes.items_per_row
-     $facets = array(concat('Structure'|i18n('openparoletype'), ':raw[submeta_for_entity___name____t]'), concat('.jso'|i18n('bootstrapitalia/role_editor'),':role'))}
+     $facets = array(concat('Structure'|i18n('openparoletype'), ':raw[submeta_for_entity___name____t]'), concat('Role'|i18n('bootstrapitalia/role_editor'),':role'))}
 
 {def $query = 'classes [public_person] sort [name=>asc]'}
 
