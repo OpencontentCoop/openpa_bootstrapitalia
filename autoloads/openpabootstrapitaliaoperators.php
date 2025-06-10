@@ -1392,7 +1392,7 @@ class OpenPABootstrapItaliaOperators
             $html = str_replace('src=', 'preview_placeholder data-coookieconsent="multimedia" data-src=', $html);
             $embedPreviewUrl = "/ocembed/preview/?u={$encodeUrl}";
             eZURI::transformURI($embedPreviewUrl, false, 'relative');
-            $html = str_replace('preview_placeholder', "data-preview=\"{$embedPreviewUrl}\" src=\"/ocembed/preview/?u={$encodeUrl}\"", $html);
+            $html = str_replace('preview_placeholder', "data-preview=\"{$embedPreviewUrl}\" src=\"{$embedPreviewUrl}\"", $html);
         }
 
         return $html;
