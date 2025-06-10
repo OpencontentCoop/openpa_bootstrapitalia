@@ -33,6 +33,15 @@
                         {if openpaini('GeneralSettings', 'ShowFooterSiteMap', 'enabled')|eq('enabled')}
                         <a href={"/content/view/sitemap/2/"|ezurl}>{"Sitemap"|i18n("design/standard/layout")}</a>
                         {/if}
+                        {if openpaini('GeneralSettings', 'AdditionalFooterObjectLinks', array())|count()}
+                            {foreach openpaini('GeneralSettings', 'AdditionalFooterObjectLinks', array()) as $id}
+                                {def $f = fetch(content, object, hash(object_id, $id))}
+                                {if $f}
+                                    <a href={object_handler($f).content_link.full_link}>{$f.name|wash()}</a>
+                                {/if}
+                                {undef $f}
+                            {/foreach}
+                        {/if}
 {*                        <a href={"/openapi/doc/"|ezurl}>API</a>*}
                     </div>
                 </div>
