@@ -49,7 +49,7 @@
                             {/if}
 
                             <a class="read-more"
-                              href="{concat('/bootstrapitalia/widget/', $identifier)|ezurl(no)}"
+                               href="{if $builtin.has_production_url}{$builtin.production_url|ezurl(no)}{else}{concat('/bootstrapitalia/widget/', $identifier)|ezurl(no)}{/if}"
                               target="_blank"
                               rel="noopener">
                                 <span class="text">Esegui un test</span>

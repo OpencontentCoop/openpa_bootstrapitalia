@@ -14,7 +14,7 @@ class PersonalAreaBuiltinApp extends BuiltinApp
 
     protected function isAppEnabled(): bool
     {
-        return false;
+        return true;
     }
 
     protected function getTemplate(): string
@@ -27,5 +27,14 @@ class PersonalAreaBuiltinApp extends BuiltinApp
         return '/bootstrapitalia/widget/' . $this->getAppIdentifier();
     }
 
+    public function hasProductionUrl(): bool
+    {
+        return $this->isAppEnabled();
+    }
+
+    public function getProductionUrl(): ?string
+    {
+        return '/area_personale';
+    }
 
 }
