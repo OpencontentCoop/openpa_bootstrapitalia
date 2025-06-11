@@ -27,6 +27,7 @@ PolicyOmitList[]=service-worker.js
 PolicyOmitList[]=favicon
 PolicyOmitList[]=image/inefficiency
 PolicyOmitList[]=pagamento
+PolicyOmitList[]=area_personale
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login

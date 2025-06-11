@@ -48,4 +48,14 @@ class HelpdeskBuiltinApp extends BuiltinApp
             'text' => $text,
         ];
     }
+
+    public function hasProductionUrl(): bool
+    {
+        return $this->isAppEnabled();
+    }
+
+    public function getProductionUrl(): ?string
+    {
+        return '/richiedi_assistenza';
+    }
 }

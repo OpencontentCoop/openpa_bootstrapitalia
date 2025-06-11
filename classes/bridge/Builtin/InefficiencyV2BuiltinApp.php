@@ -54,4 +54,14 @@ class InefficiencyV2BuiltinApp extends ServiceFormBuiltinApp
             'text' => $text.$configLink,
         ];
     }
+
+    public function hasProductionUrl(): bool
+    {
+        return $this->isAppEnabled();
+    }
+
+    public function getProductionUrl(): ?string
+    {
+        return '/segnala_disservizio';
+    }
 }

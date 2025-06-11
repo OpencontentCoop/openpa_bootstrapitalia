@@ -45,4 +45,14 @@ class InefficiencyBuiltinApp extends BuiltinApp
                 '',
         ];
     }
+
+    public function hasProductionUrl(): bool
+    {
+        return $this->isAppEnabled();
+    }
+
+    public function getProductionUrl(): ?string
+    {
+        return '/segnala_disservizio';
+    }
 }

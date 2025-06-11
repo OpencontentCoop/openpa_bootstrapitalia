@@ -53,7 +53,19 @@ abstract class BuiltinApp extends OpenPATempletizable
             'description_list_item' => 'getDescriptionListItem',
             'has_custom_config' => 'hasCustomConfig',
             'satisfy_entrypoint' => 'getSatisfyEntrypointId',
+            'has_production_url' => 'hasProductionUrl',
+            'production_url' => 'getProductionUrl',
         ];
+    }
+
+    public function hasProductionUrl(): bool
+    {
+        return false;
+    }
+
+    public function getProductionUrl(): ?string
+    {
+        return null;
     }
 
     /**
