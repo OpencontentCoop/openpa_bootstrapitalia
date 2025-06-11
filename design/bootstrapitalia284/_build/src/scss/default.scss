@@ -157,7 +157,7 @@ $section-user-header-background-color: #f0f8f5 !default;
 @import 'custom/rating-list';
 @import 'custom/badge';
 @import 'custom/figcaption';
-@import 'custom/sticky';
+@import 'opencity/override/custom/sticky'; //@import 'custom/sticky';
 @import 'custom/print';
 @import 'custom/code';
 @import 'custom/images';
