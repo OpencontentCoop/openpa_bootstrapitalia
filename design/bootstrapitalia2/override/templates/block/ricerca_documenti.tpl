@@ -199,33 +199,39 @@
 						</div>
 					{/if}
 
-					{if and($filters|contains('has_organization'), $office_count|gt(0))}
-						<div class="accordion-item bg-none">
-						  <h2 class="accordion-header" id="collapseOffice-{$block.id}-title">
-							<button class="accordion-button collapsed px-2 text-uppercase" type="button"
-									data-bs-toggle="collapse" href="#collapseOffice-{$block.id}" role="button" aria-expanded="false" aria-controls="collapseOffice-{$block.id}"
-									data-focus-mouse="false">
-								{'Office'|i18n('bootstrapitalia/documents')}
-							</button>
-						  </h2>
-							<div id="collapseOffice-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseOffice-{$block.id}-title">
-								<div class="accordion-body pb-4">
-                  <div class="select-wrapper">
-                    <label for="searchFormOffice-{$block.id}" class="visually-hidden">{'Office'|i18n('bootstrapitalia/documents')}</label>
-                    <select class="form-control form-control-sm" id="searchFormOffice-{$block.id}" data-search="has_organization">
-                      <option value=""></option>
-                      {foreach fetch(content, tree, hash( parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'),
-                                        class_filter_type, 'include', class_filter_array, array('organization'),
-                                        main_node_only, true(),
-                                        load_data_map, false(),
-                                        sort_by, array('name', true()))) as $office}
-                        <option value="{$office.contentobject_id}">{$office.name|wash()}</option>
-                      {/foreach}
-                    </select>
-                  </div>
+          {if and($filters|contains('has_organization'), $office_count|gt(0))}
+						{def $has_org_id_list = api_search(
+							concat("classes [document] and subtree [", cond(is_set($block.custom_attributes.node_id), $block.custom_attributes.node_id, 1), "] limit 1 facets [has_organization.id|alpha|1000]")
+						).facets[0].data|array_keys}
+						{if $has_org_id_list|count()}
+              <div class="accordion-item bg-none">
+                <h2 class="accordion-header" id="collapseOffice-{$block.id}-title">
+                <button class="accordion-button collapsed px-2 text-uppercase" type="button"
+                    data-bs-toggle="collapse" href="#collapseOffice-{$block.id}" role="button" aria-expanded="false" aria-controls="collapseOffice-{$block.id}"
+                    data-focus-mouse="false">
+                  {'Office'|i18n('bootstrapitalia/documents')}
+                </button>
+                </h2>
+								<div id="collapseOffice-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseOffice-{$block.id}-title">
+									<div class="accordion-body pb-4">
+										<div class="select-wrapper">
+											<label for="searchFormOffice-{$block.id}" class="visually-hidden">{'Office'|i18n('bootstrapitalia/documents')}</label>
+											<select class="form-control form-control-sm" id="searchFormOffice-{$block.id}" data-search="has_organization">
+												<option value=""></option>
+												{foreach $has_org_id_list as $has_org_id}
+													{def $org = fetch(content, object, hash(object_id, $has_org_id))}
+													{if $org}
+													<option value="{$org.id}">{$org.name|wash()}</option>
+													{/if}
+													{undef $org}
+												{/foreach}
+											</select>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
+						{/if}
+						{undef $has_org_id_list}
 					{/if}
 
 					{if and($filters|contains('topics'), $topics_filter|not())}
@@ -451,7 +457,8 @@ $(document).ready(function () {
 					" and ( (class in [document] and has_organization.id in [" + officeFilter + "]) or (class in [dataset] and rights_holder.id in [" + officeFilter + "])  or (class in [public_project] and holds_role_in_time.id in [" + officeFilter + "]) )"
 					: " and ( (class in [document] and has_organization.id in [" + officeFilter + "]) or (class in [dataset] and rights_holder.id in [" + officeFilter + "]) )";
 				}
-			}			
+			}
+      
 			if (container.find('[data-search="has_code"]').length > 0) {
 				var hasCodeFilter = container.find('[data-search="has_code"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
 				if (hasCodeFilter.length > 0) {
