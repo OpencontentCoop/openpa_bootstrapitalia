@@ -20,6 +20,8 @@ class OpenPARoles
 
     private $language;
 
+    private $fallbackLanguage = 'ita-IT';
+
     private $roles;
 
     private $people;
@@ -329,11 +331,16 @@ class OpenPARoles
                         }
                         $type = implode(', ', $keywords);
                     }
-                    $entities = $content['data'][$this->language]['for_entity']['content'] ?? [];
+                    $entities = $content['data'][$this->language]['for_entity']['content'] ??
+                        $content['data'][$this->fallbackLanguage]['for_entity']['content'] ?? [];
                     foreach ($entities as $entity) {
-                        if (isset($content['data'][$this->language]['ruolo_principale']['content'])
-                            && $content['data'][$this->language]['ruolo_principale']['content']) {
-                            $this->typePerEntities[$type][$entity['id']] = $entity['name'][$this->language];
+                        if (
+                            (isset($content['data'][$this->language]['ruolo_principale']['content'])
+                            && $content['data'][$this->language]['ruolo_principale']['content'])
+                            || (isset($content['data'][$this->fallbackLanguage]['ruolo_principale']['content'])
+                                && $content['data'][$this->fallbackLanguage]['ruolo_principale']['content'])
+                        ) {
+                            $this->typePerEntities[$type][$entity['id']] = $entity['name'][$this->language] ?? $entity['name'][$this->fallbackLanguage];
                         }
                     }
                 }

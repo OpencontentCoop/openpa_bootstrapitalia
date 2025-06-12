@@ -64,7 +64,8 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                 $roleHits = $result->searchHits;
                 $locale = eZLocale::currentLocaleCode();
                 foreach ($roleHits as $roleHit) {
-                    foreach ($roleHit['data'][$locale]['person']['content'] as $personRelated) {
+                    $people = $roleHit['data'][$locale]['person']['content'] ?? $roleHit['data']['ita-IT']['person']['content'];
+                    foreach ($people as $personRelated) {
                         $person = eZContentObject::fetch((int)$personRelated['id']);
                         if ($person instanceof eZContentObject) {
                             $personContent = \Opencontent\Opendata\Api\Values\Content::createFromEzContentObject($person);

@@ -157,7 +157,7 @@ data:
                 color_style: 'section section-muted section-inset-shadow pb-5'
                 container_style: ''
                 show_all_link: '1'
-                show_all_text: 'Aktuelle Meldungen'
+                show_all_text: 'Alle Neuigkeiten'
                 intro_text: ''
                 node_id: $contenttree_OpenCity_Novita_node
               valid_items: { }
@@ -177,7 +177,7 @@ data:
                 intro_text: ''
               valid_items: { }
             - block_id: a419663d8c23c8e9239dc6813b845538
-              name: 'Besondere Themen'
+              name: 'Themen im Blickpunkt'
               type: Argomenti
               view: lista_card
               custom_attributes:
