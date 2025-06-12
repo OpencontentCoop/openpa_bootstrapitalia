@@ -63,7 +63,7 @@
 
         <section class="col-12 {if $show_fullwidth|not()}col-lg-8{/if} {if $show_index}border-light {else}px-lg-4 mb-5 {/if}it-page-sections-container">
             {foreach $summary.items as $index => $item}
-                <article id="{$item.slug|wash()}" class="it-page-section anchor-offset">
+            <article id="{$item.slug|wash()}" class="it-page-section {if $show_index}anchor-offset {/if}">
                   {if $item.evidence} 
                     <div class="has-bg-grey p-3">
                   {/if}
