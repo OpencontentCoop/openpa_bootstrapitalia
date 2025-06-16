@@ -111,6 +111,8 @@
         </figure>
     </div>
 </div>
+{elseif $node|has_attribute('image')}
+    {include uri='design:openpa/full/parts/main_image.tpl'}
 {/if}
 
 <section class="container">
