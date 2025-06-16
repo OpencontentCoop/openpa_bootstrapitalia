@@ -133,9 +133,19 @@ if (masonries.length > 0) {
       Masonry.getOrCreateInstance(masonry)
     })
   }*/
+
+  function fixMasonryHeight(masonry) {
+    const height = masonry.style.height;
+    masonry.style.minHeight = height;
+  }
+
   document.fonts.ready.then(() => {
     masonries.forEach((masonry) => {
-      Masonry.getOrCreateInstance(masonry);
+      let m = Masonry.getOrCreateInstance(masonry);
+      m._masonry.on('layoutComplete', function() {
+        fixMasonryHeight(masonry);
+      });
+      fixMasonryHeight(masonry);
     });
   });
 }
