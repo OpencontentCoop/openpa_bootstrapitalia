@@ -77,4 +77,14 @@ Il plugin masonry.js è stato modificato per essere eseguito dopo che i font sia
   });
 ```
 
-Aggiunta classe oc-card-title-clamp per contenere su tre righe i testi in overlay delle card image.
+Aggiunta classe `oc-card-title-clamp` per contenere su tre righe i testi in overlay delle card image.
+
+Aggiunta classe `oc-box-shadow-border` per il bordo dell'instestazione sticky della tabella permessi utenti.
+
+Aggiunta classe `oc-overlay-gradient-bottom-md-right` per il gradiente di sfondo del blocco ricerca se abilitato il campo logo.
+
+Sovrascritte le classi `leaflet-popup-content-wrapper`, `leaflet-popup-content`, `leaflet-popup-close-button` per migliorare lo stile delle card come popup delle mappe.
+
+Utilizzato `scroll-padding-top` sul tag `html` per la gestione dello spazio verticale nell'utilizzo dei link ancora. Questo non viene utilizzato correttamente dal componente Navscroll, che richiede quindi la classe `anchor-offset` sulle sezioni della pagina che controlla.
+
+Modificato lo script Masonry per calcolare gli spazi dopo il caricamento dei font ed evitare spaziature sbagliate.
