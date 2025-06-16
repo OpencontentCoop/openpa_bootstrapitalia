@@ -78,3 +78,5 @@ Il plugin masonry.js è stato modificato per essere eseguito dopo che i font sia
 ```
 
 Aggiunta classe oc-card-title-clamp per contenere su tre righe i testi in overlay delle card image.
+
+Aggiunte le classi `oc-fix-double-logo-base`, `oc-fix-double-logo-rev` per alternare un logo normale ed uno di colore inverso nel caso che l'header page abbia uno sfondo bianco di base e uno colorato quando diventa sticky.

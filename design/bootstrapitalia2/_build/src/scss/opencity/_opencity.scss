@@ -603,3 +603,16 @@ input[type="search"]::-webkit-search-results-decoration {
     background: linear-gradient(270deg, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
   }
 }
+
+.oc-fix-double-logo-rev {
+  display: none;
+  .bs-it-sticky-wrapper & {
+    display: block;
+  }
+}
+
+.oc-fix-double-logo-base {
+  .bs-it-sticky-wrapper & {
+    display: none;
+  }
+}
