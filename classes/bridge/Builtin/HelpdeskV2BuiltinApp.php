@@ -55,4 +55,13 @@ class HelpdeskV2BuiltinApp extends ServiceFormBuiltinApp
         ];
     }
 
+    public function hasProductionUrl(): bool
+    {
+        return $this->isAppEnabled();
+    }
+
+    public function getProductionUrl(): ?string
+    {
+        return '/richiedi_assistenza';
+    }
 }

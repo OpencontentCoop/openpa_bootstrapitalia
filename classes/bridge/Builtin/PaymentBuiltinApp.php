@@ -24,4 +24,15 @@ class PaymentBuiltinApp extends BuiltinApp
             'text' => 'Per eseguire il test occorre specificare un valore <code>service_id</code> come parametro dell\'url',
         ];
     }
+
+    public function hasProductionUrl(): bool
+    {
+        return $this->isAppEnabled();
+    }
+
+    public function getProductionUrl(): ?string
+    {
+        return '/pagamento?service_id=' . $this->getServiceId();
+    }
+
 }

@@ -49,4 +49,16 @@ class BookingBuiltinApp extends BuiltinApp
         return parent::getDescriptionListItem();
     }
 
+    public function hasProductionUrl(): bool
+    {
+        $description = $this->getDescriptionListItem();
+        return $description['is_enabled'];
+    }
+
+    public function getProductionUrl(): ?string
+    {
+        return '/prenota_appuntamento';
+    }
+
+
 }

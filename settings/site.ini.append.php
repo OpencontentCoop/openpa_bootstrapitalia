@@ -28,6 +28,7 @@ PolicyOmitList[]=favicon
 PolicyOmitList[]=image/inefficiency
 PolicyOmitList[]=pagamento
 PolicyOmitList[]=bootstrapitalia/iframe
+PolicyOmitList[]=area_personale
 
 [UserSettings]
 LoginRedirectionUriAttribute[user]=redirect_after_login
