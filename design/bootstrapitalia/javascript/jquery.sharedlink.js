@@ -1,9 +1,20 @@
 $(document).ready(function () {
+    // Corregge l'altezza del masonry quando si espande o si nasconde un elemento al suo interno
     $('.card-text .collapse').on('shown.bs.collapse hidden.bs.collapse', function (){
+        function fixMasonryHeight(masonry) {
+          const height = masonry.style.height;
+          masonry.style.minHeight = height;
+        }
+
         let wrapper = $(this).parents('[data-bs-toggle="masonry"]');
         if (wrapper.length > 0) {
             bootstrap.Masonry.getOrCreateInstance(wrapper[0]).dispose()
-            bootstrap.Masonry.getOrCreateInstance(wrapper[0])
+            let m = bootstrap.Masonry.getOrCreateInstance(wrapper[0])
+            const masonry = wrapper[0];
+            fixMasonryHeight(masonry);
+            m._masonry.on('layoutComplete', function() {
+              fixMasonryHeight(masonry);
+            });
         }
     });
     $('[data-shared_link]').each(function () {
