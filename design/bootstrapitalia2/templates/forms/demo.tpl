@@ -299,7 +299,7 @@ $('#browse').opendataBrowse({ldelim}
       'subtree': 43,
       'addCloseButton': true,
       'addCreateButton': true,
-      'classes': ['folder', 'image'],
+      'classes': ['folder', 'image', 'link', 'banner', 'document'],
       'i18n': {
         clickToClose: "{/literal}{'Click to close'|i18n('opendata_forms')}{literal}",
         clickToOpenSearch: "{/literal}{'Click to open search engine'|i18n('opendata_forms')}{literal}",

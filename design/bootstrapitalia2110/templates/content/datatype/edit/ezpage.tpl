@@ -157,7 +157,7 @@
                   'addCloseButton': false,
                   'openInSearchMode': false,
                   'selectionType': 'single',
-                  'browsePaginationLimit': 5,
+                  'browsePaginationLimit': 15,
                   'browseSort': 'name',
                   'browseOrder': '1',
                   'i18n': i18nBrowser
