@@ -172,6 +172,13 @@ MatchFile=datatype/view/matrix_link.tpl
 Subdir=templates
 Match[attribute_identifier]=link
 
+[datatype_view_place_matrix_link]
+Source=content/datatype/view/ezmatrix.tpl
+MatchFile=datatype/view/matrix_link.tpl
+Subdir=templates
+Match[class_identifier]=place
+Match[attribute_identifier]=coordinates_link
+
 [datatype_view_logo_image]
 Source=content/datatype/view/ezobjectrelationlist.tpl
 MatchFile=datatype/view/logo_image.tpl
