@@ -44,6 +44,8 @@
 
 {def $show_filters = cond(or(count($filters)|gt(1), and($root_tag_id_list|count()|gt(0), $hide_tag_select|not())), true(), false())}
 
+{def $document_class = fetch(class, list, hash(class_filter, array('document')))[0]}
+
 {include uri='design:parts/block_name.tpl'}
 
 <div data-block_document_subtree="{cond(is_set($block.custom_attributes.node_id), $block.custom_attributes.node_id, 1)}"
@@ -209,14 +211,14 @@
                 <button class="accordion-button collapsed px-2 text-uppercase" type="button"
                     data-bs-toggle="collapse" href="#collapseOffice-{$block.id}" role="button" aria-expanded="false" aria-controls="collapseOffice-{$block.id}"
                     data-focus-mouse="false">
-                  {'Office'|i18n('bootstrapitalia/documents')}
+									{$document_class.data_map.has_organization.name|wash()}
                 </button>
                 </h2>
 								<div id="collapseOffice-{$block.id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseOffice-{$block.id}-title">
 									<div class="accordion-body pb-4">
 										<div class="select-wrapper">
 											<label for="searchFormOffice-{$block.id}" class="visually-hidden">{'Office'|i18n('bootstrapitalia/documents')}</label>
-											<select class="form-control form-control-sm" id="searchFormOffice-{$block.id}" data-search="has_organization">
+											<select class="form-control form-control-sm" id="searchFormOffice-{$block.id}" data-search="has_organization" placeholder="{'Select'|i18n('design/admin/content/browse')}">
 												<option value=""></option>
 												{foreach $has_org_id_list as $has_org_id}
 													{def $org = fetch(content, object, hash(object_id, $has_org_id))}
@@ -385,6 +387,14 @@ $(document).ready(function () {
     var startDate = '';
     var endDate = '';
 
+		var officeSelect = container.find('[data-search="has_organization"]')
+		if (officeSelect.length > 0){
+			var opts_list = officeSelect.find('option');
+			opts_list.sort(function(a, b) { return $(a).text() > $(b).text() ? 1 : -1; });
+			officeSelect.html('').append(opts_list);
+			// officeSelect.chosen({allow_single_deselect:true})
+		}
+
     if (startDateField.length > 0) dateFields.push(startDateField);
     if (endDateField.length > 0) dateFields.push(endDateField);
 
@@ -454,8 +464,8 @@ $(document).ready(function () {
 				var officeFilter = container.find('[data-search="has_organization"]').val();
 				if (officeFilter && officeFilter.length > 0) {
 					query += hasProjectClass ?  
-					" and ( (class in [document] and has_organization.id in [" + officeFilter + "]) or (class in [dataset] and rights_holder.id in [" + officeFilter + "])  or (class in [public_project] and holds_role_in_time.id in [" + officeFilter + "]) )"
-					: " and ( (class in [document] and has_organization.id in [" + officeFilter + "]) or (class in [dataset] and rights_holder.id in [" + officeFilter + "]) )";
+					" and ( (class in [document] and has_organization.id in [" + officeFilter + "]) or (class in [dataset] and raw[submeta_rights_holder___id____si] in [" + officeFilter + "])  or (class in [public_project] and raw[submeta_rights_holder___id____si] in [" + officeFilter + "]) )"
+					: " and ( (class in [document] and has_organization.id in [" + officeFilter + "]) or (class in [dataset] and raw[submeta_rights_holder___id____si] in [" + officeFilter + "]) )";
 				}
 			}
       
