@@ -225,7 +225,7 @@ $primary-b: 48 !default;
 @import "../../design-comuni-pagine-statiche/components/input-autocomplete";
 @import "../../design-comuni-pagine-statiche/components/text.area";
 @import "../../design-comuni-pagine-statiche/components/cmp-map";
-@import "../../design-comuni-pagine-statiche/components/cmp-hero";
+@import "override/components/cmp-hero"; // @import "../../design-comuni-pagine-statiche/components/cmp-hero";
 @import "../../design-comuni-pagine-statiche/components/cmp-hero-img";
 @import "../../design-comuni-pagine-statiche/components/cmp-info-radio";
 @import "../../design-comuni-pagine-statiche/components/cmp-input-search-button";
