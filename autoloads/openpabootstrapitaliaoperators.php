@@ -106,6 +106,7 @@ class OpenPABootstrapItaliaOperators
             'tag_root_from_attribute_identifier',
             'links_available_groups',
             'links_list_by_group',
+            'decode_html_entities',
         );
     }
 
@@ -282,6 +283,9 @@ class OpenPABootstrapItaliaOperators
                 'attribute' => array('type' => 'object', 'required' => true, 'default' => null),
                 'identifier' => array('type' => 'string', 'required' => true, 'default' => null),
             ),
+            'decode_html_entities' => array(
+                'string' => array('type' => 'string', 'required' => true, 'default' => null),
+            ),
         );
     }
 
@@ -296,6 +300,12 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+
+            case 'decode_html_entities':
+                if (is_string($operatorValue)) {
+                    $operatorValue = html_entity_decode($operatorValue, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                }
+                break;
 
             case 'tag_root_from_attribute_identifier':
                 $attributeIdentifier = $namedParameters['attribute_identifier'];

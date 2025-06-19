@@ -210,7 +210,7 @@
                                                   target="_blank"
                                                   rel="noopener noreferrer"
                                                   class="text-decoration-none">
-                                                    <i aria-hidden="true" class="fa fa-map"></i> {$openpa.event_link.geo.address|wash()}
+                                                    <i aria-hidden="true" class="fa fa-map"></i> {$openpa.event_link.geo.address|wash()|decode_html_entities()}
                                                 </a>
                                             </div>
                                         </div>

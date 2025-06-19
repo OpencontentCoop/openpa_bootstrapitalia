@@ -56,7 +56,7 @@
                                                                   target="_blank"
                                                                   rel="noopener noreferrer"
                                                                   class="text-decoration-none">
-                                                                    {$place.address.address|wash()}
+                                                                    {$place.address.address|wash()|decode_html_entities()}
                                                                 </a>
                                                             </p>
                                                         </div>
