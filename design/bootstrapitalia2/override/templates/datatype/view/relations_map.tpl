@@ -49,7 +49,7 @@
                               target="_blank"
                               rel="noopener noreferrer"
                               class="text-decoration-none">
-                                <i aria-hidden="true" class="fa fa-map"></i> {$has_geo.content.address|wash()}
+                                <i aria-hidden="true" class="fa fa-map"></i> {$has_geo.content.address|wash()|decode_html_entities()}
                             </a>
                         </p>
                     </div>
