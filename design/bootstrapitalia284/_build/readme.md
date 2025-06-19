@@ -79,3 +79,5 @@ Sovrascritte le classi `leaflet-popup-content-wrapper`, `leaflet-popup-content`,
 Utilizzato `scroll-padding-top` sul tag `html` per la gestione dello spazio verticale nell'utilizzo dei link ancora. Questo non viene utilizzato correttamente dal componente Navscroll, che richiede quindi la classe `anchor-offset` sulle sezioni della pagina che controlla.
 
 Modificato lo script Masonry per calcolare gli spazi dopo il caricamento dei font ed evitare spaziature sbagliate.
+
+Utilizzato selettore `html[lang^="de"]` per mandare a capo correttamente le parole tedesche molto lunghe.

@@ -1,3 +1,16 @@
+html {
+  scroll-padding-top: $anchor-v-offset;
+  @include media-breakpoint-up(lg) {
+    scroll-padding-top: $anchor-v-offset-lg;
+  }
+}
+
+html[lang^="de"] {
+  hyphens: auto;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 .satisfy-placeholder {
   min-height: 200px;
 }

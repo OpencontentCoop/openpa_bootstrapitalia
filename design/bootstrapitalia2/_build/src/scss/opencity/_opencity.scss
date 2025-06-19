@@ -5,6 +5,12 @@ html {
   }
 }
 
+html[lang^="de"] {
+  hyphens: auto;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
 .satisfy-placeholder{
   min-height: 200px;
 }
