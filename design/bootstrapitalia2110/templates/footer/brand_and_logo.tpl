@@ -20,7 +20,8 @@
             {foreach $pagedata.homepage|attribute('footer_logo').content.relation_list as $related}
                 {def $related_object = fetch(content, object, hash(object_id, $related['contentobject_id']))}
                 {if and($related_object, $related_object|has_attribute('image'))}
-                  <img class="icon" style="width: auto !important; height: auto !important; max-height: 56px !important; max-width: max-content;"
+                  <img
+                      style="max-width: 100%; max-height: 56px; object-fit: contain; object-position: 0 0; vertical-align: middle;"
                       alt="{ezini('SiteSettings','SiteName')}"
                       src="{render_image($related_object|attribute('image').content['header_logo'].full_path|ezroot(no,full)).src}"
                       loading="lazy" />
