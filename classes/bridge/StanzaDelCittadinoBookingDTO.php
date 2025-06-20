@@ -40,6 +40,8 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
 
     private $motivationOutcome;
 
+    private $calendarGroupConfigId;
+
     /**
      * @return mixed
      */
@@ -371,6 +373,16 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         return $this;
     }
 
+    public function getCalendarGroupConfigId()
+    {
+        return $this->calendarGroupConfigId;
+    }
+
+    public function setCalendarGroupConfigId($calendarGroupConfigId)
+    {
+        $this->calendarGroupConfigId = $calendarGroupConfigId;
+        return $this;
+    }
 
     public static function fromRequest()
     {
@@ -432,6 +444,9 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         }
         if ($http->hasPostVariable('motivation_outcome')) {
             $dto->setMotivationOutcome($http->postVariable('motivation_outcome'));
+        }
+        if ($http->hasPostVariable('calendar_group_config_id')) {
+            $dto->setCalendarGroupConfigId($http->postVariable('calendar_group_config_id'));
         }
 
         return $dto;
@@ -504,6 +519,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'status' => $withStatus,
             'location' => $this->getPlace(),
             'motivation_outcome' => $this->getMotivationOutcome(),
+            'calendar_group_config_id' => $this->getCalendarGroupConfigId(),
         ];
 
         if (!empty($this->getMeetingCode())){

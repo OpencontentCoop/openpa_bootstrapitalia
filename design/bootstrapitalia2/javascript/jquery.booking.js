@@ -68,7 +68,8 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       debug: false,
       debugUserToken: null,
       forcePreselect: false,
-      useAvailabilitiesCache: false
+      useAvailabilitiesCache: false,
+      serviceId: null
     }
 
   function Plugin(element, options) {
@@ -1358,7 +1359,8 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           user_message: this.summary.detailsText,
           motivation_outcome: $('[data-motivation_outcome]').html(),
           reason: this.summary.subjectText,
-          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html() + ' ' + $('[data-placeDetail]').html()
+          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html() + ' ' + $('[data-placeDetail]').html(),
+          calendar_group_config_id: this.settings.serviceId
         }
         let self = this
         $.retryAjax({
@@ -1395,7 +1397,8 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           from_time: start_time,
           ezxform_token: this.settings.xtoken,
           meeting: this.currentData.meeting,
-          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html() + ' ' + $('[data-placeDetail]').html()
+          place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html() + ' ' + $('[data-placeDetail]').html(),
+          calendar_group_config_id: this.settings.serviceId
         }
         let self = this
         $.retryAjax({
