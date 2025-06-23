@@ -111,9 +111,7 @@ abstract class AbstractBootstrapItaliaInputValidator implements BootstrapItaliaI
     protected function hasUrl(
         eZContentObjectAttribute $contentObjectAttribute
     ) {
-        if ($contentObjectAttribute->hasContent()) {
-            return $contentObjectAttribute->content();
-        } elseif ($this->http->hasPostVariable(
+        if ($this->http->hasPostVariable(
             $this->base . "_ezurl_url_" . $contentObjectAttribute->attribute("id")
         )) {
             return $this->http->postVariable(
