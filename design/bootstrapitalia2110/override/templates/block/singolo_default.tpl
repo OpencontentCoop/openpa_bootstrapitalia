@@ -78,7 +78,7 @@
                 {if or($has_image, $has_video)}
                 <div class="col-lg-6 order-1 order-lg-2 px-0 d-lg-flex align-items-stretch flex-nowrap">
                     {if $has_video}
-                      <div class="flex-lg-fill">
+                      <div class="flex-lg-fill bg-white">
                         {include uri='design:parts/video.tpl' video=$video}
                       </div>
                     {elseif $has_image}

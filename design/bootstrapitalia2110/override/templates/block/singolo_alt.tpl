@@ -66,7 +66,7 @@
           {if or($has_image, $has_video)}
             <div class="col-lg-7 order-1 order-lg-2 d-lg-flex align-items-stretch flex-nowrap {if $block.custom_attributes.color_style|ne('')}px-0 {else}px-lg-3{/if}">
               {if $has_video}
-                <div class="flex-lg-fill">
+                <div class="flex-lg-fill bg-white">
                   {include uri='design:parts/video.tpl' video=$video}
                 </div>
               {elseif $has_image}
