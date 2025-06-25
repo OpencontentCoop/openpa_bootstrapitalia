@@ -76,4 +76,16 @@ class OpenPABootstrapItaliaNodeViewFunctions extends eZNodeviewfunctions
             $retval['binarydata'] = serialize($result);
         return $retval;
     }
+
+    static protected function contentViewGenerateError( eZModule $Module, $error, $store = true, array $errorParameters = array() )
+    {
+        $content = '';
+
+        return array(
+            'content' => $content,
+            'scope' => 'viewcache',
+            'store' => $store,
+            'binarydata' => serialize( $content ),
+        );
+    }
 }
