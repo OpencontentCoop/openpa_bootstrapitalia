@@ -156,12 +156,12 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         unset($schema['properties']['section_latest_news']['title']);
         unset($schema['properties']['section_next_events']['title']);
 
-        $schema['properties']['section_news']['maxItems'] = 3;
-        $schema['properties']['section_management']['maxItems'] = 3;
-        $schema['properties']['section_calendar']['maxItems'] = 3;
+        $schema['properties']['section_news']['maxItems'] = OpenPAINI::variable('LockEdit_homepage', 'SectionNewsLimit', 3);
+        $schema['properties']['section_management']['maxItems'] = OpenPAINI::variable('LockEdit_homepage', 'SectionManagementLimit', 3);
+        $schema['properties']['section_calendar']['maxItems'] = OpenPAINI::variable('LockEdit_homepage', 'SectionCalendarLimit', 3);
         $schema['properties']['section_gallery']['maxItems'] = 3;
         $schema['properties']['section_place']['maxItems'] = 3;
-        $schema['properties']['section_banner']['maxItems'] = 9;
+        $schema['properties']['section_banner']['maxItems'] = OpenPAINI::variable('LockEdit_homepage', 'SectionBannerLimit', 9);
         $schema['properties']['section_search']['maxItems'] = $this->isSearchBlockBoosted() ? 15 : 5;
         $schema['properties']['section_topic']['minItems'] = 3;
 
