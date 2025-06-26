@@ -1829,7 +1829,12 @@ class OpenPABootstrapItaliaOperators
     private static function topicsContentsCount()
     {
         if (self::$topicsContentsCount === null) {
-            $query = "classes [article,public_person,private_organization,organization,public_service,document] facets [topics.id|alpha|300] limit 1";
+            $baseQuery = OpenPAINI::variable(
+                'ChildrenFilters',
+                'TopicsCountQuery',
+                'classes [article,public_person,private_organization,organization,public_service,document]'
+            );
+            $query = "$baseQuery facets [topics.id|alpha|300] limit 1";
             eZDebug::writeDebug($query, __METHOD__);
             try {
                 $contentSearch = new ContentSearch();
