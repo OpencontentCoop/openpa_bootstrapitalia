@@ -816,19 +816,16 @@ input[type="search"]::-webkit-search-results-decoration {
   }
 }
 
-.oc-fix-double-logo-rev {
-  display: none;
-  .bs-it-sticky-wrapper & {
-    display: block;
-  }
-}
-
-.oc-fix-double-logo-base {
-  .bs-it-sticky-wrapper & {
+@media (min-width: #{map-get($grid-breakpoints, lg)}) {
+  .oc-fix-double-logo-rev {
     display: none;
+    .bs-it-sticky-wrapper & {
+      display: block;
+    }
   }
-}
-
-.cloned-element .additional-logo {
-  display:none !important;
+  .oc-fix-double-logo-base {
+    .bs-it-sticky-wrapper & {
+      display: none;
+    }
+  }
 }

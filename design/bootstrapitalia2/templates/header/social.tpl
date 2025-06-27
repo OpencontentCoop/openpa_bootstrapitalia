@@ -9,6 +9,7 @@
     'telegram', 'Telegram',
     'tiktok', 'TikTok',
 )}
+
 {def $has_socials = false()}
 {foreach $socials as $social => $name}
     {if is_set($pagedata.contacts[$social])}
@@ -21,7 +22,7 @@
 {/if}
 {if $has_socials}
 <div class="it-socials {$css}">
-    <span>{'Follow us'|i18n('openpa/footer')}</span>
+    <span class="nowrap">{'Follow us'|i18n('openpa/footer')}</span>
     <ul>
         {def $social_count = 0}
         {foreach $socials as $social => $name}

@@ -1,4 +1,3 @@
-{def $additional_logo = cond(and( $pagedata.homepage|has_attribute('additional_logo'), $pagedata.homepage|attribute('additional_logo').has_content ), $pagedata.homepage|attribute('additional_logo'), false())}
 {def $only_logo = cond(and( $pagedata.homepage|has_attribute('only_logo'), $pagedata.homepage|attribute('only_logo').data_int|eq(1) ), true(), false())}
 {def $colorize_logo = cond(and(is_set($pagedata.header.logo.mime_type), $pagedata.header.logo.mime_type|eq('image/png'), and( $pagedata.homepage|has_attribute('colorize_logo'), $pagedata.homepage|attribute('colorize_logo').data_int|eq(1) )), true(), false())}
 {def $double_logo = cond(and(current_theme_has_variation('light_center'), current_theme_has_variation('light_navbar')|not(), $pagedata.homepage|has_attribute('footer_logo'), $pagedata.homepage|attribute('footer_logo').data_type_string|eq('ezimage')), true(), false())}
@@ -32,13 +31,5 @@
           {/if}
       </div>
   </a>
-  {if $additional_logo}
-    <div class="additional-logo d-none d-lg-block">
-      <img style="width: auto;height: 82px;vertical-align: middle;"
-           alt="{$additional_logo.content.data_map.image.content.alternative_text}"
-           src="{render_image($additional_logo.content.data_map.image.content.reference.url|ezroot(no,full)).src}"  />
-    </div>
-    <style>.cloned-element .additional-logo{ldelim}display:none !important;{rdelim}</style>
-  {/if}
 </div>
 {undef $only_logo $colorize_logo $double_logo}
