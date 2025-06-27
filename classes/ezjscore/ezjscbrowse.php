@@ -5,48 +5,60 @@ class ezjscBrowse extends ezjscServerFunctionsNode
 
     public static function subTree($args)
     {
-        $parentNodeID = $args[0] ?? null;
-        $limit = $args[1] ?? 25;
-        $offset = $args[2] ?? 0;
-        $sort = isset($args[3]) ? self::sortMap($args[3]) : 'published';
-        $order = $args[4] ?? false;
-        $objectNameFilter = $args[5] ?? '';
-        $noDepth = !empty($args[6]);
 
-        if (!$parentNodeID) {
+        $requestParams = [
+            'parentNodeID' => $args[0] ?? null,
+            'limit' => $args[1] ?? 25,
+            'offset' => $args[2] ?? 0,
+            'sort' => isset($args[3]) ? self::sortMap($args[3]) : 'published',
+            'order' => $args[4] ?? false,
+            'objectNameFilter' => $args[5] ?? '',
+            'noDepth' => !empty($args[6]),
+            'classes' => $args[7] ?? '',
+            'isContainer' => !empty($args[8]),
+        ];
+
+        if (!$requestParams['parentNodeID']) {
             throw new ezcBaseFunctionalityNotSupportedException('Fetch node list', 'Parent node id is not valid');
         }
 
-        $node = eZContentObjectTreeNode::fetch($parentNodeID);
+        $requestParams['parentNodeID'] = (int)$requestParams['parentNodeID'];
+        $node = eZContentObjectTreeNode::fetch($requestParams['parentNodeID']);
         if (!$node instanceof eZContentObjectTreeNode) {
             throw new ezcBaseFunctionalityNotSupportedException(
                 'Fetch node list',
-                "Parent node '$parentNodeID' is not valid"
+                "Parent node '$requestParams[parentNodeID]' is not valid"
             );
         }
 
         $ezjscoreIni = eZINI::instance('ezjscore.ini');
         $hardLimit = (int)$ezjscoreIni->variable('ezjscServer_ezjscnode', 'HardLimit');
 
-        if ($hardLimit > 0 && $limit > $hardLimit) {
-            $limit = $hardLimit;
+        if ($hardLimit > 0 && $requestParams['limit'] > $hardLimit) {
+            $requestParams['limit'] = $hardLimit;
         }
+        $requestParams['limit'] = (int)$requestParams['limit'];
+        $requestParams['offset'] = (int)$requestParams['offset'];
+        $requestParams['order'] = (bool)$requestParams['order'];
 
         $params = [
-            'Limit' => $limit,
-            'Offset' => $offset,
-            'SortBy' => [[$sort, $order]],
+            'Limit' => $requestParams['limit'],
+            'Offset' => $requestParams['offset'],
+            'SortBy' => [[$requestParams['sort'], $requestParams['order']]],
             'AsObject' => true,
         ];
-        if (!$noDepth){
+        if (!$requestParams['noDepth']){
             $params['Depth'] = 1;
             $params['DepthOperator'] = 'eq';
         }
-        if (!empty($objectNameFilter)) {
+        if (!empty($requestParams['objectNameFilter'])) {
+            /* @see OpenPABootstrapItaliaOperators::createSqlPartsNameFilter */
             $params['ExtendedAttributeFilter'] = [
                 'id' => 'CaseSettingsNameFilter',
                 'params' => [
-                    'name' => $objectNameFilter,
+                    'name' => $requestParams['objectNameFilter'],
+                    'classes' => $requestParams['classes'],
+                    'or_is_container' => $requestParams['isContainer'],
                 ]
             ];
         }
@@ -75,18 +87,18 @@ class ezjscBrowse extends ezjscServerFunctionsNode
             $list = [];
         }
 
-        $pages = ceil($count / $limit);
-        $currentPage = ($offset ? $offset/$limit : 0) + 1;
+        $pages = ceil($count / $requestParams['limit']);
+        $currentPage = ($requestParams['offset'] ? $requestParams['offset']/$requestParams['limit'] : 0) + 1;
 
         return [
-            'parent_node_id' => (int)$parentNodeID,
+            'parent_node_id' => $requestParams['parentNodeID'],
             'count' => count($nodeArray),
             'total_count' => (int)$count,
             'list' => $list,
-            'limit' => (int)$limit,
-            'offset' => (int)$offset,
-            'sort' => $sort,
-            'order' => $order,
+            'limit' => $requestParams['limit'],
+            'offset' => $requestParams['offset'],
+            'sort' => $requestParams['sort'],
+            'order' => $requestParams['order'],
             'current_page' => $currentPage,
             'pages' => $pages,
         ];

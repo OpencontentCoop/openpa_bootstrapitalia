@@ -2619,6 +2619,23 @@ class OpenPABootstrapItaliaOperators
             $db = eZDB::instance();
             $sqlJoins = "(ezcontentobject_name.name ilike '%" . $db->escapeString($filter) . "%') AND";
         }
+        $classes = $params['classes'] ?? null;
+        if (!empty($classes)){
+            $classesArray = explode(',', $classes);
+            $classesArray = array_filter($classesArray);
+            if (!empty($classesArray)){
+                $classesArray = array_map(function ($item){
+                    return eZDB::instance()->escapeString($item);
+                }, $classesArray);
+                $classFilter = implode("','",$classesArray);
+                if ($params['or_is_container']){
+                    $sqlJoins .= " (ezcontentclass.identifier IN ('$classFilter') OR ezcontentclass.is_container = 1) AND ";
+                } else {
+                    $sqlJoins .= " (ezcontentclass.identifier IN ('$classFilter')) AND ";
+                }
+            }
+        }
+
         return ['tables' => '', 'joins' => $sqlJoins, 'columns' => ''];
     }
 }
