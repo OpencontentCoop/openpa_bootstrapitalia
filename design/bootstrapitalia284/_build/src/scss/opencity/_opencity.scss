@@ -792,13 +792,17 @@ input[type="search"]::-webkit-search-results-decoration {
 
 .oc-fix-double-logo-rev {
   display: none;
-  .bs-it-sticky-wrapper & {
-    display: block;
+  @include media-breakpoint-up(lg) {
+    .bs-it-sticky-wrapper & {
+      display: block;
+    }
   }
 }
 
 .oc-fix-double-logo-base {
-  .bs-it-sticky-wrapper & {
-    display: none;
+  @include media-breakpoint-up(lg) {
+    .bs-it-sticky-wrapper & {
+      display: none;
+    }
   }
 }
