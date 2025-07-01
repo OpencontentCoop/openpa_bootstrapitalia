@@ -315,6 +315,7 @@ EnableDiscussion=enabled
 [EditSettings]
 ModerationInToolbar=disabled
 AvoidInContextCreation[]
+SelectImageFolder=disabled
 
 [Seo]
 AnalyticsSegments[]=type
