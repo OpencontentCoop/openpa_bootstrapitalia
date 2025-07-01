@@ -11,7 +11,7 @@ html[lang^="de"] {
   word-break: break-word;
 }
 
-.satisfy-placeholder{
+.satisfy-placeholder {
   min-height: 200px;
 }
 
@@ -20,7 +20,7 @@ html[lang^="de"] {
     max-width: 200px;
     display: block !important;
   }
-  .satisfy-placeholder{
+  .satisfy-placeholder {
     min-height: 300px;
   }
 }
@@ -73,13 +73,14 @@ html[lang^="de"] {
 }
 
 .overlay {
-  > .container{
+  > .container {
     margin-top: -50px;
     position: relative;
     background: $white;
     border-radius: 5px 5px 0 0;
     overflow: hidden;
   }
+
   > .bg-grey-card,
   > .section {
     @extend .pb-2, .px-lg-5, .pt-0;
@@ -410,10 +411,10 @@ ul.link-list,
   }
 }
 
-.navbar-custom{
+.navbar-custom {
   .accordion-collapse {
     .cmp-info-summary {
-      border: 1px solid get-color(card,grey);
+      border: 1px solid get-color(card, grey);
 
       &:first-child {
         margin-top: 1rem;
@@ -432,13 +433,13 @@ ul.link-list,
         padding: 1rem;
         border-radius: 4px;
 
-        @include media-breakpoint-up(sm){
+        @include media-breakpoint-up(sm) {
           padding: 0.89rem;
         }
 
         &:not(:last-child) {
           margin-bottom: 1.875rem;
-          @include media-breakpoint-up(sm){
+          @include media-breakpoint-up(sm) {
             margin-bottom: 1.67rem;
           }
         }
@@ -477,7 +478,7 @@ ul.link-list,
         padding-top: 1.33rem;
       }
 
-      &:not(.collapsed){
+      &:not(.collapsed) {
         color: get-color(primary, main);
 
         .icon {
@@ -495,7 +496,8 @@ ul.link-list,
 
 .card-teaser-info-width {
   width: 100%;
-  .card-body{
+
+  .card-body {
     max-width: 100%;
   }
 }
@@ -515,12 +517,13 @@ ul.link-list,
     @extend .pb-lg-3;
     @extend .mt-lg-3;
   }
-  .filters-wrapper{
+
+  .filters-wrapper {
     margin-top: 28px;
   }
 }
 
-.block-bg{
+.block-bg {
   height: 300px;
   width: 100%;
   position: absolute;
@@ -567,9 +570,10 @@ ul.link-list,
 
 .it-header-slim-wrapper {
   &.theme-light {
-    .dropdown-toggle .icon{
+    .dropdown-toggle .icon {
       fill: $header-slim-theme-light-text-color;
     }
+
     .dropdown-toggle span {
       color: $header-slim-theme-light-text-color;
     }
@@ -588,7 +592,7 @@ input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
-  -webkit-appearance:none;
+  -webkit-appearance: none;
 }
 
 .oc-card-title-clamp {
