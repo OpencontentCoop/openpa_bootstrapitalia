@@ -27,7 +27,7 @@
     </div>
 </div>
 
-{if $node.object.remote_id|eq('e7ff633c6b8e0fd3531e74c6e712bead')}
+{if or($node.object.remote_id|eq('e7ff633c6b8e0fd3531e74c6e712bead'), $node.parent.object.remote_id|eq('e7ff633c6b8e0fd3531e74c6e712bead'))}
     {include uri='design:zone/default.tpl' zones=array(hash('blocks', array(page_block(
         "",
         "OpendataRemoteContents",
