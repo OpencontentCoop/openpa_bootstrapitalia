@@ -81,6 +81,7 @@ $eZTemplateOperatorArray = [
             'tag_root_from_attribute_identifier',
             'links_available_groups',
             'links_list_by_group',
+            'decode_html_entities',
         ],
     ],
 ];
