@@ -34,28 +34,7 @@
           {rdelim},
           "ajax": {ldelim}url: "{'opendata/api/datatable/search'|ezurl(no,full)}/"{rdelim},
           "lengthMenu": [ 30, 60, 90, 120 ],
-          "columns": [
-            {foreach $fields.class_fields as $field}
-              {def $title = $field.name[$current_language]}
-              {if is_set($field.matrix_column)}
-                {foreach $field['template']['format'][0][0] as $columnIdentifier => $columnName}
-                  {if $columnIdentifier|eq($field.matrix_column)}
-                    {set $title = concat( $title, $columnName|explode('string (')|implode(' (') )}
-                    {break}
-                  {/if}
-                {/foreach}
-              {/if}
-              {ldelim}
-                "data": "data.{$current_language}.{$field.identifier}",
-                "name": '{$field.identifier}',
-                "title": '{$title|wash(javascript)}',
-                "searchable": {if and($field.isSearchable|eq(true()), $field.dataType|ne('ezmatrix'))}true{else}false{/if}, {*@todo ricercabilità per sottoelemento matrice*}
-                "orderable": {if and($field.isSearchable|eq(true()), $field.dataType|ne('ezmatrix'))}true{else}false{/if}
-              {rdelim}
-              {undef $title}
-              {delimiter},{/delimiter}
-            {/foreach}
-          ],
+          "columns": [{foreach $fields.class_fields as $field}{$field.column}{delimiter},{/delimiter}{/foreach}],
           "columnDefs": [
             {foreach $fields.class_fields as $index => $field}
               {ldelim}
@@ -83,7 +62,7 @@
                         return result;
                       {else}
                           var link = null;
-                          {if $index|eq(0)}
+                          {if or($index|eq(0), $field.showLink)}
                               {if $fields.class_identifier|eq('time_indexed_role')}
                                 link = typeof row.data['{$current_language}'].person[0] === 'object' ? "{'/openpa/object/'|ezurl(no)}/"+row.data['{$current_language}'].person[0].id : '#';
                               {else}
