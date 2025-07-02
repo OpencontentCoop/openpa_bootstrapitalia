@@ -60,7 +60,7 @@
                             </h3>
                             <div class="mb-4 pt-3 lora">{include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node dates_container_class='' avoid_oembed=true()}</div>
                             {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false() container_class=''}
-                            <a class="read-more mb-3" href="{$openpa.content_link.full_link}#page-content">
+                            <a class="read-more {if $block.custom_attributes.color_style|eq('')}mb-5{else}mb-3{/if}" href="{$openpa.content_link.full_link}#page-content">
                                 <span class="text">{if $openpa.content_link.is_node_link}{'Read more'|i18n('bootstrapitalia')}{else}{'Visit'|i18n('bootstrapitalia')}{/if}</span>
                                 {display_icon('it-arrow-right', 'svg', 'icon')}
                             </a>
@@ -78,7 +78,7 @@
                 {if or($has_image, $has_video)}
                 <div class="col-lg-6 order-1 order-lg-2 px-0 d-lg-flex align-items-stretch flex-nowrap">
                     {if $has_video}
-                      <div class="flex-lg-fill">
+                      <div class="flex-lg-fill bg-white">
                         {include uri='design:parts/video.tpl' video=$video}
                       </div>
                     {elseif $has_image}

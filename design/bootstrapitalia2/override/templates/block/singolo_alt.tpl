@@ -43,7 +43,7 @@
                         </h3>
                         <div class="mb-4 fs-5 pt-3 lora">{include uri='design:openpa/full/parts/main_attributes.tpl' node=$valid_node}</div>
                         {include uri='design:openpa/full/parts/taxonomy.tpl' node=$valid_node show_title=false() container_class=''}
-                        <a class="read-more mb-3" href="{$openpa.content_link.full_link}#page-content">
+                        <a class="read-more {if $block.custom_attributes.color_style|eq('')}mb-5{else}mb-3{/if}" href="{$openpa.content_link.full_link}#page-content">
                             <span class="text">{if $openpa.content_link.is_node_link}{'Read more'|i18n('bootstrapitalia')}{else}{'Visit'|i18n('bootstrapitalia')}{/if}</span>
                             {display_icon('it-arrow-right', 'svg', 'icon', 'Read more'|i18n('bootstrapitalia'))}
                         </a>
@@ -61,7 +61,7 @@
             {if or($has_image, $has_video)}
             <div class="col-lg-7 order-1 order-lg-2 px-0 d-lg-flex align-items-stretch flex-nowrap">
                 {if $has_video}
-                    <div class="flex-lg-fill video-wrapper">{$oembed.html}</div>
+                    <div class="flex-lg-fill bg-white video-wrapper">{$oembed.html}</div>
                 {elseif $has_image}
                     {include name="img" uri='design:atoms/img.tpl' set_max_dimensions=false() node=$valid_node image_class=reference style="overflow: hidden;object-fit: cover;" classes='flex-lg-fill bg-dark d-none d-lg-flex h-100' preload=false()}
                     {include name="img" uri='design:atoms/img.tpl' node=$valid_node image_class=imagelargeoverlay style="overflow: hidden;object-fit: cover;height:250px;width:100%" classes='img-fluid d-block d-lg-none' alias='small'}
