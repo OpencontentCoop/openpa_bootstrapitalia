@@ -342,7 +342,7 @@
 </script>
 
 <script>
-$(document).ready(function () {
+$(document).ready(function() {
 	$.opendataTools.settings('language', "{/literal}{ezini('RegionalSettings','Locale')}{literal}");
 	$.opendataTools.settings('languages', ['{/literal}{ezini('RegionalSettings','SiteLanguageList')|implode("','")}{literal}']);
 	$.views.helpers($.extend({}, $.opendataTools.helpers, {
@@ -386,6 +386,8 @@ $(document).ready(function () {
     var dateFields = [];
     var startDate = '';
     var endDate = '';
+    var urlParams = new URLSearchParams(window.location.search);
+    var tagParam = urlParams.get('tag_id');
 
 		var officeSelect = container.find('[data-search="has_organization"]')
 		if (officeSelect.length > 0){
@@ -638,11 +640,28 @@ $(document).ready(function () {
 		};
 
 		container.find('form')[0].reset();
-		loadContents();
+
+    if (tagParam) {
+      const tagIds = tagParam.split(',');
+
+      tagIds.forEach(function(tagId) {
+        const listItem = container.find('a[data-tag_id="' + tagId + '"]');
+        if (listItem.length) {
+          listItem.addClass('active');
+          listItem.css('font-weight', 'bold');
+        }
+      });
+      container.find('button[type="reset"]').removeClass('hide');
+    }
+
+    currentPage = 0;
+    loadContents();
 
 		container.find('a[data-tag_id]').on('click', function(e){
 			e.preventDefault();
 			var listItem = $(this);
+      
+      // Aggiunta/rimozione classe e stile
 			if (listItem.hasClass('active')){
 				listItem.removeClass('active');
 				listItem.css('font-weight', 'normal');
@@ -650,10 +669,26 @@ $(document).ready(function () {
 				listItem.addClass('active');
 				listItem.css('font-weight', 'bold');
 			}
+
 			var idList = [];
 			container.find('a[data-tag_id].active').each(function(){
 				idList.push($(this).data('tag_id'));
 			});
+
+      if (idList.length > 0) {
+        container.find('button[type="reset"]').removeClass('hide');
+      } else {
+        container.find('button[type="reset"]').addClass('hide');
+      }
+
+      const newUrl = new URL(window.location.href);
+      if (idList.length > 0) {
+        newUrl.searchParams.set('tag_id', idList.join(','));
+      } else {
+        newUrl.searchParams.delete('tag_id');
+      }
+      history.replaceState({}, '', newUrl.toString());
+
 			// location.hash = idList.join(',');
 			currentPage = 0;
 	    loadContents();
@@ -670,13 +705,23 @@ $(document).ready(function () {
 			e.preventDefault();
 		});
 		container.find('button[type="reset"]').on('click', function(e){			
-			container.find('form')[0].reset();
-			container.find('button[type="reset"]').addClass('hide');
-			currentPage = 0;
+      container.find('form')[0].reset();
+      container.find('button[type="reset"]').addClass('hide');
+
+      const url = new URL(window.location.href);
+      url.searchParams.delete('tag_id');
+      history.replaceState({}, '', url.toString());
+
+      container.find('a[data-tag_id]').removeClass('active').css('font-weight', 'normal');
+
+      isLoadedFacetsCount = false;
+      currentPage = 0;
       startDate = '';
       endDate = '';
-	    loadContents();
-			e.preventDefault();
+
+      loadContents();
+
+      e.preventDefault();
 		});
 		// $.each(location.hash.split(','), function () {
 		// 	container.find('a[data-tag_id="'+this+'"]').trigger('click');
