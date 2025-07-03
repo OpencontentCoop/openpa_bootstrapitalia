@@ -16,8 +16,12 @@
 
 {if $languages|count|gt(0)}
     {foreach $languages as $language}
+        {def $lang_code = $language.lang.locale|explode('-')[1]|downcase}
+        {if $lang_code|eq('gb')}
+            {set $lang_code = 'en'}
+        {/if}
         <link rel="alternate"
-              hreflang="{$language.lang.locale|wash|explode('-')[1]|downcase}"
+              hreflang="{$lang_code|wash}"
               href="{$language.href|wash}" />
 
         {if $language.is_main}
@@ -25,5 +29,6 @@
                   hreflang="x-default"
                   href="{$language.href|wash}" />
         {/if}
+        {undef $lang_code}
     {/foreach}
 {/if}
