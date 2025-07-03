@@ -66,4 +66,6 @@
     {include uri="design:link.tpl" enable_help=$enable_help enable_link=$enable_link enable_print=false()}
 {/if}
 
+{include uri="design:alternate.tpl"}
+
 {/default}
