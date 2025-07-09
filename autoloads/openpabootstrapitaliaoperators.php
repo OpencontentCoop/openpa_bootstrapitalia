@@ -107,6 +107,7 @@ class OpenPABootstrapItaliaOperators
             'links_available_groups',
             'links_list_by_group',
             'decode_html_entities',
+            'http_locale_code',
         );
     }
 
@@ -286,6 +287,9 @@ class OpenPABootstrapItaliaOperators
             'decode_html_entities' => array(
                 'string' => array('type' => 'string', 'required' => true, 'default' => null),
             ),
+            'http_locale_code' => array(
+                'siteaccess' => array('type' => 'string', 'required' => true, 'default' => null),
+            ),
         );
     }
 
@@ -300,7 +304,20 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
-
+            case 'http_locale_code':
+                $siteaccess = $namedParameters['siteaccess'] ?? eZSiteAccess::current()['name'];
+                $siteaccessIni = eZSiteAccess::getIni($siteaccess);
+                if ($siteaccessIni->hasVariable('RegionalSettings', 'HTTPLocale')) {
+                    $operatorValue = $siteaccessIni->variable('RegionalSettings', 'HTTPLocale');
+                } elseif ($siteaccessIni->hasVariable('RegionalSettings', 'Locale')) {
+                    $operatorValue = eZLocale::instance(
+                        $siteaccessIni->variable('RegionalSettings', 'Locale')
+                    )->attribute('http_locale_code');
+                } else {
+                    $operatorValue = eZLocale::instance()->attribute('http_locale_code');
+                }
+                break;
+                
             case 'decode_html_entities':
                 if (is_string($operatorValue)) {
                     $operatorValue = html_entity_decode($operatorValue, ENT_QUOTES | ENT_HTML5, 'UTF-8');
