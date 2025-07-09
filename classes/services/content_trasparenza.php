@@ -491,14 +491,35 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $classRepository = new ClassRepository();
             $class = (array)$classRepository->load($classIdentifier);
 
+            $locale = eZINI::instance()->variable('RegionalSettings', 'Locale');
             $classFields = array();
-            foreach ($identifiers as $identifier) {
+            foreach ($identifiers as $index => $identifier) {
                 $identifierParts = explode('.', $identifier);
+                $showLink = false;
+                if (strpos($identifierParts[0], '*') !== false) {
+                    $showLink = true;
+                    $identifierParts[0] = str_replace('*', '', $identifierParts[0]);
+                }
                 foreach ($class['fields'] as $field) {
                     if ($field['identifier'] == $identifierParts[0]) {
+                        $title = $field['name'][$locale];
                         if ($field['dataType'] == 'ezmatrix' && isset($identifierParts[1])) {
                             $field['matrix_column'] = $identifierParts[1];
+                            foreach ($field['template'][0][0] as $columnIdentifier => $columnName) {
+                                if ($columnIdentifier === $field['matrix_column']){
+                                    $title = $title . ' ' . str_replace('string (', '(', $columnName);
+                                }
+                            }
                         }
+                        $field['column'] = json_encode([
+                            'data' => "data.{$locale}.{$field['identifier']}",
+                            'name' => $field['identifier'],
+                            'title' => $title,
+                            'searchable' => $field['isSearchable'] && $field['dataType'] !== eZMatrixType::DATA_TYPE_STRING,
+                            'orderable' => $field['isSearchable'] && $field['dataType'] !== eZMatrixType::DATA_TYPE_STRING,
+                        ]);
+                        $field['showLink'] = $index === 0 || $showLink;
+                        $field['inputValue'] = $identifier;
                         $classFields[] = $field;
                     }
                 }
