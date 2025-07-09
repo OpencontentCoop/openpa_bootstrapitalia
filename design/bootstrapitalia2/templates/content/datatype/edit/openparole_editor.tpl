@@ -1,7 +1,7 @@
 {def $parent_node_id = openpa_roles_parent_node_id()
 	 $parent_node = fetch(content, node, hash(node_id, $parent_node_id))
-	 $can_create = cond($parent_node.can_create, true(), false())
-	 $can_remove = cond(fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'advanced_editor_tools' )), true(), false())}
+	 $can_create = false()
+	 $can_remove = false()}
 
 <div id="roles-gui-{$attribute.id}"
 	 data-openparole-editor
