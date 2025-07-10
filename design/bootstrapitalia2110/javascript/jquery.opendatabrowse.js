@@ -894,7 +894,7 @@
             var name;
             var lineHeightStyle = item.thumbnail_url ? 'height: 80px;' : '';
             if (item.is_container){
-                name = $('<a data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" style="float:left;'+lineHeightStyle+'"> '+item.name+ ' <small>' +item.class_name + '</small></a>');
+                name = $('<a data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" style="float:left; max-width: 50%; font-weight: 600;'+lineHeightStyle+'">'+item.name+'<small class="fw-normal ms-1">'+item.class_name+'</small></a>');
                 if (self.settings.useTooltip) name.tooltip();
                 name.bind('click', function(e){
                     self.browseParameters.subtree = $(this).data('node_id');
@@ -903,11 +903,11 @@
                     e.preventDefault();
                 });
             }else{
-                name = $('<span data-node_id="'+item.node_id+'" style="float:left;max-width: 50%;'+lineHeightStyle+'"> '+item.name+ ' <small>' +item.class_name + '</small></span>');
+                name = $('<span data-node_id="'+item.node_id+'" style="float:left;max-width: 50%;font-weight: 600;'+lineHeightStyle+'">'+item.name+'<small class="fw-normal ms-1">'+item.class_name+'</small></span>');
             }
             var listItem = $('<li class="list-group-item"></li>');
             if (typeof $.fn.alpaca != 'undefined') {
-                var detail = $('<a href="#" data-object_id="' + item.contentobject_id + '" style="display:table-cell;" class="btn btn-xs btn-info pull-right" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToPreview+'"><small>'+self.settings.i18n.preview+'</small></a>');
+                var detail = $('<a href="#" data-object_id="' + item.contentobject_id + '" style="display:table-cell;" class="btn btn-xs btn-info pull-right" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToPreview+'"><span>'+self.settings.i18n.preview+'</span></a>');
                 if (self.settings.useTooltip) detail.tooltip();
                 detail.bind('click', function (e) {
                     var objectId = $(this).data('object_id');
@@ -946,7 +946,7 @@
             var input = '';
             if (self.isSelectable(item)){
                 if (!self.isInSelection(item)){
-                    input = $('<a href="#"  title="'+self.settings.i18n.addToSelection+'" class="btn btn-xs btn-success pull-right mr-2 me-2" data-selection="'+item.contentobject_id+'"><small>'+self.settings.i18n.addItem+'</small></a>');
+                    input = $('<a href="#"  title="'+self.settings.i18n.addToSelection+'" class="btn btn-xs btn-success pull-right mr-2 me-2" data-selection="'+item.contentobject_id+'"><span>'+self.settings.i18n.addItem+'</span></a>');
                     input.data('item', item);
                     input.bind('click', function(e){
                         e.preventDefault();
@@ -997,14 +997,14 @@
             this.selectionContainer.html('');
             if (this.selection.length > 0){
                 var panel = $('<div class="card card-bg no-after border-primary mt-2 mb-2"></div>').appendTo($(this.selectionContainer));
-                $('<div class="card-header text-white bg-primary" style="padding: 15px"><h5>'+self.settings.i18n.selectedItems+'</h5></div>').appendTo(panel);
+                $('<div class="card-header text-white bg-primary" style="padding: 15px"><h5 class="mb-0">'+self.settings.i18n.selectedItems+'</h5></div>').appendTo(panel);
                 var panelContent = $('<div class="list-wrapper"></div>').appendTo(panel);
                 var list = $('<ul class="list-group" style="margin-bottom:0"></ul>');
                 
                 $.each(this.selection, function(){
-                    var name = '<span style="display: table-cell;">' + this.name + ' <small>' +this.class_name + '</small></span>';
-                    var listItem = $('<li class="list-group-item"></li>');                        
-                    var input = $('<span class="glyphicon glyphicon-remove pull-left" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.removeFromSelection+'" style="cursor:pointer;'+self.iconStyle+'"></span>');
+                    var name = '<span style="display: table-cell; font-weight: 600;">' + this.name + ' <small class="fw-normal ms-1">' +this.class_name + '</small></span>';
+                    var listItem = $('<li class="list-group-item"></li>');
+                    var input = $('<span class="glyphicon glyphicon-remove pull-right text-danger" data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.removeFromSelection+'" style="cursor:pointer;'+self.iconStyle+'"></span>');
                     input.data('item', this);
                     input.bind('click', function(e){
                         self.removeFromSelection($(this).data('item'));

@@ -2613,11 +2613,16 @@ class OpenPABootstrapItaliaOperators
 
     public static function createSqlPartsNameFilter($params)
     {
+        $useVectorNameSearch = OpenPAINI::variable('EditSettings', 'BrowseVectorNameSearch', 'enabled') == 'enabled';
         $filter = $params['name'];
         $sqlJoins = '';
         if (!empty($filter)) {
-            $db = eZDB::instance();
-            $sqlJoins = "(ezcontentobject_name.name ilike '%" . $db->escapeString($filter) . "%') AND";
+            $filterEscaped = eZDB::instance()->escapeString($filter);
+            if ($useVectorNameSearch) {
+                $sqlJoins = "(to_tsvector('italian', ezcontentobject_name.name) @@ to_tsquery('italian', '''$filter''')) AND";
+            } else {
+                $sqlJoins = "(ezcontentobject_name.name ilike '%" . $filterEscaped . "%') AND";
+            }
         }
         $classes = $params['classes'] ?? null;
         if (!empty($classes)){

@@ -697,7 +697,7 @@
 
             var name;
             if (item.is_container){
-                name = $('<a title="'+self.settings.i18n.clickToBrowseParent+'" href="#" data-node_id="'+item.node_id+'"> '+item.name+ ' <small>' +item.class_name + '</small></a>');
+                name = $('<a title="'+self.settings.i18n.clickToBrowseParent+'" style="font-weight: 600;" href="#" data-node_id="'+item.node_id+'"> '+item.name+ '<small class="fw-normal ms-1">' +item.class_name + '</small></a>');
                 name.bind('click', function(e){
                     self.browseParameters.subtree = $(this).data('node_id');
                     self.browseParameters.offset = 0;
@@ -705,12 +705,12 @@
                     e.preventDefault();
                 });
             }else{
-                name = $('<span data-node_id="'+item.node_id+'"> '+item.name+ ' <small>' +item.class_name + '</small></span>');
+                name = $('<span style="font-weight: 600;" data-node_id="'+item.node_id+'"> '+item.name+ '<small class="fw-normal ms-1">' +item.class_name + '</small></span>');
             }
 
             var listItem = $('<li class="list-group-item"></li>');
             if (typeof $.fn.alpaca != 'undefined') {
-                var detail = $('<a href="#" data-object_id="' + item.contentobject_id + '" class="btn btn-xs btn-info pull-right" title="'+self.settings.i18n.clickToPreview+'"><small>'+self.settings.i18n.preview+'</small></a>');
+                var detail = $('<a href="#" data-object_id="' + item.contentobject_id + '" class="btn btn-xs btn-info pull-right" title="'+self.settings.i18n.clickToPreview+'"<small class="fw-normal ms-1">'+self.settings.i18n.preview+'</small></a>');
                 detail.bind('click', function (e) {
                     var objectId = $(this).data('object_id');
                     var previewOuter = $('<div class="card-wrapper card-space"></div>');
