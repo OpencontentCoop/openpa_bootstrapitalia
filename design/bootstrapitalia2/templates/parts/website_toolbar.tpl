@@ -32,6 +32,9 @@
          $can_manage_location = fetch( 'content', 'access', hash( 'access', 'manage_locations', 'contentobject', $current_node ) )
          $can_create_languages = $content_object.can_create_languages
          $is_container = $content_object.content_class.is_container}
+    {if and($content_object.remote_id|eq('faq_system'), openpaini('ViewSettings', 'FaqTreeView', 'disabled')|eq('disabled'))}
+        {set $is_container = false()}
+    {/if}
     {def $node_hint = ': '|append( $current_node.name|wash(), ' [', $content_object.content_class.name|wash(), ']' )}
 
     {foreach $policies as $policy}
