@@ -151,6 +151,10 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
                     $tag = eZTagsObject::fetch((int)$tagUrl);
                 }else {
                     $tag = eZTagsObject::fetchByUrl($tagUrl);
+                    if (!$tag instanceof eZTagsObject){
+                        $tagUrl = $this->fixSlashedTagName((string)$tagUrl);
+                        $tag = eZTagsObject::fetchByUrl($tagUrl);
+                    }
                 }
                 if ($tag instanceof eZTagsObject){
                     $tagIdList[] = $tag->attribute('id');
@@ -162,5 +166,15 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
         }
 
         return '';
+    }
+
+    private function fixSlashedTagName(string $tagUrl): string
+    {
+        $slashedKeyword = eZDB::instance()
+            ->arrayQuery("SELECT keyword, REPLACE(keyword, '/', '%2F') AS keyword_encoded FROM eztags_keyword WHERE keyword LIKE '%/%' AND locale != 'ita-PA';");
+        $search = array_column($slashedKeyword, 'keyword');
+        $replace = array_column($slashedKeyword, 'keyword_encoded');
+
+        return str_replace($search, $replace, $tagUrl);
     }
 }
