@@ -97,7 +97,7 @@
             </button>
         </h2>
         <div id="collapse-{{:metadata.id}}" class="accordion-collapse collapse" role="region" aria-labelledby="heading-{{:metadata.id}}">
-            <div class="accordion-body">
+            <div class="accordion-body richtext-wrapper">
                 {{if ~i18n(data, 'answer')}}{{:~i18n(data, 'answer')}}{{/if}}
             </div>
         </div>
