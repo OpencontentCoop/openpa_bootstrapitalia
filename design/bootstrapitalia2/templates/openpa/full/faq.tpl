@@ -19,7 +19,7 @@
                             </div>
                         {/if}
                         <h2 class="card-title">{$node.name|wash()}</h2>
-                        <div class="card-text">{attribute_view_gui attribute=$node|attribute('answer')}</div>
+                        <div class="card-text richtext-wrapper">{attribute_view_gui attribute=$node|attribute('answer')}</div>
                         {if $parent}
                         <a class="read-more" href="{$parent.url_alias|ezurl(no)}">
                             <span class="text">{'Further details'|i18n('bootstrapitalia')}</span>
