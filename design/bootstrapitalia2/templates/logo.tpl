@@ -2,7 +2,7 @@
 {def $colorize_logo = cond(and(is_set($pagedata.header.logo.mime_type), $pagedata.header.logo.mime_type|eq('image/png'), and( $pagedata.homepage|has_attribute('colorize_logo'), $pagedata.homepage|attribute('colorize_logo').data_int|eq(1) )), true(), false())}
 {def $double_logo = cond(and(current_theme_has_variation('light_center'), current_theme_has_variation('light_navbar')|not(), $pagedata.homepage|has_attribute('footer_logo'), $pagedata.homepage|attribute('footer_logo').data_type_string|eq('ezimage')), true(), false())}
 
-<div class="it-brand-wrapper{if $additional_logo} d-flex{/if}">
+<div class="it-brand-wrapper">
   <a href="{'/'|ezurl(no)}"
      title="{ezini('SiteSettings','SiteName')}"
      {if and($only_logo, openpaini('GeneralSettings','tag_line', false()))} class="d-block text-center"{/if}>
