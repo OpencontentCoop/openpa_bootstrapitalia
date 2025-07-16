@@ -36,25 +36,26 @@
     <div class="row">
         <aside class="col-lg-3">
             <div class="d-lg-block d-xl-block collapse mt-5" id="categoryCollapse">
-                
-                <div class="form-group floating-labels">
-                    <div class="form-label-group pr-2 pe-2 pe-2">
-                        <input type="text"
-                               class="form-control pl-0 ps-0"
-                               id="search-text"
-                               name="SearchText"
-                               value="{$params.text|wash()}"
-                               placeholder="{'Search text'|i18n('bootstrapitalia/documents')}"/>
-                        <label class="pl-0 ps-0" for="search-text">{'Search'|i18n('openpa/search')}</label>
-                        <button type="submit" class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
-                            {display_icon('it-search', 'svg', 'icon')}
-                        </button>
+                <div class="form-group">
+                  <label class="pl-0 ps-0" for="search-text">{'Search'|i18n('openpa/search')}</label>
+                  <div class="input-group">
+                    <input type="search"
+                            class="form-control pl-0 ps-0"
+                            id="search-text"
+                            name="SearchText"
+                            value="{$params.text|wash()}"
+                            placeholder="{'Search text'|i18n('bootstrapitalia/documents')}"
+                    />
+                    <div class="input-group-append">
+                      <button type="submit" class="btn px-1 rounded-0" aria-label="{'Search'|i18n('openpa/search')}">
+                          {display_icon('it-search', 'svg', 'icon icon-sm')}
+                      </button>
                     </div>
+                  </div>
                 </div>
 
-                <div class="pt-4 pt-lg-0">
-                    <h6 class="text-uppercase">{'Sections'|i18n('openpa/search')}</h6>
-                    <div class="mt-4">
+                <fieldset class="mb-4">
+                    <legend class="h6 text-uppercase mb-4 ps-0">{'Sections'|i18n('openpa/search')}</legend>
                     {foreach $top_menu_node_ids as $id}
                         {def $tree_menu = tree_menu( hash( 'root_node_id', $id, 'scope', 'side_menu'))}
                         {def $has_children = false()}
@@ -97,12 +98,11 @@
                         {undef $tree_menu $display $has_children}
 
                     {/foreach}
-                    </div>
-                </div>
+                </fieldset>
                 
                 
-                <div class="pt-4 pt-lg-5">
-                        <h6 class="text-uppercase">{$topic_menu_label|wash()}</h6>
+                <fieldset class="mb-4">
+                        <legend class="h6 text-uppercase mb-4 ps-0">{$topic_menu_label|wash()}</legend>
                         {def $topics = fetch(content, object, hash(remote_id, 'topics'))
                              $topic_list = tree_menu( hash( 'root_node_id', $topics.main_node_id, 'user_hash', false(), 'scope', 'side_menu'))
                              $topic_list_children = $topic_list.children
@@ -174,20 +174,19 @@
                         
                         {undef $topics $topic_list $count $max $total $already_displayed $sub_count}
 
-                        {if and($custom_topic_container_item, $custom_topic_container_item.has_children)}
-                        <div class="pt-3 pt-lg-3">
-                            <h6 class="text-uppercase text-black-50">{$custom_topic_container.name|wash()}</h6>
-                            {foreach $custom_topic_container_item.children as $child}
-                                {include uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=cond(menu_item_tree_contains($child,$params.topic), true(), false()) selected=$params.topic recursion=0}
-                            {/foreach}
-                        </div>
-                        {/if}
-
-                </div>
+                </fieldset>
+                {if and($custom_topic_container_item, $custom_topic_container_item.has_children)}
+                  <fieldset class="mb-4">
+                      <legend class="h6 text-uppercase mb-4 ps-0">{$custom_topic_container.name|wash()}</legend>
+                      {foreach $custom_topic_container_item.children as $child}
+                          {include uri='design:parts/search/topic_search_input.tpl' topic=$child topic_facets=$topic_facets checked=cond(menu_item_tree_contains($child,$params.topic), true(), false()) selected=$params.topic recursion=0}
+                      {/foreach}
+                  </fieldset>
+                {/if}
 
                 {if count($classes)}
-                    <div class="pt-4 pt-lg-5">
-                        <h6 class="text-uppercase">{'Content type'|i18n('openpa/search')}</h6>
+                    <fieldset class="mb-4">
+                        <legend class="h6 text-uppercase mb-4 ps-0">{'Content type'|i18n('openpa/search')}</legend>
                         {foreach $classes as $class}
                             {def $count_by_class = 0}
                             {if is_set($class_facets[$class.id])}
@@ -206,12 +205,12 @@
                             </div>
                             {undef $count_by_class}
                         {/foreach}
-                    </div>
+                    </fieldset>
                 {/if}
                 
                 {if or($params.from,$params.to,$params.only_active)}
-                <div class="pt-4 pt-lg-5">
-                    <h6 class="text-uppercase">{'Options'|i18n('openpa/search')}</h6>
+                <fieldset class="pt-4 pt-lg-5">
+                    <legend class="h6 text-uppercase">{'Options'|i18n('openpa/search')}</legend>
                     {if $params.only_active}
                         <div class="form-check custom-control custom-checkbox mb-3">
                             <input name="OnlyActive" id="onlyactive" value=1 checked="checked" class="custom-control-input" type="checkbox">
@@ -230,7 +229,7 @@
                             <label class="custom-control-label" for="to">{'to'|i18n('openpa/search')} {$params.to|l10n( 'shortdate' )}
                         </div>
                     {/if}
-                </div>
+                </fieldset>
                 {/if}
 
                 <div class="pt-4 pt-lg-5">
