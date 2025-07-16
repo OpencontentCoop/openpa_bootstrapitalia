@@ -5,17 +5,17 @@
         <div class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3">
             <div class="card-body">
                 {if or($row.columns[0]|ne(''), $row.columns[1]|ne(''))}
-                <h5>
+                <h3>
                     <span class="category-top">
                       {if $row.columns[0]|ne('')}{$row.columns[0]|wash()}{/if}
                     </span>
-                    <p class="card-title big-heading">{if or($row.columns[2]|eq(''), $row.columns[2]|eq('0'))}{'FREE'|i18n('bootstrapitalia')}{else}{$row.columns[2]|wash()} {$row.columns[3]|wash()}{/if}</p>
-                </h5>
+                    <div class="h5 card-title big-heading">{if or($row.columns[2]|eq(''), $row.columns[2]|eq('0'))}{'FREE'|i18n('bootstrapitalia')}{else}{$row.columns[2]|wash()} {$row.columns[3]|wash()}{/if}</div>
+                </h3>
                 <p class="mt-4">{if $row.columns[1]|ne('')}{$row.columns[1]|wash()}{/if}</p>
                 {else}
-                    <h5>
-                        <p class="card-title big-heading">{if or($row.columns[2]|eq(''), $row.columns[2]|eq('0'))}{'FREE'|i18n('bootstrapitalia')}{else}{$row.columns[2]|wash()} {$row.columns[3]|wash()}{/if}</p>
-                    </h5>
+                    <h3>
+                        <div class="h5 card-title big-heading">{if or($row.columns[2]|eq(''), $row.columns[2]|eq('0'))}{'FREE'|i18n('bootstrapitalia')}{else}{$row.columns[2]|wash()} {$row.columns[3]|wash()}{/if}</div>
+                    </h3>
                 {/if}
             </div>
         </div>
