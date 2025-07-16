@@ -18,7 +18,7 @@
 
 <div class="row">
     <div class="col-12 mt-5 pb-4 border-bottom">        
-        <h2>{if $params.text|ne('')}{'Search results for %searchtext'|i18n('openpa/search',,hash('%searchtext',concat('<em>',$params.text|wash(),'</em>')))}{else}{'Search results'|i18n('openpa/search')}{/if}</h2>
+        <h1>{if $params.text|ne('')}{'Search results for %searchtext'|i18n('openpa/search',,hash('%searchtext',concat('<em>',$params.text|wash(),'</em>')))}{else}{'Search results'|i18n('openpa/search')}{/if}</h1>
     </div>
 </div>
 
@@ -247,11 +247,11 @@
                 
                     <div class="row">
                         <div class="col-md-12 col-lg-2 mb-3 text-center text-lg-start">
-                        {if $search.SearchCount|eq(1)}
-                            <p class="m-0 text-nowrap lh-lg" role="status"><small>{'Found a result'|i18n('openpa/search')}</small></p>
-                        {else}
-                            <p class="m-0 text-nowrap lh-lg" role="status"><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
-                        {/if}
+                          {if $search.SearchCount|eq(1)}
+                              <p class="m-0 text-nowrap lh-lg" role="status"><small>{'Found a result'|i18n('openpa/search')}</small></p>
+                          {else}
+                              <p class="m-0 text-nowrap lh-lg" role="status"><small>{'Found %count results'|i18n('openpa/search',,hash('%count', $search.SearchCount))}</small></p>
+                          {/if}
                         </div>
                         <div class="col-sm-12 col-md-5 col-lg-4 mb-4 text-center text-md-end">
                             <label class="d-inline-block text-black" for="Sort"><small>{'Sorting by'|i18n('openpa/search')}</small></label>
@@ -275,18 +275,18 @@
                             </button>
                         </div>
                     </div>
-
-                    <div class="row row-cols-1 row-cols-md-2">
+                    <h2 class="visually-hidden">{'Search results'|i18n('openpa/search')}</h2>
+                    <ol class="row row-cols-1 row-cols-md-2">
                         {foreach $search.SearchResult as $child}
-                        <div class="col mb-3">
+                        <li class="col mb-3">
                             {if is_set($child.is_external_data)}
                                 {include name=external_data uri='design:parts/search/external_data_search_result.tpl' data=$child}
                             {else}
                                 {node_view_gui content_node=$child view=search_result show_icon=true() image_class=widemedium}
                             {/if}
-                        </div>
+                        </li>
                         {/foreach}
-                    </div>
+                    </ol>
 
                     {include name=Navigator
                              uri='design:navigator/google.tpl'
@@ -296,7 +296,7 @@
                              view_parameters=$view_parameters
                              item_limit=$page_limit}                 
                 {else}
-                    <p><small>{'No results were found'|i18n('openpa/search')}</small></p>
+                    <p role="status"><small>{'No results were found'|i18n('openpa/search')}</small></p>
                     {if $search.SearchExtras.hasError}<div class="alert alert-danger">{$search.SearchExtras.error|wash}</div>{/if}
                 {/if}
             </div>
