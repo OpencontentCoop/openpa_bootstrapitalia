@@ -181,7 +181,7 @@ class ContentSecurityPolicyHandler
             $sentryScriptLoader = OpenPABootstrapItaliaOperators::getSentryScriptLoader();
             if (!empty($sentryScriptLoader)) {
                 $sentryScriptLoaderHost = parse_url($sentryScriptLoader, PHP_URL_HOST);
-                if (!$sentryScriptLoaderHost) {
+                if ($sentryScriptLoaderHost) {
                     $directives = (array)$cspIni->variable(
                         'Settings',
                         'AutoEmbedPerformanceMonitorDirectives'
