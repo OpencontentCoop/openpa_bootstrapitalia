@@ -786,6 +786,9 @@ ul.link-list,
   padding-left: 36px;
   margin-left: 27px;
   border-left: 1px solid $gray-disabled;
+  a {
+    display: inline-block;
+  }
 }
 .procedure-toggle{
   text-decoration: none;
