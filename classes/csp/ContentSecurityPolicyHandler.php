@@ -223,7 +223,7 @@ class ContentSecurityPolicyHandler
         }
         if (!empty($directives['Content-Security-Policy-Report-Only'])) {
             $contentSecurityPolicyReportOnlyHeader = (new self($directives['Content-Security-Policy-Report-Only']))->buildHeaderValue();
-            header('Content-Security-Policy: ' . $contentSecurityPolicyReportOnlyHeader);
+            header('Content-Security-Policy-Report-Only: ' . $contentSecurityPolicyReportOnlyHeader);
         }
 
         return $templateResult;
