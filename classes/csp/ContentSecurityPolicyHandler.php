@@ -159,7 +159,7 @@ class ContentSecurityPolicyHandler
         return implode('; ', $policy);
     }
 
-    public static function setCspHeaders($templateResult)
+    public static function getCspDirectives(): array
     {
         $cspIni = eZINI::instance('csp.ini');
 
@@ -192,22 +192,38 @@ class ContentSecurityPolicyHandler
                 }
             }
         }
-
+        $contentSecurityPolicy = [];
         if ($cspIni->variable('Settings', 'ContentSecurityPolicy') === 'enabled') {
             $contentSecurityPolicy = array_merge_recursive(
                 $cspIni->group('ContentSecurityPolicy'),
                 $autoEmbeds
             );
-            $contentSecurityPolicyHeader = (new self($contentSecurityPolicy))->buildHeaderValue();
-            header('Content-Security-Policy: ' . $contentSecurityPolicyHeader);
         }
+
+        $contentSecurityPolicyReportOnly = [];
         if ($cspIni->variable('Settings', 'ContentSecurityPolicyReportOnly') === 'enabled') {
             $contentSecurityPolicyReportOnly = array_merge_recursive(
                 $cspIni->group('ContentSecurityPolicyReportOnly'),
                 $autoEmbeds
             );
-            $contentSecurityPolicyReportOnlyHeader = (new self($contentSecurityPolicyReportOnly))->buildHeaderValue();
-            header('Content-Security-Policy-Report-Only: ' . $contentSecurityPolicyReportOnlyHeader);
+        }
+
+        return [
+            'Content-Security-Policy' => $contentSecurityPolicy,
+            'Content-Security-Policy-Report-Only' => $contentSecurityPolicyReportOnly,
+        ];
+    }
+
+    public static function setCspHeaders($templateResult)
+    {
+        $directives = self::getCspDirectives();
+        if (!empty($directives['Content-Security-Policy'])) {
+            $contentSecurityPolicyHeader = (new self($directives['Content-Security-Policy']))->buildHeaderValue();
+            header('Content-Security-Policy: ' . $contentSecurityPolicyHeader);
+        }
+        if (!empty($directives['Content-Security-Policy-Report-Only'])) {
+            $contentSecurityPolicyReportOnlyHeader = (new self($directives['Content-Security-Policy-Report-Only']))->buildHeaderValue();
+            header('Content-Security-Policy: ' . $contentSecurityPolicyReportOnlyHeader);
         }
 
         return $templateResult;
