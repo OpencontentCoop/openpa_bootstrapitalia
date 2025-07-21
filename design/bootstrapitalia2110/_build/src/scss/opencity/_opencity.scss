@@ -756,6 +756,9 @@ ul.link-list,
 {
   font-family: $font-family-sans-serif;
 }
+.card-teaser .card-body .card-title {
+  line-height: 1.333333;
+}
 
 .inputfile + label.btn-info {
   background-color: $info !important;
