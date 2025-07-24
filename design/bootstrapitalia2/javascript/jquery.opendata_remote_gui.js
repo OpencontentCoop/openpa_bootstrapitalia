@@ -548,6 +548,7 @@
                   },
                   timeGridDay: {
                     firstDay: 1,
+                    slotHeight: 48
                   }
                 },
                 eventClick: function (info) {

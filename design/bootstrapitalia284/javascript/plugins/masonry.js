@@ -141,10 +141,17 @@ if (masonries.length > 0) {
 
   document.fonts.ready.then(() => {
     masonries.forEach((masonry) => {
-      let m = Masonry.getOrCreateInstance(masonry);
-      m._masonry.on('layoutComplete', function() {
-        fixMasonryHeight(masonry);
-      });
+      const instance = Masonry.getOrCreateInstance(masonry);
+      const internalMasonry = instance._masonry;
+
+      if (internalMasonry?.on) {
+        internalMasonry.on('layoutComplete', function() {
+          fixMasonryHeight(masonry);
+        });
+      } else {
+        console.warn('No internal Masonry instance found for:', masonry);
+      }
+
       fixMasonryHeight(masonry);
     });
   });
