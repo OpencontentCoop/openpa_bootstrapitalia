@@ -65,7 +65,7 @@
             {foreach $summary.items as $index => $item}
             <article id="{$item.slug|wash()}" class="it-page-section {if $show_index}anchor-offset {/if}">
                   {if $item.evidence} 
-                    <div class="has-bg-grey p-3">
+                    <div class="has-bg-grey p-3 my-3">
                   {/if}
                     {if and(count($summary.items)|gt(1), $item.label)}
                         <h2 class="my-3" {if and($object.class_identifier|eq('public_service'), array('cos_e', 'description')|contains($item.slug))}data-element="service-description"{/if}>{$item.label|wash()}</h2>

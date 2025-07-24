@@ -4,9 +4,9 @@
             {display_icon('it-link', 'svg', 'icon')}
             <a class="text-decoration-none neutral-1-color-a8" href="{$data.source_uri|wash()}" title="{'Go to content'|i18n('bootstrapitalia')} {$data.source_name|wash()}">{$data.source_name|wash()}</a>
         </div>
-        <p class="mb-3 h6 font-weight-normal">
+        <h3 class="mb-3 h6 font-weight-normal">
             <a href="{$data.uri|wash()}" title="{'Go to content'|i18n('bootstrapitalia')} {$data.name|wash()}">{$data.name|wash()}</a>
-        </p>
+        </h3>
         <div class="card-text">
             <p>{$data.abstract}</p>
             {if count($data.attachments)}

@@ -7,8 +7,9 @@
 {def $pagedata = openpapagedata()}
 {def $footer_links = fetch( 'openpa', 'footer_links' )}
 
-<div class="row">
-    <div class="col offset-lg-2">
+<h1 class="visually-hidden">{"Sitemap"|i18n("design/standard/layout")}</h1>
+<div class="row justify-content-center my-4">
+    <div class="col-12 col-lg-10">
         <div class="org-chart">
     <ul>
         <li>
