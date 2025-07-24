@@ -10,7 +10,7 @@
     {if $double_logo}
       <img class="icon{if $colorize_logo} colorize{/if} oc-fix-double-logo-rev"
           alt=""
-          role="presentation
+          role="presentation"
           src="{render_image($pagedata.homepage|attribute('footer_logo').content['header_logo'].full_path|ezroot(no,full)).src}"
           style="width: auto !important;" />
     {/if}
