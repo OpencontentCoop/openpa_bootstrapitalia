@@ -823,3 +823,12 @@ MatchFile=block/search_people_by_role.tpl
 Subdir=templates
 Match[type]=SearchPeopleByRole
 Match[view]=default
+
+#### Timeline
+
+[block_timeline_default]
+Source=block/view/view.tpl
+MatchFile=block/timeline.tpl
+Subdir=templates
+Match[type]=Timeline
+Match[view]=default
