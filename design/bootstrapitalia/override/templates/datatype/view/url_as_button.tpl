@@ -1,5 +1,5 @@
 {set_defaults(hash(
-     'css_class', 'btn btn-success fw-bold font-sans-serif'
+     'css_class', 'btn btn-primary fw-bold font-sans-serif'
 ))}
 {if $attribute.data_text}
      <a class="{$css_class}" target="_blank" rel="noopener noreferrer" href="{$attribute.content|wash( xhtml )}">{$attribute.data_text|wash( xhtml )} <i class="fa fa-external-link"></i></a>

@@ -237,6 +237,20 @@ Subdir=templates
 Match[class_identifier]=channel
 Match[attribute_identifier]=location
 
+[datatype_view_bando_location_as_button]
+Source=content/datatype/view/ezurl.tpl
+MatchFile=datatype/view/url_as_button.tpl
+Subdir=templates
+Match[class_identifier]=bando
+Match[attribute_identifier]=location
+
+[datatype_view_bando_pvl_link_as_button]
+Source=content/datatype/view/ezurl.tpl
+MatchFile=datatype/view/url_as_button.tpl
+Subdir=templates
+Match[class_identifier]=bando
+Match[attribute_identifier]=pvl_link
+
 [datatype_view_public_service_has_temporal_coverage]
 Source=content/datatype/view/ezobjectrelationlist.tpl
 MatchFile=datatype/view/relations_public_service_has_temporal_coverage.tpl
