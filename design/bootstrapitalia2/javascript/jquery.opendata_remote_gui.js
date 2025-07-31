@@ -794,7 +794,9 @@
             if (range.fromDate.isValid() || range.toDate.isValid()) {
                 plugin.publishedRangeFilterReset.show();
             }
-            return  range.fromDate.isValid() && range.toDate.isValid(); // && range.toDate.isAfter(range.fromDate);
+            
+            return plugin.publishedRangeFilterFrom.length > 0 && plugin.publishedRangeFilterTo.length > 0
+              && range.fromDate.isValid() && range.toDate.isValid(); // && range.toDate.isAfter(range.fromDate);
         }
     });
 
