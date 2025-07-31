@@ -12,10 +12,11 @@ $script = eZScript::instance([
 $script->startup();
 
 $options = $script->getOptions(
-    '[identifiers:]',
+    '[identifiers:][update]',
     '',
     [
-        'identifiers' => 'Comma separated identifiers'
+        'identifiers' => 'Comma separated identifiers',
+        'update' => 'Do update',
     ]
 );
 $script->initialize();

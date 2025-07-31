@@ -113,12 +113,13 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
         $facetsSettings = $blockAttributes['facets'];
         $facets = [];
         $hasTimeInterval = false;
+        $hasPublishedRange = false;
         if (!empty($facetsSettings)) {
             $facetsSettingsParts = explode(',', $facetsSettings);
             foreach ($facetsSettingsParts as $facetsSettingsPart) {
                 $parts = explode(':', $facetsSettingsPart);
                 if (isset($parts[1])) {
-                    if ($parts[1] !== 'time_interval') {
+                    if ($parts[1] !== 'time_interval' && $parts[1] !== 'published_range') {
                         if (isset($parts[2])
                             && $parts[2] === 'tree'
                             && OpenPABootstrapItaliaOperators::getTagRootFromAttributeIdentifier($parts[1])){
@@ -126,8 +127,10 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                         } else {
                             $facets[] = $parts[1];
                         }
-                    } else {
+                    } elseif ($parts[1] === 'time_interval') {
                         $hasTimeInterval = true;
+                    } elseif ($parts[1] === 'published_range') {
+                        $hasPublishedRange = true;
                     }
                 }
             }
@@ -189,6 +192,9 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                 }
                 if (!empty($requestFacetsField)) {
                     $value = (array)$requestFacetsField;
+                    $value = array_map(function ($item) {
+                        return trim($item, '"');
+                    }, $value);
                     $query = $field . ' in [\'"' . implode('"\',\'"', $value) . '"\'] and ' . $query;
                 }
             }
@@ -218,6 +224,21 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                 }
             }
             $query .= " and calendar[time_interval] = ['$start','$end']";
+        }
+        if ($hasPublishedRange){
+            $range = $http->hasGetVariable('range') ? $http->getVariable('range') : '';
+            if (!empty($range)){
+                [$from, $to] = explode(',', $range);
+                if (!empty($from) && !empty($to)){
+                    $fromDate = DateTime::createFromFormat('Y-m-d', $from);
+                    $toDate = DateTime::createFromFormat('Y-m-d', $to);
+                    if ($fromDate instanceof DateTime && $toDate instanceof DateTime){
+                        $start = $fromDate->setTime(0,0)->format('c');
+                        $end = $toDate->setTime(23,59)->format('c');
+                        $query .= " and published range ['$start','$end']";
+                    }
+                }
+            }
         }
 
         if ($http->hasGetVariable('id')) {

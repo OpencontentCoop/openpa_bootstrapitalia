@@ -19,6 +19,10 @@
 {foreach $facets as $index => $facet}
     {def $facets_parts = $facet|explode(':')}
     {if $facets_parts[0]|ne('')}
+        {if and(
+            is_set($facets_parts[1]),
+            or($facets_parts[1]|eq('time_interval'),$facets_parts[1]|eq('published_range'))
+        )}{skip}{/if}
         {set $facetsFields = $facetsFields|append(hash(
             'field', $facets_parts[1],
             'name', $facets_parts[0],
