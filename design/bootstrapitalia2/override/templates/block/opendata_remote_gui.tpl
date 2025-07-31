@@ -7,18 +7,18 @@
 {def $showGrid = cond(is_set($block.custom_attributes.show_grid), $block.custom_attributes.show_grid, true())
   $showMap = $block.custom_attributes.show_map
 	$showSearch = $block.custom_attributes.show_search
-    $showAgenda = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|contains('time_interval')), true(), false())
+  $showAgenda = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|contains('time_interval')), true(), false())
 	$searchPlaceholder = $block.custom_attributes.input_search_placeholder
 	$query = $block.custom_attributes.query
 	$limit = $block.custom_attributes.limit
 	$itemsPerRow = $block.custom_attributes.items_per_row
 	$fields = $block.custom_attributes.fields
-    $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
-    $facetsFields = array()
+  $facets = cond(and(is_set($block.custom_attributes.facets), $block.custom_attributes.facets|ne('')), $block.custom_attributes.facets|explode(','), array())
+  $facetsFields = array()
 	$remoteUrl = cond(is_set($block.custom_attributes.remote_url), $block.custom_attributes.remote_url|trim('/'), false())
-    $showArray = array($showMap, $showSearch, $showAgenda)
-    $trueCount = 0
-    $multipleViewsEnabled = false()}
+  $showArray = array($showMap, $showSearch, $showAgenda)
+  $trueCount = 0
+  $multipleViewsEnabled = false()}
 
 {foreach $showArray as $showItem}
   {if $showItem}
@@ -37,36 +37,36 @@
 
         <div class="row" id="remote-gui-{$block.id}">
             {if $facets|count()}
-                <div class="col-12 col-lg-4 ps-lg-5">
-                    <ul class="nav d-block nav-pills text-start {if $multipleViewsEnabled|not()} d-none {/if} d-flex {if $trueCount|gt(2)} flex-lg-column{/if} align-items-start flex-xxl-row">
-                        {if $showGrid}
-                            <li class="nav-item pr-1 pe-1 text-center mb-1">
-                                <a data-toggle="tab" data-bs-toggle="tab"
-                                    class="nav-link active rounded view-selector text-uppercase"
-                                    href="#remote-gui-{$block.id}-list">
-                                    <i aria-hidden="true" class="fa fa-list"></i> {'List'|i18n('editorialstuff/dashboard')}
-                                </a>
-                            </li>
-                        {/if}
-                        {if $showMap}
-                            <li class="nav-item text-center mb-1">
-                                <a data-toggle="tab" data-bs-toggle="tab"
-                                    class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
-                                    href="#remote-gui-{$block.id}-geo">
-                                    <i aria-hidden="true" class="fa fa-map"></i> {'Map'|i18n('bootstrapitalia')}
-                                </a>
-                            </li>
-                        {/if}
-                        {if $showAgenda}
-                          <li class="nav-item text-center mb-1">
-                            <a data-toggle="tab" data-bs-toggle="tab"
-                                class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
-                                href="#remote-gui-{$block.id}-agenda">
-                                <i aria-hidden="true" class="fa fa-calendar"></i> {'Calendar'|i18n('bootstrapitalia')}
-                            </a>
-                          </li>
-                      {/if}
-                    </ul>
+              <div class="col-12 col-lg-4 ps-lg-5">
+                <ul class="nav d-block nav-pills text-start {if $multipleViewsEnabled|not()} d-none {/if} d-flex {if $trueCount|gt(2)} flex-lg-column{/if} align-items-start flex-xxl-row">
+                    {if $showGrid}
+                      <li class="nav-item pr-1 pe-1 text-center mb-1">
+                        <a data-toggle="tab" data-bs-toggle="tab"
+                           class="nav-link active rounded view-selector text-uppercase"
+                           href="#remote-gui-{$block.id}-list">
+                          <i aria-hidden="true" class="fa fa-list"></i> {'List'|i18n('editorialstuff/dashboard')}
+                        </a>
+                      </li>
+                    {/if}
+                    {if $showMap}
+                      <li class="nav-item text-center mb-1">
+                        <a data-toggle="tab" data-bs-toggle="tab"
+                           class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
+                           href="#remote-gui-{$block.id}-geo">
+                          <i aria-hidden="true" class="fa fa-map"></i> {'Map'|i18n('bootstrapitalia')}
+                        </a>
+                      </li>
+                    {/if}
+                    {if $showAgenda}
+                      <li class="nav-item text-center mb-1">
+                        <a data-toggle="tab" data-bs-toggle="tab"
+                           class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
+                           href="#remote-gui-{$block.id}-agenda">
+                          <i aria-hidden="true" class="fa fa-calendar"></i> {'Calendar'|i18n('bootstrapitalia')}
+                        </a>
+                      </li>
+                    {/if}
+                </ul>
 
             {if $facets|count()}
               {def $index = 0}
@@ -97,6 +97,25 @@
                           <input name="time_interval" type="radio" id="all" value="all" checked>
                           <label for="all">{'Upcoming appointments'|i18n('bootstrapitalia')}</label>
                         </div>
+                      </fieldset>
+                    </div>
+                  {elseif $facets_parts[1]|eq('published_range')}
+                    <div class="px-0 my-4 mb-5" data-datepicker>
+                      <fieldset>
+                        <legend class="h6 ms-0 ps-0">
+                            {$facets_parts[0]|wash()}
+                            <a href="#" class="published_reset" style="display:none">
+                              <i class="fa fa-times-circle" aria-label="Reset" data-focus-mouse="false" style="font-size: 18px;color: #000"></i>
+                            </a>
+                        </legend>
+                        <label class="d-flex align-items-center">
+                          <p class="m-0" style="min-width: 35px;">{'From'|i18n('bootstrapitalia/documents')}</p>
+                          <input type="date" class="w-100" name="published_from" />
+                        </label>
+                        <label class="d-flex align-items-center mt-2">
+                          <p class="m-0" style="min-width: 35px;">{'to'|i18n('bootstrapitalia/documents')}</p>
+                          <input type="date" class="w-100" name="published_to" />
+                        </label>
                       </fieldset>
                     </div>
                   {else}

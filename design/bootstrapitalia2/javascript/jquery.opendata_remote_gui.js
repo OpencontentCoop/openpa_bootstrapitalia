@@ -81,6 +81,9 @@
         this.searchFormToggle = this.container.find('.search-form-toggle');
         this.searchForm = this.container.find('.search-form');
         this.intervalFilter = this.container.find('[name="time_interval"]');
+        this.publishedRangeFilterFrom = this.container.find('[name="published_from"]');
+        this.publishedRangeFilterTo = this.container.find('[name="published_to"]');
+        this.publishedRangeFilterReset = this.container.find('.published_reset');
 
         this.currentPage = 0;
         this.queryPerPage = [];
@@ -171,6 +174,34 @@
                 })
             })
         }
+        if (plugin.publishedRangeFilterFrom.length > 0 && plugin.publishedRangeFilterTo.length > 0){
+            plugin.publishedRangeFilterReset.on('click', function (e){
+                e.preventDefault();
+                plugin.publishedRangeFilterFrom.val('')
+                plugin.publishedRangeFilterFrom.removeAttr('max')
+                plugin.publishedRangeFilterTo.removeAttr('min')
+                plugin.publishedRangeFilterTo.val('')
+                plugin.publishedRangeFilterReset.hide();
+                plugin.currentPage = 0;
+                plugin.runSearch();
+            })
+            plugin.publishedRangeFilterFrom.on('change', function (){
+                plugin.publishedRangeFilterTo.attr('min', $(this).val());
+                if (plugin.validatePublishedRange()) {
+                    plugin.currentPage = 0;
+                    plugin.runSearch();
+                }
+            })
+            plugin.publishedRangeFilterTo.on('change', function (){
+                if (plugin.publishedRangeFilterFrom.val().length === 0) {
+                    plugin.publishedRangeFilterFrom.attr('max', $(this).val());
+                }
+                if (plugin.validatePublishedRange()) {
+                    plugin.currentPage = 0;
+                    plugin.runSearch();
+                }
+            })
+        }
         plugin.runSearch();
     }
 
@@ -213,32 +244,42 @@
                     }
                 });
             }
-            if (!ignoreIntervalFilter && plugin.intervalFilter.length > 0){
-                let interval = plugin.intervalFilter.filter(':checked').val();
-                var start = moment();
-                var end = '*';
-                switch (interval) {
-                    case 'today':
-                        end = moment();
-                        break;
-                    case 'weekend':
-                        start = moment().day(6);
-                        end = moment().day(7);
-                        break;
-                    case 'next7days':
-                        end = moment().add(7, 'days');
-                        break;
-                    case 'next30days':
-                        end = moment().add(30, 'days');
-                        break;
+            if (!ignoreIntervalFilter){
+                if (plugin.intervalFilter.length > 0) {
+                    let interval = plugin.intervalFilter.filter(':checked').val();
+                    var start = moment();
+                    var end = '*';
+                    switch (interval) {
+                        case 'today':
+                            end = moment();
+                            break;
+                        case 'weekend':
+                            start = moment().day(6);
+                            end = moment().day(7);
+                            break;
+                        case 'next7days':
+                            end = moment().add(7, 'days');
+                            break;
+                        case 'next30days':
+                            end = moment().add(30, 'days');
+                            break;
+                    }
+                    if (end === '*') {
+                        baseQuery += ' and calendar[time_interval] = [' + start.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',*]';
+                    } else {
+                        baseQuery += ' and calendar[time_interval] = [' + start.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',' + end.set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + ']';
+                    }
+                    queryParams.interval = interval;
                 }
-                if (end === '*') {
-                    baseQuery += ' and calendar[time_interval] = [' + start.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',*]';
-                } else {
-                    baseQuery += ' and calendar[time_interval] = [' + start.set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ',' + end.set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + ']';
+                if (plugin.validatePublishedRange()) {
+                    let range = plugin.getPublishedRange();
+                    let startRange = range.fromDate.set('hour', 0).set('minute', 0);
+                    let endRange = range.toDate.set('hour', 23).set('minute', 59);
+                    baseQuery += ' and published range [' + startRange.format('YYYY-MM-DD HH:mm') + ',' + endRange.format('YYYY-MM-DD HH:mm') + ']';
+                    queryParams.range = startRange.format('YYYY-MM-DD')+','+endRange.format('YYYY-MM-DD');
                 }
-                queryParams.interval = interval;
             }
+
             if (plugin.searchForm.find('input').length > 0 && plugin.searchForm.find('input').val().length > 0) {
                 baseQuery += ' and offset 0 sort [score=>desc]'; //workaround se già presente il parametro sort in query
             }
@@ -735,8 +776,26 @@
             } else if (plugin.container.find('a.view-selector.active').attr('href') === '#'+plugin.baseId+'agenda') {
                 plugin.renderCalendar();
             }
-        }
+        },
 
+        getPublishedRange: function (){
+            let plugin = this;
+            let fromDate = moment(plugin.publishedRangeFilterFrom.val());
+            let toDate = moment(plugin.publishedRangeFilterTo.val());
+            return {
+                fromDate: fromDate,
+                toDate: toDate
+            };
+        },
+
+        validatePublishedRange: function (){
+            let plugin = this;
+            let range = plugin.getPublishedRange();
+            if (range.fromDate.isValid() || range.toDate.isValid()) {
+                plugin.publishedRangeFilterReset.show();
+            }
+            return  range.fromDate.isValid() && range.toDate.isValid(); // && range.toDate.isAfter(range.fromDate);
+        }
     });
 
     $.fn[pluginName] = function (options) {
