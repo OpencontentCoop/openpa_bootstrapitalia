@@ -7,6 +7,7 @@
     <div class="row">
       {if is_set($block.valid_nodes[0])}
         {foreach $block.valid_nodes as $item}
+          {def $object = fetch( content, object, hash( object_id, $item.contentobject_id ) )}
           <div class="col-12">
             <div class="timeline-element">
               <h3 class="it-pin-wrapper it-evidence ">
@@ -15,7 +16,18 @@
                 </div>
                 <div class="pin-text"><span>{$item.name|wash()}</span></div>
               </h3>
-              {node_view_gui content_node=$item view=card}
+              <article class="card-wrapper border border-light rounded shadow-sm bg-white ">
+                <div class="card no-after rounded">
+                  <div class="card-body">
+                    <h2 class="h4 card-title">
+                      {$object.data_map.title.content|wash()}
+                    </h2>
+                    <div class="card-text text-secondary">
+                      {$object.data_map.text.content|wash()}
+                    </div>
+                  </div>
+                </div>
+              </article>
             </div>
           </div>
         {/foreach}
