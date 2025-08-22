@@ -127,15 +127,16 @@ abstract class AbstractBootstrapItaliaInputValidator implements BootstrapItaliaI
     protected function hasMultiBinary(
         eZContentClassAttribute $contentClassAttribute,
         eZContentObjectAttribute $contentObjectAttribute
-    ) {
+    ): bool {
         if ($contentClassAttribute->attribute('data_type_string') == OCMultiBinaryType::DATA_TYPE_STRING) {
-            return eZMultiBinaryFile::fetch(
+            $data = eZMultiBinaryFile::fetch(
                 $contentObjectAttribute->attribute('id'),
                 $contentObjectAttribute->attribute('version')
             );
         } else {
-            return $contentObjectAttribute->toString();
+            $data = $contentObjectAttribute->toString();
         }
+        return !empty($data);
     }
 
     protected function hasBoolean(
@@ -150,6 +151,16 @@ abstract class AbstractBootstrapItaliaInputValidator implements BootstrapItaliaI
         eZContentObjectAttribute $contentObjectAttribute
     ): bool {
         $varName = $this->base . "_data_text_" . $contentObjectAttribute->attribute("id");
+        $text = $this->http->hasPostVariable($varName) ? $this->http->postVariable($varName) : '';
+        $text = strip_tags($text);
+        $text = trim($text);
+        return !empty($text);
+    }
+
+    protected function hasString(
+        eZContentObjectAttribute $contentObjectAttribute
+    ): bool {
+        $varName = $this->base . "_ezstring_data_text_" . $contentObjectAttribute->attribute("id");
         $text = $this->http->hasPostVariable($varName) ? $this->http->postVariable($varName) : '';
         $text = strip_tags($text);
         $text = trim($text);
@@ -239,6 +250,8 @@ abstract class AbstractBootstrapItaliaInputValidator implements BootstrapItaliaI
                 return $this->hasBoolean($contentObjectAttribute);
 
             case eZStringType::DATA_TYPE_STRING:
+                return $this->hasString($contentObjectAttribute);
+
             case eZTextType::DATA_TYPE_STRING:
             case eZXMLTextType::DATA_TYPE_STRING:
                 return $this->hasText($contentObjectAttribute);
