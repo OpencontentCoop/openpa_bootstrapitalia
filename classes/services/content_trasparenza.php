@@ -446,45 +446,47 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
     public static function parseTableFieldsParameter($string, eZContentObjectTreeNode $containerNode = null)
     {
-        $index = 0;
+        $availableFieldsWithCallback = [
+            'parent' => function ($parameter) {
+                $asInt = (int)$parameter;
+                return $asInt > 0 ? $asInt : null;
+            },
+            'filters' => null,
+            'group_by' => null,
+            'order_by' => function ($parameter) {
+                return explode(',', $parameter);
+            },
+            'title' => null,
+        ];
+
+        $fieldsPartParser = function ($fieldPart, ?callable $callback = null) {
+            $parameters = explode(':', $fieldPart);
+            $parameter = $parameters[1] ?? null;
+            if ($parameter && is_callable($callback)){
+                return $callback($parameter);
+            }
+            return $parameter;
+        };
+
         $fieldsParts = explode('|', $string);
-
-        $parentNodeId = null;
-        if (strpos($fieldsParts[$index], 'parent:') === 0) {
-            $parameters = array_shift($fieldsParts);
-            $nodeParts = explode(':', $parameters);
-            $parentNodeId = $nodeParts[1];
+        $data = [];
+        foreach ($fieldsParts as $index => $fieldPart) {
+            foreach ($availableFieldsWithCallback as $availableField => $callable) {
+                if (strpos($fieldPart, $availableField . ':') === 0) {
+                    $data[$availableField] = $fieldsPartParser($fieldPart, $callable);
+                    unset($fieldsParts[$index]);
+                }
+            }
         }
 
-        $filters = null;
-        if (strpos($fieldsParts[$index], 'filters:') === 0) {
-            $parameters = array_shift($fieldsParts);
-            $filtersParts = explode(':', $parameters);
-            $filters = $filtersParts[1];
-        }
-
-        $facetField = null;
-        if (strpos($fieldsParts[$index], 'group_by:') === 0) {
-            $parameters = array_shift($fieldsParts);
-            $groupParts = explode(':', $parameters);
-            $facetField = $groupParts[1];
-        }
-
-        $orderFields = null;
-        if (strpos($fieldsParts[$index], 'order_by:') === 0) {
-            $parameters = array_shift($fieldsParts);
-            $ordersParts = explode(':', $parameters);
-            $orderFields = explode(',', $ordersParts[1]);
-        }
-
+        $parentNodeId = $data['parent'] ?? null;
+        $filters = $data['filters'] ?? null;
+        $facetField = $data['group_by'] ?? null;
+        $orderFields = $data['order_by'] ?? null;
+        $title = $data['title'] ?? null;
         $classIdentifier = array_shift($fieldsParts);
-        $index++;
-
         $identifiers = explode(',', array_shift($fieldsParts));
-        $index++;
-
         $depth = array_shift($fieldsParts);
-
         $facets = array();
 
         try {
@@ -494,6 +496,12 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $locale = eZINI::instance()->variable('RegionalSettings', 'Locale');
             $classFields = array();
             foreach ($identifiers as $index => $identifier) {
+                $customTitle = null;
+                if (strpos($identifier, '#') !== false) {
+                    $identifierAndCustomTitle = explode('#', $identifier);
+                    $identifier = $identifierAndCustomTitle[0];
+                    $customTitle = $identifierAndCustomTitle[1];
+                }
                 $identifierParts = explode('.', $identifier);
                 $showLink = false;
                 if (strpos($identifierParts[0], '*') !== false) {
@@ -502,19 +510,19 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 }
                 foreach ($class['fields'] as $field) {
                     if ($field['identifier'] == $identifierParts[0]) {
-                        $title = $field['name'][$locale];
+                        $fieldTitle = $field['name'][$locale];
                         if ($field['dataType'] == 'ezmatrix' && isset($identifierParts[1])) {
                             $field['matrix_column'] = $identifierParts[1];
                             foreach ($field['template'][0][0] as $columnIdentifier => $columnName) {
                                 if ($columnIdentifier === $field['matrix_column']){
-                                    $title = $title . ' ' . str_replace('string (', '(', $columnName);
+                                    $fieldTitle = $fieldTitle . ' ' . str_replace('string (', '(', $columnName);
                                 }
                             }
                         }
                         $field['column'] = json_encode([
                             'data' => "data.{$locale}.{$field['identifier']}",
                             'name' => $field['identifier'],
-                            'title' => $title,
+                            'title' => $customTitle ?? $fieldTitle,
                             'searchable' => $field['isSearchable'] && $field['dataType'] !== eZMatrixType::DATA_TYPE_STRING,
                             'orderable' => $field['isSearchable'] && $field['dataType'] !== eZMatrixType::DATA_TYPE_STRING,
                         ]);
@@ -597,6 +605,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 'class_identifier' => $classIdentifier,
                 'facets' => $facets,
                 'parent_node_id' => $nodeId,
+                'title' => $title,
             );
 
             //eZDebug::writeDebug($result, __METHOD__);
@@ -604,7 +613,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             return $result;
 
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $class = null;
             $error = $e->getMessage();
 

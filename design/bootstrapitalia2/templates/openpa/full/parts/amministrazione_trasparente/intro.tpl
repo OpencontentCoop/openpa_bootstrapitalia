@@ -3,18 +3,18 @@
 
 {if openpaini('Trasparenza', 'UseCustomTemplate', 'disabled')|eq('enabled')}
 <form id="search-trasparenza" class="mb-3" action="{'content/search'|ezurl(no)}" method="get" data-subtree="{$node.node_id}">
-    <div class="form-group floating-labels mb-0">
+    <div class="form-group floating-labels mb-0 mb-md-3">
         <div class="form-label-group mb-0">
             <input type="text"
                    autocomplete="off"
-                   class="form-control"
+                   class="form-control pl-0 ps-0"
                    id="search-text"
                    name="SearchText"
                    placeholder="{'Search in'|i18n('bootstrapitalia')} {$node.name|wash()}"/>
-            <label class="" for="search-text">
+            <label class="pl-0 ps-0"  for="search-text">
                 {'Search in'|i18n('bootstrapitalia')} {$node.name|wash()}
             </label>
-            <button type="submit" class="autocomplete-icon btn btn-link" aria-label="{'Search'|i18n('openpa/search')}">
+            <button type="submit" class="autocomplete-icon btn btn-link mt-0" style="width:auto" aria-label="{'Search'|i18n('openpa/search')}">
                 {display_icon('it-search', 'svg', 'icon')}
             </button>
         </div>

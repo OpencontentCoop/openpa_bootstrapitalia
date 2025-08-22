@@ -174,6 +174,7 @@ IdentificatoriMenu_trasparenza[]=pagina_trasparenza
 [Trasparenza]
 MostraAvvisoPaginaVuota=disabled
 UseCustomTemplate=disabled
+ShowBandoFaseSelect=enabled
 
 [MotoreRicerca]
 IncludiClassi[]=administrative_area
