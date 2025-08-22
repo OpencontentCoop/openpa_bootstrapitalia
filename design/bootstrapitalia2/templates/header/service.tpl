@@ -163,6 +163,7 @@
                         </div>
                         {/if}
 
+                        <span data-element="internal-user-profile"></span>
                         {if $hide_access|not()}
                             {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}
                                 <div id="{openpaini( 'StanzaDelCittadinoBridge', 'RootId_login', 'oc-login-box' )}"></div>
@@ -178,8 +179,6 @@
                                     <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
                                 </a>
                             {/if}
-                        {else}
-                            <span data-element="current-user-profile"></span>
                         {/if}
                     </div>
 
@@ -346,7 +345,6 @@
     var profileUrl = {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}false{else}"{$link_area_personale|user_profile_url()}"{/if};
     {literal}
     $(document).ready(function () {
-      let userAccessContainer = $('[data-element="personal-area-login"]');
       if (typeof LanguageUrlAliasList !== 'undefined') {
         $('[data-switch_locale]').each(function () {
           var self = $(this);
@@ -360,76 +358,72 @@
       }
       var trimmedPrefix = UriPrefix.replace(/~+$/g, "");
       if (trimmedPrefix === '/') trimmedPrefix = '';
-      var injectUserInfo = function (data) {
-        if (data.error_text || !data.content) {
-          console.log(data.error_text);
-          userAccessContainer.removeAttr('style');
-        } else {
-          var response = data.content;
-          response.id = CurrentUserId;
-          response.prefix = trimmedPrefix;
-          response.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
-          var renderData = $($.templates('#tpl-user-access').render(response));
-          userAccessContainer.replaceWith(renderData)
-        }
-      };
-      var injectProfileInfo = function (data) {
-        console.log(data);
-        data.prefix = trimmedPrefix;
-        data.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
-        data.baseUrl = baseUrl;
-        var renderData = $($.templates('#tpl-user-profile').render(data));
-        userAccessContainer.replaceWith(renderData)
-      }
-      var getProfile = function (token, cb, context) {
-        function parseJwt(token) {
-          var base64Url = token.split('.')[1];
-          var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-          var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-          }).join(''));
-          return JSON.parse(jsonPayload);
-        }
-        var tokenData = parseJwt(token);
-        jQuery.ajax({
-          url: profileUrl + '/' + tokenData.id,
-          dataType: 'json',
-          headers: {
-            Authorization: 'Bearer ' + token
-          },
-          success: function (data) {
-            if ($.isFunction(cb)) {
-              cb.call(context, data);
-            }
-          },
-          error: function (){
-            userAccessContainer.removeAttr('style');
+
+      if (CurrentUserIsLoggedIn) {
+        let internalUserAccessContainer = $('[data-element="internal-user-profile"]');
+        $.ez('openpaajax::userInfo', null, function (data) {
+          if (data.error_text || !data.content) {
+            console.log(data.error_text);
+          } else {
+            var response = data.content;
+            response.id = CurrentUserId;
+            response.prefix = trimmedPrefix;
+            response.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
+            var renderData = $($.templates('#tpl-user-access').render(response));
+            internalUserAccessContainer.replaceWith(renderData)
           }
         });
       }
-      if (CurrentUserIsLoggedIn) {
-        if (userAccessContainer.length === 0){
-          userAccessContainer = $('[data-element="current-user-profile"]');
+
+      if (profileUrl) {
+        let userAccessContainer = $('[data-element="personal-area-login"]');
+        var getProfile = function (token, cb, context) {
+          function parseJwt(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+              return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+          }
+          var tokenData = parseJwt(token);
+          jQuery.ajax({
+            url: profileUrl + '/' + tokenData.id,
+            dataType: 'json',
+            headers: {
+              Authorization: 'Bearer ' + token
+            },
+            success: function (data) {
+              if ($.isFunction(cb)) {
+                cb.call(context, data);
+              }
+            },
+            error: function (){
+              userAccessContainer.removeAttr('style');
+            }
+          });
         }
-        $.ez('openpaajax::userInfo', null, function (data) {
-          injectUserInfo(data);
-        });
-      } else if (profileUrl) {
         jQuery.ajax({
           url: tokenUrl,
           dataType: 'json',
           xhrFields: {withCredentials: true},
           success: function (data) {
+            data.token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6InNkYy1xYSJ9.eyJpYXQiOjE3NTU4NjcxNzQsImV4cCI6MTc1NjczMTE3NCwiaXNzIjoiaHR0cHM6Ly9zZXJ2aXppLmNvbXVuZS1xYS5idWdsaWFuby5waS5pdC9sYW5nIiwicm9sZXMiOlsiUk9MRV9DUFNfVVNFUiIsIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6IlNNVEpOUzk5QzAxWFhYWEsiLCJpZCI6Ijk2Y2I3Y2NlLTMyM2MtNGIxZi04YzAxLTkyYjMzNjI3NzhhNSIsImFkbWluaXN0cmF0aXZlX2lkZW50aWZpZXJzIjpbXSwidGVuYW50X2lkIjoiNjBlMzVmMDItMTUwOS00MDhjLWIxMDEtM2IxYTI4MTA5MzI5In0.HBnRv_f2uwFj1w-rgKP-H-xS3jYRCWf1DBg59Chb0g4rcYnDYBzw4xQzXYr5r3ZSq1pkZgqD_DLzYb1D8hLuGBVQvQZxX0IbUOHj-C-gZeQQWBL83HNAaBGsjYJMIz3RqgGo56uKDsvcIDOub_IR8d_uZXZyk0rVrE6aTP3Tjm_QS5bDWqU9GdYqYjkKs6t2b4Ir1UnC5Pfil7pk-bKkQXrEhJdwf9_UWD2k6vfKtiYqbTfcQIO6h2lLL_bwtTOZbLtmsMrgxXwUEEhYyNFYYP4qgkpAGFU80kUkyCYI7avzuzJvkosYhZKdHESHkEySVZ4CGU1E7N_YFIsYpV3ZIOGAY5N3ClbOxyT3ivMACQ-iE7p5DcyC9bBV-pDoOgjwSCwnCHXN6h4GkokwkC8bZb-NqZ_Mk9ioUI--hS7SInyJIUFFtBAmlWIITmPKZhMG700PmLQ_TSeXeYuEnNBLgSKAIf9c4rEzbcfnjpZUBusk1FgXHjeJ_pqnpsJAfj2j"
             if (data.token && profileUrl) {
-              getProfile(data.token, injectProfileInfo);
+              getProfile(data.token, function (data) {
+                console.log(data);
+                data.prefix = trimmedPrefix;
+                data.spritePath = "{/literal}{'images/svg/sprite.svg'|ezdesign(no)}{literal}";
+                data.baseUrl = baseUrl;
+                var renderData = $($.templates('#tpl-user-profile').render(data));
+                userAccessContainer.replaceWith(renderData)
+              });
             }
           },
           error: function (){
             userAccessContainer.removeAttr('style');
           }
         });
-      } else {
-        userAccessContainer.removeAttr('style');
       }
     });
     {/literal}

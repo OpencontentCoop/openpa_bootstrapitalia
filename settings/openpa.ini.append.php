@@ -2,7 +2,7 @@
 
 [StanzaDelCittadinoBridge]
 AutoDiscover=enabled
-UseLoginBox=disabled
+UseLoginBox=enabled
 BuiltInWidgetSource_inefficiency=https://%host%/widgets/inefficiencies/bootstrap-italia@2/js/inefficiencies.js
 BuiltInWidgetStyle_inefficiency=https://%host%/widgets/inefficiencies/css/inefficiencies.css
 
