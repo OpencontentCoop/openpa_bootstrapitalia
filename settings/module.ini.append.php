@@ -17,4 +17,5 @@ ModuleList[]=service-worker.js
 ModuleList[]=favicon
 ModuleList[]=pagamento
 ModuleList[]=login-oauth
+ModuleList[]=relata
 */ ?>

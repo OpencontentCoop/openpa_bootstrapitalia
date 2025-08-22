@@ -83,6 +83,7 @@ $eZTemplateOperatorArray = [
             'links_list_by_group',
             'decode_html_entities',
             'http_locale_code',
+            'to_base64_image_data'
         ],
     ],
 ];
