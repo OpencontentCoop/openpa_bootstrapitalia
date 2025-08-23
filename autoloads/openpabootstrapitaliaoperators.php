@@ -108,6 +108,7 @@ class OpenPABootstrapItaliaOperators
             'links_list_by_group',
             'decode_html_entities',
             'http_locale_code',
+            'to_base64_image_data'
         );
     }
 
@@ -304,6 +305,17 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+            case 'to_base64_image_data':
+                $image = eZClusterFileHandler::instance($operatorValue);
+                if ($image->exists()) {
+                    $data = $image->fetchContents();
+                    $mime = $image->dataType();
+                    $operatorValue = 'data:' . $mime . ';base64,' . base64_encode($data);
+                } else {
+                    $operatorValue = false;
+                }
+                break;
+
             case 'http_locale_code':
                 $siteaccess = $namedParameters['siteaccess'] ?? eZSiteAccess::current()['name'];
                 $siteaccessIni = eZSiteAccess::getIni($siteaccess);

@@ -307,6 +307,15 @@
                                             </a>
                                         </li>
                                     {/if}
+
+                                    {if and($content_object.class_identifier|eq('document'), fetch( 'user', 'has_access_to', hash( 'module', 'relata', 'function', 'view' ) ))}
+                                        <li><span class="divider"></span></li>
+                                        <li>
+                                            <a class="list-item left-icon" href="{concat('relata/view/',$content_object.id)|ezurl(no)}" title="Relate di pubblicazione">
+                                                <i aria-hidden="true" class="fa fa-file-pdf-o"></i> Relata di pubblicazione
+                                            </a>
+                                        </li>
+                                    {/if}
                                 {/if}
 
                             </ul>
