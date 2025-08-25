@@ -160,6 +160,21 @@ abstract class BuiltinApp extends OpenPATempletizable
         if (OpenPAINI::variable('StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled') !== 'modal') {
             $window['OC_SPID_BUTTON'] = 'true';
         }
+        $pal = PersonalAreaLogin::instance();
+        if ($pal->hasAccess('cie') || $pal->hasAccess('eidas') || $pal->hasAccess('cns')){
+            $authLabels = [OpenPAINI::variable('AccessPage', 'SpidAccess_Title', 'SPID')];
+            if ($pal->hasAccess('cie')){
+                $authLabels[] = OpenPAINI::variable('AccessPage', 'CieAccess_Title', 'CIE');
+            }
+            if ($pal->hasAccess('eidas')){
+                $authLabels[] = OpenPAINI::variable('AccessPage', 'EidasAccess_Title', 'eIDAS');
+            }
+            if ($pal->hasAccess('cns')){
+                $authLabels[] = OpenPAINI::variable('AccessPage', 'CnsAccess_Title', 'CNS');
+            }
+            $authLabel = implode(' / ', $authLabels);
+            $window['OC_AUTH_LABEL'] = $authLabel;
+        }
         if (self::getCurrentOptions('EnableSeverityField')) {
             $window['OC_SHOW_SEVERITY_FIELD'] = 'true';
         }
