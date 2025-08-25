@@ -127,7 +127,7 @@
             "show_grid", "1",
             "show_map", "0",
             "show_search", "1",
-            "limit", "9",
+            "limit", "10",
             "items_per_row", "2",
             "facets", $topic_filter,
             "view_api", "card_teaser",
