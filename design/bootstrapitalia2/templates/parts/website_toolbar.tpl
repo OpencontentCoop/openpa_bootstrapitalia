@@ -309,12 +309,31 @@
                                     {/if}
 
                                     {if and($content_object.class_identifier|eq('document'), fetch( 'user', 'has_access_to', hash( 'module', 'relata', 'function', 'view' ) ))}
+                                        {def $can_view_relata = false()
+                                             $albo_pretorio_tag_remote_id = '984c6235761dac258fe8c245541095fa'} {* Documenti Albo Pretorio *}
+                                        {if $content_object|has_attribute('document_type')}
+                                            {foreach $content_object|attribute('document_type').content.tags as $tag}
+                                                {if $tag.remote_id|eq($albo_pretorio_tag_remote_id)}
+                                                    {set $can_view_relata = true()}
+                                                    {break}
+                                                {/if}
+                                                {foreach $tag.path as $parent_tag}
+                                                {if $parent_tag.remote_id|eq($albo_pretorio_tag_remote_id)}
+                                                    {set $can_view_relata = true()}
+                                                    {break}
+                                                {/if}
+                                                {/foreach}
+                                            {/foreach}
+                                        {/if}
+                                        {if $can_view_relata}
                                         <li><span class="divider"></span></li>
                                         <li>
                                             <a class="list-item left-icon" href="{concat('relata/view/',$content_object.id)|ezurl(no)}" title="Relate di pubblicazione">
                                                 <i aria-hidden="true" class="fa fa-file-pdf-o"></i> Relata di pubblicazione
                                             </a>
                                         </li>
+                                        {/if}
+                                        {undef $can_view_relata}
                                     {/if}
                                 {/if}
 
