@@ -130,7 +130,7 @@ $contacts = openpapagedata().contacts}
 </div>
 
 <div class=" m-top">
-  <p>Attestazione rilasciata automatimente dal sistema informatico del {$site_name|wash()}, su richiesta dell'operatore,
+  <p>Attestazione rilasciata automaticamente dal sistema informatico del {$site_name|wash()}, su richiesta dell'operatore,
     sulla base dei dati ivi registrati.</p>
 </div>
 
