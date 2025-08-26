@@ -489,7 +489,7 @@
     </message>
     <message>
       <source>Explore the municipality</source>
-      <translation>Erkunden Sie die Gemeinde</translation>
+      <translation>Erkunden Sie die Stadt</translation>
     </message>
     <message>
       <source>Explore documents</source>
@@ -505,7 +505,7 @@
     </message>
     <message>
       <source>Evidence topics</source>
-      <translation>Hervorgehobene Themen</translation>
+      <translation>Themen im Blickpunkt</translation>
     </message>
     <message>
       <source>Search for services, information, people</source>
@@ -517,7 +517,7 @@
     </message>
     <message>
       <source>Upcoming appointments</source>
-      <translation>Kommende Termine</translation>
+      <translation>Bevorstehende Veranstaltungen</translation>
     </message>
     <message>
       <source>Local associations</source>
@@ -577,7 +577,7 @@
     </message>
     <message>
       <source>Calendar</source>
-      <translation></translation>
+      <translation>Kalender</translation>
     </message>
     <message>
       <source>Select an item</source>
@@ -1317,7 +1317,7 @@
     </message>
     <message>
       <source>Projects results</source>
-      <translation>projekte</translation>
+      <translation>Projekte</translation>
     </message>
     <message>
       <source>No results were found</source>
@@ -1325,7 +1325,7 @@
     </message>
     <message>
       <source>Document result</source>
-      <translation></translation>
+      <translation>Dokument</translation>
     </message>
     <message>
       <source>Dataset result</source>
