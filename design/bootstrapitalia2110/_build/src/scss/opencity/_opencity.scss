@@ -9,6 +9,12 @@ html[lang^="de"] {
   hyphens: auto;
   overflow-wrap: break-word;
   word-break: break-word;
+  
+  .edit .table th{
+    hyphens: manual;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
 }
 
 .satisfy-placeholder {
