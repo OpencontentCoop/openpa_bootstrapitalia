@@ -1,18 +1,19 @@
 <div class="it-brand-wrapper">
 {def $only_logo = cond(and( $pagedata.homepage|has_attribute('only_logo'), $pagedata.homepage|attribute('only_logo').data_int|eq(1) ), true(), false())}
 {def $colorize_logo = cond(and(is_set($pagedata.header.logo.mime_type), $pagedata.header.logo.mime_type|eq('image/png'), and( $pagedata.homepage|has_attribute('colorize_logo'), $pagedata.homepage|attribute('colorize_logo').data_int|eq(1) )), true(), false())}
+{def $placed_in_footer = cond(is_set($in_footer), $in_footer, false())}
 <a href="{'/'|ezurl(no)}"
    title="{ezini('SiteSettings','SiteName')}"
    {if and($only_logo, openpaini('GeneralSettings','tag_line', false()))} class="d-block text-center"{/if}>
     {if $pagedata.header.logo.url}
         <img class="icon{if $colorize_logo} colorize{/if}"
-          alt="{ezini('SiteSettings','SiteName')}"
+          alt="Logo {if $placed_in_footer}footer {/if}{ezini('SiteSettings','SiteName')}"
           src="{render_image($pagedata.header.logo.url|ezroot(no,full)).src}"
           style="width: auto !important;" />
     {/if}
     <div class="it-brand-text">
         {if $only_logo|not()}
-            {if and(is_set($in_footer),$in_footer)}
+            {if $placed_in_footer}
                 <h2>{ezini('SiteSettings','SiteName')}</h2>
             {else}
                 <div class="it-brand-title">{ezini('SiteSettings','SiteName')}</div>
@@ -23,5 +24,5 @@
         {/if}
     </div>
 </a>
-{undef $only_logo $colorize_logo }
+{undef $only_logo $colorize_logo $placed_in_footer }
 </div>

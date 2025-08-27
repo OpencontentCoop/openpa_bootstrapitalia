@@ -262,9 +262,9 @@
                                                 <div class="category-top">{$child.has_eligible_user|wash()}</div>
                                             {/if}
                                             {if $child.has_currency|ne('')}
-                                            <h5 class="card-title big-heading">
+                                            <h3 class="h5 card-title big-heading">
                                                 {$child.has_currency|wash()}
-                                            </h5>
+                                            </h3>
                                             {/if}
                                             <p class="mt-4">{$child.description|wash()}</p>
                                             {if $child.note|ne('')}
@@ -277,7 +277,7 @@
                         {else}
                             <div class="card no-after border-left mt-3">
                                 <div class="card-body">
-                                    <h5 class="card-title big-heading">{'FREE'|i18n('bootstrapitalia')}</h5>
+                                    <h3 class="h5 card-title big-heading">{'FREE'|i18n('bootstrapitalia')}</h3>
                                     <p class="mt-4">{'Free admission for all attendees'|i18n('bootstrapitalia')}</p>
                                 </div>
                             </div>

@@ -76,7 +76,7 @@
             {foreach $summary.items as $index => $item}
                 <article id="{$item.slug|wash()}" class="it-page-section">
                   {if $item.evidence} 
-                    <div class="has-bg-grey p-3">
+                    <div class="has-bg-grey p-3 my-3">
                   {/if}
                     {*
                     {if and(count($summary.items)|gt(1), $item.label)}

@@ -12,9 +12,9 @@
 
             <h3 class="title-medium-2 mb-0">
                 {if or($has_attribute_opening_hours, $has_attribute_closure, $node|has_attribute('note'))}
-                    <a class="float-right" style="margin-top: -3px;" data-toggle="collapse" data-bs-toggle="collapse" href="#collapse-{$node.contentobject_id}" role="button" aria-expanded="false" aria-controls="collapse-{$node.contentobject_id}">
+                    <button class="float-right" style="margin-top: -3px;" data-toggle="collapse" data-bs-toggle="collapse" href="#collapse-{$node.contentobject_id}" aria-expanded="false" aria-controls="collapse-{$node.contentobject_id}">
                         {display_icon('it-info-circle', 'svg', 'icon icon-sm card-icon-color-primary')}
-                    </a>
+                    </button>
                 {/if}
                 {attribute_view_gui attribute=$node|attribute('name')}
                 {if $node|has_attribute('valid_through')}

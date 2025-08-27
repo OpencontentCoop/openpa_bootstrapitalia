@@ -11,7 +11,7 @@
                 <a href="{'/'|ezurl(no)}"
                   title="{ezini('SiteSettings','SiteName')}">
                     <img class="icon" style="width: auto !important;"
-                        alt="{ezini('SiteSettings','SiteName')}"
+                        alt="Logo footer {ezini('SiteSettings','SiteName')}"
                         src="{render_image($pagedata.homepage|attribute('footer_logo').content['header_logo'].full_path|ezroot(no,full)).src}"
                         loading="lazy" />
                 </a>
@@ -22,7 +22,7 @@
                 {if and($related_object, $related_object|has_attribute('image'))}
                   <img
                       style="max-width: 100%; max-height: 56px; object-fit: contain; object-position: 0 0; vertical-align: middle;"
-                      alt="{ezini('SiteSettings','SiteName')}"
+                      alt="{$related_object|attribute('name').content|wash()}"
                       src="{render_image($related_object|attribute('image').content['header_logo'].full_path|ezroot(no,full)).src}"
                       loading="lazy" />
                 {/if}

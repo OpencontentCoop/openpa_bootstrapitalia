@@ -6,7 +6,7 @@
 {if $do_show}
 	<div class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3">
             <div class="card-body">                              
-                <h5 class="card-title big-heading">{'FREE'|i18n('bootstrapitalia')}</h5>
+                <h3 class="h5 card-title big-heading">{'FREE'|i18n('bootstrapitalia')}</h3>
                 <p class="mt-4">{'Free admission for all attendees'|i18n('bootstrapitalia')}</p>
             </div>
       </div>
