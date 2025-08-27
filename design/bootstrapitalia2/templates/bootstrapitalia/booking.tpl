@@ -63,7 +63,8 @@
       calendars: {$calendars_json},
       prefix: UriPrefix,
       hasSession: {cond($has_session, 'true', 'false')},
-      debug: {$show_debug}
+      debug: {$show_debug},
+      serviceId: "{$service_id}"
     {rdelim})
   {rdelim})
 </script>
