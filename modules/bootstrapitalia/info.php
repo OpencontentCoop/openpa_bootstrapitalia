@@ -451,6 +451,8 @@ foreach ($fields as $label) {
 $tpl->setVariable('site_title', 'Gestione informazioni');
 $tpl->setVariable('contacts', $contacts);
 
+$tpl->setVariable('csp', ContentSecurityPolicyHandler::getCspDirectives());
+
 $Result = [];
 $Result['content'] = $tpl->fetch('design:bootstrapitalia/info.tpl');
 $Result['content_info'] = [
