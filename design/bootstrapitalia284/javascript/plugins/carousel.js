@@ -1,5 +1,0 @@
-import BSCarousel from 'bootstrap/js/src/carousel';
-
-class Carousel extends BSCarousel {}
-
-export { Carousel as default };
