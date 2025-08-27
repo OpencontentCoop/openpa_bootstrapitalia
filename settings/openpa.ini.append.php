@@ -174,6 +174,7 @@ IdentificatoriMenu_trasparenza[]=pagina_trasparenza
 [Trasparenza]
 MostraAvvisoPaginaVuota=disabled
 UseCustomTemplate=disabled
+ShowBandoFaseSelect=enabled
 
 [MotoreRicerca]
 IncludiClassi[]=administrative_area
@@ -233,6 +234,12 @@ InputValidators[]=EventCostsValidator
 InputValidators[]=EventContactPointValidator
 InputValidators[]=EventPlacesValidator
 #InputValidators[]=OneOfFieldValidator:class_identifier;attribute_identifier,attribute_identifier,...
+InputValidators[]=OneOfFieldValidator:bando;pubblicazione,pubblicazione_relations,notes_pubblicazione
+InputValidators[]=OneOfFieldValidator:bando;affidamento,affidamento_relations,notes_affidamento
+InputValidators[]=OneOfFieldValidator:bando;esecutiva,esecutiva_relations,notes_esecutiva
+InputValidators[]=OneOfFieldValidator:bando;sponsorizzazioni,sponsorizzazioni_relations,notes_sponsorizzazioni
+InputValidators[]=OneOfFieldValidator:bando;somma_urgenza,somma_urgenza_relations,notes_somma_urgenza
+InputValidators[]=OneOfFieldValidator:bando;finanza,finanza_relations,notes_finanza
 MainContentFields[]
 MainContentFields[]=name
 MainContentFields[]=alternative_name
