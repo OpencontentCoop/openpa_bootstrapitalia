@@ -311,9 +311,9 @@ Consent=advanced
 EnableBackgroundImage=enabled
 AllowRemoveMainNews=disabled
 BoostSearchBlock=disabled
-SectionNewsLimit=3
+SectionNewsLimit=6
 SectionManagementLimit=3
-SectionCalendarLimit=3
+SectionCalendarLimit=6
 SectionBannerLimit=9
 
 [OpenpaAgenda]
