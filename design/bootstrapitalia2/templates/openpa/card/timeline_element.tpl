@@ -18,7 +18,7 @@
 {/if}
 
 <div data-object_id="{$node.contentobject_id}"
-  class="card-wrapper border border-light rounded shadow-sm {if $has_media} cmp-list-card-img {/if}">
+  class="card-wrapper border border-light rounded shadow-sm pb-0 {if $has_media} cmp-list-card-img {/if}">
   <div class="card no-after rounded bg-white">
     <div class="g-2 g-md-0 flex-md-column">
       {if $node|has_attribute('image')}
@@ -32,11 +32,15 @@
         {undef $image}
       {/if}
       <div class="col-12">
-        <div class="card-body pb-0">
-          <h3 class="card-title{if and($has_media|not(), $view_variation|eq('big')|not())} big-heading{/if}">
+        <div class="card-body pb-2">
+          <h4 class="font-weight-bold">
             {$node.name|wash()}
-          </h3>
-          {include uri='design:openpa/card/parts/abstract.tpl'}
+          </h4>
+          {if and($node|has_attribute('abstract'), $node|attribute('abstract').has_content)}
+            <div class="richtext-wrapper text-secondary">
+              {attribute_view_gui attribute=$node|attribute('abstract')}
+            </div>
+          {/if}
         </div>
       </div>
     </div>

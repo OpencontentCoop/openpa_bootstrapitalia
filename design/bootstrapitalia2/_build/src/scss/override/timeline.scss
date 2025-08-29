@@ -20,20 +20,17 @@
       background: $primary;
       position: absolute;
       left: $v-gap * 5;
-      //top: -$v-gap * 2;
-      //bottom: -$v-gap * 2;
+      // top: -$v-gap * 2;
+      // bottom: -$v-gap * 2;
       top: 0;
       bottom: 0;
       z-index: -1;
     }
   }
   .timeline-element {
-    // padding: $timeline-content-padding;
+    //padding: $timeline-content-padding;
     padding: 48px 12px 60px 12px;
     position: relative;
-    .card {
-      background: none;
-    }
   }
   .it-pin-wrapper {
     display: flex;
@@ -48,13 +45,12 @@
       border-radius: $timeline-pin-circle-size;
       box-sizing: border-box;
       display: flex;
-      flex-shrink: 0; // fix icon resize
       align-items: center;
       justify-content: center;
       box-shadow: $card-shadow;
       border: $timeline-pin-circle-border;
       margin-right: $v-gap * 2;
-      background: $white;
+      background: #fff;
     }
     svg {
       width: $timeline-pin-size;
@@ -62,14 +58,12 @@
       fill: $primary;
     }
     .pin-text {
-      color: $white;
+      color: $select-label-color;
       font-weight: 600;
       text-transform: uppercase;
-      background: $timeline-pin-background;
+      background: $primary-c1;
       border-radius: $border-radius;
       font-family: $font-family-monospace;
-      font-size: var(--bs-body-font-size);
-      line-height: var(--bs-body-line-height);
 
       span {
         padding: $v-gap * 0.5 $v-gap * 2;
@@ -79,7 +73,7 @@
           content: '';
           width: 10px;
           height: 10px;
-          background: $timeline-pin-background;
+          background: $primary-c1;
           border-radius: 3px;
           position: absolute;
           left: -4px;
@@ -93,9 +87,10 @@
         background: $primary;
       }
       svg {
-        fill: $white;
+        fill: #fff;
       }
       .pin-text {
+        color: #fff;
         background: $primary;
         span {
           &:after {
@@ -106,16 +101,17 @@
     }
     &.it-evidence {
       .pin-icon {
-        background: $timeline-pin-background;
+        background: $primary-a10;
       }
       svg {
-        fill: $white;
+        fill: #fff;
       }
       .pin-text {
-        background: $timeline-pin-background;
+        color: #fff;
+        background: $primary-a10;
         span {
           &:after {
-            background: $timeline-pin-background;
+            background: $primary-a10;
           }
         }
       }
@@ -137,12 +133,13 @@
       }
     }
     .timeline-element {
-      // padding: $timeline-content-padding;
+      //padding: $timeline-content-padding;
       padding: 60px 0 60px 40px;
       width: 50%;
     }
     .col-12 {
       .card-wrapper {
+        
         .card {
           border: none;
         }
@@ -165,7 +162,7 @@
         }
       }
       .timeline-element {
-        // padding: $timeline-content-padding-reverse;
+        //padding: $timeline-content-padding-reverse;
         padding: 60px 40px 60px 12px;
       }
       .card-wrapper {
@@ -234,7 +231,7 @@
     .it-pin-wrapper {
       position: relative;
       .pin-text {
-        font-size: 1rem;
+        font-size: 16px;
       }
     }
   }
