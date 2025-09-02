@@ -1,3 +1,4 @@
+<div class="container">
   <div class="it-timeline-wrapper">
     <div class="row mb-5">
       {if is_set($items[0])}
@@ -5,24 +6,27 @@
           {if $item.class_identifier|ne('timeline_element')}
             {skip}
           {/if}
-          {def $openpa_timeline = object_handler($item)}
+          {def $object = fetch( content, object, hash( object_id, $item.contentobject_id ) )}
           <div class="col-12">
             <div class="timeline-element">
               <h3 class="h6 it-pin-wrapper it-evidence">
                 <div class="pin-icon">
-                  {if $openpa_timeline.content_icon.object_icon}
-                    {display_icon($openpa_timeline.content_icon.object_icon.icon_text, 'svg', 'icon')}
+                  {if $object|has_attribute('icon')}
+                    {display_icon($object.data_map.icon.content|wash(), 'svg', 'icon')}
                   {else}
                     {display_icon('it-bookmark', 'svg', 'icon')}
                   {/if}
                 </div>
-                <div class="pin-text"><span>{$item.data_map.period.content|wash()}</span></div>
+                <div class="pin-text"><span>{$object.data_map.period.content|wash()}</span></div>
               </h3>
-              {include name="timeline_element" uri=$openpa_timeline.control_template.card view_variation=false() node=$item openpa=$openpa_timeline}
+              {def $openpa = object_handler($object)}
+              {include name="timeline_element" uri=$openpa.control_template.card view_variation=false() node=$object openpa=$openpa}
+              {undef $openpa}
             </div>
           </div>
-          {undef $openpa_timeline $object}
+          {undef $object}
         {/foreach}
       {/if}
     </div>
   </div>
+</div>
