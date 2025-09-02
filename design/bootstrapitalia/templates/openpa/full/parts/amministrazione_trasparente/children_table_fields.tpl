@@ -4,7 +4,7 @@
 
 {else}
 
-    {def $enable_filters_bando = and($fields.class_identifier|eq('bando'), openpaini('Trasparenza', 'ShowBandoFaseSelect', 'disabled')|eq('enabled'))}
+    {def $enable_filters_bando = and($fields.class_identifier|eq('bando_cig'), openpaini('Trasparenza', 'ShowBandoFaseSelect', 'disabled')|eq('enabled'))}
 
     {def $current_language = ezini('RegionalSettings', 'Locale')}
     {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', $current_language ))}
