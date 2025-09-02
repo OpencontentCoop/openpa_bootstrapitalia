@@ -3,7 +3,9 @@
 	<div class="alert alert-warning message-warning warning">{$fields.error|wash()}</div>
 
 {else}
-	
+
+    {def $enable_filters_bando = and($fields.class_identifier|eq('bando'), openpaini('Trasparenza', 'ShowBandoFaseSelect', 'disabled')|eq('enabled'))}
+
     {def $current_language = ezini('RegionalSettings', 'Locale')}
     {def $current_locale = fetch( 'content', 'locale' , hash( 'locale_code', $current_language ))}
     {def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
@@ -16,10 +18,53 @@
     </div>
   {/if}
 
+  {if $enable_filters_bando}
+    <div class="form-group my-3">
+      <label class="form-label p-0 m-0 d-none" for="bando-navigation">Filtra per fase</label>
+      <select id="bando-navigation" class="form-control" data-group="">
+        <option value="">Filtra per fase</option>
+        <option value="pubblicazione">Pubblicazione</option>
+        <option value="affidamento">Affidamento</option>
+        <option value="esecutiva">Esecutiva</option>
+        <option value="sponsorizzazioni">Sponsorizzazioni</option>
+        <option value="somma_urgenza">Procedure di somma urgenza e di protezione civile</option>
+        <option value="finanza">Finanza di progetto</option>
+      </select>
+    </div>
+      {run-once}
+      {literal}
+        <script id="tpl-bando-data" type="text/x-jsrender">
+          {{:~i18n(data,'oggetto')}}
+          <h6 class="m-0">{{:title}}</h6>
+          <ul>
+          {{for fieldsToDisplay ~content=data}}
+            {{if ~i18n(~content,identifier)}}
+              {{for ~i18n(~content,identifier)}}
+                {{if ~i18n(name)}}
+                  <li><a href="/openpa/object/{{:id}}">{{:~i18n(name)}}</a></li>
+                {{else}}
+                  <li><a href="{{:url}}">{{if displayName}}{{:displayName}}{{else}}{{:filename}}{{/if}}</a></li>
+                {{/if}}
+              {{/for}}
+            {{/if}}
+          {{/for}}
+          </ul>
+        </script>
+      {/literal}
+      {/run-once}
+  {/if}
+
   <script type="text/javascript" language="javascript" class="init">
     moment.locale('{$moment_language}');
     $(document).ready(function () {ldelim}
-
+      {if $enable_filters_bando}
+      $.views.helpers($.opendataTools.helpers);
+      var renderBandoData = function (row, currentFase){ldelim}
+        row.fieldsToDisplay = [{ldelim}identifier: currentFase{rdelim}, {ldelim}identifier: currentFase+'_relations'{rdelim}]
+        row.title = $('#bando-navigation option[value="'+currentFase+'"]').text()
+        return $.templates('#tpl-bando-data').render(row)
+          {rdelim};
+      {/if}
       var fieldsDatatable{$table_index} = $('#container-{$node.node_id}-{$table_index}').opendataDataTable({ldelim}
         "builder":{ldelim}"query": '{$fields.query|wash(javascript)}'{rdelim},
         "table":{ldelim}
@@ -90,7 +135,14 @@
                                 link = "{'/content/view/full/'|ezurl(no)}/"+row.metadata.mainNodeId;
                               {/if}
                           {/if}
-                          return opendataDataTableRenderField('{$field.dataType}', '{$field.template.type}', '{$current_language}', data, type, row, meta, link);
+                          var value =  opendataDataTableRenderField('{$field.dataType}', '{$field.template.type}', '{$current_language}', data, type, row, meta, link);
+                          {if and($enable_filters_bando, $field.identifier|eq('oggetto'))}
+                          var currentFase = $('#bando-navigation').val()
+                          if (currentFase.length > 0){ldelim}
+                            value = renderBandoData(row, currentFase)
+                            {rdelim}
+                          {/if}
+                          return value;
                       {/if}
                   {rdelim}
                   return '';
@@ -131,7 +183,23 @@
         fieldsDatatable{$table_index}.loadDataTable();
         e.preventDefault();
       {rdelim});
-      
+      {/if}
+
+      {if $enable_filters_bando}
+      $('#bando-navigation').val('').on('change', function(e){ldelim}
+        var value = $(this).val();
+        if (value.length === 0){ldelim}
+          fieldsDatatable{$table_index}.settings.builder.filters['fase_bando'] = null;
+            {rdelim}else{ldelim}
+          fieldsDatatable{$table_index}.settings.builder.filters['fase_bando'] = {ldelim}
+            'field': 'raw[extra_'+value+'_si]',
+            'operator': 'range',
+            'value': ['1', '*']
+              {rdelim};
+            {rdelim}
+        fieldsDatatable{$table_index}.loadDataTable();
+        e.preventDefault();
+      {rdelim});
       {/if}
 
       fieldsDatatable{$table_index}.loadDataTable();

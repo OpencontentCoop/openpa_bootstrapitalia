@@ -11,6 +11,7 @@ Class[document]=ezfIndexHasCodeNormalized
 Class[time_indexed_role]=ezfIndexEndlessRole
 Class[homepage]=ezfIndexHomepage
 General[]=ezfIndexExtraGeo
+Class[bando]=ezfIndexFaseBando
 
 # Per siti multilingua occorre impostare a livello globale questo index plugin:
 #General[]=ezfIndexLangBitwise
