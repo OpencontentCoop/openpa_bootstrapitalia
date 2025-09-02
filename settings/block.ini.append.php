@@ -25,7 +25,7 @@ AllowedTypes[]=OpendataRemoteContents
 AllowedTypes[]=Ricerca
 AllowedTypes[]=OpendataQueriedContents
 AllowedTypes[]=SearchPeopleByRole
-AllowedTypes[]=Timeline
+
 
 [Singolo]
 Name=Oggetto singolo
@@ -719,12 +719,4 @@ Wide[]=default
 CanAddShowAllLink=disabled
 CanAddIntroText=disabled
 
-[Timeline]
-Name=Timeline
-NumberOfValidItems=20
-NumberOfArchivedItems=0
-ManualAddingOfItems=enabled
-ViewList[]
-ViewList[]=default
-ViewName[default]=Default
 */ ?>

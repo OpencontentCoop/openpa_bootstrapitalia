@@ -1,1 +1,0 @@
-{developer_warning(concat($block.type, '/', $block.view))}
