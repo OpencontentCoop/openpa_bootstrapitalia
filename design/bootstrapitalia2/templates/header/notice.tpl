@@ -11,7 +11,7 @@
             </span>
             {if $pagedata.homepage|has_attribute('notice_header_link')}
               <a href="{$pagedata.homepage|attribute('notice_header_link').content|wash( xhtml )}"
-                class="fw-semibold link-primary text-nowrap d-inline-flex ms-2">
+                class="fw-semibold link-primary text-nowrap d-inline-flex ms-2 text-decoration-underline">
                 {'Read more'|i18n('bootstrapitalia')}
               </a>
             {/if}
