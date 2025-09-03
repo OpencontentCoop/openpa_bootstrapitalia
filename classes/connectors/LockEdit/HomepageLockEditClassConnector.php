@@ -95,10 +95,9 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         ];
 
         if ($this->hasNoticeHeaderFields()) {
-            $map['notice_header_text'] = $data['notice_header_text'];
-            $map['notice_header_link'] = $data['notice_header_text'];
+            $map['notice_header_text'] = $data['notice_header_text'] ?? '';
+            $map['notice_header_link'] = $data['notice_header_link']['url'] ?? ' ';
         }
-
         return $map;
     }
 
@@ -313,6 +312,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
                 $options['fields']['section_search']['helper']
             );
             $options['fields']['logo_search']['dependencies'] = ['add_section_search' => 'true'];
+        }
+
+        if ($this->hasNoticeHeaderFields()) {
+            $options['fields']['notice_header_link']['fields']['text']['type'] = 'hidden';
         }
 
         return $options;
