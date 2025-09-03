@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-12">
           <div class="it-header-slim-wrapper-content justify-content-center">
-            <span class="fw-semibold text-secondary">
+            <span class="fw-semibold text-secondary text-decoration-underline">
               {$pagedata.homepage|attribute('notice_header_text').content|wash( xhtml )}
             </span>
             {if $pagedata.homepage|has_attribute('notice_header_link')}
