@@ -2,10 +2,17 @@
 
 /** @var eZModule $module */
 $module = $Params['Module'];
+
+$siteId = OpenPAINI::variable('Seo', 'webAnalyticsItaliaSiteID', '');
+if (empty($siteId)){
+    return $module->handleError(eZError::KERNEL_NOT_FOUND, 'kernel');
+}
+
 $tpl = eZTemplate::factory();
+$tpl->setVariable('site_id', $siteId);
 
 $Result = [];
-$Result['content'] = $tpl->fetch('design:bootstrapitalia/stats.tpl');
+$Result['content'] = $tpl->fetch('design:bootstrapitalia/statistiche.tpl');
 $Result['content_info'] = [
     'node_id' => null,
     'class_identifier' => null,
