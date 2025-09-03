@@ -2239,4 +2239,19 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation></translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/facets</name>
+    <message>
+      <source>Period</source>
+      <translation>Zeitraum</translation>
+    </message>
+    <message>
+      <source>Topic</source>
+      <translation>Themen</translation>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation>Art der Veranstaltung</translation>
+    </message>
+  </context>
 </TS>
