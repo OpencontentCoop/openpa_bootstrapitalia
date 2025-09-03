@@ -33,6 +33,9 @@
                         {if openpaini('GeneralSettings', 'ShowFooterSiteMap', 'enabled')|eq('enabled')}
                         <a href={"/content/view/sitemap/2/"|ezurl}>{"Sitemap"|i18n("design/standard/layout")}</a>
                         {/if}
+                        {if openpaini('Seo', 'webAnalyticsItaliaSiteID', false() )}
+                          <a href="/statistiche">{'Website Stats'|i18n('bootstrapitalia')}</a>
+                        {/if}
                         {if openpaini('GeneralSettings', 'AdditionalFooterObjectLinks', array())|count()}
                             {foreach openpaini('GeneralSettings', 'AdditionalFooterObjectLinks', array()) as $id}
                                 {def $f = fetch(content, object, hash(object_id, $id))}
