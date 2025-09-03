@@ -32,7 +32,7 @@
 
         <li class="nav-item"><a class="nav-link ps-0" data-toggle="tab" data-bs-toggle="tab" href="#oauth" data-focus-mouse="false" style="max-width: 100%">Client oAuth per l'autenticazione dei redattori</a></li>
 
-        {if ezini_hasvariable('sendy.ini', 'GeneralSettings', 'ApiUrl')}
+        {if ezini_hasvariable('GeneralSettings', 'ApiUrl', 'sendy.ini')}
         <li class="nav-item"><a class="nav-link ps-0" data-toggle="tab" data-bs-toggle="tab" href="#sendy" data-focus-mouse="false" style="max-width: 100%">Newsletter Sendy</a></li>
         {/if}
 
@@ -414,7 +414,7 @@
         </form>
       </div>
 
-      {if ezini_hasvariable('sendy.ini', 'GeneralSettings', 'ApiUrl')}
+      {if ezini_hasvariable('GeneralSettings', 'ApiUrl', 'sendy.ini')}
       <div class="position-relative clearfix tab-pane" id="sendy">
         <form method="post" action="{'bootstrapitalia/info#sendy'|ezurl(no)}" class="form">
           <fieldset>
