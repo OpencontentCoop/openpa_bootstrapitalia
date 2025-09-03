@@ -4,6 +4,18 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Website Stats</source>
+      <translation>Statistiques du site</translation>
+    </message>
+    <message>
+      <source>Stats recent</source>
+      <translation>Tendance récente</translation>
+    </message>
+    <message>
+      <source>Stats last month</source>
+      <translation>>Le mois dernier</translation>
+    </message>
+    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Ce site utilise des cookies techniques, d’analyse et de tiers.</translation>
     </message>
