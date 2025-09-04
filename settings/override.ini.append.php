@@ -366,6 +366,13 @@ Subdir=templates
 Match[attribute_identifier]=csv_resource
 Match[remote_id]=inefficiency-dataset
 
+[datatype_view_timeline_elements]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_timeline_elements.tpl
+Subdir=templates
+Match[class_identifier]=pagina_sito
+Match[attribute_identifier]=timeline_elements
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################
@@ -433,6 +440,7 @@ MatchFile=datatype/view/relations_howto_steps.tpl
 Subdir=templates
 Match[class_identifier]=howto
 Match[attribute_identifier]=steps
+
 
 ############################################
 ############################################ TEXT-LINKED

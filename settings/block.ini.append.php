@@ -26,6 +26,7 @@ AllowedTypes[]=Ricerca
 AllowedTypes[]=OpendataQueriedContents
 AllowedTypes[]=SearchPeopleByRole
 
+
 [Singolo]
 Name=Oggetto singolo
 NumberOfValidItems=1
@@ -717,4 +718,5 @@ Wide[]
 Wide[]=default
 CanAddShowAllLink=disabled
 CanAddIntroText=disabled
+
 */ ?>
