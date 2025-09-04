@@ -7,10 +7,12 @@
         <img class="icon {if $colorize_logo}colorize{/if} {if $logo_is_white}bg-primary p-1 rounded{/if}"
           alt="{ezini('SiteSettings','SiteName')}"
           src="{render_image($pagedata.header.logo.url|ezroot(no,full)).src}"
-          style="width: auto !important; {if $logo_is_white}height:50px;{/if}"/>
+          style="width: auto !important; {if or($logo_is_white, $only_logo)}height:50px;{/if}"/>
     {/if}
+    {if $only_logo|not()}
     <div class="it-brand-text">
         <div class="it-brand-title">{ezini('SiteSettings','SiteName')}</div>
     </div>
+    {/if}
 </a>
 {undef $only_logo $colorize_logo $logo_is_white }
