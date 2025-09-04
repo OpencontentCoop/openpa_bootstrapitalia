@@ -2,7 +2,10 @@
 
 <div class="border border-danger rounded p-3 my-5">
 
-  <h4 class="text-danger" id="hotzone">Impostazioni avanzate</h4>
+  <small class="float-end"><a class="btn btn-xs btn-outline-primary" href="{'ocsupport/dashboard'|ezurl(no)}">Visualizza moduli installati</a></small>
+  <h4 class="text-danger" id="hotzone">
+    Impostazioni avanzate
+  </h4>
   <div class="row mt-4 mb-5">
     <div class="col-3">
       <ul class="nav nav-tabs nav-tabs-vertical" role="tablist" aria-orientation="vertical">
