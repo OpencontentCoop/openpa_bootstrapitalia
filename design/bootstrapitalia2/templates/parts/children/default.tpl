@@ -79,7 +79,7 @@
                 'input_search_placeholder',  '',
                 'limit',  '8',
                 'items_per_row',  '2',
-                'facets',  'Periodo:time_interval,Argomenti:topics.name,Tipologia:has_public_event_typology',
+                'facets',  concat('Period'|i18n('bootstrapitalia/facets'),':time_interval,','Topic'|i18n('bootstrapitalia/facets'),':topics.name,','Type'|i18n('bootstrapitalia/facets'),':has_public_event_typology'),
                 'view_api',  'card',
                 'fields',  '',
                 'simple_geo_api',  '0',

@@ -2251,4 +2251,19 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>La versione è stata scartata dall'autore</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/facets</name>
+    <message>
+      <source>Period</source>
+      <translation>Periodo</translation>
+    </message>
+    <message>
+      <source>Topic</source>
+      <translation>Argomento</translation>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation>Tipologia</translation>
+    </message>
+  </context>
 </TS>
