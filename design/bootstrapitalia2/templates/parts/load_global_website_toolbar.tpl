@@ -10,6 +10,15 @@
           //load chosen in class list
           $("#ezwt-create").chosen({width: "300px !important"});
           $('#toolbar').trigger('ezwt-loaded');
+          $.opendataFormSetup({
+            i18n: {{/literal}
+              'store': "{'Store'|i18n('opendata_forms')}",
+              'cancel': "{'Cancel'|i18n('opendata_forms')}",
+              'storeLoading': "{'Loading...'|i18n('opendata_forms')}",
+              'cancelDelete': "{'Cancel deletion'|i18n('opendata_forms')}",
+              'confirmDelete': "{'Confirm deletion'|i18n('opendata_forms')}"
+            {literal}}
+          });
           $('button[name="LockEditButton"]').on('click', function (e) {
             $('#relation-form').opendataFormEdit({
                 'object': $(this).data('object')
