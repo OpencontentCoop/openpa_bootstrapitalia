@@ -34,5 +34,11 @@
 {if $moment_language|ne('it')}
     {set $scripts = $scripts|append(concat('datepicker/locales/', $moment_language, '.js'))}
 {/if}
+
 {ezscript_load($scripts)}
+<script type="text/javascript">
+  //<![CDATA[
+  $.opendataTools.settings('language', "{ezini('RegionalSettings', 'Locale')}");
+  //]]>
+</script>
 {undef $scripts $current_locale $moment_language}
