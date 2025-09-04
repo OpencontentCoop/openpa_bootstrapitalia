@@ -4,6 +4,18 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Website Stats</source>
+      <translation>Statistiche del sito</translation>
+    </message>
+    <message>
+      <source>Stats recent</source>
+      <translation>Andamento</translation>
+    </message>
+    <message>
+      <source>Stats last month</source>
+      <translation>Ultimo mese</translation>
+    </message>
+    <message>
       <source>Precedure view all</source>
       <translation>Mostra tutto</translation>
     </message>
