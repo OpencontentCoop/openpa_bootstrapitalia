@@ -3,7 +3,7 @@
     <div class="row mb-5">
       {if is_set($items[0])}
         {foreach $items as $item}
-          {if $item.class_identifier|ne('timeline_element')}
+          {if $item.contentclass_identifier|ne('timeline_element')}
             {skip}
           {/if}
           {def $object = fetch( content, object, hash( object_id, $item.contentobject_id ) )}

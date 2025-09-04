@@ -1,11 +1,11 @@
 {set_defaults(hash('show_icon', false(), 'image_class', 'imagelargeoverlay', 'view_variation', ''))}
 
-{if class_extra_parameters($node.object.class_identifier, 'line_view').show|contains('show_icon')}
+{if class_extra_parameters($node.class_identifier, 'line_view').show|contains('show_icon')}
     {set $show_icon = true()}
 {/if}
 
 {def $has_image = false()}
-{foreach class_extra_parameters($node.object.class_identifier, 'table_view').main_image as $identifier}
+{foreach class_extra_parameters($node.class_identifier, 'table_view').main_image as $identifier}
     {if and($node|has_attribute($identifier), or($node|attribute($identifier).data_type_string|eq('ezimage'), $identifier|eq('image')))}
         {set $has_image = true()}
         {break}
@@ -17,8 +17,7 @@
     {set $has_media = true()}
 {/if}
 
-<div data-object_id="{$node.contentobject_id}"
-  class="card-wrapper border border-light rounded shadow-sm pb-0 {if $has_media} cmp-list-card-img {/if}">
+<div class="card-wrapper border border-light rounded shadow-sm pb-0 {if $has_media} cmp-list-card-img {/if}">
   <div class="card no-after rounded bg-white">
     <div class="g-2 g-md-0 flex-md-column">
       {if $node|has_attribute('image')}
