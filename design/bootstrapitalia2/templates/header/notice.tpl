@@ -1,7 +1,5 @@
 {if $pagedata.homepage|has_attribute('notice_header_text')}
-  <div class="it-header-slim-wrapper theme-light bs-is-sticky border-bottom"
-    data-bs-toggle="sticky"
-    style="top: 0px;">
+  <div class="it-header-slim-wrapper theme-light border-bottom">
     <div class="container">
       <div class="row">
         <div class="col-12">
