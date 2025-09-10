@@ -2,6 +2,32 @@
 
 abstract class PageLockEditClassConnector extends LockEditClassConnector
 {
+    private $timelineConnector = null;
+
+    private function getTimelineConnector(): ?RelationsField
+    {
+        if (!in_array(
+            $this->originalObject->remoteID(),
+            OpenPAINI::variable('LockEdit_' . $this->originalObject->attribute('class_identifier'), 'EnableTimelineRemoteIds', [])
+        )) {
+            return null;
+        }
+        if ($this->timelineConnector === null) {
+            $dataMap = $this->originalObject->dataMap();
+            if (isset($dataMap['timeline_elements'])) {
+                $this->timelineConnector = new RelationsField(
+                    $dataMap['timeline_elements']->attribute('contentclass_attribute'),
+                    $this->originalObject->attribute('content_class'),
+                    $this->getHelper()
+                );
+                $this->getTimelineConnector()->setContent($this->content['timeline_elements'] ?? []);
+            } else {
+                $this->timelineConnector = false;
+            }
+        }
+        return $this->timelineConnector;
+    }
+
     public static function getContentClass(): eZContentClass
     {
         return eZContentClass::fetchByIdentifier('edit_page');
@@ -11,12 +37,14 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
     {
         $this->currentBlocks = $this->content['layout']['content']['global']['blocks'] ?? [];
 
-        $image = isset($this->content['image']['content'][0]) ? [[
-            'id' => $this->content['image']['content'][0]['id'],
-            'name' => $this->content['image']['content'][0]['name'][$this->getHelper()->getSetting('language')]
-                ?? current($this->content['image']['content'][0]['name']),
-            'class' => $this->content['image']['content'][0]['classIdentifier'],
-        ]] : null;
+        $image = isset($this->content['image']['content'][0]) ? [
+            [
+                'id' => $this->content['image']['content'][0]['id'],
+                'name' => $this->content['image']['content'][0]['name'][$this->getHelper()->getSetting('language')]
+                    ?? current($this->content['image']['content'][0]['name']),
+                'class' => $this->content['image']['content'][0]['classIdentifier'],
+            ],
+        ] : null;
 
         $data = [
             'abstract' => $this->content['abstract']['content'],
@@ -31,6 +59,10 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
                 $data['section_evidence_' . $i] = $this->mapEvidenceItemsToRelations($i);
                 $data['title_evidence_' . $i] = $this->getEvidenceBlock($i)['name'];
             }
+        }
+
+        if ($this->getTimelineConnector()) {
+            $data['timeline_elements'] = $this->getTimelineConnector()->getData();
         }
 
         return $data;
@@ -57,6 +89,10 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             }
         }
 
+        if ($this->getTimelineConnector()) {
+            $schema['properties']['timeline_elements'] = $this->getTimelineConnector()->getSchema();
+        }
+
         return $schema;
     }
 
@@ -72,6 +108,11 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             }
         }
         $options['fields']['image']['browse']['openInSearchMode'] = true;
+
+        if ($this->getTimelineConnector()) {
+            $options['fields']['timeline_elements'] = $this->getTimelineConnector()->getOptions();
+            $options['fields']['timeline_elements']['browse']['addCreateButton'] = true;
+        }
 
         return $options;
     }
@@ -124,7 +165,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
     {
         $suffix = $blockIndex > 1 ? $blockIndex . '' : '';
         $locale = $this->getHelper()->getSetting('language');
-        if ($locale === 'ita-IT'){
+        if ($locale === 'ita-IT') {
             $locale = '';
         }
         return substr('evd' . $suffix . $this->originalObject->attribute('id') . $locale, 0, 32);
@@ -200,7 +241,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
         for ($i = 1; $i <= $sectionCount; $i++) {
             $evidenceBlockIdList[] = $this->getEvidenceBlockId($i);
         }
-        foreach (array_reverse($evidenceBlockIdList) as $index => $evidenceBlockId){
+        foreach (array_reverse($evidenceBlockIdList) as $index => $evidenceBlockId) {
             if (isset($evidenceBlocks[$evidenceBlockId])) {
                 if (!in_array($evidenceBlockId, $currentBlockIdList)) {
                     $this->insertEvidenceBlockLayout(
@@ -220,21 +261,36 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             }
         }
 
-        if ($locale !== 'ita-IT'){
+        if ($locale !== 'ita-IT') {
             foreach ($currentBlockIdList as $blockId) {
-                foreach ($evidenceBlockIdList as $evidenceBlockId){
+                foreach ($evidenceBlockIdList as $evidenceBlockId) {
                     $removeBlockId = str_replace($locale, '', $evidenceBlockId);
                     $this->removeEvidenceBlockFromLayout($removeBlockId, $layout);
                 }
             }
         }
 
-
-        return [
+        $response = [
             'abstract' => $data['abstract'] ?? '',
             'image' => isset($data['image']) ? array_column((array)$data['image'], 'id') : [],
             'layout' => $layout,
         ];
+
+        if ($this->getTimelineConnector()) {
+            $timelineData = [];
+            $postData = (array)$data['timeline_elements'];
+            foreach ($postData as $item) {
+                if (is_numeric($item)) {
+                    $timelineData[] = (int)$item;
+                } elseif (is_array($item) && isset($item['id'])) {
+                    $timelineData[] = (int)$item['id'];
+                }
+            }
+
+            $response['timeline_elements'] = empty($timelineData) ? null : $timelineData;
+        }
+
+        return $response;
     }
 
     protected function getLayout(): array
@@ -261,6 +317,14 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
                 'identifiers' => $evidences,
             ],
         ];
+
+        if ($this->getTimelineConnector()) {
+            $categories[] = [
+                'identifier' => 'timeline',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Timeline'),
+                'identifiers' => ['timeline_elements'],
+            ];
+        }
 
         $bindings = [];
         $tabs = '<div class="col-3"><ul class="nav nav-tabs nav-tabs-vertical" role="tablist" aria-orientation="vertical">';
