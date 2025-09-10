@@ -334,4 +334,96 @@ class BootstrapItaliaInstallerUtils
             $step->getLogger()->error("Object $remoteId not found");
         }
     }
+
+
+    public static function addEditorsDatasetLocations(AbstractStepInstaller $step)
+    {
+        $editorsAmministrazione = eZContentObject::fetchByRemoteID('editors_amministrazione');
+        $editorsDataset = eZContentObject::fetchByRemoteID('editors_dataset');
+        if ($editorsAmministrazione instanceof eZContentObject && $editorsDataset instanceof eZContentObject) {
+            $editorsDatasetNode = $editorsDataset->mainNode();
+            if ($editorsDatasetNode->childrenCount(false) == 0) {
+                $editorsAmministrazioneNode = $editorsAmministrazione->mainNode();
+                /** @var eZContentObjectTreeNode[] $children */
+                $children = $editorsAmministrazioneNode->children();
+                foreach ($children as $child) {
+                    $step->getLogger()->info(' - add location to user ' . $child->attribute('name'));
+                    self::addAssignment(
+                        $child->attribute('node_id'),
+                        $child->attribute('contentobject_id'),
+                        [$editorsDatasetNode->attribute('node_id')]
+                    );
+                }
+            }
+        }
+    }
+
+    /*
+     * Crea collocazione senza considerare i permessi
+     * @see eZContentOperationCollection::addAssignment
+     */
+    private static function addAssignment($nodeID, $objectID, $selectedNodeIDArray)
+    {
+        $userClassIDArray = eZUser::contentClassIDs();
+
+        $object = eZContentObject::fetch($objectID);
+        $class = $object->contentClass();
+
+        $nodeAssignmentList = eZNodeAssignment::fetchForObject(
+            $objectID,
+            $object->attribute('current_version'),
+            0,
+            false
+        );
+        $assignedNodes = $object->assignedNodes();
+
+        $parentNodeIDArray = [];
+
+        foreach ($assignedNodes as $assignedNode) {
+            $append = false;
+            foreach ($nodeAssignmentList as $nodeAssignment) {
+                if ($nodeAssignment['parent_node'] == $assignedNode->attribute('parent_node_id')) {
+                    $append = true;
+                    break;
+                }
+            }
+            if ($append) {
+                $parentNodeIDArray[] = $assignedNode->attribute('parent_node_id');
+            }
+        }
+
+        $db = eZDB::instance();
+        $db->begin();
+        $locationAdded = false;
+        $node = eZContentObjectTreeNode::fetch($nodeID);
+        foreach ($selectedNodeIDArray as $selectedNodeID) {
+            if (!in_array($selectedNodeID, $parentNodeIDArray)) {
+                $parentNode = eZContentObjectTreeNode::fetch($selectedNodeID);
+                $parentNodeObject = $parentNode->attribute('object');
+
+                $insertedNode = $object->addLocation($selectedNodeID, true);
+
+                // Now set is as published and fix main_node_id
+                $insertedNode->setAttribute('contentobject_is_published', 1);
+                $insertedNode->setAttribute('main_node_id', $node->attribute('main_node_id'));
+                $insertedNode->setAttribute('contentobject_version', $node->attribute('contentobject_version'));
+                // Make sure the url alias is set updated.
+                $insertedNode->updateSubTreePath();
+                $insertedNode->sync();
+
+                $locationAdded = true;
+            }
+        }
+        if ($locationAdded) {
+            eZSearch::addNodeAssignment($nodeID, $objectID, $selectedNodeIDArray);
+            if (in_array($object->attribute('contentclass_id'), $userClassIDArray)) {
+                eZUser::purgeUserCacheByUserId($object->attribute('id'));
+            }
+        }
+        $db->commit();
+        eZContentCacheManager::clearContentCacheIfNeeded($objectID);
+        if (!eZSearch::getEngine() instanceof eZSearchEngine) {
+            eZContentOperationCollection::registerSearchObject($objectID);
+        }
+    }
 }
