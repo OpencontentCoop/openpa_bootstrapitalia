@@ -4,7 +4,7 @@
 
 {else}
 <div class="position-relative">
-    {def $enable_filters_bando = and($fields.class_identifier|eq('bando'), openpaini('Trasparenza', 'ShowBandoFaseSelect', 'disabled')|eq('enabled'))}
+    {def $enable_filters_bando = and(array('bando', 'bando_cig')|contains($fields.class_identifier), openpaini('Trasparenza', 'ShowBandoFaseSelect', 'disabled')|eq('enabled'))}
 
     {if $fields.title}
       <h2 class="h4">{$fields.title|wash()}</h2>
