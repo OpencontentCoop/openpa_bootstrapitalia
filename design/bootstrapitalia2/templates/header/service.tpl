@@ -166,9 +166,9 @@
                         <span data-element="internal-user-profile"></span>
                         {if $hide_access|not()}
                             {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}
-                                <div id="{openpaini( 'StanzaDelCittadinoBridge', 'RootId_login', 'oc-login-box' )}"></div>
+                                <div id="{openpaini( 'StanzaDelCittadinoBridge', 'RootId_login', 'oc-login-box' )}" class="ms-3"></div>
                             {else}
-                                <a class="btn btn-primary btn-icon btn-full"
+                                <a class="btn btn-primary btn-icon btn-full ms-3"
                                   style="visibility: hidden"
                                   href="{'accedi'|ezurl(no)}"
                                   data-element="personal-area-login"
