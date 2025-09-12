@@ -47,7 +47,7 @@
               {{if ~i18n(name)}}
                 <li><a href="/openpa/object/{{:id}}">{{:~i18n(name)}}</a></li>
               {{else}}
-                <li><a href="{{:url}}">{{:displayName}}</a></li>
+                <li><a href="{{:url}}">{{if displayName}}{{:displayName}}{{else}}{{:filename}}{{/if}}</a></li>
               {{/if}}
             {{/for}}
           {{/if}}
