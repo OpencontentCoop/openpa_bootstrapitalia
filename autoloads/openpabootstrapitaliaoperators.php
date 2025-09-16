@@ -1859,6 +1859,10 @@ class OpenPABootstrapItaliaOperators
 
     private static function topicHasContents($topicId): bool
     {
+        if (OpenPAINI::variable('ViewSettings', 'ShowEmptyTopicsCards', 'disabled') === 'enabled') {
+            return true;
+        }
+
         $count = self::topicsContentsCount();
         $topicCount = $count[$topicId] ?? 0;
 

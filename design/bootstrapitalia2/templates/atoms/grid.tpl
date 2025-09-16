@@ -40,7 +40,7 @@
     {def $col = 12|div($items_per_row)}
     {if $grid_wrapper}<div class="{$grid_wrapper_class}">{/if}
         {foreach $items as $child}
-        {if and(fetch('user', 'current_user').is_logged_in|not(),$child.class_identifier|eq('topic'), fetch(content, reverse_related_objects_count, hash('object_id', $child.contentobject_id, 'all_relations', true()))|eq(0))}
+        {if and(fetch('user', 'current_user').is_logged_in|not(),$child.class_identifier|eq('topic'), topic_has_contents($child.contentobject_id)|not())}
             {skip}
         {/if}
         {if and(fetch('user', 'current_user').is_logged_in|not(),$child.object.remote_id|eq('custom_topics'), $child.children_count|eq(0))}

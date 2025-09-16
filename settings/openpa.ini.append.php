@@ -129,6 +129,7 @@ ChildrenFilter=disabled
 ShowYearInEventCard=disabled
 ShowTitleInSingleBlock=disabled
 ForceShowServiceChannel=disabled
+ShowEmptyTopicsCards=disabled
 
 [ChildrenFilters]
 #Aree amministrative
