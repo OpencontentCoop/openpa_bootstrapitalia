@@ -830,3 +830,12 @@ MatchFile=block/search_people_by_role.tpl
 Subdir=templates
 Match[type]=SearchPeopleByRole
 Match[view]=default
+
+#### Mappa Dataset
+
+[block_mappa_dataset_default]
+Source=block/view/view.tpl
+MatchFile=block/mappa_dataset.tpl
+Subdir=templates
+Match[type]=MappaDataset
+Match[view]=default
