@@ -47,6 +47,7 @@
 <script>
   const mapId = 'dataset-map-{/literal}{$block.id}{literal}';
   const controlsId = 'dataset-controls-{/literal}{$block.id}{literal}';
+  const placeDefaultLabel = '{/literal}{'Place'|i18n('openpa/search')}{literal}';
   document.addEventListener("DOMContentLoaded", initMapApp);
 
   function initMapApp() {
@@ -78,6 +79,10 @@
 
   function loadDataset(checkbox, map, layers, onLoad) {
     const url = checkbox.dataset.geojson;
+
+    const datasetName = checkbox.nextElementSibling
+      ? checkbox.nextElementSibling.innerText.trim()
+      : placeDefaultLabel;
 
     fetch(url)
       .then(res => res.json())
@@ -114,6 +119,11 @@
               <div class="card-wrapper border border-light rounded shadow-sm pb-0">
                 <div class="card no-after rounded bg-white">
                   <div class="card-body">
+                    <div class="category-top">
+                      <span class="title-xsmall-semi-bold fw-semibold">
+                        ${datasetName}
+                      </span>
+                    </div>
                     <h3 class="h5 card-title">${title}</h3>
                     <div class="card-text">
                       ${contentText}
