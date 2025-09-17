@@ -14,6 +14,8 @@
                   <input id="checkbox-{$valid_node.node_id}" type="checkbox" checked="checked" data-geojson="{concat('/customgeo/',$custom_repository)|ezurl(no)}/">
                   <label for="checkbox-{$valid_node.node_id}">{$valid_node.data_map.csv_resource.content.item_name|wash()}</label>
                 </div>
+              {else}
+                Non sono presenti luoghi georeferenziati con vista mappa."
               {/if}
             {/foreach}
           </fieldset>
@@ -70,7 +72,6 @@
       loadDataset(cb, map, layers, () => {
         loadedCount++;
         if (loadedCount === checkboxes.length) {
-          // nascondo overlay quando tutti i dataset sono caricati
           if (loaderOverlay) loaderOverlay.style.display = "none";
           fitActiveLayers(map, layers);
         }
@@ -80,7 +81,7 @@
 
   function createMap() {
     const map = L.map(mapId, {
-      loadingControl: true // attiva spinner di Leaflet.Control.Loading
+      loadingControl: true
     }).setView([41.9, 12.5], 6);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -97,7 +98,6 @@
       ? checkbox.nextElementSibling.innerText.trim()
       : placeDefaultLabel;
 
-    // avvia spinner leaflet
     map.fire("dataloading");
 
     fetch(url)
@@ -166,7 +166,6 @@
       })
       .catch(err => console.error("Errore caricamento GeoJSON:", url, err))
       .finally(() => {
-        // ferma spinner leaflet
         map.fire("dataload");
       });
   }
