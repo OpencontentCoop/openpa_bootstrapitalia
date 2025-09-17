@@ -3,7 +3,7 @@
 {if $openpa.has_content}
   {include uri='design:parts/block_name.tpl'}
   {if count($block.valid_nodes)|gt(0)}
-      <div class="row">
+      <div class="row" id="dataset-map-block-{$block.id}">
         <div class="col-12 col-lg-4 ps-lg-5 mb-4 mb-lg-0" id="dataset-controls-{$block.id}">
           <fieldset>
           <legend class="h6 mb-3 ps-0">{'Type'|i18n('bootstrapitalia')}</legend>
@@ -18,7 +18,12 @@
             {/foreach}
           </fieldset>
         </div>
-        <div class="order-lg-first col-12 col-lg-8">
+        <div class="order-lg-first col-12 col-lg-8 position-relative">
+          <div id="dataset-map-loader-{$block.id}" class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Caricamento...</span>
+            </div>
+          </div>
           <div id="dataset-map-{$block.id}" style="height:500px;"></div>
         </div>
       </div>
@@ -45,9 +50,12 @@
 
 {literal}  
 <script>
+  const blockId = 'dataset-map-block-{/literal}{$block.id}{literal}';
   const mapId = 'dataset-map-{/literal}{$block.id}{literal}';
   const controlsId = 'dataset-controls-{/literal}{$block.id}{literal}';
+  const loaderId = 'dataset-map-loader-{/literal}{$block.id}{literal}';
   const placeDefaultLabel = '{/literal}{'Place'|i18n('openpa/search')}{literal}';
+
   document.addEventListener("DOMContentLoaded", initMapApp);
 
   function initMapApp() {
@@ -56,11 +64,14 @@
     const checkboxes = document.querySelectorAll(`#${controlsId} [data-geojson]`);
 
     let loadedCount = 0;
+    const loaderOverlay = document.getElementById(loaderId);
 
     checkboxes.forEach(cb => {
       loadDataset(cb, map, layers, () => {
         loadedCount++;
         if (loadedCount === checkboxes.length) {
+          // nascondo overlay quando tutti i dataset sono caricati
+          if (loaderOverlay) loaderOverlay.style.display = "none";
           fitActiveLayers(map, layers);
         }
       });
@@ -68,7 +79,9 @@
   }
 
   function createMap() {
-    const map = L.map(mapId).setView([41.9, 12.5], 6);
+    const map = L.map(mapId, {
+      loadingControl: true // attiva spinner di Leaflet.Control.Loading
+    }).setView([41.9, 12.5], 6);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -83,6 +96,9 @@
     const datasetName = checkbox.nextElementSibling
       ? checkbox.nextElementSibling.innerText.trim()
       : placeDefaultLabel;
+
+    // avvia spinner leaflet
+    map.fire("dataloading");
 
     fetch(url)
       .then(res => res.json())
@@ -148,7 +164,11 @@
 
         if (typeof onLoad === "function") onLoad(clusterGroup);
       })
-      .catch(err => console.error("Errore caricamento GeoJSON:", url, err));
+      .catch(err => console.error("Errore caricamento GeoJSON:", url, err))
+      .finally(() => {
+        // ferma spinner leaflet
+        map.fire("dataload");
+      });
   }
 
   function toggleLayer(map, layers) {
@@ -172,6 +192,7 @@
     }
   }
 </script>
+
 
 
 {/literal}
