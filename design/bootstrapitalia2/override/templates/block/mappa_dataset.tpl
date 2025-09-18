@@ -15,7 +15,7 @@
                   <label for="checkbox-{$valid_node.node_id}">{$valid_node.data_map.csv_resource.content.item_name|wash()}</label>
                 </div>
               {else}
-                Non sono presenti luoghi georeferenziati con vista mappa."
+                {editor_warning(concat("Non sono presenti luoghi georeferenziati con vista mappa per il dataset: ",$valid_node.name))}
               {/if}
             {/foreach}
           </fieldset>
