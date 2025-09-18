@@ -3,7 +3,7 @@
 {if $openpa.has_content}
   {include uri='design:parts/block_name.tpl'}
   {if count($block.valid_nodes)|gt(0)}
-      <div class="row" id="dataset-map-block-{$block.id}">
+      <div class="row mb-5" id="dataset-map-block-{$block.id}">
         <div class="col-12 col-lg-4 ps-lg-5 mb-4 mb-lg-0" id="dataset-controls-{$block.id}">
           <fieldset>
           <legend class="h6 mb-3 ps-0">{'Type'|i18n('bootstrapitalia')}</legend>
