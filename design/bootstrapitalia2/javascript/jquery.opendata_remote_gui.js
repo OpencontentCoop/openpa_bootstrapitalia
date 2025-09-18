@@ -580,8 +580,8 @@
               plugin.currentCalendar = new EventCalendar(plugin.calendar[0], {
                 view: window.innerWidth > 768 ? 'dayGridMonth': 'timeGridDay',
                 dayMaxEvents: true,
-                allDaySlot: false,
                 scrollTime: '09:00:00',
+                allDayContent: ' ',
                 views: {
                   dayGridMonth: {
                     firstDay: 1,
