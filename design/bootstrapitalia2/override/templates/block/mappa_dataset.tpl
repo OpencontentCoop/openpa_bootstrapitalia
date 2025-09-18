@@ -6,19 +6,23 @@
       <div class="row mb-5" id="dataset-map-block-{$block.id}">
         <div class="col-12 col-lg-4 ps-lg-5 mb-4 mb-lg-0" id="dataset-controls-{$block.id}">
           <fieldset>
-          <legend class="h6 mb-3 ps-0">{'Type'|i18n('bootstrapitalia')}</legend>
-            {foreach $block.valid_nodes as $valid_node}
-              {if and($valid_node.object.class_identifier|eq('dataset'), $valid_node.data_map.csv_resource.content.views|contains('map'))}
-                {def $custom_repository = concat('dataset-', $valid_node.data_map.csv_resource.contentclass_attribute_identifier, '-',$valid_node.data_map.csv_resource.contentobject_id)}
-                <div class="form-check">
-                  <input id="checkbox-{$valid_node.node_id}" type="checkbox" checked="checked" data-geojson="{concat('/customgeo/',$custom_repository)|ezurl(no)}/">
-                  <label for="checkbox-{$valid_node.node_id}">{$valid_node.data_map.csv_resource.content.item_name|wash()}</label>
-                </div>
-              {else}
-                {editor_warning(concat("Non sono presenti luoghi georeferenziati con vista mappa per il dataset: ",$valid_node.name))}
-              {/if}
-            {/foreach}
-          </fieldset>
+            <legend class="h6 mb-3 ps-0">{'Type'|i18n('bootstrapitalia')}</legend>
+              <div class="row">
+                {foreach $block.valid_nodes as $valid_node}
+                  {if and($valid_node.object.class_identifier|eq('dataset'), $valid_node.data_map.csv_resource.content.views|contains('map'))}
+                    {def $custom_repository = concat('dataset-', $valid_node.data_map.csv_resource.contentclass_attribute_identifier, '-',$valid_node.data_map.csv_resource.contentobject_id)}
+                    <div class="col-12 col-sm-6 col-lg-12">
+                      <div class="form-check">
+                        <input id="checkbox-{$valid_node.node_id}" type="checkbox" checked="checked" data-geojson="{concat('/customgeo/',$custom_repository)|ezurl(no)}/">
+                        <label for="checkbox-{$valid_node.node_id}">{$valid_node.data_map.csv_resource.content.item_name|wash()}</label>
+                      </div>
+                    </div>
+                  {else}
+                    {editor_warning(concat("Non sono presenti luoghi georeferenziati con vista mappa per il dataset: ",$valid_node.name))}
+                  {/if}
+                {/foreach}
+              </div>
+            </fieldset>
         </div>
         <div class="order-lg-first col-12 col-lg-8 position-relative">
           <div id="dataset-map-loader-{$block.id}" class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75">
