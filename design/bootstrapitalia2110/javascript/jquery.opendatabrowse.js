@@ -591,7 +591,8 @@
                                 class_name: this.class_name,
                                 class_identifier: this.class_identifier,
                                 is_container: this.is_container,
-                                thumbnail_url: this.thumbnail_url
+                                thumbnail_url: this.thumbnail_url,
+                                hidden_status_string: this.hidden_status_string
                             };
 
                             var listItem = self.makeListItem(item);
@@ -869,16 +870,16 @@
             var name;
             var lineHeightStyle = item.thumbnail_url ? 'height: 80px;' : '';
             if (item.is_container){
-                name = $('<a data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" style="float:left;'+lineHeightStyle+'"> '+item.name+ ' <small>' +item.class_name + '</small></a>');
+                name = $('<div><a data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" class="fw-semibold" style="'+lineHeightStyle+'"> '+item.name+ '</a> <div class="badge bg-secondary">'+item.hidden_status_string+'</div><br> <small>' +item.class_name + '</small></div>');
                 if (self.settings.useTooltip) name.tooltip();
-                name.bind('click', function(e){
+                name.children('a:first').bind('click', function(e){
                     self.browseParameters.subtree = $(this).data('node_id');
                     self.browseParameters.offset = 0;
                     self.buildTreeSelect();
                     e.preventDefault();
                 });
             }else{
-                name = $('<span data-node_id="'+item.node_id+'" style="float:left;max-width: 50%;'+lineHeightStyle+'"> '+item.name+ ' <small>' +item.class_name + '</small></span>');
+                name = $('<div><span data-node_id="'+item.node_id+'" class="fw-semibold" style="max-width: 50%;'+lineHeightStyle+'"> '+item.name+ '</span> <div class="badge bg-secondary">'+item.hidden_status_string+'</div><br> <small>' +item.class_name + '</small></div>');
             }
             var listItem = $('<li class="list-group-item"></li>');
             if (typeof $.fn.alpaca != 'undefined') {
@@ -935,7 +936,7 @@
             if (self.settings.useTooltip) input.tooltip();
             listItem.append(input);
             if (item.thumbnail_url){
-                listItem.append('<img src="'+item.thumbnail_url+'" style="object-fit: contain;width: 80px;height: 80px;margin-right: 10px;float:left" />');
+                listItem.append('<img src="'+item.thumbnail_url+'" style="object-fit: contain;max-width: 80px;max-height: 80px;margin-right: 10px;float:left" />');
             }
             listItem.append(name);
 
