@@ -51,148 +51,146 @@
 ))}
 
 {literal}  
-<script>
-  const blockId = 'dataset-map-block-{/literal}{$block.id}{literal}';
-  const mapId = 'dataset-map-{/literal}{$block.id}{literal}';
-  const controlsId = 'dataset-controls-{/literal}{$block.id}{literal}';
-  const loaderId = 'dataset-map-loader-{/literal}{$block.id}{literal}';
-  const placeDefaultLabel = '{/literal}{'Place'|i18n('openpa/search')}{literal}';
+  <script>
+    const blockId = 'dataset-map-block-{/literal}{$block.id}{literal}';
+    const mapId = 'dataset-map-{/literal}{$block.id}{literal}';
+    const controlsId = 'dataset-controls-{/literal}{$block.id}{literal}';
+    const loaderId = 'dataset-map-loader-{/literal}{$block.id}{literal}';
+    const placeDefaultLabel = '{/literal}{'Place'|i18n('openpa/search')}{literal}';
 
-  document.addEventListener("DOMContentLoaded", initMapApp);
+    document.addEventListener("DOMContentLoaded", initMapApp);
 
-  function initMapApp() {
-    const map = createMap();
-    const layers = {};
-    const checkboxes = document.querySelectorAll(`#${controlsId} [data-geojson]`);
+    function initMapApp() {
+      const map = createMap();
+      const layers = {};
+      const checkboxes = document.querySelectorAll(`#${controlsId} [data-geojson]`);
 
-    let loadedCount = 0;
-    const loaderOverlay = document.getElementById(loaderId);
+      let loadedCount = 0;
+      const loaderOverlay = document.getElementById(loaderId);
 
-    checkboxes.forEach(cb => {
-      loadDataset(cb, map, layers, () => {
-        loadedCount++;
-        if (loadedCount === checkboxes.length) {
-          if (loaderOverlay) loaderOverlay.style.display = "none";
-          fitActiveLayers(map, layers);
-        }
+      checkboxes.forEach(cb => {
+        loadDataset(cb, map, layers, () => {
+          loadedCount++;
+          if (loadedCount === checkboxes.length) {
+            if (loaderOverlay) loaderOverlay.style.display = "none";
+            fitActiveLayers(map, layers);
+          }
+        });
       });
-    });
-  }
+    }
 
-  function createMap() {
-    const map = L.map(mapId, {
-      loadingControl: true
-    }).setView([41.9, 12.5], 6);
+    function createMap() {
+      const map = L.map(mapId, {
+        loadingControl: true
+      }).setView([41.9, 12.5], 6);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
 
-    return map;
-  }
+      return map;
+    }
 
-  function loadDataset(checkbox, map, layers, onLoad) {
-    const url = checkbox.dataset.geojson;
+    function loadDataset(checkbox, map, layers, onLoad) {
+      const url = checkbox.dataset.geojson;
 
-    const datasetName = checkbox.nextElementSibling
-      ? checkbox.nextElementSibling.innerText.trim()
-      : placeDefaultLabel;
+      const datasetName = checkbox.nextElementSibling
+        ? checkbox.nextElementSibling.innerText.trim()
+        : placeDefaultLabel;
 
-    map.fire("dataloading");
+      map.fire("dataloading");
 
-    fetch(url)
-      .then(res => res.json())
-      .then(data => {
-        const clusterGroup = L.markerClusterGroup();
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const clusterGroup = L.markerClusterGroup();
 
-        const geoLayer = L.geoJson(data, {
-          pointToLayer: function(feature, latlng) {
-            let icon = L.divIcon({
-              html: '<i class="fa fa-map-marker fa-4x text-primary"></i>',
-              iconSize: [28, 48],
-              iconAnchor: [14, 48],
-              popupAnchor: [0, -50],
-              className: 'customDivIcon'
-            });
-            return L.marker(latlng, { icon: icon });
-          },
-          onEachFeature: function(feature, layer) {
-            let props = feature.properties || {};
-            let title = props.Name || 'Nessun titolo';
-            let hiddenKeys = ['_createdAt', '_creator', '_guid', '_modifiedAt', 'Geo', 'Name'];
-            let contentText = '';
+          const geoLayer = L.geoJson(data, {
+            pointToLayer: function(feature, latlng) {
+              let icon = L.divIcon({
+                html: '<i class="fa fa-map-marker fa-4x text-primary"></i>',
+                iconSize: [28, 48],
+                iconAnchor: [14, 48],
+                popupAnchor: [0, -50],
+                className: 'customDivIcon'
+              });
+              return L.marker(latlng, { icon: icon });
+            },
+            onEachFeature: function(feature, layer) {
+              let props = feature.properties || {};
+              let title = props.Name || 'Nessun titolo';
+              let hiddenKeys = ['_createdAt', '_creator', '_guid', '_modifiedAt', 'Geo', 'Name'];
+              let contentText = '';
 
-            Object.keys(props).forEach(key => {
-              if (!hiddenKeys.includes(key)) {
-                let value = props[key];
-                if (value !== null && value !== undefined && value !== "") {
-                  contentText += `${value}<br>`;
+              Object.keys(props).forEach(key => {
+                if (!hiddenKeys.includes(key)) {
+                  let value = props[key];
+                  if (value !== null && value !== undefined && value !== "") {
+                    contentText += `${value}<br>`;
+                  }
                 }
-              }
-            });
+              });
 
-            let popupContent = `
-              <div class="card-wrapper border border-light rounded shadow-sm pb-0">
-                <div class="card no-after rounded bg-white">
-                  <div class="card-body">
-                    <div class="category-top">
-                      <span class="title-xsmall-semi-bold fw-semibold">
-                        ${datasetName}
-                      </span>
-                    </div>
-                    <h3 class="h5 card-title">${title}</h3>
-                    <div class="card-text">
-                      ${contentText}
+              let popupContent = `
+                <div class="card-wrapper border border-light rounded shadow-sm pb-0">
+                  <div class="card no-after rounded bg-white">
+                    <div class="card-body">
+                      <div class="category-top">
+                        <span class="title-xsmall-semi-bold fw-semibold">
+                          ${datasetName}
+                        </span>
+                      </div>
+                      <h3 class="h5 card-title">${title}</h3>
+                      <div class="card-text">
+                        ${contentText}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            `;
+              `;
 
-            layer.bindPopup(popupContent, { minWidth: 250 });
-          }
+              layer.bindPopup(popupContent, { minWidth: 250 });
+            }
+          });
+
+          clusterGroup.addLayer(geoLayer);
+          layers[checkbox.id] = clusterGroup;
+          map.addLayer(clusterGroup);
+          checkbox.checked = true;
+
+          checkbox.addEventListener("change", () => {
+            toggleLayer(map, layers);
+          });
+
+          if (typeof onLoad === "function") onLoad(clusterGroup);
+        })
+        .catch(err => console.error("Errore caricamento GeoJSON:", url, err))
+        .finally(() => {
+          map.fire("dataload");
         });
-
-        clusterGroup.addLayer(geoLayer);
-        layers[checkbox.id] = clusterGroup;
-        map.addLayer(clusterGroup);
-        checkbox.checked = true;
-
-        checkbox.addEventListener("change", () => {
-          toggleLayer(map, layers);
-        });
-
-        if (typeof onLoad === "function") onLoad(clusterGroup);
-      })
-      .catch(err => console.error("Errore caricamento GeoJSON:", url, err))
-      .finally(() => {
-        map.fire("dataload");
-      });
-  }
-
-  function toggleLayer(map, layers) {
-    Object.keys(layers).forEach(id => {
-      const checkbox = document.getElementById(id);
-      const layer = layers[id];
-      if (checkbox.checked) {
-        if (!map.hasLayer(layer)) map.addLayer(layer);
-      } else {
-        if (map.hasLayer(layer)) map.removeLayer(layer);
-      }
-    });
-    fitActiveLayers(map, layers);
-  }
-
-  function fitActiveLayers(map, layers) {
-    const activeLayers = Object.values(layers).filter(layer => map.hasLayer(layer));
-    if (activeLayers.length > 0) {
-      const group = L.featureGroup(activeLayers);
-      map.fitBounds(group.getBounds(), { padding: [20, 20] });
     }
-  }
-</script>
 
+    function toggleLayer(map, layers) {
+      Object.keys(layers).forEach(id => {
+        const checkbox = document.getElementById(id);
+        const layer = layers[id];
+        if (checkbox.checked) {
+          if (!map.hasLayer(layer)) map.addLayer(layer);
+        } else {
+          if (map.hasLayer(layer)) map.removeLayer(layer);
+        }
+      });
+      fitActiveLayers(map, layers);
+    }
 
+    function fitActiveLayers(map, layers) {
+      const activeLayers = Object.values(layers).filter(layer => map.hasLayer(layer));
+      if (activeLayers.length > 0) {
+        const group = L.featureGroup(activeLayers);
+        map.fitBounds(group.getBounds(), { padding: [20, 20] });
+      }
+    }
+  </script>
 
 {/literal}
 {undef $openpa $scripts}
