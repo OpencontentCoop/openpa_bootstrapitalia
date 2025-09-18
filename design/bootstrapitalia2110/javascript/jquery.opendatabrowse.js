@@ -928,12 +928,12 @@
                         var previewWrapper = $('<div class="card card-bg no-after"></div>').appendTo(previewOuter);
                         var previewContainer = $('<div class="card-body"></div>').appendTo(previewWrapper);
 
-                        var closePreviewButton = $('<a class="btn btn-xs btn-link pull-right" href="#"><span class="glyphicon glyphicon-remove"></span></a>');
+                        var closePreviewButton = $('<a class="btn btn-xs btn-link pull-right" style="position: absolute;right: 10px;top: 10px;z-index: 100;" href="#"><span class="glyphicon glyphicon-remove"></span></a>');
                         closePreviewButton.bind('click', function (e) {
                             self.browserContainer.show();
                             previewOuter.remove();
                             e.preventDefault();
-                        }).prependTo(previewContainer);
+                        }).prependTo(previewWrapper);
 
                         self.browserContainer.hide();
                         previewOuter.insertBefore(self.browserContainer);
