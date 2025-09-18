@@ -112,6 +112,7 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
         if ($this->getTimelineConnector()) {
             $options['fields']['timeline_elements'] = $this->getTimelineConnector()->getOptions();
             $options['fields']['timeline_elements']['browse']['addCreateButton'] = true;
+            $options['fields']['timeline_elements']['browse']['addEditButton'] = true;
         }
 
         return $options;

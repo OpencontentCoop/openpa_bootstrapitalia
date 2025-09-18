@@ -15,6 +15,7 @@
             openInSearchMode: false,
             addCloseButton: false,
             addCreateButton: false,
+            addEditButton: false,
             createSettings: {
                 'connector': 'default',
                 'options': {}
@@ -738,6 +739,39 @@
                     e.preventDefault();
                 });
                 listItem.append(detail);
+
+                if (self.settings.addEditButton) {
+                    var edit = $('<a href="#" data-object_id="' + item.contentobject_id + '" style="display:table-cell;" class="btn btn-xs btn-info pull-right mr-2 me-2" data-bs-toggle="tooltip" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>');
+                    if (self.settings.useTooltip) edit.tooltip();
+                    edit.bind('click', function (e) {
+                        var objectId = $(this).data('object_id');
+                        var previewOuter = $('<div class="card-wrapper card-space"></div>');
+                        var previewWrapper = $('<div class="card card-bg no-after"></div>').appendTo(previewOuter);
+                        var previewContainer = $('<div class="card-body"></div>').appendTo(previewWrapper);
+
+                        var closePreviewButton = $('<a class="btn btn-xs btn-link pull-right" href="#"><span class="glyphicon glyphicon-remove"></span></a>');
+                        closePreviewButton.bind('click', function (e) {
+                            self.browserContainer.show();
+                            previewOuter.remove();
+                            e.preventDefault();
+                        }).prependTo(previewContainer);
+
+                        self.browserContainer.hide();
+                        previewOuter.insertBefore(self.browserContainer);
+
+                        var d = new Date();
+                        previewContainer.alpaca('destroy').opendataFormEdit({
+                            'object': objectId
+                        },{
+                            onSuccess: function () {
+                                self.browserContainer.show();
+                                previewOuter.remove();
+                            }
+                        });
+                        e.preventDefault();
+                    });
+                    listItem.append(edit);
+                }
             }
             var input = '';
             if (self.isSelectable(item)){
