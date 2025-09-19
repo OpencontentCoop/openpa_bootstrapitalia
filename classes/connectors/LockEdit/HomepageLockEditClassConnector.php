@@ -39,6 +39,18 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     {
         $this->currentBlocks = $this->content['page']['content']['global']['blocks'];
 
+        $headerLink = [
+            'url' => '',
+            'text' => '',
+        ];
+        if (isset($this->content['notice_header_link']['content'])){
+            $parts = explode('|', $this->content['notice_header_link']['content']);
+            $headerLink = [
+                'url' => $parts[0],
+                'text' => isset($parts[1]) ? $parts[1] : '',
+            ];
+        }
+
         return [
             'main_news' => $this->mapSingoloToRelation(self::MAIN_NEWS),
             'title_news' => $this->findBlockById(self::SECTION_NEWS)['name'],
@@ -63,6 +75,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             'add_section_banner' => is_array($hasBanner),
             'add_section_search' => is_array($hasLinks) || is_array($hasSearchBg),
             'logo_search' => $this->mapCustomAttributeImageToRelation(self::SEARCH, 'logo'),
+            'notice_header_text' => $this->content['notice_header_text']['content'] ?? '',
+            'notice_header_link' => $headerLink,
         ];
     }
 
@@ -74,11 +88,28 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $page = $this->content['page']['content'];
         $page['global']['blocks'] = $blocks;
 
-        return [
+        $map = [
             'page' => $page,
             'topics' => $this->menuTopics,
             'topic_menu_label' => ezpI18n::tr('bootstrapitalia', 'All topics...')
         ];
+
+        if ($this->hasNoticeHeaderFields()) {
+            $map['notice_header_text'] = $data['notice_header_text'] ?? '';
+            $map['notice_header_link'] = $data['notice_header_link']['url'] ?? ' ';
+        }
+        return $map;
+    }
+
+    private function hasNoticeHeaderFields(): bool
+    {
+        $home = OpenPaFunctionCollection::fetchHome();
+        if ($home instanceof eZContentObjectTreeNode) {
+            $homeDataMap = $home->dataMap();
+            return isset($homeDataMap['notice_header_text']) && isset($homeDataMap['notice_header_link']);
+        }
+
+        return false;
     }
 
     protected function mapMenuArgomentiToRelations()
@@ -130,6 +161,11 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             }
         }
         $schema['properties'] = $properties;
+
+        if (!$this->hasNoticeHeaderFields()) {
+            unset($schema['properties']['notice_header_text']);
+            unset($schema['properties']['notice_header_link']);
+        }
 
         $schema['dependencies'] = [
             'section_news' => ['section_latest_news', 'add_section_news'],
@@ -278,6 +314,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             $options['fields']['logo_search']['dependencies'] = ['add_section_search' => 'true'];
         }
 
+        if ($this->hasNoticeHeaderFields()) {
+            $options['fields']['notice_header_link']['fields']['text']['type'] = 'hidden';
+        }
+
         return $options;
     }
 
@@ -299,7 +339,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             [
                 'identifier' => 'main_news',
                 'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'In evidence'),
-                'identifiers' => ['main_news'],
+                'identifiers' => ['main_news', 'notice_header_text', 'notice_header_link'],
             ],
             [
                 'identifier' => 'management',
