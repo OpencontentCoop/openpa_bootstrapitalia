@@ -2235,4 +2235,19 @@
       <translation type="unfinished"/>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/facets</name>
+    <message>
+      <source>Period</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Topic</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation type="unfinished"/>
+    </message>
+  </context>
 </TS>
