@@ -16,6 +16,7 @@ class BookingSchemaFactory extends SchemaFactory
         $schema->properties = [
             'id' => $this->generateSchemaProperty([
                 'type' => 'integer',
+                'format' => 'int32',
                 'description' => 'Public service internal id',
             ]),
             'link' => $this->generateSchemaProperty([
@@ -36,6 +37,7 @@ class BookingSchemaFactory extends SchemaFactory
                     'properties' => [
                         'id' => $this->generateSchemaProperty([
                             'type' => 'integer',
+                            'format' => 'int32',
                             'description' => 'Office internal id',
                         ]),
                         'link' => $this->generateSchemaProperty([
@@ -56,6 +58,7 @@ class BookingSchemaFactory extends SchemaFactory
                                 'properties' => [
                                     'id' => $this->generateSchemaProperty([
                                         'type' => 'integer',
+                                        'format' => 'int32',
                                         'description' => 'Place internal id',
                                     ]),
                                     'link' => $this->generateSchemaProperty([
@@ -72,8 +75,8 @@ class BookingSchemaFactory extends SchemaFactory
                                         'description' => 'Place location',
                                         'properties' => [
                                             'address' => $this->generateSchemaProperty(['type' => 'string']),
-                                            'lat' => $this->generateSchemaProperty(['type' => 'decimal']),
-                                            'lng' => $this->generateSchemaProperty(['type' => 'decimal']),
+                                            'lat' => $this->generateSchemaProperty(['type' => 'number', 'format' => 'float']),
+                                            'lng' => $this->generateSchemaProperty(['type' => 'number', 'format' => 'float']),
                                         ],
                                     ]),
                                     'calendars' => $this->generateSchemaProperty([
