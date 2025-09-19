@@ -122,7 +122,7 @@ $contacts = openpapagedata().contacts}
 </table>
 
 <div class=" m-top">
-  <p>{$site_name|wash()}, {currentdate()|l10n( date )}</p>
+  <p>{$site_name|wash()}<br />{currentdate()|l10n( date )}</p>
 </div>
 
 <div class="m-top" style="width:35%">
