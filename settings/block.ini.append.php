@@ -25,7 +25,7 @@ AllowedTypes[]=OpendataRemoteContents
 AllowedTypes[]=Ricerca
 AllowedTypes[]=OpendataQueriedContents
 AllowedTypes[]=SearchPeopleByRole
-
+AllowedTypes[]=MappaDataset
 
 [Singolo]
 Name=Oggetto singolo
@@ -719,4 +719,12 @@ Wide[]=default
 CanAddShowAllLink=disabled
 CanAddIntroText=disabled
 
+[MappaDataset]
+Name=MappaDataset
+NumberOfValidItems=10
+NumberOfArchivedItems=0
+ManualAddingOfItems=enabled
+ViewList[]
+ViewList[]=default
+ViewName[default]=Default
 */ ?>
