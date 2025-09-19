@@ -32,6 +32,15 @@
                         <span class="Form-fieldIcon" role="presentation"></span> Disattiva cookie Web Analytics Italia (modalità cookieless)
                     </label>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group block m-0">
+                    <label class="p-0 font-weight-bold" for="webAnalyticsItaliaSiteId">Site Id WAI (per la pagina statistiche)</label>
+                    <input id="webAnalyticsItaliaSiteId" class="Form-input u-color-black form-control border box" type="text" name="WebAnalyticsItaliaSiteID"
+                           value="{$webAnalyticsItaliaSiteId|wash()}">
+                </div>
 
                 <div class="form-group block m-0">
                     <label class="p-0 font-weight-bold" for="googleid">Codice Google Analytics</label>
@@ -44,6 +53,11 @@
                                {if $googleCookieless|eq('enabled')}checked="checked"{/if}>
                         <span class="Form-fieldIcon" role="presentation"></span> Disattiva cookie Google Analytics (modalità cookieless)
                     </label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="alert alert-info">
+                    Il codice Site Id WAI è reperibile nella pagina di amministrazione di Web Analytics Italia
                 </div>
             </div>
         </div>

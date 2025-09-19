@@ -18,4 +18,5 @@ ModuleList[]=favicon
 ModuleList[]=pagamento
 ModuleList[]=login-oauth
 ModuleList[]=relata
+ModuleList[]=statistiche
 */ ?>
