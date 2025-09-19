@@ -116,6 +116,7 @@
 <section class="container">
     {def $attribute_group = class_extra_parameters('event', 'attribute_group')
          $show = array(
+            'cos_e',
             'a_chi_e_rivolto',
             'luogo',
             'date_e_orari',
@@ -176,42 +177,54 @@
             {foreach $attribute_group.group_list as $slug => $title}
                 {if $show|contains($slug)|not()}{skip}{/if}
                 <article id="{$slug|wash()}" class="it-page-section anchor-offset">
-                    <h2 class="my-3">{$title|wash()}</h2>
-                    {switch match=$slug}
+                  {switch match=$slug}
+                    {case match='cos_e'}
+                      {if $node|has_attribute('description')}
+                        <h2 class="my-3">{$title|wash()}</h2>
+                        <div class="richtext-wrapper lora">
+                            {attribute_view_gui attribute=$node|attribute('description')}
+                        </div>
+                      {/if}
+                    {/case}
                     {case match='a_chi_e_rivolto'}
+                      {if $node|has_attribute('about_target_audience')}
+                        <h2 class="my-3">{$title|wash()}</h2>
                         <div class="richtext-wrapper lora">
                             {attribute_view_gui attribute=$node|attribute('about_target_audience')}
                         </div>
+                      {/if}
                     {/case}
                     {case match='luogo'}
-                        {def $markers = array()}
-                        {if $openpa.event_link.takes_place_in}
-                            <div class="card-wrapper card-column">
-                                {node_view_gui content_node=$openpa.event_link.takes_place_in.main_node view=card_teaser_info show_icon=true() image_class=large}
-                            </div>
-                            {set $markers = $markers|append(hash('latitude', $openpa.event_link.geo.latitude, 'longitude', $openpa.event_link.geo.longitude))}
-                        {elseif $openpa.event_link.geo}
-                            <div class="card-wrapper card-column">
-                                <div data-object_id="2400" class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3 " style="z-index: 100">
-                                    <div class="card-body pe-3">
-                                        <p class="card-title text-paragraph-regular-medium-semi mb-3">
-                                            {$openpa.event_link.geo.name|wash()}
-                                        </p>
-                                        <div class="card-text u-main-black">
-                                            <div class="mt-1">
-                                                <a href="https://www.google.com/maps/dir/45.548598,11.546282/@45.548598,11.546282,15z?hl=it"
-                                                  target="_blank"
-                                                  rel="noopener noreferrer"
-                                                  class="text-decoration-none">
-                                                    <i aria-hidden="true" class="fa fa-map"></i> {$openpa.event_link.geo.address|wash()|decode_html_entities()}
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {set $markers = $markers|append(hash('latitude', $openpa.event_link.geo.latitude, 'longitude', $openpa.event_link.geo.longitude))}
-                        {/if}
+                      {def $markers = array()}
+                      {if $openpa.event_link.takes_place_in}
+                          <div class="card-wrapper card-column">
+                              {node_view_gui content_node=$openpa.event_link.takes_place_in.main_node view=card_teaser_info show_icon=true() image_class=large}
+                          </div>
+                          {set $markers = $markers|append(hash('latitude', $openpa.event_link.geo.latitude, 'longitude', $openpa.event_link.geo.longitude))}
+                      {elseif $openpa.event_link.geo}
+                          <div class="card-wrapper card-column">
+                              <div data-object_id="2400" class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3 " style="z-index: 100">
+                                  <div class="card-body pe-3">
+                                      <p class="card-title text-paragraph-regular-medium-semi mb-3">
+                                          {$openpa.event_link.geo.name|wash()}
+                                      </p>
+                                      <div class="card-text u-main-black">
+                                          <div class="mt-1">
+                                              <a href="https://www.google.com/maps/dir/45.548598,11.546282/@45.548598,11.546282,15z?hl=it"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                class="text-decoration-none">
+                                                  <i aria-hidden="true" class="fa fa-map"></i> {$openpa.event_link.geo.address|wash()|decode_html_entities()}
+                                              </a>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          {set $markers = $markers|append(hash('latitude', $openpa.event_link.geo.latitude, 'longitude', $openpa.event_link.geo.longitude))}
+                      {/if}
+                      {if $markers|count()|gt(0)}
+                        <h2 class="my-3">{$title|wash()}</h2>
                         <div class="map-wrapper map-column mt-4 mb-5">
                             <div id="relations-map-event-link" style="width: 100%; height: 400px;"></div>
                         </div>
@@ -234,80 +247,94 @@
                             }{/literal}
                             $(document).ready(function () {ldelim}drowRelationMap('event-link',[{foreach $markers as $marker}[{$marker.latitude},{$marker.longitude}]{delimiter},{/delimiter}{/foreach}]);{rdelim});
                         </script>
+                      {/if}
                     {/case}
                     {case match='date_e_orari'}
+                      {if $node|has_attribute('time_interval')}
+                        <h2 class="my-3">{$title|wash()}</h2>
                         <div class="mb-5">
-                        {attribute_view_gui attribute=$node|attribute('time_interval')}
+                            {attribute_view_gui attribute=$node|attribute('time_interval')}
                         </div>
+                      {/if}
                     {/case}
                     {case match='costi'}
-                        {if or($node|has_attribute('cost_notes'), $openpa.event_link.has_offer|count())}
-                            {if $node|has_attribute('cost_notes')}
-                                <div class="richtext-wrapper lora">
-                                {attribute_view_gui attribute=$node|attribute('cost_notes')}
-                                </div>
-                            {/if}
-                            {if $openpa.event_link.has_offer|count()}
-                                {foreach $openpa.event_link.has_offer as $child }
-                                    <div class="card no-after border-left mt-3">
-                                        <div class="card-body">
-                                            {if $child.has_eligible_user|ne('')}
-                                                <div class="category-top">{$child.has_eligible_user|wash()}</div>
-                                            {/if}
-                                            {if $child.has_currency|ne('')}
-                                            <h3 class="h5 card-title big-heading">
-                                                {$child.has_currency|wash()}
-                                            </h3>
-                                            {/if}
-                                            <p class="mt-4">{$child.description|wash()}</p>
-                                            {if $child.note|ne('')}
-                                                {$child.note|wash()}
-                                            {/if}
-                                        </div>
-                                    </div>
-                                {/foreach}
-                            {/if}
-                        {else}
-                            <div class="card no-after border-left mt-3">
-                                <div class="card-body">
-                                    <h3 class="h5 card-title big-heading">{'FREE'|i18n('bootstrapitalia')}</h3>
-                                    <p class="mt-4">{'Free admission for all attendees'|i18n('bootstrapitalia')}</p>
-                                </div>
-                            </div>
-                        {/if}
+                      <h2 class="my-3">{$title|wash()}</h2>
+                      {if or($node|has_attribute('cost_notes'), $openpa.event_link.has_offer|count())}
+                      {if $node|has_attribute('cost_notes')}
+                        <div class="richtext-wrapper lora">
+                            {attribute_view_gui attribute=$node|attribute('cost_notes')}
+                        </div>
+                      {/if}
+                      {if $openpa.event_link.has_offer|count()}
+                      {foreach $openpa.event_link.has_offer as $child }
+                        <div class="card no-after border-left mt-3">
+                          <div class="card-body">
+                              {if $child.has_eligible_user|ne('')}
+                                <div class="category-top">{$child.has_eligible_user|wash()}</div>
+                              {/if}
+                              {if $child.has_currency|ne('')}
+                                <h3 class="h5 card-title big-heading">
+                                    {$child.has_currency|wash()}
+                                </h3>
+                              {/if}
+                            <p class="mt-4">{$child.description|wash()}</p>
+                              {if $child.note|ne('')}
+                                  {$child.note|wash()}
+                              {/if}
+                          </div>
+                        </div>
+                      {/foreach}
+                      {/if}
+                      {else}
+                        <div class="card no-after border-left mt-3">
+                          <div class="card-body">
+                            <h3 class="h5 card-title big-heading">{'FREE'|i18n('bootstrapitalia')}</h3>
+                            <p class="mt-4">{'Free admission for all attendees'|i18n('bootstrapitalia')}</p>
+                          </div>
+                        </div>
+                      {/if}
                     {/case}
                     {case match='contatti'}
-                        {if $openpa.event_link.has_online_contact_point}
+                      {if $openpa.event_link.has_online_contact_point}
+                        <h2 class="my-3">{$title|wash()}</h2>
                         <div class="card-wrapper card-column my-3" data-bs-toggle="masonry">
                             {node_view_gui
-                                content_node=$openpa.event_link.has_online_contact_point.main_node
-                                view=card_teaser_info
-                                hide_title=true()
-                                attribute_index=1
-                                data_element=false()
-                                image_class=large}
+                            content_node=$openpa.event_link.has_online_contact_point.main_node
+                            view=card_teaser_info
+                            hide_title=true()
+                            attribute_index=1
+                            data_element=false()
+                            image_class=large}
                         </div>
-                        {elseif $openpa.event_link.has_online_contact_info}
+                      {elseif $openpa.event_link.has_online_contact_info}
+                        <h2 class="my-3">{$title|wash()}</h2>
                         <div class="card-wrapper card-column my-3" data-bs-toggle="masonry">
-                            <div data-object_id="3105" class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3">
-                                <div class="card-body ">
-                                    <div class="card-text u-main-black">
-                                        <div class="mt-1">
-                                            {if $openpa.event_link.has_online_contact_info.phone}
-                                                <p class="mb-2 text-truncate"><b>Tel</b><br /><a href="tel:{$openpa.event_link.has_online_contact_info.phone|wash()}">{$openpa.event_link.has_online_contact_info.phone|wash()}</a></p>
-                                            {/if}
-                                            {if $openpa.event_link.has_online_contact_info.email}
-                                                <p class="mb-2 text-truncate"><b>Email</b><br /><a href="mailto:{$openpa.event_link.has_online_contact_info.email|wash()}">{$openpa.event_link.has_online_contact_info.email|wash()}</a></p>
-                                            {/if}
-                                            {if $openpa.event_link.has_online_contact_info.website}
-                                                <p class="mb-2 text-truncate"><b>Web</b><br /><a href="{$openpa.event_link.has_online_contact_info.website|wash()}">{$openpa.event_link.has_online_contact_info.website|wash()}</a></p>
-                                            {/if}
-                                        </div>
-                                    </div>
+                          <div data-object_id="3105"
+                               class="font-sans-serif card card-teaser card-teaser-info rounded shadow-sm p-3 card-teaser-info-width mt-0 mb-3">
+                            <div class="card-body ">
+                              <div class="card-text u-main-black">
+                                <div class="mt-1">
+                                    {if $openpa.event_link.has_online_contact_info.phone}
+                                      <p class="mb-2 text-truncate"><b>Tel</b><br/><a
+                                                href="tel:{$openpa.event_link.has_online_contact_info.phone|wash()}">{$openpa.event_link.has_online_contact_info.phone|wash()}</a>
+                                      </p>
+                                    {/if}
+                                    {if $openpa.event_link.has_online_contact_info.email}
+                                      <p class="mb-2 text-truncate"><b>Email</b><br/><a
+                                                href="mailto:{$openpa.event_link.has_online_contact_info.email|wash()}">{$openpa.event_link.has_online_contact_info.email|wash()}</a>
+                                      </p>
+                                    {/if}
+                                    {if $openpa.event_link.has_online_contact_info.website}
+                                      <p class="mb-2 text-truncate"><b>Web</b><br/><a
+                                                href="{$openpa.event_link.has_online_contact_info.website|wash()}">{$openpa.event_link.has_online_contact_info.website|wash()}</a>
+                                      </p>
+                                    {/if}
                                 </div>
+                              </div>
                             </div>
+                          </div>
                         </div>
-                        {/if}
+                      {/if}
                     {/case}
                     {case}{/case}
                     {/switch}
