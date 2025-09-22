@@ -727,4 +727,7 @@ ManualAddingOfItems=enabled
 ViewList[]
 ViewList[]=default
 ViewName[default]=Default
+ContainerStyle[]
+ContainerStyle[default]=section py-5
+
 */ ?>
