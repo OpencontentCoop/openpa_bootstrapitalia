@@ -3,6 +3,7 @@
 {if $openpa.has_content}
   {include uri='design:parts/block_name.tpl'}
   {if count($block.valid_nodes)|gt(0)}
+    <div class="{$valid_node|access_style}">
       <div class="row mb-5" id="dataset-map-block-{$block.id}">
         <div class="col-12 col-lg-4 ps-lg-5 mb-4 mb-lg-0" id="dataset-controls-{$block.id}">
           <fieldset>
@@ -24,15 +25,18 @@
               </div>
             </fieldset>
         </div>
-        <div class="order-lg-first col-12 col-lg-8 position-relative">
-          <div id="dataset-map-loader-{$block.id}" class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Caricamento...</span>
+        <div class="order-lg-first col-12 col-lg-8">
+          <div class="position-relative">
+            <div id="dataset-map-loader-{$block.id}" class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Caricamento...</span>
+              </div>
             </div>
+            <div id="dataset-map-{$block.id}" style="height:500px;"></div>
           </div>
-          <div id="dataset-map-{$block.id}" style="height:500px;"></div>
         </div>
       </div>
+    </div>
   {/if}
 {/if}
 {def $scripts = array()}
@@ -76,7 +80,7 @@
         loadDataset(cb, map, layers, () => {
           loadedCount++;
           if (loadedCount === checkboxes.length) {
-            if (loaderOverlay) loaderOverlay.style.display = "none";
+            if (loaderOverlay) loaderOverlay.style.setProperty("display", "none", "important");
             fitActiveLayers(map, layers);
           }
         });
