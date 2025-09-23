@@ -2656,12 +2656,34 @@ class OpenPABootstrapItaliaOperators
 
     public static function createSqlPartsNameFilter($params)
     {
+        $useVectorNameSearch = OpenPAINI::variable('EditSettings', 'BrowseVectorNameSearch', 'disabled') == 'enabled';
         $filter = $params['name'];
         $sqlJoins = '';
         if (!empty($filter)) {
-            $db = eZDB::instance();
-            $sqlJoins = "(ezcontentobject_name.name ilike '%" . $db->escapeString($filter) . "%') AND";
+            $filterEscaped = eZDB::instance()->escapeString($filter);
+            if ($useVectorNameSearch) {
+                $sqlJoins = "(to_tsvector('italian', ezcontentobject_name.name) @@ to_tsquery('italian', '''$filter''')) AND";
+            } else {
+                $sqlJoins = "(ezcontentobject_name.name ilike '%" . $filterEscaped . "%') AND";
+            }
         }
+        $classes = $params['classes'] ?? null;
+        if (!empty($classes)){
+            $classesArray = explode(',', $classes);
+            $classesArray = array_filter($classesArray);
+            if (!empty($classesArray)){
+                $classesArray = array_map(function ($item){
+                    return eZDB::instance()->escapeString($item);
+                }, $classesArray);
+                $classFilter = implode("','",$classesArray);
+                if ($params['or_is_container']){
+                    $sqlJoins .= " (ezcontentclass.identifier IN ('$classFilter') OR ezcontentclass.is_container = 1) AND ";
+                } else {
+                    $sqlJoins .= " (ezcontentclass.identifier IN ('$classFilter')) AND ";
+                }
+            }
+        }
+
         return ['tables' => '', 'joins' => $sqlJoins, 'columns' => ''];
     }
 }

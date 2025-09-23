@@ -292,7 +292,7 @@
                 self.doBrowse()
             }).hide()
             self.filterNameInput = $('<input id="'+textId+'" class="form-control" type="text" placeholder="" value=""/>')
-              .on('keyup', function(event) {
+              .on('keyup', self._debounce(function(event) {
                   if (self.filterNameInput.val().length > 0){
                       clearButton.show()
                       $('[name="depthParam"]').removeAttr('disabled')
@@ -302,7 +302,7 @@
                   }
                   self.browseParameters.offset = 0
                   self.doBrowse()
-              })
+              }, 500))
               .appendTo(rowInputForm);
             clearButton.appendTo(rowInputForm);
 
@@ -460,6 +460,21 @@
             self.doBrowse()
         },
 
+        _debounce: function(func, wait, immediate) {
+            var timeout;
+            return function () {
+                var context = this, args = arguments;
+                var later = function () {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        },
+
         doBrowse: function (){
             var self = this;
             self.showSpinner();
@@ -468,9 +483,19 @@
             self.browseParameters.order = self.orderSelect.val() || self.browseParameters.order;
             var depthParam = ''
             if (nameFilter.length && self.noDepthOption.is(':checked')){
-                depthParam = '::1'
+                depthParam = '1'
             }
-            $.getJSON(self.settings.baseUrl + 'ezjscore/call/ezjscbrowse::subtree::'+self.browseParameters.subtree+'::'+self.browseParameters.limit+'::'+self.browseParameters.offset+'::'+self.browseParameters.sort+'::'+self.browseParameters.order+'::'+nameFilter+depthParam, function(data){
+            var requestParams = [
+                self.browseParameters.subtree,
+                self.browseParameters.limit,
+                self.browseParameters.offset,
+                self.browseParameters.sort,
+                self.browseParameters.order,
+                nameFilter,
+                depthParam,
+                $.isArray(self.settings.classes) && self.settings.classes.length > 0 ? this.settings.classes.join(',')+'::1' : ''
+            ]
+            $.getJSON(self.settings.baseUrl + 'ezjscore/call/ezjscbrowse::subtree::'+requestParams.join('::'), function(data){
                 if (self.settings.pagination) {
                     self.browserPanelContent.html('')
                 }
@@ -672,7 +697,7 @@
 
             var name;
             if (item.is_container){
-                name = $('<a title="'+self.settings.i18n.clickToBrowseParent+'" href="#" data-node_id="'+item.node_id+'"> '+item.name+ ' <small>' +item.class_name + '</small></a>');
+                name = $('<a title="'+self.settings.i18n.clickToBrowseParent+'" style="font-weight: 600;" href="#" data-node_id="'+item.node_id+'"> '+item.name+ '<small class="fw-normal ms-1">' +item.class_name + '</small></a>');
                 name.bind('click', function(e){
                     self.browseParameters.subtree = $(this).data('node_id');
                     self.browseParameters.offset = 0;
@@ -680,12 +705,12 @@
                     e.preventDefault();
                 });
             }else{
-                name = $('<span data-node_id="'+item.node_id+'"> '+item.name+ ' <small>' +item.class_name + '</small></span>');
+                name = $('<span style="font-weight: 600;" data-node_id="'+item.node_id+'"> '+item.name+ '<small class="fw-normal ms-1">' +item.class_name + '</small></span>');
             }
 
             var listItem = $('<li class="list-group-item"></li>');
             if (typeof $.fn.alpaca != 'undefined') {
-                var detail = $('<a href="#" data-object_id="' + item.contentobject_id + '" class="btn btn-xs btn-info pull-right" title="'+self.settings.i18n.clickToPreview+'"><small>'+self.settings.i18n.preview+'</small></a>');
+                var detail = $('<a href="#" data-object_id="' + item.contentobject_id + '" class="btn btn-xs btn-info pull-right" title="'+self.settings.i18n.clickToPreview+'"<small class="fw-normal ms-1">'+self.settings.i18n.preview+'</small></a>');
                 detail.bind('click', function (e) {
                     var objectId = $(this).data('object_id');
                     var previewOuter = $('<div class="card-wrapper card-space"></div>');
