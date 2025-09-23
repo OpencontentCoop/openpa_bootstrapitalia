@@ -30,4 +30,5 @@ FieldConnectors[lotto/invitati]=PartecipanteLottoMatrixField
 FieldConnectors[time_indexed_role/person]=SingleRelationsField
 FieldConnectors[time_indexed_role/for_entity]=SingleRelationsField
 FieldConnectors[openpacomuniitaliani]=OpenPAComuniItalianiFieldConnector
+FieldConnectors[openpabootstrapitaliaicon]=OpenPABootstrapItaliaIconFieldConnector
 */ ?>
