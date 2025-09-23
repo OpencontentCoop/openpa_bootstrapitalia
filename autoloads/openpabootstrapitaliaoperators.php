@@ -2613,7 +2613,7 @@ class OpenPABootstrapItaliaOperators
 
     public static function createSqlPartsNameFilter($params)
     {
-        $useVectorNameSearch = OpenPAINI::variable('EditSettings', 'BrowseVectorNameSearch', 'enabled') == 'enabled';
+        $useVectorNameSearch = OpenPAINI::variable('EditSettings', 'BrowseVectorNameSearch', 'disabled') == 'enabled';
         $filter = $params['name'];
         $sqlJoins = '';
         if (!empty($filter)) {
