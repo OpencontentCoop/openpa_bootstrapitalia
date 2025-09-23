@@ -317,6 +317,10 @@ SectionManagementLimit=3
 SectionCalendarLimit=6
 SectionBannerLimit=9
 
+[LockEdit_pagina_sito]
+EnableTimelineRemoteIds[]
+EnableTimelineRemoteIds[]=history
+
 [OpenpaAgenda]
 EnableDiscussion=enabled
 
