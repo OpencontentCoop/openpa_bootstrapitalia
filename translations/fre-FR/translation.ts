@@ -4,18 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Website Stats</source>
-      <translation>Statistiques du site</translation>
-    </message>
-    <message>
-      <source>Stats recent</source>
-      <translation>Tendance récente</translation>
-    </message>
-    <message>
-      <source>Stats last month</source>
-      <translation>>Le mois dernier</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Ce site utilise des cookies techniques, d’analyse et de tiers.</translation>
     </message>
@@ -630,6 +618,18 @@
     <message>
       <source>Precedure hide step</source>
       <translation>Masquer les détails</translation>
+    </message>
+    <message>
+      <source>Website Stats</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats recent</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats last month</source>
+      <translation></translation>
     </message>
   </context>
   <context>
@@ -1664,7 +1664,7 @@ Ils sont essentiellement utilisés pour mesurer et améliorer la qualité des si
     </message>
     <message>
       <source>The homepage of the site can have a section of 3 news in evidence</source>
-      <translation>La page d’accueil du site peut comporter une rubrique avec 3 nouvelles en évidence</translation>
+      <translation>La page d’accueil du site peut comporter une rubrique avec nouvelles en évidence</translation>
     </message>
     <message>
       <source>Activate the "Events in evidence" section</source>
@@ -2249,6 +2249,21 @@ Ils sont essentiellement utilisés pour mesurer et améliorer la qualité des si
     <message>
       <source>The version was discard by creator</source>
       <translation>La version a été rejetée par l’auteur</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/facets</name>
+    <message>
+      <source>Period</source>
+      <translation>Période</translation>
+    </message>
+    <message>
+      <source>Topic</source>
+      <translation>Matières</translation>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation>Type d'événement</translation>
     </message>
   </context>
 </TS>

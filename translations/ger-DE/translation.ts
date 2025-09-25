@@ -4,18 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Website Stats</source>
-      <translation>Website-Statistiken</translation>
-    </message>
-    <message>
-      <source>Stats recent</source>
-      <translation>Aktueller Trend</translation>
-    </message>
-    <message>
-      <source>Stats last month</source>
-      <translation>Letzter Monat</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Diese Website verwendet technische, analytische und Drittanbieter-Cookies.</translation>
     </message>
@@ -617,18 +605,30 @@
     </message>
     <message>
       <source>Precedure view all</source>
-      <translation></translation>
+      <translation>Alles anzeigen</translation>
     </message>
     <message>
       <source>Precedure hide all</source>
-      <translation></translation>
+      <translation>Alles ausblenden</translation>
     </message>
     <message>
       <source>Precedure view step</source>
-      <translation></translation>
+      <translation>Details anzeigen</translation>
     </message>
     <message>
       <source>Precedure hide step</source>
+      <translation>Details ausblenden</translation>
+    </message>
+    <message>
+      <source>Website Stats</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats recent</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats last month</source>
       <translation></translation>
     </message>
   </context>
@@ -1664,7 +1664,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>The homepage of the site can have a section of 3 news in evidence</source>
-      <translation>Die Homepage der Website kann einen Sektion mit 3 hervorgehobenen Nachrichten haben</translation>
+      <translation>Die Homepage der Website kann einen Sektion mit hervorgehobenen Nachrichten haben</translation>
     </message>
     <message>
       <source>Activate the "Events in evidence" section</source>

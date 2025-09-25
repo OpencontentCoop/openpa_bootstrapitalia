@@ -4,18 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Website Stats</source>
-      <translation>Estatísticas do site</translation>
-    </message>
-    <message>
-      <source>Stats recent</source>
-      <translation>Tendência recente</translation>
-    </message>
-    <message>
-      <source>Stats last month</source>
-      <translation>Último mês</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Este site usa cookies técnicos, analíticos e de terceiros.</translation>
     </message>
@@ -630,6 +618,18 @@
     <message>
       <source>Precedure hide step</source>
       <translation>Detalhes ocultos</translation>
+    </message>
+    <message>
+      <source>Website Stats</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats recent</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats last month</source>
+      <translation></translation>
     </message>
   </context>
   <context>
@@ -1664,7 +1664,7 @@ Eles são usados essencialmente para medir e melhorar a qualidade dos sites por 
     </message>
     <message>
       <source>The homepage of the site can have a section of 3 news in evidence</source>
-      <translation>A página inicial do site pode ter uma seção de tês notícias em destaque</translation>
+      <translation>A página inicial do site pode ter uma seção de notícias em destaque</translation>
     </message>
     <message>
       <source>Activate the "Events in evidence" section</source>
@@ -2249,6 +2249,21 @@ Eles são usados essencialmente para medir e melhorar a qualidade dos sites por 
     <message>
       <source>The version was discard by creator</source>
       <translation>A versão foi descartada pelo autor</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/facets</name>
+    <message>
+      <source>Period</source>
+      <translation>Período</translation>
+    </message>
+    <message>
+      <source>Topic</source>
+      <translation>Matérias</translation>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation>Tipo de evento</translation>
     </message>
   </context>
 </TS>

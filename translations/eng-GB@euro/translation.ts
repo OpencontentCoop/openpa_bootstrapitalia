@@ -4,38 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Website Stats</source>
-      <translation>Website Stats</translation>
-    </message>
-    <message>
-      <source>Stats recent</source>
-      <translation>Recent trend</translation>
-    </message>
-    <message>
-      <source>Stats last month</source>
-      <translation>Last month</translation>
-    </message>
-    <message>
-      <source>Precedure view all</source>
-      <translation>View all</translation>
-    </message>
-    <message>
-      <source>Precedure hide all</source>
-      <translation>Hide all</translation>
-    </message>
-    <message>
-      <source>Precedure view step</source>
-      <translation>View details</translation>
-    </message>
-    <message>
-      <source>Precedure hide step</source>
-      <translation>Hide details</translation>
-    </message>
-    <message>
-      <source>Search by name</source>
-      <translation>Search by name</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>This site uses technical, analytical and third-party cookies.</translation>
     </message>
@@ -626,6 +594,42 @@
     <message>
       <source>Press Enter or Space to remove selection</source>
       <translation>Press Enter or Space to remove selection</translation>
+    </message>
+    <message>
+      <source>View fullscreen</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Search by name</source>
+      <translation>Search by name</translation>
+    </message>
+    <message>
+      <source>Precedure view all</source>
+      <translation>View all</translation>
+    </message>
+    <message>
+      <source>Precedure hide all</source>
+      <translation>Hide all</translation>
+    </message>
+    <message>
+      <source>Precedure view step</source>
+      <translation>View details</translation>
+    </message>
+    <message>
+      <source>Precedure hide step</source>
+      <translation>Hide details</translation>
+    </message>
+    <message>
+      <source>Website Stats</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats recent</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats last month</source>
+      <translation></translation>
     </message>
   </context>
   <context>
@@ -1257,7 +1261,7 @@
     </message>
     <message>
       <source>Document number</source>
-      <translation>Document number</translation>
+      <translation>Number</translation>
     </message>
     <message>
       <source>Date</source>
@@ -1296,22 +1300,6 @@
       <translation>No documents found</translation>
     </message>
     <message>
-      <source>No results were found</source>
-      <translation>No results</translation>
-    </message>
-    <message>
-      <source>Documents results</source>
-      <translation>documents</translation>
-    </message>
-    <message>
-      <source>Dataset results</source>
-      <translation>dataset</translation>
-    </message>
-    <message>
-      <source>Projects results</source>
-      <translation>projects</translation>
-    </message>
-    <message>
       <source>Questioners</source>
       <translation>Search terms</translation>
     </message>
@@ -1326,6 +1314,46 @@
     <message>
       <source>%count documents found</source>
       <translation>%count documents found</translation>
+    </message>
+    <message>
+      <source>Remove filters</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Documents results</source>
+      <translation>documents</translation>
+    </message>
+    <message>
+      <source>Dataset results</source>
+      <translation>dataset</translation>
+    </message>
+    <message>
+      <source>Projects results</source>
+      <translation>projects</translation>
+    </message>
+    <message>
+      <source>No results were found</source>
+      <translation>No results were found</translation>
+    </message>
+    <message>
+      <source>Document result</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Dataset result</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Project result</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Result found</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Results found</source>
+      <translation></translation>
     </message>
   </context>
   <context>
@@ -1636,7 +1664,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>The homepage of the site can have a section of 3 news in evidence</source>
-      <translation>The homepage of the site may have a section containing three news highlights</translation>
+      <translation>The homepage of the site may have a section containing news highlights</translation>
     </message>
     <message>
       <source>Activate the "Events in evidence" section</source>
@@ -2057,6 +2085,14 @@ They are essentially used to measure and improve the quality of sites by analysi
       <source>You will receive a message if the date and time you requested is confirmed</source>
       <translation>You will receive a message if the date and time you requested is confirmed</translation>
     </message>
+    <message>
+      <source>Date start</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Date end</source>
+      <translation></translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/booking/hours</name>
@@ -2213,6 +2249,21 @@ They are essentially used to measure and improve the quality of sites by analysi
     <message>
       <source>The version was discard by creator</source>
       <translation>The version has been discarded by the author</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/facets</name>
+    <message>
+      <source>Period</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Topic</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation></translation>
     </message>
   </context>
 </TS>

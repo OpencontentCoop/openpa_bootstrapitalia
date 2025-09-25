@@ -4,58 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Website Stats</source>
-      <translation>Statistiche del sito</translation>
-    </message>
-    <message>
-      <source>Stats recent</source>
-      <translation>Andamento</translation>
-    </message>
-    <message>
-      <source>Stats last month</source>
-      <translation>Ultimo mese</translation>
-    </message>
-    <message>
-      <source>Precedure view all</source>
-      <translation>Mostra tutto</translation>
-    </message>
-    <message>
-      <source>Precedure hide all</source>
-      <translation>Nascondi tutto</translation>
-    </message>
-    <message>
-      <source>Precedure view step</source>
-      <translation>Mostra dettagli</translation>
-    </message>
-    <message>
-      <source>Precedure hide step</source>
-      <translation>Nascondi dettagli</translation>
-    </message>
-    <message>
-      <source>Search by name</source>
-      <translation>Cerca per nome o cognome</translation>
-    </message>
-    <message>
-      <source>View all events</source>
-      <translation>vedi tutti</translation>
-    </message>
-    <message>
-      <source>Select an item</source>
-      <translation>Seleziona un elemento</translation>
-    </message>
-    <message>
-      <source>No results found</source>
-      <translation>Nessun risultato trovato</translation>
-    </message>
-    <message>
-      <source>When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</source>
-      <translation>Quando sono disponibili risultati di completamento automatico, utilizza le frecce su e giù per esaminarli e premi Invio per selezionare. Gli utenti di dispositivi touch possono esplorare toccando o scorrendo con gesti.</translation>
-    </message>
-    <message>
-      <source>Press Enter or Space to remove selection</source>
-      <translation>Premio Invio o Spazio per rimuovere la selezione</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Questo sito utilizza cookie tecnici, analytics e di terze parti.</translation>
     </message>
@@ -524,10 +472,6 @@
       <translation>Attiva/disattiva la navigazione</translation>
     </message>
     <message>
-      <source>View fullscreen</source>
-      <translation>Ingrandisci</translation>
-    </message>
-    <message>
       <source>hide navigation</source>
       <translation>nascondi la navigazione</translation>
     </message>
@@ -596,10 +540,6 @@
       <translation>Mappa</translation>
     </message>
     <message>
-      <source>Calendar</source>
-      <translation>Calendario</translation>
-    </message>
-    <message>
       <source>Filter by role assignment</source>
       <translation>Filtra per assegnazione del ruolo</translation>
     </message>
@@ -630,6 +570,66 @@
     <message>
       <source>Confirmed</source>
       <translation>Confermato</translation>
+    </message>
+    <message>
+      <source>View all events</source>
+      <translation>vedi tutti</translation>
+    </message>
+    <message>
+      <source>Calendar</source>
+      <translation>Calendario</translation>
+    </message>
+    <message>
+      <source>Select an item</source>
+      <translation>Seleziona un elemento</translation>
+    </message>
+    <message>
+      <source>No results found</source>
+      <translation>Nessun risultato trovato</translation>
+    </message>
+    <message>
+      <source>When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</source>
+      <translation>Quando sono disponibili risultati di completamento automatico, utilizza le frecce su e giù per esaminarli e premi Invio per selezionare. Gli utenti di dispositivi touch possono esplorare toccando o scorrendo con gesti.</translation>
+    </message>
+    <message>
+      <source>Press Enter or Space to remove selection</source>
+      <translation>Premio Invio o Spazio per rimuovere la selezione</translation>
+    </message>
+    <message>
+      <source>View fullscreen</source>
+      <translation>Ingrandisci</translation>
+    </message>
+    <message>
+      <source>Search by name</source>
+      <translation>Cerca per nome o cognome</translation>
+    </message>
+    <message>
+      <source>Precedure view all</source>
+      <translation>Mostra tutto</translation>
+    </message>
+    <message>
+      <source>Precedure hide all</source>
+      <translation>Nascondi tutto</translation>
+    </message>
+    <message>
+      <source>Precedure view step</source>
+      <translation>Mostra dettagli</translation>
+    </message>
+    <message>
+      <source>Precedure hide step</source>
+      <translation>Nascondi dettagli</translation>
+    </message>
+    <message>
+      <source>Website Stats</source>
+      <translation>Statistiche del sito</translation>
+    </message>
+    <message>
+      <source>Stats recent</source>
+      <translation>Andamento</translation>
+    </message>
+    <message>
+      <source>Stats last month</source>
+      <translation>Ultimo mese</translation>
     </message>
   </context>
   <context>
@@ -1261,19 +1261,11 @@
     </message>
     <message>
       <source>Document number</source>
-      <translation>Numero documento</translation>
+      <translation>Numero</translation>
     </message>
     <message>
       <source>Date</source>
       <translation>Data</translation>
-    </message>
-    <message>
-      <source>Date start</source>
-      <translation>Inizio</translation>
-    </message>
-    <message>
-      <source>Date end</source>
-      <translation>Fine</translation>
     </message>
     <message>
       <source>Office</source>
@@ -1292,10 +1284,6 @@
       <translation>Annulla</translation>
     </message>
     <message>
-      <source>Remove filters</source>
-      <translation>Rimuovi filtri</translation>
-    </message>
-    <message>
       <source>Document type</source>
       <translation>Tipo di documento</translation>
     </message>
@@ -1312,42 +1300,6 @@
       <translation>Nessun documento trovato</translation>
     </message>
     <message>
-      <source>No results were found</source>
-      <translation>Nessun risultato</translation>
-    </message>
-    <message>
-      <source>Document result</source>
-      <translation>documento</translation>
-    </message>
-    <message>
-      <source>Documents results</source>
-      <translation>documenti</translation>
-    </message>
-    <message>
-      <source>Dataset result</source>
-      <translation>dataset</translation>
-    </message>
-    <message>
-      <source>Dataset results</source>
-      <translation>dataset</translation>
-    </message>
-    <message>
-      <source>Project result</source>
-      <translation>progetto</translation>
-    </message>
-    <message>
-      <source>Projects results</source>
-      <translation>progetti</translation>
-    </message>
-    <message>
-      <source>Result found</source>
-      <translation>trovato</translation>
-    </message>
-    <message>
-      <source>Results found</source>
-      <translation>trovati</translation>
-    </message>
-    <message>
       <source>Questioners</source>
       <translation>Interroganti</translation>
     </message>
@@ -1362,6 +1314,46 @@
     <message>
       <source>%count documents found</source>
       <translation>%count documenti trovati</translation>
+    </message>
+    <message>
+      <source>Remove filters</source>
+      <translation>Rimuovi filtri</translation>
+    </message>
+    <message>
+      <source>Documents results</source>
+      <translation>documenti</translation>
+    </message>
+    <message>
+      <source>Dataset results</source>
+      <translation>dataset</translation>
+    </message>
+    <message>
+      <source>Projects results</source>
+      <translation>progetti</translation>
+    </message>
+    <message>
+      <source>No results were found</source>
+      <translation>Nessun risultato</translation>
+    </message>
+    <message>
+      <source>Document result</source>
+      <translation>documento</translation>
+    </message>
+    <message>
+      <source>Dataset result</source>
+      <translation>dataset</translation>
+    </message>
+    <message>
+      <source>Project result</source>
+      <translation>progetto</translation>
+    </message>
+    <message>
+      <source>Result found</source>
+      <translation>trovato</translation>
+    </message>
+    <message>
+      <source>Results found</source>
+      <translation>trovati</translation>
     </message>
   </context>
   <context>
@@ -1419,7 +1411,7 @@
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
       <translation>Questo sito fa uso di cookie tecnici essenziali al corretto funzionamento delle pagine web, di cookie di analisi e misurazione e di cookie di terze parti. 
 Selezionando "Accetta tutti i cookie" si acconsente all'utilizzo di tutti i cookie. 
-Selezionando "Accetta i cookie necessari" o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità ed alcuni contenuti potrebbero non essere disponibili. 
+Selezionando "Rifiuta tutti i cookie" o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità ed alcuni contenuti potrebbero non essere disponibili. 
 La preferenza può essere modificata in qualsiasi momento dall'Informativa cookie.</translation>
     </message>
     <message>
@@ -1441,7 +1433,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>Cookie settings</source>
-      <translation>Gestisci le preferenze dei cookie</translation>
+      <translation>Personalizza i cookie</translation>
     </message>
     <message>
       <source>Save current settings</source>
@@ -1474,18 +1466,6 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>The embedding of multimedia content is not enabled by respecting your cookie preferences.</source>
       <translation>Nel rispetto delle tue preferenze sui cookie, l'incorporamento automatico dei contenuti multimediali è disattivato</translation>
-    </message>
-    <message>
-      <source>Accept third-party cookies to watch the video</source>
-      <translation>Accetta i cookie di terze parti per vedere il video.</translation>
-    </message>
-    <message>
-      <source>Accept for this video</source>
-      <translation>Accetta per questo video</translation>
-    </message>
-    <message>
-      <source>Accept for all videos</source>
-      <translation>Accetta per tutti i video</translation>
     </message>
     <message>
       <source>Strictly Necessary Cookies</source>
@@ -1684,7 +1664,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>The homepage of the site can have a section of 3 news in evidence</source>
-      <translation>La homepage del sito può avere una sezione di 3 notizie in evidenza</translation>
+      <translation>La homepage del sito può avere una sezione di notizie in evidenza</translation>
     </message>
     <message>
       <source>Activate the "Events in evidence" section</source>
@@ -2104,6 +2084,14 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>You will receive a message if the date and time you requested is confirmed</source>
       <translation>Riceverai un messaggio in caso di conferma della data e dell'orario che hai richiesto</translation>
+    </message>
+    <message>
+      <source>Date start</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Date end</source>
+      <translation></translation>
     </message>
   </context>
   <context>

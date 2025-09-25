@@ -619,6 +619,18 @@
       <source>Precedure hide step</source>
       <translation>Ocultar detalles</translation>
     </message>
+    <message>
+      <source>Website Stats</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats recent</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats last month</source>
+      <translation></translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -1652,7 +1664,7 @@ Se utilizan principalmente para medir y mejorar la calidad de los sitios web med
     </message>
     <message>
       <source>The homepage of the site can have a section of 3 news in evidence</source>
-      <translation>La página de inicio del sitio puede tener una sección con 3 noticias destacadas</translation>
+      <translation>La página de inicio del sitio puede tener una sección con noticias destacadas</translation>
     </message>
     <message>
       <source>Activate the "Events in evidence" section</source>
@@ -2237,6 +2249,21 @@ Se utilizan principalmente para medir y mejorar la calidad de los sitios web med
     <message>
       <source>The version was discard by creator</source>
       <translation>La versión ha sido descartada por el autor</translation>
+    </message>
+  </context>
+  <context>
+    <name>bootstrapitalia/facets</name>
+    <message>
+      <source>Period</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Topic</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation></translation>
     </message>
   </context>
 </TS>
