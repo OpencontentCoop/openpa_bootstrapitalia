@@ -130,7 +130,7 @@ $primary-b: 48 !default;
 @import 'custom/videoplayer';
 @import 'override/custom/chips'; // 'custom/chips'
 @import 'custom/rating';
-@import 'custom/dimmer';
+@import 'override/custom/dimmer'; // 'custom/dimmer';
 @import 'custom/accept-overlay';
 @import 'override/custom/timeline'; // 'custom/timeline';
 @import 'custom/anchor';
