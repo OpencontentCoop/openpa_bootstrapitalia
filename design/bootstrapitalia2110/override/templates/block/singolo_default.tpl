@@ -1,20 +1,18 @@
 {if count($block.valid_nodes)|gt(0)}
     {def $valid_node = $block.valid_nodes[0]}
+    {def $openpa = object_handler($valid_node)}
 
     {if and($valid_node.class_identifier|eq('dataset'), $valid_node|has_attribute('csv_resource'))}
 
         {include uri='design:parts/block_name.tpl' css_class="pb-0 mb-0"}
 
         <div class="row">
-            <div class="col">
-                {attribute_view_gui attribute=$valid_node|attribute('csv_resource')}
+            <div class="col-12">
+                {attribute_view_gui attribute=$valid_node|attribute('csv_resource') link=$openpa.content_link.full_link}
             </div>
         </div>
 
     {else}
-
-        {def $openpa = object_handler($valid_node)}
-
         {def $has_image = false()}
         {foreach class_extra_parameters($valid_node.object.class_identifier, 'table_view').main_image as $identifier}
             {if $valid_node|has_attribute($identifier)}
@@ -89,7 +87,7 @@
                 {/if}
             </div>
         </div>
-        {undef $openpa $video $has_video $oembed}
+        {undef $video $has_video $oembed}
     {/if}
-    {undef $valid_node}
+    {undef $valid_node $openpa}
 {/if}
