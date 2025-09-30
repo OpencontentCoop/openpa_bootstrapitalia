@@ -4,6 +4,8 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
 {
     private $timelineConnector = null;
 
+    private $datasetMapConnector = null;
+
     private function getTimelineConnector(): ?RelationsField
     {
         if (!in_array(
@@ -20,12 +22,36 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
                     $this->originalObject->attribute('content_class'),
                     $this->getHelper()
                 );
-                $this->getTimelineConnector()->setContent($this->content['timeline_elements'] ?? []);
+                $this->timelineConnector->setContent($this->content['timeline_elements'] ?? []);
             } else {
                 $this->timelineConnector = false;
             }
         }
         return $this->timelineConnector;
+    }
+
+    private function getDatasetMapConnector(): ?RelationsField
+    {
+        if (!in_array(
+            $this->originalObject->remoteID(),
+            OpenPAINI::variable('LockEdit_' . $this->originalObject->attribute('class_identifier'), 'EnableDatasetMapRemoteIds', [])
+        )) {
+            return null;
+        }
+        if ($this->datasetMapConnector === null) {
+            $dataMap = $this->originalObject->dataMap();
+            if (isset($dataMap['dataset_map_elements'])) {
+                $this->datasetMapConnector = new RelationsField(
+                    $dataMap['dataset_map_elements']->attribute('contentclass_attribute'),
+                    $this->originalObject->attribute('content_class'),
+                    $this->getHelper()
+                );
+                $this->datasetMapConnector->setContent($this->content['dataset_map_elements'] ?? []);
+            } else {
+                $this->datasetMapConnector = false;
+            }
+        }
+        return $this->datasetMapConnector;
     }
 
     public static function getContentClass(): eZContentClass
@@ -65,6 +91,10 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             $data['timeline_elements'] = $this->getTimelineConnector()->getData();
         }
 
+        if ($this->getDatasetMapConnector()) {
+            $data['dataset_map_elements'] = $this->getDatasetMapConnector()->getData();
+        }
+
         return $data;
     }
 
@@ -93,6 +123,10 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             $schema['properties']['timeline_elements'] = $this->getTimelineConnector()->getSchema();
         }
 
+        if ($this->getDatasetMapConnector()) {
+            $schema['properties']['dataset_map_elements'] = $this->getDatasetMapConnector()->getSchema();
+        }
+
         return $schema;
     }
 
@@ -113,6 +147,12 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             $options['fields']['timeline_elements'] = $this->getTimelineConnector()->getOptions();
             $options['fields']['timeline_elements']['browse']['addCreateButton'] = true;
             $options['fields']['timeline_elements']['browse']['addEditButton'] = true;
+        }
+
+        if ($this->getDatasetMapConnector()) {
+            $options['fields']['dataset_map_elements'] = $this->getDatasetMapConnector()->getOptions();
+            $options['fields']['dataset_map_elements']['browse']['addCreateButton'] = false;
+            $options['fields']['dataset_map_elements']['browse']['addEditButton'] = false;
         }
 
         return $options;
@@ -291,6 +331,20 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
             $response['timeline_elements'] = empty($timelineData) ? null : $timelineData;
         }
 
+        if ($this->getDatasetMapConnector()) {
+            $timelineData = [];
+            $postData = (array)$data['dataset_map_elements'];
+            foreach ($postData as $item) {
+                if (is_numeric($item)) {
+                    $timelineData[] = (int)$item;
+                } elseif (is_array($item) && isset($item['id'])) {
+                    $timelineData[] = (int)$item['id'];
+                }
+            }
+
+            $response['dataset_map_elements'] = empty($timelineData) ? null : $timelineData;
+        }
+
         return $response;
     }
 
@@ -324,6 +378,14 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
                 'identifier' => 'timeline',
                 'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Timeline'),
                 'identifiers' => ['timeline_elements'],
+            ];
+        }
+
+        if ($this->getDatasetMapConnector()) {
+            $categories[] = [
+                'identifier' => 'dataset_map',
+                'name' => ezpI18n::tr('bootstrapitalia/editor-gui', 'Dataset Map'),
+                'identifiers' => ['dataset_map_elements'],
             ];
         }
 
