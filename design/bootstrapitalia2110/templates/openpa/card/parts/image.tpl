@@ -27,7 +27,7 @@
                 {if count($events)|gt(0)}
                     <div class="card-calendar d-flex flex-column justify-content-center">
                         <span class="card-date">{if $is_recurrence}
-                                <small>{'from'|i18n('openpa/search')}</small> {/if}{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )}</span>
+                                <small>{'from day'|i18n('bootstrapitalia')}</small> {/if}{recurrences_strtotime($events[0].start)|datetime( 'custom', '%j' )}</span>
                         <span class="card-day">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%F' )}</span>
                         {if openpaini('ViewSettings', 'ShowYearInEventCard')|eq('enabled')}
                             <span class="card-year">{recurrences_strtotime($events[0].start)|datetime( 'custom', '%Y' )}</span>

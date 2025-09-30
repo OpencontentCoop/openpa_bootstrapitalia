@@ -22,7 +22,7 @@
                 {set $is_recurrence = true()}
             {/if}
             {def $is_recurrence = cond(count($events)|gt(1), true(), false())}
-            {if $is_recurrence}{'from'|i18n('openpa/search')} {/if}{recurrences_strtotime($events[0].start)|l10n( 'date' )}
+            {if $is_recurrence}{'from day'|i18n('bootstrapitalia')} {/if}{recurrences_strtotime($events[0].start)|l10n( 'date' )}
             {undef $events $is_recurrence $attribute_content}
         {else}
             {$node.object.published|l10n( 'date' )}

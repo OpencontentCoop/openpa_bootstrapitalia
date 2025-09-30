@@ -4,6 +4,14 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>from day</source>
+      <translation>dal</translation>
+    </message>
+    <message>
+      <source>to day</source>
+      <translation>fino al</translation>
+    </message>
+    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Questo sito utilizza cookie tecnici, analytics e di terze parti.</translation>
     </message>

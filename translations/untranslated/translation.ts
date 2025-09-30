@@ -4,6 +4,14 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>from day</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>to day</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Website Stats</source>
       <translation type="unfinished"/>
     </message>
