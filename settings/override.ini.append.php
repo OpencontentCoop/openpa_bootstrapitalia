@@ -380,6 +380,13 @@ Subdir=templates
 Match[class_identifier]=pagina_sito
 Match[attribute_identifier]=timeline_elements
 
+[datatype_view_dataset_map_elements]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_dataset_map_elements.tpl
+Subdir=templates
+Match[class_identifier]=pagina_sito
+Match[attribute_identifier]=dataset_map_elements
+
 ############################################
 ############################################ DATATYPE EDIT
 ############################################

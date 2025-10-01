@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Other places</source>
+      <translation>Other places</translation>
+    </message>
+    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>This site uses technical, analytical and third-party cookies.</translation>
     </message>
