@@ -351,6 +351,10 @@
       <source>contents found</source>
       <translation type="unfinished"/>
     </message>
+     <message>
+      <source>content found</source>
+      <translation type="unfinished"/>
+    </message>
     <message>
       <source>Load more results</source>
       <translation type="unfinished"/>

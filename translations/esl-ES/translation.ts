@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Other places</source>
+      <translation>Otros lugares</translation>
+    </message>
+    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Este sitio utiliza cookies técnicas, analíticas y de terceros.</translation>
     </message>
@@ -298,6 +302,10 @@
     <message>
       <source>contents found</source>
       <translation>contenidos encontrados</translation>
+    </message>
+    <message>
+      <source>content found</source>
+      <translation>contenido encontrado</translation>
     </message>
     <message>
       <source>Load more results</source>

@@ -25,7 +25,7 @@
     {/literal}{if $show_search}{literal}
     {{if currentPage == 0 && totalCount > searchHits.length}}
       <div class="row">
-        <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
+        <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'content found'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
       </div>
     {{/if}}
     {/literal}{/if}{literal}
@@ -45,7 +45,7 @@
       {/literal}{if $show_search}{literal}
       {{if totalCount > searchHits.length}}
         <div class="row">
-          <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'contenuto trovato'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
+          <p class="mb-4 results-count" role="status"><strong>{{:totalCount}}</strong> {{if totalCount > 1}}{/literal}{'contents found'|i18n('bootstrapitalia')}{literal}{{else}}{/literal}{'content found'|i18n('bootstrapitalia')}{literal}{{/if}}</p>
         </div>
       {{/if}}
       {/literal}{/if}{literal}

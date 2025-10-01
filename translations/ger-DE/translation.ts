@@ -300,6 +300,10 @@
       <translation>Gefundene Inhalte</translation>
     </message>
     <message>
+      <source>content found</source>
+      <translation>Inhalt gefunden</translation>
+    </message>
+    <message>
       <source>Load more results</source>
       <translation>Weitere Ergebnisse hochladen</translation>
     </message>
