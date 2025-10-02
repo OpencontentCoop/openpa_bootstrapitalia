@@ -514,7 +514,7 @@
         },
 
         showStatusString: function(item) {
-          return item.is_visible ? '' : this.settings.i18n.hidden;
+          return item.is_visible ? '' : (this.settings.i18n.hidden || 'Nascosto');
         },
 
         makeListItem: function(item){        
