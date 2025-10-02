@@ -45,7 +45,8 @@
                 removeFromSelection: "Rimuovi dalla selezione",
                 addToSelection: "Aggiungi alla selezione",
                 store: "Salva",
-                storeLoading: "Salvataggio in corso..."
+                storeLoading: "Salvataggio in corso...",
+                hidden: "Nascosto"
             }
         };
 
@@ -375,9 +376,8 @@
                                 class_identifier: this.class_identifier,
                                 is_container: this.is_container,
                                 thumbnail_url: this.thumbnail_url,
-                                hidden_status_string: this.hidden_status_string
+                                is_visible: !this.contentobject_state.includes('privacy/private') && this.section_id === 1
                             };
-                            
 
                             var listItem = self.makeListItem(item);
                             listItem.appendTo(list);                            
@@ -687,12 +687,16 @@
             }); 
         },
 
+        showStatusString: function(item) {
+          return item.is_visible ? '' : this.settings.i18n.hidden;
+        },
+
         makeListItem: function(item){        
             var self = this;
             var name;
             var lineHeightStyle = item.thumbnail_url ? 'height: 80px;' : '';
             if (item.is_container){
-                name = $('<div><a data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" class="fw-semibold" style="'+lineHeightStyle+'"> '+item.name+ '</a> <div class="badge bg-secondary">'+item.hidden_status_string+'</div><br> <small>' +item.class_name + '</small></div>');
+                name = $('<div><a data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" class="fw-semibold" style="'+lineHeightStyle+'"> '+item.name+ '</a> <div class="badge rounded-pill bg-secondary ms-1">'+this.showStatusString(item)+'</div><br> <small>' +item.class_name + '</small></div>');
                 if (self.settings.useTooltip) name.tooltip();
                 name.children('a:first').bind('click', function(e){
                     self.browseParameters.subtree = $(this).data('node_id');
@@ -701,7 +705,7 @@
                     e.preventDefault();
                 });
             }else{
-                name = $('<div><span data-node_id="'+item.node_id+'" class="fw-semibold" style="max-width: 50%;'+lineHeightStyle+'"> '+item.name+ '</span> <div class="badge bg-secondary">'+item.hidden_status_string+'</div><br> <small>' +item.class_name + '</small></div>');
+                name = $('<div><span data-node_id="'+item.node_id+'" class="fw-semibold" style="max-width: 50%;'+lineHeightStyle+'"> '+item.name+ '</span> <div class="badge rounded-pill bg-secondary ms-1">'+this.showStatusString(item)+'</div><br> <small>' +item.class_name + '</small></div>');
             }
             var listItem = $('<li class="list-group-item"></li>');
             if (typeof $.fn.alpaca != 'undefined') {
