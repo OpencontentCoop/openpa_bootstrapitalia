@@ -1,4 +1,3 @@
-{$link|attribute( show, 1 )}
 {if $attribute.has_content}
 {if module_params().function_name|eq('edit')}
     <table class="table table-sm">
