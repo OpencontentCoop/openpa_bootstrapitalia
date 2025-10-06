@@ -172,12 +172,15 @@
 
     {if and($attribute.data_int, $attribute.data_int|gt(0))}
         <div class="my-2">
-            <h3 class="h6">{'Last modified'|i18n('bootstrapitalia')}: <span class="h6 fw-normal">{$attribute.data_int|l10n( 'shortdatetime' )}</span>
-              {if $link}
-                <a href={$link} class="h6 fw-normal d-inline-flex ms-1">
-                  {'Go to content'|i18n('bootstrapitalia')}
-              {/if}
-            </h3>
+            <div class="d-inline-flex">
+              <h3 class="h6 d-inline-flex">{'Last modified'|i18n('bootstrapitalia')}:</h3>
+              <span class="h6 fw-normal d-inline-flex">{$attribute.data_int|l10n( 'shortdatetime' )}</span>
+            </div>
+            {if $link}
+              <a href={$link} class="h6 fw-normal d-inline-flex ms-1">
+                {'Go to content'|i18n('bootstrapitalia')}
+              </a>
+            {/if}
         </div>
     {/if}
 
