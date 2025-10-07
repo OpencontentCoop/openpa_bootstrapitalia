@@ -17,6 +17,7 @@ General[]=ezfIndexPublicServiceMenu
 General[]=ezfIndexRoleReverseRelations
 Class[organization]=ezfIndexSubAttributeGeo
 Class[bando]=ezfIndexFaseBando
+General[]=CheckBookingConsistency
 
 # Per siti multilingua occorre impostare a livello globale questo index plugin:
 #General[]=ezfIndexLangBitwise

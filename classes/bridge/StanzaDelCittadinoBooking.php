@@ -120,6 +120,8 @@ EOT;
             } else {
                 $query = "DELETE FROM ocbookingconfig WHERE office_id = $office AND service_id = $service AND place_id = $place";
             }
+            self::checkServiceOfficeConsistency($service);
+            self::checkOfficePlaceConsistency($office);
             eZDB::setErrorHandling(eZDB::ERROR_HANDLING_EXCEPTIONS);
             try {
                 eZDB::instance()->query($query);
@@ -135,6 +137,34 @@ EOT;
         }
         eZDebug::writeError('Current user can not store booking config', __METHOD__);
         return false;
+    }
+
+    public static function checkServiceOfficeConsistency(int $service)
+    {
+        $object = eZContentObject::fetch($service);
+        if ($object instanceof eZContentObject) {
+            $dataMap = $object->dataMap();
+            $officeIdList = explode('-', $dataMap['holds_role_in_time']->toString());
+            $officeIdList = array_map('intval', $officeIdList);
+            $query = "DELETE FROM ocbookingconfig WHERE service_id = $service AND office_id NOT IN (" . implode(',', $officeIdList) . ") RETURNING *";
+            $res = eZDB::instance()->arrayQuery($query);
+            return !empty($res);
+        }
+
+        return true;
+    }
+
+    public static function checkOfficePlaceConsistency(int $office)
+    {
+        $object = eZContentObject::fetch($office);
+        if ($object instanceof eZContentObject) {
+            $dataMap = $object->dataMap();
+            $placeIdList = explode('-', $dataMap['has_spatial_coverage']->toString());
+            $placeIdList = array_map('intval', $placeIdList);
+            $query = "DELETE FROM ocbookingconfig WHERE office_id = $office AND place_id NOT IN (" . implode(',', $placeIdList) . ") RETURNING *";
+            $res = eZDB::instance()->arrayQuery($query);
+            return !empty($res);
+        }
     }
 
     public function getCalendar($id)
@@ -782,7 +812,7 @@ EOT;
         $this->setStorage(self::STORE_AS_APPLICATION_CACHE_KEY, (int)$enable);
     }
 
-    private static function refreshView()
+    public static function refreshView()
     {
         self::createViewIfNeeded();
         eZDB::instance()->query('REFRESH MATERIALIZED VIEW ocbooking');
@@ -861,6 +891,7 @@ EOT;
             places AS (
               SELECT objects.remote_id, objects.id, objects.name, jsonb_build_object('address', locations.address, 'lat', locations.latitude, 'lng', locations.longitude) as location FROM objects 
                 FULL JOIN locations ON(objects.id = locations.id)
+                JOIN ezcontentobject_link ON (ezcontentobject_link.to_contentobject_id = objects.id)
                 WHERE identifier = 'place'
               ),
             offices_and_places AS (
@@ -1002,7 +1033,7 @@ EOT;
                         $data[$i]['offices'][$k]['places'][$j]['calendars'][] = [
                             'id' => $calendar,
                             'link' => $apiBaseUri . '/api/calendars/' . $calendar,
-                            'availabilities_link' => $apiBaseUri . "/api/availabilities?$query"
+                            'availabilities_link' => $apiBaseUri . "/api/availabilities?$query",
                         ];
                     }
                     $query = http_build_query([

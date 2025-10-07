@@ -75,7 +75,7 @@
 {{for searchHits}}
 <li class="nav-item">
     <a class="nav-link ps-0 d-block mw-100" data-bs-toggle="tab" data-id="{{:metadata.id}}" href="#">
-       {{:~i18n(metadata.name)}}
+       <span class="badge bg-info">{{:metadata.id}}</span> {{:~i18n(metadata.name)}}
        <small class="d-block mt-2">{{for ~i18n(data, 'type')}}{{:#data}} {{/for}}</small>
        {{for ~i18n(data, 'has_spatial_coverage')}}
             <small data-place="{{:#data.id}}"></small>
@@ -114,7 +114,7 @@
 {{for searchHits}}
 <li class="nav-item">
     <a class="nav-link ps-0 d-block mw-100" data-bs-toggle="tab" data-id="{{:metadata.id}}" href="#">
-       {{:~i18n(metadata.name)}}
+       <span class="badge bg-info">{{:metadata.id}}</span> {{:~i18n(metadata.name)}}
     </a>
 </li>
 {{else}}
@@ -143,7 +143,7 @@
 {{for searchHits}}
 <li class="row mb-5">
     <div class="col-12">
-      <b>{{:~i18n(metadata.name)}}</b> <i data-id="{{:metadata.id}}" class="fa fa-circle-o-notch fa-spin fa-fw" style="display:none"></i>
+      <b><span class="badge bg-info">{{:metadata.id}}</span> {{:~i18n(metadata.name)}}</b> <i data-id="{{:metadata.id}}" class="fa fa-circle-o-notch fa-spin fa-fw" style="display:none"></i>
     </div>
     <div class="col-12" data-id="{{:metadata.id}}">
       {{include tmpl="#tpl-calendar-select"/}}
