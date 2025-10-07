@@ -108,7 +108,8 @@ class OpenPABootstrapItaliaOperators
             'links_list_by_group',
             'decode_html_entities',
             'http_locale_code',
-            'to_base64_image_data'
+            'to_base64_image_data',
+            'is_object_booking_configured',
         );
     }
 
@@ -291,6 +292,9 @@ class OpenPABootstrapItaliaOperators
             'http_locale_code' => array(
                 'siteaccess' => array('type' => 'string', 'required' => true, 'default' => null),
             ),
+            'is_object_booking_configured' => array(
+                'object_id' => array('type' => 'integer', 'required' => true, 'default' => null),
+            ),
         );
     }
 
@@ -305,6 +309,14 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+            case 'is_object_booking_configured':
+                $operatorValue = false;
+                if (StanzaDelCittadinoBooking::factory()->isEnabled()){
+                    $operatorValue = StanzaDelCittadinoBooking::factory()
+                        ->isObjectConfigured((int)$namedParameters['object_id']);
+                }
+                break;
+
             case 'to_base64_image_data':
                 $image = eZClusterFileHandler::instance($operatorValue);
                 if ($image->exists()) {

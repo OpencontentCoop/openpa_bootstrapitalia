@@ -1061,4 +1061,11 @@ EOT;
             'query' => $query,
         ];
     }
+
+    public function isObjectConfigured(int $objectId): bool
+    {
+        $query = "SELECT count(*) as count FROM ocbookingconfig WHERE service_id = $objectId OR office_id = $objectId OR place_id = $objectId";
+        $count = intval(eZDB::instance()->arrayQuery($query)[0]['count']);
+        return $count > 0;
+    }
 }
