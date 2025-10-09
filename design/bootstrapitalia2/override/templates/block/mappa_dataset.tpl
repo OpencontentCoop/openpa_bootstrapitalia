@@ -150,6 +150,10 @@
         .then(data => {
           const clusterGroup = L.markerClusterGroup();
 
+          if (data && Array.isArray(data.features)) {
+            data.features = data.features.slice(0, 1000);
+          }
+
           const geoLayer = L.geoJson(data, {
             pointToLayer: function(feature, latlng) {
               let icon = L.divIcon({
