@@ -108,7 +108,9 @@ class OpenPABootstrapItaliaOperators
             'links_list_by_group',
             'decode_html_entities',
             'http_locale_code',
-            'to_base64_image_data'
+            'to_base64_image_data',
+            'decode_json',
+            'encode_json',
         );
     }
 
@@ -291,6 +293,12 @@ class OpenPABootstrapItaliaOperators
             'http_locale_code' => array(
                 'siteaccess' => array('type' => 'string', 'required' => true, 'default' => null),
             ),
+            'decode_json' => array(
+                'string' => array('type' => 'string', 'required' => true, 'default' => null),
+            ),
+            'encode_json' => array(
+                'input' => array('type' => 'mixed', 'required' => true, 'default' => null),
+            ),
         );
     }
 
@@ -305,6 +313,37 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+          case 'encode_json':
+            if (is_array($operatorValue) || is_object($operatorValue)) {
+                $encoded = json_encode($operatorValue, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+                if ($encoded !== false) {
+                    $operatorValue = $encoded;
+                } else {
+                    eZDebug::writeWarning(
+                        "Errore codifica JSON in encode_json: " . json_last_error_msg(),
+                        __METHOD__
+                    );
+                    $operatorValue = '';
+                }
+            }
+            break;
+            case 'decode_json':
+                if (is_string($operatorValue)) {
+                    $decoded = json_decode($operatorValue, true);
+
+                    if (json_last_error() === JSON_ERROR_NONE) {
+                        $operatorValue = $decoded;
+                    } else {
+                        eZDebug::writeWarning(
+                            "Errore decodifica JSON in decode_json: " . json_last_error_msg(),
+                            __METHOD__
+                        );
+                        $operatorValue = [];
+                    }
+                }
+                break;
+
             case 'to_base64_image_data':
                 $image = eZClusterFileHandler::instance($operatorValue);
                 if ($image->exists()) {
