@@ -12,15 +12,28 @@
                 {foreach $block.valid_nodes as $valid_node}
                   {if and($valid_node.object.class_identifier|eq('dataset'), $valid_node.data_map.csv_resource.content.views|contains('map'))}
                     {def $custom_repository = concat('dataset-', $valid_node.data_map.csv_resource.contentclass_attribute_identifier, '-',$valid_node.data_map.csv_resource.contentobject_id)}
+                    {def $data = $valid_node.data_map.csv_resource.data_text|decode_json().fields}
+                    {def $fields = array()}
+                    {foreach $data as $item}
+                      {set $fields = $fields|merge( hash( $item.identifier, $item.label ) )}
+                    {/foreach}
+                    {def $fields_labels = $fields|encode_json()}
+
                     <div class="col-12 col-sm-6 col-lg-12">
                       <div class="form-check">
-                        <input id="checkbox-{$valid_node.node_id}" type="checkbox" checked="checked" data-geojson="{concat('/customgeo/',$custom_repository)|ezurl(no)}/">
-                        <label for="checkbox-{$valid_node.node_id}">{$valid_node.data_map.csv_resource.content.item_name|wash()}</label>
+                        <input 
+                          id="checkbox-{$valid_node.node_id}"
+                          type="checkbox"
+                          checked="checked"
+                          data-geojson="{concat('/customgeo/',$custom_repository)|ezurl(no)}/"
+                          data-fields-text="{$fields_labels|wash()}">
+                        <label for="checkbox-{$valid_node.node_id}">{$valid_node.data_map.title.content|wash()}</label>
                       </div>
                     </div>
                   {else}
                     {editor_warning(concat("Non sono presenti luoghi georeferenziati con vista mappa per il dataset: ",$valid_node.name))}
                   {/if}
+                  {undef $custom_repository $fields $fields_labels $data}
                 {/foreach}
               </div>
             </fieldset>
@@ -77,6 +90,7 @@
       const loaderOverlay = document.getElementById(loaderId);
 
       checkboxes.forEach(cb => {
+
         loadDataset(cb, map, layers, () => {
           loadedCount++;
           if (loadedCount === checkboxes.length) {
@@ -99,8 +113,31 @@
       return map;
     }
 
+    function parseFieldsText(fieldsText) {
+      if (!fieldsText) return {};
+
+      try {
+        const decodedText = fieldsText.replace(/&quot;/g, '"');
+        const obj = JSON.parse(decodedText);
+        const map = {};
+
+        for (const key in obj) {
+          if (Object.hasOwn(obj, key)) {
+            map[key] = obj[key];
+          }
+        }
+
+        return map;
+      } catch (e) {
+        console.warn("Errore parsing fieldsText:", e);
+        return {};
+      }
+    }
+
     function loadDataset(checkbox, map, layers, onLoad) {
       const url = checkbox.dataset.geojson;
+      const fieldsText = checkbox.getAttribute('data-fields-text') || '{}';
+      const fieldLabels = parseFieldsText(fieldsText);
 
       const datasetName = checkbox.nextElementSibling
         ? checkbox.nextElementSibling.innerText.trim()
@@ -124,20 +161,35 @@
               });
               return L.marker(latlng, { icon: icon });
             },
+            
             onEachFeature: function(feature, layer) {
               let props = feature.properties || {};
-              let title = props.Name || 'Nessun titolo';
-              let hiddenKeys = ['_createdAt', '_creator', '_guid', '_modifiedAt', 'Geo', 'Name'];
+              let hiddenKeys = ['_createdAt', '_creator', '_guid', '_modifiedAt'];
               let contentText = '';
 
-              Object.keys(props).forEach(key => {
-                if (!hiddenKeys.includes(key)) {
-                  let value = props[key];
-                  if (value !== null && value !== undefined && value !== "") {
-                    contentText += `${value}<br>`;
-                  }
-                }
-              });
+              function isLatLong(value) {
+                if (typeof value !== 'string') return false;
+                const trimmed = value.trim();
+                const regex = /^-?\d+(\.\d+)?\s*,\s*-?\d+(\.\d+)?$/;
+                if (!regex.test(trimmed)) return false;
+                const [lat, lon] = trimmed.split(',').map(Number);
+                return (
+                  lat >= -90 && lat <= 90 &&
+                  lon >= -180 && lon <= 180
+                );
+              }
+
+              let itemsCount = 0;
+              for (const key of Object.keys(props)) {
+                const value = props[key];
+                if (hiddenKeys.includes(key) || isLatLong(value)) continue;
+                if (value === null || value === undefined || value === '') continue;
+                
+                const label = fieldLabels[key] || key;
+                contentText += `<div><strong>${label}:</strong> <span>${value}</span></div>`;
+                itemsCount++;
+                if (itemsCount >= 5) break;
+              }
 
               let popupContent = `
                 <div class="card-wrapper border border-light rounded shadow-sm pb-0">
@@ -148,7 +200,6 @@
                           ${datasetName}
                         </span>
                       </div>
-                      <h3 class="h5 card-title">${title}</h3>
                       <div class="card-text">
                         ${contentText}
                       </div>
