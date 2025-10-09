@@ -320,6 +320,8 @@ SectionBannerLimit=9
 [LockEdit_pagina_sito]
 EnableTimelineRemoteIds[]
 EnableTimelineRemoteIds[]=history
+EnableDatasetMapRemoteIds[]
+EnableDatasetMapRemoteIds[]=all-places
 
 [OpenpaAgenda]
 EnableDiscussion=enabled
