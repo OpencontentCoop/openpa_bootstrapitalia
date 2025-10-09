@@ -104,6 +104,10 @@ h6.title_editor {
   ol {
     list-style-type: auto;
   }
+  
+  li a {
+    display: inline;
+  }
 }
 
 .map-wrapper.map-column {
