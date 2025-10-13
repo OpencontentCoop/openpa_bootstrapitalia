@@ -80,4 +80,8 @@
     {attribute_view_gui attribute=$node|attribute('timeline_elements')}
 {/if}
 
+{if $node|has_attribute('dataset_map_elements')}
+    {attribute_view_gui attribute=$node|attribute('dataset_map_elements')}
+{/if}
+
 {node_view_gui content_node=$node view=children view_parameters=$view_parameters view_variation=cond(or($first_block_has_bg|not(), $last_block_has_bg, $blocks|not()), 'py-5', 'pb-5')}
