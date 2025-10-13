@@ -26,6 +26,15 @@
     var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
     for (var iframesTag of iframesTags) {
       iframesTag.setAttribute('src', iframesTag.getAttribute('data-src'));
+
+      var dimmableParent = iframesTag.closest('.dimmable');
+      if (dimmableParent) {
+        var dimmers = dimmableParent.querySelectorAll('.dimmer.fade');
+        dimmers.forEach(function (dimmer) {
+          dimmer.classList.toggle('hide');
+          dimmer.classList.toggle('show');
+        });
+      }
     }
     var customTags = document.querySelectorAll('[data-coookieconsent="custom"]');
     for (var customTag of customTags) {
@@ -34,10 +43,19 @@
   }
   var hideIframes = function(){
     console.log('hideIframes')
-    bootstrap.cookies.rememberChoice('multimedia', false)
+    bootstrap.cookies?.rememberChoice('multimedia', false)
     var iframesTags = document.querySelectorAll('iframe[data-coookieconsent="multimedia"]');
     for (var iframesTag of iframesTags) {
       iframesTag.setAttribute('src', iframesTag.getAttribute('data-preview'));
+
+      var dimmableParent = iframesTag.closest('.dimmable');
+      if (dimmableParent) {
+        var dimmers = dimmableParent.querySelectorAll('.dimmer');
+        dimmers.forEach(function (dimmer) {
+          dimmer.classList.toggle('hide');
+          dimmer.classList.toggle('show');
+        });
+      }
     }
     var customTags = document.querySelectorAll('[data-coookieconsent="custom"]');
     for (var customTag of customTags) {
