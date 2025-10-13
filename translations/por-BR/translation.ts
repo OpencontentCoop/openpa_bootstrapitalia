@@ -312,6 +312,10 @@
       <translation>conteúdos encontrados</translation>
     </message>
     <message>
+      <source>content found</source>
+      <translation>conteúdo encontrado</translation>
+    </message>
+    <message>
       <source>Load more results</source>
       <translation>Carregar mais resultados</translation>
     </message>
