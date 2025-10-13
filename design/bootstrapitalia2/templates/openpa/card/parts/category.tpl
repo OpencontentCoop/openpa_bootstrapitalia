@@ -31,7 +31,7 @@
             {if $is_recurrence}{'from'|i18n('openpa/search')} {/if}{recurrences_strtotime($events[0].start)|l10n( 'date' )}
             {undef $events $is_recurrence $attribute_content}
         {else}
-        {$node.object.published|l10n( 'date' )}
+          {$node.object.published|l10n( 'date' )}
         {/if}
         </span>
     </div>
