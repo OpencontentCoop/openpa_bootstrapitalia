@@ -956,6 +956,7 @@ EOT;
         }
         self::createViewIfNeeded();
 
+        $useHowtoField = self::factory()->isShowHowToEnabled();
         $db = eZDB::instance();
         $baseQuery = 'SELECT * FROM ocbooking';
         $baseCountQuery = 'SELECT count(id) FROM ocbooking';
@@ -1044,6 +1045,7 @@ EOT;
                         $apiBaseUri . "/api/availabilities?$query" : null;
                 }
             }
+            $data[$i]['show_howto_in_motivation'] = $useHowtoField;
         }
         if ($limit < 0) {
             $limit = 0;
