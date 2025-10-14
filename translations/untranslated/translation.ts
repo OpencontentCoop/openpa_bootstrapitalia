@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Show more elements</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Other places</source>
       <translation type="unfinished"/>
     </message>
