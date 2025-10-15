@@ -45,8 +45,17 @@
                 <label for="politico">Politico</label>
             </div>
         </div>*}
-        <div class="col-12">
-            <div class="m-0 d-block">{'Filter by role assignment'|i18n('bootstrapitalia')}:</div>
+        <div class="col-12 mb-4">
+          <button 
+            class="btn-link"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapse-filters"
+            aria-expanded="false"
+            aria-controls='collapse-filters'>
+            {'Filter by role assignment'|i18n('bootstrapitalia')}
+          </button>
+          <div class="collapse mt-2" id='collapse-filters'>
             {foreach $available_groups as $group}
             <div class="form-check form-check-inline">
                 <input class="filter" id="path-{$group.node_id}" data-filterpath="{$group.node_id}" type="checkbox">
@@ -59,6 +68,7 @@
                     <label for="path-{$moderation_object.main_node_id}"><em>{$moderation_object.name|wash()}</em></label>
                 </div>
             {/if}
+          </div>
         </div>
         <div class="col-12">
           <div class="oc-table-responsive">
