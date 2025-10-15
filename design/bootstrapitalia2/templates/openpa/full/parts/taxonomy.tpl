@@ -25,7 +25,7 @@
         <ul class="d-flex flex-wrap gap-1 mb-2">
         {foreach $current_topics as $index => $object max 6}
             <li>
-                <a class="chip chip-simple chip-primary {if $object.section_id|ne(1)}no-sezioni_per_tutti{/if}"
+                <a class="chip chip-simple chip-primary {if $object.section_id|ne(1)}no-sezioni_per_tutti{/if} mb-0"
                    {if $node.class_identifier|eq('public_service')}data-element="service-topic"{/if}
                    href="{$object.main_node.url_alias|ezurl(no)}">
                     <span class="chip-label">{$object.name|wash()}</span>
@@ -48,7 +48,7 @@
               <ul class="d-flex flex-wrap gap-1 mb-2">
                 {foreach $current_topics as $index => $object offest 6}
                   <li>
-                    <a class="chip chip-simple chip-primary {if $object.section_id|ne(1)}no-sezioni_per_tutti{/if}"
+                    <a class="chip chip-simple chip-primary {if $object.section_id|ne(1)}no-sezioni_per_tutti{/if} mb-0"
                       {if $node.class_identifier|eq('public_service')}data-element="service-topic"{/if}
                       href="{$object.main_node.url_alias|ezurl(no)}">
                         <span class="chip-label">{$object.name|wash()}</span>
@@ -65,14 +65,14 @@
     {foreach array('has_public_event_typology', 'content_type', 'document_type', 'announcement_type') as $identifier}
     {if $node|has_attribute($identifier)}
         {if $show_title}
-            <div class="row">
+            <div class="row mt-1">
                 <h2 class="mb-2 h6 fw-normal">{$node|attribute($identifier).contentclass_attribute_name}</h2>
             </div>
         {/if}
         {if $node|attribute($identifier).data_type_string|eq('eztags')}
             <ul class="d-flex flex-wrap gap-1 mb-2">
             {foreach $node|attribute($identifier).content.tags as $tag max 6}
-                <li class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></li>
+                <li class="chip chip-simple chip-primary mb-0"><span class="chip-label">{$tag.keyword|wash}</span></li>
             {/foreach}
             </ul>
             {if $node|attribute($identifier).content.tags|count()|gt(6) }
@@ -89,7 +89,7 @@
                 <div class="collapse mt-2" id='collapse-{$node.node_id}-{$identifier}'>
                   <ul class="d-flex flex-wrap gap-1 mb-2">
                     {foreach $node|attribute($identifier).content.tags as $tag offest 6}
-                      <li class="chip chip-simple chip-primary"><span class="chip-label">{$tag.keyword|wash}</span></li>
+                      <li class="chip chip-simple chip-primary mb-0"><span class="chip-label">{$tag.keyword|wash}</span></li>
                     {/foreach}
                   </ul>
                 </div>
@@ -108,14 +108,14 @@
 {if and($show_title, $node|has_attribute('type'), $node|attribute('type').data_type_string|eq('eztags'), is_set($parent_openpa), $parent_openpa.content_tag_menu.has_tag_menu)}
 <section class="{$container_class}">
     {if $show_title}
-        <div class="row">
+        <div class="row mt-1">
             <h2 class="mb-2 h6 fw-normal">{$node|attribute('type').contentclass_attribute_name|wash()}</h2>
         </div>
     {/if}
     <ul class="d-flex flex-wrap gap-1">
     {foreach $node|attribute('type').content.tags as $tag max 6}
       <li>
-          <a class="chip chip-simple chip-primary"
+          <a class="chip chip-simple chip-primary mb-0"
               href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.content_tag_menu.tag_menu_root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
               <span class="chip-label">{$tag.keyword|wash}</span>
           </a>
@@ -137,7 +137,7 @@
           <ul class="d-flex flex-wrap gap-1 mb-2">
             {foreach $node|attribute('type').content.tags as $tag offest 6}
               <li>
-                  <a class="chip chip-simple chip-primary"
+                  <a class="chip chip-simple chip-primary mb-0"
                       href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.content_tag_menu.tag_menu_root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
                       <span class="chip-label">{$tag.keyword|wash}</span>
                   </a>
