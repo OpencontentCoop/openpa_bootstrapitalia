@@ -619,3 +619,12 @@ input[type="search"]::-webkit-search-results-decoration {
     background: linear-gradient(270deg, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
   }
 }
+
+.oc-placeholder::placeholder {
+  color: get-color(light, grey) !important;
+  opacity: 1 !important;
+}
+
+.oc-placeholder::-ms-input-placeholder {
+  color: get-color(light, grey) !important;
+}
