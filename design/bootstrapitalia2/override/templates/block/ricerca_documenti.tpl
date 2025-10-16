@@ -276,7 +276,7 @@
 {literal}
 <script id="tpl-document-spinner" type="text/x-jsrender">
 <div class="spinner text-center pt-3">
-    <i role="presentation" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+    <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
     <span class="sr-only">{/literal}{'Loading...'|i18n('bootstrapitalia/documents')}{literal}</span>
 </div>
 </script>
