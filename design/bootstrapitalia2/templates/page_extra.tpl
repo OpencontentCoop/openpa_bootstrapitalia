@@ -22,7 +22,7 @@
                             </button>
                         </div>
                         <div class="form-group autocomplete-wrapper">
-                            <label for="main-search-input" class="visually-hidden">{'Search in all content'|i18n('design/admin/pagelayout')}</label>
+                            <label for="main-search-input" class="sr-only">{'Search in all content'|i18n('design/admin/pagelayout')}</label>
                             <input type="search" class="autocomplete ps-5 oc-placeholder" placeholder="{'Search in the site'|i18n( 'bootstrapitalia' )}"
                                    id="main-search-input" name="SearchText" data-bs-autocomplete="[]">
                             <span class="autocomplete-icon" aria-hidden="true" focusable="false">

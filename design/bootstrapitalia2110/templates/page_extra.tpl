@@ -27,7 +27,7 @@
                                     </button>
                                 </div>
                                 <div class="form-group autocomplete-wrapper">
-                                    <label for="main-search-input" class="visually-hidden">{'Search in the site'|i18n( 'bootstrapitalia' )}</label>
+                                    <label for="main-search-input" class="sr-only">{'Search in the site'|i18n( 'bootstrapitalia' )}</label>
                                     <input type="search" class="autocomplete ps-5 w-100" placeholder="{'Search in the site'|i18n( 'bootstrapitalia' )}"
                                            id="main-search-input"
                                            name="SearchText"
