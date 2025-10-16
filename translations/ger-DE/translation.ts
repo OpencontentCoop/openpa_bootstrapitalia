@@ -36,6 +36,10 @@
       <translation>Zum Hauptinhalt wechseln</translation>
     </message>
     <message>
+      <source>Jump to main navigation</source>
+      <translation>Zur Hauptnavigation</translation>
+    </message>
+    <message>
       <source>Jump to section menu</source>
       <translation>Zum Sektionsmenü wechseln</translation>
     </message>

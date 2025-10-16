@@ -49,7 +49,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <nav class="navbar navbar-expand-lg has-megamenu" aria-label="{'Main menu'|i18n('bootstrapitalia')}">
+                <nav class="navbar navbar-expand-lg has-megamenu" aria-label="{'Main menu'|i18n('bootstrapitalia')}" id="main-navigation">
                     <button class="custom-navbar-toggler"
                             type="button"
                             aria-controls="main-menu"

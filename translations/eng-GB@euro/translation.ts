@@ -36,6 +36,10 @@
       <translation>Go to main content</translation>
     </message>
     <message>
+      <source>Jump to main navigation</source>
+      <translation>Vai al main navigation</translation>
+    </message>
+    <message>
       <source>Jump to section menu</source>
       <translation>Go to the section menu</translation>
     </message>

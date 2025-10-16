@@ -37,7 +37,11 @@
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Aller au menu de la rubrique</translation>
+      <translation>Aller au menu de navigation principal</translation>
+    </message>
+    <message>
+      <source>Jump to main navigation</source>
+      <translation>Zur Hauptnavigation</translation>
     </message>
     <message>
       <source>Jump to footer</source>

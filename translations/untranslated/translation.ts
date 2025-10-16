@@ -88,6 +88,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Jump to main navigation</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Jump to section menu</source>
       <translation type="unfinished"/>
     </message>

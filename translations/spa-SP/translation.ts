@@ -48,6 +48,10 @@
       <translation>Saltar al contenido principal</translation>
     </message>
     <message>
+      <source>Jump to main navigation</source>
+      <translation>Ir al menú de navegación principal</translation>
+    </message>
+    <message>
       <source>Jump to section menu</source>
       <translation>Saltar al menú de sección</translation>
     </message>

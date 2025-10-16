@@ -40,6 +40,10 @@
       <translation>Acessar menu de seção</translation>
     </message>
     <message>
+      <source>Jump to main navigation</source>
+      <translation>Ir ao menu de navegação principal</translation>
+    </message>
+    <message>
       <source>Jump to footer</source>
       <translation>Ir para o rodapé</translation>
     </message>
