@@ -71,14 +71,14 @@
 						<div class="input-group-append">
 							<button class="btn btn-primary btn-xs" type="submit" data-focus-mouse="false" aria-label={'Search'|i18n('design/plain/layout')}>
                 <span class="d-none d-md-inline" aria-hidden="true">{'Search'|i18n('design/plain/layout')}</span>
-                <span class="d-md-none" aria-hidden="true">{display_icon('it-search', 'svg', 'icon icon-sm icon-white')}</span>
+                <span class="d-md-none">{display_icon('it-search', 'svg', 'icon icon-sm icon-white')}</span>
               </button>
               <button type="reset" class="btn btn-secondary btn-xs hide" style="margin-left: -6px; z-index: 1" aria-label={'Remove filters'|i18n('bootstrapitalia/documents')}>
                 <span class="d-none d-md-inline" aria-hidden="true">{'Remove filters'|i18n('bootstrapitalia/documents')}</span>
-                <span class="d-md-none" aria-hidden="true">{display_icon('it-close', 'svg', 'icon icon-sm icon-white')}</span>
+                <span class="d-md-none">{display_icon('it-close', 'svg', 'icon icon-sm icon-white')}</span>
               </button>
 						</div>
-						<span class="autocomplete-icon d-none d-md-block" aria-hidden="true">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
+						<span class="autocomplete-icon d-none d-md-block">{display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}</span>
 					</div>
 				</div>
 			</div>
@@ -276,7 +276,7 @@
 {literal}
 <script id="tpl-document-spinner" type="text/x-jsrender">
 <div class="spinner text-center pt-3">
-    <i aria-hidden="true" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+    <i role="presentation" class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
     <span class="sr-only">{/literal}{'Loading...'|i18n('bootstrapitalia/documents')}{literal}</span>
 </div>
 </script>

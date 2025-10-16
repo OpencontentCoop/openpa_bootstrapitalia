@@ -172,8 +172,8 @@
                                   href="{'accedi'|ezurl(no)}"
                                   data-element="personal-area-login"
                                   aria-label="{$link_area_personale_title|wash()}">
-                                      <span class="rounded-icon" aria-hidden="true">
-                                        {display_icon('it-user', 'svg', 'icon icon-primary', $link_area_personale_title|wash())}
+                                      <span class="rounded-icon">
+                                        {display_icon('it-user', 'svg', 'icon icon-primary')}
                                       </span>
                                     <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
                                 </a>
@@ -230,8 +230,8 @@
 <script id="tpl-user-profile" type="text/x-jsrender">
 <div class="it-user-wrapper nav-item dropdown">
     <a aria-expanded="false" class="btn btn-primary btn-icon btn-full" data-bs-toggle="dropdown" href="#" data-focus-mouse="false">
-        <span aria-hidden="true" class="rounded-icon d-lg-none">
-            <svg class="icon icon-primary">
+        <span class="rounded-icon d-lg-none">
+            <svg class="icon icon-primary" role="presentation">
                 <use xlink:href="{{:spritePath}}#it-user"></use>
            </svg>
         </span>

@@ -10,8 +10,8 @@
                 <div class="input-group-append">
                     <button class="btn btn-primary faqSearchSubmit" type="button" id="button-3">{'Search'|i18n('design/plain/layout')}</button>
                 </div>
-                <span class="autocomplete-icon ps-0" aria-hidden="true">
-                {display_icon('it-search', 'svg', 'icon icon-sm icon-primary', 'Search'|i18n('openpa/search'))}
+                <span class="autocomplete-icon ps-0">
+                {display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}
             </span>
             </div>
         </div>

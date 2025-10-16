@@ -11,7 +11,7 @@
                                       type="button" data-bs-toggle="modal"
                                       data-bs-target="#search-modal"
                                       aria-label="{'Close'|i18n('bootstrapitalia')}">
-                                        <svg class="icon icon-md" aria-hidden="true" focusable="false">
+                                        <svg class="icon icon-md" role="presentation" focusable="false">
                                             <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-arrow-left"></use>
                                         </svg>
                                     </button>
@@ -21,7 +21,7 @@
                                       data-bs-toggle="modal"
                                       data-bs-target="#search-modal"
                                       aria-label="{'Close'|i18n('bootstrapitalia')}">
-                                        <svg class="icon icon-md" aria-hidden="true" focusable="false">
+                                        <svg class="icon icon-md" role="presentation" focusable="false">
                                             <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-close-big"></use>
                                         </svg>
                                     </button>
@@ -32,7 +32,7 @@
                                            id="main-search-input"
                                            name="SearchText"
                                            data-bs-autocomplete="[]">
-                                    <span class="autocomplete-icon" aria-hidden="true" focusable="false">
+                                    <span class="autocomplete-icon" role="presentation" focusable="false">
                                         {display_icon('it-search', 'svg', 'icon')}
                                     </span>
                                     <button type="submit" class="btn btn-primary">

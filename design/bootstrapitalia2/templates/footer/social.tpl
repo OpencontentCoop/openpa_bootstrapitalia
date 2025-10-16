@@ -34,7 +34,7 @@
                   rel="noopener noreferrer">
                     {if $social|eq('tiktok')}
                         <svg class="icon icon-sm icon-white align-top"
-                          aria-hidden="true"
+                          role="presentation"
                           focusable="false"
                           xmlns="http://www.w3.org/2000/svg"
                           width="24"
