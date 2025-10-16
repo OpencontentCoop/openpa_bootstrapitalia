@@ -952,7 +952,7 @@ class OpenPABootstrapItaliaOperators
                     if ($ariaLabel) {
                         $cssClass .= ' aria-label="' . $ariaLabel . '"';
                     } else {
-                        $cssClass .= ' aria-hidden="true" focusable="false"';
+                        $cssClass .= ' role="presentation" focusable="false"';
                     }
                     $path = eZURLOperator::eZDesign($tpl, 'images/svg/sprites.svg', 'ezdesign');
                     eZURI::transformURI($path, true);
