@@ -64,6 +64,10 @@
       <translation>Ir a la página principal</translation>
     </message>
     <message>
+      <source>Expand section</source>
+      <translation>Expandir sección</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Tabla de contenido</translation>
     </message>

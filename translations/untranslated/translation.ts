@@ -104,6 +104,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Expand section</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation type="unfinished"/>
     </message>

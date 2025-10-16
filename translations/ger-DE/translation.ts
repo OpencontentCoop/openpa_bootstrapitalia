@@ -52,6 +52,10 @@
       <translation>Zur Startseite</translation>
     </message>
     <message>
+      <source>Expand section</source>
+      <translation>Abschnitt erweitern</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Inhalt</translation>
     </message>

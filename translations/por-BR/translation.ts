@@ -52,6 +52,10 @@
       <translation>Ir para a página inicial</translation>
     </message>
     <message>
+      <source>Expand section</source>
+      <translation>Expandir seção</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Índice da página</translation>
     </message>

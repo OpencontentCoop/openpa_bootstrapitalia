@@ -52,6 +52,10 @@
       <translation>Go to homepage</translation>
     </message>
     <message>
+      <source>Expand section</source>
+      <translation>Expand section</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Page index</translation>
     </message>

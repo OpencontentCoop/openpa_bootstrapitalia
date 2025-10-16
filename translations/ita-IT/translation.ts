@@ -52,6 +52,10 @@
       <translation>Vai alla homepage</translation>
     </message>
     <message>
+      <source>Expand section</source>
+      <translation>Espandi sezione</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Indice della pagina</translation>
     </message>

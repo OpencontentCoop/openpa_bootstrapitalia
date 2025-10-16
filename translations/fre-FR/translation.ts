@@ -52,6 +52,10 @@
       <translation>Aller à la page d’accueil</translation>
     </message>
     <message>
+      <source>Expand section</source>
+      <translation>Déplier la section</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Index de la page</translation>
     </message>

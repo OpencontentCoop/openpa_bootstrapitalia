@@ -78,7 +78,7 @@
                             <input name="Subtree[]" {if $has_children}data-checkbox-container {/if}id="subtree-{$tree_menu.item.node_id}" value="{$tree_menu.item.node_id|wash()}" {if or($params.subtree|contains($id), and($display, $has_children|not()))}checked="checked"{elseif $display}data-indeterminate="1"{/if} class="custom-control-input" type="checkbox" />
                             <label class="custom-control-label"{if $has_children} style="max-width: 80%"{/if} for="subtree-{$tree_menu.item.node_id}">{$tree_menu.item.name|wash()} {if is_set($subtree_facets[$id])}<small>({$subtree_facets[$id]})</small>{/if}</label>
                             {if $has_children}
-                            <a class="float-right float-end" aria-label="More items" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}">
+                            <a class="float-right float-end" aria-label="{'Expand section'|i18n('bootstrapitalia')}" href="#more-subtree-{$tree_menu.item.node_id}" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-subtree-{$tree_menu.item.node_id}" role="button">
                                 {display_icon('it-more-items', 'svg', 'icon icon-primary right')}                    
                             </a>
                             {/if}
@@ -160,7 +160,7 @@
 
                             {* altri argomenti collassati *}
                             {if $count|lt($total)}
-                                <a href="#more-topics" aria-label="More items" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
+                                <a href="#more-topics" aria-label="{'Expand section'|i18n('bootstrapitalia')}" data-toggle="collapse" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more-topics">
                                     {display_icon('it-more-items', 'svg', 'icon icon-primary right')}
                                 </a>
                                 <div class="collapse" id="more-topics">
