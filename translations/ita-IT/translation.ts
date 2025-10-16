@@ -48,6 +48,10 @@
       <translation>Vai al footer</translation>
     </message>
     <message>
+      <source>Go to homepage</source>
+      <translation>Vai alla homepage</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Indice della pagina</translation>
     </message>

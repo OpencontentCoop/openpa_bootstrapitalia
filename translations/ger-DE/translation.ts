@@ -48,6 +48,10 @@
       <translation>Weiter zur Fußzeile</translation>
     </message>
     <message>
+      <source>Go to homepage</source>
+      <translation>Zur Startseite</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Inhalt</translation>
     </message>

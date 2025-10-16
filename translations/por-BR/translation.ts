@@ -48,6 +48,10 @@
       <translation>Ir para o rodapé</translation>
     </message>
     <message>
+      <source>Go to homepage</source>
+      <translation>Ir para a página inicial</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Índice da página</translation>
     </message>

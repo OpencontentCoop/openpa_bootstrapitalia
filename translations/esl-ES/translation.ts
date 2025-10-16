@@ -40,6 +40,10 @@
       <translation>Ir al pie de página</translation>
     </message>
     <message>
+      <source>Go to homepage</source>
+      <translation>Ir a la página principal</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Índice de la página</translation>
     </message>

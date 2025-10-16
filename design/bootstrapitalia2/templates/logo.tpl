@@ -3,11 +3,11 @@
 {def $colorize_logo = cond(and(is_set($pagedata.header.logo.mime_type), $pagedata.header.logo.mime_type|eq('image/png'), and( $pagedata.homepage|has_attribute('colorize_logo'), $pagedata.homepage|attribute('colorize_logo').data_int|eq(1) )), true(), false())}
 {def $placed_in_footer = cond(is_set($in_footer), $in_footer, false())}
 <a href="{'/'|ezurl(no)}"
-   title="{ezini('SiteSettings','SiteName')}"
+   title="{'Go to homepage'|i18n('bootstrapitalia')}"
    {if and($only_logo, openpaini('GeneralSettings','tag_line', false()))} class="d-block text-center"{/if}>
     {if $pagedata.header.logo.url}
         <img class="icon{if $colorize_logo} colorize{/if}"
-          alt="Logo {if $placed_in_footer}footer {/if}{ezini('SiteSettings','SiteName')}"
+          alt="Logo {if $placed_in_footer}footer {/if}{if $only_logo}{ezini('SiteSettings','SiteName')}{/if}"
           src="{render_image($pagedata.header.logo.url|ezroot(no,full)).src}"
           style="width: auto !important;" />
     {/if}

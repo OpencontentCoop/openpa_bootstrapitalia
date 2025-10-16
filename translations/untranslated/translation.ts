@@ -100,6 +100,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Go to homepage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation type="unfinished"/>
     </message>

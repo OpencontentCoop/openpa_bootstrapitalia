@@ -48,6 +48,10 @@
       <translation>Aller au pied de page</translation>
     </message>
     <message>
+      <source>Go to homepage</source>
+      <translation>Aller à la page d’accueil</translation>
+    </message>
+    <message>
       <source>Table of contents</source>
       <translation>Index de la page</translation>
     </message>
