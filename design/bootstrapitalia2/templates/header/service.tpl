@@ -95,7 +95,7 @@
                         {/foreach}
                         {if $header_links|count()}
                         <div class="nav-mobile">
-                            <nav aria-label="{'Extra menu'|i18n('bootstrapitalia')}">
+                            <nav>
                                 <a class="it-opener d-lg-none"
                                   data-bs-toggle="collapse"
                                   href="#service-menu"
