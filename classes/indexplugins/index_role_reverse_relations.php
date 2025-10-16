@@ -44,15 +44,17 @@ class ezfIndexRoleReverseRelations implements ezfIndexPlugin
                 $contentClassAttributeIdentifier
             );
 
+            $patches = [];
             foreach ($roleIdList as $roleId) {
                 foreach ($availableLanguages as $language) {
                     $patchData = array_merge(
                         $data[$language],
                         BootstrapItaliaSolrTools::getOpendataIndexData($roleId)
                     );
-                    BootstrapItaliaSolrTools::sendPatch($roleId, [$language], $patchData);
+                    $patches[] = BootstrapItaliaSolrTools::generatePatch($roleId, $language, $patchData);
                 }
             }
+            BootstrapItaliaSolrTools::sendPatches($patches);
         }
     }
 }

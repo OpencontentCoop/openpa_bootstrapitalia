@@ -2,21 +2,33 @@
 
 class BootstrapItaliaSolrTools
 {
-    public static function sendPatch(int $objectId, array $languages, array $data): void
+    public static function generatePatch(int $objectId, string $language, array $data): array
     {
         $solr = new eZSolr();
-        $collectedData = [];
-        foreach ($languages as $languageCode) {
-            $collectedData[$languageCode] = [
-                'meta_guid_ms' => $solr->guid($objectId, $languageCode),
+        $collectedData = [
+            'meta_guid_ms' => $solr->guid($objectId, $language),
+        ];
+        foreach ($data as $key => $value) {
+            $collectedData[$key] = [
+                'set' => $value,
             ];
-            foreach ($data as $key => $value) {
-                $collectedData[$languageCode][$key] = [
-                    'set' => $value,
-                ];
-            }
         }
-        $postData = json_encode(array_values($collectedData));
+
+        return $collectedData;
+    }
+
+    public static function sendPatch(int $objectId, string $language, array $data): void
+    {
+        $collectedData = self::generatePatch($objectId, $language, $data);
+        self::sendPatches($collectedData);
+    }
+
+    public static function sendPatches(array $collectedData): void
+    {
+        if (empty($collectedData)){
+            return;
+        }
+        $postData = json_encode($collectedData);
 
         $solrBase = new eZSolrBase();
         $maxRetries = (int)eZINI::instance('solr.ini')->variable('SolrBase', 'ProcessMaxRetries');
@@ -35,7 +47,7 @@ class BootstrapItaliaSolrTools
                     'application/json',
                     'OpenAgenda'
                 );
-                eZDebug::writeDebug('Patch object ' . $objectId, __METHOD__ . ' at retry ' . $tries);
+                eZDebug::writeDebug('Patch objects ' . count($collectedData), __METHOD__ . ' at retry ' . $tries);
                 break;
             } catch (ezfSolrException $e) {
                 $doRetry = false;

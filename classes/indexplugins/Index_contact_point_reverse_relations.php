@@ -29,21 +29,23 @@ class ezfIndexContactPointReverseRelations implements ezfIndexPlugin
             $dataMap = $version->dataMap();
             if (isset($dataMap['has_online_contact_point']) && $dataMap['has_online_contact_point']->hasContent()) {
                 $objectList = OpenPABase::fetchObjects(explode('-', $dataMap['has_online_contact_point']->toString()));
+                $patches = [];
                 foreach ($objectList as $object) {
                     $attribute = $this->getReverseAttributeByObjectOrVersion($object);
                     if ($attribute) {
                         foreach ($availableLanguages as $languageCode) {
                             $data = $this->getData($attribute, $languageCode);
                             if (!empty($data)) {
-                                BootstrapItaliaSolrTools::sendPatch(
+                                $patches[] = BootstrapItaliaSolrTools::generatePatch(
                                     (int)$object->attribute('id'),
-                                    [$languageCode],
+                                    $languageCode,
                                     $data
                                 );
                             }
                         }
                     }
                 }
+                BootstrapItaliaSolrTools::sendPatches($patches);
             }
         }
     }
