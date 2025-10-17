@@ -71,7 +71,7 @@ class ezfIndexSubAttributeGeo implements ezfIndexPlugin, ExtraDataProviderInterf
             /** @var eZContentObjectAttribute[] $dataMap */
             $dataMap = $contentObject->dataMap();
             foreach ($dataMap as $identifier => $attribute) {
-                if ($attribute->hasContent() && $attribute->attribute('data_type_string') == eZObjectRelationListType::DATA_TYPE_STRING) {
+                if ($attribute->attribute('data_type_string') == eZObjectRelationListType::DATA_TYPE_STRING && $attribute->hasContent()) {
                     $classAttributeContent = $attribute->attribute('contentclass_attribute')->content();
                     foreach ($classAttributeContent['class_constraint_list'] as $classIdentifier) {
                         if (in_array($classIdentifier, self::getGeoClassIdentifiers($contentObject->attribute('class_identifier')))) {
