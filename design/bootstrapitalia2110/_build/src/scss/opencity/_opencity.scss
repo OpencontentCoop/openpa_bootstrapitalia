@@ -840,3 +840,47 @@ input[type="search"]::-webkit-search-results-decoration {
     background: linear-gradient(270deg, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
   }
 }
+
+.oc-table-responsive {
+  overflow-x: auto;
+  max-width: 100%;
+
+  .oc-table-responsive-wrapper {
+    overflow-y: auto;
+    max-height: 500px;
+  }
+
+  table {
+    thead {
+      th {
+        text-align: center;
+        position: sticky;
+        top: 0px;
+        z-index: 2;
+        background: $white;
+        box-shadow: inset $card-border-color 0px -1px 0px 0px;
+        font-size: 0.8em;
+      }
+    }
+
+    tr {
+      td:first-child, th:first-child {
+        position: sticky;
+        left: 0;
+        background: $white;
+        z-index: 1;
+      }
+
+      td:first-child {
+        box-shadow: inset $card-border-color -1px 0 0px 0px;
+      }
+
+      th:first-child {
+        z-index: 3;
+      }
+    }
+  }
+  .table>:not(:first-child), table.list>:not(:first-child) {
+    border-top: 0 !important
+  }
+}

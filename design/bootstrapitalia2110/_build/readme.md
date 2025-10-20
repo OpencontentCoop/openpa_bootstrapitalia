@@ -90,3 +90,5 @@ Utilizzato `scroll-padding-top` sul tag `html` per la gestione dello spazio vert
 Modificato lo script Masonry per calcolare gli spazi dopo il caricamento dei font ed evitare spaziature sbagliate.
 
 Utilizzato selettore `html[lang^="de"]` per mandare a capo correttamente le parole tedesche molto lunghe.
+
+Utilizza la classe `oc-table-responsive` per avere una tabella con prima riga e prima colonna sempre visibili.
