@@ -360,7 +360,7 @@ EOT;
             ),
             type_attributes AS (
               SELECT ezcontentobject_attribute.id as _type_id, ezcontentobject_attribute.version as _type_version, services.* FROM ezcontentobject_attribute 
-              JOIN services ON (ezcontentobject_attribute.contentobject_id = services.id AND ezcontentobject_attribute.version = services.current_version)
+              JOIN services ON (ezcontentobject_attribute.contentobject_id = services.id AND ezcontentobject_attribute.version = services.current_version AND ezcontentobject_attribute.language_code = '$locale')
               WHERE contentclassattribute_id = $attributeId 
             )
             SELECT keyword as _category, type_attributes.*
@@ -368,7 +368,8 @@ EOT;
             JOIN eztags_keyword ON (eztags_keyword.keyword_id = eztags_attribute_link.keyword_id AND eztags_keyword.locale = '$locale')
             JOIN type_attributes 
               ON (eztags_attribute_link.objectattribute_id = type_attributes._type_id AND eztags_attribute_link.objectattribute_version = type_attributes._type_version)
-            ORDER BY type_attributes._priority DESC, type_attributes.name ASC";
+            ORDER BY type_attributes._priority DESC, type_attributes.name ASC
+            ";
 
         $rows = eZDB::instance()->arrayQuery($query);
         $data = [];
@@ -842,9 +843,7 @@ EOT;
         }
         self::dropView();
         $hostUri = eZINI::instance()->variable('SiteSettings', 'SiteURL');
-        $apiName = ezpRestPrefixFilterInterface::getApiProviderName();
-        $apiPrefix = eZINI::instance('rest.ini')->variable('System', 'ApiPrefix');
-        $baseUri = 'https://' . $hostUri . $apiPrefix . '/' . $apiName;
+        $baseUri = "https://$hostUri/api/openapi";
         $serviceBaseUri = $baseUri . '/servizi/';
         $officeBaseUri = $baseUri . '/amministrazione/uffici/';
         $placeBaseUri = $baseUri . '/vivere-il-comune/luoghi/';
