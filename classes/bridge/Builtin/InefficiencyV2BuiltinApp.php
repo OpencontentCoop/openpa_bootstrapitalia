@@ -2,6 +2,8 @@
 
 class InefficiencyV2BuiltinApp extends ServiceFormBuiltinApp
 {
+    protected $appStorageIdentifier = 'inefficiency_v2';
+
     public function __construct()
     {
         $appLabel = (new InefficiencyBuiltinApp())->getAppLabel();

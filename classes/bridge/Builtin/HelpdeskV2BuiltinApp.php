@@ -2,6 +2,8 @@
 
 class HelpdeskV2BuiltinApp extends ServiceFormBuiltinApp
 {
+    protected $appStorageIdentifier = 'helpdesk_v2';
+
     public function __construct()
     {
         $appLabel = (new HelpdeskBuiltinApp())->getAppLabel();
