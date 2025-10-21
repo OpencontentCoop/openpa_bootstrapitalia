@@ -76,6 +76,7 @@
               <table class="table table-striped mt-4" id="data">
                 <thead>
                   <tr>
+                    <th>{'User'|i18n('design/standard/node/view')}</th>
                     {foreach $available_groups as $group}
                       <th data-node="{$group.node_id}" data-allow_for_moderated="{if $approval_groups_allowed|contains($group.object.remote_id)}1{else}0{/if}">{$group.name|wash()}</th>
                     {/foreach}
