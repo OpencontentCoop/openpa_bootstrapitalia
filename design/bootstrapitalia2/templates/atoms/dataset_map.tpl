@@ -3,36 +3,36 @@
   <div class="col-12 col-lg-4 ps-lg-5 mb-4 mb-lg-0" id="dataset-controls-{$block_id}">
     <fieldset>
       <legend class="h6 mb-3 ps-0">{'Type'|i18n('bootstrapitalia')}</legend>
-        <div class="row">
-          {if is_set($items[0])}
-            {foreach $items as $valid_node max 10}
-              {if and($valid_node.object.class_identifier|eq('dataset'), $valid_node.data_map.csv_resource.content.views|contains('map'))}
-                {def $custom_repository = concat('dataset-', $valid_node.data_map.csv_resource.contentclass_attribute_identifier, '-',$valid_node.data_map.csv_resource.contentobject_id)}
-                {def $data = $valid_node.data_map.csv_resource.data_text|decode_json().fields}
-                {def $fields = array()}
-                {foreach $data as $item}
-                  {set $fields = $fields|merge( hash( $item.identifier, $item.label ) )}
-                {/foreach}
-                {def $fields_labels = $fields|encode_json()}
+      <div class="row">
+        {if is_set($items[0])}
+          {foreach $items as $valid_node max 10}
+            {if and($valid_node.class_identifier|eq('dataset'), $valid_node.data_map.csv_resource.content.views|contains('map'))}
+              {def $custom_repository = concat('dataset-', $valid_node.data_map.csv_resource.contentclass_attribute_identifier, '-',$valid_node.data_map.csv_resource.contentobject_id)}
+              {def $data = $valid_node.data_map.csv_resource.data_text|decode_json().fields}
+              {def $fields = array()}
+              {foreach $data as $item}
+                {set $fields = $fields|merge( hash( $item.identifier, $item.label ) )}
+              {/foreach}
+              {def $fields_labels = $fields|encode_json()}
 
-                <div class="col-12 col-sm-6 col-lg-12">
-                  <div class="form-check">
-                    <input 
-                      id="checkbox-{$valid_node.node_id}"
-                      type="checkbox"
-                      checked="checked"
-                      data-geojson="{concat('/customgeo/',$custom_repository)|ezurl(no)}/"
-                      data-fields-text="{$fields_labels|wash()}">
-                    <label for="checkbox-{$valid_node.node_id}">{$valid_node.data_map.title.content|wash()}</label>
-                  </div>
+              <div class="col-12 col-sm-6 col-lg-12">
+                <div class="form-check">
+                  <input 
+                    id="checkbox-{$valid_node.node_id}"
+                    type="checkbox"
+                    checked="checked"
+                    data-geojson="{concat('/customgeo/',$custom_repository)|ezurl(no)}/"
+                    data-fields-text="{$fields_labels|wash()}">
+                  <label for="checkbox-{$valid_node.node_id}">{$valid_node.data_map.title.content|wash()}</label>
                 </div>
-              {else}
-                {editor_warning(concat("Non sono presenti luoghi georeferenziati con vista mappa per il dataset: ",$valid_node.name))}
-              {/if}
-              {undef $custom_repository $fields $fields_labels $data}
-            {/foreach}
-          {/if}
-        </div>
+              </div>
+            {else}
+              {editor_warning(concat("Non sono presenti luoghi georeferenziati con vista mappa per il dataset: ",$valid_node.name))}
+            {/if}
+            {undef $custom_repository $fields $fields_labels $data}
+          {/foreach}
+        {/if}
+      </div>
       </fieldset>
   </div>
   <div class="order-lg-first col-12 col-lg-8">
@@ -68,10 +68,10 @@
 
 {literal}  
 <script>
-    const blockId = 'dataset-map-block-{/literal}{$block.id}{literal}';
-    const mapId = 'dataset-map-{/literal}{$block.id}{literal}';
-    const controlsId = 'dataset-controls-{/literal}{$block.id}{literal}';
-    const loaderId = 'dataset-map-loader-{/literal}{$block.id}{literal}';
+    const blockId = 'dataset-map-block-{/literal}{$block_id}{literal}';
+    const mapId = 'dataset-map-{/literal}{$block_id}{literal}';
+    const controlsId = 'dataset-controls-{/literal}{$block_id}{literal}';
+    const loaderId = 'dataset-map-loader-{/literal}{$block_id}{literal}';
     const placeDefaultLabel = '{/literal}{'Place'|i18n('openpa/search')}{literal}';
 
     document.addEventListener("DOMContentLoaded", initMapApp);
