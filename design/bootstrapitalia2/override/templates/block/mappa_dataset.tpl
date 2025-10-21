@@ -9,7 +9,7 @@
           <fieldset>
             <legend class="h6 mb-3 ps-0">{'Type'|i18n('bootstrapitalia')}</legend>
               <div class="row">
-                {foreach $block.valid_nodes as $valid_node}
+                {foreach $block.valid_nodes as $valid_node max 10}
                   {if and($valid_node.object.class_identifier|eq('dataset'), $valid_node.data_map.csv_resource.content.views|contains('map'))}
                     {def $custom_repository = concat('dataset-', $valid_node.data_map.csv_resource.contentclass_attribute_identifier, '-',$valid_node.data_map.csv_resource.contentobject_id)}
                     {def $data = $valid_node.data_map.csv_resource.data_text|decode_json().fields}
