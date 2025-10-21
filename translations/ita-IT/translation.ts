@@ -5,7 +5,7 @@
     <name>bootstrapitalia</name>
     <message>
       <source>Show more elements</source>
-      <translation>Mostra altri</translation>
+      <translation>Mostra/nascondi altri</translation>
     </message>
     <message>
       <source>Other places</source>
