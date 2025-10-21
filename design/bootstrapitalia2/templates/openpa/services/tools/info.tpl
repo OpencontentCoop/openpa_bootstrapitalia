@@ -169,12 +169,16 @@
                 <tr>
                     <td>
                         <img src="{$Translations.item.locale|flag_icon}" width="18" height="12" alt="{$Translations.item.locale}" />
-                        {if eq( $Translations.item.locale, $node.object.current_language )}
-                            <b><a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name}</a></b>
+                        {if $can_auto_translate|not()}
+                            {if eq( $Translations.item.locale, $node.object.current_language )}
+                                <b><a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name|wash()}</a></b>
+                            {else}
+                                <a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name|wash()}</a>
+                            {/if}
                         {else}
-                            <a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name}</a>
+                            {$Translations.item.name|wash()}
                         {/if}
-                        {if $Translations.item.id|eq($node.object.initial_language_id)}({'Main'|i18n( 'design/admin/node/view/full' )}){/if}
+                        {if $Translations.item.id|eq($node.object.initial_language_id)}<em>({'Main'|i18n( 'design/admin/node/view/full' )})</em>{/if}
                     </td>
                     <td width="1">
                         {if $object_can_edit}
