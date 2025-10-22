@@ -153,6 +153,7 @@
     {/if}
 
     {if $node.object.can_translate}
+        {def $can_auto_translate = or(ezini('ExtensionSettings','ActiveAccessExtensions')|contains('octranslate'),ezini('ExtensionSettings','ActiveExtensions')|contains('octranslate'))}
         {def $available_languages = fetch( 'content', 'prioritized_languages' )
              $translations = $node.object.languages
              $translations_count = $translations|count
@@ -168,12 +169,16 @@
                 <tr>
                     <td>
                         <img src="{$Translations.item.locale|flag_icon}" width="18" height="12" alt="{$Translations.item.locale}" />
-                        {if eq( $Translations.item.locale, $node.object.current_language )}
-                            <b><a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name}</a></b>
+                        {if $can_auto_translate|not()}
+                            {if eq( $Translations.item.locale, $node.object.current_language )}
+                                <b><a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name|wash()}</a></b>
+                            {else}
+                                <a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name|wash()}</a>
+                            {/if}
                         {else}
-                            <a href={concat( $node.url, '/(language)/', $Translations.item.locale )|ezurl} title="{'View translation.'|i18n( 'design/admin/node/view/full' )}">{$Translations.item.name}</a>
+                            {$Translations.item.name|wash()}
                         {/if}
-                        {if $Translations.item.id|eq($node.object.initial_language_id)}({'Main'|i18n( 'design/admin/node/view/full' )}){/if}
+                        {if $Translations.item.id|eq($node.object.initial_language_id)}<em>({'Main'|i18n( 'design/admin/node/view/full' )})</em>{/if}
                     </td>
                     <td width="1">
                         {if $object_can_edit}
@@ -191,11 +196,13 @@
                             {/if}
                         {/if}
                     </td>
+                    {if $can_auto_translate|not()}
                     <td width="1">
                         {if $can_edit}
                             <a class="text-black" title="{'Edit in <%language_name>.'|i18n( 'design/admin/node/view/full',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" href={concat( 'content/edit/', $node.object.id, '/f/', $Translations.item.locale )|ezurl}><i class="fa fa-pencil"></i></a>
                         {/if}
                     </td>
+                    {/if}
                     <td width="1">
                     {if and($object_can_edit, $translations_count|gt( 1 ), $Translations.item.id|ne($node.object.initial_language_id))}
                         <form name="translationsform" method="post" action={'content/translation'|ezurl}>
@@ -212,6 +219,7 @@
                 {undef $can_edit}
             {/section}
             </table>
+            {if $can_auto_translate|not()}
             <form method="post" action={"content/action"|ezurl}>
                 <input type="hidden" name="HasMainAssignment" value="1"/>
                 <input type="hidden" name="ContentObjectID" value="{$node.object.id}"/>
@@ -220,6 +228,7 @@
                 <input type="hidden" name="ContentObjectLanguageCode" value=""/>
                 <input type="submit" name="EditButton" class="btn btn-xs btn-secondary" value="{'New translation'|i18n('design/admin/content/edit_languages')}"/>
             </form>
+            {/if}
         </div>
         {/if}
     {/if}
@@ -284,7 +293,8 @@
         </div>
     {/if*}
 
-    {* NEWSLETTER *}
+    {* NEWSLETTER -> design/bootstrapitalia/templates/parts/websitetoolbar/cjw_newsletter.tpl *}
+    {*
     {if ezmodule('newsletter','subscribe')}
         {def $newsletter_edition_hash = newsletter_edition_hash()}
         {if and( $node|can_add_to_newsletter(true()), $newsletter_edition_hash|count()|gt(0) )}
@@ -308,6 +318,7 @@
         {/if}        
         {undef $newsletter_edition_hash}
     {/if}
+    *}
 
 
 </div>
