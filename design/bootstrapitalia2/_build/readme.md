@@ -49,3 +49,5 @@ Utilizzato `scroll-padding-top` sul tag `html` per la gestione dello spazio vert
 Modificato lo script Masonry per calcolare gli spazi dopo il caricamento dei font ed evitare spaziature sbagliate.
 
 Utilizzato selettore `html[lang^="de"]` per mandare a capo correttamente le parole tedesche molto lunghe.
+
+Utilizzato `oc-placeholder` per correggere il colore del placeholder della barra di ricerca.

@@ -10,7 +10,7 @@
                           rel="noopener noreferrer"
                           class="list-item icon-left d-inline-block font-sans-serif mb-1">
                             <span class="list-item-title-icon-wrapper d-flex">
-                                {display_icon('it-link', 'svg', 'icon icon-primary icon-sm me-1 flex-shrink-0')}<span class="list-item">{$row.columns[0]|wash()} <i aria-hidden="true" class="fa fa-external-link"></i></span>
+                                {display_icon('it-link', 'svg', 'icon icon-primary icon-sm me-1 flex-shrink-0')}<span class="list-item">{$row.columns[0]|wash()} <i role="presentation" class="fa fa-external-link"></i></span>
                             </span>
                         </a>
                     </div>

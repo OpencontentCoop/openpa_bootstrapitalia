@@ -7,7 +7,7 @@
                             <button class="search-link d-md-none" type="button" data-bs-toggle="modal"
                                     data-bs-target="#search-modal"
                                     aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
-                                <svg class="icon icon-md" aria-hidden="true" focusable="false">
+                                <svg class="icon icon-md" role="presentation" focusable="false">
                                     <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-arrow-left"></use>
                                 </svg>
                             </button>
@@ -16,16 +16,16 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#search-modal"
                                     aria-label="{'Close'|i18n('bootstrapitalia')}" title="{'Close'|i18n('bootstrapitalia')}">
-                                <svg class="icon icon-md" aria-hidden="true" focusable="false">
+                                <svg class="icon icon-md" role="presentation" focusable="false">
                                     <use href="{'images/svg/sprites.svg'|ezdesign( 'no' )}#it-close-big"></use>
                                 </svg>
                             </button>
                         </div>
                         <div class="form-group autocomplete-wrapper">
-                            <label for="main-search-input" class="visually-hidden">{'Search in all content'|i18n('design/admin/pagelayout')}</label>
-                            <input type="search" class="autocomplete ps-5" placeholder="{'Search in the site'|i18n( 'bootstrapitalia' )}"
+                            <label for="main-search-input" class="sr-only">{'Search in all content'|i18n('design/admin/pagelayout')}</label>
+                            <input type="search" class="autocomplete ps-5 oc-placeholder" placeholder="{'Search in the site'|i18n( 'bootstrapitalia' )}"
                                    id="main-search-input" name="SearchText" data-bs-autocomplete="[]">
-                            <span class="autocomplete-icon" aria-hidden="true" focusable="false">
+                            <span class="autocomplete-icon" role="presentation" focusable="false">
                                 {display_icon('it-search', 'svg', 'icon')}
                             </span>
                             <button type="submit" class="btn btn-primary">

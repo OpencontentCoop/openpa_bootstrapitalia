@@ -40,8 +40,8 @@
                                 <button class="btn btn-primary" type="submit" id="button-3">{'Search'|i18n('design/plain/layout')}</button>
                             </div>
 
-                            <span class="autocomplete-icon" aria-hidden="true">
-                                {display_icon('it-search', 'svg', 'icon icon-sm icon-primary', 'Search'|i18n('design/plain/layout'))}
+                            <span class="autocomplete-icon">
+                                {display_icon('it-search', 'svg', 'icon icon-sm icon-primary')}
                             </span>
                         </div>
                     </form>

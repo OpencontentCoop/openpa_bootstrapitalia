@@ -88,10 +88,8 @@
 </head>
 
 <body>
-<aside class="skiplink">
-    <a class="visually-hidden-focusable" href="#main-container" aria-label="{'Go to content'|i18n('bootstrapitalia')}">{'Go to content'|i18n('bootstrapitalia')}</a>
-    <a class="visually-hidden-focusable" href="#footer" aria-label="{'Go to footer'|i18n('bootstrapitalia')}">{'Go to footer'|i18n('bootstrapitalia')}</a>
-</aside>
+
+{include uri='design:header/skiplinks.tpl'}
 
 {if and(openpacontext().is_edit|not(),openpacontext().is_browse|not(),openpacontext().is_versionview|not())}
     {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, $extra_cache_key, openpaini('GeneralSettings','theme', 'default') )}

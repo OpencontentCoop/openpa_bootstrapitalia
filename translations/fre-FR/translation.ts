@@ -37,11 +37,23 @@
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Aller au menu de la rubrique</translation>
+      <translation>Aller au menu de navigation principal</translation>
+    </message>
+    <message>
+      <source>Jump to main navigation</source>
+      <translation>Zur Hauptnavigation</translation>
     </message>
     <message>
       <source>Jump to footer</source>
       <translation>Aller au pied de page</translation>
+    </message>
+    <message>
+      <source>Go to homepage</source>
+      <translation>Aller à la page d’accueil</translation>
+    </message>
+    <message>
+      <source>Expand section</source>
+      <translation>Déplier la section</translation>
     </message>
     <message>
       <source>Table of contents</source>

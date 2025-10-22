@@ -88,11 +88,23 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Jump to main navigation</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Jump to section menu</source>
       <translation type="unfinished"/>
     </message>
     <message>
       <source>Jump to footer</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Go to homepage</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Expand section</source>
       <translation type="unfinished"/>
     </message>
     <message>

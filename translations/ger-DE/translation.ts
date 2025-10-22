@@ -36,12 +36,24 @@
       <translation>Zum Hauptinhalt wechseln</translation>
     </message>
     <message>
+      <source>Jump to main navigation</source>
+      <translation>Zur Hauptnavigation</translation>
+    </message>
+    <message>
       <source>Jump to section menu</source>
       <translation>Zum Sektionsmenü wechseln</translation>
     </message>
     <message>
       <source>Jump to footer</source>
       <translation>Weiter zur Fußzeile</translation>
+    </message>
+    <message>
+      <source>Go to homepage</source>
+      <translation>Zur Startseite</translation>
+    </message>
+    <message>
+      <source>Expand section</source>
+      <translation>Abschnitt erweitern</translation>
     </message>
     <message>
       <source>Table of contents</source>

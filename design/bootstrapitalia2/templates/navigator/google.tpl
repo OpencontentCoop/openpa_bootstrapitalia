@@ -71,7 +71,7 @@
         {/section}
 
         <li class="page-item active">
-            <a class="page-link border" href="#">{$:current_page|inc}</a>
+            <a class="page-link border" href="#" aria-current="page">{$:current_page|inc}</a>
         </li>
 
         {section loop=$:right_length}

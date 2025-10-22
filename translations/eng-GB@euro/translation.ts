@@ -36,12 +36,24 @@
       <translation>Go to main content</translation>
     </message>
     <message>
+      <source>Jump to main navigation</source>
+      <translation>Vai al main navigation</translation>
+    </message>
+    <message>
       <source>Jump to section menu</source>
       <translation>Go to the section menu</translation>
     </message>
     <message>
       <source>Jump to footer</source>
       <translation>Go to footer</translation>
+    </message>
+    <message>
+      <source>Go to homepage</source>
+      <translation>Go to homepage</translation>
+    </message>
+    <message>
+      <source>Expand section</source>
+      <translation>Expand section</translation>
     </message>
     <message>
       <source>Table of contents</source>

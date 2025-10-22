@@ -48,7 +48,7 @@
     <div style="display:none;"><label for="hp">HP</label><input type="text" name="hp" id="hp"/></div>
 
     <button class="btn btn-secondary btn-icon pull-right" type="submit">
-        <svg class="icon icon-white" aria-hidden="true">
+        <svg class="icon icon-white" role="presentation" focusable="false">
             {display_icon('it-mail', 'svg', 'icon icon-white')}
         </svg>
         <span>{"Subscribe"|i18n( 'openpa_newsletter' )}</span>
@@ -83,7 +83,7 @@
         var data = form.serializeArray();
         $.ez('newsletter::subscribe', data, function (response) {
           form.prepend('<div style="z-index: 10;min-height: 100%" class="position-absolute w-100 alert alert-dismissible fade show alert-'+response.code+' bg-white text-'+response.code+'">'+response.text+
-            '<button type="button" class="close" data-dismiss="alert" data-bs-dismiss="alert" aria-label="Close" style="top:30px"><span aria-hidden="true">&times;</span></button></div>');
+            '<button type="button" class="close" data-dismiss="alert" data-bs-dismiss="alert" aria-label="Close" style="top:30px"><span role="presentation">&times;</span></button></div>');
         });
         e.preventDefault();
       });

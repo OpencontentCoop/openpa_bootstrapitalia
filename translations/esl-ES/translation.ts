@@ -28,12 +28,24 @@
       <translation>Ir al contenido principal</translation>
     </message>
     <message>
+      <source>Jump to main navigation</source>
+      <translation>Ir al menú de navegación principal</translation>
+    </message>
+    <message>
       <source>Jump to section menu</source>
       <translation>Ir al menú de la sección</translation>
     </message>
     <message>
       <source>Jump to footer</source>
       <translation>Ir al pie de página</translation>
+    </message>
+    <message>
+      <source>Go to homepage</source>
+      <translation>Ir a la página principal</translation>
+    </message>
+    <message>
+      <source>Expand section</source>
+      <translation>Expandir sección</translation>
     </message>
     <message>
       <source>Table of contents</source>

@@ -6,7 +6,7 @@
             <div class="timeline-element">
                 <h3 class="it-pin-wrapper ">
                     <div class="pin-icon">
-                        <svg class="icon" aria-hidden="true" focusable="false">
+                        <svg class="icon" role="presentation" focusable="false">
                           <use href="{'images/svg/sprites.svg'|ezdesign('no')}#it-flag"></use>
                         </svg>
                     </div>
