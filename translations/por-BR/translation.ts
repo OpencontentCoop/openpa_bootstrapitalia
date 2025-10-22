@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Show more elements</source>
+      <translation>Mostrar mais / Mostrar menos</translation>
+    </message>
+    <message>
       <source>Other places</source>
       <translation>Outros lugares</translation>
     </message>
