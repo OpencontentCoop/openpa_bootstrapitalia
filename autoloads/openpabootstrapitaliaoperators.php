@@ -110,6 +110,8 @@ class OpenPABootstrapItaliaOperators
             'http_locale_code',
             'to_base64_image_data',
             'is_object_booking_configured',
+            'decode_json',
+            'encode_json',
         );
     }
 
@@ -314,6 +316,38 @@ class OpenPABootstrapItaliaOperators
                 if (StanzaDelCittadinoBooking::factory()->isEnabled()){
                     $operatorValue = StanzaDelCittadinoBooking::factory()
                         ->isObjectConfigured((int)$namedParameters['object_id']);
+                }
+                break;
+
+          case 'encode_json':
+            if (is_array($operatorValue) || is_object($operatorValue)) {
+                $encoded = json_encode($operatorValue, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+                if ($encoded !== false) {
+                    $operatorValue = $encoded;
+                } else {
+                    eZDebug::writeWarning(
+                        "Errore codifica JSON in encode_json: " . json_last_error_msg(),
+                        __METHOD__
+                    );
+                    $operatorValue = '';
+                }
+            }
+            break;
+
+            case 'decode_json':
+                if (is_string($operatorValue)) {
+                    $decoded = json_decode($operatorValue, true);
+
+                    if (json_last_error() === JSON_ERROR_NONE) {
+                        $operatorValue = $decoded;
+                    } else {
+                        eZDebug::writeWarning(
+                            "Errore decodifica JSON in decode_json: " . json_last_error_msg(),
+                            __METHOD__
+                        );
+                        $operatorValue = [];
+                    }
                 }
                 break;
 

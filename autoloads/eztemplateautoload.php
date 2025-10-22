@@ -84,7 +84,9 @@ $eZTemplateOperatorArray = [
             'decode_html_entities',
             'http_locale_code',
             'to_base64_image_data',
-            'is_object_booking_configured'
+            'is_object_booking_configured',
+            'decode_json',
+            'encode_json',
         ],
     ],
 ];
