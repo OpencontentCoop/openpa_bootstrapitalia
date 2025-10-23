@@ -1,15 +1,15 @@
 <?php
 
-class PersonalAreaBuiltinApp extends BuiltinApp
+class ApplicationAreaBuiltinApp extends BuiltinApp
 {
     public function __construct()
     {
-        parent::__construct('personal-area', 'Area personale');
+        parent::__construct('applications-area', 'Pratiche');
     }
 
     protected function getAppRootId(): string
     {
-        return 'ap-personal-area';
+        return 'ap-applications';
     }
 
     protected function isAppEnabled(): bool
@@ -32,9 +32,13 @@ class PersonalAreaBuiltinApp extends BuiltinApp
         return $this->isAppEnabled();
     }
 
-    public function getProductionUrl(): ?string
+    public function getParentApp(): ?BuiltinApp
     {
-        return '/area_personale';
+        return new PersonalAreaBuiltinApp();
     }
 
+    public function getProductionUrl(): ?string
+    {
+        return '/pratiche';
+    }
 }

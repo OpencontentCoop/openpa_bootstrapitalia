@@ -368,6 +368,9 @@ abstract class BuiltinApp extends OpenPATempletizable
         $tpl->setVariable('service_id', $this->getServiceId());
         $tpl->setVariable('built_in_app_satisfy_entrypoint', $this->getSatisfyEntrypointId());
         $tpl->setVariable('formserver_url', self::getCurrentOptions('FormServerUrl'));
+        $tpl->setVariable('checkout_url', self::getCurrentOptions('CheckoutUrl'));
+        $tpl->setVariable('import_documents_url', self::getCurrentOptions('ImportDocumentUrl'));
+        $tpl->setVariable('ap_section_enabled', 'applications,payments,documents');
         $tpl->setVariable('readmodel_url', self::getCurrentOptions('ReadModelUrl'));
         $tpl->setVariable('pdnd_url', self::getCurrentOptions('PdndApiUrl'));
         $tpl->setVariable('page_name', $this->getServiceObject()
@@ -475,6 +478,14 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'current_value' => $current['ReadModelUrl'],
             ],
             [
+                'identifier' => 'ImportDocumentUrl',
+                'label' => 'Configurazione generale',
+                'name' => 'Url delle api di importazione dei documenti',
+                'placeholder' => 'https://import-hub-qa.boat.opencontent.io/import-hub/documents',
+                'type' => 'string',
+                'current_value' => $current['ImportDocumentUrl'],
+            ],
+            [
                 'identifier' => 'CategoriesUrl',
                 'label' => 'Segnalazione disservizio',
                 'name' => 'Url custom delle categorie di segnalazione',
@@ -559,6 +570,7 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'ReadModelUrl' => $data[$locale]['ReadModelUrl'] ?? 'https://api.opencityitalia.it/m/v1',
                 'EnableInefficiencyV2' => isset($data[$locale]['EnableInefficiencyV2']) ?? (bool)$data['EnableInefficiencyV2'] ?? false,
                 'InefficiencyV2ServiceUuid' => $data[$locale]['InefficiencyV2ServiceUuid'] ?? null,
+                'ImportDocumentUrl' => $data[$locale]['ImportDocumentUrl'] ?? 'https://import-hub-qa.boat.opencontent.io/import-hub/documents',
             ];
         }
 

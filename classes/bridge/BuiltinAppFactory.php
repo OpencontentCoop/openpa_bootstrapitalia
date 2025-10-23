@@ -50,6 +50,12 @@ class BuiltinAppFactory
             case 'documents-area':
                 $app = new DocumentsAreaBuiltinApp();
                 break;
+            case 'operators-area':
+                $app = new OperatorsAreaBuiltinApp();
+                break;
+            case 'applications-area':
+                $app = new ApplicationAreaBuiltinApp();
+                break;
             default:
                 throw new InvalidArgumentException("Unknown builtin identifier $identifier");
         }
@@ -70,6 +76,8 @@ class BuiltinAppFactory
             'personal-area',
             'payments-area',
             'documents-area',
+            'operators-area',
+            'applications-area',
         ];
     }
 }
