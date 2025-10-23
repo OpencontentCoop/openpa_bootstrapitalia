@@ -18,7 +18,7 @@ BuiltInWidgetSource_satisfy=https://static.opencityitalia.it/widgets/satisfy/ver
 BuiltInWidgetSource_login=https://%host%/widgets/login-box/bootstrap-italia@2/js/login-box.js
 
 BuiltInWidgetSource_service-form=https://static.opencityitalia.it/widgets/formio/latest/js/web-formio.js
-BuiltInWidgetStyle_service-form=https://static.opencityitalia.it/widgets/formio/latest/css/web-formio.css
+BuiltInWidgetStyle_service-form=
 
 #BuiltInWidgetSource_payment=https://%host%/widgets/payments-due/js/paymentsDue.js
 #BuiltInWidgetStyle_payment=https://%host%/widgets/payments-due/css/paymentsDue.css

@@ -8,6 +8,8 @@ abstract class BuiltinApp extends OpenPATempletizable
 
     private $appIdentifier;
 
+    protected $appStorageIdentifier;
+
     private $appLabel;
 
     private $siteData;
@@ -96,8 +98,9 @@ abstract class BuiltinApp extends OpenPATempletizable
 
     private function getSiteData(string $config = null): ?eZPersistentObject
     {
+        $storageIdentifier = $this->appStorageIdentifier ?? $this->appIdentifier;
         if ($this->siteData === null || $config) {
-            $name = "built_in_{$this->appIdentifier}_config";
+            $name = "built_in_{$storageIdentifier}_config";
             $this->siteData = eZSiteData::fetchByName($name) ?? null;
             if ($config !== null) {
                 if (!$this->siteData instanceof eZSiteData) {
