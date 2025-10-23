@@ -667,8 +667,10 @@
                             if (name.includes('name') === false && facet.length > 15) {
                                 let date = moment(facet, moment.ISO_8601, true);
                                 if (date.isValid()) {
-                                    if (facet.indexOf('-01-01T00:00:00Z') > -1) {
+                                    if (name.includes('_year_') === true) {
                                         return date.format('YYYY');
+                                    }else if (name.includes('_yearmonth_') === true) {
+                                        return date.format('YYYY/MM');
                                     }
                                     return date.format(MomentDateFormat);
                                 }
