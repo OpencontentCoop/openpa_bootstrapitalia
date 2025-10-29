@@ -520,6 +520,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'location' => $this->getPlace(),
             'motivation_outcome' => $this->getMotivationOutcome(),
             'calendar_group_config_id' => $this->getCalendarGroupConfigId(),
+            'locale' => eZLocale::instance()->httpLocaleCode(),
         ];
 
         if (!empty($this->getMeetingCode())){
