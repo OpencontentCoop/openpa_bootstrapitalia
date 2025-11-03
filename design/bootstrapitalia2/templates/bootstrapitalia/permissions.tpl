@@ -71,21 +71,18 @@
           </div>
         </div>
         <div class="col-12">
-          <div class="oc-table-responsive">
-            <div class="oc-table-responsive-wrapper">
-              <table class="table table-striped mt-4" id="data">
-                <thead>
-                  <tr>
-                    <th>{'User'|i18n('design/standard/node/view')}</th>
-                    {foreach $available_groups as $group}
-                      <th data-node="{$group.node_id}" data-allow_for_moderated="{if $approval_groups_allowed|contains($group.object.remote_id)}1{else}0{/if}">{$group.name|wash()}</th>
-                    {/foreach}
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-          </div>
+          <table class="table table-striped mt-4" id="data">
+            <thead class="bg-white oc-box-shadow-border mb-100" data-bs-toggle="sticky" data-bs-stackable="true">
+              <tr style="font-size: .8em">
+                  <th>{'User'|i18n('design/standard/node/view')}</th>
+                  {foreach $available_groups as $group}
+                      <th style="text-align: center" data-node="{$group.node_id}" data-allow_for_moderated="{if $approval_groups_allowed|contains($group.object.remote_id)}1{else}0{/if}">{$group.name|wash()}</th>
+                  {/foreach}
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
         </div>
     </div>
 
