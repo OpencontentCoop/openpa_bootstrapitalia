@@ -120,7 +120,7 @@
                         }
                     });
 
-                    var selectContainer = $('<div class="form-group" style="margin-bottom: 10px"></div>');
+                    var selectContainer = $('<div class="form-group" style="padding-bottom: 10px"></div>');
                     var label = $('<label for="' + facetDefinition.field + '">' + facetDefinition.name + '</label>');
 
                     selectContainer.append(label);
