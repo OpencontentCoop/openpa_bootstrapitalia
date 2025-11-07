@@ -25,14 +25,31 @@ BuiltInWidgetStyle_service-form=
 BuiltInWidgetSource_payment=https://static.opencityitalia.it/widgets/payments-due/version/1.0.5/js/paymentsDue.js
 BuiltInWidgetStyle_payment=https://static.opencityitalia.it/widgets/payments-due/version/1.0.5/css/paymentsDue.css
 
-BuiltInWidgetSource_personal-area=https://%host%/widgets/personal-area/personal-area.js
-BuiltInWidgetStyle_personal-area=https://%host%/widgets/personal-area/%theme%.css
+#BuiltInWidgetSource_payments-area=https://%host%/widgets/personal-area/ap-personal-area.js
+#BuiltInWidgetStyle_payments-area=https://%host%/widgets/personal-area/%theme%.css
+uiltInWidgetSource_personal-area=https://static.opencityitalia.it/widgets/area-personale-cittadino/latest/js/ap-personal-area.js
+BuiltInWidgetStyle_personal-area=https://static.opencityitalia.it/widgets/area-personale-cittadino/latest/css/%theme%.css
 
-BuiltInWidgetSource_payments-area=https://%host%/widgets/personal-area/ap-payments.js
-BuiltInWidgetStyle_payments-area=https://%host%/widgets/personal-area/%theme%.css
+#BuiltInWidgetSource_payments-area=area=https://%host%/widgets/personal-area/ap-payments.js
+#BuiltInWidgetStyle_payments-area=https://%host%/widgets/personal-area/%theme%.css
+BuiltInWidgetSource_payments-area=https://static.opencityitalia.it/widgets/area-personale-cittadino/latest/js/ap-payments.js
+BuiltInWidgetStyle_payments-area=https://static.opencityitalia.it/widgets/area-personale-cittadino/latest/css/%theme%.css
 
-BuiltInWidgetSource_documents-area=https://%host%/widgets/personal-area/ap-documents.js
-BuiltInWidgetStyle_documents-area=https://%host%/widgets/personal-area/%theme%.css
+#BuiltInWidgetSource_documents-area=area=https://%host%/widgets/personal-area/ap-documents.js
+#BuiltInWidgetStyle_documents-area=https://%host%/widgets/personal-area/%theme%.css
+BuiltInWidgetSource_documents-area=https://static.opencityitalia.it/widgets/area-personale-cittadino/latest/js/ap-documents.js
+BuiltInWidgetStyle_documents-area=https://static.opencityitalia.it/widgets/area-personale-cittadino/latest/css/%theme%.css
+
+#BuiltInWidgetSource_operators-area=area=https://%host%/widgets/personal-area/ap-documents-operator.js
+#BuiltInWidgetStyle_operators-area=https://%host%/widgets/personal-area/%theme%.css
+BuiltInWidgetSource_operators-area=https://static.opencityitalia.it/widgets/area-personale-cittadino/latest/js/ap-documents-operator.js
+BuiltInWidgetStyle_operators-area=https://static.opencityitalia.it/widgets/area-personale-cittadino/latest/css/%theme%.css
+
+#BuiltInWidgetSource_applications-area=area=https://%host%/widgets/personal-area/personal-area.js
+#BuiltInWidgetStyle_applications-area=https://%host%/widgets/personal-area/%theme%.css
+BuiltInWidgetSource_applications-area=https://static.opencityitalia.it/widgets/area-personale-cittadino/latest/js/personal-area.js
+BuiltInWidgetStyle_applications-area=https://static.opencityitalia.it/widgets/area-personale-cittadino/latest/css/%theme%.css
+
 
 ApiUserLogin=
 ApiUserPassword=
