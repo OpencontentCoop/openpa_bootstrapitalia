@@ -112,6 +112,8 @@ class OpenPABootstrapItaliaOperators
             'is_object_booking_configured',
             'decode_json',
             'encode_json',
+            'can_create_class_list_in_current_language',
+            'can_edit_in_current_language',
         );
     }
 
@@ -297,6 +299,12 @@ class OpenPABootstrapItaliaOperators
             'is_object_booking_configured' => array(
                 'object_id' => array('type' => 'integer', 'required' => true, 'default' => null),
             ),
+            'can_create_class_list_in_current_language' => array(
+                'content_object' => array('type' => 'object', 'required' => true, 'default' => null),
+            ),
+            'can_edit_in_current_language' => array(
+                'content_object' => array('type' => 'object', 'required' => true, 'default' => null),
+            ),
         );
     }
 
@@ -311,6 +319,22 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+            case 'can_create_class_list_in_current_language':
+                $operatorValue = [];
+                $object = $namedParameters['content_object'];
+                if ($object instanceof eZContentObject) {
+                    $operatorValue = self::canCreateClassList($object, eZLocale::currentLocaleCode());
+                }
+                break;
+
+            case 'can_edit_in_current_language':
+                $operatorValue = false;
+                $object = $namedParameters['content_object'];
+                if ($object instanceof eZContentObject) {
+                    $operatorValue = $object->canEdit(false, false, false, eZLocale::currentLocaleCode());
+                }
+                break;
+
             case 'is_object_booking_configured':
                 $operatorValue = false;
                 if (StanzaDelCittadinoBooking::factory()->isEnabled()){
@@ -319,7 +343,7 @@ class OpenPABootstrapItaliaOperators
                 }
                 break;
 
-          case 'encode_json':
+            case 'encode_json':
             if (is_array($operatorValue) || is_object($operatorValue)) {
                 $encoded = json_encode($operatorValue, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
@@ -2731,5 +2755,101 @@ class OpenPABootstrapItaliaOperators
         }
 
         return ['tables' => '', 'joins' => $sqlJoins, 'columns' => ''];
+    }
+
+    private static function canCreateClassList(eZContentObject $object, $languageCode): array
+    {
+        $languageCodeList = [$languageCode];
+        $allowedLanguages = ['*' => []];
+
+        $user = eZUser::currentUser();
+        $accessResult = $user->hasAccessTo('content', 'create');
+        $accessWord = $accessResult['accessWord'];
+
+        $classIDArray = [];
+        $classList = [];
+        $fetchAll = false;
+        if ($accessWord == 'yes') {
+            $fetchAll = true;
+            $allowedLanguages['*'] = $languageCodeList;
+        } else {
+            if ($accessWord == 'no') {
+                return $classList;
+            } else {
+                $policies = $accessResult['policies'];
+                foreach ($policies as $policyKey => $policy) {
+                    $policyArray = $object->classListFromPolicy($policy, $languageCodeList);
+                    if (empty($policyArray)) {
+                        continue;
+                    }
+                    $classIDArrayPart = $policyArray['classes'];
+                    $languageCodeArrayPart = $policyArray['language_codes'];
+                    // No class limitation for this policy AND no previous limitation(s)
+                    if ($classIDArrayPart == '*' && empty($classIDArray)) {
+                        $fetchAll = true;
+                        $allowedLanguages['*'] = array_unique(
+                            array_merge($allowedLanguages['*'], $languageCodeArrayPart)
+                        );
+                    } else {
+                        if (is_array($classIDArrayPart)) {
+                            $fetchAll = false;
+                            foreach ($classIDArrayPart as $class) {
+                                if (isset($allowedLanguages[$class])) {
+                                    $allowedLanguages[$class] = array_unique(
+                                        array_merge($allowedLanguages[$class], $languageCodeArrayPart)
+                                    );
+                                } else {
+                                    $allowedLanguages[$class] = $languageCodeArrayPart;
+                                }
+                            }
+                            $classIDArray = array_merge($classIDArray, array_diff($classIDArrayPart, $classIDArray));
+                        }
+                    }
+                }
+            }
+        }
+
+        $db = eZDB::instance();
+        $filterTableSQL = '';
+        $filterSQL = '';
+        $classNameFilter = eZContentClassName::sqlFilter('cc');
+        if ($fetchAll) {
+            $fields = "cc.id, $classNameFilter[nameField]";
+            $rows = $db->arrayQuery(
+                "SELECT DISTINCT $fields " .
+                "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from] " .
+                "WHERE cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where] " .
+                "ORDER BY $classNameFilter[nameField] ASC"
+            );
+            $classList = eZPersistentObject::handleRows($rows, 'eZContentClass', false);
+        } else {
+            // If the constrained class list is empty we are not allowed to create any class
+            if (count($classIDArray) == 0) {
+                return $classList;
+            }
+
+            $classIDCondition = $db->generateSQLINStatement($classIDArray, 'cc.id');
+            $fields = "cc.id, $classNameFilter[nameField]";
+            $rows = $db->arrayQuery(
+                "SELECT DISTINCT $fields " .
+                "FROM ezcontentclass cc$filterTableSQL, $classNameFilter[from] " .
+                "WHERE $classIDCondition AND" .
+                "      cc.version = " . eZContentClass::VERSION_STATUS_DEFINED . " $filterSQL AND $classNameFilter[where] " .
+                "ORDER BY $classNameFilter[nameField] ASC"
+            );
+            $classList = eZPersistentObject::handleRows($rows, 'eZContentClass', false);
+        }
+        foreach ($classList as $key => $class) {
+            $id = $class['id'];
+            if (!isset($allowedLanguages[$id])) {
+                $allowedLanguages[$id] = [];
+            }
+            if (!in_array($languageCode, $allowedLanguages[$id])
+                && !in_array($languageCode, $allowedLanguages['*'])) {
+                unset($classList[$key]);
+            }
+        }
+
+        return $classList;
     }
 }
