@@ -61,19 +61,18 @@
             {/if}
         </div>
         <div class="col-12">
-          <div class="table-responsive">
           <table class="table table-striped mt-4" id="data">
-            <thead class="bg-white oc-box-shadow-border" data-bs-toggle="sticky" data-bs-stackable="true" style="margin-bottom: 170px;>
+            <thead class="bg-white oc-box-shadow-border mb-100" data-bs-toggle="sticky" data-bs-stackable="true">
               <tr style="font-size: .8em">
-                  <th style="position:sticky; left:0; background: white; z-index:1; vertical-align: middle;">{'User'|i18n('design/standard/node/view')}</th>
+                  <th>{'User'|i18n('design/standard/node/view')}</th>
                   {foreach $available_groups as $group}
-                    <th style="text-align: center" data-node="{$group.node_id}" data-allow_for_moderated="{if $approval_groups_allowed|contains($group.object.remote_id)}1{else}0{/if}">{$group.name|wash()}</th>
+                      <th style="text-align: center" data-node="{$group.node_id}" data-allow_for_moderated="{if $approval_groups_allowed|contains($group.object.remote_id)}1{else}0{/if}">{$group.name|wash()}</th>
                   {/foreach}
               </tr>
             </thead>
             <tbody></tbody>
           </table>
-          </div>
+        </div>
         </div>
     </div>
 
