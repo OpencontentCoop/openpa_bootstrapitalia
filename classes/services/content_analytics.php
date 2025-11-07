@@ -26,6 +26,7 @@ class ObjectHandlerServiceContentAnalytics extends ObjectHandlerServiceBase
     {
         $locale = 'ita-IT';
         $nameList = [];
+        $nameListWithRemote = [];
         if ($this->container->hasContentObject()) {
             $content = Content::createFromEzContentObject(
                 $this->container->getContentObject()
@@ -39,12 +40,17 @@ class ObjectHandlerServiceContentAnalytics extends ObjectHandlerServiceBase
                             $suffix = '';
                             if (strpos($relation['remoteId'], 'structure') !== false){
                                 $suffix = ' - ' . str_replace('structure', '', $relation['remoteId']);
+                                $nameListWithRemote[] = $relation['name'][$locale] . $suffix;
                             }
                             $nameList[] = $relation['name'][$locale] . $suffix;
                         }
                     }
                 }
             }
+        }
+
+        if (!empty($nameListWithRemote)){
+            return array_unique($nameListWithRemote);
         }
 
         return array_unique($nameList);
