@@ -61,7 +61,7 @@
         <ul class="d-flex flex-nowrap border-bottom">
 
             {if and( $content_object.can_create, $is_container )}
-                {def $can_create_class_list = $content_object.can_create_class_list}
+                {def $can_create_class_list = can_create_class_list_in_current_language($content_object)}
                 {if $can_create_class_list|count()}
                 <li class="position-relative">
                     <div class="input-group">
@@ -94,7 +94,7 @@
                 <input type="hidden" name="ContentLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
             {/if}
 
-            {if $content_object.can_edit}
+            {if can_edit_in_current_language($content_object)}
                 {def $has_pending_approval = has_pending_approval($content_object.id, ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini'), $current_user_needs_approval)}
                 {if $has_pending_approval}
                     <li>
