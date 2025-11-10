@@ -7,7 +7,7 @@
 ))}
 
 {def $node_id_list = array()}
-{def $items_per_page = 30}
+{def $items_per_page = 10}
 {def $node_list = array()}
 {def $total = 0}
 {def $offset = cond(is_set($#view_parameters[$attribute.contentclass_attribute_identifier]), $#view_parameters[$attribute.contentclass_attribute_identifier], 0)}
