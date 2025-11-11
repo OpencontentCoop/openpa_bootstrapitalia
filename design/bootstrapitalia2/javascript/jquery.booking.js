@@ -1362,6 +1362,9 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html() + ' ' + $('[data-placeDetail]').html(),
           calendar_group_config_id: this.settings.serviceId
         }
+
+        console.log(this.placeSelect, this.officeSelect)
+
         let self = this
         $.retryAjax({
           type: "POST",
