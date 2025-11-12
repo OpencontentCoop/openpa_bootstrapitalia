@@ -2,10 +2,10 @@
 
 /** @var eZModule $module */
 $module = $Params['Module'];
-$archive = $Params['Parameters'][0] == "Archivio";
+$archive = $Params['Parameters'][0] == "archivio";
 $tpl = eZTemplate::factory();
 
-if (isset($Params['Parameters'][0]) && $Params['Parameters'][0] !== "Archivio") {
+if (isset($Params['Parameters'][0]) && $Params['Parameters'][0] !== "archivio") {
     return $module->handleError(eZError::KERNEL_NOT_FOUND, 'kernel');
 }
 

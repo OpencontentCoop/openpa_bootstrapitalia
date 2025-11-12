@@ -7,7 +7,7 @@
             <li class="breadcrumb-item"><a href="{'/'|ezurl(no)}">Home</a><span class="separator">/</span></li>
             {if $archive}
               <li class="breadcrumb-item">
-                <a href="/Albo-Pretorio">Albo pretorio</a>
+                <a href="{'/albo_pretorio'|ezurl(no)}">Albo pretorio</a>
                 <span class="separator">/</span>
               </li>
               <li class="breadcrumb-item active" aria-current="page">Storico pubblicazioni</li>
