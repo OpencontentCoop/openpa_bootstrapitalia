@@ -1,9 +1,20 @@
 {def $publication_range = cond($archive, '', "and calendar[publication_start_time,publication_end_time] = [today,now]")}
 
+{include uri='design:bootstrapitalia/albo-pretorio/breadcrumb.tpl' archive=$archive}
 
-<h1 class="my-4">
-  {if $archive} Storico pubblicazioni {else}Albo pretorio {/if}
-</h1>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10">
+      <div class="cmp-hero">
+        <section class="it-hero-wrapper bg-white d-block">
+          <div class="it-hero-text-wrapper pt-0 ps-0 pb-4 ">
+            <h1 class="text-black hero-title" data-element="page-name">{if $archive}Storico pubblicazioni{else}Albo pretorio{/if}</h1>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
 
 {def $blocks = array(page_block(
             "",

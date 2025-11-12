@@ -2,10 +2,10 @@
 
 /** @var eZModule $module */
 $module = $Params['Module'];
-$archive = $Params['Parameters'][0] == "archivio";
+$archive = $Params['Parameters'][0] == "Archivio";
 $tpl = eZTemplate::factory();
 
-if (isset($Params['Parameters'][0]) && $Params['Parameters'][0] !== "archivio") {
+if (isset($Params['Parameters'][0]) && $Params['Parameters'][0] !== "Archivio") {
     return $module->handleError(eZError::KERNEL_NOT_FOUND, 'kernel');
 }
 
@@ -27,7 +27,7 @@ if ($mainTag instanceof eZTagsObject) {
 }
 
 $Result = [];
-$Result['content'] = $tpl->fetch('design:bootstrapitalia/albo-pretorio.tpl');
+$Result['content'] = $tpl->fetch('design:bootstrapitalia/albo-pretorio/list.tpl');
 $Result['content_info'] = [
     'node_id' => null,
     'class_identifier' => null,
