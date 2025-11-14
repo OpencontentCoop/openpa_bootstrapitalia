@@ -33,7 +33,7 @@
                 "input_search_placeholder", "",
                 "limit", "2",
                 "items_per_row", "auto",
-                "facets", "Argomenti:topics.name,Tipologia:document_type",
+                "facets", "Tipologia:document_type, Unità organizzativa:has_organization",
                 "view_api", "card_teaser",
                 "fields", "_link,name,document_type,publication_start_time,publication_end_time",
                 "simple_geo_api", "0",
