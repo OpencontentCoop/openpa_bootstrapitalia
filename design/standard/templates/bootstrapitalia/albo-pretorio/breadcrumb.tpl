@@ -7,12 +7,12 @@
             <li class="breadcrumb-item"><a href="{'/'|ezurl(no)}">Home</a><span class="separator">/</span></li>
             {if $archive}
               <li class="breadcrumb-item">
-                <a href="{'/albo_pretorio'|ezurl(no)}">Albo pretorio</a>
+                <a href="{'/albo_pretorio'|ezurl(no)}">{'Official noticeboard'|i18n('bootstrapitalia')}</a>
                 <span class="separator">/</span>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">Storico pubblicazioni</li>
+              <li class="breadcrumb-item active" aria-current="page">{'Official noticeboard archive'|i18n('bootstrapitalia')}</li>
             {else}
-              <li class="breadcrumb-item active" aria-current="page">Albo pretorio</li>
+              <li class="breadcrumb-item active" aria-current="page">{'Official noticeboard'|i18n('bootstrapitalia')}</li>
             {/if}
           </ol>
         </nav>

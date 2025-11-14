@@ -8,7 +8,7 @@
       <div class="cmp-hero">
         <section class="it-hero-wrapper bg-white d-block">
           <div class="it-hero-text-wrapper pt-0 ps-0 pb-4 ">
-            <h1 class="text-black hero-title" data-element="page-name">{if $archive}Storico pubblicazioni{else}Albo pretorio{/if}</h1>
+            <h1 class="text-black hero-title" data-element="page-name">{if $archive}{'Official noticeboard archive'|i18n('bootstrapitalia')}{else}{'Official noticeboard'|i18n('bootstrapitalia')}{/if}</h1>
           </div>
         </section>
       </div>
@@ -45,9 +45,9 @@
 
 <div class="container">
   {if $archive}
-    <a class="btn btn-secondary" href="{'/albo_pretorio'|ezurl(no)}">Vai all'albo pretorio</a>
+    <a class="btn btn-secondary" href="{'/albo_pretorio'|ezurl(no)}">{'Official noticeboard'|i18n('bootstrapitalia')}</a>
   {else}
-    <a class="btn btn-secondary" href="{'/albo_pretorio/archivio'|ezurl(no)}">Vai allo storico pubblicazioni</a>
+    <a class="btn btn-secondary" href="{'/albo_pretorio/archivio'|ezurl(no)}">{'Official noticeboard archive'|i18n('bootstrapitalia')}</a>
   {/if}
 </div>
 {undef $blocks }

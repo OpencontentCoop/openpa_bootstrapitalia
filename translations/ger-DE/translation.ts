@@ -4,6 +4,14 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Official noticeboard</source>
+      <translation>Amtstafel</translation>
+    </message>
+    <message>
+      <source>Official noticeboard archive</source>
+      <translation>Archiv der Amtstafel</translation>
+    </message>
+    <message>
       <source>Show more elements</source>
       <translation>Mehr anzeigen / Weniger anzeigen</translation>
     </message>
