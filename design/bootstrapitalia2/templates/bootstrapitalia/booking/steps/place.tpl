@@ -40,6 +40,7 @@
                                                         <div class="form-check m-0">
                                                             <input class="radio-input" name="place" type="radio"
                                                                    id="place-{$office.id|wash()}-{$place.id|wash()}"
+                                                                   data-id="{$place.id|wash()}"
                                                                    data-with_filters="{$place.enable_filter|wash()}"
                                                                    data-month_interval="{$place.month_interval|wash()}"
                                                                    data-calendars="{$place.calendars|implode(',')}">
