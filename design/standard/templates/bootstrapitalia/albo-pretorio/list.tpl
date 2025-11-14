@@ -35,7 +35,7 @@
                 "items_per_row", "auto",
                 "facets", "Tipologia:document_type, Unità organizzativa:has_organization",
                 "view_api", "card_teaser",
-                "fields", "_link,name,document_type,publication_start_time,publication_end_time",
+                "fields", "_link,id_albo_pretorio,name,document_type,publication_start_time,publication_end_time",
                 "simple_geo_api", "0",
                 "template", ""
             )
