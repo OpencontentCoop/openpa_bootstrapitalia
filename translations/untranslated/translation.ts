@@ -4,6 +4,14 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Official noticeboard</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Official noticeboard archive</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Show more elements</source>
       <translation type="unfinished"/>
     </message>
