@@ -271,14 +271,6 @@
                             </a>
                         </li>
                         <li>
-                            <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/pratiche/allegati/">
-                                <svg class="icon icon-sm icon-primary left">
-                                    <use xlink:href="{{:spritePath}}#it-box"></use>
-                                </svg>
-                                <span>{/literal}{'Attachments'|i18n('bootstrapitalia')}{literal}</span>
-                            </a>
-                        </li>
-                        <li>
                             <a class="list-item left-icon text-nowrap" href="{{:baseUrl}}/documenti/">
                                 <svg class="icon icon-sm icon-primary left">
                                     <use xlink:href="{{:spritePath}}#it-folder"></use>
