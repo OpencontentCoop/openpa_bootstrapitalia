@@ -231,7 +231,12 @@ class OpenPAAlboSequentialType extends eZDataType
 
     function metaData($contentObjectAttribute)
     {
-        return $contentObjectAttribute->attribute("data_text");
+        $data = $contentObjectAttribute->attribute("data_text");
+        if (empty($data)) {
+            $data = 'null';
+        }
+        $data = str_replace('/', '-', $data);
+        return $data;
     }
 
     function toString($contentObjectAttribute)
