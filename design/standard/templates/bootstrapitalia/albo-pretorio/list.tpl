@@ -1,5 +1,4 @@
 {def $publication_range = cond($archive, '', "and calendar[publication_start_time,publication_end_time] = [today,now]")}
-
 {include uri='design:bootstrapitalia/albo-pretorio/breadcrumb.tpl' archive=$archive}
 
 <div class="container">
@@ -21,12 +20,12 @@
             "OpendataRemoteContents",
             "datatable",
             hash(
-                container_class, "",   
+                container_class, "",
                 "intro_text", "",
                 "color_style", "",
                 "container_style", "",
                 "remote_url", "",
-                "query", concat("classes [document] and ez_tag_ids in [", $main_tag_id, "] and subtree [",$documents_node_id,"] ", $publication_range),
+                "query", concat("classes [document] and id_albo_pretorio != null ", $publication_range),
                 "show_grid", "0",
                 "show_map", "0",
                 "show_search", "0",
