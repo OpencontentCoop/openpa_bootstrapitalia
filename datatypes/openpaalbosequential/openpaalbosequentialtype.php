@@ -54,8 +54,9 @@ class OpenPAAlboSequentialType extends eZDataType
     ): array {
         $errors = [];
         $object = $contentObjectAttribute->object();
-        $dataMap = $object->dataMap();
+        $dataMap = $object->fetchDataMap($contentObjectAttribute->attribute('version'));
         $tagAttribute = $dataMap[self::$settings['tag_identifier']] ?? null;
+
         try {
             $this->validateInputTag($tagAttribute, $http, $base);
         } catch (InvalidArgumentException $e) {
