@@ -16,6 +16,9 @@
           <b>Numero progressivo albo pretorio:</b>
             {if $attribute.content|eq('pending')}
               <em>{'Il numero progressivo sarà assegnato alla pubblicazione'|i18n('bootstrapitalia/albo_pretorio')}</em>
+              <input type="hidden"
+                     name="{$attribute_base}_data_openpaalbo_{$attribute.id}"
+                     value="1"/>
             {else}
               <code>{$attribute.content|wash()}</code>
             {/if}
