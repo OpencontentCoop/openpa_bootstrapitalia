@@ -335,6 +335,24 @@ class BootstrapItaliaInstallerUtils
         }
     }
 
+    public static function appendToHeaderLink(AbstractStepInstaller $step){
+        $remoteId = $step->getStep()['remote_id'];
+        $object = eZContentObject::fetchByRemoteID($remoteId);
+        if ($object instanceof eZContentObject) {
+            $home = OpenPaFunctionCollection::fetchHome();
+            $dataMap = $home->dataMap();
+            $headerLinks = $dataMap['link_nel_header'] ?? null;
+            if ($headerLinks) {
+                $currentItems = explode('-', $headerLinks->toString());
+                $currentItems[] = $object->attribute('id');
+                $headerLinks->fromString(implode('-', $currentItems));
+                $headerLinks->store();
+            }
+        } else {
+            $step->getLogger()->error("Object $remoteId not found");
+        }
+    }
+
 
     public static function addEditorsDatasetLocations(AbstractStepInstaller $step)
     {
