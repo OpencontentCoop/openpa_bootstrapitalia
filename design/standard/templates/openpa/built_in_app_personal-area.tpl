@@ -12,7 +12,13 @@
                 <div class="bg-light rounded p-4">
                     {if is_set($built_in_app_api_base_url)}
                         <pre style="white-space: break-spaces;">{*
-                            *}{concat('<', $built_in_app_root_id, ' base-url="', $built_in_app_api_base_url, '" readmodel-url="', $readmodel_url, '"></', $built_in_app_root_id, '>')|wash()}<br /><br />{*
+                            *}{concat('<', $built_in_app_root_id,
+                            ' data-checkout-api-url="', $checkout_url, "'",
+                            ' section-enabled="', $ap_section_enabled, "'",
+                            ' import-document-api-url="', $import_documents_url, "'",
+                            ' readmodel-url="', $readmodel_url, "'",
+                            ' base-url="', $built_in_app_api_base_url, "'",
+                            '"></', $built_in_app_root_id, '>')|wash()}<br /><br />{*
                             *}{'<script type="module" src="'|wash()}{if is_set($built_in_app_src)}{$built_in_app_src}{else}{openpaini('StanzaDelCittadinoBridge', concat('BuiltInWidgetSource_', $built_in_app))}{/if}{'"></script>'|wash()}{*
                             *}{if $built_in_app_style|ne('')}<br /><br />{'<link rel="stylesheet" type="text/css" href="'|wash()}{$built_in_app_style}{'" />'|wash()}{/if}
                         </pre>
@@ -70,8 +76,12 @@
         </div>
     {elseif and($built_in_app_is_enabled, is_set($built_in_app_api_base_url))}
         <div class="buitinapp mb-5">
-            <{$built_in_app_root_id} base-url="{$built_in_app_api_base_url}"
-                             readmodel-url="{$readmodel_url}"></{$built_in_app_root_id}>
+            <{$built_in_app_root_id}
+                base-url="{$built_in_app_api_base_url}"
+                data-checkout-api-url="{$checkout_url}"
+                section-enabled="{$ap_section_enabled}"
+                import-document-api-url="https://import-hub-qa.boat.opencontent.io/import-hub/documents"
+                readmodel-url="{$readmodel_url}"></{$built_in_app_root_id}>
             <script type="module"  src="{$built_in_app_src}"></script>
             {if $built_in_app_style|ne('')}<link rel="stylesheet" type="text/css" href="{$built_in_app_style}" />{/if}
         </div>

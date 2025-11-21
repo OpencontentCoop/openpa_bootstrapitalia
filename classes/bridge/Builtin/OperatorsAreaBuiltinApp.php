@@ -1,15 +1,15 @@
 <?php
 
-class PersonalAreaBuiltinApp extends BuiltinApp
+class OperatorsAreaBuiltinApp extends BuiltinApp
 {
     public function __construct()
     {
-        parent::__construct('personal-area', 'Area personale');
+        parent::__construct('operators-area', 'Area operatori');
     }
 
     protected function getAppRootId(): string
     {
-        return 'ap-personal-area';
+        return 'ap-documents-operator';
     }
 
     protected function isAppEnabled(): bool
@@ -34,7 +34,6 @@ class PersonalAreaBuiltinApp extends BuiltinApp
 
     public function getProductionUrl(): ?string
     {
-        return '/area_personale';
+        return '/operatori_area';
     }
-
 }

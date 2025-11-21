@@ -16,4 +16,5 @@ ContentMetaPropertyFactories[pagina_trasparenza/page]=PagineTrasparenzaPageFacto
 ClassAttributePropertyFactories[lotto/id]=InternalIdFactoryProvider
 ClassAttributePropertyFactories[bando/id]=InternalIdFactoryProvider
 ClassAttributePropertyFactories[openpacomuniitaliani]=OpenPAComuniItalianiFactoryProvider
+ClassAttributePropertyFactories[openpaalbosequential]=OpenPAAlboSequentialFactoryProvider
 */ ?>

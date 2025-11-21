@@ -32,6 +32,7 @@ DatatypeMap[openparestrictedarea]=lckeyword
 CustomMap[eztags]=BootstrapItaliaSolrDocumentFieldeZTags
 DatatypeMap[openpacomuniitaliani]=lckeyword
 DatatypeMap[openpareverserelationlist]=lckeyword
+DatatypeMap[openpaalbosequential]=string
 
 [IndexBoost]
 Class[topic]=4.0

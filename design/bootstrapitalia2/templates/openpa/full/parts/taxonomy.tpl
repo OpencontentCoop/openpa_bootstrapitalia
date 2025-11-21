@@ -46,7 +46,7 @@
             </button>
             <div class="collapse mt-2" id='collapse-{$node.node_id}-topics'>
               <ul class="d-flex flex-wrap gap-1 mb-2">
-                {foreach $current_topics as $index => $object offest 6}
+                {foreach $current_topics as $index => $object offset 6}
                   <li>
                     <a class="chip chip-simple chip-primary {if $object.section_id|ne(1)}no-sezioni_per_tutti{/if} mb-0"
                       {if $node.class_identifier|eq('public_service')}data-element="service-topic"{/if}
@@ -65,7 +65,7 @@
     {foreach array('has_public_event_typology', 'content_type', 'document_type', 'announcement_type') as $identifier}
     {if $node|has_attribute($identifier)}
         {if $show_title}
-            <div class="row mt-1">
+            <div class="row pt-3">
                 <h2 class="mb-2 h6 fw-normal">{$node|attribute($identifier).contentclass_attribute_name}</h2>
             </div>
         {/if}
@@ -88,7 +88,7 @@
                 </button>
                 <div class="collapse mt-2" id='collapse-{$node.node_id}-{$identifier}'>
                   <ul class="d-flex flex-wrap gap-1 mb-2">
-                    {foreach $node|attribute($identifier).content.tags as $tag offest 6}
+                    {foreach $node|attribute($identifier).content.tags as $tag offset 6}
                       <li class="chip chip-simple chip-primary mb-0"><span class="chip-label">{$tag.keyword|wash}</span></li>
                     {/foreach}
                   </ul>
@@ -108,7 +108,7 @@
 {if and($show_title, $node|has_attribute('type'), $node|attribute('type').data_type_string|eq('eztags'), is_set($parent_openpa), $parent_openpa.content_tag_menu.has_tag_menu)}
 <section class="{$container_class}">
     {if $show_title}
-        <div class="row mt-1">
+        <div class="row pt-3">
             <h2 class="mb-2 h6 fw-normal">{$node|attribute('type').contentclass_attribute_name|wash()}</h2>
         </div>
     {/if}
@@ -135,7 +135,7 @@
         </button>
         <div class="collapse mt-2" id='collapse-{$node.node_id}-type'>
           <ul class="d-flex flex-wrap gap-1 mb-2">
-            {foreach $node|attribute('type').content.tags as $tag offest 6}
+            {foreach $node|attribute('type').content.tags as $tag offset 6}
               <li>
                   <a class="chip chip-simple chip-primary mb-0"
                       href="{if $parent_openpa.content_tag_menu.has_tag_menu}{concat( $parent_openpa.content_tag_menu.tag_menu_root_node.url_alias, '/(view)/', $tag.keyword )|ezurl(no)}{else}#{/if}">
