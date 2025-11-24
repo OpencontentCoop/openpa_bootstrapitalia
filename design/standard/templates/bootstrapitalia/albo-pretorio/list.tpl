@@ -7,14 +7,16 @@
       <div class="cmp-hero">
         <section class="it-hero-wrapper bg-white d-block">
           <div class="it-hero-text-wrapper pt-0 ps-0 pb-4 ">
-            <h1 class="text-black hero-title" data-element="page-name">{if $archive}{'Official noticeboard archive'|i18n('bootstrapitalia')}{else}{'Official noticeboard'|i18n('bootstrapitalia')}{/if}</h1>
+            <h1 class="text-black hero-title" data-element="page-name">{if $setup_object.data_map.title.content|ne('')}{$setup_object.data_map.title.content|wash()}{elseif $archive}{'Official noticeboard archive'|i18n('bootstrapitalia')}{else}{'Official noticeboard'|i18n('bootstrapitalia')}{/if}</h1>
           </div>
+          {if $setup_object|has_attribute('intro')}
+              {attribute_view_gui attribute=$setup_object|attribute('intro')}
+          {/if}
         </section>
       </div>
     </div>
   </div>
 </div>
-
 {def $blocks = array(page_block(
             "",
             "OpendataRemoteContents",
