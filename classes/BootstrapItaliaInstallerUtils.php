@@ -341,7 +341,7 @@ class BootstrapItaliaInstallerUtils
         if ($object instanceof eZContentObject) {
             $home = OpenPaFunctionCollection::fetchHome();
             $dataMap = $home->dataMap();
-            $headerLinks = $dataMap['link_nel_header'] ?? null;
+            $headerLinks = $dataMap['link_nell_header'] ?? null;
             if ($headerLinks) {
                 $currentItems = explode('-', $headerLinks->toString());
                 $currentItems[] = $object->attribute('id');
