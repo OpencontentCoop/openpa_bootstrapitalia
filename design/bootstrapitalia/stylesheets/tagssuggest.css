@@ -234,3 +234,15 @@ fieldset .button-add-tag {
     float: none;
     margin: 0;
 }
+.tagssuggest[data-has-add-access="true"] .tagssuggestfieldwrap{
+    width: 100%;
+}
+.tagssuggest[data-has-add-access="true"] .tagssuggestfield.tags-input-field {
+    width: 80%;
+}
+.tagssuggest[data-has-add-access="true"] .button-add-tag {
+    clear: right;
+    display: block;
+    float: right;
+    margin-top: 6px;
+}

@@ -91,4 +91,6 @@ Modificato lo script Masonry per calcolare gli spazi dopo il caricamento dei fon
 
 Utilizzato selettore `html[lang^="de"]` per mandare a capo correttamente le parole tedesche molto lunghe.
 
+Utilizza la classe `oc-table-responsive` per avere una tabella con prima riga e prima colonna sempre visibili.
+
 Utilizzato `oc-placeholder` per correggere il colore del placeholder della barra di ricerca.

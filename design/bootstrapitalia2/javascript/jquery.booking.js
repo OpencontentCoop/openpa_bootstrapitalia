@@ -127,6 +127,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       'office': null,
       'calendarFilter': [],
       'place': null,
+      'placeId': null,
       'month': null,
       'day': null,
       'openingHour': null,
@@ -537,6 +538,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       }
       self.placeSelect.on('change', function () {
         self.setCurrentData('place', $(this).attr('id'))
+        self.setCurrentData('placeId', $(this).data('id'))
         self.setCurrentData('calendarFilter', [])
         self.onChangePlace()
       })
@@ -1258,6 +1260,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       this.placeSelect.prop('checked', false)
       this.markStepUnconfirmed('datetime', function () {
         self.setCurrentData('place', null)
+        self.setCurrentData('placeId', null)
         self.setCurrentData('day', null)
         self.setCurrentData('openingHour', null)
         if (self.hasScheduler){
@@ -1360,8 +1363,11 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           motivation_outcome: $('[data-motivation_outcome]').html(),
           reason: this.summary.subjectText,
           place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html() + ' ' + $('[data-placeDetail]').html(),
-          calendar_group_config_id: this.settings.serviceId
+          calendar_group_config_id: this.settings.serviceId,
+          calendar_group_office_id: this.currentData.office,
+          calendar_group_place_id: this.currentData.placeId
         }
+
         let self = this
         $.retryAjax({
           type: "POST",
@@ -1398,8 +1404,11 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           ezxform_token: this.settings.xtoken,
           meeting: this.currentData.meeting,
           place: $('[data-placeTitle]').html() + ' ' + $('[data-placeAddress]').html() + ' ' + $('[data-placeDetail]').html(),
-          calendar_group_config_id: this.settings.serviceId
+          calendar_group_config_id: this.settings.serviceId,
+          calendar_group_office_id: this.currentData.office,
+          calendar_group_place_id: this.currentData.placeId
         }
+
         let self = this
         $.retryAjax({
           type: "POST",

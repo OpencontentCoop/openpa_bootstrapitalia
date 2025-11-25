@@ -41,6 +41,8 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
     private $motivationOutcome;
 
     private $calendarGroupConfigId;
+    private $calendarGroupOfficeId;
+    private $calendarGroupPlaceId;
 
     /**
      * @return mixed
@@ -384,6 +386,29 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         return $this;
     }
 
+    public function getCalendarGroupOfficeId()
+    {
+        return $this->calendarGroupOfficeId;
+    }
+
+    public function setCalendarGroupOfficeId($calendarGroupOfficeId)
+    {
+        $this->calendarGroupOfficeId = $calendarGroupOfficeId;
+        return $this;
+    }
+
+    public function getCalendarGroupPlaceId()
+    {
+        return $this->calendarGroupPlaceId;
+    }
+
+    public function setCalendarGroupPlaceId($calendarGroupPlaceId)
+    {
+        $this->calendarGroupPlaceId = $calendarGroupPlaceId;
+        return $this;
+    }
+
+
     public static function fromRequest()
     {
         $dto = new static();
@@ -447,6 +472,12 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
         }
         if ($http->hasPostVariable('calendar_group_config_id')) {
             $dto->setCalendarGroupConfigId($http->postVariable('calendar_group_config_id'));
+        }
+        if ($http->hasPostVariable('calendar_group_office_id')) {
+            $dto->setCalendarGroupOfficeId($http->postVariable('calendar_group_office_id'));
+        }
+        if ($http->hasPostVariable('calendar_group_place_id')) {
+            $dto->setCalendarGroupPlaceId($http->postVariable('calendar_group_place_id'));
         }
 
         return $dto;
@@ -520,6 +551,8 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'location' => $this->getPlace(),
             'motivation_outcome' => $this->getMotivationOutcome(),
             'calendar_group_config_id' => $this->getCalendarGroupConfigId(),
+            'calendar_group_office_id' => $this->getCalendarGroupOfficeId(),
+            'calendar_group_place_id' => $this->getCalendarGroupPlaceId(),
             'locale' => eZLocale::instance()->httpLocaleCode(),
         ];
 

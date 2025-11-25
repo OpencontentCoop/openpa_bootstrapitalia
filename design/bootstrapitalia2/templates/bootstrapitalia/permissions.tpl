@@ -45,8 +45,17 @@
                 <label for="politico">Politico</label>
             </div>
         </div>*}
-        <div class="col-12">
-            <div class="m-0 d-block">{'Filter by role assignment'|i18n('bootstrapitalia')}:</div>
+        <div class="col-12 mb-4">
+          <button 
+            class="btn-link"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapse-filters"
+            aria-expanded="false"
+            aria-controls='collapse-filters'>
+            {'Filter by role assignment'|i18n('bootstrapitalia')}
+          </button>
+          <div class="collapse mt-2" id='collapse-filters'>
             {foreach $available_groups as $group}
             <div class="form-check form-check-inline">
                 <input class="filter" id="path-{$group.node_id}" data-filterpath="{$group.node_id}" type="checkbox">
@@ -59,6 +68,7 @@
                     <label for="path-{$moderation_object.main_node_id}"><em>{$moderation_object.name|wash()}</em></label>
                 </div>
             {/if}
+          </div>
         </div>
         <div class="col-12">
           <table class="table table-striped mt-4" id="data">
@@ -146,11 +156,11 @@
                 <a title="Deactivate all" href="#" data-user="{{:metadata.mainNodeId}}" class="DeactivateAllUserPermission text-decoration-none pl-2 ps-2"><i class="fa fa-toggle-off"></i></a>
             </div>
             {{if ~moderationNodeId}}
-            <div class="row bg-white rounded-end rounded-right">
-                <div class="col-7" style="font-size: .8em; line-height:.8em">
+            <div class="d-flex">
+                <div class="" style="font-size: .8em; line-height:.8em">
                     <strong>Utente moderato</strong>
                 </div>
-                <div class="col-5">
+                <div class="">
                     <div class="toggles">
                         <i class="fa fa-circle-o-notch fa-spin fa-fw spinner" style="display:none"></i>
                         <label for="user-permission-{{:metadata.mainNodeId}}-{{:~moderationNodeId}}" style="line-height: 1px;text-align:center;margin-bottom:0;transform: scale(0.8);">
