@@ -48,7 +48,7 @@
 
 {include uri='design:parts/block_name.tpl'}
 
-<div data-block_document_subtree="{cond(is_set($block.custom_attributes.node_id), $block.custom_attributes.node_id, 1)}"
+<div data-block_document_subtree="{cond(is_set($block.custom_attributes.node_id), $block.custom_attributes.node_id, $#node.node_id)}"
 	 data-hide_publication_end_time="{cond(and(is_set($block.custom_attributes.hide_publication_end_time), $block.custom_attributes.hide_publication_end_time|eq('1')), 'true','false')}"
 	 data-show_only_publication="{cond(and(is_set($block.custom_attributes.show_only_publication), $block.custom_attributes.show_only_publication|eq('1')), 'true','false')}"
 	 data-limit="10"
