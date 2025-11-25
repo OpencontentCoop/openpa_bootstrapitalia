@@ -1,5 +1,6 @@
 {def $publication_range = cond($archive, '', "and calendar[publication_start_time,publication_end_time] = [today,now]")}
-{include uri='design:bootstrapitalia/albo-pretorio/breadcrumb.tpl' archive=$archive}
+{def $official_noticeboard_title = cond($setup_object.data_map.title.content|ne(''), $setup_object.data_map.title.content|wash(), 'Official noticeboard'|i18n('bootstrapitalia'))}
+{include uri='design:bootstrapitalia/albo-pretorio/breadcrumb.tpl' archive=$archive official_noticeboard_title=$official_noticeboard_title}
 
 <div class="container">
   <div class="row justify-content-center">
@@ -7,10 +8,15 @@
       <div class="cmp-hero">
         <section class="it-hero-wrapper bg-white d-block">
           <div class="it-hero-text-wrapper pt-0 ps-0 pb-4 ">
-            <h1 class="text-black hero-title" data-element="page-name">{if $setup_object.data_map.title.content|ne('')}{$setup_object.data_map.title.content|wash()}{elseif $archive}{'Official noticeboard archive'|i18n('bootstrapitalia')}{else}{'Official noticeboard'|i18n('bootstrapitalia')}{/if}</h1>
+            <h1 class="text-black hero-title" data-element="page-name">{if $archive}{'Official noticeboard archive'|i18n('bootstrapitalia')}{else}{$official_noticeboard_title}{/if}</h1>
           </div>
           {if $setup_object|has_attribute('intro')}
               {attribute_view_gui attribute=$setup_object|attribute('intro')}
+          {/if}
+          {if $archive}
+            <a class="btn btn-link p-0" href="{'/albo_pretorio'|ezurl(no)}">{'Official noticeboard'|i18n('bootstrapitalia')}</a>
+          {else}
+            <a class="btn btn-link p-0" href="{'/albo_pretorio/archivio'|ezurl(no)}">{'Official noticeboard archive'|i18n('bootstrapitalia')}</a>
           {/if}
         </section>
       </div>
@@ -44,11 +50,4 @@
 
 {include uri='design:zone/default.tpl' zones=array(hash('blocks', $blocks))}
 
-<div class="container">
-  {if $archive}
-    <a class="btn btn-secondary" href="{'/albo_pretorio'|ezurl(no)}">{'Official noticeboard'|i18n('bootstrapitalia')}</a>
-  {else}
-    <a class="btn btn-secondary" href="{'/albo_pretorio/archivio'|ezurl(no)}">{'Official noticeboard archive'|i18n('bootstrapitalia')}</a>
-  {/if}
-</div>
-{undef $blocks }
+{undef $blocks $official_noticeboard_title $publication_range}
