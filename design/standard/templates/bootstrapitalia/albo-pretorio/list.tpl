@@ -95,13 +95,13 @@
 					{if $hide_tag_select|not()}
 					<div class="accordion-item bg-none{if $hide_tag_select} d-none{/if}">
 						<h2 class="accordion-header" id="collapseTagList-{$block_id}-title">
-							<button class="accordion-button px-2 text-uppercase text-decoration-none" type="button"
-									data-bs-toggle="collapse" href="#collapseTagList-{$block_id}" role="button" aria-expanded="true" aria-controls="collapseTagList-{$block_id}"
+							<button class="accordion-button collapsed px-2 text-uppercase" type="button"
+									data-bs-toggle="collapse" href="#collapseTagList-{$block_id}" role="button" aria-expanded="false" aria-controls="collapseTagList-{$block_id}"
 									data-focus-mouse="false">
 								{'Document type'|i18n('bootstrapitalia/documents')}
 							</button>
 						</h2>
-						<div id="collapseTagList-{$block_id}" class="accordion-collapse collapse show" role="region" aria-labelledby="collapseTagList-{$block_id}-title">
+						<div id="collapseTagList-{$block_id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseTagList-{$block_id}-title">
 							<div class="accordion-body pb-4">
 								<ul class="link-list">
 									{foreach $root_tag_list as $root_index => $tag_tree}
