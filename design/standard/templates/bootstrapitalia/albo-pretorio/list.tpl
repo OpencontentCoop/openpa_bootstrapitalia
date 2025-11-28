@@ -291,7 +291,11 @@
 				</div>
 				<div class="card-body p-0 my-2">
 					<h3 class="green-title-big mb-8">
-						<a class="text-decoration-none" href="{{if ~i18n(extradata,'urlAlias')}}{{:~i18n(extradata,'urlAlias')}}{{else}}{{:baseUrl}}openpa/object/{{:metadata.id}}{{/if}}">{{:~i18n(metadata.name)}}</a>
+					  {{if metadata.userAccess.canRead}}
+						  <a class="text-decoration-none" href="{{if ~i18n(extradata,'urlAlias')}}{{:~i18n(extradata,'urlAlias')}}{{else}}{{:baseUrl}}openpa/object/{{:metadata.id}}{{/if}}">{{:~i18n(metadata.name)}}</a>
+						{{else}}
+						  {{:~i18n(metadata.name)}}
+						{{/if}}
 					</h3>
 					{{if ~i18n(data, 'alternative_name')}}<p class="text-paragraph">{{:~stripTag(~i18n(data, 'alternative_name'))}}</p>{{/if}}
           {{if ~i18n(data, 'abstract')}}<div class="mb-2"><p class="text-paragraph">{{:~stripTag(~i18n(data, 'abstract'))}}</p></div> {{/if}}
@@ -407,21 +411,14 @@ $(document).ready(function() {
       });
     }
 
-	  var buildQuery = function(){
+	  var buildQueryFilters = function(){
       var filters = [];
-	    var baseQueryClasses = 'document';
-			var query = 'classes ['+baseQueryClasses+'] subtree [' + subtree + '] and id_albo_pretorio != null and facets [raw[subattr_document_type___tag_ids____si],raw[subattr_'+startIdentifier+'___year____dt],class]';
 			if (showOnlyPublication){
-				query += ' and (calendar['+startIdentifier+','+endIdentifier+'] = [yesterday,now] )';
         filters.push({name: 'publication', value: 'current' });
-			}
-			if (rootTagIdList !== ''){
-				query += " and ( class in [document] and raw[subattr_document_type___tag_ids____si] in [" + rootTagIdList + "] )";
 			}
 			if (container.find('[data-search="q"]').length > 0) {
 				var searchText = container.find('[data-search="q"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
 				if (searchText.length > 0) {
-					query += " and q = '\"" + searchText + "\"'";
           filters.push({name: 'q', value: searchText});
 				}
 			}
@@ -430,55 +427,33 @@ $(document).ready(function() {
 				tagFilters.push($(this).data('tag_id'));
 			});
 			if (tagFilters.length > 0){
-				query += " and raw[subattr_document_type___tag_ids____si] in [" + tagFilters.join(',') + "]";
         filters.push({name: 'tag_id', value: tagFilters.join(',')});
 			}
 			if (container.find('[data-search="has_organization"]').length > 0) {
 				var officeFilter = container.find('[data-search="has_organization"]').val();
 				if (officeFilter && officeFilter.length > 0) {
-					query += " and ( class in [document] and has_organization.id in [" + officeFilter + "] )";
           filters.push({name: 'has_organization', value: officeFilter});
 				}
 			}
 			if (container.find('[data-search="has_code"]').length > 0) {
 				var hasCodeFilter = container.find('[data-search="has_code"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
 				if (hasCodeFilter.length > 0) {
-					query += ' and (';
-					query += ' ('+numberIdentifier+' = \'"' + hasCodeFilter.replace('/','-') + '"\')';
-					query += ' ) ';
           filters.push({name: 'has_code', value: hasCodeFilter});
 				}
 			}
 			if (container.find('[data-search="year"]').length > 0) {
 				var yearFilter = container.find('[data-search="year"]').val();
 				if (yearFilter.length > 0) {
-					var dateFilter = moment(yearFilter, "YYYY");
-					query += ' and (';
-					query += ' (class in [document] and calendar['+startIdentifier+','+endIdentifier+'] = [' + dateFilter.dayOfYear(1).set('hour', 0).set('minute', 0).format('YYYY-MM-DD HH:mm') + ','
-							+ dateFilter.dayOfYear(365).set('hour', 23).set('minute', 59).format('YYYY-MM-DD HH:mm') + '])';
-					query += ' ) ';
           filters.push({name: 'year', value: yearFilter});
 				}
 			}
 			if (startDate && endDate){
         var formattedStartDate = moment(startDate).format('YYYY-MM-DD');
         var formattedEndDate = moment(endDate).format('YYYY-MM-DD');
-
-				query += ' and (';
-				query += ' (class in [document] and  calendar['+startIdentifier+','+endIdentifier+'] = [' + formattedStartDate + ' 00:00,' + formattedEndDate + ' 23:59] )';
-				query += ' ) ';
-        filters.push({name: 'date_range', value: [formattedStartDate, formattedEndDate]});
+        filters.push({name: 'date_range', value: [formattedStartDate, formattedEndDate].join(',')});
 			}
-			var sort = ' sort ['+startIdentifier+'=>desc';
-			if (numberIdentifier === 'has_code'){
-				sort += ',raw[extra_has_code_sl]=>desc';
-			}else {
-				sort += ',' + numberIdentifier + '=>desc';
-			}			
-			sort += ',raw[attr_published_dt]=>desc,published=>desc';
-			sort += ']';
-			query += sort;
-			return query;
+
+      return filters;
 		};
 
 		var loadFacetsCount = function(data){
@@ -535,13 +510,43 @@ $(document).ready(function() {
       return results.join(", ") + ` ${suffix}`;
     }
 
+    var detectError = function(response,jqXHR){
+      if(response.error_message || response.error_code){
+        return true;
+      }
+      return false;
+    };
+
+    var find = function (filters, cb, context) {
+      $.ajax({
+        type: "GET",
+        url: "{/literal}{'/openpa/data/albo_pretorio'|ezurl(no)}{literal}",
+        data: filters,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data,textStatus,jqXHR) {
+          if (!detectError(data,jqXHR)){
+            cb.call(context, data);
+          }
+        },
+        error: function (jqXHR) {
+          var error = {
+            error_code: jqXHR.status,
+            error_message: jqXHR.statusText
+          };
+          detectError(error,jqXHR);
+        }
+      });
+    };
+
 		var loadContents = function(){
-			var baseQuery = buildQuery();
-			var paginatedQuery = baseQuery + ' and limit ' + limitPagination + ' offset ' + currentPage*limitPagination;
+			var filters = buildQueryFilters();
+      filters.push({name: 'limit', value: limitPagination});
+      filters.push({name: 'offset', value: currentPage*limitPagination});
+			console.log(filters);
 			resultsContainer.find('.nextPage').replaceWith(spinner);
-			$.opendataTools.find(paginatedQuery, function (response) {
+			find(filters, function (response) {
 				loadFacetsCount(response.facets);
-				queryPerPage[currentPage] = paginatedQuery;
         const counts = response.facets[2].data;
 				response.resultsFound = formatSearchResults(counts);
 				response.currentPage = currentPage;
@@ -551,12 +556,10 @@ $(document).ready(function() {
         var pages = [];
         var i;
 				for (i = 0; i < pagination; i++) {			  		
-			  		queryPerPage[i] = baseQuery + ' and limit ' + limitPagination + ' offset ' + (limitPagination*i);			  		
 			  		pages.push({'query': i, 'page': (i+1)});
 				} 
         response.pages = pages;
         response.pageCount = pagination;
-        response.prevPageQuery = jQuery.type(queryPerPage[response.prevPage]) === "undefined" ? null : queryPerPage[response.prevPage];
 
         $.each(response.searchHits, function(){
             this.baseUrl = baseUrl;
