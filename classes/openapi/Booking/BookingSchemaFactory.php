@@ -126,6 +126,19 @@ class BookingSchemaFactory extends SchemaFactory
                 ],
                 'description' => 'Public service category',
             ]),
+            'abstract' => $this->generateSchemaProperty([
+                'type' => 'string',
+                'description' => 'Public service abstract',
+            ]),
+            'show_howto_in_motivation' => $this->generateSchemaProperty([
+                'type' => 'boolean',
+                'description' => 'Show howto instructions in motivation field',
+            ]),
+            'view_type' => $this->generateSchemaProperty([
+                'type' => 'string',
+                'enum' => ['select', 'calendar'],
+                'description' => 'Select view type',
+            ]),
         ];
 
         return $schema;
