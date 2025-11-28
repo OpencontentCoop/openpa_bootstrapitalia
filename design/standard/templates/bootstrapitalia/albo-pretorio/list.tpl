@@ -467,8 +467,7 @@ $(document).ready(function() {
 				query += ' and (';
 				query += ' (class in [document] and  calendar['+startIdentifier+','+endIdentifier+'] = [' + formattedStartDate + ' 00:00,' + formattedEndDate + ' 23:59] )';
 				query += ' ) ';
-        filters.push({name: 'start_date', value: formattedStartDate});
-        filters.push({name: 'end_date', value: formattedEndDate});
+        filters.push({name: 'date_range', value: [formattedStartDate, formattedEndDate]});
 			}
 			var sort = ' sort ['+startIdentifier+'=>desc';
 			if (numberIdentifier === 'has_code'){
@@ -479,7 +478,6 @@ $(document).ready(function() {
 			sort += ',raw[attr_published_dt]=>desc,published=>desc';
 			sort += ']';
 			query += sort;
-      console.log('Filters applied:', filters);
 			return query;
 		};
 
