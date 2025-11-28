@@ -26,7 +26,11 @@ class OpenPAAlboSequentialType extends eZDataType
 
     function initializeObjectAttribute($contentObjectAttribute, $currentVersion, $originalContentObjectAttribute)
     {
-        if ($currentVersion !== false) {
+        if ($contentObjectAttribute->attribute('contentobject_id') !== $originalContentObjectAttribute->attribute('contentobject_id')){
+            $contentObjectAttribute->setAttribute("data_int", null);
+            $contentObjectAttribute->setAttribute("data_text", null);
+            $contentObjectAttribute->setAttribute("data_float", null);
+        }elseif ($currentVersion !== false) {
             $contentObjectAttribute->setAttribute("data_int", $originalContentObjectAttribute->attribute("data_int"));
             $contentObjectAttribute->setAttribute("data_text", $originalContentObjectAttribute->attribute("data_text"));
             $contentObjectAttribute->setAttribute(
