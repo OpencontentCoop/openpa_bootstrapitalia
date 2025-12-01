@@ -89,6 +89,8 @@ class DataHandlerAlboPretorioContents implements OpenPADataHandlerInterface
                 $query = $queryModifier($query, $filters[$filterIdentifier]);
             }
         }
+        
+        $query .= ' and sort [id_albo_pretorio => desc, publication_start_time => desc]';
 
         $limit = $http->hasGetVariable('limit')
             ? (int)$http->getVariable('limit')
