@@ -26,6 +26,9 @@ if ($mainTag instanceof eZTagsObject) {
     return $module->handleError(eZError::KERNEL_NOT_FOUND, 'kernel');
 }
 
+$setupObject = eZContentObject::fetchByRemoteID('setup_albo');
+$tpl->setVariable('setup_object', $setupObject);
+
 $Result = [];
 $Result['content'] = $tpl->fetch('design:bootstrapitalia/albo-pretorio/list.tpl');
 $Result['content_info'] = [

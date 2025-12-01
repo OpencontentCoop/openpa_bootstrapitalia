@@ -103,6 +103,7 @@ Handlers[meta]=DataHandlerMeta
 Handlers[instance]=DataHandlerInstance
 Handlers[booking_config]=DataHandlerBookingConfig
 Handlers[booking]=DataHandlerBooking
+Handlers[albo_pretorio]=DataHandlerAlboPretorioContents
 
 [BlockHandlers]
 Handlers[ListaManuale/*]=OpenPABootstrapItaliaBlockHandlerListaManuale
