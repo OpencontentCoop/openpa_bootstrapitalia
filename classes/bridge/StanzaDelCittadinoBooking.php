@@ -170,7 +170,32 @@ EOT;
     public function getCalendar($id)
     {
         if (!isset($this->calendars[$id])) {
-            $this->calendars[$id] = StanzaDelCittadinoBridge::factory()->instanceNewClient(5)->getCalendar($id);
+
+            $cacheFile = 'calendar-' . $id . '.cache';
+            $cacheFilePath = eZDir::path(
+                array(eZSys::cacheDirectory(), 'sdc-calendars', $cacheFile)
+            );
+            $cacheFileHandler = eZClusterFileHandler::instance($cacheFilePath);
+
+            $this->calendars[$id] = $cacheFileHandler->processCache(
+                function ($file) {
+                    eZDebug::writeDebug('Call cached calendar ' . $file, __METHOD__);
+                    return include($file);
+                },
+                function ($file, $id) {
+                    eZDebug::writeDebug('Generate cached calendar ' . $id, __METHOD__);
+                    $calendar = StanzaDelCittadinoBridge::factory()->instanceNewClient(5)->getCalendar($id);
+                    return array(
+                        'content' => $calendar,
+                        'scope' => 'sdc-calendars',
+                        'datatype' => 'php',
+                        'store' => true
+                    );
+                },
+                (60 * 60 * 4),
+                null,
+                $id
+            );
         }
         return $this->calendars[$id];
     }
