@@ -281,4 +281,38 @@ class BootstrapItaliaLoginOauth
         }
         eZHTTPTool::instance()->removeSessionVariable(self::CURRENT_SESSION_VARNAME);
     }
+
+    public static function interceptSSO()
+    {
+        if (
+            eZHTTPTool::instance()->hasGetVariable('login') &&
+            eZHTTPTool::instance()->getVariable('login') === 'ok'
+        ) {
+            $pal = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
+            if ($pal) {
+                $redirectUri = eZSys::instance()->RequestURI;
+                eZURI::transformURI($redirectUri, true, 'full');
+                $redirectUri = rtrim($pal, '/') . "/login?return-url=" . $redirectUri;
+                header("Location: $redirectUri");
+                eZExecution::cleanExit();
+            }
+        }
+    }
+
+    public static function interceptSLO()
+    {
+        if (
+            eZHTTPTool::instance()->hasGetVariable('login') &&
+            eZHTTPTool::instance()->getVariable('login') === 'ko'
+        ) {
+            $pal = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
+            if ($pal) {
+                $redirectUri = eZSys::instance()->RequestURI;
+                eZURI::transformURI($redirectUri, true, 'full');
+                $redirectUri = rtrim($pal, '/') . "/logout?return-url=" . $redirectUri;
+                header("Location: $redirectUri");
+                eZExecution::cleanExit();
+            }
+        }
+    }
 }
