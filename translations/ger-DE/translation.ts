@@ -248,6 +248,10 @@
       <translation>Neuigkeiten</translation>
     </message>
     <message>
+      <source>Newsletter signup</source>
+      <translation>Newsletter abonnieren</translation>
+    </message>
+    <message>
       <source>You must select at least one topic not included in %custom_topics_name</source>
       <translation>Sie müssen mindestens ein Thema wählen nicht in %custom_topics_name enthalten</translation>
     </message>
