@@ -24,7 +24,7 @@
 
                             <img alt="{ezini('SiteSettings', 'SiteName')|wash()}" 
                                  height="auto"
-                                 src="{render_image(openpapagedata().header.logo.url|ezroot(no,full)).src|explode('http://')|implode('https://')}"
+                                 src="{'/logo'|ezroot(no,'full')}"
                                  style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100px;" width="100" />
                           </td>
                         </tr>
