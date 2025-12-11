@@ -285,8 +285,8 @@ class BootstrapItaliaLoginOauth
     public static function interceptSSO()
     {
         if (
-            eZHTTPTool::instance()->hasGetVariable('login') &&
-            eZHTTPTool::instance()->getVariable('login') === 'ok'
+            (eZHTTPTool::instance()->hasGetVariable('login') && eZHTTPTool::instance()->getVariable('login') === 'ok')
+            || eZHTTPTool::instance()->hasGetVariable('token')
         ) {
             $pal = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
             if ($pal) {
