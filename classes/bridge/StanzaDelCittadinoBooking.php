@@ -1,5 +1,8 @@
 <?php
 
+use Opencontent\OpenApi\CachedSchemaBuilder;
+use Opencontent\OpenApi\Loader;
+
 class StanzaDelCittadinoBooking
 {
     use SiteDataStorageTrait;
@@ -43,8 +46,8 @@ class StanzaDelCittadinoBooking
         if ($enable) {
             self::createViewIfNeeded();
         }
-        $schemaBuilder = \Opencontent\OpenApi\Loader::instance()->getSchemaBuilder();
-        if ($schemaBuilder instanceof \Opencontent\OpenApi\CachedSchemaBuilder) {
+        $schemaBuilder = Loader::instance()->getSchemaBuilder();
+        if ($schemaBuilder instanceof CachedSchemaBuilder) {
             $schemaBuilder->clearCache();
         }
     }
@@ -67,6 +70,10 @@ class StanzaDelCittadinoBooking
     public function setScheduler(bool $enable): void
     {
         $this->setStorage(self::USE_SCHEDULER, (int)$enable);
+        $schemaBuilder = Loader::instance()->getSchemaBuilder();
+        if ($schemaBuilder instanceof CachedSchemaBuilder) {
+            $schemaBuilder->clearCache();
+        }
     }
 
     public function isShowHowToEnabled(): bool
@@ -77,6 +84,10 @@ class StanzaDelCittadinoBooking
     public function setShowHowTo(bool $enable): void
     {
         $this->setStorage(self::SHOW_HOW_TO, (int)$enable);
+        $schemaBuilder = Loader::instance()->getSchemaBuilder();
+        if ($schemaBuilder instanceof CachedSchemaBuilder) {
+            $schemaBuilder->clearCache();
+        }
     }
 
     private static function initDb()
@@ -875,19 +886,21 @@ EOT;
 
         $typeAttributeId = (int)eZContentClassAttribute::classAttributeIDByIdentifier('public_service/type');
         $geoAttributeId = (int)eZContentClassAttribute::classAttributeIDByIdentifier('place/has_address');
+        $abstractAttributeId = (int)eZContentClassAttribute::classAttributeIDByIdentifier('public_service/abstract');
         $locale = 'ita-IT';
 
         $viewQuery = "        
         CREATE MATERIALIZED VIEW IF NOT EXISTS ocbooking AS
         WITH 
             objects AS (
-              SELECT ezcontentobject.id, ezcontentobject.current_version, ezcontentobject.remote_id, ezcontentobject_name.name, ezcontentclass.identifier, CAST(coalesce(json_agg(t.id)->>0, '0') AS integer) as type_attribute_id, CAST(coalesce(json_agg(l.id)->>0, '0') AS integer) as location_attribute_id, MAX(ezcontentobject_tree.priority) as priority
+              SELECT ezcontentobject.id, ezcontentobject.current_version, ezcontentobject.remote_id, ezcontentobject_name.name, ezcontentclass.identifier, CAST(coalesce(json_agg(t.id)->>0, '0') AS integer) as type_attribute_id, CAST(coalesce(json_agg(l.id)->>0, '0') AS integer) as location_attribute_id, (array_agg(a.data_text))[1] as abstract, MAX(ezcontentobject_tree.priority) as priority
                 FROM ezcontentobject 
                 JOIN ezcontentclass ON (ezcontentclass.id = ezcontentobject.contentclass_id AND ezcontentclass.version=0) 
                 JOIN ezcontentobject_name ON (ezcontentobject.id = ezcontentobject_name.contentobject_id AND ezcontentobject.current_version = ezcontentobject_name.content_version AND content_translation = '$locale' ) 
                 JOIN ezcontentobject_tree ON (ezcontentobject.id = ezcontentobject_tree.contentobject_id)
                 FULL JOIN ezcontentobject_attribute t ON (ezcontentobject.id = t.contentobject_id AND ezcontentobject.current_version = t.version AND t.language_code = '$locale' AND t.contentclassattribute_id = $typeAttributeId)
-                FULL JOIN ezcontentobject_attribute l ON (ezcontentobject.id = l.contentobject_id AND ezcontentobject.current_version = l.version AND l.language_code = '$locale' AND l.contentclassattribute_id = $geoAttributeId) 
+                FULL JOIN ezcontentobject_attribute l ON (ezcontentobject.id = l.contentobject_id AND ezcontentobject.current_version = l.version AND l.language_code = '$locale' AND l.contentclassattribute_id = $geoAttributeId)
+                FULL JOIN ezcontentobject_attribute a ON (ezcontentobject.id = a.contentobject_id AND ezcontentobject.current_version = a.version AND a.language_code = '$locale' AND a.contentclassattribute_id = $abstractAttributeId) 
               WHERE ezcontentobject.id IN (SELECT DISTINCT office_id as id FROM ocbookingconfig UNION SELECT DISTINCT service_id as id FROM ocbookingconfig UNION SELECT DISTINCT place_id as id FROM ocbookingconfig)
               GROUP BY ezcontentobject.id, ezcontentobject.current_version, ezcontentobject.remote_id, ezcontentobject_name.name, ezcontentclass.identifier
             ),
@@ -903,10 +916,10 @@ EOT;
                 JOIN objects ON (eztags_attribute_link.objectattribute_id = objects.type_attribute_id AND eztags_attribute_link.objectattribute_version = objects.current_version) 
               ),
             services AS (
-              SELECT objects.remote_id, objects.id, objects.name, array_agg(categories.category) as category, objects.priority FROM objects 
+              SELECT objects.remote_id, objects.id, objects.name, array_agg(categories.category) as category, objects.priority, objects.abstract FROM objects 
                 FULL JOIN categories ON(objects.id = categories.id)
                 WHERE identifier = 'public_service'
-                GROUP BY objects.remote_id, objects.id, objects.name, objects.priority
+                GROUP BY objects.remote_id, objects.id, objects.name, objects.priority, objects.abstract
               ),
             offices AS (
               SELECT objects.remote_id, objects.id, objects.name FROM objects 
@@ -942,6 +955,7 @@ EOT;
             SELECT jsonb_build_object(
                     'id', services.id,
                     'name', services.name,
+                    'abstract', services.abstract,
                     'categories', services.category,
                     'link', CONCAT('$serviceBaseUri', services.remote_id),
                     'offices', json_agg(distinct office)
@@ -953,7 +967,7 @@ EOT;
             FROM ocbookingconfig
             JOIN services ON ocbookingconfig.service_id = services.id
             JOIN offices_and_places ON offices_and_places.service_id = services.id            
-            GROUP BY services.id, services.remote_id, services.name, services.category, services.priority
+            GROUP BY services.id, services.remote_id, services.name, services.category, services.priority, services.abstract
             ORDER BY services.priority DESC, services.name ASC;
             
             CREATE UNIQUE INDEX ocbooking_service_id ON ocbooking USING btree (id);     
@@ -981,6 +995,7 @@ EOT;
         self::createViewIfNeeded();
 
         $useHowtoField = self::factory()->isShowHowToEnabled();
+        $showAsScheduler = self::factory()->isSchedulerEnabled();
         $db = eZDB::instance();
         $baseQuery = 'SELECT * FROM ocbooking';
         $baseCountQuery = 'SELECT count(id) FROM ocbooking';
@@ -1070,6 +1085,7 @@ EOT;
                 }
             }
             $data[$i]['show_howto_in_motivation'] = $useHowtoField;
+            $data[$i]['view_type'] = $showAsScheduler ? 'calendar' : 'select';
         }
         if ($limit < 0) {
             $limit = 0;
