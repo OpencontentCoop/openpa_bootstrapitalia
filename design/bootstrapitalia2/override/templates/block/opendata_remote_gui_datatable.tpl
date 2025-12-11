@@ -138,7 +138,7 @@
                     $.each(response.facets, function (index,value) {
                         if (index > 0) {
                             tools.buildFilterInput(facets, value, datatable, function (selectContainer) {
-                                var selectWrapper = $('<div class="col-md-4 col-lg-3 my-2"></div>');
+                                var selectWrapper = $('<div class="col-md-4 col-lg-3 py-2"></div>');
                                 selectWrapper.append(selectContainer);
                                 formRow.append(selectWrapper)
                             });

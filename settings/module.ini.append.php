@@ -19,4 +19,5 @@ ModuleList[]=pagamento
 ModuleList[]=login-oauth
 ModuleList[]=relata
 ModuleList[]=statistiche
+ModuleList[]=albo_pretorio
 */ ?>

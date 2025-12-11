@@ -8,6 +8,7 @@ AvailableDataTypes[]=openpareverserelationlist
 AvailableDataTypes[]=openparestrictedarea
 AvailableDataTypes[]=openpamaskedstring
 AvailableDataTypes[]=openpacomuniitaliani
+AvailableDataTypes[]=openpaalbosequential
 
 [EditSettings]
 #AdditionalTemplates[]=load_ocopendata_forms.tpl
