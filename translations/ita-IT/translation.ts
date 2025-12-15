@@ -255,6 +255,10 @@
       <source>News</source>
       <translation>Novità</translation>
     </message>
+     <message>
+      <source>Newsletter signup</source>
+      <translation>Iscriviti alla newsletter</translation>
+    </message>
     <message>
       <source>You must select at least one topic not included in %custom_topics_name</source>
       <translation>Devi selezionare almeno un argomento non incluso in %custom_topics_name</translation>
