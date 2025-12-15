@@ -155,6 +155,9 @@ class OpenPABootstrapItaliaBlockHandlerLista extends OpenPABlockHandler
                         $tagUrl = $this->fixSlashedTagName((string)$tagUrl);
                         $tag = eZTagsObject::fetchByUrl($tagUrl);
                     }
+                    if (!$tag instanceof eZTagsObject){
+                        $tag = eZTagsObject::fetchByUrl($tagUrl, true);
+                    }
                 }
                 if ($tag instanceof eZTagsObject){
                     $tagIdList[] = $tag->attribute('id');
