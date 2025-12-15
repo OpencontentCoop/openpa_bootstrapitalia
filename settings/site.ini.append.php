@@ -44,6 +44,8 @@ Listeners[]=response/output@OpenPABootstrapItaliaOperators::minifyHtml
 Listeners[]=request/input@OpenPABootstrapItaliaOperators::avoidDownloadRecursion
 Listeners[]=request/input@BootstrapItaliaLoginOauth::interceptLogout
 Listeners[]=response/output@ContentSecurityPolicyHandler::setCspHeaders
+#Listeners[]=request/input@BootstrapItaliaLoginOauth::interceptSSO
+#Listeners[]=request/input@BootstrapItaliaLoginOauth::interceptSLO
 
 [Cache]
 CacheItems[]=opencity_topics_tree

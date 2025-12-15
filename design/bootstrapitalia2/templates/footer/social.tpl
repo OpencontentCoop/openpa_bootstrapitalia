@@ -66,9 +66,11 @@
         {/if}
     </ul>
     {/if}
-    {if $has_newsletter}
-        <h3 class="footer-heading-title">Newsletter</h3>
-        <p><a href="{'newsletter/subscribe'|ezurl(no)}">{'Here you can subscribe to one of our newsletters.'|i18n( 'cjw_newsletter/subscribe' )}</a></p>
+    {if or($has_newsletter,$pagedata.contacts.newsletter)}
+      <h3 class="footer-heading-title">Newsletter</h3>
+      <p>
+        <a href="{if $has_newsletter}{'newsletter/subscribe'|ezurl(no)}{else}{$pagedata.contacts.newsletter}{/if}" target="{if $has_newsletter}_self{else}_blank{/if}">{'Here you can subscribe to one of our newsletters.'|i18n( 'cjw_newsletter/subscribe' )}</a>
+      </p>
     {/if}
 </div>
 {/if}

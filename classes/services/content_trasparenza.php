@@ -608,6 +608,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 'title' => $title,
             );
 
+            $result['query'] = OCOpenDataQueries::getInstance()->optimize($result['query'], ['include_tag_synonym' => true]);
             //eZDebug::writeDebug($result, __METHOD__);
 
             return $result;
