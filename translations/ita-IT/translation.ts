@@ -8,6 +8,10 @@
       <translation>Albo pretorio</translation>
     </message>
     <message>
+      <source>Official noticeboard document identifier</source>
+      <translation>Numero registro albo</translation>
+    </message>
+    <message>
       <source>Official noticeboard archive</source>
       <translation>Storico pubblicazioni</translation>
     </message>
@@ -2131,11 +2135,11 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>Date start</source>
-      <translation></translation>
+      <translation>Data inizio</translation>
     </message>
     <message>
       <source>Date end</source>
-      <translation></translation>
+      <translation>Data fine</translation>
     </message>
   </context>
   <context>

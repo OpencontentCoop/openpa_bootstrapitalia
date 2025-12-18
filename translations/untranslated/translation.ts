@@ -8,6 +8,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Official noticeboard document identifier</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Official noticeboard archive</source>
       <translation type="unfinished"/>
     </message>

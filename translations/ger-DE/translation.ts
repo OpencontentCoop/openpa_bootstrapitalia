@@ -2131,11 +2131,11 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Date start</source>
-      <translation></translation>
+      <translation>Beginn</translation>
     </message>
     <message>
       <source>Date end</source>
-      <translation></translation>
+      <translation>Ende</translation>
     </message>
   </context>
   <context>
