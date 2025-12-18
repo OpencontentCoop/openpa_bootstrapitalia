@@ -12,6 +12,10 @@
       <translation>Storico pubblicazioni</translation>
     </message>
     <message>
+      <source>Official noticeboard text to archive</source>
+      <translation>Le pubblicazioni precedenti sono consultabili alla pagina</translation>
+    </message>
+    <message>
       <source>Show more elements</source>
       <translation>Mostra/nascondi altri</translation>
     </message>

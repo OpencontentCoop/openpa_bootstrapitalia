@@ -12,6 +12,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Official noticeboard text to archive</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Show more elements</source>
       <translation type="unfinished"/>
     </message>

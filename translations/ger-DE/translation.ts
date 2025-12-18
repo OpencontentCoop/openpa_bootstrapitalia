@@ -12,6 +12,10 @@
       <translation>Archiv der Amtstafel</translation>
     </message>
     <message>
+      <source>Official noticeboard text to archive</source>
+      <translation>Frühere Veröffentlichungen finden Sie auf der Seite</translation>
+    </message>
+    <message>
       <source>Show more elements</source>
       <translation>Mehr anzeigen / Weniger anzeigen</translation>
     </message>

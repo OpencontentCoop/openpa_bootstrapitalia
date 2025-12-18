@@ -15,9 +15,8 @@
               {attribute_view_gui attribute=$setup_object|attribute('intro')}
           {/if}
           {if $archive}
-            <a class="btn btn-link p-0" href="{'/albo_pretorio'|ezurl(no)}">{'Official noticeboard'|i18n('bootstrapitalia')}</a>
           {else}
-            <a class="btn btn-link p-0" href="{'/albo_pretorio/archivio'|ezurl(no)}">{'Official noticeboard archive'|i18n('bootstrapitalia')}</a>
+            <p>{'Official noticeboard text to archive'|i18n('bootstrapitalia')} <a href="{'/albo_pretorio/archivio'|ezurl(no)}">{'Official noticeboard archive'|i18n('bootstrapitalia')}</a>.</p>
           {/if}
         </section>
       </div>
