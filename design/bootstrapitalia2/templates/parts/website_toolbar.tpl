@@ -544,6 +544,15 @@
                 </a>
             </li>
             {/if}
+            {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'permissions' ) )}
+            <li class="toolbar-divider" aria-hidden="true"></li>
+            <li>
+                <a class="btn btn-text" href="https://opencityitalia.it/index.html%3Fp=480.html" target="_blank" rel="noopener">
+                  <i aria-hidden="true" class="fa fa-newspaper-o"></i>  
+                  <span class="toolbar-label">{'Newsletter signup'|i18n( 'bootstrapitalia' )}</span>
+                </a>
+            </li>
+            {/if}
 
             {if is_set($content_object.id)}
                 <input type="hidden" name="HasMainAssignment" value="1" />
