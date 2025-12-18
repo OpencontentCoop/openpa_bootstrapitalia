@@ -665,11 +665,23 @@
     </message>
     <message>
       <source>Stats recent</source>
-      <translation>Andamento</translation>
+      <translation>Riepilogo visite</translation>
     </message>
     <message>
       <source>Stats last month</source>
-      <translation>Ultimo mese</translation>
+      <translation>Visite nel Periodo</translation>
+    </message>
+    <message>
+      <source>Stats pages</source>
+      <translation>Pagine</translation>
+    </message>
+    <message>
+      <source>Stats device</source>
+      <translation>Tipo di dispositivo</translation>
+    </message>
+    <message>
+      <source>Stats channel</source>
+      <translation>Tipi di Canale</translation>
     </message>
   </context>
   <context>
