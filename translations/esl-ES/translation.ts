@@ -4,6 +4,14 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Next appointments</source>
+      <translation>Los próximos eventos son:</translation>
+    </message>
+    <message>
+      <source>Event daytime text</source>
+      <translation>El evento tiene lugar desde</translation>
+    </message>
+    <message>
       <source>Show more elements</source>
       <translation>Mostrar más / Mostrar menos</translation>
     </message>
