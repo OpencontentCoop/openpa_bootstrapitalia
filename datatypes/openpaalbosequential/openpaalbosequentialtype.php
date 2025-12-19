@@ -8,7 +8,7 @@ class OpenPAAlboSequentialType extends eZDataType
         'tag_subtree_remote_id' => '984c6235761dac258fe8c245541095fa', // remote id of tag "Documenti Albo Pretorio"
         'tag_identifier' => 'document_type', // attribute identifier for tag
         'start_time_identifier' => 'publication_start_time', // attribute identifier for start time
-        'end_time_identifier' => 'publication_end_time', // attribute identifier for end time
+        'end_time_identifier' => 'albo_publication_end_time', // attribute identifier for end time
     ];
 
     public function __construct()
