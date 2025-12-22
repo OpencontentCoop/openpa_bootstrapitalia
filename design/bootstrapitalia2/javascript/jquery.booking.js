@@ -75,7 +75,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
   function Plugin(element, options) {
     this.element = element
     this.settings = $.extend({}, defaults, options)
-    this.settings.debug = true
+    this.settings.debug = false
     let _token = '', _tokenNode = document.getElementById('ezxform_token_js');
     if (_tokenNode) _token = _tokenNode.getAttribute('title');
     this.settings.xtoken = _token;
@@ -413,7 +413,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             self.monthSelect.find('[value="' + self.firstMonth + '"]').attr('selected', 'selected')
             self.debug('invalid or missing preselect month', self.currentData.month)
           }
-          //self.forceGoToCurrentStepIfNeeded('datetime')
+          self.forceGoToCurrentStepIfNeeded('datetime')
         } else {
           self.monthSelect.val(self.firstMonth).trigger('change')
           self.gotoStep(self.currentData.step, function () {
@@ -530,8 +530,8 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           if (!self.eventCalendar || typeof self.eventCalendar.getView !== 'function') {
             return
           }
-          if ((self.eventCalendar.getView().type === 'timeGridDay' && window.innerWidth > 768) || 
-              (self.eventCalendar.getView().type === 'timeGridWeek' && window.innerWidth <= 768)) {
+          if ((self.eventCalendar.getView().type === 'timeGridDay' && window.innerWidth > 768) ||
+            (self.eventCalendar.getView().type === 'timeGridWeek' && window.innerWidth <= 768)) {
             self.resetScheduler()
           }
         });
@@ -754,7 +754,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       if (current !== 0) {
         this.scrollToTop()
       }
-      
+
       if ($.isFunction(callback)) {
         callback.call(context, this.currentData)
       }
@@ -826,8 +826,8 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       }
       self.monthSelect.find('option')
         .attr('disabled', true)
-        .hide()        
-      
+        .hide()
+
       let maxDate = moment().add(maxMonthIndex, 'months')
       self.error('max-date-available', maxDate.toString())
       let index = 0;
@@ -1062,7 +1062,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
 
     renderCalendarLabel: function (id, label) {
       let self = this
-      
+
       function renderLabel(text, id) {
         let render = text
         if (self.settings.debug) {
@@ -1144,7 +1144,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             } else {
               self.debug('invalid or missing preselected openingHour', self.currentData.openingHour)
               self.openingHoursSelect.val('')
-              //self.forceGoToCurrentStepIfNeeded('datetime')
+              self.forceGoToCurrentStepIfNeeded('datetime')
             }
           },
           error: function (jqXHR) {
@@ -1243,7 +1243,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
                 self.debug('invalid or missing preselected day', self.currentData.day)
                 self.daySelect.val('')
                 self.showHourAvailabilities()
-                //self.forceGoToCurrentStepIfNeeded('datetime')
+                self.forceGoToCurrentStepIfNeeded('datetime')
               }
             }
             if ($.isFunction(callback)) {
