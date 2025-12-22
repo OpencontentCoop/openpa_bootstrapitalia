@@ -354,4 +354,12 @@ AnalyticsSegments[]=type
 AnalyticsSegments[]=organization
 AnalyticsSegments[]=service
 
+[RemoteIndexSettings]
+EnableRemoteIndex=disabled
+ConnectionTimeout=1
+ProcessTimeout=1
+EndpointUrl=
+Headers[]
+#Headers[]=X-Foo: Bar
+
 */ ?>
