@@ -1268,21 +1268,21 @@
     <name>openpa/date_format</name>
     <message>
       <source>dd/MM/yyyy</source>
-      <translation>jj/mm/aaaa</translation>
+      <translation>dd/MM/yyyy</translation>
     </message>
   </context>
   <context>
     <name>openpa/moment_date_format</name>
     <message>
       <source>DD/MM/YYYY</source>
-      <translation>JJ/MM/AAAA</translation>
+      <translation>DD/MM/YYYY</translation>
     </message>
   </context>
   <context>
     <name>openpa/moment_datetime_format</name>
     <message>
       <source>DD/MM/YYYY HH:mm</source>
-      <translation>JJ/MM/AAAA HH:MM</translation>
+      <translation>DD/MM/YYYY HH:MM</translation>
     </message>
   </context>
   <context>
