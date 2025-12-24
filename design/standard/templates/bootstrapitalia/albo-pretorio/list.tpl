@@ -36,7 +36,7 @@
 {def $office_count = fetch(content, tree_count, hash(parent_node_id, ezini('NodeSettings', 'RootNode', 'content.ini'), class_filter_type, 'include', class_filter_array, array('organization')))}
 
 {def $start_date = 'publication_start_time'}
-{def $end_date = 'albo_publication_end_time'}
+{def $end_date = 'publication_end_time'}
 {def $number = 'id_albo_pretorio'}
 
 {def $root_tag_id_list = array()}
