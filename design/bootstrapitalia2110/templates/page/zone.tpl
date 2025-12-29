@@ -23,6 +23,7 @@
 
 <div id="zone-{$zone_id}-blocks">
     {foreach $zone.blocks as $index => $block}
+        {update_zone_block_in_db_if_needed($attribute.object.main_node_id, $zone.id, $block)}
         {if or( is_set($block.action)|not(), and(is_set($block.action), ne( $block.action, 'remove' )))}
             {block_edit_gui block=$block block_id=$index current_time=currentdate() zone_id=$zone_id attribute=$attribute zone=$zone}
         {/if}
