@@ -40,6 +40,8 @@
         {/if}
 
         <li class="nav-item"><a class="nav-link ps-0" data-toggle="tab" data-bs-toggle="tab" href="#csp" data-focus-mouse="false" style="max-width: 100%">Content Security Policy</a></li>
+
+        <li class="nav-item"><a class="nav-link ps-0" data-toggle="tab" data-bs-toggle="tab" href="#google" data-focus-mouse="false" style="max-width: 100%">Credenziali Google</a></li>
       </ul>
     </div>
     <div class="col-9 tab-content">
@@ -471,6 +473,43 @@
             {/if}
           {/foreach}
         </fieldset>
+      </div>
+
+      <div class="position-relative clearfix tab-pane" id="google">
+        <form method="post" action="{'bootstrapitalia/info#google'|ezurl(no)}" class="form">
+          <fieldset>
+            <legend class="h4 px-0 pb-3">Impostazioni del account di servizio Google per import da Spreadsheet</legend>
+            {if $google_user}
+                <p>
+                  Account corrente:<br />
+                  <code>{$google_user|wash()}</code>
+                  {if $google_user_source|eq('CUSTOM')}
+                    <button class="btn btn-xs btn-danger mr-2 ms-2" type="submit" name="RemoveGoogleSheetCredentials"><i class="fa fa-trash"></i></button>
+                  {else}
+                    (default)
+                  {/if}
+                </p>
+            {/if}
+            <div class="richtext-wrapper">
+              <p>Per creare e configurare un nuovo account di servizio:</p>
+              <ol>
+                <li>Accedi alla <a href="https://console.cloud.google.com">console Google cloud</a></li>
+                <li>Crea un nuovo progetto in Api e servizi</li>
+                <li>Abilita le Google Sheets API per i progetto creato</li>
+                <li>In Credenziali crea account di servizio</li>
+                <li>Aggiungi una chiave in JSON per l'account di servizio</li>
+                <li>Incolla qui il contenuto JSON e salva</li>
+              </ol>
+            </div>
+            <div class="form-group form-check m-0 ps-1 pt-1 bg-white">
+              <textarea id="GoogleSheetCredentials"
+                     class="form-input" name="GoogleSheetCredentials"></textarea>
+            </div>
+            <div class="text-right mt-1">
+              <button class="btn btn-primary" type="submit">Salva</button>
+            </div>
+          </fieldset>
+        </form>
       </div>
 
     </div>
