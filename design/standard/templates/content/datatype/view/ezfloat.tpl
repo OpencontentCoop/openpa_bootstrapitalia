@@ -1,1 +1,1 @@
-{$attribute.data_float|wash()}
+{$attribute.data_float|float_format()}
