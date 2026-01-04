@@ -40,7 +40,7 @@
             {include uri='design:parts/websitetoolbar_edit/moderation.tpl' content_object=$object}
         {/if}
 
-        {if ezini('ExtensionSettings','ActiveAccessExtensions')|contains('octranslate')}
+        {if is_enabled_octranslate()}
             {include uri='design:parts/websitetoolbar_edit/translate.tpl' content_object=$object}
         {/if}
 

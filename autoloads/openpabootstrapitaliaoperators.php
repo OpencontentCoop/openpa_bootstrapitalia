@@ -114,6 +114,7 @@ class OpenPABootstrapItaliaOperators
             'encode_json',
             'can_create_class_list_in_current_language',
             'can_edit_in_current_language',
+            'is_enabled_octranslate',
         );
     }
 
@@ -319,6 +320,11 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+            case 'is_enabled_octranslate':
+                $operatorValue = in_array('octranslate', eZINI::instance()->variable('ExtensionSettings','ActiveAccessExtensions'))
+                    || in_array('octranslate', eZINI::instance()->variable('ExtensionSettings','ActiveExtensions'));
+                break;
+
             case 'can_create_class_list_in_current_language':
                 $operatorValue = [];
                 $object = $namedParameters['content_object'];

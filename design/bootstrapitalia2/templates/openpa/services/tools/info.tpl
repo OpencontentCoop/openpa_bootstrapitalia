@@ -153,7 +153,7 @@
     {/if}
 
     {if $node.object.can_translate}
-        {def $can_auto_translate = or(ezini('ExtensionSettings','ActiveAccessExtensions')|contains('octranslate'),ezini('ExtensionSettings','ActiveExtensions')|contains('octranslate'))}
+        {def $can_auto_translate = is_enabled_octranslate()}
         {def $available_languages = fetch( 'content', 'prioritized_languages' )
              $translations = $node.object.languages
              $translations_count = $translations|count
