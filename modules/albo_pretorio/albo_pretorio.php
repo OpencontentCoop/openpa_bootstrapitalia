@@ -36,7 +36,6 @@ $Result['content_info'] = [
     'class_identifier' => null,
     'persistent_variable' => [
         'show_path' => false,
-        'site_title' => 'Albo Pretorio',
     ],
 ];
 if (is_array($tpl->variable('persistent_variable'))) {
@@ -45,4 +44,9 @@ if (is_array($tpl->variable('persistent_variable'))) {
         $tpl->variable('persistent_variable')
     );
 }
-$Result['path'] = [];
+$Result['path'] = array(
+    array(
+        'text' => 'Albo Pretorio',
+        'url' => false
+    )
+);
