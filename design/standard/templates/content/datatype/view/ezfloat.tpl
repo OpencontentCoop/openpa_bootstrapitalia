@@ -1,0 +1,1 @@
+{$attribute.data_float|float_format()}

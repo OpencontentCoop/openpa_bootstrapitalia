@@ -115,6 +115,7 @@ class OpenPABootstrapItaliaOperators
             'can_create_class_list_in_current_language',
             'can_edit_in_current_language',
             'update_zone_block_in_db_if_needed',
+            'float_format',
         );
     }
 
@@ -345,6 +346,15 @@ class OpenPABootstrapItaliaOperators
                         );
                     }
                 }
+            break;
+
+            case 'float_format':
+                $locale = eZLocale::instance();
+                $number = (float)$operatorValue;
+                $neg = $number < 0;
+                $num = $neg ? -$number : $number;
+                $text = number_format($num, 10, $locale->DecimalSymbol, $locale->ThousandsSeparator);
+                $operatorValue = ($neg ? $locale->NegativeSymbol : $locale->PositiveSymbol) . rtrim($text, '0');
                 break;
 
             case 'can_create_class_list_in_current_language':
