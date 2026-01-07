@@ -622,6 +622,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             $block = $this->findBlockById(self::SECTION_MANAGEMENT, true);
             $block['block_id'] = self::SECTION_NEXT_EVENTS;
             $block['name'] = $originalBlockEvent['name'];
+            $block['view'] = 'lista_card';
             $block['custom_attributes']['container_style'] = false;
             $eventRemoteIdList = [];
             foreach ($data['section_calendar'] as $eventItem) {
