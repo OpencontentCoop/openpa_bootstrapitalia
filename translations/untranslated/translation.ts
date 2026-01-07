@@ -4,6 +4,14 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Next appointments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Event daytime text</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Official noticeboard</source>
       <translation type="unfinished"/>
     </message>

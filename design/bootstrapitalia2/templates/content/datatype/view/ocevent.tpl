@@ -4,10 +4,10 @@
 {def $events = $attribute.content.events}
 
 {if count($events)|gt(10)}
-    <p class="text-serif">{"L'evento si svolge"|i18n('bootstrapitalia')} dal {recurrences_strtotime($events[0].start)|datetime( 'custom', '%j %F %Y' )|downcase}, {$attribute.content.text|wash()} </p>
+    <p class="text-serif">{"Event daytime text"|i18n('bootstrapitalia')} {recurrences_strtotime($events[0].start)|datetime( 'custom', '%j %F %Y' )|downcase}, {$attribute.content.text|wash()} </p>
     {set $events = recurrences_next_events($events, 5)}
     {if count($events)|gt(0)}
-        <p class="text-serif">{"I prossimi appuntamenti previsti sono:"|i18n('bootstrapitalia')}</p>
+        <p class="text-serif">{"Next appointments"|i18n('bootstrapitalia')}</p>
     {/if}
 {/if}
 
