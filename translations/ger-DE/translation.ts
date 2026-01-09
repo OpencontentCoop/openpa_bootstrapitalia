@@ -1453,10 +1453,7 @@
     </message>
     <message>
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
-      <translation>Diese Website verwendet technische Cookies, die für das reibungslose Funktionieren der Webseiten erforderlich sind, sowie Analyse- und Messungscookies sowie Cookies von Drittanbietern. &#13;
-Wenn Sie "Alle Cookies zulassen" wählen, stimmen Sie der Verwendung aller Cookies zu. &#13;
-Wenn Sie "Alle Cookies blockieren" wählen oder das Banner schließen, werden nur technische Cookies verwendet, wodurch einige Funktionen und Inhalte eventuell nicht verfügbar sind. &#13;
-Sie können Ihre Einstellungen jederzeit in der Cookie-Erklärung ändern.</translation>
+      <translation>Diese Website verwendet technische, Analyse- und Drittanbieter-Cookies. Mit „Alle Cookies akzeptieren“ stimmen Sie der Verwendung aller Cookies zu; mit „Notwendige Cookies akzeptieren“ oder durch Schließen des Banners werden nur technisch notwendige Cookies verwendet, wodurch einige Funktionen möglicherweise eingeschränkt sind. Die Einstellungen können jederzeit in der Cookie-Richtlinie geändert werden.</translation>
     </message>
     <message>
       <source>Accept all cookies</source>
@@ -1537,35 +1534,35 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Accept necessary cookies</source>
-      <translation></translation>
+      <translation>Notwendige Cookies zulassen</translation>
     </message>
     <message>
       <source>Accept necessary cookies and close</source>
-      <translation></translation>
+      <translation>Notwendige Cookies zulassen und schließen</translation>
     </message>
     <message>
       <source>Always Enabled</source>
-      <translation></translation>
+      <translation>Immer aktiviert</translation>
     </message>
     <message>
       <source>Service | Services</source>
-      <translation></translation>
+      <translation>Dienst | Dienste</translation>
     </message>
     <message>
       <source>Close</source>
-      <translation></translation>
+      <translation>Schließen</translation>
     </message>
     <message>
       <source>Accept third-party cookies to watch the video</source>
-      <translation></translation>
+      <translation>Akzeptiere die Cookies von Drittanbietern, um das Video anzusehen</translation>
     </message>
     <message>
       <source>Accept for this video</source>
-      <translation></translation>
+      <translation>Für dieses Video akzeptieren</translation>
     </message>
     <message>
       <source>Accept for all videos</source>
-      <translation></translation>
+      <translation>Für alle Videos akzeptieren</translation>
     </message>
   </context>
   <context>
