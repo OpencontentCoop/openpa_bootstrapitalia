@@ -1963,7 +1963,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>Enter a valid email</source>
-      <translation>Inseriscila tua email</translation>
+      <translation>Inserisci la tua email</translation>
     </message>
     <message>
       <source>Telephone number</source>
