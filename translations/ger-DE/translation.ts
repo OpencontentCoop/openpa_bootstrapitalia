@@ -12,6 +12,10 @@
       <translation>Archiv der Amtstafel</translation>
     </message>
     <message>
+      <source>Official noticeboard text to archive</source>
+      <translation>Frühere Veröffentlichungen finden Sie auf der Seite</translation>
+    </message>
+    <message>
       <source>Show more elements</source>
       <translation>Mehr anzeigen / Weniger anzeigen</translation>
     </message>
@@ -2128,11 +2132,11 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Date start</source>
-      <translation></translation>
+      <translation>Beginn</translation>
     </message>
     <message>
       <source>Date end</source>
-      <translation></translation>
+      <translation>Ende</translation>
     </message>
   </context>
   <context>

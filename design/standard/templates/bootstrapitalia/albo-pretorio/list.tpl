@@ -15,9 +15,8 @@
               {attribute_view_gui attribute=$setup_object|attribute('intro')}
           {/if}
           {if $archive}
-            <a class="btn btn-link p-0" href="{'/albo_pretorio'|ezurl(no)}">{'Official noticeboard'|i18n('bootstrapitalia')}</a>
           {else}
-            <a class="btn btn-link p-0" href="{'/albo_pretorio/archivio'|ezurl(no)}">{'Official noticeboard archive'|i18n('bootstrapitalia')}</a>
+            <p>{'Official noticeboard text to archive'|i18n('bootstrapitalia')} <a href="{'/albo_pretorio/archivio'|ezurl(no)}">{'Official noticeboard archive'|i18n('bootstrapitalia')}</a>.</p>
           {/if}
         </section>
       </div>
@@ -144,14 +143,14 @@
 							<button class="accordion-button collapsed px-2 text-uppercase" type="button"
 									data-bs-toggle="collapse" href="#collapseNumber-{$block_id}" role="button" aria-expanded="false" aria-controls="collapseNumber-{$block_id}"
 									data-focus-mouse="false">
-								{'Document number'|i18n('bootstrapitalia/documents')}
+								{'Official noticeboard document identifier'|i18n('bootstrapitalia')}
 							</button>
 						</h2>
 						<div id="collapseNumber-{$block_id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseNumber-{$block_id}-title">
 							<div class="accordion-body pb-4">
                 <div class="form-group mb-0">
-                  <label for="searchFormNumber-{$block_id}" class="visually-hidden">{'Document number'|i18n('bootstrapitalia/documents')}</label>
-                  <input type="text" autocomplete="off" class="form-control form-control-sm" id="searchFormNumber-{$block_id}" data-search="has_code" placeholder="{'Document number'|i18n('bootstrapitalia/documents')}">
+                  <label for="searchFormNumber-{$block_id}" class="visually-hidden">{'Official noticeboard document identifier'|i18n('bootstrapitalia')}</label>
+                  <input type="text" autocomplete="off" class="form-control form-control-sm" id="searchFormNumber-{$block_id}" data-search="has_code" placeholder="es: 2025/1">
                 </div>
 							</div>
 						</div>
@@ -191,12 +190,12 @@
 								<div class="accordion-body pb-4">
                   <div class="row form-group mb-0">
                     <div class="col-sm-6 col-lg-12 col-xl-6 mb-2 px-lg-1">
-                      <label class="active" for="{$block_id}-date_start">{'Date start'|i18n('bootstrapitalia/documents')}</label>
-                      <input class="form-control form-control-sm" type="date" data-search="date-start" id="{$block_id}-date_start" name="{$block_id}-date_start" aria-describedby="{$block_id}-date-help">
+                      <label class="active" for="{$block_id}-date_start">{'Date start'|i18n('bootstrapitalia/booking')}</label>
+                      <input class="form-control form-control-sm" type="date" data-search="date-start" id="{$block_id}-date_start" name="{$block_id}-date_start">
                     </div>
                     <div class="col-sm-6 col-lg-12 col-xl-6 mb-2 px-lg-1">
-                      <label class="active" for="{$block_id}-date_end">{'Date end'|i18n('bootstrapitalia/documents')}</label>
-                      <input class="form-control form-control-sm" type="date" data-search="date-end" id="{$block_id}-date_end" name="{$block_id}-date_end" aria-describedby="{$block_id}-date-help">
+                      <label class="active" for="{$block_id}-date_end">{'Date end'|i18n('bootstrapitalia/booking')}</label>
+                      <input class="form-control form-control-sm" type="date" data-search="date-end" id="{$block_id}-date_end" name="{$block_id}-date_end">
                     </div>
                   </div>
                 </div>
