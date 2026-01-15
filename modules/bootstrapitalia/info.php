@@ -1,5 +1,6 @@
 <?php
 
+use Opencontent\Google\GoogleSheetClient;
 use Opencontent\Opendata\Api\ContentRepository;
 use Opencontent\Opendata\Api\EnvironmentLoader;
 use Opencontent\Opendata\Rest\Client\PayloadBuilder;
@@ -171,6 +172,33 @@ if ($http->hasPostVariable('LoginOauth') && $hasAdminAccess) {
     return;
 }
 $tpl->setVariable('oauth_options', BootstrapItaliaLoginOauth::instance()->getOptionsDefinitionWithCurrentData());
+
+if ($http->hasPostVariable('GoogleSheetCredentials') && $hasAdminAccess) {
+    $googleSheetCredentials = $http->postVariable('GoogleSheetCredentials');
+    if (is_string($googleSheetCredentials)) {
+        $googleSheetCredentials = json_decode($googleSheetCredentials, true);
+    }
+    if (is_array($googleSheetCredentials)
+        && isset($googleSheetCredentials['type'], $googleSheetCredentials['client_id'], $googleSheetCredentials['client_email'])) {
+        $siteData = eZSiteData::fetchByName(GoogleSheetClient::EZSITEDATA_KEY);
+        if (!$siteData instanceof eZSiteData) {
+            $siteData = eZSiteData::create(GoogleSheetClient::EZSITEDATA_KEY, '');
+        }
+        $siteData->setAttribute('value', json_encode($googleSheetCredentials));
+        $siteData->store();
+    }
+}
+if ($http->hasPostVariable('RemoveGoogleSheetCredentials') && $hasAdminAccess) {
+    $siteData = eZSiteData::fetchByName(GoogleSheetClient::EZSITEDATA_KEY);
+    if ($siteData instanceof eZSiteData) {
+        $siteData->remove();
+    }
+}
+$googleClient = new GoogleSheetClient();
+$credentials = $googleClient->getCredentials();
+$credentialsSource = $googleClient->getCredentialsSource();
+$tpl->setVariable('google_user', $credentials['client_email'] ?? null);
+$tpl->setVariable('google_user_source', $credentialsSource);
 
 $fields = OpenPAAttributeContactsHandler::getContactsFields();
 if ($http->hasPostVariable('Store')) {
