@@ -1455,7 +1455,7 @@
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
       <translation>Questo sito fa uso di cookie tecnici essenziali al corretto funzionamento delle pagine web, di cookie di analisi e misurazione e di cookie di terze parti. 
 Selezionando "Accetta tutti i cookie" si acconsente all'utilizzo di tutti i cookie. 
-Selezionando "Rifiuta tutti i cookie" o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità ed alcuni contenuti potrebbero non essere disponibili. 
+Selezionando "Accetta i cookie necessari" o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità ed alcuni contenuti potrebbero non essere disponibili. 
 La preferenza può essere modificata in qualsiasi momento dall'Informativa cookie.</translation>
     </message>
     <message>
