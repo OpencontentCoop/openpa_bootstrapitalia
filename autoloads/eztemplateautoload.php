@@ -89,6 +89,7 @@ $eZTemplateOperatorArray = [
             'encode_json',
             'can_create_class_list_in_current_language',
             'can_edit_in_current_language',
+            'float_format',
         ],
     ],
 ];
