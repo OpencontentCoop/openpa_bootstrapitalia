@@ -1735,6 +1735,10 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Höhepunkte</translation>
     </message>
     <message>
+      <source>Dataset Map</source>
+      <translation>Datensatzbasierte Karte</translation>
+    </message>
+    <message>
       <source>Description</source>
       <translation>Beschreibung</translation>
     </message>
