@@ -4,6 +4,22 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>License title</source>
+      <translation>Inhaltslizenz</translation>
+    </message>
+    <message>
+      <source>License text first</source>
+      <translation>In Anwendung des Open-by-Default-Prinzips gemäß Artikel 52 des Gesetzesdekrets vom 7. März 2005, Nr. 82 (CAD), und sofern nicht anders angegeben (einschließlich eingebetteter Inhalte Dritter), werden die auf der Website veröffentlichten Daten, Dokumente und Informationen unter der</translation>
+    </message>
+    <message>
+      <source>License text second</source>
+      <translation>Die Nutzer sind daher frei, dieses Material zu teilen (zu vervielfältigen, zu verbreiten, öffentlich zugänglich zu machen und öffentlich auszustellen), darzustellen, aufzuführen und vorzutragen, in jedem Medium und Format, sowie es zu bearbeiten (das Material zu verändern und für abgeleitete Werke zu verwenden) für jeden Zweck, auch für kommerzielle Zwecke, unter der alleinigen Verpflichtung zur Namensnennung und ohne zusätzliche Einschränkungen aufzuerlegen.</translation>
+    </message>
+    <message>
+      <source>License link</source>
+      <translation>Lizenz CC-BY 4.0</translation>
+    </message>
+    <message>
       <source>Official noticeboard</source>
       <translation>Amtstafel</translation>
     </message>

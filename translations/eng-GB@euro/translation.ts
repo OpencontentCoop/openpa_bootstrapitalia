@@ -4,6 +4,22 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>License title</source>
+      <translation>Content license</translation>
+    </message>
+    <message>
+      <source>License text first</source>
+      <translation>In accordance with the open by default principle pursuant to Article 52 of Legislative Decree of 7 March 2005, No. 82 (CAD), and unless otherwise specified (including embedded third-party content), the data, documents, and information published on the website are released under the</translation>
+    </message>
+    <message>
+      <source>License text second</source>
+      <translation>Users are therefore free to share (reproduce, distribute, communicate to the public, and publicly display), perform, and present this material by any means and in any format, and to modify it (transform the material and use it to create derivative works) for any purpose, including commercial use, subject only to the obligation of attribution and without imposing additional restrictions.</translation>
+    </message>
+    <message>
+      <source>License link</source>
+      <translation>CC-BY 4.0 license</translation>
+    </message>
+    <message>
       <source>Official noticeboard</source>
       <translation>Official noticeboard</translation>
     </message>
