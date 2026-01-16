@@ -12,6 +12,22 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>License title</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>License text first</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>License text second</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>License link</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Official noticeboard</source>
       <translation type="unfinished"/>
     </message>

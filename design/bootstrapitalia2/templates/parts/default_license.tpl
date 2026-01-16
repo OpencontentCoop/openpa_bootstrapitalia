@@ -1,12 +1,10 @@
 {set_defaults(hash('header_tag', 'h2'))}
 <{$header_tag} class="text-black h6 my-2" data-element="legal-notes-section">
-    Licenza dei contenuti
+    {'License title'|i18n('bootstrapitalia')}
 </{$header_tag}>
-<p data-element="legal-notes-body" class="mb-2">
-    In applicazione del principio open by default ai sensi dell’articolo 52 del decreto legislativo 7 marzo 2005, n. 82
-    (CAD) e salvo dove diversamente specificato (compresi i contenuti incorporati di terzi), i dati, i documenti e le
-    informazioni pubblicati sul sito sono rilasciati con <a href="https://creativecommons.org/licenses/by/4.0/legalcode.it">licenza CC-BY 4.0</a>.<br />
-    Gli utenti sono quindi liberi di condividere (riprodurre, distribuire, comunicare al pubblico, esporre in pubblico), rappresentare, eseguire e recitare questo
-    materiale con qualsiasi mezzo e formato e modificare (trasformare il materiale e utilizzarlo per opere derivate) per
-    qualsiasi fine, anche commerciale con il solo onere di attribuzione, senza apporre restrizioni aggiuntive.</p>
+<iframe src="https://www.google.com/maps/d/embed?mid=12tNaDpu7NtI22FPflv2yMxjCk8TnajU&ehbc=2E312F&noprof=1" width="640" height="480"></iframe>
+<p data-element="legal-notes-body" class="mb-2 lora">
+    {'License text first'|i18n('bootstrapitalia')} <a href="https://creativecommons.org/licenses/by/4.0/legalcode.it">{'License link'|i18n('bootstrapitalia')}</a>.<br />
+    {'License text second'|i18n('bootstrapitalia')}
+</p>
 {unset_defaults(array('header_tag'))}
