@@ -1976,7 +1976,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>There are no dates available for the selected period</source>
-      <translation>Für den ausgewählten Zeitraum sind keine Termine verfügbar</translation>
+      <translation>Das gewählte Datum und die gewählte Uhrzeit sind nicht mehr verfügbar. Bitte wählen Sie ein anderes Datum oder eine andere Uhrzeit aus den verfügbaren Optionen.</translation>
     </message>
     <message>
       <source>Select another location or another period</source>

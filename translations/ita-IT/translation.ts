@@ -1983,7 +1983,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>There are no dates available for the selected period</source>
-      <translation>Non ci sono date disponibili per il periodo selezionato</translation>
+      <translation>La data e l’orario scelti non sono più disponibili. Scegli una nuova data o un altro orario tra quelli disponibili.</translation>
     </message>
     <message>
       <source>Select another location or another period</source>
