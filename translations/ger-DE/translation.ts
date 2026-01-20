@@ -669,15 +669,27 @@
     </message>
     <message>
       <source>Website Stats</source>
-      <translation></translation>
+      <translation>Website-Statistiken</translation>
     </message>
     <message>
       <source>Stats recent</source>
-      <translation></translation>
+      <translation>Aktuelle Statistiken</translation>
     </message>
     <message>
       <source>Stats last month</source>
-      <translation></translation>
+      <translation>Statistiken des letzten Monats</translation>
+    </message>
+    <message>
+      <source>Stats pages</source>
+      <translation>Seiten</translation>
+    </message>
+    <message>
+      <source>Stats device</source>
+      <translation>Gerätetyp</translation>
+    </message>
+    <message>
+      <source>Stats channel</source>
+      <translation>Kanaltypen</translation>
     </message>
   </context>
   <context>

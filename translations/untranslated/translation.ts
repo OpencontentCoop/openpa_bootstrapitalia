@@ -48,6 +48,18 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Stats pages</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Stats device</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Stats channel</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Precedure view all</source>
       <translation type="unfinished"/>
     </message>
