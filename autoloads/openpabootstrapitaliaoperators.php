@@ -114,6 +114,7 @@ class OpenPABootstrapItaliaOperators
             'encode_json',
             'can_create_class_list_in_current_language',
             'can_edit_in_current_language',
+            'update_zone_block_in_db_if_needed',
             'float_format',
         );
     }
@@ -306,6 +307,11 @@ class OpenPABootstrapItaliaOperators
             'can_edit_in_current_language' => array(
                 'content_object' => array('type' => 'object', 'required' => true, 'default' => null),
             ),
+            'update_zone_block_in_db_if_needed' => array(
+                'node_id' => array('type' => 'integer', 'required' => true, 'default' => null),
+                'zone_id' => array('type' => 'string', 'required' => true, 'default' => null),
+                'block' => array('type' => 'object', 'required' => true, 'default' => null),
+            ),
         );
     }
 
@@ -320,6 +326,28 @@ class OpenPABootstrapItaliaOperators
     )
     {
         switch ($operatorName) {
+            case 'update_zone_block_in_db_if_needed':
+                $db = eZDB::instance();
+                $nodeId = (int)$namedParameters['node_id'];
+                $zoneId = $db->escapeString($namedParameters['zone_id']);
+                $block = $namedParameters['block'];
+                if ($block instanceof eZPageBlock && $nodeId > 0){
+                    $blockId = $db->escapeString($block->id());
+                    $alreadyExists = $db->arrayQuery("SELECT COUNT(*) FROM ezm_block WHERE node_id = $nodeId AND id = '$blockId' AND zone_id = '$zoneId'");
+                    if ($alreadyExists[0]['count'] == 0) {
+                        $escapedBlockName = $db->escapeString($block->getName());
+                        $db->query(
+                            "INSERT INTO ezm_block ( id, zone_id, name, node_id,block_type )
+                                VALUES ( '" . $block->attribute('id') . "',
+                                         '" . $zoneId . "',
+                                         '" . $escapedBlockName . "',
+                                         '" . $nodeId . "',
+                                         '" . $db->escapeString($block->attribute('type')) . "' )"
+                        );
+                    }
+                }
+                break;
+
             case 'float_format':
                 $locale = eZLocale::instance();
                 $number = (float)$operatorValue;
@@ -1596,6 +1624,11 @@ class OpenPABootstrapItaliaOperators
                 if ($zone instanceof eZPageZone && $zone->hasAttribute('blocks')) {
                     $blocks = $zone->attribute('blocks');
                     foreach ($blocks as $index => $block){
+                        if ($block instanceof eZPageBlock
+                            && $block->hasAttribute('action')
+                            && $block->attribute('action') === 'remove'){
+                            continue;
+                        }
                         if ($item = self::parseBlock($block, $index, $blocks)) {
                             $data[] = $item;
                         }
