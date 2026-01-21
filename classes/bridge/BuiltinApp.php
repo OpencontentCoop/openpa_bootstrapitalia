@@ -239,12 +239,12 @@ abstract class BuiltinApp extends OpenPATempletizable
     protected function getServiceId(): ?string
     {
         if ($this->serviceId === null) {
-            $this->hasDynamicServiceId = true;
             $this->serviceId = eZHTTPTool::instance()->hasGetVariable('service_id') ?
                 eZHTTPTool::instance()->getVariable('service_id') : null;
             if (!$this->serviceId) {
                 if ($this->module instanceof eZModule && ServiceSync::isUuid($this->module->ViewParameters[0] ?? '')) {
                     $this->serviceId = $this->module->ViewParameters[0];
+                    $this->hasDynamicServiceId = true;
 //                } else {
 //                    $referrer = eZSys::serverVariable('HTTP_REFERER', true);
 //                    if ($referrer && strpos($referrer, '?service_id=') !== false) {
