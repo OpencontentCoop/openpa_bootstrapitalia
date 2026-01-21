@@ -409,6 +409,10 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     {
         if ($this->hasTableFields()) {
             $string = $this->getTableFieldsAttribute()->toString();
+            if (strpos($string, 'preset:') !== false) {
+                [,$presetIdentifier] = explode(':', $string);
+                $string = implode('&', OpenpaINI::variable('TrasparenzaFieldsPreset_' . $presetIdentifier, 'Field', []));
+            }
             $parameters = explode('&', $string);
 
             $data = array();

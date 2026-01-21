@@ -455,6 +455,12 @@ Subdir=templates
 Match[class_identifier]=howto
 Match[attribute_identifier]=steps
 
+[datatype_edit_pagina_trasparenza_fields]
+Source=content/datatype/edit/ezstring.tpl
+MatchFile=datatype/edit/pagina_trasparenza_fields.tpl
+Subdir=templates
+Match[class_identifier]=pagina_trasparenza
+Match[attribute_identifier]=fields
 
 ############################################
 ############################################ TEXT-LINKED

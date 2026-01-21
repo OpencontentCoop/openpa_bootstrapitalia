@@ -194,6 +194,20 @@ IdentificatoriMenu_trasparenza[]=pagina_trasparenza
 MostraAvvisoPaginaVuota=disabled
 UseCustomTemplate=disabled
 ShowBandoFaseSelect=enabled
+FieldsPreset[]
+FieldsPreset[]=example
+FieldsPreset[]=incarichi_politici
+
+[TrasparenzaFieldsPreset_example]
+Label=Titolo della query
+Fields=...
+
+
+[TrasparenzaFieldsPreset_incarichi_politici]
+Label=Sindaco, vicesindaco, assessori e consiglieri
+Field[]
+Field[]=parent:1|title:Giunta|filters:role in ['Sindaco','Vicensidaco','Assessore'] and for_entity.name in ['"Giunta comunale"'] and end_time range [now,'*']|time_indexed_role|person,role,for_entity
+Field[]=parent:1|title:Consiglio|filters:role in ['Consigliere'] and for_entity in ['"Consiglio comunale"'] and end_time range [now,'*']|time_indexed_role|person,role,for_entity
 
 [MotoreRicerca]
 IncludiClassi[]=administrative_area
