@@ -36,6 +36,8 @@ abstract class BuiltinApp extends OpenPATempletizable
 
     private $deployEnv = self::ENV_PRODUCTION;
 
+    private $hasDynamicServiceId = false;
+
     public function __construct(string $appName, string $appLabel)
     {
         $this->appIdentifier = $appName;
@@ -242,6 +244,7 @@ abstract class BuiltinApp extends OpenPATempletizable
             if (!$this->serviceId) {
                 if ($this->module instanceof eZModule && ServiceSync::isUuid($this->module->ViewParameters[0] ?? '')) {
                     $this->serviceId = $this->module->ViewParameters[0];
+                    $this->hasDynamicServiceId = true;
 //                } else {
 //                    $referrer = eZSys::serverVariable('HTTP_REFERER', true);
 //                    if ($referrer && strpos($referrer, '?service_id=') !== false) {
@@ -260,7 +263,7 @@ abstract class BuiltinApp extends OpenPATempletizable
     {
         if ($this->satisfyEntrypointId === null) {
             $serviceId = $this->getServiceId();
-            if (ServiceSync::isUuid($serviceId)) {
+            if (ServiceSync::isUuid($serviceId) || $this->hasDynamicServiceId === false) {
                 try {
                     $remoteService = StanzaDelCittadinoBridge::factory()->getServiceByIdentifier($serviceId);
                     eZDebug::writeDebug($remoteService['id'], 'Remote service id');
