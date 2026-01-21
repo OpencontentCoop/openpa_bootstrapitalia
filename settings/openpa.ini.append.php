@@ -339,7 +339,6 @@ SectionBannerLimit=9
 EnableTimelineRemoteIds[]
 EnableTimelineRemoteIds[]=history
 EnableDatasetMapRemoteIds[]
-EnableDatasetMapRemoteIds[]=all-places
 
 [OpenpaAgenda]
 EnableDiscussion=enabled
