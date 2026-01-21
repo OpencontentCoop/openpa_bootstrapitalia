@@ -3,5 +3,6 @@
 [EventSettings]
 ExtensionDirectories[]=openpa_bootstrapitalia
 AvailableEventTypes[]=event_moderation
+AvailableEventTypes[]=event_remoteindex
 
 */?>
