@@ -127,7 +127,7 @@
                         <p>
                             <a target="_blank"
                               rel="noopener"
-                              href="{concat('/opendata/console/1?query=',$fields.query|wash())|ezurl(no)}">
+                              href="{concat('/opendata/console/1?query=',$fields.query|urlencode())|ezurl(no)}">
                                 <code style="word-break: break-all;">{$fields.raw|wash()}</code>
                             </a>
                         </p>
