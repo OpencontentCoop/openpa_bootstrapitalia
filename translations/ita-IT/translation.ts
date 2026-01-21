@@ -25,7 +25,7 @@
     </message>
     <message>
       <source>Official noticeboard text to archive</source>
-      <translation>Le pubblicazioni precedenti sono consultabili alla pagina</translation>
+      <translation>Per gli atti per i quali l’obbligo è terminato è possibile consultare lo</translation>
     </message>
     <message>
       <source>Show more elements</source>
