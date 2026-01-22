@@ -24,6 +24,10 @@
       <translation>Storico pubblicazioni</translation>
     </message>
     <message>
+      <source>Official noticeboard intro text</source>
+      <translation>In questa sezione sono pubblicati gli atti amministrativi per i quali la legge prevede l’obbligo di pubblicazione.</translation>
+    </message>
+    <message>
       <source>Official noticeboard text to archive</source>
       <translation>Per gli atti per i quali l’obbligo è terminato è possibile consultare lo</translation>
     </message>
