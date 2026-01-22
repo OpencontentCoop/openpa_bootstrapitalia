@@ -12,7 +12,9 @@
             <h1 class="text-black hero-title" data-element="page-name">{if $archive}{'Official noticeboard archive'|i18n('bootstrapitalia')}{else}{$official_noticeboard_title}{/if}</h1>
           </div>
           {if $setup_object|has_attribute('intro')}
-              {attribute_view_gui attribute=$setup_object|attribute('intro')}
+            {attribute_view_gui attribute=$setup_object|attribute('intro')}
+          {else}
+            <p>{'Official noticeboard intro text'|i18n('bootstrapitalia')}</p>
           {/if}
           {if $archive}
           {else}
