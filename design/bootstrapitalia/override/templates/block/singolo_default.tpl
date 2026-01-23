@@ -43,7 +43,7 @@
                             {include uri='design:openpa/card/parts/category.tpl' view_variation='alt' show_icon=true() node=$valid_node}
 
                             <h1 class="h4 card-title">
-                                <a href="{$openpa.content_link.full_link}" title="Link a {$valid_node.name|wash()}" class="text-primary text-decoration-none">
+                                <a href="{$openpa.content_link.full_link}" class="text-primary text-decoration-none">
                                     {$valid_node.name|wash()}
                                 </a>
                             </h1>
