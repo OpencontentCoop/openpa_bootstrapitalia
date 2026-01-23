@@ -15,7 +15,12 @@
                                     </button>
                                 </span>
                                 <div class="progress">
-                                    <div class="progress-bar it-navscroll-progressbar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar it-navscroll-progressbar"
+                                      role="progressbar"
+                                      aria-valuenow="0"
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"
+                                      aria-label="{'Page reading progress'|i18n('bootstrapitalia')}"></div>
                                 </div>
                                 <div id="collapse-{$step.id|wash()}" class="accordion-collapse collapse show" role="region"
                                      aria-labelledby="accordion-{$step.id|wash()}">
