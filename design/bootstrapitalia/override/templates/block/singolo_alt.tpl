@@ -46,7 +46,7 @@
             </div>
 
             <h2 class="mt-0 mb-4">
-                <a href="{$openpa.content_link.full_link}" title="Link a {$valid_node.name|wash()}" class="text-primary">
+                <a href="{$openpa.content_link.full_link}" class="text-primary">
                     {$valid_node.name|wash()}
                 </a>
             </h2>
