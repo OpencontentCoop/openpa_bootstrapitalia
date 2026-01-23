@@ -11,15 +11,15 @@
            href="#menu-dropdown-{$menu_item.item.node_id}"
            data-toggle="collapse" data-bs-toggle="collapse"
            aria-expanded="{if or($is_active, $is_current)}true{else}false{/if}"
-           aria-controls="menu-dropdown-{$menu_item.item.node_id}">
+           aria-controls="menu-dropdown-{$menu_item.item.node_id}"
+           role="button">
             {if or($is_active, $is_current)}<i aria-hidden="true" class="fa fa-minus-square-o"></i>{else}<i aria-hidden="true" class="fa fa-plus-square-o"></i>{/if}
         </a>
     {/if}
 
     <a href="{if $menu_item.item.internal}{$menu_item.item.url|ezurl(no)}{else}{$menu_item.item.url}{/if}"
        {if $menu_item.item.target}target="{$menu_item.item.target}"{/if}
-       class="list-item{if or($is_active, $is_current)} medium{/if} py-2 pl-2 ps-2" style="line-height: 1.7em; border-bottom:1px solid #eee"
-       title="{'Go to content'|i18n('bootstrapitalia')} {$menu_item.item.name|wash()}">
+       class="list-item{if or($is_active, $is_current)} medium{/if} py-2 pl-2 ps-2" style="line-height: 1.7em; border-bottom:1px solid #eee">
         {$menu_item.item.name|wash()}
     </a>
 
