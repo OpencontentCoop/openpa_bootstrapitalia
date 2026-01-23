@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Page reading progress</source>
+      <translation>Avanzamento di lettura della pagina</translation>
+    </message>
+    <message>
       <source>Next appointments</source>
       <translation>I prossimi appuntamenti previsti sono:</translation>
     </message>

@@ -43,9 +43,13 @@
                                                 </button>
                                               </span>
                                             <div class="progress">
-                                                <div class="progress-bar it-navscroll-progressbar" role="progressbar"
-                                                     aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
-                                                     style="width: 0;"></div>
+                                                <div class="progress-bar it-navscroll-progressbar"
+                                                  role="progressbar"
+                                                  aria-valuenow="0"
+                                                  aria-valuemin="0"
+                                                  aria-valuemax="100"
+                                                  style="width: 0;"
+                                                  aria-label="{'Page reading progress'|i18n('bootstrapitalia')}"></div>
                                             </div>
                                             <div id="collapse-one" class="accordion-collapse collapse show" role="region" aria-labelledby="accordion-title-one">
                                                 <div class="accordion-body">

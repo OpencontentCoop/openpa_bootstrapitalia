@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Page reading progress</source>
+      <translation></translation>
+    </message>
+    <message>
       <source>Official noticeboard</source>
       <translation>Official noticeboard</translation>
     </message>
