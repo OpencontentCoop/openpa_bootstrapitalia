@@ -104,6 +104,10 @@
       <translation>Download-Datei</translation>
     </message>
     <message>
+      <source>Download data in format %extension</source>
+      <translation>Lade die Daten im %extension-Format herunter</translation>
+    </message>
+    <message>
       <source>File type</source>
       <translation>Dateityp</translation>
     </message>
