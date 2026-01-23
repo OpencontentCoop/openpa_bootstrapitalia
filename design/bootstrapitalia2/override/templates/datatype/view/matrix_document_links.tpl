@@ -9,8 +9,6 @@
                         <div class="cmp-icon-link mb-2">
                             <a class="list-item icon-left d-inline-block font-sans-serif{if $link.description|ne('')} mb-0{/if}"
                                href="{$link.link|wash()}"
-                               aria-label=""
-                               title=""
                                data-focus-mouse="false">{*
                             *}<span class="list-item-title-icon-wrapper">{*
                             *}{display_icon('it-link', 'svg', 'icon icon-primary icon-sm me-1')}{*
