@@ -192,6 +192,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Download data in format %extension</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>File type</source>
       <translation type="unfinished"/>
     </message>

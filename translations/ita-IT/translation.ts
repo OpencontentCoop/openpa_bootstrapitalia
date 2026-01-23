@@ -128,6 +128,10 @@
       <translation>Scarica il file</translation>
     </message>
     <message>
+      <source>Download data in format %extension</source>
+      <translation>Scarica i dati in formato %extension</translation>
+    </message>
+    <message>
       <source>File type</source>
       <translation>Tipo di file</translation>
     </message>
