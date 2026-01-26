@@ -5,6 +5,7 @@
                 {foreach $steps as $index => $step}
                     <li
                       data-step="{$step.id|wash()}"
+                      {if $step.focus}data-focus="{$step.focus|wash()}"{/if}
                       class="text-uppercase{if $index|eq(0)} active{/if}"
                       >
                         {$step.title|wash()}
