@@ -16,9 +16,18 @@ class BuiltinAppFactory
                 $identifier = 'inefficiency_v2';
             }
         }
+        if ($identifier === 'booking'){
+            $identifier = 'booking_v1';
+            if (BuiltinApp::getCurrentOptions('EnableBookingV2')){
+                $identifier = 'booking_v2';
+            }
+        }
         switch ($identifier) {
-            case 'booking':
+            case 'booking_v1':
                 $app = new BookingBuiltinApp();
+                break;
+            case 'booking_v2':
+                $app = new BookingV2BuiltinApp();
                 break;
             case 'helpdesk_v1':
                 $app = new HelpdeskBuiltinApp();
@@ -66,7 +75,8 @@ class BuiltinAppFactory
     public static function fetchDescriptionIdentifierList(): array
     {
         return [
-            'booking',
+            'booking_v1',
+            'booking_v2',
             'inefficiency_v1',
             'inefficiency_v2',
             'payment',
