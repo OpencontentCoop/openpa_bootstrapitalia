@@ -4,54 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Page reading progress</source>
-      <translation>Avanzamento di lettura della pagina</translation>
-    </message>
-    <message>
-      <source>Next appointments</source>
-      <translation>I prossimi appuntamenti previsti sono:</translation>
-    </message>
-    <message>
-      <source>Event daytime text</source>
-      <translation>L’evento si svolge dal</translation>
-    </message>
-    <message>
-      <source>Official noticeboard</source>
-      <translation>Albo pretorio</translation>
-    </message>
-    <message>
-      <source>Official noticeboard document identifier</source>
-      <translation>Numero registro albo</translation>
-    </message>
-    <message>
-      <source>Official noticeboard archive</source>
-      <translation>Storico pubblicazioni</translation>
-    </message>
-    <message>
-      <source>Official noticeboard intro text</source>
-      <translation>In questa sezione sono pubblicati gli atti amministrativi per i quali la legge prevede l’obbligo di pubblicazione.</translation>
-    </message>
-    <message>
-      <source>Official noticeboard text to archive</source>
-      <translation>Per gli atti per i quali l’obbligo è terminato è possibile consultare lo</translation>
-    </message>
-    <message>
-      <source>Show more elements</source>
-      <translation>Mostra/nascondi altri</translation>
-    </message>
-    <message>
-      <source>Other places</source>
-      <translation>Altri luoghi</translation>
-    </message>
-      <message>
-      <source>from day</source>
-      <translation>dal</translation>
-    </message>
-    <message>
-      <source>to day</source>
-      <translation>fino al</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Questo sito utilizza cookie tecnici, analytics e di terze parti.</translation>
     </message>
@@ -72,24 +24,12 @@
       <translation>Vai al contenuto principale</translation>
     </message>
     <message>
-      <source>Jump to main navigation</source>
-      <translation>Vai al menù di navigazione principale</translation>
-    </message>
-    <message>
       <source>Jump to section menu</source>
       <translation>Vai al menu di sezione</translation>
     </message>
     <message>
       <source>Jump to footer</source>
       <translation>Vai al footer</translation>
-    </message>
-    <message>
-      <source>Go to homepage</source>
-      <translation>Vai alla homepage</translation>
-    </message>
-    <message>
-      <source>Expand section</source>
-      <translation>Espandi sezione</translation>
     </message>
     <message>
       <source>Table of contents</source>
@@ -114,10 +54,6 @@
     <message>
       <source>Download file</source>
       <translation>Scarica il file</translation>
-    </message>
-    <message>
-      <source>Download data in format %extension</source>
-      <translation>Scarica i dati in formato %extension</translation>
     </message>
     <message>
       <source>File type</source>
@@ -283,10 +219,6 @@
       <source>News</source>
       <translation>Novità</translation>
     </message>
-     <message>
-      <source>Newsletter signup</source>
-      <translation>Iscriviti alla newsletter</translation>
-    </message>
     <message>
       <source>You must select at least one topic not included in %custom_topics_name</source>
       <translation>Devi selezionare almeno un argomento non incluso in %custom_topics_name</translation>
@@ -366,10 +298,6 @@
     <message>
       <source>contents found</source>
       <translation>contenuti trovati</translation>
-    </message>
-    <message>
-      <source>content found</source>
-      <translation>contenuto trovato</translation>
     </message>
     <message>
       <source>Load more results</source>
@@ -697,11 +625,67 @@
     </message>
     <message>
       <source>Stats recent</source>
-      <translation>Riepilogo visite</translation>
+      <translation>Andamento</translation>
     </message>
     <message>
       <source>Stats last month</source>
-      <translation>Visite nel Periodo</translation>
+      <translation>Ultimo mese</translation>
+    </message>
+    <message>
+      <source>Show more elements</source>
+      <translation>Mostra/nascondi altri</translation>
+    </message>
+    <message>
+      <source>Other places</source>
+      <translation>Altri luoghi</translation>
+    </message>
+    <message>
+      <source>from day</source>
+      <translation>dal</translation>
+    </message>
+    <message>
+      <source>to day</source>
+      <translation>fino al</translation>
+    </message>
+    <message>
+      <source>Jump to main navigation</source>
+      <translation>Vai al menù di navigazione principale</translation>
+    </message>
+    <message>
+      <source>Go to homepage</source>
+      <translation>Vai alla homepage</translation>
+    </message>
+    <message>
+      <source>Expand section</source>
+      <translation>Espandi sezione</translation>
+    </message>
+    <message>
+      <source>content found</source>
+      <translation>contenuto trovato</translation>
+    </message>
+    <message>
+      <source>Official noticeboard</source>
+      <translation>Albo pretorio</translation>
+    </message>
+    <message>
+      <source>Official noticeboard archive</source>
+      <translation>Storico pubblicazioni</translation>
+    </message>
+    <message>
+      <source>Next appointments</source>
+      <translation>I prossimi appuntamenti previsti sono:</translation>
+    </message>
+    <message>
+      <source>Event daytime text</source>
+      <translation>L’evento si svolge dal</translation>
+    </message>
+    <message>
+      <source>Official noticeboard text to archive</source>
+      <translation>Per gli atti per i quali l’obbligo è terminato è possibile consultare lo</translation>
+    </message>
+    <message>
+      <source>Newsletter signup</source>
+      <translation>Iscriviti alla newsletter</translation>
     </message>
     <message>
       <source>Stats pages</source>
@@ -714,6 +698,46 @@
     <message>
       <source>Stats channel</source>
       <translation>Tipi di Canale</translation>
+    </message>
+    <message>
+      <source>Official noticeboard document identifier</source>
+      <translation>Numero registro albo</translation>
+    </message>
+    <message>
+      <source>License title</source>
+      <translation>Licenza dei contenuti</translation>
+    </message>
+    <message>
+      <source>License text first</source>
+      <translation>In applicazione del principio open by default ai sensi dell’articolo 52 del decreto legislativo 7 marzo 2005, n. 82 (CAD) e salvo dove diversamente specificato (compresi i contenuti incorporati di terzi), i dati, i documenti e le informazioni pubblicati sul sito sono rilasciati con</translation>
+    </message>
+    <message>
+      <source>License text second</source>
+      <translation>Gli utenti sono quindi liberi di condividere (riprodurre, distribuire, comunicare al pubblico, esporre in pubblico), rappresentare, eseguire e recitare questo materiale con qualsiasi mezzo e formato e modificare (trasformare il materiale e utilizzarlo per opere derivate) per qualsiasi fine, anche commerciale con il solo onere di attribuzione, senza apporre restrizioni aggiuntive.</translation>
+    </message>
+    <message>
+      <source>License link</source>
+      <translation>licenza CC-BY 4.0</translation>
+    </message>
+    <message>
+      <source>from</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>to</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard intro text</source>
+      <translation>In questa sezione sono pubblicati gli atti amministrativi per i quali la legge prevede l’obbligo di pubblicazione. </translation>
+    </message>
+    <message>
+      <source>Download data in format %extension</source>
+      <translation>Scarica i dati in formato %extension</translation>
+    </message>
+    <message>
+      <source>Page reading progress</source>
+      <translation>Avanzamento di lettura della pagina</translation>
     </message>
   </context>
   <context>
@@ -1493,10 +1517,7 @@
     </message>
     <message>
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
-      <translation>Questo sito fa uso di cookie tecnici essenziali al corretto funzionamento delle pagine web, di cookie di analisi e misurazione e di cookie di terze parti. 
-Selezionando "Accetta tutti i cookie" si acconsente all'utilizzo di tutti i cookie. 
-Selezionando "Accetta i cookie necessari" o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità ed alcuni contenuti potrebbero non essere disponibili. 
-La preferenza può essere modificata in qualsiasi momento dall'Informativa cookie.</translation>
+      <translation>Questo sito fa uso di cookie tecnici essenziali al corretto funzionamento delle pagine web, di cookie di analisi e misurazione e di cookie di terze parti. Selezionando "Accetta tutti i cookie" si acconsente all'utilizzo di tutti i cookie. Selezionando "Accetta i cookie necessari" o chiudendo il banner verranno utilizzati solo i cookie tecnici: così facendo alcune funzionalità ed alcuni contenuti potrebbero non essere disponibili. La preferenza può essere modificata in qualsiasi momento dall'Informativa cookie.</translation>
     </message>
     <message>
       <source>Accept all cookies</source>
@@ -1806,6 +1827,10 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Other settings</source>
       <translation>Altre impostazioni</translation>
     </message>
+    <message>
+      <source>Dataset Map</source>
+      <translation>Mappa Dataset</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/header</name>
@@ -2015,7 +2040,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>There are no dates available for the selected period</source>
-      <translation>Non ci sono date disponibili per il periodo selezionato</translation>
+      <translation>La data e l’orario scelti non sono più disponibili. Scegli una nuova data o un altro orario tra quelli disponibili.</translation>
     </message>
     <message>
       <source>Select another location or another period</source>

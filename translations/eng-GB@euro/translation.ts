@@ -4,34 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Page reading progress</source>
-      <translation></translation>
-    </message>
-    <message>
-      <source>Official noticeboard</source>
-      <translation>Official noticeboard</translation>
-    </message>
-    <message>
-      <source>Official noticeboard archive</source>
-      <translation>Official noticeboard archive</translation>
-    </message>
-    <message>
-      <source>Show more elements</source>
-      <translation>Show/hide more</translation>
-    </message>
-    <message>
-      <source>Other places</source>
-      <translation>Other places</translation>
-    </message>
-      <message>
-      <source>from</source>
-      <translation>from</translation>
-    </message>
-    <message>
-      <source>to</source>
-      <translation>to</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>This site uses technical, analytical and third-party cookies.</translation>
     </message>
@@ -52,24 +24,12 @@
       <translation>Go to main content</translation>
     </message>
     <message>
-      <source>Jump to main navigation</source>
-      <translation>Vai al main navigation</translation>
-    </message>
-    <message>
       <source>Jump to section menu</source>
       <translation>Go to the section menu</translation>
     </message>
     <message>
       <source>Jump to footer</source>
       <translation>Go to footer</translation>
-    </message>
-    <message>
-      <source>Go to homepage</source>
-      <translation>Go to homepage</translation>
-    </message>
-    <message>
-      <source>Expand section</source>
-      <translation>Expand section</translation>
     </message>
     <message>
       <source>Table of contents</source>
@@ -637,7 +597,7 @@
     </message>
     <message>
       <source>View fullscreen</source>
-      <translation></translation>
+      <translation>View fullscreen</translation>
     </message>
     <message>
       <source>Search by name</source>
@@ -661,15 +621,123 @@
     </message>
     <message>
       <source>Website Stats</source>
-      <translation></translation>
+      <translation>Website Stats</translation>
     </message>
     <message>
       <source>Stats recent</source>
-      <translation></translation>
+      <translation>Stats recent</translation>
     </message>
     <message>
       <source>Stats last month</source>
+      <translation>Stats last month</translation>
+    </message>
+    <message>
+      <source>Show more elements</source>
+      <translation>Show more elements</translation>
+    </message>
+    <message>
+      <source>Other places</source>
+      <translation>Other places</translation>
+    </message>
+    <message>
+      <source>from day</source>
+      <translation>from</translation>
+    </message>
+    <message>
+      <source>to day</source>
+      <translation>to</translation>
+    </message>
+    <message>
+      <source>Jump to main navigation</source>
+      <translation>Jump to main navigation</translation>
+    </message>
+    <message>
+      <source>Go to homepage</source>
+      <translation>Go to homepage</translation>
+    </message>
+    <message>
+      <source>Expand section</source>
+      <translation>Expand section</translation>
+    </message>
+    <message>
+      <source>content found</source>
+      <translation>content found</translation>
+    </message>
+    <message>
+      <source>Official noticeboard</source>
+      <translation>Official noticeboard</translation>
+    </message>
+    <message>
+      <source>Official noticeboard archive</source>
+      <translation>Official noticeboard archive</translation>
+    </message>
+    <message>
+      <source>Next appointments</source>
+      <translation>Next appointments:</translation>
+    </message>
+    <message>
+      <source>Event daytime text</source>
+      <translation>The event takes place from</translation>
+    </message>
+    <message>
+      <source>Official noticeboard text to archive</source>
+      <translation>Previous publications can be viewed on the page</translation>
+    </message>
+    <message>
+      <source>Newsletter signup</source>
+      <translation>Subscribe to the newsletter</translation>
+    </message>
+    <message>
+      <source>Stats pages</source>
+      <translation>Pages</translation>
+    </message>
+    <message>
+      <source>Stats device</source>
+      <translation>Device type</translation>
+    </message>
+    <message>
+      <source>Stats channel</source>
+      <translation>Types of Channel</translation>
+    </message>
+    <message>
+      <source>Official noticeboard document identifier</source>
+      <translation>Registration number</translation>
+    </message>
+    <message>
+      <source>License title</source>
+      <translation>License title</translation>
+    </message>
+    <message>
+      <source>License text first</source>
       <translation></translation>
+    </message>
+    <message>
+      <source>License text second</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>License link</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>from</source>
+      <translation>from</translation>
+    </message>
+    <message>
+      <source>to</source>
+      <translation>to</translation>
+    </message>
+    <message>
+      <source>Official noticeboard intro text</source>
+      <translation>This section contains administrative acts that are subject to mandatory publication by law.</translation>
+    </message>
+    <message>
+      <source>Download data in format %extension</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Page reading progress</source>
+      <translation>Page reading progress</translation>
     </message>
   </context>
   <context>
@@ -1357,7 +1425,7 @@
     </message>
     <message>
       <source>Remove filters</source>
-      <translation></translation>
+      <translation>Remove filters</translation>
     </message>
     <message>
       <source>Documents results</source>
@@ -1377,23 +1445,23 @@
     </message>
     <message>
       <source>Document result</source>
-      <translation></translation>
+      <translation>Document result</translation>
     </message>
     <message>
       <source>Dataset result</source>
-      <translation></translation>
+      <translation>Dataset result</translation>
     </message>
     <message>
       <source>Project result</source>
-      <translation></translation>
+      <translation>Project result</translation>
     </message>
     <message>
       <source>Result found</source>
-      <translation></translation>
+      <translation>Result found</translation>
     </message>
     <message>
       <source>Results found</source>
-      <translation></translation>
+      <translation>Results found</translation>
     </message>
   </context>
   <context>
@@ -1449,10 +1517,7 @@
     </message>
     <message>
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
-      <translation>This site uses technical cookies which are essential for the proper functioning of web pages, analysis and measurement cookies and third-party cookies. 
-By selecting "Accept all cookies" you consent to the use of all cookies. 
-By selecting "Reject all cookies" or closing the banner, only technical cookies will be used: this means that certain features and some content may not be available. 
-You can change your settings at any time from the Cookie Policy.</translation>
+      <translation>This website uses technical cookies that are essential for the proper functioning of web pages, as well as analytics and measurement cookies and third-party cookies. By selecting “Accept all cookies,” you consent to the use of all cookies. By selecting “Accept necessary cookies” or by closing the banner, only technical cookies will be used; as a result, some features and content may not be available. Preferences can be changed at any time in the Cookie Policy.</translation>
     </message>
     <message>
       <source>Accept all cookies</source>
@@ -1762,6 +1827,10 @@ They are essentially used to measure and improve the quality of sites by analysi
       <source>Other settings</source>
       <translation>Other settings</translation>
     </message>
+    <message>
+      <source>Dataset Map</source>
+      <translation>Dataset Map</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/header</name>
@@ -1971,7 +2040,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>There are no dates available for the selected period</source>
-      <translation>No dates available for the selected period</translation>
+      <translation>The selected date and time are no longer available. Please choose a different date or time from the available options.</translation>
     </message>
     <message>
       <source>Select another location or another period</source>
@@ -2127,11 +2196,11 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>Date start</source>
-      <translation></translation>
+      <translation>Date start</translation>
     </message>
     <message>
       <source>Date end</source>
-      <translation></translation>
+      <translation>Date end</translation>
     </message>
   </context>
   <context>
@@ -2295,15 +2364,15 @@ They are essentially used to measure and improve the quality of sites by analysi
     <name>bootstrapitalia/facets</name>
     <message>
       <source>Period</source>
-      <translation></translation>
+      <translation>Period</translation>
     </message>
     <message>
       <source>Topic</source>
-      <translation></translation>
+      <translation>Topic</translation>
     </message>
     <message>
       <source>Type</source>
-      <translation></translation>
+      <translation>Type</translation>
     </message>
   </context>
 </TS>
