@@ -35,7 +35,7 @@ class BookingBuiltinApp extends BuiltinApp
             $this->isAppEnabled = !(!empty($contacts['link_prenotazione_appuntamento'])) && self::getCurrentOptions('TenantUrl');
         }
 
-        return $this->isAppEnabled;
+        return $this->isAppEnabled && !self::getCurrentOptions('EnableBookingV2');
     }
 
     protected function getDescriptionListItem(): array
