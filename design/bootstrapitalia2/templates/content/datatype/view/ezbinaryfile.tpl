@@ -12,7 +12,9 @@
 				{/if}
 				<div class="card-body">
 				  <h5 class="card-title">
-				    <a class="stretched-link" href={concat("content/download/",$attribute.contentobject_id,"/",$attribute.id,"/file/",$attribute.content.original_filename|explode(' ')|implode('_'))|ezurl} title="Scarica il file {$attribute.content.original_filename|wash( xhtml )}">
+				    <a class="stretched-link"
+              href={concat("content/download/",$attribute.contentobject_id,"/",$attribute.id,"/file/",$attribute.content.original_filename|explode(' ')|implode('_'))|ezurl}
+              title="{'Download file'|i18n('bootstrapitalia')} {$attribute.content.original_filename|clean_filename()|wash( xhtml )}">
 				    	{$attribute.content.original_filename|clean_filename()|wash( xhtml )} 				    	
 				    </a>
 				    <small class="d-block">(File {$attribute.content.mime_type|explode('application/')|implode('')} {*<em>{$attribute.content.original_filename|wash()}</em> *}{$attribute.content.filesize|si( byte )})</small>

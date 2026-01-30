@@ -30,7 +30,6 @@
 {else}
     <a href="{$openpa.content_link.full_link}"
        {if $ignore_data_element|not()}data-element="{$openpa.data_element.value|wash()}"{/if}
-       title="Link a {if is_set( $text )}{$text|wash()}{else}{$node.name|wash()}{/if}"
        {if $a_class|ne('')}class="{$a_class}"{/if}
             {if or($node.class_identifier|eq('shared_link'), $openpa.content_link.target)}target="_blank" rel="noopener noreferrer"{/if}>
         {if $span_class}<span class="{$span_class}">{/if}

@@ -25,7 +25,7 @@
                             <label for="main-search-input" class="sr-only">{'Search in all content'|i18n('design/admin/pagelayout')}</label>
                             <input type="search" class="autocomplete ps-5 oc-placeholder" placeholder="{'Search in the site'|i18n( 'bootstrapitalia' )}"
                                    id="main-search-input" name="SearchText" data-bs-autocomplete="[]">
-                            <span class="autocomplete-icon" role="presentation" focusable="false">
+                            <span class="autocomplete-icon">
                                 {display_icon('it-search', 'svg', 'icon')}
                             </span>
                             <button type="submit" class="btn btn-primary">

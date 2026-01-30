@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Page reading progress</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Next appointments</source>
       <translation type="unfinished"/>
     </message>
@@ -173,6 +177,10 @@
     </message>
     <message>
       <source>Download file</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Download data in format %extension</source>
       <translation type="unfinished"/>
     </message>
     <message>
