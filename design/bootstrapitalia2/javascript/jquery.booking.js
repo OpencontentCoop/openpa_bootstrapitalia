@@ -75,7 +75,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
   function Plugin(element, options) {
     this.element = element
     this.settings = $.extend({}, defaults, options)
-    this.settings.debug = true
+    this.settings.debug = false
     let _token = '', _tokenNode = document.getElementById('ezxform_token_js');
     if (_tokenNode) _token = _tokenNode.getAttribute('title');
     this.settings.xtoken = _token;
