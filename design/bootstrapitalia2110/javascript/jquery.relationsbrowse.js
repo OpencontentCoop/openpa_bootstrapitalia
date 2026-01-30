@@ -53,7 +53,8 @@
                 content: 'contenuto',
                 contents: 'contenuti',
                 page: 'pagina',
-                of: 'di'
+                of: 'di',
+                hidden: "Nascosto"
             },
             pagination: true,
             searchMode: 'disabled',
@@ -519,7 +520,8 @@
                                 class_name: this.class_name,
                                 class_identifier: this.class_identifier,
                                 is_container: this.is_container,
-                                thumbnail_url: this.thumbnail_url
+                                thumbnail_url: this.thumbnail_url,
+                                is_visible: !this.contentobject_state.includes('privacy/private') && this.section_id === 1
                             };
 
                             var listItem = self.makeListItem(item);
@@ -692,20 +694,25 @@
             }); 
         },
 
+        showStatusString: function(item) {
+          return item.is_visible ? '' : this.settings.i18n.hidden;
+        },
+
         makeListItem: function(item){        
             var self = this;
 
             var name;
+            var lineHeightStyle = item.thumbnail_url ? 'height: 80px;' : '';
             if (item.is_container){
-                name = $('<a title="'+self.settings.i18n.clickToBrowseParent+'" style="font-weight: 600;" href="#" data-node_id="'+item.node_id+'"> '+item.name+ '<small class="fw-normal ms-1">' +item.class_name + '</small></a>');
-                name.bind('click', function(e){
+                name = $('<div style="'+lineHeightStyle+'"><a data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" class="fw-semibold"> '+item.name+ '</a> <div class="badge rounded-pill bg-secondary ms-1">'+this.showStatusString(item)+'</div><br> <small>' +item.class_name + '</small></div>');
+                name.children('a:first').bind('click', function(e){
                     self.browseParameters.subtree = $(this).data('node_id');
                     self.browseParameters.offset = 0;
                     self.buildTreeSelect();
                     e.preventDefault();
                 });
             }else{
-                name = $('<span style="font-weight: 600;" data-node_id="'+item.node_id+'"> '+item.name+ '<small class="fw-normal ms-1">' +item.class_name + '</small></span>');
+                name = $('<div style="'+lineHeightStyle+'"><span data-node_id="'+item.node_id+'" class="fw-semibold" style="max-width: 50%;"> '+item.name+ '</span> <div class="badge rounded-pill bg-secondary ms-1">'+this.showStatusString(item)+'</div><br> <small>' +item.class_name + '</small></div>');
             }
 
             var listItem = $('<li class="list-group-item"></li>');
@@ -762,7 +769,7 @@
             }
             listItem.append(input);
             if (item.thumbnail_url){
-                listItem.append('<img src="'+item.thumbnail_url+'" style="object-fit: contain;width: 80px;height: 80px;margin-right: 10px;" />');
+                listItem.append('<img src="'+item.thumbnail_url+'" style="object-fit: contain;width: 80px;height: 80px;margin-right: 10px;float:left" />');
             }
             listItem.append(name);
 
