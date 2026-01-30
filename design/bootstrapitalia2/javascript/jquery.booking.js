@@ -152,6 +152,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
     this.cacheCalendars = this.settings.calendars
     this.meetingNumber = $('#meetingNumber')
     this.isSchedulerLoading = false;
+    this.scrollToFocus = false
     this.init()
   }
 
@@ -206,6 +207,12 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
     scrollToTop: function () {
       $('html, body').animate({
         scrollTop: $("#booking-steppers").offset().top - 100
+      }, 0);
+    },
+
+    scrollTo: function (id) {
+      $('html, body').animate({
+        scrollTop: $("#"+id).offset().top - 100
       }, 0);
     },
 
@@ -403,7 +410,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
         self.officeSelect.val(self.officeSelect.find('option').first().val())
       }
       if (this.hasScheduler) {
-        self.forceGoToCurrentStepIfNeeded('datetime')
+        self.gotoDateTimeStep()
       }else {
         if (self.currentData.month) {
           if (self.monthSelect.find('[value="' + self.currentData.month + '"]').length > 0) {
@@ -413,7 +420,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             self.monthSelect.find('[value="' + self.firstMonth + '"]').attr('selected', 'selected')
             self.debug('invalid or missing preselect month', self.currentData.month)
           }
-          self.forceGoToCurrentStepIfNeeded('datetime')
+          self.gotoDateTimeStep()
         } else {
           self.monthSelect.val(self.firstMonth).trigger('change')
           self.gotoStep(self.currentData.step, function () {
@@ -741,6 +748,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
     gotoStep: function (index, callback, context) {
       if (index < 0) index = 0
       let current = this.getStepIndex(this.currentStep().data('step'))
+      let focus = this.currentStep().data('focus')
       this.debug('goto-step', index)
       this.stepperLoading.hide()
       $('.step.container').hide()
@@ -751,8 +759,13 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       this.currentStep().find('[data-status="step-status-active"]').attr('aria-hidden', false)
       this.currentStepContainer().show()
       this.pushState()
+      this.debug('focus', focus, this.scrollToFocus)
       if (current !== 0) {
-        this.scrollToTop()
+        if (focus && this.scrollToFocus){
+          this.scrollTo(focus)
+        } else {
+          this.scrollToTop()
+        }
       }
 
       if ($.isFunction(callback)) {
@@ -766,6 +779,17 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
         this.setCurrentData('step', this.getStepIndex(step))
       }
       this.gotoStep(this.currentData.step)
+    },
+
+    gotoDateTimeStep: function () {
+      const step = 'datetime'
+      this.debug('goto-date-time-step', step, this.getStepIndex(step), this.currentData.step)
+      if (this.currentData.step > this.getStepIndex(step)) {
+        this.setCurrentData('step', this.getStepIndex(step))
+      }
+      this.scrollToFocus = true
+      this.gotoStep(this.currentData.step)
+      this.scrollToFocus = false
     },
 
     markStepConfirmed: function (id, callback, context) {
@@ -1144,7 +1168,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             } else {
               self.debug('invalid or missing preselected openingHour', self.currentData.openingHour)
               self.openingHoursSelect.val('')
-              self.forceGoToCurrentStepIfNeeded('datetime')
+              self.gotoDateTimeStep()
             }
           },
           error: function (jqXHR) {
@@ -1243,7 +1267,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
                 self.debug('invalid or missing preselected day', self.currentData.day)
                 self.daySelect.val('')
                 self.showHourAvailabilities()
-                self.forceGoToCurrentStepIfNeeded('datetime')
+                self.gotoDateTimeStep()
               }
             }
             if ($.isFunction(callback)) {
@@ -1480,7 +1504,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
     },
 
     validateEmail: function (email) {
-      let mailformat = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
+      let mailformat = /^([A-Za-z0-9_\-+.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
       return !!email.match(mailformat)
     },
 

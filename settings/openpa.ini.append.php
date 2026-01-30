@@ -339,7 +339,6 @@ SectionBannerLimit=9
 EnableTimelineRemoteIds[]
 EnableTimelineRemoteIds[]=history
 EnableDatasetMapRemoteIds[]
-EnableDatasetMapRemoteIds[]=all-places
 
 [OpenpaAgenda]
 EnableDiscussion=enabled
@@ -353,5 +352,13 @@ SelectImageFolder=disabled
 AnalyticsSegments[]=type
 AnalyticsSegments[]=organization
 AnalyticsSegments[]=service
+
+[RemoteIndexSettings]
+EnableRemoteIndex=disabled
+ConnectionTimeout=1
+ProcessTimeout=1
+EndpointUrl=
+Headers[]
+#Headers[]=X-Foo: Bar
 
 */ ?>

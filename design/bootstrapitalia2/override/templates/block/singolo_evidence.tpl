@@ -24,7 +24,7 @@
                 <div class="col-12 col-lg-6">
                     <div class="py-4 px-2">
                         <h3 class="h4 mt-0 mb-2">
-                            <a href="{$openpa.content_link.full_link}" title="Link a {$valid_node.name|wash()}" class="text-decoration-none font-weight-bold">
+                            <a href="{$openpa.content_link.full_link}" class="text-decoration-none font-weight-bold">
                                 {$valid_node.name|wash()}
                             </a>
                         </h3>

@@ -3,7 +3,14 @@
 
 {if $count|gt($min_view_accordion)}
     <div id="opening-hours-title-{$object.id}" class="py-1">
-        <a href="#opening-hours-{$object.id}-{$container_parent_id}" class="text-decoration-none opening-hours-accordion" data-toggle="collapse" data-bs-toggle="collapse" data-target="#opening-hours-{$object.id}-{$container_parent_id}" data-bs-target="#opening-hours-{$object.id}-{$container_parent_id}" aria-controls="opening-hours-{$object.id}-{$container_parent_id}">
+        <a href="#opening-hours-{$object.id}-{$container_parent_id}"
+          class="text-decoration-none opening-hours-accordion"
+          data-toggle="collapse"
+          data-bs-toggle="collapse"
+          data-target="#opening-hours-{$object.id}-{$container_parent_id}"
+          data-bs-target="#opening-hours-{$object.id}-{$container_parent_id}"
+          aria-controls="opening-hours-{$object.id}-{$container_parent_id}"
+          role="button">
             <i aria-hidden="true" class="fa fa-clock-o"></i> {$object.name|wash()} <i aria-hidden="true" class="fa fa-caret-down"></i>
         </a>
     </div>

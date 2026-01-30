@@ -85,7 +85,7 @@
             </div>
         </aside>
         <section class="col-lg-8 p-4">
-            <h4 class="mb-4">{$node.data_map.titolo.content|wash()}</h4>
+            <h2 class="h4 mb-4">{$node.data_map.titolo.content|wash()}</h2>
 
             {if $node|has_attribute('abstract')}
                 {attribute_view_gui attribute=$node|attribute('abstract')}
@@ -99,29 +99,38 @@
             
             {* Guida al cittadino *}
             {if and($user_group_has_content, openpaini('Trasparenza', 'MostraGuidaAlCittadino', 'enabled')|eq('enabled'))}
-            <div class="callout callout-highlight w-100 mw-100 note">
-                <div class="callout-title">{display_icon('it-help-circle', 'svg', 'icon')}{'Citizen\'s Guide'|i18n('bootstrapitalia')}</div>
-                {foreach $node.data_map as $identifier => $attribute}
-                    {if and( $user_identifiers|contains( $identifier ), $attribute.has_content, $attribute.data_text|ne('') )}        
-                        <h6>{$attribute.contentclass_attribute_name}</h6>
-                        <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">{attribute_view_gui attribute=$attribute}</div>
-                    {/if}
-                {/foreach}
-            </div>            
+              <section class="callout note">
+                <div class="callout-inner">
+                  <h3 class="callout-title" style="line-height: 1.1em;">
+                    {display_icon('it-help-circle', 'svg', 'icon')}
+                    <span class="text">{'Citizen\'s Guide'|i18n('bootstrapitalia')}</span>
+                  </h3>
+                  {foreach $node.data_map as $identifier => $attribute}
+                      {if and( $user_identifiers|contains( $identifier ), $attribute.has_content, $attribute.data_text|ne('') )}        
+                          <h4 class="h6">{$attribute.contentclass_attribute_name}</h4>
+                          <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">{attribute_view_gui attribute=$attribute}</div>
+                      {/if}
+                  {/foreach}
+                </div>
+              </section>            
             {/if} 
 
             {* Guida al redattore *}
             {if and( $editor_group_has_content, $node.can_create )}            
-            <div class="callout callout-highlight w-100 mw-100 danger">
-                <div class="callout-title">{display_icon('it-help-circle', 'svg', 'icon')}{'Editor\'s Guide'|i18n('bootstrapitalia')}</div>
+            <section class="callout danger">
+              <div class="callout-inner">
+                <h3 class="callout-title" style="line-height: 1.1em;">
+                  {display_icon('it-help-circle', 'svg', 'icon')}
+                  <span class="text">{'Editor\'s Guide'|i18n('bootstrapitalia')}</span>
+                </h3>
                 {foreach $node.data_map as $identifier => $attribute}
                     {if and( $editor_identifiers|contains( $identifier ), $attribute.has_content, $attribute.data_text|ne('') )}        
-                        <h6>{$attribute.contentclass_attribute_name}</h6>
+                        <h4 class="h6">{$attribute.contentclass_attribute_name}</h4>
                         <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">{attribute_view_gui attribute=$attribute}</div>
                     {/if}
                 {/foreach}
                 {if $trasparenza.has_table_fields}                
-                    <h6>Regole rappresentazione impostate</h6>
+                    <h4 class="h6">Regole rappresentazione impostate</h4>
                     <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">
                     {foreach $trasparenza.table_fields as $table_index => $fields}
                         <p>
@@ -136,7 +145,7 @@
                             $fields.parent_node_id|eq($node.node_id)
                         )}
                         <div class="font-sans-serif">
-                            <h6>Caricamento massivo</h6>
+                            <h4 class="h6">Caricamento massivo</h4>
                             {include uri="design:parts/csv_import_widget.tpl"
                                 example=openpaini('Trasparenza', concat('CsvImportWidgetExample_', $fields.class_identifier), false())
                                 parent_node_id=$fields.parent_node_id
@@ -146,27 +155,37 @@
                     {/foreach}
                     </div>
                 {/if}
-            </div>            
+              </div>
+            </section>            
             {/if}  
 
             {* Nota: visualizzazione e modifica/creazione di una sola nota *}
             {if $trasparenza.has_nota_trasparenza}
-                <div class="callout callout-highlight w-100 mw-100 danger">
-                    <div class="callout-title">
-                        {display_icon('it-help-circle', 'svg', 'icon')}{'Note'|i18n('bootstrapitalia')}
+              <section class="callout danger">
+                <div class="callout-inner">
+                  <div class="callout-title" style="line-height: 1.1em;">
+                      {display_icon('it-help-circle', 'svg', 'icon')}
+                      <span class="text">{'Note'|i18n('bootstrapitalia')}</span>
+                  </div>
+                  <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">
+                      <div class="fst-italic">{attribute_view_gui attribute=$trasparenza.nota_trasparenza.data_map.testo_nota}</div>
+                      <div>
                         {include uri="design:parts/toolbar/node_edit.tpl" current_node=$trasparenza.nota_trasparenza}
                         {include uri="design:parts/toolbar/node_trash.tpl" current_node=$trasparenza.nota_trasparenza}
-                    </div>
-                    <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">
-                        <em>{attribute_view_gui attribute=$trasparenza.nota_trasparenza.data_map.testo_nota}</em>
-                        {if $trasparenza.nota_trasparenza|has_attribute('file')}
-                            <span>{attribute_view_gui attribute=$trasparenza.nota_trasparenza|attribute('file')}</span>
-                        {/if}                        
-                    </div>
+                      </div>
+                      {if $trasparenza.nota_trasparenza|has_attribute('file')}
+                          <span>{attribute_view_gui attribute=$trasparenza.nota_trasparenza|attribute('file')}</span>
+                      {/if}                        
+                  </div>
                 </div>
+              </section>
             {elseif $node.object.can_create}
-                <div class="callout callout-highlight w-100 mw-100 danger p-4">
-                    <div class="callout-title">{display_icon('it-help-circle', 'svg', 'icon')}{'Note'|i18n('bootstrapitalia')}</div>
+                <section class="callout danger ">
+                  <div class="callout-inner">
+                    <h3 class="callout-title" style="line-height: 1.1em;">
+                      {display_icon('it-help-circle', 'svg', 'icon')}
+                      <span class="text">{'Note'|i18n('bootstrapitalia')}</span>
+                    </h3>
                     <form method="post" action="{'content/action'|ezurl(no)}" style="display:inline">
                         <input type="hidden" name="ContentLanguageCode" value="{ezini( 'RegionalSettings', 'ContentObjectLocale', 'site.ini')}" />
                         <input type="hidden" name="HasMainAssignment" value="1" />
@@ -176,7 +195,8 @@
                         <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
                         <button class="btn btn-link p-0" type="submit" name="NewButton"><em>{'Add note'|i18n('bootstrapitalia')}</em></button>
                     </form>
-                </div>
+                  </div>
+                </section>
             {/if}
 
             {* Rappresentazione grafica (esclusa dal conteggio figli) *}

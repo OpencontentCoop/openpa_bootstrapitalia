@@ -18,13 +18,36 @@
     <message>
       <source>License link</source>
       <translation type="unfinished"/>
+    <message>
+      <source>Page reading progress</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Next appointments</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Event daytime text</source>
+      <translation type="unfinished"/>
     </message>
     <message>
       <source>Official noticeboard</source>
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Official noticeboard document identifier</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Official noticeboard archive</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Official noticeboard intro text</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Official noticeboard text to archive</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -53,6 +76,18 @@
     </message>
     <message>
       <source>Stats last month</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Stats pages</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Stats device</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Stats channel</source>
       <translation type="unfinished"/>
     </message>
     <message>
@@ -157,6 +192,10 @@
     </message>
     <message>
       <source>Download file</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Download data in format %extension</source>
       <translation type="unfinished"/>
     </message>
     <message>

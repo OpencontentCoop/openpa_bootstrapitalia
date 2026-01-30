@@ -782,6 +782,7 @@ EOT;
                 'id' => 'auth',
                 'title' => ezpI18n::tr('bootstrapitalia/booking', 'Permissions and conditions'),
                 'required' => [],
+                'focus' => null,
             ],
             [
                 'id' => 'place',
@@ -792,6 +793,7 @@ EOT;
                         'title' => ezpI18n::tr('bootstrapitalia/booking', 'Office'),
                     ],
                 ],
+                'focus' => null,
             ],
             [
                 'id' => 'datetime',
@@ -806,6 +808,7 @@ EOT;
                         'title' => ezpI18n::tr('bootstrapitalia/booking', 'Office'),
                     ],
                 ],
+                'focus' => 'appointment-available',
             ],
             [
                 'id' => 'details',
@@ -820,6 +823,7 @@ EOT;
                         'title' => ezpI18n::tr('bootstrapitalia/booking', 'Detail'),
                     ],
                 ],
+                'focus' => null,
             ],
             [
                 'id' => 'applicant',
@@ -830,11 +834,13 @@ EOT;
                         'title' => ezpI18n::tr('bootstrapitalia/booking', 'Applicant'),
                     ],
                 ],
+                'focus' => null,
             ],
             [
                 'id' => 'summary',
                 'title' => ezpI18n::tr('bootstrapitalia/booking', 'Summary'),
                 'required' => [],
+                'focus' => null,
             ],
         ];
     }

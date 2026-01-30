@@ -29,7 +29,6 @@
               <li class="list-inline-item mb-3">
                 <a href="{$pagedata.contacts.[$social]}"
                   class="p-1 text-white"
-                  aria-label="{$name|wash()}"
                   target="_blank"
                   rel="noopener noreferrer">
                     {if $social|eq('tiktok')}
@@ -49,7 +48,7 @@
                             </g>
                         </svg>
                     {else}
-                        {display_icon(concat('it-', $social), 'svg', 'icon icon-sm icon-white align-top', $name|wash())}
+                        {display_icon(concat('it-', $social), 'svg', 'icon icon-sm icon-white align-top')}
                     {/if}
                     <span class="visually-hidden">{$name|wash()}</span>
                 </a>

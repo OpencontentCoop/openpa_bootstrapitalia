@@ -36,6 +36,8 @@ abstract class BuiltinApp extends OpenPATempletizable
 
     private $deployEnv = self::ENV_PRODUCTION;
 
+    private $hasDynamicServiceId = false;
+
     public function __construct(string $appName, string $appLabel)
     {
         $this->appIdentifier = $appName;
@@ -242,6 +244,7 @@ abstract class BuiltinApp extends OpenPATempletizable
             if (!$this->serviceId) {
                 if ($this->module instanceof eZModule && ServiceSync::isUuid($this->module->ViewParameters[0] ?? '')) {
                     $this->serviceId = $this->module->ViewParameters[0];
+                    $this->hasDynamicServiceId = true;
 //                } else {
 //                    $referrer = eZSys::serverVariable('HTTP_REFERER', true);
 //                    if ($referrer && strpos($referrer, '?service_id=') !== false) {
@@ -260,7 +263,7 @@ abstract class BuiltinApp extends OpenPATempletizable
     {
         if ($this->satisfyEntrypointId === null) {
             $serviceId = $this->getServiceId();
-            if (ServiceSync::isUuid($serviceId)) {
+            if (ServiceSync::isUuid($serviceId) || $this->hasDynamicServiceId === false) {
                 try {
                     $remoteService = StanzaDelCittadinoBridge::factory()->getServiceByIdentifier($serviceId);
                     eZDebug::writeDebug($remoteService['id'], 'Remote service id');
@@ -541,6 +544,22 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'type' => 'string',
                 'current_value' => $current['HelpdeskV2ServiceUuid'],
             ],
+            [
+                'identifier' => 'EnableBookingV2',
+                'label' => 'Prenota appuntamento (formio)',
+                'name' => 'Abilita la versione con formio',
+                'placeholder' => '',
+                'type' => 'boolean',
+                'current_value' => (bool)$current['EnableBookingV2'],
+            ],
+            [
+                'identifier' => 'BookingV2ServiceUuid',
+                'label' => 'Prenota appuntamento (formio)',
+                'name' => 'Id servizio',
+                'placeholder' => '7c01b9ac-63a3-4b32-b822-68a74ca40ee0',
+                'type' => 'string',
+                'current_value' => $current['BookingV2ServiceUuid'],
+            ],
         ];
     }
 
@@ -571,6 +590,8 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'EnableInefficiencyV2' => isset($data[$locale]['EnableInefficiencyV2']) ?? (bool)$data['EnableInefficiencyV2'] ?? false,
                 'InefficiencyV2ServiceUuid' => $data[$locale]['InefficiencyV2ServiceUuid'] ?? null,
                 'ImportDocumentUrl' => $data[$locale]['ImportDocumentUrl'] ?? 'https://import-hub-qa.boat.opencontent.io/import-hub/documents',
+                'EnableBookingV2' => isset($data[$locale]['EnableBookingV2']) ?? (bool)$data['EnableBookingV2'] ?? false,
+                'BookingV2ServiceUuid' => $data[$locale]['BookingV2ServiceUuid'] ?? null,
             ];
         }
 

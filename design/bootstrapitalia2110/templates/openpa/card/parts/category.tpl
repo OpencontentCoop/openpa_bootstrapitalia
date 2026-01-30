@@ -3,12 +3,12 @@
 
     {if $openpa.content_icon.context_icon}
         <a class="category text-decoration-none" href="{$openpa.content_icon.context_icon.node.url_alias|ezurl(no)}">
-            {if $show_icon}{display_icon($openpa.content_icon.context_icon.icon_text, 'svg', 'icon icon-sm', $openpa.content_icon.context_icon.node.name)}{/if}
+            {if $show_icon}{display_icon($openpa.content_icon.context_icon.icon_text, 'svg', 'icon icon-sm')}{/if}
             {include uri='design:openpa/card/parts/icon_label.tpl' fallback=$openpa.content_icon.context_icon.node.name|wash()}
         </a>
     {elseif $openpa.content_icon.class_icon}
         <a class="category text-decoration-none" href="{concat('content/search?Class[]=', $node.object.contentclass_id)|ezurl(no)}">
-            {if $show_icon}{display_icon($openpa.content_icon.class_icon.icon_text, 'svg', 'icon icon-sm', $node.class_name|wash())}{/if}
+            {if $show_icon}{display_icon($openpa.content_icon.class_icon.icon_text, 'svg', 'icon icon-sm')}{/if}
             {include uri='design:openpa/card/parts/icon_label.tpl' fallback=$node.class_name}
         </a>
     {/if}
