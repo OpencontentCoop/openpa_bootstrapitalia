@@ -4,46 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>License title</source>
-      <translation>Inhaltslizenz</translation>
-    </message>
-    <message>
-      <source>License text first</source>
-      <translation>In Anwendung des Open-by-Default-Prinzips gemäß Artikel 52 des Gesetzesdekrets vom 7. März 2005, Nr. 82 (CAD), und sofern nicht anders angegeben (einschließlich eingebetteter Inhalte Dritter), werden die auf der Website veröffentlichten Daten, Dokumente und Informationen unter der</translation>
-    </message>
-    <message>
-      <source>License text second</source>
-      <translation>Die Nutzer sind daher frei, dieses Material zu teilen (zu vervielfältigen, zu verbreiten, öffentlich zugänglich zu machen und öffentlich auszustellen), darzustellen, aufzuführen und vorzutragen, in jedem Medium und Format, sowie es zu bearbeiten (das Material zu verändern und für abgeleitete Werke zu verwenden) für jeden Zweck, auch für kommerzielle Zwecke, unter der alleinigen Verpflichtung zur Namensnennung und ohne zusätzliche Einschränkungen aufzuerlegen.</translation>
-    </message>
-    <message>
-      <source>License link</source>
-      <translation>Lizenz CC-BY 4.0</translation>
-    </message>
-    <message>
-      <source>Official noticeboard</source>
-      <translation>Amtstafel</translation>
-    </message>
-    <message>
-      <source>Official noticeboard archive</source>
-      <translation>Archiv der Amtstafel</translation>
-    </message>
-    <message>
-      <source>Show more elements</source>
-      <translation>Mehr anzeigen / Weniger anzeigen</translation>
-    </message>
-    <message>
-      <source>Other places</source>
-      <translation>Andere Orte</translation>
-    </message>
-      <message>
-      <source>from day</source>
-      <translation>von</translation>
-    </message>
-    <message>
-      <source>to day</source>
-      <translation>bis</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Diese Website verwendet technische, analytische und Drittanbieter-Cookies.</translation>
     </message>
@@ -64,24 +24,12 @@
       <translation>Zum Hauptinhalt wechseln</translation>
     </message>
     <message>
-      <source>Jump to main navigation</source>
-      <translation>Zur Hauptnavigation</translation>
-    </message>
-    <message>
       <source>Jump to section menu</source>
       <translation>Zum Sektionsmenü wechseln</translation>
     </message>
     <message>
       <source>Jump to footer</source>
       <translation>Weiter zur Fußzeile</translation>
-    </message>
-    <message>
-      <source>Go to homepage</source>
-      <translation>Zur Startseite</translation>
-    </message>
-    <message>
-      <source>Expand section</source>
-      <translation>Abschnitt erweitern</translation>
     </message>
     <message>
       <source>Table of contents</source>
@@ -272,10 +220,6 @@
       <translation>Neuigkeiten</translation>
     </message>
     <message>
-      <source>Newsletter signup</source>
-      <translation>Newsletter abonnieren</translation>
-    </message>
-    <message>
       <source>You must select at least one topic not included in %custom_topics_name</source>
       <translation>Sie müssen mindestens ein Thema wählen nicht in %custom_topics_name enthalten</translation>
     </message>
@@ -354,10 +298,6 @@
     <message>
       <source>contents found</source>
       <translation>Gefundene Inhalte</translation>
-    </message>
-    <message>
-      <source>content found</source>
-      <translation>Inhalt gefunden</translation>
     </message>
     <message>
       <source>Load more results</source>
@@ -585,7 +525,7 @@
     </message>
     <message>
       <source>Push place on OpenAgenda</source>
-      <translation></translation>
+      <translation>Ort auf OpenAgenda synchronisieren</translation>
     </message>
     <message>
       <source>Managing administrative and political roles</source>
@@ -621,19 +561,19 @@
     </message>
     <message>
       <source>Explore the section</source>
-      <translation></translation>
+      <translation>Entdecken Sie den Bereich</translation>
     </message>
     <message>
       <source>Active</source>
-      <translation></translation>
+      <translation>Aktiv</translation>
     </message>
     <message>
       <source>Confirmed</source>
-      <translation></translation>
+      <translation>Bestätigt</translation>
     </message>
     <message>
       <source>View all events</source>
-      <translation></translation>
+      <translation>Alle anzeigen</translation>
     </message>
     <message>
       <source>Calendar</source>
@@ -641,7 +581,7 @@
     </message>
     <message>
       <source>Select an item</source>
-      <translation></translation>
+      <translation>Wählen Sie ein Element aus</translation>
     </message>
     <message>
       <source>No results found</source>
@@ -649,19 +589,19 @@
     </message>
     <message>
       <source>When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.</source>
-      <translation></translation>
+      <translation>Wenn Ergebnisse für die automatische Vervollständigung verfügbar sind, verwenden Sie die Aufwärts- und Abwärtspfeile, um sie zu überprüfen, und drücken Sie die Eingabetaste, um eine Auswahl zu treffen. Benutzer von Touch-Geräten können durch Tippen oder Wischen mit Gesten navigieren.</translation>
     </message>
     <message>
       <source>Press Enter or Space to remove selection</source>
-      <translation></translation>
+      <translation>Preise Senden oder Leertaste zum Entfernen der Auswahl</translation>
     </message>
     <message>
       <source>View fullscreen</source>
-      <translation></translation>
+      <translation>Vergrößern</translation>
     </message>
     <message>
       <source>Search by name</source>
-      <translation></translation>
+      <translation>Suche nach Vor- oder Nachname</translation>
     </message>
     <message>
       <source>Precedure view all</source>
@@ -681,15 +621,123 @@
     </message>
     <message>
       <source>Website Stats</source>
-      <translation></translation>
+      <translation>Website-Statistiken</translation>
     </message>
     <message>
       <source>Stats recent</source>
-      <translation></translation>
+      <translation>Aktuelle Statistiken</translation>
     </message>
     <message>
       <source>Stats last month</source>
+      <translation>Statistiken des letzten Monats</translation>
+    </message>
+    <message>
+      <source>Show more elements</source>
+      <translation>Mehr anzeigen / Weniger anzeigen</translation>
+    </message>
+    <message>
+      <source>Other places</source>
+      <translation>Andere Orte</translation>
+    </message>
+    <message>
+      <source>from day</source>
+      <translation>von</translation>
+    </message>
+    <message>
+      <source>to day</source>
+      <translation>bis zum</translation>
+    </message>
+    <message>
+      <source>Jump to main navigation</source>
+      <translation>Zur Hauptnavigation</translation>
+    </message>
+    <message>
+      <source>Go to homepage</source>
+      <translation>Zur Startseite</translation>
+    </message>
+    <message>
+      <source>Expand section</source>
+      <translation>Abschnitt erweitern</translation>
+    </message>
+    <message>
+      <source>content found</source>
+      <translation>Inhalt gefunden</translation>
+    </message>
+    <message>
+      <source>Official noticeboard</source>
+      <translation>Amtstafel</translation>
+    </message>
+    <message>
+      <source>Official noticeboard archive</source>
+      <translation>Archiv der Amtstafel</translation>
+    </message>
+    <message>
+      <source>Next appointments</source>
+      <translation>Die nächsten Termine sind:</translation>
+    </message>
+    <message>
+      <source>Event daytime text</source>
+      <translation>Die Veranstaltung läuft vom</translation>
+    </message>
+    <message>
+      <source>Official noticeboard text to archive</source>
+      <translation>Frühere Veröffentlichungen finden Sie auf der Seite</translation>
+    </message>
+    <message>
+      <source>Newsletter signup</source>
+      <translation>Newsletter abonnieren</translation>
+    </message>
+    <message>
+      <source>Stats pages</source>
+      <translation>Seiten</translation>
+    </message>
+    <message>
+      <source>Stats device</source>
+      <translation>Gerätetyp</translation>
+    </message>
+    <message>
+      <source>Stats channel</source>
+      <translation>Kanaltypen</translation>
+    </message>
+    <message>
+      <source>Official noticeboard document identifier</source>
+      <translation>Register-Nr. des Amtsblattes</translation>
+    </message>
+    <message>
+      <source>License title</source>
+      <translation>Inhaltslizenz</translation>
+    </message>
+    <message>
+      <source>License text first</source>
+      <translation>In Anwendung des Open-by-Default-Prinzips gemäß Artikel 52 des Gesetzesdekrets vom 7. März 2005, Nr. 82 (CAD), und sofern nicht anders angegeben (einschließlich eingebetteter Inhalte Dritter), werden die auf der Website veröffentlichten Daten, Dokumente und Informationen unter der</translation>
+    </message>
+    <message>
+      <source>License text second</source>
+      <translation>Die Nutzer sind daher frei, dieses Material zu teilen (zu vervielfältigen, zu verbreiten, öffentlich zugänglich zu machen und öffentlich auszustellen), darzustellen, aufzuführen und vorzutragen, in jedem Medium und Format, sowie es zu bearbeiten (das Material zu verändern und für abgeleitete Werke zu verwenden) für jeden Zweck, auch für kommerzielle Zwecke, unter der alleinigen Verpflichtung zur Namensnennung und ohne zusätzliche Einschränkungen aufzuerlegen.</translation>
+    </message>
+    <message>
+      <source>License link</source>
+      <translation>Lizenz CC-BY 4.0</translation>
+    </message>
+    <message>
+      <source>from</source>
       <translation></translation>
+    </message>
+    <message>
+      <source>to</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard intro text</source>
+      <translation>In diesem Bereich werden die Verwaltungsakte veröffentlicht, für die gemäß den geltenden Rechtsvorschriften eine Veröffentlichungspflicht besteht.</translation>
+    </message>
+    <message>
+      <source>Download data in format %extension</source>
+      <translation>Lade die Daten im %extension-Format herunter</translation>
+    </message>
+    <message>
+      <source>Page reading progress</source>
+      <translation>Lesefortschritt der Seit</translation>
     </message>
   </context>
   <context>
@@ -1381,7 +1429,7 @@
     </message>
     <message>
       <source>Documents results</source>
-      <translation></translation>
+      <translation>Dokumente</translation>
     </message>
     <message>
       <source>Dataset results</source>
@@ -1393,7 +1441,7 @@
     </message>
     <message>
       <source>No results were found</source>
-      <translation></translation>
+      <translation>Keine Ergebnisse</translation>
     </message>
     <message>
       <source>Document result</source>
@@ -1469,10 +1517,7 @@
     </message>
     <message>
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
-      <translation>Diese Website verwendet technische Cookies, die für das reibungslose Funktionieren der Webseiten erforderlich sind, sowie Analyse- und Messungscookies sowie Cookies von Drittanbietern. &#13;
-Wenn Sie "Alle Cookies zulassen" wählen, stimmen Sie der Verwendung aller Cookies zu. &#13;
-Wenn Sie "Alle Cookies blockieren" wählen oder das Banner schließen, werden nur technische Cookies verwendet, wodurch einige Funktionen und Inhalte eventuell nicht verfügbar sind. &#13;
-Sie können Ihre Einstellungen jederzeit in der Cookie-Erklärung ändern.</translation>
+      <translation>Diese Website verwendet technische, Analyse- und Drittanbieter-Cookies. Mit „Alle Cookies akzeptieren“ stimmen Sie der Verwendung aller Cookies zu; mit „Notwendige Cookies akzeptieren“ oder durch Schließen des Banners werden nur technisch notwendige Cookies verwendet, wodurch einige Funktionen möglicherweise eingeschränkt sind. Die Einstellungen können jederzeit in der Cookie-Richtlinie geändert werden.</translation>
     </message>
     <message>
       <source>Accept all cookies</source>
@@ -1553,35 +1598,35 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Accept necessary cookies</source>
-      <translation></translation>
+      <translation>Notwendige Cookies zulassen</translation>
     </message>
     <message>
       <source>Accept necessary cookies and close</source>
-      <translation></translation>
+      <translation>Notwendige Cookies zulassen und schließen</translation>
     </message>
     <message>
       <source>Always Enabled</source>
-      <translation></translation>
+      <translation>Immer aktiviert</translation>
     </message>
     <message>
       <source>Service | Services</source>
-      <translation></translation>
+      <translation>Dienst | Dienste</translation>
     </message>
     <message>
       <source>Close</source>
-      <translation></translation>
+      <translation>Schließen</translation>
     </message>
     <message>
       <source>Accept third-party cookies to watch the video</source>
-      <translation></translation>
+      <translation>Akzeptiere die Cookies von Drittanbietern, um das Video anzusehen.</translation>
     </message>
     <message>
       <source>Accept for this video</source>
-      <translation></translation>
+      <translation>Für dieses Video akzeptieren</translation>
     </message>
     <message>
       <source>Accept for all videos</source>
-      <translation></translation>
+      <translation>Für alle Videos akzeptieren</translation>
     </message>
   </context>
   <context>
@@ -1650,11 +1695,11 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Fill out the form</source>
-      <translation></translation>
+      <translation>Ausfüllen</translation>
     </message>
     <message>
       <source>Make a payment</source>
-      <translation></translation>
+      <translation>Zahlung vornehmen</translation>
     </message>
   </context>
   <context>
@@ -1781,6 +1826,10 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>Other settings</source>
       <translation>Andere Einstellungen</translation>
+    </message>
+    <message>
+      <source>Dataset Map</source>
+      <translation>Datensatzbasierte Karte</translation>
     </message>
   </context>
   <context>
@@ -1991,7 +2040,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>There are no dates available for the selected period</source>
-      <translation>Für den ausgewählten Zeitraum sind keine Termine verfügbar</translation>
+      <translation>Das gewählte Datum und die gewählte Uhrzeit sind nicht mehr verfügbar. Bitte wählen Sie ein anderes Datum oder eine andere Uhrzeit aus den verfügbaren Optionen.</translation>
     </message>
     <message>
       <source>Select another location or another period</source>
@@ -2147,11 +2196,11 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Date start</source>
-      <translation></translation>
+      <translation>Beginn</translation>
     </message>
     <message>
       <source>Date end</source>
-      <translation></translation>
+      <translation>Ende</translation>
     </message>
   </context>
   <context>
