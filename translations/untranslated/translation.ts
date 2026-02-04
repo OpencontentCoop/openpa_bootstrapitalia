@@ -4,6 +4,21 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>License title</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>License text first</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>License text second</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>License link</source>
+      <translation type="unfinished"/>
+    <message>
       <source>Page reading progress</source>
       <translation type="unfinished"/>
     </message>
