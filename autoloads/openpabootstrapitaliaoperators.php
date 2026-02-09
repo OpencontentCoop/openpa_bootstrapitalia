@@ -1548,6 +1548,7 @@ class OpenPABootstrapItaliaOperators
     private static function getCookieConsentConfigTranslations()
     {
         $modalMainTextMoreLink = false;
+        $barMainTitle = ezpI18n::tr('bootstrapitalia/cookieconsent', 'Cookie preferences');
         $learnMore = ezpI18n::tr('bootstrapitalia/cookieconsent', 'Cookie policy');
         $barMainText = ezpI18n::tr('bootstrapitalia/cookieconsent', 'This website uses cookies to ensure you get the best experience on our website.');
         $barBtnAcceptAll = ezpI18n::tr('bootstrapitalia/cookieconsent', 'Accept all cookies');
@@ -1577,6 +1578,7 @@ class OpenPABootstrapItaliaOperators
         return [
             'modalMainTextMoreLink' => $modalMainTextMoreLink,
             'learnMore' => $learnMore,
+            'barMainTitle' => $barMainTitle,
             'barMainText' => $barMainText,
             'barBtnAcceptAll' => $barBtnAcceptAll,
             'barBtnAcceptNecessary' => ezpI18n::tr('bootstrapitalia/cookieconsent', 'Accept necessary cookies'),

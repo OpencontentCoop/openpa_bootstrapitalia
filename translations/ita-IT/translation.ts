@@ -1512,6 +1512,10 @@
   <context>
     <name>bootstrapitalia/cookieconsent</name>
     <message>
+      <source>Cookie preferences</source>
+      <translation>Preferenze sui cookie</translation>
+    </message>
+    <message>
       <source>Cookie policy</source>
       <translation>Leggi la cookie policy</translation>
     </message>

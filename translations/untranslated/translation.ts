@@ -1503,6 +1503,10 @@
   <context>
     <name>bootstrapitalia/cookieconsent</name>
     <message>
+      <source>Cookie preferences</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Cookie policy</source>
       <translation type="unfinished"/>
     </message>
