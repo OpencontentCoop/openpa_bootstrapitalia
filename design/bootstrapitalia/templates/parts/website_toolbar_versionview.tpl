@@ -8,7 +8,6 @@
     <li class="publish-buttons">
     {if or( and( eq( $version.status, 0 ), $is_creator, $object.can_edit ),and( eq( $object.status, 2 ), $object.can_edit ) )}
         <input type="submit" class="btn btn-xs btn-success" name="EditButton" value="{'Edit'|i18n( 'design/standard/content/view/versionview' )}" />
-        <input type="submit" class="btn btn-xs btn-success" name="PreviewPublishButton" value="{'Publish'|i18n( 'design/standard/content/view/versionview' )}" />
     {/if}
     </li>
 

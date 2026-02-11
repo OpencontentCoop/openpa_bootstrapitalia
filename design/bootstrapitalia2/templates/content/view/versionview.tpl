@@ -83,7 +83,6 @@
 
 <div class="buttonblock">
 {if and(eq($version.status,0),$is_creator,$object.can_edit)}
-<input class="button" type="submit" name="PreviewPublishButton" value="{'Publish'|i18n('design/standard/content/view')}" />
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/view')}" />
 {/if}
 
