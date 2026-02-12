@@ -1512,10 +1512,6 @@
   <context>
     <name>bootstrapitalia/cookieconsent</name>
     <message>
-      <source>Cookie preferences</source>
-      <translation>Preferenze sui cookie</translation>
-    </message>
-    <message>
       <source>Cookie policy</source>
       <translation>Leggi la cookie policy</translation>
     </message>
@@ -1631,6 +1627,10 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Accept for all videos</source>
       <translation>Accetta per tutti i video</translation>
+    </message>
+    <message>
+      <source>Cookie preferences</source>
+      <translation>Preferenze sui cookie</translation>
     </message>
   </context>
   <context>

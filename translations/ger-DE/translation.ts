@@ -1628,6 +1628,10 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <source>Accept for all videos</source>
       <translation>Für alle Videos akzeptieren</translation>
     </message>
+    <message>
+      <source>Cookie preferences</source>
+      <translation>Cookie-Einstellungen</translation>
+    </message>
   </context>
   <context>
     <name>openparoletype</name>
