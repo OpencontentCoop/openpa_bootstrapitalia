@@ -95,7 +95,7 @@
       translations: {
         {/literal}{$site.http_equiv.Content-language|wash}{literal}: {
           consentModal: {
-            title: '   ',
+            title: CookieConsentSettings.barMainTitle,
             description: CookieConsentSettings.barMainText,
             closeIconLabel: CookieConsentSettings.close,
             acceptAllBtn: CookieConsentSettings.barBtnAcceptAll,
