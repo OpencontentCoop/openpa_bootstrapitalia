@@ -10,7 +10,7 @@
         <div class="card-text">
             <p class="mt-3">
                 <a data-shared_link="{$node.contentobject_id}"
-                  data-shared_link_view="card_teaser"
+                  data-shared_link_view="card_teaser_info"
                   target="_blank"
                   rel="noopener noreferrer"
                   href="{$openpa.content_link.full_link}">
