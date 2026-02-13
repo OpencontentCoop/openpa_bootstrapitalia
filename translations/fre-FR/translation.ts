@@ -4,30 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Next appointments</source>
-      <translation>Les prochains événements sont :</translation>
-    </message>
-    <message>
-      <source>Event daytime text</source>
-      <translation>L’événement a lieu du</translation>
-    </message>
-    <message>
-      <source>Show more elements</source>
-      <translation>Afficher plus / Afficher moins</translation>
-    </message>
-    <message>
-      <source>Other places</source>
-      <translation>Autres lieux</translation>
-    </message>
-      <message>
-      <source>from day</source>
-      <translation>de</translation>
-    </message>
-    <message>
-      <source>to day</source>
-      <translation>à</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Ce site utilise des cookies techniques, d’analyse et de tiers.</translation>
     </message>
@@ -49,23 +25,11 @@
     </message>
     <message>
       <source>Jump to section menu</source>
-      <translation>Aller au menu de navigation principal</translation>
-    </message>
-    <message>
-      <source>Jump to main navigation</source>
-      <translation>Zur Hauptnavigation</translation>
+      <translation>Aller au menu de la rubrique</translation>
     </message>
     <message>
       <source>Jump to footer</source>
       <translation>Aller au pied de page</translation>
-    </message>
-    <message>
-      <source>Go to homepage</source>
-      <translation>Aller à la page d’accueil</translation>
-    </message>
-    <message>
-      <source>Expand section</source>
-      <translation>Déplier la section</translation>
     </message>
     <message>
       <source>Table of contents</source>
@@ -334,10 +298,6 @@
     <message>
       <source>contents found</source>
       <translation>contenus trouvés</translation>
-    </message>
-    <message>
-      <source>content found</source>
-      <translation>contenu trouvé</translation>
     </message>
     <message>
       <source>Load more results</source>
@@ -670,6 +630,114 @@
     <message>
       <source>Stats last month</source>
       <translation></translation>
+    </message>
+    <message>
+      <source>Show more elements</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Other places</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>from day</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>to day</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Jump to main navigation</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Go to homepage</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Expand section</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>content found</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard archive</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Next appointments</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Event daytime text</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard text to archive</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Newsletter signup</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats pages</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats device</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats channel</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard document identifier</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>License title</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>License text first</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>License text second</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>License link</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>from</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>to</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard intro text</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Download data in format %extension</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Page reading progress</source>
+      <translation>Progression de lecture de la page</translation>
     </message>
   </context>
   <context>
@@ -1276,21 +1344,21 @@
     <name>openpa/date_format</name>
     <message>
       <source>dd/MM/yyyy</source>
-      <translation>dd/MM/yyyy</translation>
+      <translation>jj/mm/aaaa</translation>
     </message>
   </context>
   <context>
     <name>openpa/moment_date_format</name>
     <message>
       <source>DD/MM/YYYY</source>
-      <translation>DD/MM/YYYY</translation>
+      <translation>JJ/MM/AAAA</translation>
     </message>
   </context>
   <context>
     <name>openpa/moment_datetime_format</name>
     <message>
       <source>DD/MM/YYYY HH:mm</source>
-      <translation>DD/MM/YYYY HH:MM</translation>
+      <translation>JJ/MM/AAAA HH:MM</translation>
     </message>
   </context>
   <context>
@@ -1449,10 +1517,7 @@
     </message>
     <message>
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
-      <translation>Ce site utilise des cookies techniques essentiels au bon fonctionnement des pages Internet, des cookies d’analyse et de mesure et des cookies tiers. 
-En sélectionnant « Accepter tous les cookies », vous consentez à l’utilisation de tous les cookies. 
-En sélectionnant « Refuser tous les cookies » ou en fermant la bannière, seuls les cookies techniques seront utilisés : certaines fonctionnalités et certains contenus peuvent ne pas être disponibles. 
-La préférence peut être modifiée à tout moment à partir de la politique en matière de cookies.</translation>
+      <translation>Ce site utilise des cookies techniques essentiels au bon fonctionnement des pages web, des cookies d’analyse et de mesure ainsi que des cookies tiers. En sélectionnant « Accepter tous les cookies », vous consentez à l’utilisation de tous les cookies. En sélectionnant « Accepter les cookies nécessaires » ou en fermant le bandeau, seuls les cookies techniques seront utilisés ; certaines fonctionnalités et certains contenus pourraient alors ne pas être disponibles. La préférence peut être modifiée à tout moment depuis la Politique relative aux cookies.</translation>
     </message>
     <message>
       <source>Accept all cookies</source>
@@ -1562,6 +1627,10 @@ Ils sont essentiellement utilisés pour mesurer et améliorer la qualité des si
     <message>
       <source>Accept for all videos</source>
       <translation>Accepter pour toutes les vidéos</translation>
+    </message>
+    <message>
+      <source>Cookie preferences</source>
+      <translation>Préférences des cookies</translation>
     </message>
   </context>
   <context>
@@ -1761,6 +1830,10 @@ Ils sont essentiellement utilisés pour mesurer et améliorer la qualité des si
     <message>
       <source>Other settings</source>
       <translation>Autres paramètres</translation>
+    </message>
+    <message>
+      <source>Dataset Map</source>
+      <translation></translation>
     </message>
   </context>
   <context>
@@ -1971,7 +2044,7 @@ Ils sont essentiellement utilisés pour mesurer et améliorer la qualité des si
     </message>
     <message>
       <source>There are no dates available for the selected period</source>
-      <translation>Il n’y a pas de dates disponibles pour la période sélectionnée</translation>
+      <translation>La date et l’heure sélectionnées ne sont plus disponibles. Veuillez choisir une autre date ou un autre créneau parmi ceux disponibles.</translation>
     </message>
     <message>
       <source>Select another location or another period</source>

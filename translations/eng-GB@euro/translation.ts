@@ -1628,6 +1628,10 @@ They are essentially used to measure and improve the quality of sites by analysi
       <source>Accept for all videos</source>
       <translation>Accept for all videos</translation>
     </message>
+    <message>
+      <source>Cookie preferences</source>
+      <translation>Cookie preferences</translation>
+    </message>
   </context>
   <context>
     <name>openparoletype</name>

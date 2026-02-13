@@ -1563,6 +1563,10 @@ Eles são usados essencialmente para medir e melhorar a qualidade dos sites por 
       <source>Accept for all videos</source>
       <translation>Aceitar para todos os vídeos</translation>
     </message>
+    <message>
+      <source>Cookie preferences</source>
+      <translation>Preferências de cookies</translation>
+    </message>
   </context>
   <context>
     <name>openparoletype</name>

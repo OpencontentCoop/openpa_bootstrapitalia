@@ -1632,6 +1632,10 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Accept for all videos</source>
       <translation>Accetta per tutti i video</translation>
     </message>
+    <message>
+      <source>Cookie preferences</source>
+      <translation>Preferenze sui cookie</translation>
+    </message>
   </context>
   <context>
     <name>openparoletype</name>
