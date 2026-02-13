@@ -345,6 +345,7 @@ class BootstrapItaliaInstallerUtils
             if ($headerLinks) {
                 $currentItems = explode('-', $headerLinks->toString());
                 $currentItems[] = $object->attribute('id');
+                $currentItems = array_unique($currentItems);
                 $headerLinks->fromString(implode('-', $currentItems));
                 $headerLinks->store();
             }
