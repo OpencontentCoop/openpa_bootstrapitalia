@@ -989,10 +989,13 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
 
     resetScheduler: function (){
       let self = this
+      const loader = document.querySelector('#appointment-scheduler .scheduler-loader');
       if (self.isSchedulerLoading) {
         return
       }
       self.isSchedulerLoading = true;
+      loader?.classList.remove('d-none')
+      
       $('[name="calendars[]"]').not(':checked').attr('disabled','disabled')
       let calendars = self.filterCalendars()
       self.debug('reset-scheduler', calendars)
@@ -1039,7 +1042,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
               self.selectSchedulerEvent(info.event, true)
             },
             loading: function (isLoading) {
-              // console.log(isLoading)
+              console.log(isLoading)
             },
             locale: 'it-IT',
             date: startDate,
@@ -1078,6 +1081,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             }]
           });
           self.isSchedulerLoading = false;
+          loader?.classList.add('d-none');
           $('[name="calendars[]"]').not(':checked').removeAttr('disabled');
           self.eventCalendar.refetchEvents()
         })
