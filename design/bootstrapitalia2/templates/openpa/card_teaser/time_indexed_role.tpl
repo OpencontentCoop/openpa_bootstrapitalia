@@ -49,7 +49,7 @@
             {if $role}{$role}{/if} {if $for_entity}{$for_entity.name|wash()}{/if}
             {include uri='design:openpa/card_teaser/parts/attributes.tpl'}
             {if and($person, $attributes.show|contains('content_show_read_more'))}
-                <p class="mt-3"><a href="{$person.url_alias|ezurl(no)}" title="{'Go to content'|i18n('bootstrapitalia')} {$person.name|wash()}">{'Further details'|i18n('bootstrapitalia')}</a></p>
+                <p class="mt-3"><a href="{$person.url_alias|ezurl(no)}" aria-label="{'Go to content'|i18n('bootstrapitalia')}="{'Go to content'|i18n('bootstrapitalia')} {$person.name|wash()}">{'Further details'|i18n('bootstrapitalia')}</a></p>
             {/if}
         </div>
     </div>
@@ -60,7 +60,7 @@
     </div>
     {/if}
     {if $attributes.show|contains('content_show_read_more')}
-        <a class="read-more{if $has_image} ps-3 position-absolute bottom-0 mb-3{/if}" href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">
+        <a class="read-more{if $has_image} ps-3 position-absolute bottom-0 mb-3{/if}" href="{$openpa.content_link.full_link}" aria-label="{'Go to content'|i18n('bootstrapitalia')}="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">
             <span class="text">{'Further details'|i18n('bootstrapitalia')}</span>
             {display_icon('it-arrow-right', 'svg', 'icon ms-0')}
         </a>
