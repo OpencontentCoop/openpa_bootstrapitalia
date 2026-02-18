@@ -565,7 +565,7 @@ EOT;
         return $availabilities;
     }
 
-    public function getScheduler(array $calendars): array
+    public function getScheduler(array $calendars, int $max_rolling_days): array
     {
         $min = '24:00';
         $max = '00:00';
@@ -581,12 +581,21 @@ EOT;
                 $min = min($min, $openingHour['begin_hour']);
                 $max = max($max, $openingHour['end_hour']);
                 $hideDays = array_diff($hideDays, $openingHour['days_of_week']);
-                $slot = min($slot, ($openingHour['meeting_minutes'] + $openingHour['interval_minutes']));
+                $slot = min(
+                    $slot,
+                    ($openingHour['meeting_minutes'] + $openingHour['interval_minutes'])
+                );
             }
         }
 
         $start = new DateTimeImmutable();
-        $firstAvailability = $this->findFirstAvailabilityRecursive($calendars, $start, 10, 60);
+
+        $firstAvailability = $this->findFirstAvailabilityRecursive(
+            $calendars,
+            $start,
+            10,
+            $max_rolling_days
+        );
 
         $firstAvailabilityAsString = $firstAvailability[0]['extendedProps']['date'] ?? null;
 
