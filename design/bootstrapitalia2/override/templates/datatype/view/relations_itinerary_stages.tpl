@@ -5,9 +5,9 @@
             {def $object = fetch( content, object, hash( object_id, $item.contentobject_id ) )}
             <div class="procedure-item mb-5">
                 <div class="procedure-item-header d-flex align-items-center"
-                     id="heading-{$object.id}">
+                    id="heading-{$object.id}">
                     <span class="procedure-number">{$counter}</span>
-                    <span class="procedure-title lh-1">{$object.name|wash()}</span>
+                    <h3 class="procedure-title">{$object.name|wash()}</h3>
                 </div>
                 <div class="procedure-item-body pt-3">
                     <div class="procedure-item-content richtext-wrapper lora">
@@ -65,6 +65,10 @@
     }
     .procedure-title{
         padding: 7px 10px;
+        font-size: 1em;
+        line-height: 1;
+        font-weight: 600;
+        margin-bottom: 0;
     }
     .procedure-number{
         padding: 7px 20px;
