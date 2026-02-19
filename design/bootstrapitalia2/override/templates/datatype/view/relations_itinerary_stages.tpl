@@ -1,5 +1,11 @@
 {if $attribute.has_content}
-    <div class="procedure-wrapper" id="procedure-{$attribute.id}">
+  {def $nodes = array()}
+  {foreach $attribute.content.relation_list as $item}
+    {set $nodes = $nodes|append(fetch(content, node, hash(node_id, $item['node_id'])))}
+  {/foreach}
+  {*include uri='design:atoms/itinerary_map.tpl' items=$nodes block_id=$attribute.id name="itinerary-map"*}
+  {undef $nodes}
+  <div class="procedure-wrapper" id="procedure-{$attribute.id}">
         {foreach $attribute.content.relation_list as $index => $item}
             {def $counter = $index|inc()}
             {def $object = fetch( content, object, hash( object_id, $item.contentobject_id ) )}
