@@ -21,7 +21,7 @@
         {/if}
         {if $hide_title|not()}
         <h3 class="card-title h4 u-grey-light">
-            <a data-element="{$openpa.data_element.value|wash()}" class="text-decoration-none stretched-link" href="{$openpa.content_link.full_link}" title="{'Go to content'|i18n('bootstrapitalia')} {$node.name|wash()}">
+            <a data-element="{$openpa.data_element.value|wash()}" class="text-decoration-none stretched-link" href="{$openpa.content_link.full_link}">
             {include uri='design:openpa/card_teaser/parts/card_title.tpl'}
             </a>
             {if and($openpa.content_link.is_node_link|not(), $node.can_edit)}

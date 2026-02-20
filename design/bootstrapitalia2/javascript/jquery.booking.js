@@ -753,9 +753,11 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       this.stepperLoading.hide()
       $('.step.container').hide()
       this.steps.removeClass('active')
+      this.steps.removeAttr('aria-current')
       this.stepper.find('[data-status="step-status-active"]').attr('aria-hidden', true)
       this.setCurrentData('step', index)
       this.currentStep().addClass('active')
+      this.currentStep().attr('aria-current', 'step')
       this.currentStep().find('[data-status="step-status-active"]').attr('aria-hidden', false)
       this.currentStepContainer().show()
       this.pushState()
@@ -1527,11 +1529,11 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
     },
 
     showInputError: function (input) {
-      input.parent().find('.form-text').addClass('text-warning').addClass('font-weight-bold')
+      input.parent().find('.form-text').addClass('text-warning').addClass('font-weight-bold').attr('role', 'alert')
     },
 
     hideInputError: function (input) {
-      input.parent().find('.form-text').removeClass('text-warning').removeClass('font-weight-bold')
+      input.parent().find('.form-text').removeClass('text-warning').removeClass('font-weight-bold').removeAttr('role')
     },
 
     makeSummary: function () {
