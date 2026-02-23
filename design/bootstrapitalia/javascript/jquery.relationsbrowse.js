@@ -251,16 +251,19 @@
         },
 
         isItemVisible: function (classIdentifier, stateIdentifiers, sectionIdentifier) {
-          if (classIdentifier === 'howto_step'){
+          if (['howto_step', 'itinerary_stage', 'timeline_element'].includes(classIdentifier)) {
             return true;
           }
-          const states = stateIdentifiers.map(str =>
-            str.replace(/[./]/g, "/")   // unifica . e / in /
-          );
-          if (states.includes('privacy/public') && sectionIdentifier === 'standard'){
-            return true;
-          }
-          return true;
+
+          const states = (stateIdentifiers || [])
+            .map(s => String(s).trim().replace(/[./]/g, '/'));
+
+          const isPublic = states.includes('privacy/public');
+          const isAllowedSection = ['standard', 'media'].includes(sectionIdentifier);
+
+          if (isPublic && isAllowedSection) return true;
+
+          return false;
         },
 
         buildTreeSelect: function () {
