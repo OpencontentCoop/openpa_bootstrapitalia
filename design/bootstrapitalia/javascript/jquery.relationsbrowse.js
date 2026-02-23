@@ -250,6 +250,19 @@
             }
         },
 
+        isItemVisible: function (classIdentifier, stateIdentifiers, sectionIdentifier) {
+          if (classIdentifier === 'howto_step'){
+            return true;
+          }
+          const states = stateIdentifiers.map(str =>
+            str.replace(/[./]/g, "/")   // unifica . e / in /
+          );
+          if (states.includes('privacy/public') && sectionIdentifier === 'standard'){
+            return true;
+          }
+          return true;
+        },
+
         buildTreeSelect: function () {
             var self = this;
 
@@ -297,7 +310,7 @@
                                 class_identifier: this.class_identifier,
                                 is_container: this.is_container,
                                 thumbnail_url: this.thumbnail_url,
-                                is_visible: (this.contentobject_state && !this.contentobject_state.includes('privacy/private')) && this.section_id === 1
+                                is_visible: self.isItemVisible(this.class_identifier, this.contentobject_state.split(','), this.section.name.toLowerCase())
                             };
 
                             var listItem = self.makeListItem(item);
@@ -467,7 +480,7 @@
                                     class_identifier: this.metadata.classIdentifier,
                                     is_container: false,
                                     thumbnail_url: thumbnail,
-                                    is_visible: (this.contentobject_state && !this.contentobject_state.includes('privacy/private')) && this.section_id === 1
+                                    is_visible: self.isItemVisible(this.metadata.classIdentifier, this.metadata.stateIdentifiers, this.metadata.sectionIdentifier)
                                 };
 
                                 var listItem = self.makeListItem(item);
