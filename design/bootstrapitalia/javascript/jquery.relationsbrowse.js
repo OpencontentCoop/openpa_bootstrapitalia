@@ -297,7 +297,7 @@
                                 class_identifier: this.class_identifier,
                                 is_container: this.is_container,
                                 thumbnail_url: this.thumbnail_url,
-                                is_visible: !this.contentobject_state.includes('privacy/private') && this.section_id === 1
+                                is_visible: (this.contentobject_state && !this.contentobject_state.includes('privacy/private')) && this.section_id === 1
                             };
 
                             var listItem = self.makeListItem(item);
@@ -467,7 +467,7 @@
                                     class_identifier: this.metadata.classIdentifier,
                                     is_container: false,
                                     thumbnail_url: thumbnail,
-                                    is_visible: !this.contentobject_state.includes('privacy/private') && this.section_id === 1
+                                    is_visible: (this.contentobject_state && !this.contentobject_state.includes('privacy/private')) && this.section_id === 1
                                 };
 
                                 var listItem = self.makeListItem(item);
