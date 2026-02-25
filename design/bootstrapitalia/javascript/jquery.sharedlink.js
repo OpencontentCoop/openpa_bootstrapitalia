@@ -1,3 +1,4 @@
+function sharedLinkCallback(){}
 $(document).ready(function () {
     // Corregge l'altezza del masonry quando si espande o si nasconde un elemento al suo interno
     $('.card-text .collapse').on('shown.bs.collapse hidden.bs.collapse', function (){
@@ -29,29 +30,24 @@ $(document).ready(function () {
                 type: "GET",
                 url: remoteApi,
                 dataType: 'jsonp',
-                cache:true,
-                success: function (response,textStatus,jqXHR) {
-                    if (response.extradata){
-                        let extradata = $.opendataTools.helpers.i18n(response.extradata, 'view');
-                        if (extradata.length > 0) {
-                            var data = $(extradata);
-                            data.find('a').each(function() {
-                                $(this).attr('target','_blank');
-                            });
-                            container.replaceWith(data);
-                            if (wrapper.length > 0) {
-                                bootstrap.Masonry.getOrCreateInstance(wrapper[0]).dispose()
-                                bootstrap.Masonry.getOrCreateInstance(wrapper[0])
-                            }
-                        }
+                jsonpCallback: 'sharedLinkCallback', // allow remote cache
+                contentType: 'application/json',
+                cache: true,
+                success: function (response) {
+                  if (response.extradata){
+                    let extradata = $.opendataTools.helpers.i18n(response.extradata, 'view');
+                    if (extradata.length > 0) {
+                      var data = $(extradata);
+                      data.find('a').each(function() {
+                        $(this).attr('target','_blank');
+                      });
+                      container.replaceWith(data);
+                      if (wrapper.length > 0) {
+                        bootstrap.Masonry.getOrCreateInstance(wrapper[0]).dispose()
+                        bootstrap.Masonry.getOrCreateInstance(wrapper[0])
+                      }
                     }
-                },
-                error: function (jqXHR) {
-                    let error = {
-                        error_code: jqXHR.status,
-                        error_message: jqXHR.statusText
-                    };
-                    console.log(error,jqXHR);
+                  }
                 }
             });
         }
