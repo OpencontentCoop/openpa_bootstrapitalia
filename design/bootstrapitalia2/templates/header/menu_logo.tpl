@@ -2,7 +2,7 @@
 {def $colorize_logo = cond(and($pagedata.header.logo.mime_type|eq('image/png'), and( $pagedata.homepage|has_attribute('colorize_logo'), $pagedata.homepage|attribute('colorize_logo').data_int|eq(1) )), true(), false())}
 {def $logo_is_white = cond(and( $pagedata.homepage|has_attribute('logo_is_white'), $pagedata.homepage|attribute('logo_is_white').data_int|eq(1) ), true(), false())}
 
-<a href="#" aria-label="home Nome del Comune" class="logo-hamburger">
+<a href="{'/'|ezurl(no)}" title="{'Go to homepage'|i18n('bootstrapitalia')}" class="logo-hamburger">
     {if $pagedata.header.logo.url}
         <img class="icon {if $colorize_logo}colorize{/if} {if $logo_is_white}bg-primary p-1 rounded{/if}"
           alt="{ezini('SiteSettings','SiteName')}"
