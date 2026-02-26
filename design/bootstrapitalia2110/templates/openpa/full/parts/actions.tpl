@@ -62,7 +62,7 @@
                 <li>
                     <a role="menuitem"
                       class="list-item text-nowrap"
-                      href="http://www.linkedin.com/shareArticle?mini=true&amp;url={$node.url_alias|ezurl(no,full)|urlencode}&title={$node.name|wash()}&ro=false&source={ezini('SiteSettings','SiteURL')}">
+                      href="https://www.linkedin.com/shareArticle?mini=true&amp;url={$node.url_alias|ezurl(no,full)|urlencode}&title={$node.name|wash()}&ro=false&source={ezini('SiteSettings','SiteURL')}">
                         {display_icon('it-linkedin', 'svg', 'icon')}
                         <span>Linkedin</span>
                     </a>
