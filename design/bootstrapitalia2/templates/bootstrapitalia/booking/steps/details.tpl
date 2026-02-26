@@ -19,11 +19,12 @@
                                 </div>
                                 <div class="card-body p-0">
                                     <div class="select-wrapper p-0 select-partials">
-                                        <label for="motivo-appuntamento" class="visually-hidden">{'Reason for the appointment'|i18n('bootstrapitalia/booking')}</label>
+                                        
                                         {if $service}
                                             <span class="p-1 d-block border-bottom">{$service.name|wash()}</span>
                                             <input type="hidden" id="motivo-appuntamento" name="subject-precompiled" value="{$service.name|wash()}">
                                         {else}
+                                            <label for="motivo-appuntamento" class="visually-hidden">{'Reason for the appointment'|i18n('bootstrapitalia/booking')}</label>
                                             <input type="text" id="motivo-appuntamento" name="subject" data-focus-mouse="false" value="">
                                         {/if}
                                     </div>
