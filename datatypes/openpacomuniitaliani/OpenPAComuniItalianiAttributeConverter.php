@@ -16,6 +16,9 @@ class OpenPAComuniItalianiAttributeConverter extends Base
 
     public function set($data, PublicationProcess $process)
     {
+        if (isset($data[0]['code'])) {
+            $data = array_column($data, 'code');
+        }
         $data = array_unique((array)$data);
         $codes = OpenPAComuniItaliani::getCodesFromCodes($data);
         if (empty($codes)){
@@ -27,6 +30,9 @@ class OpenPAComuniItalianiAttributeConverter extends Base
     public static function validate($identifier, $data, eZContentClassAttribute $attribute)
     {
         if (is_array($data) && !empty($data)) {
+            if (isset($data[0]['code'])) {
+                $data = array_column($data, 'code');
+            }
             $data = array_unique($data);
             $validData = OpenPAComuniItaliani::getCodesFromCodes((array)$data);
             if (empty($validData) || count($data) !== count($validData)){
