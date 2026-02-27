@@ -2,7 +2,14 @@
 
 $Module = [
     'name' => 'manifest.json',
-    'function' => ['script' => 'manifest.php']
 ];
+
 $ViewList = [];
 
+$ViewList[''] = [
+    'script'                    => 'manifest.php',
+    'params'                    => ['path'],
+    'functions'                 => ['view'],
+    'ui_context'                => 'json',
+    'default_navigation_part'   => false,
+];
