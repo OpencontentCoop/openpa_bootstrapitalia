@@ -1,14 +1,12 @@
 <?php
 
-$path = '';
-if ( isset( $Params ) && is_array( $Params ) && !empty( $Params['path'] ) ) {
-    $path = $Params['path'];
-}
+$http = eZHTTPTool::instance();
+$app = $http->hasGetVariable('app') ? $http->getVariable('app') : false;
 
-$pathTranslationMap = [
-    'prenota_appuntamento' => 'Book an appointment',
-    'segnala_disservizio'  => 'Report a inefficiency',
-    'richiedi_assistenza'  => 'Request assistance',
+$appTranslationMap = [
+    'booking' => ['label' => 'Book an appointment', 'scope' => 'prenota_appuntamento'],
+    'segnala_disservizio'  => ['label' => 'Report a inefficiency', 'scope' => 'segnala_disservizio'],
+    'richiedi_assistenza'  => ['label' => 'Request assistance', 'scope' => 'richiedi_assistenza'],
 ];
 
 $siteName = '';
@@ -20,11 +18,11 @@ if ( $ini->hasVariable( 'SiteSettings', 'SiteName' ) ) {
 $displayName = $siteName;
 $urlBase = '/';
 
-if ( $path !== '' && isset( $pathTranslationMap[$path] ) ) {
+if ( $appTranslationMap[$app] ) {
 
-    $pathLabel = ezpI18n::tr( 'bootstrapitalia/footer', $pathTranslationMap[$path] );
-    $displayName = trim( $pathLabel . ' - ' . $siteName );
-    $urlBase .= $path;
+    $appLabel = ezpI18n::tr( 'bootstrapitalia/footer', $appTranslationMap[$app]['label'] );
+    $displayName = trim( $appLabel . ' - ' . $siteName );
+    $urlBase .= $appTranslationMap[$app]['scope'];
 }
 
 $data = [
