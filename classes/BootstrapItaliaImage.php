@@ -156,6 +156,11 @@ class BootstrapItaliaImage
                 $filters[] = 'h_200';
                 break;
 
+            case 'mini':
+                $filters[] = 'w_180';
+                $filters[] = 'h_180';
+                break;
+
             case 'rss':
                 $filters[] = 'w_100';
                 $filters[] = 'h_100';

@@ -20,7 +20,8 @@
 
 {if $apple_touch_icon_attribute}
     <link rel="apple-touch-icon"
-      href="{concat("content/download/",$apple_touch_icon_attribute.contentobject_id,"/",$apple_touch_icon_attribute.id,"/file/apple-touch-icon.png")|ezurl(no)}?v={$apple_touch_icon_attribute.version}" />
+      sizes="180x180"
+      href="{render_image(concat("content/download/",$apple_touch_icon_attribute.contentobject_id,"/",$apple_touch_icon_attribute.id,"/file/apple-touch-icon.png?v=",$apple_touch_icon_attribute.version), hash('alias', 'mini')).src}" />
 {else}
     <link rel="apple-touch-icon"
       sizes="180x180"
