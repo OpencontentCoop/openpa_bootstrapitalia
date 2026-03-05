@@ -61,8 +61,8 @@
         {/if}
     {/if}
     {if $show_title}
-    {* eventi *}
-    {foreach array('has_public_event_typology', 'content_type', 'document_type', 'announcement_type') as $identifier}
+    {* eventi, itinerari, documenti *}
+    {foreach array('has_public_event_typology', 'content_type', 'document_type', 'announcement_type', 'itinerary_type', 'itinerary_difficulty') as $identifier}
     {if $node|has_attribute($identifier)}
         {if $show_title}
             <div class="row pt-3">
