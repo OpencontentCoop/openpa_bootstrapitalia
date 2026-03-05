@@ -602,6 +602,38 @@ EOT;
 
     public function getScheduler(array $calendars, int $max_rolling_days): array
     {
+        sort($calendars);
+        $cacheKey = md5(implode(',', $calendars));
+        $cacheFile = 'scheduler-' . $cacheKey . '.cache';
+        $cacheFilePath = eZDir::path(
+            [eZSys::cacheDirectory(), 'sdc-calendars', $cacheFile]
+        );
+        $cacheFileHandler = eZClusterFileHandler::instance($cacheFilePath);
+
+        return $cacheFileHandler->processCache(
+            function ($file) {
+                eZDebug::writeDebug('Call cached scheduler ' . $file, __METHOD__);
+                return include($file);
+            },
+            function ($file, $params) {
+                [$calendars, $max_rolling_days] = $params;
+                eZDebug::writeDebug('Generate cached scheduler', __METHOD__);
+                $result = $this->computeScheduler($calendars, $max_rolling_days);
+                return [
+                    'content'  => $result,
+                    'scope'    => 'sdc-calendars',
+                    'datatype' => 'php',
+                    'store'    => true,
+                ];
+            },
+            (60 * 15),
+            null,
+            [$calendars, $max_rolling_days]
+        );
+    }
+
+    private function computeScheduler(array $calendars, int $max_rolling_days): array
+    {
         $min = '24:00';
         $max = '00:00';
         $hideDays = [0,1,2,3,4,5,6];
