@@ -23,6 +23,8 @@ class StanzaDelCittadinoBooking
 
     private $calendars = [];
 
+    private $openingHours = [];
+
     private static $viewExists = null;
 
     public static function factory(): StanzaDelCittadinoBooking
@@ -209,6 +211,39 @@ EOT;
             );
         }
         return $this->calendars[$id];
+    }
+
+    public function getCalendarOpeningHours($id)
+    {
+        if (!isset($this->openingHours[$id])) {
+
+            $cacheFile = 'calendar-opening-hours-' . $id . '.cache';
+            $cacheFilePath = eZDir::path(
+                array(eZSys::cacheDirectory(), 'sdc-calendars', $cacheFile)
+            );
+            $cacheFileHandler = eZClusterFileHandler::instance($cacheFilePath);
+
+            $this->openingHours[$id] = $cacheFileHandler->processCache(
+                function ($file) {
+                    eZDebug::writeDebug('Call cached opening hours ' . $file, __METHOD__);
+                    return include($file);
+                },
+                function ($file, $id) {
+                    eZDebug::writeDebug('Generate cached opening hours ' . $id, __METHOD__);
+                    $openingHours = StanzaDelCittadinoBridge::factory()->instanceNewClient(5)->getCalendarOpeningHours($id);
+                    return array(
+                        'content' => $openingHours,
+                        'scope' => 'sdc-calendars',
+                        'datatype' => 'php',
+                        'store' => true
+                    );
+                },
+                (60 * 60 * 4),
+                null,
+                $id
+            );
+        }
+        return $this->openingHours[$id];
     }
 
     public function getCalendars(int $service, int $office, int $place): array
@@ -572,10 +607,8 @@ EOT;
         $hideDays = [0,1,2,3,4,5,6];
         $slot = 30;
 
-        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
-
         foreach ($calendars as $calendar) {
-            $openingHours = $client->getCalendarOpeningHours($calendar);
+            $openingHours = $this->getCalendarOpeningHours($calendar);
 
             foreach ($openingHours['results'] as $openingHour) {
                 $min = min($min, $openingHour['begin_hour']);
