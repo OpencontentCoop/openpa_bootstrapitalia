@@ -59,14 +59,14 @@ $data = [
     'short_name' => $displayName,
     'icons' => [
         [
-            'src' => '/extension/openpa_bootstrapitalia/design/standard/images/svg/web-app-manifest-192x192.png',
-            'type' => 'image/png',
+            'src' => getManifestImageUrl(192, $appleTouchIconUrl),
+            'type' => 'image/webp',
             'sizes' => '192x192',
             'purpose' => 'maskable',
         ],
         [
-            'src' => '/extension/openpa_bootstrapitalia/design/standard/images/svg/web-app-manifest-512x512.png',
-            'type' => 'image/png',
+            'src' => getManifestImageUrl(512, $appleTouchIconUrl),
+            'type' => 'image/webp',
             'sizes' => '512x512',
             'purpose' => 'maskable',
         ],
