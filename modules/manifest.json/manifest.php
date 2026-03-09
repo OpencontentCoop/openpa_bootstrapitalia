@@ -60,13 +60,13 @@ $data = [
     'icons' => [
         [
             'src' => getManifestImageUrl(192, $appleTouchIconUrl),
-            'type' => 'image/png',
+            'type' => 'image/webp',
             'sizes' => '192x192',
             'purpose' => 'maskable',
         ],
         [
             'src' => getManifestImageUrl(512, $appleTouchIconUrl),
-            'type' => 'image/png',
+            'type' => 'image/webp',
             'sizes' => '512x512',
             'purpose' => 'maskable',
         ],
@@ -75,10 +75,8 @@ $data = [
     'start_url' => $urlBase . '?source=pwa',
     'display' => 'standalone',
     'scope' => $urlBase,
-    'prefer_related_applications' => true,
     'background_color' => OpenPABootstrapItaliaOperators::getCurrentTheme()->getCssData('primary_color', '#005fff'),
     'theme_color' => OpenPABootstrapItaliaOperators::getCurrentTheme()->getCssData('primary_color', '#005fff'),
-    'offline_enabled' => false,
 ];
 
 header('Content-Type: application/json; charset=utf-8');
