@@ -69,7 +69,7 @@
     {include uri='design:page_head.tpl' canonical_url=openpacontext().canonical_url}
     {/debug-accumulator}
 
-    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, 'favicon' )}
+    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, 'favicon', $current_built_in_app )}
     {def $pagedata = openpapagedata()}
     {include uri="design:favicon.tpl"}
     {undef $pagedata}
