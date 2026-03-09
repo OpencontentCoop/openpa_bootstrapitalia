@@ -31,6 +31,7 @@
     {if is_set($module_result.content_info.persistent_variable.built_in_app)}
         {set $current_built_in_app = $module_result.content_info.persistent_variable.built_in_app}
     {/if}
+    {def $manifest_module = cond($current_built_in_app|ne(''), module_params().module_name, '')}
 
     {def $theme = current_theme()
          $has_container = cond(is_set($module_result.content_info.persistent_variable.has_container), true(), false())
@@ -69,7 +70,7 @@
     {include uri='design:page_head.tpl' canonical_url=openpacontext().canonical_url}
     {/debug-accumulator}
 
-    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, 'favicon', $current_built_in_app )}
+    {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, 'favicon', $manifest_module )}
     {def $pagedata = openpapagedata()}
     {include uri="design:favicon.tpl"}
     {undef $pagedata}
