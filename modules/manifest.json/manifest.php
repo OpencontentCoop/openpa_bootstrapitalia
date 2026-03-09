@@ -60,13 +60,13 @@ $data = [
     'icons' => [
         [
             'src' => getManifestImageUrl(192, $appleTouchIconUrl),
-            'type' => 'image/png',
+            'type' => 'image/webp',
             'sizes' => '192x192',
             'purpose' => 'maskable',
         ],
         [
             'src' => getManifestImageUrl(512, $appleTouchIconUrl),
-            'type' => 'image/png',
+            'type' => 'image/webp',
             'sizes' => '512x512',
             'purpose' => 'maskable',
         ],
