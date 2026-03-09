@@ -4,7 +4,7 @@ $http = eZHTTPTool::instance();
 $app = $http->hasGetVariable('app') ? $http->getVariable('app') : false;
 
 $appTranslationMap = [
-    'booking' => ['label' => 'Book an appointment', 'scope' => 'prenota_appuntamento'],
+    'prenota_appuntamento' => ['label' => 'Book an appointment', 'scope' => 'prenota_appuntamento'],
     'segnala_disservizio' => ['label' => 'Report a inefficiency', 'scope' => 'segnala_disservizio'],
     'richiedi_assistenza' => ['label' => 'Request assistance', 'scope' => 'richiedi_assistenza'],
 ];

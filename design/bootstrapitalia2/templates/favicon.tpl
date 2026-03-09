@@ -30,7 +30,7 @@
 
 <meta name="apple-mobile-web-app-title" content="{ezini('SiteSettings','SiteName')}" />
 
-{def $manifest_app = $pagedata.persistent_variable.built_in_app}
+{def $manifest_app = $manifest_module}
 
 <link rel="manifest" href="/manifest.json{if $manifest_app}?app={$manifest_app}{/if}" crossorigin="use-credentials" />
 
