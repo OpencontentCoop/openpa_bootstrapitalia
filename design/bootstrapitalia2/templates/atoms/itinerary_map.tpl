@@ -37,6 +37,7 @@
     'leaflet/Leaflet.MakiMarkers.js',
     'leaflet/leaflet.activearea.js',
     'leaflet/leaflet.markercluster.js',
+    'leaflet/gpx.js',
     'fields/SimpleOpenStreetMap.js',
 ))}
 {ezscript_require($scripts)}
@@ -49,13 +50,15 @@
 {literal}
 <script>
     const mapId = '{/literal}{$map_id}{literal}';
-    const loaderId = mapId + '-loader';
+    const gpxUrl = '{/literal}{$gpx_url|wash(javascript)}{literal}';
 
     document.addEventListener("DOMContentLoaded", initMapApp);
 
     function initMapApp() {
         const map = createMap();
-        loadMarkers(map, function() {});
+        loadGpxTrack(map, function(gpxLayer) {
+            loadMarkers(map, gpxLayer, function() {});
+        });
     }
 
     function createMap() {
@@ -66,7 +69,35 @@
         return map;
     }
 
-    function loadMarkers(map, onLoad) {
+    function loadGpxTrack(map, onLoad) {
+        if (!gpxUrl) { onLoad(null); return; }
+
+        var gpxLayer = new L.GPX(gpxUrl, {
+            async: true,
+            marker_options: {
+                startIconUrl: null,
+                endIconUrl: null,
+                shadowUrl: null
+            },
+            polyline_options: {
+                color: 'var(--bs-primary)',
+                weight: 4,
+                opacity: 0.85
+            }
+        });
+
+        gpxLayer.on('loaded', function(e) {
+            onLoad(gpxLayer);
+        });
+
+        gpxLayer.on('error', function() {
+            onLoad(null);
+        });
+
+        gpxLayer.addTo(map);
+    }
+
+    function loadMarkers(map, gpxLayer, onLoad) {
         const dataEl = document.getElementById(mapId + '-data');
         if (!dataEl) { if (onLoad) onLoad(); return; }
 
@@ -74,7 +105,6 @@
         try { markers = JSON.parse(dataEl.textContent); } catch(e) { if (onLoad) onLoad(); return; }
 
         map.fire("dataloading");
-        // defer marker insertion so map tiles start loading first
         setTimeout(function() {
             const clusterGroup = L.markerClusterGroup();
             const icon = L.divIcon({
@@ -109,16 +139,18 @@
             });
 
             map.addLayer(clusterGroup);
-            fitMap(map, clusterGroup);
+
+            // fit bounds combining GPX track + markers
+            var allLayers = [];
+            if (gpxLayer) allLayers.push(gpxLayer);
+            if (clusterGroup.getLayers().length > 0) allLayers.push(clusterGroup);
+            if (allLayers.length > 0) {
+                map.fitBounds(L.featureGroup(allLayers).getBounds(), { padding: [20, 20] });
+            }
+
             map.fire("dataload");
             if (onLoad) onLoad();
         }, 0);
-    }
-
-    function fitMap(map, clusterGroup) {
-        if (clusterGroup.getLayers().length > 0) {
-            map.fitBounds(clusterGroup.getBounds(), { padding: [20, 20] });
-        }
     }
 </script>
 {/literal}

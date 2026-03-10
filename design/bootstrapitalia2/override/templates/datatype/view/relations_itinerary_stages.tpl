@@ -3,8 +3,10 @@
   {foreach $attribute.content.relation_list as $item}
     {set $nodes = $nodes|append(fetch(content, node, hash(node_id, $item.node_id)))}
   {/foreach}
-  {include uri='design:atoms/itinerary_map.tpl' items=$nodes block_id=$attribute.id}
-  {undef $nodes}
+  {def $gpx_attr = $attribute.object.data_map.gpx_attachment}
+  {def $gpx_url = cond($gpx_attr.has_content, concat('/content/download/', $attribute.object.id, '/', $gpx_attr.id, '/file/', $gpx_attr.content.original_filename), '')}
+  {include uri='design:atoms/itinerary_map.tpl' items=$nodes block_id=$attribute.id gpx_url=$gpx_url}
+  {undef $nodes $gpx_attr $gpx_url}
   <div class="procedure-wrapper" id="procedure-{$attribute.id}">
         {foreach $attribute.content.relation_list as $index => $item}
             {def $counter = $index|inc()}
