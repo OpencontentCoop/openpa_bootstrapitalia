@@ -1,11 +1,6 @@
 {def $map_id = concat('itinerary-map-', $block_id)}
 
 <div class="mb-4 position-relative">
-  <div id="{$map_id}-loader" class="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-white bg-opacity-75">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Caricamento...</span>
-    </div>
-  </div>
   <div id="{$map_id}" style="height:500px;"></div>
 </div>
 
@@ -60,12 +55,11 @@
 
     function initMapApp() {
         const map = createMap();
-        const loaderOverlay = document.getElementById(loaderId);
         loadMarkers(map, function() {});
     }
 
     function createMap() {
-        const map = L.map(mapId, { loadingControl: true }).setView([41.9, 12.5], 6);
+        const map = L.map(mapId, { loadingControl: true, scrollWheelZoom: false }).setView([41.9, 12.5], 6);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
