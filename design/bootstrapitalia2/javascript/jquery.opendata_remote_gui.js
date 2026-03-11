@@ -134,6 +134,9 @@
                 if ($(e.target).attr('href').indexOf(plugin.baseId) > -1) {
                     plugin.runSearch();
                 }
+                if ($(e.target).attr('href') === '#'+plugin.baseId+'list') {
+                    plugin.container.find('#'+plugin.baseId+'list').css('overflow-x', 'auto');
+                }
             }
         });
         plugin.searchFormToggle.on('click', function (e) {
@@ -203,6 +206,9 @@
             })
         }
         plugin.runSearch();
+        if (plugin.hasMap && plugin.container.find('a.view-selector[href="#'+plugin.baseId+'geo"]').hasClass('active')) {
+            setTimeout(function() { plugin.map.invalidateSize(false); }, 200);
+        }
     }
 
     $.extend(Plugin.prototype, {
