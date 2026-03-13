@@ -21,5 +21,20 @@
             <span class="toolbar-label">{'Set as public'|i18n( 'bootstrapitalia' )}</span>
         </a>
     </li>
+{elseif $content_object.state_id_array|contains($privacy_states['privacy.scheduled'].id)}
+  <li>
+    <span class="text-muted">
+            <i aria-hidden="true" class="fa fa-calendar"></i>
+            <span class="toolbar-label">{$privacy_states['privacy.scheduled'].current_translation.name|wash()}</span>
+    </span>
+  </li>
+
+{elseif $content_object.state_id_array|contains($privacy_states['privacy.expired'].id)}
+  <li>
+    <span class="text-muted">
+            <i aria-hidden="true" class="fa fa-calendar"></i>
+            <span class="toolbar-label">{$privacy_states['privacy.expired'].current_translation.name|wash()}</span>
+    </span>
+  </li>
 {/if}
 {undef $privacy_states}
