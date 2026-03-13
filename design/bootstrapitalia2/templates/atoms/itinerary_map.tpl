@@ -75,9 +75,12 @@
         var gpxLayer = new L.GPX(gpxUrl, {
             async: true,
             marker_options: {
-                startIconUrl: null,
-                endIconUrl: null,
-                shadowUrl: null
+                startIconUrl: "{/literal}{'images/icons/pin-icon-start.png'|ezdesign(no)}{literal}",
+                endIconUrl: "{/literal}{'images/icons/pin-icon-end.png'|ezdesign(no)}{literal}",
+                shadowUrl: "{/literal}{'images/icons/pin-shadow.png'|ezdesign(no)}{literal}",
+                wptIconUrls : {
+                  '': "{/literal}{'images/icons/pin-icon-wpt.png'|ezdesign(no)}{literal}",
+                },
             },
             polyline_options: {
                 color: 'var(--bs-primary)',
