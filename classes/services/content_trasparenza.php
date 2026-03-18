@@ -460,6 +460,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 return explode(',', $parameter);
             },
             'title' => null,
+            'description' => null,
             'require_user' => function ($parameter) {
                 return $parameter == 1 || $parameter == 'true' || $parameter == '1';
             },
@@ -493,6 +494,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         $facetField = $data['group_by'] ?? null;
         $orderFields = $data['order_by'] ?? null;
         $title = $data['title'] ?? null;
+        $description = $data['description'] ?? null;
         $classIdentifier = array_shift($fieldsParts);
         $identifiers = explode(',', array_shift($fieldsParts));
         $depth = array_shift($fieldsParts);
@@ -615,6 +617,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 'facets' => $facets,
                 'parent_node_id' => $nodeId,
                 'title' => $title,
+                'description' => $description
             );
 
             $result['query'] = OCOpenDataQueries::getInstance()->optimize($result['query'], ['include_tag_synonym' => true]);
