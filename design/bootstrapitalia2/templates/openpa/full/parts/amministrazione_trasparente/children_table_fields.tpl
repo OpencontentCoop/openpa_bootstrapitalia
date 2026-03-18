@@ -7,7 +7,7 @@
     {def $enable_filters_bando = and($fields.class_identifier|eq('bando'), openpaini('Trasparenza', 'ShowBandoFaseSelect', 'disabled')|eq('enabled'))}
 
     {if $fields.title}
-      <h3 class="h4 mt-4">{$fields.title|wash()}</h3>
+      <h3 class="h4 mt-5">{$fields.title|wash()}</h3>
     {/if}
     {if $fields.description}
       <p>{$fields.description|wash()}</p>
