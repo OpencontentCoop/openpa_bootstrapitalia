@@ -29,6 +29,7 @@
           <option value="">Tutte</option>
           <option value="pubblicazione">Pubblicazione</option>
           <option value="affidamento">Affidamento</option>
+          <option value="affidamento:2724">Pari opportunità e inclusione lavorativa nei contratti pubblici PNRR e PNC e nei contratti riservati</option>
           <option value="esecutiva">Esecutiva</option>
           <option value="sponsorizzazioni">Sponsorizzazioni</option>
           <option value="somma_urgenza">Procedure di somma urgenza e di protezione civile</option>
@@ -64,6 +65,7 @@
         {if $enable_filters_bando}
         $.views.helpers($.opendataTools.helpers);
         var renderBandoData = function (row, currentFase){ldelim}
+          currentFase = currentFase.split(':')[0]
           row.fieldsToDisplay = [{ldelim}identifier: currentFase{rdelim}, {ldelim}identifier: currentFase+'_relations'{rdelim}]
           row.title = $('#bando-navigation-{$table_index} option[value="'+currentFase+'"]').text()
           return $.templates('#tpl-bando-data').render(row)
@@ -173,12 +175,23 @@
           var value = $(this).val();
           if (value.length === 0){ldelim}
             fieldsDatatable{$table_index}.settings.builder.filters['fase_bando'] = null;
+            fieldsDatatable{$table_index}.settings.builder.filters['fase_bando_tag'] = null;
           {rdelim}else{ldelim}
+            const values = value.split(':')
             fieldsDatatable{$table_index}.settings.builder.filters['fase_bando'] = {ldelim}
-              'field': 'raw[extra_'+value+'_si]',
+              'field': 'raw[extra_'+values[0]+'_si]',
               'operator': 'range',
               'value': ['1', '*']
             {rdelim};
+            if (values.length > 1){ldelim}
+              fieldsDatatable{$table_index}.settings.builder.filters['fase_bando_tag'] = {ldelim}
+                'field': 'raw[ezf_df_tag_ids]',
+                'operator': 'in',
+                'value': [values[1]]
+              {rdelim};
+            {rdelim}else{ldelim}
+              fieldsDatatable{$table_index}.settings.builder.filters['fase_bando_tag'] = null;
+            {rdelim}
           {rdelim}
           fieldsDatatable{$table_index}.loadDataTable();
           e.preventDefault();
