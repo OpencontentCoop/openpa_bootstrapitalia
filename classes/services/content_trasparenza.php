@@ -413,7 +413,10 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
             $data = array();
             foreach ($parameters as $parameter) {
-                $data[] = $this->getTableFieldsParameter($parameter);
+                $table = $this->getTableFieldsParameter($parameter);
+                if (!empty($table)) {
+                    $data[] = $table;
+                }
             }
 
             return $data;
@@ -457,6 +460,9 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 return explode(',', $parameter);
             },
             'title' => null,
+            'require_user' => function ($parameter) {
+                return $parameter == 1 || $parameter == 'true' || $parameter == '1';
+            },
         ];
 
         $fieldsPartParser = function ($fieldPart, ?callable $callback = null) {
@@ -478,7 +484,10 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 }
             }
         }
-
+        $requireUser = $data['require_user'];
+        if ($requireUser && eZUser::currentUser()->isAnonymous()){
+            return false;
+        }
         $parentNodeId = $data['parent'] ?? null;
         $filters = $data['filters'] ?? null;
         $facetField = $data['group_by'] ?? null;
