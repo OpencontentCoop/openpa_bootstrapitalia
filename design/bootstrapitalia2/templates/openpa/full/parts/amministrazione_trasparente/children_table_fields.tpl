@@ -24,8 +24,8 @@
 
     {if $enable_filters_bando}
       <div class="form-group m-0">
-        <label class="form-label p-0 m-0" for="bando-navigation">Filtra per fase</label>
-        <select id="bando-navigation" class="form-control" data-group="">
+        <label class="form-label p-0 m-0" for="bando-navigation-{$table_index}">Filtra per fase</label>
+        <select id="bando-navigation-{$table_index}" class="form-control" data-group="">
           <option value="">Tutte</option>
           <option value="pubblicazione">Pubblicazione</option>
           <option value="affidamento">Affidamento</option>
@@ -65,7 +65,7 @@
         $.views.helpers($.opendataTools.helpers);
         var renderBandoData = function (row, currentFase){ldelim}
           row.fieldsToDisplay = [{ldelim}identifier: currentFase{rdelim}, {ldelim}identifier: currentFase+'_relations'{rdelim}]
-          row.title = $('#bando-navigation option[value="'+currentFase+'"]').text()
+          row.title = $('#bando-navigation-{$table_index} option[value="'+currentFase+'"]').text()
           return $.templates('#tpl-bando-data').render(row)
         {rdelim};
         {/if}
@@ -120,7 +120,7 @@
                         {/if}
                         var value =  opendataDataTableRenderField('{$field.dataType}', '{$field.template.type}', '{$current_language}', data, type, row, meta, link);
                         {if and($enable_filters_bando, $field.identifier|eq('oggetto'))}
-                          var currentFase = $('#bando-navigation').val()
+                          var currentFase = $('#bando-navigation-{$table_index}').val()
                           if (currentFase.length > 0){ldelim}
                               value = renderBandoData(row, currentFase)
                           {rdelim}
@@ -169,7 +169,7 @@
         {/if}
 
         {if $enable_filters_bando}
-        $('#bando-navigation').val('').on('change', function(e){ldelim}
+        $('#bando-navigation-{$table_index}').val('').on('change', function(e){ldelim}
           var value = $(this).val();
           if (value.length === 0){ldelim}
             fieldsDatatable{$table_index}.settings.builder.filters['fase_bando'] = null;
