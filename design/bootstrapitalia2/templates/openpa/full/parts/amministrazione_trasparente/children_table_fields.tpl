@@ -7,7 +7,10 @@
     {def $enable_filters_bando = and($fields.class_identifier|eq('bando'), openpaini('Trasparenza', 'ShowBandoFaseSelect', 'disabled')|eq('enabled'))}
 
     {if $fields.title}
-      <h2 class="h4">{$fields.title|wash()}</h2>
+      <h3 class="h4 mt-4">{$fields.title|wash()}</h3>
+    {/if}
+    {if $fields.description}
+      <p>{$fields.description|wash()}</p>
     {/if}
 
     {def $current_language = ezini('RegionalSettings', 'Locale')}
@@ -17,7 +20,7 @@
     {if count($fields.facets)|gt(0)}
       <div class="state-navigation" data-group="{$fields.group_by}">
       {foreach $fields.facets as $index => $facet_button}{*
-          *}<a href="#" class="btn{if $index|eq(0)} btn-primary{else} btn-outline-primary{/if} me-1 mb-1">{$facet_button|wash()}</a>{*
+          *}<button href="#" class="btn{if $index|eq(0)} btn-primary{else} btn-outline-primary{/if} me-1 mb-1">{$facet_button|wash()}</button>{*
       *}{/foreach}
       </div>
     {/if}
