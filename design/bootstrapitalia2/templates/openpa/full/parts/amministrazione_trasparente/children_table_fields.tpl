@@ -23,37 +23,57 @@
     {/if}
 
     {if $enable_filters_bando}
+      {def $bando_fasi = array(
+               hash('fase', 'pubblicazione',    'label', 'Pubblicazione',                                      'remote_id', 'tag_fasi_gara_pubblicazione'),
+               hash('fase', 'affidamento',      'label', 'Affidamento',                                        'remote_id', 'tag_fasi_gara_affidamento'),
+               hash('fase', 'esecutiva',        'label', 'Esecutiva',                                          'remote_id', 'tag_fasi_gara_esecutiva'),
+               hash('fase', 'sponsorizzazioni', 'label', 'Sponsorizzazioni',                                   'remote_id', 'tag_fasi_gara_sponsor'),
+               hash('fase', 'somma_urgenza',    'label', 'Procedure di somma urgenza e di protezione civile',  'remote_id', 'tag_fasi_gara_procedure'),
+               hash('fase', 'finanza',          'label', 'Finanza di progetto',                                'remote_id', 'tag_fasi_gara_finanza'))
+           $bando_fase_tag      = false()
+           $bando_fase_children = array()}
       <div class="form-group m-0">
         <label class="form-label p-0 m-0" for="bando-navigation-{$table_index}">Filtra per fase</label>
         <select id="bando-navigation-{$table_index}" class="form-control" data-group="">
-          <option value="">Tutte</option>
-          <option value="pubblicazione">Pubblicazione</option>
-          <option value="affidamento">Affidamento</option>
-          <option value="affidamento:2724">Pari opportunità e inclusione lavorativa nei contratti pubblici PNRR e PNC e nei contratti riservati</option>
-          <option value="esecutiva">Esecutiva</option>
-          <option value="sponsorizzazioni">Sponsorizzazioni</option>
-          <option value="somma_urgenza">Procedure di somma urgenza e di protezione civile</option>
-          <option value="finanza">Finanza di progetto</option>
+          <option value="">Tutti</option>
+          {foreach $bando_fasi as $bando_fase}
+            {set $bando_fase_tag = fetch('tags', 'tag_by_remote_id', hash('remote_id', $bando_fase.remote_id))}
+            {if $bando_fase_tag}
+              {set $bando_fase_children = fetch('tags', 'list', hash('parent_tag_id', $bando_fase_tag.id))}
+            {/if}
+            {if and($bando_fase_tag, $bando_fase_children|count()|gt(0))}
+              <optgroup label="{$bando_fase.label|wash()}">
+                {foreach $bando_fase_children as $bando_subtag}
+                  <option value="{$bando_fase.fase}:{$bando_subtag.id}">{$bando_subtag.keyword|wash()}</option>
+                {/foreach}
+                <option value="{$bando_fase.fase}">Tutti i documenti in {$bando_fase.label|wash()}</option>
+              </optgroup>
+            {else}
+              <option value="{$bando_fase.fase}">{$bando_fase.label|wash()}</option>
+            {/if}
+          {/foreach}
         </select>
       </div>
       {run-once}
       {literal}
       <script id="tpl-bando-data" type="text/x-jsrender">
-        {{:~i18n(data,'oggetto')}}
-        <h6 class="m-0">{{:title}}</h6>
-        <ul>
-        {{for fieldsToDisplay ~content=data}}
-          {{if ~i18n(~content,identifier)}}
-            {{for ~i18n(~content,identifier)}}
-              {{if ~i18n(name)}}
-                <li><a href="/openpa/object/{{:id}}">{{:~i18n(name)}}</a></li>
-              {{else}}
-                <li><a href="{{:url}}">{{if displayName}}{{:displayName}}{{else}}{{:filename}}{{/if}}</a></li>
-              {{/if}}
-            {{/for}}
-          {{/if}}
-        {{/for}}
+        <div class="richtext-wrapper">
+          <div class="mb-1">{{:~i18n(data,'oggetto')}}</div>
+          <div class="mb-1">{{:title}}</div>
+          <ul style="font-size:1em;">
+          {{for fieldsToDisplay ~content=data}}
+            {{if ~i18n(~content,identifier)}}
+              {{for ~i18n(~content,identifier)}}
+                {{if ~i18n(name)}}
+                  <li><a href="/openpa/object/{{:id}}">{{:~i18n(name)}}</a></li>
+                {{else}}
+                  <li><a href="{{:url}}">{{if displayName}}{{:displayName}}{{else}}{{:filename}}{{/if}}</a></li>
+                {{/if}}
+              {{/for}}
+            {{/if}}
+          {{/for}}
         </ul>
+      </div>
       </script>
       {/literal}
       {/run-once}
@@ -65,9 +85,16 @@
         {if $enable_filters_bando}
         $.views.helpers($.opendataTools.helpers);
         var renderBandoData = function (row, currentFase){ldelim}
-          currentFase = currentFase.split(':')[0]
-          row.fieldsToDisplay = [{ldelim}identifier: currentFase{rdelim}, {ldelim}identifier: currentFase+'_relations'{rdelim}]
-          row.title = $('#bando-navigation-{$table_index} option[value="'+currentFase+'"]').text()
+          var faseParts = currentFase.split(':')
+          var faseOnly = faseParts[0]
+          row.fieldsToDisplay = [{ldelim}identifier: faseOnly{rdelim}, {ldelim}identifier: faseOnly+'_relations'{rdelim}]
+          var selectedOption = $('#bando-navigation-{$table_index} option[value="'+currentFase+'"]')
+          if (faseParts.length > 1) {ldelim}
+            row.title = selectedOption.closest('optgroup').prop('label') + ' - ' + selectedOption.text()
+          {rdelim} else {ldelim}
+            var optgroup = selectedOption.closest('optgroup')
+            row.title = optgroup.length > 0 ? optgroup.prop('label') : selectedOption.text()
+          {rdelim}
           return $.templates('#tpl-bando-data').render(row)
         {rdelim};
         {/if}
