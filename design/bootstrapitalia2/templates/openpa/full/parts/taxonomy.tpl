@@ -14,7 +14,7 @@
     {/foreach}
 {/if}
 
-{if or($current_topics|count(), $node|has_attribute('has_public_event_typology'), $node|has_attribute('content_type'), $node|has_attribute('document_type'), $node|has_attribute('announcement_type'))}
+{if or($current_topics|count(), $node|has_attribute('has_public_event_typology'), $node|has_attribute('content_type'), $node|has_attribute('document_type'), $node|has_attribute('announcement_type'), $node|has_attribute('tender_types'), $node|has_attribute('tender_result_types'))}
 <section class="{$container_class}">
     {if $current_topics|count()}
         {if $show_title}
