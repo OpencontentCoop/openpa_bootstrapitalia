@@ -739,6 +739,18 @@
       <source>Page reading progress</source>
       <translation>Avanzamento di lettura della pagina</translation>
     </message>
+    <message>
+      <source>Request assistance short</source>
+      <translation>Assistenza</translation>
+    </message>
+    <message>
+      <source>Book an appointment short</source>
+      <translation>Prenota</translation>
+    </message>
+    <message>
+      <source>Report a inefficiency short</source>
+      <translation>Segnala</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
