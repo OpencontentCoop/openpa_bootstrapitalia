@@ -18,7 +18,7 @@
     {def $moment_language = $current_locale.http_locale_code|explode('-')[0]|downcase()|extract_left( 2 )}
 
     {if count($fields.facets)|gt(0)}
-      <div class="state-navigation" data-group="{$fields.group_by}">
+      <div class="state-navigation-{$table_index}" data-group="{$fields.group_by}">
       {foreach $fields.facets as $index => $facet_button}{*
           *}<button href="#" class="btn{if $index|eq(0)} btn-primary{else} btn-outline-primary{/if} me-1 mb-1">{$facet_button|wash()}</button>{*
       *}{/foreach}
@@ -171,9 +171,9 @@
         {rdelim}).data('opendataDataTable');
 
         {if count($fields.facets)|gt(0)}
-        var currentFilterName = $('.state-navigation').data('group');
+        var currentFilterName = $('.state-navigation-{$table_index}').data('group');
         var setCurrentFilter = function(){ldelim}
-            var currentFilterValue = $('.state-navigation .btn-primary').text();
+            var currentFilterValue = $('.state-navigation-{$table_index} .btn-primary').text();
             fieldsDatatable{$table_index}.settings.builder.filters[currentFilterName] = {ldelim}
               'field': currentFilterName,
               {if $fields.group_by|ends_with('year____dt]')}
@@ -187,7 +187,7 @@
         {rdelim};
         setCurrentFilter();
 
-        $('.state-navigation .btn').on('click', function(e){ldelim}
+        $('.state-navigation-{$table_index} .btn').on('click', function(e){ldelim}
           $('.state-navigation .btn-primary')
             .addClass('btn-outline-primary')
             .removeClass('btn-primary');
