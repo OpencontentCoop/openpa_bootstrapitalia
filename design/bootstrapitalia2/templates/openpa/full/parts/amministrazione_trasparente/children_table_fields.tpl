@@ -229,15 +229,25 @@
           var params = new URLSearchParams(window.location.search);
           if (value.length === 0){ldelim}
             params.delete('fase_{$table_index}');
+            params.delete('fase_{$table_index}_tag');
           {rdelim}else{ldelim}
-            params.set('fase_{$table_index}', value);
+            const parts = value.split(':');
+            params.set('fase_{$table_index}', parts[0]);
+            if (parts.length > 1){ldelim}
+              params.set('fase_{$table_index}_tag', parts[1]);
+            {rdelim}else{ldelim}
+              params.delete('fase_{$table_index}_tag');
+            {rdelim}
           {rdelim}
-          var newUrl = window.location.pathname + (params.toString() ? '?' + decodeURIComponent(params.toString()) : '') + window.location.hash;
+          var newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '') + window.location.hash;
           history.replaceState(null, '', newUrl);
           fieldsDatatable{$table_index}.loadDataTable();
           e.preventDefault();
         {rdelim});
-        var initialFase{$table_index} = new URLSearchParams(window.location.search).get('fase_{$table_index}');
+        var _urlParams{$table_index} = new URLSearchParams(window.location.search);
+        var _fase{$table_index} = _urlParams{$table_index}.get('fase_{$table_index}');
+        var _faseTag{$table_index} = _urlParams{$table_index}.get('fase_{$table_index}_tag');
+        var initialFase{$table_index} = _fase{$table_index} ? (_faseTag{$table_index} ? _fase{$table_index}+':'+_faseTag{$table_index} : _fase{$table_index}) : null;
         if (initialFase{$table_index}){ldelim}
           $('#bando-navigation-{$table_index}').val(initialFase{$table_index});
           applyBandoFilter{$table_index}(initialFase{$table_index});
