@@ -232,7 +232,7 @@
           {rdelim}else{ldelim}
             params.set('fase_{$table_index}', value);
           {rdelim}
-          var newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '') + window.location.hash;
+          var newUrl = window.location.pathname + (params.toString() ? '?' + decodeURIComponent(params.toString()) : '') + window.location.hash;
           history.replaceState(null, '', newUrl);
           fieldsDatatable{$table_index}.loadDataTable();
           e.preventDefault();
