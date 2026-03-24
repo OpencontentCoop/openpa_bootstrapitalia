@@ -158,24 +158,30 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceBase
     protected function getTopicName()
     {
         $data = $this->getMatrixAsHash('virtual_topic');
-        return $data[0]['name'] ?? null;
+        $names = [];
+        foreach ($data as $item) {
+            if (!empty($item['name'])) {
+                $names[] = $item['name'];
+            }
+        }
+        return count($names) ? $names : null;
     }
 
     protected function getTopic()
     {
         if ($this->topic === null) {
-            $this->topic = false;
+            $this->topic = [];
             $data = $this->getMatrixAsHash('virtual_topic');
             foreach ($data as $item) {
                 if (!empty($item['id'])) {
-                    $this->topic = eZContentObject::fetchByRemoteID($item['id']);
-                    if ($this->topic instanceof eZContentObject) {
-                        break;
+                    $object = eZContentObject::fetchByRemoteID($item['id']);
+                    if ($object instanceof eZContentObject) {
+                        $this->topic[] = $object;
                     }
                 }
             }
         }
 
-        return $this->topic;
+        return count($this->topic) ? $this->topic : false;
     }
 }

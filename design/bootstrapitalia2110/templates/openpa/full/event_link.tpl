@@ -40,23 +40,27 @@
                         <span class="mb-2 small">{'Topics'|i18n('bootstrapitalia')}</span>
                     </div>
                     <ul class="d-flex flex-wrap gap-1 mb-2">
+                        {foreach $openpa.event_link.topic as $topic}
                         <li>
                             <a class="chip chip-simple chip-primary"
-                               href="{$openpa.event_link.topic.main_node.url_alias|ezurl(no)}">
-                                <span class="chip-label">{$openpa.event_link.topic.name|wash()}</span>
+                               href="{$topic.main_node.url_alias|ezurl(no)}">
+                                <span class="chip-label">{$topic.name|wash()}</span>
                             </a>
                         </li>
+                        {/foreach}
                     </ul>
                 {elseif $openpa.event_link.topic_name}
                     <div class="row">
                         <span class="mb-2 small">{'Topics'|i18n('bootstrapitalia')}</span>
                     </div>
                     <ul class="d-flex flex-wrap gap-1 mb-2">
+                        {foreach $openpa.event_link.topic_name as $topic_name}
                         <li>
                             <span class="chip chip-simple chip-primary">
-                                <span class="chip-label">{$openpa.event_link.topic_name|wash()}</span>
+                                <span class="chip-label">{$topic_name|wash()}</span>
                             </span>
                         </li>
+                        {/foreach}
                     </ul>
                 {/if}
                 {if $openpa.event_link.has_public_event_typology}
