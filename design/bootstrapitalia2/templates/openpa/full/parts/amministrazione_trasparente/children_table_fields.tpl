@@ -201,8 +201,7 @@
         {/if}
 
         {if $enable_filters_bando}
-        $('#bando-navigation-{$table_index}').val('').on('change', function(e){ldelim}
-          var value = $(this).val();
+        var applyBandoFilter{$table_index} = function(value){ldelim}
           if (value.length === 0){ldelim}
             fieldsDatatable{$table_index}.settings.builder.filters['fase_bando'] = null;
             fieldsDatatable{$table_index}.settings.builder.filters['fase_bando_tag'] = null;
@@ -223,9 +222,26 @@
               fieldsDatatable{$table_index}.settings.builder.filters['fase_bando_tag'] = null;
             {rdelim}
           {rdelim}
+        {rdelim};
+        $('#bando-navigation-{$table_index}').on('change', function(e){ldelim}
+          var value = $(this).val();
+          applyBandoFilter{$table_index}(value);
+          var params = new URLSearchParams(window.location.search);
+          if (value.length === 0){ldelim}
+            params.delete('fase_{$table_index}');
+          {rdelim}else{ldelim}
+            params.set('fase_{$table_index}', value);
+          {rdelim}
+          var newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '') + window.location.hash;
+          history.replaceState(null, '', newUrl);
           fieldsDatatable{$table_index}.loadDataTable();
           e.preventDefault();
         {rdelim});
+        var initialFase{$table_index} = new URLSearchParams(window.location.search).get('fase_{$table_index}');
+        if (initialFase{$table_index}){ldelim}
+          $('#bando-navigation-{$table_index}').val(initialFase{$table_index});
+          applyBandoFilter{$table_index}(initialFase{$table_index});
+        {rdelim}
         {/if}
 
         fieldsDatatable{$table_index}.loadDataTable();
