@@ -147,8 +147,8 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceBase
                 $tags = eZTagsObject::fetchByKeyword($name);
                 if (count($tags)) {
                     $this->type = $tags[0];
+                    break;
                 }
-                break;
             }
         }
 
@@ -158,7 +158,7 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceBase
     protected function getTopicName()
     {
         $data = $this->getMatrixAsHash('virtual_topic');
-        return $data['name'] ?? null;
+        return $data[0]['name'] ?? null;
     }
 
     protected function getTopic()
