@@ -13,11 +13,11 @@ BuiltInWidgetSource_booking=https://%host%/widgets/bookings/bootstrap-italia@2/j
 BuiltInWidgetStyle_booking=https://%host%/widgets/bookings/css/bookings.css
 
 #BuiltInWidgetSource_satisfy=https://%host%/widgets/satisfy/js/satisfy.js
-BuiltInWidgetSource_satisfy=https://static.opencityitalia.it/widgets/satisfy/version/1.5.6/js/satisfy.js
+BuiltInWidgetSource_satisfy=https://static.opencityitalia.it/widgets/satisfy/version/1.7.0/js/satisfy.js
 
 BuiltInWidgetSource_login=https://%host%/widgets/login-box/bootstrap-italia@2/js/login-box.js
 
-BuiltInWidgetSource_service-form=https://static.opencityitalia.it/widgets/formio/latest/js/web-formio.js
+BuiltInWidgetSource_service-form=https://%host%/widgets/service/js/web-formio.js
 BuiltInWidgetStyle_service-form=
 
 #BuiltInWidgetSource_payment=https://%host%/widgets/payments-due/js/paymentsDue.js

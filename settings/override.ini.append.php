@@ -455,6 +455,12 @@ Subdir=templates
 Match[class_identifier]=howto
 Match[attribute_identifier]=steps
 
+[datatype_view_stages]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_itinerary_stages.tpl
+Subdir=templates
+Match[class_identifier]=itinerary
+Match[attribute_identifier]=stages
 
 ############################################
 ############################################ TEXT-LINKED

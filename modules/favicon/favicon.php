@@ -49,7 +49,7 @@ ob_end_clean();
 
 $attributeIdentifier = 'favicon';
 if (isset($Params['Parameters'][0]) && $Params['Parameters'][0] === 'apple-touch-icon'){
-    $attributeIdentifier = 'apple-touch-icon';
+    $attributeIdentifier = 'apple_touch_icon';
 }
 $result = eZBinaryFileHandler::RESULT_UNAVAILABLE;
 $home = OpenPaFunctionCollection::fetchHome();

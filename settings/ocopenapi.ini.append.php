@@ -11,6 +11,7 @@ Exclude[]=Editor Trasparenza
 [ContentMetaSettings]
 ContentMetaPropertyFactories[privacy]=PrivacyStatusFactoryProvider
 ContentMetaPropertyFactories[pagina_trasparenza/page]=PagineTrasparenzaPageFactoryProvider
+ContentMetaPropertyFactories[topic/parent_topic]=ParentTopicObjectFactoryProvider
 
 [ClassAttributeSettings]
 ClassAttributePropertyFactories[lotto/id]=InternalIdFactoryProvider
