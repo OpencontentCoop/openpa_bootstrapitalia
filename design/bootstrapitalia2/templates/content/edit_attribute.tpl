@@ -1,7 +1,6 @@
 {default $view_parameters = array()}
 
-
-{def $edit_attribute_groups = edit_attribute_groups($class, $content_attributes, array('tender_types', 'tender_result_types','tender_status_types'))}
+{def $edit_attribute_groups = edit_attribute_groups($class, $content_attributes, array('is_draft', 'codice_identificativo_gara','tender_types', 'tender_result_types','tender_status_types'))}
 
 <div class="row mt-4 mb-5">
     {if $edit_attribute_groups.count|gt(1)}
