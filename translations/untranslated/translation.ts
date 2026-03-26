@@ -18,6 +18,7 @@
     <message>
       <source>License link</source>
       <translation type="unfinished"/>
+    </message>
     <message>
       <source>Page reading progress</source>
       <translation type="unfinished"/>
@@ -407,6 +408,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Request assistance short</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Call the municipality</source>
       <translation type="unfinished"/>
     </message>
@@ -415,7 +420,15 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Book an appointment short</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Report a inefficiency</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Report a inefficiency short</source>
       <translation type="unfinished"/>
     </message>
     <message>

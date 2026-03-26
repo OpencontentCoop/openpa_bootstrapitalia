@@ -4,9 +4,9 @@ $http = eZHTTPTool::instance();
 $app = $http->hasGetVariable('app') ? $http->getVariable('app') : false;
 
 $appTranslationMap = [
-    'prenota_appuntamento' => ['label' => 'Book an appointment', 'scope' => 'prenota_appuntamento'],
-    'segnala_disservizio' => ['label' => 'Report a inefficiency', 'scope' => 'segnala_disservizio'],
-    'richiedi_assistenza' => ['label' => 'Request assistance', 'scope' => 'richiedi_assistenza'],
+    'prenota_appuntamento' => ['label' => 'Book an appointment', 'short_label' => 'Book an appointment short', 'scope' => 'prenota_appuntamento'],
+    'segnala_disservizio' => ['label' => 'Report a inefficiency', 'short_label' => 'Report a inefficiency short', 'scope' => 'segnala_disservizio'],
+    'richiedi_assistenza' => ['label' => 'Request assistance', 'short_label' => 'Request assistance short', 'scope' => 'richiedi_assistenza'],
 ];
 
 $siteName = '';
@@ -16,11 +16,14 @@ if ($ini->hasVariable('SiteSettings', 'SiteName')) {
 }
 
 $displayName = $siteName;
+$shortName = $siteName;
 $urlBase = '/';
 
 if ($appTranslationMap[$app]) {
-    $appLabel = ezpI18n::tr('bootstrapitalia/footer', $appTranslationMap[$app]['label']);
+    $appLabel = ezpI18n::tr('bootstrapitalia', $appTranslationMap[$app]['label']);
+    $shortName = ezpI18n::tr('bootstrapitalia', $appTranslationMap[$app]['short_label']);
     $displayName = trim($appLabel . ' - ' . $siteName);
+
     $urlBase .= $appTranslationMap[$app]['scope'];
 }
 
@@ -56,7 +59,7 @@ function getManifestImageUrl($size = 192, $imageUrl): string
 
 $data = [
     'name' => $displayName,
-    'short_name' => $displayName,
+    'short_name' => $shortName,
     'icons' => [
         [
             'src' => getManifestImageUrl(192, $appleTouchIconUrl),
