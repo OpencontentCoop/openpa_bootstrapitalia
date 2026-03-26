@@ -1,5 +1,5 @@
 {set_defaults(hash(
-     'css_class', 'btn btn-primary fw-bold font-sans-serif'
+     'css_class', 'btn btn-primary fw-bold font-sans-serif mb-4'
 ))}
 {def $is_channel = cond($attribute.object.class_identifier|eq('channel'), true(), false())}
 {if $attribute.data_text}

@@ -14,7 +14,7 @@
     {/foreach}
 {/if}
 
-{if or($current_topics|count(), $node|has_attribute('has_public_event_typology'), $node|has_attribute('content_type'), $node|has_attribute('document_type'), $node|has_attribute('announcement_type'))}
+{if or($current_topics|count(), $node|has_attribute('has_public_event_typology'), $node|has_attribute('content_type'), $node|has_attribute('document_type'), $node|has_attribute('announcement_type'), $node|has_attribute('tender_types'), $node|has_attribute('tender_result_types'))}
 <section class="{$container_class}">
     {if $current_topics|count()}
         {if $show_title}
@@ -61,8 +61,8 @@
         {/if}
     {/if}
     {if $show_title}
-    {* eventi, itinerari, documenti *}
-    {foreach array('has_public_event_typology', 'content_type', 'document_type', 'announcement_type', 'itinerary_types', 'itinerary_difficulties') as $identifier}
+    {* eventi, itinerari, documenti, bandi gara CIG *}
+    {foreach array('has_public_event_typology', 'content_type', 'document_type', 'announcement_type', 'itinerary_types', 'itinerary_difficulties', 'tender_types', 'tender_result_types') as $identifier}
     {if $node|has_attribute($identifier)}
         {if $show_title}
             <div class="row pt-3">
