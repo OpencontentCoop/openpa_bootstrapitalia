@@ -10,7 +10,8 @@ html[lang^="de"] {
   overflow-wrap: break-word;
   word-break: break-word;
   
-  .edit .table th{
+  .table th,
+  .btn{
     hyphens: manual;
     overflow-wrap: normal;
     word-break: normal;
