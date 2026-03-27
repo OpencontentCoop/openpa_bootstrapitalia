@@ -68,6 +68,9 @@
     <link rel="manifest" href="/manifest.json" crossorigin = "use-credentials">
     <meta name="theme-color" content="{primary_color()}">
     {openpa_no_index_if_needed()}
+    {if and( is_set( $module_result.content_info.persistent_variable.noindex ), $module_result.content_info.persistent_variable.noindex )}
+      <meta name="robots" content="NOINDEX,NOFOLLOW" /><!-- fix language -->
+    {/if}
     {include uri='design:page_head.tpl' canonical_url=openpacontext().canonical_url}
     {/debug-accumulator}
 
