@@ -4,6 +4,22 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Today</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>This weekend</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Next 7 days</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Next 30 days</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>License title</source>
       <translation type="unfinished"/>
     </message>

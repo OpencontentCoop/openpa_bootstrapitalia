@@ -751,6 +751,22 @@
       <source>Report a inefficiency short</source>
       <translation>Report</translation>
     </message>
+    <message>
+      <source>Today</source>
+      <translation>Today</translation>
+    </message>
+    <message>
+      <source>This weekend</source>
+      <translation>This weekend</translation>
+    </message>
+    <message>
+      <source>Next 7 days</source>
+      <translation>Next 7 days</translation>
+    </message>
+    <message>
+      <source>Next 30 days</source>
+      <translation>Next 30 days</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

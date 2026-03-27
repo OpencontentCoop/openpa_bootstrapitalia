@@ -739,6 +739,34 @@
       <source>Page reading progress</source>
       <translation>Progression de lecture de la page</translation>
     </message>
+    <message>
+      <source>Request assistance short</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Book an appointment short</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Report a inefficiency short</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Today</source>
+      <translation>Aujourd’hui</translation>
+    </message>
+    <message>
+      <source>This weekend</source>
+      <translation>Ce week-end</translation>
+    </message>
+    <message>
+      <source>Next 7 days</source>
+      <translation>Les 7 prochains jours</translation>
+    </message>
+    <message>
+      <source>Next 30 days</source>
+      <translation>Les 30 prochains jours</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
