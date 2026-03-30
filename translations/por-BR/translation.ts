@@ -4,30 +4,6 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
-      <source>Next appointments</source>
-      <translation>Os próximos eventos são:</translation>
-    </message>
-    <message>
-      <source>Event daytime text</source>
-      <translation>O evento decorre de</translation>
-    </message>
-    <message>
-      <source>Show more elements</source>
-      <translation>Mostrar mais / Mostrar menos</translation>
-    </message>
-    <message>
-      <source>Other places</source>
-      <translation>Outros lugares</translation>
-    </message>
-      <message>
-      <source>from day</source>
-      <translation>por</translation>
-    </message>
-    <message>
-      <source>to day</source>
-      <translation>até</translation>
-    </message>
-    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Este site usa cookies técnicos, analíticos e de terceiros.</translation>
     </message>
@@ -52,20 +28,8 @@
       <translation>Acessar menu de seção</translation>
     </message>
     <message>
-      <source>Jump to main navigation</source>
-      <translation>Ir ao menu de navegação principal</translation>
-    </message>
-    <message>
       <source>Jump to footer</source>
       <translation>Ir para o rodapé</translation>
-    </message>
-    <message>
-      <source>Go to homepage</source>
-      <translation>Ir para a página inicial</translation>
-    </message>
-    <message>
-      <source>Expand section</source>
-      <translation>Expandir seção</translation>
     </message>
     <message>
       <source>Table of contents</source>
@@ -334,10 +298,6 @@
     <message>
       <source>contents found</source>
       <translation>conteúdos encontrados</translation>
-    </message>
-    <message>
-      <source>content found</source>
-      <translation>conteúdo encontrado</translation>
     </message>
     <message>
       <source>Load more results</source>
@@ -670,6 +630,142 @@
     <message>
       <source>Stats last month</source>
       <translation></translation>
+    </message>
+    <message>
+      <source>Show more elements</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Other places</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>from day</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>to day</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Jump to main navigation</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Go to homepage</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Expand section</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>content found</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard archive</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Next appointments</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Event daytime text</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard text to archive</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Newsletter signup</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats pages</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats device</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Stats channel</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard document identifier</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>License title</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>License text first</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>License text second</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>License link</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>from</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>to</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Official noticeboard intro text</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Download data in format %extension</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Page reading progress</source>
+      <translation>Progresso de leitura da página</translation>
+    </message>
+    <message>
+      <source>Request assistance short</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Book an appointment short</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Report a inefficiency short</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Today</source>
+      <translation>Hoje</translation>
+    </message>
+    <message>
+      <source>This weekend</source>
+      <translation>Este fim de semana</translation>
+    </message>
+    <message>
+      <source>Next 7 days</source>
+      <translation>Os próximos 7 dias</translation>
+    </message>
+    <message>
+      <source>Next 30 days</source>
+      <translation>Os próximos 30 dias</translation>
     </message>
   </context>
   <context>
@@ -1276,21 +1372,21 @@
     <name>openpa/date_format</name>
     <message>
       <source>dd/MM/yyyy</source>
-      <translation>dd/MM/yyyy</translation>
+      <translation>dd/MM/aaaa</translation>
     </message>
   </context>
   <context>
     <name>openpa/moment_date_format</name>
     <message>
       <source>DD/MM/YYYY</source>
-      <translation>DD/MM/YYYY</translation>
+      <translation>DD/MM/AAAA</translation>
     </message>
   </context>
   <context>
     <name>openpa/moment_datetime_format</name>
     <message>
       <source>DD/MM/YYYY HH:mm</source>
-      <translation>DD/MM/YYYY HH:mm</translation>
+      <translation>DD/MM/AAAA HH:mm</translation>
     </message>
   </context>
   <context>
@@ -1449,10 +1545,7 @@
     </message>
     <message>
       <source>This website uses cookies to ensure you get the best experience on our website.</source>
-      <translation>Este site usa cookies técnicos essenciais para o funcionamento correto das páginas, cookies de análise e medição e cookies de terceiros. 
-Ao selecionar "Aceitar todos os cookies", você concorda com o uso de todos os cookies. 
-Ao selecionar "Recusar todos os cookies" ou fechar o banner, apenas os cookies técnicos serão usados: ao fazer isso, algumas funcionalidades e alguns conteúdos podem não estar disponíveis. 
-A preferência pode ser alterada a qualquer momento na Política de Cookies.</translation>
+      <translation>Este site utiliza cookies técnicos essenciais para o correto funcionamento das páginas web, cookies de análise e medição e cookies de terceiros. Ao selecionar «Aceitar todos os cookies», consente a utilização de todos os cookies. Ao selecionar «Aceitar os cookies necessários» ou ao fechar o banner, apenas os cookies técnicos serão utilizados; dessa forma, algumas funcionalidades e conteúdos poderão não estar disponíveis. A preferência pode ser alterada a qualquer momento na Política de cookies.</translation>
     </message>
     <message>
       <source>Accept all cookies</source>
@@ -1766,6 +1859,10 @@ Eles são usados essencialmente para medir e melhorar a qualidade dos sites por 
       <source>Other settings</source>
       <translation>Outras configurações</translation>
     </message>
+    <message>
+      <source>Dataset Map</source>
+      <translation></translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/header</name>
@@ -1975,7 +2072,7 @@ Eles são usados essencialmente para medir e melhorar a qualidade dos sites por 
     </message>
     <message>
       <source>There are no dates available for the selected period</source>
-      <translation>Não há datas disponíveis para o período selecionado</translation>
+      <translation>A data e a hora selecionadas já não estão disponíveis. Escolha outra data ou outro horário entre as opções disponíveis.</translation>
     </message>
     <message>
       <source>Select another location or another period</source>

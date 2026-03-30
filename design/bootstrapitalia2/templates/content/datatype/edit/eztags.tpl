@@ -10,7 +10,7 @@
         data-eztags
         data-builder="{$builder|wash}"
         data-max-results="{ezini( 'GeneralSettings', 'MaxResults', 'eztags.ini' )}"
-        data-has-add-access="{cond( $permission_array.can_add, 'true', true(), 'false' )}"
+        data-has-add-access="false"
         data-subtree-limit="{$attribute.contentclass_attribute.data_int1}"
         data-hide-root-tag="{$attribute.contentclass_attribute.data_int3}"
         data-max-tags="{if $attribute.contentclass_attribute.data_int4|gt( 0 )}{$attribute.contentclass_attribute.data_int4}{else}0{/if}"

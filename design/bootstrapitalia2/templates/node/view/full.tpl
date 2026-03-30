@@ -42,4 +42,8 @@
 {def $organizations = $openpa.content_analytics.organization_name_list}
 {if count($organizations)}{ezpagedata_set('analytics_organization', $organizations)}{/if}
 
+{if $node.object.current_language|ne(ezini('RegionalSettings', 'ContentObjectLocale'))}
+  {ezpagedata_set('noindex', true())}
+{/if}
+
 {undef $openpa}

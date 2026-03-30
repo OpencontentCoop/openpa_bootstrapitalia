@@ -79,19 +79,19 @@
                         <legend class="h6 ms-0 ps-0">{$facets_parts[0]|wash()}</legend>
                         <div class="form-check">
                           <input name="time_interval" type="radio" id="today" value="today">
-                          <label for="today">{'Today'|i18n('agenda')}</label>
+                          <label for="today">{'Today'|i18n('bootstrapitalia')}</label>
                         </div>
                         <div class="form-check">
                           <input name="time_interval" type="radio" id="week" value="weekend">
-                          <label for="week">{'This weekend'|i18n('agenda')}</label>
+                          <label for="week">{'This weekend'|i18n('bootstrapitalia')}</label>
                         </div>
                         <div class="form-check">
                           <input name="time_interval" type="radio" id="next7days" value="next7days">
-                          <label for="next7days">{'Next 7 days'|i18n('agenda')}</label>
+                          <label for="next7days">{'Next 7 days'|i18n('bootstrapitalia')}</label>
                         </div>
                         <div class="form-check">
                           <input name="time_interval" type="radio" id="next30days" value="next30days">
-                          <label for="next30days">{'Next 30 days'|i18n('agenda')}</label>
+                          <label for="next30days">{'Next 30 days'|i18n('bootstrapitalia')}</label>
                         </div>
                         <div class="form-check">
                           <input name="time_interval" type="radio" id="all" value="all" checked>
