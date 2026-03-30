@@ -363,4 +363,7 @@ EndpointUrl=
 Headers[]
 #Headers[]=X-Foo: Bar
 
+[AlboPretorioSettings]
+AllowApiSequentialId=disabled
+
 */ ?>
