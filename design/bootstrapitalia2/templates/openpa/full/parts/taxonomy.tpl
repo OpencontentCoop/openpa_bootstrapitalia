@@ -61,7 +61,7 @@
         {/if}
     {/if}
     {if $show_title}
-    {* eventi, itinerari, documenti *}
+    {* eventi, itinerari, documenti, bandi gara CIG *}
     {foreach array('has_public_event_typology', 'content_type', 'document_type', 'announcement_type', 'itinerary_types', 'itinerary_difficulties', 'tender_types', 'tender_result_types') as $identifier}
     {if $node|has_attribute($identifier)}
         {if $show_title}
