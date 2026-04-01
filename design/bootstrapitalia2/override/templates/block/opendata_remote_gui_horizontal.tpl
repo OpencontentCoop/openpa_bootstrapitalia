@@ -73,17 +73,16 @@
                   {def $facets_parts = $facet|explode(':')}
                   {if is_set($facets_parts[1])}
                     {if $facets_parts[1]|eq('date_range')}
-                      <div class="col-12 col-lg-6 mb-3" data-datepicker>
+                      <div class="col-12 col-lg-8 col-xl-6 mb-3" data-datepicker>
                         <div>
                           <div class="row">
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-6 mb-3 mb-lg-0">
                               <label class="h6 ms-0 ps-0 mb-1" for="date_range_from">
-                              {'Start date'|i18n('openpa/search')}
+                                {'Start date'|i18n('openpa/search')}
                               </label>
                                 <input type="date" class="w-100" name="date_range_from" id="date_range_from"
                                       data-from-field="{cond(is_set($facets_parts[2]), $facets_parts[2]|wash(), '')}"
                                       data-to-field="{cond(is_set($facets_parts[3]), $facets_parts[3]|wash(), '')}" />
-                              
                             </div>
                             <div class="col-12 col-lg-6">
                               <label class="h6 ms-0 ps-0 mb-1" for="date_range_to">
@@ -92,7 +91,6 @@
                                 <input type="date" class="w-100" name="date_range_to" id="date_range_to"
                                       data-from-field="{cond(is_set($facets_parts[2]), $facets_parts[2]|wash(), '')}"
                                       data-to-field="{cond(is_set($facets_parts[3]), $facets_parts[3]|wash(), '')}" />
-                              
                             </div>
                           </div>
                         </div>
@@ -104,7 +102,7 @@
                         {/if}
                         {if $tag_tree_root_id}
                             {def $tag_tree = api_tagtree($tag_tree_root_id)}
-                            <div class="col-12 col-lg-6 mb-3 option-tree">
+                            <div class="col-12 col-lg-6 col-xl-4 mb-3 option-tree">
                                 <label class="h6 ms-0 ps-0 mb-1" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
                                 <select id="facet-{$block.id}-{$index}" data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
                                         data-facets_select="facet-{$index}" class="d-none" multiple>
@@ -132,7 +130,7 @@
                             {set $facetsFields = $facetsFields|append(concat('raw[subattr_', $facets_parts[1], '___tag_ids____si]'))}
                             {undef $tag_tree}
                         {else}
-                            <div class="col-12 col-lg-4 mb-3">
+                            <div class="col-12 col-lg-4 col-xl-3 mb-3">
                                 <label class="h6 ms-0 ps-0 mb-1" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
                                 <select id="facet-{$block.id}-{$index}"
                                         data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
