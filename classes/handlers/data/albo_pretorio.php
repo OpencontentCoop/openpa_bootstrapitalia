@@ -41,7 +41,7 @@ class DataHandlerAlboPretorioContents implements OpenPADataHandlerInterface
             },
             'publication' => function ($query, $value) {
                 if ($value === 'current') {
-                    $query .= ' and (calendar[publication_start_time,publication_end_time] = [yesterday,now] )';
+                    $query .= ' and publication_start_time range [*,now] and publication_end_time range [now,*]';
                 }
                 return $query;
             },
@@ -90,7 +90,7 @@ class DataHandlerAlboPretorioContents implements OpenPADataHandlerInterface
             }
         }
         
-        $query .= ' and sort [id_albo_pretorio => desc, publication_start_time => desc]';
+        $query .= ' and state !in [\'privacy.expired\'] and sort [id_albo_pretorio => desc, publication_start_time => desc]';
 
         $limit = $http->hasGetVariable('limit')
             ? (int)$http->getVariable('limit')
