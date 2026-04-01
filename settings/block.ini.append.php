@@ -608,6 +608,7 @@ CanAddShowAllLink=enabled
 Wide[]
 Wide[]=default
 Wide[]=datatable
+Wide[]=horizontal
 CanAddIntroText=enabled
 CanAddShowAllLink=disabled
 

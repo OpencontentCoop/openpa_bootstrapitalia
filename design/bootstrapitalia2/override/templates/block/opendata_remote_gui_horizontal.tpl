@@ -36,8 +36,27 @@
         {include uri='design:parts/block_name.tpl'}
 
         <div class="row" id="remote-gui-{$block.id}">
-            {if $facets|count()}
-              <div class="col-12 col-lg-4 ps-lg-5">
+          <section class="col-lg-10 col-12 pt-lg-2 pb-lg-2 mb-5 mb-lg-0">
+            <div class="row mb-5">
+              {if $showSearch}
+                <div class="col-12 mb-3">
+                  {def $placeHolder = cond($searchPlaceholder|eq(''), 'Search by keyword'|i18n('bootstrapitalia'), $searchPlaceholder)}
+                  <div class="form-group mb-0 search-form{if and($showSearch, count($facets)|eq(0))} col-10{/if}">
+                    <div class="input-group">
+                      <span class="input-group-text h-auto">{display_icon('it-search', 'svg', 'icon icon-sm')}</span>
+                      <label for="search-input-{$block.id}" class="visually-hidden">{$placeHolder|wash()}</label>
+                      <input type="text" class="form-control" id="search-input-{$block.id}" data-search="q"
+                        placeholder="{$placeHolder|wash()}" name="search-input-{$block.id}">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button"
+                          id="button-3">{'Search'|i18n('design/plain/layout')}</button>
+                      </div>
+                    </div>
+                  </div>
+                  {undef $placeHolder}
+                </div>
+              {/if}
+              {if $facets|count()}
                 <ul class="nav d-block nav-pills text-start {if $multipleViewsEnabled|not()} d-none {/if} d-flex {if $trueCount|gt(2)} flex-lg-column{/if} align-items-start flex-xxl-row">
                     {if $showGrid}
                       <li class="nav-item pr-1 pe-1 text-center mb-1">
@@ -48,206 +67,93 @@
                         </a>
                       </li>
                     {/if}
-                    {if $showMap}
-                      <li class="nav-item text-center mb-1">
-                        <a data-toggle="tab" data-bs-toggle="tab"
-                           class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
-                           href="#remote-gui-{$block.id}-geo">
-                          <i aria-hidden="true" class="fa fa-map"></i> {'Map'|i18n('bootstrapitalia')}
-                        </a>
-                      </li>
-                    {/if}
-                    {if $showAgenda}
-                      <li class="nav-item text-center mb-1">
-                        <a data-toggle="tab" data-bs-toggle="tab"
-                           class="nav-link{if $showGrid|not} active{/if} rounded view-selector text-uppercase"
-                           href="#remote-gui-{$block.id}-agenda">
-                          <i aria-hidden="true" class="fa fa-calendar"></i> {'Calendar'|i18n('bootstrapitalia')}
-                        </a>
-                      </li>
-                    {/if}
                 </ul>
-
-            {if $facets|count()}
-              {def $index = 0}
-              {foreach $facets as $facet}
-                {def $facets_parts = $facet|explode(':')}
-                {if is_set($facets_parts[1])}
-                  {if $facets_parts[1]|eq('time_interval')}
-                    <div class="px-0 my-4 mb-5" data-datepicker>
-                      <fieldset>
-                        <legend class="h6 ms-0 ps-0">{$facets_parts[0]|wash()}</legend>
-                        <div class="form-check">
-                          <input name="time_interval" type="radio" id="today" value="today">
-                          <label for="today">{'Today'|i18n('bootstrapitalia')}</label>
-                        </div>
-                        <div class="form-check">
-                          <input name="time_interval" type="radio" id="week" value="weekend">
-                          <label for="week">{'This weekend'|i18n('bootstrapitalia')}</label>
-                        </div>
-                        <div class="form-check">
-                          <input name="time_interval" type="radio" id="next7days" value="next7days">
-                          <label for="next7days">{'Next 7 days'|i18n('bootstrapitalia')}</label>
-                        </div>
-                        <div class="form-check">
-                          <input name="time_interval" type="radio" id="next30days" value="next30days">
-                          <label for="next30days">{'Next 30 days'|i18n('bootstrapitalia')}</label>
-                        </div>
-                        <div class="form-check">
-                          <input name="time_interval" type="radio" id="all" value="all" checked>
-                          <label for="all">{'Upcoming appointments'|i18n('bootstrapitalia')}</label>
-                        </div>
-                      </fieldset>
-                    </div>
-                  {elseif $facets_parts[1]|eq('published_range')}
-                    <div class="px-0 my-4 mb-5" data-datepicker>
-                      <fieldset>
-                        <legend class="h6 ms-0 ps-0">
-                            {$facets_parts[0]|wash()}
-                            <a href="#" class="published_reset" style="display:none">
-                              <i class="fa fa-times-circle" aria-label="Reset" data-focus-mouse="false" style="font-size: 18px;color: #000"></i>
-                            </a>
-                        </legend>
-                        <label class="d-flex align-items-center">
-                          <p class="m-0" style="min-width: 35px;">{'From'|i18n('bootstrapitalia/documents')}</p>
-                          <input type="date" class="w-100" name="published_from" />
-                        </label>
-                        <label class="d-flex align-items-center mt-2">
-                          <p class="m-0" style="min-width: 35px;">{'to'|i18n('bootstrapitalia/documents')}</p>
-                          <input type="date" class="w-100" name="published_to" />
-                        </label>
-                      </fieldset>
-                    </div>
-                  {else}
-                      {def $tag_tree_root_id = false()}
-                      {if and(is_set($facets_parts[2]), $facets_parts[2]|eq('tree'))}
-                          {set $tag_tree_root_id = tag_root_from_attribute_identifier($facets_parts[1])}
-                      {/if}
-                      {if $tag_tree_root_id}
-                          {def $tag_tree = api_tagtree($tag_tree_root_id)}
-                          <div class="px-0 my-4 mb-5 option-tree">
-                              <label class="h6 ms-0 ps-0" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
-                              <select id="facet-{$block.id}-{$index}" data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
-                                      data-facets_select="facet-{$index}" class="d-none" multiple>
-                                  {foreach $tag_tree.children as $tag}
-                                      <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$tag.id|wash()}">{$tag.keyword|wash()}</option>
-                                      {if $tag.hasChildren}
-                                          {foreach $tag.children as $childTag}
-                                              <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$childTag.id|wash()}">&nbsp;&nbsp;{$childTag.keyword|wash()}</option>
-                                              {if $childTag.hasChildren}
-                                                  {foreach $childTag.children as $subChildTag}
-                                                      <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$subChildTag.id|wash()}">&nbsp;&nbsp;&nbsp;&nbsp;{$subChildTag.keyword|wash()}</option>
-                                                      {if $subChildTag.hasChildren}
-                                                          {foreach $subChildTag.children as $subSubChildTag}
-                                                              <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$subSubChildTag.id|wash()}">&nbsp;&nbsp;&nbsp;&nbsp;{$subSubChildTag.keyword|wash()}</option>
-                                                          {/foreach}
-                                                      {/if}
-                                                  {/foreach}
-                                              {/if}
-                                          {/foreach}
-                                      {/if}
-                                  {/foreach}
-                              </select>
+                {def $index = 0}
+                {foreach $facets as $facet}
+                  {def $facets_parts = $facet|explode(':')}
+                  {if is_set($facets_parts[1])}
+                    {if $facets_parts[1]|eq('date_range')}
+                      <div class="col-12 col-lg-6 mb-3" data-datepicker>
+                        <div>
+                          <div class="row">
+                            <div class="col-12 col-lg-6">
+                              <label class="h6 ms-0 ps-0 mb-1" for="date_range_from">
+                              {'Start date'|i18n('openpa/search')}
+                              </label>
+                                <input type="date" class="w-100" name="date_range_from" id="date_range_from"
+                                      data-from-field="{cond(is_set($facets_parts[2]), $facets_parts[2]|wash(), '')}"
+                                      data-to-field="{cond(is_set($facets_parts[3]), $facets_parts[3]|wash(), '')}" />
+                              
+                            </div>
+                            <div class="col-12 col-lg-6">
+                              <label class="h6 ms-0 ps-0 mb-1" for="date_range_to">
+                                {'End date'|i18n('openpa/search')}
+                              </label>
+                                <input type="date" class="w-100" name="date_range_to" id="date_range_to"
+                                      data-from-field="{cond(is_set($facets_parts[2]), $facets_parts[2]|wash(), '')}"
+                                      data-to-field="{cond(is_set($facets_parts[3]), $facets_parts[3]|wash(), '')}" />
+                              
+                            </div>
                           </div>
-                          {set $index = $index|inc()}
-                          {set $facetsFields = $facetsFields|append(concat('raw[subattr_', $facets_parts[1], '___tag_ids____si]'))}
-                          {undef $tag_tree}
-                      {else}
-                          <div class="px-0 my-4 mb-5">
-                              <label class="h6 ms-0 ps-0" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
-                              <select id="facet-{$block.id}-{$index}"
-                                      data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
-                                      data-facets_select="facet-{$index}" class="d-none" multiple></select>
-                          </div>
-                          {set $index = $index|inc()}
-                          {set $facetsFields = $facetsFields|append($facets_parts[1])}
-                      {/if}
-                      {undef $tag_tree_root_id}
+                        </div>
+                      </div>
+                    {else}
+                        {def $tag_tree_root_id = false()}
+                        {if and(is_set($facets_parts[2]), $facets_parts[2]|eq('tree'))}
+                            {set $tag_tree_root_id = tag_root_from_attribute_identifier($facets_parts[1])}
+                        {/if}
+                        {if $tag_tree_root_id}
+                            {def $tag_tree = api_tagtree($tag_tree_root_id)}
+                            <div class="col-12 col-lg-6 mb-3 option-tree">
+                                <label class="h6 ms-0 ps-0 mb-1" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
+                                <select id="facet-{$block.id}-{$index}" data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
+                                        data-facets_select="facet-{$index}" class="d-none" multiple>
+                                    {foreach $tag_tree.children as $tag}
+                                        <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$tag.id|wash()}">{$tag.keyword|wash()}</option>
+                                        {if $tag.hasChildren}
+                                            {foreach $tag.children as $childTag}
+                                                <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$childTag.id|wash()}">&nbsp;&nbsp;{$childTag.keyword|wash()}</option>
+                                                {if $childTag.hasChildren}
+                                                    {foreach $childTag.children as $subChildTag}
+                                                        <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$subChildTag.id|wash()}">&nbsp;&nbsp;&nbsp;&nbsp;{$subChildTag.keyword|wash()}</option>
+                                                        {if $subChildTag.hasChildren}
+                                                            {foreach $subChildTag.children as $subSubChildTag}
+                                                                <option disabled="disabled" data-tree="{$tag.id|wash()}" value="{$subSubChildTag.id|wash()}">&nbsp;&nbsp;&nbsp;&nbsp;{$subSubChildTag.keyword|wash()}</option>
+                                                            {/foreach}
+                                                        {/if}
+                                                    {/foreach}
+                                                {/if}
+                                            {/foreach}
+                                        {/if}
+                                    {/foreach}
+                                </select>
+                            </div>
+                            {set $index = $index|inc()}
+                            {set $facetsFields = $facetsFields|append(concat('raw[subattr_', $facets_parts[1], '___tag_ids____si]'))}
+                            {undef $tag_tree}
+                        {else}
+                            <div class="col-12 col-lg-4 mb-3">
+                                <label class="h6 ms-0 ps-0 mb-1" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
+                                <select id="facet-{$block.id}-{$index}"
+                                        data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
+                                        data-facets_select="facet-{$index}" class="d-none" multiple></select>
+                            </div>
+                            {set $index = $index|inc()}
+                            {set $facetsFields = $facetsFields|append($facets_parts[1])}
+                        {/if}
+                        {undef $tag_tree_root_id}
+                    {/if}
                   {/if}
-                {/if}
-                {undef $facets_parts}
-              {/foreach}
+                  {undef $facets_parts}
+                {/foreach}
+              </div>
             {/if}
-
+            <div class="items tab-content">
+              {if $showGrid}
+                <section id="remote-gui-{$block.id}-list" class="tab-pane active pt-0 pl-0 ps-0"></section>
+              {/if}
           </div>
-        {/if}
-
-        <section
-          class="{if $facets|count()}order-lg-first col-12 col-lg-8 {else}col-12{/if} pt-lg-2 pb-lg-2 mb-5 mb-lg-0">
-          {if and($showSearch, count($facets)|eq(0))}<div class="row g-0">{/if}
-            {if $showSearch}
-              {def $placeHolder = cond($searchPlaceholder|eq(''), 'Search by keyword'|i18n('bootstrapitalia'), $searchPlaceholder)}
-              <div class="form-group mb-2 mb-lg-4 search-form{if and($showSearch, count($facets)|eq(0))} col-10{/if}">
-                <div class="input-group">
-                  <span class="input-group-text h-auto">{display_icon('it-search', 'svg', 'icon icon-sm')}</span>
-                  <label for="search-input-{$block.id}" class="visually-hidden">{$placeHolder|wash()}</label>
-                  <input type="text" class="form-control" id="search-input-{$block.id}" data-search="q"
-                    placeholder="{$placeHolder|wash()}" name="search-input-{$block.id}">
-                  <div class="input-group-append">
-                    <button class="btn btn-primary" type="button"
-                      id="button-3">{'Search'|i18n('design/plain/layout')}</button>
-                  </div>
-                </div>
-              </div>
-              {undef $placeHolder}
-            {/if}
-            {if count($facets)|eq(0)}
-              <div class="col">
-                <ul class="nav d-block nav-pills text-center {if $multipleViewsEnabled|not()} d-none {/if}">
-                  {if $showGrid}
-                    <li class="nav-item pr-1 pe-1 text-center d-inline-block">
-                      <a data-toggle="tab" data-bs-toggle="tab" class="nav-link active rounded view-selector"
-                        href="#remote-gui-{$block.id}-list">
-                        <i aria-hidden="true" class="fa fa-list"></i>
-                        <span class="sr-only"> {'List'|i18n('editorialstuff/dashboard')}</span>
-                      </a>
-                    </li>
-                  {/if}
-                  {if $showMap}
-                    <li class="nav-item text-center d-inline-block">
-                      <a data-toggle="tab" data-bs-toggle="tab"
-                        class="nav-link{if $showGrid|not} active{/if} rounded view-selector"
-                        href="#remote-gui-{$block.id}-geo">
-                        <i aria-hidden="true" class="fa fa-map"></i>
-                        <span class="sr-only">{'Map'|i18n('bootstrapitalia')}</span>
-                      </a>
-                    </li>
-                  {/if}
-                  {if $showAgenda}
-                    <li class="nav-item text-center d-inline-block">
-                      <a data-toggle="tab" data-bs-toggle="tab"
-                        class="nav-link{if $showGrid|not} active{/if} rounded view-selector"
-                        href="#remote-gui-{$block.id}-agenda">
-                        <i aria-hidden="true" class="fa fa-calendar"></i>
-                        <span class="sr-only">{'Calendar'|i18n('design/ocbootstrap/blog/calendar')}</span>
-                      </a>
-                    </li>
-                  {/if}
-                </ul>
-              </div>
-            {/if}
-            {if and($showSearch, count($facets)|eq(0))}
-          </div>{/if}
-          <div class="items tab-content">
-            {if $showGrid}
-              <section id="remote-gui-{$block.id}-list" class="tab-pane active pt-0 pl-0 ps-0"></section>
-            {/if}
-            {if $showMap}
-              <section id="remote-gui-{$block.id}-geo" class="tab-pane{if $showGrid|not} active{/if} p-0">
-                <div id="remote-gui-{$block.id}-map" style="width: 100%; height: 700px"></div>
-              </section>
-            {/if}
-            {if $showAgenda}
-              <section id="remote-gui-{$block.id}-agenda" class="tab-pane{if $showGrid|not} active{/if} p-0">
-                <div
-                  id="remote-gui-{$block.id}-calendar"
-                  style="overflow-x:auto;min-height: 300px;"
-                  class="mt-5"
-                ></div>
-              </section>
-            {/if}
-        </div>
-      </section>
+        </section>
     </div>
 
     {if and(is_set($block.custom_attributes.show_all_link), $block.custom_attributes.show_all_link|eq(1))}
