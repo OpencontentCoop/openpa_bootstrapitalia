@@ -15,7 +15,7 @@ class DataHandlerAlboPretorioContents implements OpenPADataHandlerInterface
     {
         $http = eZHTTPTool::instance();
 
-        $baseQuery = "classes [document] and id_albo_pretorio != null and facets [raw[subattr_document_type___tag_ids____si],raw[subattr_publication_start_time___year____dt],class]";
+        $baseQuery = "classes [document] and raw[attr_id_albo_pretorio_s] range [*,*] and id_albo_pretorio != null and facets [raw[subattr_document_type___tag_ids____si],raw[subattr_publication_start_time___year____dt],class]";
 
         if (empty($baseQuery)) {
             throw new Exception("Invalid block query settings");
