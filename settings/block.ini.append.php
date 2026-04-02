@@ -599,13 +599,16 @@ CustomAttributeSelection_view_api[latest_messages_item]=Lista
 ViewList[]
 ViewList[]=default
 ViewList[]=datatable
+ViewList[]=horizontal
 ViewName[default]=Default
 ViewName[datatable]=Datatable
+ViewName[horizontal]=Orizzontale
 ItemsPerRow[]
 CanAddShowAllLink=enabled
 Wide[]
 Wide[]=default
 Wide[]=datatable
+Wide[]=horizontal
 CanAddIntroText=enabled
 CanAddShowAllLink=disabled
 
