@@ -118,6 +118,32 @@
                         </label>
                       </fieldset>
                     </div>
+                  {elseif $facets_parts[1]|eq('date_range')}
+                    <div class="px-0 my-4 mb-5" data-datepicker>
+                      <fieldset>
+                        <legend class="h6 ms-0 ps-0">
+                          {$facets_parts[0]|wash()}
+                          <a href="#" class="date_range_reset"
+                             data-from-field="{cond(is_set($facets_parts[2]), $facets_parts[2]|wash(), '')}"
+                             data-to-field="{cond(is_set($facets_parts[3]), $facets_parts[3]|wash(), '')}"
+                             style="display:none">
+                            <i class="fa fa-times-circle" aria-label="Reset" data-focus-mouse="false" style="font-size: 18px;color: #000"></i>
+                          </a>
+                        </legend>
+                        <label class="d-flex align-items-center">
+                          <p class="m-0" style="min-width: 35px;">{'From'|i18n('bootstrapitalia/documents')}</p>
+                          <input type="date" class="w-100" name="date_range_from"
+                                 data-from-field="{cond(is_set($facets_parts[2]), $facets_parts[2]|wash(), '')}"
+                                 data-to-field="{cond(is_set($facets_parts[3]), $facets_parts[3]|wash(), '')}" />
+                        </label>
+                        <label class="d-flex align-items-center mt-2">
+                          <p class="m-0" style="min-width: 35px;">{'to'|i18n('bootstrapitalia/documents')}</p>
+                          <input type="date" class="w-100" name="date_range_to"
+                                 data-from-field="{cond(is_set($facets_parts[2]), $facets_parts[2]|wash(), '')}"
+                                 data-to-field="{cond(is_set($facets_parts[3]), $facets_parts[3]|wash(), '')}" />
+                        </label>
+                      </fieldset>
+                    </div>
                   {else}
                       {def $tag_tree_root_id = false()}
                       {if and(is_set($facets_parts[2]), $facets_parts[2]|eq('tree'))}
@@ -157,7 +183,9 @@
                               <label class="h6 ms-0 ps-0" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
                               <select id="facet-{$block.id}-{$index}"
                                       data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
-                                      data-facets_select="facet-{$index}" class="d-none" multiple></select>
+                                      data-facets_select="facet-{$index}"
+                                      {if and(is_set($facets_parts[2]), $facets_parts[2]|ne(''), $facets_parts[2]|ne('tree'))}data-datatype="{$facets_parts[2]|wash()}"{/if}
+                                      class="d-none" multiple></select>
                           </div>
                           {set $index = $index|inc()}
                           {set $facetsFields = $facetsFields|append($facets_parts[1])}
