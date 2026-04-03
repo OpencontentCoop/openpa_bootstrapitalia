@@ -134,7 +134,9 @@
                                 <label class="h6 ms-0 ps-0 mb-1" for="facet-{$block.id}-{$index}">{$facets_parts[0]|wash()}</label>
                                 <select id="facet-{$block.id}-{$index}"
                                         data-placeholder="{'Select'|i18n('design/admin/content/browse')}"
-                                        data-facets_select="facet-{$index}" class="d-none" multiple></select>
+                                        data-facets_select="facet-{$index}"
+                                        {if and(is_set($facets_parts[2]), $facets_parts[2]|ne(''))}data-datatype="{$facets_parts[2]|wash()}"{/if}
+                                        class="d-none" multiple></select>
                             </div>
                             {set $index = $index|inc()}
                             {set $facetsFields = $facetsFields|append($facets_parts[1])}
