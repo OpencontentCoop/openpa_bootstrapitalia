@@ -268,6 +268,9 @@
                             let dates = facetField.indexOf('_dt') > -1 ? values.map(x => '"'+moment(x).format('YYYY-MM-DD')+'T00:00:00Z'+'"') : values;
                             baseQuery = facetField + " in ['" + dates.join("','") + "'] and " + baseQuery;
                             queryParams.facets[facetField] = dates;
+                        }else if (type === 'integer') {
+                            baseQuery = facetField + ' in [' + values.map(v => parseInt(v)).join(',') + '] and ' + baseQuery;
+                            queryParams.facets[facetField] = values;
                         }else{
                             baseQuery = facetField + " in ['" + plugin.escapeValue(values).join("','") + "'] and " + baseQuery;
                             queryParams.facets[facetField] = plugin.escapeValue(values);
