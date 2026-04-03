@@ -549,6 +549,82 @@ class BootstrapItaliaInstallerUtils
     }
 
     /**
+     * Imposta un attributo booleano a true su tutti i contenuti con un dato stato privacy,
+     * poi cambia il loro stato privacy.
+     * steps:
+     *     ...
+     *     -   type: php_callable
+     *         identifier: 'BootstrapItaliaInstallerUtils::setBooleanAttributeAndChangeState'
+     *         class: 'place'
+     *         boolean_attribute: 'excluded_from_listing'
+     *         from_state: 'privacy.private'
+     *         to_state: 'privacy.public'
+     *     ...
+     * @param AbstractStepInstaller $step
+     * @return void
+     * @throws Exception
+     */
+    public static function setBooleanAttributeAndChangeState(AbstractStepInstaller $step)
+    {
+        $stepData = $step->getStep();
+        $classIdentifier = $stepData['class'];
+        $booleanAttributeIdentifier = $stepData['boolean_attribute'];
+        $fromState = $stepData['from_state'];
+        $toState = $stepData['to_state'];
+
+        if (!eZContentClass::classIDByIdentifier($classIdentifier)) {
+            throw new Exception("Class $classIdentifier not found");
+        }
+        if (!eZContentObjectTreeNode::classAttributeIDByIdentifier("$classIdentifier/$booleanAttributeIdentifier")) {
+            throw new Exception("Attribute $booleanAttributeIdentifier of class $classIdentifier not found");
+        }
+
+        [$fromStateGroup, $fromStateIdentifier] = explode('.', $fromState, 2);
+        [$toStateGroup, $toStateIdentifier] = explode('.', $toState, 2);
+        $stateIdentifiers = array_unique([$fromStateIdentifier, $toStateIdentifier]);
+        $states = OpenPABase::initStateGroup($fromStateGroup, $stateIdentifiers);
+
+        if (!isset($states[$fromState])) {
+            throw new Exception("State $fromState not found");
+        }
+        if (!isset($states[$toState])) {
+            throw new Exception("State $toState not found");
+        }
+
+        $step->getLogger()->info(" - Cerco $classIdentifier con stato $fromState");
+        /** @var eZContentObjectTreeNode[] $nodes */
+        $nodes = eZContentObjectTreeNode::subTreeByNodeID([
+            'ClassFilterType' => 'include',
+            'ClassFilterArray' => [$classIdentifier],
+            'AttributeFilter' => [
+                ['state', '=', $states[$fromState]->attribute('id')],
+            ],
+        ], 1);
+
+        if (!count($nodes)) {
+            $step->getLogger()->info('   -> nessuna modifica necessaria');
+            return;
+        }
+
+        $step->getLogger()->info('   -> ' . count($nodes) . " $classIdentifier da migrare");
+        foreach ($nodes as $node) {
+            $step->getLogger()->debug('   - ' . $node->attribute('name'));
+            $object = $node->attribute('object');
+            $dataMap = $object->dataMap();
+            if (isset($dataMap[$booleanAttributeIdentifier])) {
+                $attr = $dataMap[$booleanAttributeIdentifier];
+                $attr->fromString('1');
+                $attr->store();
+            }
+            eZContentOperationCollection::updateObjectState(
+                $node->attribute('contentobject_id'),
+                [$states[$toState]->attribute('id')]
+            );
+            eZContentOperationCollection::registerSearchObject($node->attribute('contentobject_id'));
+        }
+    }
+
+    /**
      * steps:
      *     ...
      *     -   type: php_callable
