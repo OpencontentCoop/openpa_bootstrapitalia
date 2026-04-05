@@ -317,8 +317,7 @@ class BootstrapItaliaInstallerUtils
         }
     }
 
-    public static function appendToFooterLink(AbstractStepInstaller $step)
-    {
+    public static function appendToFooterLink(AbstractStepInstaller $step){
         $remoteId = $step->getStep()['remote_id'];
         $object = eZContentObject::fetchByRemoteID($remoteId);
         if ($object instanceof eZContentObject) {
@@ -336,8 +335,7 @@ class BootstrapItaliaInstallerUtils
         }
     }
 
-    public static function appendToHeaderLink(AbstractStepInstaller $step)
-    {
+    public static function appendToHeaderLink(AbstractStepInstaller $step){
         $remoteId = $step->getStep()['remote_id'];
         $object = eZContentObject::fetchByRemoteID($remoteId);
         if ($object instanceof eZContentObject) {
@@ -446,198 +444,5 @@ class BootstrapItaliaInstallerUtils
         if (!eZSearch::getEngine() instanceof eZSearchEngine) {
             eZContentOperationCollection::registerSearchObject($objectID);
         }
-    }
-
-    /**
-     * @see https://gitlab.com/opencity-labs/sito-istituzionale/cms/-/work_items/331
-     * steps:
-     *     ...
-     *     -   type: php_callable
-     *         identifier: 'BootstrapItaliaInstallerUtils::migratePrivacyObjectStates'
-     *         class: 'article'
-     *         start_attribute: 'published'
-     *         end_attribute: 'dead_line'
-     *
-     *     -   type: php_callable
-     *         identifier: 'BootstrapItaliaInstallerUtils::migratePrivacyObjectStates'
-     *         class: 'document'
-     *         start_attribute: 'publication_start_time'
-     *         end_attribute: 'expiration_time'
-     * ...
-     * @param AbstractStepInstaller $step
-     * @return void
-     * @throws Exception
-     */
-    public static function migratePrivacyObjectStates(AbstractStepInstaller $step)
-    {
-        $stepData = $step->getStep();
-        $classIdentifier = $stepData['class'];
-        $startDateIdentifier = $stepData['start_attribute'] ?? '?';
-        $endDateIdentifier = $stepData['end_attribute'] ?? '?';
-
-        if (!eZContentClass::classIDByIdentifier($classIdentifier)) {
-            throw new Exception("Class $classIdentifier not found");
-        }
-        if (!eZContentObjectTreeNode::classAttributeIDByIdentifier("$classIdentifier/$startDateIdentifier")) {
-            throw new Exception("Attribute $startDateIdentifier of class $classIdentifier not found");
-        }
-        if (!eZContentObjectTreeNode::classAttributeIDByIdentifier("$classIdentifier/$endDateIdentifier")) {
-            throw new Exception("Attribute $endDateIdentifier of class $classIdentifier not found");
-        }
-
-        $currentDate = time();
-        $privacyStates = OpenPABase::initStateGroup('privacy', ['public', 'private', 'scheduled', 'expired']);
-
-        $step->getLogger()->info(' - Check ' . $classIdentifier . 's to mark them as expired');
-        /** @var eZContentObjectTreeNode[] $makeExpired */
-        $makeExpired = eZContentObjectTreeNode::subTreeByNodeID([
-            'ClassFilterType' => 'include',
-            'ClassFilterArray' => [$classIdentifier],
-            'AttributeFilter' => [
-                'and',
-                ["{$classIdentifier}/{$endDateIdentifier}", '<', $currentDate],
-                ["{$classIdentifier}/{$endDateIdentifier}", '>', 0],
-                ['state', "=", $privacyStates['privacy.private']->attribute('id')],
-            ],
-        ], 1);
-        if (count($makeExpired)) {
-            $step->getLogger()->info('   -> Mark ' . count($makeExpired) . ' ' . $classIdentifier . '(s) as expired');
-
-            foreach ($makeExpired as $expired) {
-                $step->getLogger()->debug('   - ' . $expired->attribute('name'));
-                eZContentOperationCollection::updateObjectState($expired->attribute('contentobject_id'), [$privacyStates['privacy.expired']->attribute('id')]);
-            }
-        } else {
-            $step->getLogger()->info('   -> no changes needed');
-        }
-
-        $step->getLogger()->info(' - Check ' . $classIdentifier . 's to mark them as scheduled');
-        $makeScheduledWithEndDate = eZContentObjectTreeNode::subTreeByNodeID([
-            'ClassFilterType' => 'include',
-            'ClassFilterArray' => [$classIdentifier],
-            'AttributeFilter' => [
-                'and',
-                ["{$classIdentifier}/{$startDateIdentifier}", '>', $currentDate],
-                ["{$classIdentifier}/{$startDateIdentifier}", '>', 0],
-                ["{$classIdentifier}/{$endDateIdentifier}", '>', $currentDate],
-                ["{$classIdentifier}/{$endDateIdentifier}", '>', 0],
-                ['state', "=", $privacyStates['privacy.private']->attribute('id')],
-            ],
-        ], 1);
-        $makeScheduledWithoutEndDate = eZContentObjectTreeNode::subTreeByNodeID([
-            'ClassFilterType' => 'include',
-            'ClassFilterArray' => [$classIdentifier],
-            'AttributeFilter' => [
-                'and',
-                ["{$classIdentifier}/{$startDateIdentifier}", '>', $currentDate],
-                ["{$classIdentifier}/{$startDateIdentifier}", '>', 0],
-                ["{$classIdentifier}/{$endDateIdentifier}", '=', 0],
-                ['state', "=", $privacyStates['privacy.private']->attribute('id')],
-            ],
-        ], 1);
-        /** @var eZContentObjectTreeNode[] $makeScheduled */
-        $makeScheduled = array_merge($makeScheduledWithEndDate, $makeScheduledWithoutEndDate);
-        if (count($makeScheduled)) {
-            $step->getLogger()->info('   -> Mark ' . count($makeScheduled) . ' ' . $classIdentifier . '(s) as scheduled');
-            foreach ($makeScheduled as $scheduled) {
-                $step->getLogger()->debug('   - ' . $scheduled->attribute('name'));
-                eZContentOperationCollection::updateObjectState($scheduled->attribute('contentobject_id'), [$privacyStates['privacy.scheduled']->attribute('id')]);
-            }
-        } else {
-            $step->getLogger()->info('   -> no changes needed');
-        }
-    }
-
-    /**
-     * Imposta un attributo booleano a true su tutti i contenuti con un dato stato privacy,
-     * poi cambia il loro stato privacy.
-     * steps:
-     *     ...
-     *     -   type: php_callable
-     *         identifier: 'BootstrapItaliaInstallerUtils::setBooleanAttributeAndChangeState'
-     *         class: 'place'
-     *         boolean_attribute: 'excluded_from_listing'
-     *         from_state: 'privacy.private'
-     *         to_state: 'privacy.public'
-     *     ...
-     * @param AbstractStepInstaller $step
-     * @return void
-     * @throws Exception
-     */
-    public static function setBooleanAttributeAndChangeState(AbstractStepInstaller $step)
-    {
-        $stepData = $step->getStep();
-        $classIdentifier = $stepData['class'];
-        $booleanAttributeIdentifier = $stepData['boolean_attribute'];
-        $fromState = $stepData['from_state'];
-        $toState = $stepData['to_state'];
-
-        if (!eZContentClass::classIDByIdentifier($classIdentifier)) {
-            throw new Exception("Class $classIdentifier not found");
-        }
-        if (!eZContentObjectTreeNode::classAttributeIDByIdentifier("$classIdentifier/$booleanAttributeIdentifier")) {
-            throw new Exception("Attribute $booleanAttributeIdentifier of class $classIdentifier not found");
-        }
-
-        [$fromStateGroup, $fromStateIdentifier] = explode('.', $fromState, 2);
-        [$toStateGroup, $toStateIdentifier] = explode('.', $toState, 2);
-        $stateIdentifiers = array_unique([$fromStateIdentifier, $toStateIdentifier]);
-        $states = OpenPABase::initStateGroup($fromStateGroup, $stateIdentifiers);
-
-        if (!isset($states[$fromState])) {
-            throw new Exception("State $fromState not found");
-        }
-        if (!isset($states[$toState])) {
-            throw new Exception("State $toState not found");
-        }
-
-        $step->getLogger()->info(" - Cerco $classIdentifier con stato $fromState");
-        /** @var eZContentObjectTreeNode[] $nodes */
-        $nodes = eZContentObjectTreeNode::subTreeByNodeID([
-            'ClassFilterType' => 'include',
-            'ClassFilterArray' => [$classIdentifier],
-            'AttributeFilter' => [
-                ['state', '=', $states[$fromState]->attribute('id')],
-            ],
-        ], 1);
-
-        if (!count($nodes)) {
-            $step->getLogger()->info('   -> nessuna modifica necessaria');
-            return;
-        }
-
-        $step->getLogger()->info('   -> ' . count($nodes) . " $classIdentifier da migrare");
-        foreach ($nodes as $node) {
-            $step->getLogger()->debug('   - ' . $node->attribute('name'));
-            $object = $node->attribute('object');
-            $dataMap = $object->dataMap();
-            if (isset($dataMap[$booleanAttributeIdentifier])) {
-                $attr = $dataMap[$booleanAttributeIdentifier];
-                $attr->fromString('1');
-                $attr->store();
-            }
-            eZContentOperationCollection::updateObjectState(
-                $node->attribute('contentobject_id'),
-                [$states[$toState]->attribute('id')]
-            );
-            eZContentOperationCollection::registerSearchObject($node->attribute('contentobject_id'));
-        }
-    }
-
-    /**
-     * steps:
-     *     ...
-     *     -   type: php_callable
-     *         identifier: 'BootstrapItaliaInstallerUtils::throwException'
-     *         message: 'Debug!'
-     *     ...
-     * @param AbstractStepInstaller $step
-     * @return mixed
-     * @throws Exception
-     */
-    public static function throwException(AbstractStepInstaller $step)
-    {
-        $message = $step->getStep()['message'] ?? '';
-        throw new Exception($message);
     }
 }

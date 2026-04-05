@@ -4,8 +4,6 @@ class OneOfFieldValidator extends AbstractBootstrapItaliaInputValidator
 {
     const ONE_OF_ERROR_MESSAGE = 'Compilare almeno un campo tra %s';
 
-    const ONE_ERROR_MESSAGE = 'Compilare il campo tra %s';
-
     const AND_MESSAGE = 'e';
 
     private $oneOfFields;
@@ -54,10 +52,7 @@ class OneOfFieldValidator extends AbstractBootstrapItaliaInputValidator
         if (!$hasValidContent) {
             return [
                 'identifier' => $attributes[$this->oneOfFields[0]]['class_attribute']->attribute('identifier'),
-                'text' => sprintf(
-                    count($texts) > 1 ? self::ONE_OF_ERROR_MESSAGE : self::ONE_ERROR_MESSAGE,
-                    $this->naturalLanguageJoin($texts, self::AND_MESSAGE)
-                ),
+                'text' => sprintf(self::ONE_OF_ERROR_MESSAGE, $this->naturalLanguageJoin($texts, self::AND_MESSAGE)),
             ];
         }
 
