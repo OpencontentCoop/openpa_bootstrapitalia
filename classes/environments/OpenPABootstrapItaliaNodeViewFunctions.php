@@ -32,10 +32,12 @@ class OpenPABootstrapItaliaNodeViewFunctions extends eZNodeviewfunctions
         if (!$node instanceof eZContentObjectTreeNode) {
     // @phpstan-ignore variable.undefined
             if (!eZDB::instance()->isConnected()) {
+                // @phpstan-ignore variable.undefined
                 return self::contentViewGenerateError($Module, eZError::KERNEL_NO_DB_CONNECTION, false);
     // @phpstan-ignore variable.undefined
             }
 
+            // @phpstan-ignore variable.undefined
             return self::contentViewGenerateError($Module, eZError::KERNEL_NOT_AVAILABLE);
         }
     // @phpstan-ignore variable.undefined
@@ -53,6 +55,7 @@ class OpenPABootstrapItaliaNodeViewFunctions extends eZNodeviewfunctions
 
         if (!$node->canRead() && !self::$isIgnoringPolicy) {
             return self::contentViewGenerateError(
+                // @phpstan-ignore variable.undefined
                 $Module,
                 eZError::KERNEL_ACCESS_DENIED,
     // @phpstan-ignore variable.undefined
@@ -65,14 +68,21 @@ class OpenPABootstrapItaliaNodeViewFunctions extends eZNodeviewfunctions
     // @phpstan-ignore variable.undefined
 
         $result = self::generateNodeViewData(
+            // @phpstan-ignore variable.undefined
             $tpl,
             $node,
             $object,
+            // @phpstan-ignore variable.undefined
             $LanguageCode,
+            // @phpstan-ignore variable.undefined
             $ViewMode,
+            // @phpstan-ignore variable.undefined
             $Offset,
+            // @phpstan-ignore variable.undefined
             $viewParameters,
+            // @phpstan-ignore variable.undefined
             $collectionAttributes,
+            // @phpstan-ignore variable.undefined
             $validation
         );
 
