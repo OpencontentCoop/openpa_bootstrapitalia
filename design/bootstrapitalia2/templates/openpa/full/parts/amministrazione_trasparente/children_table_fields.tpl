@@ -188,7 +188,7 @@
         setCurrentFilter();
 
         $('.state-navigation-{$table_index} .btn').on('click', function(e){ldelim}
-          $('.state-navigation .btn-primary')
+          $('.state-navigation-{$table_index} .btn-primary')
             .addClass('btn-outline-primary')
             .removeClass('btn-primary');
           $(this)
