@@ -1372,14 +1372,14 @@
     <name>openpa/date_format</name>
     <message>
       <source>dd/MM/yyyy</source>
-      <translation>jj/mm/aaaa</translation>
+      <translation>dd/MM/yyyy</translation>
     </message>
   </context>
   <context>
     <name>openpa/moment_date_format</name>
     <message>
       <source>DD/MM/YYYY</source>
-      <translation>JJ/MM/AAAA</translation>
+      <translation>DD/MM/YYYY</translation>
     </message>
   </context>
   <context>
