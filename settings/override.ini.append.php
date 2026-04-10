@@ -455,6 +455,12 @@ Subdir=templates
 Match[class_identifier]=howto
 Match[attribute_identifier]=steps
 
+[datatype_view_stages]
+Source=content/datatype/view/ezobjectrelationlist.tpl
+MatchFile=datatype/view/relations_itinerary_stages.tpl
+Subdir=templates
+Match[class_identifier]=itinerary
+Match[attribute_identifier]=stages
 
 ############################################
 ############################################ TEXT-LINKED
@@ -805,6 +811,13 @@ MatchFile=block/opendata_remote_gui_datatable.tpl
 Subdir=templates
 Match[type]=OpendataRemoteContents
 Match[view]=datatable
+
+[block_opendata_remote_gui_horizontal]
+Source=block/view/view.tpl
+MatchFile=block/opendata_remote_gui_horizontal.tpl
+Subdir=templates
+Match[type]=OpendataRemoteContents
+Match[view]=horizontal
 
 #### Ricerca
 

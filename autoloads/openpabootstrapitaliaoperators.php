@@ -974,7 +974,7 @@ class OpenPABootstrapItaliaOperators
 
             case 'privacy_states':
                 try {
-                    $operatorValue = OpenPABase::initStateGroup('privacy', ['public', 'private']);
+                    $operatorValue = OpenPABase::initStateGroup('privacy', ['public', 'private', 'scheduled', 'expired']);
                 }catch (Exception $e){
                     eZDebug::writeError($e->getMessage(), __METHOD__);
                     $operatorValue = [

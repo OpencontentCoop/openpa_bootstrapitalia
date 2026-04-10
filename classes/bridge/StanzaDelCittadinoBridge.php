@@ -525,7 +525,6 @@ class StanzaDelCittadinoBridge
         $locale = 'ita-IT';
         $client = new HttpClient($prototypeBaseUrl);
         $publicServicePayload = $client->getPayload(
-            // @phpstan-ignore nullCoalesce.variable
             $contentRemoteId ?? $this->getPrototypeServiceContent($identifier)
         );
 
