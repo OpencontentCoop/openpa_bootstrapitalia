@@ -93,7 +93,6 @@ class RemoteDashboardManageRelationsConnector extends RemoteDashboardImportConne
                         'hideNone' => true,
                         'type' => 'select',
                     ];
-        // @phpstan-ignore variable.undefined
                 }
                 // @phpstan-ignore variable.undefined
                 $fields[$identifier] = ['fields' => $fieldProperties];

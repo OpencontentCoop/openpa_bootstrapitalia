@@ -3,7 +3,6 @@
 class PagineTrasparenzaMergePatchOperationFactory extends
     \Opencontent\OpenApi\OperationFactory\Slug\MergePatchOperationFactory
 {
-    /** @phpstan-ignore constructor.unusedParameter */
     public function __construct($nodeIdMap, $pageLabel, $enum)
     {
         parent::__construct($pageLabel, $enum);

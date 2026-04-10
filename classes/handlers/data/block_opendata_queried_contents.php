@@ -47,7 +47,6 @@ class DataHandlerOpendataQueriedContents implements OpenPADataHandlerInterface
                 $request->get['view'] = /*$http->hasGetVariable('view') ? $http->getVariable('view') :*/ 'card_teaser_info';
                 $currentEnvironment = EnvironmentLoader::loadPreset('content');
                 $currentEnvironment->__set('request', $request);
-                // @phpstan-ignore nullCoalesce.variable
                 $context = $http->hasGetVariable('context') ? $http->getVariable('context') : ($blockAttributes['context_api'] ?? null);
                 if (!empty($context)){
                     $request->get['context'] = $context;
