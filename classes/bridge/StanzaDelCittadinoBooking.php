@@ -565,55 +565,51 @@ EOT;
         return $availabilities;
     }
 
-    public function getScheduler(array $calendars, int $max_rolling_days): array
+    public function getScheduler(array $calendars): array
     {
         $min = '24:00';
         $max = '00:00';
         $hideDays = [0,1,2,3,4,5,6];
         $slot = 30;
-
         $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
-
         foreach ($calendars as $calendar) {
             $openingHours = $client->getCalendarOpeningHours($calendar);
-
-            foreach ($openingHours['results'] as $openingHour) {
+//return $openingHours;
+            foreach ($openingHours['results'] as $openingHour){
                 $min = min($min, $openingHour['begin_hour']);
                 $max = max($max, $openingHour['end_hour']);
                 $hideDays = array_diff($hideDays, $openingHour['days_of_week']);
-                $slot = min(
-                    $slot,
-                    ($openingHour['meeting_minutes'] + $openingHour['interval_minutes'])
-                );
+                $slot = min($slot, ($openingHour['meeting_minutes']+$openingHour['interval_minutes']));
             }
         }
 
         $start = new DateTimeImmutable();
-
-        $firstAvailability = $this->findFirstAvailabilityRecursive(
+        $end = $start->add(new DateInterval('P9D'));
+        // cerco fino a 10 gg
+        $firstAvailability = StanzaDelCittadinoBooking::factory()->getAvailabilitiesByRange(
             $calendars,
-            $start,
-            10,
-            $max_rolling_days
+            $start->format('Y-m-d'),
+            $end->format('Y-m-d'),
+            1
         );
-
+        // cerco ancora altri 10 gg
+        if (empty($firstAvailability)){
+            $firstAvailability = StanzaDelCittadinoBooking::factory()->getAvailabilitiesByRange(
+                $calendars,
+                $end->format('Y-m-d'),
+                $end->add(new DateInterval('P9D'))->format('Y-m-d'),
+                1
+            );
+        }
         $firstAvailabilityAsString = $firstAvailability[0]['extendedProps']['date'] ?? null;
-
-        if ($firstAvailabilityAsString && !empty($hideDays)) {
+        if ($firstAvailabilityAsString && !empty($hideDays)){
             $firstAvailabilityAsDateTime = DateTime::createFromFormat('Y-m-d', $firstAvailabilityAsString);
-
             if ($firstAvailabilityAsDateTime instanceof DateTime) {
-                $dayOfWeek = (int) $firstAvailabilityAsDateTime->format('w');
-
-                $maxSafety = 7;
-                $iterations = 0;
-
-                while (in_array($dayOfWeek, $hideDays, true) && $iterations < $maxSafety) {
+                $dayOfWeek = $firstAvailabilityAsDateTime->format('w');
+                while (in_array($dayOfWeek, $hideDays)){
                     $firstAvailabilityAsDateTime->add(new DateInterval('P1D'));
-                    $dayOfWeek = (int) $firstAvailabilityAsDateTime->format('w');
-                    $iterations++;
+                    $dayOfWeek = $firstAvailabilityAsDateTime->format('w');
                 }
-
                 $firstAvailabilityAsString = $firstAvailabilityAsDateTime->format('Y-m-d');
             }
         }
@@ -622,44 +618,9 @@ EOT;
             'minTime' => $min . ':00',
             'maxTime' => $max . ':00',
             'firstAvailability' => $firstAvailabilityAsString,
-            'slotDuration' => '00:' . $slot . ':00',
+            'slotDuration' => '00:' . $slot. ':00',
             'hiddenDays' => array_values($hideDays),
         ];
-    }
-
-    private function findFirstAvailabilityRecursive(
-        array $calendars,
-        DateTimeImmutable $start,
-        int $daysStep = 10,
-        int $maxDays = 60,
-        int $daysChecked = 0
-    ): array {
-        if ($daysChecked >= $maxDays) {
-            return [];
-        }
-
-        $end = $start->add(new DateInterval('P' . ($daysStep - 1) . 'D'));
-
-        $availability = StanzaDelCittadinoBooking::factory()->getAvailabilitiesByRange(
-            $calendars,
-            $start->format('Y-m-d'),
-            $end->format('Y-m-d'),
-            1
-        );
-
-        if (!empty($availability)) {
-            return $availability;
-        }
-
-        $nextStart = $end->add(new DateInterval('P1D'));
-
-        return $this->findFirstAvailabilityRecursive(
-            $calendars,
-            $nextStart,
-            $daysStep,
-            $maxDays,
-            $daysChecked + $daysStep
-        );
     }
 
     /**

@@ -56,11 +56,10 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
 
         if ($this->request === 'scheduler') {
             $calendars = $http->hasGetVariable('calendars') ? $http->getVariable('calendars') : [];
-            $max_rolling_days = $http->hasGetVariable('max_rolling_days') ? (int)$http->getVariable('max_rolling_days') : 60;
             if (is_string($calendars)) {
                 $calendars = explode(',', $calendars);
             }
-            return StanzaDelCittadinoBooking::factory()->getScheduler($calendars, $max_rolling_days);
+            return StanzaDelCittadinoBooking::factory()->getScheduler($calendars);
         }
 
         if ($this->request === 'draft_meeting' && $_SERVER['REQUEST_METHOD'] === 'POST') {
