@@ -674,6 +674,21 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           self.gotoStep(1)
         })
       })
+
+      $(self.element).find('.slot-taken a').on('click', function () {
+        $(self.element).find('.slot-taken').hide()
+        self.setCurrentData('openingHour', null)
+        self.markStepUnconfirmed('datetime')
+        if (self.hasScheduler) {
+          $('article.ec-event').removeClass('selected')
+          self.setCurrentData('schedulerEvent', null)
+          $('.scheduler-summary').hide()
+          self.eventCalendar.refetchEvents()
+        } else {
+          self.openingHoursSelect.resetSelect()
+          self.showHourAvailabilities()
+        }
+      })
     },
 
     setCurrentData: function (key, value) {
@@ -1009,10 +1024,12 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
     resetScheduler: function (){
       let self = this
       const loader = document.querySelector('#appointment-scheduler .scheduler-loader');
+      const schedulerNoAvailabilities = document.querySelector('#appointment-scheduler .scheduler-no-availabilities');
       if (self.isSchedulerLoading) {
         return
       }
       self.isSchedulerLoading = true;
+      schedulerNoAvailabilities?.classList.add('d-none');
       loader?.classList.remove('d-none')
       $('[name="calendars[]"]').not(':checked').attr('disabled','disabled')
       let calendars = self.filterCalendars()
@@ -1028,7 +1045,20 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
 
           let initCalendar = function (firstAvailableDate) {
             if (!startDate) {
-              startDate = firstAvailableDate || moment().format('YYYY-MM-DD');
+              if (!firstAvailableDate) {
+                self.isSchedulerLoading = false;
+                loader?.classList.add('d-none');
+                $('[name="calendars[]"]').not(':checked').removeAttr('disabled');
+                const noAvail = document.querySelector('#appointment-scheduler .scheduler-no-availabilities');
+                if (noAvail) {
+                  const hasMultipleCalendars = $('[name="calendars[]"]').length > 1;
+                  noAvail.querySelector('.msg-no-dates').style.display = hasMultipleCalendars ? 'none' : '';
+                  noAvail.querySelector('.msg-no-sportello').style.display = hasMultipleCalendars ? '' : 'none';
+                  noAvail.classList.remove('d-none');
+                }
+                return;
+              }
+              startDate = firstAvailableDate;
             }
 
             self.eventCalendar = new EventCalendar(self.scheduler[0], {
@@ -1259,7 +1289,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             }
             if (dayAvailabilities.length === 0) {
               self.monthSelect.find('[value="' + self.currentData.month + '"]').attr('disabled', 'disabled')
-              let next = $('option:selected', self.monthSelect).next().attr('value')
+              let next = $('option:selected', self.monthSelect).nextAll('option:not([disabled])').first().attr('value')
               if (next) {
                 self.debug('no-day-for-month-try-next', next)
                 self.monthSelect.val(next).trigger('change')
@@ -1376,7 +1406,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           },
           function () {
             self.markStepUnconfirmed('datetime')
-            $(self.element).find('.no-availabilities').show()
+            $(self.element).find('.slot-taken').show()
             if (self.hasScheduler) {
               $('article.ec-event').removeClass('selected')
               self.setCurrentData('schedulerEvent', null)
