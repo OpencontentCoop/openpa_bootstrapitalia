@@ -556,10 +556,6 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'locale' => eZLocale::instance()->httpLocaleCode(),
         ];
 
-        if (!empty($this->getMeetingCode())){
-            $data['code'] = $this->getMeetingCode();
-        }
-
         return $data;
     }
 
