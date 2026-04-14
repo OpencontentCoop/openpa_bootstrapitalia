@@ -1008,10 +1008,12 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
 
     resetScheduler: function (){
       let self = this
+      const loader = document.querySelector('#appointment-scheduler .scheduler-loader');
       if (self.isSchedulerLoading) {
         return
       }
       self.isSchedulerLoading = true;
+      loader?.classList.remove('d-none')
       $('[name="calendars[]"]').not(':checked').attr('disabled','disabled')
       let calendars = self.filterCalendars()
       self.debug('reset-scheduler', calendars)
@@ -1019,7 +1021,6 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
         if (self.eventCalendar) {
           self.eventCalendar.destroy()
         }
-        self.scheduler.css('pointer-events', 'none').css('opacity', '0.5')
         self.getSchedulerSettings(calendars, function (settings){
           let startDate = self.currentData.schedulerEvent
             ? self.currentData.schedulerEvent.extendedProps.date
@@ -1093,7 +1094,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
               }]
             });
             self.isSchedulerLoading = false;
-            self.scheduler.css('pointer-events', '').css('opacity', '')
+            loader?.classList.add('d-none');
             $('[name="calendars[]"]').not(':checked').removeAttr('disabled');
             self.eventCalendar.refetchEvents()
           }
