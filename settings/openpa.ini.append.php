@@ -261,6 +261,7 @@ InputValidators[]=BandoCigValidator:bando;somma_urgenza,somma_urgenza_relations,
 InputValidators[]=BandoCigValidator:bando;finanza,finanza_relations,notes_finanza
 InputValidators[]=BandoCigValidator:bando;codice_identificativo_gara
 InputValidators[]=BandoCigValidator:bando;location
+# Campi che compaiono in alto nella pagina di modifica del contenuto, prima dei tab
 MainContentFields[]
 MainContentFields[]=name
 MainContentFields[]=alternative_name
@@ -272,6 +273,11 @@ MainContentFields[]=status_note
 MainContentFields[]=has_public_event_typology
 MainContentFields[]=document_type
 MainContentFields[]=announcement_type
+MainContentFields[]=is_draft
+MainContentFields[]=codice_identificativo_gara
+MainContentFields[]=tender_types
+MainContentFields[]=tender_result_types
+MainContentFields[]=tender_status_types
 #MatrixColumnSuggestionByTag[class_identifier-attribute_identifier-column_identifier]=Root tag
 
 [WebsiteToolbar]
