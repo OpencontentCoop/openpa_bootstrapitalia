@@ -10,7 +10,7 @@
     {set $esclude_query = $esclude_query|append(concat("class != '",$exclude_class|trim(),"'"))}
 {/foreach}
 
-{def $related_items_query = concat($esclude_query|implode(' and '), " and topics.id in [", $node.contentobject_id, '] sort [modified=>desc] limit ', $limit)}
+{def $related_items_query = concat($esclude_query|implode(' and '), " and topics.id in [", $node.contentobject_id, '] and ((class != \'event\' and class != \'event_link\') or calendar[time_interval] = [now,*]) sort [modified=>desc] limit ', $limit)}
 {debug-log var=$related_items_query msg='Topic related query'}
 {def $related_items = api_search($related_items_query)}
 {def $language = ezini('RegionalSettings', 'Locale')}
