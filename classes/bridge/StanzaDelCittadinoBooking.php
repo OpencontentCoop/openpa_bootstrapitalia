@@ -289,7 +289,7 @@ EOT;
                             $maxRollingDays = 0;
                             foreach ($calendars as $index => $calendar) {
                                 try {
-                                    $c = $this->getCalendar($calendar/** $locale???? */);
+                                    $c = $this->getCalendar($calendar, substr(eZLocale::instance()->httpLocaleCode(), 0, 2));
                                     if ($c['rolling_days'] > $maxRollingDays){
                                         $maxRollingDays = (int)$c['rolling_days'];
                                     }

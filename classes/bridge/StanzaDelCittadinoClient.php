@@ -78,7 +78,7 @@ class StanzaDelCittadinoClient
     public function getCalendar(string $calendarId, $locale = null)
     {
         return $this->request('GET', '/api/calendars/' . $calendarId, null, null, $locale ? [
-            "x-locale: $locale"
+            "X-locale: $locale"
         ] : null);
     }
 
