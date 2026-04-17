@@ -13,7 +13,7 @@ BuiltInWidgetSource_booking=https://%host%/widgets/bookings/bootstrap-italia@2/j
 BuiltInWidgetStyle_booking=https://%host%/widgets/bookings/css/bookings.css
 
 #BuiltInWidgetSource_satisfy=https://%host%/widgets/satisfy/js/satisfy.js
-BuiltInWidgetSource_satisfy=https://static.opencityitalia.it/widgets/satisfy/version/1.5.6/js/satisfy.js
+BuiltInWidgetSource_satisfy=https://static.opencityitalia.it/widgets/satisfy/version/1.7.0/js/satisfy.js
 
 BuiltInWidgetSource_login=https://%host%/widgets/login-box/bootstrap-italia@2/js/login-box.js
 
@@ -253,12 +253,14 @@ InputValidators[]=EventCostsValidator
 InputValidators[]=EventContactPointValidator
 InputValidators[]=EventPlacesValidator
 #InputValidators[]=OneOfFieldValidator:class_identifier;attribute_identifier,attribute_identifier,...
-InputValidators[]=OneOfFieldValidator:bando;pubblicazione,pubblicazione_relations,notes_pubblicazione
-InputValidators[]=OneOfFieldValidator:bando;affidamento,affidamento_relations,notes_affidamento
-InputValidators[]=OneOfFieldValidator:bando;esecutiva,esecutiva_relations,notes_esecutiva
-InputValidators[]=OneOfFieldValidator:bando;sponsorizzazioni,sponsorizzazioni_relations,notes_sponsorizzazioni
-InputValidators[]=OneOfFieldValidator:bando;somma_urgenza,somma_urgenza_relations,notes_somma_urgenza
-InputValidators[]=OneOfFieldValidator:bando;finanza,finanza_relations,notes_finanza
+InputValidators[]=BandoCigValidator:bando;pubblicazione,pubblicazione_relations,notes_pubblicazione
+InputValidators[]=BandoCigValidator:bando;affidamento,affidamento_relations,notes_affidamento
+InputValidators[]=BandoCigValidator:bando;esecutiva,esecutiva_relations,notes_esecutiva
+InputValidators[]=BandoCigValidator:bando;sponsorizzazioni,sponsorizzazioni_relations,notes_sponsorizzazioni
+InputValidators[]=BandoCigValidator:bando;somma_urgenza,somma_urgenza_relations,notes_somma_urgenza
+InputValidators[]=BandoCigValidator:bando;finanza,finanza_relations,notes_finanza
+InputValidators[]=BandoCigValidator:bando;codice_identificativo_gara
+InputValidators[]=BandoCigValidator:bando;location
 MainContentFields[]
 MainContentFields[]=name
 MainContentFields[]=alternative_name
@@ -360,5 +362,8 @@ ProcessTimeout=1
 EndpointUrl=
 Headers[]
 #Headers[]=X-Foo: Bar
+
+[AlboPretorioSettings]
+AllowApiSequentialId=disabled
 
 */ ?>

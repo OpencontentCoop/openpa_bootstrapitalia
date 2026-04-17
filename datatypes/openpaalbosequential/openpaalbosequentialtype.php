@@ -252,7 +252,15 @@ class OpenPAAlboSequentialType extends eZDataType
     {
         if (!empty($string) && !$this->hasSequentialId($contentObjectAttribute)) {
             $contentObjectAttribute->setAttribute('data_int', 1);
-            $contentObjectAttribute->setAttribute('data_text', 'pending');
+            $allowApiId = eZINI::instance('openpa.ini')->variable('AlboPretorioSettings', 'AllowApiSequentialId') === 'enabled';
+            if ($allowApiId && preg_match('/^\d{4}\/\d+$/', $string)) {
+                $contentObjectAttribute->setAttribute('data_text', $string);
+                [$year, $seq] = explode('/', $string);
+                $dataFloat = floatval($year . '.' . str_pad((int)$seq, 6, '0', STR_PAD_LEFT));
+                $contentObjectAttribute->setAttribute('data_float', $dataFloat);
+            } else {
+                $contentObjectAttribute->setAttribute('data_text', 'pending');
+            }
         }
     }
 

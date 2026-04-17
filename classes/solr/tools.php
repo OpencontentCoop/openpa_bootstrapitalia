@@ -120,7 +120,6 @@ class BootstrapItaliaSolrTools
                             $relationIdList = explode(',', $attribute->toString());
                             $relationIdList = implode(',', array_map('intval', $relationIdList));
                             $names = [];
-                            // @phpstan-ignore empty.variable
                             if (!empty($relationIdList)) {
                                 $nameRows = (array)eZDB::instance()->arrayQuery(
                                     "SELECT ezcontentobject_name.name 

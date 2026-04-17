@@ -2,7 +2,6 @@
 
 class PagineTrasparenzaCreateOperationFactory extends \Opencontent\OpenApi\OperationFactory\Slug\CreateOperationFactory
 {
-    /** @phpstan-ignore constructor.unusedParameter */
     public function __construct($nodeIdMap, $pageLabel, $enum)
     {
         parent::__construct($pageLabel, $enum);

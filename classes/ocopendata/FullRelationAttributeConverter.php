@@ -13,7 +13,6 @@ class FullRelationAttributeConverter extends Relations
         try {
             $data = (array)$contentRepository->read($attribute->toString());
         } catch (Exception $e) {
-            // @phpstan-ignore constant.notFound
             eZDebug::writeError($e->getMessage(), __METHOD_);
             $data = null;
         }

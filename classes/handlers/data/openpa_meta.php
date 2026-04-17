@@ -54,7 +54,6 @@ class OpenPAMeta implements JsonSerializable
 
     public static function instanceFromGlobals()
     {
-        // @phpstan-ignore new.static
         $meta = new static();
         $ini = eZINI::instance();
         $meta->name = $ini->variable('SiteSettings', 'SiteName');

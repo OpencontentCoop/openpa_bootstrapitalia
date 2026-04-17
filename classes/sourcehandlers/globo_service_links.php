@@ -58,13 +58,10 @@ class GloboServiceLinksImportHandler extends SQLIImportAbstractHandler implement
             ];
             $topics = [];
             foreach ($row['argomenti'] as $topicName) {
-                // @phpstan-ignore isset.variable
                 if (isset($topicsMap[$topicName])) {
-                    // @phpstan-ignore variable.undefined
                     $topics[] = $topicsMap[$topicName];
                 }
             }
-            // @phpstan-ignore empty.variable
             if (!empty($topics)) {
                 $contentPayload['topics'] = $topics;
             }

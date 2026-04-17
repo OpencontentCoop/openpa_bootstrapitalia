@@ -15,9 +15,8 @@ class DataHandlerAlboPretorioContents implements OpenPADataHandlerInterface
     {
         $http = eZHTTPTool::instance();
 
-        $baseQuery = "classes [document] and id_albo_pretorio != null and facets [raw[subattr_document_type___tag_ids____si],raw[subattr_publication_start_time___year____dt],class]";
+        $baseQuery = "classes [document] and raw[attr_id_albo_pretorio_s] range [*,*] and id_albo_pretorio != null and facets [raw[subattr_document_type___tag_ids____si],raw[subattr_publication_start_time___year____dt],class]";
 
-        // @phpstan-ignore empty.variable
         if (empty($baseQuery)) {
             throw new Exception("Invalid block query settings");
         }
@@ -42,7 +41,7 @@ class DataHandlerAlboPretorioContents implements OpenPADataHandlerInterface
             },
             'publication' => function ($query, $value) {
                 if ($value === 'current') {
-                    $query .= ' and (calendar[publication_start_time,publication_end_time] = [yesterday,now] )';
+                    $query .= ' and publication_start_time range [*,now] and publication_end_time range [now,*]';
                 }
                 return $query;
             },
@@ -91,7 +90,7 @@ class DataHandlerAlboPretorioContents implements OpenPADataHandlerInterface
             }
         }
         
-        $query .= ' and sort [id_albo_pretorio => desc, publication_start_time => desc]';
+        $query .= ' and state !in [\'privacy.expired\'] and sort [id_albo_pretorio => desc, publication_start_time => desc]';
 
         $limit = $http->hasGetVariable('limit')
             ? (int)$http->getVariable('limit')

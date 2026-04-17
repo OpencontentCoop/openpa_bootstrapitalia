@@ -1540,10 +1540,6 @@
   <context>
     <name>bootstrapitalia/cookieconsent</name>
     <message>
-      <source>Cookie preferences</source>
-      <translation>Preferenze sui cookie</translation>
-    </message>
-    <message>
       <source>Cookie policy</source>
       <translation>Leggi la cookie policy</translation>
     </message>
@@ -2076,7 +2072,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>There are no dates available for the selected period</source>
-      <translation>La data e l’orario scelti non sono più disponibili. Scegli una nuova data o un altro orario tra quelli disponibili.</translation>
+      <translation>Non ci sono date disponibili per il servizio e la sede selezionati.</translation>
     </message>
     <message>
       <source>Select another location or another period</source>
@@ -2237,6 +2233,18 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Date end</source>
       <translation>Data fine</translation>
+    </message>
+    <message>
+      <source>There are no availabilities for the selected office. Please choose another one.</source>
+      <translation>Non ci sono disponibilità per la voce selezionata. Seleziona un'altra voce.</translation>
+    </message>
+    <message>
+      <source>The selected slot is no longer available</source>
+      <translation>La data e l’orario scelti non sono più disponibili. Scegli un altro orario tra quelli disponibili.</translation>
+    </message>
+    <message>
+      <source>Reload available times</source>
+      <translation>Ricarica gli orari disponibili</translation>
     </message>
   </context>
   <context>

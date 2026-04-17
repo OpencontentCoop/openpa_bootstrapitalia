@@ -27,7 +27,6 @@ class SharedLinkedPayloadBuilder
             'proprietary_license' => 'Licenza proprietaria',
             'author' => 'Sconosciuto',
         ];
-        // @phpstan-ignore property.notFound
         $this->sourceData = $this->getLocalContent($localContentId);
         $this->remoteParentNodeId = $remoteParentNodeId;
     }
@@ -39,7 +38,6 @@ class SharedLinkedPayloadBuilder
     public function build(): array
     {
         $this->payloads = [];
-        // @phpstan-ignore property.notFound
         $this->payloads[] = $this->buildPayload($this->sourceData, $this->remoteParentNodeId);
         return $this->payloads;
     }

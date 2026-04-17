@@ -674,6 +674,21 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           self.gotoStep(1)
         })
       })
+
+      $(self.element).find('.slot-taken a').on('click', function () {
+        $(self.element).find('.slot-taken').hide()
+        self.setCurrentData('openingHour', null)
+        self.markStepUnconfirmed('datetime')
+        if (self.hasScheduler) {
+          $('article.ec-event').removeClass('selected')
+          self.setCurrentData('schedulerEvent', null)
+          $('.scheduler-summary').hide()
+          self.eventCalendar.refetchEvents()
+        } else {
+          self.openingHoursSelect.resetSelect()
+          self.showHourAvailabilities()
+        }
+      })
     },
 
     setCurrentData: function (key, value) {
@@ -969,6 +984,23 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       });
     },
 
+    getFirstAvailableDate: function (calendars, callback) {
+      let self = this
+      $.retryAjax({
+        dataType: "json",
+        url: self.baseUrl + 'openpa/data/booking/first_available_date',
+        data: {
+          calendars: calendars
+        },
+        success: function (response) {
+          callback(response.date || null)
+        },
+        error: function () {
+          callback(null)
+        }
+      });
+    },
+
     selectSchedulerEvent: function(event, refreshSummary){
       let self = this
       let slot = event.extendedProps
@@ -992,12 +1024,13 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
     resetScheduler: function (){
       let self = this
       const loader = document.querySelector('#appointment-scheduler .scheduler-loader');
+      const schedulerNoAvailabilities = document.querySelector('#appointment-scheduler .scheduler-no-availabilities');
       if (self.isSchedulerLoading) {
         return
       }
       self.isSchedulerLoading = true;
+      schedulerNoAvailabilities?.classList.add('d-none');
       loader?.classList.remove('d-none')
-      
       $('[name="calendars[]"]').not(':checked').attr('disabled','disabled')
       let calendars = self.filterCalendars()
       self.debug('reset-scheduler', calendars)
@@ -1006,86 +1039,101 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           self.eventCalendar.destroy()
         }
         self.getSchedulerSettings(calendars, function (settings){
-          let startDate = settings.firstAvailability;
-          if (self.currentData.schedulerEvent) {
-            startDate = self.currentData.schedulerEvent.extendedProps.date
-          }
-          if (!startDate) {
-            const dayINeed = 4; // for Thursday
-            const today = moment().isoWeekday();
-            startDate = moment().isoWeekday(dayINeed).format('YYYY-MM-DD')
-            if (today > dayINeed) {
-              // otherwise, give me *next week's* instance of that same day
-              startDate = moment().add(1, 'weeks').isoWeekday(dayINeed).format('YYYY-MM-DD')
+          let startDate = self.currentData.schedulerEvent
+            ? self.currentData.schedulerEvent.extendedProps.date
+            : null;
+
+          let initCalendar = function (firstAvailableDate) {
+            if (!startDate) {
+              if (!firstAvailableDate) {
+                self.isSchedulerLoading = false;
+                loader?.classList.add('d-none');
+                $('[name="calendars[]"]').not(':checked').removeAttr('disabled');
+                const noAvail = document.querySelector('#appointment-scheduler .scheduler-no-availabilities');
+                if (noAvail) {
+                  const hasMultipleCalendars = $('[name="calendars[]"]').length > 1;
+                  noAvail.querySelector('.msg-no-dates').style.display = hasMultipleCalendars ? 'none' : '';
+                  noAvail.querySelector('.msg-no-sportello').style.display = hasMultipleCalendars ? '' : 'none';
+                  noAvail.classList.remove('d-none');
+                }
+                return;
+              }
+              startDate = firstAvailableDate;
             }
+
+            self.eventCalendar = new EventCalendar(self.scheduler[0], {
+              view: window.innerWidth > 768 ? 'timeGridWeek': 'timeGridDay',
+              slotMinTime: settings.minTime,
+              slotMaxTime: settings.maxTime,
+              slotDuration: settings.slotDuration,
+              views: {
+                timeGridWeek: {
+                  allDaySlot: false,
+                  firstDay: 1,
+                  hiddenDays: settings.hiddenDays,
+                },
+                timeGridDay: {
+                  allDaySlot: false,
+                  firstDay: 1,
+                  hiddenDays: settings.hiddenDays,
+                  slotHeight: 48
+                }
+              },
+              eventClick: function (info) {
+                $('article.ec-event').removeClass('selected')
+                $(info.el).addClass('selected')
+                self.selectSchedulerEvent(info.event, true)
+              },
+              loading: function (isLoading) {
+                // console.log(isLoading)
+              },
+              locale: 'it-IT',
+              date: startDate,
+              buttonText: {
+                today: 'Oggi'
+              },
+              eventSources: [{
+                events: function (fetchInfo, successCallback, failureCallback) {
+                  $.retryAjax({
+                    dataType: "json",
+                    url: self.baseUrl + 'openpa/data/booking/availabilities_by_range',
+                    data: {
+                      calendars: calendars,
+                      start: moment(fetchInfo.start).format('YYYY-MM-DD'),
+                      end: moment(fetchInfo.end).subtract(1, 'minute').format('YYYY-MM-DD')
+                    },
+                    success: function (response) {
+                      if (self.currentData.schedulerEvent && calendars.includes(self.currentData.schedulerEvent.extendedProps.calendar_id)) {
+                        response = response.filter(function( obj ) {
+                          return obj.id !== self.currentData.schedulerEvent.id;
+                        });
+                        self.currentData.schedulerEvent.start = self.currentData.schedulerEvent.extendedProps.date+' '+self.currentData.schedulerEvent.extendedProps.start_time
+                        self.currentData.schedulerEvent.end = self.currentData.schedulerEvent.extendedProps.date+' '+self.currentData.schedulerEvent.extendedProps.end_time
+                        self.currentData.schedulerEvent.classNames = ['selected']
+                        response.push(self.currentData.schedulerEvent)
+                        $('article.ec-event').removeClass('selected')
+                        self.selectSchedulerEvent(self.currentData.schedulerEvent, false)
+                      }
+                      successCallback(response)
+                    },
+                    error: function (jqXHR) {
+                      self.displayError(jqXHR)
+                    }
+                  });
+                }
+              }]
+            });
+            self.isSchedulerLoading = false;
+            loader?.classList.add('d-none');
+            $('[name="calendars[]"]').not(':checked').removeAttr('disabled');
+            self.eventCalendar.refetchEvents()
           }
 
-          self.eventCalendar = new EventCalendar(self.scheduler[0], {
-            view: window.innerWidth > 768 ? 'timeGridWeek': 'timeGridDay',
-            slotMinTime: settings.minTime,
-            slotMaxTime: settings.maxTime,
-            slotDuration: settings.slotDuration,
-            views: {
-              timeGridWeek: {
-                allDaySlot: false,
-                firstDay: 1,
-                hiddenDays: settings.hiddenDays,
-              },
-              timeGridDay: {
-                allDaySlot: false,
-                firstDay: 1,
-                hiddenDays: settings.hiddenDays,
-                slotHeight: 48
-              }
-            },
-            eventClick: function (info) {
-              $('article.ec-event').removeClass('selected')
-              $(info.el).addClass('selected')
-              self.selectSchedulerEvent(info.event, true)
-            },
-            loading: function (isLoading) {
-              console.log(isLoading)
-            },
-            locale: 'it-IT',
-            date: startDate,
-            buttonText: {
-              today: 'Oggi'
-            },
-            eventSources: [{
-              events: function (fetchInfo, successCallback, failureCallback) {
-                $.retryAjax({
-                  dataType: "json",
-                  url: self.baseUrl + 'openpa/data/booking/availabilities_by_range',
-                  data: {
-                    calendars: calendars,
-                    start: moment(fetchInfo.start).format('YYYY-MM-DD'),
-                    end: moment(fetchInfo.end).subtract(1, 'minute').format('YYYY-MM-DD')
-                  },
-                  success: function (response) {
-                    if (self.currentData.schedulerEvent && calendars.includes(self.currentData.schedulerEvent.extendedProps.calendar_id)) {
-                      response = response.filter(function( obj ) {
-                        return obj.id !== self.currentData.schedulerEvent.id;
-                      });
-                      self.currentData.schedulerEvent.start = self.currentData.schedulerEvent.extendedProps.date+' '+self.currentData.schedulerEvent.extendedProps.start_time
-                      self.currentData.schedulerEvent.end = self.currentData.schedulerEvent.extendedProps.date+' '+self.currentData.schedulerEvent.extendedProps.end_time
-                      self.currentData.schedulerEvent.classNames = ['selected']
-                      response.push(self.currentData.schedulerEvent)
-                      $('article.ec-event').removeClass('selected')
-                      self.selectSchedulerEvent(self.currentData.schedulerEvent, false)
-                    }
-                    successCallback(response)
-                  },
-                  error: function (jqXHR) {
-                    self.displayError(jqXHR)
-                  }
-                });
-              }
-            }]
-          });
-          self.isSchedulerLoading = false;
-          loader?.classList.add('d-none');
-          $('[name="calendars[]"]').not(':checked').removeAttr('disabled');
-          self.eventCalendar.refetchEvents()
+          if (startDate) {
+            initCalendar(null)
+          } else {
+            self.getFirstAvailableDate(calendars, initCalendar)
+          }
         })
       }
     },
@@ -1241,7 +1289,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             }
             if (dayAvailabilities.length === 0) {
               self.monthSelect.find('[value="' + self.currentData.month + '"]').attr('disabled', 'disabled')
-              let next = $('option:selected', self.monthSelect).next().attr('value')
+              let next = $('option:selected', self.monthSelect).nextAll('option:not([disabled])').first().attr('value')
               if (next) {
                 self.debug('no-day-for-month-try-next', next)
                 self.monthSelect.val(next).trigger('change')
@@ -1358,7 +1406,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           },
           function () {
             self.markStepUnconfirmed('datetime')
-            $(self.element).find('.no-availabilities').show()
+            $(self.element).find('.slot-taken').show()
             if (self.hasScheduler) {
               $('article.ec-event').removeClass('selected')
               self.setCurrentData('schedulerEvent', null)
