@@ -75,9 +75,11 @@ class StanzaDelCittadinoClient
         return $this->request('GET', '/api/calendars?_=' . time());
     }
 
-    public function getCalendar(string $calendarId)
+    public function getCalendar(string $calendarId, $locale = null)
     {
-        return $this->request('GET', '/api/calendars/' . $calendarId);
+        return $this->request('GET', '/api/calendars/' . $calendarId, null, null, $locale ? [
+            "X-locale: $locale"
+        ] : null);
     }
 
     public function getCalendarOpeningHours(string $calendarId)
@@ -168,13 +170,11 @@ class StanzaDelCittadinoClient
         return $this->request('PATCH', '/api/services/' . $id, $data);
     }
 
-    public function request($method, $path, $data = null, $parseCallback = null)
+    public function request($method, $path, $data = null, $parseCallback = null, $headers = [])
     {
         $url = $this->apiEndPointBaseUrl . $path;
         eZDebug::writeDebug($method . ' ' . $url, __METHOD__);
-        $headers = [
-            "Cache-Control: no-cache"
-        ];
+        $headers[] = "Cache-Control: no-cache";
         if ($this->bearerToken) {
             $headers[] = "Authorization: Bearer " . $this->bearerToken;
         }

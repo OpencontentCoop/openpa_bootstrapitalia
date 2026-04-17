@@ -178,11 +178,11 @@ EOT;
         }
     }
 
-    public function getCalendar($id)
+    public function getCalendar($id, $locale = null)
     {
         if (!isset($this->calendars[$id])) {
 
-            $cacheFile = 'calendar-' . $id . '.cache';
+            $cacheFile = 'calendar-' . $id . $locale . '.cache';
             $cacheFilePath = eZDir::path(
                 array(eZSys::cacheDirectory(), 'sdc-calendars', $cacheFile)
             );
@@ -195,7 +195,7 @@ EOT;
                 },
                 function ($file, $id) {
                     eZDebug::writeDebug('Generate cached calendar ' . $id, __METHOD__);
-                    $calendar = StanzaDelCittadinoBridge::factory()->instanceNewClient(5)->getCalendar($id);
+                    $calendar = StanzaDelCittadinoBridge::factory()->instanceNewClient(5)->getCalendar($id, $locale);
                     return array(
                         'content' => $calendar,
                         'scope' => 'sdc-calendars',
@@ -289,7 +289,7 @@ EOT;
                             $maxRollingDays = 0;
                             foreach ($calendars as $index => $calendar) {
                                 try {
-                                    $c = $this->getCalendar($calendar);
+                                    $c = $this->getCalendar($calendar, substr(eZLocale::instance()->httpLocaleCode(), 0, 2));
                                     if ($c['rolling_days'] > $maxRollingDays){
                                         $maxRollingDays = (int)$c['rolling_days'];
                                     }
