@@ -575,7 +575,8 @@ class BootstrapItaliaInstallerUtils
         if (!eZContentClass::classIDByIdentifier($classIdentifier)) {
             throw new Exception("Class $classIdentifier not found");
         }
-        if (!eZContentObjectTreeNode::classAttributeIDByIdentifier("$classIdentifier/$booleanAttributeIdentifier")) {
+        $class = eZContentClass::fetchByIdentifier($classIdentifier);
+        if (!$class || !$class->fetchAttributeByIdentifier($booleanAttributeIdentifier)) {
             throw new Exception("Attribute $booleanAttributeIdentifier of class $classIdentifier not found");
         }
 
