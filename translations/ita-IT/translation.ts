@@ -767,6 +767,10 @@
       <source>Next 30 days</source>
       <translation>I prossimi 30 giorni</translation>
     </message>
+    <message>
+      <source>Service details</source>
+      <translation>Dettagli servizio</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
