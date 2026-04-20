@@ -1,20 +1,33 @@
 <li>
-  <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no)}" class="list-item">
+  <div class="list-item">
       <div class="it-right-zone">
-              <span class="text mb-0">
-                  <span>{$service.name|wash()}</span>
-                  <em class="w-75">
-                      {$service|attribute('abstract').content|wash()}
-                      {if $service|has_attribute('produces_output')}
-                          <span class="d-none">
-                          {foreach $service|attribute('produces_output').content.relation_list as $item}{*
-                          *}<i class="fa fa-tag"></i> {fetch(content,object,hash('object_id', $item.contentobject_id)).name|wash()}{delimiter} {/delimiter}{*
-                          *}{/foreach}
-                          </span>
-                      {/if}
-                  </em>
+          <span class="text mb-0">
+              <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no)}">
+                  {$service.name|wash()}
+              </a>
+              <em class="w-75">
+                  {$service|attribute('abstract').content|wash()}
+                  {if $service|has_attribute('produces_output')}
+                      <span class="d-none">
+                      {foreach $service|attribute('produces_output').content.relation_list as $item}{*
+                      *}<i class="fa fa-tag"></i> {fetch(content,object,hash('object_id', $item.contentobject_id)).name|wash()}{delimiter} {/delimiter}{*
+                      *}{/foreach}
+                      </span>
+                  {/if}
+              </em>
+          </span>
+          <span class="it-multiple">
+              <span class="metadata">
+                <a href="{$service.main_node.url_alias|ezurl(no)}">
+                  {'Service details'|i18n('bootstrapitalia')}
+                </a>
               </span>
-          {display_icon('it-chevron-right', 'svg', 'icon')}
+              <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no)}"
+                 title="{'Book an appointment'|i18n('bootstrapitalia')}"
+                 aria-label="{$service.name|wash()}">
+                  {display_icon('it-arrow-right-circle', 'svg', 'icon')}
+              </a>
+          </span>
       </div>
-  </a>
+  </div>
 </li>
