@@ -22,7 +22,7 @@ class GloboServiceLinksImportHandler extends SQLIImportAbstractHandler implement
                 if (strpos($sourcePath, '/rest/pnrr/procedures') === false) {
                     $sourcePath = rtrim($sourcePath, '/') . '/rest/pnrr/procedures';
                 }
-                $this->dataSource = (array)json_decode(@file_get_contents($sourcePath), true);
+                $this->dataSource = (array)json_decode(file_get_contents($sourcePath), true);
             }
         }
     }
@@ -70,6 +70,7 @@ class GloboServiceLinksImportHandler extends SQLIImportAbstractHandler implement
                     'classIdentifier' => 'public_service_link',
                     'remoteId' => $remoteId,
                     'parentNodes' => [$this->serviceContainerNodeId],
+                    'stateIdentifiers' => ['privacy.public'],
                 ],
                 'data' => $contentPayload,
             ];
@@ -84,6 +85,9 @@ class GloboServiceLinksImportHandler extends SQLIImportAbstractHandler implement
 
     public function cleanup()
     {
+        if (empty($this->dataSource)) {
+            return;
+        }
         $states = OpenPABase::initStateGroup('privacy', ['public', 'private']);
         $state = $states['privacy.private'];
         $rows = eZDB::instance()->arrayQuery(
