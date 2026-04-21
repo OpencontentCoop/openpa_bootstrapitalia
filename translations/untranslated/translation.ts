@@ -2062,7 +2062,19 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>There are no availabilities for the selected office. Please choose another one.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Select another location or another period</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>The selected slot is no longer available</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Reload available times</source>
       <translation type="unfinished"/>
     </message>
     <message>

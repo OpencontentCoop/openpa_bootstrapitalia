@@ -2072,7 +2072,7 @@ They are essentially used to measure and improve the quality of sites by analysi
     </message>
     <message>
       <source>There are no dates available for the selected period</source>
-      <translation>The selected date and time are no longer available. Please choose a different date or time from the available options.</translation>
+      <translation>There are no available dates for the selected service and location.</translation>
     </message>
     <message>
       <source>Select another location or another period</source>
@@ -2233,6 +2233,18 @@ They are essentially used to measure and improve the quality of sites by analysi
     <message>
       <source>Date end</source>
       <translation>Date end</translation>
+    </message>
+    <message>
+      <source>There are no availabilities for the selected office. Please choose another one.</source>
+      <translation>There are no availabilities for the selected option. Please choose another one.</translation>
+    </message>
+    <message>
+      <source>The selected slot is no longer available</source>
+      <translation>The selected date and time are no longer available. Please choose another available time.</translation>
+    </message>
+    <message>
+      <source>Reload available times</source>
+      <translation>Reload available times</translation>
     </message>
   </context>
   <context>

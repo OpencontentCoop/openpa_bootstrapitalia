@@ -41,7 +41,17 @@
                                 {if $use_scheduler}
                                     <script src={"javascript/event-calendar.min.js"|ezdesign}></script>
                                     <link rel="stylesheet" href={"stylesheets/event-calendar.min.css"|ezdesign} />
-                                    <div id="appointment-scheduler" style="overflow-x:auto;min-height: 300px;"></div>
+                                    <div id="appointment-scheduler" style="overflow-x:auto;min-height:300px;position:relative;">
+                                      <div class="scheduler-loader d-flex align-items-center justify-content-center" style="position:absolute;inset:0;z-index:10;background:rgba(255,255,255,0.8);">
+                                        <div class="spinner-border text-dark" role="status">
+                                          <span class="visually-hidden">{'Loading...'|i18n('editorialstuff/dashboard')}</span>
+                                        </div>
+                                      </div>
+                                      <div class="scheduler-no-availabilities d-none d-flex align-items-center justify-content-center flex-column" style="position:absolute;inset:0;z-index:10;background:rgba(255,255,255,0.95);">
+                                        <p class="mb-3 msg-no-dates">{'There are no dates available for the selected period'|i18n('bootstrapitalia/booking')}</p>
+                                        <p class="mb-3 msg-no-sportello" style="display:none">{'There are no availabilities for the selected office. Please choose another one.'|i18n('bootstrapitalia/booking')}</p>
+                                      </div>
+                                    </div>
                                     <div class="cmp-info-summary bg-white mb-3 mb-lg-4 p-3 p-lg-4 pt-lg-0 pt-0 scheduler-summary" style="display:none">
                                         <div class="card">
                                             <div class="card-body py-0 row">
@@ -85,11 +95,15 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="no-availabilities p-4 text-center" style="display:none">
+                                {/if}
+                                    <div class="availabilities-alert no-availabilities p-4 text-center" style="display:none">
                                         <p>{'There are no dates available for the selected period'|i18n('bootstrapitalia/booking')}</p>
                                         <a href="#" class="btn btn-primary">{'Select another location or another period'|i18n('bootstrapitalia/booking')}</a>
                                     </div>
-                                {/if}
+                                    <div class="availabilities-alert slot-taken p-4 text-center" style="display:none">
+                                        <p>{'The selected slot is no longer available'|i18n('bootstrapitalia/booking')}</p>
+                                        <a href="#" class="btn btn-primary">{'Reload available times'|i18n('bootstrapitalia/booking')}</a>
+                                    </div>
                             </div>
                         </div>
                     </section>
