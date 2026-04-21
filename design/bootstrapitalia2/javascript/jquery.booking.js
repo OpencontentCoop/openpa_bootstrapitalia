@@ -942,6 +942,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
               self.setCurrentData('month', null)
               self.setCurrentData('day', null)
               self.setCurrentData('openingHour', null)
+              self.setCurrentData('schedulerEvent', null)
               self.storeData()
               if (self.hasScheduler) {
                 self.resetScheduler()
