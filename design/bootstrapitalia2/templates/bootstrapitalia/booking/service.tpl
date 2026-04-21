@@ -2,7 +2,8 @@
   <div class="list-item">
       <div class="it-right-zone">
           <span class="text mb-0">
-              <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no)}">
+              <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no)}"
+                aria-label="{'Book an appointment'|i18n('bootstrapitalia')} {$service.name|wash()}">
                   {$service.name|wash()}
               </a>
               <em class="w-75">
@@ -24,8 +25,8 @@
               </span>
               <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no)}"
                  title="{'Book an appointment'|i18n('bootstrapitalia')}"
-                 aria-label="{$service.name|wash()}">
-                  {display_icon('it-arrow-right-circle', 'svg', 'icon')}
+                 aria-hidden="true">
+                  {display_icon('it-arrow-right-circle', 'svg', 'icon icon-primary')}
               </a>
           </span>
       </div>

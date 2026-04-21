@@ -4,7 +4,7 @@
           <div>
               <h4 class="text mb-0">
                   <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no)}"
-                     title="{'Book an appointment'|i18n('bootstrapitalia')}">
+                     aria-label="{'Book an appointment'|i18n('bootstrapitalia')} {$service.name|wash()}">
                       {$service.name|wash()}
                   </a>
               </h4>
@@ -27,8 +27,8 @@
               </span>
               <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no)}"
                  title="{'Book an appointment'|i18n('bootstrapitalia')}"
-                 aria-label="{$service.name|wash()}">
-                  {display_icon('it-arrow-right-circle', 'svg', 'icon')}
+                 aria-hidden="true">
+                  {display_icon('it-arrow-right-circle', 'svg', 'icon icon-primary')}
               </a>
           </span>
       </div>
