@@ -15,6 +15,7 @@ General[]=ezfIndexExtraGeo
 General[]=ezfIndexPublicServiceMenu
 #General[]=ezfIndexContactPointReverseRelations
 General[]=ezfIndexRoleReverseRelations
+General[]=ezfIndexRoleForEntity
 Class[organization]=ezfIndexSubAttributeGeo
 Class[bando]=ezfIndexFaseBando
 General[]=CheckBookingConsistency
