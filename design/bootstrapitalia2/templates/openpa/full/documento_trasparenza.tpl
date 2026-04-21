@@ -103,7 +103,7 @@
                                             context_class=$node.class_identifier
                                             relation_view=banner
                                             relation_has_wrapper=false()
-                                            show_link=true()
+                                            show_link=false()
                                             tag_view="chip-lg mr-2 me-2"}
                             {elseif and(is_set($openpa_attribute.children_count), $openpa_attribute.children_count|gt(0))}
                                 {if $summary.items|gt(1)}<hr />{/if}
