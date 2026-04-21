@@ -11,6 +11,7 @@ html[lang^="de"] {
   word-break: break-word;
   
   .table th,
+  .table td,
   .btn{
     hyphens: manual;
     overflow-wrap: normal;
