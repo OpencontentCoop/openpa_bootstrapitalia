@@ -15,6 +15,7 @@ class ChainStaticCache implements ezpStaticCache
 
     public function generateNodeListCache($nodeList)
     {
+        // @phpstan-ignore return.missing
         foreach (self::getHandlers() as $handler){
             $handler->generateNodeListCache($nodeList);
         }
@@ -29,6 +30,7 @@ class ChainStaticCache implements ezpStaticCache
 
     public function cacheURL($url, $nodeID = false, $skipExisting = false, $delay = true)
     {
+        // @phpstan-ignore return.missing
         foreach (self::getHandlers() as $handler){
             $handler->cacheURL($url, $nodeID, $skipExisting, $delay);
         }

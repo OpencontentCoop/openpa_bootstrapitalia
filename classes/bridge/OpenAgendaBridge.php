@@ -50,6 +50,7 @@ class OpenAgendaBridge
         );
         if ($this->isEnabled()){
             if (self::canUseLocalConnection($this->agendaUrl)){
+                // @phpstan-ignore class.notFound
                 $this->agendaClient = new OCLocalHttpClient($this->agendaUrl);
             } else {
                 $this->agendaClient = new HttpClient($this->agendaUrl);

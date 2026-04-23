@@ -27,22 +27,27 @@ class OpenPABootstrapItaliaDatatableEnvironmentSettings extends OpenPABootstrapI
                 $missing = array_intersect($builder->fields, $diff);
                 if (!empty($missing)){
                     $data = array_merge($data, array_fill_keys($missing, null));
+                // @phpstan-ignore variable.undefined
                 }
                 $fixData[$language] = $data;
                 $content['data'] = $fixData;
+            // @phpstan-ignore variable.undefined
             }
         }
 
+        // @phpstan-ignore variable.undefined
         return array(
             'draw' => (int)( ++$this->request->get['draw']),
             'recordsTotal' => (int)$searchResults->totalCount,
             'recordsFiltered' => (int)$searchResults->totalCount,
             'data' => $searchResults->searchHits,
+            // @phpstan-ignore variable.undefined
             'facets' => $searchResults->facets,
             'query' => $query
         );
     }
-    
+     // @phpstan-ignore variable.undefined
+
     protected function filterMetaData( Content $content )
     {
         return parent::filterMetaData($content);
@@ -55,14 +60,21 @@ class OpenPABootstrapItaliaDatatableEnvironmentSettings extends OpenPABootstrapI
      * @return ArrayObject
      */
     public function filterQuery(
+        // @phpstan-ignore variable.undefined
         \ArrayObject $query,
         \Opencontent\QueryLanguage\QueryBuilder $builder
     ) {
+        // @phpstan-ignore variable.undefined
         $parameters = $this->request->get;
+ // @phpstan-ignore variable.undefined
 
+        // @phpstan-ignore variable.undefined
         $forceAsAttributeFields = [];
+        // @phpstan-ignore variable.undefined
         if (isset($query['SearchContentClassID']) && count($query['SearchContentClassID']) === 1){
+            // @phpstan-ignore variable.undefined
             if (is_numeric($query['SearchContentClassID'][0])){
+                // @phpstan-ignore variable.undefined
                 try {
                     $class = (new ClassRepository)->load(
                         eZContentClass::classIdentifierByID($query['SearchContentClassID'][0])
