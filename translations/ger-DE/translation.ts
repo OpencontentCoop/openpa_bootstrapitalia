@@ -767,6 +767,14 @@
       <source>Next 30 days</source>
       <translation>Die nächsten 30 Tage</translation>
     </message>
+    <message>
+      <source>Service details</source>
+      <translation>Servicedetails</translation>
+    </message>
+    <message>
+      <source>Show disabled users</source>
+      <translation>Deaktivierte Benutzer anzeigen</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

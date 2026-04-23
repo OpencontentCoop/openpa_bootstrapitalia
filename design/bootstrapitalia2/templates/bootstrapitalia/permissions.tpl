@@ -46,7 +46,7 @@
             </div>
         </div>*}
         <div class="col-12 mb-4">
-          <button 
+          <button
             class="btn-link"
             type="button"
             data-bs-toggle="collapse"
@@ -55,6 +55,12 @@
             aria-controls='collapse-filters'>
             {'Filter by role assignment'|i18n('bootstrapitalia')}
           </button>
+          <div class="col-12 mb-2">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" id="ShowDisabled">
+              <label class="form-check-label" for="ShowDisabled">{'Show disabled users'|i18n('bootstrapitalia')}</label>
+            </div>
+          </div>
           <div class="collapse mt-2" id='collapse-filters'>
             {foreach $available_groups as $group}
             <div class="form-check form-check-inline">
@@ -230,7 +236,9 @@
             var queryPerPage = [];
 
             var buildQuery = function(){
-                var mainQuery = "raw[meta_class_identifier_ms] = 'user' and raw[meta_path_si] = ["+ParentNodeId+"] sort [name=>asc] limit " + pageLimit;
+                var showDisabled = $('#ShowDisabled').is(':checked');
+                var enabledFilter = showDisabled ? "raw[attr_is_enabled_b] = false and " : "raw[attr_is_enabled_b] != false and ";
+                var mainQuery = enabledFilter + "raw[meta_class_identifier_ms] = 'user' and raw[meta_path_si] = ["+ParentNodeId+"] sort [name=>asc] limit " + pageLimit;
                 var filters = '';
                 var showReset = false;
 
@@ -428,7 +436,7 @@
             runQuery(buildQuery());
           };
 
-          $('input.filter').on('change', function (e) {
+          $('input.filter, #ShowDisabled').on('change', function (e) {
             currentPage = 0;
             loadContents();
           });
