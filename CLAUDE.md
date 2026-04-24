@@ -136,18 +136,28 @@ design/bootstrapitalia2/templates/bootstrapitalia/booking/
 
 ---
 
-## i18n (traduzioni)
+## i18n (traduzioni con oci18n)
 
-**Workflow:**
-1. Aggiungere la stringa in `translations/untranslated/translation.ts` nel contesto giusto
-2. Push su POEditor: `POEDITOR_TOKEN=... php vendor/bin/oci18n -p 740564 --push translations/untranslated/translation.ts`
-3. Tradurre su POEditor (progetto ID `740564` — "Opencity Italia - CMS - framework"), tag `openpa_bootstrapitalia`
-4. Pull traduzioni: `POEDITOR_TOKEN=... php vendor/bin/oci18n -r` (interattivo: selezionare lingua)
+Per i dettagli tecnici su come funziona lo strumento vedere `html/vendor/opencontent/oci18n/CLAUDE.md`.
 
-**Contesti principali:**
-- `bootstrapitalia` — UI generale
-- `bootstrapitalia/booking` — widget prenotazione
-- `bootstrapitalia/permissions` — gestione permessi
+### Workflow rapido
+
+1. Aggiungere la stringa nel template: `{'Nuova stringa'|i18n('bootstrapitalia/booking')}`
+2. Aggiungerla in `translations/untranslated/translation.ts` nel contesto corretto
+3. Push su POEditor: `php vendor/opencontent/oci18n/bin/push_ts_terms_to_poeditor.php -r --no-colors`
+4. Tradurre su POEditor (progetto ID `740564`, tag `openpa_bootstrapitalia`)
+5. Pull: `POEDITOR_TOKEN=$PO_ORG_TOKEN php vendor/bin/oci18n -r --no-colors`
+   - Lingua: `0`=it, `1`=de, `2`=en
+   - Estensione: selezionare `openpa_bootstrapitalia`
+   - Content types / contenuti / tags → `n`
+
+### Contesti principali
+
+| Contesto | Uso |
+|---------|-----|
+| `bootstrapitalia` | UI generale |
+| `bootstrapitalia/booking` | Widget prenotazione |
+| `bootstrapitalia/permissions` | Gestione permessi utenti |
 
 ---
 
