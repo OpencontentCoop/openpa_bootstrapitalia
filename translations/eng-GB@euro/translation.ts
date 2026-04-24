@@ -771,6 +771,10 @@
       <source>Service details</source>
       <translation>Service details</translation>
     </message>
+    <message>
+      <source>Show disabled users</source>
+      <translation>Show disabled users</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -2249,6 +2253,30 @@ They are essentially used to measure and improve the quality of sites by analysi
     <message>
       <source>Reload available times</source>
       <translation>Reload available times</translation>
+    </message>
+    <message>
+      <source>This appointment does not comply with the booking limits configured on the calendar.</source>
+      <translation>This appointment does not comply with the booking limits configured on the calendar.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the day.</source>
+      <translation>You have reached the maximum number of bookable appointments for the day.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the week.</source>
+      <translation>You have reached the maximum number of bookable appointments for the week.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the month.</source>
+      <translation>You have reached the maximum number of bookable appointments for the month.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the year.</source>
+      <translation>You have reached the maximum number of bookable appointments for the year.</translation>
+    </message>
+    <message>
+      <source>Choose another period</source>
+      <translation>Choose another period</translation>
     </message>
   </context>
   <context>
