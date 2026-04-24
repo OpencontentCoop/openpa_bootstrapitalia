@@ -18,6 +18,7 @@ General[]=ezfIndexRoleReverseRelations
 General[]=ezfIndexRoleForEntity
 Class[organization]=ezfIndexSubAttributeGeo
 Class[bando]=ezfIndexFaseBando
+Class[user]=ezfIndexUserEnabled
 General[]=CheckBookingConsistency
 General[]=InternalWebhook
 

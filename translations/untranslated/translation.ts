@@ -736,6 +736,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Show disabled users</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Set as private</source>
       <translation type="unfinished"/>
     </message>

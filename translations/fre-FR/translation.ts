@@ -767,6 +767,14 @@
       <source>Next 30 days</source>
       <translation>Les 30 prochains jours</translation>
     </message>
+    <message>
+      <source>Service details</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Show disabled users</source>
+      <translation>Afficher les utilisateurs désactivés</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -2072,7 +2080,7 @@ Ils sont essentiellement utilisés pour mesurer et améliorer la qualité des si
     </message>
     <message>
       <source>There are no dates available for the selected period</source>
-      <translation>La date et l’heure sélectionnées ne sont plus disponibles. Veuillez choisir une autre date ou un autre créneau parmi ceux disponibles.</translation>
+      <translation>Il n'y a pas de dates disponibles pour le service et le site sélectionnés.</translation>
     </message>
     <message>
       <source>Select another location or another period</source>
@@ -2232,6 +2240,18 @@ Ils sont essentiellement utilisés pour mesurer et améliorer la qualité des si
     </message>
     <message>
       <source>Date end</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>There are no availabilities for the selected office. Please choose another one.</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>The selected slot is no longer available</source>
+      <translation></translation>
+    </message>
+    <message>
+      <source>Reload available times</source>
       <translation></translation>
     </message>
   </context>
