@@ -767,6 +767,14 @@
       <source>Next 30 days</source>
       <translation>I prossimi 30 giorni</translation>
     </message>
+    <message>
+      <source>Service details</source>
+      <translation>Dettagli servizio</translation>
+    </message>
+    <message>
+      <source>Show disabled users</source>
+      <translation>Mostra utenti disabilitati</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -2245,6 +2253,30 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Reload available times</source>
       <translation>Ricarica gli orari disponibili</translation>
+    </message>
+    <message>
+      <source>This appointment does not comply with the booking limits configured on the calendar.</source>
+      <translation>Questo appuntamento non rispetta i limiti di prenotazione configurati sul calendario.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the day.</source>
+      <translation>Hai raggiunto il numero massimo di appuntamenti prenotabili nella giornata.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the week.</source>
+      <translation>Hai raggiunto il numero massimo di appuntamenti prenotabili nella settimana.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the month.</source>
+      <translation>Hai raggiunto il numero massimo di appuntamenti prenotabili nel mese.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the year.</source>
+      <translation>Hai raggiunto il numero massimo di appuntamenti prenotabili nell'anno.</translation>
+    </message>
+    <message>
+      <source>Choose another period</source>
+      <translation>Scegli un altro periodo</translation>
     </message>
   </context>
   <context>

@@ -767,6 +767,14 @@
       <source>Next 30 days</source>
       <translation>Die nächsten 30 Tage</translation>
     </message>
+    <message>
+      <source>Service details</source>
+      <translation>Servicedetails</translation>
+    </message>
+    <message>
+      <source>Show disabled users</source>
+      <translation>Deaktivierte Benutzer anzeigen</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -2245,6 +2253,30 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>Reload available times</source>
       <translation>Verfügbare Zeiten neu laden</translation>
+    </message>
+    <message>
+      <source>This appointment does not comply with the booking limits configured on the calendar.</source>
+      <translation>Dieser Termin entspricht nicht den im Kalender konfigurierten Buchungslimits.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the day.</source>
+      <translation>Sie haben die maximale Anzahl an buchbaren Terminen für den Tag erreicht.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the week.</source>
+      <translation>Sie haben die maximale Anzahl an buchbaren Terminen für die Woche erreicht.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the month.</source>
+      <translation>Sie haben die maximale Anzahl an buchbaren Terminen für den Monat erreicht.</translation>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the year.</source>
+      <translation>Sie haben die maximale Anzahl an buchbaren Terminen für das Jahr erreicht.</translation>
+    </message>
+    <message>
+      <source>Choose another period</source>
+      <translation>Anderen Zeitraum wählen</translation>
     </message>
   </context>
   <context>
