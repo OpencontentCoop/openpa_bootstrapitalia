@@ -180,7 +180,8 @@ EOT;
 
     public function getCalendar($id, $locale = null)
     {
-        if (!isset($this->calendars[$id])) {
+        $cacheKey = $id . $locale;
+        if (!isset($this->calendars[$cacheKey])) {
 
             $cacheFile = 'calendar-' . $id . $locale . '.cache';
             $cacheFilePath = eZDir::path(
@@ -188,12 +189,12 @@ EOT;
             );
             $cacheFileHandler = eZClusterFileHandler::instance($cacheFilePath);
 
-            $this->calendars[$id] = $cacheFileHandler->processCache(
+            $this->calendars[$cacheKey] = $cacheFileHandler->processCache(
                 function ($file) {
                     eZDebug::writeDebug('Call cached calendar ' . $file, __METHOD__);
                     return include($file);
                 },
-                function ($file, $id) {
+                function ($file, $id) use ($locale) {
                     eZDebug::writeDebug('Generate cached calendar ' . $id, __METHOD__);
                     $calendar = StanzaDelCittadinoBridge::factory()->instanceNewClient(5)->getCalendar($id, $locale);
                     return array(
@@ -208,7 +209,7 @@ EOT;
                 $id
             );
         }
-        return $this->calendars[$id];
+        return $this->calendars[$cacheKey];
     }
 
     public function getCalendars(int $service, int $office, int $place): array
