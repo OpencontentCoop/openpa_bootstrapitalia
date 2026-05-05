@@ -18,17 +18,17 @@
                       </span>
                   {/if}
               </p>
-          </div>
-          <span class="it-multiple">
               <span class="metadata">
                 <a href="{$service.main_node.url_alias|ezurl(no)}">
                   {'Service details'|i18n('bootstrapitalia')}
                 </a>
               </span>
+          </div>
+          <span class="it-multiple">
               <a href="{concat('/prenota_appuntamento?service_id=', $service.id)|ezurl(no)}"
                  title="{'Book an appointment'|i18n('bootstrapitalia')}"
                  aria-hidden="true">
-                  {display_icon('it-arrow-right-circle', 'svg', 'icon icon-primary')}
+                  {display_icon('it-chevron-right', 'svg', 'icon icon-primary')}
               </a>
           </span>
       </div>
