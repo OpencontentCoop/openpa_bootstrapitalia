@@ -411,6 +411,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
 
     public static function fromRequest()
     {
+        // @phpstan-ignore new.static
         $dto = new static();
         $http = eZHTTPTool::instance();
 

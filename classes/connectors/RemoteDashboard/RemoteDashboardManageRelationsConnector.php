@@ -87,6 +87,7 @@ class RemoteDashboardManageRelationsConnector extends RemoteDashboardImportConne
         $remoteFields = $this->remoteContent['data'][$this->language];
         foreach ($this->missingRelatedIdentifierList as $identifier) {
             if (isset($remoteFields[$identifier])) {
+                $fieldProperties = [];
                 foreach ($remoteFields[$identifier] as $remoteField) {
                     $fieldProperties[$remoteField['remoteId']] = [
                         'optionLabels' => array_values($this->getActionsForRemoteContent($remoteField)),

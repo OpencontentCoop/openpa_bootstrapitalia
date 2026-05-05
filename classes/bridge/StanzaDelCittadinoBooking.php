@@ -178,24 +178,25 @@ EOT;
         }
     }
 
-    public function getCalendar($id)
+    public function getCalendar($id, $locale = null)
     {
-        if (!isset($this->calendars[$id])) {
+        $cacheKey = $id . $locale;
+        if (!isset($this->calendars[$cacheKey])) {
 
-            $cacheFile = 'calendar-' . $id . '.cache';
+            $cacheFile = 'calendar-' . $id . $locale . '.cache';
             $cacheFilePath = eZDir::path(
                 array(eZSys::cacheDirectory(), 'sdc-calendars', $cacheFile)
             );
             $cacheFileHandler = eZClusterFileHandler::instance($cacheFilePath);
 
-            $this->calendars[$id] = $cacheFileHandler->processCache(
+            $this->calendars[$cacheKey] = $cacheFileHandler->processCache(
                 function ($file) {
                     eZDebug::writeDebug('Call cached calendar ' . $file, __METHOD__);
                     return include($file);
                 },
-                function ($file, $id) {
+                function ($file, $id) use ($locale) {
                     eZDebug::writeDebug('Generate cached calendar ' . $id, __METHOD__);
-                    $calendar = StanzaDelCittadinoBridge::factory()->instanceNewClient(5)->getCalendar($id);
+                    $calendar = StanzaDelCittadinoBridge::factory()->instanceNewClient(5)->getCalendar($id, $locale);
                     return array(
                         'content' => $calendar,
                         'scope' => 'sdc-calendars',
@@ -208,7 +209,7 @@ EOT;
                 $id
             );
         }
-        return $this->calendars[$id];
+        return $this->calendars[$cacheKey];
     }
 
     public function getCalendars(int $service, int $office, int $place): array
@@ -289,7 +290,7 @@ EOT;
                             $maxRollingDays = 0;
                             foreach ($calendars as $index => $calendar) {
                                 try {
-                                    $c = $this->getCalendar($calendar);
+                                    $c = $this->getCalendar($calendar, substr(eZLocale::instance()->httpLocaleCode(), 0, 2));
                                     if ($c['rolling_days'] > $maxRollingDays){
                                         $maxRollingDays = (int)$c['rolling_days'];
                                     }
@@ -1086,6 +1087,7 @@ EOT;
         }
 
         $apiBaseUri = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
+        $hostUri = eZINI::instance()->variable('SiteSettings', 'SiteURL');
 
         foreach ($data as $i => $service) {
             foreach ($service['offices'] as $k => $office) {
@@ -1109,6 +1111,13 @@ EOT;
                     ]);
                     $data[$i]['offices'][$k]['places'][$j]['merged_availabilities_link'] = $place['merge_availabilities'] ?
                         $apiBaseUri . "/api/availabilities?$query" : null;
+                }
+            }
+            $serviceObject = eZContentObject::fetch($service['id']);
+            if ($serviceObject instanceof eZContentObject) {
+                $mainNode = $serviceObject->mainNode();
+                if ($mainNode) {
+                    $data[$i]['page_url'] = 'https://' . $hostUri . '/' . $mainNode->attribute('url_alias');
                 }
             }
             $data[$i]['show_howto_in_motivation'] = $useHowtoField;

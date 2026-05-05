@@ -24,6 +24,7 @@ class LockEditConnectorFactory
         }
 
         if (!$classConnectorName || !class_exists($classConnectorName)){
+            // @phpstan-ignore variable.undefined
             throw new \Exception("Class connector not found (try $byClassConnectorName)");
         }
 

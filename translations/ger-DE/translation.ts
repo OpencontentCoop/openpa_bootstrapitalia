@@ -769,7 +769,7 @@
     </message>
     <message>
       <source>Service details</source>
-      <translation>Servicedetails</translation>
+      <translation>Zur Dienstleistungsseite</translation>
     </message>
     <message>
       <source>Show disabled users</source>
