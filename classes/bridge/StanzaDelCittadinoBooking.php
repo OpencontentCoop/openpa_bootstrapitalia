@@ -752,6 +752,13 @@ EOT;
             $response['data'] = $client->request('POST', $endpoint, $payload);
         } catch (Throwable $e) {
             $response['error'] = $e->getMessage();
+            $jsonStart = strpos($e->getMessage(), '{');
+            if ($jsonStart !== false) {
+                $errorData = json_decode(substr($e->getMessage(), $jsonStart), true);
+                if (is_array($errorData) && isset($errorData['code'])) {
+                    $response['code'] = $errorData['code'];
+                }
+            }
         }
 
         return $response;
@@ -778,6 +785,13 @@ EOT;
             $response['data'] = $client->request($method, $endpoint, $payload);
         } catch (Throwable $e) {
             $response['error'] = $e->getMessage();
+            $jsonStart = strpos($e->getMessage(), '{');
+            if ($jsonStart !== false) {
+                $errorData = json_decode(substr($e->getMessage(), $jsonStart), true);
+                if (is_array($errorData) && isset($errorData['code'])) {
+                    $response['code'] = $errorData['code'];
+                }
+            }
         }
 
         return $response;
