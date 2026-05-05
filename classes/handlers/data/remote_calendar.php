@@ -84,6 +84,7 @@ class DataHandlerRemoteCalendar implements OpenPADataHandlerInterface
     public function getData()
     {
         $remoteUrl = $this->remote . '&start=' . $this->start . '&end=' . $this->end;
+        // @phpstan-ignore variable.undefined
         $remoteData = eZHTTPTool::getDataByURL($remoteUrl, false, $userAgent);
 
         if (strpos($remoteData, '{') !== 1) {

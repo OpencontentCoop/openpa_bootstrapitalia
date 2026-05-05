@@ -29,6 +29,7 @@ class CollectInefficiency
         $this->datasetObject = eZContentObject::fetchByRemoteID(self::REMOTE_ID);
         $dataMap = $this->datasetObject ? $this->datasetObject->dataMap() : [];
         if (isset($dataMap['csv_resource'])
+            // @phpstan-ignore class.notFound
             && $dataMap['csv_resource']->attribute('data_type_string') === OpendataDatasetType::DATA_TYPE_STRING) {
             $this->datasetAttribute = $dataMap['csv_resource'];
             $this->datasetDefinition = $dataMap['csv_resource']->content();
@@ -47,6 +48,7 @@ class CollectInefficiency
     public function collect(array $data): array
     {
         if (!$this->datasetObject instanceof eZContentObject
+            // @phpstan-ignore class.notFound
             || !$this->datasetDefinition instanceof OpendataDatasetDefinition) {
             throw new InternalException(sprintf('Missing %s dataset configuration', self::REMOTE_ID));
         }
@@ -70,6 +72,7 @@ class CollectInefficiency
         }
 
         if ($data['action'] === 'upsert') {
+            // @phpstan-ignore class.notFound
             if ($currentDataset instanceof OpendataDataset) {
                 $dataset->setGuid($currentDataset->getGuid());
                 $dataset->setCreatedAt($currentDataset->getCreatedAt());
@@ -82,6 +85,7 @@ class CollectInefficiency
                 $data['action'] = 'create';
             }
         } elseif ($data['action'] === 'delete') {
+            // @phpstan-ignore class.notFound
             if ($currentDataset instanceof OpendataDataset) {
                 $this->datasetDefinition->deleteDataset($currentDataset);
             }

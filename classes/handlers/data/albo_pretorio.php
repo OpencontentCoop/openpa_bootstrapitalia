@@ -17,6 +17,7 @@ class DataHandlerAlboPretorioContents implements OpenPADataHandlerInterface
 
         $baseQuery = "classes [document] and raw[attr_id_albo_pretorio_s] range [*,*] and id_albo_pretorio != null and facets [raw[subattr_document_type___tag_ids____si],raw[subattr_publication_start_time___year____dt],class]";
 
+        // @phpstan-ignore empty.variable
         if (empty($baseQuery)) {
             throw new Exception("Invalid block query settings");
         }
