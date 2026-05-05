@@ -24,6 +24,12 @@ class BookingSchemaFactory extends SchemaFactory
                 'format' => 'uri',
                 'description' => 'Public service api url',
             ]),
+            'page_url' => $this->generateSchemaProperty([
+                'type' => 'string',
+                'format' => 'uri',
+                'nullable' => true,
+                'description' => 'Public service frontend page url',
+            ]),
             'name' => $this->generateSchemaProperty([
                 'type' => 'string',
                 'description' => 'Public service title',

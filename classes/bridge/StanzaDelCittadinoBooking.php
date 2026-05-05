@@ -1072,6 +1072,7 @@ EOT;
         }
 
         $apiBaseUri = StanzaDelCittadinoBridge::factory()->getApiBaseUri();
+        $hostUri = eZINI::instance()->variable('SiteSettings', 'SiteURL');
 
         foreach ($data as $i => $service) {
             foreach ($service['offices'] as $k => $office) {
@@ -1095,6 +1096,13 @@ EOT;
                     ]);
                     $data[$i]['offices'][$k]['places'][$j]['merged_availabilities_link'] = $place['merge_availabilities'] ?
                         $apiBaseUri . "/api/availabilities?$query" : null;
+                }
+            }
+            $serviceObject = eZContentObject::fetch($service['id']);
+            if ($serviceObject instanceof eZContentObject) {
+                $mainNode = $serviceObject->mainNode();
+                if ($mainNode) {
+                    $data[$i]['page_url'] = 'https://' . $hostUri . '/' . $mainNode->attribute('url_alias');
                 }
             }
             $data[$i]['show_howto_in_motivation'] = $useHowtoField;
