@@ -24,9 +24,13 @@ class ezfIndexRoleForEntity implements ezfIndexPlugin
 
         $roleId = (int)$contentObject->attribute('id');
         $res = (array)eZDB::instance()->arrayQuery(
-            "SELECT to_contentobject_id FROM ezcontentobject_link
-             WHERE contentclassattribute_id = $attrId
-             AND from_contentobject_id = $roleId"
+            "SELECT ezcol.to_contentobject_id FROM ezcontentobject_link ezcol
+             INNER JOIN ezcontentobject ezco ON (
+                 ezco.id = $roleId
+                 AND ezcol.from_contentobject_version = ezco.current_version
+             )
+             WHERE ezcol.contentclassattribute_id = $attrId
+             AND ezcol.from_contentobject_id = $roleId"
         );
 
         if (empty($res)) {

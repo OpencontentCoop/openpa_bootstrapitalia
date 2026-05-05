@@ -28,10 +28,14 @@ class ezfIndexRoleReverseRelations implements ezfIndexPlugin
         }
         if ($contentClassAttributeId > 0) {
             $contentObjectId = (int)$contentObject->attribute('id');
-            $query = "SELECT from_contentobject_id
-                FROM ezcontentobject_link 
-                WHERE contentclassattribute_id = $contentClassAttributeId
-                AND to_contentobject_id = $contentObjectId";
+            $query = "SELECT ezcol.from_contentobject_id
+                FROM ezcontentobject_link ezcol
+                INNER JOIN ezcontentobject ezco ON (
+                    ezco.id = ezcol.from_contentobject_id
+                    AND ezco.current_version = ezcol.from_contentobject_version
+                )
+                WHERE ezcol.contentclassattribute_id = $contentClassAttributeId
+                AND ezcol.to_contentobject_id = $contentObjectId";
             $res = (array)eZDB::instance()->arrayQuery($query);
 
             $roleIdList = array_column($res, 'from_contentobject_id');
