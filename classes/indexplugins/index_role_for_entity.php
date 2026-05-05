@@ -58,6 +58,13 @@ class ezfIndexRoleForEntity implements ezfIndexPlugin
             }
             $langData = $data[$languageCode] ?? (array_values($data)[0] ?? []);
             foreach ($langData as $field => $value) {
+                // Skip fields already added by eZFind's normal relation indexing
+                // (ezfSolrDocumentFieldObjectRelation adds submeta_for_entity___* meta fields
+                // and attr_for_entity_t; re-adding them causes Solr to reject with
+                // "multiple values for non-multiValued field").
+                if (isset($doc->Doc[$field])) {
+                    continue;
+                }
                 if (is_array($value)) {
                     foreach ($value as $v) {
                         $doc->addField($field, $v);
