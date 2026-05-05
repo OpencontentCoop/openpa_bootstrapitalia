@@ -188,8 +188,14 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
     },
 
     displayError: function (error) {
-      if (typeof error === 'object' && error.hasOwnProperty('responseJSON') && error.responseJSON.hasOwnProperty('error')){
-        console.log(error.responseJSON.error)
+      let code = null
+      if (typeof error === 'object' && error.hasOwnProperty('responseJSON')) {
+        if (error.responseJSON.hasOwnProperty('error')) {
+          console.log(error.responseJSON.error)
+        }
+        if (error.responseJSON.hasOwnProperty('code')) {
+          code = error.responseJSON.code
+        }
       } else {
         console.log(error)
       }
@@ -200,6 +206,23 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       $(self.element).find('.title-xsmall').hide()
       $(self.element).find('.step.container').hide()
       self.errorContainer.find('.row.justify-content-center .cmp-hero').show()
+      self.errorContainer.find('.error-message-code').hide()
+      self.errorContainer.find('.error-message-generic').show()
+      self.errorContainer.find('.error-goto-datetime').hide()
+      if (code) {
+        let specificMessage = self.errorContainer.find('[data-code="' + code + '"]')
+        if (specificMessage.length) {
+          self.errorContainer.find('.error-message-generic').hide()
+          specificMessage.show()
+          self.errorContainer.find('.error-goto-datetime').off('click').on('click', function () {
+            self.errorContainer.hide()
+            $(self.element).find('.steppers').show()
+            self.markStepUnconfirmed('datetime', function () {
+              self.gotoStep(self.getStepIndex('datetime'))
+            })
+          }).show()
+        }
+      }
       self.scrollToTop()
       self.errorContainer.show()
     },

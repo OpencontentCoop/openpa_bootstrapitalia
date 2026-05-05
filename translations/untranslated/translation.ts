@@ -1938,6 +1938,30 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>This appointment does not comply with the booking limits configured on the calendar.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Choose another period</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the day.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the week.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the month.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>You have reached the maximum number of bookable appointments for the year.</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>We apologize for the inconvenience and invite you to try again later.</source>
       <translation type="unfinished"/>
     </message>
