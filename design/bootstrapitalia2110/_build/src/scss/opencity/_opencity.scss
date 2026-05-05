@@ -11,6 +11,9 @@ html[lang^="de"] {
   word-break: break-word;
   
   .table th,
+  .table td,
+  .steppers-header li,
+  .autocomplete__list li,
   .btn{
     hyphens: manual;
     overflow-wrap: normal;

@@ -53,7 +53,7 @@
                                                         <div class="info-wrapper">
                                                             <span class="info-wrapper__label">{'Address'|i18n('bootstrapitalia/booking')}</span>
                                                             <p class="info-wrapper__value" data-address>
-                                                                <a href="https://www.google.com/maps/dir//'{$place.address.latitude|wash()},{$place.address.longitude|wash()}'/@{$place.address.latitude|wash()},{$place.address.longitude|wash()},15z?hl=it"
+                                                                <a href="https://www.google.com/maps/dir/?api=1&destination={$place.address.address|urlencode()}"
                                                                   target="_blank"
                                                                   rel="noopener noreferrer"
                                                                   class="text-decoration-none">

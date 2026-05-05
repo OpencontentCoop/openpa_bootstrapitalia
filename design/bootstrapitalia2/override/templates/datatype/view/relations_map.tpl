@@ -35,9 +35,9 @@
             {node_view_gui content_node=$child view=card_teaser_info show_icon=true() image_class=widemedium}
         {/foreach}
         {if $has_geo}
-            {def $geo_link = concat('https://www.google.com/maps/dir//', $has_geo.content.latitude, ',', $has_geo.content.longitude, '/@', $has_geo.content.latitude, ',', $has_geo.content.longitude, ',15z?hl=it')}
+            {def $geo_link = concat('https://www.google.com/maps/dir/?api=1&destination=', $has_geo.content.address|urlencode())}
             {if openpaini('Attributi', 'GeoMapLink', 'google')|eq('nominatim')}
-                {set $geo_link = concat('https://www.openstreetmap.org/directions?route=', $has_geo.content.latitude, ', ', $has_geo.content.longitude)}
+                {set $geo_link = concat('https://www.openstreetmap.org/directions?to=', $has_geo.content.address|urlencode())}
             {elseif openpaini('Attributi', 'GeoMapLink', 'google')|eq('disabled')}
                 {set $geo_link = concat('#geo:', $has_geo.content.latitude, ',', $has_geo.content.longitude)}
             {/if}

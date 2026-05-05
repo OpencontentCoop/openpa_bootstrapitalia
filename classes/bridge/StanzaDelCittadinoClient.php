@@ -125,6 +125,14 @@ class StanzaDelCittadinoClient
         );
     }
 
+    public function getFirstAvailableDate(array $calendarIdList)
+    {
+        $query = http_build_query([
+            'calendar_ids' => implode(',', $calendarIdList),
+        ]);
+        return $this->request('GET', "/api/availabilities/first-available-date?$query");
+    }
+
     public function getService($id)
     {
         return $this->request('GET', '/api/services/' . $id);

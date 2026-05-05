@@ -32,6 +32,7 @@ class ExtraIndexController extends ezpRestMvcController
     {
         try {
             $this->checkAccess();
+            // @phpstan-ignore property.notFound
             $selected = ExternalDataDocument::fromSolrResult($this->solr->findExternalDocumentByGuid($this->item));
             $externalData = $this->parseInput();
             $externalData->setGuid($selected->getGuid());
@@ -111,6 +112,7 @@ class ExtraIndexController extends ezpRestMvcController
         try {
 //            $this->checkAccess();
             $result = new ezpRestMvcResult();
+            // @phpstan-ignore property.notFound
             $raw = $this->solr->findExternalDocumentByGuid($this->item);
             $data = ExternalDataDocument::fromSolrResult($raw);
             $result->variables = isset($this->request->get['raw']) ?
@@ -135,6 +137,7 @@ class ExtraIndexController extends ezpRestMvcController
         try {
             $this->checkAccess();
             try {
+                // @phpstan-ignore property.notFound
                 $externalData = ExternalDataDocument::fromSolrResult($this->solr->findExternalDocumentByGuid($this->item));
                 if (!$this->solr->removeExternalDataDocument($externalData->getGuid())) {
                     throw new RuntimeException("Error committing to solr", 1);

@@ -28,7 +28,7 @@
     {include uri='design:bootstrapitalia/booking/error.tpl'}
 </div>
 <style>
-    .no-availabilities {ldelim}
+    .availabilities-alert {ldelim}
         position: absolute;
         left: 0;
         top: 0;

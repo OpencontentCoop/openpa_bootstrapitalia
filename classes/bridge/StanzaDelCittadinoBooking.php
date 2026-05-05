@@ -565,6 +565,13 @@ EOT;
         return $availabilities;
     }
 
+    public function getFirstAvailableDate(array $calendars): array
+    {
+        $client = StanzaDelCittadinoBridge::factory()->instanceNewClient(10);
+        $response = $client->getFirstAvailableDate($calendars);
+        return ['date' => $response['date'] ?? null];
+    }
+
     public function getScheduler(array $calendars): array
     {
         $min = '24:00';

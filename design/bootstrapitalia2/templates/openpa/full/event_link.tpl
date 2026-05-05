@@ -214,7 +214,7 @@
                                       </p>
                                       <div class="card-text u-main-black">
                                           <div class="mt-1">
-                                              <a href="https://www.google.com/maps/dir/45.548598,11.546282/@45.548598,11.546282,15z?hl=it"
+                                              <a href="{concat('https://www.google.com/maps/dir/?api=1&destination=', $openpa.event_link.geo.address|urlencode())}"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 class="text-decoration-none">

@@ -411,6 +411,7 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
 
     public static function fromRequest()
     {
+        // @phpstan-ignore new.static
         $dto = new static();
         $http = eZHTTPTool::instance();
 
@@ -555,10 +556,6 @@ class StanzaDelCittadinoBookingDTO implements JsonSerializable
             'calendar_group_place_id' => $this->getCalendarGroupPlaceId(),
             'locale' => eZLocale::instance()->httpLocaleCode(),
         ];
-
-        if (!empty($this->getMeetingCode())){
-            $data['code'] = $this->getMeetingCode();
-        }
 
         return $data;
     }

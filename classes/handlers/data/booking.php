@@ -54,6 +54,14 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
             return StanzaDelCittadinoBooking::factory()->getAvailabilitiesByRange($calendars, $start, $end);
         }
 
+        if ($this->request === 'first_available_date') {
+            $calendars = $http->hasGetVariable('calendars') ? $http->getVariable('calendars') : [];
+            if (is_string($calendars)) {
+                $calendars = explode(',', $calendars);
+            }
+            return StanzaDelCittadinoBooking::factory()->getFirstAvailableDate($calendars);
+        }
+
         if ($this->request === 'scheduler') {
             $calendars = $http->hasGetVariable('calendars') ? $http->getVariable('calendars') : [];
             if (is_string($calendars)) {
