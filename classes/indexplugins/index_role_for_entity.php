@@ -56,7 +56,7 @@ class ezfIndexRoleForEntity implements ezfIndexPlugin
             if (!$doc instanceof eZSolrDoc) {
                 continue;
             }
-            $langData = $data[$languageCode] ?? $data[array_key_first($data)] ?? [];
+            $langData = $data[$languageCode] ?? (array_values($data)[0] ?? []);
             foreach ($langData as $field => $value) {
                 if (is_array($value)) {
                     foreach ($value as $v) {
