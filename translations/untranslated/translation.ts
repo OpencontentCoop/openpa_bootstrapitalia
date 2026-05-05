@@ -268,6 +268,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Service details</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Go to event calendar</source>
       <translation type="unfinished"/>
     </message>
