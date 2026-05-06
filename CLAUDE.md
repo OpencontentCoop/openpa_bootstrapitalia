@@ -196,6 +196,54 @@ Configurazione in `settings/openpa.ini.append.php` sotto `[AccessPage]`.
 
 ---
 
+## Link nel footer
+
+### Come funziona
+
+Il template `design/bootstrapitalia2/templates/page_footer.tpl` chiama `fetch('openpa', 'footer_links')` che esegue `OpenPaFunctionCollection::fetchFooterLinks()` in `extension/openpa/classes/openpafunctioncollection.php`.
+
+La funzione ha **due code path**:
+
+**Path 1 — Homepage con attributo `link_nel_footer`** (caso normale):
+Se la Homepage ha la classe `homepage` e l'attributo `link_nel_footer` (ezobjectrelationlist) ha contenuto, usa quei nodi. Per ogni item nella relation_list chiama `eZContentObjectTreeNode::fetch((int)$item['node_id'])` — se il nodo non esiste o non è accessibile all'utente anonimo, viene **scartato silenziosamente** senza errori.
+
+**Path 2 — Fallback INI** (istanze vecchie / classe non homepage):
+Legge da `openpa.ini` sezione `[LinkSpeciali]`:
+```ini
+[LinkSpeciali]
+NodoPrivacy=
+NodoNoteLegali=
+NodoDichiarazione=
+NodoCredits=
+```
+
+### Constraint automatici al salvataggio
+
+Quando si salva la homepage dal pannello **`/backend/bootstrapitalia/info`**, il file `modules/bootstrapitalia/info.php` applica un meccanismo di constraints: se uno dei nodi obbligatori è assente da `link_nel_footer`, viene aggiunto automaticamente. I nodi vincolati sono identificati per remote_id:
+
+| Remote ID | Nodo | `data-element` nel footer |
+|-----------|------|--------------------------|
+| `privacy-policy-link` | Privacy | `privacy-policy-link` |
+| `931779762484010404cf5fa08f77d978` | Note legali | `legal-notes` |
+| `accessibility-link` | Dichiarazione di accessibilità | `accessibility-link` |
+
+**Attenzione:** il constraint si attiva solo salvando tramite `/backend/bootstrapitalia/info`. Salvare la homepage dal normale edit del backend (`/content/edit/...`) **non** attiva questa logica.
+
+### `data-element` sui link del footer
+
+Il valore dell'attributo `data-element="..."` su ogni link viene calcolato da `classes/services/data_element.php` in base al remote_id del nodo. Se il nodo non ha un remote_id riconosciuto, il link viene comunque renderizzato ma con il `data-element` basato sul class identifier.
+
+### Troubleshooting: link mancante nel footer
+
+1. Verificare che il nodo esista e sia visibile: `curl https://<sito>/opendata/api/content/browse/2` — cercare il nodo tra i figli della homepage
+2. Verificare il remote_id del nodo: deve corrispondere ai valori nella tabella sopra
+3. Se il nodo esiste ma non appare: il suo `node_id` in `link_nel_footer` è probabilmente errato/stale
+4. **Fix rapido:** aprire `/backend/bootstrapitalia/info` e salvare — i constraints riaggiungeranno i nodi mancanti
+5. **Fix manuale:** editare la Homepage dal backend, aggiungere manualmente il nodo al campo "Link nel footer"
+6. Dopo il fix: svuotare la cache Varnish della homepage
+
+---
+
 ## Build CSS
 
 I CSS sono compilati con npm. Ci sono due design attivi con la loro directory `_build`:
@@ -301,6 +349,58 @@ $result = eZFunctionHandler::execute('ezfind', 'search', array_merge($q->query()
 
 ---
 
+## Lock Edit (interfaccia redattore semplificata)
+
+### Cos'è
+
+Un'interfaccia di editing semplificata per utenti con permesso `bootstrapitalia/opencity_locked_editor` (redattori con accesso limitato). Invece dell'editor eZ completo, mostrano un form con soli i campi necessari per la loro operatività quotidiana (titolo, testo, immagini, selezione blocchi homepage, ecc.).
+
+Accessibile dal toolbar del sito tramite il link "Modifica" per gli utenti con il permesso.
+
+Entry point: modulo `ocopendata_forms`, connector `lock_edit` → `LockEditConnector.php` (verifica il permesso, carica il connector corretto via factory, renderizza il form).
+
+### Risoluzione connector (Factory)
+
+`LockEditConnectorFactory::load()` risolve il connector per un oggetto con questa priorità:
+
+1. `toCamelCase(remote_id) + LockEditClassConnector` — per oggetti specifici (es. la homepage principale)
+2. `toCamelCase(class_identifier) + LockEditClassConnector` — per tutti gli oggetti di una classe
+
+`toCamelCase` usa `eZCharTransform` per normalizzare l'identificatore, poi converte underscore in CamelCase con prima lettera maiuscola.
+
+### Gerarchia classi
+
+```
+LockEditClassConnector          (abstract base)
+  └─ PageLockEditClassConnector (abstract, per contenuti "page" con zone/block)
+       ├─ HomepageLockEditClassConnector   → remote_id homepage principale
+       ├─ FrontpageLockEditClassConnector  → class_identifier frontpage
+       ├─ NewsLockEditClassConnector       → class_identifier news/comunicati
+       ├─ LiveLockEditClassConnector       → class_identifier live
+       └─ PaginaSitoLockEditClassConnector → class_identifier pagina_sito
+```
+
+### Connector concreti
+
+| File | Oggetto target | Note |
+|------|---------------|------|
+| `Page/HomepageLockEditClassConnector.php` | Homepage principale | Gestisce eventi, slider, sezioni homepage |
+| `Page/FrontpageLockEditClassConnector.php` | Frontpage | Sottopagine tematiche |
+| `Page/NewsLockEditClassConnector.php` | News / comunicati | |
+| `Page/LiveLockEditClassConnector.php` | Live events | |
+| `Page/PaginaSitoLockEditClassConnector.php` | Pagine sito generiche | |
+
+### Blocco "prossimi eventi" in homepage
+
+`HomepageLockEditClassConnector` gestisce il blocco eventi con due modalità (stesso block UUID `9cd237a12fdb73a490fee0b01a3fab9d`):
+
+- **Automatico** (`section_next_events=true`): usa il blocco `[Eventi]` originale con environment `FullCalendar` → filtra solo eventi futuri via parametri GET `start`/`end` passati al search Solr
+- **Manuale** (`section_calendar` con item selezionati): sostituisce il view `lista_card` con `valid_items` = lista remote_id scelti dal redattore → **nessun filtro per data**, mostra anche eventi passati
+
+Logica in `mapSectionEvents()` di `HomepageLockEditClassConnector.php`.
+
+---
+
 ## File rilevanti
 
 | File | Ruolo |
@@ -316,3 +416,11 @@ $result = eZFunctionHandler::execute('ezfind', 'search', array_merge($q->query()
 | `settings/ezfind.ini.append.php` | Registrazione plugin Solr |
 | `translations/untranslated/translation.ts` | Stringhe da tradurre |
 | `translations/ita-IT/translation.ts` | Traduzioni italiane (aggiornate da POEditor) |
+| `modules/bootstrapitalia/info.php` | Pannello impostazioni homepage: salvataggio `link_nel_footer` con constraint automatici |
+| `classes/services/data_element.php` | Mappa remote_id → valore `data-element` per link nel footer e navigation |
+| `design/bootstrapitalia2/templates/page_footer.tpl` | Template footer: rendering `footer_links`, contatti, copyright |
+| `classes/connectors/LockEdit/LockEditConnector.php` | Entry point Lock Edit: verifica permesso, delega a factory |
+| `classes/connectors/LockEdit/LockEditConnectorFactory.php` | Factory: risolve connector per remote_id o class_identifier |
+| `classes/connectors/LockEdit/LockEditClassConnector.php` | Abstract base per tutti i connector Lock Edit |
+| `classes/connectors/LockEdit/PageLockEditClassConnector.php` | Abstract base per connector page-type (zone/block) |
+| `classes/connectors/LockEdit/Page/HomepageLockEditClassConnector.php` | Connector homepage: blocco eventi (auto vs manuale), slider, sezioni |
