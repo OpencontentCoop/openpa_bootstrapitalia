@@ -194,6 +194,20 @@ Configurazione in `settings/openpa.ini.append.php` sotto `[AccessPage]`.
 
 **Modulo `bootstrapitalia/booking_config`** (`modules/bootstrapitalia/booking_config.php`): pagina admin per configurare i calendari per ufficio/servizio/sede.
 
+### Ordine dei servizi nella pagina di scoperta (`prenota_appuntamento`)
+
+Quando si arriva a `/prenota_appuntamento` senza un `service_id`, viene mostrata la pagina di scoperta con i servizi raggruppati per categoria. L'ordine è gestito da `StanzaDelCittadinoBooking::getServicesByCategories()` con questo SQL:
+
+```sql
+ORDER BY type_attributes._priority DESC, type_attributes.name ASC
+```
+
+Dove `_priority` = `ezcontentobject_tree.priority` del nodo del servizio pubblico.
+
+**Conseguenza:** un servizio con priorità > 0 appare prima di tutti gli altri nella sua categoria, indipendentemente dall'ordine alfabetico. Gli altri (priorità = 0) sono ordinati alfabeticamente per nome.
+
+**Come impostare/azzerare la priorità:** dal backend eZ, aprire il nodo del servizio pubblico → tab _Localizzazioni_ → campo _Priorità_. Impostare a 0 per tornare all'ordine alfabetico puro.
+
 ---
 
 ## Link nel footer
