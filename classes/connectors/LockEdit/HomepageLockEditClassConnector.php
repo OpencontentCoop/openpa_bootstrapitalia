@@ -195,13 +195,20 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
         $schema['properties']['section_news']['maxItems'] = OpenPAINI::variable('LockEdit_homepage', 'SectionNewsLimit', 3);
         $schema['properties']['section_management']['maxItems'] = OpenPAINI::variable('LockEdit_homepage', 'SectionManagementLimit', 3);
         $schema['properties']['section_calendar']['maxItems'] = OpenPAINI::variable('LockEdit_homepage', 'SectionCalendarLimit', 3);
-        $schema['properties']['section_gallery']['maxItems'] = 3;
-        $schema['properties']['section_place']['maxItems'] = 3;
-        $schema['properties']['section_banner']['maxItems'] = OpenPAINI::variable('LockEdit_homepage', 'SectionBannerLimit', 9);
+        $schema['properties']['section_gallery']['maxItems'] = (int)OpenPAINI::variable('LockEdit_homepage', 'SectionGalleryLimit', 3);
+        $schema['properties']['section_place']['maxItems'] = (int)OpenPAINI::variable('LockEdit_homepage', 'SectionPlaceLimit', 3);
         $schema['properties']['section_search']['maxItems'] = $this->isSearchBlockBoosted() ? 15 : 5;
-        $schema['properties']['section_topic']['minItems'] = 3;
+        $schema['properties']['section_topic']['minItems'] = (int)OpenPAINI::variable('LockEdit_homepage', 'SectionTopicMinLimit', 3);
 
-        $schema['properties']['menu_topic']['maxItems'] = 3;
+        // Use max(configured limit, current items count) so existing data never blocks the form.
+        // getData() is called before getSchema() in the combined connector request, so currentBlocks is available.
+        $bannerData = !empty($this->currentBlocks) ? $this->mapListaManualeToRelations(self::SECTION_BANNER) : null;
+        $schema['properties']['section_banner']['maxItems'] = max(
+            (int)OpenPAINI::variable('LockEdit_homepage', 'SectionBannerLimit', 9),
+            is_array($bannerData) ? count($bannerData) : 0
+        );
+
+        $schema['properties']['menu_topic']['maxItems'] = (int)OpenPAINI::variable('LockEdit_homepage', 'MenuTopicMaxLimit', 3);
 
         return $schema;
     }
