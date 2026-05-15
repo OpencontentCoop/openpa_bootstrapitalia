@@ -23,7 +23,12 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
 
         $http = eZHTTPTool::instance();
         if ($this->request === 'calendar' && $this->requestParameter) {
-            return StanzaDelCittadinoBooking::factory()->getCalendar($this->requestParameter);
+            try {
+                return StanzaDelCittadinoBooking::factory()->getCalendar($this->requestParameter);
+            } catch (Throwable $e) {
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+                return [];
+            }
         }
 
         if ($this->request === 'availabilities') {
@@ -32,7 +37,12 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
                 $calendars = explode(',', $calendars);
             }
             $month = $http->hasGetVariable('month') ? $http->getVariable('month') : null;
-            return StanzaDelCittadinoBooking::factory()->getAvailabilities($calendars, $month);
+            try {
+                return StanzaDelCittadinoBooking::factory()->getAvailabilities($calendars, $month);
+            } catch (Throwable $e) {
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+                return [];
+            }
         }
 
         if ($this->request === 'availabilities_by_day') {
@@ -41,7 +51,12 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
                 $calendars = explode(',', $calendars);
             }
             $day = $http->hasGetVariable('day') ? $http->getVariable('day') : null;
-            return StanzaDelCittadinoBooking::factory()->getAvailabilitiesByDay($calendars, $day);
+            try {
+                return StanzaDelCittadinoBooking::factory()->getAvailabilitiesByDay($calendars, $day);
+            } catch (Throwable $e) {
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+                return [];
+            }
         }
 
         if ($this->request === 'availabilities_by_range') {
@@ -51,7 +66,12 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
             }
             $start = $http->hasGetVariable('start') ? $http->getVariable('start') : null;
             $end = $http->hasGetVariable('end') ? $http->getVariable('end') : null;
-            return StanzaDelCittadinoBooking::factory()->getAvailabilitiesByRange($calendars, $start, $end);
+            try {
+                return StanzaDelCittadinoBooking::factory()->getAvailabilitiesByRange($calendars, $start, $end);
+            } catch (Throwable $e) {
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+                return [];
+            }
         }
 
         if ($this->request === 'first_available_date') {
@@ -59,7 +79,12 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
             if (is_string($calendars)) {
                 $calendars = explode(',', $calendars);
             }
-            return StanzaDelCittadinoBooking::factory()->getFirstAvailableDate($calendars);
+            try {
+                return StanzaDelCittadinoBooking::factory()->getFirstAvailableDate($calendars);
+            } catch (Throwable $e) {
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+                return ['date' => null];
+            }
         }
 
         if ($this->request === 'scheduler') {
@@ -67,7 +92,12 @@ class DataHandlerBooking implements OpenPADataHandlerInterface
             if (is_string($calendars)) {
                 $calendars = explode(',', $calendars);
             }
-            return StanzaDelCittadinoBooking::factory()->getScheduler($calendars);
+            try {
+                return StanzaDelCittadinoBooking::factory()->getScheduler($calendars);
+            } catch (Throwable $e) {
+                eZDebug::writeError($e->getMessage(), __METHOD__);
+                return [];
+            }
         }
 
         if ($this->request === 'draft_meeting' && $_SERVER['REQUEST_METHOD'] === 'POST') {
