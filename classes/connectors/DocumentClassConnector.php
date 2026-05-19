@@ -80,6 +80,40 @@ class DocumentClassConnector extends ClassConnector
             );
         }
 
+        $this->validateMaxRelations($submitData);
+
         return parent::submit();
+    }
+
+    private function validateMaxRelations(array $submitData): void
+    {
+        $ini = eZINI::instance('openpa.ini');
+        if (!$ini->hasVariable('AttributeHandlers', 'MaxRelations')) {
+            return;
+        }
+        $classIdentifier = $this->class->attribute('identifier');
+        foreach ($ini->variable('AttributeHandlers', 'MaxRelations') as $key => $max) {
+            if ((int)$max === 0) {
+                continue;
+            }
+            [$configClass, $configAttr] = explode('/', $key, 2);
+            if ($configClass !== $classIdentifier) {
+                continue;
+            }
+            $value = $submitData[$configAttr] ?? null;
+            if (is_array($value) && count($value) > (int)$max) {
+                $attrName = isset($this->classDataMap[$configAttr])
+                    ? $this->classDataMap[$configAttr]->attribute('name')
+                    : $configAttr;
+                throw new \Exception(
+                    sprintf(
+                        '%s: è possibile inserire al massimo %d %s',
+                        $attrName,
+                        (int)$max,
+                        (int)$max === 1 ? 'elemento' : 'elementi'
+                    )
+                );
+            }
+        }
     }
 }
