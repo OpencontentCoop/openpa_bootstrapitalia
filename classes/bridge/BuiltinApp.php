@@ -644,7 +644,7 @@ abstract class BuiltinApp extends OpenPATempletizable
             $serviceIdentifier = isset($serviceDataMap['identifier']) ? $serviceDataMap['identifier']->content() : null;
             $serviceId = $urlQueryHash['service_id'] ?? '';
 
-            if (in_array($serviceIdentifier, ['inefficiency', 'inefficiencies'])) {
+            if (in_array($serviceIdentifier, ['inefficiency', 'inefficiencies', 'inefficiencies-evo'])) {
                 $builtin = 'inefficiency';
                 $url = '/segnala_disservizio';
             } elseif (strpos($url, 'prenota_appuntamento') !== false) {
