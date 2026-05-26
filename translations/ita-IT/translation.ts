@@ -732,6 +732,10 @@
       <translation>In questa sezione sono pubblicati gli atti amministrativi per i quali la legge prevede l’obbligo di pubblicazione. </translation>
     </message>
     <message>
+      <source>Copy link</source>
+      <translation>Copia link</translation>
+    </message>
+    <message>
       <source>Download data in format %extension</source>
       <translation>Scarica i dati in formato %extension</translation>
     </message>

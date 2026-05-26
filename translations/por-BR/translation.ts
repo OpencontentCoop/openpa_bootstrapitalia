@@ -2406,5 +2406,9 @@ Eles são usados essencialmente para medir e melhorar a qualidade dos sites por 
       <source>Type</source>
       <translation>Tipo de evento</translation>
     </message>
+    <message>
+      <source>Copy link</source>
+      <translation>Copiar link</translation>
+    </message>
   </context>
 </TS>
