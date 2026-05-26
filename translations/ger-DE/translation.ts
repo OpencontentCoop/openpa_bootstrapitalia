@@ -732,6 +732,10 @@
       <translation>In diesem Bereich werden die Verwaltungsakte veröffentlicht, für die gemäß den geltenden Rechtsvorschriften eine Veröffentlichungspflicht besteht.</translation>
     </message>
     <message>
+      <source>Copy link</source>
+      <translation>Link kopieren</translation>
+    </message>
+    <message>
       <source>Download data in format %extension</source>
       <translation>Lade die Daten im %extension-Format herunter</translation>
     </message>

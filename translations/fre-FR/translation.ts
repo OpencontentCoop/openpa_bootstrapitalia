@@ -2426,5 +2426,9 @@ Ils sont essentiellement utilisés pour mesurer et améliorer la qualité des si
       <source>Type</source>
       <translation>Type d'événement</translation>
     </message>
+    <message>
+      <source>Copy link</source>
+      <translation>Copier le lien</translation>
+    </message>
   </context>
 </TS>

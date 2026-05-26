@@ -2450,5 +2450,9 @@ They are essentially used to measure and improve the quality of sites by analysi
       <source>Type</source>
       <translation>Type</translation>
     </message>
+    <message>
+      <source>Copy link</source>
+      <translation>Copy link</translation>
+    </message>
   </context>
 </TS>

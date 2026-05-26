@@ -2426,5 +2426,9 @@ Se utilizan principalmente para medir y mejorar la calidad de los sitios web med
       <source>Type</source>
       <translation></translation>
     </message>
+    <message>
+      <source>Copy link</source>
+      <translation>Copiar enlace</translation>
+    </message>
   </context>
 </TS>
