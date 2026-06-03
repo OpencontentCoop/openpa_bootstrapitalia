@@ -167,6 +167,27 @@
                 {delimiter},{/delimiter}
               {/foreach}
             ]
+            {if $fields.class_identifier|eq('bando')}
+            ,"drawCallback": function() {ldelim}
+              var api = this.api();
+              var baseUrl = window.location.origin + '{'/openpa/object/'|ezurl(no)}';
+              var spriteUrl = '{'images/svg/sprites.svg'|ezdesign('no')}';
+              var copyLinkLabel = '{'Copy link'|i18n('bootstrapitalia')|wash(javascript)}';
+              api.rows({ldelim}page: 'current'{rdelim}).every(function() {ldelim}
+                var td = $(this.node()).find('td:first-child');
+                td.find('.copy-permalink-btn').remove();
+                var rowData = this.data();
+                if (rowData && rowData.metadata && rowData.metadata.id) {ldelim}
+                  var url = baseUrl + '/' + rowData.metadata.id;
+                  var btn = $('<button class="btn btn-link p-0 copy-permalink-btn" style="flex-shrink:0;line-height:1;flex-grow:1;text-align:right;" data-url="' + url + '" title="' + copyLinkLabel + '" aria-label="' + copyLinkLabel + '">'
+                    + '<svg class="icon icon-sm icon-primary" role="presentation" focusable="false"><use href="' + spriteUrl + '#it-copy"></use></svg>'
+                    + '</button>');
+                  td.wrapInner('<span style="display:flex;align-items:flex-start;gap:0.5rem"></span>');
+                  td.children('span').first().append(btn);
+                {rdelim}
+              {rdelim});
+            {rdelim}
+            {/if}
           {rdelim}
         {rdelim}).data('opendataDataTable');
 
@@ -255,6 +276,24 @@
         {/if}
 
         fieldsDatatable{$table_index}.loadDataTable();
+
+        {if $fields.class_identifier|eq('bando')}
+        $('#container-{$node.node_id}-{$table_index}').on('click', '.copy-permalink-btn', function(e) {ldelim}
+          var copyLinkLabel = '{'Copy link'|i18n('bootstrapitalia')|wash(javascript)}';
+          e.preventDefault();
+          var btn = $(this);
+          var url = btn.data('url');
+          var spriteUrl = '{'images/svg/sprites.svg'|ezdesign('no')}';
+          navigator.clipboard.writeText(url).then(function() {ldelim}
+            btn.find('svg').removeClass('icon-primary').addClass('icon-success');
+            btn.find('use').attr('href', spriteUrl + '#it-check');
+            setTimeout(function() {ldelim}
+              btn.find('svg').removeClass('icon-success').addClass('icon-primary');
+              btn.find('use').attr('href', spriteUrl + '#it-copy');
+            {rdelim}, 1500);
+          {rdelim});
+        {rdelim});
+        {/if}
       {rdelim});
     </script>
     <div class="my-4">
