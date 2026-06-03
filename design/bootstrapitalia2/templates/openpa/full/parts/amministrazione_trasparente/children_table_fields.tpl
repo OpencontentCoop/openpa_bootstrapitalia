@@ -179,10 +179,11 @@
                 var rowData = this.data();
                 if (rowData && rowData.metadata && rowData.metadata.id) {ldelim}
                   var url = baseUrl + '/' + rowData.metadata.id;
-                  var btn = $('<button class="btn btn-link p-0 ms-2 copy-permalink-btn" data-url="' + url + '" title="' + copyLinkLabel + '" aria-label="' + copyLinkLabel + '">'
+                  var btn = $('<button class="btn btn-link p-0 copy-permalink-btn" style="flex-shrink:0;line-height:1" data-url="' + url + '" title="' + copyLinkLabel + '" aria-label="' + copyLinkLabel + '">'
                     + '<svg class="icon icon-sm icon-primary"><use href="' + spriteUrl + '#it-copy"></use></svg>'
                     + '</button>');
-                  td.append(btn);
+                  td.wrapInner('<span style="display:flex;align-items:flex-start;gap:0.5rem"></span>');
+                  td.children('span').first().append(btn);
                 {rdelim}
               {rdelim});
             {rdelim}
