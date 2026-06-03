@@ -669,7 +669,8 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     private function mapSectionBanner($data): ?array
     {
         if (isset($data['section_banner'][0]['id'])) {
-            $originalBlock = $this->findBlockById(self::SECTION_BANNER, true);
+            $originalBlock = $this->findBlockById(self::SECTION_BANNER, true)
+                ?? $this->findBlockById(self::SECTION_BANNER);
             $originalBlock['name'] = $data['title_banner'] ?? '';
             $originalBlock['type'] = 'ListaManuale';
             $originalCustomAttributes = $originalBlock['custom_attributes'];
