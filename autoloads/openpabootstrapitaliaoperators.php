@@ -116,7 +116,6 @@ class OpenPABootstrapItaliaOperators
             'can_edit_in_current_language',
             'update_zone_block_in_db_if_needed',
             'float_format',
-            'asset_version',
         );
     }
 
@@ -347,13 +346,6 @@ class OpenPABootstrapItaliaOperators
                         );
                     }
                 }
-                break;
-
-            case 'asset_version':
-                // $operatorValue is the URL path from |ezdesign, e.g. /extension/foo/design/bar/javascript/file.js
-                $urlPath = ltrim($operatorValue, '/');
-                $fullPath = eZSys::rootDir() . DIRECTORY_SEPARATOR . $urlPath;
-                $operatorValue = file_exists($fullPath) ? substr(md5_file($fullPath), 0, 8) : '0';
                 break;
 
             case 'float_format':

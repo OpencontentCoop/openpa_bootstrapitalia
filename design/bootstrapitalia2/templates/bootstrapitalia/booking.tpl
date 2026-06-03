@@ -69,9 +69,7 @@
   {rdelim})
 </script>
 {*{ezscript(array('jquery.booking.js'))}*}
-{def $booking_js_url = "javascript/jquery.booking.js"|ezdesign(no)}
-<script src="{$booking_js_url}?v={$booking_js_url|asset_version}"></script>
-{undef $booking_js_url}
+<script src={"javascript/jquery.booking.js"|ezdesign}></script>
 {/if}
 
 
