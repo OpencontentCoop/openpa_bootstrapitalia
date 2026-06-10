@@ -2,5 +2,6 @@
 
 [TriggersSettings]
 TriggerList[]=PostPublishWebHookTrigger
+TriggerList[]=DeleteWebHookTrigger
 
 */ ?>
