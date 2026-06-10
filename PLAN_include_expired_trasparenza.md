@@ -33,6 +33,15 @@ altrimenti continua a usare `/opendata/api/datatable/search/` come oggi.
 
 ## File da modificare/creare
 
+### 0. `settings/site.ini.append.php` (~1 riga)
+
+Aggiungere alla `PolicyOmitList` per rendere il view accessibile agli utenti anonimi
+(senza di esso eZ Publish restituisce 410):
+
+```ini
+PolicyOmitList[]=bootstrapitalia/trasparenza_datatable
+```
+
 ### 1. `classes/services/content_trasparenza.php` (~15 righe)
 
 In `parseTableFieldsParameter()`, aggiungere `include_expired` a
@@ -130,7 +139,8 @@ eZExecution::cleanExit();
 
 ### 4. `design/bootstrapitalia2/templates/openpa/full/parts/amministrazione_trasparente/children_table_fields.tpl` (~20 righe)
 
-**URL condizionale** (sostituisce la riga con `opendata/api/datatable/search`):
+**URL condizionale** (sostituisce la riga con `opendata/api/datatable/search`).
+Attenzione: usare underscore (`trasparenza_datatable`), non trattino:
 
 ```tpl
 {if $fields.include_expired}

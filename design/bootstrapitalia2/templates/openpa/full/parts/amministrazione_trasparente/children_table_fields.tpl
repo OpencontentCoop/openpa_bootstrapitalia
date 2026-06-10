@@ -113,7 +113,7 @@
             "language":{ldelim}
                 "url": "{concat('javascript/datatable/',$current_language,'.json')|ezdesign(no)}"
             {rdelim},
-            "ajax": {ldelim}url: "{'opendata/api/datatable/search'|ezurl(no,full)}/"{rdelim},
+            "ajax": {ldelim}url: "{if $fields.include_expired}{concat('/bootstrapitalia/trasparenza_datatable/', $node.node_id, '/', $table_index)|ezurl(no,full)}{else}{'opendata/api/datatable/search'|ezurl(no,full)}/{/if}"{rdelim},
             "lengthMenu": [ 30, 60, 90, 120 ],
             "columns": [{foreach $fields.class_fields as $field}{$field.column}{delimiter},{/delimiter}{/foreach}],
             "columnDefs": [
@@ -146,6 +146,8 @@
                         {if or($index|eq(0), $field.showLink)}
                             {if $fields.class_identifier|eq('time_indexed_role')}
                               link = typeof row.data['{$current_language}'].person[0] === 'object' ? "{'/openpa/object/'|ezurl(no)}/"+row.data['{$current_language}'].person[0].id : '#';
+                            {elseif $fields.include_expired}
+                              if (!row.metadata.is_expired) {ldelim} link = "{'/openpa/object/'|ezurl(no)}/"+row.metadata.id; {rdelim}
                             {else}
                               link = "{'/openpa/object/'|ezurl(no)}/"+row.metadata.id;
                             {/if}
