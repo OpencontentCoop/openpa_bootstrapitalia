@@ -95,6 +95,13 @@ $ViewList['iframe'] = [
     'params' => [],
     'unordered_params' => [],
 ];
+$ViewList['trasparenza_datatable'] = [
+    'functions' => ['trasparenza_datatable'],
+    'script' => 'trasparenza_datatable.php',
+    'default_navigation_part' => 'ezsetupnavigationpart',
+    'params' => ['NodeID', 'TableIndex'],
+    'unordered_params' => [],
+];
 
 $FunctionList = [];
 $FunctionList['theme'] = [];
@@ -119,3 +126,4 @@ $FunctionList['booking_config'] = [];
 $FunctionList['widget'] = [];
 $FunctionList['approval'] = [];
 $FunctionList['iframe'] = [];
+$FunctionList['trasparenza_datatable'] = [];

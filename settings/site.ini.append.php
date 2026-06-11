@@ -28,6 +28,7 @@ PolicyOmitList[]=favicon
 PolicyOmitList[]=image/inefficiency
 PolicyOmitList[]=pagamento
 PolicyOmitList[]=bootstrapitalia/iframe
+PolicyOmitList[]=bootstrapitalia/trasparenza_datatable
 PolicyOmitList[]=area_personale
 PolicyOmitList[]=statistiche
 
