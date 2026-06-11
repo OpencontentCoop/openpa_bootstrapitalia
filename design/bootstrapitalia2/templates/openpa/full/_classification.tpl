@@ -23,7 +23,7 @@
     "default",
     hash(
         "remote_url", "",
-        "query", concat("raw[meta_main_parent_node_id_si] = '",$node.node_id,"' and sort [name=>asc]"),
+        "query", concat("raw[meta_main_parent_node_id_si] = '",$node.node_id,"' and raw[meta_class_identifier_ms] != 'output' and sort [name=>asc]"),
         "show_grid", "1",
         "show_map", "0",
         "show_search", "1",
