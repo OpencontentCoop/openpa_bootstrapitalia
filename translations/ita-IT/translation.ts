@@ -1503,6 +1503,14 @@
       <source>Results found</source>
       <translation>trovati</translation>
     </message>
+    <message>
+      <source>Official notice board register number</source>
+      <translation>Registro Albo n.</translation>
+    </message>
+    <message>
+      <source>of act date</source>
+      <translation>del</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/forgotpassword</name>

@@ -269,7 +269,7 @@
 				<span class="visually-hidden">{/literal}{'Date'|i18n('bootstrapitalia/documents')}{literal}:</span>
 				<div class="card-body border-0 p-0">
 					<span class="text-decoration-none mb-2 category-top text-uppercase">
-            {{:~i18n(data, numberIdentifier)}}
+            {/literal}{'Official notice board register number'|i18n('bootstrapitalia/documents')}{literal} {{:~i18n(data, numberIdentifier)}}
             <span class="data">
               {{if ~i18n(data,startIdentifier) && ~i18n(data,endIdentifier) && !hideEndTime}}
                 {/literal}{'From'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data,startIdentifier), dateFormat)}}
@@ -300,7 +300,7 @@
 					</h3>
 					{{if ~i18n(data, 'alternative_name')}}<p class="text-paragraph">{{:~stripTag(~i18n(data, 'alternative_name'))}}</p>{{/if}}
           {{if ~i18n(data, 'abstract')}}<div class="mb-2"><p class="text-paragraph">{{:~stripTag(~i18n(data, 'abstract'))}}</p></div> {{/if}}
-          {{if ~i18n(data, 'document_type')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{{:~i18n(data, 'document_type')}}</strong></li></ul>{{/if}}
+          {{if ~i18n(data, 'document_type')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{{if ~i18n(data, 'act_number')}}{{:~i18n(data, 'document_type')}} {{:~i18n(data, 'act_number')}}{{if ~i18n(data, 'act_date')}} {/literal}{'of act date'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data, 'act_date'), 'DD/MM/YYYY')}}{{/if}}{{else}}{{:~i18n(data, 'document_type')}}{{/if}}</strong></li></ul>{{/if}}
 					{{if ~i18n(data, 'area') || ~i18n(data, 'has_organization')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{/literal}{'Administrative area'|i18n('bootstrapitalia/documents')}/{'Office'|i18n('bootstrapitalia/documents')}{literal}:</strong></li>{{if ~i18n(data, 'area')}}{{for ~i18n(data,'area')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}{{if ~i18n(data, 'has_organization')}}{{for ~i18n(data,'has_organization')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}</ul>{{/if}}
 					{{if ~i18n(data, 'interroganti')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{/literal}{'Questioners'|i18n('bootstrapitalia/documents')}{literal}:</strong></li>{{for ~i18n(data,'interroganti')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}
         </div>
