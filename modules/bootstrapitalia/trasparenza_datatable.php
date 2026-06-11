@@ -37,7 +37,11 @@ $currentEnvironment->__set('request', $request);
 $contentSearch = new ContentSearch();
 $contentSearch->setEnvironment($currentEnvironment);
 
-$result = (array)$contentSearch->search($fields['query'], $limitation);
+$query = $fields['query'];
+if ($includeExpired) {
+    $query .= ' and state !in [privacy.private] and state !in [privacy.scheduled]';
+}
+$result = (array)$contentSearch->search($query, $limitation);
 
 if ($includeExpired) {
     foreach ($result['data'] as &$hit) {
