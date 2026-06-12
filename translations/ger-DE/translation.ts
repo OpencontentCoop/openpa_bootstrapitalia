@@ -700,6 +700,30 @@
       <translation>Kanaltypen</translation>
     </message>
     <message>
+      <source>Website Stats description</source>
+      <translation>Wie viele Menschen die Website besuchen, welche Seiten sie am häufigsten lesen und woher sie kommen. Die Daten werden mit Web Analytics Italia erhoben, der nationalen Plattform zur Analyse öffentlicher Websites, unter Wahrung der Privatsphäre der Nutzer.</translation>
+    </message>
+    <message>
+      <source>Stats recent description</source>
+      <translation>Zeigt die Entwicklung des Website-Traffics im Zeitverlauf. Über die Schaltfläche oben links im Diagramm können Sie auswählen, welche Metriken angezeigt werden — Besuche, eindeutige Besucher, Seitenaufrufe, Absprungrate und mehr — und sie im selben Diagramm vergleichen.</translation>
+    </message>
+    <message>
+      <source>Stats last month description</source>
+      <translation>Eine Zusammenfassung der wichtigsten Kennzahlen des letzten Monats zu den Aktivitäten der Nutzer auf der Website.</translation>
+    </message>
+    <message>
+      <source>Stats pages description</source>
+      <translation>Die meistbesuchten Seiten der Website, mit der Anzahl der Aufrufe, der durchschnittlichen Verweildauer sowie der Absprung- und Ausstiegsrate.</translation>
+    </message>
+    <message>
+      <source>Stats device description</source>
+      <translation>Die Geräte, mit denen Nutzer die Website aufrufen, sortiert nach Anzahl der Besuche.</translation>
+    </message>
+    <message>
+      <source>Stats channel description</source>
+      <translation>Wie Nutzer die Website erreichen: über Suchmaschinen, Direktzugriff, soziale Netzwerke, andere Websites oder Kampagnen.</translation>
+    </message>
+    <message>
       <source>Official noticeboard document identifier</source>
       <translation>Register-Nr. des Amtsblattes</translation>
     </message>

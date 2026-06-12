@@ -700,6 +700,30 @@
       <translation></translation>
     </message>
     <message>
+      <source>Website Stats description</source>
+      <translation>Quantas pessoas visitam o site, quais páginas leem mais e de onde chegam. Os dados são recolhidos com Web Analytics Italia, a plataforma nacional para a análise dos sites públicos, respeitando a privacidade dos utilizadores.</translation>
+    </message>
+    <message>
+      <source>Stats recent description</source>
+      <translation>Mostra a evolução do tráfego do site ao longo do tempo. Use o botão no canto superior esquerdo do gráfico para escolher que dados visualizar — visitas, visitantes únicos, páginas vistas, % de rejeição e mais — comparando-os no mesmo gráfico.</translation>
+    </message>
+    <message>
+      <source>Stats last month description</source>
+      <translation>Um resumo dos principais indicadores do último mês relativos às atividades realizadas pelos utilizadores no site.</translation>
+    </message>
+    <message>
+      <source>Stats pages description</source>
+      <translation>As páginas mais visitadas do site, com o número de visualizações, o tempo médio de permanência e as percentagens de rejeição e de saída.</translation>
+    </message>
+    <message>
+      <source>Stats device description</source>
+      <translation>Os dispositivos a partir dos quais os utilizadores consultam o site, ordenados por número de visitas.</translation>
+    </message>
+    <message>
+      <source>Stats channel description</source>
+      <translation>Como os utilizadores chegam ao site: através de motores de busca, acesso direto, redes sociais, outros sites ou campanhas.</translation>
+    </message>
+    <message>
       <source>Official noticeboard document identifier</source>
       <translation></translation>
     </message>
