@@ -700,6 +700,30 @@
       <translation>Tipi di Canale</translation>
     </message>
     <message>
+      <source>Website Stats description</source>
+      <translation>Quante persone visitano il sito, quali pagine leggono di più e da dove arrivano. I dati vengono raccolti con Web Analytics Italia, la piattaforma nazionale per l'analisi dei siti pubblici, nel rispetto della privacy degli utenti.</translation>
+    </message>
+    <message>
+      <source>Stats recent description</source>
+      <translation>Mostra l'evoluzione del traffico del sito nel tempo. Puoi selezionare la metrica con il pulsante in alto a sinistra del grafico e scegliere quali dati visualizzare — visite, visitatori unici, pagine viste, % di rimbalzo e altro — confrontandoli sullo stesso grafico.</translation>
+    </message>
+    <message>
+      <source>Stats last month description</source>
+      <translation>Una sintesi dei principali indicatori dell'ultimo mese relativi alle attività svolte dagli utenti sul sito.</translation>
+    </message>
+    <message>
+      <source>Stats pages description</source>
+      <translation>Le pagine più visitate del sito, con il numero di visualizzazioni, il tempo medio di permanenza e le percentuali di rimbalzo e di uscita.</translation>
+    </message>
+    <message>
+      <source>Stats device description</source>
+      <translation>I dispositivi da cui gli utenti consultano il sito ordinati per numero di visite.</translation>
+    </message>
+    <message>
+      <source>Stats channel description</source>
+      <translation>Come gli utenti raggiungono il sito: tramite motori di ricerca, accesso diretto, social network, altri siti web o campagne.</translation>
+    </message>
+    <message>
       <source>Official noticeboard document identifier</source>
       <translation>Numero registro albo</translation>
     </message>
