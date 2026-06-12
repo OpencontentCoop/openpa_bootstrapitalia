@@ -1534,6 +1534,8 @@ class OpenPABootstrapItaliaOperators
 
     public static function filterOembedHtml($html, $url, $data)
     {
+        $html = str_replace('<iframe', '<iframe style="max-width:100%"', $html);
+
         if (OpenPAINI::variable('CookiesSettings', 'Consent', 'advanced') === 'advanced'){
             $encodeUrl = base64_encode($url);
             $html = str_replace('src=', 'preview_placeholder data-coookieconsent="multimedia" data-src=', $html);
