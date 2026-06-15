@@ -701,11 +701,11 @@
     </message>
     <message>
       <source>Website Stats description</source>
-      <translation>Wie viele Menschen die Website besuchen, welche Seiten sie am häufigsten lesen und woher sie kommen. Die Daten werden mit Web Analytics Italia erhoben, der nationalen Plattform zur Analyse öffentlicher Websites, unter Wahrung der Privatsphäre der Nutzer.</translation>
+      <translation>Wie viele Menschen die Website besuchen, welche Seiten sie am häufigsten lesen und woher sie kommen. Die Daten werden mit %link erhoben, der nationalen Plattform zur Analyse öffentlicher Websites, unter Wahrung der Privatsphäre der Nutzer.</translation>
     </message>
     <message>
       <source>Stats recent description</source>
-      <translation>Zeigt die Entwicklung des Website-Traffics im Zeitverlauf. Über die Schaltfläche oben links im Diagramm können Sie auswählen, welche Metriken angezeigt werden — Besuche, eindeutige Besucher, Seitenaufrufe, Absprungrate und mehr — und sie im selben Diagramm vergleichen.</translation>
+      <translation>Zeigt die Entwicklung des Website-Traffics im Zeitverlauf. Über die Schaltfläche oben links im Diagramm können Sie auswählen, welche Metriken angezeigt werden - Besuche, eindeutige Besucher, Seitenaufrufe, Absprungrate und mehr - und sie im selben Diagramm vergleichen.</translation>
     </message>
     <message>
       <source>Stats last month description</source>

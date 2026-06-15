@@ -23,7 +23,9 @@
             <h1 class="text-black hero-title" data-element="page-name">{'Website Stats'|i18n('bootstrapitalia')}</h1>
             <div class="hero-text">
               <p>
-                {'Website Stats description'|i18n('bootstrapitalia')}
+                {def $wai_link = '<a href="https://webanalytics.italia.it/" target="_blank" rel="noopener noreferrer">Web Analytics Italia</a>'}
+                {'Website Stats description'|i18n('bootstrapitalia',,hash('%link', $wai_link))}
+                {undef $wai_link}
               </p>
             </div>
           </div>
@@ -32,21 +34,6 @@
     </div>
   </div>
 </div>
-
-<section>
-  <h2 class="h4">{'Stats recent'|i18n('bootstrapitalia')}</h2>
-  <p>{'Stats recent description'|i18n('bootstrapitalia')}</p>
-  <iframe
-    title={'Stats recent'|i18n('bootstrapitalia')}
-    width="100%"
-    height="301"
-    src="{$base_url}VisitsSummary&actionToWidgetize=getEvolutionGraph&idSite={$site_id|wash()}&period=month&date=lastMonth&disableLink=1&forceView=1&viewDataTable=graphEvolution&evolution_month_last_n=6"
-    scrolling="yes"
-    frameborder="0"
-    marginheight="0"
-    marginwidth="0"></iframe>
-</section>
-
 <section>
   <h2 class="h4">{'Stats last month'|i18n('bootstrapitalia')}</h2>
   <p>{'Stats last month description'|i18n('bootstrapitalia')}</p>
@@ -55,6 +42,19 @@
     width="100%"
     height="522"
     src="{$base_url}VisitsSummary&actionToWidgetize=get&idSite={$site_id|wash()}&period=month&date=lastMonth&disableLink=1&forceView=1&viewDataTable=sparklines"
+    scrolling="yes"
+    frameborder="0"
+    marginheight="0"
+    marginwidth="0"></iframe>
+</section>
+<section>
+  <h2 class="h4">{'Stats recent'|i18n('bootstrapitalia')}</h2>
+  <p>{'Stats recent description'|i18n('bootstrapitalia')}</p>
+  <iframe
+    title={'Stats recent'|i18n('bootstrapitalia')}
+    width="100%"
+    height="301"
+    src="{$base_url}VisitsSummary&actionToWidgetize=getEvolutionGraph&idSite={$site_id|wash()}&period=month&date=lastMonth&disableLink=1&forceView=1&viewDataTable=graphEvolution&evolution_month_last_n=6"
     scrolling="yes"
     frameborder="0"
     marginheight="0"
@@ -74,7 +74,6 @@
     marginwidth="0"></iframe>
 </section>
 <div class="row justify-content-center">
-
   <section class="col-12 col-lg-6">
     <h2 class="h4">{'Stats device'|i18n('bootstrapitalia')}</h2>
     <p>{'Stats device description'|i18n('bootstrapitalia')}</p>
@@ -88,7 +87,6 @@
       marginheight="0"
       marginwidth="0"></iframe>
   </section>
-
   <section class="col-12 col-lg-6">
     <h2 class="h4">{'Stats channel'|i18n('bootstrapitalia')}</h2>
     <p>{'Stats channel description'|i18n('bootstrapitalia')}</p>
