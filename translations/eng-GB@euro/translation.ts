@@ -701,11 +701,11 @@
     </message>
     <message>
       <source>Website Stats description</source>
-      <translation>How many people visit the site, which pages they read most and where they come from. Data is collected with Web Analytics Italia, the national platform for analysing public-sector websites, while respecting users' privacy.</translation>
+      <translation>How many people visit the site, which pages they read most and where they come from. Data is collected with %link, the national platform for analysing public-sector websites, while respecting users' privacy.</translation>
     </message>
     <message>
       <source>Stats recent description</source>
-      <translation>Shows how the site's traffic evolves over time. Use the button at the top left of the chart to choose which metrics to display — visits, unique visitors, pageviews, bounce rate and more — and compare them on the same chart.</translation>
+      <translation>Shows how the site's traffic evolves over time. Use the button at the top left of the chart to choose which metrics to display - visits, unique visitors, pageviews, bounce rate and more - and compare them on the same chart.</translation>
     </message>
     <message>
       <source>Stats last month description</source>

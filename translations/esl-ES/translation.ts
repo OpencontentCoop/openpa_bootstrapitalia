@@ -701,11 +701,11 @@
     </message>
     <message>
       <source>Website Stats description</source>
-      <translation>Cuántas personas visitan el sitio, qué páginas leen más y de dónde llegan. Los datos se recogen con Web Analytics Italia, la plataforma nacional para el análisis de los sitios públicos, respetando la privacidad de los usuarios.</translation>
+      <translation>Cuántas personas visitan el sitio, qué páginas leen más y de dónde llegan. Los datos se recogen con %link, la plataforma nacional para el análisis de los sitios públicos, respetando la privacidad de los usuarios.</translation>
     </message>
     <message>
       <source>Stats recent description</source>
-      <translation>Muestra la evolución del tráfico del sitio a lo largo del tiempo. Usa el botón situado arriba a la izquierda del gráfico para elegir qué datos visualizar — visitas, visitantes únicos, páginas vistas, % de rebote y más — y compararlos en el mismo gráfico.</translation>
+      <translation>Muestra la evolución del tráfico del sitio a lo largo del tiempo. Usa el botón situado arriba a la izquierda del gráfico para elegir qué datos visualizar - visitas, visitantes únicos, páginas vistas, % de rebote y más - y compararlos en el mismo gráfico.</translation>
     </message>
     <message>
       <source>Stats last month description</source>
