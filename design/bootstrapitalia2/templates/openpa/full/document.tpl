@@ -8,7 +8,7 @@
             {if $node.data_map.act_number.has_content}
                 {def $act_number_val = $node.data_map.act_number.content}
                 {def $doc_type_tags = $node.data_map.document_type.content.tags}
-                <h2 class="h5 py-2">{if $doc_type_tags|count()|gt(0)}{$doc_type_tags[0].keyword|wash()} {/if}{$act_number_val|wash()}{if $node.data_map.act_date.has_content} {'of act date'|i18n('bootstrapitalia/documents')} {$node.data_map.act_date.content.timestamp|l10n('shortdate')}{/if}</h2>
+                <h2 class="h5 py-2">{if $doc_type_tags|count()|gt(0)}{$doc_type_tags[0].keyword|wash()} n. {/if}{$act_number_val|wash()}{if $node.data_map.act_date.has_content} {'of act date'|i18n('bootstrapitalia/documents')} {$node.data_map.act_date.content.timestamp|l10n('shortdate')}{/if}</h2>
                 {undef $act_number_val $doc_type_tags}
             {/if}
 

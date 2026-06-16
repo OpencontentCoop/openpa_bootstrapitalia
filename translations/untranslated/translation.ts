@@ -1523,6 +1523,10 @@
       <source>of act date</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Act number</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/forgotpassword</name>

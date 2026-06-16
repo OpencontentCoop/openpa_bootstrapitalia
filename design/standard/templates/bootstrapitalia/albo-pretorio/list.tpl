@@ -31,7 +31,7 @@
     'handlebars.min.js'
 ))}
 {def $locale = fetch(content, locale)}
-{def $filters = array('search_text','number','year','daterange','has_organization')}
+{def $filters = array('search_text','number','act_number','year','daterange','has_organization')}
 
 {def $root_tags = array($main_tag_id)}
 {def $hide_tag_select = false()}
@@ -153,6 +153,26 @@
                 <div class="form-group mb-0">
                   <label for="searchFormNumber-{$block_id}" class="visually-hidden">{'Official noticeboard document identifier'|i18n('bootstrapitalia')}</label>
                   <input type="text" autocomplete="off" class="form-control form-control-sm" id="searchFormNumber-{$block_id}" data-search="has_code" placeholder="es: 2025/1">
+                </div>
+							</div>
+						</div>
+					</div>
+					{/if}
+
+					{if $filters|contains('act_number')}
+					<div class="accordion-item bg-none">
+						<h2 class="accordion-header" id="collapseActNumber-{$block_id}-title">
+							<button class="accordion-button collapsed px-2 text-uppercase" type="button"
+									data-bs-toggle="collapse" href="#collapseActNumber-{$block_id}" role="button" aria-expanded="false" aria-controls="collapseActNumber-{$block_id}"
+									data-focus-mouse="false">
+								{'Act number'|i18n('bootstrapitalia/documents')}
+							</button>
+						</h2>
+						<div id="collapseActNumber-{$block_id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseActNumber-{$block_id}-title">
+							<div class="accordion-body pb-4">
+                <div class="form-group mb-0">
+                  <label for="searchFormActNumber-{$block_id}" class="visually-hidden">{'Act number'|i18n('bootstrapitalia/documents')}</label>
+                  <input type="text" autocomplete="off" class="form-control form-control-sm" id="searchFormActNumber-{$block_id}" data-search="act_number" placeholder="es: 42">
                 </div>
 							</div>
 						</div>
@@ -300,7 +320,7 @@
 					</h3>
 					{{if ~i18n(data, 'alternative_name')}}<p class="text-paragraph">{{:~stripTag(~i18n(data, 'alternative_name'))}}</p>{{/if}}
           {{if ~i18n(data, 'abstract')}}<div class="mb-2"><p class="text-paragraph">{{:~stripTag(~i18n(data, 'abstract'))}}</p></div> {{/if}}
-          {{if ~i18n(data, 'document_type')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{{if ~i18n(data, 'act_number')}}{{:~i18n(data, 'document_type')}} {{:~i18n(data, 'act_number')}}{{if ~i18n(data, 'act_date')}} {/literal}{'of act date'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data, 'act_date'), 'DD/MM/YYYY')}}{{/if}}{{else}}{{:~i18n(data, 'document_type')}}{{/if}}</strong></li></ul>{{/if}}
+          {{if ~i18n(data, 'document_type')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{{if ~i18n(data, 'act_number')}}{{:~i18n(data, 'document_type')}} n. {{:~i18n(data, 'act_number')}}{{if ~i18n(data, 'act_date')}} {/literal}{'of act date'|i18n('bootstrapitalia/documents')}{literal} {{:~formatDate(~i18n(data, 'act_date'), 'DD/MM/YYYY')}}{{/if}}{{else}}{{:~i18n(data, 'document_type')}}{{/if}}</strong></li></ul>{{/if}}
 					{{if ~i18n(data, 'area') || ~i18n(data, 'has_organization')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{/literal}{'Administrative area'|i18n('bootstrapitalia/documents')}/{'Office'|i18n('bootstrapitalia/documents')}{literal}:</strong></li>{{if ~i18n(data, 'area')}}{{for ~i18n(data,'area')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}{{if ~i18n(data, 'has_organization')}}{{for ~i18n(data,'has_organization')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}</ul>{{/if}}
 					{{if ~i18n(data, 'interroganti')}}<ul class="list-inline m-0"><li class="list-inline-item"><strong>{/literal}{'Questioners'|i18n('bootstrapitalia/documents')}{literal}:</strong></li>{{for ~i18n(data,'interroganti')}}<li class="list-inline-item">{{:~i18n(name)}}</li>{{/for}}{{/if}}
         </div>
@@ -440,6 +460,12 @@ $(document).ready(function() {
 				var hasCodeFilter = container.find('[data-search="has_code"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
 				if (hasCodeFilter.length > 0) {
           filters.push({name: 'has_code', value: hasCodeFilter});
+				}
+			}
+			if (container.find('[data-search="act_number"]').length > 0) {
+				var actNumberFilter = container.find('[data-search="act_number"]').val().replace(/"/g, '').replace(/'/g, "").replace(/\(/g, "").replace(/\)/g, "").replace(/\[/g, "").replace(/\]/g, "");
+				if (actNumberFilter.length > 0) {
+          filters.push({name: 'act_number', value: actNumberFilter});
 				}
 			}
 			if (container.find('[data-search="year"]').length > 0) {

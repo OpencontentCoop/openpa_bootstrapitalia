@@ -1535,6 +1535,10 @@
       <source>of act date</source>
       <translation>vom</translation>
     </message>
+    <message>
+      <source>Act number</source>
+      <translation>Aktennummer</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/forgotpassword</name>
