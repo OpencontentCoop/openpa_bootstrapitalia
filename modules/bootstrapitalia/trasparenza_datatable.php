@@ -38,6 +38,10 @@ $contentSearch = new ContentSearch();
 $contentSearch->setEnvironment($currentEnvironment);
 
 $query = $fields['query'];
+$requestQuery = $_GET['q'] ?? $_POST['q'] ?? '';
+if ($requestQuery !== '') {
+    $query = urldecode($requestQuery);
+}
 if ($includeExpired) {
     $query .= ' and state !in [privacy.private] and state !in [privacy.scheduled]';
 }
