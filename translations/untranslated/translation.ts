@@ -108,6 +108,30 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Website Stats description</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Stats recent description</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Stats last month description</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Stats pages description</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Stats device description</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Stats channel description</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Precedure view all</source>
       <translation type="unfinished"/>
     </message>

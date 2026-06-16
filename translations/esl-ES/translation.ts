@@ -700,6 +700,30 @@
       <translation></translation>
     </message>
     <message>
+      <source>Website Stats description</source>
+      <translation>Cuántas personas visitan el sitio, qué páginas leen más y de dónde llegan. Los datos se recogen con %link, la plataforma nacional para el análisis de los sitios públicos, respetando la privacidad de los usuarios.</translation>
+    </message>
+    <message>
+      <source>Stats recent description</source>
+      <translation>Muestra la evolución del tráfico del sitio a lo largo del tiempo. Usa el botón situado arriba a la izquierda del gráfico para elegir qué datos visualizar - visitas, visitantes únicos, páginas vistas, % de rebote y más - y compararlos en el mismo gráfico.</translation>
+    </message>
+    <message>
+      <source>Stats last month description</source>
+      <translation>Un resumen de los principales indicadores del último mes relativos a las actividades realizadas por los usuarios en el sitio.</translation>
+    </message>
+    <message>
+      <source>Stats pages description</source>
+      <translation>Las páginas más visitadas del sitio, con el número de visualizaciones, el tiempo medio de permanencia y los porcentajes de rebote y de salida.</translation>
+    </message>
+    <message>
+      <source>Stats device description</source>
+      <translation>Los dispositivos desde los que los usuarios consultan el sitio, ordenados por número de visitas.</translation>
+    </message>
+    <message>
+      <source>Stats channel description</source>
+      <translation>Cómo llegan los usuarios al sitio: mediante motores de búsqueda, acceso directo, redes sociales, otros sitios web o campañas.</translation>
+    </message>
+    <message>
       <source>Official noticeboard document identifier</source>
       <translation></translation>
     </message>

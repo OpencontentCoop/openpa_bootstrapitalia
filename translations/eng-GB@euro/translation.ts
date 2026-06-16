@@ -700,6 +700,30 @@
       <translation>Types of Channel</translation>
     </message>
     <message>
+      <source>Website Stats description</source>
+      <translation>How many people visit the site, which pages they read most and where they come from. Data is collected with %link, the national platform for analysing public-sector websites, while respecting users' privacy.</translation>
+    </message>
+    <message>
+      <source>Stats recent description</source>
+      <translation>Shows how the site's traffic evolves over time. Use the button at the top left of the chart to choose which metrics to display - visits, unique visitors, pageviews, bounce rate and more - and compare them on the same chart.</translation>
+    </message>
+    <message>
+      <source>Stats last month description</source>
+      <translation>A summary of the main indicators for the last month regarding the activities users carried out on the site.</translation>
+    </message>
+    <message>
+      <source>Stats pages description</source>
+      <translation>The most visited pages of the site, with the number of views, the average time spent and the bounce and exit rates.</translation>
+    </message>
+    <message>
+      <source>Stats device description</source>
+      <translation>The devices users browse the site from, ordered by number of visits.</translation>
+    </message>
+    <message>
+      <source>Stats channel description</source>
+      <translation>How users reach the site: via search engines, direct entry, social networks, other websites or campaigns.</translation>
+    </message>
+    <message>
       <source>Official noticeboard document identifier</source>
       <translation>Registration number</translation>
     </message>
