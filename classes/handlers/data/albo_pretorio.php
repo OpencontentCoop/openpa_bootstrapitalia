@@ -64,6 +64,10 @@ class DataHandlerAlboPretorioContents implements OpenPADataHandlerInterface
                 $query .= ' and id_albo_pretorio = "' . str_replace('/', '-', addcslashes($value, '\'()[]"')) . '"';
                 return $query;
             },
+            'act_number' => function ($query, $value) {
+                $query .= ' and act_number contains "' . addcslashes($value, '\'()[]"') . '"';
+                return $query;
+            },
             'year' => function ($query, $value) {
                 $query .= ' and raw[subattr_publication_start_time___year____dt] = "' .
                     intval($value) . '-01-01T00:00:00Z"';
