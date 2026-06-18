@@ -1,3 +1,50 @@
+{def $meili_url    = ezini('MeilisearchSettings', 'BaseUrl', 'meilisearch.ini')
+     $meili_key    = ezini('MeilisearchSettings', 'WidgetApiKey', 'meilisearch.ini')
+     $meili_src    = ezini('MeilisearchSettings', 'WidgetSrc', 'meilisearch.ini')
+     $tenant_id    = ezini('KafkaSettings', 'TenantId', 'webhook.ini')}
+
+{if ezini('SearchSettings', 'SearchEngine', 'site.ini')|eq('OCSearchEngine')|and($meili_url|ne(''))}
+
+{def $topic_menu_label = 'Topics'|i18n('bootstrapitalia')}
+{if fetch('openpa', 'homepage')|has_attribute('topic_menu_label')}
+    {set $topic_menu_label = fetch('openpa', 'homepage')|attribute('topic_menu_label').content}
+{/if}
+
+<div class="row">
+    <div class="col-12 mt-5 pb-4">
+        <h1>{'Search'|i18n('openpa/search')}</h1>
+    </div>
+</div>
+
+<script>
+window.OCSearchConfig = {ldelim}
+    "meiliUrl": "{$meili_url|wash(javascript)}",
+    "meiliKey": "{$meili_key|wash(javascript)}",
+    "searchLabel": "{'Insert search terms'|i18n('bootstrapitalia')}",
+    "filter": "{if $tenant_id|ne('')}meta.tenant_id = \"{$tenant_id|wash(javascript)}\"{/if}",
+    "facets": [
+        {ldelim}"path": "meta.type_id", "label": "{'Content type'|i18n('openpa/search')}", "type": "checkbox"{rdelim},
+        {ldelim}"path": "data.{ldelim}locale{rdelim}.topics.title", "label": "{$topic_menu_label|wash(javascript)}", "type": "checkbox"{rdelim}
+    ],
+    "card": {ldelim}
+        "showImage": false,
+        "showAbstract": false,
+        "showMatchSnippet": true,
+        "showKeywords": false,
+        "showDate": true
+    {rdelim},
+    "dateRangeField": "",
+    "resultsPerPage": 20,
+    "resultsPerRow": 2,
+    "filterLayout": "vertical",
+    "filterPosition": "left"
+{rdelim};
+</script>
+<div id="oc-search"></div>
+<script type="module" src="{$meili_src|wash(html)}"></script>
+
+{else}
+
 {def $params = parse_search_get_params()
      $top_menu_node_ids = openpaini( 'TopMenu', 'NodiCustomMenu', array() )
      $topic_menu_label = 'Topics'|i18n('bootstrapitalia')}
@@ -358,6 +405,8 @@ $(document).ready(function () {
         {/if}
     {rdelim});
 {literal}
-});    
+});
 </script>
 {/literal}
+
+{/if}
