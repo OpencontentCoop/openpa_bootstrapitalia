@@ -791,6 +791,10 @@
       <source>Next 30 days</source>
       <translation>Os próximos 30 dias</translation>
     </message>
+    <message>
+      <source>Insert search terms</source>
+      <translation>Insira os termos de pesquisa</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
