@@ -807,6 +807,10 @@
       <source>Insert search terms</source>
       <translation>Inserisci i termini di ricerca</translation>
     </message>
+    <message>
+      <source>Questo campo viene aggiornato automaticamente tramite l'integrazione con ANAC e non può essere modificato manualmente.</source>
+      <translation>Questo campo viene aggiornato automaticamente tramite l'integrazione con ANAC e non può essere modificato manualmente.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

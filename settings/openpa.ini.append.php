@@ -376,4 +376,20 @@ Headers[]
 [AlboPretorioSettings]
 AllowApiSequentialId=disabled
 
+[BandoCigSettings]
+AnacImportEnabled=disabled
+AnacImportedFields[]=oggetto
+AnacImportedFields[]=published
+AnacImportedFields[]=anno
+AnacImportedFields[]=location
+AnacImportedFields[]=cpv_link
+AnacImportedFields[]=extra_info
+AnacImportedFields[]=tender_types
+AnacImportedFields[]=tender_result_types
+AnacImportedFields[]=tender_status_types
+AnacImportedFields[]=tender_contract_types
+AnacImportedFields[]=contract_value
+AnacImportedFields[]=award_value
+AnacImportedFields[]=award_winners
+
 */ ?>
