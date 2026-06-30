@@ -799,6 +799,10 @@
       <source>Show disabled users</source>
       <translation>Show disabled users</translation>
     </message>
+    <message>
+      <source>Insert search terms</source>
+      <translation>Enter your search terms</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

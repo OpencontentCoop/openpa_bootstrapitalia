@@ -803,6 +803,10 @@
       <source>Show disabled users</source>
       <translation>Mostra utenti disabilitati</translation>
     </message>
+    <message>
+      <source>Insert search terms</source>
+      <translation>Inserisci i termini di ricerca</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
