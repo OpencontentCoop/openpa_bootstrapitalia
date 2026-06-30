@@ -1,7 +1,8 @@
 {def $meili_url    = ezini('MeilisearchSettings', 'BaseUrl', 'meilisearch.ini')
      $meili_key    = ezini('MeilisearchSettings', 'WidgetApiKey', 'meilisearch.ini')
      $meili_src    = ezini('MeilisearchSettings', 'WidgetSrc', 'meilisearch.ini')
-     $tenant_id    = ezini('KafkaSettings', 'TenantId', 'webhook.ini')}
+     $tenant_id    = ezini('KafkaSettings', 'TenantId', 'webhook.ini')
+     $site_locale  = ezini('RegionalSettings', 'Locale', 'site.ini')}
 
 {if ezini('SearchSettings', 'SearchEngine', 'site.ini')|eq('OCSearchEngine')|and($meili_url|ne(''))}
 
@@ -23,21 +24,18 @@ window.OCSearchConfig = {ldelim}
     "searchLabel": "{'Insert search terms'|i18n('bootstrapitalia')}",
     "filter": "{if $tenant_id|ne('')}meta.tenant_id = \"{$tenant_id|wash(javascript)}\"{/if}",
     "facets": [
-        {ldelim}"path": "meta.type_id", "label": "{'Content type'|i18n('openpa/search')}", "type": "checkbox"{rdelim},
-        {ldelim}"path": "data.{ldelim}locale{rdelim}.topics.title", "label": "{$topic_menu_label|wash(javascript)}", "type": "checkbox"{rdelim}
+        {ldelim}"path": "meta.tree_placement.ancestors_id_paths", "label": "{'Sections'|i18n('openpa/search')}", "type": "tree", "treeDiscovery": "paths", "treeLabelsField": "meta.tree_placement.ancestors_labels_flat.{ldelim}locale{rdelim}"{rdelim},
+        {ldelim}"path": "meta.type.id", "label": "{'Content type'|i18n('openpa/search')}", "type": "checkbox"{rdelim},
+        {ldelim}"path": "data.{ldelim}locale{rdelim}.topics.title", "label": "{$topic_menu_label|wash(javascript)}", "type": "tree", "treeDiscovery": "topics", "treeRootRemoteId": "topics", "treeSpecialRootRemoteId": "custom_topics"{rdelim}
     ],
     "card": {ldelim}
-        "showImage": false,
-        "showAbstract": false,
+        "showAbstract": true,
         "showMatchSnippet": true,
-        "showKeywords": false,
         "showDate": true
     {rdelim},
-    "dateRangeField": "",
-    "resultsPerPage": 20,
-    "resultsPerRow": 2,
     "filterLayout": "vertical",
-    "filterPosition": "left"
+    "filterPosition": "left",
+    "showSort": true
 {rdelim};
 </script>
 <div id="oc-search"></div>
