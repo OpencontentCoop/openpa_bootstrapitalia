@@ -808,8 +808,8 @@
       <translation>Inserisci i termini di ricerca</translation>
     </message>
     <message>
-      <source>Questo campo viene aggiornato automaticamente tramite l'integrazione con ANAC e non può essere modificato manualmente.</source>
-      <translation>Questo campo viene aggiornato automaticamente tramite l'integrazione con ANAC e non può essere modificato manualmente.</translation>
+      <source>Anac attribute update alert</source>
+      <translation>Questo attributo è compilato e aggiornato automaticamente dall'integrazione con la Banca Dati ANAC. Eventuali modifiche manuali verranno sovrascritte al prossimo aggiornamento.</translation>
     </message>
   </context>
   <context>

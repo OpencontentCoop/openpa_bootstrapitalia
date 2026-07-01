@@ -795,6 +795,10 @@
       <source>Insert search terms</source>
       <translation>Insira os termos de pesquisa</translation>
     </message>
+    <message>
+      <source>Anac attribute update alert</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

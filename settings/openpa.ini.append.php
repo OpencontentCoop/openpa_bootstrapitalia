@@ -377,7 +377,7 @@ Headers[]
 AllowApiSequentialId=disabled
 
 [BandoCigSettings]
-AnacImportEnabled=disabled
+AnacImport=disabled
 AnacImportedFields[]=oggetto
 AnacImportedFields[]=published
 AnacImportedFields[]=anno

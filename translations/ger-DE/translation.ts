@@ -807,6 +807,10 @@
       <source>Insert search terms</source>
       <translation>Suchbegriffe eingeben</translation>
     </message>
+    <message>
+      <source>Anac attribute update alert</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

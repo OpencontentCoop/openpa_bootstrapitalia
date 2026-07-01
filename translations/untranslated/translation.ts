@@ -796,7 +796,7 @@
       <translation type="unfinished"/>
     </message>
     <message>
-      <source>Questo campo viene aggiornato automaticamente tramite l'integrazione con ANAC e non può essere modificato manualmente.</source>
+      <source>Anac attribute update alert</source>
       <translation type="unfinished"/>
     </message>
   </context>

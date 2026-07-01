@@ -79,11 +79,13 @@
                                     <div>
                                         {if $attribute.display_info.edit.grouped_input}
                                             <fieldset>
-                                                {attribute_edit_gui attribute_base=$attribute_base attribute=$attribute view_parameters=$view_parameters html_class='form-control'}
+                                                {if and(ezini('BandoCigSettings', 'AnacImport', 'openpa.ini')|eq('enabled'), ezini('BandoCigSettings', 'AnacImportedFields', 'openpa.ini')|contains($attribute_identifier))}<p class="text-muted small mt-1"><em>{'Anac attribute update alert'|i18n('bootstrapitalia')}</em></p>{/if}
+                                        {attribute_edit_gui attribute_base=$attribute_base attribute=$attribute view_parameters=$view_parameters html_class='form-control'}
                                                 <input type="hidden" name="ContentObjectAttribute_id[]" value="{$attribute.id}"/>
                                             </fieldset>
                                         {else}
-                                            {attribute_edit_gui attribute_base=$attribute_base attribute=$attribute view_parameters=$view_parameters html_class='form-control'}
+                                            {if and(ezini('BandoCigSettings', 'AnacImport', 'openpa.ini')|eq('enabled'), ezini('BandoCigSettings', 'AnacImportedFields', 'openpa.ini')|contains($attribute_identifier))}<p class="text-muted small mt-1"><em>{'Anac attribute update alert'|i18n('bootstrapitalia')}</em></p>{/if}
+                                        {attribute_edit_gui attribute_base=$attribute_base attribute=$attribute view_parameters=$view_parameters html_class='form-control'}
                                             <input type="hidden" name="ContentObjectAttribute_id[]" value="{$attribute.id}"/>
                                         {/if}
                                     </div>
@@ -109,6 +111,7 @@
                                                 {'Max file size'|i18n( 'design/standard/class/datatype' )}: {$contentclass_attribute.data_int1|max_upload_size()} MB
                                             </small>
                                         {/if}
+                                        {if and(ezini('BandoCigSettings', 'AnacImport', 'openpa.ini')|eq('enabled'), ezini('BandoCigSettings', 'AnacImportedFields', 'openpa.ini')|contains($attribute_identifier))}<p class="text-muted small mt-1"><em>{'Anac attribute update alert'|i18n('bootstrapitalia')}</em></p>{/if}
                                         {attribute_edit_gui attribute_base=$attribute_base attribute=$attribute view_parameters=$view_parameters html_class='form-control'}
                                         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$attribute.id}"/>
                                     </div>
@@ -133,6 +136,7 @@
                                                 {'Max file size'|i18n( 'design/standard/class/datatype' )}: {$contentclass_attribute.data_int1|max_upload_size()} MB
                                             </small>
                                         {/if}
+                                        {if and(ezini('BandoCigSettings', 'AnacImport', 'openpa.ini')|eq('enabled'), ezini('BandoCigSettings', 'AnacImportedFields', 'openpa.ini')|contains($attribute_identifier))}<p class="text-muted small mt-1"><em>{'Anac attribute update alert'|i18n('bootstrapitalia')}</em></p>{/if}
                                         {attribute_edit_gui attribute_base=$attribute_base attribute=$attribute view_parameters=$view_parameters html_class='form-control'}
                                         <input type="hidden" name="ContentObjectAttribute_id[]" value="{$attribute.id}"/>
                                     </div>
