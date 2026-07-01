@@ -809,7 +809,7 @@
     </message>
     <message>
       <source>Anac attribute update alert</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
   </context>
   <context>
