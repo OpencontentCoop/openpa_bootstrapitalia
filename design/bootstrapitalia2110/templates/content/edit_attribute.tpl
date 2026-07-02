@@ -170,3 +170,27 @@
         {/foreach}
     </div>
 </div>
+{def $prepopulate_year_on_create = ezini('EditDefaults', 'PrePopulateCurrentYearOnCreate', 'openpa.ini')}
+{if $prepopulate_year_on_create|count()|gt(0)}
+<script>
+var _yearOnCreateFields = "{$prepopulate_year_on_create|implode('|')|wash()}";
+var _yearOnCreateClass = "{$class.identifier|wash()}";
+{literal}
+(function() {
+    _yearOnCreateFields.split('|').filter(Boolean)
+        .filter(function(e) { return e.split('/')[0] === _yearOnCreateClass; })
+        .map(function(e) { return e.split('/')[1]; })
+        .forEach(function(id) {
+            var container = document.querySelector('[data-attribute_identifier="' + id + '"]');
+            if (container) {
+                var input = container.querySelector('input');
+                if (input && (input.value === '0' || input.value === '')) {
+                    input.value = new Date().getFullYear();
+                }
+            }
+        });
+})();
+{/literal}
+</script>
+{/if}
+{undef $prepopulate_year_on_create}
