@@ -809,7 +809,7 @@
     </message>
     <message>
       <source>Anac attribute update alert</source>
-      <translation></translation>
+      <translation>Dieses Attribut wird automatisch über die Integration mit der nationalen ANAC-Datenbank befüllt und aktualisiert. Manuelle Änderungen werden bei der nächsten Aktualisierung überschrieben.</translation>
     </message>
   </context>
   <context>

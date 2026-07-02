@@ -797,7 +797,7 @@
     </message>
     <message>
       <source>Anac attribute update alert</source>
-      <translation></translation>
+      <translation>Cet attribut est automatiquement renseigné et mis à jour via l'intégration avec la Base de données nationale ANAC. Toute modification manuelle sera écrasée lors de la prochaine mise à jour.</translation>
     </message>
   </context>
   <context>
