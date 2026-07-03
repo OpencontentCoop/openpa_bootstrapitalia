@@ -275,5 +275,73 @@ distrutti senza il fix difensivo.
 ✅ Corner case CC6 (Race condition): nessun danno  
 ✅ Corner case CC7 (Cache): non applicabile per il flow lock_edit  
 
-⚠️ **Da discutere**: il punto aperto 1 (ragione del commento) e il punto 3 (466 processi
-deferred su Verona — gestirli separatamente).
+⚠️ **Da discutere prima di procedere**: i punti aperti 1, 2, 3 (vedi sezione 5).
+
+---
+
+## 7. Checklist di validazione (da completare prima dell'implementazione)
+
+Questi punti richiedono risposta prima di scrivere codice.
+
+### V1 — CC1 accettabile? [ ]
+
+**Domanda:** il comportamento transitorio di CC1 è accettabile?
+
+Con il fix, se un utente aggiunge più items del `NumberOfValidItems` configurato (es. 20
+items su un blocco con limite 15), tutti e 20 diventano visibili subito invece dei 15
+previsti. Il cron successivo li riduce a 15.
+
+**Risposta attesa:** sì / no / condizionale
+
+---
+
+### V2 — Ragione del commento in ContentRepository? [ ]
+
+**Domanda:** c'è una ragione tecnica per cui la riga in `ContentRepository.php:433`
+era commentata fin dall'inizio?
+
+```php
+//        eZFlowOperations::update([$object->mainNodeID()]);
+```
+
+Il commit `bf50afe` (Luca Realdi, 1 ottobre 2025) l'ha aggiunta già commentata senza
+spiegazione nel commit message.
+
+Possibili ragioni:
+- Performance (chiamare `update()` inline è costoso su sistemi con molti blocchi)
+- Era un reminder da attivare solo in certi contesti
+- Era già gestito da `ezpagetype.php::onPublish()` nel caso standard e il commento era ridondante
+- C'era un bug noto nel chiamarla qui
+
+**Risposta attesa:** spiegazione tecnica o conferma "era solo un TODO"
+
+---
+
+### V3 — 466 processi deferred su Verona: gestione separata? [ ]
+
+**Domanda:** i 466 processi `ezworkflow_process` con status=10 accumulati dal ottobre 2024
+su Verona devono essere processati/ripuliti prima o dopo questo fix? Come?
+
+**Contesto:** sono tutti legati al workflow "Pre pubblicazione" (workflow_id=2).
+Potrebbero contenere stati di homepage ormai obsoleti. Processarli in bulk potrebbe
+pubblicare versioni vecchie di contenuti.
+
+**Risposta attesa:**
+- Processare in bulk con cron
+- Cancellare (drop del backlog)
+- Ignorare (restano deferred indefinitamente senza danni?)
+- Investigare singolarmente
+
+---
+
+### V4 — Il workflow "Pre pubblicazione" è intenzionale e corretto? [ ]
+
+**Domanda:** il workflow "Pre pubblicazione" (group_ezserial) su Verona è una configurazione
+intenzionale del tenant o un residuo di una configurazione passata? Dovrebbe continuare
+a girare dopo il fix?
+
+**Impatto del fix sul workflow:** nessuno — il workflow continua a funzionare esattamente
+come prima. Il fix interviene solo sulla visibilità degli items nel pool, non sul processo
+di publish. Il contenuto continua ad andare in stato deferred se il workflow è attivo.
+
+**Risposta attesa:** il workflow è attivo intenzionalmente / è un residuo da rimuovere
