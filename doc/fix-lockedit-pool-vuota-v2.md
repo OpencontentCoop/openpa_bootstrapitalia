@@ -1,8 +1,73 @@
 # Piano di fix: lock_edit homepage — pool vuota non deve distruggere la struttura
 
-**Versione:** 2.0 (basata su analisi empirica verificata)  
-**File da modificare:** `classes/connectors/LockEdit/HomepageLockEditClassConnector.php`  
+**Versione:** 2.1 (aggiornato con root cause verificata)  
+**File da modificare:**
+- `classes/connectors/LockEdit/HomepageLockEditClassConnector.php` (fix difensivo — già implementato)
+- `ocopendata/lib/ocopendata/src/Opencontent/Opendata/Api/AttributeConverter/Page.php` (fix root cause)
+
 **Branch:** `fix/lockedit-homepage-vuota`
+
+---
+
+## Root cause — verificata empiricamente (luglio 2026)
+
+### Perché la pool appare vuota
+
+I pool items vengono inseriti da `AttributeConverter/Page.php::createXML()` con **`ts_visible=0`**
+(default della colonna in PostgreSQL). La query `eZFlowPool::validNodes()` filtra con
+`AND ts_visible>0`, quindi gli items appena inseriti sono **invisibili** finché qualcosa non
+li rende visibili.
+
+Il meccanismo che dovrebbe rendere gli items visibili è `eZFlowOperations::update()`, chiamato
+da `ezpagetype.php::onPublish()` durante il publish del content object.
+
+**Questo funziona correttamente SOLO se il publish avviene sincronamente.**
+
+### Il workflow "Pre pubblicazione" come trigger del bug
+
+Su **Verona** (e probabilmente altri tenant) esiste un workflow globale attivo:
+- **Nome:** "Pre pubblicazione" (`group_ezserial`, `is_enabled=1`, `workflow_id=2`)
+- **466 processi DEFERRED** (status=10) accumulati dall'**ottobre 2024**
+
+Quando questo workflow è attivo, il publish viene **differito** (status=10 = aspetta cron):
+1. Lock_edit salva → `createXML` inserisce items con `ts_visible=0`
+2. Content publish → workflow "Pre pubblicazione" → processo **DEFERRED**
+3. `ezpagetype.php::onPublish()` non gira → `eZFlowOperations::update()` non gira
+4. Pool items rimangono `ts_visible=0`
+5. Redattore riapre il form **prima che il cron processi il workflow**
+6. `validNodes()` non trova niente (`ts_visible=0`) → form mostra pool vuota
+7. Salva → blocchi distrutti
+
+### Il cron non gira
+
+I 466 processi accumulati dal ottobre 2024 indicano che il cron che processa i workflow
+deferred su Verona **non sta girando o fallisce**. Ogni save aggiunge un nuovo processo
+alla coda, ma nessuno li processa.
+
+### Perché la riga era commentata
+
+In `ContentRepository.php:433`:
+```php
+//        eZFlowOperations::update([$object->mainNodeID()]);
+```
+Questa riga è stata aggiunta **già commentata** nel commit `bf50afe` del 1 ottobre 2025
+("Add opendata v2 block read and put api"). Era un reminder/TODO che non è mai stato
+attivato — il codice si affidava implicitamente al publish standard.
+
+In `LockEditConnector.php:44`:
+```php
+//            eZINI::instance('ezflow.ini')->setVariable('eZFlowOperations', 'UpdateOnPublish', 'disabled');
+```
+Aggiunta commentata nel commit `995bf8e0` del 3 aprile 2023 come nota residua di un
+tentativo di workaround. Non è mai stata attiva.
+
+### Perché succede su alcuni tenant e non altri
+
+Il bug si manifesta SOLO su tenant che hanno:
+1. Un workflow globale che causa DEFERRED della publish, E
+2. Un cron che non processa i workflow deferred (o lo processa lentamente)
+
+Tenant senza workflow o con cron funzionante non sono affetti.
 
 ---
 
@@ -472,9 +537,85 @@ Dopo il fix, aprire la homepage con pool vuota per il banner:
 
 ---
 
+---
+
+## Fix 6 — Root cause: `Page.php` deve rendere items visibili immediatamente
+
+**Repository:** `ocopendata` (da agganciare in locale come le altre estensioni)  
+**File:** `lib/ocopendata/src/Opencontent/Opendata/Api/AttributeConverter/Page.php`
+
+### Problema
+
+`eZFlowPool::insertItems()` inserisce items con `ts_visible=0` (default colonna PostgreSQL).
+La query `validNodes()` filtra `AND ts_visible>0`, quindi gli items sono invisibili finché
+`eZFlowOperations::update()` non li processa. Se la publish è deferred (workflow), `update()`
+non gira → items restano `ts_visible=0` → pool appare vuota al prossimo form open.
+
+### Fix
+
+Dopo `insertItems()`, aggiornare immediatamente `ts_visible = time()` per tutti gli items
+appena inseriti. Questo bypassa la dipendenza da `eZFlowOperations::update()`.
+
+```php
+// PRIMA (attuale):
+\eZFlowPool::insertItems($flowPoolItems);
+
+// DOPO:
+\eZFlowPool::insertItems($flowPoolItems);
+
+// Rendi visibili immediatamente gli items (ts_visible=0 = invisibili a validNodes())
+// Non aspettare il cron/workflow deferred che potrebbe non girare
+if (!empty($flowPoolItems)) {
+    $db = \eZDB::instance();
+    $now = time();
+    foreach ($flowPoolItems as $item) {
+        $db->query(
+            "UPDATE ezm_pool SET ts_visible=$now" .
+            " WHERE block_id='" . $db->escapeString($item['blockID']) . "'" .
+            " AND object_id=" . (int)$item['objectID'] .
+            " AND ts_visible=0 AND ts_hidden=0"
+        );
+    }
+}
+```
+
+**Nota:** `eZFlowPool::insertItems()` non accetta `ts_visible` come parametro, quindi
+l'UPDATE separato è il modo più sicuro senza modificare l'interfaccia di `insertItems`.
+
+### Corner case Fix 6
+
+| Scenario | Risultato |
+|----------|-----------|
+| Save con items → form riaperta subito | Items visibili immediatamente ✓ |
+| Workflow deferred attivo | Items visibili comunque (bypass workflow delay) ✓ |
+| Items con `ts_hidden > 0` | Non toccati (la condizione `ts_hidden=0` li esclude) ✓ |
+| Items già visibili (`ts_visible > 0`) | Non toccati (la condizione `ts_visible=0` li esclude) ✓ |
+| `insertItems` fallisce | UPDATE non viene eseguito (no items to update) ✓ |
+
+### Relazione con il Fix difensivo (Fix 1-5)
+
+I due fix sono **complementari**, non alternativi:
+
+| Fix | Cosa risolve |
+|-----|-------------|
+| Fix difensivo (1-5, già implementato) | Se la pool appare vuota per qualsiasi motivo, la struttura XML non viene distrutta |
+| Fix root cause (questo Fix 6) | Previene che la pool appaia vuota dopo un save lock_edit su tenant con workflow |
+
+Con solo il fix difensivo: la pool può ancora apparire vuota (sezioni non renderizzate in frontend), ma i blocchi sopravvivono in XML e si recuperano ri-aggiungendo items.
+
+Con solo il fix root cause: la pool è sempre visibile dopo il save, ma se per qualche altra ragione diventasse vuota (es. `cleanupRemovedItems`, contenuti eliminati, bug), i blocchi verrebbero comunque distrutti.
+
+Con **entrambi**: sistema robusto end-to-end.
+
+---
+
 ## File da modificare
 
-Solo un file: `classes/connectors/LockEdit/HomepageLockEditClassConnector.php`
+**Fix difensivo (già implementato):**
+- `classes/connectors/LockEdit/HomepageLockEditClassConnector.php`
+
+**Fix root cause (da implementare):**
+- `ocopendata/lib/ocopendata/src/Opencontent/Opendata/Api/AttributeConverter/Page.php`
 
 Nessuna modifica a:
 - Template
