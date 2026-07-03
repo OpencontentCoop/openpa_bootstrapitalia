@@ -64,7 +64,7 @@ class LiveLockEditClassConnector extends PageLockEditClassConnector
         }else{
             $options['fields']['title_evidence']['helper'] = '';
             $options['fields']['section_evidence']['browse']['subtree'] = $this->fetchMainNodeIDByObjectRemoteID('all-events');
-            $options['fields']['section_evidence']['browse']['classes'] = ['event', 'event_link'];
+            $options['fields']['section_evidence']['browse']['classes'] = ['event'];
         }
 
         return $options;
