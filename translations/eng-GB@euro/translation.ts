@@ -803,6 +803,10 @@
       <source>Insert search terms</source>
       <translation>Enter your search terms</translation>
     </message>
+    <message>
+      <source>Anac attribute update alert</source>
+      <translation>This attribute is automatically populated and updated through the ANAC Database integration. Any manual changes will be overwritten at the next update.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

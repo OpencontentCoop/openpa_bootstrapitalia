@@ -807,6 +807,10 @@
       <source>Insert search terms</source>
       <translation>Suchbegriffe eingeben</translation>
     </message>
+    <message>
+      <source>Anac attribute update alert</source>
+      <translation>Dieses Attribut wird automatisch über die Integration mit der nationalen ANAC-Datenbank befüllt und aktualisiert. Manuelle Änderungen werden bei der nächsten Aktualisierung überschrieben.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

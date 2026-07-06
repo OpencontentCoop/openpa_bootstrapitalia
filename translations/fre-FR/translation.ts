@@ -795,6 +795,10 @@
       <source>Insert search terms</source>
       <translation>Entrez vos termes de recherche</translation>
     </message>
+    <message>
+      <source>Anac attribute update alert</source>
+      <translation>Cet attribut est automatiquement renseigné et mis à jour via l'intégration avec la Base de données nationale ANAC. Toute modification manuelle sera écrasée lors de la prochaine mise à jour.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
