@@ -171,6 +171,14 @@ class BootstrapItaliaLoginOauth
                 'current_value' => $current['logoutUrl'] ?? null,
             ],
             [
+                'identifier' => 'profileUrl',
+                'name' => 'Url del profilo utente gestito dal sistema oAuth',
+                'placeholder' => 'https://example.com/profile',
+                'type' => 'string',
+                'localized' => true,
+                'current_value' => $current['profileUrl'] ?? null,
+            ],
+            [
                 'identifier' => 'firstNameMap',
                 'name' => 'Mappatura per il nome',
                 'placeholder' => '',
@@ -280,6 +288,35 @@ class BootstrapItaliaLoginOauth
             }
         }
         eZHTTPTool::instance()->removeSessionVariable(self::CURRENT_SESSION_VARNAME);
+    }
+
+    public static function interceptUserEdit(eZURI $uri)
+    {
+        $hasOauthSession = eZHTTPTool::instance()->hasSessionVariable(self::CURRENT_SESSION_VARNAME);
+        var_dump($hasOauthSession);
+
+
+        if ($hasOauthSession && self::instance()->isEnabled()){
+            $module = $uri->element(0);
+            $view = $uri->element(1);
+
+            print_r($module);
+            exit;
+
+            $isUserEditUri = $module === 'user';
+            $isExternalUserPasswordUri = $module === 'userpaex' && $view === 'password';
+            if ($isUserEditUri || $isExternalUserPasswordUri) {
+                $options = self::instance()->getCurrentOptions();
+                if (!empty($options['profileUrl'])) {
+                    header('Location: ' . $options['profileUrl']);
+                    eZExecution::cleanExit();
+                }
+            }
+        }
+
+
+        echo print_r(self::instance()->isEnabled());
+        exit;
     }
 
     public static function interceptSSO()
