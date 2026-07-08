@@ -1844,6 +1844,14 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Login to manage digital services</source>
       <translation>Gestisci i servizi digitali</translation>
     </message>
+    <message>
+      <source>Login with credentials</source>
+      <translation>Accedi con le credenziali</translation>
+    </message>
+    <message>
+      <source>Login with Single Sign-On</source>
+      <translation>Accedi con Single Sign-On</translation>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/editor-gui</name>

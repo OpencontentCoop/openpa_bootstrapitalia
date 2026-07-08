@@ -42,6 +42,7 @@ RedirectAfterPublish=node
 Listeners[]=oembed/html@OpenPABootstrapItaliaOperators::filterOembedHtml
 Listeners[]=response/output@OpenPABootstrapItaliaOperators::minifyHtml
 Listeners[]=request/input@OpenPABootstrapItaliaOperators::avoidDownloadRecursion
+Listeners[]=request/input@BootstrapItaliaLoginOauth::interceptUserEdit
 Listeners[]=request/input@BootstrapItaliaLoginOauth::interceptLogout
 Listeners[]=response/output@ContentSecurityPolicyHandler::setCspHeaders
 #Listeners[]=request/input@BootstrapItaliaLoginOauth::interceptSSO
