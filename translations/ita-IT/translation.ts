@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Modified by</source>
+      <translation>Modificato da</translation>
+    </message>
+    <message>
       <source>This site uses technical, analytics and third-party cookies.</source>
       <translation>Questo sito utilizza cookie tecnici, analytics e di terze parti.</translation>
     </message>
