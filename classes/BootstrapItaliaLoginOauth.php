@@ -72,14 +72,21 @@ class BootstrapItaliaLoginOauth
 
     private function allowAccess()
     {
-        OpenPABase::initRole('Accesso oAuth', [
+        $role = OpenPABase::initRole('Accesso oAuth', [
             [
                 'ModuleName' => 'login-oauth',
                 'FunctionName' => '*',
             ],
-        ], true)->assignToUser(
+        ], true);
+        $role->assignToUser(
             (int)eZINI::instance()->variable('UserSettings', 'AnonymousUserID')
         );
+        $guestObject = eZContentObject::fetchByNodeID(
+            (int)eZINI::instance()->variable('UserSettings', 'DefaultUserPlacement')
+        );
+        if ($guestObject instanceof eZContentObject) {
+            $role->assignToUser((int)$guestObject->attribute('id'));
+        }
     }
 
     private function disallowAccess()
@@ -287,23 +294,15 @@ class BootstrapItaliaLoginOauth
                 eZExecution::cleanExit();
             }
         }
-        eZHTTPTool::instance()->removeSessionVariable(self::CURRENT_SESSION_VARNAME);
     }
 
     public static function interceptUserEdit(eZURI $uri)
     {
         $hasOauthSession = eZHTTPTool::instance()->hasSessionVariable(self::CURRENT_SESSION_VARNAME);
-        var_dump($hasOauthSession);
-
-
         if ($hasOauthSession && self::instance()->isEnabled()){
             $module = $uri->element(0);
             $view = $uri->element(1);
-
-            print_r($module);
-            exit;
-
-            $isUserEditUri = $module === 'user';
+            $isUserEditUri = $module === 'user' && $view === 'edit';
             $isExternalUserPasswordUri = $module === 'userpaex' && $view === 'password';
             if ($isUserEditUri || $isExternalUserPasswordUri) {
                 $options = self::instance()->getCurrentOptions();
@@ -313,10 +312,6 @@ class BootstrapItaliaLoginOauth
                 }
             }
         }
-
-
-        echo print_r(self::instance()->isEnabled());
-        exit;
     }
 
     public static function interceptSSO()
