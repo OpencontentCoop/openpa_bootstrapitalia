@@ -91,6 +91,8 @@ EditorAccessList[]=EditorAccess
 EditorAccessList[]=OperatorAccess
 EditorAccess_Title=Login as website editor
 OperatorAccess_Title=Login to manage digital services
+EditorAccessCredentials_Title=Login with credentials
+EditorAccessOauth_Title=Login with Single Sign-On
 
 #ExampleAccess_Title=Accedi con esempio
 #ExampleAccess_Link=https://...

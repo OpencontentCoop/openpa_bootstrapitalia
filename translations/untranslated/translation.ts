@@ -1839,6 +1839,14 @@
       <source>Login to manage digital services</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Login with credentials</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login with Single Sign-On</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>bootstrapitalia/editor-gui</name>
