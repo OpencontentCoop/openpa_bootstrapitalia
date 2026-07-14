@@ -20,11 +20,30 @@
                 <div class="button-wrapper d-md-flex">
                     {foreach $access_list as $item}
                         {if is_set($access_links[$item])}
-                            <button type="button" href="{$access_links[$item]}"
-                                    onclick="location.href = '{$access_links[$item]}';"
-                                    class="btn btn-outline-primary btn-re pr-md-4 bg-white">
-                                <span class="">{openpaini('AccessPage', concat($item, '_Title'), 'Sign in')|i18n('bootstrapitalia/signin')|wash()}</span>
-                            </button>
+                            {if $item|eq('EditorAccess') and $oauth_enabled}
+                                <div class="dropdown">
+                                    <button type="button" id="editorAccessDropdown"
+                                            class="btn btn-outline-primary btn-re pr-md-4 bg-white dropdown-toggle"
+                                            data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="">{openpaini('AccessPage', concat($item, '_Title'), 'Sign in')|i18n('bootstrapitalia/signin')|wash()}</span>
+                                        <svg class="icon-expand icon icon-sm icon-primary"><use href="/extension/openpa_bootstrapitalia/design/standard/images/svg/sprite.svg#it-expand"></use></svg>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="editorAccessDropdown">
+                                        <a class="dropdown-item" href="{$local_login_uri}">
+                                            {openpaini('AccessPage', 'EditorAccessCredentials_Title', 'Login with credentials')|i18n('bootstrapitalia/signin')|wash()}
+                                        </a>
+                                        <a class="dropdown-item" href="{$oauth_login_uri}">
+                                            {openpaini('AccessPage', 'EditorAccessOauth_Title', 'Login with Single Sign-On')|i18n('bootstrapitalia/signin')|wash()}
+                                        </a>
+                                    </div>
+                                </div>
+                            {else}
+                                <button type="button" href="{$access_links[$item]}"
+                                        onclick="location.href = '{$access_links[$item]}';"
+                                        class="btn btn-outline-primary btn-re pr-md-4 bg-white">
+                                    <span class="">{openpaini('AccessPage', concat($item, '_Title'), 'Sign in')|i18n('bootstrapitalia/signin')|wash()}</span>
+                                </button>
+                            {/if}
                         {/if}
                     {/foreach}
                 </div>
