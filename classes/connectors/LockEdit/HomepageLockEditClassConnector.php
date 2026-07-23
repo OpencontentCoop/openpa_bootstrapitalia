@@ -569,13 +569,6 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     {
         $originalBlockManagement = $this->findBlockById(self::SECTION_MANAGEMENT, true);
         if (!isset($data['section_management'][0]['id'])) {
-            $existingBlock = $this->findBlockById(self::SECTION_MANAGEMENT);
-            if ($existingBlock !== null) {
-                if (!$hasMainNews) {
-                    $existingBlock['custom_attributes']['container_style'] = false;
-                }
-                return $existingBlock;
-            }
             return null;
         }
         if ($originalBlockManagement === null) {
@@ -676,7 +669,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     {
         $originalBlock = $this->findBlockById(self::SECTION_TOPIC, true);
         if (!isset($data['section_topic'][0]['id'])) {
-            return $this->findBlockById(self::SECTION_TOPIC);
+            return null;
         }
         if ($originalBlock === null) {
             return null;
@@ -740,7 +733,7 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     private function mapSectionPlaces($data): ?array
     {
         if (!isset($data['section_place'][0]['id'])) {
-            return $this->findBlockById(self::SECTION_PLACE);
+            return null;
         }
         $originalBlock = $this->findBlockById(self::SECTION_PLACE, true);
         if ($originalBlock === null) {
