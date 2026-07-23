@@ -187,40 +187,40 @@ $r = invoke($conn, 'mapSectionBanner', [[
 assert_true($r !== null, "T4a: blocco restituito quando POST ha items");
 assert_eq($r['valid_items'] ?? null, [], "T4b: items non esistenti in DB → valid_items=[]");
 
-// ── TEST 5: Management assente, blocco in XML → preservato ────────────────────
-echo "\n=== TEST 5: mapSectionManagement() — campo assente, blocco in XML → preservato ===\n";
+// ── TEST 5: Management assente → null (rimozione deliberata permessa) ─────────
+echo "\n=== TEST 5: mapSectionManagement() — campo assente → null (rimozione permessa) ===\n";
 
 $propSrc->setValue($conn, [$mgmtBlock]);
 $propCurr->setValue($conn, [$mgmtBlock]);
 
 $r = invoke($conn, 'mapSectionManagement', [['section_management' => []], false]);
-assert_true($r !== null, "T5a: section_management assente/vuoto, blocco in XML → preservato");
+assert_eq($r, null, "T5a: section_management vuoto → null (l'utente può rimuovere la sezione)");
 
 $propCurr->setValue($conn, []); // blocco NON in XML
 $r = invoke($conn, 'mapSectionManagement', [['section_management' => []], false]);
-assert_eq($r, null, "T5b: blocco non in XML → null (non crea blocchi inesistenti)");
+assert_eq($r, null, "T5b: blocco non in XML → null");
 
-// ── TEST 6: Places assente, blocco in XML → preservato ───────────────────────
-echo "\n=== TEST 6: mapSectionPlaces() — campo assente, blocco in XML → preservato ===\n";
+// ── TEST 6: Places assente → null (rimozione deliberata permessa) ────────────
+echo "\n=== TEST 6: mapSectionPlaces() — campo assente → null (rimozione permessa) ===\n";
 
 $propSrc->setValue($conn, [$placeBlock]);
 $propCurr->setValue($conn, [$placeBlock]);
 
 $r = invoke($conn, 'mapSectionPlaces', [[]]);
-assert_true($r !== null, "T6a: section_place assente, blocco in XML → preservato");
+assert_eq($r, null, "T6a: section_place assente → null (l'utente può rimuovere la sezione)");
 
 $propCurr->setValue($conn, []);
 $r = invoke($conn, 'mapSectionPlaces', [[]]);
 assert_eq($r, null, "T6b: blocco non in XML → null");
 
-// ── TEST 7: Topics assente, blocco in XML → preservato ───────────────────────
-echo "\n=== TEST 7: mapSectionTopics() — campo assente, blocco in XML → preservato ===\n";
+// ── TEST 7: Topics assente → null (rimozione deliberata permessa) ────────────
+echo "\n=== TEST 7: mapSectionTopics() — campo assente → null (rimozione permessa) ===\n";
 
 $propSrc->setValue($conn, [$topicBlock]);
 $propCurr->setValue($conn, [$topicBlock]);
 
 $r = invoke($conn, 'mapSectionTopics', [[]]);
-assert_true($r !== null, "T7a: section_topic assente, blocco in XML → preservato");
+assert_eq($r, null, "T7a: section_topic assente → null (l'utente può rimuovere la sezione)");
 
 $propCurr->setValue($conn, []);
 $r = invoke($conn, 'mapSectionTopics', [[]]);
