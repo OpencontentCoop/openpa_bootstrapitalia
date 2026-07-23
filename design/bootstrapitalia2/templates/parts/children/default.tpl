@@ -288,6 +288,10 @@
     {undef $params $children_count}
 {/if}
 
+{if $node|has_attribute('dataset_map_elements')}
+    {attribute_view_gui attribute=$node|attribute('dataset_map_elements')}
+{/if}
+
 {if $openpa.content_tag_menu.show_tag_cards}
     {include uri='design:parts/children/tag_cards.tpl'}
 {/if}
