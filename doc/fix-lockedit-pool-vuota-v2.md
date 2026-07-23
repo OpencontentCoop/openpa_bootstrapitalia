@@ -25,9 +25,9 @@ da `ezpagetype.php::onPublish()` durante il publish del content object.
 
 ### Il workflow "Pre pubblicazione" come trigger del bug
 
-Su alcuni tenant esiste un workflow globale attivo:
+Su **Verona** (e probabilmente altri tenant) esiste un workflow globale attivo:
 - **Nome:** "Pre pubblicazione" (`group_ezserial`, `is_enabled=1`, `workflow_id=2`)
-- Processi **DEFERRED** (status=10) possono accumularsi se il cron non li processa
+- **466 processi DEFERRED** (status=10) accumulati dall'**ottobre 2024**
 
 Quando questo workflow è attivo, il publish viene **differito** (status=10 = aspetta cron):
 1. Lock_edit salva → `createXML` inserisce items con `ts_visible=0`
@@ -40,8 +40,8 @@ Quando questo workflow è attivo, il publish viene **differito** (status=10 = as
 
 ### Il cron non gira
 
-L'accumulo di processi deferred indica che il cron che processa i workflow
-**non sta girando o fallisce**. Ogni save aggiunge un nuovo processo
+I 466 processi accumulati dal ottobre 2024 indicano che il cron che processa i workflow
+deferred su Verona **non sta girando o fallisce**. Ogni save aggiunge un nuovo processo
 alla coda, ma nessuno li processa.
 
 ### Perché la riga era commentata
@@ -397,7 +397,8 @@ $newsList = eZContentObjectTreeNode::subTreeByNodeID([
 ], 1);  // ← cerca da root, nessun filtro visibilità
 ```
 
-Può restituire articoli con nodo nascosto (`is_invisible=1`), come articoli con data futura da sezioni non pubblicate.
+Può restituire articoli con nodo nascosto (`is_invisible=1`), come verificato a Verona
+(articolo con data futura 2027 da sezione non pubblicata).
 
 ### Fix
 
