@@ -19,8 +19,9 @@
 
     {if count($fields.facets)|gt(0)}
       <div class="state-navigation-{$table_index}" data-group="{$fields.group_by}">
-      {foreach $fields.facets as $index => $facet_button}{*
-          *}<button href="#" class="btn{if $index|eq(0)} btn-primary{else} btn-outline-primary{/if} me-1 mb-1">{$facet_button|wash()}</button>{*
+      <button href="#" class="btn btn-primary me-1 mb-1" data-value="">{'All'|i18n('bootstrapitalia')}</button>{*
+      *}{foreach $fields.facets as $facet_button}{*
+          *}<button href="#" class="btn btn-outline-primary me-1 mb-1" data-value="{$facet_button|wash()}">{$facet_button|wash()}</button>{*
       *}{/foreach}
       </div>
     {/if}
@@ -194,17 +195,22 @@
         {if count($fields.facets)|gt(0)}
         var currentFilterName = $('.state-navigation-{$table_index}').data('group');
         var setCurrentFilter = function(){ldelim}
-            var currentFilterValue = $('.state-navigation-{$table_index} .btn-primary').text();
-            fieldsDatatable{$table_index}.settings.builder.filters[currentFilterName] = {ldelim}
-              'field': currentFilterName,
-              {if $fields.group_by|ends_with('year____dt]')}
-              'operator': 'range',
-              'value': [currentFilterValue+'-01-01T00:00:00Z',currentFilterValue+'-12-31T00:00:00Z']
-              {else}
-              'operator': 'in',
-              'value': [currentFilterValue]
-              {/if}
-            {rdelim};
+            var $activeBtn = $('.state-navigation-{$table_index} .btn-primary');
+            var currentFilterValue = $activeBtn.data('value') !== undefined ? String($activeBtn.data('value')) : $activeBtn.text();
+            if (currentFilterValue === '') {ldelim}
+              delete fieldsDatatable{$table_index}.settings.builder.filters[currentFilterName];
+            {rdelim} else {ldelim}
+              fieldsDatatable{$table_index}.settings.builder.filters[currentFilterName] = {ldelim}
+                'field': currentFilterName,
+                {if $fields.group_by|ends_with('year____dt]')}
+                'operator': 'range',
+                'value': [currentFilterValue+'-01-01T00:00:00Z',currentFilterValue+'-12-31T00:00:00Z']
+                {else}
+                'operator': 'in',
+                'value': [currentFilterValue]
+                {/if}
+              {rdelim};
+            {rdelim}
         {rdelim};
         setCurrentFilter();
 
