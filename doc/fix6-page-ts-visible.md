@@ -34,11 +34,11 @@ if (eZFlowOperations::updateOnPublish()) {
 
 `UpdateOnPublish=enabled` è configurato in `openpa_bootstrapitalia/settings/ezflow.ini.append.php`.
 
-### Perché non funziona su Verona
+### Perché non funziona su alcuni tenant
 
-Su Verona esiste un workflow globale **"Pre pubblicazione"** (`group_ezserial`, abilitato) che
-causa il **DEFERRAL** del publish (status=10 nella tabella `ezworkflow_process`). Al momento
-dell'analisi (luglio 2026): **466 processi deferred** accumulati dal ottobre 2024.
+Su alcuni tenant esiste un workflow globale **"Pre pubblicazione"** (`group_ezserial`, abilitato) che
+causa il **DEFERRAL** del publish (status=10 nella tabella `ezworkflow_process`). Su questi tenant
+si accumulano processi deferred non processati.
 
 **Sequenza del bug:**
 
@@ -176,8 +176,7 @@ In tutti questi contesti, rendere items visibili immediatamente è il comportame
 
 ### CC4 — Blocchi con rotation_type != 0
 
-I blocchi della homepage su tutti i tenant analizzati (roveretopnrr, verona, bolzano,
-firenze, trento) hanno `rotation_type=0` e `rotation_interval=0` — verificato dal DB.
+I blocchi della homepage su tutti i tenant analizzati hanno `rotation_type=0` e `rotation_interval=0` — verificato dal DB.
 
 La logica di rotation in `update()` (move items back to queue) si attiva solo se
 `rotation_type != 0`. Con rotation_type=0, nessun item viene rimesso in queue.
@@ -252,11 +251,11 @@ distrutti senza il fix difensivo.
    un motivo tecnico per non farlo. Ma vale la pena chiedere a Luca Realdi se c'era
    una ragione specifica.
 
-2. **Il workflow "Pre pubblicazione" su Verona è intenzionale?**
+2. **Il workflow "Pre pubblicazione" è intenzionale?**
    Se sì, deve continuare a funzionare. Il fix non interferisce con il workflow —
    lo bypassa solo per la visibilità degli items nel pool.
 
-3. **I 466 processi deferred vanno processati?**
+3. **I processi deferred accumulati vanno processati?**
    Sono accumulati dal ottobre 2024. Potrebbero essere tutti relativi a homepage
    saves che hanno avuto problemi. Vanno analizzati prima di processarli in bulk,
    altrimenti potrebbero pubblicare stati di homepage obsoleti.
@@ -317,10 +316,10 @@ Possibili ragioni:
 
 ---
 
-### V3 — 466 processi deferred su Verona: gestione separata? [ ]
+### V3 — Processi deferred accumulati: gestione separata? [ ]
 
-**Domanda:** i 466 processi `ezworkflow_process` con status=10 accumulati dal ottobre 2024
-su Verona devono essere processati/ripuliti prima o dopo questo fix? Come?
+**Domanda:** i processi `ezworkflow_process` con status=10 accumulati sui tenant affetti
+devono essere processati/ripuliti prima o dopo questo fix? Come?
 
 **Contesto:** sono tutti legati al workflow "Pre pubblicazione" (workflow_id=2).
 Potrebbero contenere stati di homepage ormai obsoleti. Processarli in bulk potrebbe
@@ -336,7 +335,7 @@ pubblicare versioni vecchie di contenuti.
 
 ### V4 — Il workflow "Pre pubblicazione" è intenzionale e corretto? [ ]
 
-**Domanda:** il workflow "Pre pubblicazione" (group_ezserial) su Verona è una configurazione
+**Domanda:** il workflow "Pre pubblicazione" (group_ezserial) è una configurazione
 intenzionale del tenant o un residuo di una configurazione passata? Dovrebbe continuare
 a girare dopo il fix?
 
