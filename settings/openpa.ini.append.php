@@ -394,6 +394,7 @@ AnacImportedFields[]=contract_value
 AnacImportedFields[]=award_value
 AnacImportedFields[]=award_winners
 
+
 # Attributi ezinteger che non supportano default dinamici nel backend eZ.
 # Il valore viene pre-popolato con l'anno corrente via JS al momento della creazione.
 [EditDefaults]
