@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Modified by</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Today</source>
       <translation type="unfinished"/>
     </message>
