@@ -6,7 +6,7 @@
       <div class="row">
         {if is_set($items[0])}
           {foreach $items as $valid_node max 10}
-            {if and($valid_node.class_identifier|eq('dataset'), $valid_node.data_map.csv_resource.content.views|contains('map'))}
+            {if and($valid_node.class_identifier|eq('dataset'), $valid_node.data_map.csv_resource.content.views|contains('map'), $valid_node.object.state_identifier_array|contains('privacy/public'))}
               {def $custom_repository = concat('dataset-', $valid_node.data_map.csv_resource.contentclass_attribute_identifier, '-',$valid_node.data_map.csv_resource.contentobject_id)}
               {def $data = $valid_node.data_map.csv_resource.data_text|decode_json().fields}
               {def $fields = array()}
@@ -17,7 +17,7 @@
 
               <div class="col-12 col-sm-6 col-lg-12">
                 <div class="form-check">
-                  <input 
+                  <input
                     id="checkbox-{$valid_node.node_id}"
                     type="checkbox"
                     checked="checked"
@@ -28,7 +28,7 @@
               </div>
               {undef $custom_repository $fields $fields_labels $data}
             {else}
-              {editor_warning(concat("Non sono presenti luoghi georeferenziati con vista mappa per il dataset: ",$valid_node.name))}
+              {editor_warning(concat("Il dataset \"", $valid_node.name, "\" non viene visualizzato nella mappa: deve essere pubblico e avere almeno una visualizzazione di tipo mappa"))}
             {/if}
           {/foreach}
         {/if}

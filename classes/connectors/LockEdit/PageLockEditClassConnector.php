@@ -125,6 +125,11 @@ abstract class PageLockEditClassConnector extends LockEditClassConnector
 
         if ($this->getDatasetMapConnector()) {
             $schema['properties']['dataset_map_elements'] = $this->getDatasetMapConnector()->getSchema();
+            $schema['properties']['dataset_map_elements']['maxItems'] = OpenPAINI::variable(
+                'LockEdit_' . $this->originalObject->attribute('class_identifier'),
+                'DatasetMapLimit',
+                10
+            );
         }
 
         return $schema;
