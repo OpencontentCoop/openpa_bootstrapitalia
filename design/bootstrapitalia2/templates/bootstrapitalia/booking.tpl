@@ -1,3 +1,4 @@
+{include uri='design:bootstrapitalia/booking/sentry_init.tpl'}
 {if $offices|count()|eq(0)}
 {include uri='design:bootstrapitalia/booking/breadcrumb.tpl'}
 <div class="container">
