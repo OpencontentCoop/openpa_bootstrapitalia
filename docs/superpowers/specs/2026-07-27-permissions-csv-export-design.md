@@ -24,56 +24,53 @@ Aggiungere un bottone "Scarica CSV" che permetta all'amministratore di scaricare
 | Colonna | Fonte dati | Tipo |
 |---|---|---|
 | Nome | `metadata.name` (lingua `ita-IT`) | stringa |
-| Email | attributo `email` della classe `user` | stringa |
-| Username | attributo `login` della classe `user` | stringa |
 | Abilitato | attributo `is_enabled` della classe `user` | `Sì` / `No` |
 | [nome ruolo 1] | confronto `parentNodes` vs `node_id` del gruppo | `X` / vuoto |
 | [nome ruolo N] | idem | `X` / vuoto |
 
 Le colonne dei ruoli sono **dinamiche**: vengono generate a runtime leggendo tutti i `user_group` figli di `editors_base`, nell'ordine alfabetico già usato dalla UI (`sort_by name asc`).
 
+Email e username sono esclusi intenzionalmente per ridurre l'esposizione di dati personali.
+
 ## Architettura
 
-### Nessuna modifica alla routing eZ Publish
+### Pattern di riferimento: `modules/valuation/csv.php`
 
-Il modulo `bootstrapitalia` ha già una entry `permissions` in `module.php`. Si aggiunge semplicemente una nuova branch `csv` nell'`if` delle action già gestite in `permissions.php`.
+L'estensione ha già un export CSV identico per struttura nel modulo `valuation`. Si segue lo stesso pattern: file PHP separato, stessi header HTTP, `fopen('php://output', 'w')`, `fputcsv`, `flush()`, `eZExecution::cleanExit()`.
 
-URL risultante: `GET /bootstrapitalia/permissions/csv`
+### Nuovo file: `modules/bootstrapitalia/permissions_csv.php`
 
-### Flusso lato server (`permissions.php`)
+Registrato come nuova view `permissions_csv` in `module.php` del modulo `bootstrapitalia`.
 
-1. Legge il parametro action dai `$Params`; se è `csv`, entra nel branch di export
-2. Fetch dei gruppi: `eZContentObjectTreeNode::subTreeByNodeID` (oppure `fetch content list`) sul nodo `editors_base`, filtro classe `user_group`, ordinati per nome
-3. Fetch iterativa degli utenti: query sulla content search con `class_filter_type = include`, `class_filter_array = ['user']`, `parent_node_id = editors_base_node_id`, offset incrementato di 100 a ogni iterazione, finché il risultato è vuoto
-4. Per ogni utente: legge `name`, `email`, `login`, `is_enabled`; per ogni gruppo controlla se il `node_id` del gruppo è presente nei `parentNodes` dell'utente
-5. Imposta gli header HTTP: `Content-Type: text/csv; charset=utf-8`, `Content-Disposition: attachment; filename="redattori-YYYY-MM-DD.csv"`
-6. Scrive l'header CSV (prima riga) e poi una riga per utente con `fputcsv`
-7. Termina con `eZExecution::cleanExit()`
+URL risultante: `GET /bootstrapitalia/permissions_csv`
+
+Flusso:
+1. Fetch dei gruppi: content list sul nodo `editors_base`, filtro classe `user_group`, ordinati per nome
+2. Fetch iterativa degli utenti: `eZContentObjectTreeNode::subTreeByNodeID` con `class_filter_array = ['user']`, offset incrementato di 100 a ogni iterazione fino a esaurimento
+3. Per ogni utente: legge `name` e `is_enabled`; per ogni gruppo controlla se il `node_id` è presente nei `parentNodes`
+4. `ob_get_clean()`, header HTTP (`Content-Type: text/csv; charset=utf-8`, `Content-Disposition: attachment; filename="redattori-YYYY-MM-DD.csv"`, `Pragma: no-cache`, `Expires: 0`)
+5. `fputcsv` riga di intestazione + una riga per utente
+6. `flush()` + `eZExecution::cleanExit()`
 
 ### Modifica al template (`permissions.tpl`)
 
-Aggiunta di un link/bottone Bootstrap nella barra in cima alla tabella, accanto ai controlli esistenti:
+Aggiunta di un link senza icona, con la stessa classe dei bottoni già presenti nella pagina:
 
-```html
-<a href={'/bootstrapitalia/permissions/csv'|ezurl} class="btn btn-outline-secondary btn-sm">
-    <svg ...><!-- icona download --></svg>
-    Scarica CSV
-</a>
+```smarty
+<a href={'/bootstrapitalia/permissions_csv'|ezurl(no)} class="btn btn-secondary btn-sm rounded-0">Scarica CSV</a>
 ```
 
 ## File modificati
 
 | File | Tipo modifica |
 |---|---|
-| `modules/bootstrapitalia/permissions.php` | aggiunta branch `csv` (~60 righe) |
-| `design/bootstrapitalia2/templates/bootstrapitalia/permissions.tpl` | aggiunta bottone (~4 righe) |
-
-Nessun file di routing, nessun nuovo modulo, nessuna dipendenza nuova.
+| `modules/bootstrapitalia/module.php` | aggiunta view `permissions_csv` |
+| `modules/bootstrapitalia/permissions_csv.php` | nuovo file, ~60 righe (pattern da `valuation/csv.php`) |
+| `design/bootstrapitalia2/templates/bootstrapitalia/permissions.tpl` | aggiunta bottone (~1 riga) |
 
 ## Casi limite
 
 - **Nessun utente:** il CSV contiene solo la riga di intestazione
-- **Nessun gruppo:** le colonne dei ruoli sono assenti, il CSV ha solo le 4 colonne base
+- **Nessun gruppo:** le colonne dei ruoli sono assenti, il CSV ha solo le 2 colonne base
 - **Utente senza ruoli:** tutte le celle dei ruoli sono vuote
-- **Utente con più assegnazioni allo stesso gruppo:** la logica di confronto con `parentNodes` rimane corretta (presenza/assenza)
 - **Molti utenti:** il loop con offset di 100 gestisce qualsiasi volume senza caricare tutto in memoria
