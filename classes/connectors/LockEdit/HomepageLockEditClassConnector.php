@@ -70,10 +70,10 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             'background_search' => $hasSearchBg = $this->mapCustomAttributeImageToRelation(self::SEARCH),
             'section_search' => $hasLinks = $this->mapRicercaToRelations(self::SEARCH),
             'background_image' => $this->mapSingoloToRelation(self::BACKGROUND_IMAGE),
-            'add_section_news' => $hasLatestNews || $hasNews,
-            'add_section_events' => $hasNextEvents || $hasEvents,
-            'add_section_banner' => is_array($hasBanner),
-            'add_section_search' => is_array($hasLinks) || is_array($hasSearchBg),
+            'add_section_news'   => $hasLatestNews || $hasNews   || $this->findBlockById(self::SECTION_NEWS) !== null,
+            'add_section_events' => $hasNextEvents || $hasEvents || $this->findBlockById(self::SECTION_NEXT_EVENTS) !== null,
+            'add_section_banner' => is_array($hasBanner)         || $this->findBlockById(self::SECTION_BANNER) !== null,
+            'add_section_search' => is_array($hasLinks) || is_array($hasSearchBg) || $this->findBlockById(self::SEARCH) !== null,
             'logo_search' => $this->mapCustomAttributeImageToRelation(self::SEARCH, 'logo'),
             'notice_header_text' => $this->content['notice_header_text']['content'] ?? '',
             'notice_header_link' => $headerLink,
@@ -568,33 +568,44 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
     private function mapSectionManagement($data, $hasMainNews): ?array
     {
         $originalBlockManagement = $this->findBlockById(self::SECTION_MANAGEMENT, true);
-        if (isset($data['section_management'][0]['id'])) {
-            $managementRemoteIdList = [];
-            foreach ($data['section_management'] as $managementItem) {
-                $management = eZContentObject::fetch((int)$managementItem['id']);
-                if ($management instanceof eZContentObject) {
-                    $managementRemoteIdList[] = $management->attribute('remote_id');
-                }
-            }
-            $originalBlockManagement['valid_items'] = $managementRemoteIdList;
-            if (!$hasMainNews){
-                $originalBlockManagement['custom_attributes']['container_style'] = false;
-            }
-            return $originalBlockManagement;
+        if (!isset($data['section_management'][0]['id'])) {
+            return null;
         }
-
-        return null;
+        if ($originalBlockManagement === null) {
+            return null;
+        }
+        $managementRemoteIdList = [];
+        foreach ($data['section_management'] as $managementItem) {
+            $management = eZContentObject::fetch((int)$managementItem['id']);
+            if ($management instanceof eZContentObject) {
+                $managementRemoteIdList[] = $management->attribute('remote_id');
+            }
+        }
+        $originalBlockManagement['valid_items'] = $managementRemoteIdList;
+        if (!$hasMainNews) {
+            $originalBlockManagement['custom_attributes']['container_style'] = false;
+        }
+        return $originalBlockManagement;
     }
 
     private function mapSectionNews($data): ?array
     {
+        if (!$this->isSectionActive($data['add_section_news'] ?? false)) {
+            return null;
+        }
         $originalBlockNews = $this->findBlockById(self::SECTION_NEWS, true);
+        if ($originalBlockNews === null) {
+            return null;
+        }
         $originalBlockNews['name'] = $data['title_news'] ?? '';
 
         if (isset($data['section_latest_news']) && $data['section_latest_news'] === 'true') {
             return $originalBlockNews;
         } elseif (isset($data['section_news'][0]['id'])) {
             $block = $this->findBlockById(self::SECTION_MANAGEMENT, true);
+            if ($block === null) {
+                return null;
+            }
             $block['block_id'] = self::SECTION_NEWS;
             $block['name'] = $originalBlockNews['name'];
             $block['custom_attributes']['container_style'] = false;
@@ -609,17 +620,30 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             return $block;
         }
 
-        return null;
+        // Fallback: sezione attiva ma nessuna modalità selezionata nel POST
+        // (pool era vuota al caricamento) → preserva il blocco corrente dall'XML
+        $currentBlock = $this->findBlockById(self::SECTION_NEWS) ?? $originalBlockNews;
+        $currentBlock['name'] = $originalBlockNews['name'];
+        return $currentBlock;
     }
 
     private function mapSectionEvents($data): ?array
     {
+        if (!$this->isSectionActive($data['add_section_events'] ?? false)) {
+            return null;
+        }
         $originalBlockEvent = $this->findBlockById(self::SECTION_NEXT_EVENTS, true);
+        if ($originalBlockEvent === null) {
+            return null;
+        }
         $originalBlockEvent['name'] = $data['title_events'] ?? '';
         if (isset($data['section_next_events']) && $data['section_next_events'] === 'true') {
             return $originalBlockEvent;
         } elseif (isset($data['section_calendar'][0]['id'])) {
             $block = $this->findBlockById(self::SECTION_MANAGEMENT, true);
+            if ($block === null) {
+                return null;
+            }
             $block['block_id'] = self::SECTION_NEXT_EVENTS;
             $block['name'] = $originalBlockEvent['name'];
             $block['view'] = 'lista_card';
@@ -635,95 +659,116 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             return $block;
         }
 
-        return null;
+        // Fallback: preserva il blocco corrente dall'XML
+        $currentBlock = $this->findBlockById(self::SECTION_NEXT_EVENTS) ?? $originalBlockEvent;
+        $currentBlock['name'] = $originalBlockEvent['name'];
+        return $currentBlock;
     }
 
     private function mapSectionTopics($data): ?array
     {
         $originalBlock = $this->findBlockById(self::SECTION_TOPIC, true);
-        if (isset($data['section_topic'][0]['id'])) {
-            $remoteIdList = [];
-            foreach ($data['section_topic'] as $item) {
-                $object = eZContentObject::fetch((int)$item['id']);
-                if ($object instanceof eZContentObject) {
-                    $remoteIdList[] = $object->attribute('remote_id');
-                }
+        if (!isset($data['section_topic'][0]['id'])) {
+            return null;
+        }
+        if ($originalBlock === null) {
+            return null;
+        }
+        $remoteIdList = [];
+        foreach ($data['section_topic'] as $item) {
+            $object = eZContentObject::fetch((int)$item['id']);
+            if ($object instanceof eZContentObject) {
+                $remoteIdList[] = $object->attribute('remote_id');
             }
-            $originalBlock['valid_items'] = $remoteIdList;
+        }
+        $originalBlock['valid_items'] = $remoteIdList;
 
-            if (isset($data['background_topic'][0]['id'])) {
-                $object = eZContentObject::fetch((int)$data['background_topic'][0]['id']);
-                if ($object instanceof eZContentObject) {
-                    $originalBlock['custom_attributes']['image'] = $object->mainNodeID();
-                }
-            } else {
-                $originalBlock['custom_attributes']['image'] = '';
+        if (isset($data['background_topic'][0]['id'])) {
+            $object = eZContentObject::fetch((int)$data['background_topic'][0]['id']);
+            if ($object instanceof eZContentObject) {
+                $originalBlock['custom_attributes']['image'] = $object->mainNodeID();
             }
-
-            return $originalBlock;
+        } else {
+            $originalBlock['custom_attributes']['image'] = '';
         }
 
-        return null;
+        return $originalBlock;
+    }
+
+    private function isSectionActive($value): bool
+    {
+        return $value === true || $value === 'true' || $value === 1 || $value === '1';
     }
 
     private function mapSectionBanner($data): ?array
     {
-        if (isset($data['section_banner'][0]['id'])) {
-            $originalBlock = $this->findBlockById(self::SECTION_BANNER, true)
-                ?? $this->findBlockById(self::SECTION_BANNER);
-            $originalBlock['name'] = $data['title_banner'] ?? '';
-            $originalBlock['type'] = 'ListaManuale';
-            $originalCustomAttributes = $originalBlock['custom_attributes'];
-            $originalBlock['custom_attributes'] = [
-                'elementi_per_riga' => $originalCustomAttributes['elementi_per_riga'],
-                'color_style' => $originalCustomAttributes['color_style'],
-                'container_style' => $originalCustomAttributes['container_style'],
-                'intro_text' => $originalCustomAttributes['intro_text'],
-            ];
-            $remoteIdList = [];
-            foreach ($data['section_banner'] as $item) {
-                $object = eZContentObject::fetch((int)$item['id']);
-                if ($object instanceof eZContentObject) {
-                    $remoteIdList[] = $object->attribute('remote_id');
-                }
-            }
-            $originalBlock['valid_items'] = $remoteIdList;
-            return $originalBlock;
+        if (!$this->isSectionActive($data['add_section_banner'] ?? false)) {
+            return null;
         }
-
-        return null;
+        $originalBlock = $this->findBlockById(self::SECTION_BANNER, true)
+            ?? $this->findBlockById(self::SECTION_BANNER);
+        if ($originalBlock === null) {
+            return null;
+        }
+        $originalBlock['name'] = $data['title_banner'] ?? '';
+        $originalBlock['type'] = 'ListaManuale';
+        $originalCustomAttributes = $originalBlock['custom_attributes'];
+        $originalBlock['custom_attributes'] = [
+            'elementi_per_riga' => $originalCustomAttributes['elementi_per_riga'],
+            'color_style'       => $originalCustomAttributes['color_style'],
+            'container_style'   => $originalCustomAttributes['container_style'],
+            'intro_text'        => $originalCustomAttributes['intro_text'],
+        ];
+        $remoteIdList = [];
+        foreach ((array)($data['section_banner'] ?? []) as $item) {
+            $object = eZContentObject::fetch((int)$item['id']);
+            if ($object instanceof eZContentObject) {
+                $remoteIdList[] = $object->attribute('remote_id');
+            }
+        }
+        $originalBlock['valid_items'] = $remoteIdList;
+        return $originalBlock;
     }
 
     private function mapSectionPlaces($data): ?array
     {
-        if (isset($data['section_place'][0]['id'])) {
-            $originalBlock = $this->findBlockById(self::SECTION_PLACE, true);
-            $originalBlock['type'] = 'ListaManuale';
-            $originalCustomAttributes = $originalBlock['custom_attributes'];
-            $originalBlock['custom_attributes'] = [
-                'elementi_per_riga' => $originalCustomAttributes['elementi_per_riga'],
-                'color_style' => $originalCustomAttributes['color_style'],
-                'container_style' => $originalCustomAttributes['container_style'],
-                'intro_text' => $originalCustomAttributes['intro_text'],
-            ];
-            $remoteIdList = [];
-            foreach ($data['section_place'] as $item) {
-                $object = eZContentObject::fetch((int)$item['id']);
-                if ($object instanceof eZContentObject) {
-                    $remoteIdList[] = $object->attribute('remote_id');
-                }
-            }
-            $originalBlock['valid_items'] = $remoteIdList;
-            return $originalBlock;
+        if (!isset($data['section_place'][0]['id'])) {
+            return null;
         }
-
-        return null;
+        $originalBlock = $this->findBlockById(self::SECTION_PLACE, true);
+        if ($originalBlock === null) {
+            return null;
+        }
+        $originalBlock['type'] = 'ListaManuale';
+        $originalCustomAttributes = $originalBlock['custom_attributes'];
+        $originalBlock['custom_attributes'] = [
+            'elementi_per_riga' => $originalCustomAttributes['elementi_per_riga'],
+            'color_style'       => $originalCustomAttributes['color_style'],
+            'container_style'   => $originalCustomAttributes['container_style'],
+            'intro_text'        => $originalCustomAttributes['intro_text'],
+        ];
+        $remoteIdList = [];
+        foreach ($data['section_place'] as $item) {
+            $object = eZContentObject::fetch((int)$item['id']);
+            if ($object instanceof eZContentObject) {
+                $remoteIdList[] = $object->attribute('remote_id');
+            }
+        }
+        $originalBlock['valid_items'] = $remoteIdList;
+        return $originalBlock;
     }
 
     private function mapSectionSearch($data): ?array
     {
+        if (!$this->isSectionActive($data['add_section_search'] ?? false)) {
+            return null;
+        }
         if (isset($data['section_search'][0]['id']) || isset($data['background_search'][0]['id'])) {
-            $originalBlock = $this->findBlockById(self::SEARCH, true);
+            $originalBlock = $this->findBlockById(self::SEARCH, true)
+                ?? $this->findBlockById(self::SEARCH);
+            if ($originalBlock === null) {
+                return null;
+            }
             if (isset($data['background_search'][0]['id'])) {
                 $object = eZContentObject::fetch((int)$data['background_search'][0]['id']);
                 if ($object instanceof eZContentObject) {
@@ -759,7 +804,9 @@ class HomepageLockEditClassConnector extends LockEditClassConnector
             return $originalBlock;
         }
 
-        return null;
+        // Toggle ON ma nessun item né sfondo → preserva blocco corrente dall'XML
+        $existingBlock = $this->findBlockById(self::SEARCH);
+        return $existingBlock;
     }
 
     private function getEditLockSettings(?string $key = null)
