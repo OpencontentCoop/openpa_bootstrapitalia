@@ -8,6 +8,8 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceBase
 
     private $topic;
 
+    private $topics;
+
     private $place;
 
     private $geo;
@@ -19,7 +21,9 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceBase
         $this->fnData['has_public_event_typology'] = 'getPublicEventTypology';
         $this->fnData['has_public_event_typology_name'] = 'getPublicEventTypologyName';
         $this->fnData['topic'] = 'getTopic';
+        $this->fnData['topics'] = 'getTopics';
         $this->fnData['topic_name'] = 'getTopicName';
+        $this->fnData['topic_names'] = 'getTopicNames';
         $this->fnData['image'] = 'getImage';
         $this->fnData['takes_place_in'] = 'getTakesPlaceIn';
         $this->fnData['geo'] = 'getGeo';
@@ -158,21 +162,45 @@ class ObjectHandlerServiceEventLink extends ObjectHandlerServiceBase
     protected function getTopicName()
     {
         $data = $this->getMatrixAsHash('virtual_topic');
-        return $data['name'] ?? null;
+        return $data[0]['name'] ?? null;
+    }
+
+    protected function getTopicNames()
+    {
+        $names = [];
+        foreach ($this->getMatrixAsHash('virtual_topic') as $item) {
+            if (!empty($item['name'])) {
+                $names[] = $item['name'];
+            }
+        }
+        return $names;
+    }
+
+    protected function getTopics()
+    {
+        if ($this->topics === null) {
+            $this->topics = [];
+            $data = $this->getMatrixAsHash('virtual_topic');
+            foreach ($data as $item) {
+                if (!empty($item['id'])) {
+                    $object = eZContentObject::fetchByRemoteID($item['id']);
+                    if ($object instanceof eZContentObject) {
+                        $this->topics[] = $object;
+                    }
+                }
+            }
+        }
+
+        return $this->topics;
     }
 
     protected function getTopic()
     {
         if ($this->topic === null) {
             $this->topic = false;
-            $data = $this->getMatrixAsHash('virtual_topic');
-            foreach ($data as $item) {
-                if (!empty($item['id'])) {
-                    $this->topic = eZContentObject::fetchByRemoteID($item['id']);
-                    if ($this->topic instanceof eZContentObject) {
-                        break;
-                    }
-                }
+            $topics = $this->getTopics();
+            if (!empty($topics)) {
+                $this->topic = $topics[0];
             }
         }
 
