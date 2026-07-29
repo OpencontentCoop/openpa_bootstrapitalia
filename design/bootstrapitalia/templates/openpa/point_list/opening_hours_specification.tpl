@@ -1,6 +1,7 @@
 {def $valid_date_attribute = cond($node|has_attribute('valid_through'), $node|attribute('valid_through'), $node|attribute('valid_from'))}
 <div class="point-list">
     <div class="point-list-aside point-list-warning">
+        <div class="point-month text-monospace" style="max-height: 20px;">{$valid_date_attribute.content.timestamp|datetime( 'custom', '%Y' )}</div>
         <div class="point-date text-monospace" style="max-height: 53px;">{$valid_date_attribute.content.timestamp|datetime( 'custom', '%d' )}</div>
         <div class="point-month text-monospace" style="max-height: 20px;">{$valid_date_attribute.content.timestamp|datetime( 'custom', '%M' )}</div>
     </div>
