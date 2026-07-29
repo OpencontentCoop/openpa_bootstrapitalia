@@ -1,5 +1,17 @@
 # openpa_bootstrapitalia — guida per Claude
 
+## ⛔ Regola assoluta sul branching git
+
+**Non pushare MAI direttamente su `master`.** Sempre creare un branch da `master`:
+1. `git checkout master && git pull`
+2. `git checkout -b feature/nome` oppure `fix/nome`
+3. Committare sul branch
+4. **Aspettare conferma esplicita** prima di fare `push`
+
+Nessuna eccezione.
+
+---
+
 ## Scopo dell'estensione
 
 Estensione eZ Publish principale per i siti PA italiani OpenCity/OpenPA. Gestisce rendering frontend (Bootstrap Italia), integrazioni esterne (Stanza del Cittadino, OAuth, CKAN), API REST, validatori, plugin Solr e moduli custom. È il repo più attivo del progetto.
