@@ -807,6 +807,10 @@
       <source>Anac attribute update alert</source>
       <translation>This attribute is automatically populated and updated through the ANAC Database integration. Any manual changes will be overwritten at the next update.</translation>
     </message>
+    <message>
+      <source>Anac cig attribute alert</source>
+      <translation>Warning: modifying a CIG present in the ANAC database interrupts the synchronisation of tender data. If the new CIG belongs to the same contracting authority, the system may create a duplicate.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

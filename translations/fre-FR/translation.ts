@@ -799,6 +799,10 @@
       <source>Anac attribute update alert</source>
       <translation>Cet attribut est automatiquement renseigné et mis à jour via l'intégration avec la Base de données nationale ANAC. Toute modification manuelle sera écrasée lors de la prochaine mise à jour.</translation>
     </message>
+    <message>
+      <source>Anac cig attribute alert</source>
+      <translation>Attention : modifier un CIG présent dans la base de données ANAC interrompt la synchronisation des données de l'appel d'offres. Si le nouveau CIG appartient au même pouvoir adjudicateur, le système pourrait créer un doublon.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

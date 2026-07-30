@@ -391,5 +391,6 @@ AnacImportedFields[]=tender_contract_types
 AnacImportedFields[]=contract_value
 AnacImportedFields[]=award_value
 AnacImportedFields[]=award_winners
+CigField[]=codice_identificativo_gara
 
 */ ?>
