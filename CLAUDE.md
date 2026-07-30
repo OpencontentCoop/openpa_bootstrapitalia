@@ -156,14 +156,40 @@ Per i dettagli tecnici su come funziona lo strumento vedere `html/vendor/opencon
 
 1. Aggiungere la stringa nel template: `{'Nuova stringa'|i18n('bootstrapitalia/booking')}`
 2. Aggiungerla in `translations/untranslated/translation.ts` nel contesto corretto
-3. Push su POEditor: `php vendor/opencontent/oci18n/bin/push_ts_terms_to_poeditor.php -r --no-colors`
-4. Tradurre su POEditor (progetto ID `740564`, tag `openpa_bootstrapitalia`)
-5. Pull: `POEDITOR_TOKEN=$PO_ORG_TOKEN php vendor/bin/oci18n -r --no-colors`
+3. Push term e traduzioni su POEditor via API diretta (vedi sotto — **preferito**)
+4. Pull: `POEDITOR_TOKEN=$PO_ORG_TOKEN php vendor/bin/oci18n -r --no-colors`
    - Lingua: `0`=it, `1`=de, `2`=en
    - Estensione: selezionare `openpa_bootstrapitalia`
    - Content types / contenuti / tags → `n`
 
+Esistono anche script PHP per il push (`php vendor/opencontent/oci18n/bin/push_ts_terms_to_poeditor.php -r --no-colors`), ma non gestiscono in modo affidabile il `context` del term — preferire sempre le API dirette.
+
+### Push via API POEditor (preferito)
+
+Token: `2c1c4091bc25d3d5eb6aa365ceaeb537` — Progetto ID: `740564`
+
+**Aggiungere un term:**
+```bash
+curl -s -X POST https://api.poeditor.com/v2/terms/add \
+  -d api_token=2c1c4091bc25d3d5eb6aa365ceaeb537 \
+  -d id=740564 \
+  --data-urlencode 'data=[{"term":"Nome term","context":"bootstrapitalia","tags":["openpa_bootstrapitalia"]}]'
+```
+
+**Aggiungere una traduzione (ripetere per ogni lingua):**
+```bash
+curl -s -X POST https://api.poeditor.com/v2/translations/add \
+  -d api_token=2c1c4091bc25d3d5eb6aa365ceaeb537 \
+  -d id=740564 \
+  -d language=it \
+  --data-urlencode 'data=[{"term":"Nome term","context":"bootstrapitalia","translation":{"content":"Testo tradotto"}}]'
+```
+
+Lingue disponibili: `it`, `en`, `de`, `es`, `fr`, `pt-br`
+
 ### Contesti principali
+
+Il **context** in POEditor identifica univocamente un term insieme al suo testo: due term con lo stesso testo ma contesti diversi sono term distinti. Qui corrisponde al namespace i18n usato nei template eZ.
 
 | Contesto | Uso |
 |---------|-----|
