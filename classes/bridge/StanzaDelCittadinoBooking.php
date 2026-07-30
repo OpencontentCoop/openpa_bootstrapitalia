@@ -672,7 +672,28 @@ EOT;
                 $response['data'] = $meeting;
             }
         } catch (Throwable $e) {
-            $response['error'] = $e->getMessage();
+            // Se SDC rifiuta l'UUID utente (non sincronizzato), ritenta come anonimo
+            if (stripos($e->getMessage(), 'does not exist or is not unique') !== false
+                && stripos($e->getMessage(), '"user"') !== false) {
+                eZDebug::writeWarning(
+                    'User token rejected by SDC, retrying anonymously: ' . $e->getMessage(),
+                    __METHOD__
+                );
+                $anonResponse = $client->request('POST', '/api/session-auth');
+                $dto->setUserToken($anonResponse['token']);
+                $client->setBearerToken($anonResponse['token']);
+                $response['token'] = $anonResponse['token'];
+                try {
+                    $response['data'] = $client->request($method, $endpoint, $dto->toMeetingPayload(6));
+                    if ($dto->getMeetingId()) {
+                        $response['data'] = $meeting;
+                    }
+                } catch (Throwable $retryException) {
+                    $response['error'] = $retryException->getMessage();
+                }
+            } else {
+                $response['error'] = $e->getMessage();
+            }
         }
 
         return $response;
