@@ -811,6 +811,10 @@
       <source>Anac attribute update alert</source>
       <translation>Dieses Attribut wird automatisch über die Integration mit der nationalen ANAC-Datenbank befüllt und aktualisiert. Manuelle Änderungen werden bei der nächsten Aktualisierung überschrieben.</translation>
     </message>
+    <message>
+      <source>Anac cig attribute alert</source>
+      <translation>Achtung: Die Änderung eines in der ANAC-Datenbank vorhandenen CIG unterbricht die Synchronisierung der Auftragsdaten. Wenn der neue CIG zur selben Vergabestelle gehört, könnte das System ein Duplikat erstellen.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

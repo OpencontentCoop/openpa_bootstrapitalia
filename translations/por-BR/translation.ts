@@ -799,6 +799,10 @@
       <source>Anac attribute update alert</source>
       <translation>Este atributo é preenchido e atualizado automaticamente através da integração com o Banco de Dados Nacional ANAC. Quaisquer alterações manuais serão substituídas na próxima atualização.</translation>
     </message>
+    <message>
+      <source>Anac cig attribute alert</source>
+      <translation>Atenção: modificar um CIG presente na base de dados ANAC interrompe a sincronização dos dados do concurso. Se o novo CIG pertencer à mesma entidade adjudicante, o sistema poderá criar um duplicado.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

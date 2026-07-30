@@ -395,6 +395,7 @@ AnacImportedFields[]=tender_contract_types
 AnacImportedFields[]=contract_value
 AnacImportedFields[]=award_value
 AnacImportedFields[]=award_winners
+CigField[]=codice_identificativo_gara
 
 
 # Attributi ezinteger che non supportano default dinamici nel backend eZ.

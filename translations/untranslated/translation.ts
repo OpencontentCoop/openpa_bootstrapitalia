@@ -803,6 +803,10 @@
       <source>Anac attribute update alert</source>
       <translation type="unfinished"/>
     </message>
+    <message>
+      <source>Anac cig attribute alert</source>
+      <translation type="unfinished"/>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
