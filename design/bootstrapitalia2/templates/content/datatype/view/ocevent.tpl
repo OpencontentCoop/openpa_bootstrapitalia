@@ -1,5 +1,22 @@
 {set-block scope=root variable=cache_ttl}86400{/set-block}
 
+{if $compact}
+    {def $oc_events = $attribute.content.events}
+    {if count($oc_events)|gt(0)}
+        <p class="mb-2 fw-semibold">
+          {if count($oc_events)|gt(10)}
+              {"Event daytime text"|i18n('bootstrapitalia')} {recurrences_strtotime($oc_events[0].start)|datetime('custom','%j %F %Y')|downcase}, {$attribute.content.text|wash()}
+          {elseif count($oc_events)|gt(1)}
+              {'From'|i18n('bootstrapitalia/documents')} {recurrences_strtotime($oc_events[0].start)|datetime('custom','%j %F %Y')|downcase}
+          {elseif recurrences_strtotime($oc_events[0].start)|datetime('custom','%j%m%Y')|ne(recurrences_strtotime($oc_events[0].end)|datetime('custom','%j%m%Y'))}
+              {'From'|i18n('bootstrapitalia/documents')} {recurrences_strtotime($oc_events[0].start)|datetime('custom','%j %F %Y')|downcase} {'to'|i18n('bootstrapitalia/documents')} {recurrences_strtotime($oc_events[0].end)|datetime('custom','%j %F %Y')|downcase}
+          {else}
+              {recurrences_strtotime($oc_events[0].start)|datetime('custom','%j %F %Y')|downcase}
+          {/if}
+        </p>
+    {/if}
+    {undef $oc_events}
+{else}
 
 {def $events = $attribute.content.events}
 
@@ -71,3 +88,4 @@
     {/foreach}
     {undef $events}
 </div>
+{/if}
