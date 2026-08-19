@@ -32,10 +32,12 @@
         position: absolute;
         left: 0;
         top: 0;
+        bottom: 0;
         margin: 0;
         background: #fff;
         width: 100%;
         height: 100%;
+        z-index: 1;
     {rdelim}
     .freeze:after {ldelim}
       content: " ";
