@@ -3,7 +3,7 @@
      $security_alert_id = openpaini('SecurityNoticeSettings', 'Id', '')
      $security_alert_layout = openpaini('SecurityNoticeSettings', 'Layout', '')}
 {if $security_alert_url|ne('')}
-  <script src="{$security_alert_url|wash(xhtml)}"{if $security_alert_id|ne('')} data-comune="{$security_alert_id|wash(xhtml)}"{/if}{if $security_alert_layout|ne('')} data-layout="{$security_alert_layout|wash(xhtml)}"{/if}></script>
+  <script src="{$security_alert_url|wash(xhtml)}"{if $security_alert_id|ne('')} data-comune="{$security_alert_id|wash(xhtml)}"{/if}{if $security_alert_layout|ne('')} data-layout="{$security_alert_layout|wash(xhtml)}"{/if} defer="defer"></script>
 {/if}
 {if $pagedata.homepage|has_attribute('notice_header_text')}
   <div class="it-header-slim-wrapper theme-light border-bottom">
