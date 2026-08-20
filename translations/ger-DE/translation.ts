@@ -813,7 +813,7 @@
     </message>
     <message>
       <source>Anac cig attribute alert</source>
-      <translation>Achtung: Die Änderung eines in der ANAC-Datenbank vorhandenen CIG unterbricht die Synchronisierung der Auftragsdaten. Wenn der neue CIG zur selben Vergabestelle gehört, könnte das System ein Duplikat erstellen.</translation>
+      <translation>Achtung: Die Änderung eines in der ANAC-Datenbank vorhandenen CIG unterbricht die Synchronisierung der Auftragsdaten und kann zu Datenduplizierungsproblemen führen.</translation>
     </message>
   </context>
   <context>
