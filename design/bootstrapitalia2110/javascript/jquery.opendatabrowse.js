@@ -2,6 +2,57 @@
 
     "use strict";
 
+    var OpenPAFlyImg = (function ($) {
+        var config = null;
+
+        function loadConfig() {
+            if (config !== null) {
+                return;
+            }
+            config = {enabled: false};
+            $.ajax({
+                url: '/ezjscore/call/ezjscflyimg::config',
+                async: false,
+                dataType: 'json'
+            }).done(function (data) {
+                if (data && data.content && data.content.enabled) {
+                    config = data.content;
+                }
+            });
+        }
+
+        function rewrite(url, alias) {
+            if (!url) {
+                return url;
+            }
+            loadConfig();
+            if (!config.enabled) {
+                return url;
+            }
+            var filter = config.filters[alias] || config.filters.reference;
+            var filters = ['rf_1'];
+            if (config.defaultFilter) {
+                filters.push(config.defaultFilter);
+            }
+            filters.push('w_' + filter.w);
+            filters.push('h_' + filter.h);
+
+            var sourceUrl = url;
+            if (config.backendBaseUrl) {
+                var a = document.createElement('a');
+                a.href = url;
+                sourceUrl = url.replace(a.host, config.backendBaseUrl);
+                if (config.backendBaseScheme) {
+                    sourceUrl = sourceUrl.replace(a.protocol.replace(':', ''), config.backendBaseScheme);
+                }
+            }
+
+            return config.baseUrl + '/' + filters.join(',') + '/' + encodeURIComponent(sourceUrl);
+        }
+
+        return {rewrite: rewrite};
+    })(jQuery);
+
     var pluginName = "opendataBrowse",
         defaults = {            
             subtree: 1,
@@ -916,6 +967,7 @@
         makeListItem: function(item){        
             var self = this;
             var name;
+            item.thumbnail_url = OpenPAFlyImg.rewrite(item.thumbnail_url, 'small');
             var lineHeightStyle = item.thumbnail_url ? 'height: 80px;' : '';
             if (item.is_container){
                 name = $('<div><a data-bs-toggle="tooltip" data-toggle="tooltip" title="'+self.settings.i18n.clickToBrowseChildren+'" href="#" data-node_id="'+item.node_id+'" class="fw-semibold" style="'+lineHeightStyle+'"> '+item.name+ '</a> <div class="badge rounded-pill bg-secondary ms-1">'+this.showStatusString(item)+'</div><br> <small>' +item.class_name + '</small></div>');
