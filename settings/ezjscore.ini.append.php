@@ -5,6 +5,7 @@ Packer=2
 LoadFromCDN=disabled
 LocalScripts[jqueryUI]=jquery-ui.min.js
 FunctionList[]=ezjscbrowse
+FunctionList[]=ezjscflyimg
 
 [ezjscServer_ezjsctags]
 Class=ezjscCachedTags
@@ -14,6 +15,9 @@ Class=ezjscEditTagDescription
 
 [ezjscServer_ezjscbrowse]
 Class=ezjscBrowse
+
+[ezjscServer_ezjscflyimg]
+Class=ezjscFlyImg
 
 [ezjscServer_ezjscbridge]
 Class=ezjscBridge
