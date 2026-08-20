@@ -147,7 +147,7 @@ var eZOEPopupUtils = {
                 {
                     // set title on inline popup if inlinepopup tinyMCE plugin is used
                     var tinyInlinePopupsTitle = window.parent.jQuery('div.clearlooks2');
-                    if ( tinyInlinePopupsTitle && tinyInlinePopupsTitle.length ) 
+                    if ( tinyInlinePopupsTitle && tinyInlinePopupsTitle.size() ) 
                         window.parent.document.getElementById( tinyInlinePopupsTitle[0].id + '_title').innerHTML = s.tagEditTitleText;
                 }
             }
@@ -167,7 +167,7 @@ var eZOEPopupUtils = {
         if ( s.onInit && s.onInit.call )
             s.onInit.call( eZOEPopupUtils, s.editorElement, s.tagName, ed );
 
-        if ( s.tagSelector && ( s.tagSelector = jQuery( '#' + s.tagSelector ) ) && s.tagSelector.length && s.tagSelector[0].value
+        if ( s.tagSelector && ( s.tagSelector = jQuery( '#' + s.tagSelector ) ) && s.tagSelector.size() && s.tagSelector[0].value
         && ( s.tagSelector[0].checked === undefined || s.tagSelector[0].checked === true ) )
             s.selectedTag = s.tagSelector[0].value;
 
@@ -177,7 +177,7 @@ var eZOEPopupUtils = {
             eZOEPopupUtils.initCustomAttributeValue( s.selectedTag + '_customattributes', s.editorElement.getAttribute('customattributes'))
         }
         
-        if ( s.tagSelector && s.tagSelector.length )
+        if ( s.tagSelector && s.tagSelector.size() )
         {
             // toggle custom attributes based on selected custom tag
             if ( s.tagSelectorCallBack && s.tagSelectorCallBack.call )
@@ -215,7 +215,7 @@ var eZOEPopupUtils = {
     {
         var ed = tinyMCEPopup.editor, s = eZOEPopupUtils.settings, n, arr, tmp, f = document.forms[0];
 
-        if ( s.tagSelector && s.tagSelector.length && s.tagSelector[0].value )
+        if ( s.tagSelector && s.tagSelector.size() && s.tagSelector[0].value )
         {
             if ( s.tagSelector[0].checked === undefined || s.tagSelector[0].checked === true )
                 s.selectedTag = s.tagSelector[0].value;
@@ -894,7 +894,7 @@ var eZOEPopupUtils = {
                    {
                        tag = document.createElement("span");
                        tag.className = 'image_preview';
-                       var previewUrl = OpenPAFlyImg.rewrite( ed.settings.ez_root_url + encodeURI( n.data_map[ n.image_attributes[imageIndex] ].content[eZOEPopupUtils.settings.browseImageAlias].url ), eZOEPopupUtils.settings.browseImageAlias )
+                       var previewUrl = OpenPAFlyImg.rewrite( encodeURI( n.data_map[ n.image_attributes[imageIndex] ].content[eZOEPopupUtils.settings.browseImageAlias].url ), eZOEPopupUtils.settings.browseImageAlias )
                        tag.innerHTML += ' <a href="#">' + ed.getLang('preview.preview_desc')  + '<img src="' + previewUrl + '" /></a>';
                        td.appendChild( tag );
                        hasImage = true;
