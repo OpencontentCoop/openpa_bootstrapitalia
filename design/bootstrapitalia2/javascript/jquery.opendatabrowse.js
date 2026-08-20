@@ -760,7 +760,7 @@ var OpenPAFlyImg = (function ($) {
           return item.is_visible ? '' : (this.settings.i18n.hidden || 'Nascosto');
         },
 
-        makeListItem: function(item){
+        makeListItem: function(item){        
             var self = this;
             var name;
             item.thumbnail_url = OpenPAFlyImg.rewrite(item.thumbnail_url, 'small');
