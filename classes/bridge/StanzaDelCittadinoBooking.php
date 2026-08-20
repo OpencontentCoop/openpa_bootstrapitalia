@@ -651,10 +651,20 @@ EOT;
         }
         $client->setBearerToken($dto->getUserToken());
 
+        $meeting = null;
         if ($dto->getMeetingId()) {
-            $method = 'PUT';
-            $endpoint = '/api/meetings/' . $dto->getMeetingId();
-            $meeting = $client->request('GET', $endpoint);
+            try {
+                $meeting = $client->request('GET', '/api/meetings/' . $dto->getMeetingId());
+                $method = 'PUT';
+                $endpoint = '/api/meetings/' . $dto->getMeetingId();
+            } catch (Throwable $e) {
+                // La draft meeting referenziata dal client non esiste più lato Stanza del
+                // Cittadino (es. scaduta): si ricade sulla creazione di una nuova draft
+                // invece di propagare l'errore come "slot non più disponibile".
+                eZDebug::writeWarning($e->getMessage(), __METHOD__);
+                $method = 'POST';
+                $endpoint = '/api/meetings';
+            }
         } else {
             $method = 'POST';
             $endpoint = '/api/meetings';
@@ -668,7 +678,7 @@ EOT;
         ];
         try {
             $response['data'] = $client->request($method, $endpoint, $payload);
-            if ($dto->getMeetingId()) {
+            if ($method === 'PUT') {
                 $response['data'] = $meeting;
             }
         } catch (Throwable $e) {
