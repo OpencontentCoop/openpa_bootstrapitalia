@@ -809,7 +809,7 @@
     </message>
     <message>
       <source>Anac cig attribute alert</source>
-      <translation>Warning: modifying a CIG present in the ANAC database interrupts the synchronisation of tender data. If the new CIG belongs to the same contracting authority, the system may create a duplicate.</translation>
+      <translation>Warning: modifying a CIG present in the ANAC database interrupts the synchronisation of tender data and may cause data duplication issues.</translation>
     </message>
   </context>
   <context>

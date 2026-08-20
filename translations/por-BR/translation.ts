@@ -801,7 +801,7 @@
     </message>
     <message>
       <source>Anac cig attribute alert</source>
-      <translation>Atenção: modificar um CIG presente na base de dados ANAC interrompe a sincronização dos dados do concurso. Se o novo CIG pertencer à mesma entidade adjudicante, o sistema poderá criar um duplicado.</translation>
+      <translation>Atenção: modificar um CIG presente na base de dados ANAC interrompe a sincronização dos dados do concurso e pode causar problemas de duplicação de dados.</translation>
     </message>
   </context>
   <context>
