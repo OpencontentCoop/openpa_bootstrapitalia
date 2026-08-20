@@ -164,7 +164,7 @@
                             </td>
                             <td>
                                 {if and( is_set($item.data_map.image), $item.data_map.image.has_content )}
-                                    <img data-object="{$item.contentobject_id}" class="load-preview img-thumbnail" src={$item.data_map.image.content['small'].url|ezroot} />
+                                    <img data-object="{$item.contentobject_id}" class="load-preview img-thumbnail" src="{render_image($item.data_map.image.content, hash('alias', 'small')).src}" />
                                 {/if}
                             </td>
                             <td class="object-name">
