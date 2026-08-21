@@ -31,8 +31,14 @@ var OpenPAFlyImg = (function ($) {
         if (!url) {
             return url;
         }
+        if (!/^https?:\/\//i.test(url)) {
+            return url;
+        }
         loadConfig();
         if (!config.enabled) {
+            return url;
+        }
+        if (config.baseUrl && url.indexOf(config.baseUrl) === 0) {
             return url;
         }
         var filter = config.filters[alias] || config.filters.reference;
