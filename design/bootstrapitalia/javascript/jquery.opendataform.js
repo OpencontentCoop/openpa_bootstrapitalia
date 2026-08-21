@@ -59,6 +59,26 @@ var OpenPAFlyImg = (function ($) {
 Alpaca.defaultDateFormat = "DD/MM/YYYY";
 Alpaca.defaultTimeFormat = "HH:mm";
 
+// UploadField (campo "image" di ocopendata_forms) riceve da ImageField::getData() (core,
+// non modificabile) un thumbnailUrl grezzo/non proxato per i file già esistenti. Il template
+// Handlebars del campo lo inietta direttamente in <img src="...">, e la popolazione dei file
+// esistenti (preload) avviene dopo il primo giro di rendering di Alpaca, quindi il postRender
+// di opendataForm/opendataFormEdit non riesce a intercettarlo. Intercettiamo qui, alla fonte,
+// prima che il template lo usi.
+if (typeof Alpaca !== 'undefined' && Alpaca.Fields && Alpaca.Fields.UploadField
+    && Alpaca.Fields.UploadField.prototype
+    && typeof Alpaca.Fields.UploadField.prototype.convertDescriptorToFile === 'function') {
+    var _originalConvertDescriptorToFile = Alpaca.Fields.UploadField.prototype.convertDescriptorToFile;
+    Alpaca.Fields.UploadField.prototype.convertDescriptorToFile = function (descriptor, callback) {
+        _originalConvertDescriptorToFile.call(this, descriptor, function (err, file) {
+            if (file && file.thumbnailUrl) {
+                file.thumbnailUrl = OpenPAFlyImg.rewrite(file.thumbnailUrl, 'small');
+            }
+            callback(err, file);
+        });
+    };
+}
+
 //// bug in Tag field?
 //Array.prototype.toLowerCase = function () {
 //    var i = this.length;
