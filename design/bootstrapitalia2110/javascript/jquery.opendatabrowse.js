@@ -25,6 +25,9 @@
             if (!url) {
                 return url;
             }
+            if (!/^https?:\/\//i.test(url)) {
+                return url;
+            }
             loadConfig();
             if (!config.enabled) {
                 return url;
