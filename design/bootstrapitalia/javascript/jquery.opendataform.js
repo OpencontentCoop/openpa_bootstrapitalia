@@ -1,3 +1,54 @@
+var OpenPAFlyImg = (function ($) {
+    var config = null;
+
+    function loadConfig() {
+        if (config !== null) {
+            return;
+        }
+        config = {enabled: false};
+        $.ajax({
+            url: '/ezjscore/call/ezjscflyimg::config',
+            async: false,
+            dataType: 'json'
+        }).done(function (data) {
+            if (data && data.content && data.content.enabled) {
+                config = data.content;
+            }
+        });
+    }
+
+    function rewrite(url, alias) {
+        if (!url) {
+            return url;
+        }
+        loadConfig();
+        if (!config.enabled) {
+            return url;
+        }
+        var filter = config.filters[alias] || config.filters.reference;
+        var filters = ['rf_1'];
+        if (config.defaultFilter) {
+            filters.push(config.defaultFilter);
+        }
+        filters.push('w_' + filter.w);
+        filters.push('h_' + filter.h);
+
+        var sourceUrl = url;
+        if (config.backendBaseUrl) {
+            var a = document.createElement('a');
+            a.href = url;
+            sourceUrl = url.replace(a.host, config.backendBaseUrl);
+            if (config.backendBaseScheme) {
+                sourceUrl = sourceUrl.replace(a.protocol.replace(':', ''), config.backendBaseScheme);
+            }
+        }
+
+        return config.baseUrl + '/' + filters.join(',') + '/' + encodeURIComponent(sourceUrl);
+    }
+
+    return {rewrite: rewrite};
+})(jQuery);
+
 // bug in DateTime field?
 Alpaca.defaultDateFormat = "DD/MM/YYYY";
 Alpaca.defaultTimeFormat = "HH:mm";
@@ -159,6 +210,12 @@ Alpaca.registerConnectorClass("opendataform", OpenContentOcopendataConnector);
                                 }
                             }
                         }
+                    },
+                    "postRender": function (field) {
+                        field.getFieldEl().find('img').each(function () {
+                            var $img = $(this);
+                            $img.attr('src', OpenPAFlyImg.rewrite($img.attr('src'), 'small'));
+                        });
                     }
                 }, options.alpaca);
 
@@ -251,6 +308,12 @@ Alpaca.registerConnectorClass("opendataform", OpenContentOcopendataConnector);
                                 }
                             }
                         }
+                    },
+                    "postRender": function (field) {
+                        field.getFieldEl().find('img').each(function () {
+                            var $img = $(this);
+                            $img.attr('src', OpenPAFlyImg.rewrite($img.attr('src'), 'small'));
+                        });
                     }
                 }, options.alpaca);
 
@@ -352,6 +415,12 @@ Alpaca.registerConnectorClass("opendataform", OpenContentOcopendataConnector);
                                 }
                             }
                         }
+                    },
+                    "postRender": function (field) {
+                        field.getFieldEl().find('img').each(function () {
+                            var $img = $(this);
+                            $img.attr('src', OpenPAFlyImg.rewrite($img.attr('src'), 'small'));
+                        });
                     }
                 }, options.alpaca);
 
