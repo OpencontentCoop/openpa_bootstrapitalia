@@ -775,6 +775,12 @@ var OpenPAFlyImg = (function ($) {
                                     'nocache': d.getTime()
                                 }
                             }
+                        },
+                        'postRender': function (field) {
+                            field.getFieldEl().find('img').each(function () {
+                                var $img = $(this);
+                                $img.attr('src', OpenPAFlyImg.rewrite($img.attr('src'), 'small'));
+                            });
                         }
                     });
                     e.preventDefault();
