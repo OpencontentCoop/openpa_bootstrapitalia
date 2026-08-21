@@ -267,12 +267,16 @@ class ezjscBrowse extends ezjscServerFunctionsNode
                         );
                     }
 
-                    $thumbUrl = isset($imageAlias['full_path']) ? $imageAlias['full_path'] : '';
                     $thumbWidth = isset($imageAlias['width']) ? (int)$imageAlias['width'] : 0;
                     $thumbHeight = isset($imageAlias['height']) ? (int)$imageAlias['height'] : 0;
 
-                    if ($thumbUrl !== '') {
-                        eZURI::transformURI($thumbUrl, true, null, false);
+                    if (BootstrapItaliaImage::instance()->isEnabled()) {
+                        $thumbUrl = BootstrapItaliaImage::instance()->process($imageContent, ['alias' => $thumbImageSize])['src'];
+                    } else {
+                        $thumbUrl = isset($imageAlias['full_path']) ? $imageAlias['full_path'] : '';
+                        if ($thumbUrl !== '') {
+                            eZURI::transformURI($thumbUrl, true, null, false);
+                        }
                     }
 
                     break;
@@ -399,6 +403,9 @@ class ezjscBrowse extends ezjscServerFunctionsNode
                             if (in_array($size, $params['imagePreGenerateSizes'], true)) {
                                 if ($content->hasAttribute($size)) {
                                     $imageArray[$size] = $content->attribute($size);
+                                    if (BootstrapItaliaImage::instance()->isEnabled() && is_array($imageArray[$size]) && isset($imageArray[$size]['url'])) {
+                                        $imageArray[$size]['url'] = BootstrapItaliaImage::instance()->process($content, ['alias' => $size])['src'];
+                                    }
                                 } else {
                                     eZDebug::writeError(
                                         "Image alias does not exist: '$size', missing from image.ini?",
@@ -435,7 +442,7 @@ class ezjscBrowse extends ezjscServerFunctionsNode
                                     );
                                 }
                             }
-                            if ($key === 'url') {
+                            if ($key === 'url' && strpos((string)$element, 'http') === false) {
                                 eZURI::transformURI($element, true);
                             }
                         }
