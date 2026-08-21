@@ -31,4 +31,5 @@ Temporary Items
 .sass-cache
 *.scssc
 *.hbs
-.claude.superpowers/
+.claude
+.superpowers/

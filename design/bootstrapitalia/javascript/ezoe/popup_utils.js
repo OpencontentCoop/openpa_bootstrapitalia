@@ -900,7 +900,7 @@ var eZOEPopupUtils = {
                    {
                        tag = document.createElement("span");
                        tag.className = 'image_preview';
-                       var previewUrl = OpenPAFlyImg.rewrite( ed.settings.ez_root_url + encodeURI( n.data_map[ n.image_attributes[imageIndex] ].content[eZOEPopupUtils.settings.browseImageAlias].url ), eZOEPopupUtils.settings.browseImageAlias )
+                       var previewUrl = OpenPAFlyImg.rewrite( encodeURI( n.data_map[ n.image_attributes[imageIndex] ].content[eZOEPopupUtils.settings.browseImageAlias].url ), eZOEPopupUtils.settings.browseImageAlias )
                        tag.innerHTML += ' <a href="#">' + ed.getLang('preview.preview_desc')  + '<img src="' + previewUrl + '" /></a>';
                        td.appendChild( tag );
                        hasImage = true;
