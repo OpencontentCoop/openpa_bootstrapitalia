@@ -21,19 +21,34 @@ const { URL } = require('url');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 
-const FILES = [
-    'design/bootstrapitalia/javascript/jquery.opendatabrowse.js',
-    'design/bootstrapitalia2/javascript/jquery.opendatabrowse.js',
-    'design/bootstrapitalia2110/javascript/jquery.opendatabrowse.js',
-    'design/bootstrapitalia/javascript/jquery.opendataform.js',
-    'design/bootstrapitalia/javascript/ezoe/popup_utils.js',
-    'design/backend/javascript/ezoe/popup_utils.js',
-    'design/bootstrapitalia/javascript/jquery.relationsbrowse.js',
-    'design/bootstrapitalia2110/javascript/jquery.relationsbrowse.js',
-];
-
 const START_MARKER = 'var OpenPAFlyImg = (function ($) {';
 const END_MARKER = '})(jQuery);';
+
+function discoverFilesWithHelper(rootRelDir) {
+    const rootDir = path.join(REPO_ROOT, rootRelDir);
+    const found = [];
+    function walk(dir) {
+        for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+            const fullPath = path.join(dir, entry.name);
+            if (entry.isDirectory()) {
+                walk(fullPath);
+            } else if (entry.isFile() && entry.name.endsWith('.js')) {
+                const content = fs.readFileSync(fullPath, 'utf8');
+                if (content.includes(START_MARKER)) {
+                    found.push(path.relative(REPO_ROOT, fullPath));
+                }
+            }
+        }
+    }
+    walk(rootDir);
+    return found;
+}
+
+const FILES = discoverFilesWithHelper('design');
+
+if (FILES.length < 8) {
+    throw new Error(`Attesi almeno 8 file con l'helper OpenPAFlyImg, trovati ${FILES.length}: ${FILES.join(', ')}`);
+}
 
 function extractHelperSource(fileRelPath) {
     const fullPath = path.join(REPO_ROOT, fileRelPath);

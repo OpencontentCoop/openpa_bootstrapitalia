@@ -55,7 +55,7 @@ tinyMCEPopup.onInit.add( eZOEPopupUtils.BIND( eZOEPopupUtils.init, window, {
         else
         {
            var imageAtr   = eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ], imageSizeObj = imageAtr['content'][ args['alt'] ];
-           args['src']    = OpenPAFlyImg.rewrite( imageSizeObj['url'], args['alt'] );
+           args['src']    = ( typeof OpenPAFlyImg !== 'undefined' ) ? OpenPAFlyImg.rewrite( imageSizeObj['url'], args['alt'] ) : imageSizeObj['url'];
            args['title']  = eZOEPopupUtils.safeHtml( imageAtr['alternative_text'] || eZOEPopupUtils.embedObject['name'] );
            args['width']  = imageSizeObj['width'];
            args['height'] = imageSizeObj['height'];
@@ -153,7 +153,7 @@ function loadImageSize( e, el )
     }
     else if ( attribObj[size] )
     {
-        previewImageNode.attr( 'src', OpenPAFlyImg.rewrite( attribObj[size]['url'], size ) );
+        previewImageNode.attr( 'src', ( typeof OpenPAFlyImg !== 'undefined' ) ? OpenPAFlyImg.rewrite( attribObj[size]['url'], size ) : attribObj[size]['url'] );
         tinyMCEPopup.resizeToInnerSize();
     }
     else
@@ -165,7 +165,7 @@ function loadImageSize( e, el )
             {
                 var size = jQuery('#embed_size_source').val(), imageAttributes = eZOEPopupUtils.embedObject['image_attributes'];
                 eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ] = data['content']['data_map'][ imageAttributes[0] ]['content'][ size ];
-                previewImageNode.attr( 'src', OpenPAFlyImg.rewrite( eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'], size ) );
+                previewImageNode.attr( 'src', ( typeof OpenPAFlyImg !== 'undefined' ) ? OpenPAFlyImg.rewrite( eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'], size ) : eZOEPopupUtils.embedObject['data_map'][ imageAttributes[0] ]['content'][ size ]['url'] );
             }
         });
     }
