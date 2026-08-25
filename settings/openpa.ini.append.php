@@ -340,6 +340,11 @@ Partners[opencitylabs]=OpenCity Labs|https://www.opencontent.it
 #simple or advanced
 Consent=advanced
 
+[SecurityNoticeSettings]
+ScriptUrl=
+Id=
+Layout=
+
 [LockEdit_homepage]
 EnableBackgroundImage=enabled
 AllowRemoveMainNews=disabled
@@ -378,6 +383,23 @@ Headers[]
 [AlboPretorioSettings]
 AllowApiSequentialId=disabled
 
+[BandoCigSettings]
+AnacImport=disabled
+AnacImportedFields[]=oggetto
+AnacImportedFields[]=published
+AnacImportedFields[]=anno
+AnacImportedFields[]=location
+AnacImportedFields[]=cpv_link
+AnacImportedFields[]=extra_info
+AnacImportedFields[]=tender_types
+AnacImportedFields[]=tender_result_types
+AnacImportedFields[]=tender_status_types
+AnacImportedFields[]=tender_contract_types
+AnacImportedFields[]=contract_value
+AnacImportedFields[]=award_value
+AnacImportedFields[]=award_winners
+CigField[]=codice_identificativo_gara
+  
 # Attributi ezinteger che non supportano default dinamici nel backend eZ.
 # Il valore viene pre-popolato con l'anno corrente via JS al momento della creazione.
 [EditDefaults]
