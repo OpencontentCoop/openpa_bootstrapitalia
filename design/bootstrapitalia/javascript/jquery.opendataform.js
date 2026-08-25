@@ -1,6 +1,83 @@
+var OpenPAFlyImg = (function ($) {
+    var config = null;
+
+    function loadConfig() {
+        if (config !== null) {
+            return;
+        }
+        config = {enabled: false};
+        $.ajax({
+            url: '/ezjscore/call/ezjscflyimg::config',
+            async: false,
+            dataType: 'json'
+        }).done(function (data) {
+            if (data && data.content && data.content.enabled) {
+                config = data.content;
+            }
+        });
+    }
+
+    function rewrite(url, alias) {
+        if (!url) {
+            return url;
+        }
+        if (!/^https?:\/\//i.test(url)) {
+            return url;
+        }
+        loadConfig();
+        if (!config.enabled) {
+            return url;
+        }
+        if (config.baseUrl && url.indexOf(config.baseUrl) === 0) {
+            return url;
+        }
+        var filter = config.filters[alias] || config.filters.reference;
+        var filters = ['rf_1'];
+        if (config.defaultFilter) {
+            filters.push(config.defaultFilter);
+        }
+        filters.push('w_' + filter.w);
+        filters.push('h_' + filter.h);
+
+        var sourceUrl = url;
+        if (config.backendBaseUrl) {
+            var a = document.createElement('a');
+            a.href = url;
+            sourceUrl = url.replace(a.host, config.backendBaseUrl);
+            if (config.backendBaseScheme) {
+                sourceUrl = sourceUrl.replace(a.protocol.replace(':', ''), config.backendBaseScheme);
+            }
+        }
+
+        return config.baseUrl + '/' + filters.join(',') + '/' + encodeURIComponent(sourceUrl);
+    }
+
+    return {rewrite: rewrite};
+})(jQuery);
+
 // bug in DateTime field?
 Alpaca.defaultDateFormat = "DD/MM/YYYY";
 Alpaca.defaultTimeFormat = "HH:mm";
+
+// UploadField (campo "image" di ocopendata_forms) riceve da ImageField::getData() (core,
+// non modificabile) un thumbnailUrl grezzo/non proxato per i file già esistenti. Il template
+// Handlebars del campo lo inietta direttamente in <img src="...">, e la popolazione dei file
+// esistenti (preload) avviene dopo il primo giro di rendering di Alpaca, quindi il postRender
+// di opendataForm/opendataFormEdit non riesce a intercettarlo. Intercettiamo qui, alla fonte,
+// prima che il template lo usi.
+if (typeof Alpaca !== 'undefined' && Alpaca.Fields && Alpaca.Fields.UploadField
+    && Alpaca.Fields.UploadField.prototype
+    && typeof Alpaca.Fields.UploadField.prototype.convertDescriptorToFile === 'function') {
+    var _originalConvertDescriptorToFile = Alpaca.Fields.UploadField.prototype.convertDescriptorToFile;
+    Alpaca.Fields.UploadField.prototype.convertDescriptorToFile = function (descriptor, callback) {
+        _originalConvertDescriptorToFile.call(this, descriptor, function (err, file) {
+            if (file && file.thumbnailUrl) {
+                file.thumbnailUrl = OpenPAFlyImg.rewrite(file.thumbnailUrl, 'small');
+            }
+            callback(err, file);
+        });
+    };
+}
 
 //// bug in Tag field?
 //Array.prototype.toLowerCase = function () {
@@ -159,6 +236,12 @@ Alpaca.registerConnectorClass("opendataform", OpenContentOcopendataConnector);
                                 }
                             }
                         }
+                    },
+                    "postRender": function (field) {
+                        field.getFieldEl().find('img').each(function () {
+                            var $img = $(this);
+                            $img.attr('src', OpenPAFlyImg.rewrite($img.attr('src'), 'small'));
+                        });
                     }
                 }, options.alpaca);
 
@@ -251,6 +334,12 @@ Alpaca.registerConnectorClass("opendataform", OpenContentOcopendataConnector);
                                 }
                             }
                         }
+                    },
+                    "postRender": function (field) {
+                        field.getFieldEl().find('img').each(function () {
+                            var $img = $(this);
+                            $img.attr('src', OpenPAFlyImg.rewrite($img.attr('src'), 'small'));
+                        });
                     }
                 }, options.alpaca);
 
@@ -352,6 +441,12 @@ Alpaca.registerConnectorClass("opendataform", OpenContentOcopendataConnector);
                                 }
                             }
                         }
+                    },
+                    "postRender": function (field) {
+                        field.getFieldEl().find('img').each(function () {
+                            var $img = $(this);
+                            $img.attr('src', OpenPAFlyImg.rewrite($img.attr('src'), 'small'));
+                        });
                     }
                 }, options.alpaca);
 
