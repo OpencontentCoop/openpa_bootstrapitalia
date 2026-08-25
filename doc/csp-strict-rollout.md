@@ -195,6 +195,19 @@ va replicata su tutte.
   smette di funzionare sul sito (la richiesta parte nel contesto della pagina corrente
   ed e' soggetta alla sua CSP). Abilitato globalmente per accessibilita' linguistica —
   scelta deliberata, non un pattern "di contenuto" come gli altri di questa lista.
+- `connect-src[]=https://s3.eu-west-1.amazonaws.com` — upload/anteprima allegati
+  (sempre foto, verificato su un campione di 30 file: solo `.jpg`/`.jpeg`) del modulo
+  `segnala_disservizio`, gestito interamente dal prodotto esterno Stanza del
+  Cittadino (nessuna logica di upload nel nostro codice — verificato). URL in
+  **path-style S3** (`https://s3.eu-west-1.amazonaws.com/static.stanzadelcittadino.it/uploads/...`):
+  il bucket e' nel *path*, non nell'host, e la CSP valuta solo l'origin — quindi
+  questa regola copre l'intero host S3 regionale, non solo il bucket di SDC (non c'e'
+  un modo piu' stretto di scriverla, a meno che SDC cambi formato URL). Diverso da
+  `s3-eu-west-1.amazonaws.com` (con **trattino**) gia' presente su `img-src` — sono
+  due host CSP realmente distinti (vedi nota tecnica in fondo). **Confermato
+  ricorrente su 3 enti diversi**, sempre sulla pagina `/segnala_disservizio`, spesso
+  subito dopo un redirect da login CIE/SPID (probabile ripristino di una bozza con
+  allegato gia' caricato prima del login).
 
 **Nota su RaiPlaySound**: inizialmente abilitato qui globalmente per errore (era stato
 osservato una sola volta), poi **spostato a regola sito-specifica** (vedi sezione sopra)
@@ -224,13 +237,6 @@ quando il pattern e' inequivocabile.
 - Sprite emoji di Facebook (`static.xx.fbcdn.net/images/emoji.php/...`) — visto in
   pagine `/content/edit/...` (backend redattore). Non chiaro se widget legittimo o
   estensione lato client del redattore.
-- `s3.eu-west-1.amazonaws.com` (con **punto**) su `connect-src` — presigned URL per
-  bucket `static.stanzadelcittadino.it/uploads/...` (upload/anteprima allegati SDC).
-  Il csp.ini attuale ha solo `s3-eu-west-1.amazonaws.com` (con **trattino**, vecchio
-  formato endpoint AWS) e solo su `img-src` — sono due host CSP diversi, quindi questo
-  non e' coperto. **Confermato ricorrente su 3 enti diversi**, sempre sulla pagina
-  `/segnala_disservizio` (upload allegati SDC) — forte candidato a promozione a regola
-  globale, ancora da decidere in dettaglio (es. se serve anche su `img-src`).
 - Un viewer documenti Office di terze parti su `frame-src` — visto in una pagina di
   concorso/bando; al momento della verifica il contenuto non era piu' presente sulla
   pagina (probabile bando scaduto/rimosso), non confermabile con certezza.
