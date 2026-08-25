@@ -67,6 +67,13 @@
               "data": "metadata.ownerName.ita-IT",
               "name": 'owner_id',
               "title": "{/literal}{'Author'|i18n( 'design/admin/dashboard/all_latest_content' )}{literal}"
+            },
+            {
+              "data": "metadata.modifierName.ita-IT",
+              "name": 'modifier_name',
+              "title": "{/literal}{'Modified by'|i18n( 'bootstrapitalia' )}{literal}",
+              "orderable": false,
+              "searchable": false
             }
           ],
           "columnDefs": [

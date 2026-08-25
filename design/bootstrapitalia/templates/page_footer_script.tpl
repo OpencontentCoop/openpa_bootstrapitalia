@@ -24,7 +24,7 @@
     </script>
 {/if}
 
-{if openpaini( 'Seo', 'webAnalyticsItaliaID', false() )}
+{if and(openpaini( 'Seo', 'webAnalyticsItaliaID', false() ), is_set($module_result.errorCode)|not())}
     {* see https://matomo.org/faq/general/faq_157/ *}
     <script type="text/javascript">
         var _paq = window._paq || [];

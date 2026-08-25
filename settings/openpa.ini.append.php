@@ -91,6 +91,8 @@ EditorAccessList[]=EditorAccess
 EditorAccessList[]=OperatorAccess
 EditorAccess_Title=Login as website editor
 OperatorAccess_Title=Login to manage digital services
+EditorAccessCredentials_Title=Login with credentials
+EditorAccessOauth_Title=Login with Single Sign-On
 
 #ExampleAccess_Title=Accedi con esempio
 #ExampleAccess_Link=https://...
@@ -392,5 +394,10 @@ AnacImportedFields[]=contract_value
 AnacImportedFields[]=award_value
 AnacImportedFields[]=award_winners
 CigField[]=codice_identificativo_gara
+  
+# Attributi ezinteger che non supportano default dinamici nel backend eZ.
+# Il valore viene pre-popolato con l'anno corrente via JS al momento della creazione.
+[EditDefaults]
+PrePopulateCurrentYearOnCreate[]=bando/anno
 
 */ ?>

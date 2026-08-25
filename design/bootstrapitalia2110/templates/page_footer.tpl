@@ -23,30 +23,30 @@
             {/if}
             <div class="row">
                 <div class="col-12 footer-items-wrapper">
-                    <div class="footer-bottom">
+                    <ul class="footer-bottom d-flex flex-column flex-md-row gap-2 gap-md-5">
                         {if openpaini('Seo', 'CookieConsentMultimedia')|eq('enabled')}
-                            <a role="button" href="#" data-cc="show-preferencesModal">
+                            <li><a role="button" href="#" data-cc="show-preferencesModal">
                               {'Cookie settings'|i18n('bootstrapitalia/cookieconsent')}
-                            </a>
+                            </a></li>
                         {/if}
-                        {*<a href="#">Media policy</a> @todo*}
+                        {*<li><a href="#">Media policy</a> @todo*</li>*}
                         {if openpaini('GeneralSettings', 'ShowFooterSiteMap', 'enabled')|eq('enabled')}
-                        <a href={"/content/view/sitemap/2/"|ezurl}>{"Sitemap"|i18n("design/standard/layout")}</a>
+                        <li><a href={"/content/view/sitemap/2/"|ezurl}>{"Sitemap"|i18n("design/standard/layout")}</a></li>
                         {/if}
                         {if openpaini('Seo', 'webAnalyticsItaliaSiteID', false() )}
-                          <a href="/statistiche">{'Website Stats'|i18n('bootstrapitalia')}</a>
+                          <li><a href="/statistiche">{'Website Stats'|i18n('bootstrapitalia')}</a></li>
                         {/if}
                         {if openpaini('GeneralSettings', 'AdditionalFooterObjectLinks', array())|count()}
                             {foreach openpaini('GeneralSettings', 'AdditionalFooterObjectLinks', array()) as $id}
                                 {def $f = fetch(content, object, hash(object_id, $id))}
                                 {if $f}
-                                    <a href={object_handler($f).content_link.full_link}>{$f.name|wash()}</a>
+                                    <li><a href={object_handler($f).content_link.full_link}>{$f.name|wash()}</a></li>
                                 {/if}
                                 {undef $f}
                             {/foreach}
                         {/if}
-{*                        <a href={"/openapi/doc/"|ezurl}>API</a>*}
-                    </div>
+{*                        <li><a href={"/openapi/doc/"|ezurl}>API</a></li>*}
+                    </ul>
                 </div>
             </div>
         </div>

@@ -50,7 +50,29 @@ class OpenPABootstrapItaliaDatatableEnvironmentSettings extends OpenPABootstrapI
 
     protected function filterMetaData( Content $content )
     {
-        return parent::filterMetaData($content);
+        $contentObjectId = (int)$content->metadata->id;
+        $content = parent::filterMetaData($content);
+
+        $contentObject = \eZContentObject::fetch($contentObjectId);
+        if ($contentObject instanceof \eZContentObject) {
+            $currentVersion = $contentObject->currentVersion();
+            if ($currentVersion instanceof \eZContentObjectVersion) {
+                $modifierId = (int)$currentVersion->attribute('creator_id');
+                $modifier = \eZContentObject::fetch($modifierId);
+                if ($modifier instanceof \eZContentObject) {
+                    $modifierName = [];
+                    foreach (\eZContentLanguage::fetchLocaleList() as $language) {
+                        $name = $modifier->name(false, $language);
+                        if ($name !== false) {
+                            $modifierName[$language] = $name;
+                        }
+                    }
+                    $content->metadata['modifierName'] = $modifierName;
+                }
+            }
+        }
+
+        return $content;
     }
 
     /**

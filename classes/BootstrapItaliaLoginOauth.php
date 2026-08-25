@@ -72,14 +72,21 @@ class BootstrapItaliaLoginOauth
 
     private function allowAccess()
     {
-        OpenPABase::initRole('Accesso oAuth', [
+        $role = OpenPABase::initRole('Accesso oAuth', [
             [
                 'ModuleName' => 'login-oauth',
                 'FunctionName' => '*',
             ],
-        ], true)->assignToUser(
+        ], true);
+        $role->assignToUser(
             (int)eZINI::instance()->variable('UserSettings', 'AnonymousUserID')
         );
+        $guestObject = eZContentObject::fetchByNodeID(
+            (int)eZINI::instance()->variable('UserSettings', 'DefaultUserPlacement')
+        );
+        if ($guestObject instanceof eZContentObject) {
+            $role->assignToUser((int)$guestObject->attribute('id'));
+        }
     }
 
     private function disallowAccess()
@@ -169,6 +176,14 @@ class BootstrapItaliaLoginOauth
                 'type' => 'string',
                 'localized' => true,
                 'current_value' => $current['logoutUrl'] ?? null,
+            ],
+            [
+                'identifier' => 'profileUrl',
+                'name' => 'Url del profilo utente gestito dal sistema oAuth',
+                'placeholder' => 'https://example.com/profile',
+                'type' => 'string',
+                'localized' => true,
+                'current_value' => $current['profileUrl'] ?? null,
             ],
             [
                 'identifier' => 'firstNameMap',
@@ -279,7 +294,24 @@ class BootstrapItaliaLoginOauth
                 eZExecution::cleanExit();
             }
         }
-        eZHTTPTool::instance()->removeSessionVariable(self::CURRENT_SESSION_VARNAME);
+    }
+
+    public static function interceptUserEdit(eZURI $uri)
+    {
+        $hasOauthSession = eZHTTPTool::instance()->hasSessionVariable(self::CURRENT_SESSION_VARNAME);
+        if ($hasOauthSession && self::instance()->isEnabled()){
+            $module = $uri->element(0);
+            $view = $uri->element(1);
+            $isUserEditUri = $module === 'user' && $view === 'edit';
+            $isExternalUserPasswordUri = $module === 'userpaex' && $view === 'password';
+            if ($isUserEditUri || $isExternalUserPasswordUri) {
+                $options = self::instance()->getCurrentOptions();
+                if (!empty($options['profileUrl'])) {
+                    header('Location: ' . $options['profileUrl']);
+                    eZExecution::cleanExit();
+                }
+            }
+        }
     }
 
     public static function interceptSSO()

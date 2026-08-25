@@ -4,6 +4,10 @@
   <context>
     <name>bootstrapitalia</name>
     <message>
+      <source>Modified by</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Today</source>
       <translation type="unfinished"/>
     </message>
@@ -1837,6 +1841,14 @@
     </message>
     <message>
       <source>Login to manage digital services</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login with credentials</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
+      <source>Login with Single Sign-On</source>
       <translation type="unfinished"/>
     </message>
   </context>

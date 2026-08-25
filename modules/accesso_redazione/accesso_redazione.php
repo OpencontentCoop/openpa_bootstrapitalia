@@ -11,16 +11,23 @@ if ($redirectNodeId > 0 && eZContentObjectTreeNode::fetch($redirectNodeId, false
 }
 $bridge = StanzaDelCittadinoBridge::factory();
 
+$oauthEnabled = BootstrapItaliaLoginOauth::instance()->isEnabled();
+
 $localUserLoginUri = '/user/login';
-if (BootstrapItaliaLoginOauth::instance()->isEnabled()){
-    $localUserLoginUri = '/login-oauth';
-}
 eZURI::transformURI($localUserLoginUri);
+
+$oauthLoginUri = '/login-oauth';
+eZURI::transformURI($oauthLoginUri);
+
+$tpl->setVariable('oauth_enabled', $oauthEnabled);
+$tpl->setVariable('local_login_uri', $localUserLoginUri);
+$tpl->setVariable('oauth_login_uri', $oauthLoginUri);
+
 $editorAccessList = OpenPAINI::variable('AccessPage', 'EditorAccessList', []);
 $accessLinks = [];
 foreach ($editorAccessList as $index => $editorAccess) {
     if ($editorAccess === 'EditorAccess') {
-        $link = $localUserLoginUri;
+        $link = $oauthEnabled ? $oauthLoginUri : $localUserLoginUri;
     } elseif ($editorAccess === 'OperatorAccess') {
         $link = $bridge->getOperatorLoginUri() ?? OpenPAINI::variable('AccessPage', $editorAccess . '_Link', null);
     } else {
