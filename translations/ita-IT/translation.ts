@@ -811,6 +811,14 @@
       <source>Insert search terms</source>
       <translation>Inserisci i termini di ricerca</translation>
     </message>
+    <message>
+      <source>Anac attribute update alert</source>
+      <translation>Questo attributo è compilato e aggiornato automaticamente dall'integrazione con la Banca Dati ANAC. Eventuali modifiche manuali verranno sovrascritte al prossimo aggiornamento.</translation>
+    </message>
+    <message>
+      <source>Anac cig attribute alert</source>
+      <translation>Attenzione: modificare un CIG presente nella banca dati ANAC interrompe la sincronizzazione dei dati del bando e potrebbe creare problemi di duplicazione dei dati.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

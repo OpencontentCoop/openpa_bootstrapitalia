@@ -807,6 +807,14 @@
       <source>Insert search terms</source>
       <translation>Suchbegriffe eingeben</translation>
     </message>
+    <message>
+      <source>Anac attribute update alert</source>
+      <translation>Dieses Attribut wird automatisch über die Integration mit der nationalen ANAC-Datenbank befüllt und aktualisiert. Manuelle Änderungen werden bei der nächsten Aktualisierung überschrieben.</translation>
+    </message>
+    <message>
+      <source>Anac cig attribute alert</source>
+      <translation>Achtung: Die Änderung eines in der ANAC-Datenbank vorhandenen CIG unterbricht die Synchronisierung der Auftragsdaten und kann zu Datenduplizierungsproblemen führen.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
