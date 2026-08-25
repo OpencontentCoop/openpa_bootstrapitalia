@@ -158,6 +158,12 @@ va replicata su tutte.
   `www.ufficiostampa.<dominio-ente>`) — `script-src-elem`. Variante: talvolta e'
   invece un iframe embed diretto di un comunicato — stesso sottodominio ma su
   `frame-src`.
+- Embed multimediali/dashboard di terze parti inseriti da un redattore in un contenuto
+  specifico — vanno sito-specifici, non generici, anche quando il servizio esterno e'
+  potenzialmente riusabile altrove (finche' non si osserva su piu' di un ente): esempi
+  incontrati sono un player audio RAI, un player video RaiNews, un embed di liste
+  progetti da un portale opendata governativo (`opencoesione.gov.it`), una dashboard
+  ArcGIS. Tutti su `frame-src`.
 
 ### Legittimi, generici (candidati per il csp.ini globale)
 
@@ -176,9 +182,6 @@ va replicata su tutte.
   client in quel caso) — abilitati comunque globalmente su decisione di Marco, perche'
   il player YouTube con widget API e' un pattern legittimo generico che puo'
   presentarsi su altri contenuti/redattori.
-- `frame-src[]=https://www.raiplaysound.it` — embed audio RAI, abilitato globalmente
-  per lo stesso motivo (pattern di embed multimediale generico, anche se osservato una
-  sola volta).
 - `frame-src[]=https://youtu.be` — link breve YouTube incollato da un redattore come
   iframe embed, invece del formato completo `youtube.com/embed/...`. **Confermato
   reale** con verifica browser (iframe presente nel DOM) — dominio diverso da
@@ -187,6 +190,18 @@ va replicata su tutte.
   embeddate sulla pagina di sistema `/statistiche` (funzionalita' standard del tema,
   non contenuto redazionale libero). **Confermato reale**: 5 iframe verso questo
   dominio trovati nel DOM della pagina.
+- `connect-src[]=https://translate-pa.googleapis.com` — endpoint della funzione
+  "Traduci pagina" nativa di Chrome. Se non whitelistato, la traduzione automatica
+  smette di funzionare sul sito (la richiesta parte nel contesto della pagina corrente
+  ed e' soggetta alla sua CSP). Abilitato globalmente per accessibilita' linguistica —
+  scelta deliberata, non un pattern "di contenuto" come gli altri di questa lista.
+
+**Nota su RaiPlaySound**: inizialmente abilitato qui globalmente per errore (era stato
+osservato una sola volta), poi **spostato a regola sito-specifica** (vedi sezione sopra)
+quando si e' chiarito che l'embed era legato a un contenuto di un singolo ente, non un
+pattern ricorrente su piu' siti come YouTube. Lezione: un pattern visto una sola volta
+non va promosso a regola globale per analogia con un altro servizio media (RaiPlaySound
+vs RaiNews vs YouTube sono servizi distinti, ognuno va valutato sulla propria evidenza).
 
 ### Rumore / malware lato client (ignore-list del CSP collector, NON nel csp.ini)
 
@@ -213,8 +228,9 @@ quando il pattern e' inequivocabile.
   bucket `static.stanzadelcittadino.it/uploads/...` (upload/anteprima allegati SDC).
   Il csp.ini attuale ha solo `s3-eu-west-1.amazonaws.com` (con **trattino**, vecchio
   formato endpoint AWS) e solo su `img-src` — sono due host CSP diversi, quindi questo
-  non e' coperto. Sospetto sia generico (bucket SDC condiviso) ma da confermare se
-  ricompare su altri siti.
+  non e' coperto. **Confermato ricorrente su 3 enti diversi**, sempre sulla pagina
+  `/segnala_disservizio` (upload allegati SDC) — forte candidato a promozione a regola
+  globale, ancora da decidere in dettaglio (es. se serve anche su `img-src`).
 - Un viewer documenti Office di terze parti su `frame-src` — visto in una pagina di
   concorso/bando; al momento della verifica il contenuto non era piu' presente sulla
   pagina (probabile bando scaduto/rimosso), non confermabile con certezza.
