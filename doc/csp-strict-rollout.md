@@ -163,7 +163,10 @@ va replicata su tutte.
   potenzialmente riusabile altrove (finche' non si osserva su piu' di un ente): esempi
   incontrati sono un player audio RAI, un player video RaiNews, un embed di liste
   progetti da un portale opendata governativo (`opencoesione.gov.it`), una dashboard
-  ArcGIS. Tutti su `frame-src`.
+  ArcGIS, un iframe verso il sito di un museo cittadino. Tutti su `frame-src`.
+- Sottodominio di un'agenzia/ente collegato allo stesso comune (es. agenzia ambientale
+  provinciale), usato per chiamate AJAX di ricerca opendata in una sezione
+  "amministrazione trasparente" — `script-src-elem`.
 
 ### Legittimi, generici (candidati per il csp.ini globale)
 
@@ -182,6 +185,9 @@ va replicata su tutte.
   client in quel caso) — abilitati comunque globalmente su decisione di Marco, perche'
   il player YouTube con widget API e' un pattern legittimo generico che puo'
   presentarsi su altri contenuti/redattori.
+- `frame-src[]=https://www.youtube-nocookie.com` — variante "privacy-enhanced" degli
+  embed YouTube (dominio distinto da `*.youtube.com`, usato da alcuni redattori/plugin
+  per l'embed senza cookie di tracciamento).
 - `frame-src[]=https://youtu.be` — link breve YouTube incollato da un redattore come
   iframe embed, invece del formato completo `youtube.com/embed/...`. **Confermato
   reale** con verifica browser (iframe presente nel DOM) — dominio diverso da
@@ -244,6 +250,22 @@ quando il pattern e' inequivocabile.
   nessuna traccia nel DOM al momento della visita (ne' `<link>` ne' `<script>` con quel
   dominio), probabile estensione browser tipo "font inspector" del visitatore. Lasciato
   tra i dubbi anziche' in ignore-list su indicazione di Marco.
+- Un discovery service di identita' federata regionale (tipo SPID a livello di
+  provincia/regione, hostname `idp5.<dominio-provincia>`) su `img-src`, per il
+  favicon del servizio — comparso su entrambe le varianti linguistiche di un sito,
+  volume basso. Potenzialmente legato al login OAuth ma non ancora verificato con
+  browser reale — lasciato tra i dubbi.
+
+## Nota tecnica: i wildcard CSP coprono tutti i livelli di sottodominio
+
+Un host-source con wildcard tipo `*.esempio.org` **copre qualsiasi profondita' di
+sottodominio**, non solo un livello — `*.esempio.org` include sia `a.esempio.org` sia
+`a.b.esempio.org`. Verificato con un test diretto in browser (pagina con CSP via
+meta tag, doppio controllo positivo/negativo): un'immagine da un host a 3 livelli
+(`a.tile.openstreetmap.org`) carica correttamente sotto `img-src *.openstreetmap.org`,
+mentre lo stesso URL viene bloccato sotto `img-src 'self'`. Quindi una regola
+`*.dominio.org` gia' presente **non ha bisogno di essere estesa** per coprire
+sottodomini piu' profondi dello stesso dominio radice.
 
 ## Nota tecnica: due host AWS S3 diversi
 
