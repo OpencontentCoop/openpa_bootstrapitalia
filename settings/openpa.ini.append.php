@@ -340,6 +340,11 @@ Partners[opencitylabs]=OpenCity Labs|https://www.opencontent.it
 #simple or advanced
 Consent=advanced
 
+[SecurityNoticeSettings]
+ScriptUrl=
+Id=
+Layout=
+
 [LockEdit_homepage]
 EnableBackgroundImage=enabled
 AllowRemoveMainNews=disabled
