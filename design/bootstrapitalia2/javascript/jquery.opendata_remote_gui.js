@@ -578,34 +578,40 @@
                               }
                           }
                         });
-                        let more = $('<li class="page-item"><span class="page-link">...</span></li');
-                        let displayPages = resultsContainer.find('.page[data-page_number]');
-
-                        let currentPageNumber = resultsContainer.find('.page[data-current]').data('page_number');
-                        let length = 3;
-                        if (displayPages.length > (length + 2)) {
-                            if (currentPageNumber <= (length - 1)) {
-                                resultsContainer.find('.page[data-page_number="' + length + '"]').parent().after(more.clone());
-                                for (i = length; i < pagination; i++) {
-                                    resultsContainer.find('.page[data-page_number="' + i + '"]').parent().hide();
+                        let applyPagination = function () {
+                            resultsContainer.find('.page[data-page_number]').parent().show();
+                            resultsContainer.find('.pagination-ellipsis').remove();
+                            let displayPages = resultsContainer.find('.page[data-page_number]');
+                            let currentPageNumber = resultsContainer.find('.page[data-current]').data('page_number');
+                            let isDesktop = $(window).width() >= 1024;
+                            let half = isDesktop ? 3 : 0;
+                            let range = isDesktop ? 7 : 1;
+                            if (displayPages.length > range + 2) {
+                                let rStart = Math.max(2, currentPageNumber - half);
+                                let rEnd = Math.min(pagination - 1, currentPageNumber + half);
+                                if (rEnd - rStart < range - 1) {
+                                    if (rStart === 2) rEnd = Math.min(pagination - 1, rStart + range - 1);
+                                    else rStart = Math.max(2, rEnd - range + 1);
                                 }
-                            } else if (currentPageNumber >= length) {
-                                resultsContainer.find('.page[data-page_number="1"]').parent().after(more.clone());
-                                let itemToRemove = (currentPageNumber + 1 - length);
                                 for (i = 2; i < pagination; i++) {
-                                    if (itemToRemove > 0) {
+                                    if (i < rStart || i > rEnd) {
                                         resultsContainer.find('.page[data-page_number="' + i + '"]').parent().hide();
-                                        itemToRemove--;
                                     }
                                 }
-                                if (currentPageNumber < (pagination - 1)) {
-                                    resultsContainer.find('.page[data-current]').parent().after(more.clone());
+                                let more = $('<li class="page-item pagination-ellipsis"><span class="page-link">...</span></li>');
+                                if (rStart > 2) {
+                                    resultsContainer.find('.page[data-page_number="' + rStart + '"]').parent().before(more.clone());
                                 }
-                                for (i = (currentPageNumber + 1); i < pagination; i++) {
-                                    resultsContainer.find('.page[data-page_number="' + i + '"]').parent().hide();
+                                if (rEnd < pagination - 1) {
+                                    resultsContainer.find('.page[data-page_number="' + rEnd + '"]').parent().after(more.clone());
                                 }
                             }
-                        }
+                        };
+                        applyPagination();
+                        $(window).off('resize.remotegui').on('resize.remotegui', function () {
+                            clearTimeout(window._rgResizeTimer);
+                            window._rgResizeTimer = setTimeout(applyPagination, 150);
+                        });
 
                         if (plugin.settings.hideIfEmpty && response.totalCount > 0){
                             plugin.container.parents('.remote-gui-wrapper').show();
