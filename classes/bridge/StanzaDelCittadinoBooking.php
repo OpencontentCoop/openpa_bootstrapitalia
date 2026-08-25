@@ -586,7 +586,9 @@ EOT;
             foreach ($openingHours['results'] as $openingHour){
                 $min = min($min, $openingHour['begin_hour']);
                 $max = max($max, $openingHour['end_hour']);
-                $hideDays = array_diff($hideDays, $openingHour['days_of_week']);
+                // SDC usa ISO 1=lun…7=dom; EventCalendar usa 0=dom,1=lun…6=sab
+                $ecDays = array_map(static function ($d) { return (int)$d === 7 ? 0 : (int)$d; }, $openingHour['days_of_week']);
+                $hideDays = array_diff($hideDays, $ecDays);
                 $slot = min($slot, ($openingHour['meeting_minutes']+$openingHour['interval_minutes']));
             }
         }
