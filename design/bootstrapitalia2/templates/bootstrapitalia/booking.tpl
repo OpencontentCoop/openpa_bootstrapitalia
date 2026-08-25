@@ -32,10 +32,12 @@
         position: absolute;
         left: 0;
         top: 0;
+        bottom: 0;
         margin: 0;
         background: #fff;
         width: 100%;
         height: 100%;
+        z-index: 1;
     {rdelim}
     .freeze:after {ldelim}
       content: " ";
@@ -69,7 +71,9 @@
   {rdelim})
 </script>
 {*{ezscript(array('jquery.booking.js'))}*}
-<script src={"javascript/jquery.booking.js"|ezdesign}></script>
+{def $booking_js_url = "javascript/jquery.booking.js"|ezdesign(no)}
+<script src="{$booking_js_url}?v={$booking_js_url|asset_version}"></script>
+{undef $booking_js_url}
 {/if}
 
 

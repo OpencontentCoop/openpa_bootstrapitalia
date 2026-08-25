@@ -13,19 +13,28 @@ class ezfIndexEventLink implements ezfIndexPlugin
         $openpa = OpenPAObjectHandler::instanceFromObject($contentObject);
         if ($openpa->hasAttribute('event_link')) {
             $link = $openpa->attribute('event_link');
-            $topic = $link->attribute('topic');
-            if ($topic instanceof eZContentObject) {
+            $topics = $link->attribute('topics');
+            if (!empty($topics)) {
+                $ids = $contentclassIds = $remoteIds = $classIdentifiers = $mainNodeIds = $names = [];
+                foreach ($topics as $topic) {
+                    $ids[] = $topic->attribute('id');
+                    $contentclassIds[] = $topic->attribute('contentclass_id');
+                    $remoteIds[] = $topic->attribute('remote_id');
+                    $classIdentifiers[] = $topic->attribute('class_identifier');
+                    $mainNodeIds[] = $topic->attribute('main_node_id');
+                    $names[] = $topic->attribute('name');
+                }
                 $virtualTopic = [
-                    'submeta_topics___id____si' => $topic->attribute('id'),
-                    'submeta_topics___contentclass_id____si' => $topic->attribute('contentclass_id'),
-                    'submeta_topics___remote_id____ms' => $topic->attribute('remote_id'),
-                    'submeta_topics___class_identifier____ms' => $topic->attribute('class_identifier'),
-                    'submeta_topics___main_node_id____si' => $topic->attribute('main_node_id'),
-                    'submeta_topics___name____t' => $topic->attribute('name'),
-                    'subattr_topics___name____s' => $topic->attribute('name'),
-                    'subattr_topics___name____t' => $topic->attribute('name'),
-                    'attr_topics_t' => $topic->attribute('name'),
-                    'attr_topics_s' => $topic->attribute('name'),
+                    'submeta_topics___id____si' => $ids,
+                    'submeta_topics___contentclass_id____si' => $contentclassIds,
+                    'submeta_topics___remote_id____ms' => $remoteIds,
+                    'submeta_topics___class_identifier____ms' => $classIdentifiers,
+                    'submeta_topics___main_node_id____si' => $mainNodeIds,
+                    'submeta_topics___name____t' => implode(' ', $names),
+                    'subattr_topics___name____s' => $names,
+                    'subattr_topics___name____t' => implode(' ', $names),
+                    'attr_topics_t' => implode(' ', $names),
+                    'attr_topics_s' => $names,
                 ];
             }
             $type = $link->attribute('has_public_event_typology');
