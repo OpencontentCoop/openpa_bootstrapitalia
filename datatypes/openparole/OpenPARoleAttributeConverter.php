@@ -4,9 +4,24 @@ use Opencontent\Opendata\Api\AttributeConverter\Base;
 
 class OpenPARoleAttributeConverter extends Base
 {
+    /**
+     * NOTA: 'content' resta il placeholder '(calculated)', DELIBERATAMENTE, non un bug.
+     *
+     * Questo converter è condiviso dalla REST API pubblica ocopendata (ogni GET
+     * .../content/read o .../content/search su una classe con un attributo
+     * openparole passa da qui) e la risoluzione reale richiede una query Solr
+     * per persona (vedi OpenPARoles::buildQuery()). Farla qui aggiungerebbe
+     * quella query ad ogni lettura REST — lo stesso problema di N+1 per cui
+     * ocopenapi esclude a monte questo stesso datatype con NullSchemaFactory.
+     *
+     * La risoluzione reale (serializeRole()/relatedContentItems()/ecc., resi
+     * public static apposta) va invocata SOLO dal path webhook
+     * (ocwebhookserver), che gira alla pubblicazione — un evento raro,
+     * non ad ogni richiesta HTTP. Vedi OCWebHookPayloadBuilder::resolveComputedRoles().
+     */
     public function get(eZContentObjectAttribute $attribute)
     {
-        $data = [
+        return [
             'id' => intval($attribute->attribute('id')),
             'version' => intval($attribute->attribute('version')),
             'identifier' => $this->classIdentifier . '/' . $this->identifier,
@@ -18,24 +33,15 @@ class OpenPARoleAttributeConverter extends Base
             'data_int' => $attribute->attribute('data_int'),
             'data_float' => $attribute->attribute('data_float'),
             'is_information_collector' => $attribute->attribute('is_information_collector'),
+            'content' => '(calculated)',
         ];
-
-        $roles = [];
-        foreach (OpenPARoles::instance($attribute)->attribute('roles') as $role) {
-            if ($role instanceof eZContentObject) {
-                $roles[] = self::serializeRole($role);
-            }
-        }
-        $data['content'] = $roles;
-
-        return $data;
     }
 
     /**
      * @param eZContentObject $role time_indexed_role object
      * @return array
      */
-    private static function serializeRole(eZContentObject $role)
+    public static function serializeRole(eZContentObject $role)
     {
         $dataMap = $role->dataMap();
         $mainNode = $role->mainNode();
@@ -59,7 +65,7 @@ class OpenPARoleAttributeConverter extends Base
     /**
      * Resolve an eztags attribute to a plain array of keywords.
      */
-    private static function tagKeywords(array $dataMap, $identifier)
+    public static function tagKeywords(array $dataMap, $identifier)
     {
         if (!isset($dataMap[$identifier]) || !$dataMap[$identifier]->hasContent()) {
             return [];
@@ -81,7 +87,7 @@ class OpenPARoleAttributeConverter extends Base
      * the same shape expected by OCWebHookKafkaPayloadFormatter::normalizeRelationItem()
      * and OCWebHookPayloadBuilder::enrichRelationContentUrls() for standard relations.
      */
-    private static function relatedContentItems(array $dataMap, $identifier)
+    public static function relatedContentItems(array $dataMap, $identifier)
     {
         $items = [];
         if (!isset($dataMap[$identifier]) || !$dataMap[$identifier]->hasContent()) {
@@ -110,7 +116,7 @@ class OpenPARoleAttributeConverter extends Base
      * part, the time-of-day component is an artifact of eZ Publish's "default to
      * now()" behavior on creation and carries no editorial meaning.
      */
-    private static function dateValue(array $dataMap, $identifier)
+    public static function dateValue(array $dataMap, $identifier)
     {
         if (!isset($dataMap[$identifier]) || !$dataMap[$identifier]->hasContent()) {
             return null;

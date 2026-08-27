@@ -76,7 +76,7 @@ if (!$giuntaComunale || $giuntaComunale->attribute('name') !== 'Giunta comunale'
 $giuntaMainNode = $giuntaComunale->mainNode();
 assert_true($giuntaMainNode instanceof eZContentObjectTreeNode, "Precondizione: 'Giunta comunale' ha un main node");
 
-// ── Crea public_person di test ─────────────────────────────────────────────────
+// ── Crea public_person di test (SENZA pubblicare — vedi nota sotto) ────────────
 
 $uniqueSuffix = date('Ymd-His') . '-' . substr(md5(uniqid()), 0, 6);
 $personName   = 'Test HasRole ' . $uniqueSuffix;
@@ -119,20 +119,25 @@ foreach ($personVersion->contentObjectAttributes('ita-IT') as $attr) {
     }
 }
 
-eZOperationHandler::execute('content', 'publish', ['object_id' => $personObject->attribute('id'), 'version' => 1]);
+// NON pubblichiamo ancora: la persona ha già un id utilizzabile (assegnato da
+// instantiate()) da usare come riferimento nel ruolo. La pubblichiamo DOPO che
+// il ruolo esiste — vedi la nota su OpenPARoles::instance() più sotto.
 $personId = $personObject->attribute('id');
 $createdObjectIds[] = $personId;
-echo "Pubblicata public_person id=$personId — \"$personName\"\n";
+echo "Istanziata (non ancora pubblicata) public_person id=$personId — \"$personName\"\n";
 
 // ── Crea time_indexed_role collegato a Giunta comunale ─────────────────────────
 
-$roleParentRows = $db->arrayQuery(
-    "SELECT DISTINCT n.parent_node_id FROM ezcontentobject_tree n " .
-    "JOIN ezcontentobject o ON o.id = n.contentobject_id " .
-    "JOIN ezcontentclass c ON c.id = o.contentclass_id " .
-    "WHERE c.identifier = 'time_indexed_role' LIMIT 1"
-);
-$roleParentNodeId = !empty($roleParentRows) ? (int)$roleParentRows[0]['parent_node_id'] : 2;
+// Il ruolo deve stare nel subtree configurato per OpenPARoles::buildQuery()
+// ("subtree [...]", da OpenPABootstrapItaliaOperators::getOpenpaRolesParentNodeId()):
+// posizionarlo altrove (es. nodo 2/root) lo rende invisibile a hasContent()/
+// attribute('roles') a prescindere da Solr — non un errore di ricerca ma di fixture.
+$roleParentNodeId = OpenPABootstrapItaliaOperators::getOpenpaRolesParentNodeId();
+if (!$roleParentNodeId) {
+    echo "\033[33m[SKIP]\033[0m Nodo padre ruoli (OpenPABootstrapItaliaOperators::getOpenpaRolesParentNodeId()) non configurato\n";
+    $script->shutdown(0);
+    exit(0);
+}
 
 $roleClass = eZContentClass::fetchByIdentifier('time_indexed_role');
 $roleObject = $roleClass->instantiate($ownerId, $sectionId, false, 'ita-IT');
@@ -175,15 +180,47 @@ $roleId = $roleObject->attribute('id');
 $createdObjectIds[] = $roleId;
 echo "Pubblicato time_indexed_role id=$roleId, person=$personId, for_entity=" . $giuntaComunale->attribute('id') . "\n\n";
 
-// NOTA: OpenPARoleAttributeConverter::get() risolve i ruoli tramite
-// OpenPARoles::attribute('roles'), che dipende da una ricerca Solr sull'oggetto
-// person (person.id = ...). In questo ambiente di sviluppo Solr indicizza i
-// documenti senza memorizzare alcun campo (anche con commit esplicito e
-// indicizzazione sincrona forzata via eZSearch::addObject) — problema
-// preesistente dell'installazione locale, non introdotto da questa modifica.
-// Per non dipendere da quel livello (che il fix di questo lavoro non tocca),
-// TEST 1 chiama direttamente — via reflection — il metodo privato di
-// serializzazione di un singolo ruolo, che è il codice realmente modificato.
+// Indicizzazione esplicita del ruolo (la ricerca è "person.id = X sul ruolo",
+// non serve indicizzare la persona stessa perché non è ancora pubblicata).
+eZSearch::addObject(eZContentObject::fetch($roleId), true);
+
+// Attende che il documento sia effettivamente cercabile: in questo ambiente
+// di sviluppo il commit esplicito non garantisce visibilità immediata in
+// lettura (eventual consistency). Non è un problema del codice modificato —
+// vedi OpenPARoles::hasContent(), invariata da questo fix. dataMap() funziona
+// anche su un oggetto non ancora pubblicato (usa la versione corrente, bozza).
+// Nota: hasContent() qui è solo un probe diagnostico, non una garanzia bloccante —
+// in questo ambiente locale la visibilità in ricerca dopo un commit esplicito non
+// è deterministica entro pochi secondi (eventual consistency). La correttezza
+// funzionale reale è verificata dagli assert del TEST 3 più sotto, che attendono
+// comunque il tempo dell'operazione di pubblicazione della persona.
+$indexReady = false;
+for ($i = 0; $i < 10; $i++) {
+    $probe = OpenPARoles::instance(eZContentObject::fetch($personId)->dataMap()['has_role']);
+    if ($probe->hasContent()) {
+        $indexReady = true;
+        break;
+    }
+    usleep(300000);
+}
+echo ($indexReady ? "Ruolo cercabile via Solr dopo il probe.\n" : "Ruolo non ancora cercabile dopo il probe (non bloccante, si procede comunque).\n");
+
+// NOTA IMPORTANTE — pubblichiamo la persona SOLO ORA, dopo che il ruolo esiste
+// già ed è indicizzato. Il motivo: la pubblicazione innesca automaticamente
+// il workflow post_publish di eZ Publish, che a sua volta chiama
+// OCWebHookPayloadBuilder::build() per il vero evento webhook. Se la persona
+// venisse pubblicata PRIMA che il ruolo esista, quella chiamata automatica
+// troverebbe correttamente zero ruoli — ma OpenPARoles::instance() (codice
+// preesistente, non toccato da questo fix) cachea il risultato per l'intera
+// durata del processo PHP, keyed sull'id dell'attributo: una chiamata
+// successiva nello stesso processo (anche a ruolo ormai esistente) otterrebbe
+// lo stesso risultato vuoto già cachato. Pubblicando la persona per ultima,
+// l'UNICA risoluzione di has_role in questo processo trova già il dato reale.
+// È lo stesso motivo per cui, in produzione, has_role si aggiorna via webhook
+// solo quando la persona stessa viene ripubblicata dopo che un ruolo cambia.
+eZOperationHandler::execute('content', 'publish', ['object_id' => $personId, 'version' => 1]);
+$personObject = eZContentObject::fetch($personId); // ricarica: riflette lo stato pubblicato reale
+echo "Pubblicata public_person id=$personId (ora che il ruolo esiste)\n\n";
 
 $reflection = new ReflectionClass('OpenPARoleAttributeConverter');
 $serializeRole = $reflection->getMethod('serializeRole');
@@ -258,6 +295,37 @@ if ($roleOut !== null) {
     assert_true(isset($roleOut['start_date']), 'pipeline: start_date presente nel payload finale');
     assert_true(strpos((string)$roleOut['start_date'], '2025-07-0') === 0, 'pipeline: start_date normalizzato a UTC, ancora riconducibile al 2025-07-09');
     echo "    → start_date finale: " . $roleOut['start_date'] . "\n";
+}
+
+// ── TEST 3: disaccoppiamento REST vs webhook ────────────────────────────────────
+// OpenPARoleAttributeConverter::get() lascia DELIBERATAMENTE il placeholder
+// '(calculated)' — è condiviso dalla REST API pubblica ocopendata, e risolvere
+// i ruoli lì aggiungerebbe una query Solr ad ogni lettura/ricerca (lo stesso
+// problema di N+1 per cui ocopenapi esclude a monte lo stesso datatype).
+// Solo OCWebHookPayloadBuilder::build() — via resolveComputedRoles(), che gira
+// solo alla pubblicazione — deve risolvere i dati reali.
+
+// 3a. Percorso REST/ocopendata (Content::createFromEzContentObject diretto,
+//     lo stesso usato da GET /opendata/api/content/read): deve restare il placeholder.
+$restContent = Opencontent\Opendata\Api\Values\Content::createFromEzContentObject($personObject);
+$restHasRole = $restContent->data['ita-IT']['has_role']['content'] ?? null;
+assert_eq($restHasRole, '(calculated)', 'REST/ocopendata: has_role resta il placeholder "(calculated)" (nessuna query Solr aggiunta a questo percorso)');
+
+// 3b. Percorso webhook, questa volta tramite la VERA OCWebHookPayloadBuilder::build()
+//     (non costruito a mano come nel TEST 2) — esercita resolveComputedRoles() per intero.
+$builtPayload = OCWebHookPayloadBuilder::build($personObject);
+$builtHasRole = $builtPayload['data']['ita-IT']['has_role'] ?? null;
+assert_true(is_array($builtHasRole), 'OCWebHookPayloadBuilder::build(): has_role è un array (risolto), non più il placeholder');
+assert_true(is_array($builtHasRole) && count($builtHasRole) >= 1, 'OCWebHookPayloadBuilder::build(): has_role contiene almeno un ruolo');
+
+$builtRoleItem = null;
+foreach ((array)$builtHasRole as $r) {
+    if ((int)$r['id'] === (int)$roleId) { $builtRoleItem = $r; break; }
+}
+assert_true($builtRoleItem !== null, 'OCWebHookPayloadBuilder::build(): il ruolo di test è presente');
+if ($builtRoleItem !== null) {
+    assert_true(count($builtRoleItem['for_entity']) === 1 && (int)$builtRoleItem['for_entity'][0]['id'] === 226,
+        'OCWebHookPayloadBuilder::build(): for_entity risolto correttamente end-to-end (via resolveComputedRoles + fetchDataMap per lingua)');
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
