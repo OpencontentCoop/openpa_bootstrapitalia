@@ -328,6 +328,10 @@ AttributeIdentifiers[]=opening_hours_specification
 AttributeIdentifiers[]=has_channel
 AttributeIdentifiers[]=temporal
 
+[RelationsPagination]
+NoPaginationAttributeIdentifiers[]
+NoPaginationAttributeIdentifiers[]=topics
+
 [NetworkSettings]
 SyncTrasparenza=disabled
 
