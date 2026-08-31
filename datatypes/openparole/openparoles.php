@@ -343,6 +343,7 @@ class OpenPARoles
         if ($this->typePerEntities === null) {
             $this->typePerEntities = [];
             $contents = $this->getContent();
+            $readableEntities = $this->attribute('entities');
             foreach ($contents as $content) {
                 $role = $this->getRole($content['metadata']['id']);
                 if ($role instanceof eZContentObject) {
@@ -363,13 +364,20 @@ class OpenPARoles
                     $entities = $content['data'][$this->language]['for_entity']['content'] ??
                         $content['data'][$this->fallbackLanguage]['for_entity']['content'] ?? [];
                     foreach ($entities as $entity) {
+                        // Salta le entità non leggibili dall'utente corrente (es. anonimo su
+                        // un'entità privacy:private) o non più esistenti — invece di fidarsi
+                        // del nome congelato nel documento Solr del ruolo, che può restare
+                        // valido anche dopo che l'entità è diventata privata o è stata rinominata.
+                        if (!isset($readableEntities[$entity['id']]) || !($readableEntities[$entity['id']] instanceof eZContentObject)) {
+                            continue;
+                        }
                         if (
                             (isset($content['data'][$this->language]['ruolo_principale']['content'])
                             && $content['data'][$this->language]['ruolo_principale']['content'])
                             || (isset($content['data'][$this->fallbackLanguage]['ruolo_principale']['content'])
                                 && $content['data'][$this->fallbackLanguage]['ruolo_principale']['content'])
                         ) {
-                            $this->typePerEntities[$type][$entity['id']] = $entity['name'][$this->language] ?? $entity['name'][$this->fallbackLanguage];
+                            $this->typePerEntities[$type][$entity['id']] = $readableEntities[$entity['id']]->attribute('name');
                         }
                     }
                 }
