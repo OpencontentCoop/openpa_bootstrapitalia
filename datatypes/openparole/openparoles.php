@@ -254,6 +254,32 @@ class OpenPARoles
         return $this->people;
     }
 
+    /**
+     * Filtra $items (eZContentObject o eZContentObjectTreeNode) tenendo solo
+     * quelli leggibili dall'utente corrente. Preserva l'ordine e il tipo
+     * originale di ciascun elemento.
+     *
+     * @param (eZContentObject|eZContentObjectTreeNode)[] $items
+     * @return array
+     */
+    public static function filterReadableObjects(array $items)
+    {
+        $currentUser = eZUser::currentUser();
+        $result = [];
+        foreach ($items as $item) {
+            $object = $item instanceof eZContentObjectTreeNode ? $item->attribute('object') : $item;
+            if (!$object instanceof eZContentObject) {
+                continue;
+            }
+            $whoCan = new OpenPAWhoCan($object, 'read', $currentUser);
+            if ($whoCan->run() === true) {
+                $result[] = $item;
+            }
+        }
+
+        return $result;
+    }
+
     public function getEntities()
     {
         if ($this->getPagination() == 0){
@@ -273,7 +299,10 @@ class OpenPARoles
                 }
             }
             $entities = OpenPABase::fetchObjects($idList);
+            $entities = self::filterReadableObjects($entities);
+            $idList = [];
             foreach ($entities as $entity) {
+                $idList[] = $entity->attribute('id');
                 $this->entities[$entity->attribute('id')] = $entity;
             }
             $this->entities = array_replace(array_flip($idList), $this->entities);
