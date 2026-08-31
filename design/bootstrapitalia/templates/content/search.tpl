@@ -32,17 +32,43 @@ window.OCSearchConfig = {ldelim}
         "showAbstract": true,
         "showMatchSnippet": true,
         "date": false,
+        "showYear": true,
+        "showFileLink": true,
+        "badgeFieldByType": {ldelim}
+            "document": "data.{ldelim}locale{rdelim}.document_type",
+            "public_service": "data.{ldelim}locale{rdelim}.has_service_status"
+        {rdelim},
         "dateByType": {ldelim}
-            "dataset": {ldelim}
-                "field": "data.{ldelim}locale{rdelim}.modified_date",
-                "label": "({"Last modified"|i18n('bootstrapitalia')})"
-            {rdelim},
             "event": {ldelim}
                 "field": "data.{ldelim}locale{rdelim}.start_at",
                 "endField": "data.{ldelim}locale{rdelim}.end_at"
             {rdelim},
             "article": {ldelim}
                 "field": "data.{ldelim}locale{rdelim}.published_date"
+            {rdelim}
+        {rdelim},
+        "detailsByType": {ldelim}
+            "public_person": {ldelim}
+                "type": "role_list",
+                "field": "data.{ldelim}locale{rdelim}.has_role",
+                "placement": "body"
+            {rdelim},
+            "online_contact_point": {ldelim}
+                "type": "contact_list",
+                "field": "data.{ldelim}locale{rdelim}.contact",
+                "placement": "body"
+            {rdelim},
+            "dataset": {ldelim}
+                "type": "field_list",
+                "placement": "details",
+                "items": [
+                    {ldelim}
+                        "field": "data.{ldelim}locale{rdelim}.format"
+                    {rdelim},
+                    {ldelim}
+                        "field": "data.{ldelim}locale{rdelim}.modified_date"
+                    {rdelim}
+                ]
             {rdelim}
         {rdelim}
     {rdelim},
