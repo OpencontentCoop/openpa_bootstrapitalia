@@ -20,7 +20,7 @@
                 <div class="button-wrapper d-md-flex">
                     {foreach $access_list as $item}
                         {if is_set($access_links[$item])}
-                            {if $item|eq('EditorAccess') and $oauth_enabled}
+                            {if and($item|eq('EditorAccess'), $oauth_enabled)}
                                 <div class="dropdown">
                                     <button type="button" id="editorAccessDropdown"
                                             class="btn btn-outline-primary btn-re pr-md-4 bg-white dropdown-toggle"
