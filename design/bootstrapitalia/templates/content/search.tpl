@@ -32,7 +32,6 @@ window.OCSearchConfig = {ldelim}
         "showAbstract": true,
         "showMatchSnippet": true,
         "date": false,
-        "showYear": true,
         "showFileLink": true,
         "badgeFieldByType": {ldelim}
             "document": "data.{ldelim}locale{rdelim}.document_type",
