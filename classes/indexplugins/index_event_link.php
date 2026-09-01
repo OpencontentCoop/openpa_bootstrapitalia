@@ -34,7 +34,7 @@ class ezfIndexEventLink implements ezfIndexPlugin
                     'subattr_topics___name____s' => $names,
                     'subattr_topics___name____t' => implode(' ', $names),
                     'attr_topics_t' => implode(' ', $names),
-                    'attr_topics_s' => $names,
+                    'attr_topics_s' => implode(' ', $names),
                 ];
             }
             $type = $link->attribute('has_public_event_typology');
