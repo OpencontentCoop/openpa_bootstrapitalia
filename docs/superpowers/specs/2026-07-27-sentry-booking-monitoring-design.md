@@ -13,11 +13,12 @@ Estendere il caricamento di Sentry JS anche ai visitatori anonimi, **limitatamen
 ## Non-goal (esplicitamente fuori scope per questa iterazione)
 
 - Cattura errori lato backend PHP (bridge verso "Stanza del Cittadino")
-- Tag/contesto custom (step del wizard, service id, ecc.) o breadcrumb applicativi
 - Modifiche al comportamento per utenti loggati o per pagine non-booking
 - Nuovo progetto/DSN Sentry o nuove impostazioni per-tenant
 
 Questi possono diventare iterazioni successive una volta valutati i primi dati raccolti.
+
+> **Aggiornamento v1.1**: il tag/contesto custom era originariamente un non-goal, poi rientrato in scope — vedi sezione "v1.1" più sotto. Resta fuori scope la cattura lato PHP.
 
 ## Design
 
@@ -69,3 +70,24 @@ Errori JS non gestiti (eccezioni, promise rejection) nel browser durante il wiza
 - Verifica che su un'istanza **senza** il toggle configurato non cambi nulla (nessuno script caricato).
 - Verifica che per un utente **loggato** non ci sia doppio caricamento/doppio init dello script.
 - Provocare un errore JS di test nel wizard (es. da console) e confermare che compaia come nuovo issue nel progetto Sentry `opencontent/opencity-cms`, taggato con l'environment dell'istanza di test.
+
+## v1.1 — Tag di contesto sugli errori (client-side)
+
+Testando la v1 in locale (istanza anonima, chiamata dati del wizard forzata a fallire) è emerso che l'evento arriva su Sentry con culprit chiaro (file/riga) ma senza nessun contesto sulla prenotazione in corso: l'`url` tag di Sentry è ripulito di query string e hash, quindi `service_id`, step del wizard e calendari non sono recuperabili dall'evento. Su un progetto Sentry condiviso da 600+ enti, questo rende difficile filtrare/correlare gli errori per servizio o comune specifico senza aprire ogni Session Replay a mano.
+
+**Modifica**: in `design/bootstrapitalia2/javascript/jquery.booking.js`, nuovo metodo helper `tagSentryContext(phase, jqXHR)` (accanto a `displayError`), che imposta su Sentry, quando disponibile (`window.Sentry`):
+- tag `booking_phase` — l'endpoint/fase che ha fallito: `init`, `scheduler`, `availabilities`, `availabilities_by_day`, `availabilities_by_range`, `restore_meeting`, `meeting`, `draft_meeting`
+- tag `booking_service_id` — da `this.settings.serviceId`
+- tag `booking_calendar_ids` — da `this.settings.calendars` (join `,`)
+- tag `booking_step` — step corrente del wizard (`this.currentStep().data('step')`)
+- context `booking_failed_request` — `{status, code}` della chiamata AJAX fallita (solo status HTTP e `code` applicativo se presente in `responseJSON.code`; **niente response body grezzo o payload della richiesta**, per evitare di inviare a Sentry dati potenzialmente personali come email/codice fiscale che il wizard invia in alcuni step)
+
+Chiamato come prima riga in ciascun handler `error:` delle chiamate AJAX del wizard (9 punti), **prima** di eventuali righe che potrebbero lanciare eccezioni — così i tag sono già sullo scope Sentry corrente anche se la riga successiva crasha, e vengono attaccati automaticamente all'evento catturato.
+
+**Resta fuori scope**: cattura lato PHP (bridge Stanza del Cittadino) — i fallimenti di `restoreDraftMeeting`/`upsertDraftMeeting` lato server restano visibili solo in `eZDebug::writeError` (log locale del tenant), non su Sentry.
+
+### Bug trovati testando (non risolti in questo branch, da tracciare separatamente)
+
+- `displayError()` (riga ~193 prima di questa modifica): crasha con `TypeError` se `error.responseJSON` è `undefined` (es. risposta 500 non-JSON, pagina d'errore generica eZ Publish) — il messaggio d'errore per il cittadino non viene mai mostrato in questo caso.
+- `saveMeetingDraft` error handler: stesso pattern di crash su `response.responseJSON.error` quando `responseJSON` è `undefined`.
+- `restoreDraftIfNeeded` error handler: referenzia una variabile `response` non definita nello scope (probabile refuso per `jqXHR`) — genererebbe un `ReferenceError` proprio nel momento più delicato del flusso (ripristino bozza dopo autenticazione SPID/CIE a metà wizard).
