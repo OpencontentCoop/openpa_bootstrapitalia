@@ -128,6 +128,13 @@
               color: $navigation-dark-text-color;
             }
           }
+          // dropdown title link (current page link above the separator)
+          > .border-bottom {
+            a,
+            small {
+              color: $navigation-dark-text-color;
+            }
+          }
           .link-list-wrapper {
             ul {
               li {
@@ -276,6 +283,13 @@
           }
           &:before {
             background: $navigation-light-text-color;
+          }
+          // dropdown title link (current page link above the separator)
+          > .border-bottom {
+            a,
+            small {
+              color: $navigation-light-bg-color;
+            }
           }
           .link-list-wrapper {
             ul {
