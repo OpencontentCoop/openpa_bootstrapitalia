@@ -96,6 +96,8 @@
 
 {include uri='design:header/skiplinks.tpl'}
 
+{include uri='design:header/security_notice.tpl'}
+
 {if and(openpacontext().is_edit|not(),openpacontext().is_browse|not())}
     {cache-block expiry=86400 ignore_content_expiry keys=array( $access_hash, $extra_cache_key, openpaini('GeneralSettings','theme', 'default') )}
         {debug-accumulator id=page_header_and_offcanvas_menu name=page_header_and_offcanvas_menu}
