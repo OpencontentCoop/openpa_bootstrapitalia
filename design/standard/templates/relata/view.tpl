@@ -102,7 +102,7 @@ $contacts = openpapagedata().contacts}
       {if $object|has_attribute('attachments')}
         {foreach $object|attribute('attachments').content as $file}
           {if $file.display_name|ne('')}
-              {set $attachments = $attachments|append(concat($file.display_name|clean_filename()|wash( xhtml ), ' (', $file.original_filename|wash(), ')'))}
+              {set $attachments = $attachments|append(concat($file.display_name|wash( xhtml ), ' (', $file.original_filename|wash(), ')'))}
           {else}
               {set $attachments = $attachments|append($file.original_filename|clean_filename()|wash( xhtml ))}
           {/if}

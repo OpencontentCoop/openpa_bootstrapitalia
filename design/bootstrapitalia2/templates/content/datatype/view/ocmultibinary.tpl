@@ -6,12 +6,12 @@
       <div class="cmp-icon-link mb-2">
         <a class="list-item icon-left d-inline-block font-sans-serif mb-0"
            href="{concat( 'ocmultibinary/download/', $attribute.contentobject_id, '/', $attribute.id,'/', $attribute.version , '/', $file.filename ,'/file/', $file.original_filename|urlencode )|ezurl(no)}"
-           aria-label="{'Download file'|i18n('bootstrapitalia')} {if $file.display_name|ne('')}{$file.display_name|clean_filename()|wash( xhtml )}{else}{$file.original_filename|clean_filename()|wash( xhtml )}{/if}"
+           aria-label="{'Download file'|i18n('bootstrapitalia')} {if $file.display_name|ne('')}{$file.display_name|wash( xhtml )}{else}{$file.original_filename|clean_filename()|wash( xhtml )}{/if}"
            data-focus-mouse="false">{*
                 *}<span class="list-item-title-icon-wrapper">{*
                 *}{display_icon('it-clip', 'svg', 'icon icon-primary icon-sm me-1')}{*
                 *}<span class="list-item">{*
-                *}{if $file.display_name|ne('')}{$file.display_name|clean_filename()|wash( xhtml )}{else}{$file.original_filename|clean_filename()|wash( xhtml )}{/if}{*
+                *}{if $file.display_name|ne('')}{$file.display_name|wash( xhtml )}{else}{$file.original_filename|clean_filename()|wash( xhtml )}{/if}{*
                 *}</span>{*
                 *}</span>{*
                 *}</a>
