@@ -5,7 +5,8 @@
 <script>
   window.Sentry && Sentry.onLoad(function() {ldelim}
     Sentry.init({ldelim}
-      environment: "{openpa_instance_identifier()}"
+      environment: "{openpa_instance_identifier()}",
+      tracesSampleRate: 0
     {rdelim});
   {rdelim});
 </script>
