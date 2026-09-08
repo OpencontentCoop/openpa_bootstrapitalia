@@ -140,6 +140,11 @@
     margin-bottom: 0;
   }
 
+  //dropdown title link (current page link above the separator)
+  > .border-bottom a:hover {
+    text-decoration: underline;
+  }
+
   //notch
   &:before {
     content: '';
