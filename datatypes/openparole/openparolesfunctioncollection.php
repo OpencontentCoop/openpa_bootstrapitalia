@@ -68,6 +68,7 @@ class OpenPARolesFunctionCollection
                 }
             }
         }
+        $peopleList = OpenPARoles::filterReadableObjects($peopleList);
         $result['result'] = array_values($peopleList);
 
         return $result;

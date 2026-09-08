@@ -58,6 +58,17 @@
 		{if and(is_set($view_context), $view_context|eq('full_attributes'))}
 			{def $roles_history = $attribute.content.roles_history}
 			{def $roles = $roles_history.roles}
+			{* OpenPARoles::getEntities() (PHP) omits the key entirely for an entity
+			   the current user can't read, rather than setting it to null - so a
+			   direct $roles_history.entities[id] lookup on a filtered-out id raises
+			   a template error ("No such attribute for array...") instead of
+			   resolving to null. Collecting the actually-present ids up front and
+			   checking with contains() avoids ever doing that lookup on a missing
+			   key. *}
+			{def $available_entity_ids = array()}
+			{foreach $roles_history.entities as $available_entity_id => $available_entity}
+				{set $available_entity_ids = $available_entity_ids|append($available_entity_id)}
+			{/foreach}
 
 			<ul{if $attribute_group.slug|ne('content')} class="d-none"{/if}>
 				{def $current_entities = array()}
@@ -66,14 +77,29 @@
 				{def $avoid_duplication = array()}
 				{foreach $roles as $role}
 					{def $is_expired = cond(and($role|has_attribute('end_time'), $role|attribute('end_time').data_int|le(currentdate())), true(), false())}
+					{* has_attribute() is not reliable for distinguishing a real eZContentObject
+					   from the plain hash('name', '?') fallback below (verified empirically: it
+					   reports false for every key, even on real objects/attributes in this
+					   context) - so the "is this real" flag is tracked explicitly here, at the
+					   point where the two cases are already an explicit if/else, rather than
+					   guessed at later from the value alone. Nested {if}s (not and()) on
+					   purpose: and()/or() aren't guaranteed short-circuit here, and
+					   evaluating attribute('for_entity') when it's absent is unsafe. *}
 					{if $role|has_attribute('for_entity')}
-						{def $entity = $roles_history.entities[$role|attribute('for_entity').content.relation_list[0].contentobject_id]}
+						{if $available_entity_ids|contains($role|attribute('for_entity').content.relation_list[0].contentobject_id)}
+							{def $entity = $roles_history.entities[$role|attribute('for_entity').content.relation_list[0].contentobject_id]}
+							{def $entity_is_real = true()}
+						{else}
+							{def $entity = hash('name', '?')}
+							{def $entity_is_real = false()}
+						{/if}
 					{else}
 						{def $entity = hash('name', '?')}
+						{def $entity_is_real = false()}
 					{/if}
 					{if $is_expired|not()}
 						{if $avoid_duplication|contains($entity.name)|not()}
-							{set $current_entities = $current_entities|append($entity)}
+							{set $current_entities = $current_entities|append(hash('entity', $entity, 'is_real', $entity_is_real))}
 							{set $avoid_duplication = $avoid_duplication|append($entity.name)}
 						{/if}
 						{set $valid_items = $valid_items|append(hash(
@@ -103,7 +129,19 @@
 			{if and($attribute_group.slug|eq('details'), count($current_entities)|gt(0))}
 				<div class="card-wrapper card-teaser-wrapper card-teaser-wrapper-equal card-teaser-block-2" style="min-width:49%">
 					{foreach $current_entities as $child }
-						{node_view_gui content_node=$child.main_node view=card_teaser show_icon=false() show_category=false() image_class=widemedium}
+						{* $current_entities is built from a raw, permission-unaware fetch
+						   (OpenPABase::fetchObjects() in openparoles.php): an entity that's
+						   been made private still ends up here, and a role with no linked
+						   entity at all falls back to hash('name', '?') (see above). Both
+						   cases lack a usable main_node, so both are skipped here rather than
+						   rendering an empty/broken card shell for them - $child.is_real tells
+						   the fallback hash apart from a real eZContentObject (has_attribute()
+						   is unreliable for this in the current context, verified empirically). *}
+						{if $child.is_real}
+							{if $child.entity.can_read}
+								{node_view_gui content_node=$child.entity.main_node view=card_teaser show_icon=false() show_category=false() image_class=widemedium}
+							{/if}
+						{/if}
 					{/foreach}
 				</div>
 			{/if}
