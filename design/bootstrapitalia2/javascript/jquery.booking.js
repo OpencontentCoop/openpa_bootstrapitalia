@@ -364,7 +364,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           self.tagSentryContext('restore_meeting', jqXHR)
           self.setCurrentData('meeting', null)
           if ($.isFunction(callback)) {
-            callback.call(context, response)
+            callback.call(context, jqXHR)
           }
         }
       })
