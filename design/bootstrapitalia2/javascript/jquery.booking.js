@@ -187,6 +187,30 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
       }
     },
 
+    tagSentryContext: function (phase, jqXHR) {
+      if (!window.Sentry) return
+      let code = null
+      try {
+        if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.hasOwnProperty('code')) {
+          code = jqXHR.responseJSON.code
+        }
+      } catch (e) {}
+      let calendarIds = []
+      if (Array.isArray(this.settings.calendars)) {
+        calendarIds = this.settings.calendars
+      } else if (this.settings.calendars && typeof this.settings.calendars === 'object') {
+        calendarIds = Object.keys(this.settings.calendars)
+      }
+      Sentry.setTag('booking_phase', phase)
+      Sentry.setTag('booking_service_id', this.settings.serviceId)
+      Sentry.setTag('booking_calendar_ids', calendarIds.join(','))
+      Sentry.setTag('booking_step', this.currentStep().data('step'))
+      Sentry.setContext('booking_failed_request', {
+        status: jqXHR ? jqXHR.status : null,
+        code: code
+      })
+    },
+
     displayError: function (error) {
       let code = null
       if (typeof error === 'object' && error.hasOwnProperty('responseJSON')) {
@@ -286,6 +310,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           }
         })
       } else {
+        self.tagSentryContext('init', null)
         self.displayError('profile or token url not found')
       }
     },
@@ -336,6 +361,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           }
         },
         error: function (jqXHR) {
+          self.tagSentryContext('restore_meeting', jqXHR)
           self.setCurrentData('meeting', null)
           if ($.isFunction(callback)) {
             callback.call(context, response)
@@ -1003,6 +1029,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
           }
         },
         error: function (jqXHR) {
+          self.tagSentryContext('scheduler', jqXHR)
           self.displayError(jqXHR)
         }
       });
@@ -1141,6 +1168,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
                       successCallback(response)
                     },
                     error: function (jqXHR) {
+                      self.tagSentryContext('availabilities_by_range', jqXHR)
                       self.displayError(jqXHR)
                     }
                   });
@@ -1250,6 +1278,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             }
           },
           error: function (jqXHR) {
+            self.tagSentryContext('availabilities_by_day', jqXHR)
             self.displayError(jqXHR)
           }
         });
@@ -1278,6 +1307,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             }
           },
           error: function (jqXHR) {
+            self.tagSentryContext('availabilities', jqXHR)
             self.displayError(jqXHR)
           }
         });
@@ -1485,6 +1515,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             }
           },
           error: function (jqXHR) {
+            self.tagSentryContext('meeting', jqXHR)
             self.setCurrentData('meeting', null)
             if ($.isFunction(errorCallback)) {
               errorCallback.call(context, jqXHR)
@@ -1526,6 +1557,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
             }
           },
           error: function (response) {
+            self.tagSentryContext('draft_meeting', response)
             self.setCurrentData('meeting', null)
             self.error('error-save-meeting-draft', response.responseJSON.error || response);
             if ($.isFunction(errorCallback)) {
