@@ -11,6 +11,7 @@
 {def $node_list = array()}
 {def $total = 0}
 {def $offset = cond(is_set($#view_parameters[$attribute.contentclass_attribute_identifier]), $#view_parameters[$attribute.contentclass_attribute_identifier], 0)}
+{def $paginate = openpaini('RelationsPagination', 'NoPaginationAttributeIdentifiers', array())|contains($attribute.contentclass_attribute_identifier)|not()}
 
 {if $attribute.has_content}
     {foreach $attribute.content.relation_list as $relation_item}
@@ -20,7 +21,7 @@
     {/foreach}
     {set $total = count($node_id_list)}
     {if $total|gt(0)}
-        {if $total|gt($items_per_page)}
+        {if and($total|gt($items_per_page), $paginate)}
             {set $node_id_list = $node_id_list|extract( $offset, $items_per_page )}
         {/if}
         {foreach $node_id_list as $node_id}
@@ -55,7 +56,7 @@
             {if $relation_has_wrapper|not()}</div>{/if}
         {/if}
 
-        {if $total|gt($items_per_page)}
+        {if and($total|gt($items_per_page), $paginate)}
             {include name=navigator
                      uri='design:navigator/google.tpl'
                      page_uri=$attribute.object.main_node.url_alias
@@ -67,6 +68,6 @@
     {/if}
 {/if}
 
-{undef $node_list $items_per_page $total $offset}
+{undef $node_list $items_per_page $total $offset $paginate}
 
 {unset_defaults(array('relation_view', 'relation_has_wrapper', 'attribute_index', 'show_link'))}
