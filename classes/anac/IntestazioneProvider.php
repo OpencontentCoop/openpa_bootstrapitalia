@@ -15,16 +15,29 @@ namespace OpenPABootstrapItalia\Anac;
  *   Bugliano" coincidono, nel formato "Comune di ..." richiesto da ANAC.
  * - codiceFiscale: riga "Codice fiscale" (identifier codice_fiscale) della
  *   matrice "contacts" sulla Homepage, la stessa letta da SiteInfo.php:315
- *   per l'oggetto 'cf' esposto ai widget SDC. Se il redattore non l'ha
- *   compilata, ritorna stringa vuota (nessun errore) - il chiamante decide
- *   se questo e' bloccante per la pubblicazione dell'export.
+ *   per l'oggetto 'cf' esposto ai widget SDC.
+ *
+ * codiceFiscale e' un campo obbligatorio dello schema ANAC (Amministrazione):
+ * se il redattore non l'ha compilato, getAmministrazione() lancia
+ * MissingCodiceFiscaleException invece di produrre un export incompleto -
+ * decisione esplicita di Marco il 2026-09-14, non un default prudente.
  */
 class IntestazioneProvider
 {
+    /**
+     * @throws MissingCodiceFiscaleException se il codice fiscale non e' compilato sulla Homepage
+     */
     public static function getAmministrazione()
     {
+        $codiceFiscale = self::getCodiceFiscale();
+        if ($codiceFiscale === '') {
+            throw new MissingCodiceFiscaleException(
+                'Codice fiscale non compilato nei contatti della Homepage: impossibile generare export ANAC'
+            );
+        }
+
         return [
-            'codiceFiscale' => self::getCodiceFiscale(),
+            'codiceFiscale' => $codiceFiscale,
             'denominazione' => \eZINI::instance()->variable('SiteSettings', 'SiteName'),
         ];
     }
