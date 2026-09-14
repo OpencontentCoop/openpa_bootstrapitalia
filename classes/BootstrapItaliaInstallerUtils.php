@@ -641,4 +641,37 @@ class BootstrapItaliaInstallerUtils
         $message = $step->getStep()['message'] ?? '';
         throw new Exception($message);
     }
+
+    /**
+     * ClassRepository::clearCache() svuota solo la cache su disco/DFS, non
+     * l'array statico self::$classes popolato in memoria durante lo stesso
+     * processo: se una classe viene modificata e poi usata per creare
+     * contenuti nello stesso run dell'installer, ClassRepository puo'
+     * restituire ancora la versione stale della classe, causando un fatal
+     * error nella pipeline di pubblicazione.
+     *
+     * steps:
+     *     ...
+     *     -   type: php_callable
+     *         identifier: 'BootstrapItaliaInstallerUtils::resetOpendataClassCache'
+     *     ...
+     */
+    public static function resetOpendataClassCache()
+    {
+        $repository = new \Opencontent\Opendata\Api\ClassRepository();
+        foreach (eZContentClass::classIdentifiersHash() as $identifier => $id) {
+            $repository->clearCache($identifier);
+        }
+
+        $reflection = new ReflectionClass(\Opencontent\Opendata\Api\ClassRepository::class);
+        foreach (['classes', 'identifierHash'] as $propertyName) {
+            if ($reflection->hasProperty($propertyName)) {
+                $property = $reflection->getProperty($propertyName);
+                $property->setAccessible(true);
+                $property->setValue(null, $propertyName === 'classes' ? [] : null);
+            }
+        }
+
+        eZContentClass::expireCache();
+    }
 }
