@@ -8,15 +8,38 @@ opencity-labs/sito-istituzionale/cms#475 (art. 4-bis, "Dati sui pagamenti"),
 in #479. Vedi anche `installer/modules/trasparenza-c1/CLAUDE.md` per la parte
 di content model/binding schema↔pagina.
 
+## Fonte di verità: gli schemi JSON sono scaricabili direttamente
+
+**Scoperta importante (2026-09-15)**: la guida online ANAC ha i JSON Schema
+reali scaricabili direttamente via HTTP (non serve un browser, `curl` basta),
+a un path prevedibile:
+
+```
+https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/<schema>-v1.0.schema.json
+https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json
+```
+
+dove `<schema>` è `art.4-bis`, `art.13`, `art.31`, ecc. `commons-v1.0.schema.json`
+contiene le definizioni condivise (`Intestazione`, `Amministrazione`, `Data`,
+`Url`, `Importo`, `Riferimenti`, ecc.) referenziate da tutti gli schemi
+specifici. **Usare questi file, non riassunti automatici della pagina guida
+(`guida-servizi.anticorruzione.it/it/help/...`)** per vocabolari/enum/campi
+obbligatori: un riassunto automatico ha portato a un errore reale già
+pubblicato (vedi sotto, categoria di art. 4-bis) prima di scoprire che i
+file erano scaricabili direttamente.
+
 **Stato (2026-09-15)**: art. 4-bis completo (cron incluso). Art. 13 (#478)
 per il profilo **C1 soltanto**: `art.13-as`/`art.13-op`/`art.13-pa` scritti,
 collegati al cron e verificati end-to-end con dati reali (URL pubblici
 raggiunti davvero). Mancano ancora C2 (`art.13-oa`) e l'organigramma
-(`art.13-org`). Art. 31 (#477): prerequisito di content model fatto
-(`anac_document_type` su `document`, installer/modules/trasparenza), serializer
-non ancora scritto. Meccanismo di pubblicazione
-URL generico, condiviso da tutti gli schemi, completo e testato - esteso
-per supportare anche schemi a file singolo (vedi
+(`art.13-org`). Art. 31 (#477) per il profilo **C1 soltanto**: `art.31-oiv`
+(Organismi indipendenti di valutazione), `art.31-or` (Organi di revisione),
+`art.31-oc` (Corte dei conti) + JSON "file unico" scritti, collegati al cron
+e verificati con dati reali in `sito-comunale-dev` (documenti taggati,
+url `content/download` reali, vocabolario "oggetto" Corte dei conti). Manca
+solo C2 (non previsto per ora, stesso perimetro di art. 13). Meccanismo di
+pubblicazione URL generico, condiviso da tutti gli schemi, completo e
+testato - esteso per supportare anche schemi a file singolo (vedi
 "ExportPublisher — publishSingle()/publishWithDates()" sotto).
 
 ## Architettura
@@ -36,6 +59,7 @@ classes/
     Serializer/
       Art4BisSerializer.php          art. 4-bis (Dati sui pagamenti) - completo
       Art13Serializer.php            art. 13 (Organizzazione) - solo C1 per ora
+      Art31Serializer.php            art. 31 (Controlli e rilievi) - solo C1 per ora
 modules/anac_export/
   module.php                       registra la view "file"
   file.php                         streama il file dal cluster storage
@@ -204,9 +228,25 @@ https://<sito>/Amministrazione/Documenti-e-dati/Dataset/Dati-sui-pagamenti/art.4
 + alias `-latest.<ext>`, dove `<alberatura>` è il path reale della pagina che
 mostra quel dato, non un prefisso fisso per tutto il sito.)
 
-Per schemi futuri (art. 31, art. 13) che NON hanno un oggetto dataset dietro
-(vedi "Cosa manca" — usano query live `fields` su altre classi), il nodo da
-passare sarà quello della pagina di trasparenza stessa (`pagina_trasparenza`).
+Per art. 31, che NON ha un unico oggetto dataset dietro (vedi sotto), il nodo
+passato varia per sottosezione — sempre "il nodo specifico dello schema",
+mai la radice dell'alberatura, stesso principio:
+
+- `art.31-oiv` → nodo della pagina "Organismi indipendenti di valutazione"
+  (remote_id `d20a1b517d9c0cba06af6b6b345f6c0e`)
+- `art.31-or` → nodo della pagina "Organi di revisione" (remote_id
+  `583cd446c1978fdab33108b83ae9eb71`)
+- `art.31-oc` → nodo del dataset "Corte dei conti" (remote_id
+  `corte_dei_conti`, stesso pattern di art. 4-bis)
+- JSON "file unico" (`art.31`) → ospitato sotto la pagina "Organismi
+  indipendenti di valutazione" **per convenzione arbitraria**: a differenza
+  di art. 13 (dove il JSON copre ambito soggettivo + organi, entrambi sotto
+  "Articolazione degli uffici"), qui il JSON copre tre sottosezioni che non
+  condividono nessuna pagina comune - scelta non ancora validata con Marco,
+  da rivedere se emerge un posto più naturale.
+
+Vedi `installer/modules/trasparenza-c1/CLAUDE.md` per la tabella di binding
+completa schema↔remote_id.
 
 ### Il modulo `anac_export` — perché serve e due bug non ovvi
 
@@ -260,15 +300,21 @@ riservato a `exportas/csv`. Vedi `installer/roles/Anonymous.yml`.
 
 Il campo `categoria_di_spesa`/`tipologia_di_spesa`/`beneficiario` del dataset
 sono testo libero lato redattore. Lo schema ANAC richiede invece stringhe
-esatte da un vocabolario chiuso (verificato su
-`guida-servizi.anticorruzione.it/it/help/trasparenza/schemi/art.4-bis/` il
-2026-09-15 — se ANAC aggiorna la guida, aggiornare le costanti
-`CATEGORIA_*`/`TIPOLOGIE_PER_CATEGORIA`/`BENEFICIARI_AMMESSI` in
-`Art4BisSerializer.php`):
+esatte da un vocabolario chiuso — verificato scaricando
+`art.4-bis-v1.0.schema.json` (vedi sopra) il 2026-09-15. Se ANAC aggiorna lo
+schema, aggiornare le costanti `CATEGORIA_*`/`TIPOLOGIE_PER_CATEGORIA`/
+`BENEFICIARI_AMMESSI` in `Art4BisSerializer.php`:
 
-- categoria: `Uscite correnti` / `Uscite in conto capitale`
+- categoria: **minuscolo** `uscite correnti` / `uscite in conto capitale`
+  (`categoria` è un `const` nello schema JSON) — **bug reale corretto lo
+  stesso giorno**: un primo tentativo li aveva capitalizzati (`Uscite
+  correnti`) basandosi su un riassunto automatico impreciso della pagina
+  guida (non del file schema); l'esempio originale nella issue #475
+  (minuscolo) era quello corretto fin dall'inizio.
 - tipologia: dipende dalla categoria della riga (5 valori ammessi per
-  ciascuna categoria, vedi costanti nel file)
+  ciascuna categoria, vedi costanti nel file) - occhio a
+  `Acquisto di beni e di servizi` (con "di" ripetuto, non "Acquisto di beni
+  e servizi" - altro dettaglio sbagliato nel primo tentativo).
 - beneficiario: `Persona fisica` / `Altro soggetto pubblico e privato` /
   `Soggetto estero`
 
@@ -304,6 +350,17 @@ Pubbliche Amministrazioni (C1), `art.13-se` per Società ed Enti (C2) - da
 `guida-servizi.anticorruzione.it` (nomi dei file di esempio scaricabili).
 Non dedurlo dal nome dei CSV (`art.13-as`/`art.13-op`) - sono file diversi,
 con la propria pubblicazione/versione/tracking indipendente.
+
+**Un ufficio incompleto sparisce dal JSON ma resta nel CSV**: verificato
+scaricando `art.13-v1.0.schema.json` (vedi sopra), `Ufficio.nominativo`,
+`.qualifica` e `.contatti` sono **obbligatori**, e `contatti` (definizione
+condivisa `Riferimenti`) richiede a sua volta `recapitoTelefonico` + almeno
+una tra `postaElettronicaOrdinaria`/`postaElettronicaCertificata`. Un
+ufficio senza responsabile configurato o senza contatti completi produrrebbe
+un JSON non valido - `filtraUfficiValidiPerJsonSchema()` lo esclude dal
+blocco JSON (non dal CSV, che tollera celle vuote). Verificato con test
+reale: un ufficio con solo `postaElettronicaOrdinaria` (senza telefono)
+compare nel CSV ma sparisce dal JSON.
 
 **Fonte dati**: tutta già esistente nel content model, nessun nuovo
 attributo (a differenza di art. 31, dove `TIPO_DOCUMENTO` serve un campo
@@ -402,6 +459,79 @@ principio):
   classe (`eZContentClass::fetchByIdentifier('organization')->attribute('id')`),
   non l'identifier stringa, e i parametri sono posizionali
   (`$asObject, $offset, $limit`), non un hash di opzioni.
+
+### `Art31Serializer` — tre CSV + un JSON, due meccanismi diversi
+
+Copre `art.31-oiv` (Organismi indipendenti di valutazione), `art.31-or`
+(Organi di revisione) e `art.31-oc` (Corte dei conti), più il JSON "file
+unico" (`art.31`, nessun suffisso — verificato scaricando il nome del file
+di esempio reale, non dedotto da un riassunto della pagina guida, vedi
+"Fonte di verità" sopra) che copre tutte e tre le sottosezioni insieme.
+Solo profilo **C1**, stesso gate di `Art13Serializer`
+(`AmministrazioneTrasparenteTools::getTipologiaEnte()`).
+
+**Due meccanismi di esposizione diversi, NON unificati** (decisione presa
+con Marco il 2026-09-15, motivata dalla natura diversa dei dati):
+
+- **OIV e Organi di revisione**: nessun dataset dedicato. Sono documenti
+  (classe `document`) taggati con il nuovo attributo `anac_document_type`
+  (vedi `installer/modules/trasparenza/CLAUDE.md` per il perché di questa
+  scelta di content model). `fetchDocumentsByKeys()` fa uno scan PHP
+  dell'intera classe `document` (`eZContentObject::fetchSameClassList()`),
+  non una query Solr — scelta deliberata: si è verificato che
+  `Opencontent\...\QueryLanguage\Query` non ha modo comodo di filtrare su un
+  campo custom nuovo senza prima capire la convenzione di naming Solr per
+  `anac_document_type` (non ancora esplorata), e lo scan pieno è lo stesso
+  pattern già accettato per `Art13Serializer::fetchOrganiConUffici()` — costo
+  accettabile per un cron periodico, non per una richiesta utente.
+- **Corte dei conti**: dataset reale (`opendatadataset`, remote_id
+  `corte_dei_conti`), stesso pattern di `Art4BisSerializer` — colonne
+  `data_di_pubblicazione`/`oggetto`/`documento` (vedi
+  `installer/modules/anac-495-2024/contents/Corte-dei-conti.yml` o
+  `trasparenza-c1/contents/Corte-dei-conti-Dataset.yml`).
+
+**"Il documento più recente per chiave" per OIV/Organi di revisione**:
+decisione 2026-09-15. Nello schema JSON ANAC, ciascuna delle 5 chiavi
+(`validazioneRelazioneSullaPerformance`, `relazioneSistemaDiValutazione`,
+`altriAttiOrganismoAnalogo`, `relazioneBilancioDiPrevisione`,
+`relazioneContoConsuntivo`) è un blocco **singolare** (`DatiIdentificativiDocumento`,
+un solo `dataPubblicazione`+`documento`, non un array) — ma niente impedisce
+a un redattore di taggare più documenti con lo stesso `anac_document_type`
+nel tempo (es. una nuova relazione ogni anno). Se succede, il JSON tiene solo
+il documento con `publication_start_time` più recente per quella chiave; il
+CSV invece li elenca **tutti** (nessuna riduzione), quindi CSV e JSON possono
+avere cardinalità diverse per la stessa sottosezione — lo storico non si
+perde comunque, resta nei file datati immutabili di `ExportPublisher`.
+
+**Un documento incompleto sparisce da CSV e JSON**, non solo dal JSON (a
+differenza di `Art13Serializer`): se manca il file allegato o la data di
+pubblicazione, `fetchDocumentUrl()`/`fetchPublicationDate()` restituiscono
+`null` e il documento viene scartato ovunque (`buildDatiIdentificativiBlock()`
+e `toCsvDocumenti()` condividono lo stesso controllo). Diverso da art. 13
+perché qui non c'è un CSV "meno esigente" dello schema JSON da preservare: un
+documento senza file scaricabile non è comunque pubblicabile in nessuna
+forma.
+
+**Vocabolario "oggetto" della Corte dei conti — apostrofo, non accento**:
+verificato scaricando `art.31-v1.0.schema.json` (definizione
+`OggettoRilievoCorteDeiConti`): i valori ammessi sono `Organizzazione`,
+`Attivita'` (con l'apostrofo dritto) e `Entrambe` — questo risolve
+un'ambiguità che la issue #477 stessa segnalava come non chiarita tra la
+tabella campi della guida online e l'Allegato 3 della delibera. Il redattore
+scrive quasi certamente "Attività" con l'accento nel dataset (testo libero):
+`normalizeOggetto()` confronta ignorando accenti/apostrofi/maiuscole, ma
+**restituisce sempre la stringa canonica esatta dello schema** (con
+l'apostrofo), non quella scritta dal redattore.
+
+**Testato con dati reali in `sito-comunale-dev`** (2026-09-15): due document
+esistenti taggati temporaneamente (`Validazione della Relazione sulla
+Performance`, `Relazione al bilancio di previsione`), url `content/download`
+reali generate, poi tag ripristinati a vuoto - vedi CSV/JSON di esempio nel
+commit. Il dataset Corte dei conti era vuoto in dev: verificato solo che
+CSV/JSON gestiscono correttamente il caso vuoto (CSV solo header, blocco
+`attiOrganiDiControllo` omesso dal JSON) e la logica di normalizzazione
+vocabolario/eccezione via chiamata diretta a `mapRilievo()`, non l'inserimento
+reale di una riga nel dataset.
 
 ## Gestione errori e casi limite
 
@@ -533,30 +663,21 @@ fonte editoriale (contatti della Homepage), invariata.
   mantenendolo nel JSON con `uffici: []`. Gli esempi ANAC scaricati il
   2026-09-15 hanno sempre almeno un ufficio per organo, non risolvono il
   caso in modo definitivo.
-- **Art. 31 (#477)**: serializer non ancora scritto. Il prerequisito di
-  content model **è stato fatto** (2026-09-15): nuovo attributo
-  `anac_document_type` su `document` (eztags, tassonomia piatta "Tipo
-  documento ANAC", figlia di "Documenti") in
-  `installer/modules/trasparenza/classes/document.yml` — vedi
-  `installer/modules/trasparenza/CLAUDE.md` per il perché delle scelte
-  (campo separato da `document_type` perché quello è pubblico, tassonomia
-  piatta perché ANAC rivede periodicamente questi schemi, il bug di cache
-  tag↔attributo trovato installandolo). Restano da scrivere: il serializer
-  vero e proprio, con delimitatore CSV `;` (non tab come art. 4-bis).
-  Mismatch di cardinalità CSV↔JSON deciso con Marco il 2026-09-15
-  ("documento più recente per chiave", storico preservato dai file datati
-  immutabili - vedi sopra), meccanismo di esposizione NON da unificare
-  (query live su `document` per OIV/Organi di revisione, dataset per Corte
-  dei conti - decisione presa il 2026-09-15, motivata dalla natura diversa
-  dei dati).
-- **Cron/wiring**: fatto per art. 4-bis e art. 13/C1
+- **Art. 31 (#477) — C2**: non previsto per ora, stesso perimetro di art. 13
+  (nessuna alberatura ANAC su `trasparenza-c2`, vedi
+  `installer/modules/trasparenza-c1/CLAUDE.md`). Il resto (C1: `art.31-oiv`,
+  `art.31-or`, `art.31-oc`, JSON "file unico") **è fatto**, vedi sezione
+  `Art31Serializer` sopra.
+- **Art. 31 — home del JSON "file unico"**: scelta arbitraria (pagina
+  "Organismi indipendenti di valutazione"), non validata con Marco — vedi
+  nota nella sezione "Node id da passare a `ExportPublisher`" sopra.
+- **Cron/wiring**: fatto per art. 4-bis, art. 13/C1 e art. 31/C1
   (`openpa_bootstrapitalia/cronjobs/anac_export.php`, registrato sotto
   `[CronjobPart-changesection]` in `settings/cronjob.ini.append.php` —
   scelta provvisoria: gruppo con semantica sbagliata ma zero costo
   infrastrutturale aggiuntivo sul cron SaaS, `CONCURRENCY=2` su ~600 tenant —
   da rivedere con un gruppo dedicato in futuro). Da estendere quando arriva
-  art. 31 (stesso pattern, un'altra funzione `publishArt31()` nello stesso
-  file) e quando arriva art. 13/C2.
+  art. 13/C2.
 - **UI di download nella pagina trasparenza**: nessun link/bottone porta
   all'export oggi — va aggiunto sul template della pagina di trasparenza
   (`pagina_trasparenza`), NON sul datatype `dataset`, perché diversi schemi
