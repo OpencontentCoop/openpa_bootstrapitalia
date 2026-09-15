@@ -468,6 +468,18 @@ Logica in `mapSectionEvents()` di `HomepageLockEditClassConnector.php`.
 
 ---
 
+## Export ANAC (Amministrazione Trasparente)
+
+Sistema per produrre export CSV/JSON conformi agli schemi ANAC (art. 4-bis,
+31, 13) a partire dai contenuti del sito, con url pubblici versionati e
+naming datato — namespace `OpenPABootstrapItalia\Anac` in `classes/anac/` +
+modulo `modules/anac_export/`. Vedi `classes/anac/CLAUDE.md` per architettura
+completa, meccanismo di pubblicazione url, vocabolario controllato,
+gestione errori e stato di avanzamento (in sviluppo, GitLab cms#475/#477/#478/#479).
+Controparte lato content model/installer: `installer/modules/trasparenza-c1/CLAUDE.md`.
+
+---
+
 ## File rilevanti
 
 | File | Ruolo |

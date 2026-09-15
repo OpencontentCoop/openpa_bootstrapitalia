@@ -1,0 +1,526 @@
+# Export ANAC (namespace `OpenPABootstrapItalia\Anac`)
+
+Sistema per produrre export CSV/JSON conformi agli schemi ANAC per la sezione
+Amministrazione Trasparente (Guida Online ANAC, `guida-servizi.anticorruzione.it`),
+a partire dai contenuti già pubblicati sul sito. Nasce dalle issue GitLab
+opencity-labs/sito-istituzionale/cms#475 (art. 4-bis, "Dati sui pagamenti"),
+#477 (art. 31), #478 (art. 13), con requisiti trasversali di naming/versionamento
+in #479. Vedi anche `installer/modules/trasparenza-c1/CLAUDE.md` per la parte
+di content model/binding schema↔pagina.
+
+**Stato (2026-09-15)**: art. 4-bis completo (cron incluso). Art. 13 (#478) in
+corso: serializer per il profilo **C1 soltanto** scritto e verificato con dati
+reali, cron non ancora esteso per includerlo. Art. 31 (#477) non iniziato.
+Meccanismo di pubblicazione URL generico, condiviso da tutti gli schemi,
+completo e testato.
+
+## Architettura
+
+```
+classes/
+  AmministrazioneTrasparenteTools.php  globale (non nel namespace Anac):
+                                        tipologia ente C1/C2, prerequisito
+                                        trasversale per art. 31/13
+  anac/
+    ExportPublisher.php              generico, per tutti gli schemi: scrive su
+                                      cluster storage + espone url pubblico
+    IntestazioneProvider.php         blocco "intestazione" comune a tutti gli
+                                      schemi (codice fiscale + denominazione ente)
+    MissingCodiceFiscaleException.php
+    InvalidVocabolarioException.php
+    Serializer/
+      Art4BisSerializer.php          art. 4-bis (Dati sui pagamenti) - completo
+      Art13Serializer.php            art. 13 (Organizzazione) - solo C1 per ora
+modules/anac_export/
+  module.php                       registra la view "file"
+  file.php                         streama il file dal cluster storage
+```
+
+### `ExportPublisher` — versionamento e pubblicazione (comune a tutti gli schemi)
+
+Per ogni schema (`$schemaIdentifier`, es. `art.4-bis`):
+
+1. Calcola l'hash del solo CSV (non del JSON — vedi sotto perché). Se
+   identico all'ultima pubblicazione, non fa nulla (tracking già a posto,
+   nessuna riscrittura inutile, date invariate).
+2. **Una pubblicazione avviene al massimo una volta al giorno**: se il
+   tracking dice che oggi è già stato pubblicato (`dataUltimaModifica ==
+   oggi`), un ulteriore cambiamento rilevato nello stesso giorno non genera
+   una nuova pubblicazione — viene colto dalla prossima esecuzione, il
+   giorno dopo (vedi "Immutabilità e -latest" sotto per il perché).
+3. Altrimenti risolve `dataUltimaModifica = oggi` e `dataPrimaPubblicazione`
+   (invariata se già pubblicato in passato, oggi se prima pubblicazione),
+   POI chiede al chiamante di costruire il JSON finale con quelle date (vedi
+   "Perché il JSON si costruisce con una callback" sotto), poi scrive
+   insieme, stesso contenuto, su cluster storage (`eZClusterFileHandler`, NON
+   filesystem diretto — necessario perché in produzione SaaS si usa quasi
+   certamente `--embed-dfs-schema`, cluster DB/S3, non disco locale):
+   - `{schema}-{dataPrimaPubblicazione}-{dataUltimaModifica}.csv`
+   - `{schema}-{dataPrimaPubblicazione}-{dataUltimaModifica}.json`
+   - `{schema}-latest.csv` (stesso contenuto del file datato appena scritto)
+   - `{schema}-latest.json` (idem)
+4. Traccia lo stato in `eZSiteData` (`anac_export_<schema>`, JSON: dataHash,
+   dataPrimaPubblicazione, dataUltimaModifica, pathCsv, pathJson) — stesso
+   pattern già usato dall'installer per il version-tracking dei moduli.
+5. Pubblica un url pubblico per ogni file scritto via `eZURLAliasML::storePath()`
+   (vedi sotto).
+
+Trigger: **non** `post_publish`. Un dataset (classe `dataset`, datatype
+`opendatadataset`/`csv_resource`) può cambiare contenuto senza mai passare da
+`onPublish()` di una versione (verificato: l'inserimento riga nel dataset è un
+INSERT diretto in tabella, non un publish). Il chiamante di `publish()` deve
+quindi essere un cron periodico che rigenera ogni schema attivo confrontando
+l'hash — non un webhook/trigger sull'evento di pubblicazione contenuto.
+
+#### Perché il JSON si costruisce con una callback, non una stringa già pronta
+
+`publish($csv, callable $jsonBuilder)`, non `publish($csv, $json)`. Bug reale
+trovato prima ancora di scrivere il cron: se il chiamante serializza il JSON
+PRIMA di chiamare `publish()`, deve già sapere `dataUltimaModifica` — ma
+quel valore dipende proprio dal confronto che `publish()` fa internamente
+("il dato è cambiato rispetto a ieri?"). Se il chiamante mette sempre "oggi"
+a priori, il JSON cambia ad ogni esecuzione del cron anche quando il dato
+è identico (perché la data cambia comunque), quindi l'hash del JSON cambia
+sempre, quindi `dataUltimaModifica` si aggiornerebbe ad ogni run — violando
+il requisito ANAC che deve aggiornarsi solo quando il dato cambia davvero.
+Soluzione: hash calcolato solo sul CSV (che non contiene mai le date), e il
+JSON si costruisce tramite callback **dopo** che `publish()` ha già deciso
+le date giuste. Vale solo per il JSON: il CSV non ha questo problema perché
+non incorpora `intestazione` con le date.
+
+#### Immutabilità e "-latest" — il cron gira più volte al giorno
+
+Rischio reale, non teorico: `[CronjobPart-changesection]` gira 2 volte al
+giorno (1:00 e 15:00, vedi crontab). Se `publish()` pubblicasse ad ogni
+cambiamento rilevato senza limiti, un secondo cambiamento nello stesso
+giorno sovrascriverebbe silenziosamente un url datato già pubblicato e
+potenzialmente già scaricato/citato da qualcuno — il naming a due date
+esiste apposta per garantire che un url, una volta pubblicato, non cambi mai
+più.
+
+**Primo tentativo di fix (sbagliato, scartato)**: scrivere il file datato
+solo se non esiste già, ma continuare a sovrascrivere sempre `-latest` con
+il contenuto più recente. Sbagliato perché la issue descrive `-latest` come
+un **alias sempre puntato all'ultima versione [pubblicata]**, non un mirror
+indipendente in tempo reale — con quel primo fix, un secondo cambiamento
+nello stesso giorno avrebbe fatto divergere `-latest` (dato più recente) dal
+file datato di quel giorno (dato meno recente, congelato al primo
+cambiamento) — due fonti di verità diverse per "lo stato attuale".
+
+**Fix corretto**: una pubblicazione avviene al massimo una volta al giorno
+(vedi punto 2 sopra). Quando succede, datato e `-latest` si scrivono insieme,
+stesso contenuto, nello stesso momento — non possono mai divergere per
+costruzione, perché non esiste un percorso di codice che aggiorni l'uno senza
+l'altro. Un secondo cambiamento nello stesso giorno non viene pubblicato
+affatto (né datato né `-latest`): resta quello di stamattina finché il giorno
+dopo non arriva una nuova pubblicazione con lo stato cumulativo. Verificato
+con test reale (due `publish()` in sequenza, stesso giorno, contenuti
+diversi: sia il file datato sia `-latest` restano al primo contenuto — il
+secondo cambiamento non viene scritto da nessuna parte finché non cambia il
+giorno).
+
+#### Latenza: quando un redattore vede il proprio dato pubblicato
+
+`[CronjobPart-changesection]` gira alle **1:00 e alle 15:00** (crontab reale
+di `sito-comunale-dev`: `0 1,15 * * *`). Punto importante da non fraintendere
+(non è "il dato del giorno non finisce mai nel file di quel giorno" — è più
+sottile):
+
+- **La guardia "una pubblicazione al massimo al giorno" (vedi sopra) dipende
+  da se quel giorno ha GIÀ avuto una pubblicazione, non dall'orario
+  dell'edit.** Un redattore che modifica il dataset a mezzogiorno, se quel
+  giorno non è ancora stata fatta nessuna pubblicazione (es. il run
+  dell'1:00 non aveva trovato nulla di cambiato), viene tranquillamente
+  catturato dal run delle 15:00 e finisce nel file datato di **oggi**.
+- Il caso che resta davvero scoperto fino al giorno dopo è un **secondo
+  cambiamento nello stesso giorno DOPO che una pubblicazione è già
+  avvenuta** (es. qualcosa cambia già all'1:00 e viene pubblicato, poi il
+  redattore modifica di nuovo a mezzogiorno) — quel secondo cambiamento non
+  compare da nessuna parte (né datato né `-latest`) fino al run dell'1:00
+  del giorno successivo.
+- Una modifica fatta **dopo il run delle 15:00** (es. alle 18:00) viene vista
+  solo al run dell'1:00 del giorno dopo, e finisce quindi nel file datato di
+  **domani**, non di oggi — anche se per il redattore "l'ha fatto oggi". La
+  data nel nome del file riflette **quando il cron se ne accorge**, non
+  quando il dato è stato effettivamente scritto.
+- Latenza massima nel caso peggiore: circa mezza giornata (dal run delle
+  15:00 al run dell'1:00 del giorno dopo, se il cambiamento arriva subito
+  dopo le 15:00) o un giorno intero (se cade nel caso del secondo punto).
+  Non eliminabile aumentando la frequenza del cron, per via del vincolo
+  "una pubblicazione al massimo al giorno" richiesto dalla granularità delle
+  date ANAC (YYYYMMDD, non un timestamp) — un cron più frequente
+  ridurrebbe solo la finestra di rilevazione del PRIMO cambiamento del
+  giorno, non risolverebbe il caso del secondo cambiamento stesso giorno.
+  L'unica soluzione strutturale sarebbe un trigger event-driven invece di un
+  cron periodico, ma i dataset non passano da `post_publish` (vedi sopra) —
+  richiederebbe agganciarsi a un altro punto del ciclo di vita
+  (`OpendataDatasetSearchableRepository`/l'insert diretto in tabella), non
+  ancora esplorato.
+
+### Node id da passare a `ExportPublisher`: NON la radice dell'alberatura
+
+Il secondo parametro del costruttore (`$rootNodeId`) è il nodo della
+**pagina/oggetto specifico dello schema**, non la radice di "Amministrazione
+Trasparente" o "Società trasparente". Per art. 4-bis è il nodo del dataset
+"Dati sui pagamenti" (remote_id `dati_sui_pagamenti`, creato da
+`installer/modules/trasparenza-c1/contents/Dati-sui-pagamenti-Dataset.yml`),
+il cui path reale è `Amministrazione/Documenti-e-dati/Dataset/Dati-sui-pagamenti`
+— sotto l'area "Documenti e dati" del sito istituzionale, non sotto l'albero
+di trasparenza. L'url pubblico finale è quindi:
+
+```
+https://<sito>/Amministrazione/Documenti-e-dati/Dataset/Dati-sui-pagamenti/art.4-bis-latest.csv
+https://<sito>/Amministrazione/Documenti-e-dati/Dataset/Dati-sui-pagamenti/art.4-bis-20260615-20260622.csv
+```
+
+(Corrisponde al pattern richiesto da ANAC in #479: `<alberatura>/art.<N>[-suffisso]-YYYYMMDD-YYYYMMDD.<ext>`
++ alias `-latest.<ext>`, dove `<alberatura>` è il path reale della pagina che
+mostra quel dato, non un prefisso fisso per tutto il sito.)
+
+Per schemi futuri (art. 31, art. 13) che NON hanno un oggetto dataset dietro
+(vedi "Cosa manca" — usano query live `fields` su altre classi), il nodo da
+passare sarà quello della pagina di trasparenza stessa (`pagina_trasparenza`).
+
+### Il modulo `anac_export` — perché serve e due bug non ovvi
+
+I file scritti da `ExportPublisher` vivono su `eZSys::cacheDirectory() . '/anac_export'`
+(cluster storage). **Non sono raggiungibili staticamente**: verificato leggendo
+la config nginx reale di `sito-comunale-dev` — nessuna regola serve
+`cache/anac_export/...`, tutto cade nel catch-all che passa a `index.php` come
+URI di contenuto normale (→ 404). Stesso motivo per cui il precedente
+`ocexportas` (estensione separata, pattern simile ma per export "live") espone
+i suoi file tramite un modulo eZ dedicato (`/customexport/...`) che legge da
+cluster storage e streama — qui si fa lo stesso con un modulo nuovo.
+
+`eZURLAliasML::storePath()` (l'API nativa con cui eZ Publish genera gli url
+puliti dei nodi) supporta un'action `module:<modulo>/<view>/<parametri>` oltre
+a `eznode:<id>` — è il meccanismo con cui `ExportPublisher` aggancia un path
+pubblico "pulito" (tipo quello di un nodo) a `anac_export/file/<schema>/<filename>`.
+
+**Due bug reali trovati con debug end-to-end, non ovvi dalla sola lettura del
+codice — da non riscoprire in futuro:**
+
+1. **I punti nel nome file vengono convertiti in trattini di default.**
+   `storePath()` passa ogni segmento di path per `convertToAlias()`, che
+   trasforma `.` in `-` (vedi il suo stesso docblock: `'myfile.tpl' =>
+   'Myfile-tpl'`). Senza intervenire, `art.4-bis-latest.csv` sarebbe
+   diventato qualcosa come `art-4-bis-latest-csv`, rompendo sia il prefisso
+   `art.` sia l'estensione. **Fix**: settare `cleanupElements=false` (7°
+   parametro posizionale di `storePath()`).
+
+2. **Un modulo eZ nuovo resta sempre in HTTP 410 (access denied) per
+   l'utente anonimo, anche con la policy di ruolo corretta**, se `module.php`
+   definisce `$ViewList[...]['functions']` ma NON definisce anche
+   `$FunctionList` con la stessa chiave. Causa: `eZUser::hasAccessToView()`
+   (kernel/classes/datatypes/ezuser/ezuser.php) usa `$module->attribute('available_functions')`
+   (= `$FunctionList`) per sostituire i nomi delle funzioni nell'espressione
+   di accesso con `true`/`false`; se la chiave non c'è, la sostituzione non
+   avviene, l'espressione risultante non è vuota, e il modulo scrive
+   silenziosamente in log "There is a mistake in the functions array data...
+   Please check the module.php file" e nega sempre l'accesso — indipendente
+   dalla policy sul ruolo. Basta anche un array vuoto:
+   `$FunctionList['file'] = array();` risolve. Visibile solo abilitando il
+   debug output di eZ (`[DebugSettings]DebugOutput` a `enabled`) e cercando
+   "Module start" / "Error" nel report — l'errore non compare nella pagina
+   visibile all'utente.
+
+Serve inoltre una policy esplicita sul ruolo Anonymous (`ModuleName:
+anac_export, FunctionName: file`, nessuna limitazione) — questi export sono
+dati di trasparenza obbligatoriamente pubblici, stesso trattamento già
+riservato a `exportas/csv`. Vedi `installer/roles/Anonymous.yml`.
+
+### `Art4BisSerializer` — vocabolario controllato
+
+Il campo `categoria_di_spesa`/`tipologia_di_spesa`/`beneficiario` del dataset
+sono testo libero lato redattore. Lo schema ANAC richiede invece stringhe
+esatte da un vocabolario chiuso (verificato su
+`guida-servizi.anticorruzione.it/it/help/trasparenza/schemi/art.4-bis/` il
+2026-09-15 — se ANAC aggiorna la guida, aggiornare le costanti
+`CATEGORIA_*`/`TIPOLOGIE_PER_CATEGORIA`/`BENEFICIARI_AMMESSI` in
+`Art4BisSerializer.php`):
+
+- categoria: `Uscite correnti` / `Uscite in conto capitale`
+- tipologia: dipende dalla categoria della riga (5 valori ammessi per
+  ciascuna categoria, vedi costanti nel file)
+- beneficiario: `Persona fisica` / `Altro soggetto pubblico e privato` /
+  `Soggetto estero`
+
+Il matching è case/spazi-insensitive (il redattore può scrivere "uscite
+correnti" minuscolo, viene normalizzato alla stringa canonica), ma se il
+valore non corrisponde a nessuna voce ammessa **l'export fallisce
+esplicitamente** (`InvalidVocabolarioException`) invece di pubblicare un
+valore non conforme — stesso principio già usato per il codice fiscale
+mancante/malformato in `IntestazioneProvider` (`MissingCodiceFiscaleException`,
+11 cifre numeriche richieste).
+
+L'importo (`normalizeImporto()`) viene sempre riportato al formato ANAC
+`n.nnn,dd` (punto delle migliaia, virgola decimale) qualunque sia la
+convenzione di digitazione del redattore (`1550.33`, `1550,33`, `1.550,33`,
+`1,550.33` producono tutti `1.550,33`) — euristica: se compaiono sia `,` che
+`.`, l'ultimo dei due è il separatore decimale.
+
+### `Art13Serializer` — solo profilo C1 per ora
+
+Copre `art.13-as` (ambito soggettivo) e `art.13-op` (organi di indirizzo
+politico + uffici). **Non copre** `art.13-oa` (C2), `art.13-org`
+(organigramma, sorgente dati non individuata) né `art.13-rif` (fuori
+perimetro, dovuto solo a ordini/collegi professionali C3). Vedi
+`installer/modules/trasparenza-c1/CLAUDE.md` per il perimetro C1/C2/C3.
+
+**Fonte dati**: tutta già esistente nel content model, nessun nuovo
+attributo (a differenza di art. 31, dove `TIPO_DOCUMENTO` serve un campo
+codificato nuovo):
+- `organization.type` (eztags, tassonomia "Organizzazione / Tipo di
+  struttura organizzativa") per distinguere organi (`Struttura politica`) da
+  uffici (`Struttura amministrativa`).
+- `organization.hold_employment` per collegare un ufficio al suo organo -
+  **verificato che accetta anche un organo politico come target**, non solo
+  un'Area amministrativa (vedi sotto, "hold_employment non è ristretto alle
+  Aree").
+- `organization.office_manager` (datatype `openparole`) → `OpenPARoles::getRoles()`
+  per il responsabile dell'ufficio; il ruolo trovato ha sempre tag "Responsabile"
+  (è il filtro con cui il widget lo trova), quindi `QUALIFICA_DIRIGENTE` resta
+  sempre vuota - coerente con l'esempio ANAC stesso, dove quel campo è vuoto.
+- `time_indexed_role.incarico_dirigenziale` (booleano) per la biforcazione
+  `Ufficio dirigenziale`/`Ufficio non dirigenziale`.
+- `online_contact_point.contact` per i contatti (vedi sotto, formato diverso
+  dalla matrice contatti della Homepage).
+
+#### `hold_employment` non è ristretto alle Aree — una falsa pista chiarita con un test pratico
+
+Avevo inizialmente concluso (2026-09-15, poi corretto in giornata) che
+`hold_employment` collegasse un ufficio SOLO a un'Area amministrativa,
+basandomi sullo schema REST (`ocopenapi`): il campo lì dichiara
+esplicitamente `"Resource uri from .../amministrazione/aree-amministrative/"`
+e un tentativo di impostarlo a un organo politico via API veniva rifiutato
+con "Invalid value for hold_employment". Verificato anche sui siti reali
+Bugliano e Verona: stesso vincolo, stessi dati (nessun ufficio mai collegato
+a un organo politico).
+
+**Sbagliato**: è un vincolo imposto solo dallo schema OpenAPI (probabilmente
+derivato dal `default_placement` della classe, riusato in modo troppo
+restrittivo come vincolo di validazione), non un limite del datatype
+`ezobjectrelationlist` sottostante, che ha solo `class_constraint_list:
+organization` (nessuna restrizione di sotto-albero). **Verificato con un
+test pratico** (Marco, dal backend, non dall'API): un ufficio creato con
+`hold_employment` puntato a "Consiglio comunale" (organo politico) si salva
+e si legge correttamente. Il design originale del serializer (basato su
+`hold_employment` per trovare gli uffici di un organo) era quindi corretto -
+l'errore era testare tramite un livello (l'API REST) più restrittivo del
+dato reale. **Lezione**: quando un'API restituisce un errore di validazione,
+non dare per scontato che rifletta un vincolo del modello dati - può essere
+un vincolo aggiunto solo da quel layer.
+
+#### Struttura JSON reale — diversa da quella descritta nella issue #478
+
+Verificato scaricando gli esempi reali ANAC il 2026-09-15 (non fidarsi
+dell'esempio JSON nella issue, che è un paraphrase impreciso): **non esiste
+un campo `ambitoSoggettivo` esplicito**. L'ambito è espresso solo dalla
+chiave usata per il blocco organi:
+
+```json
+{
+    "intestazione": { ... },
+    "orgPubblicheAmministrazioni": {   // C1 - "orgSocietaEdEnti" per C2
+        "organi": [ ... ],
+        "organigramma": "https://..."  // solo per C1, dentro questo blocco
+    }
+}
+```
+
+`toJson()` sceglie la chiave in base a `AmministrazioneTrasparenteTools::getTipologiaEnte()`.
+
+#### `online_contact_point.contact` — formato diverso dalla matrice della Homepage
+
+**Non riusare `OpenPAAttributeContactsHandler`** per questo campo: è
+costruito per la matrice "contacts" della Homepage (2 colonne, nome/valore).
+`online_contact_point.contact` è un `eZMatrix` a 3 colonne (`type`, `value`,
+`contact`), una riga per contatto - va letto con
+`$attribute->content()->attribute('rows')['sequential']`, poi per ogni riga
+`row['columns'][0]` (tipo, testo libero: "Telefono", "email" minuscolo nei
+dati reali visti, ecc.) e `row['columns'][1]` (valore). Il matching su
+"Telefono"/"Email"/"PEC" è case-insensitive ma resta fragile: il campo `type`
+è testo libero, non un vocabolario chiuso — un redattore che scrive "E-mail"
+o "Posta elettronica" non verrebbe riconosciuto.
+
+#### Insidie dell'API kernel scoperte scrivendo/testando questo serializer
+
+Non ovvie dalla sola lettura del codice, trovate solo con test reali (vedi
+anche la nota su art. 4-bis "Cluster storage, non filesystem" per lo stesso
+principio):
+
+- `eZContentObjectAttribute->content()` su un campo `ezobjectrelationlist`
+  restituisce `['relation_list' => [...]]`, non un array semplice - usare
+  `->toString()` + `explode('-', ...)` (stesso pattern di
+  `BootstrapItaliaInstallerUtils::appendToHeaderLink` e di
+  `OpenPARoles::getRolesPerPerson()`), non `content()`.
+- `->content()` su un campo `eztags` restituisce un oggetto `eZTags`, non un
+  array con chiave `keywords` - usare `->attribute('tags')` per ottenere i
+  veri `eZTagsObject` (con `->attribute('path_string')`/`->attribute('keyword')`).
+- `->content()` su un campo `ezxmltext`, poi `->attribute('output')`,
+  restituisce un oggetto `eZXHTMLXMLOutput` - il testo è
+  `->attribute('output')->attribute('output_text')`, non un array.
+- `eZContentObject::fetchSameClassList()` vuole l'**ID numerico** della
+  classe (`eZContentClass::fetchByIdentifier('organization')->attribute('id')`),
+  non l'identifier stringa, e i parametri sono posizionali
+  (`$asObject, $offset, $limit`), non un hash di opzioni.
+
+## Gestione errori e casi limite
+
+### Le due eccezioni di dominio, e cosa succede davvero quando scattano
+
+| Eccezione | Quando | Dove viene lanciata |
+|---|---|---|
+| `MissingCodiceFiscaleException` | Codice fiscale non compilato nei contatti Homepage, oppure compilato ma non 11 cifre numeriche | `IntestazioneProvider::getAmministrazione()` — **prima ancora di leggere una sola riga del dataset**, perché l'intestazione è comune a tutto l'export |
+| `InvalidVocabolarioException` | Categoria/tipologia/beneficiario di UNA riga non corrisponde a nessuna voce del vocabolario ANAC (case/spazi-insensitive) | `Art4BisSerializer::matchVocabolario()`, chiamata da `mapItem()` dentro il loop di `toCsv()`/`toJson()` |
+
+**Nessuna delle due viene presa da un `try/catch` da nessuna parte nel codice
+attuale.** Conseguenze concrete, non ovvie:
+
+- **Tutto-o-niente per schema**: se anche una sola riga su mille ha un
+  beneficiario scritto male, l'intero export (CSV e JSON) di quello schema
+  fallisce — non viene generato un file parziale con le righe buone. Il file
+  `-latest` esistente resta quello vecchio (non si aggiorna, ma non si rompe
+  nemmeno: `ExportPublisher::publish()` non viene mai raggiunto perché il
+  serializer lancia prima di restituire csv/json).
+- **Nessuna notifica**: oggi, se il cron (quando esisterà) non intercetta e
+  logga esplicitamente queste eccezioni, l'unico sintomo visibile è che il
+  file pubblico smette di aggiornarsi — nessun alert a redattori/RTD. Per un
+  obbligo di trasparenza con scadenze legali questo è un rischio reale, non
+  solo un dettaglio tecnico.
+- **Un errore sul codice fiscale (comune a tutti gli schemi) blocca TUTTI gli
+  export**, non solo quello in corso — `IntestazioneProvider` è condiviso.
+- **Domanda di design aperta, non risolta**: quando si scrive il cron,
+  decidere esplicitamente tra (a) tutto-o-niente + notifica attiva a chi
+  gestisce il sito, (b) scartare la singola riga malformata e pubblicare
+  comunque le altre (rischio opposto: dato mancante silenziosamente, non
+  errore bloccante ma incompletezza non segnalata), (c) altro. Non assumere
+  che (a) — il comportamento attuale di fatto, per assenza di gestione — sia
+  la scelta voluta: è solo quello che succede perché non c'è ancora niente
+  che intercetti.
+
+### `ExportPublisher` — comportamento silenzioso da conoscere
+
+- **Idempotenza vera**: chiamare `publish()` più volte con lo stesso
+  contenuto (hash identico) è un no-op completo — non riscrive i file, non
+  tocca gli url alias. Chiamare il cron più volte al giorno per sicurezza non
+  ha controindicazioni.
+- **`$rootNodeId` che non risolve a un nodo valido fallisce in silenzio**:
+  `publishUrlAlias()` fa solo `return` se `eZContentObjectTreeNode::fetch()`
+  non trova il nodo — **il file viene comunque scritto su cluster storage**,
+  ma resta senza url pubblico, senza nessun errore/warning. Scenario reale in
+  cui questo capita: un ente ha ancora il vecchio modulo monolitico
+  `anac-495-2024` (non ha `trasparenza-c1`), quindi il nodo con remote_id
+  `dati_sui_pagamenti` esiste con un `node_id` diverso o addirittura con un
+  layout diverso — se il cron gira con un node id sbagliato/non aggiornato
+  per quel tenant, non si accorge di nulla. Da tenere a mente per un rollout
+  multi-tenant a scaglioni (vedi [[project_nuova_trasparenza_anac]] in
+  memoria).
+- **Cluster storage, non filesystem**: `eZClusterFileHandler` astrae se il
+  backend è locale o DB/S3 (`--embed-dfs-schema`) — in locale il file può non
+  esistere su disco reale pur risultando `exists()` vero (verificato: in
+  `sito-comunale-dev`, che pure gira in cluster mode DFS, `file_exists()` sul
+  path grezzo dà `no` mentre `eZClusterFileHandler->exists()` dà `yes`). Non
+  usare mai `file_exists()`/`file_get_contents()` diretti su questi path.
+
+### Modulo `anac_export/file.php` — cosa restituisce e quando
+
+- Filename non valido o con caratteri fuori whitelist (`[a-zA-Z0-9_.\-]`) o
+  file non trovato su cluster storage → HTTP 404 (`eZError::KERNEL_NOT_FOUND`,
+  non 410). Il 410 visto durante lo sviluppo era sempre `KERNEL_ACCESS_DENIED`
+  (bug #2 sopra), non "file assente" — i due casi sono distinguibili dal
+  codice HTTP.
+- `basename()` sul parametro `Filename` prima di costruire il path: previene
+  path traversal (`../../altra_cartella`) sul cluster storage, dato che il
+  parametro arriva da URL pubblica non autenticata.
+- Nessun controllo di accesso applicativo oltre alla policy di ruolo — a
+  differenza di `ocexportas` (che nel costruttore di `AbstarctExporter` fa
+  anche un controllo `checkAccess()` applicativo in aggiunta alla policy),
+  qui non serve: sono dati obbligatoriamente pubblici, non c'è nessuna
+  limitazione da applicare oltre "chiunque può leggerli".
+
+## Tipologia ente (prerequisito per art. 31 #477 e art. 13 #478)
+
+`AmministrazioneTrasparenteTools::getTipologiaEnte()` (classe globale, NON
+nel namespace `OpenPABootstrapItalia\Anac` — è un concetto trasversale, non
+specifico dell'export) restituisce `'C1'` (pubblica amministrazione) o
+`'C2'` (società/ente in controllo pubblico), o `null` se nessuna alberatura
+di trasparenza è installata. Serve per il perimetro di #477 e per il valore
+di `ambitoSoggettivo` in #478 — prima di questa classe non esisteva alcun
+modo di interrogare a runtime "che tipo di ente è questo sito", solo di
+sapere quale modulo installer era stato installato.
+
+Fonte del dato, in ordine di priorità:
+
+1. `[Trasparenza]TipologiaEnte` in `openpa.ini` (`openpa_bootstrapitalia/settings/openpa.ini.append.php`,
+   sezione già esistente — non creare un nuovo file ini per questo).
+   Impostato per tenant via `EZINI_openpa__Trasparenza__TipologiaEnte`, vuoto
+   di default.
+2. Se vuoto (tutti i ~600 siti già installati oggi, prima che questa
+   variabile esistesse), euristica di transizione: presenza del nodo radice
+   caratteristico di `trasparenza-c1` (remote_id `5399ef12f98766b90f1804e5d52afd75`,
+   la radice "Amministrazione Trasparente", comune anche al vecchio
+   `trasparenza` monolitico) o di `trasparenza-c2` (remote_id `t_c2_root`,
+   "Società trasparente"). Se sono presenti entrambi (caso non atteso: un
+   ente non dovrebbe essere contemporaneamente C1 e C2), vince C1.
+
+Non è stato ancora deciso **quando** valorizzare l'ini esplicitamente per i
+siti esistenti (operazione di provisioning su scala, non banale su 600
+tenant) — per ora l'euristica di fallback è l'unica fonte di verità in
+pratica. Verificato con test reale in `sito-comunale-dev` (che ha sia C1 sia
+C2 installati): `getTipologiaEnte()` restituisce correttamente `C1` per
+precedenza.
+
+Valutato (2026-09-15) e scartato un analogo override ini per il codice
+fiscale in `IntestazioneProvider`: a differenza della tipologia ente, il
+codice fiscale è mostrato anche pubblicamente sul sito (contatti, footer) —
+un override indipendente avrebbe rischiato di far mostrare all'export ANAC
+un CF diverso da quello che il cittadino vede sul sito. Resta quindi solo la
+fonte editoriale (contatti della Homepage), invariata.
+
+## Cosa manca (non ancora costruito)
+
+- **Art. 13 (#478) — C2 (`art.13-oa`)**: non iniziato. Stesso meccanismo di
+  C1 (`hold_employment`/`office_manager`/`incarico_dirigenziale`), ma la
+  chiave `type` per gli "organi di amministrazione e gestione" societari non
+  è ancora chiara nella tassonomia esistente (pensata per comuni: Giunta/
+  Consiglio/Assessorato, non Consiglio di amministrazione/Assemblea soci) -
+  probabile che serva testarla su un caso C2 reale quando arriva.
+- **Art. 13 — `art.13-org` (organigramma)**: non implementato,
+  `Art13Serializer::fetchOrganigramma()` restituisce sempre `null`. Non
+  individuata la sorgente dati reale nel content model (probabile immagine
+  su un contenuto dedicato, non un campo di `organization`).
+- **Art. 13 — riga CSV per organo senza uffici**: scelto (non verificato al
+  100%) di omettere l'organo dal CSV `art.13-op` se non ha uffici collegati,
+  mantenendolo nel JSON con `uffici: []`. Gli esempi ANAC scaricati il
+  2026-09-15 hanno sempre almeno un ufficio per organo, non risolvono il
+  caso in modo definitivo.
+- **Art. 31 (#477)**: non iniziato. Ha domande di analisi esplicitamente
+  aperte nella issue stessa (non solo dettagli implementativi) — leggere i
+  commenti GitLab prima di iniziare: delimitatore CSV `;` (non tab come
+  art. 4-bis), serve un nuovo attributo codificato sul content model
+  (installer, non solo qui) per `TIPO_DOCUMENTO` (oggi deriva dal titolo
+  libero del redattore, sbagliato), mismatch di cardinalità CSV↔JSON deciso
+  con Marco il 2026-09-15 ("documento più recente per chiave", storico
+  preservato dai file datati immutabili - vedi sopra), meccanismo di
+  esposizione NON da unificare (query live su `document` per OIV/Organi di
+  revisione, dataset per Corte dei conti - decisione presa il 2026-09-15,
+  motivata dalla natura diversa dei dati).
+- **Cron/wiring**: fatto per art. 4-bis (`openpa_bootstrapitalia/cronjobs/anac_export.php`,
+  registrato sotto `[CronjobPart-changesection]` in `settings/cronjob.ini.append.php`
+  — scelta provvisoria: gruppo con semantica sbagliata ma zero costo
+  infrastrutturale aggiuntivo sul cron SaaS, `CONCURRENCY=2` su ~600 tenant —
+  da rivedere con un gruppo dedicato in futuro). **Non ancora esteso per
+  art. 13** (il serializer esiste ed è testato, ma nessuno script lo chiama
+  ancora in produzione) — stesso pattern di `publishArt4Bis()`, un'altra
+  funzione `publishArt13()` nello stesso file.
+- **UI di download nella pagina trasparenza**: nessun link/bottone porta
+  all'export oggi — va aggiunto sul template della pagina di trasparenza
+  (`pagina_trasparenza`), NON sul datatype `dataset`, perché diversi schemi
+  ANAC (art. 13, art. 31 organismi indipendenti/organi di revisione) non
+  hanno nessun oggetto dataset dietro — usano query live su altre classi.
+  Solo `corte_dei_conti` e `dati_sui_pagamenti` hanno un dataset associato.
+  Discussione sospesa con Marco il 2026-09-15, riprendere da qui.
+- **Validazione JSON Schema ANAC**: resta un controllo manuale in QA, nessuna
+  validazione automatica nel codice (decisione esplicita, non un gap
+  dimenticato).
