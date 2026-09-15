@@ -40,7 +40,12 @@ url `content/download` reali, vocabolario "oggetto" Corte dei conti). Manca
 solo C2 (non previsto per ora, stesso perimetro di art. 13). Meccanismo di
 pubblicazione URL generico, condiviso da tutti gli schemi, completo e
 testato - esteso per supportare anche schemi a file singolo (vedi
-"ExportPublisher — publishSingle()/publishWithDates()" sotto).
+"ExportPublisher — publishSingle()/publishWithDates()" sotto) e per lo
+storico versioni (#479, vedi "ExportPublisher — storico versioni e
+discoverability" sotto). Binding pagina↔schema formalizzato (vedi
+"SchemaPubblicazioneLookup" sotto): il cron non ha più remote_id ANAC-specifici
+hardcoded (a parte i due schemi ancorati a un dataset), e una UI di
+download+storico è live su `pagina_trasparenza.tpl`.
 
 ## Architettura
 
@@ -49,9 +54,16 @@ classes/
   AmministrazioneTrasparenteTools.php  globale (non nel namespace Anac):
                                         tipologia ente C1/C2, prerequisito
                                         trasversale per art. 31/13
+  SchemaPubblicazioneLookup.php        globale (non nel namespace Anac):
+                                        binding pagina<->schema ANAC, letto
+                                        sia dal cron sia dal template
+  services/content_trasparenza.php     service esistente (openpa.ini
+                                        [Services]) esteso con
+                                        anac_exports/has_anac_exports
   anac/
     ExportPublisher.php              generico, per tutti gli schemi: scrive su
                                       cluster storage + espone url pubblico
+                                      + storico versioni (#479)
     IntestazioneProvider.php         blocco "intestazione" comune a tutti gli
                                       schemi (codice fiscale + denominazione ente)
     MissingCodiceFiscaleException.php
@@ -63,6 +75,10 @@ classes/
 modules/anac_export/
   module.php                       registra la view "file"
   file.php                         streama il file dal cluster storage
+design/bootstrapitalia2/templates/openpa/full/
+  pagina_trasparenza.tpl           include il blocco download+storico se
+                                    $trasparenza.has_anac_exports
+  parts/amministrazione_trasparente/anac_export.tpl  il blocco stesso
 ```
 
 ### `ExportPublisher` — versionamento e pubblicazione (comune a tutti gli schemi)
@@ -212,60 +228,195 @@ giorno" invariati):
 
 Il secondo parametro del costruttore (`$rootNodeId`) è il nodo della
 **pagina/oggetto specifico dello schema**, non la radice di "Amministrazione
-Trasparente" o "Società trasparente". Per art. 4-bis è il nodo del dataset
-"Dati sui pagamenti" (remote_id `dati_sui_pagamenti`, creato da
-`installer/modules/trasparenza-c1/contents/Dati-sui-pagamenti-Dataset.yml`),
-il cui path reale è `Amministrazione/Documenti-e-dati/Dataset/Dati-sui-pagamenti`
-— sotto l'area "Documenti e dati" del sito istituzionale, non sotto l'albero
-di trasparenza. L'url pubblico finale è quindi:
+Trasparente" o "Società trasparente" - vale per ogni schema, mai un'eccezione.
+(Corrisponde al pattern richiesto da ANAC in #479:
+`<alberatura>/art.<N>[-suffisso]-YYYYMMDD-YYYYMMDD.<ext>` + alias
+`-latest.<ext>`, dove `<alberatura>` è il path reale della pagina che mostra
+quel dato, non un prefisso fisso per tutto il sito.)
 
-```
-https://<sito>/Amministrazione/Documenti-e-dati/Dataset/Dati-sui-pagamenti/art.4-bis-latest.csv
-https://<sito>/Amministrazione/Documenti-e-dati/Dataset/Dati-sui-pagamenti/art.4-bis-20260615-20260622.csv
-```
+**Da dove viene quel nodo**, per ciascuno schema (vedi
+`SchemaPubblicazioneLookup` sotto per il meccanismo):
 
-(Corrisponde al pattern richiesto da ANAC in #479: `<alberatura>/art.<N>[-suffisso]-YYYYMMDD-YYYYMMDD.<ext>`
-+ alias `-latest.<ext>`, dove `<alberatura>` è il path reale della pagina che
-mostra quel dato, non un prefisso fisso per tutto il sito.)
+- **Schemi ancorati a `pagina_trasparenza`** (`art.13-as/op/pa`,
+  `art.31-oiv/or`, `art.31`): il nodo si risolve leggendo l'attributo
+  `schema_pubblicazione` sulle pagine reali - `SchemaPubblicazioneLookup::fetchAllBindings()`.
+  Nessun remote_id ANAC-specifico hardcoded nel cron.
+- **Schemi ancorati a un `dataset`** (`art.4-bis`, `art.31-oc`): il nodo resta
+  il remote_id FISSO del dataset stesso (`dati_sui_pagamenti`, `corte_dei_conti`)
+  - la classe `dataset` non ha `schema_pubblicazione` (l'attributo esiste solo
+  su `pagina_trasparenza`), e questi remote_id sono comunque identificativi
+  deliberati e leggibili (non hash opachi), non il problema che
+  `schema_pubblicazione` risolve. Es. art.4-bis: nodo del dataset "Dati sui
+  pagamenti", path reale `Amministrazione/Documenti-e-dati/Dataset/Dati-sui-pagamenti`
+  (sotto "Documenti e dati", non sotto l'albero di trasparenza).
 
-Per art. 31, che NON ha un unico oggetto dataset dietro (vedi sotto), il nodo
-passato varia per sottosezione — sempre "il nodo specifico dello schema",
-mai la radice dell'alberatura, stesso principio:
+**Attenzione, distinzione pagina/dataset per Corte dei conti**: esistono DUE
+oggetti concettualmente "Corte dei conti" - la pagina di trasparenza (classe
+`pagina_trasparenza`, dichiara `schema_pubblicazione: [art.31-oc]`, sta sotto
+"Controlli e rilievi sull'amministrazione") e il dataset con le righe CSV
+grezze (classe `dataset`, remote_id `corte_dei_conti`, sta sotto "Documenti
+e dati"). Il file `art.31-oc` è fisicamente ancorato al nodo del **dataset**,
+non a quello della pagina - la pagina si limita a dichiarare "io espongo
+questo schema" per farlo comparire nel suo blocco di download (vedi
+"ExportPublisher — storico versioni e discoverability" sotto per come questo
+disallineamento viene risolto).
 
-- `art.31-oiv` → nodo della pagina "Organismi indipendenti di valutazione"
-  (remote_id `d20a1b517d9c0cba06af6b6b345f6c0e`)
-- `art.31-or` → nodo della pagina "Organi di revisione" (remote_id
-  `583cd446c1978fdab33108b83ae9eb71`)
-- `art.31-oc` → nodo del dataset "Corte dei conti" (remote_id
-  `corte_dei_conti`, stesso pattern di art. 4-bis) - **non** la pagina di
-  trasparenza "Corte dei conti" (vedi punto successivo), che è un oggetto
-  diverso
-- JSON "file unico" (`art.31`, nessun suffisso — confermato scaricando l'HTML
-  della pagina guida ANAC e cercando il link reale al file di esempio, non
-  un riassunto WebFetch) → ospitato sotto **"Controlli e rilievi
-  sull'amministrazione"** (remote_id `fc18dc0947cce81ed94b4f5228572fc1`),
-  che è il genitore reale (verificato in `sito-comunale-dev`) di **tutte e
-  tre** le pagine di trasparenza dell'art. 31: "Organismi indipendenti di
-  valutazione", "Organi di revisione" e "Corte dei conti" **(la pagina, non
-  il dataset)** - decisione presa con Marco il 2026-09-15, dopo aver
-  scartato una prima ipotesi sbagliata ("Organismi indipendenti di
-  valutazione", scelta arbitraria senza giustificazione) e una seconda
-  incompleta (avevo controllato solo l'oggetto dataset di Corte dei conti,
-  non la sua pagina di trasparenza, concludendo erroneamente che solo 2
-  pagine su 3 condividessero un genitore).
-
-  **Specifico di trasparenza-c1, non riusabile per C2 così com'è**: il
-  remote_id sopra esiste solo nell'alberatura C1. `trasparenza-c2` ha un
-  oggetto concettualmente analogo ma con un **remote_id diverso**
-  (`t_c2_controlli-e-rilievi-sull-am`, in
-  `installer/modules/trasparenza-c2/contenttrees/TrasparenzaC2-Root/Controlli-e-rilievi-sull-amministrazione.yml`)
-  e comunque C2 non ha (ancora) le pagine OIV/Organi di revisione - non è un
-  problema pratico oggi perché `publishArt31()` è già bloccato al solo
-  profilo C1, ma se in futuro si estende a C2 questo remote_id **non va
-  riusato**, va reso condizionale alla tipologia ente.
+JSON "file unico" di art. 31 (`art.31`, nessun suffisso — confermato
+scaricando l'HTML della pagina guida ANAC e cercando il link reale al file
+di esempio, non un riassunto WebFetch) → ospitato sotto **"Controlli e
+rilievi sull'amministrazione"**, il genitore reale (verificato in
+`sito-comunale-dev`) di **tutte e tre** le pagine di trasparenza dell'art. 31
+- decisione presa con Marco il 2026-09-15, dopo aver scartato una prima
+ipotesi sbagliata ("Organismi indipendenti di valutazione", scelta arbitraria
+senza giustificazione) e una seconda incompleta (avevo controllato solo
+l'oggetto dataset di Corte dei conti, non la sua pagina di trasparenza,
+concludendo erroneamente che solo 2 pagine su 3 condividessero un genitore).
 
 Vedi `installer/modules/trasparenza-c1/CLAUDE.md` per la tabella di binding
 completa schema↔remote_id.
+
+### `SchemaPubblicazioneLookup` — binding pagina↔schema, un solo posto
+
+Prima del 2026-09-15 il cron aveva i remote_id delle pagine ANAC (OIV, Organi
+di revisione, Controlli e rilievi) scritti a mano dentro `anac_export.php` -
+esattamente il "sapere a memoria quale remote_id corrisponde a quale schema"
+che `installer/modules/trasparenza-c1/CLAUDE.md` segnalava come debito da
+formalizzare. **Trovato durante il lavoro** (Marco: "ma esiste già l'attributo
+nella pagina trasparenza, no?"): `pagina_trasparenza` ha già da tempo un
+attributo `schema_pubblicazione` (ezselection multi-valore, categoria
+`hidden`, non modificabile dal redattore) pensato esattamente per questo -
+semplicemente non era mai stato popolato su nessuna pagina di
+`trasparenza-c1` prima d'ora.
+
+`SchemaPubblicazioneLookup` (globale, non nel namespace `Anac` - stesso
+trattamento di `AmministrazioneTrasparenteTools`, concetto trasversale)
+legge quell'attributo:
+
+- `fetchAllBindings()`: UN solo scan della classe `pagina_trasparenza` (non
+  uno scan per schema), restituisce `schemaIdentifier => eZContentObject`.
+  Usato dal cron (`anac_export.php`) e condiviso tra `publishArt13()`/
+  `publishArt31()` nella stessa esecuzione.
+- `schemasForObject($object)`: dato un oggetto, quali schemi dichiara di
+  esporre. Usato dal template (`content_trasparenza.php`, vedi sotto) per "a
+  quale schema corrisponde LA PAGINA CHE STO RENDERIZZANDO".
+
+Le opzioni dell'ezselection (`installer/modules/trasparenza/classes/pagina_trasparenza.yml`,
+`schema_pubblicazione.data_text5`) sono state estese con 3 nuovi valori
+(id 9/10/11: `art.13-pa`, `art.13-se`, `art.31` - i JSON "file unico", assenti
+dall'elenco originale che copriva solo i suffissi CSV) - `SchemaPubblicazioneLookup::OPTION_IDS`
+**deve restare sincronizzato** con quegli id, non c'è verifica automatica.
+
+**Popolato in `trasparenza-c1/installer.yml`** aggiungendo `schema_pubblicazione`
+ai `patch_content` già esistenti (nessun nuovo step per gli schemi già
+patchati - solo per "Controlli e rilievi sull'amministrazione", che prima non
+aveva un patch_content dedicato). **Attenzione consistenza col comportamento
+già in produzione**: `art.13-as` è stato messo sulla stessa pagina di
+`art.13-op`/`art.13-pa` ("Articolazione degli uffici"), NON su "Titolari di
+incarichi politici" (che sarebbe stata la scelta "semanticamente più giusta")
+- perché il cron **già pubblicava** tutti e tre sotto quel nodo prima di
+questa modifica (un solo `$rootNodeId` condiviso in `publishArt13()`), e
+cambiare pagina avrebbe spostato l'url di un export già pubblicato,
+interrompendone la continuità - un errore quasi fatto, corretto prima del
+commit. **Lezione**: il comportamento del cron già in produzione è la fonte
+di verità per "dove sta oggi" uno schema, non un ragionamento a posteriori
+su dove "dovrebbe" stare semanticamente.
+
+**Non usato per gli schemi ancorati a `dataset`** (`art.4-bis`, `art.31-oc`)
+- vedi sopra.
+
+**Gotcha eZ Publish reale, trovato pulendo un binding sbagliato in dev**:
+`eZSelectionType::fromString('')` è un **no-op** (`if ($string == '') return true;`,
+non svuota `data_text`) - per azzerare un `ezselection` multi-valore serve
+`$attr->setAttribute('data_text', ''); $attr->store();` direttamente, non
+`fromString('')`. Diverso da `eZTags`, dove `fromString('')` invece funziona
+(usato per azzerare `anac_document_type` nei test di `Art31Serializer`).
+
+### `ExportPublisher` — storico versioni e discoverability (#479)
+
+Issue #479, punto "discoverability": conservare le versioni passate non
+basta se sono raggiungibili solo indovinando le date nell'url - serve un
+elenco. `getVersions()`/`getLatestUrls()` lo forniscono, ma leggono soltanto
+dal tracking già salvato - **non ricalcolano l'url a lettura**, e questo è
+deliberato, non solo un'ottimizzazione.
+
+**Perché non ricalcolare l'url a lettura**: farlo richiederebbe conoscere il
+nodo che ha originariamente pubblicato quello schema - ma un lettore (un
+template, su una pagina qualunque) non lo sa in generale, e per `art.31-oc`
+addirittura NON PUÒ saperlo dal contesto: la pagina di trasparenza "Corte dei
+conti" dichiara `schema_pubblicazione: [art.31-oc]`, ma il file è ancorato al
+nodo del dataset "Rilievi della Corte dei conti", un oggetto diverso (vedi
+"Node id da passare a ExportPublisher" sopra). Se si ricalcolasse l'url usando
+il nodo della pagina corrente, per questo schema si otterrebbe un url
+sbagliato (path diverso da quello realmente scritto su cluster storage).
+
+**Soluzione**: `resolveAndPublish()` risolve e salva `urlCsv`/`urlJson`
+(versione corrente, datata) e `urlLatestCsv`/`urlLatestJson` (alias `-latest`)
+DENTRO il tracking stesso, nel momento in cui scrive i file - quando
+`$this->rootNodeId` è ancora quello giusto (passato dal chiamante, cioè dal
+cron). Ogni voce di `history` porta con sé i propri url già risolti allo
+stesso modo. Un lettore fa quindi solo `new ExportPublisher($schemaIdentifier)`
+(senza `$rootNodeId` - non serve per leggere) e `getVersions()`/`getLatestUrls()`;
+non deve mai sapere quale nodo ha pubblicato quello schema.
+
+**Migrazione dei tracking pre-esistenti**: i tracking scritti prima
+dell'introduzione di questo meccanismo non hanno `urlCsv`/`urlLatestCsv` - e
+senza un intervento non li avrebbero mai, perché il confronto hash in
+`resolveAndPublish()` fa uscire prima di raggiungere il codice che li scrive,
+finché il dato non cambia davvero (potenzialmente mai, per uno schema
+stabile, su nessuno dei ~600 tenant). **Fix**: `backfillUrlsIfMissing()`
+viene chiamato su ENTRAMBI i percorsi di uscita anticipata di
+`resolveAndPublish()` (hash invariato, o già pubblicato oggi) - se manca
+l'url per un formato che però ha già un `pathCsv`/`pathJson` (= è stato
+scritto), lo calcola e lo salva, senza toccare date/hash/history (non è una
+nuova pubblicazione). Verificato con test reale: un tracking scritto prima
+del fix, alla prima esecuzione successiva del cron (dato invariato), acquisisce
+gli url mancanti.
+
+**Una voce di `history` senza url non viene mostrata**: caso limite,
+osservato durante lo sviluppo - una voce finita in `history` PRIMA
+dell'introduzione degli url pre-risolti (quando ancora si teneva solo la
+data) non ha modo di essere retroattivamente arricchita con un url (il nodo
+che l'ha pubblicata potrebbe non essere più quello corrente). `getVersions()`
+scarta silenziosamente queste voci - il file resta comunque sul cluster
+storage e raggiungibile se si conosce l'url, solo non compare nell'elenco.
+Impatto pratico: sui siti già in produzione, la primissima voce storica (se
+esisteva già prima di questo deploy) non comparirà nello storico mostrato in
+pagina - tutte le successive sì.
+
+### UI: blocco download + storico su `pagina_trasparenza.tpl`
+
+`content_trasparenza.php` (service esistente, `openpa.ini` `[Services]`,
+già usato da `pagina_trasparenza.tpl` per guide/figli/blocchi) è stato esteso
+con `has_anac_exports`/`anac_exports`: legge `SchemaPubblicazioneLookup::schemasForObject()`
+sull'oggetto corrente, per ogni schema dichiarato istanzia `ExportPublisher($schema)`
+(senza `$rootNodeId`, vedi sopra) e ne legge `getLatestUrls()`/`getVersions()`.
+Uno schema dichiarato ma **mai ancora pubblicato** (`getLatestUrls()` vuoto -
+cron non ancora passato, o fallito, vedi "Gestione errori" sotto) viene
+scartato silenziosamente, non mostrato come blocco vuoto/rotto.
+
+Il template (`parts/amministrazione_trasparente/anac_export.tpl`) mostra, per
+ogni schema: bottoni di download per l'alias `-latest` di ogni formato
+pubblicato, e - solo se esistono più di una versione mostrabile - un
+collassabile "Versioni precedenti" con data + link per ciascuna. L'id HTML
+del collassabile usa `$export.dom_id` (calcolato lato PHP, `str_replace('.',
+'-', $schema)`), non l'identificativo schema grezzo: un id con un punto
+(`art.31-oiv`) romperebbe il selettore CSS che Bootstrap usa internamente per
+`data-bs-toggle="collapse"`.
+
+**Copre anche i due schemi ancorati a un dataset** (`art.4-bis`, `art.31-oc`)
+senza bisogno di toccare il template `dataset`: la pagina di trasparenza
+gemella di ciascun dataset (es. "Dati sui pagamenti", `pagina_trasparenza`,
+oggetto diverso dal dataset "Dati sui pagamenti" vero e proprio) ha anch'essa
+`schema_pubblicazione` valorizzato, quindi il blocco compare lì - il dataset
+stesso resta senza (nessun bisogno di modificarne il rendering).
+
+Testato con dati reali in `sito-comunale-dev` via `curl` su tutte le pagine
+coinvolte (Dati sui pagamenti, Corte dei conti, Organismi indipendenti di
+valutazione, Controlli e rilievi sull'amministrazione): blocco presente,
+link funzionanti, storico corretto quando applicabile. Stringhe i18n
+(`bootstrapitalia/anac_export`) aggiunte su POEditor (termine + traduzione
+italiana), non ancora ripescate nel `.ts` locale dell'estensione - il testo
+inglese resta visibile finché non si esegue il pull.
 
 ### Il modulo `anac_export` — perché serve e due bug non ovvi
 
@@ -694,13 +845,27 @@ fonte editoriale (contatti della Homepage), invariata.
   infrastrutturale aggiuntivo sul cron SaaS, `CONCURRENCY=2` su ~600 tenant —
   da rivedere con un gruppo dedicato in futuro). Da estendere quando arriva
   art. 13/C2.
-- **UI di download nella pagina trasparenza**: nessun link/bottone porta
-  all'export oggi — va aggiunto sul template della pagina di trasparenza
-  (`pagina_trasparenza`), NON sul datatype `dataset`, perché diversi schemi
-  ANAC (art. 13, art. 31 organismi indipendenti/organi di revisione) non
-  hanno nessun oggetto dataset dietro — usano query live su altre classi.
-  Solo `corte_dei_conti` e `dati_sui_pagamenti` hanno un dataset associato.
-  Discussione sospesa con Marco il 2026-09-15, riprendere da qui.
+- **UI di download nella pagina trasparenza**: **fatto** (2026-09-15) - vedi
+  "UI: blocco download + storico su pagina_trasparenza.tpl" sopra.
+- **#479, discoverability (elenco versioni passate)**: **fatto** (2026-09-15)
+  - vedi "ExportPublisher — storico versioni e discoverability" sopra.
+- **#479, retention (cosa succede ai file dopo i 5 anni dell'obbligo di
+  conservazione)**: decisione presa con Marco il 2026-09-15: **nessuna
+  rimozione automatica per ora**. Il rischio di cancellare per errore un dato
+  ancora dovuto è più grave del costo di tenere file in più - si deciderà/
+  implementerà un meccanismo di retention solo quando il primo schema
+  arriverà davvero a 5 anni di storico reale. Non implementato, nessun codice
+  a riguardo.
+- **#479, indicizzazione (le versioni storiche vanno escluse dai motori di
+  ricerca?)**: non deciso. La Guida ANAC vieta di limitare l'accesso dei
+  crawler alla sezione Amministrazione Trasparente in generale, ma non dice
+  nulla sulle versioni superate nello specifico - il punto con meno appiglio
+  normativo dei cinque elencati in #479. Nessun `noindex`/`robots.txt` per i
+  file datati non-`-latest`.
 - **Validazione JSON Schema ANAC**: resta un controllo manuale in QA, nessuna
   validazione automatica nel codice (decisione esplicita, non un gap
   dimenticato).
+- **Traduzioni i18n del blocco download**: termine + traduzione italiana
+  aggiunti su POEditor (`bootstrapitalia/anac_export`), non ancora ripescati
+  nel `.ts` locale dell'estensione (`php vendor/bin/oci18n -r`) - il blocco è
+  visibile in inglese finché non si esegue il pull.
