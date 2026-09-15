@@ -91,17 +91,12 @@
                 {attribute_view_gui attribute=$node|attribute('abstract')}
             {/if}
 
-            {if $trasparenza.show_alert}
+            {if $trasparenza.show_alert}                    
                 <div class="alert alert-warning">
                     Sezione in allestimento
                 </div>
             {/if}
-
-            {* Export conformi ANAC (#479) *}
-            {if $trasparenza.has_anac_exports}
-                {include uri='design:openpa/full/parts/amministrazione_trasparente/anac_export.tpl' exports=$trasparenza.anac_exports}
-            {/if}
-
+            
             {* Guida al cittadino *}
             {if and($user_group_has_content, openpaini('Trasparenza', 'MostraGuidaAlCittadino', 'enabled')|eq('enabled'))}
             <section class="callout w-100 mw-100 note">

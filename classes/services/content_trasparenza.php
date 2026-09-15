@@ -49,59 +49,6 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         $this->fnData['remote_id_map'] = 'getRemoteIdMap';
 
         $this->fnData['use_custom_template'] = 'isUseCustomTemplate';
-
-        $this->fnData['has_anac_exports'] = 'hasAnacExports';
-        $this->fnData['anac_exports'] = 'getAnacExports';
-    }
-
-    /**
-     * Export ANAC (#479, discoverability): elenco degli schemi che QUESTA
-     * pagina espone (via schema_pubblicazione, vedi SchemaPubblicazioneLookup)
-     * gia' pubblicati almeno una volta, con url dell'ultima versione e
-     * storico. Non filtrato su isPaginaTrasparenza(): l'attributo
-     * schema_pubblicazione esiste solo su pagina_trasparenza, quindi un
-     * oggetto di un'altra classe restituisce sempre [] per costruzione
-     * (nessun controllo esplicito necessario).
-     *
-     * @return array [] se questa pagina non espone nessuno schema ANAC (o
-     *         li espone ma nessuno e' ancora mai stato pubblicato), altrimenti
-     *         lista di ['schema' => 'art.31-oiv', 'dom_id' => 'art-31-oiv',
-     *         'latest_urls' => ['csv' => '...'], 'versions' => [...]] (vedi
-     *         ExportPublisher::getVersions())
-     */
-    protected function getAnacExports()
-    {
-        if (!$this->container->hasContentObject()) {
-            return [];
-        }
-
-        $schemas = \SchemaPubblicazioneLookup::schemasForObject($this->container->getContentObject());
-
-        $exports = [];
-        foreach ($schemas as $schema) {
-            $publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($schema);
-            $latestUrls = $publisher->getLatestUrls();
-            if (empty($latestUrls)) {
-                // mai pubblicato (schema dichiarato ma cron non ancora
-                // passato, o fallito - vedi classes/anac/CLAUDE.md, "Gestione
-                // errori") - non mostrare un blocco vuoto/rotto.
-                continue;
-            }
-
-            $exports[] = [
-                'schema' => $schema,
-                'dom_id' => str_replace('.', '-', $schema),
-                'latest_urls' => $latestUrls,
-                'versions' => $publisher->getVersions(),
-            ];
-        }
-
-        return $exports;
-    }
-
-    protected function hasAnacExports()
-    {
-        return count($this->getAnacExports()) > 0;
     }
 
     private function getNode()
