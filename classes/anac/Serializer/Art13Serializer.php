@@ -66,7 +66,7 @@ class Art13Serializer
 
     public function toCsvAmbitoSoggettivo()
     {
-        return "AMBITO_SOGGETTIVO\r\n" . $this->getAmbitoSoggettivo() . "\r\n";
+        return "AMBITO_SOGGETTIVO\n" . $this->getAmbitoSoggettivo() . "\n";
     }
 
     /**
@@ -336,6 +336,17 @@ class Art13Serializer
         $tipologia = \AmministrazioneTrasparenteTools::getTipologiaEnte();
 
         $organi = $organi !== null ? $organi : $this->fetchOrganiConUffici();
+        if (empty($organi)) {
+            // Lo schema richiede "organi" non vuoto (minItems: 1). Per un
+            // comune reale, zero organi (nessun Consiglio/Giunta trovato) e'
+            // quasi certamente un bug (query rotta, tag organization.type
+            // mancante), non uno stato legittimo - blocca invece di
+            // pubblicare un file non conforme (decisione con Marco il
+            // 2026-09-15, vedi EmptyExportException).
+            throw new \OpenPABootstrapItalia\Anac\EmptyExportException(
+                'Nessun organo trovato: lo schema ANAC richiede organi non vuoto, export art.13 (JSON) bloccato'
+            );
+        }
         $organiBlock = ['organi' => $this->filtraUfficiValidiPerJsonSchema($organi)];
 
         if ($tipologia === \AmministrazioneTrasparenteTools::TIPOLOGIA_C1) {
@@ -403,6 +414,6 @@ class Art13Serializer
             }
         }
 
-        return implode("\r\n", $lines) . "\r\n";
+        return implode("\n", $lines) . "\n";
     }
 }
