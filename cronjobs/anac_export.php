@@ -12,25 +12,32 @@
  * "Gestione errori" - tutto-o-niente PER SCHEMA, non per l'intero cron).
  */
 
+/**
+ * Un solo scan di `pagina_trasparenza` per tutti gli schemi insieme (vedi
+ * SchemaPubblicazioneLookup) - condiviso da publishArt13()/publishArt31(),
+ * cosi' non lo si ripete due volte nella stessa esecuzione del cron.
+ */
+$schemaBindings = \SchemaPubblicazioneLookup::fetchAllBindings();
+
 publishArt4Bis($cli);
-publishArt13($cli);
-publishArt31($cli);
+publishArt13($cli, $schemaBindings);
+publishArt31($cli, $schemaBindings);
 
 /**
  * OIV e Organi di revisione non hanno un dataset dedicato: sono documenti
  * (classe `document`) taggati con `anac_document_type` (vedi
  * installer/modules/trasparenza/CLAUDE.md), pubblicati come figli delle
  * rispettive pagine trasparenza. Corte dei conti invece e' un dataset reale,
- * stesso pattern di art.4-bis. Il nodo dell'export CSV di ciascuna
- * sottosezione e' quello della sua pagina/dataset (vedi
- * installer/modules/trasparenza-c1/CLAUDE.md, tabella di binding); il JSON
- * "file unico" (copre tutte e tre le sottosezioni insieme) e' ospitato sotto
- * "Controlli e rilievi sull'amministrazione", il genitore reale di tutte e
- * tre le pagine di trasparenza dell'art. 31 - verificato con Marco il
- * 2026-09-15, vedi classes/anac/CLAUDE.md. Specifico di trasparenza-c1: C2
- * ha un remote_id diverso per la stessa pagina concettuale.
+ * stesso pattern di art.4-bis - per questo il suo nodo si risolve ancora dal
+ * remote_id del dataset (`corte_dei_conti`), non da `schema_pubblicazione`
+ * (la classe `dataset` non ha quell'attributo, vedi
+ * SchemaPubblicazioneLookup). Il JSON "file unico" (copre tutte e tre le
+ * sottosezioni insieme) e' ospitato sotto "Controlli e rilievi
+ * sull'amministrazione", il genitore reale di tutte e tre le pagine di
+ * trasparenza dell'art. 31 - verificato con Marco il 2026-09-15, vedi
+ * classes/anac/CLAUDE.md.
  */
-function publishArt31(eZCLI $cli)
+function publishArt31(eZCLI $cli, array $schemaBindings)
 {
     try {
         if (\AmministrazioneTrasparenteTools::getTipologiaEnte() !== \AmministrazioneTrasparenteTools::TIPOLOGIA_C1) {
@@ -53,28 +60,11 @@ function publishArt31(eZCLI $cli)
             return;
         }
 
-        $oivPageObject = eZContentObject::fetchByRemoteID('d20a1b517d9c0cba06af6b6b345f6c0e');
-        $orPageObject = eZContentObject::fetchByRemoteID('583cd446c1978fdab33108b83ae9eb71');
-        if (!$oivPageObject instanceof eZContentObject || !$orPageObject instanceof eZContentObject) {
-            $cli->warning('anac_export: pagine "Organismi indipendenti di valutazione" o "Organi di revisione" non trovate, schema art.31 saltato (modulo trasparenza-c1 non installato su questo sito?)');
-
-            return;
-        }
-
-        /**
-         * remote_id specifico di trasparenza-c1: "Controlli e rilievi
-         * sull'amministrazione" e' il genitore reale di tutte e tre le
-         * pagine di trasparenza dell'art. 31 (OIV, Organi di revisione,
-         * Corte dei conti) - verificato in sito-comunale-dev. Diverso da
-         * trasparenza-c2, che ha il proprio remote_id per la stessa pagina
-         * concettuale (`t_c2_controlli-e-rilievi-sull-am`) e comunque non ha
-         * ancora OIV/Organi di revisione - se in futuro C2 verra' supportato,
-         * questo remote_id andra' reso condizionale alla tipologia ente, non
-         * riusato cosi' com'e' (vedi classes/anac/CLAUDE.md).
-         */
-        $controlliERilieviPage = eZContentObject::fetchByRemoteID('fc18dc0947cce81ed94b4f5228572fc1');
-        if (!$controlliERilieviPage instanceof eZContentObject) {
-            $cli->warning('anac_export: pagina "Controlli e rilievi sull\'amministrazione" non trovata, schema art.31 saltato (modulo trasparenza-c1 non installato su questo sito?)');
+        $oivPageObject = isset($schemaBindings['art.31-oiv']) ? $schemaBindings['art.31-oiv'] : null;
+        $orPageObject = isset($schemaBindings['art.31-or']) ? $schemaBindings['art.31-or'] : null;
+        $controlliERilieviPage = isset($schemaBindings['art.31']) ? $schemaBindings['art.31'] : null;
+        if (!$oivPageObject instanceof eZContentObject || !$orPageObject instanceof eZContentObject || !$controlliERilieviPage instanceof eZContentObject) {
+            $cli->warning('anac_export: nessuna pagina con schema_pubblicazione = art.31-oiv/art.31-or/art.31, schema art.31 saltato (modulo trasparenza-c1 non installato o non aggiornato su questo sito?)');
 
             return;
         }
@@ -127,7 +117,7 @@ function publishArt31(eZCLI $cli)
  * proprio (art.13-pa per C1), che copre ambito soggettivo + organi insieme -
  * vedi Art13Serializer e classes/anac/CLAUDE.md.
  */
-function publishArt13(eZCLI $cli)
+function publishArt13(eZCLI $cli, array $schemaBindings)
 {
     try {
         if (\AmministrazioneTrasparenteTools::getTipologiaEnte() !== \AmministrazioneTrasparenteTools::TIPOLOGIA_C1) {
@@ -136,9 +126,9 @@ function publishArt13(eZCLI $cli)
             return;
         }
 
-        $object = eZContentObject::fetchByRemoteID('ae441f5d2f78bf88f0b3e39a36743bdd');
+        $object = isset($schemaBindings['art.13-op']) ? $schemaBindings['art.13-op'] : null;
         if (!$object instanceof eZContentObject) {
-            $cli->warning("anac_export: pagina 'Articolazione degli uffici' non trovata, schema art.13 saltato (modulo trasparenza-c1 non installato su questo sito?)");
+            $cli->warning("anac_export: nessuna pagina con schema_pubblicazione = art.13-op, schema art.13 saltato (modulo trasparenza-c1 non installato o non aggiornato su questo sito?)");
 
             return;
         }
