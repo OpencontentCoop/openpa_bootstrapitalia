@@ -132,10 +132,10 @@ class ExportPublisher
     private function resolveAndPublish($dataForHash, callable $filesBuilder)
     {
         $dataHash = md5($dataForHash);
-        $tracking = $this->getTracking();
+        $previousTracking = $this->getTracking();
 
-        if ($tracking !== null && $tracking['dataHash'] === $dataHash) {
-            return $tracking;
+        if ($previousTracking !== null && $previousTracking['dataHash'] === $dataHash) {
+            return $this->backfillUrlsIfMissing($previousTracking);
         }
 
         $today = date('d/m/Y');
@@ -147,11 +147,11 @@ class ExportPublisher
         // pubblicato (cosi' come richiesto dalla issue), non un mirror in tempo
         // reale indipendente da esso. Il nuovo dato verra' colto dalla prossima
         // esecuzione del cron, il giorno dopo.
-        if ($tracking !== null && $tracking['dataUltimaModifica'] === $today) {
-            return $tracking;
+        if ($previousTracking !== null && $previousTracking['dataUltimaModifica'] === $today) {
+            return $this->backfillUrlsIfMissing($previousTracking);
         }
 
-        $dataPrimaPubblicazione = $tracking !== null ? $tracking['dataPrimaPubblicazione'] : $today;
+        $dataPrimaPubblicazione = $previousTracking !== null ? $previousTracking['dataPrimaPubblicazione'] : $today;
         $dataUltimaModifica = $today;
 
         $files = $filesBuilder($dataPrimaPubblicazione, $dataUltimaModifica);
@@ -159,17 +159,166 @@ class ExportPublisher
         $firstPublishedDate = \DateTime::createFromFormat('d/m/Y', $dataPrimaPubblicazione)->format('Ymd');
         $lastModifiedDate = \DateTime::createFromFormat('d/m/Y', $dataUltimaModifica)->format('Ymd');
 
+        /**
+         * Storico delle pubblicazioni passate (#479, discoverability: "non
+         * basta conservare le versioni se sono raggiungibili solo indovinando
+         * le date nell'url" - serve un elenco). La versione che sto per
+         * sostituire (se esiste) va in `history` prima di essere sovrascritta
+         * - vedi getVersions().
+         *
+         * Gli url di ogni versione (corrente e storiche) sono risolti e
+         * salvati QUI, al momento della scrittura - non ricalcolati a
+         * lettura. Motivo: la lettura (dai template, per mostrare "versioni
+         * precedenti") puo' avvenire da un nodo diverso da quello con cui
+         * questo schema e' stato pubblicato (es. la pagina di trasparenza
+         * "Corte dei conti" dichiara di esporre art.31-oc, ma il file e'
+         * fisicamente ancorato al nodo del DATASET, non a quello della
+         * pagina - vedi classes/anac/CLAUDE.md). Se calcolassimo l'url a
+         * lettura usando il nodo corrente, per questi schemi otterremmo un
+         * url sbagliato. Salvando l'url gia' risolto (con il $rootNodeId
+         * CORRETTO, quello del chiamante di publish()), un lettore non deve
+         * mai piu' sapere quale nodo ancora quello schema - solo il suo
+         * identificativo.
+         */
+        $history = $previousTracking !== null && isset($previousTracking['history']) ? $previousTracking['history'] : [];
+        if ($previousTracking !== null) {
+            $historyEntry = ['dataUltimaModifica' => $previousTracking['dataUltimaModifica']];
+            foreach (['Csv', 'Json'] as $suffix) {
+                if (isset($previousTracking['url' . $suffix])) {
+                    $historyEntry['url' . $suffix] = $previousTracking['url' . $suffix];
+                }
+            }
+            $history[] = $historyEntry;
+        }
+
         $tracking = [
             'dataHash' => $dataHash,
             'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
             'dataUltimaModifica' => $dataUltimaModifica,
+            'history' => $history,
         ];
         foreach ($files as $extension => $content) {
-            $tracking['path' . ucfirst($extension)] = $this->writeVersionedFile($content, $extension, $firstPublishedDate, $lastModifiedDate);
+            $written = $this->writeVersionedFile($content, $extension, $firstPublishedDate, $lastModifiedDate);
+            $tracking['path' . ucfirst($extension)] = $written['path'];
+            $tracking['url' . ucfirst($extension)] = $written['url'];
+            $tracking['urlLatest' . ucfirst($extension)] = $written['urlLatest'];
         }
         $this->setTracking($tracking);
 
         return $tracking;
+    }
+
+    /**
+     * Migrazione (2026-09-15, #479): i tracking scritti da questo schema
+     * prima che venissero introdotti gli url pre-risolti (vedi commento in
+     * resolveAndPublish()) non li hanno - e non li avrebbero mai, perche' il
+     * confronto hash impedisce di raggiungere il codice che li scrive finche'
+     * il dato non cambia davvero (potenzialmente mai, per uno schema stabile).
+     * Qui, ogni volta che il cron gira e trova un tracking esistente SENZA
+     * l'url dell'alias -latest per un formato che pero' ha gia' un pathCsv/
+     * pathJson (= e' stato scritto), lo calcola e lo salva - senza toccare
+     * date/hash/history, non e' una nuova pubblicazione.
+     */
+    private function backfillUrlsIfMissing(array $tracking)
+    {
+        $changed = false;
+        foreach (['csv', 'json'] as $extension) {
+            $pathKey = 'path' . ucfirst($extension);
+            $urlLatestKey = 'urlLatest' . ucfirst($extension);
+            if (!isset($tracking[$pathKey]) || isset($tracking[$urlLatestKey])) {
+                continue;
+            }
+
+            $tracking[$urlLatestKey] = $this->getPublicUrl("{$this->schemaIdentifier}-latest.{$extension}");
+
+            $firstYmd = \DateTime::createFromFormat('d/m/Y', $tracking['dataPrimaPubblicazione'])->format('Ymd');
+            $lastYmd = \DateTime::createFromFormat('d/m/Y', $tracking['dataUltimaModifica'])->format('Ymd');
+            $tracking['url' . ucfirst($extension)] = $this->getPublicUrl("{$this->schemaIdentifier}-{$firstYmd}-{$lastYmd}.{$extension}");
+
+            $changed = true;
+        }
+
+        if ($changed) {
+            $this->setTracking($tracking);
+        }
+
+        return $tracking;
+    }
+
+    /**
+     * Elenco di tutte le pubblicazioni passate, dalla piu' recente alla piu'
+     * vecchia (#479, discoverability). Legge solo dal tracking gia' salvato -
+     * non serve conoscere il nodo che ha pubblicato questo schema (vedi nota
+     * in resolveAndPublish()), quindi funziona anche costruendo
+     * `new ExportPublisher($schemaIdentifier)` senza $rootNodeId, da un
+     * template su un nodo qualunque.
+     *
+     * @return array [] se non pubblicato mai, altrimenti lista di
+     *         ['dataUltimaModifica' => 'gg/mm/aaaa', 'isLatest' => bool, 'urls' => ['csv' => '...', 'json' => '...']]
+     */
+    public function getVersions()
+    {
+        $tracking = $this->getTracking();
+        if ($tracking === null) {
+            return [];
+        }
+
+        $versions = [$this->extractVersion($tracking, true)];
+        foreach (($tracking['history'] ?? []) as $historyEntry) {
+            $version = $this->extractVersion($historyEntry, false);
+            if (empty($version['urls'])) {
+                // versione storica antecedente all'introduzione degli url
+                // pre-risolti (migrazione 2026-09-15): nessun modo di
+                // ricostruirne l'url a posteriori (il nodo che l'ha
+                // pubblicata potrebbe non essere piu' quello corrente), non
+                // mostrabile - il file resta comunque sul cluster storage,
+                // solo non piu' elencato qui.
+                continue;
+            }
+            $versions[] = $version;
+        }
+
+        usort($versions, function ($a, $b) {
+            return \DateTime::createFromFormat('d/m/Y', $b['dataUltimaModifica']) <=> \DateTime::createFromFormat('d/m/Y', $a['dataUltimaModifica']);
+        });
+
+        return $versions;
+    }
+
+    private function extractVersion(array $entry, $isLatest)
+    {
+        $urls = [];
+        foreach (['csv', 'json'] as $extension) {
+            if (isset($entry['url' . ucfirst($extension)])) {
+                $urls[$extension] = $entry['url' . ucfirst($extension)];
+            }
+        }
+
+        return [
+            'dataUltimaModifica' => $entry['dataUltimaModifica'],
+            'isLatest' => $isLatest,
+            'urls' => $urls,
+        ];
+    }
+
+    /**
+     * @return array ['csv' => '...', 'json' => '...'] url pubblici dell'alias -latest per ogni formato pubblicato, [] se mai pubblicato
+     */
+    public function getLatestUrls()
+    {
+        $tracking = $this->getTracking();
+        if ($tracking === null) {
+            return [];
+        }
+
+        $urls = [];
+        foreach (['csv', 'json'] as $extension) {
+            if (isset($tracking['urlLatest' . ucfirst($extension)])) {
+                $urls[$extension] = $tracking['urlLatest' . ucfirst($extension)];
+            }
+        }
+
+        return $urls;
     }
 
     /**
@@ -178,6 +327,8 @@ class ExportPublisher
      * pubblicazione al massimo al giorno" in publish()), non un mirror
      * indipendente - altrimenti potrebbero divergere se il dato cambiasse piu'
      * volte nello stesso giorno.
+     *
+     * @return array ['path' => cluster storage path del file datato, 'url' => url pubblico del file datato, 'urlLatest' => url pubblico dell'alias -latest]
      */
     private function writeVersionedFile($content, $extension, $firstPublishedDate, $lastModifiedDate)
     {
@@ -191,7 +342,11 @@ class ExportPublisher
             $this->publishUrlAlias($name);
         }
 
-        return "{$this->baseDir}/{$datedName}";
+        return [
+            'path' => "{$this->baseDir}/{$datedName}",
+            'url' => $this->getPublicUrl($datedName),
+            'urlLatest' => $this->getPublicUrl($latestName),
+        ];
     }
 
     /**
@@ -206,19 +361,47 @@ class ExportPublisher
      */
     private function publishUrlAlias($filename)
     {
-        if ($this->rootNodeId === null) {
+        $publicPath = $this->getPublicPath($filename);
+        if ($publicPath === null) {
             return;
+        }
+
+        $action = 'module:anac_export/file/' . $this->schemaIdentifier . '/' . $filename;
+
+        \eZURLAliasML::storePath($publicPath, $action, false, false, true, false, false, false, true, true);
+    }
+
+    /**
+     * @return string|null path pubblico (senza slash iniziale, senza host) per un nome file gia' scritto da questo schema, null se $rootNodeId non risolve
+     */
+    private function getPublicPath($filename)
+    {
+        if ($this->rootNodeId === null) {
+            return null;
         }
 
         $rootNode = \eZContentObjectTreeNode::fetch($this->rootNodeId);
         if (!$rootNode instanceof \eZContentObjectTreeNode) {
-            return;
+            return null;
         }
 
         $albeturaPath = trim($rootNode->attribute('url_alias'), '/');
-        $publicPath = $albeturaPath . '/' . $filename;
-        $action = 'module:anac_export/file/' . $this->schemaIdentifier . '/' . $filename;
 
-        \eZURLAliasML::storePath($publicPath, $action, false, false, true, false, false, false, true, true);
+        return $albeturaPath . '/' . $filename;
+    }
+
+    /**
+     * @return string|null url assoluta (con host, https) per un nome file gia' scritto da questo schema, null se $rootNodeId non risolve
+     */
+    public function getPublicUrl($filename)
+    {
+        $publicPath = $this->getPublicPath($filename);
+        if ($publicPath === null) {
+            return null;
+        }
+
+        $siteUrl = trim(\eZINI::instance()->variable('SiteSettings', 'SiteURL'), '/');
+
+        return 'https://' . $siteUrl . '/' . $publicPath;
     }
 }
