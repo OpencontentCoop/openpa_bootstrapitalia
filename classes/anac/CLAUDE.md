@@ -12,7 +12,9 @@ di content model/binding schema↔pagina.
 per il profilo **C1 soltanto**: `art.13-as`/`art.13-op`/`art.13-pa` scritti,
 collegati al cron e verificati end-to-end con dati reali (URL pubblici
 raggiunti davvero). Mancano ancora C2 (`art.13-oa`) e l'organigramma
-(`art.13-org`). Art. 31 (#477) non iniziato. Meccanismo di pubblicazione
+(`art.13-org`). Art. 31 (#477): prerequisito di content model fatto
+(`anac_document_type` su `document`, installer/modules/trasparenza), serializer
+non ancora scritto. Meccanismo di pubblicazione
 URL generico, condiviso da tutti gli schemi, completo e testato - esteso
 per supportare anche schemi a file singolo (vedi
 "ExportPublisher — publishSingle()/publishWithDates()" sotto).
@@ -531,17 +533,22 @@ fonte editoriale (contatti della Homepage), invariata.
   mantenendolo nel JSON con `uffici: []`. Gli esempi ANAC scaricati il
   2026-09-15 hanno sempre almeno un ufficio per organo, non risolvono il
   caso in modo definitivo.
-- **Art. 31 (#477)**: non iniziato. Ha domande di analisi esplicitamente
-  aperte nella issue stessa (non solo dettagli implementativi) — leggere i
-  commenti GitLab prima di iniziare: delimitatore CSV `;` (non tab come
-  art. 4-bis), serve un nuovo attributo codificato sul content model
-  (installer, non solo qui) per `TIPO_DOCUMENTO` (oggi deriva dal titolo
-  libero del redattore, sbagliato), mismatch di cardinalità CSV↔JSON deciso
-  con Marco il 2026-09-15 ("documento più recente per chiave", storico
-  preservato dai file datati immutabili - vedi sopra), meccanismo di
-  esposizione NON da unificare (query live su `document` per OIV/Organi di
-  revisione, dataset per Corte dei conti - decisione presa il 2026-09-15,
-  motivata dalla natura diversa dei dati).
+- **Art. 31 (#477)**: serializer non ancora scritto. Il prerequisito di
+  content model **è stato fatto** (2026-09-15): nuovo attributo
+  `anac_document_type` su `document` (eztags, tassonomia piatta "Tipo
+  documento ANAC", figlia di "Documenti") in
+  `installer/modules/trasparenza/classes/document.yml` — vedi
+  `installer/modules/trasparenza/CLAUDE.md` per il perché delle scelte
+  (campo separato da `document_type` perché quello è pubblico, tassonomia
+  piatta perché ANAC rivede periodicamente questi schemi, il bug di cache
+  tag↔attributo trovato installandolo). Restano da scrivere: il serializer
+  vero e proprio, con delimitatore CSV `;` (non tab come art. 4-bis).
+  Mismatch di cardinalità CSV↔JSON deciso con Marco il 2026-09-15
+  ("documento più recente per chiave", storico preservato dai file datati
+  immutabili - vedi sopra), meccanismo di esposizione NON da unificare
+  (query live su `document` per OIV/Organi di revisione, dataset per Corte
+  dei conti - decisione presa il 2026-09-15, motivata dalla natura diversa
+  dei dati).
 - **Cron/wiring**: fatto per art. 4-bis e art. 13/C1
   (`openpa_bootstrapitalia/cronjobs/anac_export.php`, registrato sotto
   `[CronjobPart-changesection]` in `settings/cronjob.ini.append.php` —
