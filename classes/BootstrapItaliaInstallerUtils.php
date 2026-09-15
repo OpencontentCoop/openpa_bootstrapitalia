@@ -659,8 +659,8 @@ class BootstrapItaliaInstallerUtils
     public static function resetOpendataClassCache()
     {
         $repository = new \Opencontent\Opendata\Api\ClassRepository();
-        foreach (eZContentClass::classIdentifiersHash() as $identifier => $id) {
-            $repository->clearCache($identifier);
+        foreach (eZContentClass::fetchList(eZContentClass::VERSION_STATUS_DEFINED, true) as $class) {
+            $repository->clearCache($class->attribute('identifier'));
         }
 
         $reflection = new ReflectionClass(\Opencontent\Opendata\Api\ClassRepository::class);
