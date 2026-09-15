@@ -12,4 +12,7 @@ Scripts[]=indexcontent.php
 [CronjobPart-staticcache]
 Scripts[]=staticcache.php
 
+[CronjobPart-changesection]
+Scripts[]=anac_export.php
+
 */ ?>
