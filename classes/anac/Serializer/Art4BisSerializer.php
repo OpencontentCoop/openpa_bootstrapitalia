@@ -194,10 +194,10 @@ class Art4BisSerializer
 
     public function toCsv()
     {
-        $lines = [implode("\t", $this->getCsvHeaders())];
+        $lines = [implode(';', $this->getCsvHeaders())];
 
         foreach ($this->fetchRows() as $raw) {
-            $lines[] = implode("\t", $this->mapToCsvRow($this->mapItem($raw)));
+            $lines[] = implode(';', $this->mapToCsvRow($this->mapItem($raw)));
         }
 
         return implode("\r\n", $lines) . "\r\n";
