@@ -107,6 +107,42 @@ class Art13Serializer
     }
 
     /**
+     * Lo schema JSON reale (art.13-v1.0.schema.json, scaricato il 2026-09-15)
+     * richiede `nominativo`, `qualifica` e `contatti` come obbligatori per
+     * ogni ufficio - e `contatti` a sua volta richiede `recapitoTelefonico`
+     * + almeno una tra `postaElettronicaOrdinaria`/`postaElettronicaCertificata`
+     * (definizione condivisa `Riferimenti` in commons-v1.0.schema.json). Un
+     * ufficio senza responsabile configurato o senza contatti completi
+     * produrrebbe un JSON non conforme allo schema - si preferisce OMETTERLO
+     * dal blocco JSON piuttosto che pubblicare dati non validi, stesso
+     * principio gia' usato per il vocabolario di art. 4-bis. **Solo per il
+     * JSON**: il CSV non ha questo vincolo (tollera gia' celle vuote, es.
+     * QUALIFICA_DIRIGENTE e' sempre vuota per costruzione - vedi sopra), e
+     * mostra quindi tutti gli uffici trovati, incompleti o meno.
+     */
+    private function filtraUfficiValidiPerJsonSchema(array $organi)
+    {
+        return array_map(function ($organo) {
+            $organo['uffici'] = array_values(array_filter($organo['uffici'], function ($ufficio) {
+                // "qualifica" e' sempre vuota per costruzione (vedi fetchResponsabile) -
+                // non e' un criterio di filtro utile, si controllano solo nominativo/contatti.
+                return $ufficio['nominativo'] !== '' && $this->contattiCompletiPerSchema($ufficio['contatti']);
+            }));
+
+            return $organo;
+        }, $organi);
+    }
+
+    private function contattiCompletiPerSchema(array $contatti)
+    {
+        if (empty($contatti['recapitoTelefonico'])) {
+            return false;
+        }
+
+        return !empty($contatti['postaElettronicaOrdinaria']) || !empty($contatti['postaElettronicaCertificata']);
+    }
+
+    /**
      * @param string $tagPath path della sotto-tassonomia (Struttura politica / Struttura amministrativa)
      * @param int|null $holdEmploymentObjectId se presente, filtra solo le organization il cui
      *        campo hold_employment punta a questo object id (uffici figli di un organo)
@@ -299,7 +335,8 @@ class Art13Serializer
         // non a livello root, e solo per C1.
         $tipologia = \AmministrazioneTrasparenteTools::getTipologiaEnte();
 
-        $organiBlock = ['organi' => $organi !== null ? $organi : $this->fetchOrganiConUffici()];
+        $organi = $organi !== null ? $organi : $this->fetchOrganiConUffici();
+        $organiBlock = ['organi' => $this->filtraUfficiValidiPerJsonSchema($organi)];
 
         if ($tipologia === \AmministrazioneTrasparenteTools::TIPOLOGIA_C1) {
             $key = 'orgPubblicheAmministrazioni';
