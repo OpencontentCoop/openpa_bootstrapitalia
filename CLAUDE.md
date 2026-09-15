@@ -164,6 +164,34 @@ Per i dettagli tecnici su come funziona lo strumento vedere `html/vendor/opencon
 
 Esistono anche script PHP per il push (`php vendor/opencontent/oci18n/bin/push_ts_terms_to_poeditor.php -r --no-colors`), ma non gestiscono in modo affidabile il `context` del term — preferire sempre le API dirette.
 
+### ⚠️ `oci18n -r` (pull) può cancellare traduzioni non correlate
+
+Verificato il 2026-09-15: un pull di `oci18n -r` per aggiungere ~12 nuovi
+term (context `bootstrapitalia/anac_export`) ha silenziosamente rimosso 13
+entry preesistenti e non correlate da `translations/ita-IT/translation.ts`
+("Act number", "Login with credentials", varie "Stats ... description",
+ecc.) — non un riordino, sparite del tutto (confermato con diff riga-per-riga
+ordinato sui `<source>`, prima/dopo). Sembra fare una "full sync" col
+remote POEditor invece di un merge additivo: se sul progetto POEditor
+manca/non è taggata correttamente una entry locale, il pull la elimina dal
+file locale.
+
+**Prima di committare un pull**, controllare `git diff --stat`: se il
+numero di righe cambiate è molto maggiore di quanto giustificato dai nuovi
+term, NON committare — fare `git checkout -- translations/<lingua>/translation.ts`
+e aggiungere il nuovo blocco `<context>` a mano (XML diretto, subito prima
+di `</TS>`), lasciando intatto il resto del file. Poi verificare con:
+```bash
+docker exec sito-comunale-dev-app-1 php bin/php/ezcache.php --clear-all
+docker exec sito-comunale-dev-app-1 php -r '
+require_once "autoload.php";
+$script = eZScript::instance(["description" => "check i18n"]);
+$script->startup(); $script->initialize();
+echo ezpI18n::tr("CONTESTO", "Stringa inglese") . "\n";
+$script->shutdown();
+'
+```
+
 ### Push via API POEditor (preferito)
 
 Token: `2c1c4091bc25d3d5eb6aa365ceaeb537` — Progetto ID: `740564`
