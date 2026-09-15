@@ -8,11 +8,14 @@ opencity-labs/sito-istituzionale/cms#475 (art. 4-bis, "Dati sui pagamenti"),
 in #479. Vedi anche `installer/modules/trasparenza-c1/CLAUDE.md` per la parte
 di content model/binding schema↔pagina.
 
-**Stato (2026-09-15)**: art. 4-bis completo (cron incluso). Art. 13 (#478) in
-corso: serializer per il profilo **C1 soltanto** scritto e verificato con dati
-reali, cron non ancora esteso per includerlo. Art. 31 (#477) non iniziato.
-Meccanismo di pubblicazione URL generico, condiviso da tutti gli schemi,
-completo e testato.
+**Stato (2026-09-15)**: art. 4-bis completo (cron incluso). Art. 13 (#478)
+per il profilo **C1 soltanto**: `art.13-as`/`art.13-op`/`art.13-pa` scritti,
+collegati al cron e verificati end-to-end con dati reali (URL pubblici
+raggiunti davvero). Mancano ancora C2 (`art.13-oa`) e l'organigramma
+(`art.13-org`). Art. 31 (#477) non iniziato. Meccanismo di pubblicazione
+URL generico, condiviso da tutti gli schemi, completo e testato - esteso
+per supportare anche schemi a file singolo (vedi
+"ExportPublisher — publishSingle()/publishWithDates()" sotto).
 
 ## Architettura
 
@@ -157,6 +160,28 @@ sottile):
   (`OpendataDatasetSearchableRepository`/l'insert diretto in tabella), non
   ancora esplorato.
 
+#### Schemi a file singolo: `publishSingle()` e `publishWithDates()`
+
+`publish($csv, $jsonBuilder)` assume sempre una coppia CSV+JSON sotto lo
+stesso `$schemaIdentifier` (il caso di art. 4-bis). Art. 13 non ci sta:
+`art.13-as`/`art.13-op` sono CSV a se stanti senza un JSON gemello, e il
+JSON è un "file unico" (`art.13-pa`) con un identificativo proprio che copre
+insieme ambito soggettivo + organi. Due metodi aggiuntivi, stesso nucleo
+condiviso (`resolveAndPublish()`, hash + "una pubblicazione al massimo al
+giorno" invariati):
+
+- `publishSingle($content, $extension)` — per un file il cui contenuto NON
+  incorpora le date (es. `art.13-as`/`art.13-op`: pure righe di dato, hash
+  diretto sul contenuto).
+- `publishWithDates($dataHashSource, callable $contentBuilder, $extension)` —
+  per un file singolo il cui contenuto DIPENDE dalle date risolte (es.
+  `art.13-pa`, che ha comunque un blocco `intestazione` con le date, stesso
+  problema di `publish()` ma senza un CSV gemello su cui calcolare l'hash):
+  il chiamante passa a parte una rappresentazione del solo dato, senza date
+  (per art.13-pa: `json_encode($organi)`, lo stesso array già passato a
+  `Art13Serializer::toJson()`/`toCsvOrganiUffici()` per evitare di
+  ricalcolarlo tre volte nello stesso cron).
+
 ### Node id da passare a `ExportPublisher`: NON la radice dell'alberatura
 
 Il secondo parametro del costruttore (`$rootNodeId`) è il nodo della
@@ -261,11 +286,22 @@ convenzione di digitazione del redattore (`1550.33`, `1550,33`, `1.550,33`,
 
 ### `Art13Serializer` — solo profilo C1 per ora
 
-Copre `art.13-as` (ambito soggettivo) e `art.13-op` (organi di indirizzo
-politico + uffici). **Non copre** `art.13-oa` (C2), `art.13-org`
+Copre `art.13-as` (ambito soggettivo), `art.13-op` (organi di indirizzo
+politico + uffici) e `art.13-pa` (JSON "file unico", che copre insieme
+ambito soggettivo + organi). **Non copre** `art.13-oa` (C2), `art.13-org`
 (organigramma, sorgente dati non individuata) né `art.13-rif` (fuori
 perimetro, dovuto solo a ordini/collegi professionali C3). Vedi
 `installer/modules/trasparenza-c1/CLAUDE.md` per il perimetro C1/C2/C3.
+Collegato al cron (`cronjobs/anac_export.php`, `publishArt13()`) e
+verificato con url pubblici reali sotto il nodo "Articolazione degli
+uffici" (remote_id `ae441f5d2f78bf88f0b3e39a36743bdd`, patchato da
+`trasparenza-c1`).
+
+**Il JSON ha un identificativo proprio, diverso dai CSV**: `art.13-pa` per
+Pubbliche Amministrazioni (C1), `art.13-se` per Società ed Enti (C2) - da
+`guida-servizi.anticorruzione.it` (nomi dei file di esempio scaricabili).
+Non dedurlo dal nome dei CSV (`art.13-as`/`art.13-op`) - sono file diversi,
+con la propria pubblicazione/versione/tracking indipendente.
 
 **Fonte dati**: tutta già esistente nel content model, nessun nuovo
 attributo (a differenza di art. 31, dove `TIPO_DOCUMENTO` serve un campo
@@ -506,14 +542,14 @@ fonte editoriale (contatti della Homepage), invariata.
   esposizione NON da unificare (query live su `document` per OIV/Organi di
   revisione, dataset per Corte dei conti - decisione presa il 2026-09-15,
   motivata dalla natura diversa dei dati).
-- **Cron/wiring**: fatto per art. 4-bis (`openpa_bootstrapitalia/cronjobs/anac_export.php`,
-  registrato sotto `[CronjobPart-changesection]` in `settings/cronjob.ini.append.php`
-  — scelta provvisoria: gruppo con semantica sbagliata ma zero costo
+- **Cron/wiring**: fatto per art. 4-bis e art. 13/C1
+  (`openpa_bootstrapitalia/cronjobs/anac_export.php`, registrato sotto
+  `[CronjobPart-changesection]` in `settings/cronjob.ini.append.php` —
+  scelta provvisoria: gruppo con semantica sbagliata ma zero costo
   infrastrutturale aggiuntivo sul cron SaaS, `CONCURRENCY=2` su ~600 tenant —
-  da rivedere con un gruppo dedicato in futuro). **Non ancora esteso per
-  art. 13** (il serializer esiste ed è testato, ma nessuno script lo chiama
-  ancora in produzione) — stesso pattern di `publishArt4Bis()`, un'altra
-  funzione `publishArt13()` nello stesso file.
+  da rivedere con un gruppo dedicato in futuro). Da estendere quando arriva
+  art. 31 (stesso pattern, un'altra funzione `publishArt31()` nello stesso
+  file) e quando arriva art. 13/C2.
 - **UI di download nella pagina trasparenza**: nessun link/bottone porta
   all'export oggi — va aggiunto sul template della pagina di trasparenza
   (`pagina_trasparenza`), NON sul datatype `dataset`, perché diversi schemi

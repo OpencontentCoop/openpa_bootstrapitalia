@@ -23,6 +23,15 @@ class Art13Serializer
     const SCHEMA_IDENTIFIER_OP = 'art.13-op';
     const SCHEMA_IDENTIFIER_ORG = 'art.13-org';
 
+    /**
+     * Il JSON e' un "file unico" con un identificativo proprio, diverso da
+     * quelli dei CSV: "pa" per Pubbliche Amministrazioni (C1), "se" per
+     * Societa' ed Enti (C2) - da guida-servizi.anticorruzione.it (nomi dei
+     * file di esempio scaricabili, es. art.13-pa-YYYYMMDD-YYYYMMDD.v1.0.json).
+     */
+    const SCHEMA_IDENTIFIER_JSON_C1 = 'art.13-pa';
+    const SCHEMA_IDENTIFIER_JSON_C2 = 'art.13-se';
+
     const AMBITO_C1 = 'Pubbliche amministrazioni';
     const AMBITO_C2 = 'Società ed Enti';
 
@@ -274,7 +283,12 @@ class Art13Serializer
         return trim((string)$content);
     }
 
-    public function toJson($dataPrimaPubblicazione, $dataUltimaModifica)
+    /**
+     * @param array|null $organi risultato gia' pronto di fetchOrganiConUffici(),
+     *        per evitare di ricalcolarlo se il chiamante lo ha gia' fatto
+     *        (es. per l'hash di ExportPublisher::publishWithDates())
+     */
+    public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $organi = null)
     {
         // Verificato sui file di esempio scaricati da ANAC il 2026-09-15: NON
         // esiste un campo "ambitoSoggettivo" esplicito in questo JSON (a
@@ -285,7 +299,7 @@ class Art13Serializer
         // non a livello root, e solo per C1.
         $tipologia = \AmministrazioneTrasparenteTools::getTipologiaEnte();
 
-        $organiBlock = ['organi' => $this->fetchOrganiConUffici()];
+        $organiBlock = ['organi' => $organi !== null ? $organi : $this->fetchOrganiConUffici()];
 
         if ($tipologia === \AmministrazioneTrasparenteTools::TIPOLOGIA_C1) {
             $key = 'orgPubblicheAmministrazioni';
@@ -324,7 +338,7 @@ class Art13Serializer
         return null;
     }
 
-    public function toCsvOrganiUffici()
+    public function toCsvOrganiUffici(array $organi = null)
     {
         $headers = [
             'DENOMINAZIONE_ORGANO', 'COMPETENZE_ORGANO',
@@ -334,7 +348,7 @@ class Art13Serializer
         ];
         $lines = [implode(';', $headers)];
 
-        foreach ($this->fetchOrganiConUffici() as $organo) {
+        foreach (($organi !== null ? $organi : $this->fetchOrganiConUffici()) as $organo) {
             foreach ($organo['uffici'] as $ufficio) {
                 $isDirigenziale = $ufficio['tipologia'] === 'Ufficio dirigenziale';
                 $lines[] = implode(';', [
