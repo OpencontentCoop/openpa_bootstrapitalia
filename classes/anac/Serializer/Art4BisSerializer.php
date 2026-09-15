@@ -7,15 +7,21 @@ class Art4BisSerializer
     const SCHEMA_IDENTIFIER = 'art.4-bis';
 
     /**
-     * Vocabolario controllato da guida-servizi.anticorruzione.it/it/help/trasparenza/schemi/art.4-bis/
-     * (consultata il 2026-09-15). La tipologia ammessa dipende dalla categoria della riga.
+     * Vocabolario controllato dallo schema JSON ufficiale scaricabile
+     * (guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.4-bis-v1.0.schema.json,
+     * verificato il 2026-09-15 scaricando il file, non un riassunto della
+     * pagina guida). "categoria" e' un "const" nello schema: minuscolo,
+     * esattamente "uscite correnti"/"uscite in conto capitale" - un
+     * tentativo precedente li aveva capitalizzati basandosi su un riassunto
+     * automatico impreciso della pagina guida, sbagliando: l'esempio
+     * originale nella issue (minuscolo) era quello corretto.
      */
-    const CATEGORIA_USCITE_CORRENTI = 'Uscite correnti';
-    const CATEGORIA_USCITE_CONTO_CAPITALE = 'Uscite in conto capitale';
+    const CATEGORIA_USCITE_CORRENTI = 'uscite correnti';
+    const CATEGORIA_USCITE_CONTO_CAPITALE = 'uscite in conto capitale';
 
     const TIPOLOGIE_PER_CATEGORIA = [
         self::CATEGORIA_USCITE_CORRENTI => [
-            'Acquisto di beni e servizi',
+            'Acquisto di beni e di servizi',
             'Contributi in conto esercizio',
             'Interessi passivi',
             'Altre spese per attività finanziarie',
