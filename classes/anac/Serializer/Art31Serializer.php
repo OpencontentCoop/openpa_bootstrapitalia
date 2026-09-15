@@ -236,7 +236,7 @@ class Art31Serializer
             }
         }
 
-        return implode("\r\n", $lines) . "\r\n";
+        return implode("\n", $lines) . "\n";
     }
 
     public function toCsvOiv(array $documentsByKey = null)
@@ -330,7 +330,7 @@ class Art31Serializer
             $lines[] = implode(';', [$item['dataPubblicazione'], $item['oggetto'], $item['documento']]);
         }
 
-        return implode("\r\n", $lines) . "\r\n";
+        return implode("\n", $lines) . "\n";
     }
 
     /**
