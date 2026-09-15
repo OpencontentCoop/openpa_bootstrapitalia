@@ -200,11 +200,24 @@ class Art4BisSerializer
             $lines[] = implode(';', $this->mapToCsvRow($this->mapItem($raw)));
         }
 
-        return implode("\r\n", $lines) . "\r\n";
+        return implode("\n", $lines) . "\n";
     }
 
+    /**
+     * @throws \OpenPABootstrapItalia\Anac\EmptyExportException se il dataset non ha righe: lo
+     *         schema JSON richiede `datiSuiPagamenti` non vuoto (`minItems: 1`), un file con
+     *         array vuoto sarebbe pubblicato ma non conforme - blocca la pubblicazione invece
+     *         (decisione con Marco il 2026-09-15, vedi EmptyExportException)
+     */
     public function toJson($dataPrimaPubblicazione, $dataUltimaModifica)
     {
+        $rows = $this->fetchRows();
+        if (empty($rows)) {
+            throw new \OpenPABootstrapItalia\Anac\EmptyExportException(
+                "Il dataset 'Dati sui pagamenti' non ha righe: lo schema ANAC richiede datiSuiPagamenti non vuoto, export art.4-bis bloccato"
+            );
+        }
+
         $data = [
             'intestazione' => $this->getIntestazione($dataPrimaPubblicazione, $dataUltimaModifica),
             'datiSuiPagamenti' => array_map(
@@ -220,7 +233,7 @@ class Art4BisSerializer
                         'beneficiario' => $item['beneficiario'],
                     ];
                 },
-                $this->fetchRows()
+                $rows
             ),
         ];
 
