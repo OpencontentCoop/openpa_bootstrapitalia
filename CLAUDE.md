@@ -248,6 +248,21 @@ Dove `_priority` = `ezcontentobject_tree.priority` del nodo del servizio pubblic
 
 ---
 
+## Sistema FAQ (`faq_root`/`faq_section`/`faq_group`/`faq`)
+
+Classi installate dal modulo opzionale `installer/modules/faq/` (repo `installer`): `faq_root` (radice), `faq_section`, `faq_group`, `faq` (singola domanda/risposta). Ruolo dedicato: `Editor Faq`.
+
+### Le due viste alternative, controllate da un solo ini
+
+`openpa/full/faq_root.tpl` (design `bootstrapitalia2`) si comporta in modo completamente diverso a seconda di `[ViewSettings] FaqTreeView` (`openpa.ini`):
+
+- **`disabled`** (default): mostra **tutte** le FAQ dirette (classe `faq`) in un unico accordion piatto (`include uri='design:parts/faq_accordion.tpl'`) — nessuna gerarchia.
+- **`enabled`**: **non guarda più le FAQ dirette** — fa un `fetch(content, list_count, ...)` filtrato su `faq_section`/`faq_group` come figli diretti del nodo, e li mostra come griglia di card (per navigare a sezioni prima di arrivare alle domande).
+
+**Attenzione**: con `FaqTreeView=enabled`, se non esistono ancora contenuti di classe `faq_section`/`faq_group` sotto il nodo radice, il blocco `{if $children_count}` è falso e **non viene mostrato nulla** — niente fallback all'accordion. La pagina "Domande frequenti" appare vuota anche se ci sono FAQ dirette pubblicate. Verificato in locale (2026-09-11): serve creare almeno una `faq_section`/`faq_group` prima di abilitare la vista ad albero, altrimenti si perde la visualizzazione delle FAQ esistenti.
+
+---
+
 ## Link nel footer
 
 ### Come funziona
