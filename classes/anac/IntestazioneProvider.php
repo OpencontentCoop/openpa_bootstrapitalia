@@ -17,15 +17,16 @@ namespace OpenPABootstrapItalia\Anac;
  *   matrice "contacts" sulla Homepage, la stessa letta da SiteInfo.php:315
  *   per l'oggetto 'cf' esposto ai widget SDC.
  *
- * codiceFiscale e' un campo obbligatorio dello schema ANAC (Amministrazione):
- * se il redattore non l'ha compilato, getAmministrazione() lancia
- * MissingCodiceFiscaleException invece di produrre un export incompleto -
- * decisione esplicita di Marco il 2026-09-14, non un default prudente.
+ * codiceFiscale e' un campo obbligatorio dello schema ANAC (Amministrazione),
+ * 11 cifre numeriche: se il redattore non l'ha compilato o l'ha compilato in
+ * un formato diverso, getAmministrazione() lancia MissingCodiceFiscaleException
+ * invece di produrre un export incompleto o non conforme - decisione esplicita
+ * di Marco il 2026-09-14, non un default prudente.
  */
 class IntestazioneProvider
 {
     /**
-     * @throws MissingCodiceFiscaleException se il codice fiscale non e' compilato sulla Homepage
+     * @throws MissingCodiceFiscaleException se il codice fiscale non e' compilato sulla Homepage o non e' di 11 cifre numeriche
      */
     public static function getAmministrazione()
     {
@@ -33,6 +34,11 @@ class IntestazioneProvider
         if ($codiceFiscale === '') {
             throw new MissingCodiceFiscaleException(
                 'Codice fiscale non compilato nei contatti della Homepage: impossibile generare export ANAC'
+            );
+        }
+        if (!preg_match('/^\d{11}$/', $codiceFiscale)) {
+            throw new MissingCodiceFiscaleException(
+                "Codice fiscale '{$codiceFiscale}' non valido (richieste 11 cifre numeriche, come da schema ANAC): impossibile generare export ANAC"
             );
         }
 
