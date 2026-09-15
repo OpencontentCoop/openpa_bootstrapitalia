@@ -1,6 +1,6 @@
 {if count($exports)|gt(0)}
     <div class="anac-export mt-4">
-        <h3 class="h6">Schemi pubblicazione ANAC</h3>
+        <h3 class="h6">{'ANAC publication schemas'|i18n('bootstrapitalia/anac_export')}</h3>
         <ul class="list-unstyled mb-2">
             {foreach $exports as $export}
                 {foreach $export.latest_urls as $extension => $url}
@@ -18,7 +18,7 @@
         {/foreach}
         {if $has_history}
             <a class="btn-link btn-xs p-0 text-decoration-underline" data-bs-toggle="collapse" data-toggle="collapse" href="#anac-export-versions" role="button" aria-expanded="false" aria-controls="anac-export-versions">
-                Versioni precedenti
+                {'Previous versions'|i18n('bootstrapitalia/anac_export')}
             </a>
             <div class="collapse mt-2" id="anac-export-versions">
                 <ul class="list-unstyled ps-3 border-start mb-0">

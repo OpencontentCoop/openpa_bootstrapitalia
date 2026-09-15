@@ -42,27 +42,37 @@ class SchemaPubblicazioneLookup
      * Etichette leggibili per il cittadino, riprese dalla nomenclatura degli
      * obblighi ANAC gia' documentata in #479 (suffisso -> significato) - non
      * gli identificativi tecnici (`art.13-as`), ma cosa rappresentano.
+     *
+     * Testo sorgente in inglese: lato PHP la localizzazione passa da
+     * `\ezpI18n::tr($context, $source)` (stesso meccanismo del filtro
+     * template `i18n()`, vedi CLAUDE.md root, sezione i18n) - il sorgente e'
+     * sempre l'inglese, mai l'italiano, altrimenti la stringa risulterebbe
+     * identica su tutte le lingue finche' non tradotta esplicitamente.
      */
     const LABELS = [
-        'art.4-bis' => 'Dati sui pagamenti',
-        'art.13-as' => 'Ambito soggettivo',
-        'art.13-op' => 'Organi di indirizzo politico',
-        'art.13-oa' => 'Organi di amministrazione e gestione',
-        'art.13-org' => 'Organigramma',
-        'art.13-pa' => 'Organizzazione',
-        'art.13-se' => 'Organizzazione',
-        'art.31-oiv' => 'Organismi indipendenti di valutazione',
-        'art.31-or' => 'Organi di revisione',
-        'art.31-oc' => 'Corte dei conti',
-        'art.31' => 'Controlli e rilievi sull\'amministrazione',
+        'art.4-bis' => 'Payment data',
+        'art.13-as' => 'Subjective scope',
+        'art.13-op' => 'Political governing bodies',
+        'art.13-oa' => 'Administration and management bodies',
+        'art.13-org' => 'Organisation chart',
+        'art.13-pa' => 'Organisation',
+        'art.13-se' => 'Organisation',
+        'art.31-oiv' => 'Independent evaluation bodies',
+        'art.31-or' => 'Audit bodies',
+        'art.31-oc' => 'Court of Auditors',
+        'art.31' => 'Administrative controls and findings',
     ];
 
     /**
-     * @return string etichetta leggibile, o l'identificativo grezzo se non mappato (non dovrebbe succedere)
+     * @return string etichetta leggibile e tradotta, o l'identificativo grezzo se non mappato (non dovrebbe succedere)
      */
     public static function labelForSchema($schema)
     {
-        return isset(self::LABELS[$schema]) ? self::LABELS[$schema] : $schema;
+        if (!isset(self::LABELS[$schema])) {
+            return $schema;
+        }
+
+        return \ezpI18n::tr('bootstrapitalia/anac_export', self::LABELS[$schema]);
     }
 
     /**

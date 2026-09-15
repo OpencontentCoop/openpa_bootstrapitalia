@@ -2515,4 +2515,55 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Tipologia</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/anac_export</name>
+    <message>
+      <source>ANAC publication schemas</source>
+      <translation>Schemi pubblicazione ANAC</translation>
+    </message>
+    <message>
+      <source>Previous versions</source>
+      <translation>Versioni precedenti</translation>
+    </message>
+    <message>
+      <source>Payment data</source>
+      <translation>Dati sui pagamenti</translation>
+    </message>
+    <message>
+      <source>Subjective scope</source>
+      <translation>Ambito soggettivo</translation>
+    </message>
+    <message>
+      <source>Political governing bodies</source>
+      <translation>Organi di indirizzo politico</translation>
+    </message>
+    <message>
+      <source>Administration and management bodies</source>
+      <translation>Organi di amministrazione e gestione</translation>
+    </message>
+    <message>
+      <source>Organisation chart</source>
+      <translation>Organigramma</translation>
+    </message>
+    <message>
+      <source>Organisation</source>
+      <translation>Organizzazione</translation>
+    </message>
+    <message>
+      <source>Independent evaluation bodies</source>
+      <translation>Organismi indipendenti di valutazione</translation>
+    </message>
+    <message>
+      <source>Audit bodies</source>
+      <translation>Organi di revisione</translation>
+    </message>
+    <message>
+      <source>Court of Auditors</source>
+      <translation>Corte dei conti</translation>
+    </message>
+    <message>
+      <source>Administrative controls and findings</source>
+      <translation>Controlli e rilievi sull'amministrazione</translation>
+    </message>
+  </context>
 </TS>
