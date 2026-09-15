@@ -82,7 +82,56 @@ class ExportPublisher
      */
     public function publish($csv, callable $jsonBuilder)
     {
-        $dataHash = md5($csv);
+        return $this->resolveAndPublish($csv, function ($first, $last) use ($csv, $jsonBuilder) {
+            return ['csv' => $csv, 'json' => $jsonBuilder($first, $last)];
+        });
+    }
+
+    /**
+     * Per schemi con un solo formato pubblicato (es. art.13-as/art.13-op,
+     * solo CSV; art.13-pa, solo JSON "file unico") - a differenza di
+     * publish(), qui il contenuto non dipende dalle date risolte, quindi non
+     * serve una callback: il contenuto e' gia' completo cosi' com'e'.
+     *
+     * @param string $content
+     * @param string $extension 'csv' o 'json'
+     * @return array tracking aggiornato (invariato se il dato non e' cambiato)
+     */
+    public function publishSingle($content, $extension)
+    {
+        return $this->resolveAndPublish($content, function () use ($content, $extension) {
+            return [$extension => $content];
+        });
+    }
+
+    /**
+     * Per un file singolo il cui contenuto dipende dalle date risolte (es.
+     * un JSON con un blocco "intestazione" che le incorpora, ma senza un CSV
+     * gemello su cui calcolare l'hash come fa publish()). Il chiamante deve
+     * fornire separatamente un hash della sola parte-dato, senza date, altrimenti
+     * si ricade nello stesso problema (vedi "Perche' il JSON si costruisce
+     * con una callback" in publish()/CLAUDE.md).
+     *
+     * @param string $dataHashSource rappresentazione del solo dato, senza date
+     * @param callable $contentBuilder function(string $dataPrimaPubblicazione, string $dataUltimaModifica): string
+     * @param string $extension 'csv' o 'json'
+     */
+    public function publishWithDates($dataHashSource, callable $contentBuilder, $extension)
+    {
+        return $this->resolveAndPublish($dataHashSource, function ($first, $last) use ($contentBuilder, $extension) {
+            return [$extension => $contentBuilder($first, $last)];
+        });
+    }
+
+    /**
+     * Nucleo comune a publish()/publishSingle()/publishWithDates(): confronta l'hash, risolve le
+     * date (al massimo una pubblicazione al giorno, vedi commento sotto),
+     * poi chiede a $filesBuilder(dataPrimaPubblicazione, dataUltimaModifica)
+     * la mappa estensione => contenuto da scrivere.
+     */
+    private function resolveAndPublish($dataForHash, callable $filesBuilder)
+    {
+        $dataHash = md5($dataForHash);
         $tracking = $this->getTracking();
 
         if ($tracking !== null && $tracking['dataHash'] === $dataHash) {
@@ -105,21 +154,19 @@ class ExportPublisher
         $dataPrimaPubblicazione = $tracking !== null ? $tracking['dataPrimaPubblicazione'] : $today;
         $dataUltimaModifica = $today;
 
-        $json = $jsonBuilder($dataPrimaPubblicazione, $dataUltimaModifica);
+        $files = $filesBuilder($dataPrimaPubblicazione, $dataUltimaModifica);
 
         $firstPublishedDate = \DateTime::createFromFormat('d/m/Y', $dataPrimaPubblicazione)->format('Ymd');
         $lastModifiedDate = \DateTime::createFromFormat('d/m/Y', $dataUltimaModifica)->format('Ymd');
-
-        $pathCsv = $this->writeVersionedFile($csv, 'csv', $firstPublishedDate, $lastModifiedDate);
-        $pathJson = $this->writeVersionedFile($json, 'json', $firstPublishedDate, $lastModifiedDate);
 
         $tracking = [
             'dataHash' => $dataHash,
             'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
             'dataUltimaModifica' => $dataUltimaModifica,
-            'pathCsv' => $pathCsv,
-            'pathJson' => $pathJson,
         ];
+        foreach ($files as $extension => $content) {
+            $tracking['path' . ucfirst($extension)] = $this->writeVersionedFile($content, $extension, $firstPublishedDate, $lastModifiedDate);
+        }
         $this->setTracking($tracking);
 
         return $tracking;
