@@ -237,13 +237,32 @@ mai la radice dell'alberatura, stesso principio:
 - `art.31-or` → nodo della pagina "Organi di revisione" (remote_id
   `583cd446c1978fdab33108b83ae9eb71`)
 - `art.31-oc` → nodo del dataset "Corte dei conti" (remote_id
-  `corte_dei_conti`, stesso pattern di art. 4-bis)
-- JSON "file unico" (`art.31`) → ospitato sotto la pagina "Organismi
-  indipendenti di valutazione" **per convenzione arbitraria**: a differenza
-  di art. 13 (dove il JSON copre ambito soggettivo + organi, entrambi sotto
-  "Articolazione degli uffici"), qui il JSON copre tre sottosezioni che non
-  condividono nessuna pagina comune - scelta non ancora validata con Marco,
-  da rivedere se emerge un posto più naturale.
+  `corte_dei_conti`, stesso pattern di art. 4-bis) - **non** la pagina di
+  trasparenza "Corte dei conti" (vedi punto successivo), che è un oggetto
+  diverso
+- JSON "file unico" (`art.31`, nessun suffisso — confermato scaricando l'HTML
+  della pagina guida ANAC e cercando il link reale al file di esempio, non
+  un riassunto WebFetch) → ospitato sotto **"Controlli e rilievi
+  sull'amministrazione"** (remote_id `fc18dc0947cce81ed94b4f5228572fc1`),
+  che è il genitore reale (verificato in `sito-comunale-dev`) di **tutte e
+  tre** le pagine di trasparenza dell'art. 31: "Organismi indipendenti di
+  valutazione", "Organi di revisione" e "Corte dei conti" **(la pagina, non
+  il dataset)** - decisione presa con Marco il 2026-09-15, dopo aver
+  scartato una prima ipotesi sbagliata ("Organismi indipendenti di
+  valutazione", scelta arbitraria senza giustificazione) e una seconda
+  incompleta (avevo controllato solo l'oggetto dataset di Corte dei conti,
+  non la sua pagina di trasparenza, concludendo erroneamente che solo 2
+  pagine su 3 condividessero un genitore).
+
+  **Specifico di trasparenza-c1, non riusabile per C2 così com'è**: il
+  remote_id sopra esiste solo nell'alberatura C1. `trasparenza-c2` ha un
+  oggetto concettualmente analogo ma con un **remote_id diverso**
+  (`t_c2_controlli-e-rilievi-sull-am`, in
+  `installer/modules/trasparenza-c2/contenttrees/TrasparenzaC2-Root/Controlli-e-rilievi-sull-amministrazione.yml`)
+  e comunque C2 non ha (ancora) le pagine OIV/Organi di revisione - non è un
+  problema pratico oggi perché `publishArt31()` è già bloccato al solo
+  profilo C1, ma se in futuro si estende a C2 questo remote_id **non va
+  riusato**, va reso condizionale alla tipologia ente.
 
 Vedi `installer/modules/trasparenza-c1/CLAUDE.md` per la tabella di binding
 completa schema↔remote_id.
@@ -668,9 +687,6 @@ fonte editoriale (contatti della Homepage), invariata.
   `installer/modules/trasparenza-c1/CLAUDE.md`). Il resto (C1: `art.31-oiv`,
   `art.31-or`, `art.31-oc`, JSON "file unico") **è fatto**, vedi sezione
   `Art31Serializer` sopra.
-- **Art. 31 — home del JSON "file unico"**: scelta arbitraria (pagina
-  "Organismi indipendenti di valutazione"), non validata con Marco — vedi
-  nota nella sezione "Node id da passare a `ExportPublisher`" sopra.
 - **Cron/wiring**: fatto per art. 4-bis, art. 13/C1 e art. 31/C1
   (`openpa_bootstrapitalia/cronjobs/anac_export.php`, registrato sotto
   `[CronjobPart-changesection]` in `settings/cronjob.ini.append.php` —

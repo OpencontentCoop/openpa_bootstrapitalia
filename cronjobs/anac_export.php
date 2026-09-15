@@ -24,10 +24,11 @@ publishArt31($cli);
  * stesso pattern di art.4-bis. Il nodo dell'export CSV di ciascuna
  * sottosezione e' quello della sua pagina/dataset (vedi
  * installer/modules/trasparenza-c1/CLAUDE.md, tabella di binding); il JSON
- * "file unico" (nessun dataset naturale a cui appoggiarsi, copre tutte e tre
- * le sottosezioni insieme) e' ospitato sotto la pagina "Organismi
- * indipendenti di valutazione" per convenzione - scelta arbitraria in
- * assenza di un nodo comune, vedi classes/anac/CLAUDE.md.
+ * "file unico" (copre tutte e tre le sottosezioni insieme) e' ospitato sotto
+ * "Controlli e rilievi sull'amministrazione", il genitore reale di tutte e
+ * tre le pagine di trasparenza dell'art. 31 - verificato con Marco il
+ * 2026-09-15, vedi classes/anac/CLAUDE.md. Specifico di trasparenza-c1: C2
+ * ha un remote_id diverso per la stessa pagina concettuale.
  */
 function publishArt31(eZCLI $cli)
 {
@@ -60,6 +61,24 @@ function publishArt31(eZCLI $cli)
             return;
         }
 
+        /**
+         * remote_id specifico di trasparenza-c1: "Controlli e rilievi
+         * sull'amministrazione" e' il genitore reale di tutte e tre le
+         * pagine di trasparenza dell'art. 31 (OIV, Organi di revisione,
+         * Corte dei conti) - verificato in sito-comunale-dev. Diverso da
+         * trasparenza-c2, che ha il proprio remote_id per la stessa pagina
+         * concettuale (`t_c2_controlli-e-rilievi-sull-am`) e comunque non ha
+         * ancora OIV/Organi di revisione - se in futuro C2 verra' supportato,
+         * questo remote_id andra' reso condizionale alla tipologia ente, non
+         * riusato cosi' com'e' (vedi classes/anac/CLAUDE.md).
+         */
+        $controlliERilieviPage = eZContentObject::fetchByRemoteID('fc18dc0947cce81ed94b4f5228572fc1');
+        if (!$controlliERilieviPage instanceof eZContentObject) {
+            $cli->warning('anac_export: pagina "Controlli e rilievi sull\'amministrazione" non trovata, schema art.31 saltato (modulo trasparenza-c1 non installato su questo sito?)');
+
+            return;
+        }
+
         $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer($corteDataMap['csv_resource']);
 
         $oivDocuments = $serializer->fetchDocumentsByKeys(\OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OIV_KEYS);
@@ -87,7 +106,7 @@ function publishArt31(eZCLI $cli)
             $serializer->getAttiOrganiDiRevisione($orDocuments),
             $rilievi,
         ]);
-        $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonIdentifier, $oivPageObject->attribute('main_node')->attribute('node_id'));
+        $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonIdentifier, $controlliERilieviPage->attribute('main_node')->attribute('node_id'));
         $jsonTracking = $jsonPublisher->publishWithDates(
             $jsonHashSource,
             function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer, $oivDocuments, $orDocuments) {
