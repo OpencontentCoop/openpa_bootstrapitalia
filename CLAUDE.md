@@ -403,9 +403,15 @@ $.opendataTools.find(
 ```php
 $qb = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
 $q = $qb->instanceQuery("classes [public_service] limit 10");
-$result = eZFunctionHandler::execute('ezfind', 'search', array_merge($q->query(), ['as_objects' => false]));
-// $result['SearchResult'] → array di hit con campi Solr
+$result = eZFunctionHandler::execute('ezfind', 'search', array_merge($q->convert(), ['as_objects' => false]));
+// $result['SearchResult'] → array di eZFindResultNode (usare ->attribute('campo'), non l'accesso come array)
 ```
+
+**Attenzione**: il metodo è `convert()`, non `query()` (quest'ultimo non esiste
+sulla classe `Query` restituita da `instanceQuery()` — verificato il
+2026-09-15, un esempio precedente in questo file usava `query()` ed era
+sbagliato/mai testato). Riferimento a un uso reale verificato:
+`classes/handlers/data/albo_pretorio.php`.
 
 ### Operatore `raw[]` e negazione
 
