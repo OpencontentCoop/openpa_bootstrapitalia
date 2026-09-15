@@ -39,6 +39,33 @@ class SchemaPubblicazioneLookup
     ];
 
     /**
+     * Etichette leggibili per il cittadino, riprese dalla nomenclatura degli
+     * obblighi ANAC gia' documentata in #479 (suffisso -> significato) - non
+     * gli identificativi tecnici (`art.13-as`), ma cosa rappresentano.
+     */
+    const LABELS = [
+        'art.4-bis' => 'Dati sui pagamenti',
+        'art.13-as' => 'Ambito soggettivo',
+        'art.13-op' => 'Organi di indirizzo politico',
+        'art.13-oa' => 'Organi di amministrazione e gestione',
+        'art.13-org' => 'Organigramma',
+        'art.13-pa' => 'Organizzazione',
+        'art.13-se' => 'Organizzazione',
+        'art.31-oiv' => 'Organismi indipendenti di valutazione',
+        'art.31-or' => 'Organi di revisione',
+        'art.31-oc' => 'Corte dei conti',
+        'art.31' => 'Controlli e rilievi sull\'amministrazione',
+    ];
+
+    /**
+     * @return string etichetta leggibile, o l'identificativo grezzo se non mappato (non dovrebbe succedere)
+     */
+    public static function labelForSchema($schema)
+    {
+        return isset(self::LABELS[$schema]) ? self::LABELS[$schema] : $schema;
+    }
+
+    /**
      * Un solo scan della classe `pagina_trasparenza` per tutti gli schemi
      * insieme, non uno scan per schema - il cron risolve tutti i nodi che
      * gli servono con una sola chiamata a inizio funzione.
