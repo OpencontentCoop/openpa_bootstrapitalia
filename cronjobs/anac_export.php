@@ -14,6 +14,93 @@
 
 publishArt4Bis($cli);
 publishArt13($cli);
+publishArt31($cli);
+
+/**
+ * OIV e Organi di revisione non hanno un dataset dedicato: sono documenti
+ * (classe `document`) taggati con `anac_document_type` (vedi
+ * installer/modules/trasparenza/CLAUDE.md), pubblicati come figli delle
+ * rispettive pagine trasparenza. Corte dei conti invece e' un dataset reale,
+ * stesso pattern di art.4-bis. Il nodo dell'export CSV di ciascuna
+ * sottosezione e' quello della sua pagina/dataset (vedi
+ * installer/modules/trasparenza-c1/CLAUDE.md, tabella di binding); il JSON
+ * "file unico" (nessun dataset naturale a cui appoggiarsi, copre tutte e tre
+ * le sottosezioni insieme) e' ospitato sotto la pagina "Organismi
+ * indipendenti di valutazione" per convenzione - scelta arbitraria in
+ * assenza di un nodo comune, vedi classes/anac/CLAUDE.md.
+ */
+function publishArt31(eZCLI $cli)
+{
+    try {
+        if (\AmministrazioneTrasparenteTools::getTipologiaEnte() !== \AmministrazioneTrasparenteTools::TIPOLOGIA_C1) {
+            $cli->notice('anac_export: art.31 saltato (solo profilo C1 supportato per ora)');
+
+            return;
+        }
+
+        $corteDeiContiObject = eZContentObject::fetchByRemoteID('corte_dei_conti');
+        if (!$corteDeiContiObject instanceof eZContentObject) {
+            $cli->warning("anac_export: oggetto dataset 'corte_dei_conti' non trovato, schema art.31 saltato (modulo trasparenza-c1 non installato su questo sito?)");
+
+            return;
+        }
+
+        $corteDataMap = $corteDeiContiObject->attribute('data_map');
+        if (!isset($corteDataMap['csv_resource'])) {
+            $cli->error("anac_export: attributo 'csv_resource' non trovato sul dataset Corte dei conti (id {$corteDeiContiObject->attribute('id')}), schema art.31 saltato");
+
+            return;
+        }
+
+        $oivPageObject = eZContentObject::fetchByRemoteID('d20a1b517d9c0cba06af6b6b345f6c0e');
+        $orPageObject = eZContentObject::fetchByRemoteID('583cd446c1978fdab33108b83ae9eb71');
+        if (!$oivPageObject instanceof eZContentObject || !$orPageObject instanceof eZContentObject) {
+            $cli->warning('anac_export: pagine "Organismi indipendenti di valutazione" o "Organi di revisione" non trovate, schema art.31 saltato (modulo trasparenza-c1 non installato su questo sito?)');
+
+            return;
+        }
+
+        $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer($corteDataMap['csv_resource']);
+
+        $oivDocuments = $serializer->fetchDocumentsByKeys(\OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OIV_KEYS);
+        $orDocuments = $serializer->fetchDocumentsByKeys(\OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OR_KEYS);
+
+        $oivIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OIV;
+        $oivPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($oivIdentifier, $oivPageObject->attribute('main_node')->attribute('node_id'));
+        $oivTracking = $oivPublisher->publishSingle($serializer->toCsvOiv($oivDocuments), 'csv');
+        $cli->notice("anac_export: schema {$oivIdentifier} ok, ultima modifica {$oivTracking['dataUltimaModifica']}");
+
+        $orIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OR;
+        $orPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($orIdentifier, $orPageObject->attribute('main_node')->attribute('node_id'));
+        $orTracking = $orPublisher->publishSingle($serializer->toCsvOr($orDocuments), 'csv');
+        $cli->notice("anac_export: schema {$orIdentifier} ok, ultima modifica {$orTracking['dataUltimaModifica']}");
+
+        $ocIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OC;
+        $ocPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($ocIdentifier, $corteDeiContiObject->attribute('main_node')->attribute('node_id'));
+        $ocTracking = $ocPublisher->publishSingle($serializer->toCsvOc(), 'csv');
+        $cli->notice("anac_export: schema {$ocIdentifier} ok, ultima modifica {$ocTracking['dataUltimaModifica']}");
+
+        $jsonIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_JSON;
+        $rilievi = $serializer->getRilieviCorteDeiConti();
+        $jsonHashSource = json_encode([
+            $serializer->getAttiOrganiDiValutazione($oivDocuments),
+            $serializer->getAttiOrganiDiRevisione($orDocuments),
+            $rilievi,
+        ]);
+        $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonIdentifier, $oivPageObject->attribute('main_node')->attribute('node_id'));
+        $jsonTracking = $jsonPublisher->publishWithDates(
+            $jsonHashSource,
+            function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer, $oivDocuments, $orDocuments) {
+                return $serializer->toJson($dataPrimaPubblicazione, $dataUltimaModifica, $oivDocuments, $orDocuments);
+            },
+            'json'
+        );
+        $cli->notice("anac_export: schema {$jsonIdentifier} ok, ultima modifica {$jsonTracking['dataUltimaModifica']}");
+    } catch (\Exception $e) {
+        eZDebug::writeError($e->getMessage(), 'anac_export.php: art.31');
+        $cli->error('anac_export: schema art.31 fallito: ' . $e->getMessage());
+    }
+}
 
 /**
  * art.13-as e art.13-op sono CSV a se stanti (nessun JSON gemello sotto lo
