@@ -45,13 +45,13 @@ class Art31Serializer
         self::KEY_RELAZIONE_CONTO_CONSUNTIVO,
     ];
 
-    /** remote_id del tag anac_document_type (installer/modules/trasparenza/tagtree_csv/anac_document_type.csv) => chiave ANAC */
+    /** remote_id del tag anac_document_type (installer/tagtree_csv/documenti.csv) => chiave ANAC. Remote id <= 32 caratteri, convenzione del file. */
     const TAG_REMOTE_ID_TO_KEY = [
-        'anac_document_type_validazione_relazione_performance' => self::KEY_VALIDAZIONE_PERFORMANCE,
-        'anac_document_type_relazione_sistema_valutazione' => self::KEY_RELAZIONE_SISTEMA_VALUTAZIONE,
-        'anac_document_type_altri_atti_organismo' => self::KEY_ALTRI_ATTI_ORGANISMO,
-        'anac_document_type_relazione_bilancio_previsione' => self::KEY_RELAZIONE_BILANCIO_PREVISIONE,
-        'anac_document_type_relazione_conto_consuntivo' => self::KEY_RELAZIONE_CONTO_CONSUNTIVO,
+        'anac_doctype_valid_relaz_perf' => self::KEY_VALIDAZIONE_PERFORMANCE,
+        'anac_doctype_relaz_sist_valut' => self::KEY_RELAZIONE_SISTEMA_VALUTAZIONE,
+        'anac_doctype_altri_atti_organ' => self::KEY_ALTRI_ATTI_ORGANISMO,
+        'anac_doctype_relaz_bil_previs' => self::KEY_RELAZIONE_BILANCIO_PREVISIONE,
+        'anac_doctype_relaz_conto_cons' => self::KEY_RELAZIONE_CONTO_CONSUNTIVO,
     ];
 
     /**
