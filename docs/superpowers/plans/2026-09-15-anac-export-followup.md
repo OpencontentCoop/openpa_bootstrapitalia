@@ -470,3 +470,33 @@ cd /Volumes/Repos/sviluppo-sito-comunale/installer && git log --oneline main..fe
 - [ ] **Step 2: Attendere conferma esplicita per il push di ciascun branch separatamente**
 
 Nessun push senza un "sì" esplicito per ENTRAMBI i repo (possono essere confermati in momenti diversi).
+
+---
+
+## Tema aperto (da discutere, non un task): costo di conservazione dello storico su larga scala
+
+Analisi fatta il 2026-09-16, fuori dal perimetro di questo piano (art.4-bis/13/31 sono già a posto) — riguarda l'epica generale `opencity-labs&101`, che prevede altri 15 schemi di pubblicazione oltre ai 3 già costruiti, su tutti gli ~844 tenant SaaS reali (verificato: `/mnt/efs/cluster-openpa/var/` ne contiene 844 directory), con un orizzonte di conservazione di almeno 20 anni (art. 8 co. 3 d.lgs. 33/2013 impone un minimo di 5 anni, non un tetto).
+
+**Il meccanismo attuale (`ExportPublisher`) scrive un file completo e autosufficiente ad ogni pubblicazione e non cancella mai nulla** (deciso esplicitamente così finora - vedi "Cosa manca" in `classes/anac/CLAUDE.md`). Per uno schema il cui contenuto è un elenco che cresce nel tempo (non una fotografia a dimensione costante), questo significa che ogni versione ripubblica per intero tutto lo storico accumulato fino a quel momento: la somma dei byte di tutte le versioni conservate cresce piu' che linearmente col numero di pubblicazioni, non linearmente.
+
+**Dove scrive davvero (verificato sul cron reale, host `10.200.0.73`, non dedotto)**: `eZClusterFileHandler` scrive su **AWS EFS** (`/mnt/efs/cluster-openpa/`, un mount elastico e namespaced per tenant), non nel database Postgres condiviso - Postgres (`ezdfsfile`/`ezdfsfile_cache`, estensione `ezpostgresqlcluster`) tiene solo metadati (nome, size, mtime) in un database separato per ogni tenant, non una tabella unica per tutta la piattaforma. Conseguenza: nessun rischio di saturare una capacità fissa (EFS è elastico), il rischio reale è un **costo che cresce linearmente con quanto si tiene, per sempre**, non un limite tecnico che si rompe.
+
+**Quali dei 15 schemi futuri sono davvero a rischio - verificato scaricando i JSON schema reali di ANAC (`guida-servizi.anticorruzione.it`), non dedotto dal nome**. 12 schemi risultano oggi effettivamente pubblicati da ANAC (data aggiornamento guida: 14/09/2026): art.4-bis, 12, 13, 20, 23, 26-27, 29, 31, 35, 36, 39, 42.
+
+| Schema | Struttura reale (dallo schema JSON) | Rischio crescita storico |
+|---|---|---|
+| **art.23** (provvedimenti organi politici/dirigenti) | array `minItems:1`, un record per ogni provvedimento adottato | **Alto - probabilmente il caso peggiore di tutti**: un ente emette provvedimenti (delibere/determine) con frequenza tipicamente superiore a quella dei pagamenti |
+| **art.26-27** (sovvenzioni/contributi) | array `minItems:1`, un record per ogni atto di concessione | Alto, stesso pattern di art.23, frequenza presumibilmente minore |
+| art.4-bis (pagamenti) - già costruito | array cumulativo | Alto (già noto, già gestito con `EmptyExportException` per il caso vuoto ma non con retention) |
+| art.35 (procedimenti) | array, ma è il **catalogo dei tipi di procedimento** (denominazione, ufficio, norma di riferimento), non un record per pratica evasa | Basso - cresce solo se l'ente aggiunge nuovi tipi di procedimento |
+| art.20 (performance/premi) | valori aggregati (es. ammontare complessivo premi), non un elenco di eventi | Basso - snapshot annuale |
+| art.36 (pagamenti informatici) | informazioni statiche (IBAN/PagoPA) da riportare nelle richieste di pagamento | Trascurabile - non è propriamente un dataset che cresce |
+| art.29 (bilancio), art.39 (piani urbanistici), art.42 (interventi straordinari), art.12 (atti generali) | documenti/eventi pubblicati a bassa frequenza (annuale o più rara) | Basso |
+| art.13, art.31 - già costruiti | snapshot organizzativo | Basso (già noto) |
+
+**Perché conviene discuterne ora**: art.23 (e in misura minore art.26-27) sono ancora da costruire (fanno parte dei 15 schemi dell'epica #101, non di questo piano) - decidere la strategia di storico/retention prima di costruirli evita di dover fare refactoring su un meccanismo già in produzione su centinaia di enti con dati reali già accumulati.
+
+**Non ancora deciso, da riprendere in una sessione dedicata quando si affronta l'epica #101** (nessuna opzione scelta, solo direzioni possibili emerse nella discussione):
+- Una politica di retention/archiviazione basata sul tempo (il minimo legale è 5 anni, non un obbligo di conservazione perenne - "tenere tutto per sempre" è una scelta più prudente del minimo, non un requisito).
+- Per gli schemi cumulativi, valutare se il formato ANAC richieda davvero un file completo autosufficiente ad ogni pubblicazione o se ci sia margine per un meccanismo diverso (da verificare sullo schema, non assunto).
+- Tiering su storage più economico per le versioni più vecchie (EFS supporta classi Infrequent Access) invece di cancellazione, se la conservazione va oltre i 5 anni minimi.
