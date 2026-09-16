@@ -325,7 +325,9 @@ Su almeno una pagina con dataset (Dati sui pagamenti) e una con storico se dispo
 
 ---
 
-### Task 8: Early-exit SQL nel cron per i siti senza schema attivo
+### Task 8: Early-exit SQL nel cron per i siti senza schema attivo — ✅ COMPLETATO (2026-09-16)
+
+**Bug trovato nel piano stesso durante l'implementazione**: la query proposta sotto controlla solo `schema_pubblicazione`, ma `publishArt4Bis()` non dipende affatto da quell'attributo — è ancorato al dataset `dati_sui_pagamenti` per remote_id, indipendentemente dalle pagine trasparenza (vedi `SchemaPubblicazioneLookup`, commento in cima al file: "Non usato per gli schemi ancorati a un oggetto dataset"). Un sito con solo l'art.4-bis attivo e nessuna pagina con `schema_pubblicazione` valorizzato sarebbe stato erroneamente saltato dall'early-exit. **Fix**: `hasAnyAnacExportActive()` controlla ENTRAMBE le condizioni in OR — l'attributo `schema_pubblicazione` (art.13/art.31) e l'esistenza del dataset `dati_sui_pagamenti` (art.4-bis) — commit `c83062d6`. Testato: caso normale (schemi attivi in dev) invariato, caso negativo verificato con script isolato (identifier/remote_id inventati su entrambe le condizioni), controprova che il dataset reale viene trovato correttamente.
 
 Ottimizzazione descritta nell'analisi di sessione precedente (`~/Documents/analisi-nuova-trasparenza-2026-09-04.md`, sezione 5j, ora cancellata), non ancora implementata: il cron gira 2 volte al giorno sul gruppo `changesection`, condiviso con ~600 siti SaaS, la maggior parte dei quali non ha ancora questa trasparenza attiva. Oggi `SchemaPubblicazioneLookup::fetchAllBindings()` fa comunque uno scan PHP completo della classe `pagina_trasparenza` anche su quei siti.
 
@@ -440,17 +442,17 @@ git commit -m "docs: aggiorna la documentazione al design approvato e all'esito 
 
 ---
 
-### Task 10: Traduzioni i18n (follow-up, se necessario dopo il Task 5)
+### Task 10: Traduzioni i18n (follow-up, se necessario dopo il Task 5) — ✅ COMPLETATO (2026-09-15)
 
-**Files:** `translations/untranslated/translation.ts`, `translations/ita-IT/translation.ts` (o altre lingue coinvolte).
+Il copy del Task 5/6 era hardcoded in italiano nel template — Marco ha chiesto esplicitamente di renderlo localizzabile. Fatto: sorgente inglese in `SchemaPubblicazioneLookup::LABELS` + `\ezpI18n::tr('bootstrapitalia/anac_export', ...)`, filtro `|i18n('bootstrapitalia/anac_export')` nel template, 12 term pushati su POEditor via API (commit `31aedc29`).
 
-- [ ] **Step 1: Verificare se il copy approvato nel Task 5 richiede nuove stringhe i18n o riusa stringhe già esistenti nel contesto `bootstrapitalia`**
+**Deviazione dal workflow standard descritto sotto**: il pull `php vendor/bin/oci18n -r` è stato tentato ma **ha rimosso 13 traduzioni preesistenti non correlate** da `translations/ita-IT/translation.ts` (full-sync distruttivo col remote POEditor, non un merge additivo — vedi root `CLAUDE.md`, sezione i18n, per i dettagli e il workaround). Il pull è stato scartato (`git checkout --`) e il nuovo contesto `bootstrapitalia/anac_export` è stato aggiunto a mano via edit diretto dell'XML, verificato con `git diff --stat` (solo inserimenti, nessuna riga preesistente toccata) e con una chiamata reale a `ezpI18n::tr()` per confermare che tutte le stringhe si risolvono in italiano.
 
-Se il Task 5 ha prodotto testo in italiano diretto nel template (non tramite `i18n()`), questo task potrebbe non essere necessario - verificare prima di procedere.
+**Files:** `translations/ita-IT/translation.ts` (non `translations/untranslated/translation.ts` — non usato in questo fix, edit diretto sul file di destinazione).
 
-- [ ] **Step 2: Se servono nuove stringhe, aggiungerle via API POEditor**
+- [x] **Step 1: Verificare se il copy approvato nel Task 5 richiede nuove stringhe i18n o riusa stringhe già esistenti nel contesto `bootstrapitalia`** — richiedeva nuove stringhe, nuovo contesto dedicato `bootstrapitalia/anac_export`.
 
-Pattern già documentato in `CLAUDE.md` (root), sezione i18n - push term + traduzione via curl, poi pull con `php vendor/bin/oci18n -r`.
+- [x] **Step 2: Se servono nuove stringhe, aggiungerle via API POEditor** — fatto per il push; il pull standard (`oci18n -r`) si è rivelato distruttivo, sostituito con edit manuale mirato (vedi sopra).
 
 ---
 
