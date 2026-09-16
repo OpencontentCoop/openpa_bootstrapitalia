@@ -65,9 +65,9 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
      *
      * @return array [] se questa pagina non espone nessuno schema ANAC (o
      *         li espone ma nessuno e' ancora mai stato pubblicato), altrimenti
-     *         lista di ['schema' => 'art.31-oiv', 'dom_id' => 'art-31-oiv',
-     *         'latest_urls' => ['csv' => '...'], 'versions' => [...]] (vedi
-     *         ExportPublisher::getVersions())
+     *         lista di ['schema' => 'art.31-oiv', 'label' => 'Organismi
+     *         indipendenti di valutazione', 'latest_urls' => ['csv' => '...'],
+     *         'versions' => [...]] (vedi ExportPublisher::getVersions())
      */
     protected function getAnacExports()
     {
@@ -91,7 +91,6 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $exports[] = [
                 'schema' => $schema,
                 'label' => \SchemaPubblicazioneLookup::labelForSchema($schema),
-                'dom_id' => str_replace('.', '-', $schema),
                 'latest_urls' => $latestUrls,
                 'versions' => $publisher->getVersions(),
             ];

@@ -166,15 +166,14 @@ Esistono anche script PHP per il push (`php vendor/opencontent/oci18n/bin/push_t
 
 ### ⚠️ `oci18n -r` (pull) può cancellare traduzioni non correlate
 
-Verificato il 2026-09-15: un pull di `oci18n -r` per aggiungere ~12 nuovi
-term (context `bootstrapitalia/anac_export`) ha silenziosamente rimosso 13
-entry preesistenti e non correlate da `translations/ita-IT/translation.ts`
-("Act number", "Login with credentials", varie "Stats ... description",
-ecc.) — non un riordino, sparite del tutto (confermato con diff riga-per-riga
-ordinato sui `<source>`, prima/dopo). Sembra fare una "full sync" col
-remote POEditor invece di un merge additivo: se sul progetto POEditor
-manca/non è taggata correttamente una entry locale, il pull la elimina dal
-file locale.
+Il pull sembra fare una "full sync" col remote POEditor invece di un merge
+additivo: se sul progetto POEditor manca, o non è taggata correttamente con
+l'estensione giusta, una entry già presente nel `.ts` locale, il pull la
+elimina dal file locale — anche se non ha niente a che fare coi term che si
+stavano aggiungendo. Il sintomo tipico è un `git diff --stat` con molte più
+righe cambiate di quante ne giustifichino i nuovi term (nel caso che ha fatto
+emergere il problema: ~12 term aggiunti, 13 entry preesistenti sparite,
+confermato non un riordino con un diff riga-per-riga ordinato sui `<source>`).
 
 **Prima di committare un pull**, controllare `git diff --stat`: se il
 numero di righe cambiate è molto maggiore di quanto giustificato dai nuovi

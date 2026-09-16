@@ -386,22 +386,35 @@ pagina - tutte le successive sì.
 ### UI: blocco download + storico su `pagina_trasparenza.tpl`
 
 `content_trasparenza.php` (service esistente, `openpa.ini` `[Services]`,
-già usato da `pagina_trasparenza.tpl` per guide/figli/blocchi) è stato esteso
-con `has_anac_exports`/`anac_exports`: legge `SchemaPubblicazioneLookup::schemasForObject()`
+già usato da `pagina_trasparenza.tpl` per guide/figli/blocchi) espone
+`has_anac_exports`/`anac_exports`: legge `SchemaPubblicazioneLookup::schemasForObject()`
 sull'oggetto corrente, per ogni schema dichiarato istanzia `ExportPublisher($schema)`
-(senza `$rootNodeId`, vedi sopra) e ne legge `getLatestUrls()`/`getVersions()`.
+(senza `$rootNodeId`, vedi sopra) e ne legge `getLatestUrls()`/`getVersions()`,
+aggiungendo `label` (etichetta leggibile via `SchemaPubblicazioneLookup::labelForSchema()`).
 Uno schema dichiarato ma **mai ancora pubblicato** (`getLatestUrls()` vuoto -
 cron non ancora passato, o fallito, vedi "Gestione errori" sotto) viene
 scartato silenziosamente, non mostrato come blocco vuoto/rotto.
 
-Il template (`parts/amministrazione_trasparente/anac_export.tpl`) mostra, per
-ogni schema: bottoni di download per l'alias `-latest` di ogni formato
-pubblicato, e - solo se esistono più di una versione mostrabile - un
-collassabile "Versioni precedenti" con data + link per ciascuna. L'id HTML
-del collassabile usa `$export.dom_id` (calcolato lato PHP, `str_replace('.',
-'-', $schema)`), non l'identificativo schema grezzo: un id con un punto
-(`art.31-oiv`) romperebbe il selettore CSS che Bootstrap usa internamente per
-`data-bs-toggle="collapse"`.
+Il template (`parts/amministrazione_trasparente/anac_export.tpl`) mostra **un
+solo blocco per pagina** (non uno per schema, anche se la pagina ne dichiara
+più di uno), sotto il titolo "Schemi pubblicazione ANAC", posizionato in
+fondo al contenuto in `pagina_trasparenza.tpl`, prima del footer data
+pubblicazione/modifica. Stile allineato al meccanismo "Open Data" preesistente
+(`children_table_fields.tpl`), per restare coerente col resto della pagina:
+
+- Un `<li>` per ogni formato di ogni schema pubblicato: icona `it-file` +
+  link `label (FORMATO)` con classi `btn-link btn-xs p-0 text-decoration-underline`
+  (senza la classe `btn`: con `btn` Bootstrap stila il link come pulsante,
+  perdendo la sottolineatura coerente con gli altri link "Open Data" della
+  pagina).
+- "Versioni precedenti": link semplice (stesse classi, nessuna icona),
+  mostrato solo se almeno uno schema della pagina ha più di una versione
+  pubblicata (`count($export.versions)|gt(1)`). Un solo collassabile
+  condiviso per pagina (`id="anac-export-versions"`), non uno per schema.
+- Storico espanso: una riga per versione, sempre con nome completo dello
+  schema + data + link al formato, es. "01/07/2026 — Ambito soggettivo —
+  CSV". Gli schemi solo-JSON compaiono nello storico esattamente come i CSV -
+  nessuna esclusione per formato.
 
 **Copre anche i due schemi ancorati a un dataset** (`art.4-bis`, `art.31-oc`)
 senza bisogno di toccare il template `dataset`: la pagina di trasparenza
@@ -410,13 +423,17 @@ oggetto diverso dal dataset "Dati sui pagamenti" vero e proprio) ha anch'essa
 `schema_pubblicazione` valorizzato, quindi il blocco compare lì - il dataset
 stesso resta senza (nessun bisogno di modificarne il rendering).
 
-Testato con dati reali in `sito-comunale-dev` via `curl` su tutte le pagine
-coinvolte (Dati sui pagamenti, Corte dei conti, Organismi indipendenti di
-valutazione, Controlli e rilievi sull'amministrazione): blocco presente,
-link funzionanti, storico corretto quando applicabile. Stringhe i18n
-(`bootstrapitalia/anac_export`) aggiunte su POEditor (termine + traduzione
-italiana), non ancora ripescate nel `.ts` locale dell'estensione - il testo
-inglese resta visibile finché non si esegue il pull.
+Stringhe i18n nel contesto `bootstrapitalia/anac_export`: sorgente inglese in
+`SchemaPubblicazioneLookup::LABELS` + `ezpI18n::tr()`/filtro `i18n()` nel
+template, traduzioni in `translations/ita-IT/translation.ts`. **Attenzione**:
+`php vendor/bin/oci18n -r` può cancellare traduzioni preesistenti non
+correlate durante il pull - vedi root `CLAUDE.md`, sezione i18n, prima di
+usarlo per aggiungere nuovi term a questo contesto.
+
+I link allo storico sono `<a href>` renderizzati server-side dentro il
+collassabile: sono presenti nell'HTML (quindi raggiungibili da un crawler)
+anche a pannello chiuso, non solo dopo averlo aperto via JS. Questo è
+intenzionale - vedi "Cosa manca", punto sull'indicizzazione.
 
 ### Il modulo `anac_export` — perché serve e due bug non ovvi
 
@@ -711,9 +728,14 @@ reale di una riga nel dataset.
 |---|---|---|
 | `MissingCodiceFiscaleException` | Codice fiscale non compilato nei contatti Homepage, oppure compilato ma non 11 cifre numeriche | `IntestazioneProvider::getAmministrazione()` — **prima ancora di leggere una sola riga del dataset**, perché l'intestazione è comune a tutto l'export |
 | `InvalidVocabolarioException` | Categoria/tipologia/beneficiario di UNA riga non corrisponde a nessuna voce del vocabolario ANAC (case/spazi-insensitive) | `Art4BisSerializer::matchVocabolario()`, chiamata da `mapItem()` dentro il loop di `toCsv()`/`toJson()` |
+| `EmptyExportException` | Un array richiesto non vuoto dallo schema JSON ANAC (`minItems: 1`) risulterebbe vuoto — es. `datiSuiPagamenti` (art.4-bis) o `organi` (art.13) | `Art4BisSerializer::toJson()`, `Art13Serializer::toJson()` — dopo aver risolto i dati, prima di costruire l'output |
 
-**Nessuna delle due viene presa da un `try/catch` da nessuna parte nel codice
-attuale.** Conseguenze concrete, non ovvie:
+Ogni `publishXXX()` in `cronjobs/anac_export.php` è avvolto nel proprio
+`try/catch (\Exception $e)` (un fallimento su uno schema non deve bloccare
+gli altri): logga con `eZDebug::writeError()` + `$cli->error()`, quindi
+visibile nei log del cron, non silenzioso.
+
+Conseguenze concrete, non ovvie:
 
 - **Tutto-o-niente per schema**: se anche una sola riga su mille ha un
   beneficiario scritto male, l'intero export (CSV e JSON) di quello schema
@@ -721,21 +743,16 @@ attuale.** Conseguenze concrete, non ovvie:
   `-latest` esistente resta quello vecchio (non si aggiorna, ma non si rompe
   nemmeno: `ExportPublisher::publish()` non viene mai raggiunto perché il
   serializer lancia prima di restituire csv/json).
-- **Nessuna notifica**: oggi, se il cron (quando esisterà) non intercetta e
-  logga esplicitamente queste eccezioni, l'unico sintomo visibile è che il
-  file pubblico smette di aggiornarsi — nessun alert a redattori/RTD. Per un
-  obbligo di trasparenza con scadenze legali questo è un rischio reale, non
-  solo un dettaglio tecnico.
+- **Nessuna notifica attiva**: il cron logga l'errore (visibile nei log), ma
+  non manda un alert a redattori/RTD. Per un obbligo di trasparenza con
+  scadenze legali il file pubblico può restare silenziosamente vecchio finché
+  qualcuno non controlla i log - rischio reale, non solo un dettaglio tecnico.
 - **Un errore sul codice fiscale (comune a tutti gli schemi) blocca TUTTI gli
   export**, non solo quello in corso — `IntestazioneProvider` è condiviso.
-- **Domanda di design aperta, non risolta**: quando si scrive il cron,
-  decidere esplicitamente tra (a) tutto-o-niente + notifica attiva a chi
-  gestisce il sito, (b) scartare la singola riga malformata e pubblicare
-  comunque le altre (rischio opposto: dato mancante silenziosamente, non
-  errore bloccante ma incompletezza non segnalata), (c) altro. Non assumere
-  che (a) — il comportamento attuale di fatto, per assenza di gestione — sia
-  la scelta voluta: è solo quello che succede perché non c'è ancora niente
-  che intercetti.
+- **Scartare la singola riga malformata e pubblicare comunque le altre non è
+  implementato** (rischio opposto: dato mancante silenziosamente, non errore
+  bloccante ma incompletezza non segnalata) — il comportamento è
+  deliberatamente tutto-o-niente per schema.
 
 ### `ExportPublisher` — comportamento silenzioso da conoscere
 
@@ -838,34 +855,37 @@ fonte editoriale (contatti della Homepage), invariata.
   `installer/modules/trasparenza-c1/CLAUDE.md`). Il resto (C1: `art.31-oiv`,
   `art.31-or`, `art.31-oc`, JSON "file unico") **è fatto**, vedi sezione
   `Art31Serializer` sopra.
-- **Cron/wiring**: fatto per art. 4-bis, art. 13/C1 e art. 31/C1
+- **Cron/wiring**: copre art. 4-bis, art. 13/C1 e art. 31/C1
   (`openpa_bootstrapitalia/cronjobs/anac_export.php`, registrato sotto
   `[CronjobPart-changesection]` in `settings/cronjob.ini.append.php` —
   scelta provvisoria: gruppo con semantica sbagliata ma zero costo
   infrastrutturale aggiuntivo sul cron SaaS, `CONCURRENCY=2` su ~600 tenant —
   da rivedere con un gruppo dedicato in futuro). Da estendere quando arriva
-  art. 13/C2.
-- **UI di download nella pagina trasparenza**: **fatto** (2026-09-15) - vedi
-  "UI: blocco download + storico su pagina_trasparenza.tpl" sopra.
-- **#479, discoverability (elenco versioni passate)**: **fatto** (2026-09-15)
-  - vedi "ExportPublisher — storico versioni e discoverability" sopra.
+  art. 13/C2. `hasAnyAnacExportActive()` in cima al file esce subito, senza
+  scansionare `pagina_trasparenza`, sui tenant senza nessuno schema ANAC
+  attivo (la maggioranza dei ~600) — controlla sia `schema_pubblicazione` sia
+  l'esistenza del dataset `dati_sui_pagamenti` (l'art.4-bis non dipende da
+  `schema_pubblicazione`, vedi sopra: senza questo secondo controllo un sito
+  con solo l'art.4-bis attivo verrebbe saltato per errore).
 - **#479, retention (cosa succede ai file dopo i 5 anni dell'obbligo di
-  conservazione)**: decisione presa con Marco il 2026-09-15: **nessuna
-  rimozione automatica per ora**. Il rischio di cancellare per errore un dato
-  ancora dovuto è più grave del costo di tenere file in più - si deciderà/
-  implementerà un meccanismo di retention solo quando il primo schema
-  arriverà davvero a 5 anni di storico reale. Non implementato, nessun codice
-  a riguardo.
+  conservazione)**: **nessuna rimozione automatica per ora**. Il rischio di
+  cancellare per errore un dato ancora dovuto è più grave del costo di tenere
+  file in più - un meccanismo di retention andrà deciso/implementato solo
+  quando il primo schema arriverà davvero a 5 anni di storico reale. Non
+  implementato, nessun codice a riguardo.
 - **#479, indicizzazione (le versioni storiche vanno escluse dai motori di
-  ricerca?)**: non deciso. La Guida ANAC vieta di limitare l'accesso dei
-  crawler alla sezione Amministrazione Trasparente in generale, ma non dice
-  nulla sulle versioni superate nello specifico - il punto con meno appiglio
-  normativo dei cinque elencati in #479. Nessun `noindex`/`robots.txt` per i
-  file datati non-`-latest`.
+  ricerca?)**: non deciso formalmente. I link allo storico nel template sono
+  `<a href>` server-side, quindi raggiungibili da un crawler anche a pannello
+  "Versioni precedenti" chiuso - le versioni superate sono di fatto
+  scrapabili quanto la versione corrente. La Guida ANAC vieta di limitare
+  l'accesso dei crawler alla sezione Amministrazione Trasparente in
+  generale, e #479 stesso richiede un "indice o elenco delle versioni
+  raggiungibile dal nodo AT" per assolvere l'obbligo di conservazione
+  quinquennale (art. 8 co. 3 d.lgs. 33/2013) in modo utile: questo depone a
+  favore di **non** aggiungere `noindex`/`robots.txt`, coerente sia col
+  divieto sui crawler sia con l'obbligo di raggiungibilità. Resta comunque il
+  punto con meno appiglio normativo dei cinque elencati in #479 - nessun
+  `noindex`/`robots.txt` implementato per i file datati non-`-latest`.
 - **Validazione JSON Schema ANAC**: resta un controllo manuale in QA, nessuna
   validazione automatica nel codice (decisione esplicita, non un gap
   dimenticato).
-- **Traduzioni i18n del blocco download**: termine + traduzione italiana
-  aggiunti su POEditor (`bootstrapitalia/anac_export`), non ancora ripescati
-  nel `.ts` locale dell'estensione (`php vendor/bin/oci18n -r`) - il blocco è
-  visibile in inglese finché non si esegue il pull.
