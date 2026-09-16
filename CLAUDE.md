@@ -164,6 +164,33 @@ Per i dettagli tecnici su come funziona lo strumento vedere `html/vendor/opencon
 
 Esistono anche script PHP per il push (`php vendor/opencontent/oci18n/bin/push_ts_terms_to_poeditor.php -r --no-colors`), ma non gestiscono in modo affidabile il `context` del term — preferire sempre le API dirette.
 
+### ⚠️ `oci18n -r` (pull) può cancellare traduzioni non correlate
+
+Il pull sembra fare una "full sync" col remote POEditor invece di un merge
+additivo: se sul progetto POEditor manca, o non è taggata correttamente con
+l'estensione giusta, una entry già presente nel `.ts` locale, il pull la
+elimina dal file locale — anche se non ha niente a che fare coi term che si
+stavano aggiungendo. Il sintomo tipico è un `git diff --stat` con molte più
+righe cambiate di quante ne giustifichino i nuovi term (nel caso che ha fatto
+emergere il problema: ~12 term aggiunti, 13 entry preesistenti sparite,
+confermato non un riordino con un diff riga-per-riga ordinato sui `<source>`).
+
+**Prima di committare un pull**, controllare `git diff --stat`: se il
+numero di righe cambiate è molto maggiore di quanto giustificato dai nuovi
+term, NON committare — fare `git checkout -- translations/<lingua>/translation.ts`
+e aggiungere il nuovo blocco `<context>` a mano (XML diretto, subito prima
+di `</TS>`), lasciando intatto il resto del file. Poi verificare con:
+```bash
+docker exec sito-comunale-dev-app-1 php bin/php/ezcache.php --clear-all
+docker exec sito-comunale-dev-app-1 php -r '
+require_once "autoload.php";
+$script = eZScript::instance(["description" => "check i18n"]);
+$script->startup(); $script->initialize();
+echo ezpI18n::tr("CONTESTO", "Stringa inglese") . "\n";
+$script->shutdown();
+'
+```
+
 ### Push via API POEditor (preferito)
 
 Token: `2c1c4091bc25d3d5eb6aa365ceaeb537` — Progetto ID: `740564`
@@ -245,6 +272,21 @@ Dove `_priority` = `ezcontentobject_tree.priority` del nodo del servizio pubblic
 **Conseguenza:** un servizio con priorità > 0 appare prima di tutti gli altri nella sua categoria, indipendentemente dall'ordine alfabetico. Gli altri (priorità = 0) sono ordinati alfabeticamente per nome.
 
 **Come impostare/azzerare la priorità:** dal backend eZ, aprire il nodo del servizio pubblico → tab _Localizzazioni_ → campo _Priorità_. Impostare a 0 per tornare all'ordine alfabetico puro.
+
+---
+
+## Sistema FAQ (`faq_root`/`faq_section`/`faq_group`/`faq`)
+
+Classi installate dal modulo opzionale `installer/modules/faq/` (repo `installer`): `faq_root` (radice), `faq_section`, `faq_group`, `faq` (singola domanda/risposta). Ruolo dedicato: `Editor Faq`.
+
+### Le due viste alternative, controllate da un solo ini
+
+`openpa/full/faq_root.tpl` (design `bootstrapitalia2`) si comporta in modo completamente diverso a seconda di `[ViewSettings] FaqTreeView` (`openpa.ini`):
+
+- **`disabled`** (default): mostra **tutte** le FAQ dirette (classe `faq`) in un unico accordion piatto (`include uri='design:parts/faq_accordion.tpl'`) — nessuna gerarchia.
+- **`enabled`**: **non guarda più le FAQ dirette** — fa un `fetch(content, list_count, ...)` filtrato su `faq_section`/`faq_group` come figli diretti del nodo, e li mostra come griglia di card (per navigare a sezioni prima di arrivare alle domande).
+
+**Attenzione**: con `FaqTreeView=enabled`, se non esistono ancora contenuti di classe `faq_section`/`faq_group` sotto il nodo radice, il blocco `{if $children_count}` è falso e **non viene mostrato nulla** — niente fallback all'accordion. La pagina "Domande frequenti" appare vuota anche se ci sono FAQ dirette pubblicate. Verificato in locale (2026-09-11): serve creare almeno una `faq_section`/`faq_group` prima di abilitare la vista ad albero, altrimenti si perde la visualizzazione delle FAQ esistenti.
 
 ---
 
@@ -388,9 +430,15 @@ $.opendataTools.find(
 ```php
 $qb = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
 $q = $qb->instanceQuery("classes [public_service] limit 10");
-$result = eZFunctionHandler::execute('ezfind', 'search', array_merge($q->query(), ['as_objects' => false]));
-// $result['SearchResult'] → array di hit con campi Solr
+$result = eZFunctionHandler::execute('ezfind', 'search', array_merge($q->convert(), ['as_objects' => false]));
+// $result['SearchResult'] → array di eZFindResultNode (usare ->attribute('campo'), non l'accesso come array)
 ```
+
+**Attenzione**: il metodo è `convert()`, non `query()` (quest'ultimo non esiste
+sulla classe `Query` restituita da `instanceQuery()` — verificato il
+2026-09-15, un esempio precedente in questo file usava `query()` ed era
+sbagliato/mai testato). Riferimento a un uso reale verificato:
+`classes/handlers/data/albo_pretorio.php`.
 
 ### Operatore `raw[]` e negazione
 
@@ -450,6 +498,18 @@ LockEditClassConnector          (abstract base)
 - **Manuale** (`section_calendar` con item selezionati): sostituisce il view `lista_card` con `valid_items` = lista remote_id scelti dal redattore → **nessun filtro per data**, mostra anche eventi passati
 
 Logica in `mapSectionEvents()` di `HomepageLockEditClassConnector.php`.
+
+---
+
+## Export ANAC (Amministrazione Trasparente)
+
+Sistema per produrre export CSV/JSON conformi agli schemi ANAC (art. 4-bis,
+31, 13) a partire dai contenuti del sito, con url pubblici versionati e
+naming datato — namespace `OpenPABootstrapItalia\Anac` in `classes/anac/` +
+modulo `modules/anac_export/`. Vedi `classes/anac/CLAUDE.md` per architettura
+completa, meccanismo di pubblicazione url, vocabolario controllato,
+gestione errori e stato di avanzamento (in sviluppo, GitLab cms#475/#477/#478/#479).
+Controparte lato content model/installer: `installer/modules/trasparenza-c1/CLAUDE.md`.
 
 ---
 
