@@ -13,6 +13,53 @@
  */
 
 /**
+ * Il cron gira 2 volte al giorno sul gruppo `changesection`, condiviso con
+ * tutti i tenant SaaS: la maggior parte non ha ancora questa trasparenza
+ * attiva. Uscita immediata prima di qualunque scan PHP se il sito non ha
+ * nessuno schema ANAC configurato - evita di pagare comunque il costo di
+ * fetchAllBindings() (uno scan completo della classe pagina_trasparenza) su
+ * quei siti.
+ *
+ * Nota: l'art.4-bis NON dipende da schema_pubblicazione (vedi publishArt4Bis
+ * e SchemaPubblicazioneLookup) - e' ancorato al dataset 'dati_sui_pagamenti'
+ * per remote_id, indipendentemente dalle pagine trasparenza. Un sito puo'
+ * avere l'art.4-bis attivo senza aver ancora configurato schema_pubblicazione
+ * su nessuna pagina: la condizione di uscita deve quindi controllare
+ * ENTRAMBE le fonti, non solo l'attributo.
+ */
+function hasAnyAnacExportActive()
+{
+    $db = eZDB::instance();
+
+    $attributeRow = $db->arrayQuery(
+        "SELECT ca.id FROM ezcontentclass_attribute ca
+         JOIN ezcontentclass c ON c.id = ca.contentclass_id
+         WHERE c.identifier = 'pagina_trasparenza' AND ca.identifier = 'schema_pubblicazione'
+         LIMIT 1"
+    );
+    if (!empty($attributeRow)) {
+        $attributeId = $attributeRow[0]['id'];
+        $valueRow = $db->arrayQuery(
+            "SELECT 1 FROM ezcontentobject_attribute
+             WHERE contentclassattribute_id = " . (int)$attributeId . "
+             AND data_text IS NOT NULL AND data_text != '' AND data_text != '0'
+             LIMIT 1"
+        );
+        if (!empty($valueRow)) {
+            return true;
+        }
+    }
+
+    return eZContentObject::fetchByRemoteID('dati_sui_pagamenti') instanceof eZContentObject;
+}
+
+if (!hasAnyAnacExportActive()) {
+    $cli->notice('anac_export: nessuno schema ANAC attivo su questo sito, uscita immediata');
+
+    return;
+}
+
+/**
  * Un solo scan di `pagina_trasparenza` per tutti gli schemi insieme (vedi
  * SchemaPubblicazioneLookup) - condiviso da publishArt13()/publishArt31(),
  * cosi' non lo si ripete due volte nella stessa esecuzione del cron.
