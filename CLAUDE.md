@@ -451,6 +451,14 @@ LockEditClassConnector          (abstract base)
 
 Logica in `mapSectionEvents()` di `HomepageLockEditClassConnector.php`.
 
+### Template blocchi homepage e `InstanceSettings.InstallerDirectory` — trappola nota
+
+`LockEditConnectorFactory::load()` chiama `setInstallerDataDir(OpenPAINI::variable('InstanceSettings', 'InstallerDirectory', '../installer'))`. Questo path è usato da `HomepageLockEditClassConnector::fetchSourcePathInfo()` per trovare `contents/OpenCity.yml` — il template YAML da cui viene letta la definizione "di fabbrica" di un blocco (`view`, `custom_attributes`) quando un redattore attiva per la **prima volta** una sezione homepage mai configurata prima (es. "Siti tematici"). Stesso meccanismo, path diverso, per `LiveLockEditClassConnector` (`contenttrees/OpenCity/Vivere-il-comune.yml`).
+
+`InstanceSettings.InstallerDirectory` è pensato per selezionare il pacchetto installer del prodotto corrente: il default (`./extension/openpa_bootstrapitalia/data/installer`) è quello sempre aggiornato assieme all'estensione; il prodotto ASL usa `AslLockEditConnectorFactory` con un default diverso (`opencity-asl-installer`).
+
+**Trappola**: se questo INI viene sovrascritto a runtime per puntare a una directory che **non** contiene un `OpenCity.yml` aggiornato — ad esempio su alcuni tenant Boat migrati da SaaS, dove il template di provisioning punta a `./vendor/opencity-labs/opencity-installer`, la cui copia locale può essere uno snapshot/export dei contenuti del tenant congelato al momento della migrazione, non il template generico — `findBlockById(..., strict=true)` non trova mai il blocco per una sezione mai attivata prima. Il salvataggio la scarta silenziosamente: risposta 200, nessun errore, XML invariato. Diagnosticato su ticket Freshdesk #31723 (2026-09-17); fix applicato lato configurazione (rimozione dell'override `EZINI_openpa__InstanceSettings__InstallerDirectory` dallo stack file del tenant, quando presente) — nessun fix di codice ancora fatto per rendere il connector indipendente da questo INI.
+
 ---
 
 ## File rilevanti
