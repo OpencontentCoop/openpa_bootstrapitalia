@@ -28,16 +28,19 @@ obbligatori: un riassunto automatico ha portato a un errore reale già
 pubblicato (vedi sotto, categoria di art. 4-bis) prima di scoprire che i
 file erano scaricabili direttamente.
 
-**Stato (2026-09-15)**: art. 4-bis completo (cron incluso). Art. 13 (#478)
-per il profilo **C1 soltanto**: `art.13-as`/`art.13-op`/`art.13-pa` scritti,
-collegati al cron e verificati end-to-end con dati reali (URL pubblici
-raggiunti davvero). Mancano ancora C2 (`art.13-oa`) e l'organigramma
-(`art.13-org`). Art. 31 (#477) per il profilo **C1 soltanto**: `art.31-oiv`
+**Stato**: art. 4-bis completo (cron incluso). Art. 13 (#478), profili
+**C1 e C2**: `art.13-as`/`art.13-op`/`art.13-pa` (C1) e `art.13-as`/`art.13-oa`/
+`art.13-se` (C2) scritti, collegati al cron, la tipologia si deriva dal
+binding reale (vedi "SchemaPubblicazioneLookup" sotto), verificato
+end-to-end con dati reali per entrambi i profili. Manca ancora
+l'organigramma (`art.13-org`) e la tassonomia degli organi societari per C2
+(vedi "Cosa manca"). Art. 31 (#477), profili **C1 e C2**: `art.31-oiv`
 (Organismi indipendenti di valutazione), `art.31-or` (Organi di revisione),
 `art.31-oc` (Corte dei conti) + JSON "file unico" scritti, collegati al cron
 e verificati con dati reali in `sito-comunale-dev` (documenti taggati,
-url `content/download` reali, vocabolario "oggetto" Corte dei conti). Manca
-solo C2 (non previsto per ora, stesso perimetro di art. 13). Meccanismo di
+url `content/download` reali, vocabolario "oggetto" Corte dei conti) -
+nessun fork di codice per tipologia qui, solo la pagina che ancora ciascuno
+schema cambia. Meccanismo di
 pubblicazione URL generico, condiviso da tutti gli schemi, completo e
 testato - esteso per supportare anche schemi a file singolo (vedi
 "ExportPublisher — publishSingle()/publishWithDates()" sotto) e per lo
@@ -51,9 +54,6 @@ download+storico è live su `pagina_trasparenza.tpl`.
 
 ```
 classes/
-  AmministrazioneTrasparenteTools.php  globale (non nel namespace Anac):
-                                        tipologia ente C1/C2, prerequisito
-                                        trasversale per art. 31/13
   SchemaPubblicazioneLookup.php        globale (non nel namespace Anac):
                                         binding pagina<->schema ANAC, letto
                                         sia dal cron sia dal template
@@ -288,14 +288,17 @@ attributo `schema_pubblicazione` (ezselection multi-valore, categoria
 semplicemente non era mai stato popolato su nessuna pagina di
 `trasparenza-c1` prima d'ora.
 
-`SchemaPubblicazioneLookup` (globale, non nel namespace `Anac` - stesso
-trattamento di `AmministrazioneTrasparenteTools`, concetto trasversale)
-legge quell'attributo:
+`SchemaPubblicazioneLookup` (globale, non nel namespace `Anac` - concetto
+trasversale, non specifico dell'export) legge quell'attributo:
 
 - `fetchAllBindings()`: UN solo scan della classe `pagina_trasparenza` (non
   uno scan per schema), restituisce `schemaIdentifier => eZContentObject`.
   Usato dal cron (`anac_export.php`) e condiviso tra `publishArt13()`/
-  `publishArt31()` nella stessa esecuzione.
+  `publishArt31()` nella stessa esecuzione. Se due pagine dichiarano lo
+  stesso schema (solo possibile se un ente ha sia `trasparenza-c1` sia
+  `trasparenza-c2` installati contemporaneamente, mai il caso in produzione)
+  vince l'ultima trovata nello scan, ma logga un warning invece di
+  sovrascrivere in silenzio.
 - `schemasForObject($object)`: dato un oggetto, quali schemi dichiara di
   esporre. Usato dal template (`content_trasparenza.php`, vedi sotto) per "a
   quale schema corrisponde LA PAGINA CHE STO RENDERIZZANDO".
@@ -610,7 +613,7 @@ chiave usata per il blocco organi:
 }
 ```
 
-`toJson()` sceglie la chiave in base a `AmministrazioneTrasparenteTools::getTipologiaEnte()`.
+`toJson()` sceglie la chiave in base al parametro `$isC1` passato esplicitamente dal chiamante (vedi sopra, derivato da quale schema e' davvero agganciato a una pagina reale).
 
 #### `online_contact_point.contact` — formato diverso dalla matrice della Homepage
 
@@ -654,8 +657,12 @@ Copre `art.31-oiv` (Organismi indipendenti di valutazione), `art.31-or`
 unico" (`art.31`, nessun suffisso — verificato scaricando il nome del file
 di esempio reale, non dedotto da un riassunto della pagina guida, vedi
 "Fonte di verità" sopra) che copre tutte e tre le sottosezioni insieme.
-Solo profilo **C1**, stesso gate di `Art13Serializer`
-(`AmministrazioneTrasparenteTools::getTipologiaEnte()`).
+A differenza di `Art13Serializer`, `Art31Serializer` non ha mai un
+parametro `$isC1`: lo schema ANAC non prevede output diverso per C1/C2 su
+questi export, solo la pagina che li ancora cambia - nessun gate di
+tipologia in `publishArt31()`, il binding reale su `schema_pubblicazione`
+decide da solo quale pagina (C1 o C2, quale che sia installata) espone
+ciascuno schema.
 
 **Due meccanismi di esposizione diversi, NON unificati** (decisione presa
 con Marco il 2026-09-15, motivata dalla natura diversa dei dati):
@@ -794,45 +801,6 @@ Conseguenze concrete, non ovvie:
   qui non serve: sono dati obbligatoriamente pubblici, non c'è nessuna
   limitazione da applicare oltre "chiunque può leggerli".
 
-## Tipologia ente (prerequisito per art. 31 #477 e art. 13 #478)
-
-`AmministrazioneTrasparenteTools::getTipologiaEnte()` (classe globale, NON
-nel namespace `OpenPABootstrapItalia\Anac` — è un concetto trasversale, non
-specifico dell'export) restituisce `'C1'` (pubblica amministrazione) o
-`'C2'` (società/ente in controllo pubblico), o `null` se nessuna alberatura
-di trasparenza è installata. Serve per il perimetro di #477 e per il valore
-di `ambitoSoggettivo` in #478 — prima di questa classe non esisteva alcun
-modo di interrogare a runtime "che tipo di ente è questo sito", solo di
-sapere quale modulo installer era stato installato.
-
-Fonte del dato, in ordine di priorità:
-
-1. `[Trasparenza]TipologiaEnte` in `openpa.ini` (`openpa_bootstrapitalia/settings/openpa.ini.append.php`,
-   sezione già esistente — non creare un nuovo file ini per questo).
-   Impostato per tenant via `EZINI_openpa__Trasparenza__TipologiaEnte`, vuoto
-   di default.
-2. Se vuoto (tutti i ~600 siti già installati oggi, prima che questa
-   variabile esistesse), euristica di transizione: presenza del nodo radice
-   caratteristico di `trasparenza-c1` (remote_id `5399ef12f98766b90f1804e5d52afd75`,
-   la radice "Amministrazione Trasparente", comune anche al vecchio
-   `trasparenza` monolitico) o di `trasparenza-c2` (remote_id `t_c2_root`,
-   "Società trasparente"). Se sono presenti entrambi (caso non atteso: un
-   ente non dovrebbe essere contemporaneamente C1 e C2), vince C1.
-
-Non è stato ancora deciso **quando** valorizzare l'ini esplicitamente per i
-siti esistenti (operazione di provisioning su scala, non banale su 600
-tenant) — per ora l'euristica di fallback è l'unica fonte di verità in
-pratica. Verificato con test reale in `sito-comunale-dev` (che ha sia C1 sia
-C2 installati): `getTipologiaEnte()` restituisce correttamente `C1` per
-precedenza.
-
-Valutato (2026-09-15) e scartato un analogo override ini per il codice
-fiscale in `IntestazioneProvider`: a differenza della tipologia ente, il
-codice fiscale è mostrato anche pubblicamente sul sito (contatti, footer) —
-un override indipendente avrebbe rischiato di far mostrare all'export ANAC
-un CF diverso da quello che il cittadino vede sul sito. Resta quindi solo la
-fonte editoriale (contatti della Homepage), invariata.
-
 ## Cosa manca (non ancora costruito)
 
 - **Art. 13 (#478) — C2 (`art.13-oa`)**: non iniziato. Stesso meccanismo di
@@ -850,12 +818,7 @@ fonte editoriale (contatti della Homepage), invariata.
   mantenendolo nel JSON con `uffici: []`. Gli esempi ANAC scaricati il
   2026-09-15 hanno sempre almeno un ufficio per organo, non risolvono il
   caso in modo definitivo.
-- **Art. 31 (#477) — C2**: non previsto per ora, stesso perimetro di art. 13
-  (nessuna alberatura ANAC su `trasparenza-c2`, vedi
-  `installer/modules/trasparenza-c1/CLAUDE.md`). Il resto (C1: `art.31-oiv`,
-  `art.31-or`, `art.31-oc`, JSON "file unico") **è fatto**, vedi sezione
-  `Art31Serializer` sopra.
-- **Cron/wiring**: copre art. 4-bis, art. 13/C1 e art. 31/C1
+- **Cron/wiring**: copre art. 4-bis, art. 13 (C1 e C2) e art. 31 (C1 e C2)
   (`openpa_bootstrapitalia/cronjobs/anac_export.php`, registrato sotto
   `[CronjobPart-changesection]` in `settings/cronjob.ini.append.php` —
   scelta provvisoria: gruppo con semantica sbagliata ma zero costo

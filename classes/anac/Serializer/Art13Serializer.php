@@ -21,6 +21,7 @@ class Art13Serializer
 {
     const SCHEMA_IDENTIFIER_AS = 'art.13-as';
     const SCHEMA_IDENTIFIER_OP = 'art.13-op';
+    const SCHEMA_IDENTIFIER_OA = 'art.13-oa';
     const SCHEMA_IDENTIFIER_ORG = 'art.13-org';
 
     /**
@@ -49,24 +50,22 @@ class Art13Serializer
     }
 
     /**
-     * @throws \Exception se la tipologia ente non e' determinabile o non e' C1
+     * @param bool $isC1 stessa scelta di toJson(): va passata dal chiamante,
+     *        derivata da quale schema e' davvero agganciato a una pagina
+     *        reale (art.13-op per C1, art.13-oa per C2) - non da una fonte
+     *        esterna separata, altrimenti l'AMBITO_SOGGETTIVO scritto in
+     *        questo file potrebbe disallinearsi dalla chiave/dal CSV organi
+     *        effettivamente pubblicati (due fonti di verita' diverse nello
+     *        stesso export).
      */
-    public function getAmbitoSoggettivo()
+    public function getAmbitoSoggettivo($isC1)
     {
-        $tipologia = \AmministrazioneTrasparenteTools::getTipologiaEnte();
-        if ($tipologia === \AmministrazioneTrasparenteTools::TIPOLOGIA_C1) {
-            return self::AMBITO_C1;
-        }
-        if ($tipologia === \AmministrazioneTrasparenteTools::TIPOLOGIA_C2) {
-            return self::AMBITO_C2;
-        }
-
-        throw new \Exception('Tipologia ente non determinabile: impossibile generare export art. 13 (ambitoSoggettivo)');
+        return $isC1 ? self::AMBITO_C1 : self::AMBITO_C2;
     }
 
-    public function toCsvAmbitoSoggettivo()
+    public function toCsvAmbitoSoggettivo($isC1)
     {
-        return "AMBITO_SOGGETTIVO\n" . $this->getAmbitoSoggettivo() . "\n";
+        return "AMBITO_SOGGETTIVO\n" . $this->getAmbitoSoggettivo($isC1) . "\n";
     }
 
     /**
@@ -324,7 +323,18 @@ class Art13Serializer
      *        per evitare di ricalcolarlo se il chiamante lo ha gia' fatto
      *        (es. per l'hash di ExportPublisher::publishWithDates())
      */
-    public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $organi = null)
+    /**
+     * @param bool $isC1 quale delle due strutture ANAC usare (chiave root
+     *        "orgPubblicheAmministrazioni" o "orgSocietaEdEnti") - va passato
+     *        esplicitamente dal chiamante, derivato da quale schema e'
+     *        davvero agganciato a una pagina reale (schema_pubblicazione:
+     *        art.13-op per C1, art.13-oa per C2). Non derivato qui da una
+     *        fonte esterna separata: sarebbe una seconda fonte di verita'
+     *        che potrebbe disallinearsi da quale pagina e' realmente
+     *        configurata (es. un fork mal configurato) - un solo punto
+     *        decide, il chiamante lo passa gia' deciso.
+     */
+    public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $organi = null, $isC1)
     {
         // Verificato sui file di esempio scaricati da ANAC il 2026-09-15: NON
         // esiste un campo "ambitoSoggettivo" esplicito in questo JSON (a
@@ -333,8 +343,6 @@ class Art13Serializer
         // solo dalla chiave usata: "orgPubblicheAmministrazioni" (C1) o
         // "orgSocietaEdEnti" (C2). "organigramma" sta dentro questo blocco,
         // non a livello root, e solo per C1.
-        $tipologia = \AmministrazioneTrasparenteTools::getTipologiaEnte();
-
         $organi = $organi !== null ? $organi : $this->fetchOrganiConUffici();
         if (empty($organi)) {
             // Lo schema richiede "organi" non vuoto (minItems: 1). Per un
@@ -349,7 +357,7 @@ class Art13Serializer
         }
         $organiBlock = ['organi' => $this->filtraUfficiValidiPerJsonSchema($organi)];
 
-        if ($tipologia === \AmministrazioneTrasparenteTools::TIPOLOGIA_C1) {
+        if ($isC1) {
             $key = 'orgPubblicheAmministrazioni';
             // TODO: sorgente dell'organigramma non ancora individuata nel
             // content model - vedi classes/anac/CLAUDE.md, "Cosa manca".
@@ -357,10 +365,8 @@ class Art13Serializer
             if ($organigramma !== null) {
                 $organiBlock['organigramma'] = $organigramma;
             }
-        } elseif ($tipologia === \AmministrazioneTrasparenteTools::TIPOLOGIA_C2) {
-            $key = 'orgSocietaEdEnti';
         } else {
-            throw new \Exception('Tipologia ente non determinabile: impossibile generare export art. 13');
+            $key = 'orgSocietaEdEnti';
         }
 
         $data = [

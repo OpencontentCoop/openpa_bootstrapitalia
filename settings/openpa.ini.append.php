@@ -196,12 +196,6 @@ IdentificatoriMenu_trasparenza[]=pagina_trasparenza
 MostraAvvisoPaginaVuota=disabled
 UseCustomTemplate=disabled
 ShowBandoFaseSelect=enabled
-#Tipologia ente ai fini ANAC (art. 2-bis, comma 1 o 2, d.lgs. 33/2013):
-#C1 = pubblica amministrazione, C2 = societa'/ente in controllo pubblico.
-#Vuoto sui siti non ancora aggiornati - AmministrazioneTrasparenteTools::getTipologiaEnte()
-#ricade in quel caso su un'euristica basata sul modulo installer installato.
-#Impostato per tenant via EZINI_openpa__Trasparenza__TipologiaEnte.
-TipologiaEnte=
 
 [MotoreRicerca]
 IncludiClassi[]=administrative_area
