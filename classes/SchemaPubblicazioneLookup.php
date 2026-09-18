@@ -99,9 +99,17 @@ class SchemaPubblicazioneLookup
             }
 
             foreach ($dataMap['schema_pubblicazione']->content() as $selectedId) {
-                if (isset($idToName[(int)$selectedId])) {
-                    $bindings[$idToName[(int)$selectedId]] = $object;
+                if (!isset($idToName[(int)$selectedId])) {
+                    continue;
                 }
+                $schema = $idToName[(int)$selectedId];
+                if (isset($bindings[$schema]) && $bindings[$schema]->attribute('id') !== $object->attribute('id')) {
+                    \eZDebug::writeWarning(
+                        "SchemaPubblicazioneLookup: schema '{$schema}' dichiarato da piu' di una pagina_trasparenza (oggetti {$bindings[$schema]->attribute('id')} e {$object->attribute('id')}) - vince l'ultimo trovato, un ente non dovrebbe avere sia trasparenza-c1 sia trasparenza-c2 installati",
+                        __METHOD__
+                    );
+                }
+                $bindings[$schema] = $object;
             }
         }
 
