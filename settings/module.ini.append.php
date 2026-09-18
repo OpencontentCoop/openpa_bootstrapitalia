@@ -20,4 +20,5 @@ ModuleList[]=login-oauth
 ModuleList[]=relata
 ModuleList[]=statistiche
 ModuleList[]=albo_pretorio
+ModuleList[]=anac_export
 */ ?>
