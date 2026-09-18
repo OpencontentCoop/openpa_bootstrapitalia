@@ -89,6 +89,19 @@ class Art31Serializer
     /**
      * @param string[] $keys sottoinsieme di OIV_KEYS o OR_KEYS
      * @return \eZContentObject[][] chiave ANAC => lista di document object con quel anac_document_type
+     *
+     * Query Solr mirata sul campo eztags indicizzato per `anac_document_type`
+     * (`subattr_anac_document_type___tag_ids____si`, convenzione di naming di
+     * ezfSolrDocumentFieldeZTags::generateSubattributeFieldName - verificata
+     * sul campo gemello `document_type` gia' popolato, stesso datatype),
+     * NON uno scan PHP di tutta la classe `document`. Un sito reale puo'
+     * avere decine di migliaia di documenti: uno scan completo
+     * (`fetchSameClassList` + `dataMap()` per ognuno) esaurisce la memoria
+     * PHP e manda in crash l'intero cron - verificato in produzione (QA
+     * Bugliano, Fatal error: Allowed memory size exhausted) prima di questo
+     * fix. La query filtra lato Solr sui soli id di tag richiesti: il costo
+     * cresce con quanti documenti sono TAGGATI, non con quanti documenti
+     * esistono sul sito.
      */
     public function fetchDocumentsByKeys(array $keys)
     {
@@ -97,12 +110,41 @@ class Art31Serializer
             $result[$key] = [];
         }
 
-        $class = \eZContentClass::fetchByIdentifier('document');
-        if (!$class instanceof \eZContentClass) {
+        $tagIds = [];
+        foreach (self::TAG_REMOTE_ID_TO_KEY as $remoteId => $key) {
+            if (!in_array($key, $keys, true)) {
+                continue;
+            }
+            $tag = \eZTagsObject::fetchByRemoteID($remoteId);
+            if ($tag instanceof \eZTagsObject) {
+                $tagIds[] = (int)$tag->attribute('id');
+            }
+        }
+
+        if (empty($tagIds)) {
             return $result;
         }
 
-        foreach (\eZContentObject::fetchSameClassList($class->attribute('id'), true) as $object) {
+        $query = 'classes [document] and raw[subattr_anac_document_type___tag_ids____si] in [' . implode(',', $tagIds) . ']';
+        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
+        $queryObject = $queryBuilder->instanceQuery($query);
+
+        // eZFunctionHandler::execute('ezfind', 'search', ...) risolve il modulo
+        // 'ezfind' solo dentro una richiesta http con dispatch dei moduli
+        // completo - in un contesto CLI/cron (nessuna richiesta reale) resta
+        // sempre null (moduleFunctionInfo() invalido), verificato eseguendo il
+        // cron da riga di comando. Bisogna usare eZSolr direttamente.
+        $solr = new \eZSolr();
+        $searchResult = $solr->search('', (array)$queryObject->convert());
+
+        foreach ($searchResult['SearchResult'] as $resultNode) {
+            // Il risultato di eZSolr::search() e' un eZFindResultNode (un nodo,
+            // non l'oggetto) - serve risalire all'oggetto reale con
+            // attribute('object'), non usare il nodo direttamente.
+            $object = $resultNode->attribute('object');
+            if (!$object instanceof \eZContentObject) {
+                continue;
+            }
             $dataMap = $object->dataMap();
             if (!isset($dataMap['anac_document_type'])) {
                 continue;
