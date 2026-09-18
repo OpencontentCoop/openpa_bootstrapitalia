@@ -167,9 +167,9 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
     try {
         // La tipologia si deriva da QUALE schema e' davvero agganciato a una
         // pagina reale (schema_pubblicazione), non da una fonte separata
-        // (AmministrazioneTrasparenteTools::getTipologiaEnte(), un ini o
-        // un'euristica): le due potrebbero disallinearsi (es. un fork mal
-        // configurato), il binding reale e' l'unica fonte di verita' qui.
+        // (un ini o un'euristica sul modulo installato): le due potrebbero
+        // disallinearsi (es. un fork mal configurato), il binding reale e'
+        // l'unica fonte di verita' qui.
         //
         // Stesso meccanismo per C1 e C2 una volta noto l'identificativo:
         // fetchOrganiConUffici() individua gli organi per prefisso di path su

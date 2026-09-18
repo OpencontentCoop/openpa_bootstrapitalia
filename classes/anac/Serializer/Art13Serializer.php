@@ -52,11 +52,11 @@ class Art13Serializer
     /**
      * @param bool $isC1 stessa scelta di toJson(): va passata dal chiamante,
      *        derivata da quale schema e' davvero agganciato a una pagina
-     *        reale (art.13-op per C1, art.13-oa per C2) - non richiesta qui
-     *        ad AmministrazioneTrasparenteTools::getTipologiaEnte(), altrimenti
-     *        l'AMBITO_SOGGETTIVO scritto in questo file potrebbe disallinearsi
-     *        dalla chiave/dal CSV organi effettivamente pubblicati (due fonti
-     *        di verita' diverse nello stesso export).
+     *        reale (art.13-op per C1, art.13-oa per C2) - non da una fonte
+     *        esterna separata, altrimenti l'AMBITO_SOGGETTIVO scritto in
+     *        questo file potrebbe disallinearsi dalla chiave/dal CSV organi
+     *        effettivamente pubblicati (due fonti di verita' diverse nello
+     *        stesso export).
      */
     public function getAmbitoSoggettivo($isC1)
     {
@@ -328,11 +328,11 @@ class Art13Serializer
      *        "orgPubblicheAmministrazioni" o "orgSocietaEdEnti") - va passato
      *        esplicitamente dal chiamante, derivato da quale schema e'
      *        davvero agganciato a una pagina reale (schema_pubblicazione:
-     *        art.13-op per C1, art.13-oa per C2). Non chiesto qui a
-     *        AmministrazioneTrasparenteTools::getTipologiaEnte(): sarebbe una
-     *        seconda fonte di verita' che potrebbe disallinearsi da quale
-     *        pagina e' realmente configurata (es. un fork mal configurato) -
-     *        un solo punto decide, il chiamante lo passa gia' deciso.
+     *        art.13-op per C1, art.13-oa per C2). Non derivato qui da una
+     *        fonte esterna separata: sarebbe una seconda fonte di verita'
+     *        che potrebbe disallinearsi da quale pagina e' realmente
+     *        configurata (es. un fork mal configurato) - un solo punto
+     *        decide, il chiamante lo passa gia' deciso.
      */
     public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $organi = null, $isC1)
     {
