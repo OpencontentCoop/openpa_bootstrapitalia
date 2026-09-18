@@ -87,12 +87,10 @@ publishArt31($cli, $schemaBindings);
 function publishArt31(eZCLI $cli, array $schemaBindings)
 {
     try {
-        if (\AmministrazioneTrasparenteTools::getTipologiaEnte() !== \AmministrazioneTrasparenteTools::TIPOLOGIA_C1) {
-            $cli->notice('anac_export: art.31 saltato (solo profilo C1 supportato per ora)');
-
-            return;
-        }
-
+        // Nessuna guardia di tipologia: a differenza dell'art.13, Art31Serializer
+        // non forka mai l'output per C1/C2 (stessi CSV/JSON, nessun isC1) - il
+        // binding reale su $schemaBindings sotto e' gia' l'unica fonte di verita'
+        // su quale pagina (C1 o C2, quale che sia installata) ancora questi export.
         $corteDeiContiObject = eZContentObject::fetchByRemoteID('corte_dei_conti');
         if (!$corteDeiContiObject instanceof eZContentObject) {
             $cli->warning("anac_export: oggetto dataset 'corte_dei_conti' non trovato, schema art.31 saltato (modulo trasparenza-c1 non installato su questo sito?)");
