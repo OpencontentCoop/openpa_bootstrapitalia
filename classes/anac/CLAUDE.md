@@ -241,25 +241,34 @@ quel dato, non un prefisso fisso per tutto il sito.)
   `art.31-oiv/or`, `art.31`): il nodo si risolve leggendo l'attributo
   `schema_pubblicazione` sulle pagine reali - `SchemaPubblicazioneLookup::fetchAllBindings()`.
   Nessun remote_id ANAC-specifico hardcoded nel cron.
-- **Schemi ancorati a un `dataset`** (`art.4-bis`, `art.31-oc`): il nodo resta
-  il remote_id FISSO del dataset stesso (`dati_sui_pagamenti`, `corte_dei_conti`)
-  - la classe `dataset` non ha `schema_pubblicazione` (l'attributo esiste solo
-  su `pagina_trasparenza`), e questi remote_id sono comunque identificativi
-  deliberati e leggibili (non hash opachi), non il problema che
-  `schema_pubblicazione` risolve. Es. art.4-bis: nodo del dataset "Dati sui
-  pagamenti", path reale `Amministrazione/Documenti-e-dati/Dataset/Dati-sui-pagamenti`
-  (sotto "Documenti e dati", non sotto l'albero di trasparenza).
+- **Schemi ancorati a un `dataset`** (`art.4-bis`, `art.31-oc`): il dato
+  sorgente viene sempre letto dall'oggetto `dataset` per remote_id fisso
+  (`dati_sui_pagamenti`, `corte_dei_conti` - la classe `dataset` non ha
+  `schema_pubblicazione`, quel dato non cambia), ma il **nodo passato a
+  `ExportPublisher` preferisce la pagina di trasparenza reale** quando
+  esiste un binding (`$schemaBindings['art.4-bis']`/`['art.31-oc']`, popolato
+  da `patch_content` in `trasparenza-c1`), con fallback al nodo del dataset
+  stesso solo se quel binding manca (tenant piu' vecchi, vedi
+  `hasAnyAnacExportActive()`) - **bug corretto il 2026-09-21**: prima si
+  usava sempre e solo il nodo del dataset, anche quando il binding sulla
+  pagina esisteva gia' ed era gia' risolto correttamente da
+  `SchemaPubblicazioneLookup` per tutti gli ALTRI usi (blocco download in
+  pagina, warning di collisione) - solo l'ancoraggio url dell'export non lo
+  sfruttava. Risultato pratico prima del fix: l'url pubblico di art.4-bis
+  finiva sotto `Amministrazione/Documenti-e-dati/Dataset/Dati-sui-pagamenti/`
+  (il nodo tecnico del dataset, non visibile nell'albero di trasparenza)
+  invece che sotto `Amministrazione-Trasparente/Pagamenti-dell-amministrazione/Dati-sui-pagamenti/`
+  (la pagina che il cittadino vede davvero) - trovato da Marco confrontando
+  gli url generati con quelli attesi su QA Bugliano.
 
-**Attenzione, distinzione pagina/dataset per Corte dei conti**: esistono DUE
-oggetti concettualmente "Corte dei conti" - la pagina di trasparenza (classe
-`pagina_trasparenza`, dichiara `schema_pubblicazione: [art.31-oc]`, sta sotto
-"Controlli e rilievi sull'amministrazione") e il dataset con le righe CSV
-grezze (classe `dataset`, remote_id `corte_dei_conti`, sta sotto "Documenti
-e dati"). Il file `art.31-oc` è fisicamente ancorato al nodo del **dataset**,
-non a quello della pagina - la pagina si limita a dichiarare "io espongo
-questo schema" per farlo comparire nel suo blocco di download (vedi
-"ExportPublisher — storico versioni e discoverability" sotto per come questo
-disallineamento viene risolto).
+**Corte dei conti, stesso principio**: esistono DUE oggetti concettualmente
+"Corte dei conti" - la pagina di trasparenza (classe `pagina_trasparenza`,
+dichiara `schema_pubblicazione: [art.31-oc]`, sta sotto "Controlli e rilievi
+sull'amministrazione") e il dataset con le righe CSV grezze (classe
+`dataset`, remote_id `corte_dei_conti`, sta sotto "Documenti e dati"). Dal
+fix sopra, il file `art.31-oc` è ancorato al nodo della **pagina** quando il
+binding esiste (il caso normale su un sito con `trasparenza-c1` aggiornato),
+non più sempre al dataset.
 
 JSON "file unico" di art. 31 (`art.31`, nessun suffisso — confermato
 scaricando l'HTML della pagina guida ANAC e cercando il link reale al file
@@ -324,8 +333,11 @@ commit. **Lezione**: il comportamento del cron già in produzione è la fonte
 di verità per "dove sta oggi" uno schema, non un ragionamento a posteriori
 su dove "dovrebbe" stare semanticamente.
 
-**Non usato per gli schemi ancorati a `dataset`** (`art.4-bis`, `art.31-oc`)
-- vedi sopra.
+**Usato anche per `art.4-bis`/`art.31-oc`, ma solo come preferenza per
+l'ancoraggio url** (dal fix 2026-09-21, vedi "Node id da passare a
+ExportPublisher" sopra) - il dato sorgente di questi due schemi resta letto
+dall'oggetto `dataset` per remote_id fisso, `SchemaPubblicazioneLookup` non
+c'entra con quello.
 
 **Gotcha eZ Publish reale, trovato pulendo un binding sbagliato in dev**:
 `eZSelectionType::fromString('')` è un **no-op** (`if ($string == '') return true;`,
@@ -344,13 +356,16 @@ deliberato, non solo un'ottimizzazione.
 
 **Perché non ricalcolare l'url a lettura**: farlo richiederebbe conoscere il
 nodo che ha originariamente pubblicato quello schema - ma un lettore (un
-template, su una pagina qualunque) non lo sa in generale, e per `art.31-oc`
-addirittura NON PUÒ saperlo dal contesto: la pagina di trasparenza "Corte dei
-conti" dichiara `schema_pubblicazione: [art.31-oc]`, ma il file è ancorato al
-nodo del dataset "Rilievi della Corte dei conti", un oggetto diverso (vedi
-"Node id da passare a ExportPublisher" sopra). Se si ricalcolasse l'url usando
-il nodo della pagina corrente, per questo schema si otterrebbe un url
-sbagliato (path diverso da quello realmente scritto su cluster storage).
+template, su una pagina qualunque) non lo sa in generale. Vale anche dopo il
+fix del 2026-09-21 sull'ancoraggio di `art.4-bis`/`art.31-oc` (vedi "Node id
+da passare a ExportPublisher" sopra): quale nodo sia stato usato dipende dal
+binding `schema_pubblicazione` presente AL MOMENTO della pubblicazione (pagina
+se il binding esisteva, dataset come fallback altrimenti) - un lettore che
+provasse a ricalcolare oggi userebbe il binding corrente, che può differire
+da quello in vigore quando il file è stato scritto (es. un tenant che ha
+appena aggiunto il binding: i file già pubblicati restano ancorati al nodo
+del dataset finché il dato non cambia di nuovo, il ricalcolo darebbe un url
+sbagliato per quelli).
 
 **Soluzione**: `resolveAndPublish()` risolve e salva `urlCsv`/`urlJson`
 (versione corrente, datata) e `urlLatestCsv`/`urlLatestJson` (alias `-latest`)

@@ -66,7 +66,7 @@ if (!hasAnyAnacExportActive()) {
  */
 $schemaBindings = \SchemaPubblicazioneLookup::fetchAllBindings();
 
-publishArt4Bis($cli);
+publishArt4Bis($cli, $schemaBindings);
 publishArt13($cli, $schemaBindings);
 publishArt31($cli, $schemaBindings);
 
@@ -130,7 +130,15 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
         $cli->notice("anac_export: schema {$orIdentifier} ok, ultima modifica {$orTracking['dataUltimaModifica']}");
 
         $ocIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OC;
-        $ocPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($ocIdentifier, $corteDeiContiObject->attribute('main_node')->attribute('node_id'));
+        // Stesso principio di publishArt4Bis(): preferisce la pagina di
+        // trasparenza reale (schema_pubblicazione = art.31-oc, se
+        // configurata) come ancoraggio url invece del nodo tecnico del
+        // dataset - fallback al dataset per i tenant senza quel binding.
+        $ocPageObject = isset($schemaBindings[$ocIdentifier]) ? $schemaBindings[$ocIdentifier] : null;
+        $ocRootNodeId = $ocPageObject instanceof eZContentObject
+            ? $ocPageObject->attribute('main_node')->attribute('node_id')
+            : $corteDeiContiObject->attribute('main_node')->attribute('node_id');
+        $ocPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($ocIdentifier, $ocRootNodeId);
         $ocTracking = $ocPublisher->publishSingle($serializer->toCsvOc(), 'csv');
         $cli->notice("anac_export: schema {$ocIdentifier} ok, ultima modifica {$ocTracking['dataUltimaModifica']}");
 
@@ -230,7 +238,7 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
     }
 }
 
-function publishArt4Bis(eZCLI $cli)
+function publishArt4Bis(eZCLI $cli, array $schemaBindings)
 {
     $identifier = \OpenPABootstrapItalia\Anac\Serializer\Art4BisSerializer::SCHEMA_IDENTIFIER;
 
@@ -252,8 +260,20 @@ function publishArt4Bis(eZCLI $cli)
         $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art4BisSerializer($dataMap['csv_resource']);
         $csv = $serializer->toCsv();
 
-        $node = $object->attribute('main_node');
-        $publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($identifier, $node->attribute('node_id'));
+        // Preferisce la pagina di trasparenza reale (schema_pubblicazione =
+        // art.4-bis, se configurata - patch_content in trasparenza-c1) come
+        // ancoraggio url, cosi' il file compare sotto l'albero di trasparenza
+        // visibile al cittadino invece che sotto il nodo tecnico del dataset
+        // (Documenti-e-dati/Dataset/...). Fallback al nodo del dataset stesso
+        // per i tenant che non hanno ancora quel binding configurato (vedi
+        // hasAnyAnacExportActive() sopra: l'art.4-bis puo' essere attivo senza
+        // schema_pubblicazione su nessuna pagina).
+        $pageObject = isset($schemaBindings[$identifier]) ? $schemaBindings[$identifier] : null;
+        $rootNodeId = $pageObject instanceof eZContentObject
+            ? $pageObject->attribute('main_node')->attribute('node_id')
+            : $object->attribute('main_node')->attribute('node_id');
+
+        $publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($identifier, $rootNodeId);
         $tracking = $publisher->publish($csv, function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer) {
             return $serializer->toJson($dataPrimaPubblicazione, $dataUltimaModifica);
         });
