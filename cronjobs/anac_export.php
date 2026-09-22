@@ -210,19 +210,15 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
 function publishArt13(eZCLI $cli, array $schemaBindings)
 {
     try {
-        // La tipologia si deriva da QUALE schema e' davvero agganciato a una
-        // pagina reale (schema_pubblicazione), non da una fonte separata
-        // (un ini o un'euristica sul modulo installato): le due potrebbero
-        // disallinearsi (es. un fork mal configurato), il binding reale e'
-        // l'unica fonte di verita' qui.
-        //
-        // Stesso meccanismo per C1 e C2 una volta noto l'identificativo:
-        // fetchOrganiConUffici() individua gli organi per prefisso di path su
-        // un id di tag fisso (Struttura politica/Struttura amministrativa),
-        // non per nome - su un sito C2 (fork di un sito comunale) quella
-        // tassonomia viene modificata a mano in fase di personalizzazione del
-        // fork (tag comunali tolti, organi societari aggiunti come figli
-        // della stessa radice), senza bisogno di alcuna differenza di codice.
+        // art.13-op (organi di indirizzo politico) e art.13-oa (organi di
+        // amministrazione e gestione) NON sono un fork C1/C2 alternativo -
+        // sono due categorie di organi che uno stesso ente (anche C1)
+        // pubblica entrambe, se bindate (correzione 2026-09-22, vedi
+        // classes/anac/CLAUDE.md, "Organi di amministrazione e gestione").
+        // $isC1 resta derivato da QUALE schema e' davvero agganciato a una
+        // pagina reale, non da una fonte separata: un ente ha organi di
+        // indirizzo politico solo se e' una pubblica amministrazione - un
+        // fork C2 puro (nessun organo politico) ha solo art.13-oa bindato.
         $opObject = isset($schemaBindings[\OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OP])
             ? $schemaBindings[\OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OP]
             : null;
@@ -230,37 +226,52 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
             ? $schemaBindings[\OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OA]
             : null;
 
-        if ($opObject instanceof eZContentObject) {
-            $isC1 = true;
-            $organiSchemaIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OP;
-            $jsonSchemaIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_JSON_C1;
-            $object = $opObject;
-        } elseif ($oaObject instanceof eZContentObject) {
-            $isC1 = false;
-            $organiSchemaIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OA;
-            $jsonSchemaIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_JSON_C2;
-            $object = $oaObject;
-        } else {
+        if (!$opObject instanceof eZContentObject && !$oaObject instanceof eZContentObject) {
             $cli->warning('anac_export: nessuna pagina con schema_pubblicazione = art.13-op/art.13-oa, schema art.13 saltato (modulo trasparenza-c1/c2 non installato o non aggiornato su questo sito?)');
 
             return;
         }
 
+        $isC1 = $opObject instanceof eZContentObject;
+        $jsonSchemaIdentifier = $isC1
+            ? \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_JSON_C1
+            : \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_JSON_C2;
+
         $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer();
-        $rootNodeId = $object->attribute('main_node')->attribute('node_id');
+
+        // art.13-as condivide sempre la stessa pagina di art.13-op (o, se
+        // assente, di art.13-oa) - vedi installer/trasparenza-c1/CLAUDE.md.
+        $asRootObject = $isC1 ? $opObject : $oaObject;
+        $asRootNodeId = $asRootObject->attribute('main_node')->attribute('node_id');
 
         $asIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_AS;
-        $asPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($asIdentifier, $rootNodeId);
+        $asPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($asIdentifier, $asRootNodeId);
         $asTracking = $asPublisher->publishSingle($serializer->toCsvAmbitoSoggettivo($isC1), 'csv');
         $cli->notice("anac_export: schema {$asIdentifier} ok, ultima modifica {$asTracking['dataUltimaModifica']}");
 
-        $organi = $serializer->fetchOrganiConUffici();
+        $organiPolitici = [];
+        if ($opObject instanceof eZContentObject) {
+            $organiPolitici = $serializer->fetchOrganiConUffici();
+            $opIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OP;
+            $opRootNodeId = $opObject->attribute('main_node')->attribute('node_id');
+            $opPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($opIdentifier, $opRootNodeId);
+            $opTracking = $opPublisher->publishSingle($serializer->toCsvOrganiUffici($organiPolitici), 'csv');
+            $cli->notice("anac_export: schema {$opIdentifier} ok, ultima modifica {$opTracking['dataUltimaModifica']}");
+        }
 
-        $organiPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($organiSchemaIdentifier, $rootNodeId);
-        $organiTracking = $organiPublisher->publishSingle($serializer->toCsvOrganiUffici($organi), 'csv');
-        $cli->notice("anac_export: schema {$organiSchemaIdentifier} ok, ultima modifica {$organiTracking['dataUltimaModifica']}");
+        $organiAmministrativi = [];
+        if ($oaObject instanceof eZContentObject) {
+            $organiAmministrativi = $serializer->fetchOrganiAmministrativi();
+            $oaIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OA;
+            $oaRootNodeId = $oaObject->attribute('main_node')->attribute('node_id');
+            $oaPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($oaIdentifier, $oaRootNodeId);
+            $oaTracking = $oaPublisher->publishSingle($serializer->toCsvOrganiUffici($organiAmministrativi), 'csv');
+            $cli->notice("anac_export: schema {$oaIdentifier} ok, ultima modifica {$oaTracking['dataUltimaModifica']}");
+        }
 
-        $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonSchemaIdentifier, $rootNodeId);
+        $organi = array_merge($organiPolitici, $organiAmministrativi);
+
+        $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonSchemaIdentifier, $asRootNodeId);
         $jsonTracking = $jsonPublisher->publishWithDates(
             json_encode($organi),
             function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer, $organi, $isC1) {

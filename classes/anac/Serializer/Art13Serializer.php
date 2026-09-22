@@ -86,10 +86,74 @@ class Art13Serializer
         return $organi;
     }
 
-    private function fetchUfficiFigli(\eZContentObject $organo)
+    /**
+     * @return array organi amministrativi di vertice (art.13-oa), stesso
+     *         formato di fetchOrganiConUffici(). Un oggetto sotto "Struttura
+     *         amministrativa" e' un organo di vertice solo se taggato
+     *         ESATTAMENTE "Area" (non una foglia diversa, non il tag radice)
+     *         E con `hold_employment` vuoto - verificato su comune.verona.it
+     *         e comune.bugliano.pi.it che il solo `hold_employment` vuoto non
+     *         basta: prenderebbe anche uffici orfani (dati incompleti, non
+     *         organi) e oggetti che riusano la classe `organization` per
+     *         altro (es. tag "Ente" per l'ente stesso o un ente esterno).
+     *         Vedi CLAUDE.md, "Organi di amministrazione e gestione".
+     */
+    public function fetchOrganiAmministrativi()
+    {
+        $organi = [];
+        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_AMMINISTRATIVA) as $candidato) {
+            $dataMap = $candidato->dataMap();
+            if (!isset($dataMap['type']) || !$this->isTaggedArea($dataMap['type'])) {
+                continue;
+            }
+
+            $holdEmployment = isset($dataMap['hold_employment']) ? $this->relatedObjectIds($dataMap['hold_employment']) : [];
+            if (!empty($holdEmployment)) {
+                continue;
+            }
+
+            $organi[] = [
+                'denominazione' => $candidato->attribute('name'),
+                'competenze' => $this->plainText($dataMap['main_function']),
+                'uffici' => $this->fetchUfficiFigli($candidato),
+            ];
+        }
+
+        return $organi;
+    }
+
+    private function isTaggedArea(\eZContentObjectAttribute $attribute)
+    {
+        $tags = $attribute->content();
+        if (!$tags instanceof \eZTags) {
+            return false;
+        }
+
+        foreach ($tags->attribute('tags') as $tagObject) {
+            if ($tagObject->attribute('keyword') === 'Area') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param int[] $visitedIds guardia anti-ciclo per la ricorsione sotto -
+     *        non dovrebbe mai servire su dati reali (hold_employment non
+     *        dovrebbe formare cicli), ma un cron non deve andare in loop
+     *        infinito per un dato malformato.
+     */
+    private function fetchUfficiFigli(\eZContentObject $organo, array $visitedIds = [])
     {
         $uffici = [];
+        $visitedIds[] = (int)$organo->attribute('id');
+
         foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_AMMINISTRATIVA, $organo->attribute('id')) as $ufficioObject) {
+            if (in_array((int)$ufficioObject->attribute('id'), $visitedIds, true)) {
+                continue;
+            }
+
             $responsabile = $this->fetchResponsabile($ufficioObject);
 
             $uffici[] = [
@@ -100,6 +164,16 @@ class Art13Serializer
                 'qualifica' => $responsabile['qualifica'] ?? '',
                 'contatti' => $this->fetchContatti($ufficioObject),
             ];
+
+            // Gerarchia amministrativa reale fino a 3 livelli (Area ->
+            // Direzione -> Ufficio, verificato su comune.verona.it): un
+            // "ufficio" trovato qui puo' avere a sua volta altri uffici sotto
+            // di se'. Lo schema ANAC prevede solo due livelli (Organo ->
+            // Ufficio), quindi si appiattiscono tutti sotto lo stesso organo
+            // di vertice invece di annidarli.
+            foreach ($this->fetchUfficiFigli($ufficioObject, $visitedIds) as $nipote) {
+                $uffici[] = $nipote;
+            }
         }
 
         return $uffici;

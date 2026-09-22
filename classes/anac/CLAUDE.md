@@ -541,9 +541,11 @@ convenzione di digitazione del redattore (`1550.33`, `1550,33`, `1.550,33`,
 
 Copre `art.13-as` (ambito soggettivo), `art.13-op` (organi di indirizzo
 politico + uffici) e `art.13-pa` (JSON "file unico", che copre insieme
-ambito soggettivo + organi). **Non copre** `art.13-oa` (C2), `art.13-org`
-(organigramma, sorgente dati non individuata) né `art.13-rif` (fuori
-perimetro, dovuto solo a ordini/collegi professionali C3). Vedi
+ambito soggettivo + organi). **In corso** `art.13-oa` (organi di
+amministrazione e gestione - vedi sezione dedicata sotto, riguarda anche i
+comuni C1, non solo C2). **Non copre** `art.13-org` (organigramma, sorgente
+dati non individuata) né `art.13-rif` (fuori perimetro, dovuto solo a
+ordini/collegi professionali C3). Vedi
 `installer/modules/trasparenza-c1/CLAUDE.md` per il perimetro C1/C2/C3.
 Collegato al cron (`cronjobs/anac_export.php`, `publishArt13()`) e
 verificato con url pubblici reali sotto il nodo "Articolazione degli
@@ -610,6 +612,89 @@ l'errore era testare tramite un livello (l'API REST) più restrittivo del
 dato reale. **Lezione**: quando un'API restituisce un errore di validazione,
 non dare per scontato che rifletta un vincolo del modello dati - può essere
 un vincolo aggiunto solo da quel layer.
+
+#### Organi di amministrazione e gestione (`art.13-oa`) — riguarda anche i comuni C1, non solo C2
+
+**Correzione di un assunto sbagliato (2026-09-22)**: si era concluso che
+`art.13-op` fosse lo schema dei comuni (C1) e `art.13-oa` quello delle
+società (C2) - un fork per tipologia di ente, come per il JSON
+(`orgPubblicheAmministrazioni`/`orgSocietaEdEnti`). **Sbagliato**: verificato
+sulla tabella campi della guida ANAC (`guida-servizi.anticorruzione.it`,
+pagina art. 13) che `SchemaPubblicheAmministrazioni` (C1) ha lo stesso campo
+`organi` di `SchemaSocietaEdEnti` (C2) - nessuna distinzione lì. E sui file
+di esempio CSV scaricabili: `art.13-op` ha come esempio "Consiglio" (organo
+di indirizzo politico), `art.13-oa` ha come esempio "Segreteria generale"
+(organo di amministrazione e gestione) - sono due **categorie di organi**
+(politici vs amministrativi/gestionali) che uno stesso ente pubblica
+entrambe, non un fork C1/C2. L'installer C1 (`trasparenza-c1/installer.yml`)
+oggi lega solo `art.13-op` alla pagina "Articolazione degli uffici" -
+`art.13-oa` non è mai bindato per un comune, quindi oggi non viene mai
+pubblicato lì.
+
+**Verificato su due siti reali indipendenti** (comune.verona.it,
+comune.bugliano.pi.it - stessa piattaforma, contenuti diversi):
+`organization.type` sotto la sotto-tassonomia "Struttura amministrativa"
+(`/891/1265/1278/`) non è piatto come "Struttura politica" - ha una vera
+gerarchia via `hold_employment`, con oggetti di vertice (Verona: 8 "Aree",
+tra cui "Area Segreteria Generale" e "Area Direzione Generale", tutte con
+`hold_employment` vuoto) e sotto di loro altri livelli (Verona: decine di
+"Direzioni", anch'esse taggate "Area", con `hold_employment` verso la loro
+Area - **gerarchia reale a 3 livelli, Area → Direzione → Ufficio**, contro i
+2 livelli Organo → Ufficio dello schema ANAC).
+
+**Il criterio "hold_employment vuoto" da solo non basta** (dati reali più
+disordinati di quanto sembrasse dal solo caso Verona) - su Bugliano si sono
+trovati anche: oggetti di classe `organization` che riusano la classe per
+tutt'altro (`type` = "Ente", es. "Comune di Bugliano" stesso, o un ente
+esterno) con `hold_employment` vuoto ma non sono organi; uffici (`type` =
+"Ufficio") orfani (nessun genitore) che non sono organi, sono solo dati
+incompleti; un oggetto taggato con il tag radice "Struttura amministrativa"
+stesso invece che con una foglia - caso ambiguo, quasi certamente un errore
+di tagging del redattore.
+
+**Criterio scelto**: un oggetto `organization` sotto il ramo "Struttura
+amministrativa" diventa un **organo** (`art.13-oa`) se e solo se: (1) il tag
+`type` è **esattamente "Area"** (non una foglia diversa, non il tag radice -
+esclude "Ente" e il caso di tagging ambiguo), e (2) `hold_employment` è
+**vuoto** (esclude le "Direzioni", che sono anch'esse taggate "Area" ma
+hanno un genitore - quelle diventano uffici, non organi). Un oggetto
+`type` = "Ufficio" non diventa mai un organo, nemmeno se orfano - se non ha
+un genitore valorizzato viene semplicemente omesso (stesso principio già in
+uso: meglio ometterlo che rappresentarlo male). Il caso del tag radice
+ambiguo non viene recuperato automaticamente - va segnalato (warning nei
+log del cron), non indovinato via euristica più aggressiva (che
+riprenderebbe dentro anche "Ente").
+
+**Gerarchia a 3 livelli, appiattita ricorsivamente**: `fetchUfficiFigli()`
+richiama se stessa sui figli trovati - una "Direzione" (Area con genitore)
+trovata come figlia di un'Area di vertice produce comunque una riga
+"Ufficio dirigenziale"/"non dirigenziale" (dipende se ha un `office_manager`
+con `incarico_dirigenziale`), e i SUOI figli (i veri uffici sotto la
+Direzione) vengono aggiunti alla stessa lista piatta dell'organo di vertice,
+non annidati - lo schema ANAC prevede solo Organo → Ufficio, un livello
+solo, qualunque sia la profondità reale nel content model.
+
+**`art.13-op` e `art.13-oa` non sono più alternativi, sono indipendenti**:
+prima il cron sceglieva UNO dei due schemi in base a quale pagina fosse
+bindata (`if ($opObject) ... elseif ($oaObject) ...`), usando la scelta
+anche per derivare `$isC1`. Ora un comune C1 può avere **entrambi**
+bindati contemporaneamente. `$isC1` resta derivato dalla presenza di
+`art.13-op` (un ente ha "organi di indirizzo politico" solo se è una
+pubblica amministrazione - un fork C2 puro, senza organi politici, avrebbe
+solo `art.13-oa` bindato) - `art.13-oa`, se bindato, si pubblica **in più**,
+indipendentemente da `$isC1`. Nel JSON, gli organi di
+`fetchOrganiConUffici()` (politici, se `art.13-op` è bindato) e quelli di
+`fetchOrganiAmministrativi()` (amministrativi, se `art.13-oa` è bindato) si
+concatenano nello stesso array `organi`, sotto l'unica chiave scelta da
+`$isC1` (`orgPubblicheAmministrazioni`/`orgSocietaEdEnti`) - lo schema non
+distingue l'origine.
+
+**Cosa manca perché sia completo**: il binding `art.13-oa` non esiste ancora
+in `installer/modules/trasparenza-c1/installer.yml` (va aggiunto assieme a
+`art.13-op` sulla stessa pagina "Articolazione degli uffici", non fatto in
+questo lavoro - richiede una modifica al repo `installer`, non solo a
+`openpa_bootstrapitalia`). Finché non viene aggiunto, `art.13-oa` non si
+attiva su nessun sito C1 reale nonostante il codice lo supporti.
 
 #### Struttura JSON reale — diversa da quella descritta nella issue #478
 
@@ -818,12 +903,9 @@ Conseguenze concrete, non ovvie:
 
 ## Cosa manca (non ancora costruito)
 
-- **Art. 13 (#478) — C2 (`art.13-oa`)**: non iniziato. Stesso meccanismo di
-  C1 (`hold_employment`/`office_manager`/`incarico_dirigenziale`), ma la
-  chiave `type` per gli "organi di amministrazione e gestione" societari non
-  è ancora chiara nella tassonomia esistente (pensata per comuni: Giunta/
-  Consiglio/Assessorato, non Consiglio di amministrazione/Assemblea soci) -
-  probabile che serva testarla su un caso C2 reale quando arriva.
+- **Art. 13 — `art.13-oa`**: vedi sezione dedicata sotto ("Organi di
+  amministrazione e gestione") - **non è C2-only come si credeva
+  inizialmente** (correzione 2026-09-22), riguarda anche i comuni C1.
 - **Art. 13 — `art.13-org` (organigramma)**: non implementato,
   `Art13Serializer::fetchOrganigramma()` restituisce sempre `null`. Non
   individuata la sorgente dati reale nel content model (probabile immagine
