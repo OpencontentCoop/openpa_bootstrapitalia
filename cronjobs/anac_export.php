@@ -84,6 +84,37 @@ publishArt31($cli, $schemaBindings);
  * trasparenza dell'art. 31 - verificato con Marco il 2026-09-15, vedi
  * classes/anac/CLAUDE.md.
  */
+/**
+ * Prototipo (issue #477, commento Federica 2026-09-22): riusa la stessa
+ * query gia' compilata per la "rappresentazione" della pagina (campo
+ * `fields`, vedi ObjectHandlerServiceContentTrasparenza::parseTableFieldsParameter())
+ * come base per la ricerca dei documenti OIV/Organi di revisione - cosi'
+ * quello che il redattore vede elencato sulla pagina e quello che finisce
+ * nell'export condividono lo stesso subtree, invece di due risoluzioni
+ * indipendenti (oggi l'export cerca in tutto il sito, solo per tag).
+ *
+ * @return string|null null se la pagina non ha una tabella `fields`
+ *         configurata per la classe `document` - il chiamante ricade sul
+ *         comportamento precedente (nessun vincolo di subtree).
+ */
+function resolveDocumentTableQuery(eZContentObject $pageObject)
+{
+    $dataMap = $pageObject->dataMap();
+    if (!isset($dataMap['fields']) || !$dataMap['fields']->attribute('has_content')) {
+        return null;
+    }
+
+    $string = $dataMap['fields']->toString();
+    foreach (explode('&', $string) as $tableString) {
+        $table = ObjectHandlerServiceContentTrasparenza::parseTableFieldsParameter($tableString, $pageObject->attribute('main_node'));
+        if (is_array($table) && isset($table['class_identifier'], $table['query']) && $table['class_identifier'] === 'document') {
+            return $table['query'];
+        }
+    }
+
+    return null;
+}
+
 function publishArt31(eZCLI $cli, array $schemaBindings)
 {
     try {
@@ -116,8 +147,14 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
 
         $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer($corteDataMap['csv_resource']);
 
-        $oivDocuments = $serializer->fetchDocumentsByKeys(\OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OIV_KEYS);
-        $orDocuments = $serializer->fetchDocumentsByKeys(\OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OR_KEYS);
+        $oivDocuments = $serializer->fetchDocumentsByKeys(
+            \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OIV_KEYS,
+            resolveDocumentTableQuery($oivPageObject)
+        );
+        $orDocuments = $serializer->fetchDocumentsByKeys(
+            \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OR_KEYS,
+            resolveDocumentTableQuery($orPageObject)
+        );
 
         $oivIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OIV;
         $oivPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($oivIdentifier, $oivPageObject->attribute('main_node')->attribute('node_id'));

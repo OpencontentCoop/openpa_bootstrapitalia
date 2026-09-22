@@ -304,6 +304,18 @@ class Art13Serializer
         return $contatti;
     }
 
+    /**
+     * strip_tags() da solo incolla senza spazio il testo di paragrafi/righe
+     * consecutivi (verificato su dati reali: "...dipendenti.Le funzioni..."
+     * da due <p> distinti, "</p><p>" nell'output_text) e lascia intatti
+     * eventuali ritorni a capo gia' presenti nell'output (es. da interruzioni
+     * di riga dentro un paragrafo) - questi ultimi rompono il CSV se non
+     * quotati (bug segnalato da Federica su cms#478). Si inserisce uno spazio
+     * ai confini dei tag di blocco/interruzione riga PRIMA di spogliare i
+     * tag, poi si comprime qualunque spazio bianco residuo (spazi multipli,
+     * ma anche ritorni a capo gia' nell'output) in un singolo spazio: il
+     * risultato e' sempre una stringa su una riga sola.
+     */
     private function plainText($attribute)
     {
         if (!$attribute instanceof \eZContentObjectAttribute) {
@@ -312,10 +324,13 @@ class Art13Serializer
 
         $content = $attribute->content();
         if ($content instanceof \eZXMLText) {
-            return trim(strip_tags($content->attribute('output')->attribute('output_text')));
+            $html = $content->attribute('output')->attribute('output_text');
+            $html = preg_replace('/<\/(p|div|li|h[1-6])>|<br\s*\/?>/i', ' ', $html);
+
+            return trim(preg_replace('/\s+/u', ' ', strip_tags($html)));
         }
 
-        return trim((string)$content);
+        return trim(preg_replace('/\s+/u', ' ', (string)$content));
     }
 
     /**
@@ -400,12 +415,12 @@ class Art13Serializer
             'COMPETENZE_UFFICIO', 'NOMINATIVO_DIRIGENTE', 'QUALIFICA_DIRIGENTE',
             'RECAPITO_TELEFONICO', 'POSTA_ELETTRONICA_ORDINARIA', 'POSTA_ELETTRONICA_CERTIFICATA',
         ];
-        $lines = [implode(';', $headers)];
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line($headers)];
 
         foreach (($organi !== null ? $organi : $this->fetchOrganiConUffici()) as $organo) {
             foreach ($organo['uffici'] as $ufficio) {
                 $isDirigenziale = $ufficio['tipologia'] === 'Ufficio dirigenziale';
-                $lines[] = implode(';', [
+                $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
                     $organo['denominazione'],
                     $organo['competenze'],
                     $isDirigenziale ? $ufficio['denominazione'] : '',
