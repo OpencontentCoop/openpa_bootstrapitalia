@@ -23,6 +23,7 @@ class Art13Serializer
     const SCHEMA_IDENTIFIER_OP = 'art.13-op';
     const SCHEMA_IDENTIFIER_OA = 'art.13-oa';
     const SCHEMA_IDENTIFIER_ORG = 'art.13-org';
+    const SCHEMA_IDENTIFIER_RIF = 'art.13-rif';
 
     /**
      * Il JSON e' un "file unico" con un identificativo proprio, diverso da
@@ -341,6 +342,15 @@ class Art13Serializer
             return [];
         }
 
+        return $this->parseContattiMatrix($contactPointObject);
+    }
+
+    /**
+     * @param \eZContentObject $contactPointObject oggetto di classe `online_contact_point`
+     * @return array ['recapitoTelefonico'=>..., 'postaElettronicaOrdinaria'=>..., 'postaElettronicaCertificata'=>...] (solo le chiavi con un valore)
+     */
+    private function parseContattiMatrix(\eZContentObject $contactPointObject)
+    {
         $contactDataMap = $contactPointObject->dataMap();
         if (!isset($contactDataMap['contact'])) {
             return [];
@@ -376,6 +386,62 @@ class Art13Serializer
         }
 
         return $contatti;
+    }
+
+    /**
+     * Export `art.13-rif` (Riferimenti e contatti, #478 - vedi CLAUDE.md,
+     * "Riferimenti e contatti"). A differenza degli altri fetch di questa
+     * classe (scan PHP di tutta la classe `organization`), qui si usa una
+     * query Solr - lo stesso pattern gia' scelto per
+     * Art31Serializer::fetchDocumentsByKeys(), per lo stesso motivo (evitare
+     * uno scan completo su una classe che puo' avere molti oggetti nel sito)
+     * e per poter ricevere una query gia' vincolata al subtree della pagina
+     * "Telefono e posta elettronica" (vedi cronjobs/anac_export.php,
+     * resolvePageTableQuery()) invece di cercare in tutto il sito.
+     *
+     * @param string $baseQuery query gia' compilata (query language
+     *        Opencontent), es. "classes [online_contact_point] subtree [123]"
+     * @return array lista di Riferimenti, uno per ogni online_contact_point
+     *         trovato - nessun filtro sulla completezza (stessa tolleranza
+     *         gia' usata per le celle vuote nel CSV di art.13-op/oa, a
+     *         differenza del JSON che invece li scarterebbe - ma qui non
+     *         esiste un JSON per questo schema, vedi CLAUDE.md)
+     */
+    public function fetchRiferimentiContatti($baseQuery)
+    {
+        $riferimenti = [];
+
+        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
+        $queryObject = $queryBuilder->instanceQuery($baseQuery);
+
+        $solr = new \eZSolr();
+        $searchResult = $solr->search('', (array)$queryObject->convert());
+
+        foreach ($searchResult['SearchResult'] as $resultNode) {
+            $object = $resultNode->attribute('object');
+            if (!$object instanceof \eZContentObject) {
+                continue;
+            }
+
+            $riferimenti[] = $this->parseContattiMatrix($object);
+        }
+
+        return $riferimenti;
+    }
+
+    public function toCsvRiferimenti(array $riferimenti = null)
+    {
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line(['RECAPITO_TELEFONICO', 'POSTA_ELETTRONICA_ORDINARIA', 'POSTA_ELETTRONICA_CERTIFICATA'])];
+
+        foreach (($riferimenti !== null ? $riferimenti : []) as $riferimento) {
+            $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
+                $riferimento['recapitoTelefonico'] ?? '',
+                $riferimento['postaElettronicaOrdinaria'] ?? '',
+                $riferimento['postaElettronicaCertificata'] ?? '',
+            ]);
+        }
+
+        return implode("\n", $lines) . "\n";
     }
 
     /**

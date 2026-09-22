@@ -544,9 +544,12 @@ politico + uffici) e `art.13-pa` (JSON "file unico", che copre insieme
 ambito soggettivo + organi). **In corso** `art.13-oa` (organi di
 amministrazione e gestione - vedi sezione dedicata sotto, riguarda anche i
 comuni C1, non solo C2). **Non copre** `art.13-org` (organigramma, sorgente
-dati non individuata) né `art.13-rif` (fuori perimetro, dovuto solo a
-ordini/collegi professionali C3). Vedi
-`installer/modules/trasparenza-c1/CLAUDE.md` per il perimetro C1/C2/C3.
+dati non individuata) né `art.13-rif` (riferimenti e contatti - vedi sezione
+dedicata sotto: **correzione 2026-09-22**, non è affatto "fuori perimetro
+per i comuni" come si credeva - la pagina e il dato esistono già in
+`trasparenza-c1`/`trasparenza-c2`, semplicemente non ancora collegati
+all'export). Vedi `installer/modules/trasparenza-c1/CLAUDE.md` per il
+perimetro C1/C2/C3.
 Collegato al cron (`cronjobs/anac_export.php`, `publishArt13()`) e
 verificato con url pubblici reali sotto il nodo "Articolazione degli
 uffici" (remote_id `ae441f5d2f78bf88f0b3e39a36743bdd`, patchato da
@@ -695,6 +698,57 @@ in `installer/modules/trasparenza-c1/installer.yml` (va aggiunto assieme a
 questo lavoro - richiede una modifica al repo `installer`, non solo a
 `openpa_bootstrapitalia`). Finché non viene aggiunto, `art.13-oa` non si
 attiva su nessun sito C1 reale nonostante il codice lo supporti.
+
+#### Riferimenti e contatti (`art.13-rif`) — pagina e dato esistono già, mai collegati all'export
+
+**Correzione di un secondo assunto sbagliato (2026-09-22, stessa giornata di
+`art.13-oa`)**: si credeva che `art.13-rif` fosse "fuori perimetro, solo per
+Ordini e Collegi professionali". **Sbagliato almeno in parte** - esiste già
+una pagina dedicata nell'albero contenuti standard di **entrambi**
+`trasparenza-c1` e `trasparenza-c2`:
+`contenttrees/.../Telefono-e-posta-elettronica.yml`, con riferimento
+normativo dichiarato "art.13, co.1, **lett. d)**, d.lgs. n. 33/2013" - la
+lettera che corrisponde esattamente all'obbligo "elenco dei numeri di
+telefono e caselle di posta elettronica istituzionali e PEC dedicate". La
+pagina ha già una query `fields` live configurata:
+`parent:2|online_contact_point|name,contact&parent:1|public_person|family_name,given_name,has_contact_point`
+- legge oggetti `online_contact_point` (stesso campo `contact`, matrice a 3
+colonne tipo/valore/contatto, già letto da `fetchContatti()` per i contatti
+di un ufficio) e `public_person`. **Nessun `schema_pubblicazione` impostato**
+- il cron non la vede, nonostante il dato sia reale e già mostrato ai
+cittadini.
+
+**Cosa dice davvero lo schema ANAC** (tabella campi guida online, stessa
+fonte di "Organi di amministrazione e gestione" sopra): nel JSON il blocco
+`contatti` (tipo `Riferimenti`, **singolare**, non "Array di Riferimenti")
+esiste **solo** dentro `SchemaOrdiniCollegi` - non c'e' in
+`SchemaPubblicheAmministrazioni` (C1) ne' in `SchemaSocietaEdEnti` (C2).
+Motivo plausibile (non confermato con ANAC, dedotto dalla struttura): per
+una PA o una società, ogni singolo `Ufficio` dentro `organi[].uffici[]` porta
+già un blocco `contatti` obbligatorio (telefono + email/PEC) - un blocco
+aggregato a livello di ente sarebbe ridondante. Gli Ordini e Collegi invece
+non pubblicano affatto un array `organi`/`uffici` nel JSON (solo
+`organigramma`), quindi hanno bisogno di un `contatti` a parte per non
+perdere l'informazione istituzionale.
+
+**Conclusione di lavoro (non ancora implementata)**: il CSV `art.13-rif`
+sembra applicabile anche a C1/C2 (il contenuto esiste già per entrambi), ma
+non avrebbe una controparte nel JSON `art.13-pa`/`art.13-se` (che non ha
+quel campo) - sarebbe quindi un export **solo CSV** per un comune/società,
+mentre per gli Ordini e Collegi (profilo non ancora coperto da nessun
+serializer) sarebbe CSV + il campo `contatti` del loro JSON. Il formato CSV
+e' gia' verificato scaricando l'esempio reale ANAC: tre sole colonne,
+`RECAPITO_TELEFONICO;POSTA_ELETTRONICA_ORDINARIA;POSTA_ELETTRONICA_CERTIFICATA`,
+una riga per punto di contatto istituzionale (probabilmente una riga per
+ogni `online_contact_point` trovato sotto la pagina, stesso principio di
+"ometti se incompleto" già usato altrove - `RECAPITO_TELEFONICO` è
+obbligatorio nello schema). Non ancora scritto: il binding
+`schema_pubblicazione: art.13-rif` sulla pagina (installer, sia c1 che c2),
+e il metodo serializer che legge gli `online_contact_point` (probabilmente
+riusando/generalizzando la logica già scritta per `fetchContatti()`, che
+oggi presuppone un `organization` col relation singolo
+`has_online_contact_point`, non una query di sottoalbero su più
+`online_contact_point`).
 
 #### Struttura JSON reale — diversa da quella descritta nella issue #478
 
@@ -906,6 +960,11 @@ Conseguenze concrete, non ovvie:
 - **Art. 13 — `art.13-oa`**: vedi sezione dedicata sotto ("Organi di
   amministrazione e gestione") - **non è C2-only come si credeva
   inizialmente** (correzione 2026-09-22), riguarda anche i comuni C1.
+- **Art. 13 — `art.13-rif`**: vedi sezione dedicata sotto ("Riferimenti e
+  contatti") - **non è "fuori perimetro per i comuni" come si credeva**
+  (correzione 2026-09-22): la pagina e il dato esistono già in
+  `trasparenza-c1`/`trasparenza-c2`, manca solo il binding
+  `schema_pubblicazione` e il metodo serializer.
 - **Art. 13 — `art.13-org` (organigramma)**: non implementato,
   `Art13Serializer::fetchOrganigramma()` restituisce sempre `null`. Non
   individuata la sorgente dati reale nel content model (probabile immagine

@@ -85,19 +85,23 @@ publishArt31($cli, $schemaBindings);
  * classes/anac/CLAUDE.md.
  */
 /**
- * Prototipo (issue #477, commento Federica 2026-09-22): riusa la stessa
- * query gia' compilata per la "rappresentazione" della pagina (campo
- * `fields`, vedi ObjectHandlerServiceContentTrasparenza::parseTableFieldsParameter())
- * come base per la ricerca dei documenti OIV/Organi di revisione - cosi'
+ * Riusa la stessa query gia' compilata per la "rappresentazione" della
+ * pagina (campo `fields`, vedi
+ * ObjectHandlerServiceContentTrasparenza::parseTableFieldsParameter()) come
+ * base per la ricerca di un certo tipo di contenuto (documenti OIV/Organi di
+ * revisione, punti di contatto per Riferimenti e contatti, ...) - cosi'
  * quello che il redattore vede elencato sulla pagina e quello che finisce
  * nell'export condividono lo stesso subtree, invece di due risoluzioni
- * indipendenti (oggi l'export cerca in tutto il sito, solo per tag).
+ * indipendenti (issue #477, commento Federica 2026-09-22).
  *
+ * @param string $classIdentifier identificativo della content class da
+ *        cercare tra le tabelle configurate in `fields` (una pagina puo'
+ *        averne piu' di una, separate da `&`)
  * @return string|null null se la pagina non ha una tabella `fields`
- *         configurata per la classe `document` - il chiamante ricade sul
+ *         configurata per quella classe - il chiamante ricade sul
  *         comportamento precedente (nessun vincolo di subtree).
  */
-function resolveDocumentTableQuery(eZContentObject $pageObject)
+function resolvePageTableQuery(eZContentObject $pageObject, $classIdentifier)
 {
     $dataMap = $pageObject->dataMap();
     if (!isset($dataMap['fields']) || !$dataMap['fields']->attribute('has_content')) {
@@ -107,7 +111,7 @@ function resolveDocumentTableQuery(eZContentObject $pageObject)
     $string = $dataMap['fields']->toString();
     foreach (explode('&', $string) as $tableString) {
         $table = ObjectHandlerServiceContentTrasparenza::parseTableFieldsParameter($tableString, $pageObject->attribute('main_node'));
-        if (is_array($table) && isset($table['class_identifier'], $table['query']) && $table['class_identifier'] === 'document') {
+        if (is_array($table) && isset($table['class_identifier'], $table['query']) && $table['class_identifier'] === $classIdentifier) {
             return $table['query'];
         }
     }
@@ -149,11 +153,11 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
 
         $oivDocuments = $serializer->fetchDocumentsByKeys(
             \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OIV_KEYS,
-            resolveDocumentTableQuery($oivPageObject)
+            resolvePageTableQuery($oivPageObject, 'document')
         );
         $orDocuments = $serializer->fetchDocumentsByKeys(
             \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OR_KEYS,
-            resolveDocumentTableQuery($orPageObject)
+            resolvePageTableQuery($orPageObject, 'document')
         );
 
         $oivIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OIV;
@@ -270,6 +274,27 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
         }
 
         $organi = array_merge($organiPolitici, $organiAmministrativi);
+
+        // art.13-rif (Riferimenti e contatti): nessuna controparte nel JSON
+        // per PA/Societa' ed Enti (esiste solo per Ordini e Collegi
+        // professionali, non ancora coperti da nessun serializer) - vedi
+        // CLAUDE.md, "Riferimenti e contatti". Export solo CSV.
+        $rifObject = isset($schemaBindings[\OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_RIF])
+            ? $schemaBindings[\OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_RIF]
+            : null;
+        if ($rifObject instanceof eZContentObject) {
+            $rifIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_RIF;
+            $rifBaseQuery = resolvePageTableQuery($rifObject, 'online_contact_point');
+            if ($rifBaseQuery !== null) {
+                $riferimenti = $serializer->fetchRiferimentiContatti($rifBaseQuery);
+                $rifRootNodeId = $rifObject->attribute('main_node')->attribute('node_id');
+                $rifPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($rifIdentifier, $rifRootNodeId);
+                $rifTracking = $rifPublisher->publishSingle($serializer->toCsvRiferimenti($riferimenti), 'csv');
+                $cli->notice("anac_export: schema {$rifIdentifier} ok, ultima modifica {$rifTracking['dataUltimaModifica']}");
+            } else {
+                $cli->warning('anac_export: pagina con schema_pubblicazione = art.13-rif trovata ma senza una tabella `fields` configurata per online_contact_point, schema art.13-rif saltato');
+            }
+        }
 
         $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonSchemaIdentifier, $asRootNodeId);
         $jsonTracking = $jsonPublisher->publishWithDates(
