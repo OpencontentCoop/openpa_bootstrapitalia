@@ -36,6 +36,7 @@ class SchemaPubblicazioneLookup
         'art.13-pa' => 9,
         'art.13-se' => 10,
         'art.31' => 11,
+        'art.13-rif' => 12,
     ];
 
     /**
@@ -55,6 +56,7 @@ class SchemaPubblicazioneLookup
         'art.13-op' => 'Political governing bodies',
         'art.13-oa' => 'Administration and management bodies',
         'art.13-org' => 'Organisation chart',
+        'art.13-rif' => 'References and contacts',
         'art.13-pa' => 'Organisation',
         'art.13-se' => 'Organisation',
         'art.31-oiv' => 'Independent evaluation bodies',

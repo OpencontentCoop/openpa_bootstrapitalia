@@ -23,6 +23,7 @@ class Art13Serializer
     const SCHEMA_IDENTIFIER_OP = 'art.13-op';
     const SCHEMA_IDENTIFIER_OA = 'art.13-oa';
     const SCHEMA_IDENTIFIER_ORG = 'art.13-org';
+    const SCHEMA_IDENTIFIER_RIF = 'art.13-rif';
 
     /**
      * Il JSON e' un "file unico" con un identificativo proprio, diverso da
@@ -86,10 +87,74 @@ class Art13Serializer
         return $organi;
     }
 
-    private function fetchUfficiFigli(\eZContentObject $organo)
+    /**
+     * @return array organi amministrativi di vertice (art.13-oa), stesso
+     *         formato di fetchOrganiConUffici(). Un oggetto sotto "Struttura
+     *         amministrativa" e' un organo di vertice solo se taggato
+     *         ESATTAMENTE "Area" (non una foglia diversa, non il tag radice)
+     *         E con `hold_employment` vuoto - verificato su comune.verona.it
+     *         e comune.bugliano.pi.it che il solo `hold_employment` vuoto non
+     *         basta: prenderebbe anche uffici orfani (dati incompleti, non
+     *         organi) e oggetti che riusano la classe `organization` per
+     *         altro (es. tag "Ente" per l'ente stesso o un ente esterno).
+     *         Vedi CLAUDE.md, "Organi di amministrazione e gestione".
+     */
+    public function fetchOrganiAmministrativi()
+    {
+        $organi = [];
+        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_AMMINISTRATIVA) as $candidato) {
+            $dataMap = $candidato->dataMap();
+            if (!isset($dataMap['type']) || !$this->isTaggedArea($dataMap['type'])) {
+                continue;
+            }
+
+            $holdEmployment = isset($dataMap['hold_employment']) ? $this->relatedObjectIds($dataMap['hold_employment']) : [];
+            if (!empty($holdEmployment)) {
+                continue;
+            }
+
+            $organi[] = [
+                'denominazione' => $candidato->attribute('name'),
+                'competenze' => $this->plainText($dataMap['main_function']),
+                'uffici' => $this->fetchUfficiFigli($candidato),
+            ];
+        }
+
+        return $organi;
+    }
+
+    private function isTaggedArea(\eZContentObjectAttribute $attribute)
+    {
+        $tags = $attribute->content();
+        if (!$tags instanceof \eZTags) {
+            return false;
+        }
+
+        foreach ($tags->attribute('tags') as $tagObject) {
+            if ($tagObject->attribute('keyword') === 'Area') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param int[] $visitedIds guardia anti-ciclo per la ricorsione sotto -
+     *        non dovrebbe mai servire su dati reali (hold_employment non
+     *        dovrebbe formare cicli), ma un cron non deve andare in loop
+     *        infinito per un dato malformato.
+     */
+    private function fetchUfficiFigli(\eZContentObject $organo, array $visitedIds = [])
     {
         $uffici = [];
+        $visitedIds[] = (int)$organo->attribute('id');
+
         foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_AMMINISTRATIVA, $organo->attribute('id')) as $ufficioObject) {
+            if (in_array((int)$ufficioObject->attribute('id'), $visitedIds, true)) {
+                continue;
+            }
+
             $responsabile = $this->fetchResponsabile($ufficioObject);
 
             $uffici[] = [
@@ -100,6 +165,16 @@ class Art13Serializer
                 'qualifica' => $responsabile['qualifica'] ?? '',
                 'contatti' => $this->fetchContatti($ufficioObject),
             ];
+
+            // Gerarchia amministrativa reale fino a 3 livelli (Area ->
+            // Direzione -> Ufficio, verificato su comune.verona.it): un
+            // "ufficio" trovato qui puo' avere a sua volta altri uffici sotto
+            // di se'. Lo schema ANAC prevede solo due livelli (Organo ->
+            // Ufficio), quindi si appiattiscono tutti sotto lo stesso organo
+            // di vertice invece di annidarli.
+            foreach ($this->fetchUfficiFigli($ufficioObject, $visitedIds) as $nipote) {
+                $uffici[] = $nipote;
+            }
         }
 
         return $uffici;
@@ -267,6 +342,15 @@ class Art13Serializer
             return [];
         }
 
+        return $this->parseContattiMatrix($contactPointObject);
+    }
+
+    /**
+     * @param \eZContentObject $contactPointObject oggetto di classe `online_contact_point`
+     * @return array ['recapitoTelefonico'=>..., 'postaElettronicaOrdinaria'=>..., 'postaElettronicaCertificata'=>...] (solo le chiavi con un valore)
+     */
+    private function parseContattiMatrix(\eZContentObject $contactPointObject)
+    {
         $contactDataMap = $contactPointObject->dataMap();
         if (!isset($contactDataMap['contact'])) {
             return [];
@@ -304,6 +388,74 @@ class Art13Serializer
         return $contatti;
     }
 
+    /**
+     * Export `art.13-rif` (Riferimenti e contatti, #478 - vedi CLAUDE.md,
+     * "Riferimenti e contatti"). A differenza degli altri fetch di questa
+     * classe (scan PHP di tutta la classe `organization`), qui si usa una
+     * query Solr - lo stesso pattern gia' scelto per
+     * Art31Serializer::fetchDocumentsByKeys(), per lo stesso motivo (evitare
+     * uno scan completo su una classe che puo' avere molti oggetti nel sito)
+     * e per poter ricevere una query gia' vincolata al subtree della pagina
+     * "Telefono e posta elettronica" (vedi cronjobs/anac_export.php,
+     * resolvePageTableQuery()) invece di cercare in tutto il sito.
+     *
+     * @param string $baseQuery query gia' compilata (query language
+     *        Opencontent), es. "classes [online_contact_point] subtree [123]"
+     * @return array lista di Riferimenti, uno per ogni online_contact_point
+     *         trovato - nessun filtro sulla completezza (stessa tolleranza
+     *         gia' usata per le celle vuote nel CSV di art.13-op/oa, a
+     *         differenza del JSON che invece li scarterebbe - ma qui non
+     *         esiste un JSON per questo schema, vedi CLAUDE.md)
+     */
+    public function fetchRiferimentiContatti($baseQuery)
+    {
+        $riferimenti = [];
+
+        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
+        $queryObject = $queryBuilder->instanceQuery($baseQuery);
+
+        $solr = new \eZSolr();
+        $searchResult = $solr->search('', (array)$queryObject->convert());
+
+        foreach ($searchResult['SearchResult'] as $resultNode) {
+            $object = $resultNode->attribute('object');
+            if (!$object instanceof \eZContentObject) {
+                continue;
+            }
+
+            $riferimenti[] = $this->parseContattiMatrix($object);
+        }
+
+        return $riferimenti;
+    }
+
+    public function toCsvRiferimenti(array $riferimenti = null)
+    {
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line(['RECAPITO_TELEFONICO', 'POSTA_ELETTRONICA_ORDINARIA', 'POSTA_ELETTRONICA_CERTIFICATA'])];
+
+        foreach (($riferimenti !== null ? $riferimenti : []) as $riferimento) {
+            $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
+                $riferimento['recapitoTelefonico'] ?? '',
+                $riferimento['postaElettronicaOrdinaria'] ?? '',
+                $riferimento['postaElettronicaCertificata'] ?? '',
+            ]);
+        }
+
+        return implode("\n", $lines) . "\n";
+    }
+
+    /**
+     * strip_tags() da solo incolla senza spazio il testo di paragrafi/righe
+     * consecutivi (verificato su dati reali: "...dipendenti.Le funzioni..."
+     * da due <p> distinti, "</p><p>" nell'output_text) e lascia intatti
+     * eventuali ritorni a capo gia' presenti nell'output (es. da interruzioni
+     * di riga dentro un paragrafo) - questi ultimi rompono il CSV se non
+     * quotati (bug segnalato da Federica su cms#478). Si inserisce uno spazio
+     * ai confini dei tag di blocco/interruzione riga PRIMA di spogliare i
+     * tag, poi si comprime qualunque spazio bianco residuo (spazi multipli,
+     * ma anche ritorni a capo gia' nell'output) in un singolo spazio: il
+     * risultato e' sempre una stringa su una riga sola.
+     */
     private function plainText($attribute)
     {
         if (!$attribute instanceof \eZContentObjectAttribute) {
@@ -312,10 +464,13 @@ class Art13Serializer
 
         $content = $attribute->content();
         if ($content instanceof \eZXMLText) {
-            return trim(strip_tags($content->attribute('output')->attribute('output_text')));
+            $html = $content->attribute('output')->attribute('output_text');
+            $html = preg_replace('/<\/(p|div|li|h[1-6])>|<br\s*\/?>/i', ' ', $html);
+
+            return trim(preg_replace('/\s+/u', ' ', strip_tags($html)));
         }
 
-        return trim((string)$content);
+        return trim(preg_replace('/\s+/u', ' ', (string)$content));
     }
 
     /**
@@ -400,12 +555,12 @@ class Art13Serializer
             'COMPETENZE_UFFICIO', 'NOMINATIVO_DIRIGENTE', 'QUALIFICA_DIRIGENTE',
             'RECAPITO_TELEFONICO', 'POSTA_ELETTRONICA_ORDINARIA', 'POSTA_ELETTRONICA_CERTIFICATA',
         ];
-        $lines = [implode(';', $headers)];
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line($headers)];
 
         foreach (($organi !== null ? $organi : $this->fetchOrganiConUffici()) as $organo) {
             foreach ($organo['uffici'] as $ufficio) {
                 $isDirigenziale = $ufficio['tipologia'] === 'Ufficio dirigenziale';
-                $lines[] = implode(';', [
+                $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
                     $organo['denominazione'],
                     $organo['competenze'],
                     $isDirigenziale ? $ufficio['denominazione'] : '',

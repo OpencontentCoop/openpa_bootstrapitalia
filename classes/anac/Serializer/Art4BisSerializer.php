@@ -194,10 +194,10 @@ class Art4BisSerializer
 
     public function toCsv()
     {
-        $lines = [implode(';', $this->getCsvHeaders())];
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line($this->getCsvHeaders())];
 
         foreach ($this->fetchRows() as $raw) {
-            $lines[] = implode(';', $this->mapToCsvRow($this->mapItem($raw)));
+            $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line($this->mapToCsvRow($this->mapItem($raw)));
         }
 
         return implode("\n", $lines) . "\n";

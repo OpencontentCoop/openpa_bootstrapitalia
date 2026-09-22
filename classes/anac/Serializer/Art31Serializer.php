@@ -103,7 +103,19 @@ class Art31Serializer
      * cresce con quanti documenti sono TAGGATI, non con quanti documenti
      * esistono sul sito.
      */
-    public function fetchDocumentsByKeys(array $keys)
+    /**
+     * @param string|null $baseQuery query gia' compilata (query language
+     *        Opencontent) da usare come punto di partenza invece di
+     *        "classes [document]" - pensata per ricevere la stessa query
+     *        gia' configurata per la "rappresentazione" della pagina
+     *        (campo `fields`, vedi ObjectHandlerServiceContentTrasparenza::
+     *        parseTableFieldsParameter()), cosi' pagina mostrata e pagina
+     *        esportata condividono lo stesso subtree invece di due
+     *        risoluzioni indipendenti (prototipo, issue #477, commento
+     *        Federica 2026-09-22). Se null, comportamento precedente
+     *        (nessun vincolo di subtree, tutto il sito).
+     */
+    public function fetchDocumentsByKeys(array $keys, $baseQuery = null)
     {
         $result = [];
         foreach ($keys as $key) {
@@ -125,7 +137,7 @@ class Art31Serializer
             return $result;
         }
 
-        $query = 'classes [document] and raw[subattr_anac_document_type___tag_ids____si] in [' . implode(',', $tagIds) . ']';
+        $query = ($baseQuery !== null ? $baseQuery : 'classes [document]') . ' and raw[subattr_anac_document_type___tag_ids____si] in [' . implode(',', $tagIds) . ']';
         $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
         $queryObject = $queryBuilder->instanceQuery($query);
 
@@ -263,7 +275,7 @@ class Art31Serializer
 
     private function toCsvDocumenti(array $keys, array $documentsByKey = null)
     {
-        $lines = [implode(';', ['TIPO_DOCUMENTO', 'DATA_PUBBLICAZIONE', 'DOCUMENTO'])];
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line(['TIPO_DOCUMENTO', 'DATA_PUBBLICAZIONE', 'DOCUMENTO'])];
 
         $documentsByKey = $documentsByKey !== null ? $documentsByKey : $this->fetchDocumentsByKeys($keys);
         foreach ($keys as $key) {
@@ -274,7 +286,7 @@ class Art31Serializer
                     continue;
                 }
                 $tipoDocumento = isset(self::TIPO_DOCUMENTO_CSV[$key]) ? self::TIPO_DOCUMENTO_CSV[$key] : trim($object->attribute('name'));
-                $lines[] = implode(';', [$tipoDocumento, $date, $url]);
+                $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([$tipoDocumento, $date, $url]);
             }
         }
 
@@ -365,11 +377,11 @@ class Art31Serializer
 
     public function toCsvOc()
     {
-        $lines = [implode(';', ['DATA_PUBBLICAZIONE', 'OGGETTO', 'DOCUMENTO'])];
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line(['DATA_PUBBLICAZIONE', 'OGGETTO', 'DOCUMENTO'])];
 
         foreach ($this->fetchRilieviGrezzi() as $raw) {
             $item = $this->mapRilievo($raw);
-            $lines[] = implode(';', [$item['dataPubblicazione'], $item['oggetto'], $item['documento']]);
+            $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([$item['dataPubblicazione'], $item['oggetto'], $item['documento']]);
         }
 
         return implode("\n", $lines) . "\n";
