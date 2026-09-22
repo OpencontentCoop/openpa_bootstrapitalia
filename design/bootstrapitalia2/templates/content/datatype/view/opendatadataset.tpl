@@ -87,7 +87,25 @@
 <div id="dataset-{$attribute.id}" class="my-5 w-100">
     <div class="data_actions_and_alerts">
         <div class="data_actions">
-            <a href="{concat('/customexport/',$custom_repository)|ezurl(no)}" data-href="{concat('/customexport/',$custom_repository)|ezurl(no)}" data-action="export" class="btn btn-primary btn-xs mb-1 mr-1"><i class="fa fa-download"></i> {'Download CSV'|i18n('opendatadataset')}</a>
+            {* hide_download: passato solo dal blocco "Singolo" quando questo
+               dataset e' incorporato in una pagina di trasparenza che gia'
+               espone un export ANAC conforme equivalente (vedi
+               parts/amministrazione_trasparente/anac_export.tpl) - il bottone
+               generico non normalizza il vocabolario e non ha naming/storico
+               conformi, quindi rischia di essere scambiato per quello
+               ufficiale da un cittadino o da un crawler. Altrove sul sito
+               (dataset non-ANAC) resta invariato. *}
+            {if is_set($hide_download)|not() or $hide_download|not()}
+                <a href="{concat('/customexport/',$custom_repository)|ezurl(no)}" data-href="{concat('/customexport/',$custom_repository)|ezurl(no)}" data-action="export" class="btn btn-primary btn-xs mb-1 mr-1"><i class="fa fa-download"></i> {'Download CSV'|i18n('opendatadataset')}</a>
+            {elseif $attribute.content.can_edit}
+                {* Non un altro bottone di download (produrrebbe lo stesso
+                   dato non conforme) - un link alla pagina reale del dataset,
+                   dove il redattore puo' gestirlo (aggiungere righe, importare,
+                   scaricare) senza che il cittadino veda quella via. *}
+                {def $dataset_object = fetch('content', 'object', hash('object_id', $attribute.contentobject_id))}
+                <a href="{$dataset_object.main_node.url_alias|ezurl(no)}" class="btn btn-outline-primary btn-xs mb-1"><i class="fa fa-external-link"></i> {'Manage dataset'|i18n('bootstrapitalia/anac_export')}</a>
+                {undef $dataset_object}
+            {/if}
             {if and($attribute.content.can_edit, $attribute.content.is_api_enabled)}
                 <a href="#" data-action="add" class="btn btn-outline-primary btn-xs mb-1"><i class="fa fa-plus"></i> {'Create new %name'|i18n('opendatadataset',,hash('%name', $attribute.content.item_name|wash()))}</a>
                 {*<a href="#" data-action="apidoc" class="btn btn-outline-primary btn-xs mb-1"><i class="fa fa-external-link"></i> {'API Doc'|i18n('opendatadataset')}</a>*}
@@ -170,7 +188,12 @@
         </div>
     </div>
 
-    {if and($attribute.data_int, $attribute.data_int|gt(0))}
+    {* Stesso motivo del bottone Download CSV sopra: dentro una pagina di
+       trasparenza la data "giusta" da mostrare e' quella per-schema del
+       blocco ANAC (anac_export.tpl), non l'ultimo aggiornamento grezzo del
+       dataset - avere entrambe sotto la stessa tabella e' ridondante e
+       le due date possono anche non coincidere. *}
+    {if and($attribute.data_int, $attribute.data_int|gt(0), or(is_set($hide_download)|not(), $hide_download|not()))}
         <div class="my-2">
             <div class="d-inline-flex">
               <h3 class="h6 d-inline-flex">{'Last modified'|i18n('bootstrapitalia')}:</h3>

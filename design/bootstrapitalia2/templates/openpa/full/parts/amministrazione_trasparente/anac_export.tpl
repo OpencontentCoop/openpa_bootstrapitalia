@@ -1,11 +1,12 @@
 {if count($exports)|gt(0)}
     <div class="anac-export mt-4">
-        <h3 class="h6">{'ANAC publication schemas'|i18n('bootstrapitalia/anac_export')}</h3>
+        <h3 class="h5">{'ANAC publication schemas'|i18n('bootstrapitalia/anac_export')}</h3>
         <ul class="list-unstyled mb-2">
             {foreach $exports as $export}
                 {foreach $export.latest_urls as $extension => $url}
                     <li class="mb-1">
-                        {display_icon('it-file', 'svg', 'icon icon-sm icon-primary me-1')}<a class="btn-link btn-xs p-0 text-decoration-underline" href="{$url|wash()}">{$export.label|wash()} ({$extension|upcase()|wash()})</a>
+                        {display_icon('it-file', 'svg', 'icon icon-sm icon-primary me-1')}<a class="btn btn-link p-0 text-decoration-underline" href="{$url|wash()}">{$export.label|wash()} ({$extension|upcase()|wash()})</a>
+                        <small class="text-muted">— {'updated on'|i18n('bootstrapitalia/anac_export')} {$export.last_modified|wash()}</small>
                     </li>
                 {/foreach}
             {/foreach}
@@ -29,7 +30,7 @@
                                     <small class="text-muted">{$version.dataUltimaModifica|wash()} — {$export.label|wash()}</small>
                                     —
                                     {foreach $version.urls as $extension => $url}
-                                        <a class="btn-link btn-xs p-0 text-decoration-underline" href="{$url|wash()}">{$extension|upcase()|wash()}</a>
+                                        <a class="btn-link btn-xs p-0 text-decoration-underline font-monospace" href="{$url|wash()}">{$url|explode('/')|extract_right(1)|implode('')|wash()}</a>
                                     {/foreach}
                                 </li>
                             {/if}

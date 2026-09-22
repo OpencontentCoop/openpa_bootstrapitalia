@@ -1,4 +1,5 @@
 {ezpagedata_set( 'has_container', true() )}
+{ezpagedata_set( 'is_pagina_trasparenza', true() )}
 
 {if openpaini('Trasparenza', 'ForceMainNode', 'disabled')|eq('enabled')}
     {set $node = $node.object.main_node}

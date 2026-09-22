@@ -67,7 +67,8 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
      *         li espone ma nessuno e' ancora mai stato pubblicato), altrimenti
      *         lista di ['schema' => 'art.31-oiv', 'label' => 'Organismi
      *         indipendenti di valutazione', 'latest_urls' => ['csv' => '...'],
-     *         'versions' => [...]] (vedi ExportPublisher::getVersions())
+     *         'last_modified' => 'gg/mm/aaaa', 'versions' => [...]] (vedi
+     *         ExportPublisher::getVersions())
      */
     protected function getAnacExports()
     {
@@ -88,11 +89,20 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 continue;
             }
 
+            // Schemi diversi sulla stessa pagina possono avere date di
+            // ultimo aggiornamento diverse (es. "Articolazione degli uffici"
+            // espone sia art.13-as sia art.13-op, aggiornati indipendentemente
+            // l'uno dall'altro) - la data va mostrata per schema, non come
+            // sottotitolo unico di pagina. La versione corrente e' sempre
+            // il primo elemento di getVersions() (isLatest: true).
+            $versions = $publisher->getVersions();
+
             $exports[] = [
                 'schema' => $schema,
                 'label' => \SchemaPubblicazioneLookup::labelForSchema($schema),
                 'latest_urls' => $latestUrls,
-                'versions' => $publisher->getVersions(),
+                'last_modified' => $versions[0]['dataUltimaModifica'],
+                'versions' => $versions,
             ];
         }
 
