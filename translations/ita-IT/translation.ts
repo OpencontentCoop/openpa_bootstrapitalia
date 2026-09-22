@@ -2526,6 +2526,14 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Versioni precedenti</translation>
     </message>
     <message>
+      <source>updated on</source>
+      <translation>aggiornato il</translation>
+    </message>
+    <message>
+      <source>Manage dataset</source>
+      <translation>Gestisci il dataset</translation>
+    </message>
+    <message>
       <source>Payment data</source>
       <translation>Dati sui pagamenti</translation>
     </message>
