@@ -43,6 +43,16 @@ class Art13Serializer
     /** Radice della sotto-tassonomia "Struttura amministrativa" */
     const TAG_PATH_STRUTTURA_AMMINISTRATIVA = '/891/1265/1278/';
 
+    /**
+     * Id numerico dello stesso tag di TAG_PATH_STRUTTURA_AMMINISTRATIVA, per
+     * le query Solr (subattr_type___tag_ids____si contiene l'id del tag
+     * assegnato PIU' tutti i suoi antenati, verificato su dati reali il
+     * 2026-09-23 - basta cercare l'id della radice per includere qualunque
+     * discendente, stesso effetto del confronto per prefisso di path usato
+     * da tagMatchesPath() sullo scan PHP).
+     */
+    const TAG_ID_STRUTTURA_AMMINISTRATIVA = 1278;
+
     private $amministrazione;
 
     public function __construct(array $amministrazione = null)
@@ -150,7 +160,7 @@ class Art13Serializer
         $uffici = [];
         $visitedIds[] = (int)$organo->attribute('id');
 
-        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_AMMINISTRATIVA, $organo->attribute('id')) as $ufficioObject) {
+        foreach ($this->fetchFigliDiOrgano($organo) as $ufficioObject) {
             if (in_array((int)$ufficioObject->attribute('id'), $visitedIds, true)) {
                 continue;
             }
@@ -218,11 +228,15 @@ class Art13Serializer
 
     /**
      * @param string $tagPath path della sotto-tassonomia (Struttura politica / Struttura amministrativa)
-     * @param int|null $holdEmploymentObjectId se presente, filtra solo le organization il cui
-     *        campo hold_employment punta a questo object id (uffici figli di un organo)
      * @return \eZContentObject[]
+     *
+     * Scan PHP completo della classe organization - accettabile qui perche'
+     * chiamato una sola volta per fetchOrganiConUffici()/
+     * fetchOrganiAmministrativi() (trova gli organi di vertice), non nella
+     * ricorsione (vedi fetchFigliDiOrgano() sotto per quella, dove uno scan
+     * ripetuto per ogni nodo della gerarchia sarebbe costato molto di piu').
      */
-    private function fetchOrganizzazioniByTagPath($tagPath, $holdEmploymentObjectId = null)
+    private function fetchOrganizzazioniByTagPath($tagPath)
     {
         $result = [];
         $class = \eZContentClass::fetchByIdentifier('organization');
@@ -238,14 +252,46 @@ class Art13Serializer
                 continue;
             }
 
-            if ($holdEmploymentObjectId !== null) {
-                $relatedIds = isset($dataMap['hold_employment']) ? $this->relatedObjectIds($dataMap['hold_employment']) : [];
-                if (!in_array((string)$holdEmploymentObjectId, $relatedIds)) {
-                    continue;
-                }
-            }
-
             $result[] = $object;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return \eZContentObject[] oggetti "Struttura amministrativa" il cui
+     *         hold_employment punta a $organo (uffici figli, un livello) -
+     *         query Solr mirata invece di uno scan PHP completo della classe
+     *         organization: questo metodo viene chiamato una volta per OGNI
+     *         nodo nella ricorsione di fetchUfficiFigli(), quindi uno scan
+     *         completo qui si moltiplicherebbe per la profondita' reale
+     *         della gerarchia (fino a 3 livelli, Area -> Direzione ->
+     *         Ufficio, verificato su comune.verona.it). Campi Solr verificati
+     *         su dati reali di dev il 2026-09-23: subattr_type___tag_ids____si
+     *         contiene l'id del tag assegnato piu' tutti i suoi antenati
+     *         (basta cercare la radice "Struttura amministrativa" per
+     *         includere qualunque discendente), submeta_hold_employment___id____si
+     *         contiene l'id dell'oggetto puntato da hold_employment.
+     */
+    private function fetchFigliDiOrgano(\eZContentObject $organo)
+    {
+        $result = [];
+
+        $query = 'classes [organization]'
+            . ' and raw[subattr_type___tag_ids____si] in [' . self::TAG_ID_STRUTTURA_AMMINISTRATIVA . ']'
+            . ' and raw[submeta_hold_employment___id____si] in [' . (int)$organo->attribute('id') . ']';
+
+        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
+        $queryObject = $queryBuilder->instanceQuery($query);
+
+        $solr = new \eZSolr();
+        $searchResult = $solr->search('', (array)$queryObject->convert());
+
+        foreach ($searchResult['SearchResult'] as $resultNode) {
+            $object = $resultNode->attribute('object');
+            if ($object instanceof \eZContentObject) {
+                $result[] = $object;
+            }
         }
 
         return $result;
