@@ -20,6 +20,12 @@ BuiltInWidgetSource_login=https://%host%/widgets/login-box/bootstrap-italia@2/js
 BuiltInWidgetSource_service-form=https://%host%/widgets/service/js/web-formio.js
 BuiltInWidgetStyle_service-form=
 
+BuiltInWidgetSource_service-form-core=https://%host%/widgets/service/js/web-core.js
+BuiltInWidgetStyle_service-form-core=
+
+BookingWidgetCoreDestinationUrl=https://windmill.opencontent.it/api/r/opencity-italia/booking/meetings
+BookingWidgetCoreFormServerUrl=https://form.stanzadelcittadino.it/form/68ea085e39ff3c9c4633c528
+
 #BuiltInWidgetSource_payment=https://%host%/widgets/payments-due/js/paymentsDue.js
 #BuiltInWidgetStyle_payment=https://%host%/widgets/payments-due/css/paymentsDue.css
 BuiltInWidgetSource_payment=https://static.opencityitalia.it/widgets/payments-due/version/1.0.5/js/paymentsDue.js
