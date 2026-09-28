@@ -2503,4 +2503,67 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Art der Veranstaltung</translation>
     </message>
   </context>
+  <context>
+    <name>bootstrapitalia/anac_export</name>
+    <message>
+      <source>ANAC publication schemas</source>
+      <translation>ANAC-Veröffentlichungsschemata</translation>
+    </message>
+    <message>
+      <source>Previous versions</source>
+      <translation>Vorherige Versionen</translation>
+    </message>
+    <message>
+      <source>updated on</source>
+      <translation>aktualisiert am</translation>
+    </message>
+    <message>
+      <source>Manage dataset</source>
+      <translation>Datensatz verwalten</translation>
+    </message>
+    <message>
+      <source>Payment data</source>
+      <translation>Zahlungsdaten</translation>
+    </message>
+    <message>
+      <source>Subjective scope</source>
+      <translation>Persönlicher Geltungsbereich</translation>
+    </message>
+    <message>
+      <source>Political governing bodies</source>
+      <translation>Politische Führungsorgane</translation>
+    </message>
+    <message>
+      <source>Administration and management bodies</source>
+      <translation>Verwaltungs- und Führungsorgane</translation>
+    </message>
+    <message>
+      <source>Organisation chart</source>
+      <translation>Organigramm</translation>
+    </message>
+    <message>
+      <source>Organisation</source>
+      <translation>Organisation</translation>
+    </message>
+    <message>
+      <source>Independent evaluation bodies</source>
+      <translation>Unabhängige Bewertungsgremien</translation>
+    </message>
+    <message>
+      <source>Audit bodies</source>
+      <translation>Rechnungsprüfungsorgane</translation>
+    </message>
+    <message>
+      <source>Court of Auditors</source>
+      <translation>Rechnungshof</translation>
+    </message>
+    <message>
+      <source>Administrative controls and findings</source>
+      <translation>Verwaltungskontrollen und Feststellungen</translation>
+    </message>
+    <message>
+      <source>References and contacts</source>
+      <translation>Verweise und Kontakte</translation>
+    </message>
+  </context>
 </TS>
