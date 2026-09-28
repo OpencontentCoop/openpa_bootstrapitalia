@@ -51,7 +51,7 @@ class BookingWidgetCoreBuiltinApp extends BuiltinApp
         }
 
         return json_encode([
-            'type' => 'sdc',
+            'type' => 'session-auth',
             'host' => $host,
             'skipLogin' => (bool)self::getCurrentOptions('BookingWidgetCoreSkipLogin'),
             'loginProvidersLabel' => $this->getLoginProvidersLabel(),
