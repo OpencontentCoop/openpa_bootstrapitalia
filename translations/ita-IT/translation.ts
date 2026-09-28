@@ -2573,5 +2573,9 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Administrative controls and findings</source>
       <translation>Controlli e rilievi sull'amministrazione</translation>
     </message>
+    <message>
+      <source>References and contacts</source>
+      <translation>Riferimenti e contatti</translation>
+    </message>
   </context>
 </TS>
