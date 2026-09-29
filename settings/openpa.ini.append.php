@@ -24,7 +24,8 @@ BuiltInWidgetSource_service-form-core=https://%host%/widgets/service/js/web-core
 BuiltInWidgetStyle_service-form-core=
 
 BookingWidgetCoreDestinationUrl=https://windmill.opencontent.it/api/r/opencity-italia/booking/meetings
-BookingWidgetCoreFormServerUrl=https://form.stanzadelcittadino.it/form/68ea085e39ff3c9c4633c528
+# Path del form, concatenato in coda a FormServerUrl (già per-tenant, riusato dal formio esistente)
+BookingWidgetCoreFormServerPath=/form/68ea085e39ff3c9c4633c528
 
 #BuiltInWidgetSource_payment=https://%host%/widgets/payments-due/js/paymentsDue.js
 #BuiltInWidgetStyle_payment=https://%host%/widgets/payments-due/css/paymentsDue.css

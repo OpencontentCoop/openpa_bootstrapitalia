@@ -40,7 +40,19 @@ class BookingWidgetCoreBuiltinApp extends BuiltinApp
 
     protected function getBookingWidgetCoreFormServerUrl(): ?string
     {
-        return OpenPAINI::variable('StanzaDelCittadinoBridge', 'BookingWidgetCoreFormServerUrl') ?: null;
+        // Base url riusata da FormServerUrl (già configurato per-tenant per il flusso
+        // formio esistente, es. https://form-qa.stanzadelcittadino.it) — solo il path
+        // del form è specifico del widget-core e vive in ini, non per-tenant.
+        $formServerUrl = self::getCurrentOptions('FormServerUrl');
+        if (!$formServerUrl) {
+            return null;
+        }
+        $path = OpenPAINI::variable('StanzaDelCittadinoBridge', 'BookingWidgetCoreFormServerPath') ?: null;
+        if (!$path) {
+            return null;
+        }
+
+        return rtrim($formServerUrl, '/') . $path;
     }
 
     protected function getBookingWidgetCoreAuthParamsJson(): ?string
@@ -102,7 +114,7 @@ class BookingWidgetCoreBuiltinApp extends BuiltinApp
         if (!$this->getBookingWidgetCoreDestinationUrl() || !$this->getBookingWidgetCoreFormServerUrl()) {
             return [
                 'is_enabled' => false,
-                'text' => 'Widget core non disponibile in questo ambiente: manca la configurazione ini <code>BookingWidgetCoreDestinationUrl</code>/<code>BookingWidgetCoreFormServerUrl</code>',
+                'text' => 'Widget core non disponibile in questo ambiente: manca la configurazione ini <code>BookingWidgetCoreDestinationUrl</code>/<code>BookingWidgetCoreFormServerPath</code>, o il campo <code>FormServerUrl</code> non è configurato per questo ente',
             ];
         }
 
