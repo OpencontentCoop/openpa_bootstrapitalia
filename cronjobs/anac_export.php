@@ -72,7 +72,8 @@ publishArt31($cli, $schemaBindings);
 
 /**
  * OIV e Organi di revisione non hanno un dataset dedicato: sono documenti
- * (classe `document`) taggati con `anac_document_type` (vedi
+ * (classe `document`) taggati con `document_type`, ramo "Documenti di
+ * rilievo dell'organismo di controllo" (vedi
  * installer/modules/trasparenza/CLAUDE.md), pubblicati come figli delle
  * rispettive pagine trasparenza. Corte dei conti invece e' un dataset reale,
  * stesso pattern di art.4-bis - per questo il suo nodo si risolve ancora dal
@@ -103,7 +104,7 @@ publishArt31($cli, $schemaBindings);
  */
 function resolvePageTableQuery(eZContentObject $pageObject, $classIdentifier)
 {
-    $dataMap = $pageObject->dataMap();
+    $dataMap = $pageObject->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
     if (!isset($dataMap['fields']) || !$dataMap['fields']->attribute('has_content')) {
         return null;
     }
@@ -133,7 +134,7 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
             return;
         }
 
-        $corteDataMap = $corteDeiContiObject->attribute('data_map');
+        $corteDataMap = $corteDeiContiObject->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
         if (!isset($corteDataMap['csv_resource'])) {
             $cli->error("anac_export: attributo 'csv_resource' non trovato sul dataset Corte dei conti (id {$corteDeiContiObject->attribute('id')}), schema art.31 saltato");
 
@@ -323,7 +324,7 @@ function publishArt4Bis(eZCLI $cli, array $schemaBindings)
             return;
         }
 
-        $dataMap = $object->attribute('data_map');
+        $dataMap = $object->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
         if (!isset($dataMap['csv_resource'])) {
             $cli->error("anac_export: attributo 'csv_resource' non trovato sull'oggetto dataset (id {$object->attribute('id')}), schema {$identifier} saltato");
 

@@ -20,6 +20,14 @@
 class SchemaPubblicazioneLookup
 {
     /**
+     * Lingua forzata per tutta la pipeline di export ANAC (schema lookup,
+     * serializer, cron): gli obblighi di trasparenza sono normati in
+     * italiano, l'export non deve dipendere dalla lingua primaria del sito,
+     * che potrebbe non essere ita-IT su un ente plurilingue.
+     */
+    const EXPORT_LANGUAGE = 'ita-IT';
+
+    /**
      * Deve restare sincronizzato con le opzioni dell'ezselection in
      * installer/modules/trasparenza/classes/pagina_trasparenza.yml
      * (schema_pubblicazione.data_text5) - stessi id, stessi nomi.
@@ -95,7 +103,7 @@ class SchemaPubblicazioneLookup
         }
 
         foreach (\eZContentObject::fetchSameClassList($class->attribute('id'), true) as $object) {
-            $dataMap = $object->dataMap();
+            $dataMap = $object->fetchDataMap(false, self::EXPORT_LANGUAGE);
             if (!isset($dataMap['schema_pubblicazione'])) {
                 continue;
             }
@@ -123,7 +131,7 @@ class SchemaPubblicazioneLookup
      */
     public static function schemasForObject(\eZContentObject $object)
     {
-        $dataMap = $object->dataMap();
+        $dataMap = $object->fetchDataMap(false, self::EXPORT_LANGUAGE);
         if (!isset($dataMap['schema_pubblicazione'])) {
             return [];
         }

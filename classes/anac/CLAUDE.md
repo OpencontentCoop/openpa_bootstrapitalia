@@ -344,7 +344,7 @@ c'entra con quello.
 non svuota `data_text`) - per azzerare un `ezselection` multi-valore serve
 `$attr->setAttribute('data_text', ''); $attr->store();` direttamente, non
 `fromString('')`. Diverso da `eZTags`, dove `fromString('')` invece funziona
-(usato per azzerare `anac_document_type` nei test di `Art31Serializer`).
+(usato per azzerare il tag `document_type` nei test di `Art31Serializer`).
 
 ### `ExportPublisher` — storico versioni e discoverability (#479)
 
@@ -822,16 +822,18 @@ ciascuno schema.
 con Marco il 2026-09-15, motivata dalla natura diversa dei dati):
 
 - **OIV e Organi di revisione**: nessun dataset dedicato. Sono documenti
-  (classe `document`) taggati con il nuovo attributo `anac_document_type`
-  (vedi `installer/modules/trasparenza/CLAUDE.md` per il perché di questa
-  scelta di content model). `fetchDocumentsByKeys()` fa uno scan PHP
-  dell'intera classe `document` (`eZContentObject::fetchSameClassList()`),
-  non una query Solr — scelta deliberata: si è verificato che
-  `Opencontent\...\QueryLanguage\Query` non ha modo comodo di filtrare su un
-  campo custom nuovo senza prima capire la convenzione di naming Solr per
-  `anac_document_type` (non ancora esplorata), e lo scan pieno è lo stesso
-  pattern già accettato per `Art13Serializer::fetchOrganiConUffici()` — costo
-  accettabile per un cron periodico, non per una richiesta utente.
+  (classe `document`) taggati con l'attributo pubblico `document_type`, ramo
+  "Documenti di rilievo dell'organismo di controllo" (figlio di "Documenti
+  (tecnici) di supporto" — unificato il 2026-10-01 nell'unico campo
+  `document_type` già usato per la tipologia visibile al cittadino; prima
+  esisteva un attributo separato `anac_document_type`, nascosto, proprio per
+  non mostrare le voci ANAC in un'etichetta pubblica — decisione invertita su
+  richiesta di Marco, accettando che questa categoria diventi pubblica).
+  `fetchDocumentsByKeys()` fa una query Solr mirata sul campo eztags indicizzato
+  per `document_type` (`subattr_document_type___tag_ids____si`), NON uno scan
+  PHP dell'intera classe `document` — uno scan completo esaurisce la memoria
+  PHP su un sito con decine di migliaia di documenti (verificato in produzione,
+  QA Bugliano, Fatal error: Allowed memory size exhausted, prima di questo fix).
 - **Corte dei conti**: dataset reale (`opendatadataset`, remote_id
   `corte_dei_conti`), stesso pattern di `Art4BisSerializer` — colonne
   `data_di_pubblicazione`/`oggetto`/`documento` (vedi
@@ -844,7 +846,7 @@ decisione 2026-09-15. Nello schema JSON ANAC, ciascuna delle 5 chiavi
 `altriAttiOrganismoAnalogo`, `relazioneBilancioDiPrevisione`,
 `relazioneContoConsuntivo`) è un blocco **singolare** (`DatiIdentificativiDocumento`,
 un solo `dataPubblicazione`+`documento`, non un array) — ma niente impedisce
-a un redattore di taggare più documenti con lo stesso `anac_document_type`
+a un redattore di taggare più documenti con lo stesso tag `document_type`
 nel tempo (es. una nuova relazione ogni anno). Se succede, il JSON tiene solo
 il documento con `publication_start_time` più recente per quella chiave; il
 CSV invece li elenca **tutti** (nessuna riduzione), quindi CSV e JSON possono
