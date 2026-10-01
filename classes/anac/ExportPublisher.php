@@ -204,8 +204,36 @@ class ExportPublisher
             $tracking['urlLatest' . ucfirst($extension)] = $written['urlLatest'];
         }
         $this->setTracking($tracking);
+        $this->clearRootNodeCache();
 
         return $tracking;
+    }
+
+    /**
+     * Il cron che chiama publish()/publishSingle()/publishWithDates() non passa
+     * mai da onPublish() di una versione (vedi docblock di classe) - a
+     * differenza di un publish normale, nessun meccanismo invalida da solo la
+     * cache Varnish della pagina che mostra il blocco "Schemi pubblicazione
+     * ANAC" (content_trasparenza.php, letto da pagina_trasparenza.tpl). Senza
+     * questa chiamata esplicita, dopo una pubblicazione riuscita la pagina può
+     * restare con l'URL/data vecchi fino alla scadenza naturale della cache
+     * (fino a qualche giorno, secondo il Cache-Control del siteaccess) -
+     * stesso principio già applicato altrove per cambiamenti non guidati da un
+     * publish (vedi OpenPABootstrapItaliaPrivacyPost::onChangeState(),
+     * anch'esso scatenato da un cron dello stesso gruppo CronjobPart-changesection).
+     */
+    private function clearRootNodeCache()
+    {
+        if ($this->rootNodeId === null) {
+            return;
+        }
+
+        $rootNode = \eZContentObjectTreeNode::fetch($this->rootNodeId);
+        if (!$rootNode instanceof \eZContentObjectTreeNode) {
+            return;
+        }
+
+        \eZContentCacheManager::clearContentCacheIfNeeded($rootNode->attribute('contentobject_id'));
     }
 
     /**
