@@ -9,10 +9,10 @@ namespace OpenPABootstrapItalia\Anac\Serializer;
  * Meccanismo di esposizione volutamente NON unificato tra le tre
  * sottosezioni (decisione 2026-09-15, vedi classes/anac/CLAUDE.md): OIV e
  * Organi di revisione sono contenuti editoriali reali (classe `document`,
- * filtrati per il nuovo attributo `anac_document_type` -
- * installer/modules/trasparenza/classes/document.yml), mentre Corte dei
- * conti e' un dataset tabellare gia' costruito per #475 (stesso pattern di
- * Art4BisSerializer).
+ * filtrati per tag `document_type` - installer/classes/document.yml,
+ * installer/tagtree_csv/documenti.csv, ramo "Documenti di rilievo
+ * dell'organismo di controllo"), mentre Corte dei conti e' un dataset
+ * tabellare gia' costruito per #475 (stesso pattern di Art4BisSerializer).
  *
  * Struttura JSON verificata scaricando lo schema reale il 2026-09-15:
  * https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.31-v1.0.schema.json
@@ -45,7 +45,7 @@ class Art31Serializer
         self::KEY_RELAZIONE_CONTO_CONSUNTIVO,
     ];
 
-    /** remote_id del tag anac_document_type (installer/tagtree_csv/documenti.csv) => chiave ANAC. Remote id <= 32 caratteri, convenzione del file. */
+    /** remote_id del tag document_type, ramo "Documenti di rilievo dell'organismo di controllo" (installer/tagtree_csv/documenti.csv) => chiave ANAC. Remote id <= 32 caratteri, convenzione del file. */
     const TAG_REMOTE_ID_TO_KEY = [
         'anac_doctype_valid_relaz_perf' => self::KEY_VALIDAZIONE_PERFORMANCE,
         'anac_doctype_relaz_sist_valut' => self::KEY_RELAZIONE_SISTEMA_VALUTAZIONE,
@@ -88,13 +88,12 @@ class Art31Serializer
 
     /**
      * @param string[] $keys sottoinsieme di OIV_KEYS o OR_KEYS
-     * @return \eZContentObject[][] chiave ANAC => lista di document object con quel anac_document_type
+     * @return \eZContentObject[][] chiave ANAC => lista di document object con quel document_type
      *
-     * Query Solr mirata sul campo eztags indicizzato per `anac_document_type`
-     * (`subattr_anac_document_type___tag_ids____si`, convenzione di naming di
-     * ezfSolrDocumentFieldeZTags::generateSubattributeFieldName - verificata
-     * sul campo gemello `document_type` gia' popolato, stesso datatype),
-     * NON uno scan PHP di tutta la classe `document`. Un sito reale puo'
+     * Query Solr mirata sul campo eztags indicizzato per `document_type`
+     * (`subattr_document_type___tag_ids____si`, convenzione di naming di
+     * ezfSolrDocumentFieldeZTags::generateSubattributeFieldName), NON uno
+     * scan PHP di tutta la classe `document`. Un sito reale puo'
      * avere decine di migliaia di documenti: uno scan completo
      * (`fetchSameClassList` + `dataMap()` per ognuno) esaurisce la memoria
      * PHP e manda in crash l'intero cron - verificato in produzione (QA
@@ -137,7 +136,7 @@ class Art31Serializer
             return $result;
         }
 
-        $query = ($baseQuery !== null ? $baseQuery : 'classes [document]') . ' and raw[subattr_anac_document_type___tag_ids____si] in [' . implode(',', $tagIds) . ']';
+        $query = ($baseQuery !== null ? $baseQuery : 'classes [document]') . ' and raw[subattr_document_type___tag_ids____si] in [' . implode(',', $tagIds) . ']';
         $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
         $queryObject = $queryBuilder->instanceQuery($query);
 
@@ -157,13 +156,13 @@ class Art31Serializer
             if (!$object instanceof \eZContentObject) {
                 continue;
             }
-            $dataMap = $object->dataMap();
-            if (!isset($dataMap['anac_document_type'])) {
+            $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+            if (!isset($dataMap['document_type'])) {
                 continue;
             }
 
             /** @var \eZTags $tags */
-            $tags = $dataMap['anac_document_type']->content();
+            $tags = $dataMap['document_type']->content();
             if (!$tags instanceof \eZTags) {
                 continue;
             }
@@ -186,17 +185,46 @@ class Art31Serializer
 
     /**
      * @return string|null url assoluta https del file allegato, o null se il documento non ha un file
+     *
+     * La classe `document` ha due campi file indipendenti, entrambi sempre
+     * presenti (installer/classes/document.yml): `file` (ezbinaryfile,
+     * singolo, legacy) e `attachments` (ocmultibinary, multipli, quello
+     * usato oggi dall'interfaccia di caricamento) - un redattore puo' avere
+     * valorizzato l'uno, l'altro, o entrambi. Si preferisce `file` quando
+     * presente (caso piu' semplice, un solo url possibile), altrimenti il
+     * primo file di `attachments` - lo schema ANAC vuole comunque un solo
+     * url per documento, non un elenco.
      */
     private function fetchDocumentUrl(\eZContentObject $object)
     {
-        $dataMap = $object->dataMap();
-        if (!isset($dataMap['file']) || !$dataMap['file']->hasContent()) {
-            return null;
-        }
-
+        $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
         $siteUrl = trim(\eZINI::instance()->variable('SiteSettings', 'SiteURL'), '/');
 
-        return 'https://' . $siteUrl . '/content/download/' . $object->attribute('id') . '/' . $dataMap['file']->attribute('id');
+        if (isset($dataMap['file']) && $dataMap['file']->hasContent()) {
+            return 'https://' . $siteUrl . '/content/download/' . $object->attribute('id') . '/' . $dataMap['file']->attribute('id');
+        }
+
+        if (isset($dataMap['attachments']) && $dataMap['attachments']->hasContent()) {
+            $attachmentsAttribute = $dataMap['attachments'];
+            // getBinaryFiles() e' protetto ma e' l'unica fonte di verita' per
+            // l'ordine reale (usort su display_order, la decorazione scelta
+            // dal redattore in fase di caricamento - fallback alfabetico per
+            // original_filename solo se nessuna decorazione e' stata
+            // impostata). Richiamato via reflection invece di duplicare la
+            // logica di parseDecorations()/findMatchingDecorationKey() qui:
+            // un ordinamento ricostruito a mano rischierebbe di divergere da
+            // quello mostrato pubblicamente in pagina.
+            $datatype = $attachmentsAttribute->dataType();
+            $method = new \ReflectionMethod($datatype, 'getBinaryFiles');
+            $method->setAccessible(true);
+            $files = (array)$method->invoke($datatype, $attachmentsAttribute, $attachmentsAttribute->attribute('version'));
+            $file = reset($files);
+            if ($file instanceof \eZMultiBinaryFile) {
+                return 'https://' . $siteUrl . '/ocmultibinary/download/' . $object->attribute('id') . '/' . $attachmentsAttribute->attribute('id') . '/' . $attachmentsAttribute->attribute('version') . '/' . $file->attribute('filename') . '/file/' . rawurlencode($file->attribute('original_filename'));
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -204,7 +232,7 @@ class Art31Serializer
      */
     private function fetchPublicationDate(\eZContentObject $object)
     {
-        $dataMap = $object->dataMap();
+        $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
         if (!isset($dataMap['publication_start_time'])) {
             return null;
         }
@@ -215,8 +243,9 @@ class Art31Serializer
 
     /**
      * "Il documento piu' recente per chiave" - decisione 2026-09-15 (vedi
-     * classes/anac/CLAUDE.md): se piu' documenti hanno lo stesso
-     * anac_document_type, nel JSON si tiene solo il piu' recente per data di
+     * classes/anac/CLAUDE.md): se piu' documenti hanno lo stesso tag
+     * document_type (ramo "Documenti di rilievo dell'organismo di
+     * controllo"), nel JSON si tiene solo il piu' recente per data di
      * pubblicazione. Lo storico non si perde: resta nei file datati
      * immutabili di ExportPublisher.
      *
@@ -234,7 +263,7 @@ class Art31Serializer
             $latest = null;
             $latestTimestamp = -1;
             foreach ($documentsByKey[$key] as $object) {
-                $timestamp = (int)$object->dataMap()['publication_start_time']->toString();
+                $timestamp = (int)$object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE)['publication_start_time']->toString();
                 if ($timestamp > $latestTimestamp) {
                     $latestTimestamp = $timestamp;
                     $latest = $object;

@@ -89,7 +89,7 @@ class Art13Serializer
         foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_POLITICA) as $organoObject) {
             $organi[] = [
                 'denominazione' => $organoObject->attribute('name'),
-                'competenze' => $this->plainText($organoObject->dataMap()['main_function']),
+                'competenze' => $this->plainText($organoObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE)['main_function']),
                 'uffici' => $this->fetchUfficiFigli($organoObject),
             ];
         }
@@ -113,7 +113,7 @@ class Art13Serializer
     {
         $organi = [];
         foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_AMMINISTRATIVA) as $candidato) {
-            $dataMap = $candidato->dataMap();
+            $dataMap = $candidato->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
             if (!isset($dataMap['type']) || !$this->isTaggedArea($dataMap['type'])) {
                 continue;
             }
@@ -170,7 +170,7 @@ class Art13Serializer
             $uffici[] = [
                 'tipologia' => $responsabile !== null && $responsabile['incaricoDirigenziale'] ? 'Ufficio dirigenziale' : 'Ufficio non dirigenziale',
                 'denominazione' => $ufficioObject->attribute('name'),
-                'competenze' => $this->plainText($ufficioObject->dataMap()['main_function']),
+                'competenze' => $this->plainText($ufficioObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE)['main_function']),
                 'nominativo' => $responsabile['nominativo'] ?? '',
                 'qualifica' => $responsabile['qualifica'] ?? '',
                 'contatti' => $this->fetchContatti($ufficioObject),
@@ -247,7 +247,7 @@ class Art13Serializer
         $objects = \eZContentObject::fetchSameClassList($class->attribute('id'), true);
 
         foreach ($objects as $object) {
-            $dataMap = $object->dataMap();
+            $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
             if (!isset($dataMap['type']) || !$this->tagMatchesPath($dataMap['type'], $tagPath)) {
                 continue;
             }
@@ -329,7 +329,7 @@ class Art13Serializer
      */
     private function fetchResponsabile(\eZContentObject $organizationObject)
     {
-        $dataMap = $organizationObject->dataMap();
+        $dataMap = $organizationObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
         if (!isset($dataMap['office_manager'])) {
             return null;
         }
@@ -340,7 +340,7 @@ class Art13Serializer
             return null;
         }
 
-        $roleDataMap = $roleObject->dataMap();
+        $roleDataMap = $roleObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
 
         $personName = '';
         if (isset($roleDataMap['person'])) {
@@ -373,7 +373,7 @@ class Art13Serializer
 
     private function fetchContatti(\eZContentObject $organizationObject)
     {
-        $dataMap = $organizationObject->dataMap();
+        $dataMap = $organizationObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
         if (!isset($dataMap['has_online_contact_point'])) {
             return [];
         }
@@ -397,7 +397,7 @@ class Art13Serializer
      */
     private function parseContattiMatrix(\eZContentObject $contactPointObject)
     {
-        $contactDataMap = $contactPointObject->dataMap();
+        $contactDataMap = $contactPointObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
         if (!isset($contactDataMap['contact'])) {
             return [];
         }

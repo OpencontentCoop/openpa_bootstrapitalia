@@ -55,7 +55,7 @@ class IntestazioneProvider
             return '';
         }
 
-        $dataMap = $homeNode->attribute('object')->attribute('data_map');
+        $dataMap = $homeNode->attribute('object')->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
         if (!isset($dataMap['contacts'])) {
             return '';
         }
