@@ -95,7 +95,7 @@
                conformi, quindi rischia di essere scambiato per quello
                ufficiale da un cittadino o da un crawler. Altrove sul sito
                (dataset non-ANAC) resta invariato. *}
-            {if is_set($hide_download)|not() or $hide_download|not()}
+            {if or(is_set($hide_download)|not(), $hide_download|not())}
                 <a href="{concat('/customexport/',$custom_repository)|ezurl(no)}" data-href="{concat('/customexport/',$custom_repository)|ezurl(no)}" data-action="export" class="btn btn-primary btn-xs mb-1 mr-1"><i class="fa fa-download"></i> {'Download CSV'|i18n('opendatadataset')}</a>
             {elseif $attribute.content.can_edit}
                 {* Non un altro bottone di download (produrrebbe lo stesso
