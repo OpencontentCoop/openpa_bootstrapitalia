@@ -304,6 +304,18 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
         // farebbe mai scattare una nuova pubblicazione.
         $organigramma = $isC1 ? $serializer->fetchOrganigramma($asRootNodeId) : null;
 
+        // Oltre al campo dentro il JSON, ANAC pubblica l'organigramma anche
+        // come CSV a se' stante (verificato scaricando l'esempio reale,
+        // vedi Art13Serializer::toCsvOrganigramma()) - nessun file se non e'
+        // ancora stato pubblicato nessun documento (stesso principio "ometti
+        // invece di pubblicare un dato mancante" gia' usato altrove).
+        if ($organigramma !== null) {
+            $orgIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_ORG;
+            $orgPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($orgIdentifier, $asRootNodeId);
+            $orgTracking = $orgPublisher->publishSingle($serializer->toCsvOrganigramma($organigramma), 'csv');
+            $cli->notice("anac_export: schema {$orgIdentifier} ok, ultima modifica {$orgTracking['dataUltimaModifica']}");
+        }
+
         $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonSchemaIdentifier, $asRootNodeId);
         $jsonTracking = $jsonPublisher->publishWithDates(
             json_encode(['organi' => $organi, 'organigramma' => $organigramma]),

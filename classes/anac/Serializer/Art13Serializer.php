@@ -80,6 +80,20 @@ class Art13Serializer
     }
 
     /**
+     * L'organigramma (solo C1, non previsto per i C2 - vedi #478) e' anche un
+     * CSV a se' stante oltre al campo `organigramma` dentro il JSON "file
+     * unico" - verificato scaricando l'esempio reale ANAC
+     * (art.13-org-YYYYMMDD-YYYYMMDD.v1.0.csv): header ORGANIGRAMMA, una sola
+     * riga con l'url.
+     *
+     * @param string $organigramma url gia' risolto (vedi Art13Serializer::fetchOrganigramma())
+     */
+    public function toCsvOrganigramma($organigramma)
+    {
+        return "ORGANIGRAMMA\n" . $organigramma . "\n";
+    }
+
+    /**
      * @return array organi con i loro uffici, gia' pronti per CSV/JSON:
      *         [['denominazione','competenze','uffici' => [['tipologia','denominazione','competenze','nominativo','qualifica','contatti']]]]
      */
