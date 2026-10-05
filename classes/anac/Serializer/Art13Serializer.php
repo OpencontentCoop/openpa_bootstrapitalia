@@ -535,7 +535,15 @@ class Art13Serializer
      *        configurata (es. un fork mal configurato) - un solo punto
      *        decide, il chiamante lo passa gia' deciso.
      */
-    public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $organi = null, $isC1)
+    /**
+     * @param string|null $organigramma url gia' risolto (vedi fetchOrganigramma())
+     *        - passato gia' pronto dal chiamante, non ricalcolato qui, cosi'
+     *        puo' entrare nell'hash di ExportPublisher::publishWithDates()
+     *        insieme a $organi: un cambiamento del solo organigramma deve
+     *        far scattare una nuova pubblicazione tanto quanto un cambiamento
+     *        degli organi.
+     */
+    public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $organi = null, $isC1, $organigramma = null)
     {
         // Verificato sui file di esempio scaricati da ANAC il 2026-09-15: NON
         // esiste un campo "ambitoSoggettivo" esplicito in questo JSON (a
@@ -560,9 +568,6 @@ class Art13Serializer
 
         if ($isC1) {
             $key = 'orgPubblicheAmministrazioni';
-            // TODO: sorgente dell'organigramma non ancora individuata nel
-            // content model - vedi classes/anac/CLAUDE.md, "Cosa manca".
-            $organigramma = $this->fetchOrganigramma();
             if ($organigramma !== null) {
                 $organiBlock['organigramma'] = $organigramma;
             }
@@ -583,14 +588,49 @@ class Art13Serializer
     }
 
     /**
-     * @return string|null url assoluto dell'immagine/documento organigramma, o null se non ancora disponibile
+     * L'organigramma (art. 13, co. 1, lett. b, d.lgs. 33/2013 - stesso punto
+     * normativo di "Articolazione degli uffici", non un obbligo a se stante)
+     * e' un documento pubblicato come figlio della stessa pagina "Articolazione
+     * degli uffici": nessun tag o attributo dedicato lo identifica, e' il
+     * documento stesso a far fede. Se ne esiste piu' di uno (es. una versione
+     * aggiornata caricata senza rimuovere la precedente), vince il piu'
+     * recente per data di pubblicazione - stesso principio gia' usato per i
+     * duplicati di Art31Serializer.
+     *
+     * @return string|null url assoluto del file organigramma, o null se nessun documento e' stato pubblicato lì
      */
-    private function fetchOrganigramma()
+    public function fetchOrganigramma($rootNodeId)
     {
-        // Non ancora implementato: non individuata la sorgente dati reale
-        // (probabile immagine/allegato su un contenuto dedicato, non un
-        // campo di `organization`). Vedi CLAUDE.md.
-        return null;
+        if ($rootNodeId === null) {
+            return null;
+        }
+
+        $query = 'classes [document] subtree [' . (int)$rootNodeId . ']';
+        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
+        $queryObject = $queryBuilder->instanceQuery($query);
+        $solr = new \eZSolr();
+        $searchResult = $solr->search('', (array)$queryObject->convert());
+
+        $latestObject = null;
+        $latestPublicationTime = null;
+        foreach ($searchResult['SearchResult'] as $resultNode) {
+            $object = $resultNode->attribute('object');
+            if (!$object instanceof \eZContentObject) {
+                continue;
+            }
+            $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+            $publicationTime = isset($dataMap['publication_start_time']) ? (int)$dataMap['publication_start_time']->toString() : 0;
+            if ($latestObject === null || $publicationTime > $latestPublicationTime) {
+                $latestObject = $object;
+                $latestPublicationTime = $publicationTime;
+            }
+        }
+
+        if ($latestObject === null) {
+            return null;
+        }
+
+        return \OpenPABootstrapItalia\Anac\DocumentFileResolver::resolveUrl($latestObject);
     }
 
     public function toCsvOrganiUffici(array $organi = null)
