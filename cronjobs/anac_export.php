@@ -297,11 +297,18 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
             }
         }
 
+        // L'organigramma (solo C1) va risolto una volta sola qui, non dentro
+        // toJson(): deve entrare nell'hash insieme a $organi, altrimenti un
+        // cambiamento del solo organigramma (nuovo documento pubblicato sotto
+        // "Articolazione degli uffici", nessun cambiamento agli organi) non
+        // farebbe mai scattare una nuova pubblicazione.
+        $organigramma = $isC1 ? $serializer->fetchOrganigramma($asRootNodeId) : null;
+
         $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonSchemaIdentifier, $asRootNodeId);
         $jsonTracking = $jsonPublisher->publishWithDates(
-            json_encode($organi),
-            function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer, $organi, $isC1, $asRootNodeId) {
-                return $serializer->toJson($dataPrimaPubblicazione, $dataUltimaModifica, $organi, $isC1, $asRootNodeId);
+            json_encode(['organi' => $organi, 'organigramma' => $organigramma]),
+            function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer, $organi, $isC1, $organigramma) {
+                return $serializer->toJson($dataPrimaPubblicazione, $dataUltimaModifica, $organi, $isC1, $organigramma);
             },
             'json'
         );

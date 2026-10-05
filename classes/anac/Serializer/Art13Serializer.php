@@ -535,7 +535,15 @@ class Art13Serializer
      *        configurata (es. un fork mal configurato) - un solo punto
      *        decide, il chiamante lo passa gia' deciso.
      */
-    public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $organi = null, $isC1, $organigrammaRootNodeId = null)
+    /**
+     * @param string|null $organigramma url gia' risolto (vedi fetchOrganigramma())
+     *        - passato gia' pronto dal chiamante, non ricalcolato qui, cosi'
+     *        puo' entrare nell'hash di ExportPublisher::publishWithDates()
+     *        insieme a $organi: un cambiamento del solo organigramma deve
+     *        far scattare una nuova pubblicazione tanto quanto un cambiamento
+     *        degli organi.
+     */
+    public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $organi = null, $isC1, $organigramma = null)
     {
         // Verificato sui file di esempio scaricati da ANAC il 2026-09-15: NON
         // esiste un campo "ambitoSoggettivo" esplicito in questo JSON (a
@@ -560,7 +568,6 @@ class Art13Serializer
 
         if ($isC1) {
             $key = 'orgPubblicheAmministrazioni';
-            $organigramma = $this->fetchOrganigramma($organigrammaRootNodeId);
             if ($organigramma !== null) {
                 $organiBlock['organigramma'] = $organigramma;
             }
@@ -592,7 +599,7 @@ class Art13Serializer
      *
      * @return string|null url assoluto del file organigramma, o null se nessun documento e' stato pubblicato lì
      */
-    private function fetchOrganigramma($rootNodeId)
+    public function fetchOrganigramma($rootNodeId)
     {
         if ($rootNodeId === null) {
             return null;
