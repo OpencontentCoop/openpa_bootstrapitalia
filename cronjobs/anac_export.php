@@ -300,8 +300,8 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
         $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonSchemaIdentifier, $asRootNodeId);
         $jsonTracking = $jsonPublisher->publishWithDates(
             json_encode($organi),
-            function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer, $organi, $isC1) {
-                return $serializer->toJson($dataPrimaPubblicazione, $dataUltimaModifica, $organi, $isC1);
+            function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer, $organi, $isC1, $asRootNodeId) {
+                return $serializer->toJson($dataPrimaPubblicazione, $dataUltimaModifica, $organi, $isC1, $asRootNodeId);
             },
             'json'
         );
