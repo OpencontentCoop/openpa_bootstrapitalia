@@ -34,7 +34,14 @@ class ExportPublisher
     {
         $this->schemaIdentifier = $schemaIdentifier;
         $this->rootNodeId = $rootNodeId;
-        $this->baseDir = \eZSys::cacheDirectory() . '/anac_export';
+        // varDirectory(), non cacheDirectory(): questi file hanno un obbligo
+        // di conservazione pluriennale (art. 8, co. 3, d.lgs. 33/2013), non
+        // sono dati usa-e-getta rigenerabili - "cache" comunicherebbe
+        // l'intento sbagliato a chi in futuro gestisse pulizie/retention su
+        // quella cartella, anche se nessun meccanismo attuale la tratta
+        // davvero come tale (il cluster DFS marca "scaduto" solo via
+        // invalidazioni esplicite, mai toccate da un semplice storeContents()).
+        $this->baseDir = \eZSys::varDirectory() . '/anac_export';
     }
 
     /**

@@ -14,7 +14,7 @@ if (!$filename || !preg_match('/^[a-zA-Z0-9_.\-]+$/', $filename)) {
     return $Module->handleError(eZError::KERNEL_NOT_FOUND, 'kernel');
 }
 
-$path = eZSys::cacheDirectory() . '/anac_export/' . $filename;
+$path = eZSys::varDirectory() . '/anac_export/' . $filename;
 $fileHandler = eZClusterFileHandler::instance($path);
 
 if (!$fileHandler->exists()) {
