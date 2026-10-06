@@ -10,7 +10,12 @@
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
                 <div class="bg-light rounded p-4">
-                    {if is_set($built_in_app_api_base_url)}
+                    {if is_set($booking_widget_core_destination_url)}
+                        <pre style="white-space: break-spaces;">{*
+                            *}{concat('<widget-core destination-url="', $booking_widget_core_destination_url, '" auth-params=\'', $booking_widget_core_auth_params, '\' formserver-url="', $booking_widget_core_form_server_url, '" form-io-params=\'', $booking_widget_core_form_io_params, '\'></widget-core>')|wash()}<br /><br />{*
+                            *}{'<script defer src="'|wash()}{if is_set($built_in_app_src)}{$built_in_app_src}{else}{openpaini('StanzaDelCittadinoBridge', concat('BuiltInWidgetSource_', $built_in_app))}{/if}{'"></script>'|wash()}
+                        </pre>
+                    {elseif is_set($built_in_app_api_base_url)}
                         <pre style="white-space: break-spaces;">{*
                             *}{concat('<widget-formio service-id="', $service_id, '" base-url="', $built_in_app_api_base_url, '" formserver-url="', $formserver_url, '" pdnd-url="', $pdnd_url, '"></widget-formio>')|wash()}<br /><br />{*
                             *}{'<script defer src="'|wash()}{if is_set($built_in_app_src)}{$built_in_app_src}{else}{openpaini('StanzaDelCittadinoBridge', concat('BuiltInWidgetSource_', $built_in_app))}{/if}{'"></script>'|wash()}{*
@@ -68,6 +73,17 @@
         {if and($built_in_app_is_enabled, is_set($built_in_app_script), $built_in_app_script|ne(''))}
             <div class="buitinapp mb-5">
                 {$built_in_app_script}
+            </div>
+        {elseif and($built_in_app_is_enabled, is_set($booking_widget_core_destination_url))}
+            <div class="buitinapp mb-5">
+                <widget-core
+                        destination-url="{$booking_widget_core_destination_url}"
+                        auth-params="{$booking_widget_core_auth_params|wash()}"
+                        formserver-url="{$booking_widget_core_form_server_url}"
+                        form-io-params="{$booking_widget_core_form_io_params|wash()}">
+                </widget-core>
+                <script defer src="{$built_in_app_src}"></script>
+                {if $built_in_app_style|ne('')}<link rel="stylesheet" type="text/css" href="{$built_in_app_style}" />{/if}
             </div>
         {elseif and($built_in_app_is_enabled, is_set($built_in_app_api_base_url))}
             <div class="buitinapp mb-5">

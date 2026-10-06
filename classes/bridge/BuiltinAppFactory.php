@@ -21,6 +21,9 @@ class BuiltinAppFactory
             if (BuiltinApp::getCurrentOptions('EnableBookingV2')){
                 $identifier = 'booking_v2';
             }
+            if (BuiltinApp::getCurrentOptions('EnableBookingWidgetCore')){
+                $identifier = 'booking_widget_core';
+            }
         }
         switch ($identifier) {
             case 'booking_v1':
@@ -28,6 +31,9 @@ class BuiltinAppFactory
                 break;
             case 'booking_v2':
                 $app = new BookingV2BuiltinApp();
+                break;
+            case 'booking_widget_core':
+                $app = new BookingWidgetCoreBuiltinApp();
                 break;
             case 'helpdesk_v1':
                 $app = new HelpdeskBuiltinApp();
@@ -77,6 +83,7 @@ class BuiltinAppFactory
         return [
             'booking_v1',
             'booking_v2',
+            'booking_widget_core',
             'inefficiency_v1',
             'inefficiency_v2',
             'payment',
