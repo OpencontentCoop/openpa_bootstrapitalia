@@ -213,7 +213,7 @@ var CodiceFiscale=function(A){var O={};function I(E){if(O[E])return O[E].exports
 
     displayError: function (error) {
       let code = null
-      if (typeof error === 'object' && error.hasOwnProperty('responseJSON')) {
+      if (typeof error === 'object' && error.responseJSON) {
         if (error.responseJSON.hasOwnProperty('error')) {
           console.log(error.responseJSON.error)
         }
