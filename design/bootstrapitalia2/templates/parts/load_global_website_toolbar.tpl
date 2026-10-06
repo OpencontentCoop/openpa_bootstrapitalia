@@ -9,6 +9,12 @@
           $('body').addClass('fixed-wt');
           //load chosen in class list
           $("#ezwt-create").chosen({width: "300px !important"});
+          // the create button stays disabled until a class is selected
+          var $ezwtCreate = $("#ezwt-create");
+          var $ezwtCreateButton = $ezwtCreate.closest(".input-group").find("button[name=NewButton]");
+          var toggleEzwtCreateButton = function () { $ezwtCreateButton.prop("disabled", !$ezwtCreate.val()); };
+          $ezwtCreate.on("change", toggleEzwtCreateButton);
+          toggleEzwtCreateButton();
           $('#toolbar').trigger('ezwt-loaded');
           $.opendataFormSetup({
             i18n: {{/literal}
