@@ -384,6 +384,16 @@ class OpenPAAlboSequentialType extends eZDataType
         }
     }
 
+    /**
+     * Numero progressivo contenuto in data_float (anno.numero a 6 cifre, es. 2026.000010 => 10).
+     * Non si puo' spezzare la stringa del float: gli zeri finali vengono persi
+     * (2026.000010 diventa "2026.00001", letto come 1).
+     */
+    public static function sequenceFromFloat(float $value, int $year): int
+    {
+        return (int)round(($value - $year) * 1000000);
+    }
+
     private static function createSequentialId(eZContentObjectAttribute $contentObjectAttribute, int $year)
     {
         eZDB::instance()->lock('ezcontentobject_attribute');
@@ -398,9 +408,7 @@ class OpenPAAlboSequentialType extends eZDataType
         "
             )[0]['data_float'] ?? "$year.000000"
         );
-        [$year, $latestSeq] = explode('.', $latest);
-        $latestSeq = (int)$latestSeq;
-        $next = $latestSeq + 1;
+        $next = self::sequenceFromFloat($latest, $year) + 1;
         $sequentialId = floatval($year . '.' . str_pad($next, 6, '0', STR_PAD_LEFT));
         eZDebug::writeDebug($contentObjectAttribute->attribute('contentobject_id') . " -> " . $sequentialId, __METHOD__);
         $contentObjectAttribute->setAttribute("data_float", $sequentialId);
