@@ -3,10 +3,9 @@
 namespace OpenPABootstrapItalia\Anac\Serializer;
 
 /**
- * Export art. 13 (#478), solo profilo C1 (pubblica amministrazione) per ora -
- * vedi classes/anac/CLAUDE.md per la convenzione C2 (nessun modello dati
- * condiviso, fork manuali con tassonomia propria sotto lo stesso attributo
- * organization.type - non generalizzato qui, da adattare caso per caso).
+ * Export art. 13 (#478), profili C1 (pubblica amministrazione) e C2
+ * (societa' ed enti) - la tipologia si deriva dal binding reale
+ * (schema_pubblicazione), vedi classes/anac/CLAUDE.md, "SchemaPubblicazioneLookup".
  *
  * Fonte dati, tutta gia' esistente (nessun nuovo attributo nel content model,
  * a differenza di art. 31): classe `organization` (organi/uffici, campo
@@ -450,29 +449,38 @@ class Art13Serializer
 
     /**
      * Export `art.13-rif` (Riferimenti e contatti, #478 - vedi CLAUDE.md,
-     * "Riferimenti e contatti"). A differenza degli altri fetch di questa
-     * classe (scan PHP di tutta la classe `organization`), qui si usa una
-     * query Solr - lo stesso pattern gia' scelto per
-     * Art31Serializer::fetchDocumentsByKeys(), per lo stesso motivo (evitare
-     * uno scan completo su una classe che puo' avere molti oggetti nel sito)
-     * e per poter ricevere una query gia' vincolata al subtree della pagina
-     * "Telefono e posta elettronica" (vedi cronjobs/anac_export.php,
-     * resolvePageTableQuery()) invece di cercare in tutto il sito.
+     * "Riferimenti e contatti"). Hardcoded come gli altri fetch di questa
+     * classe (fetchOrganizzazioniByTagPath()) - non dipende piu' dal campo
+     * `fields` di nessuna pagina (vedi cronjobs/anac_export.php,
+     * resolvePageTableQuery()): la sorgente e' sempre la radice reale del
+     * sito (`[NodeSettings]RootNode`, content.ini - lo stesso nodo "Homepage"
+     * da cui discende tutto il content model), indipendentemente da quale
+     * pagina dichiari `schema_pubblicazione: art.13-rif`. Questo disaccoppia
+     * "da dove si legge il dato" (qui) da "dove si pubblica l'url" (il nodo
+     * passato a ExportPublisher in cronjobs/anac_export.php) - stesso
+     * principio gia' in uso per art.4-bis/art.31-oc (dataset per remote_id
+     * fisso, vedi CLAUDE.md "Node id da passare a ExportPublisher").
      *
-     * @param string $baseQuery query gia' compilata (query language
-     *        Opencontent), es. "classes [online_contact_point] subtree [123]"
+     * Resta una query Solr (non uno scan PHP come fetchOrganizzazioniByTagPath()):
+     * a differenza di `organization`, `online_contact_point` non ha un
+     * attributo di tipo su cui filtrare, quindi uno scan completo
+     * includerebbe anche eventuali altri usi dello stesso content type nel
+     * sito - lo stesso motivo per cui Art31Serializer::fetchDocumentsByKeys()
+     * usa Solr invece di uno scan per `document`.
+     *
      * @return array lista di Riferimenti, uno per ogni online_contact_point
      *         trovato - nessun filtro sulla completezza (stessa tolleranza
      *         gia' usata per le celle vuote nel CSV di art.13-op/oa, a
      *         differenza del JSON che invece li scarterebbe - ma qui non
      *         esiste un JSON per questo schema, vedi CLAUDE.md)
      */
-    public function fetchRiferimentiContatti($baseQuery)
+    public function fetchRiferimentiContatti()
     {
         $riferimenti = [];
 
+        $rootNodeId = (int)\eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode');
         $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
-        $queryObject = $queryBuilder->instanceQuery($baseQuery);
+        $queryObject = $queryBuilder->instanceQuery("classes [online_contact_point] subtree [{$rootNodeId}]");
 
         $solr = new \eZSolr();
         $searchResult = $solr->search('', (array)$queryObject->convert());
