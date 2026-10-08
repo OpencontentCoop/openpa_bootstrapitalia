@@ -306,6 +306,7 @@
     </script>
     <div class="my-4">
         <div id="container-{$node.node_id}-{$table_index}" style="font-size:.9em"></div>
+        {if not($trasparenza.has_anac_exports)}
         <div>
           <h3 class="h6 fs-6 mb-1">Open Data</h3>
           <ul>
@@ -335,8 +336,9 @@
                 </a>
               </li>
             {/if}
-          </ul> 
+          </ul>
         </div>
+        {/if}
     </div>
 </div>
 {/if}

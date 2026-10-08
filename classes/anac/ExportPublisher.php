@@ -45,7 +45,7 @@ class ExportPublisher
     }
 
     /**
-     * @return array|null tracking corrente (hash, dataPrimaPubblicazione, dataUltimaModifica, pathCsv, pathJson) o null se mai pubblicato
+     * @return array|null tracking corrente (hash, dataPrimaPubblicazione, dataUltimaModifica, oraUltimaModifica, pathCsv, pathJson) o null se mai pubblicato
      */
     public function getTracking()
     {
@@ -145,7 +145,8 @@ class ExportPublisher
             return $this->backfillUrlsIfMissing($previousTracking);
         }
 
-        $today = date('d/m/Y');
+        $now = new \DateTime();
+        $today = $now->format('d/m/Y');
 
         // Una pubblicazione avviene al massimo una volta al giorno: se oggi
         // abbiamo gia' pubblicato (dataUltimaModifica == oggi), un ulteriore
@@ -202,6 +203,10 @@ class ExportPublisher
             'dataHash' => $dataHash,
             'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
             'dataUltimaModifica' => $dataUltimaModifica,
+            // Solo per la lista corrente (non nello storico versioni, vedi
+            // $historyEntry sopra, che non la riporta): l'ora del cron
+            // ([1:00, 15:00]) che ha effettivamente colto il cambiamento.
+            'oraUltimaModifica' => $now->format('H:i'),
             'history' => $history,
         ];
         foreach ($files as $extension => $content) {

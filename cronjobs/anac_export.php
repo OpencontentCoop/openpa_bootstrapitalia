@@ -285,16 +285,11 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
             : null;
         if ($rifObject instanceof eZContentObject) {
             $rifIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_RIF;
-            $rifBaseQuery = resolvePageTableQuery($rifObject, 'online_contact_point');
-            if ($rifBaseQuery !== null) {
-                $riferimenti = $serializer->fetchRiferimentiContatti($rifBaseQuery);
-                $rifRootNodeId = $rifObject->attribute('main_node')->attribute('node_id');
-                $rifPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($rifIdentifier, $rifRootNodeId);
-                $rifTracking = $rifPublisher->publishSingle($serializer->toCsvRiferimenti($riferimenti), 'csv');
-                $cli->notice("anac_export: schema {$rifIdentifier} ok, ultima modifica {$rifTracking['dataUltimaModifica']}");
-            } else {
-                $cli->warning('anac_export: pagina con schema_pubblicazione = art.13-rif trovata ma senza una tabella `fields` configurata per online_contact_point, schema art.13-rif saltato');
-            }
+            $riferimenti = $serializer->fetchRiferimentiContatti();
+            $rifRootNodeId = $rifObject->attribute('main_node')->attribute('node_id');
+            $rifPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($rifIdentifier, $rifRootNodeId);
+            $rifTracking = $rifPublisher->publishSingle($serializer->toCsvRiferimenti($riferimenti), 'csv');
+            $cli->notice("anac_export: schema {$rifIdentifier} ok, ultima modifica {$rifTracking['dataUltimaModifica']}");
         }
 
         // L'organigramma (solo C1) va risolto una volta sola qui, non dentro
