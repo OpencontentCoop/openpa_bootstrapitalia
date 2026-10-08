@@ -75,15 +75,24 @@ class DataHandlerAlboPretorioContents implements OpenPADataHandlerInterface
             },
             'date_range' => function ($query, $value) {
                 $range = explode(',', $value);
-                $start = $range[0] ?? '*';
-                if ($start !== '*') {
-                    $start .= 'T00:00:00Z';
+                // solo date YYYY-MM-DD, qualunque altro valore e' un estremo aperto
+                $isDate = function ($date) {
+                    return (bool)preg_match('/^\d{4}-\d{2}-\d{2}$/', (string)$date);
+                };
+                $start = isset($range[0]) && $isDate($range[0]) ? $range[0] . 'T00:00:00Z' : '*';
+                $end = isset($range[1]) && $isDate($range[1]) ? $range[1] . 'T00:00:00Z' : '*';
+                if ($start === '*' && $end === '*') {
+                    return $query;
                 }
-                $end = $range[1] ?? '*';
-                if ($end !== '*') {
-                    $end .= 'T00:00:00Z';
+                // calendar[] con un estremo aperto non filtra correttamente (con inizio aperto accetta
+                // qualsiasi documento con fine successiva): per una sola data si usano range espliciti
+                if ($start === '*') {
+                    $query .= ' and publication_start_time range [*,' . $end . ']';
+                } elseif ($end === '*') {
+                    $query .= ' and publication_end_time range [' . $start . ',*]';
+                } else {
+                    $query .= ' and (calendar[publication_start_time,publication_end_time] = [' . $start . ',' . $end . '] )';
                 }
-                $query .= ' and (calendar[publication_start_time,publication_end_time] = [' . $start . ',' . $end . '] )';
                 return $query;
             },
         ];
