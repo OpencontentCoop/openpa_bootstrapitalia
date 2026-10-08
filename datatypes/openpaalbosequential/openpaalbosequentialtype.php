@@ -9,7 +9,10 @@ class OpenPAAlboSequentialType extends eZDataType
         'tag_identifier' => 'document_type', // attribute identifier for tag
         'start_time_identifier' => 'publication_start_time', // attribute identifier for start time
         'end_time_identifier' => 'publication_end_time', // attribute identifier for end time
+        'setup_remote_id' => 'setup_albo', // remote id of the object "Setup Albo pretorio" (class edit_albo)
     ];
+
+    const MAX_SEQUENCE_NUMBER = 999999;
 
     public function __construct()
     {
@@ -394,6 +397,39 @@ class OpenPAAlboSequentialType extends eZDataType
         return (int)round(($value - $year) * 1000000);
     }
 
+    /**
+     * Anno e numero da cui iniziare la numerazione, configurati nel "Setup Albo pretorio"
+     * (attributi start_year e start_number). Servono a proseguire la numerazione di un albo precedente.
+     *
+     * @return int[] [anno, numero], 0 se non configurati
+     */
+    private static function getConfiguredStart(): array
+    {
+        $setupObject = eZContentObject::fetchByRemoteID(self::$settings['setup_remote_id']);
+        if (!$setupObject instanceof eZContentObject) {
+            return [0, 0];
+        }
+        $dataMap = $setupObject->dataMap();
+        $startYear = isset($dataMap['start_year']) ? (int)$dataMap['start_year']->content() : 0;
+        $startNumber = isset($dataMap['start_number']) ? (int)$dataMap['start_number']->content() : 0;
+
+        return [$startYear, $startNumber];
+    }
+
+    /**
+     * Prossimo numero progressivo: ultimo + 1, ma non inferiore al numero iniziale configurato
+     * se l'anno del documento coincide con l'anno iniziale configurato.
+     */
+    public static function nextSequenceNumber(int $latestSeq, int $year, int $startYear, int $startNumber): int
+    {
+        $next = $latestSeq + 1;
+        if ($startNumber > 0 && $startYear === $year) {
+            $next = max($next, min($startNumber, self::MAX_SEQUENCE_NUMBER));
+        }
+
+        return $next;
+    }
+
     private static function createSequentialId(eZContentObjectAttribute $contentObjectAttribute, int $year)
     {
         eZDB::instance()->lock('ezcontentobject_attribute');
@@ -408,7 +444,8 @@ class OpenPAAlboSequentialType extends eZDataType
         "
             )[0]['data_float'] ?? "$year.000000"
         );
-        $next = self::sequenceFromFloat($latest, $year) + 1;
+        [$startYear, $startNumber] = self::getConfiguredStart();
+        $next = self::nextSequenceNumber(self::sequenceFromFloat($latest, $year), $year, $startYear, $startNumber);
         $sequentialId = floatval($year . '.' . str_pad($next, 6, '0', STR_PAD_LEFT));
         eZDebug::writeDebug($contentObjectAttribute->attribute('contentobject_id') . " -> " . $sequentialId, __METHOD__);
         $contentObjectAttribute->setAttribute("data_float", $sequentialId);
