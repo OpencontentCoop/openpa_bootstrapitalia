@@ -6,7 +6,7 @@
                 {foreach $export.latest_urls as $extension => $url}
                     <li class="mb-1">
                         {display_icon('it-file', 'svg', 'icon icon-sm icon-primary me-1')}<a class="btn btn-link p-0 text-decoration-underline" href="{$url|wash()}">{$export.label|wash()} ({$extension|upcase()|wash()})</a>
-                        <small class="text-muted">— {'updated on'|i18n('bootstrapitalia/anac_export')} {$export.last_modified|wash()}</small>
+                        <small class="text-muted">— {'updated on'|i18n('bootstrapitalia/anac_export')} {$export.last_modified|wash()}{if $export.last_modified_time} {'at'|i18n('bootstrapitalia/anac_export')} {$export.last_modified_time|wash()}{/if}</small>
                     </li>
                 {/foreach}
             {/foreach}

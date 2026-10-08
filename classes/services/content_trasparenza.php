@@ -67,7 +67,9 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
      *         li espone ma nessuno e' ancora mai stato pubblicato), altrimenti
      *         lista di ['schema' => 'art.31-oiv', 'label' => 'Organismi
      *         indipendenti di valutazione', 'latest_urls' => ['csv' => '...'],
-     *         'last_modified' => 'gg/mm/aaaa', 'versions' => [...]] (vedi
+     *         'last_modified' => 'gg/mm/aaaa', 'last_modified_time' =>
+     *         'hh:mm'|null (null sui tracking scritti prima di questo campo,
+     *         finche' non ripubblicano), 'versions' => [...]] (vedi
      *         ExportPublisher::getVersions())
      */
     protected function getAnacExports()
@@ -97,11 +99,18 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             // il primo elemento di getVersions() (isLatest: true).
             $versions = $publisher->getVersions();
 
+            // L'ora e' letta dal tracking corrente, non da $versions[0]: e'
+            // mostrata solo nella lista corrente, non nello storico versioni
+            // (vedi ExportPublisher::resolveAndPublish()), quindi non serve
+            // farla transitare da getVersions()/extractVersion().
+            $tracking = $publisher->getTracking();
+
             $exports[] = [
                 'schema' => $schema,
                 'label' => \SchemaPubblicazioneLookup::labelForSchema($schema),
                 'latest_urls' => $latestUrls,
                 'last_modified' => $versions[0]['dataUltimaModifica'],
+                'last_modified_time' => $tracking['oraUltimaModifica'] ?? null,
                 'versions' => $versions,
             ];
         }

@@ -2530,6 +2530,10 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>aggiornato il</translation>
     </message>
     <message>
+      <source>at</source>
+      <translation>alle</translation>
+    </message>
+    <message>
       <source>Manage dataset</source>
       <translation>Gestisci il dataset</translation>
     </message>
