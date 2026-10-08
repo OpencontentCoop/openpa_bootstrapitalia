@@ -1444,6 +1444,10 @@
       <translation type="unfinished"/>
     </message>
     <message>
+      <source>Publication period</source>
+      <translation type="unfinished"/>
+    </message>
+    <message>
       <source>Office</source>
       <translation type="unfinished"/>
     </message>

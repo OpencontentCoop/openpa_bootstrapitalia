@@ -1456,6 +1456,10 @@
       <translation>Data</translation>
     </message>
     <message>
+      <source>Publication period</source>
+      <translation>Periodo di pubblicazione</translation>
+    </message>
+    <message>
       <source>Office</source>
       <translation>Ufficio</translation>
     </message>

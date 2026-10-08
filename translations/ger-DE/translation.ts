@@ -1452,6 +1452,10 @@
       <translation>Datum</translation>
     </message>
     <message>
+      <source>Publication period</source>
+      <translation>Veröffentlichungszeitraum</translation>
+    </message>
+    <message>
       <source>Office</source>
       <translation>Amt</translation>
     </message>

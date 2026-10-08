@@ -1448,6 +1448,10 @@
       <translation>Date</translation>
     </message>
     <message>
+      <source>Publication period</source>
+      <translation>Publication period</translation>
+    </message>
+    <message>
       <source>Office</source>
       <translation>Office</translation>
     </message>
