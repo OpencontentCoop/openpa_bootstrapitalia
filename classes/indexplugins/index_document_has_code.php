@@ -4,6 +4,10 @@ class ezfIndexHasCodeNormalized implements ezfIndexPlugin
 {
     const FIELD = 'extra_has_code_sl';
 
+    const ALBO_REGISTER_FIELD = 'extra_albo_register_sl';
+
+    const ALBO_REGISTER_MAX_NUMBER = 999999;
+
     public function modify(eZContentObject $contentObject, &$docList)
     {
     	if ($contentObject->attribute('class_identifier') == 'document'){
@@ -14,18 +18,55 @@ class ezfIndexHasCodeNormalized implements ezfIndexPlugin
             $availableLanguages = $version->translationList(false, false);
             
             $hasCodeNormalized = self::normalizeHasCode($contentObject);
-            
+            $alboRegister = self::normalizeAlboRegister($contentObject);
+
             foreach ($availableLanguages as $languageCode) {
                 if ($docList[$languageCode] instanceof eZSolrDoc) {
                     if ($docList[$languageCode]->Doc instanceof DOMDocument) {
                         $xpath = new DomXpath($docList[$languageCode]->Doc);
                         $docList[$languageCode]->addField(self::FIELD, $hasCodeNormalized);
+                        if ($alboRegister !== null) {
+                            $docList[$languageCode]->addField(self::ALBO_REGISTER_FIELD, $alboRegister);
+                        }
                     } elseif (is_array($docList[$languageCode]->Doc)) {
                         $docList[$languageCode]->addField(self::FIELD, $hasCodeNormalized);
+                        if ($alboRegister !== null) {
+                            $docList[$languageCode]->addField(self::ALBO_REGISTER_FIELD, $alboRegister);
+                        }
                     }
                 }
             }
     	}
+    }
+
+    /**
+     * Numero di registro dell'albo (es. "2026/1712") come intero ordinabile:
+     * anno * 1000000 + numero. Restituisce null se l'attributo manca o il formato non e' riconosciuto.
+     *
+     * @return int|null
+     */
+    private static function normalizeAlboRegister(eZContentObject $contentObject)
+    {
+        $dataMap = $contentObject->dataMap();
+        if (!isset($dataMap['id_albo_pretorio'])) {
+            return null;
+        }
+
+        return self::normalizeAlboRegisterString($dataMap['id_albo_pretorio']->toString());
+    }
+
+    /**
+     * @param string $value
+     * @return int|null
+     */
+    public static function normalizeAlboRegisterString($value)
+    {
+        if (!preg_match('#^\s*(\d{4})\s*[/-]\s*(\d+)\s*$#', (string)$value, $matches)) {
+            return null;
+        }
+        $number = min((int)$matches[2], self::ALBO_REGISTER_MAX_NUMBER);
+
+        return (int)$matches[1] * 1000000 + $number;
     }
 
     private static function normalizeHasCode(eZContentObject $contentObject)
