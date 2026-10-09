@@ -284,7 +284,7 @@ class BootstrapItaliaLoginOauth
     {
         if (
             eZHTTPTool::instance()->hasGetVariable('logout') &&
-            eZHTTPTool::instance()->hasSessionVariable(self::CURRENT_SESSION_VARNAME) &&
+            eZHTTPTool::instance()->hasSessionVariable(self::CURRENT_SESSION_VARNAME, false) &&
             self::instance()->isEnabled()
         ) {
             eZHTTPTool::instance()->removeSessionVariable(self::CURRENT_SESSION_VARNAME);
@@ -298,7 +298,7 @@ class BootstrapItaliaLoginOauth
 
     public static function interceptUserEdit(eZURI $uri)
     {
-        $hasOauthSession = eZHTTPTool::instance()->hasSessionVariable(self::CURRENT_SESSION_VARNAME);
+        $hasOauthSession = eZHTTPTool::instance()->hasSessionVariable(self::CURRENT_SESSION_VARNAME, false);
         if ($hasOauthSession && self::instance()->isEnabled()){
             $module = $uri->element(0);
             $view = $uri->element(1);
