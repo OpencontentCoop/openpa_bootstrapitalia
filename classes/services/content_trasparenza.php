@@ -52,6 +52,8 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
         $this->fnData['has_anac_exports'] = 'hasAnacExports';
         $this->fnData['anac_exports'] = 'getAnacExports';
+
+        $this->fnData['live_rendering_blocks'] = 'getLiveRenderingBlocks';
     }
 
     /**
@@ -116,6 +118,75 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         }
 
         return $exports;
+    }
+
+    /**
+     * @return array|false array con chiavi 'blocks' (una per schema con
+     *         fornitore live attivo su questa pagina: 'schema', 'title',
+     *         'rows_json', 'dom_id') e 'cache_tag', oppure false se nessuno
+     *         schema dichiarato da questa pagina ha un fornitore registrato
+     *         in LiveRenderingRegistry (la pagina resta sul meccanismo
+     *         fields/datatable esistente, invariato).
+     *
+     * Attivazione automatica: dipende solo da quali schemi la pagina
+     * dichiara in schema_pubblicazione (gia' esistente), non da un nuovo
+     * interruttore - vedi LiveRenderingRegistry per il perche'.
+     */
+    protected function getLiveRenderingBlocks()
+    {
+        if (!$this->isPaginaTrasparenza() || !$this->container->hasContentObject()) {
+            return false;
+        }
+
+        $schemas = \SchemaPubblicazioneLookup::schemasForObject($this->container->getContentObject());
+
+        $blocks = [];
+        foreach ($schemas as $schema) {
+            if (!\OpenPABootstrapItalia\Anac\LiveRenderingRegistry::hasProvider($schema)) {
+                continue;
+            }
+
+            $blocks[] = [
+                'schema' => $schema,
+                'title' => \SchemaPubblicazioneLookup::labelForSchema($schema),
+                'rows_json' => \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::render($schema),
+                'dom_id' => preg_replace('/[^a-z0-9]+/', '-', strtolower($schema)),
+            ];
+        }
+
+        if (empty($blocks)) {
+            return false;
+        }
+
+        return [
+            'blocks' => $blocks,
+            'cache_tag' => \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::getCacheTag($this->getNode()),
+        ];
+    }
+
+    /**
+     * @return string[] identifier di classe gia' coperti da un blocco di
+     *         rendering live attivo su questa pagina - usato da
+     *         getTableFieldsParameters() per non mostrare la stessa classe
+     *         due volte (tabella dichiarativa E blocco live).
+     */
+    protected function getLiveRenderingReplacedClasses()
+    {
+        if (!$this->container->hasContentObject()) {
+            return [];
+        }
+
+        $schemas = \SchemaPubblicazioneLookup::schemasForObject($this->container->getContentObject());
+        $replaced = [];
+        foreach ($schemas as $schema) {
+            if (\OpenPABootstrapItalia\Anac\LiveRenderingRegistry::hasProvider($schema)
+                && isset(\OpenPABootstrapItalia\Anac\LiveRenderingRegistry::REPLACES_CLASS_IDENTIFIER[$schema])
+            ) {
+                $replaced[] = \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::REPLACES_CLASS_IDENTIFIER[$schema];
+            }
+        }
+
+        return array_unique($replaced);
     }
 
     protected function hasAnacExports()
@@ -483,12 +554,24 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $string = $this->getTableFieldsAttribute()->toString();
             $parameters = explode('&', $string);
 
+            $replacedClasses = $this->getLiveRenderingReplacedClasses();
+
             $data = array();
             foreach ($parameters as $parameter) {
                 $table = $this->getTableFieldsParameter($parameter);
-                if (!empty($table)) {
-                    $data[] = $table;
+                if (empty($table)) {
+                    continue;
                 }
+                // Non mostrare la tabella dichiarativa per una classe già
+                // coperta da un blocco di rendering live attivo su questa
+                // pagina (vedi getLiveRenderingBlocks()) - eviterebbe di
+                // duplicare lo stesso dato due volte in pagina. Il campo
+                // `fields` resta comunque invariato nel content model, serve
+                // solo da fallback se il rendering live viene disattivato.
+                if (isset($table['class_identifier']) && in_array($table['class_identifier'], $replacedClasses, true)) {
+                    continue;
+                }
+                $data[] = $table;
             }
 
             return $data;

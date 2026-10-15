@@ -209,6 +209,13 @@
                 {/foreach}
             {/if}
 
+            {* Rendering live (DataTables lato client) per gli schemi ANAC che hanno un fornitore registrato in LiveRenderingRegistry *}
+            {if $trasparenza.live_rendering_blocks}
+                {include uri='design:openpa/full/parts/amministrazione_trasparente/live_rendering_blocks.tpl'
+                         live_rendering = $trasparenza.live_rendering_blocks
+                         node = $node}
+            {/if}
+
             {* lista dei figli *}
             {if $trasparenza.count_children_extra}
                 {include uri='design:openpa/full/parts/amministrazione_trasparente/children.tpl'

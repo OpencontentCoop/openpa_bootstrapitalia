@@ -29,6 +29,20 @@ class LiveRenderingRegistry
         'art.13-oa' => [PageArticolazioneUfficiProvider::class, 'getOrganiAmministrativiRowsJson'],
     ];
 
+    /**
+     * schema ANAC => identifier della classe eZ che il suo rendering live
+     * sostituisce nella tabella dichiarativa `fields` esistente - usato per
+     * non mostrare due volte lo stesso dato (tabella dichiarativa E blocco
+     * live una sotto l'altra) quando uno schema qui registrato e' attivo su
+     * una pagina. Non e' detto che coincida 1:1 con PROVIDERS: potrebbe
+     * esistere uno schema con fornitore live ma nessuna tabella dichiarativa
+     * da sostituire (nessuna voce necessaria in quel caso).
+     */
+    const REPLACES_CLASS_IDENTIFIER = [
+        'art.13-op' => 'organization',
+        'art.13-oa' => 'organization',
+    ];
+
     public static function hasProvider($schemaIdentifier)
     {
         return isset(self::PROVIDERS[$schemaIdentifier]);
