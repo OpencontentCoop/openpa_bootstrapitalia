@@ -47,7 +47,15 @@ function cleanup(array $ids): void
 {
     if (empty($ids)) return;
     echo "\nCleanup: rimuovo " . count($ids) . " oggetti di test...\n";
-    eZContentObjectOperations::remove($ids);
+    // eZContentObjectOperations::remove() vuole un SINGOLO id numerico, non
+    // un array (verificato leggendo il kernel: con un array fetch() ritorna
+    // null e la funzione esce subito con false, senza rimuovere nulla e
+    // senza nessun errore visibile) - scoperto dopo che la cleanup di
+    // questo stesso test ha lasciato oggetti orfani nel DB per l'intera
+    // sessione di sviluppo del Task 4/6.
+    foreach ($ids as $id) {
+        eZContentObjectOperations::remove($id);
+    }
     echo "Rimossi.\n";
 }
 register_shutdown_function(function () use (&$createdObjectIds) { cleanup($createdObjectIds); });
