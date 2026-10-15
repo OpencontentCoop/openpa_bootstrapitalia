@@ -126,16 +126,8 @@ class Art13Serializer
     public function fetchOrganiAmministrativi()
     {
         $organi = [];
-        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_ID_STRUTTURA_AMMINISTRATIVA) as $candidato) {
+        foreach ($this->fetchVerticeAmministrativi() as $candidato) {
             $dataMap = $candidato->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
-            if (!isset($dataMap['type']) || !$this->isTaggedArea($dataMap['type'])) {
-                continue;
-            }
-
-            $holdEmployment = isset($dataMap['hold_employment']) ? $this->relatedObjectIds($dataMap['hold_employment']) : [];
-            if (!empty($holdEmployment)) {
-                continue;
-            }
 
             $organi[] = [
                 'denominazione' => $candidato->attribute('name'),
@@ -147,20 +139,45 @@ class Art13Serializer
         return $organi;
     }
 
-    private function isTaggedArea(\eZContentObjectAttribute $attribute)
+    /**
+     * @return \eZContentObject[] organization taggati ESATTAMENTE "Area" (non
+     *         una foglia diversa, non il tag radice) E con hold_employment
+     *         vuoto - stessa doppia condizione di prima (il solo tag "Area"
+     *         prenderebbe anche le Direzioni, che sono taggate Area ma hanno
+     *         hold_employment valorizzato; il solo hold_employment vuoto
+     *         prenderebbe anche uffici orfani o oggetti che riusano la
+     *         classe `organization` per altro, es. tag "Ente"), ora espressa
+     *         come un'unica query Solr invece di scan + due controlli PHP.
+     *
+     * `limit 1000`: stesso motivo di fetchOrganizzazioniByTagPath() - senza
+     * un limite esplicito la ricerca applica la paginazione di default (10
+     * risultati), che taglierebbe fuori organi di vertice oltre il decimo su
+     * un ente con molte Aree (verificato con uno spike dedicato, Task 1 del
+     * piano collegato).
+     */
+    private function fetchVerticeAmministrativi()
     {
-        $tags = $attribute->content();
-        if (!$tags instanceof \eZTags) {
-            return false;
-        }
+        $result = [];
 
-        foreach ($tags->attribute('tags') as $tagObject) {
-            if ($tagObject->attribute('keyword') === 'Area') {
-                return true;
+        $query = 'classes [organization]'
+            . ' and type in [\'"Area"\']'
+            . ' and raw[submeta_hold_employment___id____si] !range [*,*]'
+            . ' limit 1000';
+
+        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
+        $queryObject = $queryBuilder->instanceQuery($query);
+
+        $solr = new \eZSolr();
+        $searchResult = $solr->search('', (array)$queryObject->convert());
+
+        foreach ($searchResult['SearchResult'] as $resultNode) {
+            $object = $resultNode->attribute('object');
+            if ($object instanceof \eZContentObject) {
+                $result[] = $object;
             }
         }
 
-        return false;
+        return $result;
     }
 
     /**
