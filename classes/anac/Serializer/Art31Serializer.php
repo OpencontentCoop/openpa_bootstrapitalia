@@ -104,15 +104,26 @@ class Art31Serializer
      */
     /**
      * @param string|null $baseQuery query gia' compilata (query language
-     *        Opencontent) da usare come punto di partenza invece di
-     *        "classes [document]" - pensata per ricevere la stessa query
-     *        gia' configurata per la "rappresentazione" della pagina
-     *        (campo `fields`, vedi ObjectHandlerServiceContentTrasparenza::
-     *        parseTableFieldsParameter()), cosi' pagina mostrata e pagina
-     *        esportata condividono lo stesso subtree invece di due
-     *        risoluzioni indipendenti (prototipo, issue #477, commento
-     *        Federica 2026-09-22). Se null, comportamento precedente
-     *        (nessun vincolo di subtree, tutto il sito).
+     *        Opencontent) da usare COSI' COM'E', senza aggiungere altro -
+     *        pensata per ricevere la stessa query gia' configurata per la
+     *        "rappresentazione" della pagina (campo `fields`, vedi
+     *        ObjectHandlerServiceContentTrasparenza::parseTableFieldsParameter()),
+     *        cosi' pagina mostrata e pagina esportata condividono
+     *        esattamente la stessa query invece di due risoluzioni
+     *        indipendenti (issue #477, commento Federica 2026-09-22; il
+     *        filtro per tag e' stato spostato nel campo `fields` delle
+     *        pagine OIV/Organi di revisione in
+     *        installer/modules/trasparenza-c1 e -c2 proprio per permettere
+     *        questo - vedi i rispettivi `patch_content` per
+     *        $organismi_indipendenti/$organo_controllo_oiv/
+     *        $organi_di_revisione). Non viene piu' riaggiunto qui il filtro
+     *        per `document_type`: sarebbe una condizione ridondante (gia'
+     *        presente nella query della pagina) e lascerebbe l'export
+     *        silenziosamente scollegato da un'eventuale modifica futura ai
+     *        tag della pagina - ci si fida della query della pagina com'e'.
+     *        Se null (pagina non ancora aggiornata, `fields` vuoto/assente),
+     *        comportamento precedente: query costruita qui da zero,
+     *        filtrata per tag, senza vincolo di subtree.
      */
     public function fetchDocumentsByKeys(array $keys, $baseQuery = null)
     {
@@ -136,7 +147,11 @@ class Art31Serializer
             return $result;
         }
 
-        $query = ($baseQuery !== null ? $baseQuery : 'classes [document]') . ' and raw[subattr_document_type___tag_ids____si] in [' . implode(',', $tagIds) . ']';
+        if ($baseQuery !== null) {
+            $query = $baseQuery;
+        } else {
+            $query = 'classes [document] and raw[subattr_document_type___tag_ids____si] in [' . implode(',', $tagIds) . ']';
+        }
         $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
         $queryObject = $queryBuilder->instanceQuery($query);
 
