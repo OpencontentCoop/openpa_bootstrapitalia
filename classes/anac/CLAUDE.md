@@ -786,6 +786,23 @@ natura diversa dei dati:
   (`subattr_document_type___tag_ids____si`), non uno scan PHP dell'intera
   classe `document` - uno scan completo rischia di esaurire la memoria PHP
   su un sito con decine di migliaia di documenti.
+
+  **Il filtro per tag vive ora nella query della pagina, non (solo) qui**
+  (cms installer, 2026-10-15): le pagine "Organismi indipendenti di
+  valutazione..."/"Organo di controllo che svolge la funzione di OIV" e
+  "Organi di revisione amministrativa e contabile" (`trasparenza-c1` e
+  `trasparenza-c2`, sia nel content tree sia nel `patch_content` di
+  `installer.yml` che lo sovrascrive su update) hanno ora il filtro
+  `document_type in [...]` direttamente nel proprio campo `fields` - prima
+  avevano solo `document|name,publication_start_time`, senza nessun
+  filtro per tag (la tabella in pagina mostrava tutti i documenti figli
+  della pagina, non solo quelli pertinenti). Di conseguenza
+  `fetchDocumentsByKeys()`, quando riceve un `$baseQuery` non nullo (vedi
+  doc del parametro sotto), **non riaggiunge piu'** la propria condizione
+  `raw[subattr_document_type___tag_ids____si] in [...]` - si fida della
+  query della pagina com'e', per non duplicare la stessa condizione due
+  volte nella stessa query Solr. Il filtro viene ricostruito qui da zero
+  solo nel fallback (`$baseQuery === null`, pagina non ancora aggiornata).
 - **Corte dei conti**: dataset reale (`opendatadataset`, remote_id
   `corte_dei_conti`), stesso pattern di `Art4BisSerializer` — colonne
   `data_di_pubblicazione`/`oggetto`/`documento` (vedi
