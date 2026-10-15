@@ -36,21 +36,22 @@ class Art13Serializer
     const AMBITO_C1 = 'Pubbliche amministrazioni';
     const AMBITO_C2 = 'Società ed Enti';
 
-    /** Radice della sotto-tassonomia "Struttura politica" (tagtree_csv/organizzazione.csv) */
-    const TAG_PATH_STRUTTURA_POLITICA = '/891/1265/1266/';
-
-    /** Radice della sotto-tassonomia "Struttura amministrativa" */
-    const TAG_PATH_STRUTTURA_AMMINISTRATIVA = '/891/1265/1278/';
-
     /**
-     * Id numerico dello stesso tag di TAG_PATH_STRUTTURA_AMMINISTRATIVA, per
-     * le query Solr (subattr_type___tag_ids____si contiene l'id del tag
+     * Id numerico del tag "Struttura amministrativa" (tagtree_csv/organizzazione.csv),
+     * per le query Solr (subattr_type___tag_ids____si contiene l'id del tag
      * assegnato PIU' tutti i suoi antenati, verificato su dati reali il
      * 2026-09-23 - basta cercare l'id della radice per includere qualunque
-     * discendente, stesso effetto del confronto per prefisso di path usato
-     * da tagMatchesPath() sullo scan PHP).
+     * discendente).
      */
     const TAG_ID_STRUTTURA_AMMINISTRATIVA = 1278;
+
+    /**
+     * Id numerico del tag "Struttura politica" (tagtree_csv/organizzazione.csv),
+     * stesso principio di TAG_ID_STRUTTURA_AMMINISTRATIVA: basta l'id della
+     * radice per includere ogni discendente (Sindaco, Giunta, Assessorati,
+     * Consiglio, Commissioni, ecc.) via subattr_type___tag_ids____si.
+     */
+    const TAG_ID_STRUTTURA_POLITICA = 1266;
 
     private $amministrazione;
 
@@ -99,7 +100,7 @@ class Art13Serializer
     public function fetchOrganiConUffici()
     {
         $organi = [];
-        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_POLITICA) as $organoObject) {
+        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_ID_STRUTTURA_POLITICA) as $organoObject) {
             $organi[] = [
                 'denominazione' => $organoObject->attribute('name'),
                 'competenze' => $this->plainText($organoObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE)['main_function']),
@@ -125,7 +126,7 @@ class Art13Serializer
     public function fetchOrganiAmministrativi()
     {
         $organi = [];
-        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_AMMINISTRATIVA) as $candidato) {
+        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_ID_STRUTTURA_AMMINISTRATIVA) as $candidato) {
             $dataMap = $candidato->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
             if (!isset($dataMap['type']) || !$this->isTaggedArea($dataMap['type'])) {
                 continue;
@@ -240,32 +241,42 @@ class Art13Serializer
     }
 
     /**
-     * @param string $tagPath path della sotto-tassonomia (Struttura politica / Struttura amministrativa)
+     * @param int $tagId id numerico della radice del ramo tassonomico
+     *        (TAG_ID_STRUTTURA_POLITICA o TAG_ID_STRUTTURA_AMMINISTRATIVA)
      * @return \eZContentObject[]
      *
-     * Scan PHP completo della classe organization - accettabile qui perche'
-     * chiamato una sola volta per fetchOrganiConUffici()/
-     * fetchOrganiAmministrativi() (trova gli organi di vertice), non nella
-     * ricorsione (vedi fetchFigliDiOrgano() sotto per quella, dove uno scan
-     * ripetuto per ogni nodo della gerarchia sarebbe costato molto di piu').
+     * Query Solr diretta (stesso pattern di fetchFigliDiOrgano() sotto):
+     * subattr_type___tag_ids____si contiene l'id del tag assegnato piu'
+     * tutti i suoi antenati, quindi cercare l'id della radice include
+     * qualunque discendente - sostituisce lo scan PHP completo della classe
+     * organization che faceva prima questa funzione (poteva esaurire la
+     * memoria PHP su un sito con molti oggetti, stesso motivo per cui
+     * Art31Serializer::fetchDocumentsByKeys() evita lo scan per `document`).
+     *
+     * `limit 1000`: senza un limite esplicito la ricerca applica la
+     * paginazione di default (10 risultati) - verificato con uno spike
+     * dedicato (vedi commit collegato) che un ente con piu' di 10 organi
+     * politici o amministrativi perderebbe silenziosamente quelli oltre il
+     * decimo. 1000 e' un tetto ampiamente superiore a quanti organi/uffici
+     * possa avere realisticamente un singolo ente.
      */
-    private function fetchOrganizzazioniByTagPath($tagPath)
+    private function fetchOrganizzazioniByTagPath($tagId)
     {
         $result = [];
-        $class = \eZContentClass::fetchByIdentifier('organization');
-        if (!$class instanceof \eZContentClass) {
-            return $result;
-        }
 
-        $objects = \eZContentObject::fetchSameClassList($class->attribute('id'), true);
+        $query = 'classes [organization] and raw[subattr_type___tag_ids____si] in [' . (int)$tagId . '] limit 1000';
 
-        foreach ($objects as $object) {
-            $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
-            if (!isset($dataMap['type']) || !$this->tagMatchesPath($dataMap['type'], $tagPath)) {
-                continue;
+        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
+        $queryObject = $queryBuilder->instanceQuery($query);
+
+        $solr = new \eZSolr();
+        $searchResult = $solr->search('', (array)$queryObject->convert());
+
+        foreach ($searchResult['SearchResult'] as $resultNode) {
+            $object = $resultNode->attribute('object');
+            if ($object instanceof \eZContentObject) {
+                $result[] = $object;
             }
-
-            $result[] = $object;
         }
 
         return $result;
@@ -318,23 +329,6 @@ class Art13Serializer
         $string = $attribute->toString();
 
         return $string === '' ? [] : explode('-', $string);
-    }
-
-    private function tagMatchesPath(\eZContentObjectAttribute $attribute, $tagPath)
-    {
-        /** @var \eZTags $tags */
-        $tags = $attribute->content();
-        if (!$tags instanceof \eZTags) {
-            return false;
-        }
-
-        foreach ($tags->attribute('tags') as $tagObject) {
-            if (strpos($tagObject->attribute('path_string'), $tagPath) === 0) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
