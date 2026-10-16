@@ -35,46 +35,44 @@ class PageArticolazioneUfficiProvider
 
     /**
      * @return string JSON di righe {organo, competenzeOrgano, denominazione,
-     *         competenze, nominativo, telefono, email} - una riga per
-     *         ufficio, stesso appiattimento organo->uffici gia' fatto da
-     *         Art13Serializer::toCsvOrganiUffici() ma qui per DataTables lato
-     *         client invece che per un file CSV. Un organo senza uffici non
-     *         produce nessuna riga - stesso comportamento del CSV.
+     *         url, tipologia, competenze, nominativo, telefono, email} - una
+     *         riga per ufficio, stesso appiattimento organo->uffici gia'
+     *         fatto da Art13Serializer::toCsvOrganiUffici() ma qui per
+     *         DataTables lato client invece che per un file CSV. Un organo
+     *         senza uffici non produce nessuna riga - stesso comportamento
+     *         del CSV. `tipologia` (Ufficio dirigenziale/non dirigenziale) e'
+     *         calcolata allo stesso modo per qualunque ufficio, politico o
+     *         amministrativo (fetchUfficiFigli() non fa differenza) - e il
+     *         CSV di questo stesso schema la usa gia' (due colonne
+     *         DENOMINAZIONE_UFFICIO_DIRIGENZIALE/NON_DIRIGENZIALE), quindi va
+     *         mostrata anche qui per restare coerenti con l'export.
      */
     public function getOrganiPoliticiRowsJson()
     {
-        return $this->toSafeJson($this->flattenRows($this->getOrganiPolitici(), false));
+        return $this->toSafeJson($this->flattenRows($this->getOrganiPolitici()));
     }
 
-    /**
-     * Come sopra, con in piu' la colonna `tipologia` (Ufficio dirigenziale /
-     * non dirigenziale) - presente nei dati di fetchOrganiAmministrativi()
-     * ma esposta solo per questa tabella, per non aggiungere una colonna
-     * sempre vuota a quella degli organi politici.
-     */
     public function getOrganiAmministrativiRowsJson()
     {
-        return $this->toSafeJson($this->flattenRows($this->getOrganiAmministrativi(), true));
+        return $this->toSafeJson($this->flattenRows($this->getOrganiAmministrativi()));
     }
 
-    private function flattenRows(array $organi, $includeTipologia)
+    private function flattenRows(array $organi)
     {
         $rows = [];
         foreach ($organi as $organo) {
             foreach ($organo['uffici'] as $ufficio) {
-                $row = [
+                $rows[] = [
                     'organo' => $organo['denominazione'],
                     'competenzeOrgano' => $organo['competenze'],
                     'denominazione' => $ufficio['denominazione'],
+                    'url' => $ufficio['url'] ?? null,
+                    'tipologia' => $ufficio['tipologia'],
                     'competenze' => $ufficio['competenze'],
                     'nominativo' => $ufficio['nominativo'],
                     'telefono' => $ufficio['contatti']['recapitoTelefonico'] ?? '',
                     'email' => $ufficio['contatti']['postaElettronicaOrdinaria'] ?? '',
                 ];
-                if ($includeTipologia) {
-                    $row['tipologia'] = $ufficio['tipologia'];
-                }
-                $rows[] = $row;
             }
         }
 

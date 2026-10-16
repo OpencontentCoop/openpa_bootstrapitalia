@@ -148,9 +148,10 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
             $blocks[] = [
                 'schema' => $schema,
-                'title' => \SchemaPubblicazioneLookup::labelForSchema($schema),
+                'title' => $this->getLiveRenderingBlockTitle($schema),
                 'rows_json' => \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::render($schema),
                 'dom_id' => preg_replace('/[^a-z0-9]+/', '-', strtolower($schema)),
+                'column_labels' => $this->getOrganizationFieldLabels(),
             ];
         }
 
@@ -162,6 +163,70 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             'blocks' => $blocks,
             'cache_tag' => \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::getCacheTag($this->getNode()),
         ];
+    }
+
+    /**
+     * Il nome ufficiale dello schema ANAC (es. "Organi di indirizzo
+     * politico") resta invariato per i link di export - vedi
+     * getAnacExports(), che lo riusa cosi' com'e' - ma come titolo della
+     * tabella live e' fuorviante per art.13-op/art.13-oa: la tabella elenca
+     * gli UFFICI raggruppati per organo, non gli organi stessi. Prefisso
+     * "Uffici degli " riusando lo stesso nome (lcfirst() per il raccordo
+     * grammaticale), non una stringa statica separata.
+     */
+    private function getLiveRenderingBlockTitle($schema)
+    {
+        $label = \SchemaPubblicazioneLookup::labelForSchema($schema);
+        if (in_array($schema, [
+            \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OP,
+            \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OA,
+        ], true)) {
+            return ezpI18n::tr('bootstrapitalia/anac_export', 'Offices of %label', null, ['%label' => lcfirst($label)]);
+        }
+
+        return $label;
+    }
+
+    /**
+     * @return array etichette di colonna prese dal nome reale, gia'
+     *         localizzato nella lingua del sito, degli attributi della
+     *         content class `organization` usati da Art13Serializer
+     *         (main_function, office_manager) - stesso meccanismo gia' usato
+     *         da parseTableFieldsParameter() per le tabelle dichiarative
+     *         (vedi sopra, $field['name'][$locale]), cosi' non serve
+     *         mantenere una traduzione statica separata per "Competenze"/
+     *         "Responsabile": seguono automaticamente il nome che il
+     *         redattore ha dato a quell'attributo sulla classe, in qualunque
+     *         lingua del sito. "Organo"/"Ufficio"/"Tipologia"/"Telefono"/
+     *         "Email" restano invece traduzioni statiche (context
+     *         bootstrapitalia/anac_export): sono concetti sintetici della
+     *         tabella (ruolo nella gerarchia, colonne estratte da una matrice
+     *         a testo libero), non corrispondono 1:1 a un singolo attributo
+     *         della content class.
+     */
+    private function getOrganizationFieldLabels()
+    {
+        $locale = eZINI::instance()->variable('RegionalSettings', 'Locale');
+        $labels = [
+            'competenze' => ezpI18n::tr('bootstrapitalia/anac_export', 'Body competencies'),
+            'responsabile' => ezpI18n::tr('bootstrapitalia/anac_export', 'Manager'),
+        ];
+
+        try {
+            $classRepository = new ClassRepository();
+            $class = (array)$classRepository->load('organization');
+            foreach ($class['fields'] as $field) {
+                if ($field['identifier'] === 'main_function' && isset($field['name'][$locale])) {
+                    $labels['competenze'] = $field['name'][$locale];
+                } elseif ($field['identifier'] === 'office_manager' && isset($field['name'][$locale])) {
+                    $labels['responsabile'] = $field['name'][$locale];
+                }
+            }
+        } catch (\Exception $e) {
+            // Mantiene i fallback statici sopra se la classe non e' leggibile
+        }
+
+        return $labels;
     }
 
     /**

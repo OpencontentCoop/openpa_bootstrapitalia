@@ -205,6 +205,15 @@ class Art13Serializer
                 'nominativo' => $responsabile['nominativo'] ?? '',
                 'qualifica' => $responsabile['qualifica'] ?? '',
                 'contatti' => $this->fetchContatti($ufficioObject),
+                // Solo per il rendering live (vedi PageArticolazioneUfficiProvider) -
+                // MAI esposta nel JSON pubblico: lo schema ANAC dichiara
+                // "additionalProperties": false sull'oggetto Ufficio
+                // (verificato su art.13-v1.0.schema.json), quindi questa
+                // chiave viene rimossa esplicitamente in
+                // filtraUfficiValidiPerJsonSchema() prima di json_encode().
+                // Il CSV non e' a rischio: toCsvOrganiUffici() legge le
+                // colonne una per una per nome, mai l'array intero.
+                'url' => $this->resolveUfficioUrl($ufficioObject),
             ];
 
             // Gerarchia amministrativa reale fino a 3 livelli (Area ->
@@ -243,9 +252,47 @@ class Art13Serializer
                 // non e' un criterio di filtro utile, si controllano solo nominativo/contatti.
                 return $ufficio['nominativo'] !== '' && $this->contattiCompletiPerSchema($ufficio['contatti']);
             }));
+            $organo['uffici'] = array_map([$this, 'sanitizeUfficioPerJsonSchema'], $organo['uffici']);
 
             return $organo;
         }, $organi);
+    }
+
+    /**
+     * L'oggetto Ufficio dello schema ANAC dichiara "additionalProperties":
+     * false (verificato su art.13-v1.0.schema.json) - qualunque chiave
+     * aggiunta all'array condiviso con CSV/rendering live (es. 'url', vedi
+     * fetchUfficiFigli()) andrebbe altrimenti a finire anche nel JSON
+     * pubblico, rendendolo non conforme. Allow-list esplicita delle sole
+     * chiavi richieste dallo schema, invece di confidare che nessuno ne
+     * aggiunga altre in futuro.
+     */
+    private function sanitizeUfficioPerJsonSchema(array $ufficio)
+    {
+        return [
+            'tipologia' => $ufficio['tipologia'],
+            'denominazione' => $ufficio['denominazione'],
+            'competenze' => $ufficio['competenze'],
+            'nominativo' => $ufficio['nominativo'],
+            'qualifica' => $ufficio['qualifica'],
+            'contatti' => $ufficio['contatti'],
+        ];
+    }
+
+    /**
+     * @return string|null url assoluto della pagina dell'ufficio (nodo
+     *         principale dell'oggetto `organization`), o null se l'oggetto
+     *         non ha un nodo pubblicato (caso limite, non dovrebbe succedere
+     *         per un ufficio trovato via Solr).
+     */
+    private function resolveUfficioUrl(\eZContentObject $ufficioObject)
+    {
+        $node = $ufficioObject->attribute('main_node');
+        if (!$node instanceof \eZContentObjectTreeNode) {
+            return null;
+        }
+
+        return '/' . $node->attribute('url_alias');
     }
 
     private function contattiCompletiPerSchema(array $contatti)
@@ -454,6 +501,13 @@ class Art13Serializer
                 $contatti['postaElettronicaCertificata'] = $valore;
             }
         }
+
+        // Solo per il rendering live (vedi PageRiferimentiContattiProvider) -
+        // MAI esposta nel CSV pubblico: toCsvRiferimenti() legge le tre
+        // colonne una per una per chiave esplicita, mai l'array intero, quindi
+        // questa chiave in piu' non vi finisce mai (stesso principio gia'
+        // usato per 'url' su Art13Serializer::fetchUfficiFigli()).
+        $contatti['denominazione'] = $contactPointObject->attribute('name');
 
         return $contatti;
     }

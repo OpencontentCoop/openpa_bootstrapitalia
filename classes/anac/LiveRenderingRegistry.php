@@ -27,6 +27,7 @@ class LiveRenderingRegistry
     const PROVIDERS = [
         'art.13-op' => [PageArticolazioneUfficiProvider::class, 'getOrganiPoliticiRowsJson'],
         'art.13-oa' => [PageArticolazioneUfficiProvider::class, 'getOrganiAmministrativiRowsJson'],
+        'art.13-rif' => [PageRiferimentiContattiProvider::class, 'getRiferimentiContattiRowsJson'],
     ];
 
     /**

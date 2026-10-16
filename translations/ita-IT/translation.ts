@@ -2519,7 +2519,7 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <name>bootstrapitalia/anac_export</name>
     <message>
       <source>ANAC publication schemas</source>
-      <translation>Schemi pubblicazione ANAC</translation>
+      <translation>Open Data</translation>
     </message>
     <message>
       <source>Previous versions</source>
@@ -2580,6 +2580,62 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>References and contacts</source>
       <translation>Riferimenti e contatti</translation>
+    </message>
+    <message>
+      <source>Body</source>
+      <translation>Organo</translation>
+    </message>
+    <message>
+      <source>Body competencies</source>
+      <translation>Competenze</translation>
+    </message>
+    <message>
+      <source>Office</source>
+      <translation>Ufficio</translation>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation>Tipologia</translation>
+    </message>
+    <message>
+      <source>Manager</source>
+      <translation>Responsabile</translation>
+    </message>
+    <message>
+      <source>organ</source>
+      <translation>organo</translation>
+    </message>
+    <message>
+      <source>office</source>
+      <translation>ufficio</translation>
+    </message>
+    <message>
+      <source>Show all</source>
+      <translation>Mostra tutto</translation>
+    </message>
+    <message>
+      <source>Show less</source>
+      <translation>Mostra meno</translation>
+    </message>
+    <message>
+      <source>Certified email</source>
+      <translation>PEC</translation>
+    </message>
+    <message>
+      <source>Name</source>
+      <translation>Nome</translation>
+    </message>
+    <message>
+      <source>Offices of %label</source>
+      <translation>Uffici degli %label</translation>
+    </message>
+    <message>
+      <source>Phone</source>
+      <translation>Telefono</translation>
+    </message>
+    <message>
+      <source>Email</source>
+      <translation>Email</translation>
     </message>
   </context>
 </TS>
