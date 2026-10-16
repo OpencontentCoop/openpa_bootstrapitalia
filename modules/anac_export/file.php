@@ -18,7 +18,15 @@ $path = eZSys::varDirectory() . '/anac_export/' . $filename;
 $fileHandler = eZClusterFileHandler::instance($path);
 
 if (!$fileHandler->exists()) {
-    return $Module->handleError(eZError::KERNEL_NOT_FOUND, 'kernel');
+    // Fallback per i file pubblicati prima del commit 0244e5f2 (5/10/2026),
+    // quando ExportPublisher scriveva ancora su cacheDirectory(): se il dato
+    // non e' piu' cambiato da allora, resolveAndPublish() non ha mai
+    // riscritto il file sul nuovo path, quindi esiste ancora solo li'.
+    $legacyPath = eZSys::cacheDirectory() . '/anac_export/' . $filename;
+    $fileHandler = eZClusterFileHandler::instance($legacyPath);
+    if (!$fileHandler->exists()) {
+        return $Module->handleError(eZError::KERNEL_NOT_FOUND, 'kernel');
+    }
 }
 
 $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
