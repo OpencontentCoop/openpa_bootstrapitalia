@@ -20,7 +20,7 @@ class ezfIndexFaseBando implements ezfIndexPlugin
         $dataMap = $contentObject->dataMap();
         foreach ($groups as $group) {
             $value = 0;
-            foreach (['', '_relations'] as $suffix) {
+            foreach (['', '_relations', '_external_link'] as $suffix) {
                 if (isset($dataMap[$group . $suffix]) && $dataMap[$group . $suffix]->hasContent()) {
                     $value++;
                 }
