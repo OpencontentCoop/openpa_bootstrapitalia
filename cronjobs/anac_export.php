@@ -71,6 +71,19 @@ publishArt13($cli, $schemaBindings);
 publishArt31($cli, $schemaBindings);
 
 /**
+ * Rete di sicurezza per le pagine con rendering live (vedi
+ * OpenPABootstrapItalia\Anac\LiveRenderingRegistry): invalidazione
+ * incondizionata, indipendente dall'esito delle publish sopra - gira comunque
+ * 2 volte al giorno su tutti i tenant SaaS (vedi docblock di testa), quindi
+ * limita a poche ore la finestra di dati stantii nel caso raro in cui il
+ * plugin di indicizzazione agganciato alla pubblicazione di organization/
+ * time_indexed_role/online_contact_point non sia scattato (indicizzazione
+ * asincrona in coda, disabilitata, ecc. - vedi
+ * classes/indexplugins/index_live_rendering_cache_bust.php).
+ */
+\OpenPABootstrapItalia\Anac\LiveRenderingRegistry::clearAllCaches($schemaBindings);
+
+/**
  * OIV e Organi di revisione non hanno un dataset dedicato: sono documenti
  * (classe `document`) taggati con `document_type`, ramo "Documenti di
  * rilievo dell'organismo di controllo" (vedi
