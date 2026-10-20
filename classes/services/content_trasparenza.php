@@ -49,6 +49,78 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         $this->fnData['remote_id_map'] = 'getRemoteIdMap';
 
         $this->fnData['use_custom_template'] = 'isUseCustomTemplate';
+
+        $this->fnData['has_anac_exports'] = 'hasAnacExports';
+        $this->fnData['anac_exports'] = 'getAnacExports';
+    }
+
+    /**
+     * Export ANAC (#479, discoverability): elenco degli schemi che QUESTA
+     * pagina espone (via schema_pubblicazione, vedi SchemaPubblicazioneLookup)
+     * gia' pubblicati almeno una volta, con url dell'ultima versione e
+     * storico. Non filtrato su isPaginaTrasparenza(): l'attributo
+     * schema_pubblicazione esiste solo su pagina_trasparenza, quindi un
+     * oggetto di un'altra classe restituisce sempre [] per costruzione
+     * (nessun controllo esplicito necessario).
+     *
+     * @return array [] se questa pagina non espone nessuno schema ANAC (o
+     *         li espone ma nessuno e' ancora mai stato pubblicato), altrimenti
+     *         lista di ['schema' => 'art.31-oiv', 'label' => 'Organismi
+     *         indipendenti di valutazione', 'latest_urls' => ['csv' => '...'],
+     *         'last_modified' => 'gg/mm/aaaa', 'last_modified_time' =>
+     *         'hh:mm'|null (null sui tracking scritti prima di questo campo,
+     *         finche' non ripubblicano), 'versions' => [...]] (vedi
+     *         ExportPublisher::getVersions())
+     */
+    protected function getAnacExports()
+    {
+        if (!$this->container->hasContentObject()) {
+            return [];
+        }
+
+        $schemas = \SchemaPubblicazioneLookup::schemasForObject($this->container->getContentObject());
+
+        $exports = [];
+        foreach ($schemas as $schema) {
+            $publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($schema);
+            $latestUrls = $publisher->getLatestUrls();
+            if (empty($latestUrls)) {
+                // mai pubblicato (schema dichiarato ma cron non ancora
+                // passato, o fallito - vedi classes/anac/CLAUDE.md, "Gestione
+                // errori") - non mostrare un blocco vuoto/rotto.
+                continue;
+            }
+
+            // Schemi diversi sulla stessa pagina possono avere date di
+            // ultimo aggiornamento diverse (es. "Articolazione degli uffici"
+            // espone sia art.13-as sia art.13-op, aggiornati indipendentemente
+            // l'uno dall'altro) - la data va mostrata per schema, non come
+            // sottotitolo unico di pagina. La versione corrente e' sempre
+            // il primo elemento di getVersions() (isLatest: true).
+            $versions = $publisher->getVersions();
+
+            // L'ora e' letta dal tracking corrente, non da $versions[0]: e'
+            // mostrata solo nella lista corrente, non nello storico versioni
+            // (vedi ExportPublisher::resolveAndPublish()), quindi non serve
+            // farla transitare da getVersions()/extractVersion().
+            $tracking = $publisher->getTracking();
+
+            $exports[] = [
+                'schema' => $schema,
+                'label' => \SchemaPubblicazioneLookup::labelForSchema($schema),
+                'latest_urls' => $latestUrls,
+                'last_modified' => $versions[0]['dataUltimaModifica'],
+                'last_modified_time' => $tracking['oraUltimaModifica'] ?? null,
+                'versions' => $versions,
+            ];
+        }
+
+        return $exports;
+    }
+
+    protected function hasAnacExports()
+    {
+        return count($this->getAnacExports()) > 0;
     }
 
     private function getNode()

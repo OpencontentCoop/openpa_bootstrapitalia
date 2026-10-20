@@ -7,7 +7,16 @@
 
         <div class="row">
             <div class="col">
-                {attribute_view_gui attribute=$valid_node|attribute('csv_resource')}
+                {* Il bottone "Download CSV" generico del datatype va nascosto solo
+                   quando il dataset e' incorporato in una pagina di trasparenza
+                   che gia' espone un export ANAC conforme equivalente (vedi
+                   anac_export.tpl) - altrove sul sito il dataset resta invariato.
+                   is_pagina_trasparenza e' impostato da pagina_trasparenza.tpl
+                   via ezpagedata_set() e va letto con ezpagedata(), non
+                   $module_result: qui siamo annidati dentro il rendering di un
+                   blocco ezpage, module_result non e' ancora popolato a questo
+                   punto della catena. *}
+                {attribute_view_gui attribute=$valid_node|attribute('csv_resource') hide_download=ezpagedata().persistent_variable.is_pagina_trasparenza}
             </div>
         </div>
 
