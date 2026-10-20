@@ -674,4 +674,74 @@ class BootstrapItaliaInstallerUtils
 
         eZContentClass::expireCache();
     }
+
+    /**
+     * `patch_content` (Opencontent\Installer\PatchContent) scrive sempre
+     * sulla lingua primaria dell'oggetto: il parametro `language` che
+     * `updateAndPublishObject()` accetterebbe non viene mai passato da quello
+     * step, quindi non c'e' modo di patchare una traduzione diversa
+     * dall'italiano con `patch_content`. Qui si reimplementa lo stesso
+     * meccanismo (nuova versione, conversione attributo, publish) ma
+     * passando davvero la lingua a `createNewVersion()` - le altre lingue
+     * gia' presenti sull'oggetto restano intatte nella nuova versione, solo
+     * quella indicata viene aggiornata.
+     *
+     * steps:
+     *     ...
+     *     -   type: php_callable
+     *         identifier: 'BootstrapItaliaInstallerUtils::patchContentAttributeForLanguage'
+     *         remote_id: 'ae441f5d2f78bf88f0b3e39a36743bdd'
+     *         language: 'ger-DE'
+     *         attributes:
+     *             guida_alla_compilazione: '<p>...</p>'
+     *     ...
+     * @param AbstractStepInstaller $step
+     * @throws Exception
+     */
+    public static function patchContentAttributeForLanguage(AbstractStepInstaller $step)
+    {
+        $stepData = $step->getStep();
+        $remoteId = $stepData['remote_id'];
+        $languageCode = $stepData['language'];
+        $attributes = $stepData['attributes'];
+
+        $object = eZContentObject::fetchByRemoteID($remoteId);
+        if (!$object instanceof eZContentObject) {
+            $step->getLogger()->error("Object $remoteId not found");
+
+            return;
+        }
+
+        $newVersion = $object->createNewVersion(false, true, $languageCode);
+        if (!$newVersion instanceof eZContentObjectVersion) {
+            throw new Exception("Unable to create a new version for object {$object->attribute('id')}");
+        }
+        $newVersion->setAttribute('modified', time());
+        $newVersion->store();
+
+        $fakePublicationProcess = new \Opencontent\Opendata\Api\PublicationProcess(null);
+        foreach ($newVersion->contentObjectAttributes($languageCode) as $attribute) {
+            $identifier = $attribute->attribute('contentclass_attribute_identifier');
+            if (!array_key_exists($identifier, $attributes)) {
+                continue;
+            }
+            $converter = \Opencontent\Opendata\Api\AttributeConverterLoader::load(
+                $object->attribute('class_identifier'),
+                $identifier,
+                $attribute->attribute('data_type_string')
+            );
+            $dataString = $converter->set($attributes[$identifier], $fakePublicationProcess);
+            $attribute->fromString($dataString);
+            $attribute->store();
+        }
+
+        $result = eZOperationHandler::execute('content', 'publish', [
+            'object_id' => $newVersion->attribute('contentobject_id'),
+            'version' => $newVersion->attribute('version'),
+        ]);
+
+        if ($result['status'] != eZModuleOperationInfo::STATUS_CONTINUE) {
+            throw new Exception('Publish failed with status ' . var_export($result['status'], true));
+        }
+    }
 }

@@ -6,6 +6,8 @@ class Art4BisSerializer
 {
     const SCHEMA_IDENTIFIER = 'art.4-bis';
 
+    const SCHEMA_URL = 'https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.4-bis-v1.0.schema.json';
+
     /**
      * Vocabolario controllato dallo schema JSON ufficiale scaricabile
      * (guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.4-bis-v1.0.schema.json,
@@ -219,6 +221,7 @@ class Art4BisSerializer
         }
 
         $data = [
+            '$schema' => self::SCHEMA_URL,
             'intestazione' => $this->getIntestazione($dataPrimaPubblicazione, $dataUltimaModifica),
             'datiSuiPagamenti' => array_map(
                 function ($raw) {

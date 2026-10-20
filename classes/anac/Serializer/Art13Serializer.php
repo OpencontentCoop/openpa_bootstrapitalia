@@ -24,6 +24,8 @@ class Art13Serializer
     const SCHEMA_IDENTIFIER_ORG = 'art.13-org';
     const SCHEMA_IDENTIFIER_RIF = 'art.13-rif';
 
+    const SCHEMA_URL = 'https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.13-v1.0.schema.json';
+
     /**
      * Il JSON e' un "file unico" con un identificativo proprio, diverso da
      * quelli dei CSV: "pa" per Pubbliche Amministrazioni (C1), "se" per
@@ -36,21 +38,22 @@ class Art13Serializer
     const AMBITO_C1 = 'Pubbliche amministrazioni';
     const AMBITO_C2 = 'Società ed Enti';
 
-    /** Radice della sotto-tassonomia "Struttura politica" (tagtree_csv/organizzazione.csv) */
-    const TAG_PATH_STRUTTURA_POLITICA = '/891/1265/1266/';
-
-    /** Radice della sotto-tassonomia "Struttura amministrativa" */
-    const TAG_PATH_STRUTTURA_AMMINISTRATIVA = '/891/1265/1278/';
-
     /**
-     * Id numerico dello stesso tag di TAG_PATH_STRUTTURA_AMMINISTRATIVA, per
-     * le query Solr (subattr_type___tag_ids____si contiene l'id del tag
+     * Id numerico del tag "Struttura amministrativa" (tagtree_csv/organizzazione.csv),
+     * per le query Solr (subattr_type___tag_ids____si contiene l'id del tag
      * assegnato PIU' tutti i suoi antenati, verificato su dati reali il
      * 2026-09-23 - basta cercare l'id della radice per includere qualunque
-     * discendente, stesso effetto del confronto per prefisso di path usato
-     * da tagMatchesPath() sullo scan PHP).
+     * discendente).
      */
     const TAG_ID_STRUTTURA_AMMINISTRATIVA = 1278;
+
+    /**
+     * Id numerico del tag "Struttura politica" (tagtree_csv/organizzazione.csv),
+     * stesso principio di TAG_ID_STRUTTURA_AMMINISTRATIVA: basta l'id della
+     * radice per includere ogni discendente (Sindaco, Giunta, Assessorati,
+     * Consiglio, Commissioni, ecc.) via subattr_type___tag_ids____si.
+     */
+    const TAG_ID_STRUTTURA_POLITICA = 1266;
 
     private $amministrazione;
 
@@ -99,7 +102,7 @@ class Art13Serializer
     public function fetchOrganiConUffici()
     {
         $organi = [];
-        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_POLITICA) as $organoObject) {
+        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_ID_STRUTTURA_POLITICA) as $organoObject) {
             $organi[] = [
                 'denominazione' => $organoObject->attribute('name'),
                 'competenze' => $this->plainText($organoObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE)['main_function']),
@@ -125,16 +128,8 @@ class Art13Serializer
     public function fetchOrganiAmministrativi()
     {
         $organi = [];
-        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_PATH_STRUTTURA_AMMINISTRATIVA) as $candidato) {
+        foreach ($this->fetchVerticeAmministrativi() as $candidato) {
             $dataMap = $candidato->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
-            if (!isset($dataMap['type']) || !$this->isTaggedArea($dataMap['type'])) {
-                continue;
-            }
-
-            $holdEmployment = isset($dataMap['hold_employment']) ? $this->relatedObjectIds($dataMap['hold_employment']) : [];
-            if (!empty($holdEmployment)) {
-                continue;
-            }
 
             $organi[] = [
                 'denominazione' => $candidato->attribute('name'),
@@ -146,20 +141,45 @@ class Art13Serializer
         return $organi;
     }
 
-    private function isTaggedArea(\eZContentObjectAttribute $attribute)
+    /**
+     * @return \eZContentObject[] organization taggati ESATTAMENTE "Area" (non
+     *         una foglia diversa, non il tag radice) E con hold_employment
+     *         vuoto - stessa doppia condizione di prima (il solo tag "Area"
+     *         prenderebbe anche le Direzioni, che sono taggate Area ma hanno
+     *         hold_employment valorizzato; il solo hold_employment vuoto
+     *         prenderebbe anche uffici orfani o oggetti che riusano la
+     *         classe `organization` per altro, es. tag "Ente"), ora espressa
+     *         come un'unica query Solr invece di scan + due controlli PHP.
+     *
+     * `limit 1000`: stesso motivo di fetchOrganizzazioniByTagPath() - senza
+     * un limite esplicito la ricerca applica la paginazione di default (10
+     * risultati), che taglierebbe fuori organi di vertice oltre il decimo su
+     * un ente con molte Aree (verificato con uno spike dedicato, Task 1 del
+     * piano collegato).
+     */
+    private function fetchVerticeAmministrativi()
     {
-        $tags = $attribute->content();
-        if (!$tags instanceof \eZTags) {
-            return false;
-        }
+        $result = [];
 
-        foreach ($tags->attribute('tags') as $tagObject) {
-            if ($tagObject->attribute('keyword') === 'Area') {
-                return true;
+        $query = 'classes [organization]'
+            . ' and type in [\'"Area"\']'
+            . ' and raw[submeta_hold_employment___id____si] !range [*,*]'
+            . ' limit 1000';
+
+        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
+        $queryObject = $queryBuilder->instanceQuery($query);
+
+        $solr = new \eZSolr();
+        $searchResult = $solr->search('', (array)$queryObject->convert());
+
+        foreach ($searchResult['SearchResult'] as $resultNode) {
+            $object = $resultNode->attribute('object');
+            if ($object instanceof \eZContentObject) {
+                $result[] = $object;
             }
         }
 
-        return false;
+        return $result;
     }
 
     /**
@@ -187,6 +207,15 @@ class Art13Serializer
                 'nominativo' => $responsabile['nominativo'] ?? '',
                 'qualifica' => $responsabile['qualifica'] ?? '',
                 'contatti' => $this->fetchContatti($ufficioObject),
+                // Solo per il rendering live (vedi PageArticolazioneUfficiProvider) -
+                // MAI esposta nel JSON pubblico: lo schema ANAC dichiara
+                // "additionalProperties": false sull'oggetto Ufficio
+                // (verificato su art.13-v1.0.schema.json), quindi questa
+                // chiave viene rimossa esplicitamente in
+                // filtraUfficiValidiPerJsonSchema() prima di json_encode().
+                // Il CSV non e' a rischio: toCsvOrganiUffici() legge le
+                // colonne una per una per nome, mai l'array intero.
+                'url' => $this->resolveUfficioUrl($ufficioObject),
             ];
 
             // Gerarchia amministrativa reale fino a 3 livelli (Area ->
@@ -225,9 +254,47 @@ class Art13Serializer
                 // non e' un criterio di filtro utile, si controllano solo nominativo/contatti.
                 return $ufficio['nominativo'] !== '' && $this->contattiCompletiPerSchema($ufficio['contatti']);
             }));
+            $organo['uffici'] = array_map([$this, 'sanitizeUfficioPerJsonSchema'], $organo['uffici']);
 
             return $organo;
         }, $organi);
+    }
+
+    /**
+     * L'oggetto Ufficio dello schema ANAC dichiara "additionalProperties":
+     * false (verificato su art.13-v1.0.schema.json) - qualunque chiave
+     * aggiunta all'array condiviso con CSV/rendering live (es. 'url', vedi
+     * fetchUfficiFigli()) andrebbe altrimenti a finire anche nel JSON
+     * pubblico, rendendolo non conforme. Allow-list esplicita delle sole
+     * chiavi richieste dallo schema, invece di confidare che nessuno ne
+     * aggiunga altre in futuro.
+     */
+    private function sanitizeUfficioPerJsonSchema(array $ufficio)
+    {
+        return [
+            'tipologia' => $ufficio['tipologia'],
+            'denominazione' => $ufficio['denominazione'],
+            'competenze' => $ufficio['competenze'],
+            'nominativo' => $ufficio['nominativo'],
+            'qualifica' => $ufficio['qualifica'],
+            'contatti' => $ufficio['contatti'],
+        ];
+    }
+
+    /**
+     * @return string|null url assoluto della pagina dell'ufficio (nodo
+     *         principale dell'oggetto `organization`), o null se l'oggetto
+     *         non ha un nodo pubblicato (caso limite, non dovrebbe succedere
+     *         per un ufficio trovato via Solr).
+     */
+    private function resolveUfficioUrl(\eZContentObject $ufficioObject)
+    {
+        $node = $ufficioObject->attribute('main_node');
+        if (!$node instanceof \eZContentObjectTreeNode) {
+            return null;
+        }
+
+        return '/' . $node->attribute('url_alias');
     }
 
     private function contattiCompletiPerSchema(array $contatti)
@@ -240,32 +307,42 @@ class Art13Serializer
     }
 
     /**
-     * @param string $tagPath path della sotto-tassonomia (Struttura politica / Struttura amministrativa)
+     * @param int $tagId id numerico della radice del ramo tassonomico
+     *        (TAG_ID_STRUTTURA_POLITICA o TAG_ID_STRUTTURA_AMMINISTRATIVA)
      * @return \eZContentObject[]
      *
-     * Scan PHP completo della classe organization - accettabile qui perche'
-     * chiamato una sola volta per fetchOrganiConUffici()/
-     * fetchOrganiAmministrativi() (trova gli organi di vertice), non nella
-     * ricorsione (vedi fetchFigliDiOrgano() sotto per quella, dove uno scan
-     * ripetuto per ogni nodo della gerarchia sarebbe costato molto di piu').
+     * Query Solr diretta (stesso pattern di fetchFigliDiOrgano() sotto):
+     * subattr_type___tag_ids____si contiene l'id del tag assegnato piu'
+     * tutti i suoi antenati, quindi cercare l'id della radice include
+     * qualunque discendente - sostituisce lo scan PHP completo della classe
+     * organization che faceva prima questa funzione (poteva esaurire la
+     * memoria PHP su un sito con molti oggetti, stesso motivo per cui
+     * Art31Serializer::fetchDocumentsByKeys() evita lo scan per `document`).
+     *
+     * `limit 1000`: senza un limite esplicito la ricerca applica la
+     * paginazione di default (10 risultati) - verificato con uno spike
+     * dedicato (vedi commit collegato) che un ente con piu' di 10 organi
+     * politici o amministrativi perderebbe silenziosamente quelli oltre il
+     * decimo. 1000 e' un tetto ampiamente superiore a quanti organi/uffici
+     * possa avere realisticamente un singolo ente.
      */
-    private function fetchOrganizzazioniByTagPath($tagPath)
+    private function fetchOrganizzazioniByTagPath($tagId)
     {
         $result = [];
-        $class = \eZContentClass::fetchByIdentifier('organization');
-        if (!$class instanceof \eZContentClass) {
-            return $result;
-        }
 
-        $objects = \eZContentObject::fetchSameClassList($class->attribute('id'), true);
+        $query = 'classes [organization] and raw[subattr_type___tag_ids____si] in [' . (int)$tagId . '] limit 1000';
 
-        foreach ($objects as $object) {
-            $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
-            if (!isset($dataMap['type']) || !$this->tagMatchesPath($dataMap['type'], $tagPath)) {
-                continue;
+        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
+        $queryObject = $queryBuilder->instanceQuery($query);
+
+        $solr = new \eZSolr();
+        $searchResult = $solr->search('', (array)$queryObject->convert());
+
+        foreach ($searchResult['SearchResult'] as $resultNode) {
+            $object = $resultNode->attribute('object');
+            if ($object instanceof \eZContentObject) {
+                $result[] = $object;
             }
-
-            $result[] = $object;
         }
 
         return $result;
@@ -318,23 +395,6 @@ class Art13Serializer
         $string = $attribute->toString();
 
         return $string === '' ? [] : explode('-', $string);
-    }
-
-    private function tagMatchesPath(\eZContentObjectAttribute $attribute, $tagPath)
-    {
-        /** @var \eZTags $tags */
-        $tags = $attribute->content();
-        if (!$tags instanceof \eZTags) {
-            return false;
-        }
-
-        foreach ($tags->attribute('tags') as $tagObject) {
-            if (strpos($tagObject->attribute('path_string'), $tagPath) === 0) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -443,6 +503,13 @@ class Art13Serializer
                 $contatti['postaElettronicaCertificata'] = $valore;
             }
         }
+
+        // Solo per il rendering live (vedi PageRiferimentiContattiProvider) -
+        // MAI esposta nel CSV pubblico: toCsvRiferimenti() legge le tre
+        // colonne una per una per chiave esplicita, mai l'array intero, quindi
+        // questa chiave in piu' non vi finisce mai (stesso principio gia'
+        // usato per 'url' su Art13Serializer::fetchUfficiFigli()).
+        $contatti['denominazione'] = $contactPointObject->attribute('name');
 
         return $contatti;
     }
@@ -598,6 +665,7 @@ class Art13Serializer
         }
 
         $data = [
+            '$schema' => self::SCHEMA_URL,
             'intestazione' => [
                 'amministrazione' => $this->amministrazione,
                 'dataPrimaPubblicazione' => $dataPrimaPubblicazione,

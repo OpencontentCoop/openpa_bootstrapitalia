@@ -441,7 +441,13 @@ class ExportPublisher
         }
 
         $siteUrl = trim(\eZINI::instance()->variable('SiteSettings', 'SiteURL'), '/');
+        // SiteURL e' letto dal siteaccess attivo: il cron gira sotto il
+        // siteaccess backend, dove SiteURL include un path aggiuntivo
+        // (es. "example.it/backend") usato per i link del pannello di
+        // amministrazione. Un export ANAC e' sempre pubblico: serve solo
+        // l'host, mai il path del siteaccess che ha generato il link.
+        $host = explode('/', $siteUrl, 2)[0];
 
-        return 'https://' . $siteUrl . '/' . $publicPath;
+        return 'https://' . $host . '/' . $publicPath;
     }
 }
