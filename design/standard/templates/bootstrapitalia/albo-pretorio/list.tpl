@@ -205,7 +205,7 @@
 							<button class="accordion-button collapsed px-2 text-uppercase" type="button"
 									data-bs-toggle="collapse" href="#collapseDate-{$block_id}" role="button" aria-expanded="false" aria-controls="collapseDate-{$block_id}"
 									data-focus-mouse="false">
-								{'Date'|i18n('bootstrapitalia/documents')}
+								{'Publication period'|i18n('bootstrapitalia/documents')}
 							</button>
 						  </h2>
 							<div id="collapseDate-{$block_id}" class="accordion-collapse collapse" role="region" aria-labelledby="collapseDate-{$block_id}-title">
@@ -407,27 +407,36 @@ $(document).ready(function() {
 			});
 		}
 
+    // digitando l'anno a mano il campo date emette change con anni parziali (0002, 0020, 0202...):
+    // si considerano valide solo le date con anno ragionevole
+    var validDate = function(value){
+      return /^\d{4}-\d{2}-\d{2}$/.test(value) && parseInt(value.substring(0, 4), 10) >= 1900 ? value : '';
+    };
+
     if (startDateField.length > 0) {
       startDateField.on('change', function(){
-        startDate = $(this).val();
-        endDateField.attr('min', $(this).val());
+        startDate = validDate($(this).val());
+        endDateField.attr('min', startDate);
       })
     }
 
     if (endDateField.length > 0) {
       endDateField.on('change', function(){
-        endDate = $(this).val();
-        startDateField.attr('max', $(this).val());
+        endDate = validDate($(this).val());
+        startDateField.attr('max', endDate);
       })
     }
 
     if (dateFields.length > 1) {
+      var dateTimer = null;
       $.each(dateFields, function(){
         var self = $(this);
         self.on('change', function(){
-          if (startDate && endDate) {
+          // attende che l'utente finisca di digitare, anche per una sola data compilata o svuotata
+          clearTimeout(dateTimer);
+          dateTimer = setTimeout(function(){
             container.find('button[type="submit"]').trigger('click');
-          }
+          }, 400);
         });
       });
     }
@@ -474,9 +483,10 @@ $(document).ready(function() {
           filters.push({name: 'year', value: yearFilter});
 				}
 			}
-			if (startDate && endDate){
-        var formattedStartDate = moment(startDate).format('YYYY-MM-DD');
-        var formattedEndDate = moment(endDate).format('YYYY-MM-DD');
+			if (startDate || endDate){
+        // un estremo vuoto resta aperto ('*'), gestito da data handler
+        var formattedStartDate = startDate ? moment(startDate).format('YYYY-MM-DD') : '*';
+        var formattedEndDate = endDate ? moment(endDate).format('YYYY-MM-DD') : '*';
         filters.push({name: 'date_range', value: [formattedStartDate, formattedEndDate].join(',')});
 			}
 
@@ -544,8 +554,15 @@ $(document).ready(function() {
       return false;
     };
 
+    var currentRequest = null;
+
     var find = function (filters, cb, context) {
-      $.ajax({
+      // annulla la ricerca precedente ancora in corso: vale solo l'ultima richiesta,
+      // altrimenti una risposta lenta ma obsoleta puo' sovrascrivere quella corretta
+      if (currentRequest) {
+        currentRequest.abort();
+      }
+      currentRequest = $.ajax({
         type: "GET",
         url: "{/literal}{'/openpa/data/albo_pretorio'|ezurl(no)}{literal}",
         data: filters,

@@ -17,6 +17,7 @@ if ($http->hasPostVariable('StoreConfig')) {
 $Result = $app->getModuleResult($Module);
 
 if (!$app instanceof BookingV2BuiltinApp
+    && !$app instanceof BookingWidgetCoreBuiltinApp
     && StanzaDelCittadinoBooking::factory()->isEnabled()
     && StanzaDelCittadinoBridge::factory()->getTenantUri()) {
     $tpl = eZTemplate::factory();

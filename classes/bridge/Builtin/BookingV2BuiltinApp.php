@@ -24,6 +24,7 @@ class BookingV2BuiltinApp extends ServiceFormBuiltinApp
             $contacts = (new OpenPAPageData())->getContactsData();
             $this->isAppEnabled = !(!empty($contacts['link_prenotazione_appuntamento']))
                 && self::getCurrentOptions('EnableBookingV2')
+                && !self::getCurrentOptions('EnableBookingWidgetCore')
                 && self::getCurrentOptions('TenantUrl');
         }
 

@@ -219,6 +219,26 @@ abstract class BuiltinApp extends OpenPATempletizable
         return $this->widgetStyle;
     }
 
+    protected function getBookingWidgetCoreDestinationUrl(): ?string
+    {
+        return null;
+    }
+
+    protected function getBookingWidgetCoreFormServerUrl(): ?string
+    {
+        return null;
+    }
+
+    protected function getBookingWidgetCoreAuthParamsJson(): ?string
+    {
+        return null;
+    }
+
+    protected function getBookingWidgetCoreFormIoParamsJson(): ?string
+    {
+        return null;
+    }
+
     abstract protected function getAppRootId(): string;
 
     protected function getDescriptionListItem(): array
@@ -376,6 +396,10 @@ abstract class BuiltinApp extends OpenPATempletizable
         $tpl->setVariable('ap_section_enabled', 'applications,payments,documents');
         $tpl->setVariable('readmodel_url', self::getCurrentOptions('ReadModelUrl'));
         $tpl->setVariable('pdnd_url', self::getCurrentOptions('PdndApiUrl'));
+        $tpl->setVariable('booking_widget_core_destination_url', $this->getBookingWidgetCoreDestinationUrl());
+        $tpl->setVariable('booking_widget_core_form_server_url', $this->getBookingWidgetCoreFormServerUrl());
+        $tpl->setVariable('booking_widget_core_auth_params', $this->getBookingWidgetCoreAuthParamsJson());
+        $tpl->setVariable('booking_widget_core_form_io_params', $this->getBookingWidgetCoreFormIoParamsJson());
         $tpl->setVariable('page_name', $this->getServiceObject()
             ? $this->getServiceObject()->attribute('name')
             : false
@@ -560,6 +584,22 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'type' => 'string',
                 'current_value' => $current['BookingV2ServiceUuid'],
             ],
+            [
+                'identifier' => 'EnableBookingWidgetCore',
+                'label' => 'Prenota appuntamento widget core',
+                'name' => 'Abilita la versione con widget core',
+                'placeholder' => '',
+                'type' => 'boolean',
+                'current_value' => (bool)$current['EnableBookingWidgetCore'],
+            ],
+            [
+                'identifier' => 'BookingWidgetCoreSkipLogin',
+                'label' => 'Prenota appuntamento widget core',
+                'name' => 'Salta la pagina di login',
+                'placeholder' => '',
+                'type' => 'boolean',
+                'current_value' => (bool)$current['BookingWidgetCoreSkipLogin'],
+            ],
         ];
     }
 
@@ -592,6 +632,8 @@ abstract class BuiltinApp extends OpenPATempletizable
                 'ImportDocumentUrl' => $data[$locale]['ImportDocumentUrl'] ?? 'https://import-hub-qa.boat.opencontent.io/import-hub/documents',
                 'EnableBookingV2' => isset($data[$locale]['EnableBookingV2']) ?? (bool)$data['EnableBookingV2'] ?? false,
                 'BookingV2ServiceUuid' => $data[$locale]['BookingV2ServiceUuid'] ?? null,
+                'EnableBookingWidgetCore' => isset($data[$locale]['EnableBookingWidgetCore']) ?? (bool)$data['EnableBookingWidgetCore'] ?? false,
+                'BookingWidgetCoreSkipLogin' => isset($data[$locale]['BookingWidgetCoreSkipLogin']) ?? (bool)$data['BookingWidgetCoreSkipLogin'] ?? false,
             ];
         }
 

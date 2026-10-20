@@ -159,6 +159,22 @@ class ContentSecurityPolicyHandler
         return implode('; ', $policy);
     }
 
+    /**
+     * eZINI::group() ignora le impostazioni EZINIMERGE_, che sono invece gestite da eZINI::variable():
+     * leggiamo quindi il blocco direttiva per direttiva.
+     */
+    private static function readIniBlock(eZINI $ini, string $block): array
+    {
+        $config = [];
+        foreach (array_keys(self::$directiveNames) as $name) {
+            if ($ini->hasVariable($block, $name)) {
+                $config[$name] = $ini->variable($block, $name);
+            }
+        }
+
+        return $config;
+    }
+
     public static function getCspDirectives(): array
     {
         $cspIni = eZINI::instance('csp.ini');
@@ -195,7 +211,7 @@ class ContentSecurityPolicyHandler
         $contentSecurityPolicy = [];
         if ($cspIni->variable('Settings', 'ContentSecurityPolicy') === 'enabled') {
             $contentSecurityPolicy = array_merge_recursive(
-                $cspIni->group('ContentSecurityPolicy'),
+                self::readIniBlock($cspIni, 'ContentSecurityPolicy'),
                 $autoEmbeds
             );
         }
@@ -203,7 +219,7 @@ class ContentSecurityPolicyHandler
         $contentSecurityPolicyReportOnly = [];
         if ($cspIni->variable('Settings', 'ContentSecurityPolicyReportOnly') === 'enabled') {
             $contentSecurityPolicyReportOnly = array_merge_recursive(
-                $cspIni->group('ContentSecurityPolicyReportOnly'),
+                self::readIniBlock($cspIni, 'ContentSecurityPolicyReportOnly'),
                 $autoEmbeds
             );
         }

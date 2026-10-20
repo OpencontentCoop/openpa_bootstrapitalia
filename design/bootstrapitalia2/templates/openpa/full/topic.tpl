@@ -219,6 +219,38 @@
     {/if}
     {undef $root_docs}
 
+    {def $root_datasets = 'dataset'|node_id_from_object_remote_id()}
+    {if $root_datasets}
+        {def $datasets_count = api_search(concat('classes [dataset] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, '  and subtree [', $root_datasets, '] limit 1')).totalCount}
+        {if $datasets_count|gt(0)}
+            {def $is_first_block = false()}
+            {if $has_first_block|not()}{set $has_first_block = true()}{set $is_first_block = true()}{/if}
+            {set $blocks = $blocks|append(page_block(
+                fetch(content, node, hash(node_id, $root_datasets)).name|wash(),
+                "ListaPaginata",
+                "lista_paginata",
+                hash(
+                    "limite", "9",
+                    "elementi_per_riga", "3",
+                    "includi_classi", "dataset",
+                    "escludi_classi", "",
+                    "ordinamento", "pubblicato",
+                    "state_id", "",
+                    "topic_node_id", $node.node_id,
+                    "color_style", cond($is_first_block, 'section section-muted section-inset-shadow pb-5', ''),
+                    "container_style", "",
+                    "node_id", $root_datasets,
+                    "show_all_link", "1",
+                    "show_all_text", '',
+                    "loading_count", $datasets_count
+                )
+            ))}
+            {undef $is_first_block}
+        {/if}
+        {undef $datasets_count}
+    {/if}
+    {undef $root_datasets}
+
     {def $root_places = 'all-places'|node_id_from_object_remote_id()}
     {def $places_count = api_search(concat('classes [place] and raw[submeta_topics___main_node_id____si] = ', $node.node_id, '  and subtree [', $root_places, '] limit 1')).totalCount}
     {if $places_count|gt(0)}

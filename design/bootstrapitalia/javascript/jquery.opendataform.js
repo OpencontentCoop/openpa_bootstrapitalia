@@ -465,7 +465,13 @@ Alpaca.registerConnectorClass("opendataform", OpenContentOcopendataConnector);
     nocache: true,
     onSuccess: null,
     onError: function(data) {
-        alert(data.error);
+        if (data && data.error) {
+            alert(data.error);
+        } else if (data && typeof data.responseText === 'string' && data.responseText.indexOf('Wrong form token') !== -1) {
+            alert('Sessione scaduta, ricarica la pagina.');
+        } else {
+            alert('Si è verificato un errore. Ricarica la pagina e riprova; se il problema persiste, contatta l\'assistenza.');
+        }
     },
     onBeforeCreate: null,
     alpaca: null,

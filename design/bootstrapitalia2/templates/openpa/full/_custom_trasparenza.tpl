@@ -52,6 +52,9 @@
         </aside>
         <section class="col-lg-8 p-4">
             <h2 class="mb-4">{$node.name|wash()}</h2>
+            {if and($node.class_identifier|eq('bando'), $node|has_attribute('oggetto'))}
+                <p class="mb-4">{$node|attribute('oggetto').content|wash()}</p>
+            {/if}
             {include uri='design:openpa/full/parts/attributes_flat.tpl'
                      object=$node.object
                      show_all_attributes=cond(class_extra_parameters($node.class_identifier, 'table_view').enabled, false(), true())}
