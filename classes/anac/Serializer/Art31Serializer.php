@@ -28,6 +28,8 @@ class Art31Serializer
     /** Il JSON "file unico" non ha suffisso C1/C2/sottosezione, a differenza di art. 13 */
     const SCHEMA_IDENTIFIER_JSON = 'art.31';
 
+    const SCHEMA_URL = 'https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.31-v1.0.schema.json';
+
     const KEY_VALIDAZIONE_PERFORMANCE = 'validazioneRelazioneSullaPerformance';
     const KEY_RELAZIONE_SISTEMA_VALUTAZIONE = 'relazioneSistemaDiValutazione';
     const KEY_ALTRI_ATTI_ORGANISMO = 'altriAttiOrganismoAnalogo';
@@ -425,6 +427,7 @@ class Art31Serializer
     public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $oivDocumentsByKey = null, array $orDocumentsByKey = null)
     {
         $data = [
+            '$schema' => self::SCHEMA_URL,
             'intestazione' => [
                 'amministrazione' => $this->amministrazione,
                 'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
