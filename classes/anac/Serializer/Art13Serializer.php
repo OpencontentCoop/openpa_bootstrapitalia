@@ -24,6 +24,8 @@ class Art13Serializer
     const SCHEMA_IDENTIFIER_ORG = 'art.13-org';
     const SCHEMA_IDENTIFIER_RIF = 'art.13-rif';
 
+    const SCHEMA_URL = 'https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.13-v1.0.schema.json';
+
     /**
      * Il JSON e' un "file unico" con un identificativo proprio, diverso da
      * quelli dei CSV: "pa" per Pubbliche Amministrazioni (C1), "se" per
@@ -663,6 +665,7 @@ class Art13Serializer
         }
 
         $data = [
+            '$schema' => self::SCHEMA_URL,
             'intestazione' => [
                 'amministrazione' => $this->amministrazione,
                 'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
