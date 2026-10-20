@@ -426,6 +426,13 @@ class ExportPublisher
         }
 
         $albeturaPath = trim($rootNode->attribute('url_alias'), '/');
+        // Il cron gira con siteaccess 'backend': per alcuni schemi url_alias
+        // torna con questo prefisso (visto su art.13-org/art.13-pa), che
+        // punta al login invece che all'export pubblico. Un export ANAC non
+        // deve mai avere un url di backend.
+        if (strpos($albeturaPath, 'backend/') === 0) {
+            $albeturaPath = substr($albeturaPath, strlen('backend/'));
+        }
 
         return $albeturaPath . '/' . $filename;
     }
