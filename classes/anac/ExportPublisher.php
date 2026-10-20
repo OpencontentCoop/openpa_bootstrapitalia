@@ -426,13 +426,6 @@ class ExportPublisher
         }
 
         $albeturaPath = trim($rootNode->attribute('url_alias'), '/');
-        // Il cron gira con siteaccess 'backend': per alcuni schemi url_alias
-        // torna con questo prefisso (visto su art.13-org/art.13-pa), che
-        // punta al login invece che all'export pubblico. Un export ANAC non
-        // deve mai avere un url di backend.
-        if (strpos($albeturaPath, 'backend/') === 0) {
-            $albeturaPath = substr($albeturaPath, strlen('backend/'));
-        }
 
         return $albeturaPath . '/' . $filename;
     }
@@ -448,7 +441,13 @@ class ExportPublisher
         }
 
         $siteUrl = trim(\eZINI::instance()->variable('SiteSettings', 'SiteURL'), '/');
+        // SiteURL e' letto dal siteaccess attivo: il cron gira sotto il
+        // siteaccess backend, dove SiteURL include un path aggiuntivo
+        // (es. "example.it/backend") usato per i link del pannello di
+        // amministrazione. Un export ANAC e' sempre pubblico: serve solo
+        // l'host, mai il path del siteaccess che ha generato il link.
+        $host = explode('/', $siteUrl, 2)[0];
 
-        return 'https://' . $siteUrl . '/' . $publicPath;
+        return 'https://' . $host . '/' . $publicPath;
     }
 }
