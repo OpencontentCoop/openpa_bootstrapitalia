@@ -66,16 +66,35 @@ class LiveRenderingRegistry
     }
 
     /**
-     * Tag di cache condiviso per la pagina, usato sia nel template (Task 6,
-     * `response_tag_list`) sia dal listener di invalidazione (Task 7) - un
-     * unico punto che genera questa stringa, cosi' le due parti non possono
-     * disallinearsi scrivendola a mano in due posti diversi. Generico (non
-     * specifico di "articolazione uffici"): qualunque pagina futura che
-     * attivi il rendering live tramite questo registro riusa lo stesso
-     * schema di naming.
+     * Invalida la cache HTTP di ogni pagina_trasparenza che ha attivo un
+     * fornitore di rendering live qui registrato - chiamato sia dal plugin
+     * di indicizzazione Solr (classes/indexplugins/index_live_rendering_cache_bust.php,
+     * sulla pubblicazione di organization/time_indexed_role/online_contact_point)
+     * sia dal cron di export ANAC (cronjobs/anac_export.php, come rete di
+     * sicurezza incondizionata) - un unico punto che decide quali pagine
+     * invalidare e come, cosi' le due chiamate non possono disallinearsi.
+     *
+     * Non mira a sapere QUALE pagina specifica e' stata effettivamente
+     * modificata (richiederebbe risalire schema_pubblicazione per ogni
+     * pubblicazione in modo mirato, costoso e fragile) - invalida tutte le
+     * pagine con un fornitore attivo. Il numero di pagina_trasparenza per
+     * tenant e' tipicamente poche unita', quindi il costo resta contenuto.
+     *
+     * @param array|null $bindings risultato gia' calcolato di
+     *        SchemaPubblicazioneLookup::fetchAllBindings(), per evitare una
+     *        scansione duplicata quando il chiamante lo ha gia' - se omesso,
+     *        viene calcolato qui.
      */
-    public static function getCacheTag(\eZContentObjectTreeNode $pageNode)
+    public static function clearAllCaches(array $bindings = null)
     {
-        return 'trasparenza-live-rendering-' . $pageNode->attribute('node_id');
+        $bindings = $bindings !== null ? $bindings : \SchemaPubblicazioneLookup::fetchAllBindings();
+
+        foreach (array_keys(self::PROVIDERS) as $schema) {
+            if (!isset($bindings[$schema])) {
+                continue;
+            }
+
+            \eZContentCacheManager::clearContentCacheIfNeeded($bindings[$schema]->attribute('id'));
+        }
     }
 }

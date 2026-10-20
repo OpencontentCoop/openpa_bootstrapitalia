@@ -121,12 +121,14 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     }
 
     /**
-     * @return array|false array con chiavi 'blocks' (una per schema con
+     * @return array|false array con chiave 'blocks' (una per schema con
      *         fornitore live attivo su questa pagina: 'schema', 'title',
-     *         'rows_json', 'dom_id') e 'cache_tag', oppure false se nessuno
-     *         schema dichiarato da questa pagina ha un fornitore registrato
-     *         in LiveRenderingRegistry (la pagina resta sul meccanismo
-     *         fields/datatable esistente, invariato).
+     *         'rows_json', 'dom_id'), oppure false se nessuno schema
+     *         dichiarato da questa pagina ha un fornitore registrato in
+     *         LiveRenderingRegistry (la pagina resta sul meccanismo
+     *         fields/datatable esistente, invariato). L'invalidazione della
+     *         cache HTTP di questa pagina non dipende da un tag calcolato
+     *         qui - vedi LiveRenderingRegistry::clearAllCaches().
      *
      * Attivazione automatica: dipende solo da quali schemi la pagina
      * dichiara in schema_pubblicazione (gia' esistente), non da un nuovo
@@ -161,7 +163,6 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
         return [
             'blocks' => $blocks,
-            'cache_tag' => \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::getCacheTag($this->getNode()),
         ];
     }
 
