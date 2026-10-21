@@ -15,7 +15,7 @@ namespace OpenPABootstrapItalia\Anac;
  * continua a usare il meccanismo fields/datatable esistente, automaticamente,
  * senza bisogno di escluderlo esplicitamente da nessuna parte. Esempi di
  * schemi NON qui (e perche' non sono adattabili allo stesso modo): art.4-bis
- * e art.31-oc leggono da un oggetto `dataset` (righe inserite direttamente
+ * e art.31-cc leggono da un oggetto `dataset` (righe inserite direttamente
  * in tabella, non un fetch Solr), non da una query sulla pagina.
  */
 class LiveRenderingRegistry
@@ -42,10 +42,26 @@ class LiveRenderingRegistry
     const REPLACES_CLASS_IDENTIFIER = [
         'art.13-op' => 'organization',
         'art.13-oa' => 'organization',
+        'art.13-rif' => 'online_contact_point',
     ];
 
+    /**
+     * Interruttore esplicito (openpa.ini, [Trasparenza] EnableAnacLiveRendering,
+     * default disabled): finche' non e' enabled su un tenant, nessuna pagina
+     * passa al rendering live, a prescindere da quali schemi dichiara - un
+     * solo punto controlla il flag, non serve ripeterlo in ogni chiamante
+     * (getLiveRenderingBlocks()/getLiveRenderingReplacedClasses() in
+     * content_trasparenza.php passano gia' tutte da qui). Con il flag
+     * disabled il comportamento e' lo stesso di "nessun provider registrato
+     * per questo schema": la pagina resta sul meccanismo fields/datatable
+     * esistente, automaticamente (vedi docblock di classe).
+     */
     public static function hasProvider($schemaIdentifier)
     {
+        if (\OpenPAINI::variable('Trasparenza', 'EnableAnacLiveRendering', 'disabled') !== 'enabled') {
+            return false;
+        }
+
         return isset(self::PROVIDERS[$schemaIdentifier]);
     }
 

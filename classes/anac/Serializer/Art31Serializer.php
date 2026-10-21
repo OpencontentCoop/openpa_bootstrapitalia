@@ -3,8 +3,14 @@
 namespace OpenPABootstrapItalia\Anac\Serializer;
 
 /**
- * Export art. 31 (#477): tre CSV a se stanti (OIV, Organi di revisione,
- * Corte dei conti) + un JSON "file unico" che li copre tutti e tre insieme.
+ * Export art. 31 (#477): tre coppie CSV+JSON indipendenti, una per
+ * sottosezione (OIV, Organi di revisione, Corte dei conti) - nessun JSON
+ * "file unico" condiviso (corretto 2026-10-21: un JSON con tutte e tre le
+ * sezioni insieme, pubblicato sulla pagina genitore, non e' conforme - la
+ * guida online ANAC pubblica tre file di esempio JSON separati, uno per
+ * sottosezione, con solo la propria chiave valorizzata - verificato
+ * scaricando i tre esempi reali, non deducibile dal solo schema tecnico
+ * generico che le dichiara tutte opzionali).
  *
  * Meccanismo di esposizione volutamente NON unificato tra le tre
  * sottosezioni (decisione 2026-09-15, vedi classes/anac/CLAUDE.md): OIV e
@@ -23,10 +29,7 @@ class Art31Serializer
 {
     const SCHEMA_IDENTIFIER_OIV = 'art.31-oiv';
     const SCHEMA_IDENTIFIER_OR = 'art.31-or';
-    const SCHEMA_IDENTIFIER_OC = 'art.31-oc';
-
-    /** Il JSON "file unico" non ha suffisso C1/C2/sottosezione, a differenza di art. 13 */
-    const SCHEMA_IDENTIFIER_JSON = 'art.31';
+    const SCHEMA_IDENTIFIER_CC = 'art.31-cc';
 
     const SCHEMA_URL = 'https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.31-v1.0.schema.json';
 
@@ -83,7 +86,22 @@ class Art31Serializer
     public function __construct(\eZContentObjectAttribute $corteDeiContiAttribute, array $amministrazione = null)
     {
         $this->corteDeiContiAttribute = $corteDeiContiAttribute;
-        $this->amministrazione = $amministrazione ?: \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione();
+        $this->amministrazione = $amministrazione;
+    }
+
+    /**
+     * Lazy: non serve per fetchDocumentsByKeys()/getAttiOrganiDi.../
+     * getRilieviCorteDeiConti() (dati grezzi), solo per buildJson() -
+     * calcolarlo sempre eager romperebbe con MissingCodiceFiscaleException
+     * anche usando il serializer solo per leggere i dati grezzi.
+     */
+    private function getAmministrazione()
+    {
+        if ($this->amministrazione === null) {
+            $this->amministrazione = \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione();
+        }
+
+        return $this->amministrazione;
     }
 
     // ==================== OIV / Organi di revisione (classe document) ====================
@@ -385,7 +403,7 @@ class Art31Serializer
         return str_replace(["à", "'", ' '], ['a', '', ''], $s);
     }
 
-    public function toCsvOc()
+    public function toCsvCc()
     {
         $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line(['DATA_PUBBLICAZIONE', 'OGGETTO', 'DOCUMENTO'])];
 
@@ -415,40 +433,46 @@ class Art31Serializer
         return empty($rilievi) ? null : $rilievi;
     }
 
-    // ==================== JSON "file unico" ====================
+    // ==================== JSON, uno per sottosezione ====================
 
     /**
-     * Verificato scaricando art.31-v1.0.schema.json il 2026-09-15: solo
-     * "intestazione" e' obbligatoria a livello root - "attiOrganiDiValutazione",
-     * "attiOrganiDiRevisione", "attiOrganiDiControllo" sono tutti opzionali
-     * (per gli enti non tenuti a quell'obbligo) e vanno OMESSI del tutto se
-     * vuoti, non inclusi come oggetto/array vuoto.
+     * @return string JSON con la sola chiave "attiOrganiDiValutazione" -
+     *         va chiamato solo se $attiOrganiDiValutazione non e' vuoto (il
+     *         chiamante decide se pubblicare, vedi cronjobs/anac_export.php)
      */
-    public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $oivDocumentsByKey = null, array $orDocumentsByKey = null)
+    public function toJsonOiv($dataPrimaPubblicazione, $dataUltimaModifica, array $attiOrganiDiValutazione)
+    {
+        return $this->buildJson($dataPrimaPubblicazione, $dataUltimaModifica, 'attiOrganiDiValutazione', $attiOrganiDiValutazione);
+    }
+
+    /**
+     * @return string JSON con la sola chiave "attiOrganiDiRevisione"
+     */
+    public function toJsonOr($dataPrimaPubblicazione, $dataUltimaModifica, array $attiOrganiDiRevisione)
+    {
+        return $this->buildJson($dataPrimaPubblicazione, $dataUltimaModifica, 'attiOrganiDiRevisione', $attiOrganiDiRevisione);
+    }
+
+    /**
+     * @param array $rilievi lista gia' calcolata da getRilieviCorteDeiConti()
+     * @return string JSON con la sola chiave "attiOrganiDiControllo"
+     */
+    public function toJsonCc($dataPrimaPubblicazione, $dataUltimaModifica, array $rilievi)
+    {
+        return $this->buildJson($dataPrimaPubblicazione, $dataUltimaModifica, 'attiOrganiDiControllo', ['rilieviCorteDeiConti' => $rilievi]);
+    }
+
+    private function buildJson($dataPrimaPubblicazione, $dataUltimaModifica, $key, array $value)
     {
         $data = [
             '$schema' => self::SCHEMA_URL,
             'intestazione' => [
-                'amministrazione' => $this->amministrazione,
+                'amministrazione' => $this->getAmministrazione(),
                 'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
                 'dataUltimaModifica' => $dataUltimaModifica,
             ],
+            $key => $value,
         ];
-
-        $attiOrganiDiValutazione = $this->getAttiOrganiDiValutazione($oivDocumentsByKey);
-        if (!empty($attiOrganiDiValutazione)) {
-            $data['attiOrganiDiValutazione'] = $attiOrganiDiValutazione;
-        }
-
-        $attiOrganiDiRevisione = $this->getAttiOrganiDiRevisione($orDocumentsByKey);
-        if (!empty($attiOrganiDiRevisione)) {
-            $data['attiOrganiDiRevisione'] = $attiOrganiDiRevisione;
-        }
-
-        $rilievi = $this->getRilieviCorteDeiConti();
-        if ($rilievi !== null) {
-            $data['attiOrganiDiControllo'] = ['rilieviCorteDeiConti' => $rilievi];
-        }
 
         return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }

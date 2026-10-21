@@ -2569,5 +2569,73 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <source>References and contacts</source>
       <translation>Verweise und Kontakte</translation>
     </message>
+    <message>
+      <source>at</source>
+      <translation>um</translation>
+    </message>
+    <message>
+      <source>Body</source>
+      <translation>Organ</translation>
+    </message>
+    <message>
+      <source>Body competencies</source>
+      <translation>Zuständigkeiten</translation>
+    </message>
+    <message>
+      <source>Office</source>
+      <translation>Amt</translation>
+    </message>
+    <message>
+      <source>Type</source>
+      <translation>Typ</translation>
+    </message>
+    <message>
+      <source>Manager</source>
+      <translation>Verantwortlicher</translation>
+    </message>
+    <message>
+      <source>organ</source>
+      <translation>Organ</translation>
+    </message>
+    <message>
+      <source>office</source>
+      <translation>Amt</translation>
+    </message>
+    <message>
+      <source>Show all</source>
+      <translation>Alle anzeigen</translation>
+    </message>
+    <message>
+      <source>Show less</source>
+      <translation>Weniger anzeigen</translation>
+    </message>
+    <message>
+      <source>Certified email</source>
+      <translation>Zertifizierte E-Mail</translation>
+    </message>
+    <message>
+      <source>Name</source>
+      <translation>Name</translation>
+    </message>
+    <message>
+      <source>Offices of %label</source>
+      <translation>Ämter der %label</translation>
+    </message>
+    <message>
+      <source>Phone</source>
+      <translation>Telefon</translation>
+    </message>
+    <message>
+      <source>Email</source>
+      <translation>E-Mail</translation>
+    </message>
+    <message>
+      <source>The presentation rules on this page are ignored: the display is handled automatically.</source>
+      <translation>Die auf dieser Seite festgelegten Darstellungsregeln werden ignoriert: Die Anzeige erfolgt automatisch.</translation>
+    </message>
+    <message>
+      <source>Export of files according to the ANAC publication schema.</source>
+      <translation>Export der Dateien gemäß dem ANAC-Veröffentlichungsschema.</translation>
+    </message>
   </context>
 </TS>

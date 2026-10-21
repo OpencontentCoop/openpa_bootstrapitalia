@@ -1,6 +1,15 @@
 {if count($exports)|gt(0)}
+    {def $show_subtitle = false()}
+    {foreach $exports as $export}
+        {if $export.show_subtitle}
+            {set $show_subtitle = true()}
+        {/if}
+    {/foreach}
     <div class="anac-export mt-4">
         <h3 class="h5">{'ANAC publication schemas'|i18n('bootstrapitalia/anac_export')}</h3>
+        {if $show_subtitle}
+            <p class="text-muted mb-3">{'Export of files according to the ANAC publication schema.'|i18n('bootstrapitalia/anac_export')}</p>
+        {/if}
         <ul class="list-unstyled mb-2">
             {foreach $exports as $export}
                 {foreach $export.latest_urls as $extension => $url}

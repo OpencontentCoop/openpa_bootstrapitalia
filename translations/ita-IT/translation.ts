@@ -2526,6 +2526,10 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Open Data</translation>
     </message>
     <message>
+      <source>Export of files according to the ANAC publication schema.</source>
+      <translation>Esportazione dei file secondo lo schema di pubblicazione ANAC.</translation>
+    </message>
+    <message>
       <source>Previous versions</source>
       <translation>Versioni precedenti</translation>
     </message>
@@ -2640,6 +2644,10 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Email</source>
       <translation>Email</translation>
+    </message>
+    <message>
+      <source>The presentation rules on this page are ignored: the display is handled automatically.</source>
+      <translation>Le regole di rappresentazione impostate in questa pagina vengono ignorate: la visualizzazione è gestita in automatico.</translation>
     </message>
   </context>
 </TS>
