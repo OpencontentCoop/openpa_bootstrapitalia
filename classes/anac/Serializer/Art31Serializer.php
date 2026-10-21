@@ -86,7 +86,22 @@ class Art31Serializer
     public function __construct(\eZContentObjectAttribute $corteDeiContiAttribute, array $amministrazione = null)
     {
         $this->corteDeiContiAttribute = $corteDeiContiAttribute;
-        $this->amministrazione = $amministrazione ?: \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione();
+        $this->amministrazione = $amministrazione;
+    }
+
+    /**
+     * Lazy: non serve per fetchDocumentsByKeys()/getAttiOrganiDi.../
+     * getRilieviCorteDeiConti() (dati grezzi), solo per buildJson() -
+     * calcolarlo sempre eager romperebbe con MissingCodiceFiscaleException
+     * anche usando il serializer solo per leggere i dati grezzi.
+     */
+    private function getAmministrazione()
+    {
+        if ($this->amministrazione === null) {
+            $this->amministrazione = \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione();
+        }
+
+        return $this->amministrazione;
     }
 
     // ==================== OIV / Organi di revisione (classe document) ====================
@@ -452,7 +467,7 @@ class Art31Serializer
         $data = [
             '$schema' => self::SCHEMA_URL,
             'intestazione' => [
-                'amministrazione' => $this->amministrazione,
+                'amministrazione' => $this->getAmministrazione(),
                 'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
                 'dataUltimaModifica' => $dataUltimaModifica,
             ],
