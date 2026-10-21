@@ -39,6 +39,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         $this->fnData['has_table_fields'] = 'hasTableFields';
         $this->fnData['table_fields_attribute'] = 'getTableFieldsAttribute';
         $this->fnData['table_fields'] = 'getTableFieldsParameters';
+        $this->fnData['has_table_fields_replaced_by_live_rendering'] = 'hasTableFieldsReplacedByLiveRendering';
 
         $this->fnData['show_alert'] = 'showAlert';
 
@@ -634,9 +635,12 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 // duplicare lo stesso dato due volte in pagina. Il campo
                 // `fields` resta comunque invariato nel content model, serve
                 // solo da fallback se il rendering live viene disattivato.
-                if (isset($table['class_identifier']) && in_array($table['class_identifier'], $replacedClasses, true)) {
-                    continue;
-                }
+                // La riga resta comunque in $data (non un `continue`): un
+                // redattore che guarda "Regole rappresentazione impostate"
+                // deve vedere perché quella regola non produce nulla in
+                // pagina, non vederla sparire senza spiegazione.
+                $table['replaced_by_live_rendering'] = isset($table['class_identifier'])
+                    && in_array($table['class_identifier'], $replacedClasses, true);
                 $data[] = $table;
             }
 
@@ -648,6 +652,24 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 'error' => "Configurazioni di visualizzazione non trovate",
             ),
         );
+    }
+
+    /**
+     * @return bool true se almeno una riga del campo `fields` di questa
+     *         pagina e' sostituita da un blocco di rendering live - usato dal
+     *         template per mostrare l'avviso "le regole di rappresentazione
+     *         vengono ignorate" UNA sola volta, invece che ripeterlo per ogni
+     *         riga sostituita (vedi getTableFieldsParameters()).
+     */
+    protected function hasTableFieldsReplacedByLiveRendering()
+    {
+        foreach ($this->getTableFieldsParameters() as $table) {
+            if (!empty($table['replaced_by_live_rendering'])) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function getTableFieldsAttribute()

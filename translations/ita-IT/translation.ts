@@ -2641,5 +2641,9 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Email</source>
       <translation>Email</translation>
     </message>
+    <message>
+      <source>The presentation rules on this page are ignored: the display is handled automatically.</source>
+      <translation>Le regole di rappresentazione impostate in questa pagina vengono ignorate: la visualizzazione è gestita in automatico.</translation>
+    </message>
   </context>
 </TS>

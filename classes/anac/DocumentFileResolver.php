@@ -23,7 +23,12 @@ class DocumentFileResolver
     public static function resolveUrl(\eZContentObject $object)
     {
         $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
-        $siteUrl = trim(\eZINI::instance()->variable('SiteSettings', 'SiteURL'), '/');
+        // SiteURL e' letto dal siteaccess attivo: il cron gira sotto il
+        // siteaccess backend, dove SiteURL include un path aggiuntivo
+        // (es. "example.it/backend") - serve solo l'host, mai il path del
+        // siteaccess che ha generato il link (stesso fix di ExportPublisher).
+        $rawSiteUrl = trim(\eZINI::instance()->variable('SiteSettings', 'SiteURL'), '/');
+        $siteUrl = explode('/', $rawSiteUrl, 2)[0];
 
         if (isset($dataMap['file']) && $dataMap['file']->hasContent()) {
             return 'https://' . $siteUrl . '/content/download/' . $object->attribute('id') . '/' . $dataMap['file']->attribute('id');

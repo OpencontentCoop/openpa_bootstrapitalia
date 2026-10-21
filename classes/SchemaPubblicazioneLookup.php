@@ -11,7 +11,7 @@
  * template - non piu' due copie della stessa mappa da tenere allineate.
  *
  * Non usato per gli schemi ancorati a un oggetto `dataset` (art.4-bis,
- * art.31-oc): la classe `dataset` non ha `schema_pubblicazione` (l'attributo
+ * art.31-cc): la classe `dataset` non ha `schema_pubblicazione` (l'attributo
  * esiste solo su `pagina_trasparenza`), e il remote_id del dataset stesso
  * (es. `dati_sui_pagamenti`, `corte_dei_conti`) e' gia' un identificativo
  * deliberato e leggibile, non un hash opaco - non e' il problema che questa
@@ -40,7 +40,7 @@ class SchemaPubblicazioneLookup
         'art.13-org' => 5,
         'art.31-oiv' => 6,
         'art.31-or' => 7,
-        'art.31-oc' => 8,
+        'art.31-cc' => 8,
         'art.13-pa' => 9,
         'art.13-se' => 10,
         'art.31' => 11,
@@ -69,7 +69,7 @@ class SchemaPubblicazioneLookup
         'art.13-se' => 'Organisation',
         'art.31-oiv' => 'Independent evaluation bodies',
         'art.31-or' => 'Audit bodies',
-        'art.31-oc' => 'Court of Auditors',
+        'art.31-cc' => 'Court of Auditors',
         'art.31' => 'Administrative controls and findings',
     ];
 
