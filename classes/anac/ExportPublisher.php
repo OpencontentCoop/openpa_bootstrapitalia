@@ -79,18 +79,28 @@ class ExportPublisher
      *        pubblicazione - per questo il confronto "e' cambiato qualcosa?" si
      *        fa sul suo hash, non su quello del JSON (vedi CLAUDE.md, sezione
      *        "Perche' il JSON si costruisce con una callback").
-     * @param callable $jsonBuilder function(string $dataPrimaPubblicazione, string $dataUltimaModifica): string
+     * @param callable $jsonBuilder function(string $dataPrimaPubblicazione, string $dataUltimaModifica): string|null
      *        costruisce il JSON finale SOLO dopo che le date sono state risolte
      *        confrontando con la pubblicazione precedente. Non puo' essere una
      *        stringa gia' pronta: il chiamante non puo' sapere in anticipo se
      *        dataUltimaModifica deve restare quella di ieri (dato invariato) o
-     *        diventare oggi (dato cambiato) - lo decide questo metodo.
+     *        diventare oggi (dato cambiato) - lo decide questo metodo. Se
+     *        ritorna null, il JSON viene omesso del tutto (nessun file json
+     *        scritto quella volta) - serve agli schemi dove il blocco dati e'
+     *        opzionale a livello di schema ANAC (es. art.31-oiv/or/cc: "ometti
+     *        invece di un oggetto/array vuoto", vedi Art31Serializer).
      * @return array tracking aggiornato (invariato se il dato non e' cambiato)
      */
     public function publish($csv, callable $jsonBuilder)
     {
         return $this->resolveAndPublish($csv, function ($first, $last) use ($csv, $jsonBuilder) {
-            return ['csv' => $csv, 'json' => $jsonBuilder($first, $last)];
+            $files = ['csv' => $csv];
+            $json = $jsonBuilder($first, $last);
+            if ($json !== null) {
+                $files['json'] = $json;
+            }
+
+            return $files;
         });
     }
 
@@ -179,7 +189,7 @@ class ExportPublisher
          * lettura. Motivo: la lettura (dai template, per mostrare "versioni
          * precedenti") puo' avvenire da un nodo diverso da quello con cui
          * questo schema e' stato pubblicato (es. la pagina di trasparenza
-         * "Corte dei conti" dichiara di esporre art.31-oc, ma il file e'
+         * "Corte dei conti" dichiara di esporre art.31-cc, ma il file e'
          * fisicamente ancorato al nodo del DATASET, non a quello della
          * pagina - vedi classes/anac/CLAUDE.md). Se calcolassimo l'url a
          * lettura usando il nodo corrente, per questi schemi otterremmo un

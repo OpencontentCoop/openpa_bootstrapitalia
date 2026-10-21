@@ -13,6 +13,18 @@
  */
 
 /**
+ * Interruttore esplicito (openpa.ini, [Trasparenza] EnableAnacExport,
+ * default disabled): finche' non e' enabled su un tenant, nessun file di
+ * export ANAC viene mai prodotto, a prescindere da schema_pubblicazione o
+ * dal dataset 'dati_sui_pagamenti' - rollout controllato tenant per tenant.
+ */
+if (OpenPAINI::variable('Trasparenza', 'EnableAnacExport', 'disabled') !== 'enabled') {
+    $cli->notice('anac_export: EnableAnacExport disabled su questo sito, uscita immediata');
+
+    return;
+}
+
+/**
  * Il cron gira 2 volte al giorno sul gruppo `changesection`, condiviso con
  * tutti i tenant SaaS: la maggior parte non ha ancora questa trasparenza
  * attiva. Uscita immediata prima di qualunque scan PHP se il sito non ha
@@ -156,9 +168,8 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
 
         $oivPageObject = isset($schemaBindings['art.31-oiv']) ? $schemaBindings['art.31-oiv'] : null;
         $orPageObject = isset($schemaBindings['art.31-or']) ? $schemaBindings['art.31-or'] : null;
-        $controlliERilieviPage = isset($schemaBindings['art.31']) ? $schemaBindings['art.31'] : null;
-        if (!$oivPageObject instanceof eZContentObject || !$orPageObject instanceof eZContentObject || !$controlliERilieviPage instanceof eZContentObject) {
-            $cli->warning('anac_export: nessuna pagina con schema_pubblicazione = art.31-oiv/art.31-or/art.31, schema art.31 saltato (modulo trasparenza-c1 non installato o non aggiornato su questo sito?)');
+        if (!$oivPageObject instanceof eZContentObject || !$orPageObject instanceof eZContentObject) {
+            $cli->warning('anac_export: nessuna pagina con schema_pubblicazione = art.31-oiv/art.31-or, schema art.31 saltato (modulo trasparenza-c1 non installato o non aggiornato su questo sito?)');
 
             return;
         }
@@ -174,45 +185,50 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
             resolvePageTableQuery($orPageObject, 'document')
         );
 
+        // Ogni sottosezione pubblica CSV+JSON insieme, con lo stesso
+        // identificativo (quindi stesso naming file pubblico, nessun "file
+        // unico" condiviso - corretto 2026-10-21, vedi docblock di classe).
+        // publish() calcola l'hash sul solo CSV (non contiene date) e
+        // costruisce il JSON via callback dopo aver risolto le date - stesso
+        // principio di publishArt4Bis(). Il blocco JSON va omesso del tutto
+        // (non un array vuoto) se non c'e' nessun dato valido per quella
+        // sottosezione (schema ANAC: tutte opzionali a livello root) - per
+        // questo la chiave 'json' non viene nemmeno aggiunta a $files quando
+        // il blocco e' vuoto.
+        $attiOiv = $serializer->getAttiOrganiDiValutazione($oivDocuments);
         $oivIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OIV;
         $oivPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($oivIdentifier, $oivPageObject->attribute('main_node')->attribute('node_id'));
-        $oivTracking = $oivPublisher->publishSingle($serializer->toCsvOiv($oivDocuments), 'csv');
+        $csvOiv = $serializer->toCsvOiv($oivDocuments);
+        $oivTracking = $oivPublisher->publish($csvOiv, function ($first, $last) use ($serializer, $attiOiv) {
+            return !empty($attiOiv) ? $serializer->toJsonOiv($first, $last, $attiOiv) : null;
+        });
         $cli->notice("anac_export: schema {$oivIdentifier} ok, ultima modifica {$oivTracking['dataUltimaModifica']}");
 
+        $attiOr = $serializer->getAttiOrganiDiRevisione($orDocuments);
         $orIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OR;
         $orPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($orIdentifier, $orPageObject->attribute('main_node')->attribute('node_id'));
-        $orTracking = $orPublisher->publishSingle($serializer->toCsvOr($orDocuments), 'csv');
+        $csvOr = $serializer->toCsvOr($orDocuments);
+        $orTracking = $orPublisher->publish($csvOr, function ($first, $last) use ($serializer, $attiOr) {
+            return !empty($attiOr) ? $serializer->toJsonOr($first, $last, $attiOr) : null;
+        });
         $cli->notice("anac_export: schema {$orIdentifier} ok, ultima modifica {$orTracking['dataUltimaModifica']}");
 
-        $ocIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OC;
+        $ccIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_CC;
         // Stesso principio di publishArt4Bis(): preferisce la pagina di
-        // trasparenza reale (schema_pubblicazione = art.31-oc, se
+        // trasparenza reale (schema_pubblicazione = art.31-cc, se
         // configurata) come ancoraggio url invece del nodo tecnico del
         // dataset - fallback al dataset per i tenant senza quel binding.
-        $ocPageObject = isset($schemaBindings[$ocIdentifier]) ? $schemaBindings[$ocIdentifier] : null;
-        $ocRootNodeId = $ocPageObject instanceof eZContentObject
-            ? $ocPageObject->attribute('main_node')->attribute('node_id')
+        $ccPageObject = isset($schemaBindings[$ccIdentifier]) ? $schemaBindings[$ccIdentifier] : null;
+        $ccRootNodeId = $ccPageObject instanceof eZContentObject
+            ? $ccPageObject->attribute('main_node')->attribute('node_id')
             : $corteDeiContiObject->attribute('main_node')->attribute('node_id');
-        $ocPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($ocIdentifier, $ocRootNodeId);
-        $ocTracking = $ocPublisher->publishSingle($serializer->toCsvOc(), 'csv');
-        $cli->notice("anac_export: schema {$ocIdentifier} ok, ultima modifica {$ocTracking['dataUltimaModifica']}");
-
-        $jsonIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_JSON;
         $rilievi = $serializer->getRilieviCorteDeiConti();
-        $jsonHashSource = json_encode([
-            $serializer->getAttiOrganiDiValutazione($oivDocuments),
-            $serializer->getAttiOrganiDiRevisione($orDocuments),
-            $rilievi,
-        ]);
-        $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonIdentifier, $controlliERilieviPage->attribute('main_node')->attribute('node_id'));
-        $jsonTracking = $jsonPublisher->publishWithDates(
-            $jsonHashSource,
-            function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer, $oivDocuments, $orDocuments) {
-                return $serializer->toJson($dataPrimaPubblicazione, $dataUltimaModifica, $oivDocuments, $orDocuments);
-            },
-            'json'
-        );
-        $cli->notice("anac_export: schema {$jsonIdentifier} ok, ultima modifica {$jsonTracking['dataUltimaModifica']}");
+        $ccPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($ccIdentifier, $ccRootNodeId);
+        $csvCc = $serializer->toCsvCc();
+        $ccTracking = $ccPublisher->publish($csvCc, function ($first, $last) use ($serializer, $rilievi) {
+            return $rilievi !== null ? $serializer->toJsonCc($first, $last, $rilievi) : null;
+        });
+        $cli->notice("anac_export: schema {$ccIdentifier} ok, ultima modifica {$ccTracking['dataUltimaModifica']}");
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: art.31');
         $cli->error('anac_export: schema art.31 fallito: ' . $e->getMessage());

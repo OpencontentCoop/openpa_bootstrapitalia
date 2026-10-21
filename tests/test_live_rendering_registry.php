@@ -26,6 +26,10 @@ $script->initialize();
 $PASSED = 0;
 $FAILED = 0;
 
+// EnableAnacLiveRendering e' disabled di default (openpa.ini): il resto di
+// questo test verifica il comportamento "attivo", quindi lo forza qui.
+eZINI::instance('openpa.ini')->setVariable('Trasparenza', 'EnableAnacLiveRendering', 'enabled');
+
 function assert_true(bool $condition, string $label): void
 {
     global $PASSED, $FAILED;
@@ -93,6 +97,20 @@ try {
 } catch (\Throwable $e) {
     assert_true(false, 'clearAllCaches() senza argomenti non lancia eccezioni (' . $e->getMessage() . ')');
 }
+
+// EnableAnacLiveRendering=disabled: nessun provider, a prescindere da quali
+// schemi sono registrati - stesso effetto di "nessun fornitore per questo
+// schema" (fallback a fields/datatable), un solo punto controlla il flag.
+eZINI::instance('openpa.ini')->setVariable('Trasparenza', 'EnableAnacLiveRendering', 'disabled');
+assert_true(
+    !\OpenPABootstrapItalia\Anac\LiveRenderingRegistry::hasProvider('art.13-op'),
+    'Con EnableAnacLiveRendering disabled, art.13-op non ha un fornitore anche se registrato'
+);
+assert_true(
+    \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::render('art.13-op') === null,
+    'Con EnableAnacLiveRendering disabled, render() restituisce null anche per uno schema registrato'
+);
+eZINI::instance('openpa.ini')->setVariable('Trasparenza', 'EnableAnacLiveRendering', 'enabled');
 
 echo "\n$PASSED passed, $FAILED failed\n";
 $script->shutdown($FAILED > 0 ? 1 : 0);

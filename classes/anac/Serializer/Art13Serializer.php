@@ -525,7 +525,7 @@ class Art13Serializer
      * pagina dichiari `schema_pubblicazione: art.13-rif`. Questo disaccoppia
      * "da dove si legge il dato" (qui) da "dove si pubblica l'url" (il nodo
      * passato a ExportPublisher in cronjobs/anac_export.php) - stesso
-     * principio gia' in uso per art.4-bis/art.31-oc (dataset per remote_id
+     * principio gia' in uso per art.4-bis/art.31-cc (dataset per remote_id
      * fisso, vedi CLAUDE.md "Node id da passare a ExportPublisher").
      *
      * Resta una query Solr (non uno scan PHP come fetchOrganizzazioniByTagPath()):

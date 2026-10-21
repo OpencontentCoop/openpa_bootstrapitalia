@@ -118,8 +118,13 @@
                 {if $trasparenza.has_table_fields}                
                     <h6>Regole rappresentazione impostate</h6>
                     <div class="text-serif small neutral-1-color-a7 mb-3">
+                    {if $trasparenza.has_table_fields_replaced_by_live_rendering}
+                        <span class="fst-italic">{'The presentation rules on this page are ignored: the display is handled automatically.'|i18n('bootstrapitalia/anac_export')}</span>
+                    {/if}
                     {foreach $trasparenza.table_fields as $table_index => $fields}
+                        {if not($fields.replaced_by_live_rendering)}
                         <code>{$fields.query|wash()}</code>
+                        {/if}
                     {/foreach}
                     </div>
                 {/if}
@@ -178,9 +183,11 @@
             {* figli in base a sintassi convenzionale sul campo fields *}
             {if $trasparenza.has_table_fields}
                 {foreach $trasparenza.table_fields as $table_index => $fields}
+                    {if not($fields.replaced_by_live_rendering)}
                     {include uri='design:openpa/full/parts/amministrazione_trasparente/children_table_fields.tpl'
                              fields = $fields
                              table_index = $table_index}
+                    {/if}
                 {/foreach}
             {/if}
 

@@ -203,6 +203,8 @@ IdentificatoriMenu_trasparenza[]=pagina_trasparenza
 MostraAvvisoPaginaVuota=disabled
 UseCustomTemplate=disabled
 ShowBandoFaseSelect=enabled
+EnableAnacExport=disabled
+EnableAnacLiveRendering=disabled
 
 [MotoreRicerca]
 IncludiClassi[]=administrative_area

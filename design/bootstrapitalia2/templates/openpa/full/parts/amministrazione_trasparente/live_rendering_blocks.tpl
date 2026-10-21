@@ -32,8 +32,8 @@ table[id^="live-rendering-"] th{white-space:nowrap}
 </style>
 
 {foreach $live_rendering.blocks as $block}
-<section class="mt-5 mb-4">
-    <h3 class="h4">{$block.title|wash()}</h3>
+<section class="mt-5 mb-4 anchor-offset">
+    <h3 class="h4" id="live-rendering-{$block.dom_id}-title">{$block.title|wash()}</h3>
     <script type="application/json" id="live-rendering-{$block.dom_id}-data">{$block.rows_json}</script>
     <table id="live-rendering-{$block.dom_id}-table" class="table table-striped display" style="width:100%">
         <thead>
@@ -104,7 +104,7 @@ $(document).ready(function () {ldelim}
         data: readEmbeddedRows('live-rendering-{$block.dom_id}-data'),
         serverSide: false,
         scrollX: true,
-        pageLength: 20,
+        pageLength: 10,
         lengthMenu: [10, 20, 25, 50, 100],
         language: {ldelim} url: datatableLanguageUrl {rdelim},
         drawCallback: function () {ldelim}
