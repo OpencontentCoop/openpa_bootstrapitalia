@@ -115,6 +115,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 'last_modified' => $versions[0]['dataUltimaModifica'],
                 'last_modified_time' => $tracking['oraUltimaModifica'] ?? null,
                 'versions' => $versions,
+                'show_subtitle' => \SchemaPubblicazioneLookup::shouldShowExportSubtitle($schema),
             ];
         }
 

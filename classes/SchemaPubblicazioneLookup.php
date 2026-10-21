@@ -86,6 +86,20 @@ class SchemaPubblicazioneLookup
     }
 
     /**
+     * Schemi per cui il sottotitolo del blocco "Open Data" (spiegazione del
+     * perche' ci sono questi file) non va mostrato - decisione hardcoded,
+     * uguale per tutti i tenant (non configurabile via ini): mostrato per
+     * tutti gli schemi tranne quelli qui elencati.
+     */
+    const HIDE_EXPORT_SUBTITLE = [
+    ];
+
+    public static function shouldShowExportSubtitle($schema)
+    {
+        return !in_array($schema, self::HIDE_EXPORT_SUBTITLE, true);
+    }
+
+    /**
      * Un solo scan della classe `pagina_trasparenza` per tutti gli schemi
      * insieme, non uno scan per schema - il cron risolve tutti i nodi che
      * gli servono con una sola chiamata a inizio funzione.
