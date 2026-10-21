@@ -57,7 +57,22 @@ class Art4BisSerializer
     public function __construct(\eZContentObjectAttribute $attribute, array $amministrazione = null)
     {
         $this->attribute = $attribute;
-        $this->amministrazione = $amministrazione ?: \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione();
+        $this->amministrazione = $amministrazione;
+    }
+
+    /**
+     * Lazy: non serve nel costruttore, solo quando si costruisce davvero
+     * l'intestazione (getIntestazione()) - calcolarlo sempre eager
+     * romperebbe con MissingCodiceFiscaleException anche istanziando il
+     * serializer per usi che non arrivano mai a costruire il JSON.
+     */
+    private function getAmministrazione()
+    {
+        if ($this->amministrazione === null) {
+            $this->amministrazione = \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione();
+        }
+
+        return $this->amministrazione;
     }
 
     public function getCsvHeaders()
@@ -75,7 +90,7 @@ class Art4BisSerializer
     public function getIntestazione($dataPrimaPubblicazione, $dataUltimaModifica)
     {
         return [
-            'amministrazione' => $this->amministrazione,
+            'amministrazione' => $this->getAmministrazione(),
             'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
             'dataUltimaModifica' => $dataUltimaModifica,
         ];

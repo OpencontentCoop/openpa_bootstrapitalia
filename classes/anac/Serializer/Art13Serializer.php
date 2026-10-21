@@ -59,7 +59,24 @@ class Art13Serializer
 
     public function __construct(array $amministrazione = null)
     {
-        $this->amministrazione = $amministrazione ?: \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione();
+        $this->amministrazione = $amministrazione;
+    }
+
+    /**
+     * Lazy: il codice fiscale non serve per i metodi usati dal rendering
+     * live (fetchOrganiConUffici()/fetchOrganiAmministrativi(), dati grezzi
+     * senza intestazione) - calcolarlo sempre nel costruttore romperebbe con
+     * MissingCodiceFiscaleException anche solo per mostrare la tabella live,
+     * su un sito che non ha ancora compilato il codice fiscale ma non sta
+     * nemmeno chiedendo un export. Richiesto solo da toJson().
+     */
+    private function getAmministrazione()
+    {
+        if ($this->amministrazione === null) {
+            $this->amministrazione = \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione();
+        }
+
+        return $this->amministrazione;
     }
 
     /**
@@ -667,7 +684,7 @@ class Art13Serializer
         $data = [
             '$schema' => self::SCHEMA_URL,
             'intestazione' => [
-                'amministrazione' => $this->amministrazione,
+                'amministrazione' => $this->getAmministrazione(),
                 'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
                 'dataUltimaModifica' => $dataUltimaModifica,
             ],
