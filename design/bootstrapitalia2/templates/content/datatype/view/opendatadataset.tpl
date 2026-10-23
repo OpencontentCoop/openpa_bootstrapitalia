@@ -283,7 +283,14 @@
             datatable: {ldelim}
                 columns: JSON.parse('{$columns|json_encode()}'),
                 defaultOrder: "{cond(and(is_set($attribute.content.settings.table.order),$attribute.content.settings.table.order|eq('asc')), 'asc', 'desc')}",
-                viewAsDescriptionList: {cond(and(is_set($attribute.content.settings.table.view),$attribute.content.settings.table.view|eq('description-list')), 'true', 'false')}
+                viewAsDescriptionList: {cond(and(is_set($attribute.content.settings.table.view),$attribute.content.settings.table.view|eq('description-list')), 'true', 'false')},
+                {* pageLength/lengthMenu: passati dal blocco "Singolo" (vedi
+                   parts/block/singolo_default.tpl) solo quando il dataset e'
+                   incorporato in una pagina di trasparenza, per allinearlo
+                   al default delle altre tabelle trasparenza. Altrove sul
+                   sito restano i default del plugin (30 / 30-60-90-120). *}
+                pageLength: {if is_set($datatable_page_length)}{$datatable_page_length}{else}30{/if},
+                lengthMenu: JSON.parse('{if is_set($datatable_length_menu)}{$datatable_length_menu|json_encode()}{else}[30,60,90,120]{/if}')
             {rdelim},
             counter: {ldelim}
                 label: "{if is_set($attribute.content.settings.counter.label)}{$attribute.content.settings.counter.label}{else}{$attribute.content.item_name|wash()}{/if}",
