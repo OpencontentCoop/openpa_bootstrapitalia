@@ -271,6 +271,12 @@ class OpenPARoles
             if (!$object instanceof eZContentObject) {
                 continue;
             }
+            // Un oggetto senza nodo principale (archiviato/nel cestino) non e' leggibile da
+            // nessuno e OpenPAWhoCan non lo gestisce (mainNode() null -> fatal per chi ha una
+            // policy con limitazione Node): lo escludiamo prima del controllo di accesso.
+            if (!(int)$object->attribute('main_node_id')) {
+                continue;
+            }
             $whoCan = new OpenPAWhoCan($object, 'read', $currentUser);
             if ($whoCan->run() === true) {
                 $result[] = $item;
