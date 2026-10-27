@@ -17,6 +17,7 @@ $eZTemplateOperatorArray = [
             'header_color',
             'footer_color',
             'is_bookmark',
+            'bookmark_id',
             'privacy_states',
             'menu_item_tree_contains',
             'lang_selector_url',

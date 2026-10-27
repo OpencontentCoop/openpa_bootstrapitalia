@@ -56,6 +56,54 @@
 
 {def $current_user_needs_approval = current_user_needs_approval($content_object.class_identifier)}
 
+<style>
+{literal}
+/* i pulsanti della toolbar (Modifica, Sposta, Elimina...) non sono link: stesso hover degli altri elementi */
+#ezwt > ul > li > .btn:not(.btn-dropdown):hover,
+#ezwt > ul > li > .btn:not(.btn-dropdown):focus-visible,
+#ezwt .btn-create:not(:disabled):not(.disabled):hover,
+#ezwt .btn-create:not(:disabled):not(.disabled):focus-visible,
+#ezwt > ul > li > a:not(.disabled):hover,
+#ezwt > ul > li > a:not(.disabled):focus-visible {
+  color: var(--bs-primary);
+  text-decoration: underline;
+}
+/* distanza tra la select di creazione e il pulsante Crea */
+#ezwt .input-group .btn-create {
+  margin-left: 12px;
+}
+/* transizione leggera sul colore all'hover */
+#ezwt > ul > li > .btn,
+#ezwt > ul > li > a,
+#ezwt .btn-create,
+#ezwt .dropdown-menu .link-list a.list-item,
+#ezwt .dropdown-menu .link-list a.list-item .toolbar-item-label {
+  transition: color .15s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  #ezwt * { transition: none !important; }
+}
+/* voci dei dropdown */
+#ezwt .dropdown-menu .link-list a.list-item:not(.disabled):hover,
+#ezwt .dropdown-menu .link-list a.list-item:not(.disabled):focus-visible {
+  color: var(--bs-primary);
+  text-decoration: none;
+}
+/* bootstrap-italia colora e spazia ogni span nei link-list: qui il testo deve ereditare dal link */
+#ezwt .dropdown-menu .link-list a.list-item .toolbar-item-label {
+  color: inherit;
+  display: inline;
+  margin-right: 0;
+  line-height: inherit;
+}
+/* sottolineatura solo sul testo della voce, non su icona e spazi */
+#ezwt .dropdown-menu .link-list a.list-item:not(.disabled):hover .toolbar-item-label,
+#ezwt .dropdown-menu .link-list a.list-item:not(.disabled):focus-visible .toolbar-item-label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+{/literal}
+</style>
 <form method="post" action="{"content/action"|ezurl(no)}">
     <nav class="toolbar" id="ezwt">
         <ul class="d-flex flex-nowrap border-bottom">
@@ -132,29 +180,6 @@
                 {include uri='design:parts/websitetoolbar/translate.tpl' content_object=$content_object}
             {/if}
 
-            {if and(
-                $content_object.can_move,
-                not(openpaini('WebsiteToolbar', 'HideMoveButton', array('restricted_document', 'restricted_area'))|contains($content_object.class_identifier)),
-                not($current_user_needs_approval),
-                not( $top_menu_node_ids|contains( $current_node.node_id ) )
-            )}
-                <li>
-                    <button class="btn" type="submit" name="MoveNodeButton" title="{'Move'|i18n('design/standard/parts/website_toolbar')}{$node_hint}">
-                        <i aria-hidden="true" class="fa fa-arrows"></i>
-                        <span class="toolbar-label">{'Move'|i18n('design/standard/parts/website_toolbar')}</span>
-                    </button>
-                </li>
-            {/if}
-
-            {if and($content_object.can_remove, not(current_user_needs_approval($content_object.class_identifier)))}
-                <li>
-                    <button class="btn" type="submit" name="ActionRemove" title="{'Remove'|i18n('design/standard/parts/website_toolbar')}{$node_hint}">
-                        <i aria-hidden="true" class="fa fa-trash"></i>
-                        <span class="toolbar-label">{'Remove'|i18n('design/standard/parts/website_toolbar')}</span>
-                    </button>
-                </li>
-            {/if}
-
             {if and($can_manage_location, not(current_user_needs_approval($content_object.class_identifier)))}
                 {if and(
                     $can_manage_location,
@@ -174,31 +199,156 @@
                 {/if}
             {/if}
 
-            {if and($is_container, not(current_user_needs_approval()))}
-            <li>
-                <a href="{concat( "websitetoolbar/sort/", $current_node.node_id )|ezurl(no)}" title="{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}">
-                    <i aria-hidden="true" class="fa fa-sort-alpha-asc"></i>
-                    <span class="toolbar-label">{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}</span>
-                </a>
-            </li>
-            {/if}
-
-            {if and($current_node.node_id|gt(0), fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'bookmark' ) ))}
-            <li>
-                <button class="btn" type="submit" name="ActionAddToBookmarks" title="{'Add the current item to your bookmarks.'|i18n( 'design/admin/pagelayout' )}">
-                    <i aria-hidden="true" class="fa fa-bookmark{if is_bookmark($current_node.node_id)} text-light{/if}"></i>
-                    <span class="toolbar-label">{'Bookmarks'|i18n( 'design/admin/content/browse' )}</span>
-                </button>
-            </li>
-            {/if}
-
             {if and(is_set($content_object.id), not(current_user_needs_approval($content_object.class_identifier)))}
                 {include uri='design:parts/websitetoolbar/privacy.tpl'}
             {/if}
 
-            {if and(fetch( 'user', 'has_access_to', hash( 'module', 'newsletter', 'function', 'index' ) ), ezmodule('newsletter','subscribe'), fetch( 'content', 'class', hash( 'class_id', 'cjw_newsletter_system' ) ))}
-                {include uri='design:parts/websitetoolbar/newsletter.tpl' content_object=$content_object current_node=$current_node}
-            {/if}
+            {* Custom templates inclusion *}
+            <li>
+                <div class="dropdown">
+                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownOther" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
+                        <span class="toolbar-label">{'Other'|i18n( 'bootstrapitalia' )}</span>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownOther">
+                        <div class="link-list-wrapper">
+                            <ul class="link-list">
+                                {if and($is_container, not(current_user_needs_approval()))}
+                                    <li>
+                                        <a class="list-item left-icon" href="{concat( "websitetoolbar/sort/", $current_node.node_id )|ezurl(no)}" title="{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}">
+                                            <i aria-hidden="true" class="fa fa-fw fa-sort-alpha-asc"></i>
+                                            <span class="toolbar-item-label">{'Sorting'|i18n( 'design/standard/parts/website_toolbar' )}</span>
+                                        </a>
+                                    </li>
+                                {/if}
+                                {if and(
+                                    $content_object.can_move,
+                                    not(openpaini('WebsiteToolbar', 'HideMoveButton', array('restricted_document', 'restricted_area'))|contains($content_object.class_identifier)),
+                                    not($current_user_needs_approval),
+                                    not( $top_menu_node_ids|contains( $current_node.node_id ) )
+                                )}
+                                        <li>
+                                            <a class="list-item left-icon" href="#" title="{'Move'|i18n('design/standard/parts/website_toolbar')}{$node_hint}"
+                                               onclick="var f = $(this).closest('form'); $('<input>', {ldelim}type: 'hidden', name: 'MoveNodeButton', value: '1'{rdelim}).appendTo(f); f.get(0).submit(); return false;">
+                                                <i aria-hidden="true" class="fa fa-fw fa-arrows"></i>
+                                                <span class="toolbar-item-label">{'Move'|i18n('design/standard/parts/website_toolbar')}</span>
+                                            </a>
+                                        </li>
+                                {/if}
+                                {if and($content_object.can_remove, not(current_user_needs_approval($content_object.class_identifier)))}
+                                        <li>
+                                            <a class="list-item left-icon" href="#" title="{'Remove'|i18n('design/standard/parts/website_toolbar')}{$node_hint}"
+                                               onclick="var f = $(this).closest('form'); $('<input>', {ldelim}type: 'hidden', name: 'ActionRemove', value: '1'{rdelim}).appendTo(f); f.get(0).submit(); return false;">
+                                                <i aria-hidden="true" class="fa fa-fw fa-trash"></i>
+                                                <span class="toolbar-item-label">{'Remove'|i18n('design/standard/parts/website_toolbar')}</span>
+                                            </a>
+                                        </li>
+                                {/if}
+                                {if is_set($content_object.id)}
+                                    {include uri='design:parts/websitetoolbar/openpa_copy_object.tpl'}
+                                    {include uri='design:parts/websitetoolbar/versions.tpl'}
+                                    {*include uri='design:parts/websitetoolbar/object_states.tpl'*}
+                                    {include uri='design:parts/websitetoolbar/reindex.tpl'}
+                                    {include uri='design:parts/websitetoolbar/classtools.tpl'}
+                                    {include uri='design:parts/websitetoolbar/urlalias.tpl'}
+                                    {include uri='design:parts/websitetoolbar/ckan_push.tpl'}
+                                    {*include uri='design:parts/websitetoolbar/ezmultiupload.tpl'*}
+                                    {*include uri='design:parts/websitetoolbar/ezflip.tpl'*}
+                                    {*include uri='design:parts/websitetoolbar/ngpush.tpl'*}
+                                    {include uri='design:parts/websitetoolbar/refreshorgnigramma.tpl'}
+                                    {if and($current_node.node_id|gt(0), fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'bookmark' ) ))}
+                                        {def $bookmark_id = bookmark_id($current_node.node_id)}
+                                        <li>
+                                        {if $bookmark_id}
+                                            <a class="list-item left-icon" href="#"
+                                               onclick="var f = $(this).closest('form'); f.attr('action', '{'content/bookmark'|ezurl(no)}'); $.each({ldelim}RemoveButton: '1', 'DeleteIDArray[]': '{$bookmark_id}', NeedRedirectBack: '1', RedirectURI: '{concat('/', $current_node.url_alias)|ezurl(no)}'{rdelim}, function (k, v) {ldelim} $('<input>', {ldelim}type: 'hidden', name: k, value: v{rdelim}).appendTo(f); {rdelim}); f.get(0).submit(); return false;">
+                                                <i aria-hidden="true" class="fa fa-fw fa-bookmark"></i>
+                                                <span class="toolbar-item-label">Rimuovi dai preferiti</span>
+                                            </a>
+                                        {else}
+                                            <a class="list-item left-icon" href="#"
+                                               onclick="var f = $(this).closest('form'); $('<input>', {ldelim}type: 'hidden', name: 'ActionAddToBookmarks', value: '1'{rdelim}).appendTo(f); f.get(0).submit(); return false;">
+                                                <i aria-hidden="true" class="fa fa-fw fa-bookmark-o"></i>
+                                                <span class="toolbar-item-label">Aggiungi ai preferiti</span>
+                                            </a>
+                                        {/if}
+                                        </li>
+                                        {undef $bookmark_id}
+                                    {/if}
+                                    <li><span class="divider"></span></li>
+                                {/if}
+
+                                {include uri='design:parts/websitetoolbar/openpa_menu.tpl'}
+
+                                {if is_set($content_object.id)}
+                                    <li><span class="divider"></span></li>
+                                    {def $onto_links = array()}
+                                    {if ezmodule('onto')}
+                                        {set $onto_links = easyontology_links($content_object.class_identifier, $content_object.id)}
+                                    {/if}
+
+                                    {if count($onto_links)}
+                                        <li>
+                                            <div class="list-item left-icon">
+                                                <i aria-hidden="true" class="fa fa-fw fa-code"></i> Linked Data
+                                                {foreach $onto_links as $slug => $link}
+                                                    <a href="{$link}" target="_blank" rel="noopener noreferrer"  title="{$slug|wash()}" class="badge badge-dark bg-dark text-white d-inline px-1">{$slug|wash()}</a>
+                                                {/foreach}
+                                            </div>
+                                        </li>
+                                    {else}
+                                        <li>
+                                            <a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="{'View in json'|i18n( 'bootstrapitalia' )}">
+                                                <i aria-hidden="true" class="fa fa-fw fa-code"></i> <span class="toolbar-item-label">{'View in json'|i18n( 'bootstrapitalia' )}</span>
+                                            </a>
+                                        </li>
+                                    {/if}
+                                    {undef $onto_links}
+
+                                    {if and($content_object.class_identifier|eq('place'), openagenda_can_push_place())}
+                                        <li><span class="divider"></span></li>
+                                        <li>
+                                            <a class="list-item left-icon" href="{concat('bootstrapitalia/bridge/push-openagenda-place/',$content_object.id)|ezurl(no)}" title="{'Push to openagenda'|i18n( 'bootstrapitalia' )}">
+                                                <i aria-hidden="true" class="fa fa-fw fa-external-link-square"></i> <span class="toolbar-item-label">{'Push place on OpenAgenda'|i18n( 'bootstrapitalia' )}</span>
+                                            </a>
+                                        </li>
+                                    {/if}
+
+                                    {if and($content_object.class_identifier|eq('document'), fetch( 'user', 'has_access_to', hash( 'module', 'relata', 'function', 'view' ) ))}
+                                        {def $can_view_relata = false()
+                                             $albo_pretorio_tag_remote_id = '984c6235761dac258fe8c245541095fa'} {* Documenti Albo Pretorio *}
+                                        {if $content_object|has_attribute('document_type')}
+                                            {foreach $content_object|attribute('document_type').content.tags as $tag}
+                                                {if $tag.remote_id|eq($albo_pretorio_tag_remote_id)}
+                                                    {set $can_view_relata = true()}
+                                                    {break}
+                                                {/if}
+                                                {foreach $tag.path as $parent_tag}
+                                                {if $parent_tag.remote_id|eq($albo_pretorio_tag_remote_id)}
+                                                    {set $can_view_relata = true()}
+                                                    {break}
+                                                {/if}
+                                                {/foreach}
+                                            {/foreach}
+                                        {/if}
+                                        {if $can_view_relata}
+                                        <li><span class="divider"></span></li>
+                                        <li>
+                                            <a class="list-item left-icon" href="{concat('relata/view/',$content_object.id)|ezurl(no)}" title="Relate di pubblicazione">
+                                                <i aria-hidden="true" class="fa fa-fw fa-file-pdf-o"></i> <span class="toolbar-item-label">Relata di pubblicazione</span>
+                                            </a>
+                                        </li>
+                                        {/if}
+                                        {undef $can_view_relata}
+                                    {/if}
+                                {/if}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
 
             {if is_set($content_object.id)}
                 <li class="toolbar-divider" aria-hidden="true"></li>
@@ -229,7 +379,7 @@
                                         <li><span class="divider"></span></li>
                                         <li>
                                             <a class="list-item left-icon" href="{'bootstrapitalia/approval'|ezurl(no)}" title="{'Approval'|i18n( 'bootstrapitalia/moderation' )}">
-                                                <i aria-hidden="true" class="fa fa-check-circle-o"></i> {'Go to the moderation dashboard'|i18n( 'bootstrapitalia/moderation' )}
+                                                <i aria-hidden="true" class="fa fa-fw fa-check-circle-o"></i> <span class="toolbar-item-label">{'Go to the moderation dashboard'|i18n( 'bootstrapitalia/moderation' )}</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -247,101 +397,9 @@
                 {undef $unread_message_count $pending_approval_count}
             {/if}
 
-            {* Custom templates inclusion *}
-            <li>
-                <div class="dropdown">
-                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownOther" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i aria-hidden="true" class="fa fa-ellipsis-h"></i>
-                        <span class="toolbar-label">{'Other'|i18n( 'bootstrapitalia' )}</span>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownOther">
-                        <div class="link-list-wrapper">
-                            <ul class="link-list">
-                                {if is_set($content_object.id)}
-                                    {include uri='design:parts/websitetoolbar/openpa_copy_object.tpl'}
-                                    {include uri='design:parts/websitetoolbar/versions.tpl'}
-                                    {*include uri='design:parts/websitetoolbar/object_states.tpl'*}
-                                    {include uri='design:parts/websitetoolbar/reindex.tpl'}
-                                    {include uri='design:parts/websitetoolbar/classtools.tpl'}
-                                    {include uri='design:parts/websitetoolbar/urlalias.tpl'}
-                                    {include uri='design:parts/websitetoolbar/ckan_push.tpl'}
-                                    {*include uri='design:parts/websitetoolbar/ezmultiupload.tpl'*}
-                                    {*include uri='design:parts/websitetoolbar/ezflip.tpl'*}
-                                    {*include uri='design:parts/websitetoolbar/ngpush.tpl'*}
-                                    {include uri='design:parts/websitetoolbar/refreshorgnigramma.tpl'}
-                                    <li><span class="divider"></span></li>
-                                {/if}
-
-                                {include uri='design:parts/websitetoolbar/openpa_menu.tpl'}
-
-                                {if is_set($content_object.id)}
-                                    <li><span class="divider"></span></li>
-                                    {def $onto_links = array()}
-                                    {if ezmodule('onto')}
-                                        {set $onto_links = easyontology_links($content_object.class_identifier, $content_object.id)}
-                                    {/if}
-
-                                    {if count($onto_links)}
-                                        <li>
-                                            <div class="list-item left-icon">
-                                                <i aria-hidden="true" class="fa fa-code"></i> Linked Data
-                                                {foreach $onto_links as $slug => $link}
-                                                    <a href="{$link}" target="_blank" rel="noopener noreferrer"  title="{$slug|wash()}" class="badge badge-dark bg-dark text-white d-inline px-1">{$slug|wash()}</a>
-                                                {/foreach}
-                                            </div>
-                                        </li>
-                                    {else}
-                                        <li>
-                                            <a class="list-item left-icon" href="{concat('opendata/api/data/read/',$content_object.id)|ezurl(no)}" title="{'View in json'|i18n( 'bootstrapitalia' )}">
-                                                <i aria-hidden="true" class="fa fa-code"></i> {'View in json'|i18n( 'bootstrapitalia' )}
-                                            </a>
-                                        </li>
-                                    {/if}
-                                    {undef $onto_links}
-
-                                    {if and($content_object.class_identifier|eq('place'), openagenda_can_push_place())}
-                                        <li><span class="divider"></span></li>
-                                        <li>
-                                            <a class="list-item left-icon" href="{concat('bootstrapitalia/bridge/push-openagenda-place/',$content_object.id)|ezurl(no)}" title="{'Push to openagenda'|i18n( 'bootstrapitalia' )}">
-                                                <i aria-hidden="true" class="fa fa-external-link-square"></i> {'Push place on OpenAgenda'|i18n( 'bootstrapitalia' )}
-                                            </a>
-                                        </li>
-                                    {/if}
-
-                                    {if and($content_object.class_identifier|eq('document'), fetch( 'user', 'has_access_to', hash( 'module', 'relata', 'function', 'view' ) ))}
-                                        {def $can_view_relata = false()
-                                             $albo_pretorio_tag_remote_id = '984c6235761dac258fe8c245541095fa'} {* Documenti Albo Pretorio *}
-                                        {if $content_object|has_attribute('document_type')}
-                                            {foreach $content_object|attribute('document_type').content.tags as $tag}
-                                                {if $tag.remote_id|eq($albo_pretorio_tag_remote_id)}
-                                                    {set $can_view_relata = true()}
-                                                    {break}
-                                                {/if}
-                                                {foreach $tag.path as $parent_tag}
-                                                {if $parent_tag.remote_id|eq($albo_pretorio_tag_remote_id)}
-                                                    {set $can_view_relata = true()}
-                                                    {break}
-                                                {/if}
-                                                {/foreach}
-                                            {/foreach}
-                                        {/if}
-                                        {if $can_view_relata}
-                                        <li><span class="divider"></span></li>
-                                        <li>
-                                            <a class="list-item left-icon" href="{concat('relata/view/',$content_object.id)|ezurl(no)}" title="Relate di pubblicazione">
-                                                <i aria-hidden="true" class="fa fa-file-pdf-o"></i> Relata di pubblicazione
-                                            </a>
-                                        </li>
-                                        {/if}
-                                        {undef $can_view_relata}
-                                    {/if}
-                                {/if}
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </li>
+            {if and(fetch( 'user', 'has_access_to', hash( 'module', 'newsletter', 'function', 'index' ) ), ezmodule('newsletter','subscribe'), fetch( 'content', 'class', hash( 'class_id', 'cjw_newsletter_system' ) ))}
+                {include uri='design:parts/websitetoolbar/newsletter.tpl' content_object=$content_object current_node=$current_node}
+            {/if}
 
             {if is_set($content_object.id)}
             <li class="toolbar-divider" aria-hidden="true"></li>
@@ -380,151 +438,151 @@
                                 {*if ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )}
                                     <li>
                                         <a class="list-item left-icon" href="{ezini( 'SiteSettings', 'AdditionalLoginFormActionURL' )|explode('user/login')[0]}{$current_node.url_alias}" rel="noopener noreferrer" target="_blank" title="{'Go to admin interface.'|i18n( 'design/standard/parts/website_toolbar' )}">
-                                            <i aria-hidden="true" class="fa fa-wrench"></i>
-                                            Backend
+                                            <i aria-hidden="true" class="fa fa-fw fa-wrench"></i>
+                                            <span class="toolbar-item-label">Backend</span>
                                         </a>
                                     </li>
                                 {/if*}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'draft' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{"content/draft"|ezurl(no)}" title="{"My drafts"|i18n("design/ocbootstrap/user/edit")}">
-                                            <i aria-hidden="true" class="fa fa-pencil-square"></i>
-                                            {"My drafts"|i18n("design/ocbootstrap/user/edit")}
+                                            <i aria-hidden="true" class="fa fa-fw fa-pencil-square"></i>
+                                            <span class="toolbar-item-label">{"My drafts"|i18n("design/ocbootstrap/user/edit")}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if openpaini( 'WebsiteToolbar', 'ShowMediaRoot', 'enabled' )|eq('enabled')}
                                     <li>
                                         <a class="list-item left-icon" href="{concat('content/view/full/',ezini('NodeSettings', 'MediaRootNode', 'content.ini'))|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-image"></i>
-                                            {'Media library'|i18n( 'bootstrapitalia' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-image"></i>
+                                            <span class="toolbar-item-label">{'Media library'|i18n( 'bootstrapitalia' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if openpaini( 'WebsiteToolbar', 'ShowUsersRoot', 'enabled' )|eq('enabled')}
                                     <li>
                                         <a class="list-item left-icon" href="{concat('content/view/full/',ezini('NodeSettings', 'UserRootNode', 'content.ini'))|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-users"></i>
-                                            {'Users'|i18n( 'design/admin/setup/session' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-users"></i>
+                                            <span class="toolbar-item-label">{'Users'|i18n( 'design/admin/setup/session' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {include uri='design:parts/websitetoolbar/ezsurvey.tpl'}
                                 <li>
                                     <a class="list-item left-icon" href="{'opendata/console/1'|ezurl(no)}">
-                                        <i aria-hidden="true" class="fa fa-code"></i>
-                                        {'API console'|i18n( 'bootstrapitalia' )}
+                                        <i aria-hidden="true" class="fa fa-fw fa-code"></i>
+                                        <span class="toolbar-item-label">{'API console'|i18n( 'bootstrapitalia' )}</span>
                                     </a>
                                 </li>
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'roles' ) )}
                                 <li>
                                     <a class="list-item left-icon" href="{'openpa/roles'|ezurl(no)}">
-                                        <i aria-hidden="true" class="fa fa-user-o"></i>
-                                        {'Administrative roles'|i18n( 'bootstrapitalia' )}
+                                        <i aria-hidden="true" class="fa fa-fw fa-user-o"></i>
+                                        <span class="toolbar-item-label">{'Administrative roles'|i18n( 'bootstrapitalia' )}</span>
                                     </a>
                                 </li>
                                 {/if}
                                 {if and( openpaini( 'WebsiteToolbar', 'ShowEditorRoles', 'disabled' )|eq('enabled'), fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'permissions' ) ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/permissions'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-user-secret"></i>
-                                            {'Access Management'|i18n( 'bootstrapitalia' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-user-secret"></i>
+                                            <span class="toolbar-item-label">{'Access Management'|i18n( 'bootstrapitalia' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'theme' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/theme'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-television"></i>
-                                            {'Theme management'|i18n( 'bootstrapitalia' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-television"></i>
+                                            <span class="toolbar-item-label">{'Theme management'|i18n( 'bootstrapitalia' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'seo' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'openpa/seo'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-google"></i>
-                                            {'S.E.O.'|i18n( 'bootstrapitalia' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-google"></i>
+                                            <span class="toolbar-item-label">{'S.E.O.'|i18n( 'bootstrapitalia' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'openpa', 'function', 'recaptcha' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'openpa/recaptcha'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-key"></i>
-                                            {'Recapetcha key management'|i18n( 'bootstrapitalia' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-key"></i>
+                                            <span class="toolbar-item-label">{'Recapetcha key management'|i18n( 'bootstrapitalia' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'rss', 'function', 'edit' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'rss/list'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-rss-square"></i>
-                                            {'RSS exports'|i18n( 'bootstrapitalia' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-rss-square"></i>
+                                            <span class="toolbar-item-label">{'RSS exports'|i18n( 'bootstrapitalia' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'trash' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'content/trash'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-trash"></i>
-                                            {'Trash'|i18n( 'design/standard/content/trash' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-trash"></i>
+                                            <span class="toolbar-item-label">{'Trash'|i18n( 'design/standard/content/trash' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if and(openpaini('GeneralSettings','Valuation', 1), fetch( 'user', 'has_access_to', hash( 'module', 'valuation', 'function', 'dashboard' ) ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'valuation/dashboard'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-dashboard"></i>
-                                            {'User feedbacks'|i18n("bootstrapitalia/valuation")}
+                                            <i aria-hidden="true" class="fa fa-fw fa-dashboard"></i>
+                                            <span class="toolbar-item-label">{'User feedbacks'|i18n("bootstrapitalia/valuation")}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'webhook', 'function', 'list' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'webhook/list'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-external-link-square"></i>
-                                            {'Webhooks'|i18n( 'bootstrapitalia' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-external-link-square"></i>
+                                            <span class="toolbar-item-label">{'Webhooks'|i18n( 'bootstrapitalia' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'urltranslator' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'content/urltranslator'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-link"></i>
-                                            {'URL translator'|i18n( 'design/admin/parts/setup/menu' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-link"></i>
+                                            <span class="toolbar-item-label">{'URL translator'|i18n( 'design/admin/parts/setup/menu' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'opencity_info_editor' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/info'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-phone-square"></i>
-                                            {'General information management'|i18n( 'bootstrapitalia' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-phone-square"></i>
+                                            <span class="toolbar-item-label">{'General information management'|i18n( 'bootstrapitalia' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'migration', 'function', 'dashboard' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'migration/dashboard'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-cloud-upload"></i>
-                                            {'Migration assistant'|i18n( 'bootstrapitalia' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-cloud-upload"></i>
+                                            <span class="toolbar-item-label">{'Migration assistant'|i18n( 'bootstrapitalia' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'service_tools' ) )}
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/service_tools'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-share-alt"></i>
-                                            {'Public service sync tool'|i18n( 'bootstrapitalia' )}
+                                            <i aria-hidden="true" class="fa fa-fw fa-share-alt"></i>
+                                            <span class="toolbar-item-label">{'Public service sync tool'|i18n( 'bootstrapitalia' )}</span>
                                         </a>
                                     </li>
                                 {/if}
                                 {if and(custom_booking_is_enabled(), fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'booking_config' ) ))}
                                     <li>
                                         <a class="list-item left-icon" href="{'bootstrapitalia/booking_config'|ezurl(no)}">
-                                            <i aria-hidden="true" class="fa fa-share-alt"></i>
-                                            Configurazione calendari{*'Configurazione calendari'|i18n( 'bootstrapitalia' )*}
+                                            <i aria-hidden="true" class="fa fa-fw fa-share-alt"></i>
+                                            <span class="toolbar-item-label">Configurazione calendari{*'Configurazione calendari'|i18n( 'bootstrapitalia' )*}</span>
                                         </a>
                                     </li>
                                 {/if}
@@ -544,6 +602,7 @@
                 </a>
             </li>
             {/if}
+
             {if fetch( 'user', 'has_access_to', hash( 'module', 'bootstrapitalia', 'function', 'permissions' ) )}
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
@@ -551,6 +610,46 @@
                   <i aria-hidden="true" class="fa fa-newspaper-o"></i>  
                   <span class="toolbar-label">{'Newsletter signup'|i18n( 'bootstrapitalia' )}</span>
                 </a>
+            </li>
+            {/if}
+
+            {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}
+            {* con il loginbox attivo il pannello utente del CMS vive nella toolbar e non nell'header *}
+            <li class="toolbar-divider" aria-hidden="true"></li>
+            <li>
+                <div class="dropdown">
+                    <button class="btn btn-dropdown dropdown-toggle toolbar-more" type="button" id="dropdownUser" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i aria-hidden="true" class="fa fa-user-circle-o"></i>
+                        <span class="toolbar-label">{$current_user.contentobject.name|wash()}</span>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
+                        <div class="link-list-wrapper">
+                            <ul class="link-list">
+                                <li>
+                                    <a class="list-item left-icon" href="{'user/edit'|ezurl(no)}">
+                                        <i aria-hidden="true" class="fa fa-fw fa-user-o"></i>
+                                        <span class="toolbar-item-label">{'User profile'|i18n('bootstrapitalia')}</span>
+                                    </a>
+                                </li>
+                                {if fetch( 'user', 'has_access_to', hash( 'module', 'content', 'function', 'dashboard' ) )}
+                                <li>
+                                    <a class="list-item left-icon" href="{'content/dashboard'|ezurl(no)}">
+                                        <i aria-hidden="true" class="fa fa-fw fa-dashboard"></i>
+                                        <span class="toolbar-item-label">{'Dashboard'|i18n('bootstrapitalia')}</span>
+                                    </a>
+                                </li>
+                                {/if}
+                                <li><span class="divider"></span></li>
+                                <li>
+                                    <a class="list-item left-icon" href="{'user/logout'|ezurl(no)}">
+                                        <i aria-hidden="true" class="fa fa-fw fa-sign-out"></i>
+                                        <span class="fw-bold toolbar-item-label">{'Logout'|i18n('bootstrapitalia')}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </li>
             {/if}
 
