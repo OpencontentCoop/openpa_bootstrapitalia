@@ -42,6 +42,7 @@ class OpenPABootstrapItaliaOperators
             'header_color',
             'footer_color',
             'is_bookmark',
+            'bookmark_id',
             'privacy_states',
             'menu_item_tree_contains',
             'lang_selector_url',
@@ -149,6 +150,9 @@ class OpenPABootstrapItaliaOperators
                 'valid_nodes' => array("type" => "array", "required" => false, "default" => array()),
             ),
             'is_bookmark' => array(
+                'node_id' => array('type' => 'integer', 'required' => true),
+            ),
+            'bookmark_id' => array(
                 'node_id' => array('type' => 'integer', 'required' => true),
             ),
             'menu_item_tree_contains' => array(
@@ -978,6 +982,18 @@ class OpenPABootstrapItaliaOperators
                         'node_id' => $nodeId,
                     ]
                 );
+                break;
+
+            case 'bookmark_id':
+                $bookmark = eZContentBrowseBookmark::fetchObject(
+                    eZContentBrowseBookmark::definition(),
+                    null,
+                    [
+                        'user_id' => eZUser::currentUserID(),
+                        'node_id' => (int)$namedParameters['node_id'],
+                    ]
+                );
+                $operatorValue = $bookmark instanceof eZContentBrowseBookmark ? (int)$bookmark->attribute('id') : 0;
                 break;
 
             case 'privacy_states':
