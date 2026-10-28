@@ -389,23 +389,23 @@
     </message>
     <message>
       <source>Administrative roles</source>
-      <translation>Gestione ruoli amministrativi</translation>
+      <translation>Ruoli amministrativi</translation>
     </message>
     <message>
       <source>Access Management</source>
-      <translation>Gestione accessi redazione</translation>
+      <translation>Accessi redazione</translation>
     </message>
     <message>
       <source>Theme management</source>
-      <translation>Gestione tema</translation>
+      <translation>Tema grafico</translation>
     </message>
     <message>
       <source>S.E.O.</source>
-      <translation>Gestione S.E.O.</translation>
+      <translation>S.E.O.</translation>
     </message>
     <message>
       <source>Recapetcha key management</source>
-      <translation>Gestione chiavi recaptcha</translation>
+      <translation>Chiavi reCAPTCHA</translation>
     </message>
     <message>
       <source>RSS exports</source>
@@ -417,7 +417,7 @@
     </message>
     <message>
       <source>General information management</source>
-      <translation>Gestione informazioni generali</translation>
+      <translation>Informazioni generali</translation>
     </message>
     <message>
       <source>Migration assistant</source>
