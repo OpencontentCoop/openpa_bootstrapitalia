@@ -401,7 +401,7 @@
     </message>
     <message>
       <source>S.E.O.</source>
-      <translation>S.E.O.</translation>
+      <translation>SEO e Cookie consent</translation>
     </message>
     <message>
       <source>Recapetcha key management</source>
