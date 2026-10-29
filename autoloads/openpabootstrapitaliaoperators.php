@@ -2507,7 +2507,14 @@ class OpenPABootstrapItaliaOperators
                         ) === eZObjectRelationListType::DATA_TYPE_STRING) {
                         $relations = $dataMap[$identifier]->content();
                         foreach ($relations['relation_list'] as $relation) {
-                            $relatedNode = eZContentObjectTreeNode::fetch($relation['node_id']);
+                            $relatedNode = !empty($relation['node_id']) ? eZContentObjectTreeNode::fetch($relation['node_id']) : null;
+                            // la relazione salvata dall'editor con un oggetto creato al volo non ha node-id
+                            if (!$relatedNode instanceof eZContentObjectTreeNode && !empty($relation['contentobject_id'])) {
+                                $relatedObject = eZContentObject::fetch((int)$relation['contentobject_id']);
+                                if ($relatedObject instanceof eZContentObject) {
+                                    $relatedNode = $relatedObject->mainNode();
+                                }
+                            }
                             if ($relatedNode instanceof eZContentObjectTreeNode) {
                                 return self::getNodeMainImage($relatedNode);
                             }

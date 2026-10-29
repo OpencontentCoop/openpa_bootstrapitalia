@@ -46,7 +46,7 @@ if ($home instanceof eZContentObjectTreeNode) {
 function getManifestImageUrl($size = 192, $imageUrl): string
 {
     if (!$imageUrl){
-        $imageUrl = 'https://' . eZINI::instance()->variable('SiteSettings', 'SiteURL') 
+        $imageUrl = 'https://' . trim(eZINI::instance()->variable('SiteSettings', 'SiteURL'))
             . "/extension/openpa_bootstrapitalia/design/standard/images/svg/web-app-manifest-{$size}x{$size}.png";
     }
     if (OpenPAINI::variable('ImageSettings', 'FlyImgBaseUrl', '') !== '') {
