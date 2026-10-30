@@ -815,6 +815,10 @@
       <source>Anac cig attribute alert</source>
       <translation>Achtung: Die Änderung eines in der ANAC-Datenbank vorhandenen CIG unterbricht die Synchronisierung der Auftragsdaten und kann zu Datenduplizierungsproblemen führen.</translation>
     </message>
+    <message>
+      <source>The selected document type causes this document to be automatically published in the transparency section of the site.</source>
+      <translation>Die ausgewählte Dokumentart führt dazu, dass dieses Dokument automatisch im Transparenzbereich der Website veröffentlicht wird.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>

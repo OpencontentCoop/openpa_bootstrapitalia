@@ -6,10 +6,9 @@
    Provvedimenti organi indirizzo politico, vedi
    installer/modules/trasparenza-c1/contenttrees/.../Provvedimenti-*.yml).
 
-   Lista statica deliberata (non letta da fields/schema_pubblicazione): va
-   aggiornata a mano se cambiano le pagine trasparenza che filtrano per
-   document_type - stesso principio accettato per altre liste statiche di
-   questo modulo. *}
+   Lista mantenuta in openpa.ini [Trasparenza] DocumentTypeTrasparenzaHintTagRemoteIds[]
+   (non letta da fields/schema_pubblicazione): va aggiornata a mano se
+   cambiano le pagine trasparenza che filtrano per document_type. *}
 
 {include uri='design:content/datatype/edit/eztags.tpl'}
 
@@ -25,23 +24,7 @@
 
 {if or(is_object($trasparenza_c1_root), is_object($trasparenza_c2_root))}
 
-{def $trasparenza_hint_tag_remote_ids = array(
-    'anac_doctype_valid_relaz_perf',
-    'anac_doctype_relaz_sist_valut',
-    'anac_doctype_altri_atti_organ',
-    'anac_doctype_relaz_bil_previs',
-    'anac_doctype_relaz_conto_cons',
-    '5cf98dba69d46a79d7afa5fcbeea364a',
-    '4271686f78f9dbc0fb871f32553ffb6c',
-    '7634e3355a07d671094fe120d7919653',
-    '7bda99bae095fde15daa1fe54af6861c',
-    '5b1e0b73926e47e0e8691c727a2a57df',
-    '2a8a6817a8f54531c77be68f03655833',
-    '173d943cedd25729d8707a753b12280c',
-    'a5994c0e99b79cd4ca5ed1285135a461',
-    'f3431b7c90f441bab1a0b2e3068325d4',
-    '99af81198d42521cfc45090770824e26'
-)}
+{def $trasparenza_hint_tag_remote_ids = openpaini('Trasparenza', 'DocumentTypeTrasparenzaHintTagRemoteIds', array())}
 {def $trasparenza_hint_tag_ids = array()}
 {foreach $trasparenza_hint_tag_remote_ids as $remote_id}
     {def $trasparenza_hint_tag = fetch(tags, tag_by_remote_id, hash('remote_id', $remote_id))}
@@ -57,7 +40,7 @@
    stilizzato da questa interfaccia (look non curato, vedi screenshot di
    Marco), questo paragrafo si'. *}
 <p id="document-type-trasparenza-hint-{$attribute.id}" class="text-muted small mt-3" style="display:none">
-    <em>{'This document will automatically appear in the "Administration Transparency" section of the site.'|i18n('bootstrapitalia')}</em>
+    <em>{'The selected document type causes this document to be automatically published in the transparency section of the site.'|i18n('bootstrapitalia')}</em>
 </p>
 
 <script type="text/javascript">

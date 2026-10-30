@@ -206,6 +206,29 @@ ShowBandoFaseSelect=enabled
 EnableAnacExport=disabled
 EnableAnacLiveRendering=disabled
 
+# Tag (document_type, per remote_id) che fanno comparire un Documento in
+# Amministrazione Trasparente/Societa' trasparente - usati per mostrare un
+# avviso al redattore nell'editing del campo "Tipo di documento" (vedi
+# design/bootstrapitalia2/override/templates/datatype/edit/document_type.tpl).
+# Lista mantenuta a mano: va aggiornata se cambiano le pagine trasparenza
+# che filtrano per document_type (OIV/Organi di revisione, Provvedimenti
+# dirigenti/organi di indirizzo politico).
+DocumentTypeTrasparenzaHintTagRemoteIds[]=anac_doctype_valid_relaz_perf
+DocumentTypeTrasparenzaHintTagRemoteIds[]=anac_doctype_relaz_sist_valut
+DocumentTypeTrasparenzaHintTagRemoteIds[]=anac_doctype_altri_atti_organ
+DocumentTypeTrasparenzaHintTagRemoteIds[]=anac_doctype_relaz_bil_previs
+DocumentTypeTrasparenzaHintTagRemoteIds[]=anac_doctype_relaz_conto_cons
+DocumentTypeTrasparenzaHintTagRemoteIds[]=5cf98dba69d46a79d7afa5fcbeea364a
+DocumentTypeTrasparenzaHintTagRemoteIds[]=4271686f78f9dbc0fb871f32553ffb6c
+DocumentTypeTrasparenzaHintTagRemoteIds[]=7634e3355a07d671094fe120d7919653
+DocumentTypeTrasparenzaHintTagRemoteIds[]=7bda99bae095fde15daa1fe54af6861c
+DocumentTypeTrasparenzaHintTagRemoteIds[]=5b1e0b73926e47e0e8691c727a2a57df
+DocumentTypeTrasparenzaHintTagRemoteIds[]=2a8a6817a8f54531c77be68f03655833
+DocumentTypeTrasparenzaHintTagRemoteIds[]=173d943cedd25729d8707a753b12280c
+DocumentTypeTrasparenzaHintTagRemoteIds[]=a5994c0e99b79cd4ca5ed1285135a461
+DocumentTypeTrasparenzaHintTagRemoteIds[]=f3431b7c90f441bab1a0b2e3068325d4
+DocumentTypeTrasparenzaHintTagRemoteIds[]=99af81198d42521cfc45090770824e26
+
 [MotoreRicerca]
 IncludiClassi[]=administrative_area
 IncludiClassi[]=topic
