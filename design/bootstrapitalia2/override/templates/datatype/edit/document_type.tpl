@@ -13,6 +13,18 @@
 
 {include uri='design:content/datatype/edit/eztags.tpl'}
 
+{* Mostrato solo se il modulo trasparenza risulta installato su questo
+   tenant (altrimenti nessuno di questi tag porterebbe mai a una pagina
+   trasparenza reale, e l'avviso sarebbe solo rumore) - verificato
+   controllando l'esistenza della radice C1 o C2, stesso principio gia'
+   usato dal cron ANAC per sapere se un modulo e' installato
+   (eZContentObject::fetchByRemoteID() su un oggetto radice noto, vedi
+   cronjobs/anac_export.php). *}
+{def $trasparenza_c1_root = fetch('content', 'object', hash('remote_id', '5399ef12f98766b90f1804e5d52afd75'))}
+{def $trasparenza_c2_root = fetch('content', 'object', hash('remote_id', 't_c2_root'))}
+
+{if or(is_object($trasparenza_c1_root), is_object($trasparenza_c2_root))}
+
 {def $trasparenza_hint_tag_remote_ids = array(
     'anac_doctype_valid_relaz_perf',
     'anac_doctype_relaz_sist_valut',
@@ -39,10 +51,14 @@
     {undef $trasparenza_hint_tag}
 {/foreach}
 
-<div id="document-type-trasparenza-hint-{$attribute.id}" class="alert alert-info mt-2 py-2 px-3" style="display:none;font-size:0.85em;" role="status">
-    {display_icon('it-info-circle', 'svg', 'icon')}
-    {'This document will automatically appear in the "Administration Transparency" section of the site.'|i18n('bootstrapitalia')}
-</div>
+{* Stesso stile gia' in uso in questa UI per gli altri avvisi contestuali
+   su un campo (vedi content/edit_attribute.tpl, "Anac attribute update
+   alert"/"Anac cig attribute alert") - un box "alert" generico non e'
+   stilizzato da questa interfaccia (look non curato, vedi screenshot di
+   Marco), questo paragrafo si'. *}
+<p id="document-type-trasparenza-hint-{$attribute.id}" class="text-muted small mt-1" style="display:none">
+    <em>{'This document will automatically appear in the "Administration Transparency" section of the site.'|i18n('bootstrapitalia')}</em>
+</p>
 
 <script type="text/javascript">
 (function () {ldelim}
@@ -52,7 +68,7 @@
     // interazione (verificato: la rimozione di un tag tramite il tasto "x"
     // del chip non li emette). L'input nascosto `.tagids` invece viene
     // sempre tenuto aggiornato dal widget con l'elenco corrente degli id
-    // selezionati (separati da '-') qualunque sia il builder - polling
+    // selezionati (separatore '|#') qualunque sia il builder - polling
     // leggero su quel valore, affidabile indipendentemente
     // dall'implementazione JS interna del widget.
     var hintTagIds = JSON.parse('{$trasparenza_hint_tag_ids|json_encode()}').map(function (id) {ldelim} return parseInt(id, 10); {rdelim});
@@ -73,3 +89,5 @@
     setInterval(checkHint, 400);
 {rdelim})();
 </script>
+
+{/if}
