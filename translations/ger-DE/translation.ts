@@ -2637,5 +2637,17 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <source>Export of files according to the ANAC publication schema.</source>
       <translation>Export der Dateien gemäß dem ANAC-Veröffentlichungsschema.</translation>
     </message>
+    <message>
+      <source>Document type</source>
+      <translation>Dokumentart</translation>
+    </message>
+    <message>
+      <source>Publication date</source>
+      <translation>Datum der Veröffentlichung</translation>
+    </message>
+    <message>
+      <source>Document</source>
+      <translation>Dokument</translation>
+    </message>
   </context>
 </TS>

@@ -110,41 +110,6 @@ publishArt31($cli, $schemaBindings);
  * trasparenza dell'art. 31 - verificato con Marco il 2026-09-15, vedi
  * classes/anac/CLAUDE.md.
  */
-/**
- * Riusa la stessa query gia' compilata per la "rappresentazione" della
- * pagina (campo `fields`, vedi
- * ObjectHandlerServiceContentTrasparenza::parseTableFieldsParameter()) come
- * base per la ricerca di un certo tipo di contenuto (documenti OIV/Organi di
- * revisione, punti di contatto per Riferimenti e contatti, ...) - cosi'
- * quello che il redattore vede elencato sulla pagina e quello che finisce
- * nell'export condividono lo stesso subtree, invece di due risoluzioni
- * indipendenti (issue #477, commento Federica 2026-09-22).
- *
- * @param string $classIdentifier identificativo della content class da
- *        cercare tra le tabelle configurate in `fields` (una pagina puo'
- *        averne piu' di una, separate da `&`)
- * @return string|null null se la pagina non ha una tabella `fields`
- *         configurata per quella classe - il chiamante ricade sul
- *         comportamento precedente (nessun vincolo di subtree).
- */
-function resolvePageTableQuery(eZContentObject $pageObject, $classIdentifier)
-{
-    $dataMap = $pageObject->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
-    if (!isset($dataMap['fields']) || !$dataMap['fields']->attribute('has_content')) {
-        return null;
-    }
-
-    $string = $dataMap['fields']->toString();
-    foreach (explode('&', $string) as $tableString) {
-        $table = ObjectHandlerServiceContentTrasparenza::parseTableFieldsParameter($tableString, $pageObject->attribute('main_node'));
-        if (is_array($table) && isset($table['class_identifier'], $table['query']) && $table['class_identifier'] === $classIdentifier) {
-            return $table['query'];
-        }
-    }
-
-    return null;
-}
-
 function publishArt31(eZCLI $cli, array $schemaBindings)
 {
     try {
@@ -176,14 +141,8 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
 
         $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer($corteDataMap['csv_resource']);
 
-        $oivDocuments = $serializer->fetchDocumentsByKeys(
-            \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OIV_KEYS,
-            resolvePageTableQuery($oivPageObject, 'document')
-        );
-        $orDocuments = $serializer->fetchDocumentsByKeys(
-            \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OR_KEYS,
-            resolvePageTableQuery($orPageObject, 'document')
-        );
+        $oivDocuments = $serializer->fetchDocumentsByKeys(\OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OIV_KEYS);
+        $orDocuments = $serializer->fetchDocumentsByKeys(\OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::OR_KEYS);
 
         // Ogni sottosezione pubblica CSV+JSON insieme, con lo stesso
         // identificativo (quindi stesso naming file pubblico, nessun "file
