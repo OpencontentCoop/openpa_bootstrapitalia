@@ -2511,7 +2511,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <name>bootstrapitalia/anac_export</name>
     <message>
       <source>ANAC publication schemas</source>
-      <translation>ANAC-Veröffentlichungsschemata</translation>
+      <translation>Open Data</translation>
     </message>
     <message>
       <source>Previous versions</source>
