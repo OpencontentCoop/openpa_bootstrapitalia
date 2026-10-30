@@ -153,7 +153,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $blocks[] = [
                 'schema' => $schema,
                 'title' => $this->getLiveRenderingBlockTitle($schema),
-                'rows_json' => \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::render($schema, $this->container->getContentObject()),
+                'rows_json' => \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::render($schema),
                 'dom_id' => preg_replace('/[^a-z0-9]+/', '-', strtolower($schema)),
                 'column_labels' => $this->getOrganizationFieldLabels(),
             ];

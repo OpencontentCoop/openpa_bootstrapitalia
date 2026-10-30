@@ -129,31 +129,19 @@ class Art31Serializer
      * fix. La query filtra lato Solr sui soli id di tag richiesti: il costo
      * cresce con quanti documenti sono TAGGATI, non con quanti documenti
      * esistono sul sito.
+     *
+     * Query sempre hardcoded qui, come Art13Serializer::fetchRiferimentiContatti()
+     * per art.13-rif - non dipende mai dal campo `fields` di nessuna pagina
+     * (deciso da Marco il 2026-10-30, corregge una decisione precedente del
+     * 2026-09-22 che condivideva la query con la "rappresentazione" della
+     * pagina: quella scelta limitava la ricerca al solo sottoalbero della
+     * pagina stessa quando il `fields` non specificava `parent:`, escludendo
+     * i documenti OIV/Organi di revisione pubblicati altrove sul sito -
+     * stesso principio di art.13-rif, un documento con questo tag va trovato
+     * ovunque sia, non solo sotto la pagina che lo esporta). Subtree
+     * `[NodeSettings]RootNode`, come fetchRiferimentiContatti().
      */
-    /**
-     * @param string|null $baseQuery query gia' compilata (query language
-     *        Opencontent) da usare COSI' COM'E', senza aggiungere altro -
-     *        pensata per ricevere la stessa query gia' configurata per la
-     *        "rappresentazione" della pagina (campo `fields`, vedi
-     *        ObjectHandlerServiceContentTrasparenza::parseTableFieldsParameter()),
-     *        cosi' pagina mostrata e pagina esportata condividono
-     *        esattamente la stessa query invece di due risoluzioni
-     *        indipendenti (issue #477, commento Federica 2026-09-22; il
-     *        filtro per tag e' stato spostato nel campo `fields` delle
-     *        pagine OIV/Organi di revisione in
-     *        installer/modules/trasparenza-c1 e -c2 proprio per permettere
-     *        questo - vedi i rispettivi `patch_content` per
-     *        $organismi_indipendenti/$organo_controllo_oiv/
-     *        $organi_di_revisione). Non viene piu' riaggiunto qui il filtro
-     *        per `document_type`: sarebbe una condizione ridondante (gia'
-     *        presente nella query della pagina) e lascerebbe l'export
-     *        silenziosamente scollegato da un'eventuale modifica futura ai
-     *        tag della pagina - ci si fida della query della pagina com'e'.
-     *        Se null (pagina non ancora aggiornata, `fields` vuoto/assente),
-     *        comportamento precedente: query costruita qui da zero,
-     *        filtrata per tag, senza vincolo di subtree.
-     */
-    public function fetchDocumentsByKeys(array $keys, $baseQuery = null)
+    public function fetchDocumentsByKeys(array $keys)
     {
         $result = [];
         foreach ($keys as $key) {
@@ -175,11 +163,8 @@ class Art31Serializer
             return $result;
         }
 
-        if ($baseQuery !== null) {
-            $query = $baseQuery;
-        } else {
-            $query = 'classes [document] and raw[subattr_document_type___tag_ids____si] in [' . implode(',', $tagIds) . ']';
-        }
+        $rootNodeId = (int)\eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode');
+        $query = 'classes [document] and raw[subattr_document_type___tag_ids____si] in [' . implode(',', $tagIds) . '] and subtree [' . $rootNodeId . ']';
         $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
         $queryObject = $queryBuilder->instanceQuery($query);
 

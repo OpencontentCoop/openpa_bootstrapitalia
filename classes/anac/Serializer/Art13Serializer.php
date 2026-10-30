@@ -534,9 +534,10 @@ class Art13Serializer
     /**
      * Export `art.13-rif` (Riferimenti e contatti, #478 - vedi CLAUDE.md,
      * "Riferimenti e contatti"). Hardcoded come gli altri fetch di questa
-     * classe (fetchOrganizzazioniByTagPath()) - non dipende piu' dal campo
-     * `fields` di nessuna pagina (vedi cronjobs/anac_export.php,
-     * resolvePageTableQuery()): la sorgente e' sempre la radice reale del
+     * classe (fetchOrganizzazioniByTagPath()) - non dipende dal campo
+     * `fields` di nessuna pagina (stesso principio adottato poi anche per
+     * Art31Serializer::fetchDocumentsByKeys(), vedi il suo docblock): la
+     * sorgente e' sempre la radice reale del
      * sito (`[NodeSettings]RootNode`, content.ini - lo stesso nodo "Homepage"
      * da cui discende tutto il content model), indipendentemente da quale
      * pagina dichiari `schema_pubblicazione: art.13-rif`. Questo disaccoppia

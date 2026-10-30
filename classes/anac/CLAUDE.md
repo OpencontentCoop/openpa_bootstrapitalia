@@ -787,22 +787,27 @@ natura diversa dei dati:
   classe `document` - uno scan completo rischia di esaurire la memoria PHP
   su un sito con decine di migliaia di documenti.
 
-  **Il filtro per tag vive ora nella query della pagina, non (solo) qui**
-  (cms installer, 2026-10-15): le pagine "Organismi indipendenti di
-  valutazione..."/"Organo di controllo che svolge la funzione di OIV" e
-  "Organi di revisione amministrativa e contabile" (`trasparenza-c1` e
-  `trasparenza-c2`, sia nel content tree sia nel `patch_content` di
-  `installer.yml` che lo sovrascrive su update) hanno ora il filtro
-  `document_type in [...]` direttamente nel proprio campo `fields` - prima
-  avevano solo `document|name,publication_start_time`, senza nessun
-  filtro per tag (la tabella in pagina mostrava tutti i documenti figli
-  della pagina, non solo quelli pertinenti). Di conseguenza
-  `fetchDocumentsByKeys()`, quando riceve un `$baseQuery` non nullo (vedi
-  doc del parametro sotto), **non riaggiunge piu'** la propria condizione
-  `raw[subattr_document_type___tag_ids____si] in [...]` - si fida della
-  query della pagina com'e', per non duplicare la stessa condizione due
-  volte nella stessa query Solr. Il filtro viene ricostruito qui da zero
-  solo nel fallback (`$baseQuery === null`, pagina non ancora aggiornata).
+  **Query sempre hardcoded qui, non dipende dal campo `fields` di nessuna
+  pagina** (corretto 2026-10-30, Marco): tra il 2026-09-22 e il 2026-10-30
+  `fetchDocumentsByKeys()` accettava un `$baseQuery` opzionale, pensato per
+  riusare la stessa query gia' configurata sul campo `fields` delle pagine
+  OIV/Organi di revisione (cosi' pagina e export avrebbero condiviso
+  esattamente lo stesso subtree). Si e' rivelato un problema quando e'
+  arrivato il rendering live di queste due pagine (vedi
+  `PageArt31DocumentiProvider`): se il `fields` della pagina non
+  specificava `parent:` (il caso di default, visto negli esempi reali in
+  `installer/modules/trasparenza-c1/installer.yml`), la query cadeva nel
+  sottoalbero della sola pagina stessa, escludendo documenti OIV/Organi di
+  revisione pubblicati altrove sul sito - sia dalla tabella in pagina sia
+  dall'export. Stesso principio di `art.13-rif`
+  (`Art13Serializer::fetchRiferimentiContatti()`): un documento con questo
+  tag va trovato ovunque sia, non solo sotto la pagina che lo espone -
+  `fetchDocumentsByKeys()` ora costruisce sempre internamente
+  `subtree [RootNode]`, senza parametro di query esterna. Le pagine
+  OIV/Organi di revisione mantengono comunque il filtro
+  `document_type in [...]` nel proprio campo `fields` (serve ancora alla
+  tabella dichiarativa quando il rendering live e' disattivato), ma quel
+  valore non e' piu' letto da nessun chiamante di `fetchDocumentsByKeys()`.
 - **Corte dei conti**: dataset reale (`opendatadataset`, remote_id
   `corte_dei_conti`), stesso pattern di `Art4BisSerializer` — colonne
   `data_di_pubblicazione`/`oggetto`/`documento` (vedi

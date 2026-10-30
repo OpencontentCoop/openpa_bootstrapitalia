@@ -8,16 +8,12 @@ namespace OpenPABootstrapItalia\Anac;
  * senza passare dal formato CSV/JSON - stesso principio di
  * PageArticolazioneUfficiProvider/PageRiferimentiContattiProvider.
  *
- * A differenza di quelle due classi, qui il fetch dipende dalla pagina
- * specifica che lo richiede: Art31Serializer::fetchDocumentsByKeys() accetta
- * una query opzionale gia' compilata dal campo `fields` della pagina (stesso
- * principio gia' in uso dal cron, vedi resolvePageTableQuery() in
- * cronjobs/anac_export.php), cosi' pagina mostrata e pagina esportata
- * condividono lo stesso subtree/filtro invece di due risoluzioni
- * indipendenti. Per questo i metodi qui accettano l'oggetto pagina - passato
- * da LiveRenderingRegistry::render(), che lo riceve a sua volta da
- * content_trasparenza.php (il chiamante conosce gia' su quale pagina si
- * trova).
+ * Come quelle due classi, il fetch non dipende dalla pagina che lo
+ * richiede: Art31Serializer::fetchDocumentsByKeys() interroga sempre tutto
+ * il sito (subtree RootNode, stesso principio di
+ * Art13Serializer::fetchRiferimentiContatti() per art.13-rif) - un
+ * documento con quel tag va trovato ovunque sia pubblicato, non solo sotto
+ * la pagina che lo esporta.
  *
  * Registrata in LiveRenderingRegistry sotto gli schemi art.31-oiv/art.31-or.
  */
@@ -30,20 +26,19 @@ class PageArt31DocumentiProvider
         $this->serializer = $serializer ?: new Serializer\Art31Serializer();
     }
 
-    public function getOivRowsJson(\eZContentObject $pageObject = null)
+    public function getOivRowsJson()
     {
-        return $this->rowsJson(Serializer\Art31Serializer::OIV_KEYS, $pageObject);
+        return $this->rowsJson(Serializer\Art31Serializer::OIV_KEYS);
     }
 
-    public function getOrganiDiRevisioneRowsJson(\eZContentObject $pageObject = null)
+    public function getOrganiDiRevisioneRowsJson()
     {
-        return $this->rowsJson(Serializer\Art31Serializer::OR_KEYS, $pageObject);
+        return $this->rowsJson(Serializer\Art31Serializer::OR_KEYS);
     }
 
-    private function rowsJson(array $keys, \eZContentObject $pageObject = null)
+    private function rowsJson(array $keys)
     {
-        $baseQuery = $pageObject !== null ? $this->resolvePageTableQuery($pageObject, 'document') : null;
-        $documentsByKey = $this->serializer->fetchDocumentsByKeys($keys, $baseQuery);
+        $documentsByKey = $this->serializer->fetchDocumentsByKeys($keys);
 
         return $this->toSafeJson($this->flattenRows($keys, $documentsByKey));
     }
@@ -54,7 +49,9 @@ class PageArt31DocumentiProvider
      *         comportamento di Art31Serializer::toCsvDocumenti(), a
      *         differenza del JSON ANAC che tiene solo il piu' recente per
      *         chiave). Un documento senza file allegato o senza data di
-     *         pubblicazione viene omesso, stesso criterio del CSV.
+     *         pubblicazione viene omesso, stesso criterio del CSV. `url` e'
+     *         il link al file allegato (stesso usato dall'export), non alla
+     *         pagina del documento.
      */
     private function flattenRows(array $keys, array $documentsByKey)
     {
@@ -80,33 +77,6 @@ class PageArt31DocumentiProvider
         }
 
         return $rows;
-    }
-
-    /**
-     * Stesso meccanismo gia' usato da resolvePageTableQuery() in
-     * cronjobs/anac_export.php (non riusabile direttamente: una funzione
-     * globale in un file cron, non una classe autoloadabile) - duplicato
-     * qui minimamente, stessa fonte di verita' sotto (parseTableFieldsParameter()).
-     *
-     * @return string|null null se la pagina non ha una tabella `fields`
-     *         configurata per quella classe
-     */
-    private function resolvePageTableQuery(\eZContentObject $pageObject, $classIdentifier)
-    {
-        $dataMap = $pageObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
-        if (!isset($dataMap['fields']) || !$dataMap['fields']->attribute('has_content')) {
-            return null;
-        }
-
-        $string = $dataMap['fields']->toString();
-        foreach (explode('&', $string) as $tableString) {
-            $table = \ObjectHandlerServiceContentTrasparenza::parseTableFieldsParameter($tableString, $pageObject->attribute('main_node'));
-            if (is_array($table) && isset($table['class_identifier'], $table['query']) && $table['class_identifier'] === $classIdentifier) {
-                return $table['query'];
-            }
-        }
-
-        return null;
     }
 
     /**

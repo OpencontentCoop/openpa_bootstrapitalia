@@ -70,17 +70,10 @@ class LiveRenderingRegistry
     }
 
     /**
-     * @param \eZContentObject|null $pageObject pagina corrente, passata ai
-     *        fornitori che ne hanno bisogno per risolvere la propria query
-     *        (es. PageArt31DocumentiProvider, che riusa il campo `fields`
-     *        della pagina - vedi il suo docblock di classe). Un parametro in
-     *        piu' rispetto a quanto un metodo fornitore dichiara non causa
-     *        errori in PHP: i fornitori che non lo usano (PageArticolazioneUfficiProvider,
-     *        PageRiferimentiContattiProvider) lo ignorano semplicemente.
      * @return string|null JSON di righe pronto per DataTables, o null se lo
      *         schema non ha un fornitore registrato
      */
-    public static function render($schemaIdentifier, \eZContentObject $pageObject = null)
+    public static function render($schemaIdentifier)
     {
         if (!self::hasProvider($schemaIdentifier)) {
             return null;
@@ -89,7 +82,7 @@ class LiveRenderingRegistry
         [$providerClass, $method] = self::PROVIDERS[$schemaIdentifier];
         $provider = new $providerClass();
 
-        return $provider->$method($pageObject);
+        return $provider->$method();
     }
 
     /**
