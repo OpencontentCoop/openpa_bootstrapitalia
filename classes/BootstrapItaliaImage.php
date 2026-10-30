@@ -57,7 +57,9 @@ class BootstrapItaliaImage
             'alias_url' => null,
             'alias_info' => null,
             'preload' => null,
-            'refresh' => true,
+            // rf_1 fa riscaricare e riconvertire la sorgente a flyimg a ogni richiesta:
+            // le url delle immagini cambiano gia' con la versione (storage, ?v=, /logo?v=)
+            'refresh' => false,
         ], $parameters);
 
         if ($url instanceof eZImageAliasHandler) {
