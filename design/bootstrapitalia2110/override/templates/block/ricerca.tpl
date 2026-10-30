@@ -12,7 +12,7 @@
 {if and(is_set($block.custom_attributes.logo), $block.custom_attributes.logo|ne(''))}
     {def $logo = fetch(content, node, hash(node_id, $block.custom_attributes.logo))}
     {if and($logo, $logo.class_identifier|eq('banner'), $logo|has_attribute('image'))}
-        {set $logo_image = $logo|attribute('image').content.original.full_path|ezroot(no)}
+        {set $logo_image = render_image($logo|attribute('image').content.original.full_path|ezroot(no,full)).src}
         {set $logo_link = object_handler($logo).content_link.full_link}
         {set $logo_alt = $logo.name|wash()}
     {/if}
@@ -71,7 +71,7 @@
               <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center justify-content-lg-end" style="z-index: 1;">
                 <div class="mt-5 mt-lg-0 text-lg-center">
                   <a href="{$logo_link}" target="_blank" rel="noopener" title="{$logo_alt}">
-                    <img src="{$logo_image|ezroot(no)}"
+                    <img src="{$logo_image}"
                       alt="{$logo_alt}"
                       class="img-fluid"
                       style="max-width: 100%; max-height: 60px;"/>

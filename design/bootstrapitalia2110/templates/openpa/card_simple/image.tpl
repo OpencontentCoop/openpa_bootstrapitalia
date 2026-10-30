@@ -3,7 +3,7 @@
     <a data-element="{$openpa.data_element.value|wash()}"
       class=""
       title="{$node.name|wash()}"
-      {if $view_variation|eq('gallery')}data-gallery href={$node|attribute('image').content.reference.url|ezroot}{else}href="{$openpa.content_link.full_link}"{/if}>
+      {if $view_variation|eq('gallery')}data-gallery href="{render_image($node|attribute('image').content, hash('alias', 'reference')).src}"{else}href="{$openpa.content_link.full_link}"{/if}>
         <div class="img-responsive-wrapper">
             <div class="img-responsive">
                 <div class="img-wrapper">
