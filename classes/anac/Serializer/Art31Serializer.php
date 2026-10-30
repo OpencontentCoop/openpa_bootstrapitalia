@@ -80,10 +80,18 @@ class Art31Serializer
 
     private $amministrazione;
 
-    /** @var \eZContentObjectAttribute attributo csv_resource del dataset "Rilievi della Corte dei conti" (remote_id corte_dei_conti) */
+    /** @var \eZContentObjectAttribute|null attributo csv_resource del dataset "Rilievi della Corte dei conti" (remote_id corte_dei_conti) */
     private $corteDeiContiAttribute;
 
-    public function __construct(\eZContentObjectAttribute $corteDeiContiAttribute, array $amministrazione = null)
+    /**
+     * Nullable: non serve per fetchDocumentsByKeys()/getAttiOrganiDi...()/
+     * toCsvOiv()/toCsvOr() (OIV/Organi di revisione, classe document) - solo
+     * per fetchRilieviGrezzi()/getRilieviCorteDeiConti()/toCsvCc() (Corte dei
+     * conti, dataset). Un chiamante che usa il serializer solo per OIV/
+     * Organi di revisione (es. il rendering live, PageArt31DocumentiProvider)
+     * non deve risolvere/passare un attributo che non gli serve.
+     */
+    public function __construct(\eZContentObjectAttribute $corteDeiContiAttribute = null, array $amministrazione = null)
     {
         $this->corteDeiContiAttribute = $corteDeiContiAttribute;
         $this->amministrazione = $amministrazione;
@@ -219,17 +227,25 @@ class Art31Serializer
     }
 
     /**
+     * Pubblico (non solo uso interno): PageArt31DocumentiProvider lo riusa
+     * per il rendering live, stessa risoluzione url gia' usata da
+     * toCsvDocumenti()/buildDatiIdentificativiBlock() - un solo punto
+     * decide come risolvere l'url di un documento, qualunque sia la
+     * presentazione (CSV, JSON, tabella live).
+     *
      * @return string|null url assoluta https del file allegato, o null se il documento non ha un file
      */
-    private function fetchDocumentUrl(\eZContentObject $object)
+    public function fetchDocumentUrl(\eZContentObject $object)
     {
         return \OpenPABootstrapItalia\Anac\DocumentFileResolver::resolveUrl($object);
     }
 
     /**
+     * Pubblico per lo stesso motivo di fetchDocumentUrl() sopra.
+     *
      * @return string|null data di pubblicazione in formato gg/mm/aaaa, o null se non impostata
      */
-    private function fetchPublicationDate(\eZContentObject $object)
+    public function fetchPublicationDate(\eZContentObject $object)
     {
         $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
         if (!isset($dataMap['publication_start_time'])) {

@@ -28,6 +28,8 @@ class LiveRenderingRegistry
         'art.13-op' => [PageArticolazioneUfficiProvider::class, 'getOrganiPoliticiRowsJson'],
         'art.13-oa' => [PageArticolazioneUfficiProvider::class, 'getOrganiAmministrativiRowsJson'],
         'art.13-rif' => [PageRiferimentiContattiProvider::class, 'getRiferimentiContattiRowsJson'],
+        'art.31-oiv' => [PageArt31DocumentiProvider::class, 'getOivRowsJson'],
+        'art.31-or' => [PageArt31DocumentiProvider::class, 'getOrganiDiRevisioneRowsJson'],
     ];
 
     /**
@@ -43,6 +45,8 @@ class LiveRenderingRegistry
         'art.13-op' => 'organization',
         'art.13-oa' => 'organization',
         'art.13-rif' => 'online_contact_point',
+        'art.31-oiv' => 'document',
+        'art.31-or' => 'document',
     ];
 
     /**
@@ -66,10 +70,17 @@ class LiveRenderingRegistry
     }
 
     /**
+     * @param \eZContentObject|null $pageObject pagina corrente, passata ai
+     *        fornitori che ne hanno bisogno per risolvere la propria query
+     *        (es. PageArt31DocumentiProvider, che riusa il campo `fields`
+     *        della pagina - vedi il suo docblock di classe). Un parametro in
+     *        piu' rispetto a quanto un metodo fornitore dichiara non causa
+     *        errori in PHP: i fornitori che non lo usano (PageArticolazioneUfficiProvider,
+     *        PageRiferimentiContattiProvider) lo ignorano semplicemente.
      * @return string|null JSON di righe pronto per DataTables, o null se lo
      *         schema non ha un fornitore registrato
      */
-    public static function render($schemaIdentifier)
+    public static function render($schemaIdentifier, \eZContentObject $pageObject = null)
     {
         if (!self::hasProvider($schemaIdentifier)) {
             return null;
@@ -78,7 +89,7 @@ class LiveRenderingRegistry
         [$providerClass, $method] = self::PROVIDERS[$schemaIdentifier];
         $provider = new $providerClass();
 
-        return $provider->$method();
+        return $provider->$method($pageObject);
     }
 
     /**

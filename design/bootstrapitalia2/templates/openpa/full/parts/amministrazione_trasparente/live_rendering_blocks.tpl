@@ -44,6 +44,12 @@ table[id^="live-rendering-"] th{white-space:nowrap}
                 <th>{'Email'|i18n('bootstrapitalia/anac_export')}</th>
                 <th>{'Certified email'|i18n('bootstrapitalia/anac_export')}</th>
             </tr>
+            {elseif or($block.schema|eq('art.31-oiv'), $block.schema|eq('art.31-or'))}
+            <tr>
+                <th>{'Document type'|i18n('bootstrapitalia/anac_export')}</th>
+                <th>{'Publication date'|i18n('bootstrapitalia/anac_export')}</th>
+                <th>{'Document'|i18n('bootstrapitalia/anac_export')}</th>
+            </tr>
             {else}
             <tr>
                 <th>{'Body'|i18n('bootstrapitalia/anac_export')}</th>
@@ -117,6 +123,20 @@ $(document).ready(function () {ldelim}
             {ldelim} data: 'telefono' {rdelim},
             {ldelim} data: 'email' {rdelim},
             {ldelim} data: 'pec' {rdelim}
+        ]
+        {elseif or($block.schema|eq('art.31-oiv'), $block.schema|eq('art.31-or'))}
+        columns: [
+            {ldelim} data: 'tipo' {rdelim},
+            {ldelim} data: 'data' {rdelim},
+            {ldelim} data: 'documento', render: function (data, type, row) {ldelim}
+                if (type !== 'display' || !row.url) {ldelim} return data; {rdelim}
+                var div = document.createElement('div');
+                div.textContent = data;
+                var a = document.createElement('a');
+                a.href = row.url;
+                a.innerHTML = div.innerHTML;
+                return a.outerHTML;
+            {rdelim} {rdelim}
         ]
         {else}
         columns: [

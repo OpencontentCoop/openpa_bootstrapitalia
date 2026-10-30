@@ -2649,5 +2649,17 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>The presentation rules on this page are ignored: the display is handled automatically.</source>
       <translation>Le regole di rappresentazione impostate in questa pagina vengono ignorate: la visualizzazione è gestita in automatico.</translation>
     </message>
+    <message>
+      <source>Document type</source>
+      <translation>Tipo di documento</translation>
+    </message>
+    <message>
+      <source>Publication date</source>
+      <translation>Data di pubblicazione</translation>
+    </message>
+    <message>
+      <source>Document</source>
+      <translation>Documento</translation>
+    </message>
   </context>
 </TS>
