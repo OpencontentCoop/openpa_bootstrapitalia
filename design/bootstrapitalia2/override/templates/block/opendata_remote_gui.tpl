@@ -347,7 +347,7 @@
   'view': '{cond(and(is_set($block.custom_attributes.view_api), $block.custom_attributes.view_api|ne('')), $block.custom_attributes.view_api, 'card_teaser')}',
   'locale': '{fetch( 'content', 'locale' , hash( 'locale_code', ezini('RegionalSettings', 'Locale') )).http_locale_code}',
   'i18n': {ldelim}
-    calendarToday: '{'Today'|i18n('agenda')}',
+    calendarToday: '{'Today'|i18n('bootstrapitalia')}',
     calendarMoreEvents: '{'View all events'|i18n('bootstrapitalia')}',
     placeholder: '{'Select an item'|i18n('bootstrapitalia')}',
     noResults: '{'No results found'|i18n('bootstrapitalia')}',
