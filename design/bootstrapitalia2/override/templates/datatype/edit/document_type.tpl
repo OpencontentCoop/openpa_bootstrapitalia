@@ -56,7 +56,7 @@
    alert"/"Anac cig attribute alert") - un box "alert" generico non e'
    stilizzato da questa interfaccia (look non curato, vedi screenshot di
    Marco), questo paragrafo si'. *}
-<p id="document-type-trasparenza-hint-{$attribute.id}" class="text-muted small mt-1" style="display:none">
+<p id="document-type-trasparenza-hint-{$attribute.id}" class="text-muted small mt-3" style="display:none">
     <em>{'This document will automatically appear in the "Administration Transparency" section of the site.'|i18n('bootstrapitalia')}</em>
 </p>
 
