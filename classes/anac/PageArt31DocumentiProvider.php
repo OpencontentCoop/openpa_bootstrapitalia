@@ -49,18 +49,24 @@ class PageArt31DocumentiProvider
      *         comportamento di Art31Serializer::toCsvDocumenti(), a
      *         differenza del JSON ANAC che tiene solo il piu' recente per
      *         chiave). Un documento senza file allegato o senza data di
-     *         pubblicazione viene omesso, stesso criterio del CSV. `url` e'
-     *         il link al file allegato (stesso usato dall'export), non alla
-     *         pagina del documento.
+     *         pubblicazione viene omesso, stesso criterio del CSV (la
+     *         validita' resta legata al file allegato, anche se il link
+     *         mostrato in tabella punta altrove - vedi sotto). `url` e' la
+     *         pagina del documento (content object), non il file allegato:
+     *         nella tabella live il titolo deve portare alla scheda del
+     *         documento sul sito, non al download diretto - l'export
+     *         CSV/JSON invece continua a usare il file diretto
+     *         (Art31Serializer::fetchDocumentUrl(), richiesto dallo schema
+     *         ANAC), nessun impatto su di esso.
      */
     private function flattenRows(array $keys, array $documentsByKey)
     {
         $rows = [];
         foreach ($keys as $key) {
             foreach ($documentsByKey[$key] as $object) {
-                $url = $this->serializer->fetchDocumentUrl($object);
+                $fileUrl = $this->serializer->fetchDocumentUrl($object);
                 $date = $this->serializer->fetchPublicationDate($object);
-                if ($url === null || $date === null) {
+                if ($fileUrl === null || $date === null) {
                     continue;
                 }
                 $tipo = isset(Serializer\Art31Serializer::TIPO_DOCUMENTO_CSV[$key])
@@ -71,12 +77,28 @@ class PageArt31DocumentiProvider
                     'tipo' => $tipo,
                     'data' => $date,
                     'documento' => trim($object->attribute('name')),
-                    'url' => $url,
+                    'url' => $this->resolveDocumentPageUrl($object),
                 ];
             }
         }
 
         return $rows;
+    }
+
+    /**
+     * @return string|null url della pagina del documento (content object),
+     *         non del file allegato - stesso principio di
+     *         Art13Serializer::resolveUfficioUrl() per il link sulla
+     *         denominazione dell'ufficio nella tabella Articolazione uffici.
+     */
+    private function resolveDocumentPageUrl(\eZContentObject $object)
+    {
+        $node = $object->attribute('main_node');
+        if (!$node instanceof \eZContentObjectTreeNode) {
+            return null;
+        }
+
+        return '/' . $node->attribute('url_alias');
     }
 
     /**
