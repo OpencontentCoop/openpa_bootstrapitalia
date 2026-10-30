@@ -75,6 +75,13 @@ class BootstrapItaliaImage
             eZURI::transformURI($url, true, 'full');
         }
 
+        // senza sorgente transformURI restituirebbe la radice del sito, che flyimg non sa decodificare
+        if (empty($url)) {
+            return [
+                'src' => '',
+            ];
+        }
+
         if (strpos($url, 'http') === false){
             eZURI::transformURI($url, true, 'full');
         }
