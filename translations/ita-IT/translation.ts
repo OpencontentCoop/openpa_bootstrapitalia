@@ -819,6 +819,10 @@
       <source>Anac cig attribute alert</source>
       <translation>Attenzione: modificare un CIG presente nella banca dati ANAC interrompe la sincronizzazione dei dati del bando e potrebbe creare problemi di duplicazione dei dati.</translation>
     </message>
+    <message>
+      <source>The selected document type causes this document to be automatically published in the transparency section of the site.</source>
+      <translation>La tipologia di documento selezionata comporta la pubblicazione automatica di questo documento nella sezione di trasparenza del sito.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
