@@ -56,15 +56,23 @@ class Art13Serializer
     const TAG_ID_STRUTTURA_POLITICA = 1266;
 
     /**
-     * Id numerico del tag "Area" (tagtree_csv/organizzazione.csv, foglia
-     * sotto "Struttura amministrativa"), per fetchVerticeAmministrativi():
-     * la keyword del tag e' tradotta per lingua (es. ger-DE "Bereich"), un
-     * confronto per stringa italiana letterale ('"Area"') smette di
-     * funzionare non appena il documento Solr corrente e' in una lingua
-     * diversa da ita-IT - usare l'id, stabile per ogni lingua, come gia'
-     * fatto sopra per TAG_ID_STRUTTURA_AMMINISTRATIVA/TAG_ID_STRUTTURA_POLITICA.
+     * Id numerico del tag "Area" (foglia sotto "Struttura amministrativa"),
+     * per fetchVerticeAmministrativi(): la keyword del tag e' tradotta per
+     * lingua (es. ger-DE "Bereich"), un confronto per stringa italiana
+     * letterale ('"Area"') smette di funzionare non appena il documento Solr
+     * corrente e' in una lingua diversa da ita-IT - usare l'id, stabile per
+     * ogni lingua, come gia' fatto sopra per
+     * TAG_ID_STRUTTURA_AMMINISTRATIVA/TAG_ID_STRUTTURA_POLITICA.
+     *
+     * Verificato sui dati reali (subattr_type___tag_ids____si) il 2026-11-02,
+     * non dedotto da tagtree_csv/organizzazione.csv: la colonna "id" di
+     * quel CSV e' un identificativo interno all'import, diverso dall'id che
+     * eZ assegna davvero al tag a runtime - quello reale e' l'ultimo segmento
+     * di "path_string" per la riga "Area" (.../1278/1279/), confermato
+     * identico sia sul documento ita-IT (attr_type_lk "Area") sia su quello
+     * ger-DE (attr_type_lk "Bereich") dello stesso oggetto.
      */
-    const TAG_ID_AREA = 190;
+    const TAG_ID_AREA = 1279;
 
     private $amministrazione;
 
