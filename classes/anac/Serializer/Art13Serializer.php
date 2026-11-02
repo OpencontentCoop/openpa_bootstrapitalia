@@ -544,7 +544,7 @@ class Art13Serializer
                 continue;
             }
             if (strcasecmp($tipo, 'Telefono') === 0) {
-                $contatti['recapitoTelefonico'] = $valore;
+                $contatti['recapitoTelefonico'] = $this->normalizeTelefono($valore);
             } elseif (strcasecmp($tipo, 'Email') === 0) {
                 $contatti['postaElettronicaOrdinaria'] = $valore;
             } elseif (strcasecmp($tipo, 'PEC') === 0) {
@@ -564,6 +564,27 @@ class Art13Serializer
         $contatti['denominazione'] = $contactPointObject->attribute('name');
 
         return $contatti;
+    }
+
+    /**
+     * Lo schema ANAC vincola `recapitoTelefonico` a un regex rigido
+     * (`^(\+39)?\s?(0\d{1,4}[\s\-]?\d{4,8}|3\d{2}[\s\-]?\d{6,7})$`) che non
+     * ammette parentesi - un redattore scrive comunque il numero nel formato
+     * che preferisce (es. "(+39) 0472 062176", segnalato da Lorenzo Bertoli
+     * su #478, validando con jsonschemavalidator.net). Si normalizza in
+     * export invece di vincolare il campo in redazione: rimuove le
+     * parentesi (il prefisso resta leggibile senza di esse, "+39 ...") e
+     * collassa spazi multipli/tab in un singolo spazio, il minimo
+     * indispensabile per rientrare nel pattern senza riscrivere il numero.
+     * Non tenta di aggiungere o dedurre un prefisso mancante: un numero gia'
+     * fuori formato oltre a questo (es. lettere, troppe cifre) resta
+     * segnalato dalla validazione ANAC invece di essere corretto a forza.
+     */
+    private function normalizeTelefono($valore)
+    {
+        $valore = str_replace(['(', ')'], '', $valore);
+
+        return trim(preg_replace('/\s+/', ' ', $valore));
     }
 
     /**
