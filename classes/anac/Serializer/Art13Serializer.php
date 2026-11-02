@@ -55,6 +55,17 @@ class Art13Serializer
      */
     const TAG_ID_STRUTTURA_POLITICA = 1266;
 
+    /**
+     * Id numerico del tag "Area" (tagtree_csv/organizzazione.csv, foglia
+     * sotto "Struttura amministrativa"), per fetchVerticeAmministrativi():
+     * la keyword del tag e' tradotta per lingua (es. ger-DE "Bereich"), un
+     * confronto per stringa italiana letterale ('"Area"') smette di
+     * funzionare non appena il documento Solr corrente e' in una lingua
+     * diversa da ita-IT - usare l'id, stabile per ogni lingua, come gia'
+     * fatto sopra per TAG_ID_STRUTTURA_AMMINISTRATIVA/TAG_ID_STRUTTURA_POLITICA.
+     */
+    const TAG_ID_AREA = 190;
+
     private $amministrazione;
 
     public function __construct(array $amministrazione = null)
@@ -179,7 +190,7 @@ class Art13Serializer
         $result = [];
 
         $query = 'classes [organization]'
-            . ' and type in [\'"Area"\']'
+            . ' and raw[subattr_type___tag_ids____si] in [' . self::TAG_ID_AREA . ']'
             . ' and raw[submeta_hold_employment___id____si] !range [*,*]'
             . ' limit 1000';
 
@@ -294,7 +305,19 @@ class Art13Serializer
             'competenze' => $ufficio['competenze'],
             'nominativo' => $ufficio['nominativo'],
             'qualifica' => $ufficio['qualifica'],
-            'contatti' => $ufficio['contatti'],
+            // array_intersect_key, non l'array intero: parseContattiMatrix()
+            // aggiunge sempre una chiave 'denominazione' a 'contatti' (serve
+            // a fetchRiferimentiContatti()/art.13-rif, un CSV che legge le
+            // colonne per nome esplicito) - ma qui il valore finisce nel JSON
+            // via json_encode(), dove "contatti" e' la definizione condivisa
+            // "Riferimenti" dello schema ANAC, additionalProperties: false.
+            // Senza questo filtro 'denominazione' viola lo schema (#478,
+            // verificato con jsonschemavalidator.net sull'export reale).
+            'contatti' => array_intersect_key($ufficio['contatti'], array_flip([
+                'recapitoTelefonico',
+                'postaElettronicaOrdinaria',
+                'postaElettronicaCertificata',
+            ])),
         ];
     }
 
@@ -521,11 +544,15 @@ class Art13Serializer
             }
         }
 
-        // Solo per il rendering live (vedi PageRiferimentiContattiProvider) -
-        // MAI esposta nel CSV pubblico: toCsvRiferimenti() legge le tre
-        // colonne una per una per chiave esplicita, mai l'array intero, quindi
-        // questa chiave in piu' non vi finisce mai (stesso principio gia'
-        // usato per 'url' su Art13Serializer::fetchUfficiFigli()).
+        // Solo per il rendering live (vedi PageRiferimentiContattiProvider) e
+        // per il CSV di art.13-rif: toCsvRiferimenti() legge le tre colonne
+        // dei contatti una per una per chiave esplicita, quindi li' questa
+        // chiave in piu' non finisce mai nell'output. Il JSON di art.13-pa/se
+        // invece riusa lo stesso $contatti dentro Ufficio (vedi fetchContatti())
+        // e vi finirebbe anche li' se non fosse per il filtro esplicito in
+        // sanitizeUfficioPerJsonSchema() - MAI rimuovere quel filtro per
+        // "semplificare", e' l'unica cosa che tiene 'denominazione' fuori dal
+        // JSON pubblico (bug reale trovato in #478, vedi commit collegato).
         $contatti['denominazione'] = $contactPointObject->attribute('name');
 
         return $contatti;
