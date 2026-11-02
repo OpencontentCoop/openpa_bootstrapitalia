@@ -2653,5 +2653,13 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <source>Document</source>
       <translation>Dokument</translation>
     </message>
+    <message>
+      <source>Executive office</source>
+      <translation>Amt mit Führungsauftrag</translation>
+    </message>
+    <message>
+      <source>Non-executive office</source>
+      <translation>Amt ohne Führungsauftrag</translation>
+    </message>
   </context>
 </TS>

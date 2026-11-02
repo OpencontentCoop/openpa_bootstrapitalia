@@ -2665,5 +2665,13 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Document</source>
       <translation>Documento</translation>
     </message>
+    <message>
+      <source>Executive office</source>
+      <translation>Ufficio dirigenziale</translation>
+    </message>
+    <message>
+      <source>Non-executive office</source>
+      <translation>Ufficio non dirigenziale</translation>
+    </message>
   </context>
 </TS>
