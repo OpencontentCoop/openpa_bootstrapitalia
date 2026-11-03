@@ -2661,5 +2661,21 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <source>Non-executive office</source>
       <translation>Amt ohne Führungsauftrag</translation>
     </message>
+    <message>
+      <source>Performance report validation document</source>
+      <translation>Dokument zur Validierung des Leistungsberichts</translation>
+    </message>
+    <message>
+      <source>Report on the overall functioning of the evaluation, transparency and internal control integrity system</source>
+      <translation>Bericht über das allgemeine Funktionieren des Systems zur Bewertung, Transparenz und Integrität der internen Kontrollen</translation>
+    </message>
+    <message>
+      <source>Administrative and accounting report on the budget estimate or budget and related amendments</source>
+      <translation>Verwaltungs- und Rechnungsbericht zum Haushaltsvoranschlag oder Budget und zu den entsprechenden Änderungen</translation>
+    </message>
+    <message>
+      <source>Administrative and accounting report on the financial statement or annual accounts</source>
+      <translation>Verwaltungs- und Rechnungsbericht zum Rechnungsabschluss oder zum Jahresabschluss</translation>
+    </message>
   </context>
 </TS>
