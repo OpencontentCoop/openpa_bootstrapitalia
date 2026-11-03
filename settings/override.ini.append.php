@@ -266,6 +266,13 @@ MatchFile=datatype/edit/selection_background_color.tpl
 Subdir=templates
 Match[attribute_identifier]=background_color
 
+[datatype_edit_document_type]
+Source=content/datatype/edit/eztags.tpl
+MatchFile=datatype/edit/document_type.tpl
+Subdir=templates
+Match[class_identifier]=document
+Match[attribute_identifier]=document_type
+
 [datatype_view_html]
 Source=content/datatype/view/eztext.tpl
 MatchFile=datatype/view/text_as_html.tpl
