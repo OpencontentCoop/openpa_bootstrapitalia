@@ -69,9 +69,7 @@ class PageArt31DocumentiProvider
                 if ($fileUrl === null || $date === null) {
                     continue;
                 }
-                $tipo = isset(Serializer\Art31Serializer::TIPO_DOCUMENTO_CSV[$key])
-                    ? Serializer\Art31Serializer::TIPO_DOCUMENTO_CSV[$key]
-                    : trim($object->attribute('name'));
+                $tipo = $this->translateTipo($key, $object);
 
                 $rows[] = [
                     'tipo' => $tipo,
@@ -83,6 +81,38 @@ class PageArt31DocumentiProvider
         }
 
         return $rows;
+    }
+
+    /**
+     * `Art31Serializer::TIPO_DOCUMENTO_CSV` resta in italiano fino a qui: e'
+     * la stringa TIPO_DOCUMENTO letterale richiesta dalla tabella ANAC
+     * (issue #477) per il CSV/JSON, non traducibile li' senza rompere
+     * l'export - stesso principio di
+     * PageArticolazioneUfficiProvider::translateTipologia() per `tipologia`.
+     * Qui invece il valore finisce solo nella tabella HTML mostrata al
+     * visitatore, quindi si traduce esclusivamente qui. Per
+     * KEY_ALTRI_ATTI_ORGANISMO (nessuna voce in TIPO_DOCUMENTO_CSV, per
+     * design: issue #477 non prevede una stringa fissa) resta il titolo del
+     * documento, non traducibile da noi.
+     */
+    private function translateTipo($key, \eZContentObject $object)
+    {
+        $sources = [
+            Serializer\Art31Serializer::KEY_VALIDAZIONE_PERFORMANCE =>
+                'Performance report validation document',
+            Serializer\Art31Serializer::KEY_RELAZIONE_SISTEMA_VALUTAZIONE =>
+                'Report on the overall functioning of the evaluation, transparency and internal control integrity system',
+            Serializer\Art31Serializer::KEY_RELAZIONE_BILANCIO_PREVISIONE =>
+                'Administrative and accounting report on the budget estimate or budget and related amendments',
+            Serializer\Art31Serializer::KEY_RELAZIONE_CONTO_CONSUNTIVO =>
+                'Administrative and accounting report on the financial statement or annual accounts',
+        ];
+
+        if (!isset($sources[$key])) {
+            return trim($object->attribute('name'));
+        }
+
+        return \ezpI18n::tr('bootstrapitalia/anac_export', $sources[$key]);
     }
 
     /**

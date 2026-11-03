@@ -2661,5 +2661,21 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Document</source>
       <translation>Documento</translation>
     </message>
+    <message>
+      <source>Performance report validation document</source>
+      <translation>Documento di validazione della Relazione sulla Performance</translation>
+    </message>
+    <message>
+      <source>Report on the overall functioning of the evaluation, transparency and internal control integrity system</source>
+      <translation>Relazione sul funzionamento complessivo del Sistema di valutazione, trasparenza e integrità dei controlli interni</translation>
+    </message>
+    <message>
+      <source>Administrative and accounting report on the budget estimate or budget and related amendments</source>
+      <translation>Relazione amministrativa e contabile al bilancio di previsione o budget e alle relative variazioni</translation>
+    </message>
+    <message>
+      <source>Administrative and accounting report on the financial statement or annual accounts</source>
+      <translation>Relazioni amministrativa e contabile al conto consuntivo o al bilancio di esercizio</translation>
+    </message>
   </context>
 </TS>
