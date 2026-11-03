@@ -84,13 +84,13 @@ Atteso: 4 file JSON non vuoti.
 - [ ] **Step 2: Scaricare almeno un file di esempio CSV per ciascuno schema (per confrontare header/formato)**
 
 ```bash
-for name in "art.4-bis" "art.13-as" "art.13-op" "art.13-pa" "art.31-oiv" "art.31-or" "art.31-oc"; do
+for name in "art.4-bis" "art.13-as" "art.13-op" "art.13-pa" "art.31-oiv" "art.31-or" "art.31-cc"; do
   curl -s "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/csv/${name}-YYYYMMDD-YYYYMMDD.v1.0.csv" \
     -o "/tmp/anac-validation/example-${name}.csv"
 done
 ```
 
-Alcuni di questi URL potrebbero non esistere con questo pattern esatto (verificato in sessione che alcuni file di esempio hanno nomi leggermente diversi, es. `art.31cc` invece di `art.31-oc` per un'incongruenza nella documentazione ANAC stessa — vedi `classes/anac/CLAUDE.md`). Se un download fallisce (file vuoto o HTML di errore), cercarlo manualmente sulla pagina guida corrispondente prima di saltarlo.
+Alcuni di questi URL potrebbero non esistere con questo pattern esatto (verificato in sessione che alcuni file di esempio hanno nomi leggermente diversi, es. `art.31cc` invece di `art.31-cc` per un'incongruenza nella documentazione ANAC stessa — vedi `classes/anac/CLAUDE.md`). Se un download fallisce (file vuoto o HTML di errore), cercarlo manualmente sulla pagina guida corrispondente prima di saltarlo.
 
 - [ ] **Step 3: Generare l'output reale dai dati di test in `sito-comunale-dev`**
 
