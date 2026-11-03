@@ -28,6 +28,8 @@ class LiveRenderingRegistry
         'art.13-op' => [PageArticolazioneUfficiProvider::class, 'getOrganiPoliticiRowsJson'],
         'art.13-oa' => [PageArticolazioneUfficiProvider::class, 'getOrganiAmministrativiRowsJson'],
         'art.13-rif' => [PageRiferimentiContattiProvider::class, 'getRiferimentiContattiRowsJson'],
+        'art.31-oiv' => [PageArt31DocumentiProvider::class, 'getOivRowsJson'],
+        'art.31-or' => [PageArt31DocumentiProvider::class, 'getOrganiDiRevisioneRowsJson'],
     ];
 
     /**
@@ -43,6 +45,8 @@ class LiveRenderingRegistry
         'art.13-op' => 'organization',
         'art.13-oa' => 'organization',
         'art.13-rif' => 'online_contact_point',
+        'art.31-oiv' => 'document',
+        'art.31-or' => 'document',
     ];
 
     /**

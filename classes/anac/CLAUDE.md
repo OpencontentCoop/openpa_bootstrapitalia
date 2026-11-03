@@ -34,9 +34,10 @@ CSV standalone + campo nel JSON, solo C1) e `art.13-rif` (riferimenti e
 contatti, solo CSV, C1 e C2) scritti e collegati al cron, la tipologia si
 deriva dal binding reale (vedi "SchemaPubblicazioneLookup" sotto). Art. 31 (#477), profili **C1 e C2**: `art.31-oiv`
 (Organismi indipendenti di valutazione), `art.31-or` (Organi di revisione),
-`art.31-oc` (Corte dei conti) + JSON "file unico" scritti e collegati al
-cron - nessun fork di codice per tipologia qui, solo la pagina che ciascuno
-schema usa cambia. Meccanismo di pubblicazione URL generico, condiviso da
+`art.31-cc` (Corte dei conti), ciascuno con CSV+JSON indipendenti scritti e
+collegati al cron (nessun JSON "file unico" condiviso, abbandonato il
+2026-10-21 - vedi sotto) - nessun fork di codice per tipologia qui, solo la
+pagina che ciascuno schema usa cambia. Meccanismo di pubblicazione URL generico, condiviso da
 tutti gli schemi, esteso per supportare anche schemi a file singolo (vedi
 "ExportPublisher — publishSingle()/publishWithDates()" sotto) e per lo
 storico versioni (#479, vedi "ExportPublisher — storico versioni e
@@ -228,12 +229,12 @@ quel dato, non un prefisso fisso per tutto il sito.)
   `art.31-oiv/or`, `art.31`): il nodo si risolve leggendo l'attributo
   `schema_pubblicazione` sulle pagine reali - `SchemaPubblicazioneLookup::fetchAllBindings()`.
   Nessun remote_id ANAC-specifico hardcoded nel cron.
-- **Schemi ancorati a un `dataset`** (`art.4-bis`, `art.31-oc`): il dato
+- **Schemi ancorati a un `dataset`** (`art.4-bis`, `art.31-cc`): il dato
   sorgente viene sempre letto dall'oggetto `dataset` per remote_id fisso
   (`dati_sui_pagamenti`, `corte_dei_conti` - la classe `dataset` non ha
   `schema_pubblicazione`, quel dato non cambia), ma il **nodo passato a
   `ExportPublisher` preferisce la pagina di trasparenza reale** quando
-  esiste un binding (`$schemaBindings['art.4-bis']`/`['art.31-oc']`, popolato
+  esiste un binding (`$schemaBindings['art.4-bis']`/`['art.31-cc']`, popolato
   da `patch_content` in `trasparenza-c1`), con fallback al nodo del dataset
   stesso solo se quel binding manca (tenant più vecchi, vedi
   `hasAnyAnacExportActive()`). Senza questo fallback alla pagina reale,
@@ -247,17 +248,22 @@ quel dato, non un prefisso fisso per tutto il sito.)
 
 **Corte dei conti, stesso principio**: esistono DUE oggetti concettualmente
 "Corte dei conti" - la pagina di trasparenza (classe `pagina_trasparenza`,
-dichiara `schema_pubblicazione: [art.31-oc]`, sta sotto "Controlli e rilievi
+dichiara `schema_pubblicazione: [art.31-cc]`, sta sotto "Controlli e rilievi
 sull'amministrazione") e il dataset con le righe CSV grezze (classe
 `dataset`, remote_id `corte_dei_conti`, sta sotto "Documenti e dati"). Per
-lo stesso motivo di cui sopra, il file `art.31-oc` è ancorato al nodo della
+lo stesso motivo di cui sopra, il file `art.31-cc` è ancorato al nodo della
 **pagina** quando il binding esiste (il caso normale su un sito con
 `trasparenza-c1` aggiornato), non al dataset.
 
-JSON "file unico" di art. 31 (`art.31`, nessun suffisso - confermato dal
-nome del file di esempio scaricabile da ANAC) è ospitato sotto **"Controlli
-e rilievi sull'amministrazione"**, il genitore reale di **tutte e tre** le
-pagine di trasparenza dell'art. 31.
+**Nessun JSON "file unico" condiviso tra le tre sottosezioni**: un progetto
+in tal senso (`art.31`, ospitato sotto "Controlli e rilievi
+sull'amministrazione", il genitore reale di tutte e tre le pagine) è stato
+abbandonato il 2026-10-21 - la guida online ANAC pubblica tre file di
+esempio JSON separati, uno per sottosezione, con solo la propria chiave
+valorizzata: un unico JSON con tutte e tre insieme non è conforme (vedi
+`Art31Serializer`, docblock di classe). Ogni sottosezione pubblica il
+proprio CSV+JSON indipendente, stesso identificativo (`art.31-oiv`,
+`art.31-or`, `art.31-cc`).
 
 Vedi `installer/modules/trasparenza-c1/CLAUDE.md` per la tabella di binding
 completa schema↔remote_id.
@@ -302,7 +308,7 @@ l'url di un export già pubblicato, interrompendone la continuità.
 oggi" uno schema** - non va spostato in base a un ragionamento a posteriori
 su dove "dovrebbe" stare semanticamente.
 
-**Usato anche per `art.4-bis`/`art.31-oc`, ma solo come preferenza per
+**Usato anche per `art.4-bis`/`art.31-cc`, ma solo come preferenza per
 l'ancoraggio url** (vedi "Node id da passare a ExportPublisher" sopra) - il
 dato sorgente di questi due schemi resta letto dall'oggetto `dataset` per
 remote_id fisso, `SchemaPubblicazioneLookup` non c'entra con quello.
@@ -325,7 +331,7 @@ deliberato, non solo un'ottimizzazione.
 **Perché non ricalcolare l'url a lettura**: farlo richiederebbe conoscere il
 nodo che ha originariamente pubblicato quello schema - ma un lettore (un
 template, su una pagina qualunque) non lo sa in generale. Vale anche
-considerando l'ancoraggio di `art.4-bis`/`art.31-oc` (vedi "Node id da
+considerando l'ancoraggio di `art.4-bis`/`art.31-cc` (vedi "Node id da
 passare a ExportPublisher" sopra): quale nodo sia stato usato dipende dal
 binding `schema_pubblicazione` presente AL MOMENTO della pubblicazione (pagina
 se il binding esisteva, dataset come fallback altrimenti) - un lettore che
@@ -401,7 +407,7 @@ pubblicazione/modifica. Stile allineato al meccanismo "Open Data" preesistente
   CSV". Gli schemi solo-JSON compaiono nello storico esattamente come i CSV -
   nessuna esclusione per formato.
 
-**Copre anche i due schemi ancorati a un dataset** (`art.4-bis`, `art.31-oc`)
+**Copre anche i due schemi ancorati a un dataset** (`art.4-bis`, `art.31-cc`)
 senza bisogno di toccare il template `dataset`: la pagina di trasparenza
 gemella di ciascun dataset (es. "Dati sui pagamenti", `pagina_trasparenza`,
 oggetto diverso dal dataset "Dati sui pagamenti" vero e proprio) ha anch'essa
@@ -674,7 +680,7 @@ pagina**: `Art13Serializer::fetchRiferimentiContatti()` interroga sempre
 risolto a runtime da `eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode')`
 (la radice reale del sito), indipendentemente da
 quale pagina dichiari `schema_pubblicazione: art.13-rif` - stesso principio
-già in uso per art.4-bis/art.31-oc (vedi "Node id da passare a
+già in uso per art.4-bis/art.31-cc (vedi "Node id da passare a
 ExportPublisher" sopra): il nodo bindato serve solo ad ancorare l'url
 pubblico, mai a determinare dove si legge il dato. Resta una query Solr
 (non uno scan PHP come `fetchOrganizzazioniByTagPath()`): a differenza di
@@ -757,13 +763,14 @@ stesso principio):
   non l'identifier stringa, e i parametri sono posizionali
   (`$asObject, $offset, $limit`), non un hash di opzioni.
 
-### `Art31Serializer` — tre CSV + un JSON, due meccanismi diversi
+### `Art31Serializer` — tre CSV + tre JSON indipendenti, due meccanismi diversi
 
 Copre `art.31-oiv` (Organismi indipendenti di valutazione), `art.31-or`
-(Organi di revisione) e `art.31-oc` (Corte dei conti), più il JSON "file
-unico" (`art.31`, nessun suffisso - confermato dal nome del file di esempio
-reale, non dedotto da un riassunto della pagina guida, vedi "Fonte di
-verità" sopra) che copre tutte e tre le sottosezioni insieme.
+(Organi di revisione) e `art.31-cc` (Corte dei conti), ciascuno con il
+proprio CSV+JSON indipendente - nessun JSON "file unico" condiviso tra le
+tre sottosezioni (un progetto in tal senso è stato abbandonato il
+2026-10-21, vedi sopra "Nessun JSON 'file unico' condiviso tra le tre
+sottosezioni").
 A differenza di `Art13Serializer`, `Art31Serializer` non ha mai un
 parametro `$isC1`: lo schema ANAC non prevede output diverso per C1/C2 su
 questi export, solo la pagina che li ancora cambia - nessun gate di
@@ -787,22 +794,27 @@ natura diversa dei dati:
   classe `document` - uno scan completo rischia di esaurire la memoria PHP
   su un sito con decine di migliaia di documenti.
 
-  **Il filtro per tag vive ora nella query della pagina, non (solo) qui**
-  (cms installer, 2026-10-15): le pagine "Organismi indipendenti di
-  valutazione..."/"Organo di controllo che svolge la funzione di OIV" e
-  "Organi di revisione amministrativa e contabile" (`trasparenza-c1` e
-  `trasparenza-c2`, sia nel content tree sia nel `patch_content` di
-  `installer.yml` che lo sovrascrive su update) hanno ora il filtro
-  `document_type in [...]` direttamente nel proprio campo `fields` - prima
-  avevano solo `document|name,publication_start_time`, senza nessun
-  filtro per tag (la tabella in pagina mostrava tutti i documenti figli
-  della pagina, non solo quelli pertinenti). Di conseguenza
-  `fetchDocumentsByKeys()`, quando riceve un `$baseQuery` non nullo (vedi
-  doc del parametro sotto), **non riaggiunge piu'** la propria condizione
-  `raw[subattr_document_type___tag_ids____si] in [...]` - si fida della
-  query della pagina com'e', per non duplicare la stessa condizione due
-  volte nella stessa query Solr. Il filtro viene ricostruito qui da zero
-  solo nel fallback (`$baseQuery === null`, pagina non ancora aggiornata).
+  **Query sempre hardcoded qui, non dipende dal campo `fields` di nessuna
+  pagina** (corretto 2026-10-30, Marco): tra il 2026-09-22 e il 2026-10-30
+  `fetchDocumentsByKeys()` accettava un `$baseQuery` opzionale, pensato per
+  riusare la stessa query gia' configurata sul campo `fields` delle pagine
+  OIV/Organi di revisione (cosi' pagina e export avrebbero condiviso
+  esattamente lo stesso subtree). Si e' rivelato un problema quando e'
+  arrivato il rendering live di queste due pagine (vedi
+  `PageArt31DocumentiProvider`): se il `fields` della pagina non
+  specificava `parent:` (il caso di default, visto negli esempi reali in
+  `installer/modules/trasparenza-c1/installer.yml`), la query cadeva nel
+  sottoalbero della sola pagina stessa, escludendo documenti OIV/Organi di
+  revisione pubblicati altrove sul sito - sia dalla tabella in pagina sia
+  dall'export. Stesso principio di `art.13-rif`
+  (`Art13Serializer::fetchRiferimentiContatti()`): un documento con questo
+  tag va trovato ovunque sia, non solo sotto la pagina che lo espone -
+  `fetchDocumentsByKeys()` ora costruisce sempre internamente
+  `subtree [RootNode]`, senza parametro di query esterna. Le pagine
+  OIV/Organi di revisione mantengono comunque il filtro
+  `document_type in [...]` nel proprio campo `fields` (serve ancora alla
+  tabella dichiarativa quando il rendering live e' disattivato), ma quel
+  valore non e' piu' letto da nessun chiamante di `fetchDocumentsByKeys()`.
 - **Corte dei conti**: dataset reale (`opendatadataset`, remote_id
   `corte_dei_conti`), stesso pattern di `Art4BisSerializer` — colonne
   `data_di_pubblicazione`/`oggetto`/`documento` (vedi
