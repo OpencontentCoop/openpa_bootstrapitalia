@@ -33,7 +33,15 @@ table[id^="live-rendering-"] th{white-space:nowrap}
 
 {foreach $live_rendering.blocks as $block}
 <section class="mt-5 mb-4 anchor-offset">
+    {* art.31-oiv/art.31-or: il titolo dello schema ANAC coincide con l'H1
+       della pagina stessa (es. "Organismi indipendenti di valutazione...")
+       - mostrarlo di nuovo qui sopra la tabella è un doppione visivo,
+       segnalato da Federica Taraboi su cms#525. Per gli altri schemi
+       (es. art.13-op/art.13-oa) il titolo aggiunge informazione reale
+       ("Uffici degli organi di...") e resta. *}
+    {if not(or($block.schema|eq('art.31-oiv'), $block.schema|eq('art.31-or')))}
     <h3 class="h4" id="live-rendering-{$block.dom_id}-title">{$block.title|wash()}</h3>
+    {/if}
     <script type="application/json" id="live-rendering-{$block.dom_id}-data">{$block.rows_json}</script>
     <table id="live-rendering-{$block.dom_id}-table" class="table table-striped display" style="width:100%">
         <thead>
