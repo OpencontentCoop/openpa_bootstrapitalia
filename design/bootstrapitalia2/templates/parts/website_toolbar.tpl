@@ -180,25 +180,6 @@
                 {include uri='design:parts/websitetoolbar/translate.tpl' content_object=$content_object}
             {/if}
 
-            {if and($can_manage_location, not(current_user_needs_approval($content_object.class_identifier)))}
-                {if and(
-                    $can_manage_location,
-                    ne( $current_node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ),
-                    ne( $current_node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ),
-                    ne( $current_node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ),
-                    not( $top_menu_node_ids|contains( $current_node.node_id ) ),
-                    not( array('topic')|contains( $current_node.class_identifier ) ),
-                    $current_node.depth|gt(3)
-                )}
-                    <li>
-                        <button class="btn" type="submit" name="AddAssignmentButton" title="{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}">
-                            <i aria-hidden="true" class="fa fa-map-marker"></i>
-                            <span class="toolbar-label">{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}</span>
-                        </button>
-                    </li>
-                {/if}
-            {/if}
-
             {if and(is_set($content_object.id), not(current_user_needs_approval($content_object.class_identifier)))}
                 {include uri='design:parts/websitetoolbar/privacy.tpl'}
             {/if}
@@ -243,6 +224,25 @@
                                                 <span class="toolbar-item-label">{'Remove'|i18n('design/standard/parts/website_toolbar')}</span>
                                             </a>
                                         </li>
+                                {/if}
+                                {if and($can_manage_location, not(current_user_needs_approval($content_object.class_identifier)))}
+                                    {if and(
+                                        $can_manage_location,
+                                        ne( $current_node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ),
+                                        ne( $current_node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ),
+                                        ne( $current_node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ),
+                                        not( $top_menu_node_ids|contains( $current_node.node_id ) ),
+                                        not( array('topic')|contains( $current_node.class_identifier ) ),
+                                        $current_node.depth|gt(3)
+                                    )}
+                                        <li>
+                                            <a class="list-item left-icon" href="#" title="{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}"
+                                               onclick="var f = $(this).closest('form'); $('<input>', {ldelim}type: 'hidden', name: 'AddAssignmentButton', value: '1'{rdelim}).appendTo(f); f.get(0).submit(); return false;">
+                                                <i aria-hidden="true" class="fa fa-fw fa-map-marker"></i>
+                                                <span class="toolbar-item-label">{'Add locations'|i18n( 'design/standard/parts/website_toolbar' )}</span>
+                                            </a>
+                                        </li>
+                                    {/if}
                                 {/if}
                                 {if is_set($content_object.id)}
                                     {include uri='design:parts/websitetoolbar/openpa_copy_object.tpl'}
