@@ -129,7 +129,8 @@ sleep(2);
 $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer();
 $reflection = new ReflectionMethod($serializer, 'fetchOrganizzazioniByTagPath');
 $reflection->setAccessible(true);
-$result = $reflection->invoke($serializer, \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::TAG_ID_STRUTTURA_POLITICA);
+$strutturaPoliticaTag = \eZTagsObject::fetchByRemoteID(\OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::TAG_REMOTE_ID_STRUTTURA_POLITICA);
+$result = $reflection->invoke($serializer, (int)$strutturaPoliticaTag->attribute('id'));
 
 $foundIds = array_map(function ($object) { return (int)$object->attribute('id'); }, $result);
 assert_true(

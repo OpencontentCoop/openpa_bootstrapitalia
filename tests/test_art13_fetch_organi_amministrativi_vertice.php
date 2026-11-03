@@ -67,11 +67,18 @@ $orgParentRows = $db->arrayQuery(
 );
 $orgParentNodeId = !empty($orgParentRows) ? (int)$orgParentRows[0]['parent_node_id'] : 2;
 
-// Id reali su questo ambiente (verificati via query diretta sulla tabella
-// eztags prima di scrivere questo test): 1279 = "Area", figlio diretto di
-// "Struttura amministrativa" (1278); 1280 = "Ufficio", suo fratello.
-const TAG_ID_AREA = 1279;
-const TAG_ID_UFFICIO = 1280;
+// remote_id stabili (tagtree_csv/organizzazione.csv), non id numerici: l'id
+// reale dipende dall'ordine di creazione su questo specifico ambiente (vedi
+// Art13Serializer::resolveTagId()) - risolti qui allo stesso modo, invece di
+// assumere un 1279/1280 valido solo perche' lo era su questo dev al momento
+// in cui e' stato scritto il test.
+$areaTag = eZTagsObject::fetchByRemoteID(\OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::TAG_REMOTE_ID_AREA);
+assert_true($areaTag instanceof eZTagsObject, 'Precondizione: tag "Area" trovato per remote_id');
+define('TAG_ID_AREA', (int)$areaTag->attribute('id'));
+
+$ufficioTag = eZTagsObject::fetchByRemoteID('ffa0db96c3ef447ae77164593a07b499');
+assert_true($ufficioTag instanceof eZTagsObject, 'Precondizione: tag "Ufficio" trovato per remote_id');
+define('TAG_ID_UFFICIO', (int)$ufficioTag->attribute('id'));
 
 /**
  * Crea un organization di prova con un tag `type` e, opzionalmente, un

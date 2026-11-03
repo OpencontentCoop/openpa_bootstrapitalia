@@ -16,7 +16,10 @@
                    $module_result: qui siamo annidati dentro il rendering di un
                    blocco ezpage, module_result non e' ancora popolato a questo
                    punto della catena. *}
-                {attribute_view_gui attribute=$valid_node|attribute('csv_resource') hide_download=ezpagedata().persistent_variable.is_pagina_trasparenza}
+                {attribute_view_gui attribute=$valid_node|attribute('csv_resource')
+                                    hide_download=ezpagedata().persistent_variable.is_pagina_trasparenza
+                                    datatable_page_length=cond(ezpagedata().persistent_variable.is_pagina_trasparenza, 10, 30)
+                                    datatable_length_menu=cond(ezpagedata().persistent_variable.is_pagina_trasparenza, array(10,20,25,50,100), array(30,60,90,120))}
             </div>
         </div>
 
