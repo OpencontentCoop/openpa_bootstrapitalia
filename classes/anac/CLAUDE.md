@@ -34,7 +34,7 @@ CSV standalone + campo nel JSON, solo C1) e `art.13-rif` (riferimenti e
 contatti, solo CSV, C1 e C2) scritti e collegati al cron, la tipologia si
 deriva dal binding reale (vedi "SchemaPubblicazioneLookup" sotto). Art. 31 (#477), profili **C1 e C2**: `art.31-oiv`
 (Organismi indipendenti di valutazione), `art.31-or` (Organi di revisione),
-`art.31-oc` (Corte dei conti) + JSON "file unico" scritti e collegati al
+`art.31-cc` (Corte dei conti) + JSON "file unico" scritti e collegati al
 cron - nessun fork di codice per tipologia qui, solo la pagina che ciascuno
 schema usa cambia. Meccanismo di pubblicazione URL generico, condiviso da
 tutti gli schemi, esteso per supportare anche schemi a file singolo (vedi
@@ -228,12 +228,12 @@ quel dato, non un prefisso fisso per tutto il sito.)
   `art.31-oiv/or`, `art.31`): il nodo si risolve leggendo l'attributo
   `schema_pubblicazione` sulle pagine reali - `SchemaPubblicazioneLookup::fetchAllBindings()`.
   Nessun remote_id ANAC-specifico hardcoded nel cron.
-- **Schemi ancorati a un `dataset`** (`art.4-bis`, `art.31-oc`): il dato
+- **Schemi ancorati a un `dataset`** (`art.4-bis`, `art.31-cc`): il dato
   sorgente viene sempre letto dall'oggetto `dataset` per remote_id fisso
   (`dati_sui_pagamenti`, `corte_dei_conti` - la classe `dataset` non ha
   `schema_pubblicazione`, quel dato non cambia), ma il **nodo passato a
   `ExportPublisher` preferisce la pagina di trasparenza reale** quando
-  esiste un binding (`$schemaBindings['art.4-bis']`/`['art.31-oc']`, popolato
+  esiste un binding (`$schemaBindings['art.4-bis']`/`['art.31-cc']`, popolato
   da `patch_content` in `trasparenza-c1`), con fallback al nodo del dataset
   stesso solo se quel binding manca (tenant più vecchi, vedi
   `hasAnyAnacExportActive()`). Senza questo fallback alla pagina reale,
@@ -247,10 +247,10 @@ quel dato, non un prefisso fisso per tutto il sito.)
 
 **Corte dei conti, stesso principio**: esistono DUE oggetti concettualmente
 "Corte dei conti" - la pagina di trasparenza (classe `pagina_trasparenza`,
-dichiara `schema_pubblicazione: [art.31-oc]`, sta sotto "Controlli e rilievi
+dichiara `schema_pubblicazione: [art.31-cc]`, sta sotto "Controlli e rilievi
 sull'amministrazione") e il dataset con le righe CSV grezze (classe
 `dataset`, remote_id `corte_dei_conti`, sta sotto "Documenti e dati"). Per
-lo stesso motivo di cui sopra, il file `art.31-oc` è ancorato al nodo della
+lo stesso motivo di cui sopra, il file `art.31-cc` è ancorato al nodo della
 **pagina** quando il binding esiste (il caso normale su un sito con
 `trasparenza-c1` aggiornato), non al dataset.
 
@@ -302,7 +302,7 @@ l'url di un export già pubblicato, interrompendone la continuità.
 oggi" uno schema** - non va spostato in base a un ragionamento a posteriori
 su dove "dovrebbe" stare semanticamente.
 
-**Usato anche per `art.4-bis`/`art.31-oc`, ma solo come preferenza per
+**Usato anche per `art.4-bis`/`art.31-cc`, ma solo come preferenza per
 l'ancoraggio url** (vedi "Node id da passare a ExportPublisher" sopra) - il
 dato sorgente di questi due schemi resta letto dall'oggetto `dataset` per
 remote_id fisso, `SchemaPubblicazioneLookup` non c'entra con quello.
@@ -325,7 +325,7 @@ deliberato, non solo un'ottimizzazione.
 **Perché non ricalcolare l'url a lettura**: farlo richiederebbe conoscere il
 nodo che ha originariamente pubblicato quello schema - ma un lettore (un
 template, su una pagina qualunque) non lo sa in generale. Vale anche
-considerando l'ancoraggio di `art.4-bis`/`art.31-oc` (vedi "Node id da
+considerando l'ancoraggio di `art.4-bis`/`art.31-cc` (vedi "Node id da
 passare a ExportPublisher" sopra): quale nodo sia stato usato dipende dal
 binding `schema_pubblicazione` presente AL MOMENTO della pubblicazione (pagina
 se il binding esisteva, dataset come fallback altrimenti) - un lettore che
@@ -401,7 +401,7 @@ pubblicazione/modifica. Stile allineato al meccanismo "Open Data" preesistente
   CSV". Gli schemi solo-JSON compaiono nello storico esattamente come i CSV -
   nessuna esclusione per formato.
 
-**Copre anche i due schemi ancorati a un dataset** (`art.4-bis`, `art.31-oc`)
+**Copre anche i due schemi ancorati a un dataset** (`art.4-bis`, `art.31-cc`)
 senza bisogno di toccare il template `dataset`: la pagina di trasparenza
 gemella di ciascun dataset (es. "Dati sui pagamenti", `pagina_trasparenza`,
 oggetto diverso dal dataset "Dati sui pagamenti" vero e proprio) ha anch'essa
@@ -674,7 +674,7 @@ pagina**: `Art13Serializer::fetchRiferimentiContatti()` interroga sempre
 risolto a runtime da `eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode')`
 (la radice reale del sito), indipendentemente da
 quale pagina dichiari `schema_pubblicazione: art.13-rif` - stesso principio
-già in uso per art.4-bis/art.31-oc (vedi "Node id da passare a
+già in uso per art.4-bis/art.31-cc (vedi "Node id da passare a
 ExportPublisher" sopra): il nodo bindato serve solo ad ancorare l'url
 pubblico, mai a determinare dove si legge il dato. Resta una query Solr
 (non uno scan PHP come `fetchOrganizzazioniByTagPath()`): a differenza di
@@ -760,7 +760,7 @@ stesso principio):
 ### `Art31Serializer` — tre CSV + un JSON, due meccanismi diversi
 
 Copre `art.31-oiv` (Organismi indipendenti di valutazione), `art.31-or`
-(Organi di revisione) e `art.31-oc` (Corte dei conti), più il JSON "file
+(Organi di revisione) e `art.31-cc` (Corte dei conti), più il JSON "file
 unico" (`art.31`, nessun suffisso - confermato dal nome del file di esempio
 reale, non dedotto da un riassunto della pagina guida, vedi "Fonte di
 verità" sopra) che copre tutte e tre le sottosezioni insieme.
