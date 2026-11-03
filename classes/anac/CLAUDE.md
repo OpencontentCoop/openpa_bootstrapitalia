@@ -34,9 +34,10 @@ CSV standalone + campo nel JSON, solo C1) e `art.13-rif` (riferimenti e
 contatti, solo CSV, C1 e C2) scritti e collegati al cron, la tipologia si
 deriva dal binding reale (vedi "SchemaPubblicazioneLookup" sotto). Art. 31 (#477), profili **C1 e C2**: `art.31-oiv`
 (Organismi indipendenti di valutazione), `art.31-or` (Organi di revisione),
-`art.31-cc` (Corte dei conti) + JSON "file unico" scritti e collegati al
-cron - nessun fork di codice per tipologia qui, solo la pagina che ciascuno
-schema usa cambia. Meccanismo di pubblicazione URL generico, condiviso da
+`art.31-cc` (Corte dei conti), ciascuno con CSV+JSON indipendenti scritti e
+collegati al cron (nessun JSON "file unico" condiviso, abbandonato il
+2026-10-21 - vedi sotto) - nessun fork di codice per tipologia qui, solo la
+pagina che ciascuno schema usa cambia. Meccanismo di pubblicazione URL generico, condiviso da
 tutti gli schemi, esteso per supportare anche schemi a file singolo (vedi
 "ExportPublisher — publishSingle()/publishWithDates()" sotto) e per lo
 storico versioni (#479, vedi "ExportPublisher — storico versioni e
@@ -254,10 +255,15 @@ lo stesso motivo di cui sopra, il file `art.31-cc` è ancorato al nodo della
 **pagina** quando il binding esiste (il caso normale su un sito con
 `trasparenza-c1` aggiornato), non al dataset.
 
-JSON "file unico" di art. 31 (`art.31`, nessun suffisso - confermato dal
-nome del file di esempio scaricabile da ANAC) è ospitato sotto **"Controlli
-e rilievi sull'amministrazione"**, il genitore reale di **tutte e tre** le
-pagine di trasparenza dell'art. 31.
+**Nessun JSON "file unico" condiviso tra le tre sottosezioni**: un progetto
+in tal senso (`art.31`, ospitato sotto "Controlli e rilievi
+sull'amministrazione", il genitore reale di tutte e tre le pagine) è stato
+abbandonato il 2026-10-21 - la guida online ANAC pubblica tre file di
+esempio JSON separati, uno per sottosezione, con solo la propria chiave
+valorizzata: un unico JSON con tutte e tre insieme non è conforme (vedi
+`Art31Serializer`, docblock di classe). Ogni sottosezione pubblica il
+proprio CSV+JSON indipendente, stesso identificativo (`art.31-oiv`,
+`art.31-or`, `art.31-cc`).
 
 Vedi `installer/modules/trasparenza-c1/CLAUDE.md` per la tabella di binding
 completa schema↔remote_id.
@@ -757,13 +763,14 @@ stesso principio):
   non l'identifier stringa, e i parametri sono posizionali
   (`$asObject, $offset, $limit`), non un hash di opzioni.
 
-### `Art31Serializer` — tre CSV + un JSON, due meccanismi diversi
+### `Art31Serializer` — tre CSV + tre JSON indipendenti, due meccanismi diversi
 
 Copre `art.31-oiv` (Organismi indipendenti di valutazione), `art.31-or`
-(Organi di revisione) e `art.31-cc` (Corte dei conti), più il JSON "file
-unico" (`art.31`, nessun suffisso - confermato dal nome del file di esempio
-reale, non dedotto da un riassunto della pagina guida, vedi "Fonte di
-verità" sopra) che copre tutte e tre le sottosezioni insieme.
+(Organi di revisione) e `art.31-cc` (Corte dei conti), ciascuno con il
+proprio CSV+JSON indipendente - nessun JSON "file unico" condiviso tra le
+tre sottosezioni (un progetto in tal senso è stato abbandonato il
+2026-10-21, vedi sopra "Nessun JSON 'file unico' condiviso tra le tre
+sottosezioni").
 A differenza di `Art13Serializer`, `Art31Serializer` non ha mai un
 parametro `$isC1`: lo schema ANAC non prevede output diverso per C1/C2 su
 questi export, solo la pagina che li ancora cambia - nessun gate di
