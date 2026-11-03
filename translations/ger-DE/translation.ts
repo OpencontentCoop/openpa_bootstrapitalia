@@ -815,6 +815,10 @@
       <source>Anac cig attribute alert</source>
       <translation>Achtung: Die Änderung eines in der ANAC-Datenbank vorhandenen CIG unterbricht die Synchronisierung der Auftragsdaten und kann zu Datenduplizierungsproblemen führen.</translation>
     </message>
+    <message>
+      <source>The selected document type causes this document to be automatically published in the transparency section of the site.</source>
+      <translation>Die ausgewählte Dokumentart führt dazu, dass dieses Dokument automatisch im Transparenzbereich der Website veröffentlicht wird.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -2511,7 +2515,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <name>bootstrapitalia/anac_export</name>
     <message>
       <source>ANAC publication schemas</source>
-      <translation>ANAC-Veröffentlichungsschemata</translation>
+      <translation>Open Data</translation>
     </message>
     <message>
       <source>Previous versions</source>
@@ -2664,6 +2668,14 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>Administrative and accounting report on the financial statement or annual accounts</source>
       <translation>Verwaltungs- und Rechnungsbericht zum Rechnungsabschluss oder zum Jahresabschluss</translation>
+    </message>
+    <message>
+      <source>Executive office</source>
+      <translation>Amt mit Führungsauftrag</translation>
+    </message>
+    <message>
+      <source>Non-executive office</source>
+      <translation>Amt ohne Führungsauftrag</translation>
     </message>
   </context>
 </TS>

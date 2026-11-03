@@ -819,6 +819,10 @@
       <source>Anac cig attribute alert</source>
       <translation>Attenzione: modificare un CIG presente nella banca dati ANAC interrompe la sincronizzazione dei dati del bando e potrebbe creare problemi di duplicazione dei dati.</translation>
     </message>
+    <message>
+      <source>The selected document type causes this document to be automatically published in the transparency section of the site.</source>
+      <translation>La tipologia di documento selezionata comporta la pubblicazione automatica di questo documento nella sezione di trasparenza del sito.</translation>
+    </message>
   </context>
   <context>
     <name>kernel/navigationpart</name>
@@ -2676,6 +2680,14 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Administrative and accounting report on the financial statement or annual accounts</source>
       <translation>Relazioni amministrativa e contabile al conto consuntivo o al bilancio di esercizio</translation>
+    </message>
+    <message>
+      <source>Executive office</source>
+      <translation>Ufficio dirigenziale</translation>
+    </message>
+    <message>
+      <source>Non-executive office</source>
+      <translation>Ufficio non dirigenziale</translation>
     </message>
   </context>
 </TS>

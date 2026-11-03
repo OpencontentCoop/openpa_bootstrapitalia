@@ -115,7 +115,8 @@
                 "url": "{concat('javascript/datatable/',$current_language,'.json')|ezdesign(no)}"
             {rdelim},
             "ajax": {ldelim}url: "{'opendata/api/datatable/search'|ezurl(no,full)}/"{rdelim},
-            "lengthMenu": [ 30, 60, 90, 120 ],
+            "pageLength": 10,
+            "lengthMenu": [10, 20, 25, 50, 100],
             "columns": [{foreach $fields.class_fields as $field}{$field.column}{delimiter},{/delimiter}{/foreach}],
             "columnDefs": [
               {foreach $fields.class_fields as $index => $field}

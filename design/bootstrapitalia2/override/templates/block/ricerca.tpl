@@ -12,7 +12,7 @@
 {if and(is_set($block.custom_attributes.logo), $block.custom_attributes.logo|ne(''))}
     {def $logo = fetch(content, node, hash(node_id, $block.custom_attributes.logo))}
     {if and($logo, $logo.class_identifier|eq('banner'), $logo|has_attribute('image'))}
-        {set $logo_image = $logo|attribute('image').content.original.full_path|ezroot(no)}
+        {set $logo_image = render_image($logo|attribute('image').content.original.full_path|ezroot(no,full)).src}
         {set $logo_link = object_handler($logo).content_link.full_link}
         {set $logo_alt = $logo.name|wash()}
     {/if}

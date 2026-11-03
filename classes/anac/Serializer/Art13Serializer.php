@@ -39,21 +39,68 @@ class Art13Serializer
     const AMBITO_C2 = 'Società ed Enti';
 
     /**
-     * Id numerico del tag "Struttura amministrativa" (tagtree_csv/organizzazione.csv),
+     * remote_id del tag "Struttura amministrativa" (tagtree_csv/organizzazione.csv),
      * per le query Solr (subattr_type___tag_ids____si contiene l'id del tag
-     * assegnato PIU' tutti i suoi antenati, verificato su dati reali il
-     * 2026-09-23 - basta cercare l'id della radice per includere qualunque
-     * discendente).
+     * assegnato PIU' tutti i suoi antenati - basta cercare l'id della radice
+     * per includere qualunque discendente).
+     *
+     * remote_id, non id numerico: l'id che eZ assegna davvero al tag a
+     * runtime dipende dall'ordine di creazione su quello specifico DB (visto
+     * con i tag documento di Art31Serializer, stesso id del CSV -> id reali
+     * diversi su comunenuovo) - un numero hardcoded qui sarebbe valido solo
+     * sul tenant dove e' stato verificato, non sui ~600 enti in produzione.
+     * Il remote_id invece e' assegnato una volta sola all'import ed e'
+     * stabile ovunque - risolto all'id numerico reale a runtime da
+     * resolveTagId(), mai hardcodato.
      */
-    const TAG_ID_STRUTTURA_AMMINISTRATIVA = 1278;
+    const TAG_REMOTE_ID_STRUTTURA_AMMINISTRATIVA = 'd2a46e44a1634e5108ed4c9b40fd84a1';
 
     /**
-     * Id numerico del tag "Struttura politica" (tagtree_csv/organizzazione.csv),
-     * stesso principio di TAG_ID_STRUTTURA_AMMINISTRATIVA: basta l'id della
-     * radice per includere ogni discendente (Sindaco, Giunta, Assessorati,
-     * Consiglio, Commissioni, ecc.) via subattr_type___tag_ids____si.
+     * remote_id del tag "Struttura politica" (tagtree_csv/organizzazione.csv),
+     * stesso principio di TAG_REMOTE_ID_STRUTTURA_AMMINISTRATIVA.
      */
-    const TAG_ID_STRUTTURA_POLITICA = 1266;
+    const TAG_REMOTE_ID_STRUTTURA_POLITICA = '1227c1bef6b787b8ac584f3806c6a167';
+
+    /**
+     * remote_id del tag "Area" (foglia sotto "Struttura amministrativa"),
+     * per fetchVerticeAmministrativi(): la keyword del tag e' tradotta per
+     * lingua (es. ger-DE "Bereich"), un confronto per stringa italiana
+     * letterale ('"Area"') smette di funzionare non appena il documento Solr
+     * corrente e' in una lingua diversa da ita-IT - usare l'id (risolto dal
+     * remote_id, stabile per ogni lingua E per ogni tenant), stesso
+     * principio di TAG_REMOTE_ID_STRUTTURA_AMMINISTRATIVA/_POLITICA sopra.
+     */
+    const TAG_REMOTE_ID_AREA = 'bd177d065ac1ed3bc06a911d58d326b3';
+
+    /** @var array<string,int> cache per richiesta di resolveTagId(), un remote_id risolve sempre allo stesso id per tutta la durata del processo */
+    private static $tagIdCache = [];
+
+    /**
+     * Risolve un remote_id di tag al suo id numerico reale su QUESTO tenant
+     * (vedi i commit delle costanti TAG_REMOTE_ID_* sopra per il perche' non
+     * si puo' hardcodare l'id). Stesso meccanismo usato dall'installer
+     * stesso per sincronizzare i tag (TagTreeCsvV1::findParent(),
+     * eZTagsObject::fetchByRemoteID()).
+     *
+     * @throws \RuntimeException se il tag non esiste su questo tenant - un
+     *         id di fallback silenzioso (es. 0) produrrebbe una query Solr
+     *         che non trova mai nulla, un export vuoto senza errore e
+     *         indistinguibile da "nessun organo censito": meglio fallire in
+     *         modo esplicito che pubblicare un export ANAC silenziosamente
+     *         incompleto.
+     */
+    private static function resolveTagId($remoteId)
+    {
+        if (!isset(self::$tagIdCache[$remoteId])) {
+            $tag = \eZTagsObject::fetchByRemoteID($remoteId);
+            if (!$tag instanceof \eZTagsObject) {
+                throw new \RuntimeException("Tag non trovato per remote_id $remoteId");
+            }
+            self::$tagIdCache[$remoteId] = (int)$tag->attribute('id');
+        }
+
+        return self::$tagIdCache[$remoteId];
+    }
 
     private $amministrazione;
 
@@ -119,7 +166,7 @@ class Art13Serializer
     public function fetchOrganiConUffici()
     {
         $organi = [];
-        foreach ($this->fetchOrganizzazioniByTagPath(self::TAG_ID_STRUTTURA_POLITICA) as $organoObject) {
+        foreach ($this->fetchOrganizzazioniByTagPath(self::resolveTagId(self::TAG_REMOTE_ID_STRUTTURA_POLITICA)) as $organoObject) {
             $organi[] = [
                 'denominazione' => $organoObject->attribute('name'),
                 'competenze' => $this->plainText($organoObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE)['main_function']),
@@ -179,7 +226,7 @@ class Art13Serializer
         $result = [];
 
         $query = 'classes [organization]'
-            . ' and type in [\'"Area"\']'
+            . ' and raw[subattr_type___tag_ids____si] in [' . self::resolveTagId(self::TAG_REMOTE_ID_AREA) . ']'
             . ' and raw[submeta_hold_employment___id____si] !range [*,*]'
             . ' limit 1000';
 
@@ -294,7 +341,19 @@ class Art13Serializer
             'competenze' => $ufficio['competenze'],
             'nominativo' => $ufficio['nominativo'],
             'qualifica' => $ufficio['qualifica'],
-            'contatti' => $ufficio['contatti'],
+            // array_intersect_key, non l'array intero: parseContattiMatrix()
+            // aggiunge sempre una chiave 'denominazione' a 'contatti' (serve
+            // a fetchRiferimentiContatti()/art.13-rif, un CSV che legge le
+            // colonne per nome esplicito) - ma qui il valore finisce nel JSON
+            // via json_encode(), dove "contatti" e' la definizione condivisa
+            // "Riferimenti" dello schema ANAC, additionalProperties: false.
+            // Senza questo filtro 'denominazione' viola lo schema (#478,
+            // verificato con jsonschemavalidator.net sull'export reale).
+            'contatti' => array_intersect_key($ufficio['contatti'], array_flip([
+                'recapitoTelefonico',
+                'postaElettronicaOrdinaria',
+                'postaElettronicaCertificata',
+            ])),
         ];
     }
 
@@ -324,8 +383,9 @@ class Art13Serializer
     }
 
     /**
-     * @param int $tagId id numerico della radice del ramo tassonomico
-     *        (TAG_ID_STRUTTURA_POLITICA o TAG_ID_STRUTTURA_AMMINISTRATIVA)
+     * @param int $tagId id numerico della radice del ramo tassonomico, gia'
+     *        risolto da resolveTagId(TAG_REMOTE_ID_STRUTTURA_POLITICA o
+     *        TAG_REMOTE_ID_STRUTTURA_AMMINISTRATIVA)
      * @return \eZContentObject[]
      *
      * Query Solr diretta (stesso pattern di fetchFigliDiOrgano() sotto):
@@ -385,7 +445,7 @@ class Art13Serializer
         $result = [];
 
         $query = 'classes [organization]'
-            . ' and raw[subattr_type___tag_ids____si] in [' . self::TAG_ID_STRUTTURA_AMMINISTRATIVA . ']'
+            . ' and raw[subattr_type___tag_ids____si] in [' . self::resolveTagId(self::TAG_REMOTE_ID_STRUTTURA_AMMINISTRATIVA) . ']'
             . ' and raw[submeta_hold_employment___id____si] in [' . (int)$organo->attribute('id') . ']';
 
         $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
@@ -513,7 +573,7 @@ class Art13Serializer
                 continue;
             }
             if (strcasecmp($tipo, 'Telefono') === 0) {
-                $contatti['recapitoTelefonico'] = $valore;
+                $contatti['recapitoTelefonico'] = $this->normalizeTelefono($valore);
             } elseif (strcasecmp($tipo, 'Email') === 0) {
                 $contatti['postaElettronicaOrdinaria'] = $valore;
             } elseif (strcasecmp($tipo, 'PEC') === 0) {
@@ -521,14 +581,39 @@ class Art13Serializer
             }
         }
 
-        // Solo per il rendering live (vedi PageRiferimentiContattiProvider) -
-        // MAI esposta nel CSV pubblico: toCsvRiferimenti() legge le tre
-        // colonne una per una per chiave esplicita, mai l'array intero, quindi
-        // questa chiave in piu' non vi finisce mai (stesso principio gia'
-        // usato per 'url' su Art13Serializer::fetchUfficiFigli()).
+        // Solo per il rendering live (vedi PageRiferimentiContattiProvider) e
+        // per il CSV di art.13-rif: toCsvRiferimenti() legge le tre colonne
+        // dei contatti una per una per chiave esplicita, quindi li' questa
+        // chiave in piu' non finisce mai nell'output. Il JSON di art.13-pa/se
+        // invece riusa lo stesso $contatti dentro Ufficio (vedi fetchContatti())
+        // e vi finirebbe anche li' se non fosse per il filtro esplicito in
+        // sanitizeUfficioPerJsonSchema() - MAI rimuovere quel filtro per
+        // "semplificare", e' l'unica cosa che tiene 'denominazione' fuori dal
+        // JSON pubblico (bug reale trovato in #478, vedi commit collegato).
         $contatti['denominazione'] = $contactPointObject->attribute('name');
 
         return $contatti;
+    }
+
+    /**
+     * Lo schema ANAC vincola `recapitoTelefonico` a un regex rigido
+     * (`^(\+39)?\s?(0\d{1,4}[\s\-]?\d{4,8}|3\d{2}[\s\-]?\d{6,7})$`) che non
+     * ammette parentesi - un redattore scrive comunque il numero nel formato
+     * che preferisce (es. "(+39) 0472 062176", segnalato da Lorenzo Bertoli
+     * su #478, validando con jsonschemavalidator.net). Si normalizza in
+     * export invece di vincolare il campo in redazione: rimuove le
+     * parentesi (il prefisso resta leggibile senza di esse, "+39 ...") e
+     * collassa spazi multipli/tab in un singolo spazio, il minimo
+     * indispensabile per rientrare nel pattern senza riscrivere il numero.
+     * Non tenta di aggiungere o dedurre un prefisso mancante: un numero gia'
+     * fuori formato oltre a questo (es. lettere, troppe cifre) resta
+     * segnalato dalla validazione ANAC invece di essere corretto a forza.
+     */
+    private function normalizeTelefono($valore)
+    {
+        $valore = str_replace(['(', ')'], '', $valore);
+
+        return trim(preg_replace('/\s+/', ' ', $valore));
     }
 
     /**

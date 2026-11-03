@@ -67,7 +67,7 @@ class PageArticolazioneUfficiProvider
                     'competenzeOrgano' => $organo['competenze'],
                     'denominazione' => $ufficio['denominazione'],
                     'url' => $ufficio['url'] ?? null,
-                    'tipologia' => $ufficio['tipologia'],
+                    'tipologia' => $this->translateTipologia($ufficio['tipologia']),
                     'competenze' => $ufficio['competenze'],
                     'nominativo' => $ufficio['nominativo'],
                     'telefono' => $ufficio['contatti']['recapitoTelefonico'] ?? '',
@@ -77,6 +77,25 @@ class PageArticolazioneUfficiProvider
         }
 
         return $rows;
+    }
+
+    /**
+     * `$ufficio['tipologia']` resta "Ufficio dirigenziale"/"Ufficio non
+     * dirigenziale" in italiano fino a qui: e' il valore canonico che
+     * Art13Serializer::toJson()/toCsvOrganiUffici() confrontano letteralmente
+     * (es. riga 812, `$isDirigenziale = $ufficio['tipologia'] === 'Ufficio
+     * dirigenziale'`) e che lo schema JSON ANAC vuole in italiano - tradurlo
+     * prima romperebbe export e confronto. Qui invece il valore finisce solo
+     * nella tabella HTML mostrata al visitatore, quindi si traduce
+     * esclusivamente qui, un attimo prima di incorporarlo nel JSON di riga.
+     */
+    private function translateTipologia($tipologia)
+    {
+        if ($tipologia === 'Ufficio dirigenziale') {
+            return \ezpI18n::tr('bootstrapitalia/anac_export', 'Executive office');
+        }
+
+        return \ezpI18n::tr('bootstrapitalia/anac_export', 'Non-executive office');
     }
 
     /**

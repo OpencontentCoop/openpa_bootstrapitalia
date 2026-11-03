@@ -17,7 +17,7 @@
                 <li class="splide__slide">
                     <div class="it-single-slide-wrapper">
                         <div class="card-wrapper pb-0">
-                            <a class="card card-img no-after" title="{$caption}" data-gallery href={$item|attribute('image').content[$wide_class].url|ezroot}>
+                            <a class="card card-img no-after" title="{$caption}" data-gallery href="{render_image($item|attribute('image').content, hash('alias', $wide_class)).src}">
                                 <div class="img-responsive-wrapper">
                                     <div class="img-responsive">
                                         <div class="img-wrapper">
