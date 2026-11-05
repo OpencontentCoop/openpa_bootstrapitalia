@@ -329,6 +329,8 @@ ShowUeLogo=enabled
 HideSlimHeaderIfUseless=disabled
 PerformanceLink=https://link.opencontent.it/piano-di-miglioramento-delle-performance-sito
 ShowFooterBanner=disabled
+# Allinea a sinistra il logo (header e footer) quando sono attivi "solo logo" e la tagline; se disabled il logo è centrato sulla tagline
+LogoAlignLeft=disabled
 MinifyHtml=enabled
 
 [InstanceSettings]
