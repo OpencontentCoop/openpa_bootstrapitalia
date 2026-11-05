@@ -409,6 +409,7 @@ $sections = [
             'web',
 
             'indirizzo',
+            'indirizzo_altra_sede',
             'via',
             'numero_civico',
             'cap',
