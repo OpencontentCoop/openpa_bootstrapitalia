@@ -433,7 +433,7 @@ $sections = [
             'whatsapp',
             'telegram',
             'tiktok',
-
+            'spotify',
         ],
     ],
     [
