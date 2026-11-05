@@ -331,6 +331,8 @@ PerformanceLink=https://link.opencontent.it/piano-di-miglioramento-delle-perform
 ShowFooterBanner=disabled
 # Allinea a sinistra il logo (header e footer) quando sono attivi "solo logo" e la tagline; se disabled il logo è centrato sulla tagline
 LogoAlignLeft=disabled
+# Mostra nel footer il testo del campo "Informazioni nel footer" (note_footer) della homepage
+ShowFooterNotes=disabled
 MinifyHtml=enabled
 
 [InstanceSettings]
