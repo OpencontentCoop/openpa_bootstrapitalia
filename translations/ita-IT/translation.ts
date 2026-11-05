@@ -2666,14 +2666,6 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Documento</translation>
     </message>
     <message>
-      <source>Executive office</source>
-      <translation>Ufficio dirigenziale</translation>
-    </message>
-    <message>
-      <source>Non-executive office</source>
-      <translation>Ufficio non dirigenziale</translation>
-    </message>
-    <message>
       <source>Performance report validation document</source>
       <translation>Documento di validazione della Relazione sulla Performance</translation>
     </message>
@@ -2688,6 +2680,14 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     <message>
       <source>Administrative and accounting report on the financial statement or annual accounts</source>
       <translation>Relazioni amministrativa e contabile al conto consuntivo o al bilancio di esercizio</translation>
+    </message>
+    <message>
+      <source>Executive office</source>
+      <translation>Ufficio dirigenziale</translation>
+    </message>
+    <message>
+      <source>Non-executive office</source>
+      <translation>Ufficio non dirigenziale</translation>
     </message>
   </context>
 </TS>

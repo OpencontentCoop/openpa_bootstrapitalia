@@ -2654,14 +2654,6 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Dokument</translation>
     </message>
     <message>
-      <source>Executive office</source>
-      <translation>Amt mit Führungsauftrag</translation>
-    </message>
-    <message>
-      <source>Non-executive office</source>
-      <translation>Amt ohne Führungsauftrag</translation>
-    </message>
-    <message>
       <source>Performance report validation document</source>
       <translation>Dokument zur Validierung des Leistungsberichts</translation>
     </message>
@@ -2676,6 +2668,14 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     <message>
       <source>Administrative and accounting report on the financial statement or annual accounts</source>
       <translation>Verwaltungs- und Rechnungsbericht zum Rechnungsabschluss oder zum Jahresabschluss</translation>
+    </message>
+    <message>
+      <source>Executive office</source>
+      <translation>Amt mit Führungsauftrag</translation>
+    </message>
+    <message>
+      <source>Non-executive office</source>
+      <translation>Amt ohne Führungsauftrag</translation>
     </message>
   </context>
 </TS>
