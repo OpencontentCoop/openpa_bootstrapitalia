@@ -45,3 +45,4 @@
         {/if}
     </div>
 </div>
+{include uri='design:footer/notes.tpl'}

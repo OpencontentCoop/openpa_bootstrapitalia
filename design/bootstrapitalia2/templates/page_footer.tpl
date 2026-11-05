@@ -54,6 +54,7 @@
                     {/if}
                 </div>
             </div>
+            {include uri='design:footer/notes.tpl'}
 
             {if $show_footer_menu}
                 {def $top_menu_tree = array()}
