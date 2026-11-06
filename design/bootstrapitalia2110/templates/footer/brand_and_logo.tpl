@@ -7,15 +7,18 @@
                  loading="lazy" />
         {/if}
         {if and($pagedata.homepage|has_attribute('footer_logo'), $pagedata.homepage|attribute('footer_logo').data_type_string|eq('ezimage'))}
+            {def $footer_logo_tagline = and( openpaini('GeneralSettings', 'ShowFooterLogoTagline', 'disabled')|eq('enabled'), openpaini('GeneralSettings', 'tag_line', false()) )}
             <div class="it-brand-wrapper">
                 <a href="{'/'|ezurl(no)}"
-                  title="{ezini('SiteSettings','SiteName')}">
+                  title="{ezini('SiteSettings','SiteName')}"{if $footer_logo_tagline} class="d-block"{/if}>
                     <img class="icon" style="width: auto !important;"
                         alt="Logo footer {ezini('SiteSettings','SiteName')}"
                         src="{render_image($pagedata.homepage|attribute('footer_logo').content['header_logo'].full_path|ezroot(no,full)).src}"
                         loading="lazy" />
+                    {if $footer_logo_tagline}{include uri='design:footer/logo_tagline.tpl'}{/if}
                 </a>
             </div>
+            {undef $footer_logo_tagline}
         {elseif and($pagedata.homepage|has_attribute('footer_logo'), $pagedata.homepage|attribute('footer_logo').data_type_string|eq('ezobjectrelationlist'))}
             {foreach $pagedata.homepage|attribute('footer_logo').content.relation_list as $related}
                 {def $related_object = fetch(content, object, hash(object_id, $related['contentobject_id']))}
@@ -45,3 +48,4 @@
         {/if}
     </div>
 </div>
+{include uri='design:footer/notes.tpl'}

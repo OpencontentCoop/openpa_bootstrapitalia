@@ -329,6 +329,12 @@ ShowUeLogo=enabled
 HideSlimHeaderIfUseless=disabled
 PerformanceLink=https://link.opencontent.it/piano-di-miglioramento-delle-performance-sito
 ShowFooterBanner=disabled
+# Allinea a sinistra il logo (header e footer) quando sono attivi "solo logo" e la tagline; se disabled il logo è centrato sulla tagline
+LogoAlignLeft=disabled
+# Mostra nel footer il testo del campo "Informazioni nel footer" (note_footer) della homepage
+ShowFooterNotes=disabled
+# Mostra sotto il logo del footer (campo "footer_logo" della homepage) il payoff impostato in tag_line
+ShowFooterLogoTagline=disabled
 MinifyHtml=enabled
 
 [InstanceSettings]
