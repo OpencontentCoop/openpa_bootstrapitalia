@@ -333,6 +333,8 @@ ShowFooterBanner=disabled
 LogoAlignLeft=disabled
 # Mostra nel footer il testo del campo "Informazioni nel footer" (note_footer) della homepage
 ShowFooterNotes=disabled
+# Mostra sotto il logo del footer (campo "footer_logo" della homepage) il payoff impostato in tag_line
+ShowFooterLogoTagline=disabled
 MinifyHtml=enabled
 
 [InstanceSettings]
