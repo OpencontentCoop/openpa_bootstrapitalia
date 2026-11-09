@@ -81,6 +81,8 @@ $schemaBindings = \SchemaPubblicazioneLookup::fetchAllBindings();
 publishArt4Bis($cli, $schemaBindings);
 publishArt13($cli, $schemaBindings);
 publishArt31($cli, $schemaBindings);
+publishArt12($cli, $schemaBindings);
+publishArt36($cli, $schemaBindings);
 
 /**
  * Rete di sicurezza per le pagine con rendering live (vedi
@@ -358,5 +360,129 @@ function publishArt4Bis(eZCLI $cli, array $schemaBindings)
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: ' . $identifier);
         $cli->error("anac_export: schema {$identifier} fallito: " . $e->getMessage());
+    }
+}
+
+/**
+ * art.12 co.1-bis - Scadenzario obblighi amministrativi (cms#485), solo C1.
+ * Stesso scheletro di publishArt4Bis() (dataset-anchored, preferenza pagina
+ * reale con fallback al nodo dataset). Il JSON si pubblica SEMPRE (mai
+ * omesso): lo schema reale ammette un oggetto vuoto valido quando il
+ * dataset non ha righe - vedi Art12Serializer::toJsonPa1Bis().
+ */
+function publishArt12(eZCLI $cli, array $schemaBindings)
+{
+    try {
+        $object = eZContentObject::fetchByRemoteID('scadenzario_obblighi_amministrativi');
+        if (!$object instanceof eZContentObject) {
+            // Caso NORMALE per la maggioranza dei tenant: schema opzionale,
+            // modulo trasparenza-additional-anac-schemes non installato su questo sito.
+            return;
+        }
+
+        $dataMap = $object->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+        if (!isset($dataMap['csv_resource'])) {
+            $cli->error("anac_export: attributo 'csv_resource' non trovato sul dataset Scadenzario (id {$object->attribute('id')}), schema art.12 saltato");
+
+            return;
+        }
+
+        $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art12Serializer($dataMap['csv_resource']);
+
+        $csvIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art12Serializer::SCHEMA_IDENTIFIER_CSV;
+        $pageObject = isset($schemaBindings[$csvIdentifier]) ? $schemaBindings[$csvIdentifier] : null;
+        $rootNodeId = $pageObject instanceof eZContentObject
+            ? $pageObject->attribute('main_node')->attribute('node_id')
+            : $object->attribute('main_node')->attribute('node_id');
+
+        $csvPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($csvIdentifier, $rootNodeId);
+        $csvTracking = $csvPublisher->publishSingle($serializer->toCsvScadenz(), 'csv');
+        $cli->notice("anac_export: schema {$csvIdentifier} ok, ultima modifica {$csvTracking['dataUltimaModifica']}");
+
+        // Il JSON si pubblica sempre, mai omesso: lo schema reale
+        // (art.12-v1.0.schema.json) ammette "attiPubblicheAmministrazioni: {}"
+        // come stato valido quando $scadenzario e' null - vedi
+        // Art12Serializer::toJsonPa1Bis(). publishWithDates() non supporta
+        // un contentBuilder che ritorna null (scriverebbe comunque un file
+        // rotto): non serve qui, perche' il builder ritorna sempre un JSON
+        // valido.
+        $scadenzario = $serializer->getScadenzario();
+        $jsonIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art12Serializer::SCHEMA_IDENTIFIER_JSON;
+        $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonIdentifier, $rootNodeId);
+        $jsonTracking = $jsonPublisher->publishWithDates(
+            json_encode($scadenzario),
+            function ($first, $last) use ($serializer, $scadenzario) {
+                return $serializer->toJsonPa1Bis($first, $last, $scadenzario);
+            },
+            'json'
+        );
+        $cli->notice("anac_export: schema {$jsonIdentifier} ok, ultima modifica {$jsonTracking['dataUltimaModifica']}");
+    } catch (\Exception $e) {
+        eZDebug::writeError($e->getMessage(), 'anac_export.php: art.12');
+        $cli->error('anac_export: schema art.12 fallito: ' . $e->getMessage());
+    }
+}
+
+/**
+ * art.36 - IBAN e pagamenti informatici (cms#488), C1 e C2. $isC1 si deriva
+ * direttamente da quale dei due dataset (Task 3) esiste sul sito - non
+ * serve controllare il nodo radice C1 separatamente, i due dataset hanno
+ * remote_id distinti per profilo. Il JSON qui PUO' essere omesso (a
+ * differenza di art.12): se il dataset non ha righe, getPagamenti() torna
+ * null e il builder ritorna null a publish(), che lo supporta nativamente
+ * (ometti json, pubblica comunque il CSV).
+ */
+function publishArt36(eZCLI $cli, array $schemaBindings)
+{
+    try {
+        $objectC1 = eZContentObject::fetchByRemoteID('iban_pagamenti_informatici_c1');
+        $objectC2 = eZContentObject::fetchByRemoteID('iban_pagamenti_informatici_c2');
+        $isC1 = $objectC1 instanceof eZContentObject;
+        $object = $isC1 ? $objectC1 : $objectC2;
+        if (!$object instanceof eZContentObject) {
+            return;
+        }
+
+        $dataMap = $object->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+        if (!isset($dataMap['csv_resource'])) {
+            $cli->error("anac_export: attributo 'csv_resource' non trovato sul dataset IBAN e pagamenti (id {$object->attribute('id')}), schema art.36 saltato");
+
+            return;
+        }
+
+        $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art36Serializer($dataMap['csv_resource'], $isC1);
+
+        $asIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art36Serializer::SCHEMA_IDENTIFIER_AS;
+        $asPageObject = isset($schemaBindings[$asIdentifier]) ? $schemaBindings[$asIdentifier] : null;
+        $asRootNodeId = $asPageObject instanceof eZContentObject
+            ? $asPageObject->attribute('main_node')->attribute('node_id')
+            : $object->attribute('main_node')->attribute('node_id');
+        $asPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($asIdentifier, $asRootNodeId);
+        $asTracking = $asPublisher->publishSingle($serializer->toCsvAs(), 'csv');
+        $cli->notice("anac_export: schema {$asIdentifier} ok, ultima modifica {$asTracking['dataUltimaModifica']}");
+
+        $identifier = \OpenPABootstrapItalia\Anac\Serializer\Art36Serializer::SCHEMA_IDENTIFIER;
+        $pageObject = isset($schemaBindings[$identifier]) ? $schemaBindings[$identifier] : null;
+        $rootNodeId = $pageObject instanceof eZContentObject
+            ? $pageObject->attribute('main_node')->attribute('node_id')
+            : $object->attribute('main_node')->attribute('node_id');
+
+        // Se getPagamenti() e' null (nessuna riga nel dataset) il JSON va
+        // omesso del tutto - lo schema non ammette uno stato vuoto valido
+        // per modalitaDiPagamento (vedi Art36Serializer::toJson()). Se
+        // invece ci sono righe ma la combinazione non e' valida (es. C2
+        // senza PagoPA), toJson() lancia InvalidVocabolarioException -
+        // tutto publishArt36() fallisce (CSV incluso), stesso principio
+        // "tutto o niente per schema" gia' in uso per gli altri schemi ANAC.
+        $csv = $serializer->toCsv();
+        $pagamenti = $serializer->getPagamenti();
+        $publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($identifier, $rootNodeId);
+        $tracking = $publisher->publish($csv, function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer, $pagamenti) {
+            return $pagamenti !== null ? $serializer->toJson($dataPrimaPubblicazione, $dataUltimaModifica, $pagamenti) : null;
+        });
+        $cli->notice("anac_export: schema {$identifier} ok, ultima modifica {$tracking['dataUltimaModifica']}");
+    } catch (\Exception $e) {
+        eZDebug::writeError($e->getMessage(), 'anac_export.php: art.36');
+        $cli->error('anac_export: schema art.36 fallito: ' . $e->getMessage());
     }
 }
