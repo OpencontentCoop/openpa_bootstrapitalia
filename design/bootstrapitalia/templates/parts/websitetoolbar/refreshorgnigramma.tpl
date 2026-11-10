@@ -2,8 +2,8 @@
     <li>
         <a class="list-item left-icon"
            href="{concat('openpa/refreshorganigramma/',$node.contentobject_id)|ezurl(no)}">
-            <i aria-hidden="true" class="fa fa-fw fa-code-fork"></i>
-            <span class="toolbar-item-label">Aggiorna organigramma</span>
+            <i aria-hidden="true" class="fa fa-code-fork"></i>
+            Aggiorna organigramma
         </a>
     </li>
     <li><span class="divider"></span></li>

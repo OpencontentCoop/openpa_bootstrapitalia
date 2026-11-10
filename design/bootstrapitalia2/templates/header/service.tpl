@@ -178,7 +178,7 @@
                                     <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
                                 </a>
                             {/if}
-                        {elseif openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|eq('disabled')}
+                        {else}
                             <span data-element="current-user-profile"></span>
                         {/if}
                     </div>
@@ -400,9 +400,6 @@
         });
       }
       if (CurrentUserIsLoggedIn) {
-        {/literal}{if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}{literal}
-        return; // con il loginbox il pannello utente del CMS è nella toolbar
-        {/literal}{/if}{literal}
         if (userAccessContainer.length === 0){
           userAccessContainer = $('[data-element="current-user-profile"]');
         }
