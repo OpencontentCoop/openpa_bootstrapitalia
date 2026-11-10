@@ -3,8 +3,8 @@
         <a class="list-item left-icon"
            href="{concat( "classtools/extra/", $content_object.class_identifier )|ezurl(no)}"
            title="{'View settings'|i18n( 'bootstrapitalia' )}">
-            <i aria-hidden="true" class="fa fa-window-restore"></i>
-            {'View settings'|i18n( 'bootstrapitalia' )}
+            <i aria-hidden="true" class="fa fa-fw fa-window-restore"></i>
+            <span class="toolbar-item-label">{'View settings'|i18n( 'bootstrapitalia' )}</span>
         </a>
     </li>
 {/if}
