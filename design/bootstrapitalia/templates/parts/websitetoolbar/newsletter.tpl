@@ -25,12 +25,12 @@
                     </li>
                     <li class="d-none" data-add_tpl="1">
                         <a class="list-item left-icon" data-href="{'/openpa/addlocationto/_currentObjectId/_editionNodeId'|ezurl(no)}">
-                            <i aria-hidden="true" class="fa fa-plus"></i> <span class="edition-name"></span>
+                            <i aria-hidden="true" class="fa fa-fw fa-plus"></i> <span class="edition-name"></span>
                         </a>
                     </li>
                     <li class="d-none" data-already_exists_tpl="1">
                         <a class="list-item left-icon disabled text-light" aria-disabled="true"  href="#" style="cursor: not-allowed;">
-                            <i aria-hidden="true" class="fa fa-check text-light"></i> <span class="edition-name"></span>
+                            <i aria-hidden="true" class="fa fa-fw fa-check text-light"></i> <span class="edition-name"></span>
                         </a>
                     </li>
                     <li class="d-none" data-divider="1"><span class="divider"></span></li>
@@ -50,7 +50,7 @@
                     {if fetch( 'user', 'has_access_to', hash( 'module', 'newsletter', 'function', 'index' ) )}
                         <li>
                             <a class="list-item left-icon" href="{'newsletter/index'|ezurl(no)}" title="{'Newsletter dashboard'|i18n( 'cjw_newsletter/index' )}">
-                                <i aria-hidden="true" class="fa fa-gears"></i> {'Newsletter dashboard'|i18n( 'cjw_newsletter/index' )}
+                                <i aria-hidden="true" class="fa fa-fw fa-gears"></i> <span class="toolbar-item-label">{'Newsletter dashboard'|i18n( 'cjw_newsletter/index' )}</span>
                             </a>
                         </li>
                     {/if}
