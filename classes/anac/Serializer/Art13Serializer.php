@@ -104,6 +104,12 @@ class Art13Serializer
 
     private $amministrazione;
 
+    /**
+     * @var array<int,array> cache per istanza di fetchUfficiFigli(), chiave
+     *      l'id dell'organo - vedi fetchUfficiFigli() per il perche'.
+     */
+    private $ufficiFigliCache = [];
+
     public function __construct(array $amministrazione = null)
     {
         $this->amministrazione = $amministrazione;
@@ -251,11 +257,36 @@ class Art13Serializer
      *        non dovrebbe mai servire su dati reali (hold_employment non
      *        dovrebbe formare cicli), ma un cron non deve andare in loop
      *        infinito per un dato malformato.
+     *
+     * Memoizzato per id di $organo (per tutta la durata di questa istanza,
+     * cioe' di una singola richiesta/esecuzione cron): senza cache, un
+     * organo raggiunto piu' volte nella stessa richiesta - radici duplicate
+     * restituite da fetchVerticeAmministrativi()/fetchOrganizzazioniByTagPath(),
+     * o un organo/ufficio con piu' di un genitore - rifà da capo tutta la
+     * query Solr + ricorsione per ogni occorrenza, invece di una volta sola.
+     * Verificato su un tenant con dati di test accumulati (bugliano QA, 6201
+     * oggetti `organization` per un solo ente, radici/uffici duplicati): la
+     * stessa pagina arrivava a ~64.000 query Solr e 65-70 secondi di
+     * rendering per singola richiesta, abbastanza da far scadere il timeout
+     * di Varnish (503 "Page Unavailable") - la cache qui sotto rende
+     * ciascun organo/ufficio costante (una sola volta), qualunque sia il
+     * numero di percorsi/radici duplicate che lo raggiungono, senza
+     * cambiare l'elenco di uffici restituito per un organo dato (stesso
+     * output di prima a dati puliti, dove ogni organo e' raggiunto una sola
+     * volta comunque). Non sostituisce $visitedIds: quella guardia resta
+     * l'unica protezione per un vero ciclo (A raggiunge se stesso tramite i
+     * propri discendenti nello STESSO ramo di ricorsione, dove la cache non
+     * puo' ancora aiutare perche' il risultato di A non e' ancora completo).
      */
     private function fetchUfficiFigli(\eZContentObject $organo, array $visitedIds = [])
     {
+        $organoId = (int)$organo->attribute('id');
+        if (isset($this->ufficiFigliCache[$organoId])) {
+            return $this->ufficiFigliCache[$organoId];
+        }
+
         $uffici = [];
-        $visitedIds[] = (int)$organo->attribute('id');
+        $visitedIds[] = $organoId;
 
         foreach ($this->fetchFigliDiOrgano($organo) as $ufficioObject) {
             if (in_array((int)$ufficioObject->attribute('id'), $visitedIds, true)) {
@@ -292,6 +323,8 @@ class Art13Serializer
                 $uffici[] = $nipote;
             }
         }
+
+        $this->ufficiFigliCache[$organoId] = $uffici;
 
         return $uffici;
     }
@@ -439,6 +472,13 @@ class Art13Serializer
      *         (basta cercare la radice "Struttura amministrativa" per
      *         includere qualunque discendente), submeta_hold_employment___id____si
      *         contiene l'id dell'oggetto puntato da hold_employment.
+     *
+     * `limit 1000`: stesso motivo di fetchVerticeAmministrativi()/
+     * fetchOrganizzazioniByTagPath() - senza un limite esplicito la ricerca
+     * applica la paginazione di default (10 risultati), che taglierebbe
+     * fuori uffici figli oltre il decimo su un'area con molti uffici
+     * diretti. Dimenticato qui alla stesura originale di questo metodo -
+     * aggiunto il 2026-11-11 per coerenza con gli altri due.
      */
     private function fetchFigliDiOrgano(\eZContentObject $organo)
     {
@@ -446,7 +486,8 @@ class Art13Serializer
 
         $query = 'classes [organization]'
             . ' and raw[subattr_type___tag_ids____si] in [' . self::resolveTagId(self::TAG_REMOTE_ID_STRUTTURA_AMMINISTRATIVA) . ']'
-            . ' and raw[submeta_hold_employment___id____si] in [' . (int)$organo->attribute('id') . ']';
+            . ' and raw[submeta_hold_employment___id____si] in [' . (int)$organo->attribute('id') . ']'
+            . ' limit 1000';
 
         $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
         $queryObject = $queryBuilder->instanceQuery($query);
@@ -592,6 +633,13 @@ class Art13Serializer
         // JSON pubblico (bug reale trovato in #478, vedi commit collegato).
         $contatti['denominazione'] = $contactPointObject->attribute('name');
 
+        // Solo per uso interno (deduplicazione in fetchRiferimentiContatti()
+        // per id del CONTATTO, non dell'organo che lo referenzia - due
+        // organi diversi possono condividere lo stesso online_contact_point,
+        // vedi li' per il perche') - MAI esposta nel JSON pubblico, stesso
+        // meccanismo/motivo di 'denominazione' sopra.
+        $contatti['id'] = (int)$contactPointObject->attribute('id');
+
         return $contatti;
     }
 
@@ -620,51 +668,87 @@ class Art13Serializer
      * Export `art.13-rif` (Riferimenti e contatti, #478 - vedi CLAUDE.md,
      * "Riferimenti e contatti"). Hardcoded come gli altri fetch di questa
      * classe (fetchOrganizzazioniByTagPath()) - non dipende dal campo
-     * `fields` di nessuna pagina (stesso principio adottato poi anche per
-     * Art31Serializer::fetchDocumentsByKeys(), vedi il suo docblock): la
-     * sorgente e' sempre la radice reale del
-     * sito (`[NodeSettings]RootNode`, content.ini - lo stesso nodo "Homepage"
-     * da cui discende tutto il content model), indipendentemente da quale
-     * pagina dichiari `schema_pubblicazione: art.13-rif`. Questo disaccoppia
-     * "da dove si legge il dato" (qui) da "dove si pubblica l'url" (il nodo
-     * passato a ExportPublisher in cronjobs/anac_export.php) - stesso
-     * principio gia' in uso per art.4-bis/art.31-cc (dataset per remote_id
-     * fisso, vedi CLAUDE.md "Node id da passare a ExportPublisher").
+     * `fields` di nessuna pagina: la sorgente e' sempre la stessa alberatura
+     * organizzativa di fetchOrganiConUffici()/fetchOrganiAmministrativi(),
+     * indipendentemente da quale pagina dichiari `schema_pubblicazione:
+     * art.13-rif`.
      *
-     * Resta una query Solr (non uno scan PHP come fetchOrganizzazioniByTagPath()):
-     * a differenza di `organization`, `online_contact_point` non ha un
-     * attributo di tipo su cui filtrare, quindi uno scan completo
-     * includerebbe anche eventuali altri usi dello stesso content type nel
-     * sito - lo stesso motivo per cui Art31Serializer::fetchDocumentsByKeys()
-     * usa Solr invece di uno scan per `document`.
+     * Scope ristretto a `organization` (deciso con Marco il 2026-11-11):
+     * `online_contact_point` e' una classe generica riusata anche da
+     * event/public_service/place/topic/article/homepage/private_organization/
+     * public_person - un contatto di un evento o di una scheda servizio non
+     * e' "cui il cittadino possa rivolgersi per qualsiasi richiesta inerente
+     * ai compiti istituzionali" (art.13 co.1 lett. d, d.lgs. 33/2013). Una
+     * query slegata su tutta la classe (la versione precedente di questo
+     * metodo) includeva invece qualunque uso, indipendentemente dal
+     * collegamento a un ufficio/organo - comportamento scorretto rispetto
+     * alla norma, non solo un problema di performance.
      *
-     * @return array lista di Riferimenti, uno per ogni online_contact_point
-     *         trovato - nessun filtro sulla completezza (stessa tolleranza
-     *         gia' usata per le celle vuote nel CSV di art.13-op/oa, a
-     *         differenza del JSON che invece li scarterebbe - ma qui non
-     *         esiste un JSON per questo schema, vedi CLAUDE.md)
+     * Riusa le stesse radici (organi politici di vertice +
+     * fetchVerticeAmministrativi()) e lo stesso fetchUfficiFigli() gia'
+     * usati per l'export organi/uffici - nessuna query Solr aggiuntiva
+     * oltre a quelle gia' pagate per costruire quell'export nella stessa
+     * esecuzione (la cache di fetchUfficiFigli() rende gratis una seconda
+     * chiamata sullo stesso organo).
+     *
+     * **Include anche il contatto delle radici stesse** (organi politici di
+     * vertice E aree amministrative di vertice), non solo dei discendenti:
+     * fetchOrganiConUffici()/fetchOrganiAmministrativi() non catturano MAI
+     * il contatto diretto della radice (solo quello dei suoi uffici
+     * figli, vedi fetchUfficiFigli()) - qui invece serve, perche' una radice
+     * puo' avere un contatto proprio impostato (es. un'Area di vertice con
+     * un telefono/email generale, prima ancora di scendere alle Direzioni).
+     *
+     * **Deduplicato per id del CONTATTO (`online_contact_point`), non per id
+     * di `organization`** - scelta corretta solo dopo aver verificato
+     * l'output su dati reali di dev il 2026-11-11: una prima versione
+     * deduplicava per organo, ma piu' organi DIVERSI possono condividere lo
+     * stesso contatto (es. un placeholder "Contatti Ufficio Segreteria" non
+     * ancora personalizzato, riusato da 6 Aree diverse nei dati di dev) - in
+     * quel caso deduplicare per organo produceva 6 righe identiche nella
+     * tabella live, una per organo, invece di 1. L'obbligo di legge (art.13
+     * co.1 lett. d) e' un "elenco di numeri di telefono/caselle email" -
+     * l'unita' dell'elenco e' il CONTATTO, non l'organo che lo referenzia:
+     * lo stesso numero/indirizzo non va ripetuto una volta per ogni ufficio
+     * che lo usa. Copre comunque anche il caso precedente (stesso organo
+     * raggiunto da radici duplicate produce sempre lo stesso contatto,
+     * quindi lo stesso id) senza bisogno di un secondo controllo per organo.
+     *
+     * @return array lista di Riferimenti, uno per ogni `online_contact_point`
+     *         distinto raggiunto da un'`organization` (radice o discendente)
+     *         - nessun filtro sulla completezza (stessa tolleranza gia' usata
+     *         per le celle vuote nel CSV di art.13-op/oa, a differenza del
+     *         JSON che invece li scarterebbe - ma qui non esiste un JSON per
+     *         questo schema, vedi CLAUDE.md)
      */
     public function fetchRiferimentiContatti()
     {
         $riferimenti = [];
+        $visitedContactPointIds = [];
 
-        $rootNodeId = (int)\eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode');
-        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
-        $queryObject = $queryBuilder->instanceQuery("classes [online_contact_point] subtree [{$rootNodeId}]");
+        $radici = array_merge(
+            $this->fetchOrganizzazioniByTagPath(self::resolveTagId(self::TAG_REMOTE_ID_STRUTTURA_POLITICA)),
+            $this->fetchVerticeAmministrativi()
+        );
 
-        $solr = new \eZSolr();
-        $searchResult = $solr->search('', (array)$queryObject->convert());
+        foreach ($radici as $radice) {
+            $this->appendRiferimentoSeNuovo($riferimenti, $visitedContactPointIds, $this->fetchContatti($radice));
 
-        foreach ($searchResult['SearchResult'] as $resultNode) {
-            $object = $resultNode->attribute('object');
-            if (!$object instanceof \eZContentObject) {
-                continue;
+            foreach ($this->fetchUfficiFigli($radice) as $ufficio) {
+                $this->appendRiferimentoSeNuovo($riferimenti, $visitedContactPointIds, $ufficio['contatti']);
             }
-
-            $riferimenti[] = $this->parseContattiMatrix($object);
         }
 
         return $riferimenti;
+    }
+
+    private function appendRiferimentoSeNuovo(array &$riferimenti, array &$visitedContactPointIds, array $contatti)
+    {
+        if (empty($contatti) || isset($visitedContactPointIds[$contatti['id']])) {
+            return;
+        }
+        $visitedContactPointIds[$contatti['id']] = true;
+        $riferimenti[] = $contatti;
     }
 
     public function toCsvRiferimenti(array $riferimenti = null)

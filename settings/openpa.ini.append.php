@@ -206,6 +206,16 @@ ShowBandoFaseSelect=enabled
 EnableAnacExport=disabled
 EnableAnacLiveRendering=disabled
 
+# Schemi ANAC (identificativi LiveRenderingRegistry, es. art.13-op) per cui
+# il blocco di rendering live va omesso quando non ha righe - vedi
+# classes/services/content_trasparenza.php, getLiveRenderingBlocks(). Non
+# un comportamento unico per tutti gli schemi: abilitato schema per schema,
+# solo per quelli gia' verificati (decisione con Marco il 2026-11-11, dopo
+# aver notato che lo stesso "vuoto" per l'export pubblicato puo' avere un
+# significato diverso da quello della tabella - vedi CLAUDE.md).
+HideLiveRenderingBlockIfEmpty[]
+HideLiveRenderingBlockIfEmpty[]=art.13-op
+
 # Tag (document_type, per remote_id) che fanno comparire un Documento in
 # Amministrazione Trasparente/Societa' trasparente - usati per mostrare un
 # avviso al redattore nell'editing del campo "Tipo di documento" (vedi
