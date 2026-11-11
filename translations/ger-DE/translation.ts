@@ -2574,6 +2574,18 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Verweise und Kontakte</translation>
     </message>
     <message>
+      <source>Administrative deadlines</source>
+      <translation>Fälligkeitsplan der Verwaltungspflichten</translation>
+    </message>
+    <message>
+      <source>Electronic payments - subjective scope</source>
+      <translation>Elektronische Zahlungen - persönlicher Geltungsbereich</translation>
+    </message>
+    <message>
+      <source>IBAN and electronic payments</source>
+      <translation>IBAN und elektronische Zahlungen</translation>
+    </message>
+    <message>
       <source>at</source>
       <translation>um</translation>
     </message>

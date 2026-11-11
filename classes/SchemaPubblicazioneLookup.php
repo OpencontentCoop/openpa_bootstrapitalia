@@ -75,7 +75,7 @@ class SchemaPubblicazioneLookup
         'art.31-or' => 'Audit bodies',
         'art.31-cc' => 'Court of Auditors',
         'art.31' => 'Administrative controls and findings',
-        'art.12-scadenz' => 'Administrative deadlines (CSV)',
+        'art.12-scadenz' => 'Administrative deadlines',
         'art.12-pa-1bis' => 'Administrative deadlines',
         'art.36-as' => 'Electronic payments - subjective scope',
         'art.36' => 'IBAN and electronic payments',

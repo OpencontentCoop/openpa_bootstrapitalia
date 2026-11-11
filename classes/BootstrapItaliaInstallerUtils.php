@@ -744,4 +744,150 @@ class BootstrapItaliaInstallerUtils
             throw new Exception('Publish failed with status ' . var_export($result['status'], true));
         }
     }
+
+    /**
+     * Risolve il nome del comune da usare nel campo `spatial` (datatype
+     * `openpacomuniitaliani`) al posto del valore fisso 'Roma' (vedi
+     * backlog_anac_dataset_spatial_roma). Parte da `SiteSettings.SiteName`
+     * - lo stesso valore gia' usato da `IntestazioneProvider::getAmministrazione()`
+     * per il campo ANAC `denominazione`, affidabile su ogni tenant reale (a
+     * differenza di `Homepage::spatial`, non sempre compilato sui siti live).
+     *
+     * Prova prima il nome intero cosi' com'e' contro la tabella comuni
+     * (`OpenPAComuniItaliani::getCodesFromNames()`, la stessa risoluzione
+     * usata da `OpenPAComuniItalianiAttributeConverter::set()` in fase di
+     * publish) - necessario perche' alcuni comuni si chiamano davvero
+     * "Citta' di X" (es. Citta' di Castello), quindi non si puo' stripare
+     * alla cieca un prefisso "Citta' di ". Solo se il nome intero non
+     * matcha un comune, prova a togliere i prefissi di tipo ente ("Comune
+     * di ", "Citta' Metropolitana di ", "Provincia di ") e riprova.
+     *
+     * Se nessun tentativo trova un comune valido, fallback a 'Roma' (stesso
+     * valore gia' usato dagli altri moduli ANAC) invece di bloccare
+     * l'installazione.
+     *
+     * steps:
+     *     variables:
+     *         -   name: comune_nome
+     *             value: 'BootstrapItaliaInstallerUtils::resolveComuneSpatialName'
+     *
+     * @return string
+     */
+    public static function resolveComuneSpatialName()
+    {
+        $siteaccess = eZSiteAccess::current();
+        $siteaccessName = str_replace('_backend', '_frontend', $siteaccess['name']);
+        $siteName = trim((string)eZSiteAccess::getIni($siteaccessName)->variable('SiteSettings', 'SiteName'));
+
+        if ($siteName !== '' && OpenPAComuniItaliani::getCodesFromNames([$siteName])) {
+            return $siteName;
+        }
+
+        $stripped = trim((string)preg_replace(
+            '/^(Comune|Citt[aà]\s+Metropolitana|Provincia)\s+di\s+/iu',
+            '',
+            $siteName
+        ));
+
+        if ($stripped !== '' && OpenPAComuniItaliani::getCodesFromNames([$stripped])) {
+            return $stripped;
+        }
+
+        eZDebug::writeWarning(
+            "Impossibile risolvere un comune da SiteSettings.SiteName ('$siteName'), uso 'Roma' come fallback per il campo spatial",
+            __METHOD__
+        );
+
+        return 'Roma';
+    }
+
+    /**
+     * Ripubblica i dataset ANAC ad adesione volontaria il cui campo
+     * `spatial` e' ancora il valore di default 'Roma', sostituendolo con
+     * quello risolto da `resolveComuneSpatialName()`. Serve a correggere i
+     * dataset gia' creati su ambienti dove il modulo e' stato installato
+     * prima di questo fix - un fresh install ottiene gia' il valore giusto
+     * dal content step (`spatial: $comune_nome`), quindi qui si fa
+     * esplicitamente no-op se `spatial` e' gia' diverso da 'Roma' (un
+     * redattore potrebbe averlo gia' cambiato a mano).
+     *
+     * Il datatype `openpacomuniitaliani` salva in `data_text` dei CODICI
+     * ISTAT (non il nome), quindi il confronto/scrittura qui va fatto a
+     * livello di codice - non si puo' usare `toString()`/`fromString()`
+     * del datatype (lavorano solo su codici, nessun fallback per nome:
+     * vedi `OpenPAComuniItalianiType::fromString()`), bisogna risolvere i
+     * nomi a mano con `OpenPAComuniItaliani::getCodesFromNames()`, stessa
+     * logica di `OpenPAComuniItalianiAttributeConverter::set()`.
+     *
+     * steps:
+     *     ...
+     *     -   type: php_callable
+     *         identifier: 'BootstrapItaliaInstallerUtils::fixAnacDatasetSpatialDefault'
+     *         remote_ids:
+     *             - iban_pagamenti_informatici_c1
+     *             - iban_pagamenti_informatici_c2
+     *             - scadenzario_obblighi_amministrativi
+     *     ...
+     * @param AbstractStepInstaller $step
+     */
+    public static function fixAnacDatasetSpatialDefault(AbstractStepInstaller $step)
+    {
+        $remoteIds = $step->getStep()['remote_ids'] ?? [];
+
+        $romaValue = implode('#', OpenPAComuniItaliani::getCodesFromNames(['Roma']));
+        if ($romaValue === '') {
+            $step->getLogger()->error("Impossibile risolvere il codice comune di 'Roma', skip");
+
+            return;
+        }
+
+        $comuneNome = null;
+        $comuneValue = null;
+
+        foreach ($remoteIds as $remoteId) {
+            $object = eZContentObject::fetchByRemoteID($remoteId);
+            if (!$object instanceof eZContentObject) {
+                continue;
+            }
+
+            $dataMap = $object->dataMap();
+            $attribute = $dataMap['spatial'] ?? null;
+            if (!$attribute || trim($attribute->attribute('data_text')) !== $romaValue) {
+                continue;
+            }
+
+            if ($comuneNome === null) {
+                $comuneNome = self::resolveComuneSpatialName();
+                $comuneValue = implode('#', OpenPAComuniItaliani::getCodesFromNames([$comuneNome]));
+            }
+            if ($comuneValue === '' || $comuneValue === $romaValue) {
+                continue;
+            }
+
+            $step->getLogger()->info(" - Patch spatial su $remoteId -> $comuneNome");
+
+            $newVersion = $object->createNewVersion(false, true);
+            if (!$newVersion instanceof eZContentObjectVersion) {
+                throw new Exception("Unable to create a new version for object {$object->attribute('id')}");
+            }
+            $newVersion->setAttribute('modified', time());
+            $newVersion->store();
+
+            foreach ($newVersion->contentObjectAttributes() as $newAttribute) {
+                if ($newAttribute->attribute('contentclass_attribute_identifier') === 'spatial') {
+                    $newAttribute->setAttribute('data_text', $comuneValue);
+                    $newAttribute->store();
+                }
+            }
+
+            $result = eZOperationHandler::execute('content', 'publish', [
+                'object_id' => $newVersion->attribute('contentobject_id'),
+                'version' => $newVersion->attribute('version'),
+            ]);
+
+            if ($result['status'] != eZModuleOperationInfo::STATUS_CONTINUE) {
+                throw new Exception('Publish failed with status ' . var_export($result['status'], true));
+            }
+        }
+    }
 }
