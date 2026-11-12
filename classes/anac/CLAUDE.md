@@ -505,11 +505,21 @@ valore non conforme — stesso principio già usato per il codice fiscale
 mancante/malformato in `IntestazioneProvider` (`MissingCodiceFiscaleException`,
 11 cifre numeriche richieste).
 
-L'importo (`normalizeImporto()`) viene sempre riportato al formato ANAC
-`n.nnn,dd` (punto delle migliaia, virgola decimale) qualunque sia la
-convenzione di digitazione del redattore (`1550.33`, `1550,33`, `1.550,33`,
-`1,550.33` producono tutti `1.550,33`) — euristica: se compaiono sia `,` che
-`.`, l'ultimo dei due è il separatore decimale.
+L'importo (`normalizeImporto()`, che delega a `ImportoNormalizer`) viene sempre
+riportato al formato ANAC `n.nnn,dd` (punto delle migliaia, virgola decimale,
+sempre due decimali), con calcolo sulle stringhe (niente float). Forme
+ammesse, dopo aver tolto simbolo euro e spazi (segno meno opzionale):
+`1550`, `1550,33`, `1.550,33`, `1.550` / `1.000.000` (solo migliaia, gruppi di
+3 cifre), `1550.33`, `1,550.33` (inglese, 1-2 decimali). Un solo punto seguito
+da esattamente 3 cifre e' sempre un separatore delle migliaia (`2.304` =
+2304), come nei campi prezzo di eZ con locale ita-IT. Tutto il resto (3+
+decimali, gruppi sbagliati come `100.000.00`, un solo `1,550`, testo,
+`n.d.`, vuoto) fa fallire l'export con `InvalidImportoException` - stesso
+principio di `InvalidVocabolarioException`, con il messaggio che indica anno,
+trimestre e beneficiario della riga. Prima del 2026-11 la funzione non
+validava: `100.000.000` diventava `100,00` e testo o vuoto diventavano
+`0,00`, pubblicando valori sbagliati senza errori. Test:
+`php tests/test_anac_importo_normalizer.php` (logica pura, nessun kernel eZ).
 
 ### `Art13Serializer`
 
