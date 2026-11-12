@@ -744,4 +744,119 @@ class BootstrapItaliaInstallerUtils
             throw new Exception('Publish failed with status ' . var_export($result['status'], true));
         }
     }
+
+    /**
+     * Risolve il codice ISTAT del comune trentino da usare nel campo `spatial`
+     * (datatype `openpacomuniitaliani`) a partire da `SiteSettings.SiteName`.
+     *
+     * Restituisce il CODICE ISTAT (non il nome): il converter del datatype
+     * prova prima i codici e solo dopo i nomi, quindi con il codice non c'e'
+     * ambiguita' sugli omonimi di comuni di altre province (nella tabella ce
+     * ne sono alcuni). La ricerca per nome e' ristretta alla provincia di Trento.
+     *
+     * Gestisce il prefisso ente ("Comune di ...") e i nomi bilingui nel
+     * formato "Nome italiano - Nome ladino".
+     *
+     * Se nessun candidato produce un comune univoco in provincia di Trento,
+     * ripiega sul comune di Trento: il fallback viene scritto nel log
+     * `cct_opendata_spatial_fallback.log` (e su STDERR da CLI) per poter
+     * individuare i tenant da correggere.
+     *
+     * Non sostituisce `resolveComuneSpatialName()`, usata dai moduli ANAC su
+     * tenant di tutta Italia con fallback diverso.
+     *
+     * steps:
+     *     variables:
+     *         -   name: comune_codice
+     *             value: 'BootstrapItaliaInstallerUtils::resolveTrentinoComuneCode'
+     *
+     * @return string
+     * @throws Exception se non e' possibile risolvere nemmeno il fallback
+     */
+    public static function resolveTrentinoComuneCode()
+    {
+        $province = 'TN';
+        $siteaccess = eZSiteAccess::current();
+        $siteaccessName = str_replace('_backend', '_frontend', $siteaccess['name']);
+        $siteName = trim((string)eZSiteAccess::getIni($siteaccessName)->variable('SiteSettings', 'SiteName'));
+
+        foreach (self::getComuneNameCandidates($siteName) as $candidate) {
+            $codes = self::filterComuneCodesByProvince(
+                OpenPAComuniItaliani::getCodesFromNames([$candidate]),
+                $province
+            );
+            if (count($codes) === 1) {
+                return $codes[0];
+            }
+        }
+
+        $fallbackName = 'Trento';
+        $fallbackCodes = self::filterComuneCodesByProvince(
+            OpenPAComuniItaliani::getCodesFromNames([$fallbackName]),
+            $province
+        );
+        if (count($fallbackCodes) !== 1) {
+            throw new Exception(
+                "Impossibile risolvere un comune trentino da SiteName '$siteName' e nemmeno il fallback '$fallbackName'"
+            );
+        }
+
+        $message = "Comune non risolto da SiteSettings.SiteName ('$siteName'), uso '$fallbackName' come fallback per il campo spatial";
+        eZDebug::writeWarning($message, __METHOD__);
+        eZLog::write($message, 'cct_opendata_spatial_fallback.log');
+        if (PHP_SAPI === 'cli') {
+            fwrite(STDERR, "[cct-opendata] $message\n");
+        }
+
+        return $fallbackCodes[0];
+    }
+
+    /**
+     * Varianti del nome da provare, dalla piu' completa alla piu' ridotta:
+     * nome intero, senza prefisso ente, e per entrambi la sola parte prima
+     * di un separatore " - " o " / " (nomi bilingui).
+     *
+     * @param string $siteName
+     * @return string[]
+     */
+    private static function getComuneNameCandidates($siteName)
+    {
+        $stripped = trim((string)preg_replace(
+            '/^(Comune|Citt[aà]\s+Metropolitana|Provincia)\s+di\s+/iu',
+            '',
+            $siteName
+        ));
+
+        $names = [];
+        foreach ([$siteName, $stripped] as $name) {
+            $names[] = $name;
+            $parts = preg_split('/\s+[-–\/]\s+/u', $name);
+            $names[] = trim((string)$parts[0]);
+        }
+
+        return array_values(array_filter(array_unique($names), 'strlen'));
+    }
+
+    /**
+     * Tiene solo i codici ISTAT dei comuni della provincia indicata (sigla).
+     *
+     * @param string[] $codes
+     * @param string $province sigla, es. 'TN'
+     * @return string[]
+     */
+    private static function filterComuneCodesByProvince(array $codes, $province)
+    {
+        if (empty($codes)) {
+            return [];
+        }
+
+        $filtered = [];
+        foreach (OpenPAComuniItaliani::fetchByCodes($codes) as $comune) {
+            if (strtoupper((string)$comune->attribute('sigla')) === $province) {
+                $filtered[] = (string)$comune->attribute('pro_com_t');
+            }
+        }
+
+        return array_values(array_unique($filtered));
+    }
 }
