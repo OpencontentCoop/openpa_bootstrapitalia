@@ -859,4 +859,74 @@ class BootstrapItaliaInstallerUtils
 
         return array_values(array_unique($filtered));
     }
+
+    /**
+     * Cerca tra i contenuti di classe `organization` quello il cui nome
+     * coincide (senza distinzione tra maiuscole e minuscole) con
+     * `SiteSettings.SiteName` e ne restituisce il remote_id, da usare come
+     * titolare (`rights_holder`) dei dataset.
+     *
+     * Se esiste esattamente un'organization con quel nome restituisce il suo
+     * remote_id. Se non ne esiste nessuna, o ce n'e' piu' di una (ambiguo),
+     * restituisce `$fallbackRemoteId` ('site-link'): il contenuto di classe
+     * `link` creato dal modulo con il nome e l'URL del sito, gia' usato come
+     * titolare dai dataset ANAC. Il ripiego viene scritto nel log
+     * `cct_opendata_rights_holder_fallback.log` (e su STDERR da CLI).
+     *
+     * Per i nomi bilingui "Nome italiano - Nome ladino" prova anche la sola
+     * parte prima del separatore.
+     *
+     * steps:
+     *     variables:
+     *         -   name: titolare_remote_id
+     *             value: 'BootstrapItaliaInstallerUtils::resolveSiteOrganizationRemoteId'
+     *
+     * @return string
+     */
+    public static function resolveSiteOrganizationRemoteId()
+    {
+        $fallbackRemoteId = 'site-link';
+        $siteaccess = eZSiteAccess::current();
+        $siteaccessName = str_replace('_backend', '_frontend', $siteaccess['name']);
+        $siteName = trim((string)eZSiteAccess::getIni($siteaccessName)->variable('SiteSettings', 'SiteName'));
+
+        $names = [$siteName];
+        $parts = preg_split('/\s+[-–\/]\s+/u', $siteName);
+        $names[] = trim((string)$parts[0]);
+        $names = array_values(array_filter(array_unique($names), 'strlen'));
+
+        $reason = "nessuna organization con nome '$siteName'";
+        $classId = eZContentClass::classIDByIdentifier('organization');
+        if (empty($names)) {
+            $reason = 'SiteName vuoto';
+        } elseif (!$classId) {
+            $reason = 'classe organization non trovata';
+        } else {
+            $db = eZDB::instance();
+            foreach ($names as $name) {
+                $rows = $db->arrayQuery(
+                    'SELECT remote_id FROM ezcontentobject'
+                    . ' WHERE contentclass_id = ' . (int)$classId
+                    . ' AND status = ' . eZContentObject::STATUS_PUBLISHED
+                    . " AND LOWER(TRIM(name)) = LOWER('" . $db->escapeString($name) . "')"
+                );
+                if (count($rows) === 1) {
+                    return (string)$rows[0]['remote_id'];
+                }
+                if (count($rows) > 1) {
+                    $reason = "piu' organization con lo stesso nome ('$name')";
+                    break;
+                }
+            }
+        }
+
+        $message = "Titolare non risolto da SiteSettings.SiteName ('$siteName'): $reason, uso '$fallbackRemoteId'";
+        eZDebug::writeNotice($message, __METHOD__);
+        eZLog::write($message, 'cct_opendata_rights_holder_fallback.log');
+        if (PHP_SAPI === 'cli') {
+            fwrite(STDERR, "[cct-opendata] $message\n");
+        }
+
+        return $fallbackRemoteId;
+    }
 }
