@@ -890,4 +890,189 @@ class BootstrapItaliaInstallerUtils
             }
         }
     }
+
+    /**
+     * Risolve il codice ISTAT del comune trentino da usare nel campo `spatial`
+     * (datatype `openpacomuniitaliani`) a partire da `SiteSettings.SiteName`.
+     *
+     * Restituisce il CODICE ISTAT (non il nome): il converter del datatype
+     * prova prima i codici e solo dopo i nomi, quindi con il codice non c'e'
+     * ambiguita' sugli omonimi di comuni di altre province (nella tabella ce
+     * ne sono alcuni). La ricerca per nome e' ristretta alla provincia di Trento.
+     *
+     * Gestisce il prefisso ente ("Comune di ...") e i nomi bilingui nel
+     * formato "Nome italiano - Nome ladino".
+     *
+     * Se nessun candidato produce un comune univoco in provincia di Trento,
+     * ripiega sul comune di Trento: il fallback viene scritto nel log
+     * `cct_opendata_spatial_fallback.log` (e su STDERR da CLI) per poter
+     * individuare i tenant da correggere.
+     *
+     * Non sostituisce `resolveComuneSpatialName()`, usata dai moduli ANAC su
+     * tenant di tutta Italia con fallback diverso.
+     *
+     * steps:
+     *     variables:
+     *         -   name: comune_codice
+     *             value: 'BootstrapItaliaInstallerUtils::resolveTrentinoComuneCode'
+     *
+     * @return string
+     * @throws Exception se non e' possibile risolvere nemmeno il fallback
+     */
+    public static function resolveTrentinoComuneCode()
+    {
+        $province = 'TN';
+        $siteaccess = eZSiteAccess::current();
+        $siteaccessName = str_replace('_backend', '_frontend', $siteaccess['name']);
+        $siteName = trim((string)eZSiteAccess::getIni($siteaccessName)->variable('SiteSettings', 'SiteName'));
+
+        foreach (self::getComuneNameCandidates($siteName) as $candidate) {
+            $codes = self::filterComuneCodesByProvince(
+                OpenPAComuniItaliani::getCodesFromNames([$candidate]),
+                $province
+            );
+            if (count($codes) === 1) {
+                return $codes[0];
+            }
+        }
+
+        $fallbackName = 'Trento';
+        $fallbackCodes = self::filterComuneCodesByProvince(
+            OpenPAComuniItaliani::getCodesFromNames([$fallbackName]),
+            $province
+        );
+        if (count($fallbackCodes) !== 1) {
+            throw new Exception(
+                "Impossibile risolvere un comune trentino da SiteName '$siteName' e nemmeno il fallback '$fallbackName'"
+            );
+        }
+
+        $message = "Comune non risolto da SiteSettings.SiteName ('$siteName'), uso '$fallbackName' come fallback per il campo spatial";
+        eZDebug::writeWarning($message, __METHOD__);
+        eZLog::write($message, 'cct_opendata_spatial_fallback.log');
+        if (PHP_SAPI === 'cli') {
+            fwrite(STDERR, "[cct-opendata] $message\n");
+        }
+
+        return $fallbackCodes[0];
+    }
+
+    /**
+     * Varianti del nome da provare, dalla piu' completa alla piu' ridotta:
+     * nome intero, senza prefisso ente, e per entrambi la sola parte prima
+     * di un separatore " - " o " / " (nomi bilingui).
+     *
+     * @param string $siteName
+     * @return string[]
+     */
+    private static function getComuneNameCandidates($siteName)
+    {
+        $stripped = trim((string)preg_replace(
+            '/^(Comune|Citt[aà]\s+Metropolitana|Provincia)\s+di\s+/iu',
+            '',
+            $siteName
+        ));
+
+        $names = [];
+        foreach ([$siteName, $stripped] as $name) {
+            $names[] = $name;
+            $parts = preg_split('/\s+[-–\/]\s+/u', $name);
+            $names[] = trim((string)$parts[0]);
+        }
+
+        return array_values(array_filter(array_unique($names), 'strlen'));
+    }
+
+    /**
+     * Tiene solo i codici ISTAT dei comuni della provincia indicata (sigla).
+     *
+     * @param string[] $codes
+     * @param string $province sigla, es. 'TN'
+     * @return string[]
+     */
+    private static function filterComuneCodesByProvince(array $codes, $province)
+    {
+        if (empty($codes)) {
+            return [];
+        }
+
+        $filtered = [];
+        foreach (OpenPAComuniItaliani::fetchByCodes($codes) as $comune) {
+            if (strtoupper((string)$comune->attribute('sigla')) === $province) {
+                $filtered[] = (string)$comune->attribute('pro_com_t');
+            }
+        }
+
+        return array_values(array_unique($filtered));
+    }
+
+    /**
+     * Cerca tra i contenuti di classe `organization` quello il cui nome
+     * coincide (senza distinzione tra maiuscole e minuscole) con
+     * `SiteSettings.SiteName` e ne restituisce il remote_id, da usare come
+     * titolare (`rights_holder`) dei dataset.
+     *
+     * Se esiste esattamente un'organization con quel nome restituisce il suo
+     * remote_id. Se non ne esiste nessuna, o ce n'e' piu' di una (ambiguo),
+     * restituisce `$fallbackRemoteId` ('site-link'): il contenuto di classe
+     * `link` creato dal modulo con il nome e l'URL del sito, gia' usato come
+     * titolare dai dataset ANAC. Il ripiego viene scritto nel log
+     * `cct_opendata_rights_holder_fallback.log` (e su STDERR da CLI).
+     *
+     * Per i nomi bilingui "Nome italiano - Nome ladino" prova anche la sola
+     * parte prima del separatore.
+     *
+     * steps:
+     *     variables:
+     *         -   name: titolare_remote_id
+     *             value: 'BootstrapItaliaInstallerUtils::resolveSiteOrganizationRemoteId'
+     *
+     * @return string
+     */
+    public static function resolveSiteOrganizationRemoteId()
+    {
+        $fallbackRemoteId = 'site-link';
+        $siteaccess = eZSiteAccess::current();
+        $siteaccessName = str_replace('_backend', '_frontend', $siteaccess['name']);
+        $siteName = trim((string)eZSiteAccess::getIni($siteaccessName)->variable('SiteSettings', 'SiteName'));
+
+        $names = [$siteName];
+        $parts = preg_split('/\s+[-–\/]\s+/u', $siteName);
+        $names[] = trim((string)$parts[0]);
+        $names = array_values(array_filter(array_unique($names), 'strlen'));
+
+        $reason = "nessuna organization con nome '$siteName'";
+        $classId = eZContentClass::classIDByIdentifier('organization');
+        if (empty($names)) {
+            $reason = 'SiteName vuoto';
+        } elseif (!$classId) {
+            $reason = 'classe organization non trovata';
+        } else {
+            $db = eZDB::instance();
+            foreach ($names as $name) {
+                $rows = $db->arrayQuery(
+                    'SELECT remote_id FROM ezcontentobject'
+                    . ' WHERE contentclass_id = ' . (int)$classId
+                    . ' AND status = ' . eZContentObject::STATUS_PUBLISHED
+                    . " AND LOWER(TRIM(name)) = LOWER('" . $db->escapeString($name) . "')"
+                );
+                if (count($rows) === 1) {
+                    return (string)$rows[0]['remote_id'];
+                }
+                if (count($rows) > 1) {
+                    $reason = "piu' organization con lo stesso nome ('$name')";
+                    break;
+                }
+            }
+        }
+
+        $message = "Titolare non risolto da SiteSettings.SiteName ('$siteName'): $reason, uso '$fallbackRemoteId'";
+        eZDebug::writeNotice($message, __METHOD__);
+        eZLog::write($message, 'cct_opendata_rights_holder_fallback.log');
+        if (PHP_SAPI === 'cli') {
+            fwrite(STDERR, "[cct-opendata] $message\n");
+        }
+
+        return $fallbackRemoteId;
+    }
 }
