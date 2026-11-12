@@ -2594,6 +2594,18 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Riferimenti e contatti</translation>
     </message>
     <message>
+      <source>Administrative deadlines</source>
+      <translation>Scadenzario degli obblighi amministrativi</translation>
+    </message>
+    <message>
+      <source>Electronic payments - subjective scope</source>
+      <translation>Pagamenti elettronici - ambito soggettivo</translation>
+    </message>
+    <message>
+      <source>IBAN and electronic payments</source>
+      <translation>IBAN e pagamenti informatici</translation>
+    </message>
+    <message>
       <source>Body</source>
       <translation>Organo</translation>
     </message>

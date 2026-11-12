@@ -45,6 +45,10 @@ class SchemaPubblicazioneLookup
         'art.13-se' => 10,
         'art.31' => 11,
         'art.13-rif' => 12,
+        'art.12-scadenz' => 13,
+        'art.12-pa-1bis' => 14,
+        'art.36-as' => 15,
+        'art.36' => 16,
     ];
 
     /**
@@ -71,6 +75,10 @@ class SchemaPubblicazioneLookup
         'art.31-or' => 'Audit bodies',
         'art.31-cc' => 'Court of Auditors',
         'art.31' => 'Administrative controls and findings',
+        'art.12-scadenz' => 'Administrative deadlines',
+        'art.12-pa-1bis' => 'Administrative deadlines',
+        'art.36-as' => 'Electronic payments - subjective scope',
+        'art.36' => 'IBAN and electronic payments',
     ];
 
     /**

@@ -216,6 +216,13 @@ EnableAnacLiveRendering=disabled
 HideLiveRenderingBlockIfEmpty[]
 HideLiveRenderingBlockIfEmpty[]=art.13-op
 
+# Ambito soggettivo da riportare nell'export art.36 (IBAN e pagamenti
+# informatici) per un ente C2: "SocietaInControlloPubblico" o
+# "EntiDiDirittoPrivato" - non derivabile dal solo profilo C2, va
+# configurato per singolo ente (override via
+# EZINI_openpa__Trasparenza__Art36AmbitoSoggettivoC2). Ignorato sui siti C1.
+Art36AmbitoSoggettivoC2=SocietaInControlloPubblico
+
 # Tag (document_type, per remote_id) che fanno comparire un Documento in
 # Amministrazione Trasparente/Societa' trasparente - usati per mostrare un
 # avviso al redattore nell'editing del campo "Tipo di documento" (vedi
