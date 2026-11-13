@@ -83,6 +83,7 @@ publishArt13($cli, $schemaBindings);
 publishArt31($cli, $schemaBindings);
 publishArt12($cli, $schemaBindings);
 publishArt36($cli, $schemaBindings);
+publishArt20($cli, $schemaBindings);
 
 /**
  * Rete di sicurezza per le pagine con rendering live (vedi
@@ -484,5 +485,103 @@ function publishArt36(eZCLI $cli, array $schemaBindings)
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: art.36');
         $cli->error('anac_export: schema art.36 fallito: ' . $e->getMessage());
+    }
+}
+
+/**
+ * art.20 - Performance e premi (cms#486), solo C1. A differenza di tutti
+ * gli altri schemi, il JSON rappresenta una sola annualita' per blocco
+ * (vedi Art20Serializer, docblock di classe): sia il JSON co.1 sia il JSON
+ * co.2 vanno quindi costruiti con la riga PIU' RECENTE per chiave, non con
+ * tutte le righe del dataset (che restano comunque tutte nel CSV).
+ */
+function publishArt20(eZCLI $cli, array $schemaBindings)
+{
+    try {
+        $ammontareObject = eZContentObject::fetchByRemoteID('ammontare_complessivo_premi');
+        $datiObject = eZContentObject::fetchByRemoteID('dati_relativi_ai_premi');
+        if (!$ammontareObject instanceof eZContentObject || !$datiObject instanceof eZContentObject) {
+            // Caso NORMALE per la maggioranza dei tenant: schema opzionale,
+            // modulo trasparenza-additional-anac-schemes non installato
+            // (o non aggiornato a questa versione) su questo sito.
+            return;
+        }
+
+        $ammontareDataMap = $ammontareObject->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+        $datiDataMap = $datiObject->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+        if (!isset($ammontareDataMap['csv_resource']) || !isset($datiDataMap['csv_resource'])) {
+            $cli->error('anac_export: attributo csv_resource non trovato su uno dei due dataset art.20, schema saltato');
+
+            return;
+        }
+
+        $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer(
+            $ammontareDataMap['csv_resource'],
+            $datiDataMap['csv_resource']
+        );
+
+        // --- co.1: Ammontare complessivo dei premi ---
+        $premiIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_CSV_PREMI;
+        $premiPageObject = isset($schemaBindings[$premiIdentifier]) ? $schemaBindings[$premiIdentifier] : null;
+        $premiRootNodeId = $premiPageObject instanceof eZContentObject
+            ? $premiPageObject->attribute('main_node')->attribute('node_id')
+            : $ammontareObject->attribute('main_node')->attribute('node_id');
+
+        $csvPremi = $serializer->toCsvPremi();
+        $ammontarePiuRecente = $serializer->getAmmontarePremiPiuRecente();
+
+        $co1Identifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_JSON_CO1;
+        $co1Publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($co1Identifier, $premiRootNodeId);
+        // publish() scrive sia il CSV sia il JSON sotto $co1Identifier
+        // ('art.20'), nessun file separato sotto 'art.20-premi' - stesso
+        // principio di publishArt4Bis() per 'art.4-bis'. $premiIdentifier
+        // serve solo a risolvere $premiRootNodeId sopra (lookup su
+        // $schemaBindings), non a nominare i file pubblicati.
+        $co1Tracking = $co1Publisher->publish($csvPremi, function ($first, $last) use ($serializer, $ammontarePiuRecente) {
+            return $ammontarePiuRecente !== null ? $serializer->toJsonCo1($first, $last, $ammontarePiuRecente) : null;
+        });
+        $cli->notice("anac_export: schema {$co1Identifier} ok, ultima modifica {$co1Tracking['dataUltimaModifica']}");
+
+        // --- co.2: Dati relativi ai premi ---
+        $dirigIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_CSV_DIRIG;
+        $dirigPageObject = isset($schemaBindings[$dirigIdentifier]) ? $schemaBindings[$dirigIdentifier] : null;
+        $datiRootNodeId = $dirigPageObject instanceof eZContentObject
+            ? $dirigPageObject->attribute('main_node')->attribute('node_id')
+            : $datiObject->attribute('main_node')->attribute('node_id');
+
+        $dirigPiuRecente = $serializer->getDirigPiuRecente();
+        if ($dirigPiuRecente !== null) {
+            $dirigPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($dirigIdentifier, $datiRootNodeId);
+            $dirigTracking = $dirigPublisher->publishSingle($serializer->toCsvDirig(), 'csv');
+            $cli->notice("anac_export: schema {$dirigIdentifier} ok, ultima modifica {$dirigTracking['dataUltimaModifica']}");
+        }
+
+        $nonDirigPiuRecente = $serializer->getNonDirigPiuRecente();
+        if ($nonDirigPiuRecente !== null) {
+            $nonDirigIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_CSV_NON_DIRIG;
+            $nonDirigPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($nonDirigIdentifier, $datiRootNodeId);
+            $nonDirigTracking = $nonDirigPublisher->publishSingle($serializer->toCsvNonDirig(), 'csv');
+            $cli->notice("anac_export: schema {$nonDirigIdentifier} ok, ultima modifica {$nonDirigTracking['dataUltimaModifica']}");
+        }
+
+        // Il JSON co.2 va omesso del tutto se NESSUNA delle due tipologie ha
+        // righe (stesso principio "ometti se vuoto" di Art36Serializer) -
+        // altrimenti pubblica con una sola chiave se solo una tipologia ha
+        // righe (vedi Art20Serializer::toJsonCo2()).
+        if ($dirigPiuRecente !== null || $nonDirigPiuRecente !== null) {
+            $co2Identifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_JSON_CO2;
+            $co2Publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($co2Identifier, $datiRootNodeId);
+            $co2Tracking = $co2Publisher->publishWithDates(
+                json_encode(['dirig' => $dirigPiuRecente, 'nonDirig' => $nonDirigPiuRecente]),
+                function ($first, $last) use ($serializer, $dirigPiuRecente, $nonDirigPiuRecente) {
+                    return $serializer->toJsonCo2($first, $last, $dirigPiuRecente, $nonDirigPiuRecente);
+                },
+                'json'
+            );
+            $cli->notice("anac_export: schema {$co2Identifier} ok, ultima modifica {$co2Tracking['dataUltimaModifica']}");
+        }
+    } catch (\Exception $e) {
+        eZDebug::writeError($e->getMessage(), 'anac_export.php: art.20');
+        $cli->error('anac_export: schema art.20 fallito: ' . $e->getMessage());
     }
 }
