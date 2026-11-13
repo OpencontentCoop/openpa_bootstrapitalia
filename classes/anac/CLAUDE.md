@@ -41,7 +41,11 @@ pagina che ciascuno schema usa cambia. Meccanismo di pubblicazione URL generico,
 tutti gli schemi, esteso per supportare anche schemi a file singolo (vedi
 "ExportPublisher — publishSingle()/publishWithDates()" sotto) e per lo
 storico versioni (#479, vedi "ExportPublisher — storico versioni e
-discoverability" sotto). Binding pagina↔schema formalizzato (vedi
+discoverability" sotto). Art. 20 (#486, ad adesione volontaria, **solo
+C1**): `art.20-premi`/`art.20` (co.1, Ammontare complessivo dei premi) e
+`art.20-dirig`/`art.20-non-dirig`/`art.20-c2` (co.2, Dati relativi ai
+premi), scritti e collegati al cron (`Art20Serializer`, vedi sezione
+dedicata sotto). Binding pagina↔schema formalizzato (vedi
 "SchemaPubblicazioneLookup" sotto): il cron non ha remote_id ANAC-specifici
 hardcoded (a parte i due schemi ancorati a un dataset), e una UI di
 download+storico è live su `pagina_trasparenza.tpl`.
@@ -857,6 +861,71 @@ scritta dal redattore.
 Il caso di dataset Corte dei conti vuoto è gestito correttamente: il CSV
 contiene solo l'header, il blocco `attiOrganiDiControllo` viene omesso dal
 JSON.
+
+### `Art20Serializer` — oggetto singolo per blocco, non array
+
+Copre art. 20 d.lgs. 33/2013 "Performance e premi" (cms#486), schema ad
+adesione volontaria, **solo C1**: co.1 "Ammontare complessivo dei premi"
+(`art.20-premi` CSV, `art.20` JSON) e co.2 "Dati relativi ai premi"
+(`art.20-dirig`/`art.20-non-dirig` CSV, `art.20-c2` JSON). Due dataset
+content object distinti (classe `dataset`, `csv_resource`), nessun
+attributo nuovo sul content model — stesso pattern di `Art12Serializer`/
+`Art36Serializer`.
+
+**Scoperta chiave, da non dedurre per analogia in futuri lavori su questo
+schema**: a differenza di TUTTI gli altri schemi ANAC già implementati
+(dove un JSON "file unico" rappresenta comunque un array di righe, es.
+`datiSuiPagamenti` di art.4-bis o `organi` di art.13), il JSON di art.20
+rappresenta **una sola annualità per blocco** — `PremiStanziati` (co.1) e
+`TrattamentoAccessorio` (co.2) sono **oggetti singoli**, non array.
+Verificato scaricando `art.20-v1.0.schema.json` il 2026-11-13 (non per
+analogia con art.12/art.36, che pure sono schemi "recenti" nello stesso
+modulo installer — vedi memoria `feedback_anac_schema_verification_at_plan_time`):
+l'assunzione iniziale del design (array multi-anno, come art.12) era
+sbagliata ed è stata corretta prima di scrivere il piano di implementazione.
+
+**Criterio "riga più recente per chiave", stesso precedente di
+`Art31Serializer`**: il dataset/CSV restano multi-riga (una riga per anno,
+richiesto dall'issue — storico completo, mai ridotto), ma il JSON tiene
+solo la riga con `anno` più alto per blocco — `pickRigaPiuRecente()`,
+chiave di raggruppamento l'anno (co.1) o anno+tipologia (co.2), stesso
+principio già in uso in `Art31Serializer` per OIV/Organi di revisione ("il
+documento più recente per chiave nel JSON, tutti nel CSV" — lì la chiave è
+un `document_type`, qui un anno). A parità di anno massimo tra due righe,
+vince l'ultima nell'ordine restituito dal repository (nessuna richiesta
+esplicita di deduplicazione nell'issue, nessun errore lanciato).
+
+**Costruttore con DUE attributi, un solo schema "famiglia"**: stesso
+principio di `Art31Serializer` (che copre tre fonti dati eterogenee in una
+classe) — co.1 e co.2 sono concettualmente due sotto-schemi dello stesso
+art.20, non due export indipendenti, quindi un solo `Art20Serializer`
+prende in costruzione sia `$ammontarePremiAttribute` sia
+`$datiPremiAttribute` fin dalla prima versione della classe (anche quando
+solo co.1 era implementato), per evitare di dover cambiare la firma — e
+tutti i chiamanti — quando co.2 è stato aggiunto.
+
+**Omissione granulare (co.2) vs omissione totale (co.1/co.2)**: se solo
+una tipologia di personale ha righe (es. "se il CCNL non prevede il
+trattamento accessorio per il personale non dirigenziale", caso esplicito
+dell'issue), il CSV di quella tipologia non viene generato e la sua chiave
+JSON (`trattamentoAccessorioPersonaleNonDirigenziale`) è omessa — non
+null, assente (`toJsonCo2($dirig, $nonDirig = null)` aggiunge la chiave
+solo se il valore non è `null`). Se **nessuna** tipologia ha righe, tutto
+il comma 2 va omesso (nessun file pubblicato quel giorno) — diverso
+dall'omissione di una singola chiave: qui `publishArt20()` non entra
+affatto nel blocco di pubblicazione co.2. Co.1 non ha un livello
+intermedio: o c'è una riga (sempre un solo blocco, mai due tipologie), o
+il JSON intero è omesso — nessuno stato vuoto valido nello schema reale
+(`ammontareComplessivoPremiStanziati` è `required` nella prima alternativa
+del `oneOf`, a differenza di art.12 che ammette `{}`).
+
+`tipologia_personale` è normalizzato case/spazi-insensitive
+(`normalizeTipologia()`) — il campo `select` del form offre solo i due
+valori esatti dell'enum, quindi questa normalizzazione serve a un
+eventuale bulk import futuro (non previsto oggi, ma il datatype lo
+supporta genericamente), non è raggiungibile dal form stesso. Un valore
+fuori vocabolario lancia `InvalidVocabolarioException`, stesso principio
+già in uso per `Art4BisSerializer`/altri.
 
 ## Gestione errori e casi limite
 
