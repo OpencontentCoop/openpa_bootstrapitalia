@@ -49,6 +49,11 @@ class SchemaPubblicazioneLookup
         'art.12-pa-1bis' => 14,
         'art.36-as' => 15,
         'art.36' => 16,
+        'art.20-premi' => 17,
+        'art.20' => 18,
+        'art.20-dirig' => 19,
+        'art.20-non-dirig' => 20,
+        'art.20-c2' => 21,
     ];
 
     /**
@@ -79,6 +84,11 @@ class SchemaPubblicazioneLookup
         'art.12-pa-1bis' => 'Administrative deadlines',
         'art.36-as' => 'Electronic payments - subjective scope',
         'art.36' => 'IBAN and electronic payments',
+        'art.20-premi' => 'Amount of performance-related bonuses',
+        'art.20' => 'Amount of performance-related bonuses',
+        'art.20-dirig' => 'Executive staff bonus allocation',
+        'art.20-non-dirig' => 'Non-executive staff bonus allocation',
+        'art.20-c2' => 'Staff bonus allocation criteria',
     ];
 
     /**
