@@ -150,4 +150,139 @@ class Art20Serializer
 
         return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
+
+    const TIPOLOGIA_DIRIGENZIALE = 'Dirigenziale';
+    const TIPOLOGIA_NON_DIRIGENZIALE = 'Non dirigenziale';
+
+    // ---------------------------------------------------------------
+    // co.2 - Dati relativi ai premi
+    // ---------------------------------------------------------------
+
+    public function fetchRigheDatiPremi()
+    {
+        return $this->fetchRighe($this->datiPremiAttribute);
+    }
+
+    public function mapRigaDatiPremi(array $data)
+    {
+        return [
+            'tipologia' => $this->normalizeTipologia($data['tipologia_personale']),
+            'anno' => (int)trim((string)$data['anno']),
+            'criteriUtilizzati' => trim((string)$data['criteri']),
+            'premioComplessivoStanziato' => trim((string)$data['premio_stanziato']),
+            'premioComplessivoErogato' => trim((string)$data['premio_erogato']),
+            'premioMediamentePercepito' => trim((string)$data['premio_mediamente_percepito']),
+            'gradoDifferenziazione' => trim((string)$data['grado_di_differenziazione']),
+        ];
+    }
+
+    private function normalizeTipologia($raw)
+    {
+        $normalized = mb_strtolower(trim((string)$raw), 'UTF-8');
+
+        foreach ([self::TIPOLOGIA_DIRIGENZIALE, self::TIPOLOGIA_NON_DIRIGENZIALE] as $valoreCanonico) {
+            if ($normalized === mb_strtolower($valoreCanonico, 'UTF-8')) {
+                return $valoreCanonico;
+            }
+        }
+
+        throw new \OpenPABootstrapItalia\Anac\InvalidVocabolarioException(
+            "Valore '{$raw}' non ammesso per il campo 'tipologia_personale' (vocabolario ANAC schema art.20, dati relativi ai premi)"
+        );
+    }
+
+    private function righePerTipologia($tipologia)
+    {
+        return array_values(array_filter(
+            array_map([$this, 'mapRigaDatiPremi'], $this->fetchRigheDatiPremi()),
+            function ($riga) use ($tipologia) {
+                return $riga['tipologia'] === $tipologia;
+            }
+        ));
+    }
+
+    private function toCsvTipologia($tipologia)
+    {
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
+            'ANNO', 'CRITERI', 'PREMIO_STANZIATO', 'PREMIO_EROGATO', 'PREMIO_MEDIAMENTE_PERCEPITO', 'GRADO_DI_DIFFERENZIAZIONE',
+        ])];
+
+        foreach ($this->righePerTipologia($tipologia) as $riga) {
+            $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
+                $riga['anno'], $riga['criteriUtilizzati'], $riga['premioComplessivoStanziato'],
+                $riga['premioComplessivoErogato'], $riga['premioMediamentePercepito'], $riga['gradoDifferenziazione'],
+            ]);
+        }
+
+        return implode("\n", $lines) . "\n";
+    }
+
+    public function toCsvDirig()
+    {
+        return $this->toCsvTipologia(self::TIPOLOGIA_DIRIGENZIALE);
+    }
+
+    public function toCsvNonDirig()
+    {
+        return $this->toCsvTipologia(self::TIPOLOGIA_NON_DIRIGENZIALE);
+    }
+
+    /**
+     * @return array|null la riga piu' recente di questa tipologia, null se
+     *         non esiste nessuna riga - il chiamante (publishArt20(), Task 7)
+     *         deve allora omettere sia il CSV sia la chiave JSON di questa
+     *         tipologia (richiesta esplicita issue, "ove previsti dai CCNL").
+     */
+    public function getDirigPiuRecente()
+    {
+        return $this->pickRigaPiuRecente($this->righePerTipologia(self::TIPOLOGIA_DIRIGENZIALE));
+    }
+
+    public function getNonDirigPiuRecente()
+    {
+        return $this->pickRigaPiuRecente($this->righePerTipologia(self::TIPOLOGIA_NON_DIRIGENZIALE));
+    }
+
+    private function buildTrattamentoAccessorio(array $riga)
+    {
+        return [
+            'anno' => $riga['anno'],
+            'criteriUtilizzati' => $riga['criteriUtilizzati'],
+            'premioComplessivoStanziato' => $riga['premioComplessivoStanziato'],
+            'premioComplessivoErogato' => $riga['premioComplessivoErogato'],
+            'premioMediamentePercepito' => $riga['premioMediamentePercepito'],
+            'gradoDifferenziazione' => $riga['gradoDifferenziazione'],
+        ];
+    }
+
+    /**
+     * $dirig/$nonDirig: valore di getDirigPiuRecente()/getNonDirigPiuRecente(),
+     * entrambi possono essere null ma non insieme - il chiamante
+     * (publishArt20(), Task 7) non deve invocare questo metodo se sono
+     * entrambi null (nessuno stato "entrambi assenti" valido da pubblicare,
+     * stesso principio di toJsonCo1()). Lo schema reale richiede solo
+     * $schema+intestazione: nessuno dei due blocchi tipologia e' required,
+     * per questo qui si aggiunge la chiave solo se il valore non e' null,
+     * invece di valorizzarla sempre.
+     */
+    public function toJsonCo2($dataPrimaPubblicazione, $dataUltimaModifica, array $dirig = null, array $nonDirig = null)
+    {
+        $data = [
+            '$schema' => self::SCHEMA_URL,
+            'intestazione' => [
+                'amministrazione' => \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione(),
+                'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
+                'dataUltimaModifica' => $dataUltimaModifica,
+            ],
+        ];
+
+        if ($dirig !== null) {
+            $data['trattamentoAccessorioPersonaleDirigenziale'] = $this->buildTrattamentoAccessorio($dirig);
+        }
+        if ($nonDirig !== null) {
+            $data['trattamentoAccessorioPersonaleNonDirigenziale'] = $this->buildTrattamentoAccessorio($nonDirig);
+        }
+
+        return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
 }
