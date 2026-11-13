@@ -76,6 +76,9 @@
               {{/for}}
             {{/if}}
           {{/for}}
+          {{if ~i18n(data,externalLinkIdentifier)}}
+            <li><a href="{{:~i18n(data,externalLinkIdentifier)}}" target="_blank" rel="noopener noreferrer">{{:~i18n(data,externalLinkIdentifier)}}</a></li>
+          {{/if}}
         </ul>
       </div>
       </script>
@@ -92,6 +95,7 @@
           var faseParts = currentFase.split(':')
           var faseOnly = faseParts[0]
           row.fieldsToDisplay = [{ldelim}identifier: faseOnly{rdelim}, {ldelim}identifier: faseOnly+'_relations'{rdelim}]
+          row.externalLinkIdentifier = faseOnly+'_external_link'
           var selectedOption = $('#bando-navigation-{$table_index} option[value="'+currentFase+'"]')
           if (faseParts.length > 1) {ldelim}
             row.title = selectedOption.closest('optgroup').prop('label') + ' - ' + selectedOption.text()

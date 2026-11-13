@@ -41,7 +41,7 @@ class OneOfFieldValidator extends AbstractBootstrapItaliaInputValidator
             }
         }
 
-        if (count($this->oneOfFields) !== count($attributes)) {
+        if (empty($attributes)) {
             return [];
         }
 
@@ -52,8 +52,9 @@ class OneOfFieldValidator extends AbstractBootstrapItaliaInputValidator
             }
         }
         if (!$hasValidContent) {
+            $firstAttribute = reset($attributes);
             return [
-                'identifier' => $attributes[$this->oneOfFields[0]]['class_attribute']->attribute('identifier'),
+                'identifier' => $firstAttribute['class_attribute']->attribute('identifier'),
                 'text' => sprintf(
                     count($texts) > 1 ? self::ONE_OF_ERROR_MESSAGE : self::ONE_ERROR_MESSAGE,
                     $this->naturalLanguageJoin($texts, self::AND_MESSAGE)
