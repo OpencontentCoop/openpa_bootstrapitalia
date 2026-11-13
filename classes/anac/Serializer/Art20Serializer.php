@@ -81,6 +81,33 @@ class Art20Serializer
         return $scelta;
     }
 
+    /**
+     * Le righe del dataset arrivano in ordine di inserimento, non per anno:
+     * il CSV deve uscire ordinato per anno crescente (requisito esplicito
+     * cms#486, stesso principio gia' in uso in
+     * Art12Serializer::fetchRigheOrdinate()). Usato SOLO per l'output CSV,
+     * mai per pickRigaPiuRecente(): un ordinamento qui prima del pick
+     * romperebbe il criterio di parita' gia' testato ("vince l'ultima riga
+     * nell'ordine restituito dal repository") - PHP 7.4 usort() non e'
+     * stabile, quindi l'indice originale e' usato come tie-break esplicito
+     * per mantenere comunque deterministico l'ordine a parita' di anno.
+     *
+     * @param array $righe righe gia' mappate, ciascuna con chiave 'anno' (int)
+     */
+    private function ordinaPerAnno(array $righe)
+    {
+        $indicizzate = array_values($righe);
+        $indici = array_keys($indicizzate);
+
+        array_multisort(
+            array_column($indicizzate, 'anno'), SORT_ASC, SORT_NUMERIC,
+            $indici, SORT_ASC, SORT_NUMERIC,
+            $indicizzate
+        );
+
+        return $indicizzate;
+    }
+
     // ---------------------------------------------------------------
     // co.1 - Ammontare complessivo dei premi
     // ---------------------------------------------------------------
@@ -103,8 +130,8 @@ class Art20Serializer
     {
         $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line(['ANNO', 'PREMI_STANZIATI', 'PREMI_EROGATI'])];
 
-        foreach ($this->fetchRigheAmmontarePremi() as $raw) {
-            $riga = $this->mapRigaAmmontarePremi($raw);
+        $righe = $this->ordinaPerAnno(array_map([$this, 'mapRigaAmmontarePremi'], $this->fetchRigheAmmontarePremi()));
+        foreach ($righe as $riga) {
             $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
                 $riga['anno'], $riga['premiStanziati'], $riga['premiErogati'],
             ]);
@@ -207,7 +234,7 @@ class Art20Serializer
             'ANNO', 'CRITERI', 'PREMIO_STANZIATO', 'PREMIO_EROGATO', 'PREMIO_MEDIAMENTE_PERCEPITO', 'GRADO_DI_DIFFERENZIAZIONE',
         ])];
 
-        foreach ($this->righePerTipologia($tipologia) as $riga) {
+        foreach ($this->ordinaPerAnno($this->righePerTipologia($tipologia)) as $riga) {
             $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
                 $riga['anno'], $riga['criteriUtilizzati'], $riga['premioComplessivoStanziato'],
                 $riga['premioComplessivoErogato'], $riga['premioMediamentePercepito'], $riga['gradoDifferenziazione'],
