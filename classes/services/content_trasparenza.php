@@ -291,7 +291,11 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
             $contentClass = $this->container->getContentObject()->contentClass();
             if ($contentClass instanceof eZContentClass) {
-                if (in_array($contentClass->attribute('identifier'), ['folder', 'link', 'file'])){
+                $customTemplateClasses = array_merge(
+                    ['folder', 'link', 'file'],
+                    array_filter((array)OpenPAINI::variable('Trasparenza', 'CustomTemplateExtraClasses', []))
+                );
+                if (in_array($contentClass->attribute('identifier'), $customTemplateClasses, true)){
                     return $isInTrasparenza;
                 }
                 $groupList = $contentClass->fetchGroupList();
