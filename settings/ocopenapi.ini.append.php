@@ -5,6 +5,10 @@ ProviderList[]=TrasparenzaEndpointFactoryProvider
 ProviderList[]=ServiceCategoryEndpointFactoryProvider
 ProviderList[]=BookingEndpointFactoryProvider
 
+[TrasparenzaEndpoints]
+# Albero della trasparenza a cui agganciare l'endpoint /cig: c1 (Amministrazione Trasparente) o c2 (Societa trasparente)
+Tree=c1
+
 [RoleDiscover]
 Exclude[]=Editor Trasparenza
 
