@@ -2586,6 +2586,22 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>IBAN und elektronische Zahlungen</translation>
     </message>
     <message>
+      <source>Amount of performance-related bonuses</source>
+      <translation>Gesamtbetrag der Prämien</translation>
+    </message>
+    <message>
+      <source>Executive staff bonus allocation</source>
+      <translation>Daten zu den Prämien des Führungspersonals</translation>
+    </message>
+    <message>
+      <source>Non-executive staff bonus allocation</source>
+      <translation>Daten zu den Prämien des nicht leitenden Personals</translation>
+    </message>
+    <message>
+      <source>Staff bonus allocation criteria</source>
+      <translation>Daten zu den Prämien</translation>
+    </message>
+    <message>
       <source>at</source>
       <translation>um</translation>
     </message>
