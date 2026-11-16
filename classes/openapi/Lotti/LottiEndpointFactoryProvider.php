@@ -62,6 +62,10 @@ class LottiEndpointFactoryProvider extends AbstractSlugClassesEntryPointFactoryP
 
     private function getContainerRoot()
     {
+        // nell'albero C2 non esiste un contenitore per i lotti in formato tabellare: l'endpoint non viene esposto
+        if (TrasparenzaEndpointFactoryProvider::getTree() === TrasparenzaEndpointFactoryProvider::TREE_C2) {
+            return null;
+        }
         if (!$this->containerRoot) {
             $this->containerRoot = eZContentObject::fetchByRemoteID(self::CONTAINER_REMOTE_ID);
         }
