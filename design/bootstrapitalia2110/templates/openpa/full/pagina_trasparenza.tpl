@@ -175,8 +175,8 @@
                   <div class="richtext-wrapper lora neutral-1-color-a7 mb-3">
                       <div class="fst-italic">{attribute_view_gui attribute=$trasparenza.nota_trasparenza.data_map.testo_nota}</div>
                       <div>
-                        {include uri="design:parts/toolbar/node_edit.tpl" current_node=$trasparenza.nota_trasparenza}
-                        {include uri="design:parts/toolbar/node_trash.tpl" current_node=$trasparenza.nota_trasparenza}
+                        {include uri="design:parts/toolbar/node_edit.tpl" current_node=$trasparenza.nota_trasparenza redirect_after_publish=$node.url_alias redirect_if_discarded=$node.url_alias}
+                        {include uri="design:parts/toolbar/node_trash.tpl" current_node=$trasparenza.nota_trasparenza redirect_after_remove=$node.url_alias redirect_if_cancel=$node.url_alias}
                       </div>
                       {if $trasparenza.nota_trasparenza|has_attribute('file')}
                           <span>{attribute_view_gui attribute=$trasparenza.nota_trasparenza|attribute('file')}</span>
@@ -198,6 +198,8 @@
                         <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id}" />
                         <input type="hidden" name="NodeID" value="{$node.node_id}" />
                         <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+                        <input type="hidden" name="RedirectURIAfterPublish" value="{$node.url_alias}" />
+                        <input type="hidden" name="RedirectIfDiscarded" value="{$node.url_alias}" />
                         <button class="btn btn-link p-0" type="submit" name="NewButton"><em>{'Add note'|i18n('bootstrapitalia')}</em></button>
                     </form>
                   </div>
