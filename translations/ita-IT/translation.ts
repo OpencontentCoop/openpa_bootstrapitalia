@@ -2606,6 +2606,22 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>IBAN e pagamenti informatici</translation>
     </message>
     <message>
+      <source>Amount of performance-related bonuses</source>
+      <translation>Ammontare complessivo dei premi</translation>
+    </message>
+    <message>
+      <source>Executive staff bonus allocation</source>
+      <translation>Dati relativi ai premi del personale dirigenziale</translation>
+    </message>
+    <message>
+      <source>Non-executive staff bonus allocation</source>
+      <translation>Dati relativi ai premi del personale non dirigenziale</translation>
+    </message>
+    <message>
+      <source>Staff bonus allocation criteria</source>
+      <translation>Dati relativi ai premi</translation>
+    </message>
+    <message>
       <source>Body</source>
       <translation>Organo</translation>
     </message>
