@@ -187,7 +187,7 @@ $primary-b: 48 !default;
 // @import "../components/documents-alert/documents-alert";
 @import "override/components/cmp-header"; //"../../design-comuni-pagine-statiche/components/cmp-header";
 @import "../../design-comuni-pagine-statiche/components/cmp-footer";
-@import "../../design-comuni-pagine-statiche/components/cmp-breadcrumbs";
+@import "override/components/cmp-breadcrumbs"; //"../../design-comuni-pagine-statiche/components/cmp-breadcrumbs";
 @import "../../design-comuni-pagine-statiche/components/cmp-heading";
 @import "../../design-comuni-pagine-statiche/components/cmp-card";
 @import "../../design-comuni-pagine-statiche/components/cmp-info-button-card";
