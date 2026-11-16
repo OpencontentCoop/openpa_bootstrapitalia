@@ -202,6 +202,12 @@ IdentificatoriMenu_trasparenza[]=pagina_trasparenza
 [Trasparenza]
 MostraAvvisoPaginaVuota=disabled
 UseCustomTemplate=disabled
+# Identificatori di classe che, oltre a folder/link/file e alle classi del
+# gruppo "Amministrazione trasparente", usano il template custom
+# (_custom_trasparenza.tpl) quando stanno nell'albero di una radice
+# `trasparenza`. Ha effetto solo con UseCustomTemplate=enabled.
+# Esempio: CustomTemplateExtraClasses[]=document
+CustomTemplateExtraClasses[]
 ShowBandoFaseSelect=enabled
 EnableAnacExport=disabled
 EnableAnacLiveRendering=disabled
