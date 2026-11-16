@@ -200,7 +200,7 @@ a.read-more {
         text-decoration: underline;
 
         &:hover {
-          color: #006242;
+          color: link-hover-color($primary);
         }
       }
     }
@@ -270,7 +270,7 @@ a.read-more {
 
     &:hover {
       span {
-        color: #006242 !important;
+        color: link-hover-color($primary) !important;
       }
     }
   }
@@ -398,3 +398,13 @@ a.read-more {
 //     }
 //   }
 // }
+// link elencati nelle card argomenti (card_children): colore del tema, hover più scuro
+.card-teaser .link-list-wrapper ul li a.list-item.active {
+  span {
+    color: $primary;
+    text-decoration: underline;
+  }
+  &:hover span {
+    color: link-hover-color($primary);
+  }
+}

@@ -9,7 +9,7 @@
     color: $primary;
 
     &:hover {
-      color: $color-text-primary-hover;
+      color: link-hover-color($primary);
     }
   }
 
