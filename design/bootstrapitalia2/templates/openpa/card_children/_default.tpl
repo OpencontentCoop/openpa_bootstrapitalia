@@ -29,7 +29,7 @@
                         <li>
                             <a class="list-item active icon-left mb-2" href="{$item.url_alias|ezurl(no)}">
                                 <span class="list-item-title-icon-wrapper">
-                                    <span class="text-success">
+                                    <span>
                                       {$item.name|wash()}
                                     </span>
                                 </span>

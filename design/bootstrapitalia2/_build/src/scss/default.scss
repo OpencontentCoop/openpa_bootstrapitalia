@@ -274,7 +274,7 @@ $stepper-spacing-v: 16px;
 // @import "design-comuni-pagine-statiche/components/documents-alert/documents-alert";
 @import "override/header"; //"design-comuni-pagine-statiche/components/header/header";
 @import "design-comuni-pagine-statiche/components/cmp-footer/cmp-footer";
-@import "design-comuni-pagine-statiche/components/cmp-breadcrumbs/cmp-breadcrumbs";
+@import "override/cmp-breadcrumbs"; //"design-comuni-pagine-statiche/components/cmp-breadcrumbs/cmp-breadcrumbs";
 @import "design-comuni-pagine-statiche/components/cmp-heading/cmp-heading";
 @import "design-comuni-pagine-statiche/components/cmp-card/cmp-card";
 //@import "design-comuni-pagine-statiche/components/cmp-steps-header/cmp-steps-header";

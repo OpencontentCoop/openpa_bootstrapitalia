@@ -29,6 +29,15 @@
   @return desaturate(shade-color($color, 10%), 10%);
 }
 
+// Colore di hover per i link: più scuro del colore base, ma se il colore base è già
+// quasi nero (es. tema elegance) lo schiarisce, altrimenti l'hover non si vedrebbe
+@function link-hover-color($color) {
+  @if lightness($color) < 20% {
+    @return lighten($color, 20%);
+  }
+  @return shade-color($color, 30%);
+}
+
 @function url-friendly-color($color) {
   @if str-slice('#{$color}', 1, 1) == '#' {
     @return '%23' + str-slice('#{$color}', 2, -1);
