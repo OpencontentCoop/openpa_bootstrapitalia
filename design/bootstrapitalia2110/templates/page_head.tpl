@@ -56,6 +56,14 @@
         {/foreach}
     {/if}
 
+    {if and(is_set($module_result.node_id), $module_result.node_id|gt(0))}
+        {def $meta_node = fetch(content, node, hash(node_id, $module_result.node_id))}
+        {if $meta_node}
+            <meta name="ez:object_remote_id" content="{$meta_node.object.remote_id|wash()}" />
+        {/if}
+        {undef $meta_node}
+    {/if}
+
     {include uri='design:page_head_meta.tpl'}
 
 {if $canonical_link}
