@@ -3,6 +3,8 @@
 [StanzaDelCittadinoBridge]
 AutoDiscover=enabled
 UseLoginBox=disabled
+# solo UI: il loginbox è caricato altrove (es. GTM), niente widget/script/div dal CMS
+UseLoginBoxExternal=disabled
 BuiltInWidgetSource_inefficiency=https://%host%/widgets/inefficiencies/bootstrap-italia@2/js/inefficiencies.js
 BuiltInWidgetStyle_inefficiency=https://%host%/widgets/inefficiencies/css/inefficiencies.css
 

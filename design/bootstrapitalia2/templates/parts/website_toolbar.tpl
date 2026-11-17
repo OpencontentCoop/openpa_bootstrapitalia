@@ -602,7 +602,7 @@
             </li>
             {/if}
 
-            {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}
+            {if or( openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled'), openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBoxExternal', 'disabled' )|eq('enabled') )}
             {* con il loginbox attivo il pannello utente del CMS vive nella toolbar e non nell'header *}
             <li class="toolbar-divider" aria-hidden="true"></li>
             <li>
