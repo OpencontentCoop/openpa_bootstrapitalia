@@ -210,3 +210,50 @@
     }
   }
 }
+
+// Slim header: breakpoint oltre il quale i link passano da dropdown "Links" a lista inline.
+// Di default è lg; con Menu/HeaderLinksBreakpoint = xl|xxl il template aggiunge .header-links-bp-{xl|xxl}
+// e qui, tra lg e il breakpoint scelto, si ripristina l'aspetto "mobile" (lista verticale nel collapse).
+// valori espliciti: nella mappa $grid-breakpoints di questo build non c'è xxl
+$header-links-breakpoints: (
+  xl: 1200px,
+  xxl: 1400px,
+);
+
+@each $bp, $width in $header-links-breakpoints {
+  @include media-breakpoint-up(lg) {
+    @media (max-width: $width - 0.02) {
+      .it-header-slim-wrapper.header-links-bp-#{$bp} {
+        height: auto;
+        padding: ($header-slim-v-padding-mob $header-general-padding - ($grid-columns * 0.5));
+
+        .collapse:not(.show) {
+          display: none;
+        }
+
+        .it-header-slim-wrapper-content {
+          height: auto;
+          padding: 0;
+
+          .nav-mobile {
+            flex-grow: 0;
+
+            ul.link-list {
+              display: block;
+              height: auto;
+              margin: ($v-gap * 2) 0 ($v-gap * 3);
+              padding: 0;
+              border-left: 0;
+              border-right: 0;
+            }
+          }
+
+          .it-header-slim-right-zone,
+          .header-slim-right-zone {
+            height: auto;
+          }
+        }
+      }
+    }
+  }
+}

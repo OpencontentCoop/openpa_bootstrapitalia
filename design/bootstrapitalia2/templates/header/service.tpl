@@ -1,3 +1,6 @@
+{* breakpoint oltre il quale i link dello slim header sono inline invece che nel dropdown "Links" (lg|xl|xxl) *}
+{def $header_links_bp = openpaini('Menu', 'HeaderLinksBreakpoint', 'lg')}
+{if array('xl', 'xxl')|contains($header_links_bp)|not()}{set $header_links_bp = 'lg'}{/if}
 {def $show_slim_header = cond(openpaini('GeneralSettings','HideSlimHeaderIfUseless', 'disabled')|eq('enabled'), false(), true())}
 {def $header_service = openpaini('GeneralSettings','header_service', 1)
      $header_service_list = array()
@@ -79,14 +82,14 @@
 {/if}
 
 
-<div class="it-header-slim-wrapper{if current_theme_has_variation('light_slim')} theme-light{/if}{if $show_slim_header|not()} d-none{/if}">
+<div class="it-header-slim-wrapper{if current_theme_has_variation('light_slim')} theme-light{/if}{if $show_slim_header|not()} d-none{/if}{if $header_links_bp|ne('lg')} header-links-bp-{$header_links_bp}{/if}">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="it-header-slim-wrapper-content">
                     {if $header_service_list|count()|gt(0)}
                         {foreach $header_service_list as $item max 1}
-                            <a class="{if $header_links|count()}d-none {/if}d-lg-block navbar-brand"
+                            <a class="{if $header_links|count()}d-none {/if}d-{$header_links_bp}-block navbar-brand"
                               target="_blank"
                               rel="noopener"
                               href="{$item.url}">
@@ -96,7 +99,7 @@
                         {if $header_links|count()}
                         <div class="nav-mobile">
                             <nav>
-                                <a class="it-opener d-lg-none"
+                                <a class="it-opener d-{$header_links_bp}-none"
                                   data-bs-toggle="collapse"
                                   href="#service-menu"
                                   role="button"
@@ -108,7 +111,7 @@
                                 <div class="link-list-wrapper collapse" id="service-menu">
                                     <ul class="link-list">
                                         {foreach $header_service_list as $item}
-                                            <li class="list-item d-block d-md-none">
+                                            <li class="list-item {if $header_links_bp|eq('lg')}d-block d-md-none{else}d-block d-{$header_links_bp}-none{/if}">
                                               <a href="{$item.url}">
                                                 {$item.name|wash()}</a>
                                               </li>

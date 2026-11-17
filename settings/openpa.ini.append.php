@@ -193,6 +193,8 @@ GeoMapLink=google
 [Menu]
 IgnoraVirtualizzazione=enabled
 HeaderLinksLimit=3
+# breakpoint (lg|xl|xxl) da cui i link dello slim header sono mostrati inline invece che nel dropdown "Links"
+HeaderLinksBreakpoint=lg
 
 [SideMenu]
 IdentificatoriMenu[]=topic
