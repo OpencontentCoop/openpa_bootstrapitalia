@@ -1,0 +1,111 @@
+//usando http://colorizer.org/
+// Colori allineati al sito pensplan.com (issue personalizzazione-sito#61)
+//
+// Uso consigliato dalle Impostazioni Tema: "Header center in versione chiara" attivo,
+// "Header nav in versione chiara" NON attivo, "Slim header in versione chiara" NON attivo
+
+$pensplan-primary: #505759;
+$pensplan-slim: #4e4b48;
+$pensplan-accent: #ff8200;
+$pensplan-on-accent: #101820;
+$pensplan-dark: #303534;
+
+$primary-h: 193.33;
+$primary-s: 10.11;
+$primary-b: 34.9;
+
+$primary-a6: $pensplan-primary;
+$primary-a7: $pensplan-primary;
+$primary-a10: $pensplan-dark;
+$primary-a12: $pensplan-dark;
+
+$header-slim-bg-color: $pensplan-slim;
+$header-slim-button-color: $pensplan-accent;
+$header-slim-button-hover-color: darken($pensplan-accent, 5%);
+
+// con "Header center in versione chiara" l'header è bianco con elementi $primary
+$header-center-theme-light-bg-color: #fff;
+$header-center-theme-light-text-color: $pensplan-primary;
+
+$footer-comuni-bg-color: $pensplan-dark;
+
+@import "default";
+
+// slim header: pulsante arancione con testo scuro
+.it-header-slim-wrapper .it-header-slim-right-zone,
+.it-header-slim-wrapper .header-slim-right-zone {
+  button,
+  .btn,
+  .it-access-top-wrapper > a {
+    color: $pensplan-on-accent;
+    .icon {
+      fill: $pensplan-on-accent;
+    }
+  }
+}
+
+// top menu (desktop): sfondo arancione con testi scuri
+// (default.scss ridefinisce $header-center-bg-color senza !default, quindi si sovrascrive qui)
+@include media-breakpoint-up(lg) {
+  .it-header-navbar-wrapper {
+    background: $pensplan-accent;
+  }
+  .it-header-navbar-wrapper:not(.theme-light-desk) {
+    .navbar .navbar-collapsable .navbar-nav li a.nav-link {
+      color: $pensplan-on-accent;
+    }
+    .navbar .navbar-collapsable .navbar-nav li a.nav-link.dropdown-toggle svg {
+      fill: $pensplan-on-accent;
+    }
+  }
+}
+
+// pulsante Cerca: sfondo scuro con icona bianca
+.it-header-center-wrapper .it-header-center-content-wrapper .it-search-wrapper a.rounded-icon,
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-search-wrapper a.rounded-icon,
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-search-wrapper a {
+  background: $pensplan-dark;
+  &:hover {
+    background: lighten($pensplan-dark, 5%);
+  }
+  svg {
+    fill: #fff;
+  }
+}
+.it-header-center-wrapper.theme-light .it-header-center-content-wrapper .it-search-wrapper a.rounded-icon svg {
+  fill: #fff;
+}
+
+// pulsanti pieni: arancione con testo scuro
+.btn-primary,
+.button-disabled,
+.defaultbutton {
+  color: $pensplan-on-accent;
+  background-color: $pensplan-accent;
+  border-color: $pensplan-accent;
+  &:hover,
+  &:not(:disabled):not(.disabled):active {
+    color: $pensplan-on-accent;
+    background-color: darken($pensplan-accent, 8%);
+    border-color: darken($pensplan-accent, 10%);
+  }
+  &:focus {
+    box-shadow: 0 0 0 0.25rem rgba($pensplan-accent, 0.5);
+  }
+}
+
+// pulsanti outline: bordo e testo scuri
+.btn-outline-primary {
+  color: $pensplan-on-accent;
+  box-shadow: inset 0 0 0 2px $pensplan-on-accent;
+  &:hover {
+    color: $pensplan-on-accent;
+    box-shadow: inset 0 0 0 2px $pensplan-on-accent;
+  }
+}
+a.btn-outline-primary.selected,
+a.btn-outline-primary:hover {
+  color: #fff;
+  background-color: $pensplan-on-accent;
+  border-color: $pensplan-on-accent;
+}
