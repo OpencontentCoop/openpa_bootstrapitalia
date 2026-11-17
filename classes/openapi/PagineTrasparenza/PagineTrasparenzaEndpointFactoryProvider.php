@@ -8,8 +8,6 @@ use Opencontent\OpenApi\OperationFactoryCollection;
 
 class PagineTrasparenzaEndpointFactoryProvider extends AbstractSlugClassesEntryPointFactoryProvider
 {
-    const TRASPARENZA_REMOTE_ID = '5399ef12f98766b90f1804e5d52afd75';
-
     private static $nodeIdMap;
 
     protected function getSlugLabel()
@@ -58,7 +56,7 @@ class PagineTrasparenzaEndpointFactoryProvider extends AbstractSlugClassesEntryP
 
     private static function fetchTree(?int $nodeId = null)
     {
-        $trasparenzaRoot = eZContentObject::fetchByRemoteID(self::TRASPARENZA_REMOTE_ID);
+        $trasparenzaRoot = eZContentObject::fetchByRemoteID(TrasparenzaEndpointFactoryProvider::getRootRemoteId());
         if ($trasparenzaRoot instanceof eZContentObject) {
             $contentClassId = (int)eZContentClass::classIDByIdentifier('pagina_trasparenza');
             $trasparenzaRootNode = $trasparenzaRoot->mainNode();
