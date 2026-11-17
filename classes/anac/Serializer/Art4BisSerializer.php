@@ -121,12 +121,25 @@ class Art4BisSerializer
     {
         $categoria = $this->normalizeCategoria($data['categoria_di_spesa']);
 
+        try {
+            $importo = $this->normalizeImporto($data['importo']);
+        } catch (\OpenPABootstrapItalia\Anac\InvalidImportoException $e) {
+            // il messaggio indica la riga, cosi' il redattore la trova nel dataset
+            throw new \OpenPABootstrapItalia\Anac\InvalidImportoException(
+                $e->getMessage() . " (riga: anno " . (isset($data['anno']) ? $data['anno'] : '?')
+                . ", trimestre " . (isset($data['trimestre']) ? $data['trimestre'] : '?')
+                . ", beneficiario '" . (isset($data['beneficiario']) ? $data['beneficiario'] : '') . "')",
+                0,
+                $e
+            );
+        }
+
         return [
             'anno' => (int)$data['anno'],
             'trimestre' => (int)$data['trimestre'],
             'categoria' => $categoria,
             'tipologia' => $this->normalizeTipologia($data['tipologia_di_spesa'], $categoria),
-            'importo' => $this->normalizeImporto($data['importo']),
+            'importo' => $importo,
             'beneficiario' => $this->normalizeBeneficiario($data['beneficiario']),
         ];
     }
@@ -135,28 +148,16 @@ class Art4BisSerializer
      * Il campo e' testo libero lato redattore: nel dataset reale (Bugliano) contiene
      * ancora il simbolo di valuta ("€ 1.464,00"), che lo schema ANAC non ammette.
      * Normalizza sempre al formato ANAC n.nnn,dd (punto delle migliaia, virgola
-     * decimale), qualunque sia la convenzione usata dal redattore in ingresso
-     * (1550.33, 1550,33, 1.550,33, 1,550.33 producono tutti "1.550,33").
+     * decimale, due decimali) - vedi ImportoNormalizer per le forme ammesse.
+     * Un importo non interpretabile in modo univoco ("100.000.00", "abc", vuoto)
+     * fa fallire l'export con InvalidImportoException invece di pubblicare un
+     * valore sbagliato.
+     *
+     * @throws \OpenPABootstrapItalia\Anac\InvalidImportoException
      */
     public function normalizeImporto($raw)
     {
-        $value = trim(str_replace(["\xe2\x82\xac", ' '], '', $raw));
-
-        $hasComma = strpos($value, ',') !== false;
-        $hasDot = strpos($value, '.') !== false;
-
-        if ($hasComma && $hasDot) {
-            if (strrpos($value, ',') > strrpos($value, '.')) {
-                $value = str_replace('.', '', $value);
-                $value = str_replace(',', '.', $value);
-            } else {
-                $value = str_replace(',', '', $value);
-            }
-        } elseif ($hasComma) {
-            $value = str_replace(',', '.', $value);
-        }
-
-        return number_format((float)$value, 2, ',', '.');
+        return \OpenPABootstrapItalia\Anac\ImportoNormalizer::normalize($raw);
     }
 
     public function normalizeCategoria($raw)
