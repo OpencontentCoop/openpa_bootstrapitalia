@@ -1,3 +1,5 @@
+{* UI con loginbox: widget interno (UseLoginBox) oppure caricato esternamente, es. da GTM (UseLoginBoxExternal) *}
+{def $login_box_ui = or( openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled'), openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBoxExternal', 'disabled' )|eq('enabled') )}
 {def $show_slim_header = cond(openpaini('GeneralSettings','HideSlimHeaderIfUseless', 'disabled')|eq('enabled'), false(), true())}
 {def $header_service = openpaini('GeneralSettings','header_service', 1)
      $header_service_list = array()
@@ -166,7 +168,7 @@
                         {if $hide_access|not()}
                             {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}
                                 <div id="{openpaini( 'StanzaDelCittadinoBridge', 'RootId_login', 'oc-login-box' )}"></div>
-                            {else}
+                            {elseif openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBoxExternal', 'disabled' )|ne('enabled')}
                                 <a class="btn btn-primary btn-icon btn-full"
                                   style="visibility: hidden"
                                   href="{'accedi'|ezurl(no)}"
@@ -178,7 +180,7 @@
                                     <span class="d-none d-lg-block">{$link_area_personale_title|wash()}</span>
                                 </a>
                             {/if}
-                        {else}
+                        {elseif $login_box_ui|not()}
                             <span data-element="current-user-profile"></span>
                         {/if}
                     </div>
@@ -335,7 +337,7 @@
 <script>
     var baseUrl = "{$link_area_personale|user_api_base_url()}";
     var tokenUrl = "{$link_area_personale|user_token_url()}";
-    var profileUrl = {if openpaini( 'StanzaDelCittadinoBridge', 'UseLoginBox', 'disabled' )|ne('disabled')}false{else}"{$link_area_personale|user_profile_url()}"{/if};
+    var profileUrl = {if $login_box_ui}false{else}"{$link_area_personale|user_profile_url()}"{/if};
     {literal}
     $(document).ready(function () {
       let userAccessContainer = $('[data-element="personal-area-login"]');
@@ -400,6 +402,9 @@
         });
       }
       if (CurrentUserIsLoggedIn) {
+        {/literal}{if $login_box_ui}{literal}
+        return; // con il loginbox il pannello utente del CMS è nella toolbar
+        {/literal}{/if}{literal}
         if (userAccessContainer.length === 0){
           userAccessContainer = $('[data-element="current-user-profile"]');
         }
