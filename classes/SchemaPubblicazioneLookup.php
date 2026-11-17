@@ -45,6 +45,15 @@ class SchemaPubblicazioneLookup
         'art.13-se' => 10,
         'art.31' => 11,
         'art.13-rif' => 12,
+        'art.12-scadenz' => 13,
+        'art.12-pa-1bis' => 14,
+        'art.36-as' => 15,
+        'art.36' => 16,
+        'art.20-premi' => 17,
+        'art.20' => 18,
+        'art.20-dirig' => 19,
+        'art.20-non-dirig' => 20,
+        'art.20-c2' => 21,
     ];
 
     /**
@@ -71,6 +80,15 @@ class SchemaPubblicazioneLookup
         'art.31-or' => 'Audit bodies',
         'art.31-cc' => 'Court of Auditors',
         'art.31' => 'Administrative controls and findings',
+        'art.12-scadenz' => 'Administrative deadlines',
+        'art.12-pa-1bis' => 'Administrative deadlines',
+        'art.36-as' => 'Electronic payments - subjective scope',
+        'art.36' => 'IBAN and electronic payments',
+        'art.20-premi' => 'Amount of performance-related bonuses',
+        'art.20' => 'Amount of performance-related bonuses',
+        'art.20-dirig' => 'Executive staff bonus allocation',
+        'art.20-non-dirig' => 'Non-executive staff bonus allocation',
+        'art.20-c2' => 'Staff bonus allocation criteria',
     ];
 
     /**

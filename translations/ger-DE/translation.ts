@@ -2574,6 +2574,34 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Verweise und Kontakte</translation>
     </message>
     <message>
+      <source>Administrative deadlines</source>
+      <translation>Fälligkeitsplan der Verwaltungspflichten</translation>
+    </message>
+    <message>
+      <source>Electronic payments - subjective scope</source>
+      <translation>Elektronische Zahlungen - persönlicher Geltungsbereich</translation>
+    </message>
+    <message>
+      <source>IBAN and electronic payments</source>
+      <translation>IBAN und elektronische Zahlungen</translation>
+    </message>
+    <message>
+      <source>Amount of performance-related bonuses</source>
+      <translation>Gesamtbetrag der Prämien</translation>
+    </message>
+    <message>
+      <source>Executive staff bonus allocation</source>
+      <translation>Daten zu den Prämien des Führungspersonals</translation>
+    </message>
+    <message>
+      <source>Non-executive staff bonus allocation</source>
+      <translation>Daten zu den Prämien des nicht leitenden Personals</translation>
+    </message>
+    <message>
+      <source>Staff bonus allocation criteria</source>
+      <translation>Daten zu den Prämien</translation>
+    </message>
+    <message>
       <source>at</source>
       <translation>um</translation>
     </message>
