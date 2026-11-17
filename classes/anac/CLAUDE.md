@@ -635,6 +635,29 @@ Direzione) vengono aggiunti alla stessa lista piatta dell'organo di vertice,
 non annidati - lo schema ANAC prevede solo Organo → Ufficio, un livello
 solo, qualunque sia la profondità reale nel content model.
 
+**Memoizzato per id di organo** (`$ufficiFigliCache`, aggiunto il
+2026-11-11 dopo un incidente reale su un tenant Boat QA - vedi
+`project_*`/memoria di sessione): `fetchUfficiFigli()` controlla PRIMA di
+tutto se l'id dell'organo passato è già stato calcolato in questa
+esecuzione, e in caso affermativo restituisce il risultato già pronto senza
+rifare query Solr né ricorsione. Non sostituisce `$visitedIds` (quella
+guardia resta l'unica protezione per un vero ciclo nello stesso ramo di
+ricorsione, dove la cache non può ancora aiutare perché il risultato non è
+completo) - serve per il caso DIVERSO in cui lo stesso organo è
+raggiungibile da **radici diverse** (es. `hold_employment` con più di un
+genitore, o più radici "di vertice" che convergono sullo stesso
+sottoalbero per un errore/duplicazione nei dati). Senza questa cache, un
+tenant con dati di test accumulati (bugliano QA, 6201 oggetti
+`organization` per un solo ente, radici duplicate) arrivava a ~64.000
+query Solr e 65-70 secondi di rendering per singola richiesta sulla pagina
+live "Articolazione degli uffici" - abbastanza da far scadere il timeout
+di Varnish (503 "Page Unavailable"). Verificato con un test dedicato
+(`tests/test_art13_fetch_ufficio_figli_duplicate_roots_memoization.php`)
+che riproduce lo scenario con oggetti reali (radici duplicate che
+condividono un `hold_employment` multi-valore verso lo stesso organo
+figlio) e misura sia il contenuto della cache sia il conteggio delle
+chiamate Solr prima/dopo (15 → 7 su quello scenario di prova).
+
 **`art.13-op` e `art.13-oa` non sono alternativi, sono indipendenti**: un
 comune C1 può avere **entrambi** bindati contemporaneamente. `$isC1` resta
 derivato dalla presenza di `art.13-op` (un ente ha "organi di indirizzo
@@ -675,18 +698,45 @@ non è toccata da questo spostamento - mostra ancora gli stessi contatti ai
 cittadini, semplicemente non è più la pagina che "possiede" l'export ANAC.
 
 **La sorgente del dato è hardcoded, non legge il `fields` di nessuna
-pagina**: `Art13Serializer::fetchRiferimentiContatti()` interroga sempre
-`classes [online_contact_point] subtree [$rootNodeId]`, con `$rootNodeId`
-risolto a runtime da `eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode')`
-(la radice reale del sito), indipendentemente da
-quale pagina dichiari `schema_pubblicazione: art.13-rif` - stesso principio
-già in uso per art.4-bis/art.31-cc (vedi "Node id da passare a
-ExportPublisher" sopra): il nodo bindato serve solo ad ancorare l'url
-pubblico, mai a determinare dove si legge il dato. Resta una query Solr
-(non uno scan PHP come `fetchOrganizzazioniByTagPath()`): a differenza di
-`organization`, `online_contact_point` non ha un attributo di tipo su cui
-filtrare, quindi uno scan completo rischierebbe di includere anche altri
-usi dello stesso content type nel sito.
+pagina**, indipendentemente da quale pagina dichiari `schema_pubblicazione:
+art.13-rif` - stesso principio già in uso per art.4-bis/art.31-cc (vedi
+"Node id da passare a ExportPublisher" sopra): il nodo bindato serve solo
+ad ancorare l'url pubblico, mai a determinare dove si legge il dato.
+
+**Scope ristretto a `organization`** (deciso con Marco il 2026-11-11 -
+prima versione di questo metodo, interrogava direttamente `classes
+[online_contact_point] subtree [$rootNodeId]`, SENZA filtro di
+appartenenza). `online_contact_point` è una classe generica riusata anche
+da `event`/`public_service`/`place`/`topic`/`article`/`homepage`/
+`private_organization`/`public_person` (vedi i rispettivi `classes/*.yml`
+nell'installer, campo `has_online_contact_point`/relazione equivalente) -
+il contatto di un evento o di una scheda servizio non è "cui il cittadino
+possa rivolgersi per qualsiasi richiesta inerente ai **compiti
+istituzionali**" (art.13 co.1 lett. d) testuale), quindi una query slegata
+sull'intera classe li includeva tutti indiscriminatamente - un errore di
+merito, non solo di performance.
+
+`fetchRiferimentiContatti()` ora riusa le stesse radici di
+`fetchOrganiConUffici()`/`fetchOrganiAmministrativi()`
+(`fetchOrganizzazioniByTagPath()` per gli organi politici di vertice,
+`fetchVerticeAmministrativi()` per le aree amministrative di vertice) e lo
+stesso `fetchUfficiFigli()` per i discendenti - nessuna query Solr
+aggiuntiva rispetto a quelle già pagate per l'export organi/uffici nella
+stessa esecuzione, grazie alla cache di `fetchUfficiFigli()` (vedi sopra,
+"memoizzato per id di organo").
+
+**Include anche il contatto delle radici stesse**, non solo dei
+discendenti: `fetchOrganiConUffici()`/`fetchOrganiAmministrativi()` non
+catturano MAI il contatto diretto di un organo politico di vertice o di
+un'area amministrativa di vertice (solo quello dei loro uffici figli) -
+qui invece serve, perché una radice può avere un contatto istituzionale
+proprio (es. un telefono/email generale dell'area, prima ancora di
+scendere alle Direzioni).
+
+**Deduplicato per id di `organization`**: un organo raggiungibile da più
+radici (dati duplicati/sporchi, vedi "memoizzato per id di organo" sopra -
+lo stesso scenario che causava il timeout della pagina live) produce un
+solo riferimento, non uno per radice che lo raggiunge.
 
 **Cosa dice davvero lo schema ANAC** (tabella campi guida online, stessa
 fonte di "Organi di amministrazione e gestione" sopra): nel JSON il blocco
@@ -703,9 +753,10 @@ perdere l'informazione istituzionale. Per questo `art.13-rif` resta un
 export **solo CSV** per C1/C2 (nessuna controparte nel JSON
 `art.13-pa`/`art.13-se`): tre sole colonne,
 `RECAPITO_TELEFONICO;POSTA_ELETTRONICA_ORDINARIA;POSTA_ELETTRONICA_CERTIFICATA`
-(formato verificato sull'esempio reale ANAC), una riga per
-`online_contact_point` trovato - stesso principio di "ometti se incompleto"
-già usato altrove, `RECAPITO_TELEFONICO` è obbligatorio nello schema. Gli
+(formato verificato sull'esempio reale ANAC), una riga per `organization`
+(organo o ufficio) con un contatto proprio - stesso principio di "ometti se
+incompleto" già usato altrove, `RECAPITO_TELEFONICO` è obbligatorio nello
+schema. Gli
 Ordini e Collegi (profilo non ancora coperto da nessun serializer) restano
 fuori: per loro `art.13-rif` sarebbe CSV + il campo `contatti` del loro
 JSON, non implementato.

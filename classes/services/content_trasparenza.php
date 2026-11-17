@@ -124,17 +124,39 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
     /**
      * @return array|false array con chiave 'blocks' (una per schema con
-     *         fornitore live attivo su questa pagina: 'schema', 'title',
-     *         'rows_json', 'dom_id'), oppure false se nessuno schema
-     *         dichiarato da questa pagina ha un fornitore registrato in
-     *         LiveRenderingRegistry (la pagina resta sul meccanismo
-     *         fields/datatable esistente, invariato). L'invalidazione della
-     *         cache HTTP di questa pagina non dipende da un tag calcolato
-     *         qui - vedi LiveRenderingRegistry::clearAllCaches().
+     *         fornitore live attivo su questa pagina E con almeno una riga
+     *         di dati: 'schema', 'title', 'rows_json', 'dom_id'), oppure
+     *         false se nessuno schema dichiarato da questa pagina ha un
+     *         fornitore registrato in LiveRenderingRegistry CON dati non
+     *         vuoti (la pagina resta sul meccanismo fields/datatable
+     *         esistente, invariato). L'invalidazione della cache HTTP di
+     *         questa pagina non dipende da un tag calcolato qui - vedi
+     *         LiveRenderingRegistry::clearAllCaches().
      *
      * Attivazione automatica: dipende solo da quali schemi la pagina
      * dichiara in schema_pubblicazione (gia' esistente), non da un nuovo
      * interruttore - vedi LiveRenderingRegistry per il perche'.
+     *
+     * **Uno schema con fornitore ma zero righe viene omesso SOLO se
+     * configurato** (deciso con Marco il 2026-11-11, poi corretto in corsa
+     * nella stessa giornata): prima di questo fix uno schema con provider
+     * registrato produceva sempre un blocco (titolo + tabella), anche con
+     * `rows_json` pari a `"[]"` - un titolo di sezione seguito da una
+     * tabella vuota ("Nessun dato disponibile nella tabella"). Stesso
+     * principio gia' in uso in getAnacExports() poco sopra per i link di
+     * download (`if (empty($latestUrls)) continue;`, "non mostrare un
+     * blocco vuoto/rotto") - qui mancava.
+     *
+     * **Non e' un comportamento unico per tutti gli schemi** - abilitato
+     * schema per schema via `[Trasparenza] HideLiveRenderingBlockIfEmpty[]`
+     * (openpa.ini), per ora solo `art.13-op` (deciso con Marco, non
+     * generalizzato subito a tutti): "vuoto" per la TABELLA live (zero righe
+     * appiattite) non e' detto coincida con "vuoto" per l'EXPORT pubblicato
+     * dal cron (`cronjobs/anac_export.php`, che non ha questo controllo e
+     * non lo avra' - rischio di lasciare un `-latest` non aggiornato se il
+     * dato passasse da non-vuoto a vuoto, vedi discussione con Marco) - uno
+     * schema alla volta, solo dopo aver verificato che la differenza non
+     * produca un'incoerenza percepibile tra tabella e link di download.
      */
     protected function getLiveRenderingBlocks()
     {
@@ -143,6 +165,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         }
 
         $schemas = \SchemaPubblicazioneLookup::schemasForObject($this->container->getContentObject());
+        $schemasToHideIfEmpty = (array)OpenPAINI::variable('Trasparenza', 'HideLiveRenderingBlockIfEmpty', []);
 
         $blocks = [];
         foreach ($schemas as $schema) {
@@ -150,10 +173,15 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 continue;
             }
 
+            $rowsJson = \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::render($schema);
+            if (in_array($schema, $schemasToHideIfEmpty, true) && empty(json_decode($rowsJson, true))) {
+                continue;
+            }
+
             $blocks[] = [
                 'schema' => $schema,
                 'title' => $this->getLiveRenderingBlockTitle($schema),
-                'rows_json' => \OpenPABootstrapItalia\Anac\LiveRenderingRegistry::render($schema),
+                'rows_json' => $rowsJson,
                 'dom_id' => preg_replace('/[^a-z0-9]+/', '-', strtolower($schema)),
                 'column_labels' => $this->getOrganizationFieldLabels(),
             ];
