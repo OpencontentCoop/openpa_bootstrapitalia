@@ -530,17 +530,34 @@ function publishArt20(eZCLI $cli, array $schemaBindings)
         $csvPremi = $serializer->toCsvPremi();
         $ammontarePiuRecente = $serializer->getAmmontarePremiPiuRecente();
 
-        $co1Identifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_JSON_CO1;
-        $co1Publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($co1Identifier, $premiRootNodeId);
-        // publish() scrive sia il CSV sia il JSON sotto $co1Identifier
-        // ('art.20'), nessun file separato sotto 'art.20-premi' - stesso
-        // principio di publishArt4Bis() per 'art.4-bis'. $premiIdentifier
-        // serve solo a risolvere $premiRootNodeId sopra (lookup su
-        // $schemaBindings), non a nominare i file pubblicati.
-        $co1Tracking = $co1Publisher->publish($csvPremi, function ($first, $last) use ($serializer, $ammontarePiuRecente) {
-            return $ammontarePiuRecente !== null ? $serializer->toJsonCo1($first, $last, $ammontarePiuRecente) : null;
-        });
-        $cli->notice("anac_export: schema {$co1Identifier} ok, ultima modifica {$co1Tracking['dataUltimaModifica']}");
+        // Il CSV e il JSON del co.1 hanno prefissi diversi nella guida ANAC
+        // (art.20-premi-YYYYMMDD-YYYYMMDD.csv, art.20-YYYYMMDD-YYYYMMDD.json),
+        // quindi vanno pubblicati con due publisher separati, come per il
+        // co.2 (art.20-dirig/art.20-non-dirig CSV + art.20-c2 JSON), e non
+        // con publish() che scrive CSV e JSON sotto lo stesso identificatore.
+        // Il CSV ha tracking proprio sotto 'art.20-premi', senza callback
+        // sulle date (non incorpora intestazione).
+        $premiPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($premiIdentifier, $premiRootNodeId);
+        $premiTracking = $premiPublisher->publishSingle($csvPremi, 'csv');
+        $cli->notice("anac_export: schema {$premiIdentifier} ok, ultima modifica {$premiTracking['dataUltimaModifica']}");
+
+        // Il JSON resta sotto 'art.20'. L'hash e' calcolato sul CSV, come
+        // prima del cambio, cosi' il tracking esistente di 'art.20' non
+        // risulta cambiato al deploy (nessuna ripubblicazione spuria). Se il
+        // dataset e' vuoto il JSON viene omesso (nessuno stato vuoto valido
+        // nello schema reale, vedi Art20Serializer::getAmmontarePremiPiuRecente()).
+        if ($ammontarePiuRecente !== null) {
+            $co1Identifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_JSON_CO1;
+            $co1Publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($co1Identifier, $premiRootNodeId);
+            $co1Tracking = $co1Publisher->publishWithDates(
+                $csvPremi,
+                function ($first, $last) use ($serializer, $ammontarePiuRecente) {
+                    return $serializer->toJsonCo1($first, $last, $ammontarePiuRecente);
+                },
+                'json'
+            );
+            $cli->notice("anac_export: schema {$co1Identifier} ok, ultima modifica {$co1Tracking['dataUltimaModifica']}");
+        }
 
         // --- co.2: Dati relativi ai premi ---
         $dirigIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_CSV_DIRIG;
