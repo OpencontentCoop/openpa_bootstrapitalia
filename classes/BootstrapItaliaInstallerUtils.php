@@ -762,6 +762,23 @@ class BootstrapItaliaInstallerUtils
      * matcha un comune, prova a togliere i prefissi di tipo ente ("Comune
      * di ", "Citta' Metropolitana di ", "Provincia di ") e riprova.
      *
+     * Priorita' alla homepage: se `Homepage.spatial` (copertura geografica
+     * dell'ente, datatype `openpacomuniitaliani`) contiene un solo comune
+     * valido, si restituisce il suo CODICE ISTAT senza guardare il nome. Con
+     * piu' codici (non esprimibili in una sola variabile) o con il campo vuoto
+     * si procede come sotto.
+     *
+     * Omonimi: pochi nomi esistono in piu' province (es. Calliano, Castro,
+     * Livo, Peglio, Samone, San Teodoro). Se il nome trova piu' di un comune,
+     * la provincia si ricava dal `SiteSettings.SiteURL` (i domini dei comuni
+     * sono nella forma `comune.<nome>.<sigla>.it`, es. `comune.calliano.tn.it`):
+     * se filtrando per quella sigla resta un solo comune, si restituisce il suo
+     * CODICE ISTAT (il converter del datatype prova prima i codici, quindi
+     * non c'e' piu' ambiguita'). Se la sigla manca (es. dominio di servizio o
+     * `comune.xxx.it`) o non basta, si restituisce il nome come prima (il
+     * converter risolve tutti gli omonimi) e il caso viene scritto nel log
+     * `anac_spatial_ambiguous.log`.
+     *
      * Se nessun tentativo trova un comune valido, fallback a 'Roma' (stesso
      * valore gia' usato dagli altri moduli ANAC) invece di bloccare
      * l'installazione.
@@ -771,17 +788,20 @@ class BootstrapItaliaInstallerUtils
      *         -   name: comune_nome
      *             value: 'BootstrapItaliaInstallerUtils::resolveComuneSpatialName'
      *
-     * @return string
+     * @return string nome del comune o, se disambiguato, codice ISTAT
      */
     public static function resolveComuneSpatialName()
     {
+        $homepageCode = self::getHomepageSpatialCode();
+        if ($homepageCode !== null) {
+            return $homepageCode;
+        }
+
         $siteaccess = eZSiteAccess::current();
         $siteaccessName = str_replace('_backend', '_frontend', $siteaccess['name']);
-        $siteName = trim((string)eZSiteAccess::getIni($siteaccessName)->variable('SiteSettings', 'SiteName'));
-
-        if ($siteName !== '' && OpenPAComuniItaliani::getCodesFromNames([$siteName])) {
-            return $siteName;
-        }
+        $siteIni = eZSiteAccess::getIni($siteaccessName);
+        $siteName = trim((string)$siteIni->variable('SiteSettings', 'SiteName'));
+        $siteUrl = trim((string)$siteIni->variable('SiteSettings', 'SiteURL'));
 
         $stripped = trim((string)preg_replace(
             '/^(Comune|Citt[aà]\s+Metropolitana|Provincia)\s+di\s+/iu',
@@ -789,8 +809,17 @@ class BootstrapItaliaInstallerUtils
             $siteName
         ));
 
-        if ($stripped !== '' && OpenPAComuniItaliani::getCodesFromNames([$stripped])) {
-            return $stripped;
+        foreach ([$siteName, $stripped] as $candidate) {
+            if ($candidate === '') {
+                continue;
+            }
+            $codes = OpenPAComuniItaliani::getCodesFromNames([$candidate]);
+            if (count($codes) === 1) {
+                return $candidate;
+            }
+            if (count($codes) > 1) {
+                return self::disambiguateComuneBySiteUrl($candidate, $codes, $siteUrl);
+            }
         }
 
         eZDebug::writeWarning(
@@ -802,14 +831,165 @@ class BootstrapItaliaInstallerUtils
     }
 
     /**
+     * Codice ISTAT del comune indicato in `Homepage.spatial`, se il campo
+     * contiene esattamente un comune valido; altrimenti null (campo vuoto o
+     * assente, piu' codici, codice non valido, homepage non ancora presente).
+     * Non blocca mai l'installazione: ogni errore di lettura vale "nessun valore".
+     *
+     * Pensata per poter essere usata anche per COMPILARE la homepage stessa
+     * (`spatial: $comune_nome`) senza effetti collaterali:
+     * - legge l'oggetto dal DB, senza passare dalle cache in memoria (la
+     *   homepage restituita da `fetchHome()` e' cacheata: se uno step
+     *   dell'installer la aggiorna, si leggerebbe il valore precedente);
+     * - ignora il codice di Roma: e' anche il valore di ripiego, quindi una
+     *   homepage compilata dal ripiego non deve vincere sulle esecuzioni
+     *   successive (con un ente che e' davvero Roma si arriva comunque a
+     *   'Roma' dal nome);
+     * - piu' codici (es. un valore prodotto dagli omonimi) vengono ignorati,
+     *   quindi si ricalcola e la homepage si corregge da sola.
+     *
+     * @return string|null
+     */
+    private static function getHomepageSpatialCode()
+    {
+        try {
+            $home = OpenPaFunctionCollection::fetchHome();
+            if (!$home instanceof eZContentObjectTreeNode) {
+                return null;
+            }
+            $objectId = (int)$home->attribute('contentobject_id');
+            eZContentObject::clearCache($objectId);
+            $object = eZContentObject::fetch($objectId);
+            if (!$object instanceof eZContentObject) {
+                return null;
+            }
+            $dataMap = $object->dataMap();
+            $attribute = $dataMap['spatial'] ?? null;
+            if (!$attribute) {
+                return null;
+            }
+            $codes = array_values(array_filter(
+                explode('#', trim((string)$attribute->attribute('data_text'))),
+                'strlen'
+            ));
+        } catch (Throwable $e) {
+            eZDebug::writeWarning('Impossibile leggere Homepage.spatial: ' . $e->getMessage(), __METHOD__);
+
+            return null;
+        }
+
+        if (count($codes) !== 1) {
+            return null;
+        }
+        $valid = OpenPAComuniItaliani::getCodesFromCodes($codes);
+        if (count($valid) !== 1) {
+            return null;
+        }
+        $roma = OpenPAComuniItaliani::getCodesFromNames(['Roma']);
+        if (in_array((string)$valid[0], array_map('strval', $roma), true)) {
+            return null;
+        }
+
+        return (string)$valid[0];
+    }
+
+    /**
+     * Sceglie tra piu' comuni omonimi usando la provincia ricavata dal SiteURL.
+     * Se la sigla manca o non basta restituisce il nome (comportamento
+     * precedente: il converter prende tutti gli omonimi) e lascia traccia in
+     * `anac_spatial_ambiguous.log`.
+     *
+     * @param string $name nome del comune che corrisponde a piu' codici
+     * @param string[] $codes codici ISTAT degli omonimi
+     * @param string $siteUrl valore di SiteSettings.SiteURL
+     * @return string codice ISTAT se disambiguato, altrimenti $name
+     */
+    private static function disambiguateComuneBySiteUrl($name, array $codes, $siteUrl)
+    {
+        $sigla = self::getProvinceSiglaFromSiteUrl($siteUrl);
+        if ($sigla !== null) {
+            $filtered = self::filterComuneCodesByProvince($codes, $sigla);
+            if (count($filtered) === 1) {
+                return $filtered[0];
+            }
+        }
+
+        $message = sprintf(
+            "Comune omonimo '%s' (codici %s) non disambiguabile dal SiteURL '%s' (sigla: %s), uso il nome",
+            $name,
+            implode(',', $codes),
+            $siteUrl,
+            $sigla !== null ? $sigla : 'nessuna'
+        );
+        eZDebug::writeWarning($message, __METHOD__);
+        eZLog::write($message, 'anac_spatial_ambiguous.log');
+
+        return $name;
+    }
+
+    /**
+     * Sigla di provincia (maiuscola) in coda al dominio, es.
+     * `www.comune.calliano.tn.it` -> 'TN'. E' solo un candidato: chi la usa la
+     * verifica contro la tabella dei comuni. Null se il dominio non e' nella
+     * forma `<...>.<due lettere>.it`.
+     *
+     * @param string $siteUrl
+     * @return string|null
+     */
+    public static function getProvinceSiglaFromSiteUrl($siteUrl)
+    {
+        $host = strtolower(trim((string)$siteUrl));
+        $host = (string)preg_replace('#^https?://#', '', $host);
+        $host = (string)preg_replace('#[/:].*$#', '', $host);
+
+        return preg_match('/\.([a-z]{2})\.it$/', $host, $match) ? strtoupper($match[1]) : null;
+    }
+
+    /**
+     * Vero se `$currentValue` (codici ISTAT separati da '#') e' l'insieme di
+     * piu' comuni omonimi e `$resolvedCode` (un solo codice) e' uno di loro:
+     * e' il valore che la callable produceva prima di disambiguare per
+     * provincia, quindi si puo' sostituire senza toccare scelte manuali.
+     *
+     * @param string $currentValue
+     * @param string $resolvedCode
+     * @return bool
+     */
+    private static function isHomonymsValueContaining($currentValue, $resolvedCode)
+    {
+        if ($resolvedCode === '' || strpos($resolvedCode, '#') !== false) {
+            return false;
+        }
+        $currentCodes = array_values(array_filter(explode('#', $currentValue), 'strlen'));
+        if (count($currentCodes) < 2 || !in_array($resolvedCode, $currentCodes, true)) {
+            return false;
+        }
+
+        $comuni = OpenPAComuniItaliani::fetchByCodes($currentCodes);
+        if (count($comuni) !== count($currentCodes)) {
+            return false;
+        }
+        $normalizedNames = [];
+        foreach ($comuni as $comune) {
+            $normalizedNames[(string)$comune->attribute('name_normalized')] = true;
+        }
+
+        return count($normalizedNames) === 1;
+    }
+
+    /**
      * Ripubblica i dataset ANAC ad adesione volontaria il cui campo
-     * `spatial` e' ancora il valore di default 'Roma', sostituendolo con
+     * `spatial` e' ancora il valore di default 'Roma', oppure contiene i
+     * codici di piu' comuni omonimi (es. Calliano AT + Calliano TN, prodotto
+     * dalla versione precedente di `resolveComuneSpatialName()`) tra cui c'e'
+     * quello ora risolto, sostituendolo con
      * quello risolto da `resolveComuneSpatialName()`. Serve a correggere i
      * dataset gia' creati su ambienti dove il modulo e' stato installato
      * prima di questo fix - un fresh install ottiene gia' il valore giusto
      * dal content step (`spatial: $comune_nome`), quindi qui si fa
-     * esplicitamente no-op se `spatial` e' gia' diverso da 'Roma' (un
-     * redattore potrebbe averlo gia' cambiato a mano).
+     * esplicitamente no-op se `spatial` e' gia' diverso da 'Roma' e non e'
+     * l'insieme degli omonimi (un redattore potrebbe averlo gia' cambiato a
+     * mano).
      *
      * Il datatype `openpacomuniitaliani` salva in `data_text` dei CODICI
      * ISTAT (non il nome), quindi il confronto/scrittura qui va fatto a
@@ -852,15 +1032,30 @@ class BootstrapItaliaInstallerUtils
 
             $dataMap = $object->dataMap();
             $attribute = $dataMap['spatial'] ?? null;
-            if (!$attribute || trim($attribute->attribute('data_text')) !== $romaValue) {
+            if (!$attribute) {
+                continue;
+            }
+            $currentValue = trim((string)$attribute->attribute('data_text'));
+            $isRoma = $currentValue === $romaValue;
+            // piu' codici: puo' essere l'insieme degli omonimi (verificato dopo aver risolto il comune)
+            $maybeHomonyms = !$isRoma && strpos($currentValue, '#') !== false;
+            if (!$isRoma && !$maybeHomonyms) {
                 continue;
             }
 
             if ($comuneNome === null) {
                 $comuneNome = self::resolveComuneSpatialName();
-                $comuneValue = implode('#', OpenPAComuniItaliani::getCodesFromNames([$comuneNome]));
+                // $comuneNome e' un nome oppure, se disambiguato, un codice ISTAT
+                $comuneCodes = OpenPAComuniItaliani::getCodesFromCodes([$comuneNome]);
+                if (empty($comuneCodes)) {
+                    $comuneCodes = OpenPAComuniItaliani::getCodesFromNames([$comuneNome]);
+                }
+                $comuneValue = implode('#', $comuneCodes);
             }
             if ($comuneValue === '' || $comuneValue === $romaValue) {
+                continue;
+            }
+            if ($maybeHomonyms && !self::isHomonymsValueContaining($currentValue, $comuneValue)) {
                 continue;
             }
 
