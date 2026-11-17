@@ -321,6 +321,7 @@ class SiteInfo
                 'telegram' => $contacts['telegram'] ?? '',
                 'whatsapp' => $contacts['whatsapp'] ?? '',
                 'tiktok' => $contacts['tiktok'] ?? '',
+                'spotify' => $contacts['spotify'] ?? '',
                 'rss' => $rssUrl,
             ],
             'legals' => [

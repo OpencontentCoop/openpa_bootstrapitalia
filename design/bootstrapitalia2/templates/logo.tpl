@@ -4,7 +4,7 @@
 {def $placed_in_footer = cond(is_set($in_footer), $in_footer, false())}
 <a href="{'/'|ezurl(no)}"
    title="{'Go to homepage'|i18n('bootstrapitalia')}"
-   {if and($only_logo, openpaini('GeneralSettings','tag_line', false()))} class="d-block text-center"{/if}>
+   {if and($only_logo, openpaini('GeneralSettings','tag_line', false()))} class="d-block{if openpaini('GeneralSettings','LogoAlignLeft','disabled')|ne('enabled')} text-center{/if}"{/if}>
     {if $pagedata.header.logo.url}
         <img class="icon{if $colorize_logo} colorize{/if}"
           alt="Logo {if $placed_in_footer}footer {/if}{if $only_logo}{ezini('SiteSettings','SiteName')}{/if}"
