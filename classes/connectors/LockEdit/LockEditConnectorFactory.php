@@ -6,25 +6,43 @@ use Opencontent\Opendata\Api\Values\Content;
 
 class LockEditConnectorFactory
 {
-    public static function load(eZContentObject $object, $helper, $locale): ClassConnectorInterface
+    /**
+     * Risolve il nome della classe LockEditClassConnector per un oggetto: prima per remote_id, poi per class identifier.
+     *
+     * @param string $remoteId
+     * @param string $classIdentifier
+     * @return string|null null se nessun connector esiste
+     */
+    public static function connectorClassName($remoteId, $classIdentifier)
     {
-        $classConnectorName = false;
         $baseClassConnectorName = 'LockEditClassConnector';
 
-        $byRemoteConnectorName = self::toCamelCase($object->attribute('remote_id')) . $baseClassConnectorName;
-        if (class_exists($byRemoteConnectorName)){
-            $classConnectorName = $byRemoteConnectorName;
-        }
-
-        if (!$classConnectorName) {
-            $byClassConnectorName = self::toCamelCase($object->contentClassIdentifier()) . $baseClassConnectorName;
-            if (class_exists($byClassConnectorName)) {
-                $classConnectorName = $byClassConnectorName;
+        if ((string)$remoteId !== '') {
+            $byRemoteConnectorName = self::toCamelCase($remoteId) . $baseClassConnectorName;
+            if (class_exists($byRemoteConnectorName)) {
+                return $byRemoteConnectorName;
             }
         }
 
-        if (!$classConnectorName || !class_exists($classConnectorName)){
-            // @phpstan-ignore variable.undefined
+        $byClassConnectorName = self::toCamelCase($classIdentifier) . $baseClassConnectorName;
+        if (class_exists($byClassConnectorName)) {
+            return $byClassConnectorName;
+        }
+
+        return null;
+    }
+
+    public static function hasConnector(eZContentObject $object): bool
+    {
+        return self::connectorClassName($object->attribute('remote_id'), $object->contentClassIdentifier()) !== null;
+    }
+
+    public static function load(eZContentObject $object, $helper, $locale): ClassConnectorInterface
+    {
+        $classConnectorName = self::connectorClassName($object->attribute('remote_id'), $object->contentClassIdentifier());
+
+        if (!$classConnectorName) {
+            $byClassConnectorName = self::toCamelCase($object->contentClassIdentifier()) . 'LockEditClassConnector';
             throw new \Exception("Class connector not found (try $byClassConnectorName)");
         }
 

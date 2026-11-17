@@ -49,6 +49,10 @@ class LockEditConnector extends OpendataConnector
 
     public static function canLockEdit($object)
     {
+        if ($object instanceof eZContentObject && !LockEditConnectorFactory::hasConnector($object)) {
+            return false; // nessun connector per questa classe: il form LockEdit non può aprirsi
+        }
+
         $currentUser = eZUser::currentUser();
 
         if (ModerationHandler::userNeedModeration($currentUser)){
