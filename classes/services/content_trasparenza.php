@@ -111,7 +111,15 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
             $exports[] = [
                 'schema' => $schema,
                 'label' => \SchemaPubblicazioneLookup::labelForSchema($schema),
-                'latest_urls' => $latestUrls,
+                // Il link mostrato in pagina punta al file datato (gia'
+                // risolto in $versions[0], stesso usato dallo storico
+                // "versioni precedenti"), non piu' all'alias "-latest" -
+                // richiesta esplicita di Marco (piu' comodo per chi deve
+                // referenziare o controllare una versione specifica). Il
+                // file "-latest" resta comunque pubblicato e raggiungibile
+                // (ExportPublisher::writeVersionedFile() lo scrive sempre),
+                // solo non e' piu' il link mostrato qui.
+                'latest_urls' => $versions[0]['urls'],
                 'last_modified' => $versions[0]['dataUltimaModifica'],
                 'last_modified_time' => $tracking['oraUltimaModifica'] ?? null,
                 'versions' => $versions,
