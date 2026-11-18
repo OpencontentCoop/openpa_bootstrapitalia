@@ -76,6 +76,27 @@ if (!hasAnyAnacExportActive()) {
  * SchemaPubblicazioneLookup) - condiviso da publishArt13()/publishArt31(),
  * cosi' non lo si ripete due volte nella stessa esecuzione del cron.
  */
+/**
+ * Centralizza la decisione se un fallimento vada segnalato ai redattori
+ * (ExportErrorTracker::recordError(), banner frontend) o no: una
+ * EmptyExportException su uno schema elencato in [Trasparenza]
+ * HideExportErrors (openpa.ini) significa "nessun dato, non un errore di
+ * validazione" - viene loggata ma non mostrata nel banner. Qualsiasi altro
+ * errore (vocabolario malformato, eccezioni generiche) continua a essere
+ * sempre segnalato, su tutti gli schemi - vedi commento ini.
+ */
+function recordAnacExportError(eZCLI $cli, \Exception $e, $failedIdentifier, eZContentObject $relatedObject = null)
+{
+    $hideExportErrors = (array)OpenPAINI::variable('Trasparenza', 'HideExportErrors', []);
+    if ($e instanceof \OpenPABootstrapItalia\Anac\EmptyExportException && in_array($failedIdentifier, $hideExportErrors, true)) {
+        $cli->notice("anac_export: schema {$failedIdentifier} vuoto (nessun dato), errore non segnalato nel banner (HideExportErrors): {$e->getMessage()}");
+
+        return;
+    }
+
+    (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($failedIdentifier))->recordError($e->getMessage(), $relatedObject);
+}
+
 $schemaBindings = \SchemaPubblicazioneLookup::fetchAllBindings();
 
 publishArt4Bis($cli, $schemaBindings);
@@ -115,6 +136,12 @@ publishArt20($cli, $schemaBindings);
  */
 function publishArt31(eZCLI $cli, array $schemaBindings)
 {
+    $succeeded = [];
+    // schema ANAC => oggetto pagina che lo ancora, per invalidare la cache
+    // di quella pagina da ExportErrorTracker::recordError()/clear() - vedi
+    // docblock di ExportErrorTracker.
+    $identifierObjects = [];
+
     try {
         // Nessuna guardia di tipologia: a differenza dell'art.13, Art31Serializer
         // non forka mai l'output per C1/C2 (stessi CSV/JSON, nessun isC1) - il
@@ -159,21 +186,27 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
         // il blocco e' vuoto.
         $attiOiv = $serializer->getAttiOrganiDiValutazione($oivDocuments);
         $oivIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OIV;
+        $identifierObjects[$oivIdentifier] = $oivPageObject;
         $oivPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($oivIdentifier, $oivPageObject->attribute('main_node')->attribute('node_id'));
         $csvOiv = $serializer->toCsvOiv($oivDocuments);
         $oivTracking = $oivPublisher->publish($csvOiv, function ($first, $last) use ($serializer, $attiOiv) {
             return !empty($attiOiv) ? $serializer->toJsonOiv($first, $last, $attiOiv) : null;
         });
         $cli->notice("anac_export: schema {$oivIdentifier} ok, ultima modifica {$oivTracking['dataUltimaModifica']}");
+        $succeeded[] = $oivIdentifier;
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($oivIdentifier))->clear($oivPageObject);
 
         $attiOr = $serializer->getAttiOrganiDiRevisione($orDocuments);
         $orIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OR;
+        $identifierObjects[$orIdentifier] = $orPageObject;
         $orPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($orIdentifier, $orPageObject->attribute('main_node')->attribute('node_id'));
         $csvOr = $serializer->toCsvOr($orDocuments);
         $orTracking = $orPublisher->publish($csvOr, function ($first, $last) use ($serializer, $attiOr) {
             return !empty($attiOr) ? $serializer->toJsonOr($first, $last, $attiOr) : null;
         });
         $cli->notice("anac_export: schema {$orIdentifier} ok, ultima modifica {$orTracking['dataUltimaModifica']}");
+        $succeeded[] = $orIdentifier;
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($orIdentifier))->clear($orPageObject);
 
         $ccIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_CC;
         // Stesso principio di publishArt4Bis(): preferisce la pagina di
@@ -181,9 +214,9 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
         // configurata) come ancoraggio url invece del nodo tecnico del
         // dataset - fallback al dataset per i tenant senza quel binding.
         $ccPageObject = isset($schemaBindings[$ccIdentifier]) ? $schemaBindings[$ccIdentifier] : null;
-        $ccRootNodeId = $ccPageObject instanceof eZContentObject
-            ? $ccPageObject->attribute('main_node')->attribute('node_id')
-            : $corteDeiContiObject->attribute('main_node')->attribute('node_id');
+        $ccRootObject = $ccPageObject instanceof eZContentObject ? $ccPageObject : $corteDeiContiObject;
+        $identifierObjects[$ccIdentifier] = $ccRootObject;
+        $ccRootNodeId = $ccRootObject->attribute('main_node')->attribute('node_id');
         $rilievi = $serializer->getRilieviCorteDeiConti();
         $ccPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($ccIdentifier, $ccRootNodeId);
         $csvCc = $serializer->toCsvCc();
@@ -191,9 +224,19 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
             return $rilievi !== null ? $serializer->toJsonCc($first, $last, $rilievi) : null;
         });
         $cli->notice("anac_export: schema {$ccIdentifier} ok, ultima modifica {$ccTracking['dataUltimaModifica']}");
+        $succeeded[] = $ccIdentifier;
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($ccIdentifier))->clear($ccRootObject);
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: art.31');
         $cli->error('anac_export: schema art.31 fallito: ' . $e->getMessage());
+        foreach (array_diff([
+            \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OIV,
+            \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_OR,
+            \OpenPABootstrapItalia\Anac\Serializer\Art31Serializer::SCHEMA_IDENTIFIER_CC,
+        ], $succeeded) as $failedIdentifier) {
+            $relatedObject = isset($identifierObjects[$failedIdentifier]) ? $identifierObjects[$failedIdentifier] : null;
+            recordAnacExportError($cli, $e, $failedIdentifier, $relatedObject);
+        }
     }
 }
 
@@ -205,6 +248,10 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
  */
 function publishArt13(eZCLI $cli, array $schemaBindings)
 {
+    $ownedIdentifiers = [];
+    $succeeded = [];
+    $identifierObjects = [];
+
     try {
         // art.13-op (organi di indirizzo politico) e art.13-oa (organi di
         // amministrazione e gestione) NON sono un fork C1/C2 alternativo -
@@ -241,28 +288,40 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
         $asRootNodeId = $asRootObject->attribute('main_node')->attribute('node_id');
 
         $asIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_AS;
+        $ownedIdentifiers[] = $asIdentifier;
+        $identifierObjects[$asIdentifier] = $asRootObject;
         $asPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($asIdentifier, $asRootNodeId);
         $asTracking = $asPublisher->publishSingle($serializer->toCsvAmbitoSoggettivo($isC1), 'csv');
         $cli->notice("anac_export: schema {$asIdentifier} ok, ultima modifica {$asTracking['dataUltimaModifica']}");
+        $succeeded[] = $asIdentifier;
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($asIdentifier))->clear($asRootObject);
 
         $organiPolitici = [];
         if ($opObject instanceof eZContentObject) {
             $organiPolitici = $serializer->fetchOrganiConUffici();
             $opIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OP;
+            $ownedIdentifiers[] = $opIdentifier;
+            $identifierObjects[$opIdentifier] = $opObject;
             $opRootNodeId = $opObject->attribute('main_node')->attribute('node_id');
             $opPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($opIdentifier, $opRootNodeId);
             $opTracking = $opPublisher->publishSingle($serializer->toCsvOrganiUffici($organiPolitici), 'csv');
             $cli->notice("anac_export: schema {$opIdentifier} ok, ultima modifica {$opTracking['dataUltimaModifica']}");
+            $succeeded[] = $opIdentifier;
+            (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($opIdentifier))->clear($opObject);
         }
 
         $organiAmministrativi = [];
         if ($oaObject instanceof eZContentObject) {
             $organiAmministrativi = $serializer->fetchOrganiAmministrativi();
             $oaIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_OA;
+            $ownedIdentifiers[] = $oaIdentifier;
+            $identifierObjects[$oaIdentifier] = $oaObject;
             $oaRootNodeId = $oaObject->attribute('main_node')->attribute('node_id');
             $oaPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($oaIdentifier, $oaRootNodeId);
             $oaTracking = $oaPublisher->publishSingle($serializer->toCsvOrganiUffici($organiAmministrativi), 'csv');
             $cli->notice("anac_export: schema {$oaIdentifier} ok, ultima modifica {$oaTracking['dataUltimaModifica']}");
+            $succeeded[] = $oaIdentifier;
+            (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($oaIdentifier))->clear($oaObject);
         }
 
         $organi = array_merge($organiPolitici, $organiAmministrativi);
@@ -276,11 +335,15 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
             : null;
         if ($rifObject instanceof eZContentObject) {
             $rifIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_RIF;
+            $ownedIdentifiers[] = $rifIdentifier;
+            $identifierObjects[$rifIdentifier] = $rifObject;
             $riferimenti = $serializer->fetchRiferimentiContatti();
             $rifRootNodeId = $rifObject->attribute('main_node')->attribute('node_id');
             $rifPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($rifIdentifier, $rifRootNodeId);
             $rifTracking = $rifPublisher->publishSingle($serializer->toCsvRiferimenti($riferimenti), 'csv');
             $cli->notice("anac_export: schema {$rifIdentifier} ok, ultima modifica {$rifTracking['dataUltimaModifica']}");
+            $succeeded[] = $rifIdentifier;
+            (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($rifIdentifier))->clear($rifObject);
         }
 
         // L'organigramma (solo C1) va risolto una volta sola qui, non dentro
@@ -297,11 +360,17 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
         // invece di pubblicare un dato mancante" gia' usato altrove).
         if ($organigramma !== null) {
             $orgIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art13Serializer::SCHEMA_IDENTIFIER_ORG;
+            $ownedIdentifiers[] = $orgIdentifier;
+            $identifierObjects[$orgIdentifier] = $asRootObject;
             $orgPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($orgIdentifier, $asRootNodeId);
             $orgTracking = $orgPublisher->publishSingle($serializer->toCsvOrganigramma($organigramma), 'csv');
             $cli->notice("anac_export: schema {$orgIdentifier} ok, ultima modifica {$orgTracking['dataUltimaModifica']}");
+            $succeeded[] = $orgIdentifier;
+            (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($orgIdentifier))->clear($asRootObject);
         }
 
+        $ownedIdentifiers[] = $jsonSchemaIdentifier;
+        $identifierObjects[$jsonSchemaIdentifier] = $asRootObject;
         $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonSchemaIdentifier, $asRootNodeId);
         $jsonTracking = $jsonPublisher->publishWithDates(
             json_encode(['organi' => $organi, 'organigramma' => $organigramma]),
@@ -311,9 +380,15 @@ function publishArt13(eZCLI $cli, array $schemaBindings)
             'json'
         );
         $cli->notice("anac_export: schema {$jsonSchemaIdentifier} ok, ultima modifica {$jsonTracking['dataUltimaModifica']}");
+        $succeeded[] = $jsonSchemaIdentifier;
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($jsonSchemaIdentifier))->clear($asRootObject);
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: art.13');
         $cli->error('anac_export: schema art.13 fallito: ' . $e->getMessage());
+        foreach (array_diff($ownedIdentifiers, $succeeded) as $failedIdentifier) {
+            $relatedObject = isset($identifierObjects[$failedIdentifier]) ? $identifierObjects[$failedIdentifier] : null;
+            recordAnacExportError($cli, $e, $failedIdentifier, $relatedObject);
+        }
     }
 }
 
@@ -348,9 +423,8 @@ function publishArt4Bis(eZCLI $cli, array $schemaBindings)
         // hasAnyAnacExportActive() sopra: l'art.4-bis puo' essere attivo senza
         // schema_pubblicazione su nessuna pagina).
         $pageObject = isset($schemaBindings[$identifier]) ? $schemaBindings[$identifier] : null;
-        $rootNodeId = $pageObject instanceof eZContentObject
-            ? $pageObject->attribute('main_node')->attribute('node_id')
-            : $object->attribute('main_node')->attribute('node_id');
+        $rootObject = $pageObject instanceof eZContentObject ? $pageObject : $object;
+        $rootNodeId = $rootObject->attribute('main_node')->attribute('node_id');
 
         $publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($identifier, $rootNodeId);
         $tracking = $publisher->publish($csv, function ($dataPrimaPubblicazione, $dataUltimaModifica) use ($serializer) {
@@ -358,9 +432,12 @@ function publishArt4Bis(eZCLI $cli, array $schemaBindings)
         });
 
         $cli->notice("anac_export: schema {$identifier} ok, ultima modifica {$tracking['dataUltimaModifica']}");
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($identifier))->clear($rootObject);
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: ' . $identifier);
         $cli->error("anac_export: schema {$identifier} fallito: " . $e->getMessage());
+        $relatedObject = isset($rootObject) ? $rootObject : (isset($object) ? $object : null);
+        recordAnacExportError($cli, $e, $identifier, $relatedObject);
     }
 }
 
@@ -373,6 +450,8 @@ function publishArt4Bis(eZCLI $cli, array $schemaBindings)
  */
 function publishArt12(eZCLI $cli, array $schemaBindings)
 {
+    $succeeded = [];
+
     try {
         $object = eZContentObject::fetchByRemoteID('scadenzario_obblighi_amministrativi');
         if (!$object instanceof eZContentObject) {
@@ -392,13 +471,14 @@ function publishArt12(eZCLI $cli, array $schemaBindings)
 
         $csvIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art12Serializer::SCHEMA_IDENTIFIER_CSV;
         $pageObject = isset($schemaBindings[$csvIdentifier]) ? $schemaBindings[$csvIdentifier] : null;
-        $rootNodeId = $pageObject instanceof eZContentObject
-            ? $pageObject->attribute('main_node')->attribute('node_id')
-            : $object->attribute('main_node')->attribute('node_id');
+        $rootObject = $pageObject instanceof eZContentObject ? $pageObject : $object;
+        $rootNodeId = $rootObject->attribute('main_node')->attribute('node_id');
 
         $csvPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($csvIdentifier, $rootNodeId);
         $csvTracking = $csvPublisher->publishSingle($serializer->toCsvScadenz(), 'csv');
         $cli->notice("anac_export: schema {$csvIdentifier} ok, ultima modifica {$csvTracking['dataUltimaModifica']}");
+        $succeeded[] = $csvIdentifier;
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($csvIdentifier))->clear($rootObject);
 
         // Il JSON si pubblica sempre, mai omesso: lo schema reale
         // (art.12-v1.0.schema.json) ammette "attiPubblicheAmministrazioni: {}"
@@ -418,9 +498,18 @@ function publishArt12(eZCLI $cli, array $schemaBindings)
             'json'
         );
         $cli->notice("anac_export: schema {$jsonIdentifier} ok, ultima modifica {$jsonTracking['dataUltimaModifica']}");
+        $succeeded[] = $jsonIdentifier;
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($jsonIdentifier))->clear($rootObject);
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: art.12');
         $cli->error('anac_export: schema art.12 fallito: ' . $e->getMessage());
+        $relatedObject = isset($rootObject) ? $rootObject : (isset($object) ? $object : null);
+        foreach (array_diff([
+            \OpenPABootstrapItalia\Anac\Serializer\Art12Serializer::SCHEMA_IDENTIFIER_CSV,
+            \OpenPABootstrapItalia\Anac\Serializer\Art12Serializer::SCHEMA_IDENTIFIER_JSON,
+        ], $succeeded) as $failedIdentifier) {
+            recordAnacExportError($cli, $e, $failedIdentifier, $relatedObject);
+        }
     }
 }
 
@@ -435,6 +524,8 @@ function publishArt12(eZCLI $cli, array $schemaBindings)
  */
 function publishArt36(eZCLI $cli, array $schemaBindings)
 {
+    $succeeded = [];
+
     try {
         $objectC1 = eZContentObject::fetchByRemoteID('iban_pagamenti_informatici_c1');
         $objectC2 = eZContentObject::fetchByRemoteID('iban_pagamenti_informatici_c2');
@@ -453,20 +544,24 @@ function publishArt36(eZCLI $cli, array $schemaBindings)
 
         $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art36Serializer($dataMap['csv_resource'], $isC1);
 
+        $identifierObjects = [];
+
         $asIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art36Serializer::SCHEMA_IDENTIFIER_AS;
         $asPageObject = isset($schemaBindings[$asIdentifier]) ? $schemaBindings[$asIdentifier] : null;
-        $asRootNodeId = $asPageObject instanceof eZContentObject
-            ? $asPageObject->attribute('main_node')->attribute('node_id')
-            : $object->attribute('main_node')->attribute('node_id');
+        $asRootObject = $asPageObject instanceof eZContentObject ? $asPageObject : $object;
+        $identifierObjects[$asIdentifier] = $asRootObject;
+        $asRootNodeId = $asRootObject->attribute('main_node')->attribute('node_id');
         $asPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($asIdentifier, $asRootNodeId);
         $asTracking = $asPublisher->publishSingle($serializer->toCsvAs(), 'csv');
         $cli->notice("anac_export: schema {$asIdentifier} ok, ultima modifica {$asTracking['dataUltimaModifica']}");
+        $succeeded[] = $asIdentifier;
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($asIdentifier))->clear($asRootObject);
 
         $identifier = \OpenPABootstrapItalia\Anac\Serializer\Art36Serializer::SCHEMA_IDENTIFIER;
         $pageObject = isset($schemaBindings[$identifier]) ? $schemaBindings[$identifier] : null;
-        $rootNodeId = $pageObject instanceof eZContentObject
-            ? $pageObject->attribute('main_node')->attribute('node_id')
-            : $object->attribute('main_node')->attribute('node_id');
+        $rootObject = $pageObject instanceof eZContentObject ? $pageObject : $object;
+        $identifierObjects[$identifier] = $rootObject;
+        $rootNodeId = $rootObject->attribute('main_node')->attribute('node_id');
 
         // Se getPagamenti() e' null (nessuna riga nel dataset) il JSON va
         // omesso del tutto - lo schema non ammette uno stato vuoto valido
@@ -482,9 +577,18 @@ function publishArt36(eZCLI $cli, array $schemaBindings)
             return $pagamenti !== null ? $serializer->toJson($dataPrimaPubblicazione, $dataUltimaModifica, $pagamenti) : null;
         });
         $cli->notice("anac_export: schema {$identifier} ok, ultima modifica {$tracking['dataUltimaModifica']}");
+        $succeeded[] = $identifier;
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($identifier))->clear($rootObject);
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: art.36');
         $cli->error('anac_export: schema art.36 fallito: ' . $e->getMessage());
+        foreach (array_diff([
+            \OpenPABootstrapItalia\Anac\Serializer\Art36Serializer::SCHEMA_IDENTIFIER_AS,
+            \OpenPABootstrapItalia\Anac\Serializer\Art36Serializer::SCHEMA_IDENTIFIER,
+        ], $succeeded) as $failedIdentifier) {
+            $relatedObject = isset($identifierObjects[$failedIdentifier]) ? $identifierObjects[$failedIdentifier] : null;
+            recordAnacExportError($cli, $e, $failedIdentifier, $relatedObject);
+        }
     }
 }
 
@@ -497,6 +601,10 @@ function publishArt36(eZCLI $cli, array $schemaBindings)
  */
 function publishArt20(eZCLI $cli, array $schemaBindings)
 {
+    $ownedIdentifiers = [];
+    $succeeded = [];
+    $identifierObjects = [];
+
     try {
         $ammontareObject = eZContentObject::fetchByRemoteID('ammontare_complessivo_premi');
         $datiObject = eZContentObject::fetchByRemoteID('dati_relativi_ai_premi');
@@ -523,9 +631,8 @@ function publishArt20(eZCLI $cli, array $schemaBindings)
         // --- co.1: Ammontare complessivo dei premi ---
         $premiIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_CSV_PREMI;
         $premiPageObject = isset($schemaBindings[$premiIdentifier]) ? $schemaBindings[$premiIdentifier] : null;
-        $premiRootNodeId = $premiPageObject instanceof eZContentObject
-            ? $premiPageObject->attribute('main_node')->attribute('node_id')
-            : $ammontareObject->attribute('main_node')->attribute('node_id');
+        $premiRootObject = $premiPageObject instanceof eZContentObject ? $premiPageObject : $ammontareObject;
+        $premiRootNodeId = $premiRootObject->attribute('main_node')->attribute('node_id');
 
         $csvPremi = $serializer->toCsvPremi();
         $ammontarePiuRecente = $serializer->getAmmontarePremiPiuRecente();
@@ -537,9 +644,13 @@ function publishArt20(eZCLI $cli, array $schemaBindings)
         // con publish() che scrive CSV e JSON sotto lo stesso identificatore.
         // Il CSV ha tracking proprio sotto 'art.20-premi', senza callback
         // sulle date (non incorpora intestazione).
+        $ownedIdentifiers[] = $premiIdentifier;
+        $identifierObjects[$premiIdentifier] = $premiRootObject;
         $premiPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($premiIdentifier, $premiRootNodeId);
         $premiTracking = $premiPublisher->publishSingle($csvPremi, 'csv');
         $cli->notice("anac_export: schema {$premiIdentifier} ok, ultima modifica {$premiTracking['dataUltimaModifica']}");
+        $succeeded[] = $premiIdentifier;
+        (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($premiIdentifier))->clear($premiRootObject);
 
         // Il JSON resta sotto 'art.20'. L'hash e' calcolato sul CSV, come
         // prima del cambio, cosi' il tracking esistente di 'art.20' non
@@ -548,6 +659,8 @@ function publishArt20(eZCLI $cli, array $schemaBindings)
         // nello schema reale, vedi Art20Serializer::getAmmontarePremiPiuRecente()).
         if ($ammontarePiuRecente !== null) {
             $co1Identifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_JSON_CO1;
+            $ownedIdentifiers[] = $co1Identifier;
+            $identifierObjects[$co1Identifier] = $premiRootObject;
             $co1Publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($co1Identifier, $premiRootNodeId);
             $co1Tracking = $co1Publisher->publishWithDates(
                 $csvPremi,
@@ -557,28 +670,37 @@ function publishArt20(eZCLI $cli, array $schemaBindings)
                 'json'
             );
             $cli->notice("anac_export: schema {$co1Identifier} ok, ultima modifica {$co1Tracking['dataUltimaModifica']}");
+            $succeeded[] = $co1Identifier;
+            (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($co1Identifier))->clear($premiRootObject);
         }
 
         // --- co.2: Dati relativi ai premi ---
         $dirigIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_CSV_DIRIG;
         $dirigPageObject = isset($schemaBindings[$dirigIdentifier]) ? $schemaBindings[$dirigIdentifier] : null;
-        $datiRootNodeId = $dirigPageObject instanceof eZContentObject
-            ? $dirigPageObject->attribute('main_node')->attribute('node_id')
-            : $datiObject->attribute('main_node')->attribute('node_id');
+        $datiRootObject = $dirigPageObject instanceof eZContentObject ? $dirigPageObject : $datiObject;
+        $datiRootNodeId = $datiRootObject->attribute('main_node')->attribute('node_id');
 
         $dirigPiuRecente = $serializer->getDirigPiuRecente();
         if ($dirigPiuRecente !== null) {
+            $ownedIdentifiers[] = $dirigIdentifier;
+            $identifierObjects[$dirigIdentifier] = $datiRootObject;
             $dirigPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($dirigIdentifier, $datiRootNodeId);
             $dirigTracking = $dirigPublisher->publishSingle($serializer->toCsvDirig(), 'csv');
             $cli->notice("anac_export: schema {$dirigIdentifier} ok, ultima modifica {$dirigTracking['dataUltimaModifica']}");
+            $succeeded[] = $dirigIdentifier;
+            (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($dirigIdentifier))->clear($datiRootObject);
         }
 
         $nonDirigPiuRecente = $serializer->getNonDirigPiuRecente();
         if ($nonDirigPiuRecente !== null) {
             $nonDirigIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_CSV_NON_DIRIG;
+            $ownedIdentifiers[] = $nonDirigIdentifier;
+            $identifierObjects[$nonDirigIdentifier] = $datiRootObject;
             $nonDirigPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($nonDirigIdentifier, $datiRootNodeId);
             $nonDirigTracking = $nonDirigPublisher->publishSingle($serializer->toCsvNonDirig(), 'csv');
             $cli->notice("anac_export: schema {$nonDirigIdentifier} ok, ultima modifica {$nonDirigTracking['dataUltimaModifica']}");
+            $succeeded[] = $nonDirigIdentifier;
+            (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($nonDirigIdentifier))->clear($datiRootObject);
         }
 
         // Il JSON co.2 va omesso del tutto se NESSUNA delle due tipologie ha
@@ -587,6 +709,8 @@ function publishArt20(eZCLI $cli, array $schemaBindings)
         // righe (vedi Art20Serializer::toJsonCo2()).
         if ($dirigPiuRecente !== null || $nonDirigPiuRecente !== null) {
             $co2Identifier = \OpenPABootstrapItalia\Anac\Serializer\Art20Serializer::SCHEMA_IDENTIFIER_JSON_CO2;
+            $ownedIdentifiers[] = $co2Identifier;
+            $identifierObjects[$co2Identifier] = $datiRootObject;
             $co2Publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($co2Identifier, $datiRootNodeId);
             $co2Tracking = $co2Publisher->publishWithDates(
                 json_encode(['dirig' => $dirigPiuRecente, 'nonDirig' => $nonDirigPiuRecente]),
@@ -596,9 +720,15 @@ function publishArt20(eZCLI $cli, array $schemaBindings)
                 'json'
             );
             $cli->notice("anac_export: schema {$co2Identifier} ok, ultima modifica {$co2Tracking['dataUltimaModifica']}");
+            $succeeded[] = $co2Identifier;
+            (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($co2Identifier))->clear($datiRootObject);
         }
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: art.20');
         $cli->error('anac_export: schema art.20 fallito: ' . $e->getMessage());
+        foreach (array_diff($ownedIdentifiers, $succeeded) as $failedIdentifier) {
+            $relatedObject = isset($identifierObjects[$failedIdentifier]) ? $identifierObjects[$failedIdentifier] : null;
+            recordAnacExportError($cli, $e, $failedIdentifier, $relatedObject);
+        }
     }
 }

@@ -10,6 +10,26 @@
         {if $show_subtitle}
             <p class="text-muted mb-3">{'Export of files according to the ANAC publication schema.'|i18n('bootstrapitalia/anac_export')}</p>
         {/if}
+        {def $failed_exports = array()}
+        {foreach $exports as $export}
+            {if $export.error}
+                {set $failed_exports = $failed_exports|array_merge(array($export))}
+            {/if}
+        {/foreach}
+        {if count($failed_exports)|gt(0)}
+            <div class="alert alert-danger" role="alert">
+                <p class="fw-semibold mb-2">{'Some ANAC exports are not up to date'|i18n('bootstrapitalia/anac_export')}</p>
+                <p class="mb-2">{'A new export attempt will be made on %date%. Fix the following errors:'|i18n('bootstrapitalia/anac_export', null, hash('%date%', $next_attempt))}</p>
+                <ul class="mb-0 small">
+                    {foreach $failed_exports as $export}
+                        <li class="mb-2">
+                            <strong>{$export.label|wash()}</strong>: {$export.error.message|wash()}
+                            <br/><small class="text-muted">{'Last attempt: %date%'|i18n('bootstrapitalia/anac_export', null, hash('%date%', $export.error.date))}</small>
+                        </li>
+                    {/foreach}
+                </ul>
+            </div>
+        {/if}
         <ul class="list-unstyled mb-2">
             {foreach $exports as $export}
                 {foreach $export.latest_urls as $extension => $url}

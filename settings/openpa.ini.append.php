@@ -224,6 +224,21 @@ EnableAnacLiveRendering=disabled
 HideLiveRenderingBlockIfEmpty[]
 HideLiveRenderingBlockIfEmpty[]=art.13-op
 
+# Schemi ANAC (identificativi ExportErrorTracker, es. art.13-pa) per cui un
+# EmptyExportException (nessun dato trovato, non un errore di validazione)
+# non viene registrato come errore bloccante nel banner frontend - vedi
+# cronjobs/anac_export.php, recordAnacExportError(). Il file non viene
+# comunque pubblicato (lo schema ANAC richiede i dati anche quando sono
+# zero), ma i redattori non vengono avvisati: caso atteso per la maggior
+# parte degli enti (es. nessun ufficio sotto organi politici), non un
+# problema di tagging - a differenza di HideLiveRenderingBlockIfEmpty sopra,
+# questo riguarda l'errore del cron, non la tabella live (decisione con
+# Marco il 2026-11-18). Altri errori (es. InvalidVocabolarioException)
+# continuano a essere sempre segnalati, su tutti gli schemi.
+HideExportErrors[]
+HideExportErrors[]=art.13-pa
+HideExportErrors[]=art.13-se
+
 # Ambito soggettivo da riportare nell'export art.36 (IBAN e pagamenti
 # informatici) per un ente C2: "SocietaInControlloPubblico" o
 # "EntiDiDirittoPrivato" - non derivabile dal solo profilo C2, va

@@ -53,6 +53,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
         $this->fnData['has_anac_exports'] = 'hasAnacExports';
         $this->fnData['anac_exports'] = 'getAnacExports';
+        $this->fnData['anac_export_next_attempt'] = 'getAnacExportNextAttempt';
 
         $this->fnData['live_rendering_blocks'] = 'getLiveRenderingBlocks';
     }
@@ -60,19 +61,22 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     /**
      * Export ANAC (#479, discoverability): elenco degli schemi che QUESTA
      * pagina espone (via schema_pubblicazione, vedi SchemaPubblicazioneLookup)
-     * gia' pubblicati almeno una volta, con url dell'ultima versione e
-     * storico. Non filtrato su isPaginaTrasparenza(): l'attributo
-     * schema_pubblicazione esiste solo su pagina_trasparenza, quindi un
-     * oggetto di un'altra classe restituisce sempre [] per costruzione
-     * (nessun controllo esplicito necessario).
+     * gia' pubblicati almeno una volta (con url dell'ultima versione e
+     * storico), o falliti all'ultimo tentativo del cron (solo per utenti
+     * loggati - vedi ExportErrorTracker, cms#488). Non filtrato su
+     * isPaginaTrasparenza(): l'attributo schema_pubblicazione esiste solo su
+     * pagina_trasparenza, quindi un oggetto di un'altra classe restituisce
+     * sempre [] per costruzione (nessun controllo esplicito necessario).
      *
-     * @return array [] se questa pagina non espone nessuno schema ANAC (o
-     *         li espone ma nessuno e' ancora mai stato pubblicato), altrimenti
-     *         lista di ['schema' => 'art.31-oiv', 'label' => 'Organismi
-     *         indipendenti di valutazione', 'latest_urls' => ['csv' => '...'],
-     *         'last_modified' => 'gg/mm/aaaa', 'last_modified_time' =>
-     *         'hh:mm'|null (null sui tracking scritti prima di questo campo,
-     *         finche' non ripubblicano), 'versions' => [...]] (vedi
+     * @return array [] se questa pagina non espone nessuno schema ANAC (o li
+     *         espone ma nessuno e' mai stato pubblicato ne' fallito),
+     *         altrimenti lista di ['schema' => 'art.31-oiv', 'label' =>
+     *         'Organismi indipendenti di valutazione', 'error' =>
+     *         ['message' => string, 'date' => 'gg/mm/aaaa']|null, e, solo se
+     *         gia' pubblicato almeno una volta: 'latest_urls' => ['csv' =>
+     *         '...'], 'last_modified' => 'gg/mm/aaaa', 'last_modified_time'
+     *         => 'hh:mm'|null (null sui tracking scritti prima di questo
+     *         campo, finche' non ripubblicano), 'versions' => [...]] (vedi
      *         ExportPublisher::getVersions())
      */
     protected function getAnacExports()
@@ -83,34 +87,57 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
         $schemas = \SchemaPubblicazioneLookup::schemasForObject($this->container->getContentObject());
 
+        // L'errore dell'ultimo tentativo di export (vedi
+        // ExportErrorTracker/cronjobs/anac_export.php) e' un dettaglio
+        // operativo per chi gestisce i dati, non per un visitatore anonimo -
+        // stesso principio gia' in uso altrove in questo file (vedi
+        // require_user in parseTableFieldsParameter()).
+        $isLoggedIn = !eZUser::currentUser()->isAnonymous();
+
         $exports = [];
         foreach ($schemas as $schema) {
             $publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($schema);
             $latestUrls = $publisher->getLatestUrls();
-            if (empty($latestUrls)) {
+            $error = $isLoggedIn ? (new \OpenPABootstrapItalia\Anac\ExportErrorTracker($schema))->getError() : null;
+
+            if (empty($latestUrls) && $error === null) {
                 // mai pubblicato (schema dichiarato ma cron non ancora
-                // passato, o fallito - vedi classes/anac/CLAUDE.md, "Gestione
-                // errori") - non mostrare un blocco vuoto/rotto.
+                // passato) e nessun errore da segnalare - non mostrare un
+                // blocco vuoto/rotto.
                 continue;
             }
 
-            // Schemi diversi sulla stessa pagina possono avere date di
-            // ultimo aggiornamento diverse (es. "Articolazione degli uffici"
-            // espone sia art.13-as sia art.13-op, aggiornati indipendentemente
-            // l'uno dall'altro) - la data va mostrata per schema, non come
-            // sottotitolo unico di pagina. La versione corrente e' sempre
-            // il primo elemento di getVersions() (isLatest: true).
-            $versions = $publisher->getVersions();
-
-            // L'ora e' letta dal tracking corrente, non da $versions[0]: e'
-            // mostrata solo nella lista corrente, non nello storico versioni
-            // (vedi ExportPublisher::resolveAndPublish()), quindi non serve
-            // farla transitare da getVersions()/extractVersion().
-            $tracking = $publisher->getTracking();
-
-            $exports[] = [
+            $export = [
                 'schema' => $schema,
                 'label' => \SchemaPubblicazioneLookup::labelForSchema($schema),
+                'error' => $error,
+                // Default per uno schema mai pubblicato con successo (solo
+                // errore) - il template itera su questi campi anche quando
+                // $latestUrls e' vuoto, senza chiavi mancanti.
+                'latest_urls' => [],
+                'last_modified' => null,
+                'last_modified_time' => null,
+                'versions' => [],
+                'show_subtitle' => false,
+            ];
+
+            if (!empty($latestUrls)) {
+                // Schemi diversi sulla stessa pagina possono avere date di
+                // ultimo aggiornamento diverse (es. "Articolazione degli
+                // uffici" espone sia art.13-as sia art.13-op, aggiornati
+                // indipendentemente l'uno dall'altro) - la data va mostrata
+                // per schema, non come sottotitolo unico di pagina. La
+                // versione corrente e' sempre il primo elemento di
+                // getVersions() (isLatest: true).
+                $versions = $publisher->getVersions();
+
+                // L'ora e' letta dal tracking corrente, non da $versions[0]:
+                // e' mostrata solo nella lista corrente, non nello storico
+                // versioni (vedi ExportPublisher::resolveAndPublish()),
+                // quindi non serve farla transitare da
+                // getVersions()/extractVersion().
+                $tracking = $publisher->getTracking();
+
                 // Il link mostrato in pagina punta al file datato (gia'
                 // risolto in $versions[0], stesso usato dallo storico
                 // "versioni precedenti"), non piu' all'alias "-latest" -
@@ -119,15 +146,45 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 // file "-latest" resta comunque pubblicato e raggiungibile
                 // (ExportPublisher::writeVersionedFile() lo scrive sempre),
                 // solo non e' piu' il link mostrato qui.
-                'latest_urls' => $versions[0]['urls'],
-                'last_modified' => $versions[0]['dataUltimaModifica'],
-                'last_modified_time' => $tracking['oraUltimaModifica'] ?? null,
-                'versions' => $versions,
-                'show_subtitle' => \SchemaPubblicazioneLookup::shouldShowExportSubtitle($schema),
-            ];
+                $export['latest_urls'] = $versions[0]['urls'];
+                $export['last_modified'] = $versions[0]['dataUltimaModifica'];
+                $export['last_modified_time'] = $tracking['oraUltimaModifica'] ?? null;
+                $export['versions'] = $versions;
+                $export['show_subtitle'] = \SchemaPubblicazioneLookup::shouldShowExportSubtitle($schema);
+            }
+
+            $exports[] = $export;
         }
 
         return $exports;
+    }
+
+    /**
+     * Data del prossimo tentativo del cron ANAC (cronjobs/anac_export.php,
+     * registrato su [CronjobPart-changesection]), mostrata nel banner errori
+     * cosi' chi legge sa quando il dato corretto verra' ripreso in
+     * considerazione, senza dover sapere nulla sul funzionamento del cron.
+     * Orari fissi (01:00 e 15:00, vedi classes/anac/CLAUDE.md, "Latenza") -
+     * non lette da nessun INI, lo scheduling del cron vive fuori da questo
+     * repo (crontab dell'infrastruttura SaaS).
+     *
+     * @return string gg/mm/aaaa del prossimo 01:00 o 15:00 futuro rispetto a ora
+     */
+    protected function getAnacExportNextAttempt()
+    {
+        $now = new \DateTime();
+        $todayFirstRun = (new \DateTime())->setTime(1, 0);
+        $todaySecondRun = (new \DateTime())->setTime(15, 0);
+
+        if ($now < $todayFirstRun) {
+            $next = $todayFirstRun;
+        } elseif ($now < $todaySecondRun) {
+            $next = $todaySecondRun;
+        } else {
+            $next = (new \DateTime('tomorrow'))->setTime(1, 0);
+        }
+
+        return $next->format('d/m/Y');
     }
 
     /**

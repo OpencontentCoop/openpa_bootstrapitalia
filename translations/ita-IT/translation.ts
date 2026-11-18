@@ -2531,7 +2531,19 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
     </message>
     <message>
       <source>Export of files according to the ANAC publication schema.</source>
-      <translation>Esportazione dei file secondo lo schema di pubblicazione ANAC.</translation>
+      <translation>Esportazione giornaliera dei file secondo lo schema di pubblicazione ANAC.</translation>
+    </message>
+    <message>
+      <source>Some ANAC exports are not up to date</source>
+      <translation>Alcune esportazioni ANAC non sono aggiornate</translation>
+    </message>
+    <message>
+      <source>A new export attempt will be made on %date%. Fix the following errors:</source>
+      <translation>Sarà effettuato un nuovo tentativo di esportazione il %date%. Correggere i seguenti errori:</translation>
+    </message>
+    <message>
+      <source>Last attempt: %date%</source>
+      <translation>Ultimo tentativo: %date%</translation>
     </message>
     <message>
       <source>Previous versions</source>

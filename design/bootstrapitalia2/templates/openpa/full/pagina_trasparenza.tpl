@@ -235,7 +235,7 @@
 
             {* Export conformi ANAC (#479) *}
             {if $trasparenza.has_anac_exports}
-                {include uri='design:openpa/full/parts/amministrazione_trasparente/anac_export.tpl' exports=$trasparenza.anac_exports}
+                {include uri='design:openpa/full/parts/amministrazione_trasparente/anac_export.tpl' exports=$trasparenza.anac_exports next_attempt=$trasparenza.anac_export_next_attempt}
             {/if}
 
             <div class="mt-5">

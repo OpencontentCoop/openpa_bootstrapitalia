@@ -2518,6 +2518,18 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
       <translation>Open Data</translation>
     </message>
     <message>
+      <source>Some ANAC exports are not up to date</source>
+      <translation>Einige ANAC-Exporte sind nicht aktuell</translation>
+    </message>
+    <message>
+      <source>A new export attempt will be made on %date%. Fix the following errors:</source>
+      <translation>Ein neuer Exportversuch wird am %date% unternommen. Beheben Sie die folgenden Fehler:</translation>
+    </message>
+    <message>
+      <source>Last attempt: %date%</source>
+      <translation>Letzter Versuch: %date%</translation>
+    </message>
+    <message>
       <source>Previous versions</source>
       <translation>Vorherige Versionen</translation>
     </message>
@@ -2667,7 +2679,7 @@ Sie werden vor allem dazu verwendet, die Qualität von Websites zu messen und zu
     </message>
     <message>
       <source>Export of files according to the ANAC publication schema.</source>
-      <translation>Export der Dateien gemäß dem ANAC-Veröffentlichungsschema.</translation>
+      <translation>Täglicher Export der Dateien gemäß dem ANAC-Veröffentlichungsschema.</translation>
     </message>
     <message>
       <source>Document type</source>
