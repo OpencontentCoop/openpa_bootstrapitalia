@@ -19,6 +19,13 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
     const CLASS_GROUP_NAME = 'Amministrazione trasparente';
 
+    // Pagina "Atti di concessione" (art.26-27, cms#527) - stesso remote_id
+    // usato da BootstrapItaliaInstallerUtils::canInstallAttiConcessioneDataset()
+    // e da installer.yml (Task 6/9). Serve qui per limitare il link al
+    // Registro Nazionale degli Aiuti a questa sola pagina, vedi
+    // getRegistroNazionaleAiutiUrl().
+    const ATTI_CONCESSIONE_REMOTE_ID = '90b631e882ab0f966d03aababf3d9f15';
+
     function run()
     {
         $this->fnData['has_nota_trasparenza'] = 'hasNotaTrasparenza';
@@ -53,6 +60,7 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
         $this->fnData['has_anac_exports'] = 'hasAnacExports';
         $this->fnData['anac_exports'] = 'getAnacExports';
+        $this->fnData['registro_nazionale_aiuti_url'] = 'getRegistroNazionaleAiutiUrl';
 
         $this->fnData['live_rendering_blocks'] = 'getLiveRenderingBlocks';
     }
@@ -128,6 +136,34 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         }
 
         return $exports;
+    }
+
+    /**
+     * @return string url del Registro Nazionale degli Aiuti se configurato
+     *         per questo tenant (Nota 6, cms#527) E se questa pagina e'
+     *         proprio "Atti di concessione" (self::ATTI_CONCESSIONE_REMOTE_ID),
+     *         '' altrimenti - in quel caso il template mostra un link su
+     *         quella pagina. Il controllo sul remote_id non e' nel brief
+     *         originale di questo task ma e' necessario: l'ini e' letta
+     *         senza scoping da OpenPAINI::variable(), quindi senza questo
+     *         controllo il link comparirebbe su OGNI pagina
+     *         pagina_trasparenza del sito (ogni volta che questo operatore
+     *         viene calcolato), non solo su "Atti di concessione" - vedi
+     *         "Cosa copre e cosa no" in classes/anac/CLAUDE.md.
+     *
+     *         Non serve nascondere nient'altro qui: se questa ini è
+     *         valorizzata, il dataset/blocco di "Atti di concessione" non è
+     *         mai stato installato (vedi Task 6/9) - niente di cui
+     *         "getAnacExports()" possa già parlare.
+     */
+    protected function getRegistroNazionaleAiutiUrl()
+    {
+        if (!$this->container->hasContentObject()
+            || $this->container->getContentObject()->attribute('remote_id') !== self::ATTI_CONCESSIONE_REMOTE_ID) {
+            return '';
+        }
+
+        return trim((string)OpenPAINI::variable('Trasparenza', 'RegistroNazionaleAiutiUrl', ''));
     }
 
     /**

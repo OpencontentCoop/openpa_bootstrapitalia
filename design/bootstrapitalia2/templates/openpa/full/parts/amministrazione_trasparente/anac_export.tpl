@@ -50,3 +50,11 @@
         {/if}
     </div>
 {/if}
+{if $registro_nazionale_aiuti_url|ne('')}
+    <div class="anac-export-rna mt-3">
+        <p class="mb-0">
+            {display_icon('it-link', 'svg', 'icon icon-sm icon-primary me-1')}
+            <a class="btn-link p-0 text-decoration-underline" href="{$registro_nazionale_aiuti_url|wash()}">{'Registro Nazionale degli Aiuti'|i18n('bootstrapitalia/anac_export')}</a>
+        </p>
+    </div>
+{/if}

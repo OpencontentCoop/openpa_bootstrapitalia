@@ -233,9 +233,17 @@
                          nodes_count=$trasparenza.count_children_extra}
             {/if}
 
-            {* Export conformi ANAC (#479) *}
-            {if $trasparenza.has_anac_exports}
-                {include uri='design:openpa/full/parts/amministrazione_trasparente/anac_export.tpl' exports=$trasparenza.anac_exports}
+            {* Export conformi ANAC (#479). Condizione estesa anche a
+               registro_nazionale_aiuti_url (cms#527, Task 12): su "Atti di
+               concessione" con Registro Nazionale degli Aiuti configurato
+               has_anac_exports e' sempre false (il dataset/blocco non e'
+               mai stato installato, vedi Task 6/9) ma il template deve
+               comunque essere incluso per mostrare il link al Registro -
+               senza questa condizione estesa non verrebbe mai mostrato. *}
+            {if or($trasparenza.has_anac_exports, $trasparenza.registro_nazionale_aiuti_url|ne(''))}
+                {include uri='design:openpa/full/parts/amministrazione_trasparente/anac_export.tpl'
+                         exports=$trasparenza.anac_exports
+                         registro_nazionale_aiuti_url=$trasparenza.registro_nazionale_aiuti_url}
             {/if}
 
             <div class="mt-5">

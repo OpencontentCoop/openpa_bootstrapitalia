@@ -1089,6 +1089,68 @@ rinvio al Registro, il dataset "Atti di concessione" non viene installato
 affatto (vedi sopra, costruttore nullable) e quei dati vengono pubblicati
 altrove — approfondito nella sezione dedicata subito sotto.
 
+### Registro Nazionale degli Aiuti (RNA) — link opzionale su "Atti di concessione"
+
+**Perché esiste**: l'art. 26 co. 4 (Nota 6 della Guida ANAC) ammette, per gli
+enti che hanno già pubblicato i propri dati sul Registro Nazionale degli
+Aiuti, di sostituire la pubblicazione diretta con un semplice link al
+Registro — evita la doppia manutenzione dello stesso dato (una volta sul
+RNA, un'altra volta sul sito) per gli enti che già lo alimentano.
+
+**Cosa copre e cosa no**: solo "Atti di concessione" — i tre schemi
+`art.26-27-atti-concessione`, `art.26-27-atto-revoca` e `art.26-27-atti`
+(lo stesso dataset, vedi sopra). "Criteri e modalità" (`art.26-27-criteri`)
+non è mai toccata da questo meccanismo: i criteri di concessione non sono un
+dato che il RNA registra, non avrebbe senso rimandarli lì.
+
+**Un solo punto di verità, non più tre**: la decisione vera ("questo ente
+usa il RNA, quindi niente dataset/blocco per Atti di concessione") si prende
+una volta sola, all'installazione
+(`BootstrapItaliaInstallerUtils::canInstallAttiConcessioneDataset()`,
+condition sia sullo step `content` sia sul `patch_content` di
+`atti_concessione_c1` in
+`installer/modules/trasparenza-additional-anac-schemes/installer.yml`). A
+runtime non c'è nessun controllo equivalente da mantenere sincronizzato con
+quello: `getAnacExports()` e `publishArt2627()` si comportano correttamente
+DA SOLI, perché il dataset/blocco semplicemente non esiste quando il
+Registro è configurato — niente di cui possano già parlare. L'unica lettura
+dell'ini rimasta,
+`ObjectHandlerServiceContentTrasparenza::getRegistroNazionaleAiutiUrl()`
+(fnData `registro_nazionale_aiuti_url`, ini `[Trasparenza]
+RegistroNazionaleAiutiUrl` in `openpa.ini`, default vuoto), serve solo a
+decidere se mostrare il link, non se nascondere qualcos'altro.
+
+`getRegistroNazionaleAiutiUrl()` non restituisce l'ini così com'è: la
+limita all'oggetto con remote_id `self::ATTI_CONCESSIONE_REMOTE_ID`
+(`90b631e882ab0f966d03aababf3d9f15`, lo stesso remote_id usato da
+`canInstallAttiConcessioneDataset()`). Necessario perché `OpenPAINI::variable()`
+non ha scoping per pagina: senza questo controllo l'ini, una volta
+valorizzata, farebbe comparire il link su **ogni** `pagina_trasparenza` del
+sito (ogni volta che questo fnData viene calcolato), non solo su "Atti di
+concessione" — in contraddizione con "Cosa copre e cosa no" sopra.
+
+Il template (`anac_export.tpl`) include il nuovo blocco (link + icona
+`it-link`, contesto i18n `bootstrapitalia/anac_export`) subito dopo quello
+esistente degli export ANAC, con `{if $registro_nazionale_aiuti_url|ne('')}`.
+L'inclusione del template stesso da `pagina_trasparenza.tpl`, però, era
+gated solo da `$trasparenza.has_anac_exports` — che su "Atti di
+concessione" con RNA configurato è **sempre falso**, visto che per
+costruzione nessuno schema risulta mai installato su quella pagina in
+quel caso (stesso meccanismo del paragrafo sopra). La condizione è stata
+estesa a `{if or($trasparenza.has_anac_exports, $trasparenza.registro_nazionale_aiuti_url|ne(''))}`
+— senza questa estensione il link non sarebbe mai apparso, nonostante il
+resto del meccanismo funzionasse correttamente.
+
+**Limite noto, non risolto da questo piano**: la condizione di
+`canInstallAttiConcessioneDataset()` **non è retroattiva** (stesso principio
+già documentato altrove nel progetto per `Role::install()`, vedi
+`installer/modules/trasparenza/CLAUDE.md`) — se un ente ha già il
+dataset/blocco "Atti di concessione" installato e configura il Registro
+DOPO, quel contenuto resta installato finché qualcuno non lo rimuove a mano:
+l'installer non cancella mai contenuti da solo e non esiste un passaggio di
+pulizia dedicato. Per un ente nuovo (ini già configurata al primo
+`ocinstall`), il comportamento è invece pulito fin da subito.
+
 ## Gestione errori e casi limite
 
 ### Le due eccezioni di dominio, e cosa succede davvero quando scattano

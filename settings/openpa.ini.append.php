@@ -254,6 +254,16 @@ DocumentTypeTrasparenzaHintTagRemoteIds[]=a5994c0e99b79cd4ca5ed1285135a461
 DocumentTypeTrasparenzaHintTagRemoteIds[]=f3431b7c90f441bab1a0b2e3068325d4
 DocumentTypeTrasparenzaHintTagRemoteIds[]=99af81198d42521cfc45090770824e26
 
+# Rinvio al Registro Nazionale degli Aiuti (art. 26 co. 4, Nota 6 - cms#527):
+# quando valorizzato, mostra un link al Registro sulla pagina "Atti di
+# concessione" - il dataset/blocco di quella pagina non viene nemmeno
+# installato in questo caso (vedi BootstrapItaliaInstallerUtils::
+# canInstallAttiConcessioneDataset() nel repo openpa_bootstrapitalia,
+# installer.yml nel repo installer), quindi questa ini qui serve solo per
+# il link, non per nascondere nulla. "Criteri e modalità" non è toccata.
+# Default vuoto = funzionalità non attiva.
+RegistroNazionaleAiutiUrl=
+
 [MotoreRicerca]
 IncludiClassi[]=administrative_area
 IncludiClassi[]=topic
