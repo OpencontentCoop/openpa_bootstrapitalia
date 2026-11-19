@@ -1104,3 +1104,29 @@ Conseguenze concrete, non ovvie:
 - **Validazione JSON Schema ANAC**: resta un controllo manuale in QA, nessuna
   validazione automatica nel codice (decisione esplicita, non un gap
   dimenticato).
+- **Rendering live: ancora lento su una pagina con più schemi, nonostante il
+  fix dell'11 novembre** (riprodotto il 19 novembre su buglianoqa: 75,98s
+  colpendo l'app direttamente, bypassando Varnish - stesso ordine di
+  grandezza di prima del fix, con il codice del fix verificato presente
+  byte-per-byte sul container in esecuzione). `getLiveRenderingBlocks()`
+  (`content_trasparenza.php`) cicla su ogni schema dichiarato dalla pagina e
+  chiama `LiveRenderingRegistry::render($schema)` per ciascuno; quel metodo
+  fa `new $providerClass()` ad ogni chiamata, e sia
+  `PageArticolazioneUfficiProvider` sia `PageRiferimentiContattiProvider`
+  creano al loro interno un `new Art13Serializer()` non condiviso. La
+  pagina "Articolazione degli uffici" dichiara tipicamente tre schemi con
+  un fornitore live registrato (`art.13-op`, `art.13-oa`, `art.13-rif`): la
+  cache di memoizzazione introdotta l'11 novembre (`$ufficiFigliCache`,
+  vedi sopra "memoizzato per id di organo") vive dentro UNA istanza di
+  `Art13Serializer`, quindi elimina la ri-visita di radici duplicate
+  **dentro** il calcolo di un singolo schema, ma non è mai condivisa **tra**
+  i 2-3 schemi della stessa pagina - l'intero albero organizzativo viene
+  riattraversato da zero 2-3 volte per singola richiesta. Il fix dell'11
+  novembre ha eliminato la crescita esponenziale (radici duplicate), non
+  questa ridondanza lineare cross-schema - su un tenant con un albero reale
+  grande (al netto dei duplicati) il costo ripetuto 2-3 volte può comunque
+  sommare a circa un minuto. **Non ancora confermato con un profiling per
+  singolo schema** (ipotesi di codice, non misurata riga per riga) - prima
+  di un fix (es. un'istanza di `Art13Serializer` condivisa per richiesta tra
+  i provider), verificare il timing isolato di ciascuno dei 2-3 schemi su
+  buglianoqa.
