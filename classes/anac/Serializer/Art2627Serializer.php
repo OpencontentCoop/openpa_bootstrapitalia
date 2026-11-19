@@ -210,4 +210,158 @@ class Art2627Serializer
 
         return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     }
+
+    // ---------------------------------------------------------------
+    // artt. 26 co. 2 e 27 - Atti di concessione
+    // ---------------------------------------------------------------
+
+    public function fetchRigheAtti()
+    {
+        return $this->fetchRighe($this->attiAttribute);
+    }
+
+    /**
+     * Field identifier del dataset "Atti di concessione" - verificati
+     * sull'oggetto reale (buglianoqa, id 40402) il 2026-11-19.
+     *
+     * 'revoca' e' null se numero_atto_revoca e' vuoto (nessuna validazione
+     * incrociata sulla completezza di numero/anno/motivazione - decisione
+     * esplicita di Marco il 2026-11-19, la guida alla compilazione del
+     * campo lo richiama solo testualmente).
+     *
+     * @throws \OpenPABootstrapItalia\Anac\InvalidTelefonoException se
+     *         telefono_resp_proc non rispetta il pattern ANAC per numeri
+     *         italiani - blocca l'intero export (stesso principio di
+     *         InvalidVocabolarioException/InvalidImportoException), mai un
+     *         valore pubblicato che lo schema rifiuterebbe.
+     */
+    public function mapRigaAtti(array $data)
+    {
+        $numeroRevoca = trim((string)($data['numero_atto_revoca'] ?? ''));
+
+        return [
+            'numero' => trim((string)$data['numero']),
+            'anno' => (int)trim((string)$data['anno']),
+            'beneficiario' => trim((string)$data['beneficiario']),
+            'importo' => \OpenPABootstrapItalia\Anac\ImportoNormalizer::normalize($data['importo']),
+            'norma' => trim((string)$data['identificativo_norma']),
+            'responsabile' => [
+                'nominativo' => trim((string)$data['nominativo_resp_proc']),
+                'qualifica' => trim((string)$data['qualifica_resp_proc']),
+                'ufficio' => trim((string)$data['ufficio_resp_proc']),
+                'telefono' => \OpenPABootstrapItalia\Anac\TelefonoNormalizer::normalize($data['telefono_resp_proc']),
+                'peo' => trim((string)($data['peo'] ?? '')) !== '' ? trim((string)$data['peo']) : null,
+                'pec' => trim((string)($data['pec'] ?? '')) !== '' ? trim((string)$data['pec']) : null,
+            ],
+            'modalita' => trim((string)$data['modalita_individuazione']),
+            'linkProgetto' => trim((string)($data['link_progetto'] ?? '')) !== '' ? trim((string)$data['link_progetto']) : null,
+            'revoca' => $numeroRevoca !== '' ? [
+                'numero' => $numeroRevoca,
+                'anno' => (int)trim((string)$data['anno_atto_revoca']),
+                'motivazione' => trim((string)$data['motivazione_revoca']),
+            ] : null,
+        ];
+    }
+
+    public function toCsvAttiConcessione()
+    {
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
+            'NUMERO', 'ANNO', 'BENEFICIARIO', 'IMPORTO', 'IDENTIFICATIVO_NORMA',
+            'NOMINATIVO_RESP_PROC', 'QUALIFICA_RESP_PROC', 'UFFICIO_RESP_PROC', 'TELEFONO_UFFICIO_RESP_PROC',
+            'PEO', 'PEC', 'MODALITA_INDIVIDUAZIONE_BENEFICIARIO', 'LINK_INFO_PROGETTO',
+        ])];
+
+        foreach (array_map([$this, 'mapRigaAtti'], $this->fetchRigheAtti()) as $riga) {
+            $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
+                $riga['numero'], $riga['anno'], $riga['beneficiario'], $riga['importo'], $riga['norma'],
+                $riga['responsabile']['nominativo'], $riga['responsabile']['qualifica'], $riga['responsabile']['ufficio'],
+                $riga['responsabile']['telefono'], $riga['responsabile']['peo'] ?? '', $riga['responsabile']['pec'] ?? '',
+                $riga['modalita'], $riga['linkProgetto'] ?? '',
+            ]);
+        }
+
+        return implode("\n", $lines) . "\n";
+    }
+
+    /**
+     * Una riga per ciascun record con revoca valorizzata (issue #527: "il
+     * CSV ha solo NUMERO;ANNO;MOTIVAZIONE e non contiene alcun riferimento
+     * alla concessione revocata") - i tre campi sono quelli della REVOCA,
+     * non dell'atto di concessione a cui appartiene il record.
+     */
+    public function toCsvAttoRevoca()
+    {
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line(['NUMERO', 'ANNO', 'MOTIVAZIONE'])];
+
+        foreach (array_map([$this, 'mapRigaAtti'], $this->fetchRigheAtti()) as $riga) {
+            if ($riga['revoca'] === null) {
+                continue;
+            }
+            $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
+                $riga['revoca']['numero'], $riga['revoca']['anno'], $riga['revoca']['motivazione'],
+            ]);
+        }
+
+        return implode("\n", $lines) . "\n";
+    }
+
+    /**
+     * @return string|null null se il dataset e' vuoto - il chiamante
+     *         (publishArt2627() in cronjobs/anac_export.php, Task 10) deve
+     *         allora omettere del tutto il JSON (schema reale:
+     *         attiDiConcessione ha minItems: 1).
+     */
+    public function toJsonAtti($dataPrimaPubblicazione, $dataUltimaModifica)
+    {
+        $righe = array_map([$this, 'mapRigaAtti'], $this->fetchRigheAtti());
+
+        if (empty($righe)) {
+            return null;
+        }
+
+        $attiDiConcessione = array_map(function ($riga) {
+            $atto = [
+                'numero' => $riga['numero'],
+                'anno' => $riga['anno'],
+                'beneficiario' => $riga['beneficiario'],
+                'importo' => $riga['importo'],
+                'norma' => $riga['norma'],
+                'responsabile' => array_filter([
+                    'nominativo' => $riga['responsabile']['nominativo'],
+                    'qualifica' => $riga['responsabile']['qualifica'],
+                    'ufficio' => $riga['responsabile']['ufficio'],
+                    'contatti' => array_filter([
+                        'recapitoTelefonico' => $riga['responsabile']['telefono'],
+                        'postaElettronicaOrdinaria' => $riga['responsabile']['peo'],
+                        'postaElettronicaCertificata' => $riga['responsabile']['pec'],
+                    ], function ($v) {
+                        return $v !== null;
+                    }),
+                ], function ($v) {
+                    return $v !== null;
+                }),
+                'modalita' => $riga['modalita'],
+            ];
+            if ($riga['linkProgetto'] !== null) {
+                $atto['linkProgetto'] = $riga['linkProgetto'];
+            }
+            if ($riga['revoca'] !== null) {
+                $atto['attoDiRevoca'] = $riga['revoca'];
+            }
+
+            return $atto;
+        }, $righe);
+
+        $data = [
+            '$schema' => self::SCHEMA_URL,
+            'intestazione' => [
+                'amministrazione' => \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione(),
+                'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
+                'dataUltimaModifica' => $dataUltimaModifica,
+            ],
+            'attiDiConcessione' => $attiDiConcessione,
+        ];
+
+        return json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
 }
