@@ -746,6 +746,31 @@ class BootstrapItaliaInstallerUtils
     }
 
     /**
+     * Condizione combinata per il dataset "Atti di concessione" (art.26-27,
+     * cms#527): va installato solo se la pagina esiste davvero (stesso
+     * principio di content_exists(), già usato per gli altri dataset di
+     * questo modulo) E se l'ente non ha configurato il rinvio al Registro
+     * Nazionale degli Aiuti (openpa.ini, [Trasparenza] RegistroNazionaleAiutiUrl)
+     * - in quel caso l'ente pubblica già quei dati lì, il dataset/blocco
+     * non va installato affatto (decisione esplicita di Marco il 2026-11-19,
+     * non un semplice "nascondilo a runtime"). "Criteri e modalità" non è
+     * mai toccata da questa condizione - il Registro Nazionale degli Aiuti
+     * non registra i criteri di concessione, solo gli atti.
+     *
+     * Una singola funzione invece di combinare due variabili installer:
+     * ocinstaller non supporta espressioni booleane tra variabili nella
+     * chiave `condition`, solo la verità di una singola variabile già
+     * risolta - vedi ocinstaller/src/Opencontent/Installer/Steps.php, run().
+     */
+    public static function canInstallAttiConcessioneDataset()
+    {
+        $pageExists = \eZContentObject::fetchByRemoteID('90b631e882ab0f966d03aababf3d9f15') instanceof \eZContentObject;
+        $registroUrl = trim((string)\OpenPAINI::variable('Trasparenza', 'RegistroNazionaleAiutiUrl', ''));
+
+        return $pageExists && $registroUrl === '';
+    }
+
+    /**
      * Risolve il codice ISTAT del comune trentino da usare nel campo `spatial`
      * (datatype `openpacomuniitaliani`) a partire da `SiteSettings.SiteName`.
      *
