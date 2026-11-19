@@ -84,6 +84,7 @@ publishArt31($cli, $schemaBindings);
 publishArt12($cli, $schemaBindings);
 publishArt36($cli, $schemaBindings);
 publishArt20($cli, $schemaBindings);
+publishArt2627($cli, $schemaBindings);
 
 /**
  * Rete di sicurezza per le pagine con rendering live (vedi
@@ -600,5 +601,121 @@ function publishArt20(eZCLI $cli, array $schemaBindings)
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: art.20');
         $cli->error('anac_export: schema art.20 fallito: ' . $e->getMessage());
+    }
+}
+
+/**
+ * artt. 26-27 - Sovvenzioni, contributi, sussidi, vantaggi economici
+ * (cms#527), solo C1. Due pagine, quattro file: "Criteri e modalità"
+ * pubblica CSV+JSON sotto lo STESSO identificativo (art.26-27-criteri,
+ * come art.4-bis); "Atti di concessione" pubblica CSV atti-concessione +
+ * CSV atto-revoca + JSON atti sotto TRE identificativi distinti (come i
+ * tre file separati di art.20) - vedi Art2627Serializer, docblock di classe.
+ *
+ * I due dataset sono verificati e pubblicati IN MODO INDIPENDENTE, con due
+ * try/catch separati: "Atti di concessione" può non esistere da solo (il
+ * Registro Nazionale degli Aiuti ne impedisce l'installazione, vedi
+ * BootstrapItaliaInstallerUtils::canInstallAttiConcessioneDataset() e
+ * Task 6/9/12) - "Criteri e modalità" deve continuare a funzionare in
+ * quel caso, non essere bloccata da un controllo unico su entrambi. Stesso
+ * principio vale per gli errori: un telefono malformato in un atto di
+ * concessione non deve impedire la pubblicazione dei criteri, e viceversa.
+ */
+function publishArt2627(eZCLI $cli, array $schemaBindings)
+{
+    $criteriObject = eZContentObject::fetchByRemoteID('criteri_modalita_concessione');
+    $attiObject = eZContentObject::fetchByRemoteID('atti_di_concessione');
+    if (!$criteriObject instanceof eZContentObject && !$attiObject instanceof eZContentObject) {
+        // Caso normale per la maggioranza dei tenant: schema opzionale,
+        // modulo trasparenza-additional-anac-schemes non installato (o non
+        // aggiornato a questa versione) su questo sito. Nota: `&&`, non
+        // `||` - uno solo dei due può mancare (vedi Registro Nazionale
+        // degli Aiuti) senza che sia questo caso.
+        return;
+    }
+
+    $criteriAttribute = null;
+    if ($criteriObject instanceof eZContentObject) {
+        $criteriDataMap = $criteriObject->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+        $criteriAttribute = $criteriDataMap['csv_resource'] ?? null;
+        if ($criteriAttribute === null) {
+            $cli->error('anac_export: attributo csv_resource non trovato sul dataset Criteri e modalita, schema art.26-27-criteri saltato');
+        }
+    }
+
+    $attiAttribute = null;
+    if ($attiObject instanceof eZContentObject) {
+        $attiDataMap = $attiObject->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+        $attiAttribute = $attiDataMap['csv_resource'] ?? null;
+        if ($attiAttribute === null) {
+            $cli->error('anac_export: attributo csv_resource non trovato sul dataset Atti di concessione, schema art.26-27-atti* saltato');
+        }
+    }
+
+    $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art2627Serializer($criteriAttribute, $attiAttribute);
+
+    // --- art. 26 co. 1: Criteri e modalità (CSV+JSON stesso identificativo) ---
+    if ($criteriAttribute !== null) {
+        try {
+            $criteriIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art2627Serializer::SCHEMA_IDENTIFIER_CRITERI;
+            $criteriPageObject = isset($schemaBindings[$criteriIdentifier]) ? $schemaBindings[$criteriIdentifier] : null;
+            $criteriRootNodeId = $criteriPageObject instanceof eZContentObject
+                ? $criteriPageObject->attribute('main_node')->attribute('node_id')
+                : $criteriObject->attribute('main_node')->attribute('node_id');
+
+            $csvCriteri = $serializer->toCsvCriteri();
+            $criteriPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($criteriIdentifier, $criteriRootNodeId);
+            $criteriTracking = $criteriPublisher->publish($csvCriteri, function ($first, $last) use ($serializer) {
+                return $serializer->toJsonCriteri($first, $last);
+            });
+            $cli->notice("anac_export: schema {$criteriIdentifier} ok, ultima modifica {$criteriTracking['dataUltimaModifica']}");
+        } catch (\Exception $e) {
+            eZDebug::writeError($e->getMessage(), 'anac_export.php: art.26-27-criteri');
+            $cli->error('anac_export: schema art.26-27-criteri fallito: ' . $e->getMessage());
+        }
+    }
+
+    // --- artt. 26 co. 2 e 27: Atti di concessione (3 identificativi distinti) ---
+    if ($attiAttribute !== null) {
+        try {
+            $attiConcessioneIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art2627Serializer::SCHEMA_IDENTIFIER_ATTI_CONCESSIONE;
+            $attiPageObject = isset($schemaBindings[$attiConcessioneIdentifier]) ? $schemaBindings[$attiConcessioneIdentifier] : null;
+            $attiRootNodeId = $attiPageObject instanceof eZContentObject
+                ? $attiPageObject->attribute('main_node')->attribute('node_id')
+                : $attiObject->attribute('main_node')->attribute('node_id');
+
+            $csvAttiConcessione = $serializer->toCsvAttiConcessione();
+            $attiConcessionePublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($attiConcessioneIdentifier, $attiRootNodeId);
+            $attiConcessioneTracking = $attiConcessionePublisher->publishSingle($csvAttiConcessione, 'csv');
+            $cli->notice("anac_export: schema {$attiConcessioneIdentifier} ok, ultima modifica {$attiConcessioneTracking['dataUltimaModifica']}");
+
+            $attoRevocaIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art2627Serializer::SCHEMA_IDENTIFIER_ATTO_REVOCA;
+            $attoRevocaPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($attoRevocaIdentifier, $attiRootNodeId);
+            $attoRevocaTracking = $attoRevocaPublisher->publishSingle($serializer->toCsvAttoRevoca(), 'csv');
+            $cli->notice("anac_export: schema {$attoRevocaIdentifier} ok, ultima modifica {$attoRevocaTracking['dataUltimaModifica']}");
+
+            // Il JSON "atti" va omesso del tutto se il dataset è vuoto
+            // (schema reale: attiDiConcessione ha minItems: 1, nessuno
+            // stato vuoto valido) - toJsonAtti() ritorna null in quel caso,
+            // publishWithDates() non supporta l'omissione quindi il
+            // controllo va fatto qui, PRIMA di chiamarlo (stesso pattern
+            // di publishArt20() per i blocchi co.1/co.2).
+            $righeAtti = $serializer->fetchRigheAtti();
+            if (!empty($righeAtti)) {
+                $attiIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art2627Serializer::SCHEMA_IDENTIFIER_ATTI;
+                $attiPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($attiIdentifier, $attiRootNodeId);
+                $attiTracking = $attiPublisher->publishWithDates(
+                    json_encode($righeAtti),
+                    function ($first, $last) use ($serializer) {
+                        return $serializer->toJsonAtti($first, $last);
+                    },
+                    'json'
+                );
+                $cli->notice("anac_export: schema {$attiIdentifier} ok, ultima modifica {$attiTracking['dataUltimaModifica']}");
+            }
+        } catch (\Exception $e) {
+            eZDebug::writeError($e->getMessage(), 'anac_export.php: art.26-27-atti');
+            $cli->error('anac_export: schema art.26-27-atti* fallito: ' . $e->getMessage());
+        }
     }
 }
