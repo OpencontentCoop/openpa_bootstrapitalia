@@ -2717,5 +2717,17 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Non-executive office</source>
       <translation>Ufficio non dirigenziale</translation>
     </message>
+    <message>
+      <source>Grant criteria and procedures</source>
+      <translation>Criteri e modalità di concessione</translation>
+    </message>
+    <message>
+      <source>Grant acts</source>
+      <translation>Atti di concessione</translation>
+    </message>
+    <message>
+      <source>Grant revocation acts</source>
+      <translation>Atti di modifica o revoca</translation>
+    </message>
   </context>
 </TS>

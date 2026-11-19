@@ -95,7 +95,7 @@ class SchemaPubblicazioneLookup
         'art.20-c2' => 'Staff bonus allocation criteria',
         'art.26-27-criteri' => 'Grant criteria and procedures',
         'art.26-27-atti-concessione' => 'Grant acts',
-        'art.26-27-atto-revoca' => 'Grant acts',
+        'art.26-27-atto-revoca' => 'Grant revocation acts',
         'art.26-27-atti' => 'Grant acts',
     ];
 
