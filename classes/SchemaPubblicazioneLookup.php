@@ -54,6 +54,9 @@ class SchemaPubblicazioneLookup
         'art.20-dirig' => 19,
         'art.20-non-dirig' => 20,
         'art.20-c2' => 21,
+        'art.23-org' => 26,
+        'art.23-altra-tipologia' => 27,
+        'art.23' => 28,
     ];
 
     /**
@@ -89,6 +92,9 @@ class SchemaPubblicazioneLookup
         'art.20-dirig' => 'Executive staff bonus allocation',
         'art.20-non-dirig' => 'Non-executive staff bonus allocation',
         'art.20-c2' => 'Staff bonus allocation criteria',
+        'art.23-org' => 'Measures adopted by political governing bodies',
+        'art.23-altra-tipologia' => 'Measures adopted by executives',
+        'art.23' => 'Administrative measures',
     ];
 
     /**
