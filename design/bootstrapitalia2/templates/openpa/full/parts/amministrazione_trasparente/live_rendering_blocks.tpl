@@ -241,7 +241,7 @@ $(document).ready(function () {ldelim}
                 var to = toValue ? ((new Date(toValue)).getTime() / 1000 + 86399) : null;
                 var start = rowData.pubblicazioneInizio || 0;
                 var end = rowData.pubblicazioneFine || null;
-                if (from !== null && (end ? end : start) < from) {ldelim} return false; {rdelim}
+                if (from !== null && end !== null && end < from) {ldelim} return false; {rdelim}
                 if (to !== null && start > to) {ldelim} return false; {rdelim}
             {rdelim}
         {rdelim}
