@@ -1271,4 +1271,131 @@ class BootstrapItaliaInstallerUtils
             }
         }
     }
+
+    /**
+     * Nasconde un contenuto esistente (stato privacy.private) e redirige il
+     * suo path pubblico naturale verso un altro nodo, con un redirect 301
+     * nativo eZ (eZURLAliasML::storePath(), action 'eznode:', $aliasRedirects
+     * = true) - usato per ritirare pagine sostituite da una pagina unificata
+     * senza rompere link esterni gia' indicizzati che puntavano al vecchio
+     * path (es. motori di ricerca, altri siti che linkano la vecchia pagina).
+     *
+     * Il path da redirigere e' quello GIA' assegnato al nodo al momento in
+     * cui questo step gira - catturato PRIMA di cambiare stato, cosi' non
+     * dipende da come l'alias verrebbe (ri)calcolato dopo (in pratica lo
+     * stato privacy non tocca l'alias esistente, ma e' piu' sicuro leggerlo
+     * prima di qualunque mutazione).
+     *
+     * Rischio noto e accettato (vedi spec): se in futuro questo contenuto
+     * venisse ripubblicato/modificato manualmente, eZ potrebbe rigenerare un
+     * alias naturale e sovrascrivere silenziosamente questo redirect - nel
+     * caso peggiore si torna ad "accesso negato" (stato privato), mai al
+     * contenuto riesposto.
+     *
+     * steps:
+     *     ...
+     *     -   type: php_callable
+     *         identifier: 'BootstrapItaliaInstallerUtils::hideContentWithRedirect'
+     *         remote_id: 280fb2af7960538a94d877f404f67a61
+     *         redirect_to_remote_id: d6e4140acc20a01a7dda910b1a27e714
+     *     ...
+     *
+     * @param AbstractStepInstaller $step
+     * @throws Exception se remote_id o redirect_to_remote_id non risolvono a un oggetto/nodo
+     */
+    public static function hideContentWithRedirect(AbstractStepInstaller $step)
+    {
+        $stepData = $step->getStep();
+        $remoteId = $stepData['remote_id'];
+        $redirectToRemoteId = $stepData['redirect_to_remote_id'];
+
+        $object = eZContentObject::fetchByRemoteID($remoteId);
+        if (!$object instanceof eZContentObject) {
+            throw new Exception("hideContentWithRedirect: oggetto con remote_id '$remoteId' non trovato");
+        }
+
+        $privacyStates = OpenPABase::initStateGroup('privacy', ['private']);
+        $privateStateId = (int)$privacyStates['privacy.private']->attribute('id');
+
+        // Idempotenza: se lo step e' gia' stato eseguito (oggetto gia'
+        // privato) non si rielabora l'alias. Necessario perche' dopo la
+        // prima esecuzione il nodo sorgente non ha piu' un proprio alias
+        // "naturale" (rimosso sotto, vedi removeByAction) - rieseguire la
+        // logica prenderebbe come $currentPath il path di fallback interno
+        // del nodo (es. 'content/view/full/<id>') invece del path originale,
+        // producendo un alias spurio invece di un vero no-op.
+        //
+        // Nota: 'state_id_array' e' keyed by group_id (non da state id), coi
+        // valori assegnati come STRINGHE (driver DB) - un confronto stretto
+        // in_array(..., true) contro un (int) non avrebbe mai potuto
+        // matchare. Normalizzato con array_map('intval', ...) - bug scoperto
+        // durante lo sviluppo scrivendo il test (la seconda esecuzione
+        // continuava silenziosamente a rigenerare l'alias invece di essere
+        // un no-op).
+        $currentStateIdArray = array_map('intval', (array)$object->attribute('state_id_array'));
+        if (in_array($privateStateId, $currentStateIdArray, true)) {
+            $step->getLogger()->info(" - '{$object->attribute('name')}' e' gia' in stato privato, step gia' eseguito: nessuna modifica");
+
+            return;
+        }
+
+        $node = $object->attribute('main_node');
+        if (!$node instanceof eZContentObjectTreeNode) {
+            throw new Exception("hideContentWithRedirect: main_node non trovato per remote_id '$remoteId'");
+        }
+
+        $targetObject = eZContentObject::fetchByRemoteID($redirectToRemoteId);
+        if (!$targetObject instanceof eZContentObject) {
+            throw new Exception("hideContentWithRedirect: oggetto con remote_id '$redirectToRemoteId' (redirect_to_remote_id) non trovato");
+        }
+        $targetNodeId = (int)$targetObject->attribute('main_node_id');
+
+        // Riga canonica (is_original=1, is_alias=0) dell'alias GIA' esistente
+        // del nodo target: serve come $linkID per storePath() sotto. Senza
+        // questo, passando action='eznode:<target>' con linkID=false,
+        // storePath() interpreta la chiamata come "il nodo con questa
+        // action si e' spostato qui" e STORICIZZA silenziosamente l'alias
+        // REALE del target (lo trasforma in redirect verso il nostro path)
+        // - verificato empiricamente: comportamento distruttivo, scoperto
+        // durante lo sviluppo di questo metodo. Passando invece l'id di
+        // questa riga come linkID, storePath() crea una entry is_alias=1
+        // indipendente che a runtime (eZURLAliasML::translate()) risolve
+        // sempre l'action verso la riga is_original=1 corrente, con un
+        // redirect 301 - senza mai toccare l'alias reale del target.
+        $targetAliasRows = eZURLAliasML::fetchByAction('eznode', $targetNodeId);
+        if (empty($targetAliasRows)) {
+            throw new Exception("hideContentWithRedirect: nessun url alias esistente per il nodo target $targetNodeId (redirect_to_remote_id '$redirectToRemoteId')");
+        }
+        $targetAliasId = (int)reset($targetAliasRows)->attribute('id');
+
+        // Catturato PRIMA di cambiare stato: e' il path pubblico su cui un
+        // link esterno gia' esistente punta oggi.
+        $currentPath = trim($node->attribute('url_alias'), '/');
+
+        $step->getLogger()->info(" - Nascondo '{$object->attribute('name')}' (stato privato) e redirigo '$currentPath' -> nodo $targetNodeId");
+
+        eZContentOperationCollection::updateObjectState($object->attribute('id'), [$privateStateId]);
+        eZContentOperationCollection::registerSearchObject($object->attribute('id'));
+
+        // $currentPath e' ancora occupato dall'alias "naturale" del nodo
+        // sorgente (is_original=1, action 'eznode:<source>'): storePath()
+        // rifiuta di sovrascrivere un'entry is_original=1 con una action
+        // diversa (restituisce LINK_ALREADY_TAKEN, loggato ma senza
+        // lanciare eccezioni) a meno di autoAdjustName=true, che pero'
+        // rinominerebbe il nuovo path invece di riusare quello originale.
+        // Va quindi liberato esplicitamente prima - stesso meccanismo
+        // usato dal kernel stesso quando un nodo viene rimosso
+        // definitivamente dall'albero (eZContentObjectTreeNode::removeNode(),
+        // kernel/classes/ezcontentobjecttreenode.php).
+        eZURLAliasML::removeByAction('eznode', $node->attribute('node_id'));
+
+        // linkID=$targetAliasId (non false, vedi sopra): crea un vero
+        // redirect 301 (is_alias=1, alias_redirects=1) sul path originale,
+        // verso l'action del target - risolta dinamicamente a runtime,
+        // senza toccare l'alias reale del target.
+        // cleanupElements=true (default, a differenza di ExportPublisher che
+        // lo forza a false per i nomi file con punti): $currentPath e' un
+        // normale path di pagina, gia' pulito, nessun punto da preservare.
+        eZURLAliasML::storePath($currentPath, 'eznode:' . $targetNodeId, false, $targetAliasId, true, false, true, false, true, true);
+    }
 }
