@@ -1051,11 +1051,10 @@ stesso dataset.
 
 **Costruttore con entrambi i parametri nullable**: a differenza di
 `Art20Serializer` (dove i due dataset della stessa famiglia sono sempre
-installati insieme), qui `$attiAttribute` può mancare da solo quando il
-Registro Nazionale degli Aiuti è configurato per l'ente — il dataset "Atti
-di concessione" non viene proprio installato in quel caso (approfondito
-nella sezione dedicata subito sotto), mentre "Criteri e modalità" deve
-continuare a funzionare comunque. `publishArt2627()`
+installati insieme), qui "Criteri e modalità" e "Atti di concessione" sono
+installati in modo indipendente, ciascuno condizionato all'esistenza della
+propria pagina — uno dei due può quindi mancare da solo su un dato sito
+senza impedire all'altro di funzionare. `publishArt2627()`
 (`cronjobs/anac_export.php`) passa `null` per l'attributo mancante e
 pubblica solo il lato corrispondente, con due `try/catch` separati — un
 errore su un lato (es. un telefono malformato in un atto di concessione) non
@@ -1084,72 +1083,34 @@ logica di validazione nel serializer. Vedi
 "artt. 26-27", per il dettaglio lato installer/dataset di questa decisione —
 non duplicato qui.
 
-**Registro Nazionale degli Aiuti (RNA)**: quando l'ente configura il
-rinvio al Registro, il dataset "Atti di concessione" non viene installato
-affatto (vedi sopra, costruttore nullable) e quei dati vengono pubblicati
-altrove — approfondito nella sezione dedicata subito sotto.
+**Registro Nazionale degli Aiuti**: niente di automatico qui. Un ente che ha
+già pubblicato i propri dati sul Registro Nazionale degli Aiuti (art. 26
+co. 4, Nota 6 della Guida ANAC) e vuole sostituire la pubblicazione diretta
+con un link, lo fa a mano — un redattore scrive il link direttamente nel
+testo della pagina "Atti di concessione" (es. `guida_alla_compilazione`),
+nessun meccanismo di codice dedicato. Una prima versione di questo schema
+(cms#527) aveva un gate a install-time che impediva del tutto
+dataset/blocco quando un'ini era configurata, più un link mostrato
+automaticamente in pagina — rimosso il 2026-11-23 su decisione di Marco: più
+semplice lasciare al redattore sia la scelta di non popolare il dataset sia
+quella di scrivere il link, invece di un meccanismo dedicato con una sua
+ini e un gate di installazione da mantenere.
 
-### Registro Nazionale degli Aiuti (RNA) — link opzionale su "Atti di concessione"
-
-**Perché esiste**: l'art. 26 co. 4 (Nota 6 della Guida ANAC) ammette, per gli
-enti che hanno già pubblicato i propri dati sul Registro Nazionale degli
-Aiuti, di sostituire la pubblicazione diretta con un semplice link al
-Registro — evita la doppia manutenzione dello stesso dato (una volta sul
-RNA, un'altra volta sul sito) per gli enti che già lo alimentano.
-
-**Cosa copre e cosa no**: solo "Atti di concessione" — i tre schemi
-`art.26-27-atti-concessione`, `art.26-27-atto-revoca` e `art.26-27-atti`
-(lo stesso dataset, vedi sopra). "Criteri e modalità" (`art.26-27-criteri`)
-non è mai toccata da questo meccanismo: i criteri di concessione non sono un
-dato che il RNA registra, non avrebbe senso rimandarli lì.
-
-**Un solo punto di verità, non più tre**: la decisione vera ("questo ente
-usa il RNA, quindi niente dataset/blocco per Atti di concessione") si prende
-una volta sola, all'installazione
-(`BootstrapItaliaInstallerUtils::canInstallAttiConcessioneDataset()`,
-condition sia sullo step `content` sia sul `patch_content` di
-`atti_concessione_c1` in
-`installer/modules/trasparenza-additional-anac-schemes/installer.yml`). A
-runtime non c'è nessun controllo equivalente da mantenere sincronizzato con
-quello: `getAnacExports()` e `publishArt2627()` si comportano correttamente
-DA SOLI, perché il dataset/blocco semplicemente non esiste quando il
-Registro è configurato — niente di cui possano già parlare. L'unica lettura
-dell'ini rimasta,
-`ObjectHandlerServiceContentTrasparenza::getRegistroNazionaleAiutiUrl()`
-(fnData `registro_nazionale_aiuti_url`, ini `[Trasparenza]
-RegistroNazionaleAiutiUrl` in `openpa.ini`, default vuoto), serve solo a
-decidere se mostrare il link, non se nascondere qualcos'altro.
-
-`getRegistroNazionaleAiutiUrl()` non restituisce l'ini così com'è: la
-limita all'oggetto con remote_id `self::ATTI_CONCESSIONE_REMOTE_ID`
-(`90b631e882ab0f966d03aababf3d9f15`, lo stesso remote_id usato da
-`canInstallAttiConcessioneDataset()`). Necessario perché `OpenPAINI::variable()`
-non ha scoping per pagina: senza questo controllo l'ini, una volta
-valorizzata, farebbe comparire il link su **ogni** `pagina_trasparenza` del
-sito (ogni volta che questo fnData viene calcolato), non solo su "Atti di
-concessione" — in contraddizione con "Cosa copre e cosa no" sopra.
-
-Il template (`anac_export.tpl`) include il nuovo blocco (link + icona
-`it-link`, contesto i18n `bootstrapitalia/anac_export`) subito dopo quello
-esistente degli export ANAC, con `{if $registro_nazionale_aiuti_url|ne('')}`.
-L'inclusione del template stesso da `pagina_trasparenza.tpl`, però, era
-gated solo da `$trasparenza.has_anac_exports` — che su "Atti di
-concessione" con RNA configurato è **sempre falso**, visto che per
-costruzione nessuno schema risulta mai installato su quella pagina in
-quel caso (stesso meccanismo del paragrafo sopra). La condizione è stata
-estesa a `{if or($trasparenza.has_anac_exports, $trasparenza.registro_nazionale_aiuti_url|ne(''))}`
-— senza questa estensione il link non sarebbe mai apparso, nonostante il
-resto del meccanismo funzionasse correttamente.
-
-**Limite noto, non risolto da questo piano**: la condizione di
-`canInstallAttiConcessioneDataset()` **non è retroattiva** (stesso principio
-già documentato altrove nel progetto per `Role::install()`, vedi
-`installer/modules/trasparenza/CLAUDE.md`) — se un ente ha già il
-dataset/blocco "Atti di concessione" installato e configura il Registro
-DOPO, quel contenuto resta installato finché qualcuno non lo rimuove a mano:
-l'installer non cancella mai contenuti da solo e non esiste un passaggio di
-pulizia dedicato. Per un ente nuovo (ini già configurata al primo
-`ocinstall`), il comportamento è invece pulito fin da subito.
+**`HideExportIfEmpty` — nascondere l'export quando il dato è vuoto adesso**:
+`getAnacExports()` (`content_trasparenza.php`) può nascondere il blocco
+"Schemi pubblicazione ANAC" per uno schema, anche se già pubblicato in
+passato, quando il suo dato sorgente è vuoto **adesso** — ini `[Trasparenza]
+HideExportIfEmpty[]` (array di schema identifier), abilitata di default per
+i tre schemi di "Atti di concessione" (`art.26-27-atti-concessione`,
+`art.26-27-atto-revoca`, `art.26-27-atti`). Non tocca mai la pubblicazione
+del cron (che continua a scrivere un CSV con sola intestazione a dataset
+vuoto, vedi "Gestione errori" sotto) — solo la visibilità del link. Stesso
+pattern già in uso per il rendering live (`HideLiveRenderingBlockIfEmpty[]`,
+vedi `content_trasparenza.php`, `getLiveRenderingBlocks()`), qui applicato
+all'export invece che alla tabella in pagina. Nessuna protezione contro un
+dato che torna visibile dopo essere stato nascosto (se il redattore scrive
+una riga per errore e la rimuove, l'export torna a comparire e poi a
+sparire di conseguenza) — accettato esplicitamente da Marco, non un difetto.
 
 ## Gestione errori e casi limite
 

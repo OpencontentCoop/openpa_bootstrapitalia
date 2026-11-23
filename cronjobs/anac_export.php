@@ -613,13 +613,12 @@ function publishArt20(eZCLI $cli, array $schemaBindings)
  * tre file separati di art.20) - vedi Art2627Serializer, docblock di classe.
  *
  * I due dataset sono verificati e pubblicati IN MODO INDIPENDENTE, con due
- * try/catch separati: "Atti di concessione" può non esistere da solo (il
- * Registro Nazionale degli Aiuti ne impedisce l'installazione, vedi
- * BootstrapItaliaInstallerUtils::canInstallAttiConcessioneDataset() e
- * Task 6/9/12) - "Criteri e modalità" deve continuare a funzionare in
- * quel caso, non essere bloccata da un controllo unico su entrambi. Stesso
- * principio vale per gli errori: un telefono malformato in un atto di
- * concessione non deve impedire la pubblicazione dei criteri, e viceversa.
+ * try/catch separati: ciascuno può non esistere da solo su un dato sito
+ * (condizionati indipendentemente a content_exists() della propria pagina,
+ * vedi installer/modules/trasparenza-additional-anac-schemes/installer.yml)
+ * - uno dei due non deve bloccare l'altro. Stesso principio vale per gli
+ * errori: un telefono malformato in un atto di concessione non deve
+ * impedire la pubblicazione dei criteri, e viceversa.
  */
 function publishArt2627(eZCLI $cli, array $schemaBindings)
 {

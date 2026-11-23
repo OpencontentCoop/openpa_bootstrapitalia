@@ -224,6 +224,21 @@ EnableAnacLiveRendering=disabled
 HideLiveRenderingBlockIfEmpty[]
 HideLiveRenderingBlockIfEmpty[]=art.13-op
 
+# Schemi ANAC per cui il blocco "Schemi pubblicazione ANAC" va nascosto in
+# pagina quando il dato sorgente e' vuoto ADESSO (cms#527) - indipendente da
+# cosa e' stato gia' pubblicato in passato: uno schema gia' pubblicato (es.
+# un CSV con sola intestazione, scritto dal cron anche a dataset vuoto, vedi
+# cronjobs/anac_export.php) resta comunque nascosto qui se il dato attuale e'
+# vuoto. Non tocca mai la pubblicazione del cron, solo la visibilita' del
+# link - vedi classes/services/content_trasparenza.php, getAnacExports().
+# Stesso principio di HideLiveRenderingBlockIfEmpty sopra, ma applicato
+# all'export invece che al rendering live - abilitato schema per schema, non
+# un comportamento automatico per tutti.
+HideExportIfEmpty[]
+HideExportIfEmpty[]=art.26-27-atti-concessione
+HideExportIfEmpty[]=art.26-27-atto-revoca
+HideExportIfEmpty[]=art.26-27-atti
+
 # Ambito soggettivo da riportare nell'export art.36 (IBAN e pagamenti
 # informatici) per un ente C2: "SocietaInControlloPubblico" o
 # "EntiDiDirittoPrivato" - non derivabile dal solo profilo C2, va
@@ -253,16 +268,6 @@ DocumentTypeTrasparenzaHintTagRemoteIds[]=173d943cedd25729d8707a753b12280c
 DocumentTypeTrasparenzaHintTagRemoteIds[]=a5994c0e99b79cd4ca5ed1285135a461
 DocumentTypeTrasparenzaHintTagRemoteIds[]=f3431b7c90f441bab1a0b2e3068325d4
 DocumentTypeTrasparenzaHintTagRemoteIds[]=99af81198d42521cfc45090770824e26
-
-# Rinvio al Registro Nazionale degli Aiuti (art. 26 co. 4, Nota 6 - cms#527):
-# quando valorizzato, mostra un link al Registro sulla pagina "Atti di
-# concessione" - il dataset/blocco di quella pagina non viene nemmeno
-# installato in questo caso (vedi BootstrapItaliaInstallerUtils::
-# canInstallAttiConcessioneDataset() nel repo openpa_bootstrapitalia,
-# installer.yml nel repo installer), quindi questa ini qui serve solo per
-# il link, non per nascondere nulla. "Criteri e modalità" non è toccata.
-# Default vuoto = funzionalità non attiva.
-RegistroNazionaleAiutiUrl=
 
 [MotoreRicerca]
 IncludiClassi[]=administrative_area

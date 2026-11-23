@@ -34,14 +34,15 @@ class Art2627Serializer
     /**
      * Entrambi gli argomenti sono nullable: a differenza di Art20Serializer
      * (dove i due dataset della stessa famiglia sono sempre installati
-     * insieme), qui "Atti di concessione" può mancare da solo quando il
-     * Registro Nazionale degli Aiuti è configurato per l'ente (il dataset
-     * non viene proprio installato in quel caso - vedi
-     * BootstrapItaliaInstallerUtils::canInstallAttiConcessioneDataset()) -
-     * "Criteri e modalità" deve continuare a funzionare comunque. Il
-     * chiamante (publishArt2627(), Task 10) passa null per l'attributo del
-     * dataset che non esiste su questo sito, e chiama solo i metodi del
-     * lato corrispondente.
+     * insieme), "Criteri e modalità" e "Atti di concessione" sono
+     * installati in modo indipendente, ciascuno condizionato all'esistenza
+     * della propria pagina (content_exists(), vedi
+     * installer/modules/trasparenza-additional-anac-schemes/installer.yml)
+     * - uno dei due dataset può quindi mancare su un sito senza impedire
+     * all'altro di funzionare. Il chiamante (publishArt2627(),
+     * cronjobs/anac_export.php) passa null per l'attributo del dataset che
+     * non esiste su questo sito, e chiama solo i metodi del lato
+     * corrispondente.
      */
     public function __construct(
         \eZContentObjectAttribute $criteriAttribute = null,
