@@ -1130,3 +1130,123 @@ Conseguenze concrete, non ovvie:
   di un fix (es. un'istanza di `Art13Serializer` condivisa per richiesta tra
   i provider), verificare il timing isolato di ciascuno dei 2-3 schemi su
   buglianoqa.
+
+## art. 23 - Provvedimenti amministrativi (cms#489), solo C1
+
+Export art. 23 d.lgs. 33/2013 (Allegato 7, Delibera ANAC 495/2024, schema ad
+adesione volontaria), `Art23Serializer` + `PageProvvedimentiProvider`. Unifica
+due vecchie pagine statiche ("Provvedimenti organi indirizzo politico",
+"Provvedimenti dirigenti") in un'unica pagina "Provvedimenti", con due
+tabelle live-rendering (organi/dirigenti) + export CSV+JSON. Controparte
+content model/installer: `installer/modules/trasparenza-c1/CLAUDE.md`.
+
+**Fonte dati: `document` taggato `document_type`, nessun dataset** -
+stesso principio già in uso per `art.31-oiv`/`art.31-or` (vedi sopra,
+`fetchDocumentsByKeys()`/`PageArt31DocumentiProvider`), diverso da
+art.4-bis/art.20/art.12/art.36 (tutti ancorati a un oggetto `dataset`).
+`fetchProvvedimenti()` fa una query Solr `subtree [RootNode]` (tutto il
+sito, non solo sotto "Provvedimenti" - stesso motivo già documentato per
+`art.13-rif`/OIV: un provvedimento tracciato con questo tag va trovato
+ovunque sia pubblicato) filtrata su `raw[subattr_document_type___tag_ids____si]`
+per i tag id risolti da `resolveTagMap()`.
+
+**Risoluzione tag: 13 `remote_id` hardcoded, NON keyword/tree-walk** -
+`Art23Serializer::REMOTE_ID_TO_INFO` mappa ogni `remote_id` di tag
+`document_type` (ramo "Atto amministrativo" della tassonomia standard
+preesistente, verificato su `installer/tagtree_csv/documenti.csv`) a
+`['denominazione' => ..., 'group' => 'organi'|'dirigenti']` - stesso pattern
+già in uso in `Art31Serializer::TAG_REMOTE_ID_TO_KEY`. **Correzione rispetto
+a una bozza precedente del design**: una prima versione del piano proponeva
+di risalire la tassonomia per keyword a partire da un singolo tag radice
+noto ("Atto amministrativo"), risolvendo "Decreto"/"Determinazione"/
+"Deliberazione"/"Ordinanza" per corrispondenza testuale. Scartato
+esplicitamente (segnalato dal project owner prima dell'implementazione):
+il `keyword` di un tag è l'etichetta mostrata al redattore, modificabile da
+backend - un matching per testo fallirebbe silenziosamente a una rinomina
+anche minima del tag, senza nessun errore visibile. Il codice realmente
+scritto usa quindi 13 `remote_id` fissi (stabili, non rinominabili dal
+redattore), risolti una sola volta per istanza (`resolveTagMap()`,
+memoizzato in `$tagMap`) via `eZTagsObject::fetchByRemoteID()` - un
+`remote_id` che non risolve più a un tag esistente viene saltato, non
+blocca l'intero export.
+
+**Le due vecchie pagine, ritirate con stato privato + redirect 301** -
+`BootstrapItaliaInstallerUtils::hideContentWithRedirect()`
+(`openpa_bootstrapitalia/classes/BootstrapItaliaInstallerUtils.php`), nuovo
+meccanismo riusabile e **primo caso d'uso in questo progetto di "ritiro
+pagina con redirect"** - diverso da tutte le altre pagine ANAC già scritte
+(OIV, Organi di revisione, Articolazione degli uffici, ecc.), che restano
+sempre attive e non vengono mai nascoste. Il metodo (invocato due volte
+dall'installer, una per pagina legacy):
+
+- Idempotenza verificata su un'evidenza specifica del nodo sorgente
+  (assenza del suo alias "naturale" `eznode:<source>`), non su "è già
+  privato" da solo - un oggetto può essere privato per tutt'altro motivo
+  prima che questo step giri mai, e fermarsi solo su quello lascerebbe la
+  pagina nascosta ma mai redirezionata.
+- Rimuove l'alias naturale del nodo sorgente (`eZURLAliasML::removeByAction()`)
+  PRIMA di scrivere il redirect - altrimenti `storePath()` rifiuta di
+  sovrascrivere un'entry `is_original=1` già occupata.
+- Passa l'id della riga alias **già esistente** del nodo target come
+  `linkID` a `storePath()` (non `false`): verificato empiricamente che
+  passare `false` fa sì che `storePath()` interpreti la chiamata come "il
+  nodo target si è spostato qui" e **storicizzi l'alias reale del target**,
+  trasformandolo a sua volta in redirect - comportamento distruttivo evitato
+  passando l'id della riga `is_original=1` del target, che crea invece una
+  entry `is_alias=1` indipendente (redirect 301 vero, mai tocca l'alias del
+  target).
+- Rischio noto e accettato (non mitigato): una ripubblicazione futura della
+  pagina legacy potrebbe rigenerare il suo alias naturale e sovrascrivere il
+  redirect - nel caso peggiore si vede "accesso negato", mai il contenuto
+  rimesso online per errore.
+
+**Tre identificativi**: `art.23-org` (CSV, organi di indirizzo politico),
+`art.23-altra-tipologia` (CSV, dirigenti), `art.23` (JSON combinato, blocchi
+`provvedimentiOrganiPolitici`/`provvedimentiDirigDiAltraTipologia`, ciascuno
+omesso se vuoto) - stesso principio di `art.13-pa`: il JSON ha un
+identificativo proprio, indipendente dai CSV, con la propria
+pubblicazione/versione/tracking. Formato CSV (`DATA;NUMERO;DENOMINAZIONE;
+OGGETTO;STRUTTURA_RESPONSABILE;PROVVEDIMENTO;ALLEGATO`) verificato
+sull'esempio reale ANAC - più allegati per lo stesso atto producono righe
+ripetute (una per allegato), non una colonna multivalore. `provvedimento`/
+`allegati` compaiono solo se il `document` sorgente è pubblico
+(`isPublic()`); la riga resta comunque con gli altri campi valorizzati
+anche per un documento non pubblico.
+
+**Nuova validazione JSON Schema generica**: `JsonSchemaValidator`
+(`classes/anac/JsonSchemaValidator.php`), basata su
+`justinrainbow/json-schema` (già risolta nel `composer.lock` condiviso come
+dipendenza transitiva di `erasys/openapi-php`/`ocopenapi`, solo dichiarata
+esplicitamente nel `require` di questa estensione). Valida contro fixture
+locali committate in `classes/anac/schema/` (`art.23-v1.0.schema.json` +
+`commons-v1.0.schema.json`), **mai scaricate via HTTP a runtime** - un
+export che gira su ~600 tenant non deve dipendere dalla raggiungibilità di
+`guida-servizi.anticorruzione.it`, e un cambio di contenuto lato ANAC non
+deve alterare silenziosamente cosa viene validato. I `$ref` relativi di
+`commons` vengono risolti pre-registrando il contenuto locale in una
+`JsonSchema\SchemaStorage` sotto lo stesso `$id` assoluto referenziato dallo
+schema specifico, così la risoluzione non genera mai una richiesta di rete.
+`Art23Serializer::toJson()` chiama `JsonSchemaValidator::validate()` prima
+di restituire il JSON, lanciando `InvalidAnacSchemaException` se non
+conforme. **Pensata da subito riusabile per futuri schemi** (il nome dello
+schema non è hardcoded nel validator), ma **non retrofittata sugli schemi
+già scritti** (art.4-bis/13/20/31) - per quelli la validazione resta un
+controllo manuale in QA, gap noto e invariato da questo lavoro (vedi "Cosa
+manca" sopra).
+
+**`provvedimentiDirigDiSceltaContraente` omesso**: fuori scope - nessun
+attributo oggi distingue una determina di scelta del contraente da
+un'altra determina generica, stesso principio di esclusione già visto
+altrove nel progetto (es. "Ufficio dirigenziale" vs un campo dedicato
+mancante). Il `contenuto_obbligo` patchato sulla pagina "Provvedimenti"
+rimanda invece alla sotto-sezione "Bandi di gara e contratti" per assolvere
+quello specifico obbligo.
+
+**Rendering live**: `PageProvvedimentiProvider` espone le righe di
+`Art23Serializer::getOrgani()`/`getDirigenti()` come JSON "piatto" per le
+due tabelle della pagina "Provvedimenti" (registrato in
+`LiveRenderingRegistry` sotto `art.23-org`/`art.23-altra-tipologia`), stesso
+principio di `PageArt31DocumentiProvider` - **mai** `provvedimento`/
+`allegati` in tabella (confermato: solo nell'export), solo i campi comuni +
+`anno`/`pubblicazioneInizio`/`pubblicazioneFine`/url della pagina del
+documento.
