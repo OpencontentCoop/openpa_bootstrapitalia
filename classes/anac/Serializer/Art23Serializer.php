@@ -1,0 +1,276 @@
+<?php
+
+namespace OpenPABootstrapItalia\Anac\Serializer;
+
+/**
+ * Export art. 23 (cms#489): Provvedimenti amministrativi adottati dagli
+ * organi di indirizzo politico e dai dirigenti, profilo C1. Risoluzione tag
+ * per remote_id hardcoded (vedi REMOTE_ID_TO_INFO sotto), stesso pattern di
+ * Art31Serializer::TAG_REMOTE_ID_TO_KEY - NON per keyword (il keyword e'
+ * l'etichetta mostrata al redattore, editabile da backend; un matching per
+ * testo fallirebbe silenziosamente a una rinomina anche minima, vedi nota di
+ * design nel piano di implementazione, Task 5).
+ *
+ * Struttura JSON verificata scaricando lo schema reale in questa sessione:
+ * https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.23-v1.0.schema.json
+ * (fixture locale in classes/anac/schema/, vedi JsonSchemaValidator).
+ *
+ * `provvedimentiDirigDiSceltaContraente` omesso: fuori scope (nessun
+ * attributo oggi distingue una determina di scelta del contraente da
+ * un'altra determina).
+ */
+class Art23Serializer
+{
+    const SCHEMA_IDENTIFIER_ORGANI = 'art.23-org';
+    const SCHEMA_IDENTIFIER_DIRIGENTI = 'art.23-altra-tipologia';
+    const SCHEMA_IDENTIFIER_JSON = 'art.23';
+
+    const SCHEMA_URL = 'https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.23-v1.0.schema.json';
+
+    /**
+     * remote_id del tag document_type (ramo "Tipo di documento -> Documenti
+     * Albo Pretorio -> Atto amministrativo") => ['denominazione' => tag
+     * padre nella tassonomia, es. 'Decreto', 'group' => 'organi'|'dirigenti'].
+     * Verificato su installer/tagtree_csv/documenti.csv (vedi spec §1.3 e
+     * piano, Task 5, tabella remote_id/keyword/denominazione/gruppo).
+     */
+    const REMOTE_ID_TO_INFO = [
+        'ccf6761810b5ac50d32eade1fbe17fca' => ['denominazione' => 'Decreto', 'group' => 'organi'],
+        '99af81198d42521cfc45090770824e26' => ['denominazione' => 'Determinazione', 'group' => 'organi'],
+        '2039d8bedb749132b8bf4301f4c6aeb6' => ['denominazione' => 'Ordinanza', 'group' => 'organi'],
+        '4271686f78f9dbc0fb871f32553ffb6c' => ['denominazione' => 'Deliberazione', 'group' => 'organi'],
+        '19123462b045f0b8977ce0b1a9047032' => ['denominazione' => 'Deliberazione', 'group' => 'organi'],
+        '7634e3355a07d671094fe120d7919653' => ['denominazione' => 'Deliberazione', 'group' => 'organi'],
+        '7bda99bae095fde15daa1fe54af6861c' => ['denominazione' => 'Deliberazione', 'group' => 'organi'],
+        '5b1e0b73926e47e0e8691c727a2a57df' => ['denominazione' => 'Deliberazione', 'group' => 'organi'],
+        '2a8a6817a8f54531c77be68f03655833' => ['denominazione' => 'Deliberazione', 'group' => 'organi'],
+        '173d943cedd25729d8707a753b12280c' => ['denominazione' => 'Deliberazione', 'group' => 'organi'],
+        'fd0176933fb88cb62d6a3ad4be3cdaa2' => ['denominazione' => 'Decreto', 'group' => 'dirigenti'],
+        'f3431b7c90f441bab1a0b2e3068325d4' => ['denominazione' => 'Determinazione', 'group' => 'dirigenti'],
+        '4bdaece33ace3d1c3911b3b43c554b47' => ['denominazione' => 'Ordinanza', 'group' => 'dirigenti'],
+    ];
+
+    private $amministrazione;
+
+    /** @var array|null tagId (int) => ['denominazione' => string, 'group' => 'organi'|'dirigenti'], risolto una sola volta per istanza */
+    private $tagMap;
+
+    public function __construct(array $amministrazione = null)
+    {
+        $this->amministrazione = $amministrazione;
+    }
+
+    private function getAmministrazione()
+    {
+        if ($this->amministrazione === null) {
+            $this->amministrazione = \OpenPABootstrapItalia\Anac\IntestazioneProvider::getAmministrazione();
+        }
+
+        return $this->amministrazione;
+    }
+
+    /**
+     * Risolve REMOTE_ID_TO_INFO (13 voci fisse) in tagId => info, una sola
+     * query per remote_id (nessuna risoluzione per keyword/tree-walk - vedi
+     * docblock di classe). Un remote_id che non risolve piu' a un tag
+     * esistente (tassonomia cancellata a mano, mai il caso su un'istanza
+     * reale non manomessa) viene saltato, non blocca l'intero export.
+     *
+     * @return array tagId => ['denominazione' => string, 'group' => 'organi'|'dirigenti']
+     */
+    public function resolveTagMap()
+    {
+        if ($this->tagMap !== null) {
+            return $this->tagMap;
+        }
+
+        $this->tagMap = [];
+        foreach (self::REMOTE_ID_TO_INFO as $remoteId => $info) {
+            $tag = \eZTagsObject::fetchByRemoteID($remoteId);
+            if (!$tag instanceof \eZTagsObject) {
+                continue;
+            }
+            $this->tagMap[(int)$tag->attribute('id')] = $info;
+        }
+
+        return $this->tagMap;
+    }
+
+    /**
+     * Query Solr sempre su tutto il sito (subtree [RootNode], stesso
+     * principio di Art13Serializer::fetchRiferimentiContatti()/
+     * Art31Serializer::fetchDocumentsByKeys()): un provvedimento con questo
+     * tag va trovato ovunque sia pubblicato, non solo sotto "Provvedimenti".
+     *
+     * @return array righe {object: eZContentObject, denominazione: string, group: 'organi'|'dirigenti'}
+     */
+    public function fetchProvvedimenti()
+    {
+        $tagMap = $this->resolveTagMap();
+        if (empty($tagMap)) {
+            return [];
+        }
+
+        $rootNodeId = (int)\eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode');
+        $tagIds = array_keys($tagMap);
+        $query = 'classes [document] and raw[subattr_document_type___tag_ids____si] in [' . implode(',', $tagIds) . '] and subtree [' . $rootNodeId . ']';
+        $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
+        $queryObject = $queryBuilder->instanceQuery($query);
+
+        // eZFunctionHandler::execute('ezfind', ...) richiede un dispatch di
+        // modulo completo - non disponibile in un contesto cron/CLI (stesso
+        // motivo gia' documentato in Art31Serializer::fetchDocumentsByKeys()).
+        $solr = new \eZSolr();
+        $searchResult = $solr->search('', (array)$queryObject->convert());
+
+        $rows = [];
+        foreach ($searchResult['SearchResult'] as $resultNode) {
+            $object = $resultNode->attribute('object');
+            if (!$object instanceof \eZContentObject) {
+                continue;
+            }
+            $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+            if (!isset($dataMap['document_type'])) {
+                continue;
+            }
+            $tags = $dataMap['document_type']->content();
+            if (!$tags instanceof \eZTags) {
+                continue;
+            }
+            foreach ($tags->attribute('tags') as $tag) {
+                $tagId = (int)$tag->attribute('id');
+                if (!isset($tagMap[$tagId])) {
+                    continue;
+                }
+                $rows[] = [
+                    'object' => $object,
+                    'denominazione' => $tagMap[$tagId]['denominazione'],
+                    'group' => $tagMap[$tagId]['group'],
+                ];
+                break;
+            }
+        }
+
+        return $rows;
+    }
+
+    public function getOrgani(array $provvedimenti = null)
+    {
+        $provvedimenti = $provvedimenti !== null ? $provvedimenti : $this->fetchProvvedimenti();
+
+        return array_values(array_filter($provvedimenti, function ($row) {
+            return $row['group'] === 'organi';
+        }));
+    }
+
+    public function getDirigenti(array $provvedimenti = null)
+    {
+        $provvedimenti = $provvedimenti !== null ? $provvedimenti : $this->fetchProvvedimenti();
+
+        return array_values(array_filter($provvedimenti, function ($row) {
+            return $row['group'] === 'dirigenti';
+        }));
+    }
+
+    /**
+     * Catena di fallback data/numero (spec §4): act_date/act_number
+     * possono essere DEL TUTTO ASSENTI dalla classe (solo il modulo
+     * opzionale albo-pretorio li aggiunge), non solo vuoti - isset() prima
+     * di controllare se l'attributo e' valorizzato.
+     *
+     * @return array{data: string|null, numero: string|null} 'data' in formato gg/mm/aaaa, null se nessuna fonte disponibile
+     */
+    private function resolveDataNumero(\eZContentObject $object, array $dataMap)
+    {
+        $data = null;
+        foreach (['act_date', 'data_di_firma', 'publication_start_time'] as $field) {
+            if (!isset($dataMap[$field])) {
+                continue;
+            }
+            $timestamp = (int)$dataMap[$field]->toString();
+            if ($timestamp > 0) {
+                $data = date('d/m/Y', $timestamp);
+                break;
+            }
+        }
+
+        $numero = null;
+        foreach (['act_number', 'has_code'] as $field) {
+            if (!isset($dataMap[$field])) {
+                continue;
+            }
+            $value = trim((string)$dataMap[$field]->content());
+            if ($value !== '') {
+                $numero = $value;
+                break;
+            }
+        }
+
+        return ['data' => $data, 'numero' => $numero];
+    }
+
+    /**
+     * @return string nomi delle organization collegate (has_organization,
+     *         ezobjectrelationlist multi-valore), separate da ", " se piu' di una
+     */
+    private function resolveStrutturaResponsabile(array $dataMap)
+    {
+        if (!isset($dataMap['has_organization']) || !$dataMap['has_organization']->hasContent()) {
+            return '';
+        }
+        $content = $dataMap['has_organization']->content();
+        $names = [];
+        foreach ((array)($content['relation_list'] ?? []) as $item) {
+            $relatedObject = \eZContentObject::fetch((int)$item['contentobject_id']);
+            if ($relatedObject instanceof \eZContentObject) {
+                $names[] = trim($relatedObject->attribute('name'));
+            }
+        }
+
+        return implode(', ', $names);
+    }
+
+    /**
+     * @return array{data: string|null, numero: string|null, denominazione: string, oggetto: string, strutturaResponsabile: string}
+     *         campi comuni a CSV e JSON, SENZA provvedimento/allegati (vedi
+     *         buildRigaConAllegati() in Task 6, solo per l'export)
+     */
+    private function buildRigaBase(array $row)
+    {
+        $object = $row['object'];
+        $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+        $dataNumero = $this->resolveDataNumero($object, $dataMap);
+
+        return [
+            'data' => $dataNumero['data'],
+            'numero' => $dataNumero['numero'],
+            'denominazione' => $row['denominazione'],
+            'oggetto' => trim($object->attribute('name')),
+            'strutturaResponsabile' => $this->resolveStrutturaResponsabile($dataMap),
+        ];
+    }
+
+    private function toCsvGruppo(array $rows)
+    {
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line(['DATA', 'NUMERO', 'DENOMINAZIONE', 'OGGETTO', 'STRUTTURA_RESPONSABILE'])];
+
+        foreach ($rows as $row) {
+            $riga = $this->buildRigaBase($row);
+            $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
+                (string)$riga['data'], (string)$riga['numero'], $riga['denominazione'], $riga['oggetto'], $riga['strutturaResponsabile'],
+            ]);
+        }
+
+        return implode("\n", $lines) . "\n";
+    }
+
+    public function toCsvOrgani(array $provvedimenti = null)
+    {
+        return $this->toCsvGruppo($this->getOrgani($provvedimenti));
+    }
+
+    public function toCsvDirigenti(array $provvedimenti = null)
+    {
+        return $this->toCsvGruppo($this->getDirigenti($provvedimenti));
+    }
+}
