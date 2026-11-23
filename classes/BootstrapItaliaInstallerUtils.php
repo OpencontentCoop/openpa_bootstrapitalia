@@ -1313,32 +1313,6 @@ class BootstrapItaliaInstallerUtils
         if (!$object instanceof eZContentObject) {
             throw new Exception("hideContentWithRedirect: oggetto con remote_id '$remoteId' non trovato");
         }
-
-        $privacyStates = OpenPABase::initStateGroup('privacy', ['private']);
-        $privateStateId = (int)$privacyStates['privacy.private']->attribute('id');
-
-        // Idempotenza: se lo step e' gia' stato eseguito (oggetto gia'
-        // privato) non si rielabora l'alias. Necessario perche' dopo la
-        // prima esecuzione il nodo sorgente non ha piu' un proprio alias
-        // "naturale" (rimosso sotto, vedi removeByAction) - rieseguire la
-        // logica prenderebbe come $currentPath il path di fallback interno
-        // del nodo (es. 'content/view/full/<id>') invece del path originale,
-        // producendo un alias spurio invece di un vero no-op.
-        //
-        // Nota: 'state_id_array' e' keyed by group_id (non da state id), coi
-        // valori assegnati come STRINGHE (driver DB) - un confronto stretto
-        // in_array(..., true) contro un (int) non avrebbe mai potuto
-        // matchare. Normalizzato con array_map('intval', ...) - bug scoperto
-        // durante lo sviluppo scrivendo il test (la seconda esecuzione
-        // continuava silenziosamente a rigenerare l'alias invece di essere
-        // un no-op).
-        $currentStateIdArray = array_map('intval', (array)$object->attribute('state_id_array'));
-        if (in_array($privateStateId, $currentStateIdArray, true)) {
-            $step->getLogger()->info(" - '{$object->attribute('name')}' e' gia' in stato privato, step gia' eseguito: nessuna modifica");
-
-            return;
-        }
-
         $node = $object->attribute('main_node');
         if (!$node instanceof eZContentObjectTreeNode) {
             throw new Exception("hideContentWithRedirect: main_node non trovato per remote_id '$remoteId'");
@@ -1349,6 +1323,59 @@ class BootstrapItaliaInstallerUtils
             throw new Exception("hideContentWithRedirect: oggetto con remote_id '$redirectToRemoteId' (redirect_to_remote_id) non trovato");
         }
         $targetNodeId = (int)$targetObject->attribute('main_node_id');
+
+        // Idempotenza: NON basta controllare lo stato privacy. Un oggetto
+        // puo' essere gia' privacy.private per un motivo del tutto
+        // scollegato da questo step (stato ereditato, modifica manuale,
+        // ecc.) PRIMA che questo step giri mai - in quel caso fermarsi solo
+        // perche' "gia' privato" lascerebbe la pagina nascosta ma MAI
+        // redirezionata, rompendo silenziosamente i link esterni gia'
+        // indicizzati (il motivo stesso per cui questo metodo esiste).
+        //
+        // Va quindi verificata un'evidenza specifica del nodo sorgente, non
+        // ricostruita a posteriori: l'unico modo in cui il nodo perde il
+        // proprio alias "naturale" (action 'eznode:<source>', vedi
+        // removeByAction sotto) e' che questo stesso metodo l'abbia gia'
+        // eseguito con successo in passato - nient'altro in questo flusso
+        // tocca quell'alias. E' quindi un segnale affidabile e specifico per
+        // QUESTO nodo (a differenza, ad esempio, del provare a ricostruire
+        // $currentPath per confrontarlo con un redirect esistente: il path
+        // "generato al volo" da eZ quando l'alias naturale manca non e'
+        // garantito identico al testo originale - verificato empiricamente,
+        // produce un path diverso tipo '<node_id>' invece del nome, quindi
+        // inutilizzabile come chiave di confronto stabile tra esecuzioni).
+        //
+        // Rischio residuo accettato: se qualcos'altro, al di fuori di questo
+        // metodo, rimuovesse l'alias naturale del nodo sorgente SENZA mai
+        // aver creato il redirect (scenario non previsto in questo flusso),
+        // e l'oggetto risultasse anche privato per altri motivi, il guard
+        // salterebbe erroneamente la creazione del redirect - stesso ordine
+        // di grandezza del rischio gia' documentato sopra per la
+        // rigenerazione manuale dell'alias.
+        $sourceHasNaturalAlias = !empty(eZURLAliasML::fetchByAction('eznode', $node->attribute('node_id')));
+
+        $privacyStates = OpenPABase::initStateGroup('privacy', ['private']);
+        $privateStateId = (int)$privacyStates['privacy.private']->attribute('id');
+        // Nota: 'state_id_array' e' keyed by group_id (non da state id), coi
+        // valori assegnati come STRINGHE (driver DB) - un confronto stretto
+        // in_array(..., true) contro un (int) non avrebbe mai potuto
+        // matchare. Normalizzato con array_map('intval', ...) - bug scoperto
+        // durante lo sviluppo scrivendo il test.
+        $currentStateIdArray = array_map('intval', (array)$object->attribute('state_id_array'));
+        $alreadyPrivate = in_array($privateStateId, $currentStateIdArray, true);
+
+        if ($alreadyPrivate && !$sourceHasNaturalAlias) {
+            $step->getLogger()->info(" - '{$object->attribute('name')}' e' gia' privato con redirect attivo verso il nodo $targetNodeId: nessuna modifica");
+
+            return;
+        }
+
+        // Catturato PRIMA di cambiare stato/rimuovere l'alias: a questo
+        // punto del flusso $sourceHasNaturalAlias e' per forza true (altrimenti
+        // si sarebbe gia' usciti sopra), quindi questo e' ancora l'alias
+        // naturale genuino - il path pubblico su cui un link esterno gia'
+        // esistente punta oggi.
+        $currentPath = trim($node->attribute('url_alias'), '/');
 
         // Riga canonica (is_original=1, is_alias=0) dell'alias GIA' esistente
         // del nodo target: serve come $linkID per storePath() sotto. Senza
@@ -1367,10 +1394,6 @@ class BootstrapItaliaInstallerUtils
             throw new Exception("hideContentWithRedirect: nessun url alias esistente per il nodo target $targetNodeId (redirect_to_remote_id '$redirectToRemoteId')");
         }
         $targetAliasId = (int)reset($targetAliasRows)->attribute('id');
-
-        // Catturato PRIMA di cambiare stato: e' il path pubblico su cui un
-        // link esterno gia' esistente punta oggi.
-        $currentPath = trim($node->attribute('url_alias'), '/');
 
         $step->getLogger()->info(" - Nascondo '{$object->attribute('name')}' (stato privato) e redirigo '$currentPath' -> nodo $targetNodeId");
 

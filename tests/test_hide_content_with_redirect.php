@@ -160,6 +160,52 @@ if (count($aliasRow) === 1) {
     check('alias_redirects abilitato (301)', 1, (int)$aliasRow[0]['alias_redirects']);
 }
 
+// Caso "gia' privato ma redirect mai creato" (trovato in review: un
+// oggetto puo' essere gia' privacy.private per un motivo scollegato da
+// questo step - stato ereditato, modifica manuale, ecc. - PRIMA che questo
+// step giri mai. Il vecchio guard controllava solo lo stato privacy e
+// avrebbe considerato questo caso "gia' fatto", saltando la creazione del
+// redirect e lasciando la pagina nascosta ma mai redirezionata - un link
+// esterno gia' indicizzato sarebbe rimasto rotto in silenzio).
+$preHiddenRemoteId = 'test_hide_redirect_prehidden_' . uniqid();
+$preHiddenObject = createFolderWithRemoteId($rootNodeId, 'PreHidden ' . uniqid(), $preHiddenRemoteId);
+$preHiddenNode = $preHiddenObject->attribute('main_node');
+$preHiddenOriginalPath = trim($preHiddenNode->attribute('url_alias'), '/');
+check('oggetto pre-nascosto ha un path pubblico prima del test', true, $preHiddenOriginalPath !== '');
+
+// Stato privato assegnato DIRETTAMENTE (non tramite hideContentWithRedirect),
+// a simulare un oggetto gia' nascosto per altri motivi, senza alcun redirect.
+eZContentOperationCollection::updateObjectState((int)$preHiddenObject->attribute('id'), [$privateStateId]);
+eZContentObject::clearCache([(int)$preHiddenObject->attribute('id')]);
+$preHiddenObjectCheck = eZContentObject::fetch((int)$preHiddenObject->attribute('id'));
+check(
+    'oggetto pre-nascosto e\' privato prima di chiamare hideContentWithRedirect',
+    true,
+    in_array($privateStateId, array_map('intval', (array)$preHiddenObjectCheck->attribute('state_id_array')), true)
+);
+$preHiddenAliasRowBefore = $db->arrayQuery(
+    "SELECT is_alias FROM ezurlalias_ml WHERE parent = 0 AND text = '" . $db->escapeString($preHiddenOriginalPath) . "' AND action = 'eznode:" . (int)$targetObject->attribute('main_node_id') . "'"
+);
+check('nessun redirect esiste ancora per l\'oggetto pre-nascosto', 0, count($preHiddenAliasRowBefore));
+
+$preHiddenStep = new \Opencontent\Installer\PhpCallable();
+$preHiddenStep->setStep([
+    'identifier' => 'BootstrapItaliaInstallerUtils::hideContentWithRedirect',
+    'remote_id' => $preHiddenRemoteId,
+    'redirect_to_remote_id' => $targetRemoteId,
+]);
+$preHiddenStep->setLogger(new \Psr\Log\NullLogger());
+BootstrapItaliaInstallerUtils::hideContentWithRedirect($preHiddenStep);
+
+$preHiddenAliasRowAfter = $db->arrayQuery(
+    "SELECT is_alias, action FROM ezurlalias_ml WHERE parent = 0 AND text = '" . $db->escapeString($preHiddenOriginalPath) . "'"
+);
+check('il redirect viene creato anche se l\'oggetto era gia\' privato per altri motivi', true, count($preHiddenAliasRowAfter) === 1);
+if (count($preHiddenAliasRowAfter) === 1) {
+    check('action corretta per l\'oggetto pre-nascosto', 'eznode:' . $targetObject->attribute('main_node_id'), $preHiddenAliasRowAfter[0]['action']);
+    check('is_alias=1 per l\'oggetto pre-nascosto', 1, (int)$preHiddenAliasRowAfter[0]['is_alias']);
+}
+
 // idempotenza: rieseguire lo stesso step non deve lanciare eccezioni ne'
 // generare righe aggiuntive in ezurlalias_ml (l'oggetto e' gia' privato,
 // deve essere un no-op completo - verificato in RED: senza il guard di
