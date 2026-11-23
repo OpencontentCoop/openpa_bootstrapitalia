@@ -56,4 +56,44 @@ class DocumentFileResolver
 
         return null;
     }
+
+    /**
+     * @return string[] TUTTI gli url dei file allegati, nell'ordine di
+     *         visualizzazione (stesso ordine di resolveUrl(), che ne prende
+     *         solo il primo) - [] se il documento non ha nessun file. Usato
+     *         da Art23Serializer: il primo e' 'provvedimento', il resto
+     *         sono 'allegati' - un unico oggetto document rappresenta un
+     *         provvedimento con il proprio file principale piu' eventuali
+     *         allegati aggiuntivi sullo stesso oggetto.
+     */
+    public static function resolveAllUrls(\eZContentObject $object)
+    {
+        $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+        $rawSiteUrl = trim(\eZINI::instance()->variable('SiteSettings', 'SiteURL'), '/');
+        $siteUrl = explode('/', $rawSiteUrl, 2)[0];
+
+        if (isset($dataMap['file']) && $dataMap['file']->hasContent()) {
+            return ['https://' . $siteUrl . '/content/download/' . $object->attribute('id') . '/' . $dataMap['file']->attribute('id')];
+        }
+
+        if (!isset($dataMap['attachments']) || !$dataMap['attachments']->hasContent()) {
+            return [];
+        }
+
+        $attachmentsAttribute = $dataMap['attachments'];
+        $datatype = $attachmentsAttribute->dataType();
+        $method = new \ReflectionMethod($datatype, 'getBinaryFiles');
+        $method->setAccessible(true);
+        $files = (array)$method->invoke($datatype, $attachmentsAttribute, $attachmentsAttribute->attribute('version'));
+
+        $urls = [];
+        foreach ($files as $file) {
+            if (!$file instanceof \eZMultiBinaryFile) {
+                continue;
+            }
+            $urls[] = 'https://' . $siteUrl . '/ocmultibinary/download/' . $object->attribute('id') . '/' . $attachmentsAttribute->attribute('id') . '/' . $attachmentsAttribute->attribute('version') . '/' . $file->attribute('filename') . '/file/' . rawurlencode($file->attribute('original_filename'));
+        }
+
+        return $urls;
+    }
 }
