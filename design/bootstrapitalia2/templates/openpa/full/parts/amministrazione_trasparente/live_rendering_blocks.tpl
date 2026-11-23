@@ -43,6 +43,36 @@ table[id^="live-rendering-"] th{white-space:nowrap}
     <h3 class="h4" id="live-rendering-{$block.dom_id}-title">{$block.title|wash()}</h3>
     {/if}
     <script type="application/json" id="live-rendering-{$block.dom_id}-data">{$block.rows_json}</script>
+    {if or($block.schema|eq('art.23-org'), $block.schema|eq('art.23-altra-tipologia'))}
+    <div class="row g-3 mb-3 live-rendering-art23-filters" data-dom-id="{$block.dom_id}">
+        <div class="col-md-3">
+            <label class="form-label" for="live-rendering-{$block.dom_id}-filter-denominazione">{'Type'|i18n('bootstrapitalia/anac_export')}</label>
+            <select class="form-select" id="live-rendering-{$block.dom_id}-filter-denominazione">
+                <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label" for="live-rendering-{$block.dom_id}-filter-struttura">{'Office'|i18n('bootstrapitalia/anac_export')}</label>
+            <select class="form-select" id="live-rendering-{$block.dom_id}-filter-struttura">
+                <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" for="live-rendering-{$block.dom_id}-filter-anno">{'Year'|i18n('bootstrapitalia/anac_export')}</label>
+            <select class="form-select" id="live-rendering-{$block.dom_id}-filter-anno">
+                <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" for="live-rendering-{$block.dom_id}-filter-data-da">{'From'|i18n('bootstrapitalia/anac_export')}</label>
+            <input type="date" class="form-control" id="live-rendering-{$block.dom_id}-filter-data-da">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label" for="live-rendering-{$block.dom_id}-filter-data-a">{'To'|i18n('bootstrapitalia/anac_export')}</label>
+            <input type="date" class="form-control" id="live-rendering-{$block.dom_id}-filter-data-a">
+        </div>
+    </div>
+    {/if}
     <table id="live-rendering-{$block.dom_id}-table" class="table table-striped display" style="width:100%">
         <thead>
             {if $block.schema|eq('art.13-rif')}
@@ -57,6 +87,14 @@ table[id^="live-rendering-"] th{white-space:nowrap}
                 <th>{'Document type'|i18n('bootstrapitalia/anac_export')}</th>
                 <th>{'Publication date'|i18n('bootstrapitalia/anac_export')}</th>
                 <th>{'Document'|i18n('bootstrapitalia/anac_export')}</th>
+            </tr>
+            {elseif or($block.schema|eq('art.23-org'), $block.schema|eq('art.23-altra-tipologia'))}
+            <tr>
+                <th>{'Date'|i18n('bootstrapitalia/anac_export')}</th>
+                <th>{'Act number'|i18n('bootstrapitalia/anac_export')}</th>
+                <th>{'Type'|i18n('bootstrapitalia/anac_export')}</th>
+                <th>{'Subject'|i18n('bootstrapitalia/anac_export')}</th>
+                <th>{'Office'|i18n('bootstrapitalia/anac_export')}</th>
             </tr>
             {else}
             <tr>
@@ -146,6 +184,22 @@ $(document).ready(function () {ldelim}
                 return a.outerHTML;
             {rdelim} {rdelim}
         ]
+        {elseif or($block.schema|eq('art.23-org'), $block.schema|eq('art.23-altra-tipologia'))}
+        columns: [
+            {ldelim} data: 'data' {rdelim},
+            {ldelim} data: 'numero' {rdelim},
+            {ldelim} data: 'denominazione' {rdelim},
+            {ldelim} data: 'oggetto', render: function (data, type, row) {ldelim}
+                if (type !== 'display' || !row.url) {ldelim} return data; {rdelim}
+                var div = document.createElement('div');
+                div.textContent = data;
+                var a = document.createElement('a');
+                a.href = row.url;
+                a.innerHTML = div.innerHTML;
+                return a.outerHTML;
+            {rdelim} {rdelim},
+            {ldelim} data: 'strutturaResponsabile' {rdelim}
+        ]
         {else}
         columns: [
             {ldelim} data: 'organo' {rdelim},
@@ -167,6 +221,77 @@ $(document).ready(function () {ldelim}
         ]
         {/if}
     {rdelim});
+    {/foreach}
+
+    var art23PeriodoInputs = {ldelim}{rdelim};
+    var art23AnnoFilters = {ldelim}{rdelim};
+
+    $.fn.dataTable.ext.search.push(function (settings, searchData, index, rowData) {ldelim}
+        var tableId = settings.nTable.id;
+
+        var anno = art23AnnoFilters[tableId];
+        if (anno && String(rowData.anno) !== anno) {ldelim} return false; {rdelim}
+
+        var range = art23PeriodoInputs[tableId];
+        if (range) {ldelim}
+            var fromValue = range.from.val();
+            var toValue = range.to.val();
+            if (fromValue || toValue) {ldelim}
+                var from = fromValue ? (new Date(fromValue)).getTime() / 1000 : null;
+                var to = toValue ? ((new Date(toValue)).getTime() / 1000 + 86399) : null;
+                var start = rowData.pubblicazioneInizio || 0;
+                var end = rowData.pubblicazioneFine || null;
+                if (from !== null && (end ? end : start) < from) {ldelim} return false; {rdelim}
+                if (to !== null && start > to) {ldelim} return false; {rdelim}
+            {rdelim}
+        {rdelim}
+
+        return true;
+    {rdelim});
+
+    function populateArt23Filter($select, rows, field) {ldelim}
+        var values = [];
+        rows.forEach(function (row) {ldelim}
+            if (row[field] && values.indexOf(row[field]) === -1) {ldelim} values.push(row[field]); {rdelim}
+        {rdelim});
+        values.sort();
+        values.forEach(function (value) {ldelim}
+            $select.append($('<option></option>').attr('value', value).text(value));
+        {rdelim});
+    {rdelim}
+
+    {foreach $live_rendering.blocks as $block}
+    {if or($block.schema|eq('art.23-org'), $block.schema|eq('art.23-altra-tipologia'))}
+    (function () {ldelim}
+        var domId = '{$block.dom_id}';
+        var rows = readEmbeddedRows('live-rendering-' + domId + '-data');
+        var table = $('#live-rendering-' + domId + '-table').DataTable();
+        var tableId = 'live-rendering-' + domId + '-table';
+
+        populateArt23Filter($('#live-rendering-' + domId + '-filter-denominazione'), rows, 'denominazione');
+        populateArt23Filter($('#live-rendering-' + domId + '-filter-struttura'), rows, 'strutturaResponsabile');
+        populateArt23Filter($('#live-rendering-' + domId + '-filter-anno'), rows, 'anno');
+
+        $('#live-rendering-' + domId + '-filter-denominazione').on('change', function () {ldelim}
+            table.column(2).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
+        {rdelim});
+        $('#live-rendering-' + domId + '-filter-struttura').on('change', function () {ldelim}
+            table.column(4).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
+        {rdelim});
+        $('#live-rendering-' + domId + '-filter-anno').on('change', function () {ldelim}
+            art23AnnoFilters[tableId] = this.value || null;
+            table.draw();
+        {rdelim});
+
+        art23PeriodoInputs[tableId] = {ldelim}
+            from: $('#live-rendering-' + domId + '-filter-data-da'),
+            to: $('#live-rendering-' + domId + '-filter-data-a')
+        {rdelim};
+        $('#live-rendering-' + domId + '-filter-data-da, #live-rendering-' + domId + '-filter-data-a').on('change', function () {ldelim}
+            table.draw();
+        {rdelim});
+    {rdelim})();
+    {/if}
     {/foreach}
 {rdelim});
 </script>
