@@ -273,4 +273,147 @@ class Art23Serializer
     {
         return $this->toCsvGruppo($this->getDirigenti($provvedimenti));
     }
+
+    private function isPublic(\eZContentObject $object)
+    {
+        $publicStates = \OpenPABase::initStateGroup('privacy', ['public']);
+        $publicStateId = (int)$publicStates['privacy.public']->attribute('id');
+
+        return in_array($publicStateId, (array)$object->attribute('state_id_array'), true);
+    }
+
+    /**
+     * @return array{...} stessi campi di buildRigaBase() + 'provvedimento'
+     *         (string|null, primo url) e 'allegati' (string[], resto degli
+     *         url) - solo se il Documento e' pubblico, altrimenti entrambi
+     *         vuoti (la riga resta comunque, con gli altri campi).
+     */
+    private function buildRigaConAllegati(array $row)
+    {
+        $riga = $this->buildRigaBase($row);
+        $riga['provvedimento'] = null;
+        $riga['allegati'] = [];
+
+        $object = $row['object'];
+        if ($this->isPublic($object)) {
+            $urls = \OpenPABootstrapItalia\Anac\DocumentFileResolver::resolveAllUrls($object);
+            if (!empty($urls)) {
+                $riga['provvedimento'] = array_shift($urls);
+                $riga['allegati'] = $urls;
+            }
+        }
+
+        return $riga;
+    }
+
+    /**
+     * Formato verificato sull'esempio CSV reale ANAC (spec §4.2):
+     * DATA;NUMERO;DENOMINAZIONE;OGGETTO;STRUTTURA_RESPONSABILE;PROVVEDIMENTO;ALLEGATO
+     * (ALLEGATO singolare) - con piu' allegati per lo stesso atto, una riga
+     * ripetuta per allegato (stessi DATA/NUMERO/.../PROVVEDIMENTO, cambia
+     * solo ALLEGATO), non una colonna multivalore. Un atto senza allegati
+     * produce comunque una riga (ALLEGATO vuoto).
+     */
+    private function toCsvGruppoConAllegati(array $rows)
+    {
+        $lines = [\OpenPABootstrapItalia\Anac\CsvLineBuilder::line([
+            'DATA', 'NUMERO', 'DENOMINAZIONE', 'OGGETTO', 'STRUTTURA_RESPONSABILE', 'PROVVEDIMENTO', 'ALLEGATO',
+        ])];
+
+        foreach ($rows as $row) {
+            $riga = $this->buildRigaConAllegati($row);
+            $base = [(string)$riga['data'], (string)$riga['numero'], $riga['denominazione'], $riga['oggetto'], $riga['strutturaResponsabile'], (string)$riga['provvedimento']];
+            if (empty($riga['allegati'])) {
+                $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line(array_merge($base, ['']));
+            } else {
+                foreach ($riga['allegati'] as $allegato) {
+                    $lines[] = \OpenPABootstrapItalia\Anac\CsvLineBuilder::line(array_merge($base, [$allegato]));
+                }
+            }
+        }
+
+        return implode("\n", $lines) . "\n";
+    }
+
+    public function toCsvOrganiConAllegati(array $provvedimenti = null)
+    {
+        return $this->toCsvGruppoConAllegati($this->getOrgani($provvedimenti));
+    }
+
+    public function toCsvDirigentiConAllegati(array $provvedimenti = null)
+    {
+        return $this->toCsvGruppoConAllegati($this->getDirigenti($provvedimenti));
+    }
+
+    /**
+     * @param array $organi righe gia' filtrate (getOrgani()), puo' essere []
+     * @param array $dirigenti righe gia' filtrate (getDirigenti()), puo' essere []
+     * @return string JSON, gia' validato contro art.23-v1.0.schema.json
+     * @throws \OpenPABootstrapItalia\Anac\InvalidAnacSchemaException se il JSON costruito non e' conforme
+     */
+    public function toJson($dataPrimaPubblicazione, $dataUltimaModifica, array $organi, array $dirigenti)
+    {
+        $data = [
+            '$schema' => self::SCHEMA_URL,
+            'intestazione' => [
+                'amministrazione' => $this->getAmministrazione(),
+                'dataPrimaPubblicazione' => $dataPrimaPubblicazione,
+                'dataUltimaModifica' => $dataUltimaModifica,
+            ],
+        ];
+
+        $organiJson = $this->buildJsonProvvedimenti($organi);
+        if (!empty($organiJson)) {
+            $data['provvedimentiOrganiPolitici'] = $organiJson;
+        }
+
+        $dirigentiJson = $this->buildJsonProvvedimenti($dirigenti);
+        if (!empty($dirigentiJson)) {
+            $data['provvedimentiDirigDiAltraTipologia'] = $dirigentiJson;
+        }
+
+        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        \OpenPABootstrapItalia\Anac\JsonSchemaValidator::validate('art.23-v1.0.schema.json', $json);
+
+        return $json;
+    }
+
+    /**
+     * Accetta sia righe grezze {object: eZContentObject, denominazione,
+     * group} (da fetchProvvedimenti(), caso reale) sia righe di test gia'
+     * "appiattite" con una chiave '__override' (vedi
+     * tests/test_art23_serializer_json.php) - hook esplicito di test, non
+     * un'eccezione silenziosa: evita di dover costruire un vero
+     * eZContentObject pubblicato solo per verificare la FORMA del JSON
+     * prodotto. Il percorso con un vero eZContentObject (buildRigaConAllegati())
+     * resta l'unico usato in produzione, dal cron (Task 9).
+     *
+     * @return array righe pronte per il JSON ANAC
+     */
+    private function buildJsonProvvedimenti(array $rows)
+    {
+        $items = [];
+        foreach ($rows as $row) {
+            $riga = $row['object'] instanceof \eZContentObject
+                ? $this->buildRigaConAllegati($row)
+                : array_merge($row['__override'], ['denominazione' => $row['denominazione'], 'provvedimento' => null, 'allegati' => []]);
+
+            $item = [
+                'data' => $riga['data'],
+                'numero' => $riga['numero'],
+                'denominazione' => $riga['denominazione'],
+                'oggetto' => $riga['oggetto'],
+                'strutturaResponsabile' => $riga['strutturaResponsabile'],
+            ];
+            if ($riga['provvedimento'] !== null) {
+                $item['provvedimento'] = $riga['provvedimento'];
+            }
+            if (!empty($riga['allegati'])) {
+                $item['allegati'] = $riga['allegati'];
+            }
+            $items[] = $item;
+        }
+
+        return $items;
+    }
 }
