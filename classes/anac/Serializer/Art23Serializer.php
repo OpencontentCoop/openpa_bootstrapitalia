@@ -279,7 +279,14 @@ class Art23Serializer
         $publicStates = \OpenPABase::initStateGroup('privacy', ['public']);
         $publicStateId = (int)$publicStates['privacy.public']->attribute('id');
 
-        return in_array($publicStateId, (array)$object->attribute('state_id_array'), true);
+        // 'state_id_array' e' valorizzato come STRINGHE (driver DB) - un
+        // confronto stretto in_array(..., true) contro un (int) non
+        // matcherebbe mai. Stesso bug/fix gia' documentato in
+        // BootstrapItaliaInstallerUtils::hideContentWithRedirect() (Task 2) -
+        // normalizzato con array_map('intval', ...).
+        $currentStateIdArray = array_map('intval', (array)$object->attribute('state_id_array'));
+
+        return in_array($publicStateId, $currentStateIdArray, true);
     }
 
     /**
