@@ -1318,12 +1318,6 @@ class BootstrapItaliaInstallerUtils
             throw new Exception("hideContentWithRedirect: main_node non trovato per remote_id '$remoteId'");
         }
 
-        $targetObject = eZContentObject::fetchByRemoteID($redirectToRemoteId);
-        if (!$targetObject instanceof eZContentObject) {
-            throw new Exception("hideContentWithRedirect: oggetto con remote_id '$redirectToRemoteId' (redirect_to_remote_id) non trovato");
-        }
-        $targetNodeId = (int)$targetObject->attribute('main_node_id');
-
         // Idempotenza: NON basta controllare lo stato privacy. Un oggetto
         // puo' essere gia' privacy.private per un motivo del tutto
         // scollegato da questo step (stato ereditato, modifica manuale,
@@ -1352,6 +1346,17 @@ class BootstrapItaliaInstallerUtils
         // salterebbe erroneamente la creazione del redirect - stesso ordine
         // di grandezza del rischio gia' documentato sopra per la
         // rigenerazione manuale dell'alias.
+        //
+        // IMPORTANTE: questo controllo va fatto PRIMA di risolvere
+        // redirect_to_remote_id (sotto) - su una vera riesecuzione a vuoto
+        // (sorgente gia' privata e gia' redirezionata) il target potrebbe
+        // nel frattempo non esistere piu' (rimosso, remote_id cambiato,
+        // ecc.): un no-op genuino non deve dipendere dal target e non deve
+        // lanciare eccezioni solo perche' il target non risolve piu' -
+        // trovato in review, la versione precedente di questo fix risolveva
+        // il target PRIMA del guard (serviva solo per includere
+        // $targetNodeId nel messaggio di log del no-op), trasformando una
+        // riesecuzione sicura in un errore fatale.
         $sourceHasNaturalAlias = !empty(eZURLAliasML::fetchByAction('eznode', $node->attribute('node_id')));
 
         $privacyStates = OpenPABase::initStateGroup('privacy', ['private']);
@@ -1365,10 +1370,18 @@ class BootstrapItaliaInstallerUtils
         $alreadyPrivate = in_array($privateStateId, $currentStateIdArray, true);
 
         if ($alreadyPrivate && !$sourceHasNaturalAlias) {
-            $step->getLogger()->info(" - '{$object->attribute('name')}' e' gia' privato con redirect attivo verso il nodo $targetNodeId: nessuna modifica");
+            $step->getLogger()->info(" - '{$object->attribute('name')}' e' gia' privato con redirect attivo: nessuna modifica");
 
             return;
         }
+
+        // Risolto solo da qui in poi: non serve al guard sopra (vedi nota),
+        // e una riesecuzione a vuoto non deve dipendere dalla sua esistenza.
+        $targetObject = eZContentObject::fetchByRemoteID($redirectToRemoteId);
+        if (!$targetObject instanceof eZContentObject) {
+            throw new Exception("hideContentWithRedirect: oggetto con remote_id '$redirectToRemoteId' (redirect_to_remote_id) non trovato");
+        }
+        $targetNodeId = (int)$targetObject->attribute('main_node_id');
 
         // Catturato PRIMA di cambiare stato/rimuovere l'alias: a questo
         // punto del flusso $sourceHasNaturalAlias e' per forza true (altrimenti

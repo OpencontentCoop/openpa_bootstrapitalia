@@ -227,6 +227,32 @@ $targetActionCountAfter = (int)$db->arrayQuery(
 )[0]['c'];
 check('seconda esecuzione e\' un vero no-op (nessuna riga alias aggiuntiva)', $targetActionCountBefore, $targetActionCountAfter);
 
+// Regressione trovata in review sul fix precedente: una riesecuzione a
+// vuoto (sorgente gia' privata E gia' senza alias naturale, cioe' il vero
+// stato di no-op) NON deve dipendere dalla risoluzione di
+// redirect_to_remote_id - il guard di idempotenza deve bastare da solo.
+// Il fix precedente, per poter citare $targetNodeId nel messaggio di log
+// del no-op, risolveva il target PRIMA del guard: su una riesecuzione
+// genuina in cui il target nel frattempo non risulta piu' (rimosso,
+// remote_id cambiato, ecc.) questo trasformava un no-op sicuro in
+// un'eccezione non gestita. $sourceObject/$step a questo punto del test
+// sono gia' nello stato di vero no-op (migrazione completata sopra), quindi
+// basta ripassare un redirect_to_remote_id che non esiste per riprodurre
+// esattamente lo scenario.
+try {
+    $reRunWithGoneTargetStep = new \Opencontent\Installer\PhpCallable();
+    $reRunWithGoneTargetStep->setStep([
+        'identifier' => 'BootstrapItaliaInstallerUtils::hideContentWithRedirect',
+        'remote_id' => $sourceRemoteId,
+        'redirect_to_remote_id' => 'questo_target_remote_id_non_esiste_piu',
+    ]);
+    $reRunWithGoneTargetStep->setLogger(new \Psr\Log\NullLogger());
+    BootstrapItaliaInstallerUtils::hideContentWithRedirect($reRunWithGoneTargetStep);
+    check('no-op su sorgente gia\' migrata anche se il target non risolve piu\'', true, true);
+} catch (Exception $e) {
+    check('no-op su sorgente gia\' migrata anche se il target non risolve piu\'', true, false);
+}
+
 // remote_id inesistente: deve lanciare, non fallire silenziosamente
 try {
     $badStep = new \Opencontent\Installer\PhpCallable();
