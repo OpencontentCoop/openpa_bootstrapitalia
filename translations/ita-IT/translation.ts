@@ -2717,5 +2717,41 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Non-executive office</source>
       <translation>Ufficio non dirigenziale</translation>
     </message>
+    <message>
+      <source>Measures adopted by political governing bodies</source>
+      <translation>Provvedimenti adottati dagli organi di indirizzo politico</translation>
+    </message>
+    <message>
+      <source>Measures adopted by executives</source>
+      <translation>Provvedimenti adottati dai dirigenti</translation>
+    </message>
+    <message>
+      <source>Administrative measures</source>
+      <translation>Provvedimenti amministrativi</translation>
+    </message>
+    <message>
+      <source>Date</source>
+      <translation>Data</translation>
+    </message>
+    <message>
+      <source>Act number</source>
+      <translation>Numero atto</translation>
+    </message>
+    <message>
+      <source>Subject</source>
+      <translation>Oggetto</translation>
+    </message>
+    <message>
+      <source>All</source>
+      <translation>Tutti</translation>
+    </message>
+    <message>
+      <source>From</source>
+      <translation>Dal</translation>
+    </message>
+    <message>
+      <source>To</source>
+      <translation>Al</translation>
+    </message>
   </context>
 </TS>
