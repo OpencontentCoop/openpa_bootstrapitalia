@@ -1,0 +1,187 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json",
+  "definitions": {
+    "Intestazione": {
+      "type": "object",
+      "description": "Metadati per la pubblicazione dello schema",
+      "additionalProperties": false,
+      "properties": {
+        "amministrazione": {
+          "$comment": "Dati identificativi dell'Amministrazione",
+          "$ref": "#/definitions/Amministrazione"
+        },
+        "dataPrimaPubblicazione": {
+          "$comment": "Data di prima pubblicazione dei dati definiti dallo schema, da non modificare negli eventuali successivi aggiornamenti",
+          "$ref": "#/definitions/Data"
+        },
+        "dataUltimaModifica": {
+          "$comment": "Data di ultima modifica dei dati pubblicati",
+          "$ref": "#/definitions/Data"
+        }
+      },
+      "required": [
+        "amministrazione",
+        "dataPrimaPubblicazione",
+        "dataUltimaModifica"
+      ]
+    },
+    "Amministrazione": {
+      "type": "object",
+      "description": "Dati identificativi dell'Amministrazione",
+      "additionalProperties": false,
+      "properties": {
+        "codiceFiscale": {
+          "$ref": "#/definitions/CodiceFiscaleEnte"
+        },
+        "denominazione": {
+          "$ref": "#/definitions/Denominazione"
+        }
+      },
+      "required": [
+        "codiceFiscale"
+      ]
+    },
+    "Riferimenti": {
+      "type": "object",
+      "description": "Recapiti telefonici e di posta elettronica",
+      "additionalProperties": false,
+      "properties": {
+        "recapitoTelefonico": {
+          "$ref": "#/definitions/Telefono"
+        },
+        "postaElettronicaOrdinaria": {
+          "$ref": "#/definitions/Email"
+        },
+        "postaElettronicaCertificata": {
+          "$ref": "#/definitions/Email"
+        }
+      },
+      "required": [
+        "recapitoTelefonico"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "postaElettronicaOrdinaria"
+          ]
+        },
+        {
+          "required": [
+            "postaElettronicaCertificata"
+          ]
+        }
+      ]
+    },
+    "Anno": {
+      "type": "integer",
+      "description": "Annualità di riferimento",
+      "minimum": 2000,
+      "maximum": 9999
+    },
+    "Trimestre": {
+      "type": "integer",
+      "description": "Trimestre di riferimento",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "Semestre": {
+      "type": "integer",
+      "description": "Semestre di riferimento",
+      "minimum": 1,
+      "maximum": 2
+    },
+    "CodiceFiscaleEnte": {
+      "type": "string",
+      "description": "Codice fiscale ente giuridico (11 cifre numeriche)",
+      "pattern": "^[0-9]{11}$",
+      "example": "12345678901"
+    },
+    "CodiceFiscalePersona": {
+      "type": "string",
+      "description": "Codice fiscale persona fisica (16 caratteri alfanumerici)",
+      "pattern": "^[A-Z]{6}[0-9]{2}[ABCDEHLMPRST]{1}[0-9]{2}[A-Z]{1}[0-9]{3}[A-Z]{1}$",
+      "examples": [
+        "RSSMRA85T10A562S",
+        "BNCSFN72E15F205Z"
+      ]
+    },
+    "Data": {
+      "type": "string",
+      "description": "Data in formato GG/MM/AAAA",
+      "pattern": "^(0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[0-2])\\/([2-9]\\d{3})$"
+    },
+    "Ora": {
+      "type": "string",
+      "description": "Ora in formato HH:MM",
+      "pattern": "^([01][0-9]|2[0-3]):([0-5][0-9])$"
+    },
+    "DataOra": {
+      "type": "string",
+      "description": "Data e ora in formato GG/MM/AAAA HH:MM",
+      "pattern": "^((0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[0-2])\\/([2-9]\\d{3}) ([01][0-9]|2[0-3]):([0-5][0-9]))$"
+    },
+    "Denominazione": {
+      "type": "string",
+      "description": "Descrizione sintetica della tipologia del campo in relazione all'obbligo di pubblicazione in oggetto",
+      "examples": [
+        "Documento di programmazione per il triennio 2025-2028"
+      ]
+    },
+    "Descrizione": {
+      "type": "string",
+      "description": "Descrizione della tipologia del campo in relazione all'obbligo di pubblicazione in oggetto"
+    },
+    "Importo": {
+      "type": "string",
+      "description": "Numero decimale in formato italiano con separatori e due cifre decimali",
+      "pattern": "^-?(\\d{1,3}(\\.\\d{3})*)+(,\\d{2})$",
+      "examples": [
+        "1.234,56",
+        "1.000.000,00",
+        "-9.999,99",
+        "250,00"
+      ]
+    },
+    "Percentuale": {
+      "type": "string",
+      "description": "Numero decimale in formato italiano con separatori e due cifre decimali",
+      "pattern": "^(?:100,00(?:\\,0{1,2})?|\\d{1,2}(?:\\,\\d{1,2})?)%?$",
+      "examples": [
+        "75,56"
+      ]
+    },
+    "Telefono": {
+      "type": "string",
+      "description": "Numero fisso o cellulare italiano",
+      "pattern": "^(\\+39)?\\s?(0\\d{1,4}[\\s\\-]?\\d{4,8}|3\\d{2}[\\s\\-]?\\d{6,7})$",
+      "examples": [
+        "+39 06 12345678",
+        "06 12345678",
+        "+39 0382 123456",
+        "333 1234567",
+        "+39 333 1234567"
+      ]
+    },
+    "Email": {
+      "type": "string",
+      "description": "Indirizzo di posta elettronica ordinaria o certificata",
+      "format": "email",
+      "pattern": "^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$",
+      "examples": [
+        "ufficio@azienda.com",
+        "nome.cognome@pec.azienda.it"
+      ]
+    },
+    "Url": {
+      "type": "string",
+      "description": "URL completo con protocollo http o https",
+      "format": "uri",
+      "pattern": "^https?:\\/\\/",
+      "examples": [
+        "http://www.example.org/trasparenza",
+        "https://www.example.org/trasparenza/page.html"
+      ]
+    }
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/art.23-v1.0.schema.json",
+  "type": "object",
+  "title": "Obblighi di pubblicazione concernenti i provvedimenti amministrativi di organi indirizzo politico e dirigenti amministrativi (art. 23 d.lgs. 33/2013)",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Url"
+    },
+    "intestazione": {
+      "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Intestazione"
+    },
+    "provvedimentiOrganiPolitici": {
+      "type": "array",
+      "description": "Elenco dei provvedimenti adottati dagli organi di indirizzo politico",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/ProvvedimentoGen"
+      }
+    },
+    "provvedimentiDirigDiSceltaContraente": {
+      "type": "array",
+      "description": "Elenco dei provvedimenti di scelta del contraente adottati dai dirigenti",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/ProvvedimentoSceltaContraente"
+      }
+    },
+    "provvedimentiDirigDiAltraTipologia": {
+      "type": "array",
+      "description": "Elenco dei provvedimenti adottati dai dirigenti",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/ProvvedimentoGen"
+      }
+    }
+  },
+  "required": [
+    "$schema",
+    "intestazione"
+  ],
+  "definitions": {
+    "ProvvedimentoGen": {
+      "type": "object",
+      "description": "Provvedimento adottato dagli organi di indirizzo politico o dai dirigenti NON di scelta del contraente ",
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$comment": "Data del provvedimento",
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Data"
+        },
+        "numero": {
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Denominazione"
+        },
+        "denominazione": {
+          "$comment": "Ad. es. Delibera, Decisione, Determinazione, Ordinanze ecc",
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Denominazione"
+        },
+        "oggetto": {
+          "$comment": "Oggetto del provvedimento (da omissare eventuali dati personali presenti)",
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Descrizione"
+        },
+        "strutturaResponsabile": {
+          "$comment": "Ufficio, dipartimento, struttura dell’organo di indirizzo politico che ha firmato l’atto",
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Denominazione"
+        },
+        "provvedimento": {
+          "$comment": "Link al documento (considerato che la pubblicazione ai sensi dell’art. 23 è relativa all’elenco, quella dei singoli provvedimenti è del tutto FACOLTATIVA come pubblicità. In questi casi, però, occorre che il documento pubblicato sia omissato dei dati personali eventualmente presenti).",
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Url"
+        },
+        "allegati": {
+          "type": "array",
+          "description": "Link al documento allegato (anche qui, considerato che la pubblicazione ai sensi dell’art. 23 è relativa all’elenco, quella degli allegati al provvedimento o è del tutto FACOLTATIVA come pubblicità. In questi casi, però, occorre che il documento pubblicato sia omissato dei dati personali eventualmente presenti).",
+          "minItems": 1,
+          "items": {
+            "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Url"
+          }
+        }
+      },
+      "required": [
+        "data",
+        "numero",
+        "denominazione",
+        "oggetto",
+        "strutturaResponsabile"
+      ]
+    },
+    "ProvvedimentoSceltaContraente": {
+      "type": "object",
+      "description": "Provvedimento di scelta del contraente adottato dai dirigenti",
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$comment": "Data del provvedimento",
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Data"
+        },
+        "numero": {
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Denominazione"
+        },
+        "denominazione": {
+          "$comment": "Ad. es. Delibera, Decisione, Determinazione, Ordinanze ecc",
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Denominazione"
+        },
+        "oggetto": {
+          "$comment": "Oggetto del provvedimento (da omissare eventuali dati personali presenti)",
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Descrizione"
+        },
+        "strutturaResponsabile": {
+          "$comment": "Ufficio, dipartimento, struttura dell’organo di indirizzo politico che ha firmato l’atto",
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Denominazione"
+        },
+        "sezioneBandiDiGara": {
+          "$comment": "Per i provvedimenti di scelta del contraente occorre inserire un link alla sottosezione “Bandi di gara e contratti” di AT ( art. 37)",
+          "$ref": "https://guida-servizi.anticorruzione.it/help/trasparenza/schemi/json/commons-v1.0.schema.json#/definitions/Url"
+        }
+      },
+      "required": [
+        "data",
+        "numero",
+        "denominazione",
+        "oggetto",
+        "strutturaResponsabile",
+        "sezioneBandiDiGara"
+      ]
+    }
+  }
+}
