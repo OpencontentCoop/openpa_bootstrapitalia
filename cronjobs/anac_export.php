@@ -242,8 +242,23 @@ function publishArt23(eZCLI $cli, array $schemaBindings)
         // (intestazione) - publishWithDates() con hash sulla sola
         // rappresentazione del dato (senza date), stesso principio di
         // art.13-pa.
+        //
+        // L'hash si calcola sui due CSV gia' prodotti sopra ($csvOrgani/
+        // $csvDirigenti - stringhe semplici, deterministiche), non
+        // ri-codificando $organi/$dirigenti: quegli array contengono
+        // ancora eZContentObject vivi (la chiave 'object' di ogni riga),
+        // gia' mutati da fetchDataMap() dentro toCsv*ConAllegati() sopra -
+        // json_encode() su un object graph del genere non e' uno snapshot
+        // dati deliberato, e se mai incontrasse qualcosa di non
+        // serializzabile restituirebbe silenziosamente false (solo un
+        // warning PHP), congelando per sempre l'hash su md5('') e quindi
+        // il JSON 'art.23' su una pubblicazione mai piu' aggiornata. I due
+        // CSV rappresentano lo stesso dato sottostante (stesse righe,
+        // stessi campi) quindi sono equivalenti ai fini dell'hash - stesso
+        // principio di ExportPublisher::publish(), che calcola l'hash sul
+        // CSV e non sul JSON.
         $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonIdentifier, $rootNodeId);
-        $dataHashSource = json_encode([$organi, $dirigenti]);
+        $dataHashSource = $csvOrgani . "\x00" . $csvDirigenti;
         $jsonTracking = $jsonPublisher->publishWithDates($dataHashSource, function ($first, $last) use ($serializer, $organi, $dirigenti) {
             return $serializer->toJson($first, $last, $organi, $dirigenti);
         }, 'json');
