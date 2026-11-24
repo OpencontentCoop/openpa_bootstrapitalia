@@ -31,9 +31,10 @@ class PageProvvedimentiProvider
 
     /**
      * @return array righe {denominazione, data, numero, oggetto,
-     *         strutturaResponsabile, anno, pubblicazioneInizio,
-     *         pubblicazioneFine, url} - MAI provvedimento/allegati (confermato:
-     *         "in tabella non li visualizziamo", solo nell'export).
+     *         strutturaResponsabile, organizzazioni, anno,
+     *         pubblicazioneInizio, pubblicazioneFine, url} - MAI
+     *         provvedimento/allegati (confermato: "in tabella non li
+     *         visualizziamo", solo nell'export).
      *
      * data/numero/strutturaResponsabile delegati a Art23Serializer (stessa
      * catena di fallback usata da CSV/JSON) invece di essere ricalcolati qui
@@ -41,7 +42,14 @@ class PageProvvedimentiProvider
      * (numero null qui, stringa vuota li') prima di questo fix, trovato
      * dalla review finale whole-branch. anno/pubblicazioneInizio/
      * pubblicazioneFine/url restano qui: servono solo alla tabella live,
-     * non a CSV/JSON.
+     * non a CSV/JSON. `organizzazioni` (id+nome, da
+     * Art23Serializer::resolveOrganizzazioni()) idem - serve al filtro
+     * "Unita' organizzativa" per id stabile (spec §2.1,
+     * unitaOrganizzativaId): `strutturaResponsabile` resta la stringa
+     * concatenata per la sola visualizzazione in tabella, non e' piu' usata
+     * per il filtro (un documento con piu' organizzazioni collegate non
+     * compariva filtrando per una sola di esse, solo per la combinazione
+     * esatta visualizzata - trovato dalla review finale whole-branch).
      */
     private function flattenRows(array $rows)
     {
@@ -81,6 +89,7 @@ class PageProvvedimentiProvider
                 'numero' => $dataNumero['numero'],
                 'oggetto' => trim($object->attribute('name')),
                 'strutturaResponsabile' => $this->serializer->resolveStrutturaResponsabile($dataMap),
+                'organizzazioni' => $this->serializer->resolveOrganizzazioni($dataMap),
                 'anno' => $anno,
                 'pubblicazioneInizio' => $pubblicazioneInizio,
                 'pubblicazioneFine' => $pubblicazioneFine,

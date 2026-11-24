@@ -284,24 +284,42 @@ class Art23Serializer
     }
 
     /**
+     * @return array{id: int, nome: string}[] organization collegate
+     *         (has_organization, ezobjectrelationlist multi-valore) - id
+     *         stabile per ciascuna, usato dal filtro "Unita' organizzativa"
+     *         della tabella live (spec §2.1, unitaOrganizzativaId): un
+     *         documento con piu' organizzazioni deve comparire filtrando per
+     *         UNA SOLA di esse, non solo per la combinazione esatta
+     *         visualizzata in resolveStrutturaResponsabile() - trovato dalla
+     *         review finale whole-branch.
+     */
+    public function resolveOrganizzazioni(array $dataMap)
+    {
+        if (!isset($dataMap['has_organization']) || !$dataMap['has_organization']->hasContent()) {
+            return [];
+        }
+        $content = $dataMap['has_organization']->content();
+        $organizzazioni = [];
+        foreach ((array)($content['relation_list'] ?? []) as $item) {
+            $relatedObject = \eZContentObject::fetch((int)$item['contentobject_id']);
+            if ($relatedObject instanceof \eZContentObject) {
+                $organizzazioni[] = [
+                    'id' => (int)$relatedObject->attribute('id'),
+                    'nome' => trim($relatedObject->attribute('name')),
+                ];
+            }
+        }
+
+        return $organizzazioni;
+    }
+
+    /**
      * @return string nomi delle organization collegate (has_organization,
      *         ezobjectrelationlist multi-valore), separate da ", " se piu' di una
      */
     public function resolveStrutturaResponsabile(array $dataMap)
     {
-        if (!isset($dataMap['has_organization']) || !$dataMap['has_organization']->hasContent()) {
-            return '';
-        }
-        $content = $dataMap['has_organization']->content();
-        $names = [];
-        foreach ((array)($content['relation_list'] ?? []) as $item) {
-            $relatedObject = \eZContentObject::fetch((int)$item['contentobject_id']);
-            if ($relatedObject instanceof \eZContentObject) {
-                $names[] = trim($relatedObject->attribute('name'));
-            }
-        }
-
-        return implode(', ', $names);
+        return implode(', ', array_column($this->resolveOrganizzazioni($dataMap), 'nome'));
     }
 
     /**

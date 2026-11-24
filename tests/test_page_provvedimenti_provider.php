@@ -44,6 +44,28 @@ eZUser::setCurrentlyLoggedInUser($adminUser, $adminUser->attribute('contentobjec
 
 $documentClass = eZContentClass::fetchByIdentifier('document');
 $rootNodeId = (int)eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode');
+
+// Organizzazione di prova, stesso pattern di test_art23_serializer_csv.php -
+// serve a verificare il nuovo campo 'organizzazioni' (id+nome), non solo
+// 'strutturaResponsabile'.
+$orgClass = eZContentClass::fetchByIdentifier('organization');
+$testOrgObject = $orgClass->instantiate(eZUser::currentUserID());
+$testOrgObject->store();
+eZNodeAssignment::create([
+    'contentobject_id' => $testOrgObject->attribute('id'),
+    'contentobject_version' => 1,
+    'parent_node' => $rootNodeId,
+    'is_main' => 1,
+])->store();
+foreach ($testOrgObject->version(1)->contentObjectAttributes('ita-IT') as $attr) {
+    if ($attr->contentClassAttributeIdentifier() === 'legal_name') {
+        $attr->fromString('TEST_PROVIDER Ufficio ' . uniqid());
+        $attr->store();
+    }
+}
+eZOperationHandler::execute('content', 'publish', ['object_id' => $testOrgObject->attribute('id'), 'version' => 1]);
+$testOrgObject = eZContentObject::fetch((int)$testOrgObject->attribute('id'));
+
 $testObject = $documentClass->instantiate(eZUser::currentUserID());
 $testObject->store();
 eZNodeAssignment::create([
@@ -66,6 +88,8 @@ $testDataMap['document_type']->fromString(
     $decretoDelSindaco->attribute('id') . '|#' . $decretoDelSindaco->attribute('keyword') . '|#' . $decretoDelSindaco->attribute('parent_id') . '|#ita-IT'
 );
 $testDataMap['document_type']->store();
+$testDataMap['has_organization']->fromString((string)$testOrgObject->attribute('id'));
+$testDataMap['has_organization']->store();
 eZOperationHandler::execute('content', 'publish', ['object_id' => $testObject->attribute('id'), 'version' => 1]);
 
 // Forza l'indicizzazione immediata (stesso pattern di
@@ -93,6 +117,25 @@ foreach ((array)$rows as $row) {
     check('riga ha denominazione', true, array_key_exists('denominazione', $row));
     check('riga ha anno', true, array_key_exists('anno', $row));
     check('riga ha pubblicazioneInizio', true, array_key_exists('pubblicazioneInizio', $row));
+    check('riga ha organizzazioni', true, array_key_exists('organizzazioni', $row));
+}
+
+// Riga del documento di test appena creato (con has_organization
+// valorizzato) - verifica puntuale della forma {id, nome}, non solo che la
+// chiave esista.
+$testRow = null;
+foreach ((array)$rows as $row) {
+    if (strpos($row['oggetto'], 'TEST_PROVIDER Decreto') === 0) {
+        $testRow = $row;
+        break;
+    }
+}
+check('riga del documento di test trovata', true, $testRow !== null);
+if ($testRow !== null) {
+    check('organizzazioni ha una voce', 1, count($testRow['organizzazioni']));
+    check('organizzazioni[0] ha id corretto', (int)$testOrgObject->attribute('id'), $testRow['organizzazioni'][0]['id']);
+    check('organizzazioni[0] ha nome corretto', trim($testOrgObject->attribute('name')), $testRow['organizzazioni'][0]['nome']);
+    check('strutturaResponsabile invariata (stringa concatenata, usata solo per display)', trim($testOrgObject->attribute('name')), $testRow['strutturaResponsabile']);
 }
 
 echo "\n$PASSED controlli ok, $FAILED falliti\n";

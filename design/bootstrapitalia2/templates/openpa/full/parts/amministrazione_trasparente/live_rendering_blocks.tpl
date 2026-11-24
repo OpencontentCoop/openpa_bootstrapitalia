@@ -229,12 +229,26 @@ $(document).ready(function () {ldelim}
 
     var art23PeriodoInputs = {ldelim}{rdelim};
     var art23AnnoFilters = {ldelim}{rdelim};
+    var art23StrutturaFilters = {ldelim}{rdelim};
 
     $.fn.dataTable.ext.search.push(function (settings, searchData, index, rowData) {ldelim}
         var tableId = settings.nTable.id;
 
         var anno = art23AnnoFilters[tableId];
         if (anno && String(rowData.anno) !== anno) {ldelim} return false; {rdelim}
+
+        // Filtro per id di organizzazione (non sulla stringa visualizzata
+        // strutturaResponsabile): un documento con piu' organizzazioni
+        // collegate deve comparire filtrando per UNA SOLA di esse - trovato
+        // dalla review finale whole-branch (spec §2.1, unitaOrganizzativaId).
+        var strutturaId = art23StrutturaFilters[tableId];
+        if (strutturaId) {ldelim}
+            var organizzazioni = rowData.organizzazioni || [];
+            var match = organizzazioni.some(function (org) {ldelim}
+                return String(org.id) === strutturaId;
+            {rdelim});
+            if (!match) {ldelim} return false; {rdelim}
+        {rdelim}
 
         var range = art23PeriodoInputs[tableId];
         if (range) {ldelim}
@@ -264,6 +278,25 @@ $(document).ready(function () {ldelim}
         {rdelim});
     {rdelim}
 
+    // A differenza di populateArt23Filter() (un valore testuale per riga),
+    // 'organizzazioni' e' un array per riga (un documento puo' avere piu'
+    // organizzazioni collegate) - dedup per id, non per nome (due
+    // organizzazioni con lo stesso nome in rami diversi dell'albero
+    // resterebbero comunque due filtri distinti).
+    function populateArt23OrganizzazioniFilter($select, rows) {ldelim}
+        var byId = {ldelim}{rdelim};
+        rows.forEach(function (row) {ldelim}
+            (row.organizzazioni || []).forEach(function (org) {ldelim}
+                byId[org.id] = org.nome;
+            {rdelim});
+        {rdelim});
+        Object.keys(byId).sort(function (a, b) {ldelim}
+            return byId[a].localeCompare(byId[b]);
+        {rdelim}).forEach(function (id) {ldelim}
+            $select.append($('<option></option>').attr('value', id).text(byId[id]));
+        {rdelim});
+    {rdelim}
+
     {foreach $live_rendering.blocks as $block}
     {if or($block.schema|eq('art.23-org'), $block.schema|eq('art.23-altra-tipologia'))}
     (function () {ldelim}
@@ -273,14 +306,15 @@ $(document).ready(function () {ldelim}
         var tableId = 'live-rendering-' + domId + '-table';
 
         populateArt23Filter($('#live-rendering-' + domId + '-filter-denominazione'), rows, 'denominazione');
-        populateArt23Filter($('#live-rendering-' + domId + '-filter-struttura'), rows, 'strutturaResponsabile');
+        populateArt23OrganizzazioniFilter($('#live-rendering-' + domId + '-filter-struttura'), rows);
         populateArt23Filter($('#live-rendering-' + domId + '-filter-anno'), rows, 'anno');
 
         $('#live-rendering-' + domId + '-filter-denominazione').on('change', function () {ldelim}
             table.column(2).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
         {rdelim});
         $('#live-rendering-' + domId + '-filter-struttura').on('change', function () {ldelim}
-            table.column(4).search(this.value ? '^' + $.fn.dataTable.util.escapeRegex(this.value) + '$' : '', true, false).draw();
+            art23StrutturaFilters[tableId] = this.value || null;
+            table.draw();
         {rdelim});
         $('#live-rendering-' + domId + '-filter-anno').on('change', function () {ldelim}
             art23AnnoFilters[tableId] = this.value || null;
