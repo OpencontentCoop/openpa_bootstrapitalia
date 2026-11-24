@@ -1227,9 +1227,11 @@ Conseguenze concrete, non ovvie:
   divieto sui crawler sia con l'obbligo di raggiungibilità. Resta comunque il
   punto con meno appiglio normativo dei cinque elencati in #479 - nessun
   `noindex`/`robots.txt` implementato per i file datati non-`-latest`.
-- **Validazione JSON Schema ANAC**: resta un controllo manuale in QA, nessuna
-  validazione automatica nel codice (decisione esplicita, non un gap
-  dimenticato).
+- **Validazione JSON Schema ANAC sugli schemi PRE-ESISTENTI** (art.4-bis/13/
+  20/31): resta un controllo manuale in QA, nessuna validazione automatica
+  nel codice (decisione esplicita, non un gap dimenticato) - non retrofittata
+  da art.23, che invece valida automaticamente (vedi `JsonSchemaValidator`
+  sotto, sezione "art. 23").
 - **Rendering live: ancora lento su una pagina con più schemi, nonostante il
   fix dell'11 novembre** (riprodotto il 19 novembre su buglianoqa: 75,98s
   colpendo l'app direttamente, bypassando Varnish - stesso ordine di
@@ -1256,3 +1258,223 @@ Conseguenze concrete, non ovvie:
   di un fix (es. un'istanza di `Art13Serializer` condivisa per richiesta tra
   i provider), verificare il timing isolato di ciascuno dei 2-3 schemi su
   buglianoqa.
+
+## art. 23 - Provvedimenti amministrativi (cms#489), solo C1
+
+Export art. 23 d.lgs. 33/2013 (Allegato 7, Delibera ANAC 495/2024, schema ad
+adesione volontaria), `Art23Serializer` + `PageProvvedimentiProvider`. Unifica
+due vecchie pagine statiche ("Provvedimenti organi indirizzo politico",
+"Provvedimenti dirigenti") in un'unica pagina "Provvedimenti", con due
+tabelle live-rendering (organi/dirigenti) + export CSV+JSON. Controparte
+content model/installer: `installer/modules/trasparenza-c1/CLAUDE.md`.
+
+**Fonte dati: `document` taggato `document_type`, nessun dataset** -
+stesso principio già in uso per `art.31-oiv`/`art.31-or` (vedi sopra,
+`fetchDocumentsByKeys()`/`PageArt31DocumentiProvider`), diverso da
+art.4-bis/art.20/art.12/art.36 (tutti ancorati a un oggetto `dataset`).
+`fetchProvvedimenti()` fa una query Solr `subtree [RootNode]` (tutto il
+sito, non solo sotto "Provvedimenti" - stesso motivo già documentato per
+`art.13-rif`/OIV: un provvedimento tracciato con questo tag va trovato
+ovunque sia pubblicato) filtrata su `raw[subattr_document_type___tag_ids____si]`
+per i tag id risolti da `resolveTagMap()`.
+
+**Risoluzione tag: 14 `remote_id` hardcoded, NON keyword/tree-walk** -
+`Art23Serializer::REMOTE_ID_TO_INFO` mappa ogni `remote_id` di tag
+`document_type` (ramo "Atto amministrativo" della tassonomia standard
+preesistente, verificato su `installer/tagtree_csv/documenti.csv`) a
+`['denominazione' => ..., 'group' => 'organi'|'dirigenti']` - stesso pattern
+già in uso in `Art31Serializer::TAG_REMOTE_ID_TO_KEY`. **Correzione rispetto
+a una bozza precedente del design**: una prima versione del piano proponeva
+di risalire la tassonomia per keyword a partire da un singolo tag radice
+noto ("Atto amministrativo"), risolvendo "Decreto"/"Determinazione"/
+"Deliberazione"/"Ordinanza" per corrispondenza testuale. Scartato
+esplicitamente (segnalato dal project owner prima dell'implementazione):
+il `keyword` di un tag è l'etichetta mostrata al redattore, modificabile da
+backend - un matching per testo fallirebbe silenziosamente a una rinomina
+anche minima del tag, senza nessun errore visibile. Il codice realmente
+scritto usa quindi `remote_id` fissi (stabili, non rinominabili dal
+redattore), risolti una sola volta per istanza (`resolveTagMap()`,
+memoizzato in `$tagMap`) via `eZTagsObject::fetchByRemoteID()` - un
+`remote_id` che non risolve più a un tag esistente viene saltato, non
+blocca l'intero export.
+
+**Include anche i sinonimi di ciascun tag** - `tagtree_csv/documenti.csv`
+(colonna `synonyms_it`) dà un sinonimo a tutti e 13/14 i tag (es. "Decreto
+sindacale" per "Decreto del Sindaco"), ed `eztags.ini` ha `IndexSynonyms:
+enabled` (non sovrascritto): `ezfSolrDocumentFieldeZTags::processTag()` a
+quel punto NON normalizza un tag sinonimo al suo tag principale prima di
+indicizzare - un documento taggato col sinonimo viene indicizzato con l'id
+DEL SINONIMO, un id diverso da quello del tag principale. Senza
+l'espansione (`resolveTagMap()` include anche `getSynonyms()` di ogni tag,
+stessa denominazione/group del principale) quei documenti sparivano
+silenziosamente - trovato dalla review finale whole-branch.
+
+**Tag padre generico (es. "Deliberazione" da solo, senza specificare quale
+organo)** - confermato con Marco di includerli (2026-11-24). Dei 4 tag
+padre ("Decreto" id 66, "Deliberazione" id 69, "Determinazione" id 76,
+"Ordinanza" id 79, tutti figli diretti di "Atto amministrativo"), solo
+**"Deliberazione" è stato aggiunto**: è l'unico non ambiguo, perché TUTTI i
+suoi 7 figli nella tassonomia sono `organi` (nessun "Deliberazione del
+Dirigente" esiste) - verificato su `tagtree_csv/documenti.csv`. Gli altri
+tre (`Decreto`/`Determinazione`/`Ordinanza`) hanno ENTRAMBI un figlio
+`organi` ("del Sindaco") e uno `dirigenti` ("del Dirigente"): un documento
+taggato col solo padre generico non dice a quale dei due gruppi appartenga
+- **deciso con Marco (2026-11-24): esclusi per scelta conservativa**, restano
+fuori da `REMOTE_ID_TO_INFO` - un documento taggato con uno di questi tre
+tag generici non compare nell'export finche' non viene ritaggato con un
+figlio specifico ("del Sindaco"/"del Dirigente"), piuttosto che rischiare
+una classificazione errata.
+
+**Le due vecchie pagine, ritirate con stato privato + redirect 301** -
+`BootstrapItaliaInstallerUtils::hideContentWithRedirect()`
+(`openpa_bootstrapitalia/classes/BootstrapItaliaInstallerUtils.php`), nuovo
+meccanismo riusabile e **primo caso d'uso in questo progetto di "ritiro
+pagina con redirect"** - diverso da tutte le altre pagine ANAC già scritte
+(OIV, Organi di revisione, Articolazione degli uffici, ecc.), che restano
+sempre attive e non vengono mai nascoste. Il metodo (invocato due volte
+dall'installer, una per pagina legacy):
+
+- Idempotenza verificata su un'evidenza specifica del nodo sorgente
+  (assenza del suo alias "naturale" `eznode:<source>`), non su "è già
+  privato" da solo - un oggetto può essere privato per tutt'altro motivo
+  prima che questo step giri mai, e fermarsi solo su quello lascerebbe la
+  pagina nascosta ma mai redirezionata.
+- Rimuove l'alias naturale del nodo sorgente (`eZURLAliasML::removeByAction()`)
+  PRIMA di scrivere il redirect - altrimenti `storePath()` rifiuta di
+  sovrascrivere un'entry `is_original=1` già occupata.
+- Passa l'id della riga alias **già esistente** del nodo target come
+  `linkID` a `storePath()` (non `false`): verificato empiricamente che
+  passare `false` fa sì che `storePath()` interpreti la chiamata come "il
+  nodo target si è spostato qui" e **storicizzi l'alias reale del target**,
+  trasformandolo a sua volta in redirect - comportamento distruttivo evitato
+  passando l'id della riga `is_original=1` del target, che crea invece una
+  entry `is_alias=1` indipendente (redirect 301 vero, mai tocca l'alias del
+  target).
+- Rischio noto e accettato (non mitigato): una ripubblicazione futura della
+  pagina legacy potrebbe rigenerare il suo alias naturale e sovrascrivere il
+  redirect - nel caso peggiore si vede "accesso negato", mai il contenuto
+  rimesso online per errore.
+
+**Tre identificativi**: `art.23-org` (CSV, organi di indirizzo politico),
+`art.23-altra-tipologia` (CSV, dirigenti), `art.23` (JSON combinato, blocchi
+`provvedimentiOrganiPolitici`/`provvedimentiDirigDiAltraTipologia`, ciascuno
+omesso se vuoto) - stesso principio di `art.13-pa`: il JSON ha un
+identificativo proprio, indipendente dai CSV, con la propria
+pubblicazione/versione/tracking. Formato CSV (`DATA;NUMERO;DENOMINAZIONE;
+OGGETTO;STRUTTURA_RESPONSABILE;PROVVEDIMENTO;ALLEGATO`) verificato
+sull'esempio reale ANAC - più allegati per lo stesso atto producono righe
+ripetute (una per allegato), non una colonna multivalore. `provvedimento`/
+`allegati` compaiono solo se il `document` sorgente è pubblico
+(`isPublic()`); la riga resta comunque con gli altri campi valorizzati
+anche per un documento non pubblico.
+
+**Nuova validazione JSON Schema generica**: `JsonSchemaValidator`
+(`classes/anac/JsonSchemaValidator.php`), basata su
+`justinrainbow/json-schema` (già risolta nel `composer.lock` condiviso come
+dipendenza transitiva di `erasys/openapi-php`/`ocopenapi`, solo dichiarata
+esplicitamente nel `require` di questa estensione). Valida contro fixture
+locali committate in `classes/anac/schema/` (`art.23-v1.0.schema.json` +
+`commons-v1.0.schema.json`), **mai scaricate via HTTP a runtime** - un
+export che gira su ~600 tenant non deve dipendere dalla raggiungibilità di
+`guida-servizi.anticorruzione.it`, e un cambio di contenuto lato ANAC non
+deve alterare silenziosamente cosa viene validato. I `$ref` di `commons`
+sono URL **assolute** (es. `https://guida-servizi.anticorruzione.it/.../
+commons-v1.0.schema.json#/definitions/Data`), non path relativi - vengono
+risolti pre-registrando il contenuto locale in una
+`JsonSchema\SchemaStorage` sotto lo stesso `$id` assoluto referenziato dallo
+schema specifico, così la risoluzione non genera mai una richiesta di rete.
+`Art23Serializer::toJson()` chiama `JsonSchemaValidator::validate()` prima
+di restituire il JSON, lanciando `InvalidAnacSchemaException` se non
+conforme. **Pensata da subito riusabile per futuri schemi** (il nome dello
+schema non è hardcoded nel validator), ma **non retrofittata sugli schemi
+già scritti** (art.4-bis/13/20/31) - per quelli la validazione resta un
+controllo manuale in QA, gap noto e invariato da questo lavoro (vedi "Cosa
+manca" sopra).
+
+**`provvedimentiDirigDiSceltaContraente` omesso**: fuori scope - nessun
+attributo oggi distingue una determina di scelta del contraente da
+un'altra determina generica, stesso principio di esclusione già visto
+altrove nel progetto (es. "Ufficio dirigenziale" vs un campo dedicato
+mancante). Il `contenuto_obbligo` patchato sulla pagina "Provvedimenti"
+rimanda invece alla sotto-sezione "Bandi di gara e contratti" per assolvere
+quello specifico obbligo.
+
+**Rendering live**: `PageProvvedimentiProvider` espone le righe di
+`Art23Serializer::getOrgani()`/`getDirigenti()` come JSON "piatto" per le
+due tabelle della pagina "Provvedimenti" (registrato in
+`LiveRenderingRegistry` sotto `art.23-org`/`art.23-altra-tipologia`), stesso
+principio di `PageArt31DocumentiProvider` - **mai** `provvedimento`/
+`allegati` in tabella (confermato: solo nell'export), solo i campi comuni +
+`anno`/url della pagina del documento. `data`/`numero`/
+`strutturaResponsabile` sono delegati a
+`Art23Serializer::resolveDataNumero()`/`resolveStrutturaResponsabile()`
+(resi pubblici apposta) invece di essere ricalcolati nel provider - una
+copia duplicata qui era già divergente da quella del serializer (`numero`
+`null` qui, stringa vuota là) prima di un fix della review finale
+whole-branch. La colonna Data della tabella ordina su un valore `sort`/
+`type` ortogonale (timestamp), non sulla stringa `gg/mm/aaaa` - altrimenti
+DataTables la tratterebbe come testo (ordine per giorno del mese, non
+cronologico).
+
+**Filtro "Periodo" (Dal/Al)**: filtra su `dataTimestamp` (la stessa data
+mostrata in colonna "Data" - `act_date`/`data_di_firma`, fallback a
+`publication_start_time` solo se mancano entrambi), **non** sulla finestra
+di pubblicazione del Documento (`publication_start_time`/
+`publication_end_time`). Una prima versione filtrava su quella finestra
+(coerente con lo spec originale, §2: "Periodo: filtro ... su
+`publication_start_time`/`publication_end_time` del Documento") ma produceva
+righe apparentemente fuori range (es. "Data" 01/04/2026 dentro un filtro
+30/10-19/11) perché un documento può essere ripubblicato in un momento
+diverso dalla sua data d'atto - cambiato su richiesta esplicita di Marco
+dopo averlo notato in QA locale. `pubblicazioneInizio`/`pubblicazioneFine`
+rimossi da `PageProvvedimentiProvider::flattenRows()`, non più usati da
+nessun consumer.
+
+**Filtri Tipologia/Ufficio/Anno: accessible-autocomplete, non `<select>` nudo**
+- stessa libreria già usata da `opendata_remote_gui.tpl`/`ricerca_luoghi.tpl`/
+`search_people_by_role.tpl` (via `jquery.opendata_remote_gui.js`) per i filtri
+a faccette - richiesto da Marco per uniformare lo stile e aggiungere la
+digitazione per filtrare (utile su enti con molte unità organizzative).
+Inclusione via `{ezscript_require(array('accessible-autocomplete.min.js'))}`/
+`{ezcss_require(array('accessible-autocomplete.min.css'))}` (mai un
+`<script src>`/`<link>` diretto: un primo tentativo con tag diretti caricava
+sì libreria e CSS, ma non bastava - vedi sotto) e configurazione identica a
+quella già in uso (`displayMenu: 'overlay'`, `autoselect: false`,
+`dropdownArrow` disabilitata) invece di inventarne una propria, per lo stesso
+motivo. `enhanceArt23Select()` in `live_rendering_blocks.tpl` (fondo file)
+chiama `accessibleAutocomplete.enhanceSelectElement()` DOPO aver popolato le
+`<option>` (la libreria legge lo stato del `<select>` in quel momento);
+`onConfirm` imposta `option.selected` e fa `trigger('change')` esplicito -
+il default della libreria NON spara un evento `change` su una modifica fatta
+da JS, quindi senza quel trigger i filtri smetterebbero di funzionare
+scegliendo un valore dall'autocomplete.
+
+**`fetchProvvedimenti()`: limite esplicito e bypass della policy Anonymous**
+- senza `limit 1000` la ricerca Solr applica la paginazione di default (10
+risultati), troncando silenziosamente CSV/JSON/tabelle a 10 atti su
+qualunque ente reale (stessa trappola nota già documentata per
+`Art13Serializer`). Senza `'Limitation' => []`, `eZSolr::search()` applica
+la policy dell'utente corrente - il cron gira come Anonymous (nessun login
+esplicito in `cronjobs/anac_export.php`), il cui ruolo limita
+`content/read` ai soli `privacy.public`: i provvedimenti privati
+sparivano del tutto dalla query invece di restare in riga senza
+`provvedimento`/`allegati` (il comportamento voluto, già garantito da
+`isPublic()`). Entrambi trovati dalla review finale whole-branch,
+verificati dal vivo (10→29 righe, e tracciando
+`eZSolr::search()` → `policyLimitationFilterQuery()` nel kernel ezfind).
+Anche un `sort` esplicito (`publication_start_time`, poi `published` come
+tiebreaker) - senza, l'ordine dipende dall'ordine interno dell'indice
+Solr, che può cambiare a ogni reindicizzazione e generare una versione
+datata spuria nel CSV (l'hash di `ExportPublisher` include l'ordine delle
+righe).
+
+**`hideContentWithRedirect()`: guardia sui figli** - se una delle due
+pagine legacy ha figli reali nell'albero (`childrenCount(false) > 0`), lo
+step imposta solo lo stato privato e SALTA la rimozione dell'alias/il
+redirect, loggando un errore per verifica manuale - `removeByAction()`
+cancella la riga alias del nodo sorgente ma non quelle dei figli, il cui
+`parent` continua a puntare a un id ormai inesistente, rompendone
+silenziosamente l'url pubblico (`eZURLAliasML::fetchPathByActionList()`
+non trova più il segmento del genitore). Trovato dalla review finale
+whole-branch, verificato con un test dedicato
+(`tests/test_hide_content_with_redirect.php`).

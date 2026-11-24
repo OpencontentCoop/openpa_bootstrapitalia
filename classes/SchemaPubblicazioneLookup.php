@@ -58,6 +58,9 @@ class SchemaPubblicazioneLookup
         'art.26-27-atti-concessione' => 23,
         'art.26-27-atto-revoca' => 24,
         'art.26-27-atti' => 25,
+        'art.23-org' => 26,
+        'art.23-altra-tipologia' => 27,
+        'art.23' => 28,
     ];
 
     /**
@@ -97,6 +100,9 @@ class SchemaPubblicazioneLookup
         'art.26-27-atti-concessione' => 'Grant acts',
         'art.26-27-atto-revoca' => 'Grant revocation acts',
         'art.26-27-atti' => 'Grant acts',
+        'art.23-org' => 'Measures adopted by political governing bodies',
+        'art.23-altra-tipologia' => 'Measures adopted by executives',
+        'art.23' => 'Administrative measures',
     ];
 
     /**

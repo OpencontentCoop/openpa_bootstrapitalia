@@ -30,6 +30,8 @@ class LiveRenderingRegistry
         'art.13-rif' => [PageRiferimentiContattiProvider::class, 'getRiferimentiContattiRowsJson'],
         'art.31-oiv' => [PageArt31DocumentiProvider::class, 'getOivRowsJson'],
         'art.31-or' => [PageArt31DocumentiProvider::class, 'getOrganiDiRevisioneRowsJson'],
+        'art.23-org' => [PageProvvedimentiProvider::class, 'getOrganiRowsJson'],
+        'art.23-altra-tipologia' => [PageProvvedimentiProvider::class, 'getDirigentiRowsJson'],
     ];
 
     /**

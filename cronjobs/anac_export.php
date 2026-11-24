@@ -85,6 +85,7 @@ publishArt12($cli, $schemaBindings);
 publishArt36($cli, $schemaBindings);
 publishArt20($cli, $schemaBindings);
 publishArt2627($cli, $schemaBindings);
+publishArt23($cli, $schemaBindings);
 
 /**
  * Rete di sicurezza per le pagine con rendering live (vedi
@@ -195,6 +196,77 @@ function publishArt31(eZCLI $cli, array $schemaBindings)
     } catch (\Exception $e) {
         eZDebug::writeError($e->getMessage(), 'anac_export.php: art.31');
         $cli->error('anac_export: schema art.31 fallito: ' . $e->getMessage());
+    }
+}
+
+/**
+ * art. 23 (cms#489) - Provvedimenti amministrativi, solo C1. Due CSV (uno
+ * per gruppo, stesso identificativo delle rispettive tabelle live-rendering)
+ * + un JSON combinato con identificativo proprio ('art.23', diverso dai due
+ * CSV - stesso principio gia' visto per art.13-pa/art.31 "file unico").
+ *
+ * Un solo fetch condiviso (Art23Serializer::fetchProvvedimenti()) per CSV e
+ * JSON nella stessa esecuzione, stesso principio di publishArt31().
+ */
+function publishArt23(eZCLI $cli, array $schemaBindings)
+{
+    try {
+        $organiIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art23Serializer::SCHEMA_IDENTIFIER_ORGANI;
+        $dirigentiIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art23Serializer::SCHEMA_IDENTIFIER_DIRIGENTI;
+        $jsonIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art23Serializer::SCHEMA_IDENTIFIER_JSON;
+
+        $pageObject = $schemaBindings[$organiIdentifier] ?? null;
+        if (!$pageObject instanceof eZContentObject) {
+            $cli->warning("anac_export: nessuna pagina con schema_pubblicazione = {$organiIdentifier}, schema art.23 saltato (modulo trasparenza-c1 non installato o non aggiornato su questo sito?)");
+
+            return;
+        }
+        $rootNodeId = $pageObject->attribute('main_node')->attribute('node_id');
+
+        $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art23Serializer();
+        $provvedimenti = $serializer->fetchProvvedimenti();
+        $organi = $serializer->getOrgani($provvedimenti);
+        $dirigenti = $serializer->getDirigenti($provvedimenti);
+
+        $organiPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($organiIdentifier, $rootNodeId);
+        $csvOrgani = $serializer->toCsvOrganiConAllegati($organi);
+        $organiTracking = $organiPublisher->publishSingle($csvOrgani, 'csv');
+        $cli->notice("anac_export: schema {$organiIdentifier} ok, ultima modifica {$organiTracking['dataUltimaModifica']}");
+
+        $dirigentiPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($dirigentiIdentifier, $rootNodeId);
+        $csvDirigenti = $serializer->toCsvDirigentiConAllegati($dirigenti);
+        $dirigentiTracking = $dirigentiPublisher->publishSingle($csvDirigenti, 'csv');
+        $cli->notice("anac_export: schema {$dirigentiIdentifier} ok, ultima modifica {$dirigentiTracking['dataUltimaModifica']}");
+
+        // Il JSON combinato (un solo identificativo per entrambi i gruppi,
+        // a differenza dei due CSV separati) dipende dalle date risolte
+        // (intestazione) - publishWithDates() con hash sulla sola
+        // rappresentazione del dato (senza date), stesso principio di
+        // art.13-pa.
+        //
+        // L'hash si calcola sui due CSV gia' prodotti sopra ($csvOrgani/
+        // $csvDirigenti - stringhe semplici, deterministiche), non
+        // ri-codificando $organi/$dirigenti: quegli array contengono
+        // ancora eZContentObject vivi (la chiave 'object' di ogni riga),
+        // gia' mutati da fetchDataMap() dentro toCsv*ConAllegati() sopra -
+        // json_encode() su un object graph del genere non e' uno snapshot
+        // dati deliberato, e se mai incontrasse qualcosa di non
+        // serializzabile restituirebbe silenziosamente false (solo un
+        // warning PHP), congelando per sempre l'hash su md5('') e quindi
+        // il JSON 'art.23' su una pubblicazione mai piu' aggiornata. I due
+        // CSV rappresentano lo stesso dato sottostante (stesse righe,
+        // stessi campi) quindi sono equivalenti ai fini dell'hash - stesso
+        // principio di ExportPublisher::publish(), che calcola l'hash sul
+        // CSV e non sul JSON.
+        $jsonPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($jsonIdentifier, $rootNodeId);
+        $dataHashSource = $csvOrgani . "\x00" . $csvDirigenti;
+        $jsonTracking = $jsonPublisher->publishWithDates($dataHashSource, function ($first, $last) use ($serializer, $organi, $dirigenti) {
+            return $serializer->toJson($first, $last, $organi, $dirigenti);
+        }, 'json');
+        $cli->notice("anac_export: schema {$jsonIdentifier} ok, ultima modifica {$jsonTracking['dataUltimaModifica']}");
+    } catch (\Exception $e) {
+        eZDebug::writeError($e->getMessage(), 'anac_export.php: art.23');
+        $cli->error('anac_export: schema art.23 fallito: ' . $e->getMessage());
     }
 }
 
