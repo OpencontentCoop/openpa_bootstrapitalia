@@ -1279,8 +1279,8 @@ due tabelle della pagina "Provvedimenti" (registrato in
 `LiveRenderingRegistry` sotto `art.23-org`/`art.23-altra-tipologia`), stesso
 principio di `PageArt31DocumentiProvider` - **mai** `provvedimento`/
 `allegati` in tabella (confermato: solo nell'export), solo i campi comuni +
-`anno`/`pubblicazioneInizio`/`pubblicazioneFine`/url della pagina del
-documento. `data`/`numero`/`strutturaResponsabile` sono delegati a
+`anno`/url della pagina del documento. `data`/`numero`/
+`strutturaResponsabile` sono delegati a
 `Art23Serializer::resolveDataNumero()`/`resolveStrutturaResponsabile()`
 (resi pubblici apposta) invece di essere ricalcolati nel provider - una
 copia duplicata qui era già divergente da quella del serializer (`numero`
@@ -1289,6 +1289,39 @@ whole-branch. La colonna Data della tabella ordina su un valore `sort`/
 `type` ortogonale (timestamp), non sulla stringa `gg/mm/aaaa` - altrimenti
 DataTables la tratterebbe come testo (ordine per giorno del mese, non
 cronologico).
+
+**Filtro "Periodo" (Dal/Al)**: filtra su `dataTimestamp` (la stessa data
+mostrata in colonna "Data" - `act_date`/`data_di_firma`, fallback a
+`publication_start_time` solo se mancano entrambi), **non** sulla finestra
+di pubblicazione del Documento (`publication_start_time`/
+`publication_end_time`). Una prima versione filtrava su quella finestra
+(coerente con lo spec originale, §2: "Periodo: filtro ... su
+`publication_start_time`/`publication_end_time` del Documento") ma produceva
+righe apparentemente fuori range (es. "Data" 01/04/2026 dentro un filtro
+30/10-19/11) perché un documento può essere ripubblicato in un momento
+diverso dalla sua data d'atto - cambiato su richiesta esplicita di Marco
+dopo averlo notato in QA locale. `pubblicazioneInizio`/`pubblicazioneFine`
+rimossi da `PageProvvedimentiProvider::flattenRows()`, non più usati da
+nessun consumer.
+
+**Filtri Tipologia/Ufficio/Anno: accessible-autocomplete, non `<select>` nudo**
+- stessa libreria già usata da `opendata_remote_gui.tpl`/`ricerca_luoghi.tpl`/
+`search_people_by_role.tpl` (via `jquery.opendata_remote_gui.js`) per i filtri
+a faccette - richiesto da Marco per uniformare lo stile e aggiungere la
+digitazione per filtrare (utile su enti con molte unità organizzative).
+Inclusione via `{ezscript_require(array('accessible-autocomplete.min.js'))}`/
+`{ezcss_require(array('accessible-autocomplete.min.css'))}` (mai un
+`<script src>`/`<link>` diretto: un primo tentativo con tag diretti caricava
+sì libreria e CSS, ma non bastava - vedi sotto) e configurazione identica a
+quella già in uso (`displayMenu: 'overlay'`, `autoselect: false`,
+`dropdownArrow` disabilitata) invece di inventarne una propria, per lo stesso
+motivo. `enhanceArt23Select()` in `live_rendering_blocks.tpl` (fondo file)
+chiama `accessibleAutocomplete.enhanceSelectElement()` DOPO aver popolato le
+`<option>` (la libreria legge lo stato del `<select>` in quel momento);
+`onConfirm` imposta `option.selected` e fa `trigger('change')` esplicito -
+il default della libreria NON spara un evento `change` su una modifica fatta
+da JS, quindi senza quel trigger i filtri smetterebbero di funzionare
+scegliendo un valore dall'autocomplete.
 
 **`fetchProvvedimenti()`: limite esplicito e bypass della policy Anonymous**
 - senza `limit 1000` la ricerca Solr applica la paginazione di default (10

@@ -116,7 +116,7 @@ foreach ((array)$rows as $row) {
     check('nessuna riga espone allegati', false, array_key_exists('allegati', $row));
     check('riga ha denominazione', true, array_key_exists('denominazione', $row));
     check('riga ha anno', true, array_key_exists('anno', $row));
-    check('riga ha pubblicazioneInizio', true, array_key_exists('pubblicazioneInizio', $row));
+    check('riga ha dataTimestamp', true, array_key_exists('dataTimestamp', $row));
     check('riga ha organizzazioni', true, array_key_exists('organizzazioni', $row));
 }
 

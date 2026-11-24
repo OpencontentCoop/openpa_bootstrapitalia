@@ -48,41 +48,56 @@ table[id^="live-rendering-"] th{white-space:nowrap}
        (children_table_fields.tpl): form-group m-0 + form-label p-0 m-0 +
        form-control sul select, invece del form-select "nudo" usato prima -
        richiesto da Marco per uniformita' con le altre pagine di trasparenza. *}
-    <div class="row g-3 mb-3 live-rendering-art23-filters" data-dom-id="{$block.dom_id}">
-        <div class="col-md-3">
-            <div class="form-group m-0">
-                <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-denominazione">{'Type'|i18n('bootstrapitalia/anac_export')}</label>
-                <select class="form-control" id="live-rendering-{$block.dom_id}-filter-denominazione">
-                    <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
-                </select>
+    {* accessible-autocomplete: stessa libreria gia' usata da
+       opendata_remote_gui.tpl/ricerca_luoghi.tpl/search_people_by_role.tpl
+       (jquery.opendata_remote_gui.js) per i filtri a faccette - richiesto da
+       Marco per uniformare i 3 select Tipologia/Ufficio/Anno a quel pattern
+       gia' funzionante. ezscript_require/ezcss_require (non un <script>/
+       <link> diretto) e' il modo con cui quelle pagine la includono: vanno
+       nella cache combinata delle risorse di pagina, non ricaricati/duplicati
+       se il blocco si ripete (qui per le due tabelle art.23-org/
+       art.23-altra-tipologia sulla stessa pagina "Provvedimenti"). *}
+    {ezscript_require(array('accessible-autocomplete.min.js'))}
+    {ezcss_require(array('accessible-autocomplete.min.css'))}
+    <div class="mb-5">
+        <div class="row g-3 mb-3 live-rendering-art23-filters" data-dom-id="{$block.dom_id}">
+            <div class="col-md-4">
+                <div class="form-group m-0">
+                    <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-denominazione">{'Type'|i18n('bootstrapitalia/anac_export')}</label>
+                    <select class="form-control" id="live-rendering-{$block.dom_id}-filter-denominazione">
+                        <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group m-0">
+                    <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-struttura">{'Office'|i18n('bootstrapitalia/anac_export')}</label>
+                    <select class="form-control" id="live-rendering-{$block.dom_id}-filter-struttura">
+                        <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group m-0">
+                    <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-anno">{'Year'|i18n('bootstrapitalia/anac_export')}</label>
+                    <select class="form-control" id="live-rendering-{$block.dom_id}-filter-anno">
+                        <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group m-0">
-                <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-struttura">{'Office'|i18n('bootstrapitalia/anac_export')}</label>
-                <select class="form-control" id="live-rendering-{$block.dom_id}-filter-struttura">
-                    <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
-                </select>
+        <div class="row g-3 live-rendering-art23-filters" data-dom-id="{$block.dom_id}">
+            <div class="col-md-3">
+                <div class="form-group m-0">
+                    <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-data-da">{'From'|i18n('bootstrapitalia/anac_export')}</label>
+                    <input type="date" class="form-control" id="live-rendering-{$block.dom_id}-filter-data-da">
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group m-0">
-                <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-anno">{'Year'|i18n('bootstrapitalia/anac_export')}</label>
-                <select class="form-control" id="live-rendering-{$block.dom_id}-filter-anno">
-                    <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group m-0">
-                <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-data-da">{'From'|i18n('bootstrapitalia/anac_export')}</label>
-                <input type="date" class="form-control" id="live-rendering-{$block.dom_id}-filter-data-da">
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group m-0">
-                <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-data-a">{'To'|i18n('bootstrapitalia/anac_export')}</label>
-                <input type="date" class="form-control" id="live-rendering-{$block.dom_id}-filter-data-a">
+            <div class="col-md-3">
+                <div class="form-group m-0">
+                    <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-data-a">{'To'|i18n('bootstrapitalia/anac_export')}</label>
+                    <input type="date" class="form-control" id="live-rendering-{$block.dom_id}-filter-data-a">
+                </div>
             </div>
         </div>
     </div>
@@ -175,7 +190,18 @@ $(document).ready(function () {ldelim}
         language: {ldelim} url: datatableLanguageUrl {rdelim},
         drawCallback: function () {ldelim}
             var pages = this.api().page.info().pages;
-            $(this.api().table().container()).find('.dataTables_paginate').toggle(pages > 1);
+            var $paginate = $(this.api().table().container()).find('.dataTables_paginate');
+            $paginate.toggle(pages > 1);
+            // DataTables marca la pagina corrente con la classe Bootstrap
+            // ".page-item.active", ma il CSS di Bootstrap Italia (piu'
+            // specifico: ".pagination .page-item .page-link", 3 classi
+            // contro le 2 di ".page-item.active .page-link") la sovrascrive
+            // e stila invece in base all'attributo aria-current sul
+            // <a class="page-link"> - senza impostarlo la pagina corrente
+            // non si distingue affatto dalle altre (segnalato da Marco,
+            // capita su ogni tabella live-rendering, non solo art.23).
+            $paginate.find('.page-link').removeAttr('aria-current');
+            $paginate.find('.page-item.active .page-link').attr('aria-current', 'page');
         {rdelim},
         {if $block.schema|eq('art.13-rif')}
         columns: [
@@ -271,10 +297,15 @@ $(document).ready(function () {ldelim}
             if (fromValue || toValue) {ldelim}
                 var from = fromValue ? (new Date(fromValue)).getTime() / 1000 : null;
                 var to = toValue ? ((new Date(toValue)).getTime() / 1000 + 86399) : null;
-                var start = rowData.pubblicazioneInizio || 0;
-                var end = rowData.pubblicazioneFine || null;
-                if (from !== null && end !== null && end < from) {ldelim} return false; {rdelim}
-                if (to !== null && start > to) {ldelim} return false; {rdelim}
+                // Stessa data mostrata in colonna "Data" (act_date/data_di_firma,
+                // con fallback a publication_start_time solo se le prime due
+                // mancano - vedi PageProvvedimentiProvider::flattenRows()), non
+                // la finestra di pubblicazione del Documento: altrimenti una riga
+                // con "Data" fuori dall'intervallo scelto compariva comunque,
+                // confondendo chi usa il filtro (richiesto da Marco).
+                var data = rowData.dataTimestamp || 0;
+                if (from !== null && data < from) {ldelim} return false; {rdelim}
+                if (to !== null && data > to) {ldelim} return false; {rdelim}
             {rdelim}
         {rdelim}
 
@@ -311,6 +342,60 @@ $(document).ready(function () {ldelim}
         {rdelim});
     {rdelim}
 
+    // Uniforma lo stile dei 3 filtri a tendina (Tipologia/Ufficio/Anno) a
+    // quello del filtro data (campo testuale, non un <select> nativo) e
+    // aggiunge la digitazione per filtrare - richiesto da Marco, utile
+    // soprattutto per "Ufficio" su enti con molte unita' organizzative.
+    // Stessa configurazione di jquery.opendata_remote_gui.js (filtri a
+    // faccette di opendata_remote_gui.tpl/ricerca_luoghi.tpl/
+    // search_people_by_role.tpl, l'uso gia' funzionante di questa libreria
+    // nel progetto): displayMenu 'overlay' (il menu va in overlay sul resto
+    // della pagina invece di spingerlo in basso), dropdownArrow disabilitata,
+    // autoselect false. Niente preserveNullOptions (default libreria, non
+    // impostato nemmeno da jquery.opendata_remote_gui.js): "Tutti" non
+    // compare tra i suggerimenti, sarebbe ridondante con il campo vuoto
+    // (gia' di per se' "nessun filtro" = "Tutti") - richiesto da Marco.
+    // enhanceSelectElement() va chiamato DOPO aver popolato le <option>
+    // (legge lo stato del <select> in quel momento) e rinomina l'id del
+    // <select> originale in "<id>-select", nascondendolo - l'handler jQuery
+    // gia' agganciato sotto per 'change' resta valido perche' e' legato al
+    // nodo DOM, non all'id. onConfirm: stesso pattern di
+    // jquery.opendata_remote_gui.js (query vuota => opzione con value vuoto,
+    // cioe' "Tutti", che qui esiste davvero in markup anche se non e' tra i
+    // suggerimenti) ma con trigger('change') esplicito al posto della
+    // chiamata diretta a runSearch() del widget faccette - serve perche' il
+    // default della libreria imposta solo `option.selected = true` SENZA
+    // sparare alcun evento 'change' (mai dispatchato su una modifica fatta
+    // da JS): senza il trigger() i filtri smetterebbero di funzionare
+    // scegliendo un valore dall'autocomplete.
+    function enhanceArt23Select($select) {ldelim}
+        var select = $select.get(0);
+        accessibleAutocomplete.enhanceSelectElement({ldelim}
+            selectElement: select,
+            showAllValues: true,
+            autoselect: false,
+            displayMenu: 'overlay',
+            dropdownArrow: function () {ldelim} return null; {rdelim},
+            defaultValue: '',
+            onConfirm: function (query) {ldelim}
+                var requestedOption;
+                if (query) {ldelim}
+                    requestedOption = [].filter.call(select.options, function (option) {ldelim}
+                        return (option.textContent || option.innerText) === query;
+                    {rdelim})[0];
+                {rdelim} else {ldelim}
+                    requestedOption = [].filter.call(select.options, function (option) {ldelim}
+                        return option.value === '';
+                    {rdelim})[0];
+                {rdelim}
+                if (requestedOption) {ldelim}
+                    requestedOption.selected = true;
+                    $select.trigger('change');
+                {rdelim}
+            {rdelim}
+        {rdelim});
+    {rdelim}
+
     {foreach $live_rendering.blocks as $block}
     {if or($block.schema|eq('art.23-org'), $block.schema|eq('art.23-altra-tipologia'))}
     (function () {ldelim}
@@ -334,6 +419,10 @@ $(document).ready(function () {ldelim}
             art23AnnoFilters[tableId] = this.value || null;
             table.draw();
         {rdelim});
+
+        enhanceArt23Select($('#live-rendering-' + domId + '-filter-denominazione'));
+        enhanceArt23Select($('#live-rendering-' + domId + '-filter-struttura'));
+        enhanceArt23Select($('#live-rendering-' + domId + '-filter-anno'));
 
         art23PeriodoInputs[tableId] = {ldelim}
             from: $('#live-rendering-' + domId + '-filter-data-da'),

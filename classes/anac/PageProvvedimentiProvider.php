@@ -31,8 +31,7 @@ class PageProvvedimentiProvider
 
     /**
      * @return array righe {denominazione, data, numero, oggetto,
-     *         strutturaResponsabile, organizzazioni, anno,
-     *         pubblicazioneInizio, pubblicazioneFine, url} - MAI
+     *         strutturaResponsabile, organizzazioni, anno, url} - MAI
      *         provvedimento/allegati (confermato: "in tabella non li
      *         visualizziamo", solo nell'export).
      *
@@ -40,9 +39,13 @@ class PageProvvedimentiProvider
      * catena di fallback usata da CSV/JSON) invece di essere ricalcolati qui
      * - una copia duplicata era gia' divergente da quella del serializer
      * (numero null qui, stringa vuota li') prima di questo fix, trovato
-     * dalla review finale whole-branch. anno/pubblicazioneInizio/
-     * pubblicazioneFine/url restano qui: servono solo alla tabella live,
-     * non a CSV/JSON. `organizzazioni` (id+nome, da
+     * dalla review finale whole-branch. anno/url restano qui: servono solo
+     * alla tabella live, non a CSV/JSON. Il filtro "Periodo" (Dal/Al) usa
+     * 'dataTimestamp' (la stessa data mostrata in colonna "Data"), non
+     * publication_start_time/end_time: un primo giro filtrava sulla finestra
+     * di pubblicazione del Documento, disallineata dalla data mostrata in
+     * tabella e quindi confusa per chi usa il filtro (richiesto da Marco
+     * dopo aver visto righe fuori range apparente). `organizzazioni` (id+nome, da
      * Art23Serializer::resolveOrganizzazioni()) idem - serve al filtro
      * "Unita' organizzativa" per id stabile (spec §2.1,
      * unitaOrganizzativaId): `strutturaResponsabile` resta la stringa
@@ -79,9 +82,6 @@ class PageProvvedimentiProvider
                 }
             }
 
-            $pubblicazioneInizio = isset($dataMap['publication_start_time']) ? (int)$dataMap['publication_start_time']->toString() : 0;
-            $pubblicazioneFine = isset($dataMap['publication_end_time']) ? (int)$dataMap['publication_end_time']->toString() : 0;
-
             $flattened[] = [
                 'denominazione' => $row['denominazione'],
                 'data' => $dataNumero['data'],
@@ -91,8 +91,6 @@ class PageProvvedimentiProvider
                 'strutturaResponsabile' => $this->serializer->resolveStrutturaResponsabile($dataMap),
                 'organizzazioni' => $this->serializer->resolveOrganizzazioni($dataMap),
                 'anno' => $anno,
-                'pubblicazioneInizio' => $pubblicazioneInizio,
-                'pubblicazioneFine' => $pubblicazioneFine,
                 'url' => $this->resolveDocumentPageUrl($object),
             ];
         }
