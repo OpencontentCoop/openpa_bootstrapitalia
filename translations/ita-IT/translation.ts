@@ -2734,8 +2734,8 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <translation>Data</translation>
     </message>
     <message>
-      <source>Act number</source>
-      <translation>Numero atto</translation>
+      <source>Number</source>
+      <translation>Numero</translation>
     </message>
     <message>
       <source>Subject</source>

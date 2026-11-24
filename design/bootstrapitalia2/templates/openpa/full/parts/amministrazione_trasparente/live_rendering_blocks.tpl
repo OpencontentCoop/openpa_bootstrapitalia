@@ -120,7 +120,7 @@ table[id^="live-rendering-"] th{white-space:nowrap}
             {elseif or($block.schema|eq('art.23-org'), $block.schema|eq('art.23-altra-tipologia'))}
             <tr>
                 <th>{'Date'|i18n('bootstrapitalia/anac_export')}</th>
-                <th>{'Act number'|i18n('bootstrapitalia/anac_export')}</th>
+                <th>{'Number'|i18n('bootstrapitalia/anac_export')}</th>
                 <th>{'Type'|i18n('bootstrapitalia/anac_export')}</th>
                 <th>{'Subject'|i18n('bootstrapitalia/anac_export')}</th>
                 <th>{'Office'|i18n('bootstrapitalia/anac_export')}</th>
