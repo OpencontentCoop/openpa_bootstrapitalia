@@ -49,6 +49,8 @@ class LiveRenderingRegistry
         'art.13-rif' => 'online_contact_point',
         'art.31-oiv' => 'document',
         'art.31-or' => 'document',
+        'art.23-org' => 'document',
+        'art.23-altra-tipologia' => 'document',
     ];
 
     /**
