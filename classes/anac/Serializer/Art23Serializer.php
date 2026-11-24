@@ -48,6 +48,19 @@ class Art23Serializer
         'fd0176933fb88cb62d6a3ad4be3cdaa2' => ['denominazione' => 'Decreto', 'group' => 'dirigenti'],
         'f3431b7c90f441bab1a0b2e3068325d4' => ['denominazione' => 'Determinazione', 'group' => 'dirigenti'],
         '4bdaece33ace3d1c3911b3b43c554b47' => ['denominazione' => 'Ordinanza', 'group' => 'dirigenti'],
+
+        // Tag padre generico (es. un documento taggato semplicemente
+        // "Deliberazione", senza specificare quale organo) - confermato con
+        // Marco di includerli. 'Deliberazione' (remote_id sotto) e' l'unico
+        // dei 4 padri generici non ambiguo: TUTTI i suoi figli oggi sono
+        // 'organi' (nessun "Deliberazione del Dirigente" esiste nella
+        // tassonomia) - verificato su tagtree_csv/documenti.csv (parent_id
+        // di tutti i 7 figli = 69, lo stesso id di questo tag). I padri
+        // generici "Decreto"/"Determinazione"/"Ordinanza" restano VOLUTAMENTE
+        // fuori: hanno entrambi un figlio 'organi' E uno 'dirigenti' (del
+        // Sindaco vs del Dirigente), quindi il gruppo per il tag generico
+        // da solo e' ambiguo - decisione in sospeso, vedi classes/anac/CLAUDE.md.
+        '5cf98dba69d46a79d7afa5fcbeea364a' => ['denominazione' => 'Deliberazione', 'group' => 'organi'],
     ];
 
     private $amministrazione;

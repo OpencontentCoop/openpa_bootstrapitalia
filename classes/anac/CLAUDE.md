@@ -1152,7 +1152,7 @@ sito, non solo sotto "Provvedimenti" - stesso motivo già documentato per
 ovunque sia pubblicato) filtrata su `raw[subattr_document_type___tag_ids____si]`
 per i tag id risolti da `resolveTagMap()`.
 
-**Risoluzione tag: 13 `remote_id` hardcoded, NON keyword/tree-walk** -
+**Risoluzione tag: 14 `remote_id` hardcoded, NON keyword/tree-walk** -
 `Art23Serializer::REMOTE_ID_TO_INFO` mappa ogni `remote_id` di tag
 `document_type` (ramo "Atto amministrativo" della tassonomia standard
 preesistente, verificato su `installer/tagtree_csv/documenti.csv`) a
@@ -1166,11 +1166,36 @@ esplicitamente (segnalato dal project owner prima dell'implementazione):
 il `keyword` di un tag è l'etichetta mostrata al redattore, modificabile da
 backend - un matching per testo fallirebbe silenziosamente a una rinomina
 anche minima del tag, senza nessun errore visibile. Il codice realmente
-scritto usa quindi 13 `remote_id` fissi (stabili, non rinominabili dal
+scritto usa quindi `remote_id` fissi (stabili, non rinominabili dal
 redattore), risolti una sola volta per istanza (`resolveTagMap()`,
 memoizzato in `$tagMap`) via `eZTagsObject::fetchByRemoteID()` - un
 `remote_id` che non risolve più a un tag esistente viene saltato, non
 blocca l'intero export.
+
+**Include anche i sinonimi di ciascun tag** - `tagtree_csv/documenti.csv`
+(colonna `synonyms_it`) dà un sinonimo a tutti e 13/14 i tag (es. "Decreto
+sindacale" per "Decreto del Sindaco"), ed `eztags.ini` ha `IndexSynonyms:
+enabled` (non sovrascritto): `ezfSolrDocumentFieldeZTags::processTag()` a
+quel punto NON normalizza un tag sinonimo al suo tag principale prima di
+indicizzare - un documento taggato col sinonimo viene indicizzato con l'id
+DEL SINONIMO, un id diverso da quello del tag principale. Senza
+l'espansione (`resolveTagMap()` include anche `getSynonyms()` di ogni tag,
+stessa denominazione/group del principale) quei documenti sparivano
+silenziosamente - trovato dalla review finale whole-branch.
+
+**Tag padre generico (es. "Deliberazione" da solo, senza specificare quale
+organo)** - confermato con Marco di includerli (2026-11-24). Dei 4 tag
+padre ("Decreto" id 66, "Deliberazione" id 69, "Determinazione" id 76,
+"Ordinanza" id 79, tutti figli diretti di "Atto amministrativo"), solo
+**"Deliberazione" è stato aggiunto**: è l'unico non ambiguo, perché TUTTI i
+suoi 7 figli nella tassonomia sono `organi` (nessun "Deliberazione del
+Dirigente" esiste) - verificato su `tagtree_csv/documenti.csv`. Gli altri
+tre (`Decreto`/`Determinazione`/`Ordinanza`) hanno ENTRAMBI un figlio
+`organi` ("del Sindaco") e uno `dirigenti` ("del Dirigente"): un documento
+taggato col solo padre generico non dice a quale dei due gruppi appartenga
+- **decisione ancora in sospeso con Marco**, questi tre restano fuori da
+`REMOTE_ID_TO_INFO` finché non viene scelto un gruppo di default (o un
+altro criterio).
 
 **Le due vecchie pagine, ritirate con stato privato + redirect 301** -
 `BootstrapItaliaInstallerUtils::hideContentWithRedirect()`
@@ -1253,4 +1278,42 @@ due tabelle della pagina "Provvedimenti" (registrato in
 principio di `PageArt31DocumentiProvider` - **mai** `provvedimento`/
 `allegati` in tabella (confermato: solo nell'export), solo i campi comuni +
 `anno`/`pubblicazioneInizio`/`pubblicazioneFine`/url della pagina del
-documento.
+documento. `data`/`numero`/`strutturaResponsabile` sono delegati a
+`Art23Serializer::resolveDataNumero()`/`resolveStrutturaResponsabile()`
+(resi pubblici apposta) invece di essere ricalcolati nel provider - una
+copia duplicata qui era già divergente da quella del serializer (`numero`
+`null` qui, stringa vuota là) prima di un fix della review finale
+whole-branch. La colonna Data della tabella ordina su un valore `sort`/
+`type` ortogonale (timestamp), non sulla stringa `gg/mm/aaaa` - altrimenti
+DataTables la tratterebbe come testo (ordine per giorno del mese, non
+cronologico).
+
+**`fetchProvvedimenti()`: limite esplicito e bypass della policy Anonymous**
+- senza `limit 1000` la ricerca Solr applica la paginazione di default (10
+risultati), troncando silenziosamente CSV/JSON/tabelle a 10 atti su
+qualunque ente reale (stessa trappola nota già documentata per
+`Art13Serializer`). Senza `'Limitation' => []`, `eZSolr::search()` applica
+la policy dell'utente corrente - il cron gira come Anonymous (nessun login
+esplicito in `cronjobs/anac_export.php`), il cui ruolo limita
+`content/read` ai soli `privacy.public`: i provvedimenti privati
+sparivano del tutto dalla query invece di restare in riga senza
+`provvedimento`/`allegati` (il comportamento voluto, già garantito da
+`isPublic()`). Entrambi trovati dalla review finale whole-branch,
+verificati dal vivo (10→29 righe, e tracciando
+`eZSolr::search()` → `policyLimitationFilterQuery()` nel kernel ezfind).
+Anche un `sort` esplicito (`publication_start_time`, poi `published` come
+tiebreaker) - senza, l'ordine dipende dall'ordine interno dell'indice
+Solr, che può cambiare a ogni reindicizzazione e generare una versione
+datata spuria nel CSV (l'hash di `ExportPublisher` include l'ordine delle
+righe).
+
+**`hideContentWithRedirect()`: guardia sui figli** - se una delle due
+pagine legacy ha figli reali nell'albero (`childrenCount(false) > 0`), lo
+step imposta solo lo stato privato e SALTA la rimozione dell'alias/il
+redirect, loggando un errore per verifica manuale - `removeByAction()`
+cancella la riga alias del nodo sorgente ma non quelle dei figli, il cui
+`parent` continua a puntare a un id ormai inesistente, rompendone
+silenziosamente l'url pubblico (`eZURLAliasML::fetchPathByActionList()`
+non trova più il segmento del genitore). Trovato dalla review finale
+whole-branch, verificato con un test dedicato
+(`tests/test_hide_content_with_redirect.php`).
