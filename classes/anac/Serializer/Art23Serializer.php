@@ -178,7 +178,8 @@ class Art23Serializer
      * opzionale albo-pretorio li aggiunge), non solo vuoti - isset() prima
      * di controllare se l'attributo e' valorizzato.
      *
-     * @return array{data: string|null, numero: string|null} 'data' in formato gg/mm/aaaa, null se nessuna fonte disponibile
+     * @return array{data: string|null, numero: string} 'data' in formato gg/mm/aaaa, null se nessuna fonte disponibile;
+     *         'numero' stringa vuota (mai null - lo schema ANAC richiede string) se nessuna fonte disponibile
      */
     private function resolveDataNumero(\eZContentObject $object, array $dataMap)
     {
@@ -194,7 +195,7 @@ class Art23Serializer
             }
         }
 
-        $numero = null;
+        $numero = '';
         foreach (['act_number', 'has_code'] as $field) {
             if (!isset($dataMap[$field])) {
                 continue;
@@ -231,7 +232,7 @@ class Art23Serializer
     }
 
     /**
-     * @return array{data: string|null, numero: string|null, denominazione: string, oggetto: string, strutturaResponsabile: string}
+     * @return array{data: string|null, numero: string, denominazione: string, oggetto: string, strutturaResponsabile: string}
      *         campi comuni a CSV e JSON, SENZA provvedimento/allegati (vedi
      *         buildRigaConAllegati() in Task 6, solo per l'export)
      */

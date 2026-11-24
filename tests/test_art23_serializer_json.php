@@ -194,5 +194,51 @@ try {
     echo '  dettaglio: ' . $e->getMessage() . "\n";
 }
 
+// ── resolveDataNumero(): 'numero' assente da ENTRAMBE le fonti (act_number
+// e has_code) - caso reale su un sito senza il modulo opzionale
+// albo-pretorio, o con un documento semplicemente non protocollato.
+// Prima del fix tornava null, non conforme allo schema ANAC
+// (ProvvedimentoGen.numero e' 'type: string', mai null) - l'export JSON si
+// bloccava per sempre su qualunque tenant con anche un solo provvedimento
+// cosi'. Deve tornare stringa vuota, valida per lo schema (nessun vincolo
+// di lunghezza minima).
+$realObjectSenzaNumero = $documentClass->instantiate(eZUser::currentUserID());
+$realObjectSenzaNumero->store();
+eZNodeAssignment::create([
+    'contentobject_id' => $realObjectSenzaNumero->attribute('id'),
+    'contentobject_version' => 1,
+    'parent_node' => $rootNodeId,
+    'is_main' => 1,
+])->store();
+
+$versionSenzaNumero = $realObjectSenzaNumero->version(1);
+$dataMapSenzaNumero = [];
+foreach ($versionSenzaNumero->contentObjectAttributes('ita-IT') as $attr) {
+    $dataMapSenzaNumero[$attr->contentClassAttributeIdentifier()] = $attr;
+}
+$dataMapSenzaNumero['name']->fromString('Decreto reale senza numero ' . uniqid());
+$dataMapSenzaNumero['name']->store();
+// 'data' deve restare risolvibile (act_number/has_code lasciati vuoti di
+// default) - questo test isola solo il fallback di 'numero'.
+$dataMapSenzaNumero['publication_start_time']->fromString((string)strtotime('2026-03-12'));
+$dataMapSenzaNumero['publication_start_time']->store();
+
+eZOperationHandler::execute('content', 'publish', ['object_id' => $realObjectSenzaNumero->attribute('id'), 'version' => 1]);
+$realObjectSenzaNumeroPubblico = eZContentObject::fetch((int)$realObjectSenzaNumero->attribute('id'));
+
+$buildRigaBaseMethod = new ReflectionMethod($serializer, 'buildRigaBase');
+$buildRigaBaseMethod->setAccessible(true);
+$rigaSenzaNumero = $buildRigaBaseMethod->invoke($serializer, ['object' => $realObjectSenzaNumeroPubblico, 'denominazione' => 'Decreto', 'group' => 'organi']);
+check('numero assente da act_number/has_code: stringa vuota, non null', '', $rigaSenzaNumero['numero']);
+
+$jsonSenzaNumero = $serializer->toJson('01/01/2026', '01/01/2026', [['object' => $realObjectSenzaNumeroPubblico, 'denominazione' => 'Decreto', 'group' => 'organi']], []);
+try {
+    \OpenPABootstrapItalia\Anac\JsonSchemaValidator::validate('art.23-v1.0.schema.json', $jsonSenzaNumero);
+    check('JSON con numero assente resta conforme allo schema reale', true, true);
+} catch (\OpenPABootstrapItalia\Anac\InvalidAnacSchemaException $e) {
+    check('JSON con numero assente resta conforme allo schema reale', true, false);
+    echo '  dettaglio: ' . $e->getMessage() . "\n";
+}
+
 echo "\n$PASSED controlli ok, $FAILED falliti\n";
 exit($FAILED === 0 ? 0 : 1);
