@@ -44,32 +44,46 @@ table[id^="live-rendering-"] th{white-space:nowrap}
     {/if}
     <script type="application/json" id="live-rendering-{$block.dom_id}-data">{$block.rows_json}</script>
     {if or($block.schema|eq('art.23-org'), $block.schema|eq('art.23-altra-tipologia'))}
+    {* Stesso stile del filtro "Filtra per fase" dei Bandi di gara
+       (children_table_fields.tpl): form-group m-0 + form-label p-0 m-0 +
+       form-control sul select, invece del form-select "nudo" usato prima -
+       richiesto da Marco per uniformita' con le altre pagine di trasparenza. *}
     <div class="row g-3 mb-3 live-rendering-art23-filters" data-dom-id="{$block.dom_id}">
         <div class="col-md-3">
-            <label class="form-label" for="live-rendering-{$block.dom_id}-filter-denominazione">{'Type'|i18n('bootstrapitalia/anac_export')}</label>
-            <select class="form-select" id="live-rendering-{$block.dom_id}-filter-denominazione">
-                <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
-            </select>
+            <div class="form-group m-0">
+                <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-denominazione">{'Type'|i18n('bootstrapitalia/anac_export')}</label>
+                <select class="form-control" id="live-rendering-{$block.dom_id}-filter-denominazione">
+                    <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
+                </select>
+            </div>
         </div>
         <div class="col-md-3">
-            <label class="form-label" for="live-rendering-{$block.dom_id}-filter-struttura">{'Office'|i18n('bootstrapitalia/anac_export')}</label>
-            <select class="form-select" id="live-rendering-{$block.dom_id}-filter-struttura">
-                <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
-            </select>
+            <div class="form-group m-0">
+                <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-struttura">{'Office'|i18n('bootstrapitalia/anac_export')}</label>
+                <select class="form-control" id="live-rendering-{$block.dom_id}-filter-struttura">
+                    <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
+                </select>
+            </div>
         </div>
         <div class="col-md-2">
-            <label class="form-label" for="live-rendering-{$block.dom_id}-filter-anno">{'Year'|i18n('bootstrapitalia/anac_export')}</label>
-            <select class="form-select" id="live-rendering-{$block.dom_id}-filter-anno">
-                <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
-            </select>
+            <div class="form-group m-0">
+                <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-anno">{'Year'|i18n('bootstrapitalia/anac_export')}</label>
+                <select class="form-control" id="live-rendering-{$block.dom_id}-filter-anno">
+                    <option value="">{'All'|i18n('bootstrapitalia/anac_export')}</option>
+                </select>
+            </div>
         </div>
         <div class="col-md-2">
-            <label class="form-label" for="live-rendering-{$block.dom_id}-filter-data-da">{'From'|i18n('bootstrapitalia/anac_export')}</label>
-            <input type="date" class="form-control" id="live-rendering-{$block.dom_id}-filter-data-da">
+            <div class="form-group m-0">
+                <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-data-da">{'From'|i18n('bootstrapitalia/anac_export')}</label>
+                <input type="date" class="form-control" id="live-rendering-{$block.dom_id}-filter-data-da">
+            </div>
         </div>
         <div class="col-md-2">
-            <label class="form-label" for="live-rendering-{$block.dom_id}-filter-data-a">{'To'|i18n('bootstrapitalia/anac_export')}</label>
-            <input type="date" class="form-control" id="live-rendering-{$block.dom_id}-filter-data-a">
+            <div class="form-group m-0">
+                <label class="form-label p-0 m-0" for="live-rendering-{$block.dom_id}-filter-data-a">{'To'|i18n('bootstrapitalia/anac_export')}</label>
+                <input type="date" class="form-control" id="live-rendering-{$block.dom_id}-filter-data-a">
+            </div>
         </div>
     </div>
     {/if}
