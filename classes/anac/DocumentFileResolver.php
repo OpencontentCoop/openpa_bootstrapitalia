@@ -29,7 +29,12 @@ class DocumentFileResolver
 
         if (isset($dataMap['attachments']) && $dataMap['attachments']->hasContent()) {
             $attachmentsAttribute = $dataMap['attachments'];
-            $file = reset(self::fetchValidBinaryFiles($attachmentsAttribute));
+            // reset() vuole una variabile, non il risultato diretto di una
+            // funzione (PHP notice "Only variables should be passed by
+            // reference" su ogni chiamata, PHP 7.4 - trovato dalla review
+            // finale whole-branch). Condiviso da Art13Serializer/Art31Serializer.
+            $validFiles = self::fetchValidBinaryFiles($attachmentsAttribute);
+            $file = reset($validFiles);
             if ($file instanceof \eZMultiBinaryFile) {
                 return self::buildMultiBinaryUrl($object, $attachmentsAttribute, $file);
             }

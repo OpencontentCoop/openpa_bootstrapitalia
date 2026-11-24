@@ -2753,5 +2753,9 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>To</source>
       <translation>Al</translation>
     </message>
+    <message>
+      <source>Year</source>
+      <translation>Anno</translation>
+    </message>
   </context>
 </TS>

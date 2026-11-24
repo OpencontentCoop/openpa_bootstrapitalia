@@ -76,6 +76,20 @@ class Art23Serializer
      * esistente (tassonomia cancellata a mano, mai il caso su un'istanza
      * reale non manomessa) viene saltato, non blocca l'intero export.
      *
+     * Include anche i SINONIMI di ciascun tag (es. "Decreto sindacale" per
+     * "Decreto del Sindaco" - vedi `tagtree_csv/documenti.csv`, colonna
+     * `synonyms_it`, tutte e 13 le voci ne hanno uno), mappati alla stessa
+     * denominazione/group del tag principale. Necessario: `eztags.ini`
+     * (`[SearchSettings] IndexSynonyms`) e' `enabled` in questo progetto (non
+     * sovrascritto), e `ezfSolrDocumentFieldeZTags::processTag()` a quel
+     * punto NON risolve un sinonimo al suo tag principale prima di indicizzare
+     * - un documento taggato con un sinonimo viene indicizzato con l'id DEL
+     * SINONIMO, non quello del tag principale. Senza questa espansione, un
+     * documento taggato "Decreto sindacale" invece di "Decreto del Sindaco"
+     * sparirebbe silenziosamente dalla query (il suo tag id non e' tra quelli
+     * cercati) - trovato dalla review finale whole-branch, verificato
+     * leggendo `ezfSolrDocumentFieldeZTags::processTag()`.
+     *
      * @return array tagId => ['denominazione' => string, 'group' => 'organi'|'dirigenti']
      */
     public function resolveTagMap()
@@ -91,6 +105,11 @@ class Art23Serializer
                 continue;
             }
             $this->tagMap[(int)$tag->attribute('id')] = $info;
+            foreach ($tag->getSynonyms() as $synonym) {
+                if ($synonym instanceof \eZTagsObject) {
+                    $this->tagMap[(int)$synonym->attribute('id')] = $info;
+                }
+            }
         }
 
         return $this->tagMap;
@@ -101,6 +120,38 @@ class Art23Serializer
      * principio di Art13Serializer::fetchRiferimentiContatti()/
      * Art31Serializer::fetchDocumentsByKeys()): un provvedimento con questo
      * tag va trovato ovunque sia pubblicato, non solo sotto "Provvedimenti".
+     *
+     * `limit 1000`: stesso motivo gia' documentato in Art13Serializer
+     * (fetchVerticeAmministrativi()/fetchOrganizzazioniByTagPath()) - senza
+     * un limite esplicito la ricerca applica la paginazione di default (10
+     * risultati), troncando silenziosamente CSV/JSON/tabelle live a 10 atti
+     * su qualunque ente reale - trovato dalla review finale whole-branch
+     * (confermato dal vivo: 10 risultati tornati su 29 reali disponibili).
+     *
+     * `sort [...]`: ordine esplicito e deterministico (data piu' recente
+     * prima, `published` come tiebreaker) - senza un sort esplicito l'ordine
+     * dipende dall'ordine interno dell'indice Solr, che puo' cambiare a ogni
+     * reindicizzazione e generare una nuova versione datata dell'export
+     * anche a dato invariato (il principio "pubblica solo se cambia" di
+     * ExportPublisher si basa sull'hash del CSV, quindi un riordino spurio
+     * delle righe lo romperebbe).
+     *
+     * `'Limitation' => array()`: senza, `eZSolr::search()` applica la
+     * policy dell'utente corrente (vedi `policyLimitationFilterQuery()` in
+     * ezfind) - il cron gira come Anonymous (nessun login esplicito in
+     * `cronjobs/anac_export.php`), il cui ruolo limita `content/read` ai soli
+     * contenuti `privacy.public` (`installer/roles/Anonymous.yml`): senza
+     * questo bypass i provvedimenti privati sparirebbero del tutto dalla
+     * query, non solo da `provvedimento`/`allegati` (che e' invece il
+     * comportamento voluto, gia' garantito da `isPublic()` in
+     * `buildRigaConAllegati()` - vedi spec §4.2) - trovato dalla stessa
+     * review finale, verificato tracciando `eZSolr::search()` ->
+     * `policyLimitationFilterQuery()`: senza la chiave `Limitation` nei
+     * parametri, `$limitation` e' `null` e si usa
+     * `eZUser::currentUser()->hasAccessTo('content','read')` (limitato);
+     * passando `array()` esplicito si ottiene `accessWord = 'yes'` (nessuna
+     * restrizione) - stesso idioma gia' in uso altrove in questo progetto
+     * per lo stesso scopo (vedi `OpenPABootstrapItaliaPrivacyFactory.php`).
      *
      * @return array righe {object: eZContentObject, denominazione: string, group: 'organi'|'dirigenti'}
      */
@@ -113,7 +164,8 @@ class Art23Serializer
 
         $rootNodeId = (int)\eZINI::instance('content.ini')->variable('NodeSettings', 'RootNode');
         $tagIds = array_keys($tagMap);
-        $query = 'classes [document] and raw[subattr_document_type___tag_ids____si] in [' . implode(',', $tagIds) . '] and subtree [' . $rootNodeId . ']';
+        $query = 'classes [document] and raw[subattr_document_type___tag_ids____si] in [' . implode(',', $tagIds) . '] and subtree [' . $rootNodeId . ']'
+            . ' sort [publication_start_time=>desc, published=>desc] limit 1000';
         $queryBuilder = new \Opencontent\Opendata\Api\QueryLanguage\EzFind\QueryBuilder();
         $queryObject = $queryBuilder->instanceQuery($query);
 
@@ -121,7 +173,9 @@ class Art23Serializer
         // modulo completo - non disponibile in un contesto cron/CLI (stesso
         // motivo gia' documentato in Art31Serializer::fetchDocumentsByKeys()).
         $solr = new \eZSolr();
-        $searchResult = $solr->search('', (array)$queryObject->convert());
+        $params = (array)$queryObject->convert();
+        $params['Limitation'] = array();
+        $searchResult = $solr->search('', $params);
 
         $rows = [];
         foreach ($searchResult['SearchResult'] as $resultNode) {
@@ -178,10 +232,16 @@ class Art23Serializer
      * opzionale albo-pretorio li aggiunge), non solo vuoti - isset() prima
      * di controllare se l'attributo e' valorizzato.
      *
+     * Pubblico (non piu' solo uso interno di buildRigaBase()): riusato anche
+     * da PageProvvedimentiProvider::flattenRows() per la tabella live, che
+     * prima duplicava la stessa catena per conto proprio - trovato dalla
+     * review finale whole-branch, le due copie erano gia' divergenti
+     * (questa tornava '' per 'numero' assente, l'altra null).
+     *
      * @return array{data: string|null, numero: string} 'data' in formato gg/mm/aaaa, null se nessuna fonte disponibile;
      *         'numero' stringa vuota (mai null - lo schema ANAC richiede string) se nessuna fonte disponibile
      */
-    private function resolveDataNumero(\eZContentObject $object, array $dataMap)
+    public function resolveDataNumero(\eZContentObject $object, array $dataMap)
     {
         $data = null;
         foreach (['act_date', 'data_di_firma', 'publication_start_time'] as $field) {
@@ -214,7 +274,7 @@ class Art23Serializer
      * @return string nomi delle organization collegate (has_organization,
      *         ezobjectrelationlist multi-valore), separate da ", " se piu' di una
      */
-    private function resolveStrutturaResponsabile(array $dataMap)
+    public function resolveStrutturaResponsabile(array $dataMap)
     {
         if (!isset($dataMap['has_organization']) || !$dataMap['has_organization']->hasContent()) {
             return '';

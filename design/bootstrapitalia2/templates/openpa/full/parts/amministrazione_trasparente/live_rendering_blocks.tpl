@@ -186,7 +186,10 @@ $(document).ready(function () {ldelim}
         ]
         {elseif or($block.schema|eq('art.23-org'), $block.schema|eq('art.23-altra-tipologia'))}
         columns: [
-            {ldelim} data: 'data' {rdelim},
+            {ldelim} data: 'data', render: function (data, type, row) {ldelim}
+                if (type === 'sort' || type === 'type') {ldelim} return row.dataTimestamp || 0; {rdelim}
+                return data;
+            {rdelim} {rdelim},
             {ldelim} data: 'numero' {rdelim},
             {ldelim} data: 'denominazione' {rdelim},
             {ldelim} data: 'oggetto', render: function (data, type, row) {ldelim}
@@ -199,7 +202,8 @@ $(document).ready(function () {ldelim}
                 return a.outerHTML;
             {rdelim} {rdelim},
             {ldelim} data: 'strutturaResponsabile' {rdelim}
-        ]
+        ],
+        order: [[0, 'desc']]
         {else}
         columns: [
             {ldelim} data: 'organo' {rdelim},

@@ -253,6 +253,55 @@ try {
     check('no-op su sorgente gia\' migrata anche se il target non risolve piu\'', true, false);
 }
 
+// Caso trovato dalla review finale whole-branch: una pagina con figli reali
+// nell'albero non deve perdere il redirect SUL NODO SORGENTE in modo da
+// rompere gli url dei figli. removeByAction() fa un DELETE secco della riga
+// alias del nodo sorgente - le righe dei figli restano, ma il loro 'parent'
+// punta a un id ormai inesistente, e il loro path smette di risolvere
+// (verificato nel kernel: eZURLAliasML::fetchPathByActionList() tramite
+// pathWithNames() ricade su 'content/view/full/<id>'). Con figli, lo step
+// deve impostare solo lo stato privato e SALTARE alias/redirect, lasciando
+// intatta la riga alias del figlio.
+$parentWithChildRemoteId = 'test_hide_redirect_parent_with_child_' . uniqid();
+$parentWithChild = createFolderWithRemoteId($rootNodeId, 'ParentWithChild ' . uniqid(), $parentWithChildRemoteId);
+$childObject = createFolderWithRemoteId((int)$parentWithChild->attribute('main_node_id'), 'Child ' . uniqid(), 'test_hide_redirect_child_' . uniqid());
+$childNode = $childObject->attribute('main_node');
+$childOriginalPath = trim($childNode->attribute('url_alias'), '/');
+check('il figlio ha un path pubblico prima del test', true, $childOriginalPath !== '');
+
+$parentWithChildNode = $parentWithChild->attribute('main_node');
+$parentWithChildOriginalPath = trim($parentWithChildNode->attribute('url_alias'), '/');
+
+$parentWithChildStep = new \Opencontent\Installer\PhpCallable();
+$parentWithChildStep->setStep([
+    'identifier' => 'BootstrapItaliaInstallerUtils::hideContentWithRedirect',
+    'remote_id' => $parentWithChildRemoteId,
+    'redirect_to_remote_id' => $targetRemoteId,
+]);
+$parentWithChildStep->setLogger(new \Psr\Log\NullLogger());
+BootstrapItaliaInstallerUtils::hideContentWithRedirect($parentWithChildStep);
+
+eZContentObject::clearCache([(int)$parentWithChild->attribute('id')]);
+$parentWithChildAfter = eZContentObject::fetch((int)$parentWithChild->attribute('id'));
+check(
+    'pagina con figli: stato privacy.private assegnato comunque',
+    true,
+    in_array($privateStateId, array_map('intval', (array)$parentWithChildAfter->attribute('state_id_array')), true)
+);
+
+$parentWithChildAliasRow = $db->arrayQuery(
+    "SELECT COUNT(*) AS c FROM ezurlalias_ml WHERE text = '" . $db->escapeString($parentWithChildOriginalPath) . "' AND action = 'eznode:" . (int)$targetObject->attribute('main_node_id') . "'"
+);
+check('pagina con figli: NESSUN redirect creato verso il target', 0, (int)$parentWithChildAliasRow[0]['c']);
+
+$childAliasRowAfter = $db->arrayQuery(
+    "SELECT COUNT(*) AS c FROM ezurlalias_ml WHERE action = 'eznode:" . (int)$childNode->attribute('node_id') . "'"
+);
+check('pagina con figli: la riga alias del figlio resta intatta (non orfana)', true, (int)$childAliasRowAfter[0]['c'] > 0);
+
+$childResolvedAfter = eZURLAliasML::fetchByPath($childOriginalPath);
+check('pagina con figli: il path del figlio risolve ancora', true, $childResolvedAfter !== null && !empty($childResolvedAfter));
+
 // remote_id inesistente: deve lanciare, non fallire silenziosamente
 try {
     $badStep = new \Opencontent\Installer\PhpCallable();

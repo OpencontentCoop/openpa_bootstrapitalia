@@ -1318,6 +1318,37 @@ class BootstrapItaliaInstallerUtils
             throw new Exception("hideContentWithRedirect: main_node non trovato per remote_id '$remoteId'");
         }
 
+        // Guardia aggiunta dopo la review finale whole-branch: removeByAction()
+        // sotto fa un DELETE secco delle righe alias di QUESTO nodo
+        // (ezurlalias_ml WHERE action = 'eznode:<source>') - le righe dei
+        // nodi figli non vengono toccate, ma il loro campo 'parent' continua
+        // a puntare a un id di riga che non esiste piu'. A runtime,
+        // eZURLAliasML::fetchPathByActionList() non trova piu' il segmento
+        // di path del genitore e l'url del figlio smette di risolvere
+        // (verificato nel kernel: pathWithNames() ricade su
+        // 'content/view/full/<id>', loggando un errore) - un 404 silenzioso
+        // per qualunque contenuto pubblicato sotto la pagina legacy, esattamente
+        // l'opposto di quello per cui questo metodo esiste (non rompere link
+        // esterni gia' indicizzati). childrenCount(false) ignora le policy
+        // dell'utente corrente (conta tutti i figli, anche quelli nascosti) -
+        // l'installer gira con un utente admin, ma il parametro esplicito non
+        // deve dipendere da quale utente lo esegue.
+        if ($node->childrenCount(false) > 0) {
+            $privacyStates = OpenPABase::initStateGroup('privacy', ['private']);
+            $privateStateId = (int)$privacyStates['privacy.private']->attribute('id');
+            $currentStateIdArray = array_map('intval', (array)$object->attribute('state_id_array'));
+            if (!in_array($privateStateId, $currentStateIdArray, true)) {
+                eZContentOperationCollection::updateObjectState($object->attribute('id'), [$privateStateId]);
+                eZContentOperationCollection::registerSearchObject($object->attribute('id'));
+            }
+            $step->getLogger()->error(
+                " - '{$object->attribute('name')}' ha figli nell'albero (childrenCount=" . $node->childrenCount(false) . "):"
+                . " impostato privato MA redirect NON creato per non rompere gli url dei figli - verificare manualmente"
+            );
+
+            return;
+        }
+
         // Idempotenza: NON basta controllare lo stato privacy. Un oggetto
         // puo' essere gia' privacy.private per un motivo del tutto
         // scollegato da questo step (stato ereditato, modifica manuale,

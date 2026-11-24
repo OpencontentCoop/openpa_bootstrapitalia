@@ -1101,9 +1101,11 @@ Conseguenze concrete, non ovvie:
   divieto sui crawler sia con l'obbligo di raggiungibilità. Resta comunque il
   punto con meno appiglio normativo dei cinque elencati in #479 - nessun
   `noindex`/`robots.txt` implementato per i file datati non-`-latest`.
-- **Validazione JSON Schema ANAC**: resta un controllo manuale in QA, nessuna
-  validazione automatica nel codice (decisione esplicita, non un gap
-  dimenticato).
+- **Validazione JSON Schema ANAC sugli schemi PRE-ESISTENTI** (art.4-bis/13/
+  20/31): resta un controllo manuale in QA, nessuna validazione automatica
+  nel codice (decisione esplicita, non un gap dimenticato) - non retrofittata
+  da art.23, che invece valida automaticamente (vedi `JsonSchemaValidator`
+  sotto, sezione "art. 23").
 - **Rendering live: ancora lento su una pagina con più schemi, nonostante il
   fix dell'11 novembre** (riprodotto il 19 novembre su buglianoqa: 75,98s
   colpendo l'app direttamente, bypassando Varnish - stesso ordine di
@@ -1222,8 +1224,10 @@ locali committate in `classes/anac/schema/` (`art.23-v1.0.schema.json` +
 `commons-v1.0.schema.json`), **mai scaricate via HTTP a runtime** - un
 export che gira su ~600 tenant non deve dipendere dalla raggiungibilità di
 `guida-servizi.anticorruzione.it`, e un cambio di contenuto lato ANAC non
-deve alterare silenziosamente cosa viene validato. I `$ref` relativi di
-`commons` vengono risolti pre-registrando il contenuto locale in una
+deve alterare silenziosamente cosa viene validato. I `$ref` di `commons`
+sono URL **assolute** (es. `https://guida-servizi.anticorruzione.it/.../
+commons-v1.0.schema.json#/definitions/Data`), non path relativi - vengono
+risolti pre-registrando il contenuto locale in una
 `JsonSchema\SchemaStorage` sotto lo stesso `$id` assoluto referenziato dallo
 schema specifico, così la risoluzione non genera mai una richiesta di rete.
 `Art23Serializer::toJson()` chiama `JsonSchemaValidator::validate()` prima

@@ -34,6 +34,14 @@ class PageProvvedimentiProvider
      *         strutturaResponsabile, anno, pubblicazioneInizio,
      *         pubblicazioneFine, url} - MAI provvedimento/allegati (confermato:
      *         "in tabella non li visualizziamo", solo nell'export).
+     *
+     * data/numero/strutturaResponsabile delegati a Art23Serializer (stessa
+     * catena di fallback usata da CSV/JSON) invece di essere ricalcolati qui
+     * - una copia duplicata era gia' divergente da quella del serializer
+     * (numero null qui, stringa vuota li') prima di questo fix, trovato
+     * dalla review finale whole-branch. anno/pubblicazioneInizio/
+     * pubblicazioneFine/url restano qui: servono solo alla tabella live,
+     * non a CSV/JSON.
      */
     private function flattenRows(array $rows)
     {
@@ -42,7 +50,14 @@ class PageProvvedimentiProvider
             $object = $row['object'];
             $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
 
-            $data = null;
+            $dataNumero = $this->serializer->resolveDataNumero($object, $dataMap);
+
+            // Stesso ordine di campi e stessa logica di resolveDataNumero()
+            // (break al primo timestamp valido) - 'anno'/'dataTimestamp'
+            // devono riferirsi alla STESSA fonte gia' risolta in 'data', non
+            // a publication_start_time a prescindere (potrebbe non essere il
+            // campo che ha vinto il fallback).
+            $dataTimestamp = 0;
             $anno = null;
             foreach (['act_date', 'data_di_firma', 'publication_start_time'] as $field) {
                 if (!isset($dataMap[$field])) {
@@ -50,20 +65,8 @@ class PageProvvedimentiProvider
                 }
                 $timestamp = (int)$dataMap[$field]->toString();
                 if ($timestamp > 0) {
-                    $data = date('d/m/Y', $timestamp);
+                    $dataTimestamp = $timestamp;
                     $anno = date('Y', $timestamp);
-                    break;
-                }
-            }
-
-            $numero = null;
-            foreach (['act_number', 'has_code'] as $field) {
-                if (!isset($dataMap[$field])) {
-                    continue;
-                }
-                $value = trim((string)$dataMap[$field]->content());
-                if ($value !== '') {
-                    $numero = $value;
                     break;
                 }
             }
@@ -71,24 +74,13 @@ class PageProvvedimentiProvider
             $pubblicazioneInizio = isset($dataMap['publication_start_time']) ? (int)$dataMap['publication_start_time']->toString() : 0;
             $pubblicazioneFine = isset($dataMap['publication_end_time']) ? (int)$dataMap['publication_end_time']->toString() : 0;
 
-            $strutturaResponsabile = '';
-            if (isset($dataMap['has_organization']) && $dataMap['has_organization']->hasContent()) {
-                $names = [];
-                foreach ((array)($dataMap['has_organization']->content()['relation_list'] ?? []) as $item) {
-                    $relatedObject = \eZContentObject::fetch((int)$item['contentobject_id']);
-                    if ($relatedObject instanceof \eZContentObject) {
-                        $names[] = trim($relatedObject->attribute('name'));
-                    }
-                }
-                $strutturaResponsabile = implode(', ', $names);
-            }
-
             $flattened[] = [
                 'denominazione' => $row['denominazione'],
-                'data' => $data,
-                'numero' => $numero,
+                'data' => $dataNumero['data'],
+                'dataTimestamp' => $dataTimestamp,
+                'numero' => $dataNumero['numero'],
                 'oggetto' => trim($object->attribute('name')),
-                'strutturaResponsabile' => $strutturaResponsabile,
+                'strutturaResponsabile' => $this->serializer->resolveStrutturaResponsabile($dataMap),
                 'anno' => $anno,
                 'pubblicazioneInizio' => $pubblicazioneInizio,
                 'pubblicazioneFine' => $pubblicazioneFine,
