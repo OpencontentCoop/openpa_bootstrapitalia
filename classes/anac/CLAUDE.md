@@ -1193,9 +1193,11 @@ Dirigente" esiste) - verificato su `tagtree_csv/documenti.csv`. Gli altri
 tre (`Decreto`/`Determinazione`/`Ordinanza`) hanno ENTRAMBI un figlio
 `organi` ("del Sindaco") e uno `dirigenti` ("del Dirigente"): un documento
 taggato col solo padre generico non dice a quale dei due gruppi appartenga
-- **decisione ancora in sospeso con Marco**, questi tre restano fuori da
-`REMOTE_ID_TO_INFO` finché non viene scelto un gruppo di default (o un
-altro criterio).
+- **deciso con Marco (2026-11-24): esclusi per scelta conservativa**, restano
+fuori da `REMOTE_ID_TO_INFO` - un documento taggato con uno di questi tre
+tag generici non compare nell'export finche' non viene ritaggato con un
+figlio specifico ("del Sindaco"/"del Dirigente"), piuttosto che rischiare
+una classificazione errata.
 
 **Le due vecchie pagine, ritirate con stato privato + redirect 301** -
 `BootstrapItaliaInstallerUtils::hideContentWithRedirect()`
