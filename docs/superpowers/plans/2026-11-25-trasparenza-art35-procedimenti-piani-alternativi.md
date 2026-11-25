@@ -6,17 +6,7 @@
 
 **Schema di riferimento:** `art.35-v1.0.schema.json` (scaricato e verificato), 4 CSV ufficiali (`art.35-proc`, `art.35-uff`, `art.35-uff-istanze`, `art.35-uff-sost`) + 1 JSON (`art.35-*.json`).
 
-**Scope comune a entrambi i piani (deciso con Marco):**
-- `tipologia` resta testo libero (nessun vocabolario: ANAC non impone un elenco e ogni ente ha la propria tabella dei procedimenti).
-- `accessoInformazioni` e `potereSostitutivo.attivazione` restano testo libero (ANAC non vincola un enum su questi campi; nessuna evidenza sufficiente per un vocabolario condiviso tra i 600 enti).
-- **`infoInoltroIstanze` (modulistica istanze di parte + array di fasce orarie) — INCLUSO nel Piano A, escluso nel Piano B.** Analisi approfondita con Marco: il blocco è molto più economico di una prima stima, grazie al riuso delle relazioni già previste.
-  - **Trigger implicito (idea di Marco, più pulita del boolean separato):** niente campo SI/NO a parte — è la relazione `application_office` stessa a fare da segnale. Se valorizzata → istanza di parte, si emette `infoInoltroIstanze`; se vuota → blocco omesso. Il redattore la seleziona esplicitamente anche quando l'ufficio è lo stesso del responsabile (nessun fallback automatico silenzioso, per non avere un segnale ambiguo).
-  - **Ufficio (denominazione/indirizzo/contatti):** derivato da `application_office`, attraversando `organization.has_spatial_coverage → place.has_address` (indirizzo) e `place.opening_hours_specification` (orari) — stessa catena di relazioni già usata per `responsible_office`, solo un'altra relazione dello stesso tipo.
-  - **Modulistica:** non è un campo per-record. È un **URL fisso di sito**, risolto a export-time dal `remote_id` della pagina Modulistica del tenant (default `cfd0a916ca48eb7d4a78bb6beb7821f9`, verificato in locale su "Comune di Marcon": `/Amministrazione/Documenti-e-dati/Modulistica`) tramite `eZContentObject::fetchByRemoteID()` + `url_alias` del nodo principale — robusto a traduzioni/rinomina del path. Da valutare se serve renderlo configurabile per ente in futuro (stesso pattern ini già visto altrove in questo modulo), non necessario ora.
-  - **Orari:** derivati dalla matrice `opening_hours_specification.opening_hours` (colonne fisse Lunedì-Domenica, **valore di cella testo libero**, es. "9:00-12:00") — serve un parser per estrarre `oraInizio`/`oraFine` nel formato richiesto da ANAC. **Decisione di Marco: se anche un solo giorno non è interpretabile, l'export per questo schema va in errore** (stesso meccanismo già esistente di gestione errori per-schema nel cron, es. `recordAnacExportError()`), non uno skip silenzioso del giorno — così l'errore è visibile e correggibile dal redattore/amministratore, invece di pubblicare dati silenziosamente incompleti.
-  - Resta comunque il quarto CSV (`art.35-uff-istanze`) da scrivere nel serializer, con le sue colonne e righe ripetute per fascia oraria — lavoro meccanico, non più "il blocco più costoso".
-  - **Nel Piano B (Dataset) resta escluso:** il framework Dataset non ha relazioni (niente riuso di ufficio/orari) né un tipo di campo ripetibile/array (niente modo pulito di rappresentare più fasce orarie per riga) — includerlo lì richiederebbe duplicare tutto a mano per ogni procedimento, senza nessuno dei riusi che lo rendono economico nel Piano A.
-- Repo coinvolti: `installer` (content model) e `openpa_bootstrapitalia` (serializer/export), branch `trasparenza-additional-scheme-35` su entrambi, da `main`/`master`.
+**Repo coinvolti:** `installer` (content model) e `openpa_bootstrapitalia` (serializer/export), branch `trasparenza-additional-scheme-35` su entrambi, da `main`/`master`.
 
 ---
 
@@ -24,52 +14,34 @@
 
 ### Modello dati
 
-Nuova classe eZ `administrative_procedure` (installer YAML) — identificatori in inglese, come il resto delle classi del prodotto (`organization`, `public_service`, `public_person`, `opening_hours_specification`), etichette in italiano:
+Nuova classe eZ `administrative_procedure` (installer YAML) — identificatori in inglese, come il resto delle classi del prodotto (`organization`, `public_service`, `public_person`, `opening_hours_specification`), etichette e descrizioni in italiano:
 
-| Identificatore | Etichetta italiana | Tipo | Obbligatorio | Note |
+| Identificatore | Etichetta italiana | Tipo | Obbligatorio | Descrizione per il redattore |
 |---|---|---|---|---|
-| `title` | Denominazione | ezstring | sì | nome oggetto |
-| `procedure_type` | Tipologia | ezstring | sì | testo libero |
-| `description` | Descrizione | eztext | sì | |
-| `legal_references` | Riferimenti normativi | eztext | sì | |
-| `organizational_unit` | Unità organizzativa | ezstring | no | |
-| `responsible_office` | Ufficio responsabile | ezobjectrelation → `organization` | sì | contatti e nome ufficio derivati dalla relazione |
-| `competent_office` | Ufficio competente | ezobjectrelation → `organization` | no | `nominativoResponsabile` derivato da `organization.office_manager` (ruolo "Responsabile") |
-| `information_access` | Accesso alle informazioni | eztext | sì | |
-| `completion_term` | Conclusione del procedimento | eztext | sì | |
-| `substitute_declaration` | Dichiarazione sostitutiva | select/bool SI-NO | sì | |
-| `tacit_consent` | Silenzio assenso | select/bool SI-NO | sì | |
-| `legal_remedies` | Strumenti di tutela | eztext | sì | |
-| `related_public_service` | Servizio pubblico collegato | ezobjectrelation → `public_service` | no | `servizioOnline.urlServizio` = pagina del servizio |
-| `service_activation_time` | Tempi di attivazione servizio | ezstring | no | alternativa a `related_public_service` (vincolo "almeno uno" solo in guida, non bloccante — stesso schema di PEO/PEC su art.26-27) |
-| `online_payments` | Pagamenti informatici | ezurl | sì | |
-| `substitute_power_holder` | Titolare potere sostitutivo | ezobjectrelation → `public_person` | no | qualifica derivata dal ruolo della persona |
-| `substitute_power_activation` | Attivazione potere sostitutivo | eztext | no | testo libero |
-| `application_office` | Ufficio istanze | ezobjectrelation → `organization` | no | **fa anche da trigger**: se valorizzato, il procedimento è a istanza di parte e si emette `infoInoltroIstanze` (denominazione/indirizzo/contatti/orari derivati da questo ufficio); se vuoto, il blocco è omesso. Il redattore lo seleziona esplicitamente anche quando coincide con `responsible_office` — nessun fallback automatico, per evitare ambiguità sul segnale |
+| `title` | Denominazione | ezstring | sì | Nome del procedimento, facilmente comprensibile dal cittadino |
+| `procedure_type` | Tipologia | ezstring | sì | Categoria del procedimento secondo la classificazione interna dell'ente (testo libero, nessun vocabolario imposto: ogni ente ha la propria tabella dei procedimenti) |
+| `description` | Descrizione | eztext | sì | Breve descrizione del procedimento e del suo oggetto |
+| `legal_references` | Riferimenti normativi | eztext | sì | Norme (legge, regolamento) che disciplinano il procedimento |
+| `organizational_unit` | Unità organizzativa | ezstring | no | Denominazione dell'unità organizzativa competente, se diversa dall'ufficio responsabile indicato sotto |
+| `responsible_office` | Ufficio responsabile | ezobjectrelation → `organization` | sì | Ufficio che istruisce il procedimento — seleziona l'unità organizzativa già censita in Organizzazione: da lì si prendono automaticamente denominazione e contatti |
+| `competent_office` | Ufficio competente | ezobjectrelation → `organization` | no | Ufficio che adotta il provvedimento finale, solo se diverso dall'ufficio responsabile — il nominativo del responsabile si deriva da `organization.office_manager` (ruolo "Responsabile") |
+| `information_access` | Accesso alle informazioni | eztext | sì | Come un interessato può avere informazioni sullo stato del proprio procedimento (es. telefono, PEC, sportello) |
+| `completion_term` | Conclusione del procedimento | eztext | sì | Termine entro cui il procedimento si conclude (es. "90 giorni dalla presentazione dell'istanza") |
+| `substitute_declaration` | Dichiarazione sostitutiva | select/bool SI-NO | sì | Indica se il provvedimento finale può essere sostituito da un'autocertificazione dell'interessato |
+| `tacit_consent` | Silenzio assenso | select/bool SI-NO | sì | Indica se il silenzio dell'amministrazione, decorso il termine, equivale ad accoglimento della richiesta |
+| `legal_remedies` | Strumenti di tutela | eztext | sì | Come un interessato può opporsi all'esito del procedimento (es. ricorso al TAR, ricorso gerarchico) |
+| `related_public_service` | Servizio pubblico collegato | ezobjectrelation → `public_service` | no | Scheda del Servizio pubblico da cui si accede online al procedimento, se esiste — la sua pagina diventa il link di accesso al servizio |
+| `service_activation_time` | Tempi di attivazione servizio | ezstring | no | Da compilare solo se non c'è un servizio online collegato: indica quando sarà disponibile (vincolo "almeno uno tra i due" solo in guida, non bloccante — stesso schema di PEO/PEC su art.26-27) |
+| `online_payments` | Pagamenti informatici | ezurl | sì | Link alla pagina dove effettuare eventuali pagamenti collegati al procedimento |
+| `substitute_power_holder` | Titolare potere sostitutivo | ezobjectrelation → `public_person` | no | Persona a cui rivolgersi in caso di inerzia del responsabile del procedimento — qualifica derivata dal ruolo della persona |
+| `substitute_power_activation` | Attivazione potere sostitutivo | eztext | no | Come attivare il potere sostitutivo (es. "PEC all'indirizzo istituzionale") |
+| `application_office` | Ufficio istanze | ezobjectrelation → `organization` | no | Compila solo se il procedimento si avvia su richiesta del cittadino: seleziona l'ufficio dove presentare la domanda (anche se coincide con l'ufficio responsabile sopra). **Se lasci vuoto questo campo, il procedimento è considerato avviato d'ufficio** e questa parte non viene pubblicata |
 
 **Da verificare in fase di build (non bloccante per questo piano):** se il ruolo di `public_person` porta con sé anche l'ufficio di appartenenza (per `potereSostitutivo.ufficio`), o se serve un campo/relazione in più.
 
-### ⚠️ Problema individuato e risolto: figli diretti della pagina
-
-**Decisione di Marco: i `administrative_procedure` si creano come figli diretti del nodo "Tipologie di procedimento"** — sono contenuti di trasparenza specifici di quella pagina, a differenza di `document` (riusato altrove per più scopi), non ha senso farli vivere in un nodo separato.
-
-Verificato nel codice che questo **funziona, con una piccola correzione**. Il template `pagina_trasparenza.tpl` ha due blocchi indipendenti che oggi non si escludono a vicenda:
-- la tabella live-render (`{if $trasparenza.live_rendering_blocks}`, riga 221-227)
-- "altri contenuti": **tutti** i figli diretti tranne una lista di classi escluse (`{if $trasparenza.count_children_extra}`, riga 229, calcolata da `getExcludeClassesForExtraChildren()` in `classes/services/content_trasparenza.php:601-636`)
-
-Quella funzione di esclusione oggi **non consulta mai `LiveRenderingRegistry`** — finora non si è mai visto il problema perché le classi gestite da live-rendering (`document` per Provvedimenti, `organization` per Articolazione uffici) non sono mai state figlie dirette della pagina trasparenza, quindi il blocco "altri contenuti" era vuoto per caso, non per esclusione esplicita. Se `administrative_procedure` diventa figlio diretto, comparirebbe anche lì, duplicando la tabella.
-
-**Fix, piccolo e localizzato:** estendere `getExcludeClassesForExtraChildren()` perché includa anche le classi gestite da `LiveRenderingRegistry` per quello schema (la stessa lista già letta altrove, riga 665, per il messaggio "regole di rappresentazione ignorate") nel merge di riga 631. Una riga di codice in un metodo esistente, non un redesign — va aggiunto come task esplicito del piano.
-
-**Conseguenza positiva:** niente nuovo nodo contenitore, niente nuovo Role/Policy per un nodo separato — i redattori creano i procedimenti con il normale permesso di creazione contenuti sotto quel nodo (stesso pattern di qualunque altra sotto-pagina), serve solo il Role/Policy standard per la nuova classe.
-
-**Altri problemi dello stesso tipo, individuati per analogia:**
-- **Pagina di dettaglio per procedimento — decisione di Marco: niente link, a meno che non diventi necessario.** Resta solo la tabella, senza vista di dettaglio individuale per ora.
-- **Bozza/privato.** Un procedimento in bozza o reso privato deve produrre zero righe sia in tabella sia in export — stesso meccanismo già verificato e funzionante per Provvedimenti/art.23 (stessa infrastruttura `LiveRenderingRegistry` + `ExportPublisher`), quindi atteso corretto "gratis", ma da confermare in test.
-
 ### Cosa si vede in pagina
 
-Una sola tabella live-render "Tipologie di procedimento" (DataTables, stesso stile di Provvedimenti/art.23), con filtri Tipologia / Ufficio responsabile / Anno (se rilevante) e ricerca testuale. Il blocco "altri contenuti" (figli diretti) va esplicitamente escluso per questa classe (vedi fix sopra) — nessun elenco figli nativo, nessun link di dettaglio per riga.
+Una sola tabella live-render "Tipologie di procedimento" (DataTables, stesso stile di Provvedimenti/art.23), con filtri Tipologia / Ufficio responsabile / Anno (se rilevante) e ricerca testuale. Nessun elenco figli nativo, nessun link di dettaglio per riga (decisione di Marco: niente pagina di dettaglio individuale, a meno che non diventi necessario). Il blocco "altri contenuti" della pagina va escluso per questa classe — vedi dettaglio tecnico sotto Stima e rischi.
 
 ### Cosa viene esportato
 
@@ -81,14 +53,23 @@ Una sola tabella live-render "Tipologie di procedimento" (DataTables, stesso sti
 | `art.35-uff-sost-*.csv` | ✅ sì | derivato dalla relazione a `public_person`, una riga per titolare distinto |
 | `art.35-*.json` | ✅ sì | `procedimenti[]` completo con `ufficioResponsabile`, `ufficioCompetente` (se presente), `servizioOnline`, `potereSostitutivo` (se presente), `infoInoltroIstanze` (se `application_office` valorizzato) |
 
+### Permessi
+
+Nuova policy `content/create` + `content/edit` (+ `content/remove`, per coerenza con le altre classi dello stesso ruolo) per la classe `administrative_procedure`, aggiunta al ruolo **Editor Trasparenza** (`installer/modules/trasparenza-c1/roles/Editor-Trasparenza.yml`) — lo stesso ruolo che oggi gestisce già `document`, `public_person`, `link`, `nota_trasparenza`, ecc. sotto `Subtree: $content_Amministrazione-Trasparente_path_string`. La policy di `create` va vincolata con `ParentClass: classid(pagina_trasparenza)` (coerente con l'essere figli diretti della pagina "Tipologie di procedimento", che è una `pagina_trasparenza`) — stesso pattern già usato per le altre classi di questo ruolo. Nessun ruolo nuovo da creare, nessuna policy aggiuntiva per l'export pubblico dei file (già coperta in modo generico dalla policy `anac_export/file` sul ruolo `Anonymous`).
+
 ### Stima e rischi
-- Classe + ruoli/policy: poche ore, lavoro meccanico.
-- Fix a `getExcludeClassesForExtraChildren()`: piccolo, un'ora circa.
+- Classe + policy sul ruolo Editor Trasparenza: poche ore, lavoro meccanico.
+- Fix a `getExcludeClassesForExtraChildren()` (figli diretti della pagina, vedi sotto): piccolo, un'ora circa.
+- Binding `schema_pubblicazione` sulla pagina "Tipologie di procedimento" (patch_content, stesso meccanismo già usato per art.13/23/26-27): poche ore.
 - Form di inserimento: **gratis** (nativo eZ, incluso il picker per le relazioni).
 - Nuovo provider live-rendering: ~1 giorno, pattern collaudato 3 volte (art.13/23/31).
 - Parser orari (`opening_hours_specification` → `FasciaOraria` ANAC) + gestione errore per-schema se un giorno non è interpretabile: mezza giornata circa.
 - Serializer + cron + `ExportPublisher` + validazione JSON Schema: lavoro standard, stesso di qualunque nuovo schema ANAC già fatto.
-- **Totale indicativo: qualche giorno in più del piano B**, ma zero duplicazione dati, relazione nativa, export "uffici"/"potere sostitutivo"/"istanze" correttamente normalizzati, copertura quasi completa dello schema (solo `ufficioCompetente.nominativoResponsabile` e simili restano da confermare in build).
+- **Totale indicativo: qualche giorno in più del piano B**, ma zero duplicazione dati, relazione nativa, export "uffici"/"potere sostitutivo"/"istanze" correttamente normalizzati, copertura quasi completa dello schema.
+
+#### Figli diretti della pagina — problema individuato e risolto
+
+Decisione di Marco: i `administrative_procedure` sono figli diretti del nodo "Tipologie di procedimento" (contenuti di trasparenza specifici di quella pagina, a differenza di `document`, riusato altrove). Verificato che funziona con una piccola correzione: il template `pagina_trasparenza.tpl` ha un blocco "altri contenuti" che lista tutti i figli diretti tranne una lista di classi escluse (`getExcludeClassesForExtraChildren()` in `classes/services/content_trasparenza.php:601-636`), che oggi **non esclude** le classi gestite da `LiveRenderingRegistry` — non è mai stato un problema finora perché `document`/`organization` non sono mai stati figli diretti di una pagina trasparenza. **Fix:** estendere quel metodo (merge riga 631) con le classi gestite da `LiveRenderingRegistry` per lo schema — una riga in un metodo esistente, non un redesign.
 
 ---
 
@@ -103,9 +84,7 @@ Uno o due dataset (framework `occustomfind/datatypes/opendatadataset/`, stesso m
 
 Consiglio, se si va di Dataset: **B1**, perché B2 introduce fragilità senza eliminarla del tutto (vedi sotto, l'import CSV/Google Sheet dovrebbe comunque fare matching per nome).
 
-### Nessun problema di "figli nella pagina"
-
-I dataset non creano oggetti-figlio nell'albero: i record vivono dentro un'unica tabella in un attributo dell'oggetto "Tipologie di procedimento" stesso. Il problema individuato nel Piano A **non esiste** in questo piano.
+I dataset non creano oggetti-figlio nell'albero: i record vivono dentro un'unica tabella in un attributo dell'oggetto "Tipologie di procedimento" stesso. Il problema dei "figli diretti" del Piano A non esiste in questo piano.
 
 ### Cosa si vede in pagina
 
@@ -117,14 +96,15 @@ Tabella generica del framework Dataset (stessa UX di "Atti di concessione"): ric
 |---|---|---|
 | `art.35-proc-*.csv` | ✅ sì | tutti i campi, incluse le colonne ufficio/titolare duplicate riga per riga |
 | `art.35-uff-*.csv` | ⚠️ parziale/da decidere | per essere conforme all'esempio ANAC (una riga per ufficio distinto) servirebbe comunque una deduplica a posteriori nel serializer, sui valori testuali inseriti dai redattori — **stesso rischio di disallineamento per typo già discusso con Marco**; alternativa più semplice e più robusta: non generarlo affatto e lasciare i dati ufficio solo dentro `art.35-proc.csv` (si perde un po' di aderenza alla forma "esempio" di ANAC, resta comunque dato valido) |
-| `art.35-uff-istanze-*.csv` | ❌ no | escluso (vedi scope comune) |
+| `art.35-uff-istanze-*.csv` | ❌ no | escluso — nessuna relazione, nessun campo ripetibile nel framework Dataset per rappresentare più fasce orarie |
 | `art.35-uff-sost-*.csv` | ⚠️ stesso discorso di `art.35-uff` | stessa scelta da fare: deduplica fragile o non generarlo |
 | `art.35-*.json` | ✅ sì | stessa completezza del Piano A (il JSON non richiede normalizzazione, solo oggetti annidati) — unica differenza: i valori di `ufficioResponsabile`/`potereSostitutivo` vengono dai campi piatti del dataset, non da una relazione viva |
 
 ### Stima e rischi
 - Nessun nuovo content_type, nessun nuovo provider: riusa l'infrastruttura Dataset esistente al 100%.
+- Binding `schema_pubblicazione` sulla pagina: stesso lavoro del Piano A.
 - Serializer + cron + `ExportPublisher` + validazione JSON Schema: stesso lavoro del Piano A.
-- **Totale indicativo: qualche giorno in meno del piano A**, ma: dati ufficio/titolare duplicati a ogni inserimento (nessuna fonte unica, un cambio di PEC richiede modifica manuale su ogni riga che lo cita), e i 2 CSV "lookup" (`art.35-uff`, `art.35-uff-sost`) o sono generati con un rischio di frammentazione per typo, o vengono omessi (minore aderenza al formato di esempio ANAC, ma dato comunque valido).
+- **Totale indicativo: qualche giorno in meno del piano A**, ma: dati ufficio/titolare duplicati a ogni inserimento (nessuna fonte unica, un cambio di PEC richiede modifica manuale su ogni riga che lo cita), e i 2 CSV "lookup" (`art.35-uff`, `art.35-uff-sost`) o sono generati con un rischio di frammentazione per typo, o vengono omessi (minore aderenza al formato di esempio ANAC, ma dato comunque valido). `infoInoltroIstanze` escluso del tutto.
 
 ---
 
@@ -138,6 +118,22 @@ Tabella generica del framework Dataset (stessa UX di "Atti di concessione"): ric
 | `infoInoltroIstanze` / `art.35-uff-istanze` | ✅ incluso, costo contenuto grazie al riuso delle relazioni | ❌ escluso (nessuna relazione, nessun campo ripetibile nel framework Dataset) |
 | Form di inserimento | gratis (nativo eZ + picker relazione) | gratis (Alpaca, già pronto) |
 | Tabella pubblica con filtri | da costruire (~1 giorno, pattern collaudato) | già pronta, zero codice |
+| Permessi | nuova policy su ruolo esistente (Editor Trasparenza) | nuova policy su ruolo esistente (Editor Dataset, da verificare) |
 | Sforzo totale stimato | qualche giorno in più | più snello |
 
 Nessuna raccomandazione finale in questo documento: la scelta dipende dai giorni effettivamente disponibili e da quanto pesa, per Marco, la qualità/normalizzazione dei 2 CSV "lookup" rispetto al tempo risparmiato.
+
+---
+
+## Scope comune a entrambi i piani (deciso con Marco)
+
+- `tipologia` resta testo libero (nessun vocabolario: ANAC non impone un elenco e ogni ente ha la propria tabella dei procedimenti).
+- `accessoInformazioni` e `potereSostitutivo.attivazione` restano testo libero (ANAC non vincola un enum su questi campi; nessuna evidenza sufficiente per un vocabolario condiviso tra i 600 enti).
+- **`infoInoltroIstanze` (modulistica istanze di parte + array di fasce orarie) — INCLUSO nel Piano A, escluso nel Piano B.** Il blocco è molto più economico di una prima stima, grazie al riuso delle relazioni già previste:
+  - **Trigger implicito (idea di Marco):** niente campo SI/NO a parte — è la relazione `application_office` stessa a fare da segnale. Se valorizzata → istanza di parte, si emette `infoInoltroIstanze`; se vuota → blocco omesso. Il redattore la seleziona esplicitamente anche quando l'ufficio è lo stesso del responsabile (nessun fallback automatico silenzioso, per non avere un segnale ambiguo).
+  - **Ufficio (denominazione/indirizzo/contatti):** derivato da `application_office`, attraversando `organization.has_spatial_coverage → place.has_address` (indirizzo) e `place.opening_hours_specification` (orari) — stessa catena di relazioni già usata per `responsible_office`, solo un'altra relazione dello stesso tipo.
+  - **Modulistica:** non è un campo per-record. È un **URL fisso di sito**, risolto a export-time dal `remote_id` della pagina Modulistica del tenant (default `cfd0a916ca48eb7d4a78bb6beb7821f9`, verificato in locale su "Comune di Marcon": `/Amministrazione/Documenti-e-dati/Modulistica`) tramite `eZContentObject::fetchByRemoteID()` + `url_alias` del nodo principale — robusto a traduzioni/rinomina del path. Da valutare se serve renderlo configurabile per ente in futuro (stesso pattern ini già visto altrove in questo modulo), non necessario ora.
+  - **Orari:** derivati dalla matrice `opening_hours_specification.opening_hours` (colonne fisse Lunedì-Domenica, **valore di cella testo libero**, es. "9:00-12:00") — serve un parser per estrarre `oraInizio`/`oraFine` nel formato richiesto da ANAC. **Decisione di Marco: se anche un solo giorno non è interpretabile, l'export per questo schema va in errore** (stesso meccanismo già esistente di gestione errori per-schema nel cron, es. `recordAnacExportError()`), non uno skip silenzioso — così l'errore è visibile e correggibile dal redattore/amministratore, invece di pubblicare dati silenziosamente incompleti.
+  - Resta comunque il quarto CSV (`art.35-uff-istanze`) da scrivere nel serializer, con le sue colonne e righe ripetute per fascia oraria — lavoro meccanico.
+  - **Nel Piano B (Dataset) resta escluso:** il framework Dataset non ha relazioni (niente riuso di ufficio/orari) né un tipo di campo ripetibile/array — includerlo lì richiederebbe duplicare tutto a mano per ogni procedimento, senza nessuno dei riusi che lo rendono economico nel Piano A.
+- **Binding `schema_pubblicazione`:** la pagina "Tipologie di procedimento" deve dichiarare gli identificatori schema ANAC che pubblica tramite l'attributo `schema_pubblicazione` (ezselection su `pagina_trasparenza`), stesso meccanismo già in produzione per art.13/23/26-27 (vedi `installer/modules/trasparenza-c1/CLAUDE.md`, tabella "Binding schema ANAC ↔ contenuto") — serve un `patch_content` dedicato nell'installer, comune a entrambi i piani.
