@@ -20,24 +20,24 @@ Nuova classe eZ `administrative_procedure` (installer YAML) — identificatori i
 |---|---|---|---|---|
 | `title` | Denominazione | ezstring | sì | Nome del procedimento, facilmente comprensibile dal cittadino |
 | `procedure_type` | Tipologia | ezstring | sì | Categoria del procedimento secondo la classificazione interna dell'ente (testo libero, nessun vocabolario imposto: ogni ente ha la propria tabella dei procedimenti) |
-| `description` | Descrizione | eztext | sì | Breve descrizione del procedimento e del suo oggetto |
-| `legal_references` | Riferimenti normativi | eztext | sì | Norme (legge, regolamento) che disciplinano il procedimento |
+| `description` | Descrizione | ezxmltext | sì | Breve descrizione del procedimento e del suo oggetto |
+| `legal_references` | Riferimenti normativi | ezstring | sì | Norme (legge, regolamento) che disciplinano il procedimento |
 | `organizational_unit` | Unità organizzativa | ezstring | no | Denominazione dell'unità organizzativa competente, se diversa dall'ufficio responsabile indicato sotto |
 | `responsible_office` | Ufficio responsabile | ezobjectrelation → `organization` | sì | Ufficio che istruisce il procedimento — seleziona l'unità organizzativa già censita in Organizzazione: da lì si prendono automaticamente denominazione e contatti |
 | `competent_office` | Ufficio competente | ezobjectrelation → `organization` | no | Ufficio che adotta il provvedimento finale, solo se diverso dall'ufficio responsabile — il nominativo del responsabile si deriva da `organization.office_manager` (ruolo "Responsabile") |
-| `information_access` | Accesso alle informazioni | eztext | sì | Come un interessato può avere informazioni sullo stato del proprio procedimento (es. telefono, PEC, sportello) |
-| `completion_term` | Conclusione del procedimento | eztext | sì | Termine entro cui il procedimento si conclude (es. "90 giorni dalla presentazione dell'istanza") |
+| `information_access` | Accesso alle informazioni | ezstring | sì | Come un interessato può avere informazioni sullo stato del proprio procedimento (es. telefono, PEC, sportello) |
+| `completion_term` | Conclusione del procedimento | ezstring | sì | Termine entro cui il procedimento si conclude (es. "90 giorni dalla presentazione dell'istanza") |
 | `substitute_declaration` | Dichiarazione sostitutiva | select/bool SI-NO | sì | Indica se il provvedimento finale può essere sostituito da un'autocertificazione dell'interessato |
 | `tacit_consent` | Silenzio assenso | select/bool SI-NO | sì | Indica se il silenzio dell'amministrazione, decorso il termine, equivale ad accoglimento della richiesta |
-| `legal_remedies` | Strumenti di tutela | eztext | sì | Come un interessato può opporsi all'esito del procedimento (es. ricorso al TAR, ricorso gerarchico) |
+| `legal_remedies` | Strumenti di tutela | ezstring | sì | Come un interessato può opporsi all'esito del procedimento (es. ricorso al TAR, ricorso gerarchico) |
 | `related_public_service` | Servizio pubblico collegato | ezobjectrelation → `public_service` | no | Scheda del Servizio pubblico da cui si accede online al procedimento, se esiste — la sua pagina diventa il link di accesso al servizio |
 | `service_activation_time` | Tempi di attivazione servizio | ezstring | no | Da compilare solo se non c'è un servizio online collegato: indica quando sarà disponibile (vincolo "almeno uno tra i due" solo in guida, non bloccante — stesso schema di PEO/PEC su art.26-27) |
 | `online_payments` | Pagamenti informatici | ezurl | sì | Link alla pagina dove effettuare eventuali pagamenti collegati al procedimento |
 | `substitute_power_holder` | Titolare potere sostitutivo | ezobjectrelation → `public_person` | no | Persona a cui rivolgersi in caso di inerzia del responsabile del procedimento — qualifica derivata dal ruolo della persona |
-| `substitute_power_activation` | Attivazione potere sostitutivo | eztext | no | Come attivare il potere sostitutivo (es. "PEC all'indirizzo istituzionale") |
+| `substitute_power_activation` | Attivazione potere sostitutivo | ezstring | no | Come attivare il potere sostitutivo (es. "PEC all'indirizzo istituzionale") |
 | `application_office` | Ufficio istanze | ezobjectrelation → `organization` | no | Compila solo se il procedimento si avvia su richiesta del cittadino: seleziona l'ufficio dove presentare la domanda (anche se coincide con l'ufficio responsabile sopra). **Se lasci vuoto questo campo, il procedimento è considerato avviato d'ufficio** e questa parte non viene pubblicata |
 
-**Da verificare in fase di build (non bloccante per questo piano):** se il ruolo di `public_person` porta con sé anche l'ufficio di appartenenza (per `potereSostitutivo.ufficio`), o se serve un campo/relazione in più.
+**Verificato: `potereSostitutivo.qualifica`/`ufficio` si risolvono tramite relazione inversa a `time_indexed_role`** (classe esistente "Ruolo di una persona nel tempo", già usata per art.13 "Titolari di incarichi politici"): il serializer cerca gli oggetti `time_indexed_role` il cui campo `person` include `substitute_power_holder`, e legge `role` (tag → qualifica) e `for_entity` (relazione a `organization` → ufficio). Stesso ordine di grandezza del traversal già previsto per `application_office`, nessun campo/relazione in più sul CT. **Da decidere in fase di build:** una persona può avere più `time_indexed_role` in momenti diversi — serve una regola per scegliere quello valido (probabile filtro per data, dato il nome "time indexed").
 
 ### Cosa si vede in pagina
 
@@ -69,7 +69,9 @@ Nuova policy `content/create` + `content/edit` (+ `content/remove`, per coerenza
 
 #### Figli diretti della pagina — problema individuato e risolto
 
-Decisione di Marco: i `administrative_procedure` sono figli diretti del nodo "Tipologie di procedimento" (contenuti di trasparenza specifici di quella pagina, a differenza di `document`, riusato altrove). Verificato che funziona con una piccola correzione: il template `pagina_trasparenza.tpl` ha un blocco "altri contenuti" che lista tutti i figli diretti tranne una lista di classi escluse (`getExcludeClassesForExtraChildren()` in `classes/services/content_trasparenza.php:601-636`), che oggi **non esclude** le classi gestite da `LiveRenderingRegistry` — non è mai stato un problema finora perché `document`/`organization` non sono mai stati figli diretti di una pagina trasparenza. **Fix:** estendere quel metodo (merge riga 631) con le classi gestite da `LiveRenderingRegistry` per lo schema — una riga in un metodo esistente, non un redesign.
+Decisione di Marco: i procedimenti si creano come figli diretti della pagina "Tipologie di procedimento" (contenuti di trasparenza specifici di quella pagina, a differenza di `document`, riusato altrove). **L'idea è semplice: li lasciamo vivere lì, ma configuriamo il sistema perché non vengano elencati in automatico — si vedono solo attraverso la tabella live-render.**
+
+Oggi questo "spegnimento" dell'elenco automatico non è previsto per una classe con figli reali: il template della pagina ha un elenco generico "altri contenuti" che mostra tutti i figli diretti tranne una lista di classi escluse, e quella lista di esclusione non sa nulla della tabella live-render — mostrerebbe i procedimenti due volte (elenco automatico + tabella). **Fix:** aggiungere la nuova classe a quella lista di esclusione (`getExcludeClassesForExtraChildren()` in `classes/services/content_trasparenza.php:601-636`) — una riga in un metodo già esistente, non un redesign.
 
 ---
 
