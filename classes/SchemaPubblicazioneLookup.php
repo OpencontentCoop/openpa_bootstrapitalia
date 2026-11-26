@@ -31,6 +31,17 @@ class SchemaPubblicazioneLookup
      * Deve restare sincronizzato con le opzioni dell'ezselection in
      * installer/modules/trasparenza/classes/pagina_trasparenza.yml
      * (schema_pubblicazione.data_text5) - stessi id, stessi nomi.
+     *
+     * ATTENZIONE id: più branch in corso possono riservare id diversi prima
+     * che tutti arrivino su master - non basta guardare master per sapere
+     * quali id sono davvero liberi. Prima di aggiungerne di nuovi,
+     * controllare anche i branch attivi (es. `git branch -r | grep
+     * trasparenza-additional`) con `git show <branch>:classes/SchemaPubblicazioneLookup.php`.
+     * Successo qui il 2026-11-26: 26/27/28 erano gia' riservati da
+     * art.23 (trasparenza-additional-scheme-23, gia' su dev) - scoperto
+     * solo in revisione finale, non durante lo sviluppo. Gli id 26-28
+     * restano quindi un buco qui finche' quel branch non arriva su master:
+     * non riusarli per nessun nuovo schema nel frattempo.
      */
     const OPTION_IDS = [
         'art.4-bis' => 1,
@@ -58,9 +69,9 @@ class SchemaPubblicazioneLookup
         'art.26-27-atti-concessione' => 23,
         'art.26-27-atto-revoca' => 24,
         'art.26-27-atti' => 25,
-        'art.29-as' => 26,
-        'art.29-PA-prev' => 27,
-        'art.29-PA-cons' => 28,
+        'art.29-as' => 29,
+        'art.29-PA-prev' => 30,
+        'art.29-PA-cons' => 31,
     ];
 
     /**
