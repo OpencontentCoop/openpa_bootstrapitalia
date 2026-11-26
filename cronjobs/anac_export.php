@@ -85,6 +85,7 @@ publishArt12($cli, $schemaBindings);
 publishArt36($cli, $schemaBindings);
 publishArt20($cli, $schemaBindings);
 publishArt2627($cli, $schemaBindings);
+publishArt29($cli, $schemaBindings);
 
 /**
  * Rete di sicurezza per le pagine con rendering live (vedi
@@ -715,6 +716,84 @@ function publishArt2627(eZCLI $cli, array $schemaBindings)
         } catch (\Exception $e) {
             eZDebug::writeError($e->getMessage(), 'anac_export.php: art.26-27-atti');
             $cli->error('anac_export: schema art.26-27-atti* fallito: ' . $e->getMessage());
+        }
+    }
+}
+
+function publishArt29(eZCLI $cli, array $schemaBindings)
+{
+    $preventivoObject = eZContentObject::fetchByRemoteID('bilancio_preventivo');
+    $consuntivoObject = eZContentObject::fetchByRemoteID('bilancio_consuntivo');
+    if (!$preventivoObject instanceof eZContentObject && !$consuntivoObject instanceof eZContentObject) {
+        // Caso normale per la maggioranza dei tenant: schema opzionale,
+        // modulo trasparenza-additional-anac-schemes non attivato su questo
+        // sito. Nota: `&&`, non `||` - uno dei due dataset puo' mancare
+        // senza che sia questo caso (vedi Review Focus del piano).
+        return;
+    }
+
+    $preventivoAttribute = null;
+    if ($preventivoObject instanceof eZContentObject) {
+        $preventivoDataMap = $preventivoObject->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+        $preventivoAttribute = $preventivoDataMap['csv_resource'] ?? null;
+        if ($preventivoAttribute === null) {
+            $cli->error('anac_export: attributo csv_resource non trovato sul dataset Bilancio preventivo, schema art.29-PA-prev saltato');
+        }
+    }
+
+    $consuntivoAttribute = null;
+    if ($consuntivoObject instanceof eZContentObject) {
+        $consuntivoDataMap = $consuntivoObject->fetchDataMap(false, SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+        $consuntivoAttribute = $consuntivoDataMap['csv_resource'] ?? null;
+        if ($consuntivoAttribute === null) {
+            $cli->error('anac_export: attributo csv_resource non trovato sul dataset Bilancio consuntivo, schema art.29-PA-cons saltato');
+        }
+    }
+
+    $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer($preventivoAttribute, $consuntivoAttribute);
+
+    // Nodo di ancoraggio comune ai tre file: la pagina "Bilanci"
+    // (schema_pubblicazione), stesso principio di publishArt2627() -
+    // fallback al nodo di uno dei due dataset solo se il binding manca
+    // (tenant con openpa_bootstrapitalia aggiornato ma installer non ancora
+    // aggiornato a questa versione del modulo trasparenza-additional-anac-schemes).
+    $asIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer::SCHEMA_IDENTIFIER_AS;
+    $fallbackObject = $preventivoObject instanceof eZContentObject ? $preventivoObject : $consuntivoObject;
+    $bilanciPageObject = isset($schemaBindings[$asIdentifier]) ? $schemaBindings[$asIdentifier] : null;
+    $rootNodeId = $bilanciPageObject instanceof eZContentObject
+        ? $bilanciPageObject->attribute('main_node')->attribute('node_id')
+        : $fallbackObject->attribute('main_node')->attribute('node_id');
+
+    try {
+        $asPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($asIdentifier, $rootNodeId);
+        $asTracking = $asPublisher->publishSingle($serializer->toCsvAs(), 'csv');
+        $cli->notice("anac_export: schema {$asIdentifier} ok, ultima modifica {$asTracking['dataUltimaModifica']}");
+    } catch (\Exception $e) {
+        eZDebug::writeError($e->getMessage(), 'anac_export.php: art.29-as');
+        $cli->error('anac_export: schema art.29-as fallito: ' . $e->getMessage());
+    }
+
+    if ($preventivoAttribute !== null) {
+        try {
+            $prevIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer::SCHEMA_IDENTIFIER_PA_PREV;
+            $prevPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($prevIdentifier, $rootNodeId);
+            $prevTracking = $prevPublisher->publishSingle($serializer->toCsvPreventivo(), 'csv');
+            $cli->notice("anac_export: schema {$prevIdentifier} ok, ultima modifica {$prevTracking['dataUltimaModifica']}");
+        } catch (\Exception $e) {
+            eZDebug::writeError($e->getMessage(), 'anac_export.php: art.29-PA-prev');
+            $cli->error('anac_export: schema art.29-PA-prev fallito: ' . $e->getMessage());
+        }
+    }
+
+    if ($consuntivoAttribute !== null) {
+        try {
+            $consIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer::SCHEMA_IDENTIFIER_PA_CONS;
+            $consPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($consIdentifier, $rootNodeId);
+            $consTracking = $consPublisher->publishSingle($serializer->toCsvConsuntivo(), 'csv');
+            $cli->notice("anac_export: schema {$consIdentifier} ok, ultima modifica {$consTracking['dataUltimaModifica']}");
+        } catch (\Exception $e) {
+            eZDebug::writeError($e->getMessage(), 'anac_export.php: art.29-PA-cons');
+            $cli->error('anac_export: schema art.29-PA-cons fallito: ' . $e->getMessage());
         }
     }
 }
