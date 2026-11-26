@@ -3,7 +3,11 @@
 
     {if and($valid_node.class_identifier|eq('dataset'), $valid_node|has_attribute('csv_resource'))}
 
-        {include uri='design:parts/block_name.tpl' css_class="pb-0 mb-0"}
+        {if ezpagedata().persistent_variable.is_pagina_trasparenza}
+            {include uri='design:parts/block_name.tpl' title_class="pb-0 mb-0 h3"}
+        {else}
+            {include uri='design:parts/block_name.tpl' css_class="pb-0 mb-0"}
+        {/if}
 
         <div class="row">
             <div class="col">

@@ -238,6 +238,9 @@ HideExportIfEmpty[]
 HideExportIfEmpty[]=art.26-27-atti-concessione
 HideExportIfEmpty[]=art.26-27-atto-revoca
 HideExportIfEmpty[]=art.26-27-atti
+HideExportIfEmpty[]=art.29-as
+HideExportIfEmpty[]=art.29-PA-prev
+HideExportIfEmpty[]=art.29-PA-cons
 
 # Ambito soggettivo da riportare nell'export art.36 (IBAN e pagamenti
 # informatici) per un ente C2: "SocietaInControlloPubblico" o

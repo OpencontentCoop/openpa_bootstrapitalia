@@ -4,6 +4,14 @@
     display: none !important;
 }
 
+/* Dataset incorporato come blocco "Singolo" in una pagina di trasparenza:
+   azzera il gutter laterale del container generico di zona, lo spazio e'
+   gia' gestito dal blocco stesso (vedi singolo_default.tpl/opendatadataset.tpl). */
+.page-pagina_trasparenza .container:has([id^="dataset-"]) {
+    padding-right: 0;
+    padding-left: 0;
+}
+
 table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control,
 table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
     padding-left: 40px;

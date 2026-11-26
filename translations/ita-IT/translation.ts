@@ -2769,5 +2769,13 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Year</source>
       <translation>Anno</translation>
     </message>
+    <message>
+      <source>Draft budget</source>
+      <translation>Bilancio preventivo</translation>
+    </message>
+    <message>
+      <source>Final budget</source>
+      <translation>Bilancio consuntivo</translation>
+    </message>
   </context>
 </TS>
