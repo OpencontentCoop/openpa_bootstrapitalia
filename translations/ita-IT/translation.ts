@@ -2729,5 +2729,13 @@ Sono utilizzati essenzialmente per misurare e migliorare la qualità dei siti at
       <source>Grant revocation acts</source>
       <translation>Atti di modifica o revoca</translation>
     </message>
+    <message>
+      <source>Draft budget</source>
+      <translation>Bilancio preventivo</translation>
+    </message>
+    <message>
+      <source>Final budget</source>
+      <translation>Bilancio consuntivo</translation>
+    </message>
   </context>
 </TS>

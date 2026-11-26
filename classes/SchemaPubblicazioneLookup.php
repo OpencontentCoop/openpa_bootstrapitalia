@@ -58,6 +58,9 @@ class SchemaPubblicazioneLookup
         'art.26-27-atti-concessione' => 23,
         'art.26-27-atto-revoca' => 24,
         'art.26-27-atti' => 25,
+        'art.29-as' => 26,
+        'art.29-PA-prev' => 27,
+        'art.29-PA-cons' => 28,
     ];
 
     /**
@@ -97,6 +100,9 @@ class SchemaPubblicazioneLookup
         'art.26-27-atti-concessione' => 'Grant acts',
         'art.26-27-atto-revoca' => 'Grant revocation acts',
         'art.26-27-atti' => 'Grant acts',
+        'art.29-as' => 'Subjective scope',
+        'art.29-PA-prev' => 'Draft budget',
+        'art.29-PA-cons' => 'Final budget',
     ];
 
     /**
