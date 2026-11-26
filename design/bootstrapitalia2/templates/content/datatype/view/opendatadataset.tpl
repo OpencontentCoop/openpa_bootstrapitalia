@@ -84,7 +84,12 @@
 ))}
 {def $custom_repository = concat('dataset-', $attribute.contentclass_attribute_identifier, '-',$attribute.contentobject_id)}
 
-<div id="dataset-{$attribute.id}" class="my-5 w-100">
+{* hide_download coincide con is_pagina_trasparenza (vedi commento sopra):
+   riusato qui per azzerare il margine superiore quando il dataset e'
+   incorporato come blocco "Singolo" in una pagina di trasparenza - letto
+   come parametro, non via ezpagedata(), che a questa profondita' di
+   template (dentro attribute_view_gui) non e' affidabile. *}
+<div id="dataset-{$attribute.id}" class="my-5{if and(is_set($hide_download), $hide_download)} mt-0{/if} w-100">
     <div class="data_actions_and_alerts">
         <div class="data_actions">
             {* hide_download: passato solo dal blocco "Singolo" quando questo
