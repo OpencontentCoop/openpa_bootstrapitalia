@@ -10,13 +10,6 @@
     {set $esclude_query = $esclude_query|append(concat("class != '",$exclude_class|trim(),"'"))}
 {/foreach}
 
-{* Esclude i documenti dell'Albo Pretorio (tag "Documenti Albo Pretorio", sottotag inclusi) dai contenuti correlati *}
-{def $albo_pretorio_tag = fetch('tags', 'tag_by_remote_id', hash('remote_id', '984c6235761dac258fe8c245541095fa'))}
-{if $albo_pretorio_tag}
-    {set $esclude_query = $esclude_query|append(concat("raw[subattr_document_type___tag_ids____si] !in [", $albo_pretorio_tag.id, "]"))}
-{/if}
-{undef $albo_pretorio_tag}
-
 {def $related_items_query = concat($esclude_query|implode(' and '), " and topics.id in [", $node.contentobject_id, '] sort [modified=>desc] limit ', $limit)}
 {debug-log var=$related_items_query msg='Topic related query'}
 {def $related_items = api_search($related_items_query)}
