@@ -52,68 +52,90 @@ $mapPrev->setAccessible(true);
 $mapCons = $ref->getMethod('mapRigaConsuntivo');
 $mapCons->setAccessible(true);
 
-$rigaPrev = $mapPrev->invoke($serializer, [
-    'anno' => '2024',
-    'url_preventivo' => 'https://esempio.it/preventivo-2024',
-    'entrate_correnti' => '4.850.000,00',
-    'uscite_correnti' => '4.720.500,00',
-    'differenza_c_d' => '129.500,00',
-    'entrate_totali' => '5.000.000,00',
-    'uscite_totali' => '4.900.000,00',
-    'differenza_f_g' => '100.000,00',
-    'liq_crediti' => '1.000,00',
-    'liq_debiti' => '500,00',
-    'differenza_i_j' => '500,00',
-    'cassa_crediti' => '900,00',
-    'cassa_debiti' => '400,00',
-    'differenza_l_m' => '500,00',
-    'valore_produzione' => '10.000,00',
-    'costi_produzione' => '9.000,00',
-    'differenza_o_p' => '1.000,00',
-    'comp_positivi_reddito' => '2.000,00',
-    'comp_negativi_reddito' => '1.500,00',
-    'differenza_r_s' => '500,00',
-    'url_piano_indicatori' => 'https://esempio.it/piano-indicatori',
-]);
-check('mapRigaPreventivo() numero di colonne', 21, count($rigaPrev));
-check('mapRigaPreventivo() anno in colonna 1', '2024', $rigaPrev[0]);
-check('mapRigaPreventivo() url_preventivo in colonna 2 (URL_PREVENTIVO)', 'https://esempio.it/preventivo-2024', $rigaPrev[1]);
-check('mapRigaPreventivo() url_piano_indicatori in ultima colonna', 'https://esempio.it/piano-indicatori', $rigaPrev[20]);
+// Ogni valore e' uguale al nome del proprio identificatore di campo (non un
+// valore plausibile condiviso come "1.000,00" ripetuto su piu' campi): uno
+// scambio tra due colonne qualsiasi (es. liq_crediti <-> cassa_crediti, o le
+// 3 eccezioni url_preventivo/url_bilancio/differenza_p_q) produce un valore
+// nel posto sbagliato e fa fallire il confronto sull'intero array atteso,
+// non solo su un campione di colonne - trovato in revisione (2026-11-26):
+// la versione precedente di questo test usava valori ripetuti ('1.000,00'
+// su piu' campi), che non avrebbero rilevato uno scambio tra due colonne
+// con lo stesso valore.
+$datiPrev = [
+    'anno' => 'anno',
+    'url_preventivo' => 'url_preventivo',
+    'entrate_correnti' => 'entrate_correnti',
+    'uscite_correnti' => 'uscite_correnti',
+    'differenza_c_d' => 'differenza_c_d',
+    'entrate_totali' => 'entrate_totali',
+    'uscite_totali' => 'uscite_totali',
+    'differenza_f_g' => 'differenza_f_g',
+    'liq_crediti' => 'liq_crediti',
+    'liq_debiti' => 'liq_debiti',
+    'differenza_i_j' => 'differenza_i_j',
+    'cassa_crediti' => 'cassa_crediti',
+    'cassa_debiti' => 'cassa_debiti',
+    'differenza_l_m' => 'differenza_l_m',
+    'valore_produzione' => 'valore_produzione',
+    'costi_produzione' => 'costi_produzione',
+    'differenza_o_p' => 'differenza_o_p',
+    'comp_positivi_reddito' => 'comp_positivi_reddito',
+    'comp_negativi_reddito' => 'comp_negativi_reddito',
+    'differenza_r_s' => 'differenza_r_s',
+    'url_piano_indicatori' => 'url_piano_indicatori',
+];
+$rigaPrev = $mapPrev->invoke($serializer, $datiPrev);
+// L'atteso e' la lista dei valori nell'ordine ESATTO delle colonne CSV
+// (non l'ordine delle chiavi di $datiPrev, che e' l'ordine dei field del
+// dataset - coincide qui, ma il confronto e' sui valori attesi per
+// colonna, non un giro dell'array di input).
+check('mapRigaPreventivo() intero array nell\'ordine colonna per colonna', [
+    'anno', 'url_preventivo', 'entrate_correnti', 'uscite_correnti', 'differenza_c_d',
+    'entrate_totali', 'uscite_totali', 'differenza_f_g', 'liq_crediti', 'liq_debiti',
+    'differenza_i_j', 'cassa_crediti', 'cassa_debiti', 'differenza_l_m',
+    'valore_produzione', 'costi_produzione', 'differenza_o_p', 'comp_positivi_reddito',
+    'comp_negativi_reddito', 'differenza_r_s', 'url_piano_indicatori',
+], $rigaPrev);
 
-$rigaCons = $mapCons->invoke($serializer, [
-    'anno' => '2023',
-    'url_bilancio' => 'https://esempio.it/consuntivo-2023',
-    'entrate_correnti' => '4.912.340,55',
-    'uscite_correnti' => '4.698.120,30',
-    'differenza_c_d' => '214.220,25',
-    'entrate_totali' => '5.000.000,00',
-    'uscite_totali' => '4.900.000,00',
-    'differenza_f_g' => '100.000,00',
-    'liq_crediti' => '1.000,00',
-    'liq_debiti' => '500,00',
-    'differenza_i_j' => '500,00',
-    'cassa_crediti' => '900,00',
-    'cassa_debiti' => '400,00',
-    'differenza_l_m' => '500,00',
-    'valore_produzione' => '10.000,00',
-    'costi_produzione' => '9.000,00',
-    'differenza_p_q' => '1.000,00',
-    'comp_positivi_reddito' => '2.000,00',
-    'comp_negativi_reddito' => '1.500,00',
-    'differenza_r_s' => '500,00',
-    'totale_attivo' => '50.000,00',
-    'totale_passivo' => '30.000,00',
-    'patrimonio_netto_u_v' => '20.000,00',
-    'contributi_pubblici' => '5.000,00',
-    'contributi_totali' => '10.000,00',
-    'perc_contribuzione_pubblica' => '50',
-    'url_piano_indicatori' => 'https://esempio.it/piano-indicatori-2023',
-]);
-check('mapRigaConsuntivo() numero di colonne', 27, count($rigaCons));
-check('mapRigaConsuntivo() url_bilancio in colonna 2 (URL_BILANCIO, non URL_CONSUNTIVO)', 'https://esempio.it/consuntivo-2023', $rigaCons[1]);
-check('mapRigaConsuntivo() differenza_p_q in colonna 17 (DIFFERENZA (P-Q))', '1.000,00', $rigaCons[16]);
-check('mapRigaConsuntivo() patrimonio_netto_u_v in colonna 23 (PATRIMONIO_NETTO (U-V))', '20.000,00', $rigaCons[22]);
-check('mapRigaConsuntivo() url_piano_indicatori in ultima colonna', 'https://esempio.it/piano-indicatori-2023', $rigaCons[26]);
+$datiCons = [
+    'anno' => 'anno',
+    'url_bilancio' => 'url_bilancio',
+    'entrate_correnti' => 'entrate_correnti',
+    'uscite_correnti' => 'uscite_correnti',
+    'differenza_c_d' => 'differenza_c_d',
+    'entrate_totali' => 'entrate_totali',
+    'uscite_totali' => 'uscite_totali',
+    'differenza_f_g' => 'differenza_f_g',
+    'liq_crediti' => 'liq_crediti',
+    'liq_debiti' => 'liq_debiti',
+    'differenza_i_j' => 'differenza_i_j',
+    'cassa_crediti' => 'cassa_crediti',
+    'cassa_debiti' => 'cassa_debiti',
+    'differenza_l_m' => 'differenza_l_m',
+    'valore_produzione' => 'valore_produzione',
+    'costi_produzione' => 'costi_produzione',
+    'differenza_p_q' => 'differenza_p_q',
+    'comp_positivi_reddito' => 'comp_positivi_reddito',
+    'comp_negativi_reddito' => 'comp_negativi_reddito',
+    'differenza_r_s' => 'differenza_r_s',
+    'totale_attivo' => 'totale_attivo',
+    'totale_passivo' => 'totale_passivo',
+    'patrimonio_netto_u_v' => 'patrimonio_netto_u_v',
+    'contributi_pubblici' => 'contributi_pubblici',
+    'contributi_totali' => 'contributi_totali',
+    'perc_contribuzione_pubblica' => 'perc_contribuzione_pubblica',
+    'url_piano_indicatori' => 'url_piano_indicatori',
+];
+$rigaCons = $mapCons->invoke($serializer, $datiCons);
+check('mapRigaConsuntivo() intero array nell\'ordine colonna per colonna (incluse le 3 eccezioni url_bilancio/differenza_p_q/patrimonio_netto_u_v)', [
+    'anno', 'url_bilancio', 'entrate_correnti', 'uscite_correnti', 'differenza_c_d',
+    'entrate_totali', 'uscite_totali', 'differenza_f_g', 'liq_crediti', 'liq_debiti',
+    'differenza_i_j', 'cassa_crediti', 'cassa_debiti', 'differenza_l_m',
+    'valore_produzione', 'costi_produzione', 'differenza_p_q', 'comp_positivi_reddito',
+    'comp_negativi_reddito', 'differenza_r_s', 'totale_attivo', 'totale_passivo',
+    'patrimonio_netto_u_v', 'contributi_pubblici', 'contributi_totali',
+    'perc_contribuzione_pubblica', 'url_piano_indicatori',
+], $rigaCons);
 
 // --- Review Focus: un valore con ";" non deve spaccare il CSV (CsvLineBuilder, RFC 4180) ---
 $rigaConPuntoVirgola = $mapPrev->invoke($serializer, [
