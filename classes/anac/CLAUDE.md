@@ -1112,6 +1112,67 @@ dato che torna visibile dopo essere stato nascosto (se il redattore scrive
 una riga per errore e la rimuove, l'export torna a comparire e poi a
 sparire di conseguenza) — accettato esplicitamente da Marco, non un difetto.
 
+### `Art29Serializer` — Bilanci (cms#556), niente JSON, niente normalizzazione nel serializer
+
+art. 29 d.lgs. 33/2013, schema ad adesione volontaria, **solo profilo C1**,
+per gli enti che NON trasmettono a BDAP (chi trasmette assolve l'obbligo con
+un collegamento alla banca dati, via nota di trasparenza — nessuna logica di
+switch nel prodotto, stesso principio già scelto per art.26-27: il redattore
+gestisce il proprio caso dopo l'installazione). Due dataset content object
+(classe `dataset`, remote_id `bilancio_preventivo`/`bilancio_consuntivo`,
+installati da `installer/modules/trasparenza-additional-anac-schemes/`, non
+da `trasparenza-c1`), tre export: `art.29-as` (ambito soggettivo, costante
+`"Pubbliche amministrazioni in contabilità finanziaria"`, nessun dato da
+dataset), `art.29-PA-prev`, `art.29-PA-cons`. Nessun JSON — la Guida Online
+ANAC non pubblica uno schema JSON per questo articolo (verificato:
+`art.29-v1.0.schema.json` risponde 404).
+
+**Le 3 corrispondenze campo→colonna non deducibili dal nome** (segnalate
+nell'issue, verificate dal vivo sui dataset reali, **non derivabili dallo
+schema ANAC** perché non esiste): `url_preventivo` → `URL_PREVENTIVO`,
+`url_bilancio` → `URL_BILANCIO` (non `URL_CONSUNTIVO`), `differenza_p_q` →
+`DIFFERENZA (P-Q)` sul consuntivo (l'esempio ANAC riporta lettere di colonna
+incoerenti con la posizione effettiva, ma vanno copiate così come sono). Il
+test (`tests/test_art29_serializer.php`) usa un valore distinto per campo
+(uguale al proprio identificatore) e confronta l'intero array mappato
+nell'ordine colonna per colonna, non un campione di colonne — trovato in
+revisione (2026-11-26) che la prima versione del test usava valori ripetuti
+("1.000,00" su più campi), che non avrebbe rilevato uno scambio tra due
+colonne con lo stesso valore, proprio nel punto più a rischio.
+
+**Nessun `ImportoNormalizer` nel serializer** — a differenza di
+`Art4BisSerializer`/`Art2627Serializer` (dove i campi importo sono ancora
+`type: string` sul dataset e la normalizzazione/validazione avviene qui nel
+serializer), i due dataset Bilanci usano i tipi **`amount`/`percentage`**
+del framework Dataset (`occustomfind`, `OpendataDatasetNumberNormalizer`,
+commit `cc7433a` del 2026-11-12): il valore arriva già normalizzato al
+formato ANAC (`n.nnn,dd` per gli importi, numero con virgola senza zeri
+finali per le percentuali) al momento del salvataggio (form, API REST,
+import CSV/Google Sheet) — un `trim()` basta. Verificato leggendo
+`occustomfind/datatypes/opendatadataset/OpendataDatasetNumberNormalizer.php`
+prima di scrivere il serializer, non assunto per analogia con art.4-bis.
+
+**`HideExportIfEmpty` — `art.29-as` nascosto solo se ENTRAMBI i dataset sono
+vuoti** (`content_trasparenza.php::isAnacSchemaSourceEmpty()`): a differenza
+di art.26-27 (un solo dataset per schema), qui l'ambito soggettivo da solo
+non avrebbe senso se uno dei due dataset ha comunque dei dati — nascosto
+solo quando preventivo E consuntivo sono entrambi senza righe, indipendente
+dal nascondere `art.29-PA-prev`/`art.29-PA-cons` (ciascuno in base al
+proprio solo dataset). Verificato dal vivo: popolato solo il preventivo,
+`art.29-as` e `art.29-PA-prev` ricompaiono, `art.29-PA-cons` resta nascosto.
+
+**Blocco "Singolo" sulla pagina padre "Bilanci", mai sulle sottopagine** — i
+due dataset si mostrano come blocco (stesso meccanismo di "Dati sui
+pagamenti"/"Corte dei conti", `LiveRenderingRegistry` esclude esplicitamente
+gli schemi ancorati a un dataset) sulla pagina "Bilanci" (il nodo padre,
+dove sono anche gli export, coerente con l'URL di esempio ANAC
+`[Bilanci]/art.29-as-...`), non sulle sottopagine "Bilancio
+preventivo"/"Bilancio consuntivo" (che restano invariate, mostrano solo i
+Documenti per `document_type` — meccanismo preesistente, non toccato).
+
+Vedi `installer/modules/trasparenza-additional-anac-schemes/CLAUDE.md` per
+il content model (dataset, `condition: content_exists()`, zone/block id).
+
 ## Gestione errori e casi limite
 
 ### Le due eccezioni di dominio, e cosa succede davvero quando scattano
