@@ -22,6 +22,12 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     /** @var array|null memoizzazione di fetchAttiDiConcessioneRighe() */
     private $attiDiConcessioneRigheCache = null;
 
+    /** @var array|null memoizzazione di fetchBilancioRighe('bilancio_preventivo') */
+    private $bilancioPreventivoRigheCache = null;
+
+    /** @var array|null memoizzazione di fetchBilancioRighe('bilancio_consuntivo') */
+    private $bilancioConsuntivoRigheCache = null;
+
     function run()
     {
         $this->fnData['has_nota_trasparenza'] = 'hasNotaTrasparenza';
@@ -179,6 +185,44 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     }
 
     /**
+     * Righe del dataset "Bilancio preventivo" o "Bilancio consuntivo"
+     * (art.29, cms#556) - memoizzate per richiesta, stesso principio di
+     * fetchAttiDiConcessioneRighe() sopra.
+     *
+     * @param string $remoteId 'bilancio_preventivo' o 'bilancio_consuntivo'
+     * @return array righe grezze, [] se il dataset non esiste su questo
+     *         sito o non ha righe
+     */
+    private function fetchBilancioRighe($remoteId)
+    {
+        $cacheProperty = $remoteId === 'bilancio_preventivo' ? 'bilancioPreventivoRigheCache' : 'bilancioConsuntivoRigheCache';
+        if ($this->$cacheProperty === null) {
+            $this->$cacheProperty = [];
+            $object = \eZContentObject::fetchByRemoteID($remoteId);
+            if ($object instanceof \eZContentObject) {
+                $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+                $attribute = $dataMap['csv_resource'] ?? null;
+                if ($attribute !== null) {
+                    $repository = new \OpendataDatasetSearchableRepository($attribute);
+                    $total = $repository->countSearchableObjects();
+                    $rows = [];
+                    $limit = 200;
+                    $offset = 0;
+                    while ($offset < $total) {
+                        foreach ($repository->fetchSearchableObjectList($limit, $offset) as $searchableObject) {
+                            $rows[] = $searchableObject->getDataset()->getData();
+                        }
+                        $offset += $limit;
+                    }
+                    $this->$cacheProperty = $rows;
+                }
+            }
+        }
+
+        return $this->$cacheProperty;
+    }
+
+    /**
      * @return bool true se il dato sorgente di $schema e' vuoto ADESSO -
      *         usato solo da getAnacExports() quando lo schema e' elencato in
      *         [Trasparenza] HideExportIfEmpty[]. Schema sconosciuto a questo
@@ -201,6 +245,20 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 }
 
                 return true;
+
+            case \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer::SCHEMA_IDENTIFIER_PA_PREV:
+                return empty($this->fetchBilancioRighe('bilancio_preventivo'));
+
+            case \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer::SCHEMA_IDENTIFIER_PA_CONS:
+                return empty($this->fetchBilancioRighe('bilancio_consuntivo'));
+
+            case \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer::SCHEMA_IDENTIFIER_AS:
+                // "Ambito soggettivo" da solo non ha senso se NESSUNO dei
+                // due dataset ha righe - nascosto solo in quel caso (se
+                // solo uno dei due e' vuoto, l'altro schema resta
+                // comunque pubblicato e collegato).
+                return empty($this->fetchBilancioRighe('bilancio_preventivo'))
+                    && empty($this->fetchBilancioRighe('bilancio_consuntivo'));
 
             default:
                 return false;
