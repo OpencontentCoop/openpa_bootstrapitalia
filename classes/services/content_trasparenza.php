@@ -22,11 +22,11 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     /** @var array|null memoizzazione di fetchAttiDiConcessioneRighe() */
     private $attiDiConcessioneRigheCache = null;
 
-    /** @var array|null memoizzazione di fetchBilancioRighe('bilancio_preventivo') */
-    private $bilancioPreventivoRigheCache = null;
+    /** @var bool|null memoizzazione di isBilancioDatasetEmpty('bilancio_preventivo') */
+    private $bilancioPreventivoEmptyCache = null;
 
-    /** @var array|null memoizzazione di fetchBilancioRighe('bilancio_consuntivo') */
-    private $bilancioConsuntivoRigheCache = null;
+    /** @var bool|null memoizzazione di isBilancioDatasetEmpty('bilancio_consuntivo') */
+    private $bilancioConsuntivoEmptyCache = null;
 
     function run()
     {
@@ -185,36 +185,30 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
     }
 
     /**
-     * Righe del dataset "Bilancio preventivo" o "Bilancio consuntivo"
-     * (art.29, cms#556) - memoizzate per richiesta, stesso principio di
-     * fetchAttiDiConcessioneRighe() sopra.
+     * Se il dataset "Bilancio preventivo" o "Bilancio consuntivo" (art.29,
+     * cms#556) e' vuoto - memoizzato per richiesta. A differenza di
+     * fetchAttiDiConcessioneRighe() sopra (che serve anche a mappare il
+     * singolo stato di revoca), qui l'unico uso e' un controllo di
+     * vuoto/non-vuoto (isAnacSchemaSourceEmpty()): basta
+     * countSearchableObjects(), non serve caricare tutte le righe ad ogni
+     * rendering della pagina "Bilanci" (trovato in revisione, 2026-11-26 -
+     * la prima versione caricava l'intero dataset solo per un empty()).
      *
      * @param string $remoteId 'bilancio_preventivo' o 'bilancio_consuntivo'
-     * @return array righe grezze, [] se il dataset non esiste su questo
-     *         sito o non ha righe
+     * @return bool true se il dataset non esiste su questo sito o non ha righe
      */
-    private function fetchBilancioRighe($remoteId)
+    private function isBilancioDatasetEmpty($remoteId)
     {
-        $cacheProperty = $remoteId === 'bilancio_preventivo' ? 'bilancioPreventivoRigheCache' : 'bilancioConsuntivoRigheCache';
+        $cacheProperty = $remoteId === 'bilancio_preventivo' ? 'bilancioPreventivoEmptyCache' : 'bilancioConsuntivoEmptyCache';
         if ($this->$cacheProperty === null) {
-            $this->$cacheProperty = [];
+            $this->$cacheProperty = true;
             $object = \eZContentObject::fetchByRemoteID($remoteId);
             if ($object instanceof \eZContentObject) {
                 $dataMap = $object->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
                 $attribute = $dataMap['csv_resource'] ?? null;
                 if ($attribute !== null) {
                     $repository = new \OpendataDatasetSearchableRepository($attribute);
-                    $total = $repository->countSearchableObjects();
-                    $rows = [];
-                    $limit = 200;
-                    $offset = 0;
-                    while ($offset < $total) {
-                        foreach ($repository->fetchSearchableObjectList($limit, $offset) as $searchableObject) {
-                            $rows[] = $searchableObject->getDataset()->getData();
-                        }
-                        $offset += $limit;
-                    }
-                    $this->$cacheProperty = $rows;
+                    $this->$cacheProperty = $repository->countSearchableObjects() === 0;
                 }
             }
         }
@@ -247,18 +241,18 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
                 return true;
 
             case \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer::SCHEMA_IDENTIFIER_PA_PREV:
-                return empty($this->fetchBilancioRighe('bilancio_preventivo'));
+                return $this->isBilancioDatasetEmpty('bilancio_preventivo');
 
             case \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer::SCHEMA_IDENTIFIER_PA_CONS:
-                return empty($this->fetchBilancioRighe('bilancio_consuntivo'));
+                return $this->isBilancioDatasetEmpty('bilancio_consuntivo');
 
             case \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer::SCHEMA_IDENTIFIER_AS:
                 // "Ambito soggettivo" da solo non ha senso se NESSUNO dei
                 // due dataset ha righe - nascosto solo in quel caso (se
                 // solo uno dei due e' vuoto, l'altro schema resta
                 // comunque pubblicato e collegato).
-                return empty($this->fetchBilancioRighe('bilancio_preventivo'))
-                    && empty($this->fetchBilancioRighe('bilancio_consuntivo'));
+                return $this->isBilancioDatasetEmpty('bilancio_preventivo')
+                    && $this->isBilancioDatasetEmpty('bilancio_consuntivo');
 
             default:
                 return false;

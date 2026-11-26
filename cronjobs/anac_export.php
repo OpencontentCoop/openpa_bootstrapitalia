@@ -727,8 +727,11 @@ function publishArt29(eZCLI $cli, array $schemaBindings)
     if (!$preventivoObject instanceof eZContentObject && !$consuntivoObject instanceof eZContentObject) {
         // Caso normale per la maggioranza dei tenant: schema opzionale,
         // modulo trasparenza-additional-anac-schemes non attivato su questo
-        // sito. Nota: `&&`, non `||` - uno dei due dataset puo' mancare
-        // senza che sia questo caso (vedi Review Focus del piano).
+        // sito. Nota: `&&`, non `||` - i due dataset sono content object
+        // indipendenti (un redattore puo' spostare uno dei due nel cestino,
+        // o un'installazione parziale/manuale puo' lasciarne solo uno):
+        // in quel caso bisogna comunque pubblicare art.29-as e lo schema
+        // del dataset ancora presente, non uscire qui.
         return;
     }
 
@@ -760,9 +763,18 @@ function publishArt29(eZCLI $cli, array $schemaBindings)
     $asIdentifier = \OpenPABootstrapItalia\Anac\Serializer\Art29Serializer::SCHEMA_IDENTIFIER_AS;
     $fallbackObject = $preventivoObject instanceof eZContentObject ? $preventivoObject : $consuntivoObject;
     $bilanciPageObject = isset($schemaBindings[$asIdentifier]) ? $schemaBindings[$asIdentifier] : null;
-    $rootNodeId = $bilanciPageObject instanceof eZContentObject
-        ? $bilanciPageObject->attribute('main_node')->attribute('node_id')
-        : $fallbackObject->attribute('main_node')->attribute('node_id');
+    $anchorObject = $bilanciPageObject instanceof eZContentObject ? $bilanciPageObject : $fallbackObject;
+    $anchorNode = $anchorObject->attribute('main_node');
+    if (!$anchorNode instanceof eZContentObjectTreeNode) {
+        // main_node nullo (es. oggetto nel cestino) - stesso rischio mai
+        // controllato in publishArt2627()/publishArt4Bis(), qui esplicitato
+        // invece di lasciare un errore fatale non catturabile da
+        // catch(\Exception) su ->attribute('node_id') di null.
+        $cli->error('anac_export: nessun main_node valido per ancorare gli export art.29 (oggetto nel cestino?), schema art.29 saltato');
+
+        return;
+    }
+    $rootNodeId = $anchorNode->attribute('node_id');
 
     try {
         $asPublisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($asIdentifier, $rootNodeId);
