@@ -54,6 +54,10 @@ class SchemaPubblicazioneLookup
         'art.20-dirig' => 19,
         'art.20-non-dirig' => 20,
         'art.20-c2' => 21,
+        'art.26-27-criteri' => 22,
+        'art.26-27-atti-concessione' => 23,
+        'art.26-27-atto-revoca' => 24,
+        'art.26-27-atti' => 25,
     ];
 
     /**
@@ -89,6 +93,10 @@ class SchemaPubblicazioneLookup
         'art.20-dirig' => 'Executive staff bonus allocation',
         'art.20-non-dirig' => 'Non-executive staff bonus allocation',
         'art.20-c2' => 'Staff bonus allocation criteria',
+        'art.26-27-criteri' => 'Grant criteria and procedures',
+        'art.26-27-atti-concessione' => 'Grant acts',
+        'art.26-27-atto-revoca' => 'Grant revocation acts',
+        'art.26-27-atti' => 'Grant acts',
     ];
 
     /**

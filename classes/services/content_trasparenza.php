@@ -19,6 +19,9 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
 
     const CLASS_GROUP_NAME = 'Amministrazione trasparente';
 
+    /** @var array|null memoizzazione di fetchAttiDiConcessioneRighe() */
+    private $attiDiConcessioneRigheCache = null;
+
     function run()
     {
         $this->fnData['has_nota_trasparenza'] = 'hasNotaTrasparenza';
@@ -66,10 +69,22 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
      * oggetto di un'altra classe restituisce sempre [] per costruzione
      * (nessun controllo esplicito necessario).
      *
+     * Alcuni schemi possono essere nascosti anche se gia' pubblicati in
+     * passato, quando il loro dato sorgente e' vuoto ADESSO - [Trasparenza]
+     * HideExportIfEmpty[] (ini, array di schema identifier), stesso pattern
+     * di HideLiveRenderingBlockIfEmpty ma applicato all'export invece che al
+     * rendering live (vedi getLiveRenderingBlocks() sotto). A differenza del
+     * rendering live, qui non tocchiamo mai la pubblicazione del cron (che
+     * continua a scrivere un CSV con sola intestazione se vuoto, vedi
+     * publishArt2627() in cronjobs/anac_export.php) - solo la visibilita'
+     * del link in pagina, senza guardare il tracking storico
+     * (ExportPublisher::getLatestUrls() non c'entra con questo controllo).
+     *
      * @return array [] se questa pagina non espone nessuno schema ANAC (o
-     *         li espone ma nessuno e' ancora mai stato pubblicato), altrimenti
-     *         lista di ['schema' => 'art.31-oiv', 'label' => 'Organismi
-     *         indipendenti di valutazione', 'latest_urls' => ['csv' => '...'],
+     *         li espone ma nessuno e' ancora mai stato pubblicato, o e'
+     *         nascosto perche' vuoto), altrimenti lista di ['schema' =>
+     *         'art.31-oiv', 'label' => 'Organismi indipendenti di
+     *         valutazione', 'latest_urls' => ['csv' => '...'],
      *         'last_modified' => 'gg/mm/aaaa', 'last_modified_time' =>
      *         'hh:mm'|null (null sui tracking scritti prima di questo campo,
      *         finche' non ripubblicano), 'versions' => [...]] (vedi
@@ -82,9 +97,14 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         }
 
         $schemas = \SchemaPubblicazioneLookup::schemasForObject($this->container->getContentObject());
+        $schemasToHideIfEmpty = (array)OpenPAINI::variable('Trasparenza', 'HideExportIfEmpty', []);
 
         $exports = [];
         foreach ($schemas as $schema) {
+            if (in_array($schema, $schemasToHideIfEmpty, true) && $this->isAnacSchemaSourceEmpty($schema)) {
+                continue;
+            }
+
             $publisher = new \OpenPABootstrapItalia\Anac\ExportPublisher($schema);
             $latestUrls = $publisher->getLatestUrls();
             if (empty($latestUrls)) {
@@ -128,6 +148,63 @@ class ObjectHandlerServiceContentTrasparenza extends ObjectHandlerServiceBase
         }
 
         return $exports;
+    }
+
+    /**
+     * Righe del dataset "Atti di concessione" (art.26-27-atti-concessione,
+     * art.26-27-atto-revoca, art.26-27-atti) - memoizzate per richiesta,
+     * una sola query anche se la pagina dichiara piu' di uno di questi tre
+     * schemi (caso normale: le tre sottosezioni sono sempre sulla stessa
+     * pagina).
+     *
+     * @return array righe grezze ($searchableObject->getDataset()->getData()),
+     *         [] se il dataset non esiste su questo sito o non ha righe
+     */
+    private function fetchAttiDiConcessioneRighe()
+    {
+        if ($this->attiDiConcessioneRigheCache === null) {
+            $this->attiDiConcessioneRigheCache = [];
+            $attiObject = \eZContentObject::fetchByRemoteID('atti_di_concessione');
+            if ($attiObject instanceof \eZContentObject) {
+                $attiDataMap = $attiObject->fetchDataMap(false, \SchemaPubblicazioneLookup::EXPORT_LANGUAGE);
+                $attiAttribute = $attiDataMap['csv_resource'] ?? null;
+                if ($attiAttribute !== null) {
+                    $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art2627Serializer(null, $attiAttribute);
+                    $this->attiDiConcessioneRigheCache = $serializer->fetchRigheAtti();
+                }
+            }
+        }
+
+        return $this->attiDiConcessioneRigheCache;
+    }
+
+    /**
+     * @return bool true se il dato sorgente di $schema e' vuoto ADESSO -
+     *         usato solo da getAnacExports() quando lo schema e' elencato in
+     *         [Trasparenza] HideExportIfEmpty[]. Schema sconosciuto a questo
+     *         controllo: fail-safe, false (non nascondere mai un export gia'
+     *         pubblicato per un criterio che non sappiamo valutare).
+     */
+    private function isAnacSchemaSourceEmpty($schema)
+    {
+        switch ($schema) {
+            case \OpenPABootstrapItalia\Anac\Serializer\Art2627Serializer::SCHEMA_IDENTIFIER_ATTI_CONCESSIONE:
+            case \OpenPABootstrapItalia\Anac\Serializer\Art2627Serializer::SCHEMA_IDENTIFIER_ATTI:
+                return empty($this->fetchAttiDiConcessioneRighe());
+
+            case \OpenPABootstrapItalia\Anac\Serializer\Art2627Serializer::SCHEMA_IDENTIFIER_ATTO_REVOCA:
+                $serializer = new \OpenPABootstrapItalia\Anac\Serializer\Art2627Serializer();
+                foreach ($this->fetchAttiDiConcessioneRighe() as $riga) {
+                    if ($serializer->mapRigaAtti($riga)['revoca'] !== null) {
+                        return false;
+                    }
+                }
+
+                return true;
+
+            default:
+                return false;
+        }
     }
 
     /**

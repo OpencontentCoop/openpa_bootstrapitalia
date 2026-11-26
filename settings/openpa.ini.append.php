@@ -224,6 +224,21 @@ EnableAnacLiveRendering=disabled
 HideLiveRenderingBlockIfEmpty[]
 HideLiveRenderingBlockIfEmpty[]=art.13-op
 
+# Schemi ANAC per cui il blocco "Schemi pubblicazione ANAC" va nascosto in
+# pagina quando il dato sorgente e' vuoto ADESSO (cms#527) - indipendente da
+# cosa e' stato gia' pubblicato in passato: uno schema gia' pubblicato (es.
+# un CSV con sola intestazione, scritto dal cron anche a dataset vuoto, vedi
+# cronjobs/anac_export.php) resta comunque nascosto qui se il dato attuale e'
+# vuoto. Non tocca mai la pubblicazione del cron, solo la visibilita' del
+# link - vedi classes/services/content_trasparenza.php, getAnacExports().
+# Stesso principio di HideLiveRenderingBlockIfEmpty sopra, ma applicato
+# all'export invece che al rendering live - abilitato schema per schema, non
+# un comportamento automatico per tutti.
+HideExportIfEmpty[]
+HideExportIfEmpty[]=art.26-27-atti-concessione
+HideExportIfEmpty[]=art.26-27-atto-revoca
+HideExportIfEmpty[]=art.26-27-atti
+
 # Ambito soggettivo da riportare nell'export art.36 (IBAN e pagamenti
 # informatici) per un ente C2: "SocietaInControlloPubblico" o
 # "EntiDiDirittoPrivato" - non derivabile dal solo profilo C2, va

@@ -988,6 +988,130 @@ supporta genericamente), non è raggiungibile dal form stesso. Un valore
 fuori vocabolario lancia `InvalidVocabolarioException`, stesso principio
 già in uso per `Art4BisSerializer`/altri.
 
+### `Art2627Serializer` — due famiglie di schemi, criteri raggruppato nel JSON vs piatto nel CSV, revoca sullo stesso record
+
+Copre artt. 26-27 d.lgs. 33/2013 ("Sovvenzioni, contributi, sussidi, vantaggi
+economici", cms#527), schema ad adesione volontaria, **solo C1** — quarto
+schema del modulo opzionale `trasparenza-additional-anac-schemes` (vedi
+`installer/modules/trasparenza-additional-anac-schemes/CLAUDE.md`). Due
+dataset content object distinti (classe `dataset`, `csv_resource`) — stesso
+pattern di `Art20Serializer`/`Art4BisSerializer`, un solo serializzatore per
+entrambe le sotto-sezioni (famiglia logica unica, come co.1/co.2 di
+art.20): "Criteri e modalità" (art. 26 co.1) e "Atti di concessione" (artt.
+26 co.2 e 27).
+
+**Quattro identificativi di schema, non uno**:
+
+- `SCHEMA_IDENTIFIER_CRITERI` (`art.26-27-criteri`) — CSV e JSON di "Criteri
+  e modalità" pubblicati sotto lo **stesso** identificativo (come art.4-bis
+  — un solo `ExportPublisher::publish()` con callback).
+- `SCHEMA_IDENTIFIER_ATTI_CONCESSIONE` (`art.26-27-atti-concessione`),
+  `SCHEMA_IDENTIFIER_ATTO_REVOCA` (`art.26-27-atto-revoca`) e
+  `SCHEMA_IDENTIFIER_ATTI` (`art.26-27-atti`) — "Atti di concessione"
+  pubblica invece **tre** file su altrettanti identificativi indipendenti
+  (due CSV via `publishSingle()`, un JSON via `publishWithDates()`) — come i
+  tre file separati di art.20.
+
+**Il fix rispetto alla prima stesura dell'issue**: una versione iniziale
+usava un identificativo unico e nudo ("art.26-27") condiviso tra criteri e
+atti — avrebbe prodotto nomi file identici per due contenuti diversi, un bug
+perché sia `ExportPublisher` (che usa l'identificativo come prefisso del
+nome file scritto su cluster storage) sia la guida ANAC (file di esempio con
+nomi "art.26-27-criteri-...json" e "art.26-27-atti-...json" distinti,
+verificato scaricando sia il JSON Schema reale sia la pagina guida il
+2026-11-19) vogliono nomi differenziati. Corretto usando `art.26-27-criteri`
+e `art.26-27-atti`/`art.26-27-atti-concessione`/`art.26-27-atto-revoca` come
+identificativi distinti — stesso pattern già usato da `art.20` per separare
+più file dello stesso articolo.
+
+**Raggruppamento per atto normativo nel JSON, forma piatta nel CSV**: il CSV
+di "Criteri e modalità" (`toCsvCriteri()`) è una riga per riga di dataset,
+senza alcuna riduzione — l'atto normativo si ripete su più righe se ha più
+atti attuativi (forma richiesta dal CSV ANAC). Il JSON (`toJsonCriteri()`)
+raggruppa invece quelle stesse righe per atto normativo
+(`raggruppaPerAttoNormativo()`, chiave numero+anno+link dell'atto normativo)
+in blocchi `{attoNormativo, attiAmministrativi}`, con `attiAmministrativi`
+**omesso** (non `[]`) se nessuna riga di quel gruppo ha un atto attuativo —
+CSV e JSON hanno quindi forma strutturale diversa sugli stessi dati, non
+solo una differenza di formato.
+
+**La revoca vive sullo stesso record dell'atto di concessione**, non come
+riga/record separato: nel dataset "Atti di concessione" i campi
+`numero_atto_revoca`/`anno_atto_revoca`/`motivazione_revoca` sono colonne
+aggiuntive sulla stessa riga dell'atto eventualmente revocato (issue #527:
+"il CSV ha solo NUMERO;ANNO;MOTIVAZIONE e non contiene alcun riferimento
+alla concessione revocata"). `mapRigaAtti()` restituisce `revoca` null se
+`numero_atto_revoca` è vuoto; nel JSON (`toJsonAtti()`) una revoca
+valorizzata diventa la chiave `attoDiRevoca` annidata dentro il blocco
+dell'atto di concessione corrispondente (mai un record a parte); nel CSV
+invece `toCsvAttoRevoca()` filtra solo i record con revoca e ne stampa i tre
+soli campi della revoca stessa (non quelli dell'atto di concessione a cui
+appartiene) — un CSV indipendente da `toCsvAttiConcessione()`, letto dallo
+stesso dataset.
+
+**Costruttore con entrambi i parametri nullable**: a differenza di
+`Art20Serializer` (dove i due dataset della stessa famiglia sono sempre
+installati insieme), qui "Criteri e modalità" e "Atti di concessione" sono
+installati in modo indipendente, ciascuno condizionato all'esistenza della
+propria pagina — uno dei due può quindi mancare da solo su un dato sito
+senza impedire all'altro di funzionare. `publishArt2627()`
+(`cronjobs/anac_export.php`) passa `null` per l'attributo mancante e
+pubblica solo il lato corrispondente, con due `try/catch` separati — un
+errore su un lato (es. un telefono malformato in un atto di concessione) non
+deve bloccare l'altro, stesso principio di tutti gli altri schemi (vedi
+"Gestione errori" sotto).
+
+**`TelefonoNormalizer`/`InvalidTelefonoException` — nuova validazione
+export-time**: `mapRigaAtti()` valida `telefono_resp_proc` (telefono del
+responsabile del procedimento) contro il pattern ANAC per numeri italiani
+(`commons-v1.0.schema.json`, definizione `Telefono`:
+`^(\+39)?\s?(0\d{1,4}[\s\-]?\d{4,8}|3\d{2}[\s\-]?\d{6,7})$`) tramite
+`TelefonoNormalizer::normalize()` — stesso principio delle altre eccezioni
+di dominio (`InvalidVocabolarioException`/`InvalidImportoException`/
+`MissingCodiceFiscaleException`): l'export fallisce esplicitamente invece di
+pubblicare un valore che lo schema rifiuterebbe. A differenza di
+`ImportoNormalizer`, non trasforma il valore in una forma canonica diversa —
+lo schema ammette varianti di spaziatura equivalenti (es. "06 12345678" e
+"0612345678" sono entrambe valide), quindi si limita a un trim e alla
+validazione del pattern, restituendo il valore così com'è se valido.
+
+**Nessuna validazione incrociata nei dataset** (es. PEO/PEC obbligatori in
+OR, completezza di revoca/atto attuativo): decisione esplicita di Marco
+(committente) — guida testuale nei campi `description` del dataset invece di
+logica di validazione nel serializer. Vedi
+`installer/modules/trasparenza-additional-anac-schemes/CLAUDE.md`, sezione
+"artt. 26-27", per il dettaglio lato installer/dataset di questa decisione —
+non duplicato qui.
+
+**Registro Nazionale degli Aiuti**: niente di automatico qui. Un ente che ha
+già pubblicato i propri dati sul Registro Nazionale degli Aiuti (art. 26
+co. 4, Nota 6 della Guida ANAC) e vuole sostituire la pubblicazione diretta
+con un link, lo fa a mano — un redattore scrive il link direttamente nel
+testo della pagina "Atti di concessione" (es. `guida_alla_compilazione`),
+nessun meccanismo di codice dedicato. Una prima versione di questo schema
+(cms#527) aveva un gate a install-time che impediva del tutto
+dataset/blocco quando un'ini era configurata, più un link mostrato
+automaticamente in pagina — rimosso il 2026-11-23 su decisione di Marco: più
+semplice lasciare al redattore sia la scelta di non popolare il dataset sia
+quella di scrivere il link, invece di un meccanismo dedicato con una sua
+ini e un gate di installazione da mantenere.
+
+**`HideExportIfEmpty` — nascondere l'export quando il dato è vuoto adesso**:
+`getAnacExports()` (`content_trasparenza.php`) può nascondere il blocco
+"Schemi pubblicazione ANAC" per uno schema, anche se già pubblicato in
+passato, quando il suo dato sorgente è vuoto **adesso** — ini `[Trasparenza]
+HideExportIfEmpty[]` (array di schema identifier), abilitata di default per
+i tre schemi di "Atti di concessione" (`art.26-27-atti-concessione`,
+`art.26-27-atto-revoca`, `art.26-27-atti`). Non tocca mai la pubblicazione
+del cron (che continua a scrivere un CSV con sola intestazione a dataset
+vuoto, vedi "Gestione errori" sotto) — solo la visibilità del link. Stesso
+pattern già in uso per il rendering live (`HideLiveRenderingBlockIfEmpty[]`,
+vedi `content_trasparenza.php`, `getLiveRenderingBlocks()`), qui applicato
+all'export invece che alla tabella in pagina. Nessuna protezione contro un
+dato che torna visibile dopo essere stato nascosto (se il redattore scrive
+una riga per errore e la rimuove, l'export torna a comparire e poi a
+sparire di conseguenza) — accettato esplicitamente da Marco, non un difetto.
+
 ## Gestione errori e casi limite
 
 ### Le due eccezioni di dominio, e cosa succede davvero quando scattano
@@ -1062,6 +1186,8 @@ Conseguenze concrete, non ovvie:
 
 ## Cosa manca (non ancora costruito)
 
+- **Artt. 26-27 — profilo C2**: rimandato al 2027, già tracciato in
+  cms#555 — non duplicato qui. `Art2627Serializer` copre oggi solo C1.
 - **Art. 13 — riga CSV per organo senza uffici**: scelto (non verificato al
   100%) di omettere l'organo dal CSV `art.13-op` se non ha uffici collegati,
   mantenendolo nel JSON con `uffici: []`. Gli esempi ANAC scaricabili hanno
