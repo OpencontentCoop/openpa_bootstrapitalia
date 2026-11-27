@@ -10,13 +10,60 @@
 
 **Spec:** non c'è un documento separato: la sezione "Analisi" qui sotto è la specifica. Contesto: cms#556 (art. 29, dove è nata l'esigenza) e piani art. 35 (`2026-11-26-…art35…piani-alternativi.md` sul branch `trasparenza-additional-scheme-35`).
 
+## Come eseguire questo piano da una sessione nuova (leggere prima di tutto)
+
+**Lingua e stile:** rispondere a Marco in italiano, risposte brevi, conclusione prima. Se serve una decisione non prevista dal piano, chiederla **una alla volta** (AskUserQuestion) con una proposta e il motivo; non scrivere "da decidere" senza proporre. Le decisioni C1-C7 e D1-D14 sono già prese: non rimetterle in discussione.
+
+**Regole git di Marco (valgono sempre):** mai commit senza che Marco lo chieda; mai push senza conferma esplicita; mai push su `master`; mai merge di `dev`/`main` dentro il branch (solo cherry-pick); niente worktree; mai toccare la configurazione git. Prima di ogni azione verificare il branch corrente (`git branch --show-current`) in ogni repo.
+
+**Repo e branch (lavoro in due repo, `installer` non si tocca):**
+
+| Repo | Percorso | Branch | Stato |
+|---|---|---|---|
+| `occsvimport` | `/Volumes/Repos/sviluppo-sito-comunale/occsvimport` | `feature/safe-bulk-import-trasparenza`, da `master` | Il branch **non esiste ancora**: crearlo da `master` aggiornato (`git checkout master && git pull --ff-only && git checkout -b feature/safe-bulk-import-trasparenza`) |
+| `openpa_bootstrapitalia` | `/Volumes/Repos/sviluppo-sito-comunale/openpa_bootstrapitalia` | `feature/safe-bulk-import-trasparenza` | Esiste già (con questo piano), già su GitHub |
+
+`occsvimport` è un repo di OpenContent: le modifiche arrivano con PR. Il codice nuovo è attivabile per classe e spento di default, quindi non cambia nulla per chi usa già `csvimport` (assistente migrazione e altri).
+
+**Ambiente locale (Docker, `sito-comunale-dev`):**
+- Container app `sito-comunale-dev-app-1`, database `sito-comunale-dev-postgres-1` (`docker exec sito-comunale-dev-postgres-1 psql -U openpa opencity -At -c "…"`), sito su `https://opencity.localtest.me` (utente `admin`, password locale `changethispassword`), siteaccess backend `backend`. Chrome è già collegato con l'utente admin.
+- `occsvimport` e `openpa_bootstrapitalia` sono montati dentro il container (`extension/occsvimport`, `extension/openpa_bootstrapitalia`): le modifiche ai file si vedono subito, senza rebuild.
+- **PHP:** sul Mac `php` è 8.3, nel container è **7.4.33**. Il codice deve girare su 7.4 (niente sintassi PHP 8: no `match`, no proprietà tipizzate promosse, no `?->`, no argomenti nominati, no `str_contains`), quindi **eseguire test e `php -l` dentro il container**: `docker exec sito-comunale-dev-app-1 php /var/www/html/extension/occsvimport/tests/test_xxx.php`.
+- Svuotare le cache dopo modifiche a ini, template o traduzioni: `docker exec sito-comunale-dev-app-1 sh -c 'cd /var/www/html && php bin/php/ezcache.php --clear-all'`. Per leggere un ini da CLI serve il siteaccess (`"siteAccess"=>"frontend"` in `eZScript::instance`), altrimenti i valori degli override non si vedono.
+- **Nessun cron in locale.** Con C7 l'import parte da solo dopo "Conferma"; per il ripiego si lancia a mano: `docker exec sito-comunale-dev-app-1 sh -c 'cd /var/www/html && php runcronjobs.php -s backend sqliimport_run'`.
+- **Impostazioni locali non versionate:** il file `settings/override/csvimport.ini.append.php` dentro il container (si perde se il container viene ricreato), oppure variabili d'ambiente `EZINI_csvimport__SafeImport__EnabledClasses__0=partecipazione_societaria` in `sito-comunale-dev/docker-compose.override.yml` (file ignorato da git, richiede `docker compose up -d app`).
+- Niente script ad hoc per l'installer o il kernel di eZ: se serve capire come funziona qualcosa, leggere il codice sotto `vendor/` e `extension/` del container.
+
+**Cosa resta nel DB e nel container da una prova precedente (spike del 2026-11-27)**, da ripulire o riusare:
+- nel container, `settings/override/openpa.ini.append.php` contiene `[Trasparenza] ShowCsvImportWidget_partecipazione_societaria=enabled` (chiave del **flusso vecchio**): va tolta quando si passa al flusso nuovo;
+- la pagina "Dati società partecipate" (nodo 1497) mostra il widget vecchio; due oggetti `partecipazione_societaria` creati dalla prova (nodi 3046 e 3047, sotto il nodo 1497) e un record in `sqliimport_item` (id 1, completato). Si possono cancellare dal backend;
+- non esiste nessuna `private_organization` in locale: vanno create per le prove.
+
+**Chiavi di configurazione nuove** (tutte in `occsvimport/settings/csvimport.ini`, blocco `[SafeImport]`; nessuna classe abilitata di default):
+
+| Chiave | Default | Significato |
+|---|---|---|
+| `EnabledClasses[]` | vuoto | Classi per cui il flusso nuovo è attivo (es. `partecipazione_societaria`) |
+| `ImportKey[<classe>]` | — | Colonne che identificano una riga (es. `anno,organizzazione`); obbligatoria per abilitare la classe |
+| `MaxRows` | 500 | Righe massime per file |
+| `MaxFileSizeBytes` | 5242880 | Dimensione massima dello zip e dei file estratti |
+| `RetentionMinutes` | 60 | Cancellazione dei file caricati e non confermati |
+| `UndoRetentionDays` | 7 | Per quanti giorni resta disponibile "Annulla questo import" |
+| `QueueAlertMinutes` | 15 | Dopo quanto tempo in coda il widget avvisa |
+
+**Attenzione, compatibilità con il flusso vecchio.** La chiave `ShowCsvImportWidget_<classe>` (in `openpa.ini`, blocco `[Trasparenza]`) **esiste già ed è usata in produzione** da alcuni tenant SaaS con il flusso vecchio (per le classi `consulenza`, `collaborazione`, `lotto`: verificato in `saasopenpa-settings`). **Non va riusata né cambiata di significato**: il flusso nuovo usa `[SafeImport] EnabledClasses[]`. Se per una classe sono attivi entrambi, vince il nuovo; se è attivo solo il vecchio, il widget vecchio resta com'è.
+
+**Verifiche finali comuni a ogni compito** (prima di dire "fatto"): `php -l` nel container su ogni file nuovo o modificato; tutti i test `tests/test_csv_*.php` passano nel container; nessuna credenziale nei file staged; nessun nome di comune o dominio reale in file versionati; il flusso vecchio (`csvimport/import` e il suo widget su una classe con solo la chiave vecchia) funziona ancora (prova a mano).
+
+---
+
 ## Global Constraints
 
 - Branch di lavoro in inglese, da `master`: `feature/safe-bulk-import-trasparenza` (openpa_bootstrapitalia). Branch omonimo in `occsvimport` al momento dell'esecuzione, da `master`. Nessuna modifica a `installer`.
 - Mai push senza conferma esplicita di Marco; mai commit senza che Marco lo chieda.
 - Nessuna sintassi PHP 8 (la CI usa PHPStan per 7.4).
 - Tutto spento di default per ente: nessun cambio di comportamento di `csvimport/import` esistente (lo usa anche l'assistente migrazione).
-- Testi per i redattori in italiano, con terminologia PA corretta e senza gergo inglese; stringhe nel contesto i18n `bootstrapitalia/csvimport`, `.ts` aggiornati e poi POEditor (progetto 740564).
+- Testi per i redattori in italiano, con terminologia PA corretta e senza gergo inglese. I messaggi di validazione stanno nel catalogo `CsvImportMessages` di `occsvimport` (solo italiano, il tedesco non è in questo lavoro). Le etichette del widget in `openpa_bootstrapitalia` (pulsanti, titoli) usano il contesto i18n `bootstrapitalia/csvimport` con `translations/ita-IT/translation.ts` aggiornato a mano e poi POEditor (progetto 740564; vedi `CLAUDE.md` di `openpa_bootstrapitalia`, sezione i18n).
 - Nessun nome di comune o dominio reale in file versionati (piani, doc, test, commit).
 - Open source e standard esistenti: nessuna dipendenza nuova; niente servizi esterni (i dati dei cittadini non escono dall'infrastruttura).
 - Nessuna nuova tabella DB: il rollout su ~600 tenant non deve richiedere migrazioni.
@@ -54,25 +101,28 @@ Obbligatori: `anno` (`ezinteger`), `organizzazione` (`ezobjectrelationlist`, amm
 - **D2 Tutto o niente.** Un solo errore = nessuna scrittura. Avvisi (campi facoltativi vuoti) ammessi.
 - **D3 Risoluzione esatta, mai ricerca.** Relazioni: `remote_id`, poi nome identico (senza distinzione di maiuscole/spazi multipli) tra gli oggetti pubblicati delle classi ammesse dal campo; 0 trovati o più di 1 = errore con indicazione della riga. Tag: nome unico, oppure percorso `Padre/Figlio`; ambiguo = errore. Selezioni: etichetta o identificatore dell'opzione. Date: solo `gg/mm/aaaa` e `aaaa-mm-gg`, rigorose. Numeri: virgola o punto come decimale, altro = errore.
 - **D4 Tipi non supportati bloccano la classe.** Esiste una tabella "tipo di attributo → supportato/non supportato"; se la classe ha un attributo **obbligatorio** non supportato, il widget non si attiva e il motivo è scritto nel log; un attributo **facoltativo** non supportato è ignorato e segnalato come colonna non importabile.
-- **D5 Chi carica è chi scrive.** Il nodo di destinazione non arriva dal form: si ricava dalla pagina da cui parte il widget e si firma. Si verificano `can_create` (classe + nodo padre) dell'utente sia al controllo sia prima della scrittura, e l'import gira con l'utente che ha caricato.
+- **D5 Chi carica è chi scrive.** Il nodo di destinazione arriva dal form, ma il server lo tratta come non fidato: al controllo, alla conferma e prima di ogni scrittura verifica che la classe sia in `EnabledClasses` e che l'utente possa crearla in quel nodo (`$node->checkAccess('create', $classId, $parentClassId)` con classe e classe padre; è l'unica fonte di verità, perché i ruoli limitano già classe, sottoalbero e classe padre). Manomettere il nodo non dà all'utente più permessi di quelli che ha già. Nessuna firma del token. L'import gira con l'utente che ha caricato, non con `RobotUserID`.
 - **D6 Rivalidazione all'avvio.** Tra il controllo e il cron i dati possono cambiare (un ufficio cancellato, un tag rinominato): prima di scrivere si rivalida tutto, e se cambia l'esito non si scrive nulla.
-- **D7 Widget slegato dalla regola di tabella.** Compare se la classe è abilitata (`ShowCsvImportWidget_<classe>`), la pagina dichiara quella classe (regola di tabella **oppure** schema live-render tramite `LiveRenderingRegistry::REPLACES_CLASS_IDENTIFIER`) e l'utente può crearla lì.
-- **D8 Import ripetibile per chiave (C1, confermata da Marco).** Nessun `remoteId` deciso da noi: lo genera eZ alla creazione. Ogni classe abilitata dichiara una **chiave** (colonne che identificano una riga; per `partecipazione_societaria`: `anno` + `organizzazione`) in `csvimport.ini` (`ImportKey_<classe>`); senza chiave la classe non si abilita. Nel controllo, ogni riga è confrontata con i figli esistenti della pagina di destinazione: **nuova** (si crea), **già presente e identica** (saltata, senza errore), **stessa chiave ma valori diversi** (errore, mai sovrascrittura). Righe con la stessa chiave dentro lo stesso file = errore. Conseguenza: dopo un'interruzione si ricarica lo stesso file e si creano solo le righe mancanti; il doppio caricamento è innocuo; i contenuti nel cestino non contano.
+- **D7 Widget slegato dalla regola di tabella.** Compare se la classe è in `[SafeImport] EnabledClasses[]` (e importabile, con `ImportKey`), la pagina dichiara quella classe (regola di tabella **oppure** schema live-render tramite `LiveRenderingRegistry::REPLACES_CLASS_IDENTIFIER`) e l'utente può crearla lì. Il widget nuovo è un blocco a sé (`parts/csv_safe_import_widget.tpl` in `openpa_bootstrapitalia`); il widget vecchio e la sua chiave non si toccano.
+- **D8 Import ripetibile per chiave (C1, confermata da Marco).** Nessun `remoteId` deciso da noi: lo genera eZ alla creazione. Ogni classe abilitata dichiara una **chiave** (colonne che identificano una riga; per `partecipazione_societaria`: `anno` + `organizzazione`) in `csvimport.ini` (`[SafeImport] ImportKey[<classe>]`); senza chiave la classe non si abilita. Il confronto con i figli esistenti usa **valori normalizzati**: numeri e date come numeri, relazioni come id dell'oggetto, testi con spazi normalizzati e senza distinzione di maiuscole. Nel controllo, ogni riga è confrontata con i figli esistenti della pagina di destinazione: **nuova** (si crea), **già presente e identica** (saltata, senza errore), **stessa chiave ma valori diversi** (errore, mai sovrascrittura). Righe con la stessa chiave dentro lo stesso file = errore. Conseguenza: dopo un'interruzione si ricarica lo stesso file e si creano solo le righe mancanti; il doppio caricamento è innocuo; i contenuti nel cestino non contano.
 - **D9 Annulla import nella v1 (C5, confermata da Marco).** L'handler salva l'elenco degli id degli oggetti creati nel record dell'import (`sqliimport_item`, già esistente: nessuna nuova tabella). "Annulla questo import" sposta nel cestino quei contenuti con i permessi dell'utente (`remove` controllato su ogni oggetto), si ferma sui contenuti modificati dopo l'import segnalandoli senza cancellarli, ed è disponibile per 7 giorni (configurabile). Necessario perché con C2 (solo creazione) è l'unico modo di correggere un import valido ma sbagliato nel merito.
-- **D10 Fuori scope v1 (YAGNI):** import da Google Sheet nel widget, modello con menu a tendina, esecuzione sincrona dell'import, aggiornamento di contenuti esistenti.
+- **D11 Stato tra "Controlla" e "Conferma", senza nuove tabelle.** Il controllo salva lo zip e il CSV in `application_csv/validation/<id>/` (stessa convenzione di `OCCSVImportHandler`, **tramite `eZClusterFileHandler`** come fa già `inizializeFromFile`, perché su Boat il cron di ripiego gira in un altro container) con un file `validation.json`: `id` (32 caratteri esadecimali casuali, non indovinabili), utente, nodo, classe, hash SHA-256 del CSV, numero righe per esito (nuove / identiche / errori), data. "Conferma" accetta solo l'`id`, lo rilegge dal server e verifica utente, scadenza (`RetentionMinutes`) e hash; il browser non può cambiare cosa viene importato. La pulizia dei file scaduti avviene a ogni chiamata a `validate`/`confirm` e alla fine dell'import (`cleanup()` dell'handler). Il numero "IMP-N" mostrato al redattore è l'`id` del record `sqliimport_item`.
+- **D12 Blocco contro import doppi, senza nuove tabelle.** In "Conferma", dentro una transazione e con un lock di PostgreSQL (`SELECT pg_try_advisory_xact_lock(hashtext('csvimport:<nodo>:<classe>'))`, il prodotto usa solo PostgreSQL) si controlla che non esista in `sqliimport_item` un record in stato `STATUS_PENDING` (0) o `STATUS_RUNNING` (1) dello stesso handler per lo stesso nodo (filtro su `options_serialized` come in `OCCSVImportHandler::fetchImportHistory`); poi si inserisce il record e si conferma la transazione. Il secondo clic trova il record e viene rifiutato.
+- **D13 Interfaccia a JSON.** Le viste `validate`, `confirm`, `status`, `undo`, `error_report`, `template` e `valid_values` rispondono con JSON o CSV, non con pagine HTML: il widget le chiama da JavaScript (`fetch`) e disegna lui il risultato con i componenti Bootstrap Italia. Le richieste POST devono portare il token anti-CSRF del sito (`ezxform_token`, modulo `ezuserformtoken`): cercare nei template di `openpa_bootstrapitalia` come lo includono gli altri form POST (`grep -rn ezxform_token design`) e fare lo stesso.
+- **D14 Fuori scope v1 (YAGNI):** import da Google Sheet nel widget, modello con menu a tendina, esecuzione sincrona dell'import, aggiornamento di contenuti esistenti.
 
-### Decisioni da confermare (ognuna con la mia proposta)
+### Decisioni di Marco (tutte confermate il 2026-11-27)
 
 | # | Domanda | Proposta | Perché |
 |---|---|---|---|
 | C1 | Import interrotto a metà (guasto durante la scrittura)? | **CONFERMATA (Marco, 2026-11-27): import ripetibile per chiave** (vedi D8), senza `remoteId` nostro | Un solo meccanismo copre interruzione e doppio caricamento; stima circa 1-2 giorni in più |
 | C2 | Un file può **aggiornare** contenuti esistenti? | **CONFERMATA (Marco, 2026-11-27): v1 solo creazione.** Colonna `remoteId` non ammessa (errore chiaro). Stessa chiave e valori identici = saltata; stessa chiave con valori diversi = errore "esiste già con dati diversi" | Sovrascrivere dati da un CSV è la cosa più pericolosa. L'aggiornamento si fa dopo, con anteprima delle differenze |
 | C3 | Suggerire il nome simile quando un ufficio non si trova | **DECISO (Marco, 2026-11-27): no**, solo "non trovato" con rimando all'elenco dei nomi validi | Meno codice e nessuna ambiguità |
-| C4 | Limiti | **500 righe per file e file cancellati dopo 60 minuti: confermati (Marco, 2026-11-27). La soglia "15 minuti in coda" è da rivedere con C7** (in produzione l'import può partire dopo ore); tutti configurabili in ini | Valori ragionevoli per una prima versione, nessuna misura reale ancora |
+| C4 | Limiti | **CONFERMATI (Marco, 2026-11-27): 500 righe per file, avviso dopo 15 minuti in coda (ora sensato grazie a C7), file non confermati cancellati dopo 60 minuti**; tutti configurabili in ini | Valori ragionevoli per una prima versione, nessuna misura reale ancora |
 | C5 | "Annulla questo import" | **CONFERMATA (Marco, 2026-11-27): nella v1**, elenco id nel record dell'import, 7 giorni, circa 1 giorno in più | Con C2 è l'unico modo di correggere un import valido ma sbagliato nel merito |
 | C6 | Chi importa vede un'anteprima delle prime righe prima di confermare | **CONFERMATA (Marco, 2026-11-27): sì**, prime 5 righe come le vedrà il cittadino (organizzazione risolta col nome del contenuto trovato) | Fa vedere subito se l'ufficio agganciato è quello giusto |
 
-### Decisione emersa dalle verifiche
+### Decisione emersa dalle verifiche (confermata)
 
 | # | Domanda | Proposta |
 |---|---|---|
@@ -94,9 +144,10 @@ Compiti 1-6 sono il nucleo: circa 7-9 giorni (include import ripetibile per chia
 
 1. **Codifica e formato del file** (BOM UTF-8, Windows-1252 esportato da Excel, separatore `,` invece di `;`, righe vuote, colonna intestata con maiuscole/spazi diversi): atteso errore chiaro, mai caratteri corrotti importati. Test al Compito 1 e 4.
 2. **Zip ostile o enorme** (percorsi `../`, troppi file, oltre il limite di righe/dimensione, più di un CSV): atteso rifiuto, nessun file scritto fuori dalla cartella dell'import. Compito 4.
-3. **Doppio invio e concorrenza** (doppio clic su "Conferma", due import sulla stessa pagina, stesso file caricato due volte): atteso un solo import, il secondo rifiutato con messaggio. Compito 4.
-4. **Dati che cambiano tra controllo e cron** (ufficio nel cestino, tag rimosso, utente che perde il permesso): atteso nessuna scrittura e messaggio. Compito 5.
-5. **Valori ostili nei campi di testo** (HTML/script in `funzioni_attribuite`, stringhe lunghissime, formule tipo `=…`, caratteri di controllo): atteso errore o testo che in pagina appare come testo, mai HTML eseguibile. Compiti 1 (controlli) e 8 (verifica del rendering).
+3. **Nodo di destinazione manomesso o classe non abilitata** (cambiare `NodeID` o classe nel form, riusare il `validation_id` di un altro utente): atteso rifiuto senza scritture, perché i permessi sono verificati dal server (D5, D11). Compito 4.
+4. **Doppio invio e concorrenza** (doppio clic su "Conferma", due import sulla stessa pagina, stesso file caricato due volte): atteso un solo import, il secondo rifiutato con messaggio. Compito 4.
+5. **Dati che cambiano tra controllo e cron** (ufficio nel cestino, tag rimosso, utente che perde il permesso): atteso nessuna scrittura e messaggio. Compito 5.
+6. **Valori ostili nei campi di testo** (HTML/script in `funzioni_attribuite`, stringhe lunghissime, formule tipo `=…`, caratteri di controllo): atteso errore o testo che in pagina appare come testo, mai HTML eseguibile. Compiti 1 (controlli) e 8 (verifica del rendering).
 
 ---
 
@@ -108,7 +159,7 @@ Compiti 1-6 sono il nucleo: circa 7-9 giorni (include import ripetibile per chia
 2. **Ogni messaggio dice cosa è successo, dove e cosa fare**, in italiano semplice, senza gergo (niente "relazione", "attributo", "remote id": si dice "ufficio", "colonna", "codice").
 3. **Si corregge dal proprio file:** si scarica il file con una colonna "Esito" aggiunta riga per riga, si corregge e si ricarica. Non si riparte da capo.
 4. **Si prepara bene prima di caricare:** modello scaricabile con intestazioni giuste e una riga di esempio, più l'elenco dei valori ammessi (selezioni, uffici).
-5. **Niente sorprese:** prima di confermare, riepilogo di cosa verrà creato (e di cosa verrà aggiornato, se il file ha il codice `remoteId`).
+5. **Niente sorprese:** prima di confermare, riepilogo di cosa verrà creato e di cosa verrà saltato perché già presente (l'import non modifica mai contenuti esistenti).
 6. **Sempre un riferimento per l'assistenza:** ogni caricamento ha un codice (es. `IMP-1234`) mostrato in ogni stato.
 7. **Accessibile:** componenti Bootstrap Italia (avvisi `alert`, tabella, barra di avanzamento), messaggi annunciati agli screen reader (`role="alert"`), tutto raggiungibile da tastiera.
 
@@ -175,14 +226,14 @@ Tutti i messaggi stanno in un catalogo unico (`CsvImportMessages`), con codice, 
 |---|---|---|
 | `classes/import/CsvImportReport.php` + `CsvImportMessages.php` (nuovi) | occsvimport | Raccolta errori/avvisi per riga e colonna, file con colonna "Esito", catalogo unico dei messaggi per i redattori |
 | `classes/import/CsvValueNormalizer.php` (nuovo) | occsvimport | Logica pura: numeri, date, URL, stringhe, selezioni |
-| `classes/import/CsvRowValidator.php` (nuovo) | occsvimport | Validazione riga contro descrittore di classe; usa un `ReferenceResolver` iniettato |
+| `classes/import/CsvRowValidator.php` + `ExistingRowMatcher.php` (nuovi) | occsvimport | Validazione riga contro descrittore di classe (usa un `ReferenceResolver` iniettato) e confronto con i figli esistenti (nuova / identica / in conflitto) |
 | `classes/import/ReferenceResolver.php` + `EzReferenceResolver.php` (nuovi) | occsvimport | Interfaccia + implementazione eZ per relazioni/tag/selezioni (solo questa tocca il kernel) |
 | `classes/import/ClassImportability.php` (nuovo) | occsvimport | Tabella tipi supportati; decide se una classe è importabile |
-| `classes/import/ImportGuard.php` (nuovo) | occsvimport | Permessi (`can_create`), firma del nodo, limiti, scadenze |
-| `modules/csvimport/validate.php`, `confirm.php`, `error_report.php` (nuovi) + `module.php` | occsvimport | Viste Fase 1, Fase 2, report scaricabile; la vista `import` non cambia |
+| `classes/import/ImportGuard.php` (nuovo) | occsvimport | Controllo dello zip, limiti, scadenze, permessi (`can_create`), stato di validazione (D11) e blocco (D12) |
+| `modules/csvimport/validate.php`, `confirm.php`, `status.php`, `undo.php`, `error_report.php`, `template.php`, `valid_values.php` (nuovi) + `module.php` | occsvimport | Viste JSON/CSV del flusso nuovo (D13): controlla, conferma, stato, annulla, file con esito, modello scaricabile, elenco valori ammessi; la vista `import` non cambia |
 | `classes/sourcehandlers/csvimportvalidatedhandler.php` (nuovo) | occsvimport | Handler della coda: rivalida, scrive come utente richiedente |
-| `tests/test_csv_*.php` (nuovi) | occsvimport | Test logica pura |
-| `design/bootstrapitalia2/templates/openpa/full/pagina_trasparenza.tpl` (+ variante `2110`) e `parts/csv_import_widget.tpl` | openpa_bootstrapitalia | Widget slegato da `table_fields`, nuovo flusso Controlla/Conferma |
+| `tests/test_csv_*.php` (nuovi), `settings/csvimport.ini` e `settings/sqliimport.ini.append.php` (modificati) | occsvimport | Test logica pura; blocco `[SafeImport]`; registrazione dell'handler (`AvailableSourceHandlers[]=csvimportvalidatedhandler` e blocco `[csvimportvalidatedhandler-HandlerSettings]` con `Enabled=true`, `Name`, `ClassName`, `Debug=enabled`) |
+| `design/bootstrapitalia2/templates/openpa/full/pagina_trasparenza.tpl` (+ variante `bootstrapitalia2110`), `design/bootstrapitalia2/templates/parts/csv_safe_import_widget.tpl` (nuovo), `design/bootstrapitalia2/javascript/jquery.csvsafeimport.js` (nuovo) | openpa_bootstrapitalia | Blocco "Caricamento massivo" nuovo, slegato da `table_fields`; il widget vecchio e `occsvimport/design/standard/templates/parts/csv_import_widget.tpl` non si toccano |
 | `classes/services/content_trasparenza.php` | openpa_bootstrapitalia | Espone `csv_import_class` della pagina (regola o live-render) |
 | `translations/ita-IT/translation.ts` | openpa_bootstrapitalia | Testi nuovi |
 | — | — | La pagina sandbox, gli utenti e gli uffici di prova si creano a mano in locale (Compito 7): nessun file in `installer` |
@@ -208,16 +259,16 @@ Tutti i messaggi stanno in un catalogo unico (`CsvImportMessages`), con codice, 
 ### Task 2: Validatore di riga con risolutori di riferimenti
 
 **Files:**
-- Create: `occsvimport/classes/import/ReferenceResolver.php`, `CsvRowValidator.php`, `EzReferenceResolver.php`
-- Test: `occsvimport/tests/test_csv_row_validator.php` (con `ReferenceResolver` finto)
+- Create: `occsvimport/classes/import/ReferenceResolver.php`, `CsvRowValidator.php`, `ExistingRowMatcher.php`, `EzReferenceResolver.php`
+- Test: `occsvimport/tests/test_csv_row_validator.php` (con `ReferenceResolver` finto), `occsvimport/tests/test_csv_existing_row_matcher.php`
 
 **Interfaces:**
 - Consumes: `CsvValueNormalizer`, `CsvImportReport` (Task 1).
 - Produces: `ExistingRowMatcher::classify(array $normalizedRow, array $existingChildren, array $keyColumns): array{status:'new'|'identical'|'conflict',existingId:?int}` (logica pura: confronta chiave e valori normalizzati); `interface ReferenceResolver { relation(string $name, array $classIdentifiers): array{status:'ok'|'none'|'ambiguous',id:?int,count:int}; tag(string $pathOrName, int $rootTagId): array{...}; selection(string $value, array $options): array{...}; }`; `CsvRowValidator::__construct(array $attributes, ReferenceResolver $resolver)` dove `$attributes` è la lista di descrittori `['identifier','type','required','options','classConstraints','rootTagId']`; `::validate(int $rowNumber, array $row, CsvImportReport $report): array` (restituisce la riga normalizzata, vuota se ci sono errori).
 
-- [ ] **Step 1: Scrivere i test falliti** con un resolver finto (più, per `ExistingRowMatcher`: stessa chiave e stessi valori → `identical`; stessa chiave, un valore diverso → `conflict`; chiave assente tra i figli → `new`; chiave con maiuscole/spazi diversi nel nome dell'ufficio → riconosciuta; figlio nel cestino → non conta): campo obbligatorio vuoto → errore alla riga e colonna giuste; colonna sconosciuta → avviso, non errore; relazione `none` → errore "non trovato"; relazione `ambiguous` con 2 candidati → errore che dice quanti; tag ambiguo → errore; selezione non valida → errore con le opzioni ammesse; due righe con la stessa chiave nello stesso file → errore sulla seconda; colonna `remoteId` presente → errore "colonna non ammessa"; riga completamente vuota → ignorata; intestazione con maiuscole/spazi diversi (` Anno `) → riconosciuta; colonna obbligatoria assente dall'intestazione → errore di file, non di riga.
+- [ ] **Step 1: Scrivere i test falliti** con un resolver finto (più, per `ExistingRowMatcher`: stessa chiave e stessi valori → `identical`; stessa chiave, un valore diverso → `conflict`; chiave assente tra i figli → `new`; chiave con maiuscole/spazi diversi nel nome dell'ufficio → riconosciuta; figlio nel cestino → non conta): campo obbligatorio vuoto → errore alla riga e colonna giuste; colonna sconosciuta → avviso, non errore; relazione `none` → errore "non trovato"; relazione `ambiguous` con 2 candidati → errore che dice quanti; tag ambiguo → errore; selezione non valida → errore con le opzioni ammesse; due righe con la stessa chiave nello stesso file → errore sulla seconda; colonna `remoteId` presente → errore "colonna non ammessa"; riga completamente vuota → ignorata; intestazione con maiuscole/spazi diversi (` Anno `) → riconosciuta; **le intestazioni si riconoscono sia per identificatore dell'attributo (`percentuale_partecipazione`) sia per il suo nome italiano ("Percentuale di partecipazione"), senza distinzione di maiuscole e spazi; un'intestazione ambigua è un errore**; colonna obbligatoria assente dall'intestazione → errore di file, non di riga.
 - [ ] **Step 2: Eseguire** `php tests/test_csv_row_validator.php`. Atteso: FAIL.
-- [ ] **Step 3: Implementare** `CsvRowValidator` (nessun kernel) e `EzReferenceResolver`: relazioni con una query sui nomi (`ezcontentobject_name`) filtrata per classi ammesse e stato pubblicato, confronto in minuscolo con spazi normalizzati, con memoria per richiesta; selezione dalle opzioni dell'attributo; tag (`eztags_keyword`, percorso `Padre/Figlio`) previsti dall'interfaccia ma non usati da questa classe, da coprire quando serve (YAGNI). Niente `eZSearch`.
+- [ ] **Step 3: Implementare** `CsvRowValidator` (nessun kernel) e `EzReferenceResolver`: relazioni con una query sui nomi (`ezcontentobject_name`) filtrata per classi ammesse e stato pubblicato, confronto in minuscolo con spazi normalizzati, con memoria per richiesta; selezione dalle opzioni dell'attributo (`$attribute->content()['options']` per `ezselection`); i vincoli di classe di una relazione da `$attribute->content()['class_constraint_list']` (come fa già `csvimporthandler.php:151`); il resolver restituisce anche il **nome** del contenuto trovato, per l'anteprima (C6); per `ExistingRowMatcher` i figli esistenti si leggono con `eZContentObjectTreeNode::subTreeByNodeID(['Depth'=>1,'ClassFilterType'=>'include','ClassFilterArray'=>[$class],'Limitation'=>[]], $nodeId)` e `$object->dataMap()[$identifier]`, confrontando valori normalizzati (relazioni per id, date per timestamp, numeri come numeri); tag (`eztags_keyword`, percorso `Padre/Figlio`) previsti dall'interfaccia ma non usati da questa classe, da coprire quando serve (YAGNI). Niente `eZSearch`.
 - [ ] **Step 4: Eseguire** il test. Atteso: PASS.
 - [ ] **Step 5: Prova nel kernel** su `partecipazione_societaria` locale con 3-4 `private_organization` create per l'occasione (in locale non ne esiste nessuna): nome esistente, inesistente, doppio (due uffici con lo stesso nome). Atteso: ok / errore / errore "ambiguo". Commit su richiesta.
 
@@ -233,37 +284,37 @@ Tutti i messaggi stanno in un catalogo unico (`CsvImportMessages`), con codice, 
 
 - [ ] **Step 1: Test falliti** (descrittori di esempio, nessun kernel): classe con tutti i tipi supportati → importabile; classe con un attributo obbligatorio di tipo non supportato (es. `openpacomuniitaliani`) → non importabile, `blocking` lo contiene; attributo facoltativo non supportato (`openpareverserelationlist`, `ezmatrix`) → importabile, finisce in `ignored`; descrittore reale di `partecipazione_societaria` (anno, organizzazione, percentuale obbligatori) → importabile con le 3 matrici in `ignored`.
 - [ ] **Step 2: Eseguire.** Atteso: FAIL.
-- [ ] **Step 3: Implementare** la tabella (supportati: stringa, testo, intero, float, data, data/ora, URL, selezione, relazione; non supportati: tutto il resto, da estendere solo con un test dedicato). Il widget non si attiva per una classe non importabile e il motivo va nel log.
+- [ ] **Step 3: Implementare** la tabella dei tipi di dato eZ (supportati: `ezstring`, `eztext`, `ezinteger`, `ezfloat`, `ezdate`, `ezdatetime`, `ezurl`, `ezselection`, `ezobjectrelation`, `ezobjectrelationlist`; non supportati: tutto il resto, da estendere solo con un test dedicato). Per le date, riprodurre il comportamento di `csvimporthandler.php` (`eZTimestamp::getUtcTimestampFromLocalTimestamp` se esiste) e verificare rileggendo il valore dal contenuto creato. Il widget non si attiva per una classe non importabile e il motivo va nel log.
 - [ ] **Step 4: Eseguire** i test. Atteso: PASS.
 - [ ] **Step 5: Verificare** nel kernel locale che i descrittori letti da `eZContentClass` per `partecipazione_societaria` diano lo stesso esito del test. Commit su richiesta.
 
-### Task 4: Viste Controlla / Conferma, report e sicurezza del file
+### Task 4: Viste Controlla / Conferma / Stato, modello, report e sicurezza del file
 
 **Files:**
-- Create: `occsvimport/modules/csvimport/validate.php`, `confirm.php`, `error_report.php`, `occsvimport/classes/import/ImportGuard.php`
-- Modify: `occsvimport/modules/csvimport/module.php`, `occsvimport/settings/csvimport.ini`
+- Create: `occsvimport/modules/csvimport/validate.php`, `confirm.php`, `status.php`, `error_report.php`, `template.php`, `valid_values.php`, `occsvimport/classes/import/ImportGuard.php`
+- Modify: `occsvimport/modules/csvimport/module.php` (registrare le viste; **senza** modificare la vista `import`), `occsvimport/settings/csvimport.ini` (blocco `[SafeImport]`), `occsvimport/settings/sqliimport.ini.append.php` (handler, vedi File Structure)
 - Test: `occsvimport/tests/test_csv_import_guard.php`
 
 **Interfaces:**
-- Produces: `ImportGuard::checkArchive(array $entryPaths, int $uncompressedBytes): array{ok,error}` (rifiuta `../`, percorsi assoluti, più di un CSV, oltre `MaxFileSizeBytes`); `::checkRowCount(int $n)` (default `MaxRows=500`); `::signNode(int $nodeId, string $class, int $userId): string` e `::verifyNode(...)`; `::acquireLock(int $nodeId, string $class): bool` (un solo import per pagina e classe).
-- Viste: `csvimport/validate` (POST: file + token nodo firmato → report), `csvimport/confirm` (POST: id validazione → accoda **e lancia subito** `php runcronjobs.php -q -s<siteaccess> sqliimport_run > /dev/null 2>&1 &` in background, come fa `OCMigrationSpreadsheet.php:226-228`; il nome del siteaccess viene da `eZSiteAccess::current()` ed è passato a `escapeshellarg`; il cron resta come ripiego), `csvimport/error_report/<id>` (CSV scaricabile).
+- Produces: `ImportGuard::checkArchive(array $entryPaths, int $uncompressedBytes, string $expectedCsvName): array{ok:bool,code:?string,params:array}` (rifiuta `../`, percorsi assoluti, più di un CSV, nome diverso da `<classe>.csv`, oltre `MaxFileSizeBytes`); `::checkRowCount(int $n, int $max): array{ok,code}`; `::checkEncoding(string $csvBytes): array{ok,code,text:string}` (rifiuta non UTF-8, toglie il BOM); `::checkDelimiter(string $headerLine): array{ok,code}` (accetta `;`, rifiuta `,` e tabulazione); `::isExpired(int $createdAt, int $now, int $retentionMinutes): bool`.
+- Viste (D13), tutte con controllo di accesso `EnabledClasses` + `can_create` (D5): `validate` (POST: file zip, `NodeID`, classe → JSON con esito, errori, conteggi nuove/identiche, anteprima delle prime 5 righe, `validation_id`; salva lo stato come da D11), `confirm` (POST: `validation_id` → crea il record di coda con blocco D12 e **lancia subito** `php runcronjobs.php -q -s<siteaccess> sqliimport_run > /dev/null 2>&1 &` in background come `OCMigrationSpreadsheet.php:226-228`; il siteaccess viene da `eZSiteAccess::current()` ed è passato a `escapeshellarg`; il cron resta come ripiego), `status` (GET per nodo e classe → elenco import con stato da `SQLIImportItem::STATUS_*`: 0 in coda, 1 in corso, 2 fallito, 3 completato, 4 annullato dal sistema, 5 interrotto; id "IMP-N"; numero di contenuti creati; esito/motivo; se in coda da più di `QueueAlertMinutes` un flag `delayed`), `error_report` (GET `validation_id` → CSV con colonna "Esito"), `template` (GET classe → CSV modello con le intestazioni (nomi italiani) degli attributi importabili, una riga di esempio e i campi obbligatori marcati), `valid_values` (GET classe e colonna → CSV con i valori ammessi: opzioni di una selezione, oppure i nomi dei contenuti collegabili per una relazione, massimo 5000).
 
-- [ ] **Step 1: Test falliti** su `ImportGuard`: `../x.csv` rifiutato; zip con due CSV rifiutato; 501 righe rifiutate; token con nodo alterato rifiutato; seconda `acquireLock` sulla stessa pagina e classe → false.
-- [ ] **Step 2: Eseguire.** Atteso: FAIL.
-- [ ] **Step 3: Implementare** `ImportGuard` e le tre viste. Intestazioni/BOM/separatore: riconoscere BOM UTF-8, rifiutare file non UTF-8 con messaggio che spiega come salvarlo, accettare `;` e rifiutare `,` con messaggio. File temporanei cancellati sempre (validazione fallita, conferma, scadenza `RetentionMinutes=60`). Il form usa il token anti-CSRF già attivo (`ezuserformtoken`).
-- [ ] **Step 4: Eseguire** i test. Atteso: PASS. Poi **provare in browser** (sandbox, Compito 7): zip ostile, doppio clic su Conferma (un solo import e un solo processo in background), file con BOM, file Windows-1252; verificare che dopo "Conferma" l'import parta da solo in locale senza lanciare il cron a mano.
+- [ ] **Step 1: Test falliti** su `ImportGuard` (logica pura): `../x.csv` rifiutato; percorso assoluto rifiutato; zip con due CSV rifiutato; CSV con nome diverso da quello atteso rifiutato; 501 righe rifiutate e 500 accettate; contenuto in Windows-1252 rifiutato; BOM UTF-8 rimosso e accettato; intestazione con `,` rifiutata e con `;` accettata; `isExpired` vero dopo 61 minuti e falso dopo 59.
+- [ ] **Step 2: Eseguire** nel container `php /var/www/html/extension/occsvimport/tests/test_csv_import_guard.php`. Atteso: FAIL.
+- [ ] **Step 3: Implementare** `ImportGuard` e le viste. File temporanei cancellati sempre (validazione fallita, conferma, scadenza, fine import). Stato di validazione e blocco come D11 e D12. Le viste rifiutano chi non è loggato (come già fa il modulo) e rispondono 403 con codice del catalogo se manca il permesso.
+- [ ] **Step 4: Eseguire** i test. Atteso: PASS. Poi **provare in browser** (sandbox, Compito 7): zip ostile, doppio clic su Conferma (un solo import e un solo processo in background, il secondo rifiutato), file con BOM, file Windows-1252, nodo manomesso nel form (rifiutato), `validation_id` di un altro utente (rifiutato), scaricamento del modello e dell'elenco valori; verificare che dopo "Conferma" l'import parta da solo in locale senza lanciare il cron a mano.
 - [ ] **Step 5: Commit** su richiesta.
 
 ### Task 5: Esecuzione con i permessi dell'utente e rivalidazione
 
 **Files:**
 - Create: `occsvimport/classes/sourcehandlers/csvimportvalidatedhandler.php`
-- Modify: `occsvimport/settings/csvimport.ini` (`SQLIImportHandler_<classe>` per le classi abilitate), `occsvimport/classes/occsvimporthandler.php` (stato)
+- Modify: `occsvimport/classes/occsvimporthandler.php` (se serve a leggere lo stato). **Non** usare `SQLIImportHandler_<classe>` in `csvimport.ini`: è il punto di estensione del flusso vecchio e farebbe cambiare strada ai tenant che lo usano. La vista `confirm` (Compito 4) scrive direttamente `handler = 'csvimportvalidatedhandler'` nel record di coda.
 - Test: scenari in browser (non è logica pura)
 
 **Interfaces:**
 - Consumes: `CsvRowValidator`, `ImportGuard`.
-- Produces: handler che in `initialize()` rivalida l'intero file e, se emergono errori nuovi, esce senza scrivere e scrive l'esito nelle note di avanzamento; in `process()` verifica `can_create` dell'utente richiedente e imposta lui come utente corrente per la scrittura (proprietario degli oggetti = chi ha caricato).
+- Produces: handler che in `initialize()` rivalida l'intero file e, se emergono errori nuovi, esce senza scrivere e scrive l'esito nelle note di avanzamento; in `process()` verifica `can_create` dell'utente richiedente, salta le righe già presenti e identiche (D8), e imposta l'utente richiedente come utente corrente per la scrittura con `eZUser::setCurrentlyLoggedInUser($user, $user->attribute('contentobject_id'))` (proprietario degli oggetti = chi ha caricato); a fine riga e a fine import ripristina l'utente robot (`RobotUserID=14`, oggi Administrator in produzione) per non influenzare altri import. Gli id degli oggetti creati si salvano nel record dell'import (Compito 5b).
 
 - [ ] **Step 1: Verificare** nel codice di `sqliimportfactory.php` come l'utente robot viene impostato e se un handler può cambiarlo senza effetti collaterali sugli import successivi (ripristino a fine riga). Annotare l'esito.
 - [ ] **Step 2: Implementare** l'handler con la rivalidazione (D6) e il controllo permessi per riga (D5); stato finale esplicito: `completato`, `rifiutato (dati cambiati)`, `rifiutato (permessi)`.
@@ -279,7 +330,7 @@ Tutti i messaggi stanno in un catalogo unico (`CsvImportMessages`), con codice, 
 - Test: `occsvimport/tests/test_csv_import_undo.php` (logica pura: scelta di cosa annullare)
 
 **Interfaces:**
-- Produces: `ImportUndo::plan(array $createdObjects, int $importCompletedAt, int $now, int $retentionDays): array{removable:int[],modified:int[],expired:bool}` dove `$createdObjects` è `[['id'=>int,'modified'=>int], ...]`; la vista `csvimport/undo/<importId>` (POST con conferma) sposta nel cestino i `removable` controllando `remove` dell'utente su ciascuno.
+- Produces: `ImportUndo::plan(array $createdObjects, int $importCompletedAt, int $now, int $retentionDays): array{removable:int[],modified:int[],expired:bool}` dove `$createdObjects` è `[['id'=>int,'modified'=>int], ...]`; la vista `csvimport/undo/<importId>` (POST con conferma) sposta nel cestino i `removable` (`eZContentObjectOperations::remove` o `eZContentObjectTreeNode::removeSubtrees(..., true)` con spostamento nel cestino) controllando `remove` dell'utente su ciascuno. Gli id si salvano in `options_serialized` del record `sqliimport_item` (campo `created_object_ids`), aggiornato a ogni riga scritta.
 
 - [ ] **Step 1: Test falliti**: oggetto non modificato dopo l'import → `removable`; oggetto con `modified` successivo al completamento → `modified`; import più vecchio di 7 giorni → `expired=true` e nessun `removable`; elenco vuoto → niente da annullare.
 - [ ] **Step 2: Eseguire** `php tests/test_csv_import_undo.php`. Atteso: FAIL.
@@ -287,20 +338,21 @@ Tutti i messaggi stanno in un catalogo unico (`CsvImportMessages`), con codice, 
 - [ ] **Step 4: Prove in browser** (sandbox): annullare un import completo; annullare dopo aver modificato a mano un contenuto (resta, segnalato); utente senza `remove` (non vede il pulsante); doppio clic su Annulla; annullare un import interrotto a metà. Atteso: solo i contenuti dell'elenco vanno nel cestino, mai altri della pagina.
 - [ ] **Step 5: Commit** su richiesta.
 
-### Task 6: Widget slegato dalla regola di tabella e nuovo flusso a video
+### Task 6: Widget nuovo slegato dalla regola di tabella
 
 **Files:**
-- Modify: `design/bootstrapitalia2/templates/openpa/full/pagina_trasparenza.tpl` (e `bootstrapitalia2110`), `design/bootstrapitalia2/templates/parts/csv_import_widget.tpl` (spostato in openpa_bootstrapitalia o esteso dalla copia di `occsvimport`), `classes/services/content_trasparenza.php`, `translations/ita-IT/translation.ts`
+- Modify: `design/bootstrapitalia2/templates/openpa/full/pagina_trasparenza.tpl` e `design/bootstrapitalia2110/templates/openpa/full/pagina_trasparenza.tpl` (aggiungere il blocco nuovo; **lasciare intatto** il blocco vecchio dentro il ciclo `table_fields`), `classes/services/content_trasparenza.php`, `translations/ita-IT/translation.ts`
+- Create: `design/bootstrapitalia2/templates/parts/csv_safe_import_widget.tpl`, `design/bootstrapitalia2/javascript/jquery.csvsafeimport.js`
 - Test: `tests/test_csv_import_widget_class.php` (logica pura della scelta della classe)
 
 **Interfaces:**
-- Produces: `ContentTrasparenzaService` espone `csv_import_class`: identificatore della classe importabile dichiarata dalla pagina, cercandola prima tra le regole di tabella (parent = nodo corrente) e poi tra gli schemi live-render (`LiveRenderingRegistry::REPLACES_CLASS_IDENTIFIER`), oppure `false`. Il template mostra la sezione "Caricamento massivo" solo se `csv_import_class` esiste, `ShowCsvImportWidget_<classe>` è `enabled`, la classe è importabile (`ClassImportability`) e `can_create` dell'utente è vero.
+- Produces: `ContentTrasparenzaService` espone `csv_import_class`: identificatore della classe importabile dichiarata dalla pagina, cercandola prima tra le regole di tabella (parent = nodo corrente) e poi tra gli schemi live-render (`LiveRenderingRegistry::REPLACES_CLASS_IDENTIFIER`), oppure `false`. Il template mostra il blocco "Caricamento massivo" nuovo solo se `csv_import_class` esiste, è in `ezini('SafeImport','EnabledClasses','csvimport.ini')`, ha un `ImportKey`, la classe è importabile (`ClassImportability`) e `can_create` dell'utente è vero. Il JavaScript chiama le viste del Compito 4 (D13) e disegna: scelta file, "Controlla il file", elenco errori o riepilogo con anteprima, "Importa N contenuti", stato che si aggiorna da solo (sondaggio di `status` ogni 3 secondi finché non è finito), storico, "Annulla questo import", link al modello e all'elenco dei valori ammessi.
 
 - [ ] **Step 1: Test falliti**: pagina con regola per `partecipazione_societaria` → `partecipazione_societaria`; pagina live-render `art.31-oiv` → `document`; pagina senza regola né schema → `false`; regola con `parent:` diverso dal nodo corrente → `false`.
-- [ ] **Step 2: Eseguire** `php tests/test_csv_import_widget_class.php`. Atteso: FAIL.
-- [ ] **Step 3: Implementare** `csv_import_class` e spostare il blocco del widget **fuori** dal ciclo `table_fields`. Il widget nuovo ha (anteprima delle prime 5 righe inclusa, con le relazioni risolte per nome): scelta file, pulsante "Controlla file", e dopo il controllo o l'elenco errori con "Scarica elenco errori" oppure il riepilogo "Verranno creati N contenuti di tipo X in Y" con "Conferma importazione"; dopo la conferma mostra stato (in coda / in corso / completato / non eseguito, con il motivo) e storico. Testi in italiano semplice, spiegati a un redattore non tecnico.
-- [ ] **Step 4: Eseguire** il test, poi verificare in browser che sulla pagina sandbox (regola di tabella) e su una pagina con live-render attivo (art. 13 o 31, con `ShowCsvImportWidget_<classe>` abilitata solo per la prova) il widget compaia e **non** compaia per classi non abilitate.
-- [ ] **Step 5: Traduzioni**: aggiungere il blocco a mano in `translations/ita-IT/translation.ts` (non fare `oci18n -r`, vedi CLAUDE.md), poi POEditor. Commit su richiesta.
+- [ ] **Step 2: Eseguire** nel container `php /var/www/html/extension/openpa_bootstrapitalia/tests/test_csv_import_widget_class.php`. Atteso: FAIL.
+- [ ] **Step 3: Implementare** `csv_import_class` (logica pura in un metodo statico testabile) e il blocco nuovo fuori dal ciclo `table_fields`, con i testi del catalogo "UX del redattore" (etichette in italiano semplice, in i18n `bootstrapitalia/csvimport`). Componenti Bootstrap Italia, messaggi con `role="alert"`, tutto da tastiera.
+- [ ] **Step 4: Eseguire** il test, poi verificare in browser che sulla pagina sandbox (regola di tabella) e su una pagina con live-render attivo (art. 13 o 31, con la classe abilitata in `EnabledClasses` solo per la prova) il blocco nuovo compaia, e **non** compaia per classi non abilitate; verificare che il widget vecchio funzioni ancora su una classe con solo la chiave vecchia.
+- [ ] **Step 5: Traduzioni**: aggiungere il blocco a mano in `translations/ita-IT/translation.ts` (non fare `oci18n -r`, vedi `CLAUDE.md`), poi POEditor. Commit su richiesta.
 
 ### Task 7: Pagina sandbox a mano in locale (nessun modulo installer)
 
@@ -309,7 +361,7 @@ Scelta di Marco (2026-11-27): la pagina di prova si crea a mano in locale, senza
 - [ ] **Step 1: Creare** dal backend, sotto Amministrazione Trasparente, una pagina di classe `pagina_trasparenza` chiamata "Sandbox import", con nel campo delle regole di rappresentazione: `partecipazione_societaria|anno,organizzazione,percentuale_partecipazione|1` (senza `parent:`, quindi sul nodo stesso).
 - [ ] **Step 2: Creare** 3-4 `private_organization` di prova (in locale non ce n'è nessuna), tra cui due con lo stesso nome per provare l'ambiguità.
 - [ ] **Step 3: Creare** due utenti di prova: uno con il ruolo Editor Trasparenza più le policy `csvimport` e `sqliimport`, uno senza `can_create` sul sottoalbero. Le policy di prova si aggiungono **solo al ruolo locale**, senza toccare i file dei ruoli nell'installer.
-- [ ] **Step 4: Impostare** in locale `ShowCsvImportWidget_partecipazione_societaria=enabled` e `ImportKey_partecipazione_societaria=anno,organizzazione` (override del container, non versionato) e verificare che il widget compaia con l'utente autorizzato e non compaia per l'altro.
+- [ ] **Step 4: Impostare** in locale (override del container o variabili d'ambiente, non versionato, vedi "Come eseguire") `[SafeImport] EnabledClasses[]=partecipazione_societaria` e `ImportKey[partecipazione_societaria]=anno,organizzazione`, togliere la vecchia `ShowCsvImportWidget_partecipazione_societaria` dallo spike e verificare che il widget compaia con l'utente autorizzato e non compaia per l'altro.
 - [ ] **Step 5: Annotare** la procedura nel documento dei risultati (Compito 8), per poterla ripetere.
 
 ---
@@ -320,18 +372,18 @@ Scelta di Marco (2026-11-27): la pagina di prova si crea a mano in locale, senza
 - Create: `docs/superpowers/plans/2026-11-27-safe-bulk-import-risultati-prove.md` (esito prove)
 - Create: file di prova CSV/zip nello scratchpad (non versionati)
 
-- [ ] **Step 1: Preparare** i file: valido (3 partecipazioni); un file per ogni errore (campo obbligatorio vuoto, ufficio inesistente, ufficio ambiguo, selezione errata, data 31/02, percentuale con virgola e con punto, anno decimale, `remoteId` duplicato, colonna sconosciuta, colonna obbligatoria mancante); BOM; Windows-1252; separatore `,`; 501 righe; zip con `../`; due CSV; HTML/script in `funzioni_attribuite` (poi verificare che in pagina compaia come testo); stringa di 5000 caratteri.
+- [ ] **Step 1: Preparare** i file: valido (3 partecipazioni); un file per ogni errore (campo obbligatorio vuoto, ufficio inesistente, ufficio ambiguo, selezione errata, data 31/02, percentuale con virgola e con punto, anno decimale, chiave duplicata nel file, colonna `remoteId` presente, colonna sconosciuta, colonna obbligatoria mancante); BOM; Windows-1252; separatore `,`; 501 righe; zip con `../`; due CSV; HTML/script in `funzioni_attribuite` (poi verificare che in pagina compaia come testo); stringa di 5000 caratteri.
 - [ ] **Step 2: Eseguire** ogni file dalla pagina sandbox con l'utente con ruolo (Chrome) e annotare per ognuno: messaggio mostrato, cosa è stato scritto (conteggio oggetti prima/dopo nel DB). Atteso: per ogni file con errore, **zero oggetti creati** e messaggio comprensibile.
-- [ ] **Step 3: Provare** permessi (utente senza ruolo; nodo di destinazione alterato nel form; revoca del permesso tra Controlla e cron), concorrenza (doppio clic, due caricamenti), rivalidazione (cancellare un ufficio dopo il Controlla), idempotenza (ricaricare il file valido con `remoteId`: aggiorna e non duplica).
+- [ ] **Step 3: Provare** permessi (utente senza ruolo; nodo di destinazione alterato nel form; revoca del permesso tra Controlla e cron), concorrenza (doppio clic, due caricamenti), rivalidazione (cancellare un ufficio dopo il Controlla), import ripetibile (ricaricare lo stesso file valido: tutte le righe identiche, saltate, nessun duplicato; cambiare un valore di una riga già importata: errore "esiste già con dati diversi"; interrompere l'import a metà, ad esempio fermando il processo, e ricaricare: si creano solo le righe mancanti); annulla import (anche dopo una modifica a mano di un contenuto creato).
 - [ ] **Step 4: Verificare** che l'import parta da solo dopo "Conferma" (avvio in background) e che il cron manuale `php runcronjobs.php -s backend sqliimport_run` funzioni come ripiego quando l'avvio immediato non parte (simulare: blocco `sqliimport` attivo). Stato visibile nel widget.
-- [ ] **Step 5: Scrivere** l'esito con tabella "scenario / atteso / ottenuto" e l'elenco di ciò che resta aperto; **mostrarlo a Marco prima di dire che è pronto per i redattori**. Aggiungere una prova di leggibilità: far leggere i messaggi a una persona non tecnica (redattore reale o collega non sviluppatore) per ognuno degli ostacoli della sezione "UX del redattore" e correggere i testi che non capisce al primo colpo.
+- [ ] **Step 5: Scrivere** l'esito con tabella "scenario / atteso / ottenuto" (e la procedura di creazione della sandbox del Compito 7) e l'elenco di ciò che resta aperto; **mostrarlo a Marco prima di dire che è pronto per i redattori**. Aggiungere una prova di leggibilità: far leggere i messaggi a una persona non tecnica (redattore reale o collega non sviluppatore) per ognuno degli ostacoli della sezione "UX del redattore" e correggere i testi che non capisce al primo colpo.
 
 ### Task 9: Documentazione e attivazione per classe
 
 **Files:**
-- Modify: `openpa_bootstrapitalia/CLAUDE.md` (sezione breve sul caricamento massivo), `occsvimport/README` o `CLAUDE.md` se presente, `openpa_bootstrapitalia/settings/openpa.ini.append.php` (commento sulle chiavi, nessuna classe abilitata di default)
+- Modify: `openpa_bootstrapitalia/CLAUDE.md` (sezione breve sul caricamento massivo), `occsvimport/README` o `CLAUDE.md` se presente, `occsvimport/settings/csvimport.ini` (blocco `[SafeImport]` commentato, nessuna classe abilitata di default)
 
-- [ ] **Step 1:** Documentare il flusso a due fasi, le chiavi ini (`ShowCsvImportWidget_<classe>`, `MaxRows`, `MaxFileSizeBytes`, `RetentionMinutes`), come si abilita una classe e perché una classe può risultare non importabile.
+- [ ] **Step 1:** Documentare il flusso a due fasi, le chiavi del blocco `[SafeImport]` di `csvimport.ini` (`EnabledClasses[]`, `ImportKey[<classe>]`, `MaxRows`, `MaxFileSizeBytes`, `RetentionMinutes`, `UndoRetentionDays`, `QueueAlertMinutes`), la differenza rispetto alla vecchia `ShowCsvImportWidget_<classe>` (che resta com'è), come si abilita una classe e perché una classe può risultare non importabile.
 - [ ] **Step 2:** Scrivere una scheda breve per i redattori in italiano semplice (come preparare il file, cosa significa ogni messaggio d'errore), da passare a Marco per il manuale.
 - [ ] **Step 3: Commit** su richiesta; **push e PR solo dopo conferma esplicita di Marco**.
 
@@ -340,6 +392,6 @@ Scelta di Marco (2026-11-27): la pagina di prova si crea a mano in locale, senza
 ## Self-review
 
 - **Copertura:** F1-F13 sono coperti — F1/F3/F5 dai Compiti 1-2, F2/F4 dal Compito 2 (D3), F6 dal D2 (tutto o niente), F7/F8 dai Compiti 4-5 (D5), F9 dal Compito 6 (D7), F10 dai Compiti 6 e 8, F11 dal Compito 4, F12 dal Compito 5, F13 dal Compito 7.
-- **Decisioni:** C1-C7 tutte decise da Marco (2026-11-27) in attesa di conferma di Marco (sezione "Decisioni da confermare"). `public_service` e i tipi tag/testo ricco/file sono fuori scope per scelta di Marco.
-- **Rischi noti non risolti da questo piano:** il cron `sqliimport_run` in produzione è da verificare (se non c'è, nessun import parte: va controllato prima del rilascio); il valore di `RobotUserID` in produzione; il comportamento di `SQLIContent` con `remoteId` esistente (aggiornamento) è da provare al Compito 8, non l'ho verificato.
+- **Decisioni:** C1-C7 sono tutte decise da Marco (2026-11-27); D1-D14 derivano da esse. `public_service` e i tipi tag/testo ricco/file sono fuori scope per scelta di Marco.
+- **Rischi noti:** l'avvio immediato (C7) si basa su `exec()` da PHP-FPM: funziona su Boat (confermato da Marco per l'importatore interno), su SaaS non è verificato (stesso codice); se il container non può lanciare `php`, resta il cron di ripiego (SaaS: 02:30 e 17:30, Boat: ogni 6 ore) e il widget lo dice dopo `QueueAlertMinutes`. Il lavoro per sostituire l'utente robot durante un import (Compito 5, Step 1) va verificato prima di scrivere l'handler.
 - **Coerenza dei tipi:** `ReferenceResolver` (Compito 2) è consumato dal validatore e dall'handler (Compito 5); `ImportGuard` (Compito 4) è consumato dall'handler (Compito 5) e dal widget (firma del nodo, Compito 6).
